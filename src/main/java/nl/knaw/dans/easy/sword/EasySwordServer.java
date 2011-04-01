@@ -130,25 +130,20 @@ public class EasySwordServer implements SWORDServer {
 
         if (sdr.getLocation().contains("?nested="))
         {
-            final Workspace workspace = new Workspace();
-            workspace.setTitle("Nested service document workspace");
             final Collection collection = createDummyCollection(1);
             collection.setTitle("Nested collection: " + sdr.getLocation().substring(sdr.getLocation().indexOf('?') + 1));
             collection.setLocation(location + "/deposit/nested");
             collection.setCollectionPolicy("No guarantee of service, or that deposits will be retained for any length of time.");
-            workspace.addCollection(collection);
-            service.addWorkspace(workspace);
+            service.addWorkspace(createWorkSpace(collection, "Nested service document workspace"));
         }
         else
         {
-            Workspace workspace = new Workspace();
-            workspace.setTitle("Anonymous submitters workspace");
             Collection collection = createDummyCollection(1);
             collection.setTitle("Anonymous submitters collection");
             collection.setLocation(location + "/deposit/anon");
             collection.setAbstract("A collection that anonymous users can deposit into");
             collection.setService(location + "/servicedocument?nested=anon");
-            workspace.addCollection(collection);
+            Workspace workspace = createWorkSpace(collection, "Anonymous submitters workspace");
             collection = createDummyCollection(1);
             collection.setTitle("Anonymous submitters other collection");
             collection.setLocation(location + "/deposit/anonymous");
@@ -158,21 +153,19 @@ public class EasySwordServer implements SWORDServer {
 
             if (sdr.getUsername() != null)
             {
-                workspace = new Workspace();
-                workspace.setTitle("Authenticated workspace for " + username);
                 collection = createDummyCollection(0.8f);
                 collection.setTitle("Authenticated collection for " + username);
                 collection.setLocation(location + "/deposit/" + username);
                 collection.setAbstract("A collection that " + username + " can deposit into");
                 collection.setService(location + "/servicedocument?nested=authenticated");
-                workspace.addCollection(collection);
+                workspace = createWorkSpace(collection, "Authenticated workspace for " + username);
                 collection = createDummyCollection(0.123f);
                 collection.setTitle("Second authenticated collection for " + username);
                 collection.setLocation(location + "/deposit/" + username + "-2");
                 collection.setAbstract("A collection that " + username + " can deposit into");
                 workspace.addCollection(collection);
+                service.addWorkspace(workspace);
             }
-            service.addWorkspace(workspace);
         }
 
         final String onBehalfOf = sdr.getOnBehalfOf();
@@ -183,13 +176,18 @@ public class EasySwordServer implements SWORDServer {
             collection.setLocation(location + "/deposit?user=" + onBehalfOf);
             collection.setAbstract("An abstract goes in here");
             collection.setMediation(true);
-            final Workspace workspace = new Workspace();
-            workspace.setTitle("Personal workspace for " + onBehalfOf);
-            workspace.addCollection(collection);
-            service.addWorkspace(workspace);
+            service.addWorkspace(createWorkSpace(collection, "Personal workspace for " + onBehalfOf));
         }
 
         return document;
+    }
+
+    private Workspace createWorkSpace(final Collection collection, String title)
+    {
+        final Workspace workspace = new Workspace();
+        workspace.setTitle(title);
+        workspace.addCollection(collection);
+        return workspace;
     }
 
     private Collection createDummyCollection(float qualityValue)
