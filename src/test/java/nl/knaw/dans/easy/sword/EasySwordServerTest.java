@@ -6,7 +6,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.purl.sword.base.ServiceDocumentRequest;
 
-public class SwordTest extends Tester
+public class EasySwordServerTest extends Tester
 {
     private static EasySwordServer server;
 
