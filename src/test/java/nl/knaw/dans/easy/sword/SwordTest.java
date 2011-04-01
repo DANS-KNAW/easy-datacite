@@ -17,20 +17,20 @@ public class SwordTest extends Tester
     }
 
     @Test
-    public void withUser() throws Exception
+    public void serviceDocumentWithUser() throws Exception
     {
         final ServiceDocumentRequest request = new ServiceDocumentRequest();
         request.setUsername("someUser");
         request.setPassword("someUser");
         request.setLocation("http://localhost:8080/easy-sword-0.0.1-SNAPSHOT/serviceDocument");
-        assertAsExpected(server.doServiceDocument(request).toString(),"serviceDocument.xml");
+        assertAsExpected(server.doServiceDocument(request).toString(),"serviceDocumentWithUser.xml");
     }
 
     @Test
-    public void withoutUser() throws Exception
+    public void serviceDocumentWithoutUser() throws Exception
     {
         final ServiceDocumentRequest request = new ServiceDocumentRequest();
         request.setLocation("http://localhost:8080/easy-sword-0.0.1-SNAPSHOT/serviceDocument");
-        assertAsExpected(server.doServiceDocument(request).toString(),"withoutUser.xml");
+        assertAsExpected(server.doServiceDocument(request).toString(),"serviceDocumentWithoutUser.xml");
     }
 }
