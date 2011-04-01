@@ -132,15 +132,9 @@ public class EasySwordServer implements SWORDServer {
         {
             final Workspace workspace = new Workspace();
             workspace.setTitle("Nested service document workspace");
-            final Collection collection = new Collection();
+            final Collection collection = createDummyCollection(1);
             collection.setTitle("Nested collection: " + sdr.getLocation().substring(sdr.getLocation().indexOf('?') + 1));
             collection.setLocation(location + "/deposit/nested");
-            collection.addAcceptPackaging("http://purl.org/net/sword-types/METSDSpaceSIP");
-            collection.addAcceptPackaging("http://purl.org/net/sword-types/bagit");
-            collection.addAccepts("application/zip");
-            collection.addAccepts("application/xml");
-            collection.setAbstract("A nested collection that users can deposit into");
-            collection.setTreatment("This is a dummy server");
             collection.setCollectionPolicy("No guarantee of service, or that deposits will be retained for any length of time.");
             workspace.addCollection(collection);
             service.addWorkspace(workspace);
@@ -149,28 +143,16 @@ public class EasySwordServer implements SWORDServer {
         {
             Workspace workspace = new Workspace();
             workspace.setTitle("Anonymous submitters workspace");
-            Collection collection = new Collection();
+            Collection collection = createDummyCollection(1);
             collection.setTitle("Anonymous submitters collection");
             collection.setLocation(location + "/deposit/anon");
-            collection.addAcceptPackaging("http://purl.org/net/sword-types/METSDSpaceSIP");
-            collection.addAcceptPackaging("http://purl.org/net/sword-types/bagit");
-            collection.addAccepts("application/zip");
-            collection.addAccepts("application/xml");
             collection.setAbstract("A collection that anonymous users can deposit into");
-            collection.setTreatment("This is a dummy server");
-            collection.setCollectionPolicy("No guarantee of service, or that deposits will be retained for any length of time.");
             collection.setService(location + "/servicedocument?nested=anon");
             workspace.addCollection(collection);
-            collection = new Collection();
+            collection = createDummyCollection(1);
             collection.setTitle("Anonymous submitters other collection");
             collection.setLocation(location + "/deposit/anonymous");
-            collection.addAcceptPackaging("http://purl.org/net/sword-types/METSDSpaceSIP");
-            collection.addAcceptPackaging("http://purl.org/net/sword-types/bagit");
-            collection.addAccepts("application/zip");
-            collection.addAccepts("application/xml");
             collection.setAbstract("Another collection that anonymous users can deposit into");
-            collection.setTreatment("This is a dummy server");
-            collection.setCollectionPolicy("No guarantee of service, or that deposits will be retained for any length of time.");
             workspace.addCollection(collection);
             service.addWorkspace(workspace);
 
@@ -178,28 +160,16 @@ public class EasySwordServer implements SWORDServer {
             {
                 workspace = new Workspace();
                 workspace.setTitle("Authenticated workspace for " + username);
-                collection = new Collection();
+                collection = createDummyCollection(0.8f);
                 collection.setTitle("Authenticated collection for " + username);
                 collection.setLocation(location + "/deposit/" + username);
-                collection.addAccepts("application/zip");
-                collection.addAccepts("application/xml");
-                collection.addAcceptPackaging("http://purl.org/net/sword-types/METSDSpaceSIP");
-                collection.addAcceptPackaging("http://purl.org/net/sword-types/bagit", 0.8f);
                 collection.setAbstract("A collection that " + username + " can deposit into");
-                collection.setTreatment("This is a dummy server");
-                collection.setCollectionPolicy("No guarantee of service, or that deposits will be retained for any length of time.");
                 collection.setService(location + "/servicedocument?nested=authenticated");
                 workspace.addCollection(collection);
-                collection = new Collection();
+                collection = createDummyCollection(0.123f);
                 collection.setTitle("Second authenticated collection for " + username);
                 collection.setLocation(location + "/deposit/" + username + "-2");
-                collection.addAccepts("application/zip");
-                collection.addAccepts("application/xml");
-                collection.addAcceptPackaging("http://purl.org/net/sword-types/bagit", 0.123f);
-                collection.addAcceptPackaging("http://purl.org/net/sword-types/METSDSpaceSIP");
                 collection.setAbstract("A collection that " + username + " can deposit into");
-                collection.setTreatment("This is a dummy server");
-                collection.setCollectionPolicy("No guarantee of service, or that deposits will be retained for any length of time.");
                 workspace.addCollection(collection);
             }
             service.addWorkspace(workspace);
@@ -208,24 +178,30 @@ public class EasySwordServer implements SWORDServer {
         final String onBehalfOf = sdr.getOnBehalfOf();
         if ((onBehalfOf != null) && (!onBehalfOf.equals("")))
         {
-            final Workspace workspace = new Workspace();
-            workspace.setTitle("Personal workspace for " + onBehalfOf);
-            final Collection collection = new Collection();
+            final Collection collection = createDummyCollection(0.8f);
             collection.setTitle("Personal collection for " + onBehalfOf);
             collection.setLocation(location + "/deposit?user=" + onBehalfOf);
-            collection.addAccepts("application/zip");
-            collection.addAccepts("application/xml");
-            collection.addAcceptPackaging("http://purl.org/net/sword-types/METSDSpaceSIP");
-            collection.addAcceptPackaging("http://purl.org/net/sword-types/bagit", 0.8f);
             collection.setAbstract("An abstract goes in here");
-            collection.setCollectionPolicy("A collection policy");
             collection.setMediation(true);
-            collection.setTreatment("treatment in here too");
+            final Workspace workspace = new Workspace();
+            workspace.setTitle("Personal workspace for " + onBehalfOf);
             workspace.addCollection(collection);
             service.addWorkspace(workspace);
         }
 
         return document;
+    }
+
+    private Collection createDummyCollection(float qualityValue)
+    {
+        final Collection collection = new Collection();
+        collection.setCollectionPolicy("No guarantee of service, or that deposits will be retained for any length of time.");
+        collection.setTreatment("This is a dummy server");
+        collection.addAccepts("application/zip");
+        collection.addAccepts("application/xml");
+        collection.addAcceptPackaging("http://purl.org/net/sword-types/METSDSpaceSIP");
+        collection.addAcceptPackaging("http://purl.org/net/sword-types/bagit", qualityValue);
+        return collection;
     }
 
     public DepositResponse doDeposit(final Deposit deposit) throws SWORDAuthenticationException, SWORDErrorException, SWORDException

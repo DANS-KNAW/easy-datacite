@@ -44,8 +44,8 @@
          <atom:title type="text">Second authenticated collection for someUser</atom:title>
          <app:accept>application/zip</app:accept>
          <app:accept>application/xml</app:accept>
-         <sword:acceptPackaging q="0.123">http://purl.org/net/sword-types/bagit</sword:acceptPackaging>
          <sword:acceptPackaging q="1.0">http://purl.org/net/sword-types/METSDSpaceSIP</sword:acceptPackaging>
+         <sword:acceptPackaging q="0.123">http://purl.org/net/sword-types/bagit</sword:acceptPackaging>
          <sword:collectionPolicy>No guarantee of service, or that deposits will be retained for any length of time.</sword:collectionPolicy>
          <dcterms:abstract>A collection that someUser can deposit into</dcterms:abstract>
          <sword:treatment>This is a dummy server</sword:treatment>
