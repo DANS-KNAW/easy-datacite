@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+	<!-- user.name PropertyPlaceholderConfigurer: a file [user.name].properties should be on the classPath -->
+	<bean class="nl.knaw.dans.common.lang.spring.UsernamePropertyPlaceholderConfigurer"/>
+
+	<bean name="data" class="nl.knaw.dans.easy.data.Data">
+		<property name="userRepo" ref="userRepo"/>
+<!-- 
+		<property name="groupRepo" ref="groupRepo"/>
+ -->
+		<property name="migrationRepo" ref="migrationRepo"/>
+<!-- 
+		<property name="easyStore" ref="easyStore"/>
+		<property name="fileStoreAccess" ref="fileStoreAccess"/>
+		<property name="datasetSearch" ref="datasetSearch"/>
+		<property name="searchEngine" ref="searchEngine"/>
+ -->
+	</bean>
+
+	<bean name="userRepo" class="nl.knaw.dans.easy.ldap.EasyLdapUserRepo">
+		<constructor-arg ref="ldapClient"/>
+		<constructor-arg value="${ldap.context.users}"/>
+	</bean>
+
+	<!-- 
+	<import resource="application-context.xml"/>
+	<import resource="store-context.xml"/>
+	 -->
+	<import resource="ldap-context.xml"/>
+	<!-- 
+	<import resource="service-context.xml"/>
+	<import resource="security-context.xml"/>
+	  -->
+	
+</beans>

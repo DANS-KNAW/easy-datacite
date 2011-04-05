@@ -46,6 +46,9 @@ import java.util.zip.ZipInputStream;
 
 import javax.servlet.http.HttpServletResponse;
 
+import nl.knaw.dans.easy.business.authn.AuthenticationSpecification;
+import nl.knaw.dans.easy.domain.authn.UsernamePasswordAuthentication;
+
 import org.purl.sword.atom.Author;
 import org.purl.sword.atom.Content;
 import org.purl.sword.atom.Contributor;
@@ -69,20 +72,18 @@ import org.purl.sword.base.ServiceDocument;
 import org.purl.sword.base.ServiceDocumentRequest;
 import org.purl.sword.base.Workspace;
 import org.purl.sword.server.SWORDServer;
-import org.purl.sword.server.ServiceDocumentServlet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.apache.log4j.Logger;
 
 /**
- * A 'dummy server' which acts as dumb repository which implements the
- * SWORD ServerInterface. It accepts any type of deposit, and tries to
- * return appropriate responses.
- * 
- * It supports authentication: if the username and password match
- * (case sensitive) it authenticates the user, if not, the authentication 
+ * A 'dummy server' which acts as dumb repository which implements the SWORD ServerInterface. It accepts
+ * any type of deposit, and tries to return appropriate responses. It supports authentication: if the
+ * username and password match (case sensitive) it authenticates the user, if not, the authentication
  * fails.
  * 
  * @author Stuart Lewis
+ * @author J. Pol (extracted some repeated code into methods, added EASY authentication)
  */
 public class EasySwordServer implements SWORDServer {
 
@@ -90,7 +91,7 @@ public class EasySwordServer implements SWORDServer {
     private static int counter = 0;
 
     /** Logger */
-    private static Logger log = Logger.getLogger(ServiceDocumentServlet.class);
+    private static Logger log = LoggerFactory.getLogger(EasySwordServer.class);
 
     /**
      * Provides a dumb but plausible service document - it contains
@@ -106,11 +107,8 @@ public class EasySwordServer implements SWORDServer {
         // Authenticate the user
         final String username = sdr.getUsername();
         final String password = sdr.getPassword();
-        if ((username != null) && (password != null) && (((username.equals("")) && (password.equals(""))) || (!username.equalsIgnoreCase(password))))
-        {
-            // User not authenticated
-            throw new SWORDAuthenticationException("Bad credentials");
-        }
+        if (username!=null)
+            authenticate(username, password);
 
         // Allow users to force the throwing of a SWORD error exception by setting
         // the OBO user to 'error'
@@ -124,9 +122,8 @@ public class EasySwordServer implements SWORDServer {
         final ServiceDocument document = new ServiceDocument();
         final Service service = new Service("1.3", true, true);
         document.setService(service);
-        log.debug("sdr.getLocation() is: " + sdr.getLocation());
         final String location = sdr.getLocation().substring(0, sdr.getLocation().length() - 16);
-        log.debug("location is: " + location);
+        log.debug("location is: " + location + "    "+sdr.getLocation());
 
         if (sdr.getLocation().contains("?nested="))
         {
@@ -178,6 +175,7 @@ public class EasySwordServer implements SWORDServer {
             collection.setMediation(true);
             service.addWorkspace(createWorkSpace(collection, "Personal workspace for " + onBehalfOf));
         }
+        //log.debug("document is: " + document.toString());
 
         return document;
     }
@@ -207,11 +205,7 @@ public class EasySwordServer implements SWORDServer {
         // Authenticate the user
         final String username = deposit.getUsername();
         final String password = deposit.getPassword();
-        if ((username != null) && (password != null) && (((username.equals("")) && (password.equals(""))) || (!username.equalsIgnoreCase(password))))
-        {
-            // User not authenticated
-            throw new SWORDAuthenticationException("Bad credentials");
-        }
+        authenticate(username, password);
 
         // Check this is a collection that takes obo deposits, else thrown an error
         if (((deposit.getOnBehalfOf() != null) && (!deposit.getOnBehalfOf().equals(""))) && (!deposit.getLocation().contains("deposit?user=")))
@@ -340,16 +334,27 @@ public class EasySwordServer implements SWORDServer {
 
     public AtomDocumentResponse doAtomDocument(final AtomDocumentRequest adr) throws SWORDAuthenticationException, SWORDErrorException, SWORDException
     {
-        // Authenticate the user
-        final String username = adr.getUsername();
-        final String password = adr.getPassword();
-        if ((username != null) && (password != null) && (((username.equals("")) && (password.equals(""))) || (!username.equalsIgnoreCase(password))))
-        {
-            // User not authenticated
-            throw new SWORDAuthenticationException("Bad credentials");
-        }
+        authenticate(adr.getUsername(), adr.getPassword());
 
         return new AtomDocumentResponse(HttpServletResponse.SC_OK);
+    }
+
+    private void authenticate(final String username, final String password) throws SWORDAuthenticationException
+    {
+        final boolean isSatisfied;
+        try
+        {
+            isSatisfied = AuthenticationSpecification.isSatisfiedBy(new UsernamePasswordAuthentication(username, password));
+            log.debug("authenticated userID: " + username);
+        }
+        catch (Exception exception)
+        {
+            throw new SWORDAuthenticationException(username+" "+exception.getClass().getName()+" "+exception.getMessage(),exception);
+        }
+        if (!isSatisfied)
+        {
+            throw new SWORDAuthenticationException(username + " not authenticated");
+        }
     }
 
 }
