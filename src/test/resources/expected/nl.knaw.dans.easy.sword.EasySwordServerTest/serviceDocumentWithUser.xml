@@ -28,26 +28,26 @@
       </app:collection>
    </app:workspace>
    <app:workspace>
-      <atom:title type="text">Authenticated workspace for someUser</atom:title>
-      <app:collection href="http://localhost:8080/easy-sword-0.0.1-SNAPSHOT/deposit/someUser">
-         <atom:title type="text">Authenticated collection for someUser</atom:title>
+      <atom:title type="text">Authenticated workspace for somebody</atom:title>
+      <app:collection href="http://localhost:8080/easy-sword-0.0.1-SNAPSHOT/deposit/somebody">
+         <atom:title type="text">Authenticated collection for somebody</atom:title>
          <app:accept>application/zip</app:accept>
          <app:accept>application/xml</app:accept>
          <sword:acceptPackaging q="1.0">http://purl.org/net/sword-types/METSDSpaceSIP</sword:acceptPackaging>
          <sword:acceptPackaging q="0.8">http://purl.org/net/sword-types/bagit</sword:acceptPackaging>
          <sword:collectionPolicy>No guarantee of service, or that deposits will be retained for any length of time.</sword:collectionPolicy>
-         <dcterms:abstract>A collection that someUser can deposit into</dcterms:abstract>
+         <dcterms:abstract>A collection that somebody can deposit into</dcterms:abstract>
          <sword:service>http://localhost:8080/easy-sword-0.0.1-SNAPSHOT/servicedocument?nested=authenticated</sword:service>
          <sword:treatment>This is a dummy server</sword:treatment>
       </app:collection>
-      <app:collection href="http://localhost:8080/easy-sword-0.0.1-SNAPSHOT/deposit/someUser-2">
-         <atom:title type="text">Second authenticated collection for someUser</atom:title>
+      <app:collection href="http://localhost:8080/easy-sword-0.0.1-SNAPSHOT/deposit/somebody-2">
+         <atom:title type="text">Second authenticated collection for somebody</atom:title>
          <app:accept>application/zip</app:accept>
          <app:accept>application/xml</app:accept>
          <sword:acceptPackaging q="1.0">http://purl.org/net/sword-types/METSDSpaceSIP</sword:acceptPackaging>
          <sword:acceptPackaging q="0.123">http://purl.org/net/sword-types/bagit</sword:acceptPackaging>
          <sword:collectionPolicy>No guarantee of service, or that deposits will be retained for any length of time.</sword:collectionPolicy>
-         <dcterms:abstract>A collection that someUser can deposit into</dcterms:abstract>
+         <dcterms:abstract>A collection that somebody can deposit into</dcterms:abstract>
          <sword:treatment>This is a dummy server</sword:treatment>
       </app:collection>
    </app:workspace>

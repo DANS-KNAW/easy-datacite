@@ -339,7 +339,7 @@ public class EasySwordServer implements SWORDServer {
         return new AtomDocumentResponse(HttpServletResponse.SC_OK);
     }
 
-    private void authenticate(final String username, final String password) throws SWORDAuthenticationException
+    private static void authenticate(final String username, final String password) throws SWORDAuthenticationException
     {
         final boolean isSatisfied;
         try

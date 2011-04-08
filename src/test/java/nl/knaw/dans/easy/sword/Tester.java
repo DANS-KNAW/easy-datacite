@@ -1,62 +1,147 @@
 package nl.knaw.dans.easy.sword;
 
-import static nl.knaw.dans.common.lang.util.FileUtil.readFile;
-
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import nl.knaw.dans.easy.business.dataset.DatasetSubmissionImpl;
+import nl.knaw.dans.easy.data.Data;
+import nl.knaw.dans.easy.data.userrepo.EasyUserRepo;
+import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
+import nl.knaw.dans.easy.domain.model.Dataset;
+import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
+import nl.knaw.dans.easy.domain.model.user.EasyUser;
+import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
+import nl.knaw.dans.easy.domain.user.EasyUserImpl;
+import nl.knaw.dans.easy.domain.worker.WorkListener;
+import nl.knaw.dans.easy.domain.worker.WorkReporter;
+import nl.knaw.dans.easy.servicelayer.services.DatasetService;
+import nl.knaw.dans.easy.servicelayer.services.ItemService;
+import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.easy.servicelayer.services.UserService;
+
+import org.easymock.EasyMock;
+import org.junit.Before;
 
 /**
- * Fixture that can compare actual results with expectations. Abstract to prevent execution by the JUnit
- * framework.
+ * Fixture that performs general applicable mocks.<br>
+ * Abstract to prevent execution by the JUnit framework.
  */
 public abstract class Tester
 {
+    protected static final String     PASSWORD       = "secret";
 
-    private static final String DIR_EXPECTED    = "src/test/resources/expected/";
-    private static final String FORMAT_ACTUAL   = DIR_EXPECTED + "%s/%s";
-    private static final String FORMAT_EXPECTED = DIR_EXPECTED + "%s/.svn/text-base/%s.svn-base";
+    protected static final String     INVALID_USER_ID   = "nobody";
+    protected static final String     VALID_USER_ID  = "somebody";
+    protected static final String     ARCHIV_USER_ID = "archivist";
 
-    private static final String LINE_SEPARATOR  = System.getProperty("line.separator", "");
+    private static final EasyUserImpl USER           = createSomeBody();
+    private static final EasyUserImpl ARCHIVIST      = createArchivist();
 
-    protected void assertAsExpected(final String actualContent, final String baseFileName) throws Exception
+    private static int                countDatasets  = 0;
+
+    private TestOutput testOutput = new TestOutput(this.getClass());
+
+    /** See {@link TestOutput#assertAsExpected(String, String)} */
+    public void assertAsExpected(final String actualResults, final String baseFileName) throws Exception
     {
-        final String actual = actualContent.replaceAll("(\\r|\\n)+", LINE_SEPARATOR);
-        writeExpected(actual, baseFileName);
-        final String expected = readExpected(baseFileName).replaceAll("(\\r|\\n)+", LINE_SEPARATOR);
-        if (!actual.equals(expected))
-            throw new Exception(baseFileName + " not as expected. Commit insignificant/expected changes and the test will succeed.");
+        testOutput.assertAsExpected(actualResults, baseFileName);
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Before
+    public void mockItemService() throws Exception
+    {
+        final ItemService itemService = EasyMock.createMock(ItemService.class);
+        new Services().setItemService(itemService);
+
+        itemService.addDirectoryContents(//
+                EasyMock.isA(EasyUserImpl.class), //
+                EasyMock.isA(DatasetImpl.class), //
+                EasyMock.isA(String.class), //
+                EasyMock.isA(File.class), //
+                EasyMock.isA(List.class), //
+                EasyMock.isA(WorkReporter.class));
+        EasyMock.expectLastCall().anyTimes();
+
+        EasyMock.replay(itemService);
     }
 
-    private String readExpected(final String baseFileName) throws IOException
+    @Before
+    public void mockDatasetService() throws Exception
     {
-        final File file = new File(createFileName(FORMAT_EXPECTED, baseFileName));
-        if (!file.isFile())
-            throw new IOException(baseFileName + " not found. Probably the test has not been commttied before."
-                    + " Visually verify the generated result. Commit and the test will succeed.");
-        return new String(readFile(file));
+        final Dataset dataset = new DatasetImpl("mock:" + (countDatasets++), MetadataFormat.SOCIOLOGY);
+        final DatasetService datasetService = EasyMock.createMock(DatasetService.class);
+        new Services().setDatasetService(datasetService);
+
+        EasyMock.expect(datasetService.newDataset(MetadataFormat.SOCIOLOGY)).andReturn(dataset).anyTimes();
+
+        datasetService.submitDataset(EasyMock.isA(DatasetSubmissionImpl.class), EasyMock.isA(WorkListener.class));
+        EasyMock.expectLastCall().anyTimes();
+
+        datasetService.submitDataset(EasyMock.isA(DatasetSubmissionImpl.class));
+        EasyMock.expectLastCall().anyTimes();
+
+        datasetService.publishDataset(//
+                EasyMock.isA(EasyUser.class),//
+                EasyMock.isA(DatasetImpl.class),//
+                EasyMock.eq(false),//
+                EasyMock.eq(true));
+        EasyMock.expectLastCall().anyTimes();
+
+        EasyMock.replay(datasetService);
     }
 
-    private void writeExpected(final String actualContent, final String baseFileName) throws FileNotFoundException, IOException, UnsupportedEncodingException
+    @Before
+    public void mockUser() throws Exception
     {
-        final String fileName = createFileName(FORMAT_ACTUAL, baseFileName);
-        new File(new File(fileName).getParent()).mkdirs();
-        final OutputStream outputStream = new FileOutputStream(fileName);
-        try
-        {
-            outputStream.write(actualContent.getBytes("UTF-8"));
-        }
-        finally
-        {
-            outputStream.close();
-        }
+        final EasyUserRepo userRepo = EasyMock.createMock(EasyUserRepo.class);
+        final UserService userService = EasyMock.createMock(UserService.class);
+
+        new Data().setUserRepo(userRepo);
+        new Services().setUserService(userService);
+
+        EasyMock.expect(userRepo.authenticate(VALID_USER_ID, PASSWORD)).andReturn(true).anyTimes();
+        EasyMock.expect(userRepo.authenticate(INVALID_USER_ID, PASSWORD)).andReturn(false).anyTimes();
+        EasyMock.expect(userRepo.authenticate(null, null)).andReturn(false).anyTimes();
+        EasyMock.expect(userRepo.authenticate("", "")).andReturn(false).anyTimes();
+
+        EasyMock.expect(userRepo.findById(VALID_USER_ID)).andReturn(USER).anyTimes();
+        EasyMock.expect(userService.getUserById(null, VALID_USER_ID)).andReturn(USER).anyTimes();
+
+        EasyMock.expect(userRepo.findById(ARCHIV_USER_ID)).andReturn(ARCHIVIST).anyTimes();
+        EasyMock.expect(userService.getUserById(null, ARCHIV_USER_ID)).andReturn(ARCHIVIST).anyTimes();
+
+        EasyMock.replay(userRepo, userService);
     }
 
-    private String createFileName(final String formatActual, final String baseFileName)
+    private static EasyUserImpl createSomeBody()
     {
-        return String.format(formatActual, getClass().getName(), baseFileName);
+        EasyUserImpl user = new EasyUserImpl();
+        user.setId(VALID_USER_ID);
+        user.setPassword(PASSWORD);
+        user.setInitials("S.");
+        user.setFirstname("Some");
+        user.setSurname("Body");
+        user.setEmail("some@body.com");
+        user.setState(EasyUser.State.ACTIVE);
+        return user;
+    }
+
+    private static EasyUserImpl createArchivist()
+    {
+        Set<Role> roles = new HashSet<Role>();
+        roles.add(Role.ARCHIVIST);
+        EasyUserImpl archivist = new EasyUserImpl();
+        archivist.setId(ARCHIV_USER_ID);
+        archivist.setPassword(PASSWORD);
+        archivist.setInitials("A.I.");
+        archivist.setFirstname("Arch");
+        archivist.setSurname("VIST");
+        archivist.setEmail("arch.i.@vist.com");
+        archivist.setState(EasyUser.State.ACTIVE);
+        archivist.setRoles(roles);
+        return archivist;
     }
 }
