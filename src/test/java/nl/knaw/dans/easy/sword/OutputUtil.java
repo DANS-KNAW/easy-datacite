@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 
-public class TestOutput
+public class OutputUtil
 {
     private static final String           DIR_EXPECTED    = "src/test/resources/expected/";
     private static final String           FORMAT_ACTUAL   = DIR_EXPECTED + "%s/%s";
@@ -21,7 +21,7 @@ public class TestOutput
      * @param tester
      *        the class containing the {@linkplain org.junit.Test} methods
      */
-    public TestOutput(Class<? extends Object> tester)
+    public OutputUtil(Class<? extends Object> tester)
     {
         this.testerClass = tester;
     }

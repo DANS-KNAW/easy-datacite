@@ -33,6 +33,7 @@ public class MockUtil
 
     private static final EasyUserImpl USER           = createSomeBody();
     private static final EasyUserImpl ARCHIVIST      = createArchivist();
+    static {createMigrationUser();}
 
     private static int                countDatasets  = 0;
 
@@ -115,6 +116,19 @@ public class MockUtil
         user.setFirstname("Some");
         user.setSurname("Body");
         user.setEmail("some@body.com");
+        user.setState(EasyUser.State.ACTIVE);
+        return user;
+    }
+
+    private static EasyUserImpl createMigrationUser()
+    {
+        EasyUserImpl user = new EasyUserImpl();
+        user.setId("migration");
+        user.setPassword("migration");
+        user.setInitials("M.");
+        user.setFirstname("I.");
+        user.setSurname("Gartion");
+        user.setEmail("m.i.@gration.com");
         user.setState(EasyUser.State.ACTIVE);
         return user;
     }

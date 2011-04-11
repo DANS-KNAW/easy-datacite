@@ -12,9 +12,9 @@ public abstract class Tester
 
     protected static final File ZIP_FILE = new File("src/test/resources/input/datasetPictures.zip");
 
-    private TestOutput testOutput = new TestOutput(this.getClass());
+    private OutputUtil testOutput = new OutputUtil(this.getClass());
 
-    /** See {@link TestOutput#assertAsExpected(String, String)} */
+    /** See {@link OutputUtil#assertAsExpected(String, String)} */
     public void assertAsExpected(final String actualResults, final String baseFileName) throws Exception
     {
         testOutput.assertAsExpected(actualResults, baseFileName);

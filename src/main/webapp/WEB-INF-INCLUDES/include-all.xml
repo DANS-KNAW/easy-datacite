@@ -7,6 +7,21 @@
 	<!-- user.name PropertyPlaceholderConfigurer: a file [user.name].properties should be on the classPath -->
 	<bean class="nl.knaw.dans.common.lang.spring.UsernamePropertyPlaceholderConfigurer"/>
 
+<!-- 
+	<bean name="services" class="nl.knaw.dans.easy.servicelayer.services.Services">
+		<property name="datasetService" ref="datasetService"/>
+		<property name="itemService" ref="itemService"/>
+		<property name="userService" ref="userService"/>
+		
+		<property name="depositService" ref="depositService"/>
+		<property name="migrationService" ref="migrationService"/>
+		<property name="searchService" ref="searchService"/>
+		<property name="jumpoffService" ref="jumpoffService" />
+		<property name="disciplineService" ref="disciplineService" />
+
+	</bean>
+ -->
+
 	<bean name="data" class="nl.knaw.dans.easy.data.Data">
 		<property name="userRepo" ref="userRepo"/>
 		<property name="userService" ref="userService"/>
@@ -20,11 +35,18 @@
  -->
 	</bean>
 
+<!-- 
+	<bean name="datasetService"
+		class="nl.knaw.dans.easy.business.services.EasyDatasetService" />
+
+	<bean name="itemService" class="nl.knaw.dans.easy.business.services.EasyItemService" />
+ -->
+
 	<bean name="userService" class="nl.knaw.dans.easy.business.services.EasyUserService" />
 
 	<bean name="userRepo" class="nl.knaw.dans.easy.ldap.EasyLdapUserRepo">
-		<constructor-arg ref="ldapClient"/>
-		<constructor-arg value="${ldap.context.users}"/>
+		<constructor-arg ref="ldapClient" />
+		<constructor-arg value="${ldap.context.users}" />
 	</bean>
 
 	<import resource="ldap-context.xml"/>

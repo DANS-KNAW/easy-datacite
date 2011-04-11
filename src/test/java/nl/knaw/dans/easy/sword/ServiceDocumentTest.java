@@ -1,12 +1,18 @@
 package nl.knaw.dans.easy.sword;
 
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.purl.sword.base.SWORDAuthenticationException;
 import org.purl.sword.base.ServiceDocumentRequest;
 
 public class ServiceDocumentTest extends EasySwordServerTester
 {
+    @BeforeClass
+    public static void setupMocking() throws Exception {
+        new MockUtil().mockAll();
+    }
+
     @Test
     public void serviceDocumentWithUser() throws Exception
     {

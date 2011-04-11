@@ -1,51 +1,38 @@
 /**
- * Copyright (c) 2009, Aberystwyth University
- *
- * All rights reserved.
- * 
- * Redistribution and use in source and binary forms, with or without 
- * modification, are permitted provided that the following conditions 
- * are met:
- * 
- *  - Redistributions of source code must retain the above 
- *    copyright notice, this list of conditions and the 
- *    following disclaimer.
- *  
- *  - Redistributions in binary form must reproduce the above copyright 
- *    notice, this list of conditions and the following disclaimer in 
- *    the documentation and/or other materials provided with the 
- *    distribution.
- *    
- *  - Neither the name of the Centre for Advanced Software and 
- *    Intelligent Systems (CASIS) nor the names of its 
- *    contributors may be used to endorse or promote products derived 
- *    from this software without specific prior written permission.
- * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON 
- * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
- * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF 
- * THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF 
- * SUCH DAMAGE.
+ * Copyright (c) 2009, Aberystwyth University All rights reserved. Redistribution and use in source and
+ * binary forms, with or without modification, are permitted provided that the following conditions are
+ * met: - Redistributions of source code must retain the above copyright notice, this list of conditions
+ * and the following disclaimer. - Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the documentation and/or other
+ * materials provided with the distribution. - Neither the name of the Centre for Advanced Software and
+ * Intelligent Systems (CASIS) nor the names of its contributors may be used to endorse or promote
+ * products derived from this software without specific prior written permission. THIS SOFTWARE IS
+ * PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+ * TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
+ * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 package nl.knaw.dans.easy.sword;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import javax.servlet.http.HttpServletResponse;
 
+import nl.knaw.dans.common.lang.file.UnzipListener;
+import nl.knaw.dans.common.lang.file.UnzipUtil;
+import nl.knaw.dans.common.lang.util.FileUtil;
 import nl.knaw.dans.easy.business.authn.AuthenticationSpecification;
 import nl.knaw.dans.easy.domain.authn.UsernamePasswordAuthentication;
 
@@ -75,7 +62,6 @@ import org.purl.sword.server.SWORDServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 /**
  * A 'dummy server' which acts as dumb repository which implements the SWORD ServerInterface. It accepts
  * any type of deposit, and tries to return appropriate responses. It supports authentication: if the
@@ -85,29 +71,32 @@ import org.slf4j.LoggerFactory;
  * @author Stuart Lewis
  * @author J. Pol (extracted some repeated code into methods, added EASY authentication)
  */
-public class EasySwordServer implements SWORDServer {
+public class EasySwordServer implements SWORDServer
+{
 
     /** A counter to count submissions, so the response to a deposit can increment */
-    private static int counter = 0;
+    private static int    counter = 0;
 
     /** Logger */
-    private static Logger log = LoggerFactory.getLogger(EasySwordServer.class);
+    private static Logger log     = LoggerFactory.getLogger(EasySwordServer.class);
 
     /**
-     * Provides a dumb but plausible service document - it contains
-     * an anonymous workspace and collection, and one personalised
-     * for the onBehalfOf user.
+     * Provides a dumb but plausible service document - it contains an anonymous workspace and
+     * collection, and one personalised for the onBehalfOf user.
      * 
-     * @param onBehalfOf The user that the client is acting on behalf of
-     * @throws SWORDAuthenticationException If the credentials are bad
-     * @throws SWORDErrorException If something goes wrong, such as 
+     * @param onBehalfOf
+     *        The user that the client is acting on behalf of
+     * @throws SWORDAuthenticationException
+     *         If the credentials are bad
+     * @throws SWORDErrorException
+     *         If something goes wrong, such as
      */
     public ServiceDocument doServiceDocument(final ServiceDocumentRequest sdr) throws SWORDAuthenticationException, SWORDErrorException, SWORDException
     {
         // Authenticate the user
         final String username = sdr.getUsername();
         final String password = sdr.getPassword();
-        if (username!=null)
+        if (username != null)
             authenticate(username, password);
 
         // Allow users to force the throwing of a SWORD error exception by setting
@@ -123,7 +112,7 @@ public class EasySwordServer implements SWORDServer {
         final Service service = new Service("1.3", true, true);
         document.setService(service);
         final String location = sdr.getLocation().substring(0, sdr.getLocation().length() - 16);
-        log.debug("location is: " + location + "    "+sdr.getLocation());
+        log.debug("location is: " + location + "    " + sdr.getLocation());
 
         if (sdr.getLocation().contains("?nested="))
         {
@@ -175,8 +164,11 @@ public class EasySwordServer implements SWORDServer {
             collection.setMediation(true);
             service.addWorkspace(createWorkSpace(collection, "Personal workspace for " + onBehalfOf));
         }
-        //log.debug("document is: " + document.toString());
+        // log.debug("document is: " + document.toString());
 
+        // TODO remove this hack
+//        testByPass();
+        
         return document;
     }
 
@@ -206,8 +198,7 @@ public class EasySwordServer implements SWORDServer {
         final String username = deposit.getUsername();
         final String password = deposit.getPassword();
         authenticate(username, password);
-
-        // Check this is a collection that takes obo deposits, else thrown an error
+        // Check this is a collection that takes "on behalf of" deposits, else thrown an error
         if (((deposit.getOnBehalfOf() != null) && (!deposit.getOnBehalfOf().equals(""))) && (!deposit.getLocation().contains("deposit?user=")))
         {
             throw new SWORDErrorException(ErrorCodes.MEDIATION_NOT_ALLOWED, "Mediated deposit not allowed to this collection");
@@ -349,7 +340,7 @@ public class EasySwordServer implements SWORDServer {
         }
         catch (Exception exception)
         {
-            throw new SWORDAuthenticationException(username+" "+exception.getClass().getName()+" "+exception.getMessage(),exception);
+            throw new SWORDAuthenticationException(username + " " + exception.getClass().getName() + " " + exception.getMessage(), exception);
         }
         if (!isSatisfied)
         {
@@ -357,4 +348,48 @@ public class EasySwordServer implements SWORDServer {
         }
     }
 
+    private void testByPass() 
+    {
+        final File META_DATA_FILE = new File("src/test/resources/input/metadata.xml");
+        final File ZIP_FILE = new File("src/test/resources/input/datasetPictures.zip");
+        final File basePath = new File("target/tmp");
+        basePath.mkdirs();
+        try
+        {
+            final File tempDirectory = FileUtil.createTempDirectory(basePath, "unzip");
+            final byte[] easyMetaData = FileUtil.readFile(META_DATA_FILE);
+            final List<File> fileList = new UnzipUtil(ZIP_FILE, tempDirectory.getPath(), createUnzipListener()).run();
+            SwordDatasetUtil.submitNewDataset("migration", easyMetaData, tempDirectory, fileList);
+        }
+        catch (Exception e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    private static UnzipListener createUnzipListener()
+    {
+        final UnzipListener unzipListener = new UnzipListener()
+        {
+
+            @Override
+            public boolean onUnzipUpdate(final long bytesUnzipped, final long total)
+            {
+                return true; // continue unzip
+            }
+
+            @Override
+            public void onUnzipStarted(final long totalBytes)
+            {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onUnzipComplete(final List<File> files, final boolean canceled)
+            {
+            }
+        };
+        return unzipListener;
+    }
 }
