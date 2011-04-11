@@ -39,6 +39,10 @@ public abstract class Tester
     private static final EasyUserImpl USER           = createSomeBody();
     private static final EasyUserImpl ARCHIVIST      = createArchivist();
 
+    protected static final File META_DATA_FILE = new File("src/test/resources/input/metadata.xml");
+
+    protected static final File ZIP_FILE = new File("src/test/resources/input/datasetPictures.zip");
+
     private static int                countDatasets  = 0;
 
     private TestOutput testOutput = new TestOutput(this.getClass());

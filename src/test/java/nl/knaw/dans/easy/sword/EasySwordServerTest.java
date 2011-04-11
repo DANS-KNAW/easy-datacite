@@ -1,22 +1,12 @@
 package nl.knaw.dans.easy.sword;
 
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.purl.sword.base.SWORDAuthenticationException;
 import org.purl.sword.base.ServiceDocumentRequest;
 
-public class EasySwordServerTest extends Tester
+public class EasySwordServerTest extends EasySwordServerTester
 {
-    private static final String LOCATION = "http://localhost:8080/easy-sword-0.0.1-SNAPSHOT/serviceDocument";
-    private static EasySwordServer easySwordServer;
-    
-    @BeforeClass
-    public static void setup() throws Exception
-    {
-        easySwordServer = new EasySwordServer();
-    }
-
     @Test
     public void serviceDocumentWithUser() throws Exception
     {

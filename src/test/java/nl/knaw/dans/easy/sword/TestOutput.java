@@ -44,16 +44,23 @@ public class TestOutput
     {
         writeExpected(localizeLineTerminators(actualResults), baseFileName);
         if (!localizeLineTerminators(actualResults).equals(readExpected(baseFileName)))
-            throw new Exception(baseFileName + " not as expected. Commit insignificant/expected changes and the test will succeed next time.");
+        {
+            throw new Exception(errorIntro(baseFileName) + "not as expected. Commit insignificant/expected changes and the test will succeed next time.");
+        }
     }
 
     private String readExpected(final String baseFileName) throws IOException
     {
         final File file = new File(createFileName(FORMAT_EXPECTED, baseFileName));
         if (!file.isFile())
-            throw new IOException(baseFileName + " not found. Probably the test has not been commttied before."
+            throw new IOException(errorIntro(baseFileName) + " not found. Probably the test has not been commttied before."
                     + " Visually verify the generated result. Commit and the test will succeed next time.");
         return localizeLineTerminators(new String(readFile(file)));
+    }
+    
+    private String errorIntro(final String baseFileName)
+    {
+        return createFileName(FORMAT_ACTUAL, baseFileName) + LINE_SEPARATOR;
     }
 
     private String localizeLineTerminators(final String result)

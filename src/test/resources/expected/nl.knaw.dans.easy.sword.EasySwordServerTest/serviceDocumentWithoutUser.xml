@@ -5,7 +5,7 @@
    <sword:noOp>true</sword:noOp>
    <app:workspace>
       <atom:title type="text">Anonymous submitters workspace</atom:title>
-      <app:collection href="http://localhost:8080/easy-sword-0.0.1-SNAPSHOT/deposit/anon">
+      <app:collection href="http://localhost:8080/easy-sword/deposit/anon">
          <atom:title type="text">Anonymous submitters collection</atom:title>
          <app:accept>application/zip</app:accept>
          <app:accept>application/xml</app:accept>
@@ -13,10 +13,10 @@
          <sword:acceptPackaging q="1.0">http://purl.org/net/sword-types/bagit</sword:acceptPackaging>
          <sword:collectionPolicy>No guarantee of service, or that deposits will be retained for any length of time.</sword:collectionPolicy>
          <dcterms:abstract>A collection that anonymous users can deposit into</dcterms:abstract>
-         <sword:service>http://localhost:8080/easy-sword-0.0.1-SNAPSHOT/servicedocument?nested=anon</sword:service>
+         <sword:service>http://localhost:8080/easy-sword/servicedocument?nested=anon</sword:service>
          <sword:treatment>This is a dummy server</sword:treatment>
       </app:collection>
-      <app:collection href="http://localhost:8080/easy-sword-0.0.1-SNAPSHOT/deposit/anonymous">
+      <app:collection href="http://localhost:8080/easy-sword/deposit/anonymous">
          <atom:title type="text">Anonymous submitters other collection</atom:title>
          <app:accept>application/zip</app:accept>
          <app:accept>application/xml</app:accept>

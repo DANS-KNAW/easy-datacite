@@ -14,8 +14,6 @@ import org.purl.sword.base.SWORDException;
 
 public class SwordDatasetUtilTest extends Tester
 {
-    private static final File META_DATA_FILE = new File("src/test/resources/input/metadata.xml");
-    private static final File ZIP_FILE       = new File("src/test/resources/input/datasetPictures.zip");
     final static File         basePath       = new File("target/tmp");
     static File               tempDirectory;
     static byte[]             easyMetaData;
@@ -26,8 +24,8 @@ public class SwordDatasetUtilTest extends Tester
     {
         basePath.mkdirs();
         tempDirectory = FileUtil.createTempDirectory(basePath, "unzip");
-        easyMetaData = FileUtil.readFile(META_DATA_FILE);
         fileList = new UnzipUtil(ZIP_FILE, tempDirectory.getPath(), createUnzipListener()).run();
+        easyMetaData = FileUtil.readFile(META_DATA_FILE);
     }
 
     @Test
