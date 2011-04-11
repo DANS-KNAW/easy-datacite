@@ -9,11 +9,6 @@ import org.purl.sword.base.Deposit;
 
 public abstract class SubmitTester extends EasySwordServerTester
 {
-    @BeforeClass
-    public static void setupMocking() throws Exception {
-        new MockUtil().mockAll();
-    }
-
     @Ignore("mock system DateTime to make the test repeatable")
     @Test
     public void submit() throws Exception
