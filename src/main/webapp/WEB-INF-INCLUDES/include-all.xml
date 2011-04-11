@@ -7,25 +7,24 @@
 	<!-- user.name PropertyPlaceholderConfigurer: a file [user.name].properties should be on the classPath -->
 	<bean class="nl.knaw.dans.common.lang.spring.UsernamePropertyPlaceholderConfigurer"/>
 
-<!-- 
 	<bean name="services" class="nl.knaw.dans.easy.servicelayer.services.Services">
+		<property name="userService" ref="userService"/>
 		<property name="datasetService" ref="datasetService"/>
 		<property name="itemService" ref="itemService"/>
-		<property name="userService" ref="userService"/>
-		
+<!-- 
 		<property name="depositService" ref="depositService"/>
 		<property name="migrationService" ref="migrationService"/>
 		<property name="searchService" ref="searchService"/>
 		<property name="jumpoffService" ref="jumpoffService" />
 		<property name="disciplineService" ref="disciplineService" />
+ -->
 
 	</bean>
- -->
 
 	<bean name="data" class="nl.knaw.dans.easy.data.Data">
 		<property name="userRepo" ref="userRepo"/>
-		<property name="userService" ref="userService"/>
 <!-- 
+		<property name="userService" ref="userService"/>
 		<property name="migrationRepo" ref="migrationRepo"/>
 		<property name="groupRepo" ref="groupRepo"/>
 		<property name="easyStore" ref="easyStore"/>
@@ -35,12 +34,10 @@
  -->
 	</bean>
 
-<!-- 
 	<bean name="datasetService"
 		class="nl.knaw.dans.easy.business.services.EasyDatasetService" />
 
 	<bean name="itemService" class="nl.knaw.dans.easy.business.services.EasyItemService" />
- -->
 
 	<bean name="userService" class="nl.knaw.dans.easy.business.services.EasyUserService" />
 
