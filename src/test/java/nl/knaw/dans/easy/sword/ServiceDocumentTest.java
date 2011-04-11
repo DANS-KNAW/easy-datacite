@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.purl.sword.base.SWORDAuthenticationException;
 import org.purl.sword.base.ServiceDocumentRequest;
 
-public class EasySwordServerTest extends EasySwordServerTester
+public class ServiceDocumentTest extends EasySwordServerTester
 {
     @Test
     public void serviceDocumentWithUser() throws Exception
