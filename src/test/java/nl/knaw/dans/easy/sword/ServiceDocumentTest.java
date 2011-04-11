@@ -11,8 +11,8 @@ public class ServiceDocumentTest extends EasySwordServerTester
     public void serviceDocumentWithUser() throws Exception
     {
         final ServiceDocumentRequest request = new ServiceDocumentRequest();
-        request.setUsername(VALID_USER_ID);
-        request.setPassword(PASSWORD);
+        request.setUsername(MockUtil.VALID_USER_ID);
+        request.setPassword(MockUtil.PASSWORD);
         request.setLocation(LOCATION);
         assertAsExpected(easySwordServer.doServiceDocument(request).toString(), "serviceDocumentWithUser.xml");
     }
@@ -21,8 +21,8 @@ public class ServiceDocumentTest extends EasySwordServerTester
     public void serviceDocumentWrongUser() throws Exception
     {
         final ServiceDocumentRequest request = new ServiceDocumentRequest();
-        request.setUsername(INVALID_USER_ID);
-        request.setPassword(PASSWORD);
+        request.setUsername(MockUtil.INVALID_USER_ID);
+        request.setPassword(MockUtil.PASSWORD);
         request.setLocation(LOCATION);
         assertAsExpected(easySwordServer.doServiceDocument(request).toString(), "serviceDocumentWrongUser.xml");
     }
