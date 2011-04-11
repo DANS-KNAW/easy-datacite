@@ -2,8 +2,6 @@ package nl.knaw.dans.easy.sword;
 
 import java.io.File;
 
-import org.junit.BeforeClass;
-
 /**
  * Fixture that performs general applicable mocks.<br>
  * Abstract to prevent execution by the JUnit framework.

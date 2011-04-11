@@ -8,5 +8,4 @@ public class SubmitTest extends SubmitTester
     public static void setupMocking() throws Exception {
         new MockUtil().mockAll();
     }
-
 }

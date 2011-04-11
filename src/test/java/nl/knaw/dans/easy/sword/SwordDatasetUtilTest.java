@@ -20,6 +20,11 @@ public class SwordDatasetUtilTest extends Tester
     static List<File>         fileList;
 
     @BeforeClass
+    public static void setupMocking() throws Exception {
+        new MockUtil().mockAll();
+    }
+
+    @BeforeClass
     public static void createParameters() throws Exception
     {
         basePath.mkdirs();

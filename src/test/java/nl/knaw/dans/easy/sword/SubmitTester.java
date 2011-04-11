@@ -2,11 +2,11 @@ package nl.knaw.dans.easy.sword;
 
 import java.io.FileInputStream;
 
-import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.purl.sword.base.Deposit;
 
+/** Abstract, implemented with a mocked and an online version */
 public abstract class SubmitTester extends EasySwordServerTester
 {
     @Ignore("mock system DateTime to make the test repeatable")
