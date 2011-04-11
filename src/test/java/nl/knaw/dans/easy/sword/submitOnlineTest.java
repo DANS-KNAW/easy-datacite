@@ -1,6 +1,6 @@
 package nl.knaw.dans.easy.sword;
 
-public class submitOnlineTest extends SubmitTest
+public class submitOnlineTest extends SubmitTester
 {
 
 }

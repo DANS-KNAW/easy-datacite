@@ -7,7 +7,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.purl.sword.base.Deposit;
 
-public abstract class SubmitTest extends EasySwordServerTester
+public abstract class SubmitTester extends EasySwordServerTester
 {
     @BeforeClass
     public static void setupMocking() throws Exception {
