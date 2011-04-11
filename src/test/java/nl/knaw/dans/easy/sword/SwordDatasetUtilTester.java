@@ -12,7 +12,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.purl.sword.base.SWORDException;
 
-public class SwordDatasetUtilTest extends Tester
+public class SwordDatasetUtilTester extends Tester
 {
     final static File         basePath       = new File("target/tmp");
     static File               tempDirectory;
