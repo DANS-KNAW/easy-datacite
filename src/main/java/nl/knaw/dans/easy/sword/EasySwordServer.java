@@ -20,19 +20,16 @@
 package nl.knaw.dans.easy.sword;
 
 import java.io.File;
-import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 import javax.servlet.http.HttpServletResponse;
 
-import nl.knaw.dans.common.lang.file.UnzipListener;
-import nl.knaw.dans.common.lang.file.UnzipUtil;
-import nl.knaw.dans.common.lang.util.FileUtil;
 import nl.knaw.dans.easy.business.authn.AuthenticationSpecification;
 import nl.knaw.dans.easy.domain.authn.UsernamePasswordAuthentication;
 
@@ -73,7 +70,6 @@ import org.slf4j.LoggerFactory;
  */
 public class EasySwordServer implements SWORDServer
 {
-
     /** A counter to count submissions, so the response to a deposit can increment */
     private static int    counter = 0;
 
@@ -100,7 +96,7 @@ public class EasySwordServer implements SWORDServer
             authenticate(username, password);
 
         // Allow users to force the throwing of a SWORD error exception by setting
-        // the OBO user to 'error'
+        // the OnBehalfOf user to 'error'
         if ((sdr.getOnBehalfOf() != null) && (sdr.getOnBehalfOf().equals("error")))
         {
             // Throw the error exception
@@ -111,14 +107,13 @@ public class EasySwordServer implements SWORDServer
         final ServiceDocument document = new ServiceDocument();
         final Service service = new Service("1.3", true, true);
         document.setService(service);
-        final String location = sdr.getLocation().substring(0, sdr.getLocation().length() - 16);
-        log.debug("location is: " + location + "    " + sdr.getLocation());
+        final String locationBase = toLocationBase(sdr.getLocation());
 
         if (sdr.getLocation().contains("?nested="))
         {
             final Collection collection = createDummyCollection(1);
             collection.setTitle("Nested collection: " + sdr.getLocation().substring(sdr.getLocation().indexOf('?') + 1));
-            collection.setLocation(location + "/deposit/nested");
+            collection.setLocation(locationBase + "/deposit/nested");
             collection.setCollectionPolicy("No guarantee of service, or that deposits will be retained for any length of time.");
             service.addWorkspace(createWorkSpace(collection, "Nested service document workspace"));
         }
@@ -126,13 +121,13 @@ public class EasySwordServer implements SWORDServer
         {
             Collection collection = createDummyCollection(1);
             collection.setTitle("Anonymous submitters collection");
-            collection.setLocation(location + "/deposit/anon");
+            collection.setLocation(locationBase + "/deposit/anon");
             collection.setAbstract("A collection that anonymous users can deposit into");
-            collection.setService(location + "/servicedocument?nested=anon");
+            collection.setService(locationBase + "/servicedocument?nested=anon");
             Workspace workspace = createWorkSpace(collection, "Anonymous submitters workspace");
             collection = createDummyCollection(1);
             collection.setTitle("Anonymous submitters other collection");
-            collection.setLocation(location + "/deposit/anonymous");
+            collection.setLocation(locationBase + "/deposit/anonymous");
             collection.setAbstract("Another collection that anonymous users can deposit into");
             workspace.addCollection(collection);
             service.addWorkspace(workspace);
@@ -141,13 +136,13 @@ public class EasySwordServer implements SWORDServer
             {
                 collection = createDummyCollection(0.8f);
                 collection.setTitle("Authenticated collection for " + username);
-                collection.setLocation(location + "/deposit/" + username);
+                collection.setLocation(locationBase + "/deposit/" + username);
                 collection.setAbstract("A collection that " + username + " can deposit into");
-                collection.setService(location + "/servicedocument?nested=authenticated");
+                collection.setService(locationBase + "/servicedocument?nested=authenticated");
                 workspace = createWorkSpace(collection, "Authenticated workspace for " + username);
                 collection = createDummyCollection(0.123f);
                 collection.setTitle("Second authenticated collection for " + username);
-                collection.setLocation(location + "/deposit/" + username + "-2");
+                collection.setLocation(locationBase + "/deposit/" + username + "-2");
                 collection.setAbstract("A collection that " + username + " can deposit into");
                 workspace.addCollection(collection);
                 service.addWorkspace(workspace);
@@ -159,20 +154,34 @@ public class EasySwordServer implements SWORDServer
         {
             final Collection collection = createDummyCollection(0.8f);
             collection.setTitle("Personal collection for " + onBehalfOf);
-            collection.setLocation(location + "/deposit?user=" + onBehalfOf);
+            collection.setLocation(locationBase + "/deposit?user=" + onBehalfOf);
             collection.setAbstract("An abstract goes in here");
             collection.setMediation(true);
             service.addWorkspace(createWorkSpace(collection, "Personal workspace for " + onBehalfOf));
         }
         // log.debug("document is: " + document.toString());
-
-        // TODO remove this hack
-//        testByPass();
-        
         return document;
     }
 
-    private Workspace createWorkSpace(final Collection collection, String title)
+    private String toLocationBase(final String fullLocation) throws SWORDErrorException
+    {
+        final URL url;
+        try
+        {
+            url = new URL(fullLocation);
+        }
+        catch (final MalformedURLException exception)
+        {
+            throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, "invalid location: " + exception.getMessage());
+        }
+        final String subPath = new File(url.getPath()).getParent();
+        final String location = url.getProtocol() + "://" + url.getHost() + ":" + url.getPort() + subPath;
+        log.debug("location is: " + location + "    " + fullLocation);
+
+        return location;
+    }
+
+    private Workspace createWorkSpace(final Collection collection, final String title)
     {
         final Workspace workspace = new Workspace();
         workspace.setTitle(title);
@@ -180,7 +189,7 @@ public class EasySwordServer implements SWORDServer
         return workspace;
     }
 
-    private Collection createDummyCollection(float qualityValue)
+    private Collection createDummyCollection(final float qualityValue)
     {
         final Collection collection = new Collection();
         collection.setCollectionPolicy("No guarantee of service, or that deposits will be retained for any length of time.");
@@ -200,127 +209,160 @@ public class EasySwordServer implements SWORDServer
         authenticate(username, password);
         // Check this is a collection that takes "on behalf of" deposits, else thrown an error
         if (((deposit.getOnBehalfOf() != null) && (!deposit.getOnBehalfOf().equals(""))) && (!deposit.getLocation().contains("deposit?user=")))
-        {
             throw new SWORDErrorException(ErrorCodes.MEDIATION_NOT_ALLOWED, "Mediated deposit not allowed to this collection");
-        }
 
-        // Get the filenames
-        final StringBuffer filenames = new StringBuffer("Deposit file contained: ");
-        if (deposit.getFilename() != null)
-        {
-            filenames.append("(filename = " + deposit.getFilename() + ") ");
-        }
-        if (deposit.getSlug() != null)
-        {
-            filenames.append("(slug = " + deposit.getSlug() + ") ");
-        }
-        try
-        {
-            final ZipInputStream zip = new ZipInputStream(deposit.getFile());
-            ZipEntry ze;
-            while ((ze = zip.getNextEntry()) != null)
-            {
-                filenames.append(" " + ze.toString());
-            }
-        }
-        catch (final IOException ioe)
-        {
-            throw new SWORDException("Failed to open deposited zip file", null, ErrorCodes.ERROR_CONTENT);
-        }
-
-        // Handle the deposit
+        final UnzipResult unzipped = new UnzipResult(deposit.getFile());
         if (!deposit.isNoOp())
         {
+            // Handle the deposit
+            unzipped.submit(username);
             counter++;
         }
-        final DepositResponse dr = new DepositResponse(Deposit.CREATED);
-        final SWORDEntry se = new SWORDEntry();
+        final Summary wrapSummary = wrapSummary(deposit.getFilename(), deposit.getSlug(), unzipped.getFiles());
+        return wrapResponse(wrapSwordEntry(deposit, wrapSummary));
+    }
 
-        final Title t = new Title();
-        t.setContent("DummyServer Deposit: #" + counter);
-        se.setTitle(t);
+    private static SWORDEntry wrapSwordEntry(final Deposit deposit, final Summary summary) throws SWORDException
+    {
+        final SWORDEntry swordEntry = new SWORDEntry();
 
-        se.addCategory("Category");
+        swordEntry.setTitle(wrapTitle());
+        swordEntry.addCategory("Category");
+        swordEntry.setId(wrapID(deposit.getSlug()));
+        swordEntry.setUpdated(getDateTime());
+        swordEntry.setSummary(summary);
+        swordEntry.addAuthors(wrapAuthor(deposit.getUsername()));
+        swordEntry.addLink(wrapEditMediaLink());
+        swordEntry.addLink(wrapEditLink());
+        swordEntry.setGenerator(wrapGenerator());
+        swordEntry.setContent(wrapContent());
+        swordEntry.setTreatment("Short back and sides");
+        swordEntry.setNoOp(deposit.isNoOp());
+        if (deposit.getOnBehalfOf() != null)
+            swordEntry.addContributor(wrapContributor(deposit.getOnBehalfOf()));
+        if (deposit.isVerbose())
+            swordEntry.setVerboseDescription("I've done a lot of hard work to get this far!");
 
-        if (deposit.getSlug() != null)
+        return swordEntry;
+    }
+
+    private DepositResponse wrapResponse(final SWORDEntry swordEntry)
+    {
+        final DepositResponse depostiResponse = new DepositResponse(Deposit.CREATED);
+        depostiResponse.setEntry(swordEntry);
+        depostiResponse.setLocation("http://www.myrepository.ac.uk/atom/" + counter);
+        return depostiResponse;
+    }
+
+    private static Title wrapTitle()
+    {
+        final Title title = new Title();
+        title.setContent("DummyServer Deposit: #" + counter);
+        return title;
+    }
+
+    private static String wrapID(final String slug)
+    {
+        final String id;
+        if (slug != null)
         {
-            se.setId(deposit.getSlug() + " - ID: " + counter);
+            id = slug + " - ID: " + counter;
         }
         else
         {
-            se.setId("ID: " + counter);
+            id = "ID: " + counter;
         }
+        return id;
+    }
 
-        final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-        final TimeZone utc = TimeZone.getTimeZone("UTC");
-        sdf.setTimeZone(utc);
-        final String milliFormat = sdf.format(new Date());
-        se.setUpdated(milliFormat);
-
-        final Summary s = new Summary();
-        s.setContent(filenames.toString());
-        se.setSummary(s);
-        final Author a = new Author();
-        if (username != null)
-        {
-            a.setName(username);
-        }
-        else
-        {
-            a.setName("unknown");
-        }
-        se.addAuthors(a);
-
+    private static Link wrapEditMediaLink()
+    {
         final Link em = new Link();
         em.setRel("edit-media");
         em.setHref("http://www.myrepository.ac.uk/sdl/workflow/my deposit");
-        se.addLink(em);
+        return em;
+    }
 
+    private static Link wrapEditLink()
+    {
         final Link e = new Link();
         e.setRel("edit");
         e.setHref("http://www.myrepository.ac.uk/sdl/workflow/my deposit.atom");
-        se.addLink(e);
+        return e;
+    }
 
-        if (deposit.getOnBehalfOf() != null)
+    private static Summary wrapSummary(final String filename, final String slug, final List<File> fileList)
+    {
+        final Summary summary = new Summary();
+        final StringBuffer fileNames = new StringBuffer("Deposit file contained: ");
+
+        if (filename != null)
         {
-            final Contributor c = new Contributor();
-            c.setName(deposit.getOnBehalfOf());
-            c.setEmail(deposit.getOnBehalfOf() + "@myrepository.ac.uk");
-            se.addContributor(c);
+            fileNames.append("(filename = " + filename + ") ");
         }
+        if (slug != null)
+        {
+            // Slug may be used to supply a deposit identifier for use as the <atom:id> value.
+            fileNames.append("(slug = " + slug + ") ");
+        }
+        fileNames.append(Arrays.deepToString(fileList.toArray()));
 
+        summary.setContent(fileNames.toString());
+        return summary;
+    }
+
+    private static Generator wrapGenerator()
+    {
         final Generator generator = new Generator();
         generator.setContent("Stuart's Dummy SWORD Server");
         generator.setUri("http://dummy-sword-server.example.com/");
         generator.setVersion("1.3");
-        se.setGenerator(generator);
+        return generator;
+    }
 
+    private static Content wrapContent()
+    {
         final Content content = new Content();
         try
         {
             content.setType("application/zip");
         }
-        catch (final InvalidMediaTypeException ex)
+        catch (final InvalidMediaTypeException exception)
         {
-            ex.printStackTrace();
+            exception.printStackTrace();
         }
         content.setSource("http://www.myrepository.ac.uk/sdl/uploads/upload-" + counter + ".zip");
-        se.setContent(content);
+        return content;
+    }
 
-        se.setTreatment("Short back and sides");
+    private static Contributor wrapContributor(final String onBehalfOf)
+    {
+        final Contributor contributor = new Contributor();
+        contributor.setName(onBehalfOf);
+        contributor.setEmail(onBehalfOf + "@myrepository.ac.uk");
+        return contributor;
+    }
 
-        if (deposit.isVerbose())
+    private static Author wrapAuthor(final String username)
+    {
+        final Author author = new Author();
+        if (username != null)
         {
-            se.setVerboseDescription("I've done a lot of hard work to get this far!");
+            author.setName(username);
         }
+        else
+        {
+            author.setName("unknown");
+        }
+        return author;
+    }
 
-        se.setNoOp(deposit.isNoOp());
-
-        dr.setEntry(se);
-
-        dr.setLocation("http://www.myrepository.ac.uk/atom/" + counter);
-
-        return dr;
+    private static String getDateTime()
+    {
+        final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        final TimeZone utc = TimeZone.getTimeZone("UTC");
+        sdf.setTimeZone(utc);
+        return sdf.format(new Date());
     }
 
     public AtomDocumentResponse doAtomDocument(final AtomDocumentRequest adr) throws SWORDAuthenticationException, SWORDErrorException, SWORDException
@@ -338,7 +380,7 @@ public class EasySwordServer implements SWORDServer
             isSatisfied = AuthenticationSpecification.isSatisfiedBy(new UsernamePasswordAuthentication(username, password));
             log.debug("authenticated userID: " + username);
         }
-        catch (Exception exception)
+        catch (final Exception exception)
         {
             throw new SWORDAuthenticationException(username + " " + exception.getClass().getName() + " " + exception.getMessage(), exception);
         }
@@ -346,50 +388,5 @@ public class EasySwordServer implements SWORDServer
         {
             throw new SWORDAuthenticationException(username + " not authenticated");
         }
-    }
-
-    private void testByPass() 
-    {
-        final File META_DATA_FILE = new File("src/test/resources/input/metadata.xml");
-        final File ZIP_FILE = new File("src/test/resources/input/datasetPictures.zip");
-        final File basePath = new File("target/tmp");
-        basePath.mkdirs();
-        try
-        {
-            final File tempDirectory = FileUtil.createTempDirectory(basePath, "unzip");
-            final byte[] easyMetaData = FileUtil.readFile(META_DATA_FILE);
-            final List<File> fileList = new UnzipUtil(ZIP_FILE, tempDirectory.getPath(), createUnzipListener()).run();
-            SwordDatasetUtil.submitNewDataset("migration", easyMetaData, tempDirectory, fileList);
-        }
-        catch (Exception e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-    private static UnzipListener createUnzipListener()
-    {
-        final UnzipListener unzipListener = new UnzipListener()
-        {
-
-            @Override
-            public boolean onUnzipUpdate(final long bytesUnzipped, final long total)
-            {
-                return true; // continue unzip
-            }
-
-            @Override
-            public void onUnzipStarted(final long totalBytes)
-            {
-                // TODO Auto-generated method stub
-            }
-
-            @Override
-            public void onUnzipComplete(final List<File> files, final boolean canceled)
-            {
-            }
-        };
-        return unzipListener;
     }
 }

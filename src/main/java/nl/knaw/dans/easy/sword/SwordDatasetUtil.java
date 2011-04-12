@@ -29,6 +29,10 @@ import nl.knaw.dans.easy.servicelayer.services.Services;
 import org.purl.sword.base.SWORDException;
 import org.xml.sax.SAXException;
 
+/**
+ * Wrapper for the easy business API
+ *
+ */
 public class SwordDatasetUtil
 {
     public static final String DEFAULT_EMD_VERSION = EasyMetadataValidator.VERSION_0_1;
@@ -44,20 +48,21 @@ public class SwordDatasetUtil
      *        a directory containing the files for the new dataset
      * @param fileList
      *        the list of files in the directory to add to the new dataset
+     * @param workListeners 
      * @return
      * @throws SWORDException
      */
-    public static Dataset submitNewDataset(final String userID, final byte[] easyMetadata, final File directory, final List<File> fileList)
+    public static Dataset submitNewDataset(final String userID, final byte[] easyMetadata, final File directory, final List<File> fileList, WorkListener... workListeners)
             throws SWORDException
     {
         final EasyUser user = getUser(userID);
         final Dataset dataset = createDataset(user, easyMetadata, directory, fileList);
-        submit(user, dataset);
+        submit(user, dataset, workListeners);
         return dataset;
     }
 
     /** As {@link #submitNewDataset(EasyUser, byte[], File, List)} but the dataset will be public immediately. */
-    public static Dataset publishNewDataset(final String userID, final byte[] easyMetadata, final File directory, final List<File> fileList)
+    public static Dataset publishNewDataset(final String userID, final byte[] easyMetadata, final File directory, final List<File> fileList, WorkListener... workListeners)
             throws SWORDException
     {
         final EasyUser user = getUser(userID);
@@ -67,7 +72,7 @@ public class SwordDatasetUtil
             throw new SWORDException(user + " has no permission to submit. Dataset not created");
 
         final Dataset dataset = createDataset(user, easyMetadata, directory, fileList);
-        submit(user, dataset);
+        submit(user, dataset, workListeners);
         publish(user, dataset);
         return dataset;
     }
@@ -110,9 +115,8 @@ public class SwordDatasetUtil
     }
 
     /** Just a wrapper to wrap exceptions. */
-    private static void submit(final EasyUser user, final Dataset dataset) throws SWORDException
+    private static void submit(final EasyUser user, final Dataset dataset, final WorkListener... workListeners) throws SWORDException
     {
-        final WorkListener[] workListeners = new WorkListener[]{};
         final DatasetSubmissionImpl submission = new DatasetSubmissionImpl(null, dataset, user);
         try
         {

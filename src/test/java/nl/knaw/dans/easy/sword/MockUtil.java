@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
+import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.easy.business.dataset.DatasetSubmissionImpl;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.userrepo.EasyUserRepo;
@@ -33,7 +35,6 @@ public class MockUtil
 
     private static final EasyUserImpl USER           = createSomeBody();
     private static final EasyUserImpl ARCHIVIST      = createArchivist();
-    static {createMigrationUser();}
 
     private static int                countDatasets  = 0;
 
@@ -104,6 +105,8 @@ public class MockUtil
         EasyMock.expect(userRepo.findById(ARCHIV_USER_ID)).andReturn(ARCHIVIST).anyTimes();
         EasyMock.expect(userService.getUserById(null, ARCHIV_USER_ID)).andReturn(ARCHIVIST).anyTimes();
 
+        EasyMock.expect(userService.getUserById(null, null)).andThrow(new ObjectNotAvailableException("mock")).anyTimes();
+
         EasyMock.replay(userRepo, userService);
     }
 
@@ -116,19 +119,6 @@ public class MockUtil
         user.setFirstname("Some");
         user.setSurname("Body");
         user.setEmail("some@body.com");
-        user.setState(EasyUser.State.ACTIVE);
-        return user;
-    }
-
-    private static EasyUserImpl createMigrationUser()
-    {
-        EasyUserImpl user = new EasyUserImpl();
-        user.setId("migration");
-        user.setPassword("migration");
-        user.setInitials("M.");
-        user.setFirstname("I.");
-        user.setSurname("Gartion");
-        user.setEmail("m.i.@gration.com");
         user.setState(EasyUser.State.ACTIVE);
         return user;
     }
