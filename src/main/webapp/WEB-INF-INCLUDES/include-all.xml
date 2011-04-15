@@ -12,29 +12,21 @@
 		<property name="datasetService" ref="datasetService"/>
 		<property name="itemService" ref="itemService"/>
 	</bean>
-
+	<bean name="userService" class="nl.knaw.dans.easy.business.services.EasyUserService" />
+	<bean name="datasetService" class="nl.knaw.dans.easy.business.services.EasyDatasetService" />
+	<bean name="itemService" class="nl.knaw.dans.easy.business.services.EasyItemService" />
+	
 	<bean name="data" class="nl.knaw.dans.easy.data.Data">
 		<property name="userRepo" ref="userRepo"/>
+		<property name="easyStore" ref="easyStore"/>
+		<property name="fileStoreAccess" ref="fileStoreAccess"/>
 	</bean>
-
-	<bean name="datasetService"
-		class="nl.knaw.dans.easy.business.services.EasyDatasetService" />
-
-	<bean name="itemService" class="nl.knaw.dans.easy.business.services.EasyItemService" />
-
-	<bean name="userService" class="nl.knaw.dans.easy.business.services.EasyUserService" />
-
-	<bean name="userRepo" class="nl.knaw.dans.easy.ldap.EasyLdapUserRepo">
-		<constructor-arg ref="ldapClient" />
-		<constructor-arg value="${ldap.context.users}" />
-	</bean>
-
-	<import resource="ldap-context.xml"/>
-	<!-- 
-	<import resource="application-context.xml"/>
 	<import resource="store-context.xml"/>
-	<import resource="service-context.xml"/>
-	<import resource="security-context.xml"/>
-	  -->
-	
+	<import resource="ldap-context.xml"/>
+
+	<bean name="security" class="nl.knaw.dans.easy.security.Security">
+		<constructor-arg ref="authz"/>
+	</bean>
+	<bean name="authz" class="nl.knaw.dans.easy.security.CodedAuthz"/>
+
 </beans>

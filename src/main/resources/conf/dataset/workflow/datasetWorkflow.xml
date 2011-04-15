@@ -1,0 +1,87 @@
+<?xml version="1.0" standalone="yes"?>
+<wfs:workflow xmlns:wfs="http://easy.dans.knaw.nl/easy/workflow/" template="true">
+	<id>dataset</id>
+	<steps>
+		<wfs:workflow template="true">
+			<id>sip</id>
+			<timeSpentWritable>true</timeSpentWritable>
+			<steps>
+
+				<wfs:workflow template="true">
+					<id>files</id>
+					<steps>
+						<wfs:workflow template="true">
+							<id>completeness</id>
+							<required>true</required>
+						</wfs:workflow>
+						<wfs:workflow template="true">
+							<id>accessibility</id>
+							<required>true</required>
+						</wfs:workflow>
+						<wfs:workflow template="true">
+							<id>privacy</id>
+							<required>true</required>
+						</wfs:workflow>
+					</steps>
+				</wfs:workflow>
+
+				<wfs:workflow template="true">
+					<id>file-list</id>
+					<steps>
+						<wfs:workflow template="true">
+							<id>file-metadata</id>
+						</wfs:workflow>
+					</steps>
+				</wfs:workflow>
+
+				<wfs:workflow template="true">
+					<id>descriptive-metadata</id>
+					<steps>
+						<wfs:workflow template="true">
+							<id>completeness</id>
+							<required>true</required>
+						</wfs:workflow>
+						<wfs:workflow template="true">
+							<id>identifiers</id>
+						</wfs:workflow>
+					</steps>
+				</wfs:workflow>
+
+			</steps>
+		</wfs:workflow>
+
+		<wfs:workflow template="true">
+			<id>aip</id>
+			<timeSpentWritable>true</timeSpentWritable>
+			<steps>
+				<wfs:workflow template="true">
+					<id>file-conversion</id>
+				</wfs:workflow>
+				<wfs:workflow template="true">
+					<id>file-metadata</id>
+				</wfs:workflow>
+				<wfs:workflow template="true">
+					<id>structure</id>
+				</wfs:workflow>
+			</steps>
+		</wfs:workflow>
+
+		<wfs:workflow template="true">
+			<id>dip</id>
+			<timeSpentWritable>true</timeSpentWritable>
+			<steps>
+				<wfs:workflow template="true">
+					<id>publish-files</id>
+					<required>true</required>
+				</wfs:workflow>
+				<wfs:workflow template="true">
+					<id>jumpoff</id>
+				</wfs:workflow>
+				<wfs:workflow template="true">
+					<id>relations</id>
+				</wfs:workflow>
+			</steps>
+		</wfs:workflow>
+
+	</steps>
+</wfs:workflow>

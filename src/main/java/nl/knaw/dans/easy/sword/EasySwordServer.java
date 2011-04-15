@@ -30,8 +30,7 @@ import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletResponse;
 
-import nl.knaw.dans.easy.business.authn.AuthenticationSpecification;
-import nl.knaw.dans.easy.domain.authn.UsernamePasswordAuthentication;
+import nl.knaw.dans.easy.domain.model.user.EasyUser;
 
 import org.purl.sword.atom.Author;
 import org.purl.sword.atom.Content;
@@ -90,10 +89,12 @@ public class EasySwordServer implements SWORDServer
     public ServiceDocument doServiceDocument(final ServiceDocumentRequest sdr) throws SWORDAuthenticationException, SWORDErrorException, SWORDException
     {
         // Authenticate the user
-        final String username = sdr.getUsername();
+        final String userID = sdr.getUsername();
         final String password = sdr.getPassword();
-        if (username != null)
-            authenticate(username, password);
+        if (userID != null) {
+            if (null == SwordDatasetUtil.getUser(userID, password))
+                throw new SWORDAuthenticationException(userID + " not authenticated");
+        }
 
         // Allow users to force the throwing of a SWORD error exception by setting
         // the OnBehalfOf user to 'error'
@@ -135,15 +136,15 @@ public class EasySwordServer implements SWORDServer
             if (sdr.getUsername() != null)
             {
                 collection = createDummyCollection(0.8f);
-                collection.setTitle("Authenticated collection for " + username);
-                collection.setLocation(locationBase + "/deposit/" + username);
-                collection.setAbstract("A collection that " + username + " can deposit into");
+                collection.setTitle("Authenticated collection for " + userID);
+                collection.setLocation(locationBase + "/deposit/" + userID);
+                collection.setAbstract("A collection that " + userID + " can deposit into");
                 collection.setService(locationBase + "/servicedocument?nested=authenticated");
-                workspace = createWorkSpace(collection, "Authenticated workspace for " + username);
+                workspace = createWorkSpace(collection, "Authenticated workspace for " + userID);
                 collection = createDummyCollection(0.123f);
-                collection.setTitle("Second authenticated collection for " + username);
-                collection.setLocation(locationBase + "/deposit/" + username + "-2");
-                collection.setAbstract("A collection that " + username + " can deposit into");
+                collection.setTitle("Second authenticated collection for " + userID);
+                collection.setLocation(locationBase + "/deposit/" + userID + "-2");
+                collection.setAbstract("A collection that " + userID + " can deposit into");
                 workspace.addCollection(collection);
                 service.addWorkspace(workspace);
             }
@@ -172,7 +173,7 @@ public class EasySwordServer implements SWORDServer
         }
         catch (final MalformedURLException exception)
         {
-            throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, "invalid location: " + exception.getMessage());
+            throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, fullLocation + " Invalid location: " + exception.getMessage());
         }
         final String subPath = new File(url.getPath()).getParent();
         final String location = url.getProtocol() + "://" + url.getHost() + ":" + url.getPort() + subPath;
@@ -203,10 +204,10 @@ public class EasySwordServer implements SWORDServer
 
     public DepositResponse doDeposit(final Deposit deposit) throws SWORDAuthenticationException, SWORDErrorException, SWORDException
     {
-        // Authenticate the user
-        final String username = deposit.getUsername();
-        final String password = deposit.getPassword();
-        authenticate(username, password);
+        final EasyUser user = SwordDatasetUtil.getUser(deposit.getUsername(), deposit.getPassword());
+        if (user==null)
+            throw new SWORDAuthenticationException(deposit.getUsername() + " not authenticated");
+
         // Check this is a collection that takes "on behalf of" deposits, else thrown an error
         if (((deposit.getOnBehalfOf() != null) && (!deposit.getOnBehalfOf().equals(""))) && (!deposit.getLocation().contains("deposit?user=")))
             throw new SWORDErrorException(ErrorCodes.MEDIATION_NOT_ALLOWED, "Mediated deposit not allowed to this collection");
@@ -215,7 +216,7 @@ public class EasySwordServer implements SWORDServer
         if (!deposit.isNoOp())
         {
             // Handle the deposit
-            unzipped.submit(username);
+            unzipped.submit(user);
             counter++;
         }
         final Summary wrapSummary = wrapSummary(deposit.getFilename(), deposit.getSlug(), unzipped.getFiles());
@@ -323,13 +324,14 @@ public class EasySwordServer implements SWORDServer
     private static Content wrapContent()
     {
         final Content content = new Content();
+        final String mediaType = "application/zip";
         try
         {
-            content.setType("application/zip");
+            content.setType(mediaType);
         }
         catch (final InvalidMediaTypeException exception)
         {
-            exception.printStackTrace();
+            log.error(mediaType,exception);
         }
         content.setSource("http://www.myrepository.ac.uk/sdl/uploads/upload-" + counter + ".zip");
         return content;
@@ -347,13 +349,9 @@ public class EasySwordServer implements SWORDServer
     {
         final Author author = new Author();
         if (username != null)
-        {
             author.setName(username);
-        }
         else
-        {
             author.setName("unknown");
-        }
         return author;
     }
 
@@ -367,26 +365,9 @@ public class EasySwordServer implements SWORDServer
 
     public AtomDocumentResponse doAtomDocument(final AtomDocumentRequest adr) throws SWORDAuthenticationException, SWORDErrorException, SWORDException
     {
-        authenticate(adr.getUsername(), adr.getPassword());
+        if (null == SwordDatasetUtil.getUser(adr.getUsername(), adr.getPassword()))
+            throw new SWORDAuthenticationException(adr.getUsername() + " not authenticated");
 
         return new AtomDocumentResponse(HttpServletResponse.SC_OK);
-    }
-
-    private static void authenticate(final String username, final String password) throws SWORDAuthenticationException
-    {
-        final boolean isSatisfied;
-        try
-        {
-            isSatisfied = AuthenticationSpecification.isSatisfiedBy(new UsernamePasswordAuthentication(username, password));
-            log.debug("authenticated userID: " + username);
-        }
-        catch (final Exception exception)
-        {
-            throw new SWORDAuthenticationException(username + " " + exception.getClass().getName() + " " + exception.getMessage(), exception);
-        }
-        if (!isSatisfied)
-        {
-            throw new SWORDAuthenticationException(username + " not authenticated");
-        }
     }
 }

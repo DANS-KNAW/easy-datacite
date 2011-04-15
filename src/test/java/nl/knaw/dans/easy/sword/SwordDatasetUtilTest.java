@@ -35,28 +35,16 @@ public class SwordDatasetUtilTest extends Tester
     }
 
     @Test
-    public void publish() throws Exception
-    {
-        SwordDatasetUtil.publishNewDataset(MockUtil.ARCHIV_USER_ID, easyMetaData, tempDirectory, fileList);
-    }
-
-    @Test(expected = SWORDException.class)
-    public void publishWithoutPermission() throws Exception
-    {
-        SwordDatasetUtil.publishNewDataset(MockUtil.VALID_USER_ID, easyMetaData, tempDirectory, fileList);
-    }
-
-    @Test
     public void submit() throws Exception
     {
-        SwordDatasetUtil.submitNewDataset(MockUtil.VALID_USER_ID, easyMetaData, tempDirectory, fileList);
+        SwordDatasetUtil.submitNewDataset(MockUtil.USER, easyMetaData, tempDirectory, fileList);
     }
 
     @Ignore("adjust mocks") // TODO
     @Test(expected = SWORDException.class)
     public void anonymousSubmit() throws Exception
     {
-        SwordDatasetUtil.submitNewDataset(MockUtil.INVALID_USER_ID, easyMetaData, tempDirectory, fileList);
+        SwordDatasetUtil.submitNewDataset(MockUtil.USER, easyMetaData, tempDirectory, fileList);
     }
 
     private static UnzipListener createUnzipListener()

@@ -5,11 +5,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.easy.business.dataset.DatasetSubmissionImpl;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.userrepo.EasyUserRepo;
+import nl.knaw.dans.easy.domain.authn.Authentication.State;
+import nl.knaw.dans.easy.domain.authn.UsernamePasswordAuthentication;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
@@ -27,21 +28,22 @@ import org.easymock.EasyMock;
 
 public class MockUtil
 {
-    protected static final String     PASSWORD       = "secret";
+    protected static final String       PASSWORD        = "secret";
 
-    protected static final String     INVALID_USER_ID   = "nobody";
-    protected static final String     VALID_USER_ID  = "somebody";
-    protected static final String     ARCHIV_USER_ID = "archivist";
+    protected static final String       INVALID_USER_ID = "nobody";
+    protected static final String       VALID_USER_ID   = "somebody";
+    protected static final String       ARCHIV_USER_ID  = "archivist";
 
-    private static final EasyUserImpl USER           = createSomeBody();
-    private static final EasyUserImpl ARCHIVIST      = createArchivist();
+    protected static final EasyUserImpl USER            = createSomeBody();
+    protected static final EasyUserImpl ARCHIVIST       = createArchivist();
 
-    private static int                countDatasets  = 0;
+    private static int                  countDatasets   = 0;
 
-    public void mockAll() throws Exception {
+    public void mockAll() throws Exception
+    {
         mockItemService();
         mockDatasetService();
-        mockUser() ;
+        mockUser();
     }
 
     @SuppressWarnings("unchecked")
@@ -99,20 +101,27 @@ public class MockUtil
         EasyMock.expect(userRepo.authenticate(null, null)).andReturn(false).anyTimes();
         EasyMock.expect(userRepo.authenticate("", "")).andReturn(false).anyTimes();
 
-        EasyMock.expect(userRepo.findById(VALID_USER_ID)).andReturn(USER).anyTimes();
-        EasyMock.expect(userService.getUserById(null, VALID_USER_ID)).andReturn(USER).anyTimes();
+//        EasyMock.expect(userRepo.findById(VALID_USER_ID)).andReturn(USER).anyTimes();
+        UsernamePasswordAuthentication value = new UsernamePasswordAuthentication(PASSWORD, VALID_USER_ID);
+        value.setState(State.Authenticated);
+        value.setUser(new EasyUserImpl(VALID_USER_ID));
+//        userService.authenticate(EasyMock.eq(value));
+        userService.authenticate(EasyMock.isA(UsernamePasswordAuthentication.class));
+        EasyMock.expectLastCall().anyTimes();
 
         EasyMock.expect(userRepo.findById(ARCHIV_USER_ID)).andReturn(ARCHIVIST).anyTimes();
-        EasyMock.expect(userService.getUserById(null, ARCHIV_USER_ID)).andReturn(ARCHIVIST).anyTimes();
+//        userService.authenticate(EasyMock.eq(new UsernamePasswordAuthentication(null, ARCHIV_USER_ID)));
+//        EasyMock.expectLastCall().anyTimes();
 
-        EasyMock.expect(userService.getUserById(null, null)).andThrow(new ObjectNotAvailableException("mock")).anyTimes();
+//        userService.authenticate(EasyMock.eq(new UsernamePasswordAuthentication(null, null)));
+//        EasyMock.expectLastCall().anyTimes();
 
         EasyMock.replay(userRepo, userService);
     }
 
     private static EasyUserImpl createSomeBody()
     {
-        EasyUserImpl user = new EasyUserImpl();
+        final EasyUserImpl user = new EasyUserImpl();
         user.setId(VALID_USER_ID);
         user.setPassword(PASSWORD);
         user.setInitials("S.");
@@ -125,9 +134,9 @@ public class MockUtil
 
     private static EasyUserImpl createArchivist()
     {
-        Set<Role> roles = new HashSet<Role>();
+        final Set<Role> roles = new HashSet<Role>();
         roles.add(Role.ARCHIVIST);
-        EasyUserImpl archivist = new EasyUserImpl();
+        final EasyUserImpl archivist = new EasyUserImpl();
         archivist.setId(ARCHIV_USER_ID);
         archivist.setPassword(PASSWORD);
         archivist.setInitials("A.I.");

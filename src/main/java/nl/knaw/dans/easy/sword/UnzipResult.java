@@ -9,17 +9,27 @@ import java.util.List;
 
 import nl.knaw.dans.common.lang.file.UnzipUtil;
 import nl.knaw.dans.common.lang.util.FileUtil;
+import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.worker.WorkListener;
 
 import org.purl.sword.base.ErrorCodes;
+import org.purl.sword.base.SWORDErrorException;
 import org.purl.sword.base.SWORDException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class UnzipResult
 {
-    private final List<File> files;
-    private final File       folder;
+    private static final String              METADATA             = "easyMetadata.xml";
+    private static final String              DATA                 = "data";
+    private static final String              DESCRIPTION          = "Expecting a file '" + METADATA + "' and a folder '" + DATA + "'.";
+    private static final SWORDErrorException WANT_FILE_AND_FOLDER = new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, DESCRIPTION);
+    private static Logger                    log                  = LoggerFactory.getLogger(SwordDatasetUtil.class);
 
-    public UnzipResult(final InputStream inputStream) throws SWORDException
+    private final List<File>                 files;
+    private final File                       folder;
+
+    public UnzipResult(final InputStream inputStream) throws SWORDException, SWORDErrorException
     {
         try
         {
@@ -32,14 +42,38 @@ public class UnzipResult
             saveFile(inputStream, zipFile);
             files = UnzipUtil.unzip(new File(zipFile), destPath);
             folder = new File(destPath);
+            if (files.size() < 2)
+            {
+                // at least an XML file and a data file
+                throw WANT_FILE_AND_FOLDER;
+            }
+            if (new File(destPath).listFiles().length != 2)
+            {
+                // an XML file and a folder in the root of the unzipped directory, no more no less
+                throw WANT_FILE_AND_FOLDER;
+            }
             if (!getDataFolder().isDirectory())
-                throw new SWORDException("no data folder found");
+            {
+                // not the expected folder in the root
+                throw WANT_FILE_AND_FOLDER;
+            }
             if (!getMetadataFile().isFile())
-                throw new SWORDException("no metadata file found");
+            {
+                // not the expected file in the root
+                throw WANT_FILE_AND_FOLDER;
+            }
+            for (final File file : files)
+            {
+                // yes, we do have some real data
+                if (file.isFile())
+                    return;
+            }
+            // oops, just folders
+            throw WANT_FILE_AND_FOLDER;
         }
         catch (final IOException exception)
         {
-            throw new SWORDException("Failed to open deposited zip file", exception);
+            throw newSWORDException("Failed to unzip deposited file", exception);
         }
     }
 
@@ -61,9 +95,9 @@ public class UnzipResult
                 outputStream.close();
             }
         }
-        catch (final IOException e)
+        catch (final IOException exception)
         {
-            throw new SWORDException("Failed to save deposited zip file", null, ErrorCodes.ERROR_CONTENT);
+            throw newSWORDException("Failed to save deposited zip file", exception);
         }
     }
 
@@ -72,9 +106,9 @@ public class UnzipResult
         return files;
     };
 
-    public void submit(final String userName) throws SWORDException
+    public void submit(final EasyUser user) throws SWORDException
     {
-        SwordDatasetUtil.submitNewDataset(userName, getEasyMetaData(), getDataFolder(), getFiles(), new WorkListener[]{});
+        SwordDatasetUtil.submitNewDataset(user, getEasyMetaData(), getDataFolder(), getFiles(), new WorkListener[] {});
     }
 
     private byte[] getEasyMetaData() throws SWORDException
@@ -84,20 +118,26 @@ public class UnzipResult
         {
             easyMetadata = FileUtil.readFile(getMetadataFile());
         }
-        catch (final IOException e)
+        catch (final IOException exception)
         {
-            throw new SWORDException("Failed to extract the EasyMetadata");
+            throw newSWORDException("Failed to extract the EasyMetadata", exception);
         }
         return easyMetadata;
     }
 
     private File getMetadataFile()
     {
-        return new File(folder.getPath() + "/easyMetadata.xml");
+        return new File(folder.getPath() + "/" + METADATA);
     }
 
     private File getDataFolder()
     {
-        return new File(folder.getPath() + "/data");
+        return new File(folder.getPath() + "/" + DATA);
+    }
+
+    private static SWORDException newSWORDException(final String message, final Exception exception)
+    {
+        log.error(message, exception);
+        return new SWORDException(message);
     }
 }
