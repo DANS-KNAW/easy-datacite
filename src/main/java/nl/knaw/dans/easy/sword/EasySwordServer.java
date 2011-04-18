@@ -41,9 +41,9 @@ import org.slf4j.LoggerFactory;
 
 public class EasySwordServer implements SWORDServer
 {
-    private static int    sumbitCounter = 0;
+    private static int    noOpSumbitCounter = 0;
 
-    private static Logger log     = LoggerFactory.getLogger(EasySwordServer.class);
+    private static Logger log               = LoggerFactory.getLogger(EasySwordServer.class);
 
     /**
      * Provides a dumb but plausible service document - it contains an anonymous workspace and
@@ -61,7 +61,8 @@ public class EasySwordServer implements SWORDServer
         // Authenticate the user
         final String userID = sdr.getUsername();
         final String password = sdr.getPassword();
-        if (userID != null) {
+        if (userID != null)
+        {
             if (null == SwordDatasetUtil.getUser(userID, password))
                 throw new SWORDAuthenticationException(userID + " not authenticated");
         }
@@ -175,7 +176,7 @@ public class EasySwordServer implements SWORDServer
     public DepositResponse doDeposit(final Deposit deposit) throws SWORDAuthenticationException, SWORDErrorException, SWORDException
     {
         final EasyUser user = SwordDatasetUtil.getUser(deposit.getUsername(), deposit.getPassword());
-        if (user==null)
+        if (user == null)
             throw new SWORDAuthenticationException(deposit.getUsername() + " not authenticated");
 
         // Check this is a collection that takes "on behalf of" deposits, else thrown an error
@@ -183,30 +184,34 @@ public class EasySwordServer implements SWORDServer
             throw new SWORDErrorException(ErrorCodes.MEDIATION_NOT_ALLOWED, "Mediated deposit not allowed to this collection");
 
         final UnzipResult unzipped = new UnzipResult(deposit.getFile());
-        if (!deposit.isNoOp())
+        final String storeID;
+        if (deposit.isNoOp()) {
+            // TODO we may want validation here
+            storeID = String.format("noOp deposit #%d", ++noOpSumbitCounter);
+        }
+        else
         {
             // Handle the deposit
-            unzipped.submit(user);
-            sumbitCounter++;
+            storeID = unzipped.submit(user).getStoreId();
         }
-        final Summary wrapSummary = wrapSummary(deposit.getFilename(), deposit.getSlug(), unzipped.getFiles());
-        return wrapResponse(wrapSwordEntry(deposit, wrapSummary));
+        final Summary summary = wrapSummary(deposit.getFilename(), deposit.getSlug(), unzipped.getFiles());
+        return wrapResponse(wrapSwordEntry(deposit, summary, storeID), storeID);
     }
 
-    private static SWORDEntry wrapSwordEntry(final Deposit deposit, final Summary summary) throws SWORDException
+    private static SWORDEntry wrapSwordEntry(final Deposit deposit, final Summary summary, final String storeID) throws SWORDException
     {
         final SWORDEntry swordEntry = new SWORDEntry();
 
-        swordEntry.setTitle(wrapTitle());
+        swordEntry.setTitle(wrapTitle(storeID));
         swordEntry.addCategory("Category");
-        swordEntry.setId(wrapID(deposit.getSlug()));
+        swordEntry.setId(wrapID(deposit.getSlug(), storeID));
         swordEntry.setUpdated(getDateTime());
         swordEntry.setSummary(summary);
         swordEntry.addAuthors(wrapAuthor(deposit.getUsername()));
         swordEntry.addLink(wrapEditMediaLink());
         swordEntry.addLink(wrapEditLink());
         swordEntry.setGenerator(wrapGenerator());
-        swordEntry.setContent(wrapContent());
+        swordEntry.setContent(wrapContent(storeID));
         swordEntry.setTreatment("Short back and sides");
         swordEntry.setNoOp(deposit.isNoOp());
         if (deposit.getOnBehalfOf() != null)
@@ -217,31 +222,31 @@ public class EasySwordServer implements SWORDServer
         return swordEntry;
     }
 
-    private DepositResponse wrapResponse(final SWORDEntry swordEntry)
+    private DepositResponse wrapResponse(final SWORDEntry swordEntry, final String storeID)
     {
         final DepositResponse depostiResponse = new DepositResponse(Deposit.CREATED);
         depostiResponse.setEntry(swordEntry);
-        depostiResponse.setLocation("http://www.myrepository.ac.uk/atom/" + sumbitCounter);
+        depostiResponse.setLocation("https://eof13.dans.knaw.nl/datasets/id/" + storeID);
         return depostiResponse;
     }
 
-    private static Title wrapTitle()
+    private static Title wrapTitle(final String storeID)
     {
         final Title title = new Title();
-        title.setContent("DummyServer Deposit: #" + sumbitCounter);
+        title.setContent("DummyServer Deposit: #" + storeID);
         return title;
     }
 
-    private static String wrapID(final String slug)
+    private static String wrapID(final String slug, final String storeID)
     {
         final String id;
         if (slug != null)
         {
-            id = slug + " - ID: " + sumbitCounter;
+            id = slug + " - ID: " + storeID;
         }
         else
         {
-            id = "ID: " + sumbitCounter;
+            id = "ID: " + storeID;
         }
         return id;
     }
@@ -265,20 +270,20 @@ public class EasySwordServer implements SWORDServer
     private static Summary wrapSummary(final String filename, final String slug, final List<File> fileList)
     {
         final Summary summary = new Summary();
-        final StringBuffer fileNames = new StringBuffer("Deposit file contained: ");
+        final StringBuffer buffer = new StringBuffer("Deposit file contained: ");
 
         if (filename != null)
         {
-            fileNames.append("(filename = " + filename + ") ");
+            buffer.append("(filename = " + filename + ") ");
         }
         if (slug != null)
         {
             // Slug may be used to supply a deposit identifier for use as the <atom:id> value.
-            fileNames.append("(slug = " + slug + ") ");
+            buffer.append("(slug = " + slug + ") ");
         }
-        fileNames.append(Arrays.deepToString(fileList.toArray()));
+        buffer.append(Arrays.deepToString(fileList.toArray()));
 
-        summary.setContent(fileNames.toString());
+        summary.setContent(buffer.toString());
         return summary;
     }
 
@@ -291,7 +296,7 @@ public class EasySwordServer implements SWORDServer
         return generator;
     }
 
-    private static Content wrapContent()
+    private static Content wrapContent(final String storeID)
     {
         final Content content = new Content();
         final String mediaType = "application/zip";
@@ -301,9 +306,9 @@ public class EasySwordServer implements SWORDServer
         }
         catch (final InvalidMediaTypeException exception)
         {
-            log.error(mediaType,exception);
+            log.error(mediaType, exception);
         }
-        content.setSource("http://www.myrepository.ac.uk/sdl/uploads/upload-" + sumbitCounter + ".zip");
+        content.setSource("http://www.myrepository.ac.uk/sdl/uploads/upload-" + storeID + ".zip");
         return content;
     }
 

@@ -9,6 +9,7 @@ import java.util.List;
 
 import nl.knaw.dans.common.lang.file.UnzipUtil;
 import nl.knaw.dans.common.lang.util.FileUtil;
+import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.worker.WorkListener;
 
@@ -106,9 +107,9 @@ public class UnzipResult
         return files;
     };
 
-    public void submit(final EasyUser user) throws SWORDException
+    public Dataset submit(final EasyUser user) throws SWORDException
     {
-        SwordDatasetUtil.submitNewDataset(user, getEasyMetaData(), getDataFolder(), getFiles(), new WorkListener[] {});
+        return SwordDatasetUtil.submitNewDataset(user, getEasyMetaData(), getDataFolder(), getFiles(), new WorkListener[] {});
     }
 
     private byte[] getEasyMetaData() throws SWORDException

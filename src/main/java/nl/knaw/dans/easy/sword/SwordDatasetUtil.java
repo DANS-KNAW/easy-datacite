@@ -16,6 +16,7 @@ import nl.knaw.dans.easy.business.dataset.DatasetSubmissionImpl;
 import nl.knaw.dans.easy.domain.authn.Authentication.State;
 import nl.knaw.dans.easy.domain.authn.UsernamePasswordAuthentication;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
+import nl.knaw.dans.easy.domain.form.FormDefinition;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadataImpl;
@@ -27,6 +28,7 @@ import nl.knaw.dans.easy.domain.worker.WorkListener;
 import nl.knaw.dans.easy.domain.worker.WorkReporter;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 
+import org.purl.sword.base.ErrorCodes;
 import org.purl.sword.base.SWORDAuthenticationException;
 import org.purl.sword.base.SWORDException;
 import org.slf4j.Logger;
@@ -130,10 +132,13 @@ public class SwordDatasetUtil
     /** Just a wrapper to wrap exceptions. */
     private static void submit(final EasyUser user, final Dataset dataset, final WorkListener... workListeners) throws SWORDException
     {
-        final DatasetSubmissionImpl submission = new DatasetSubmissionImpl(null, dataset, user);
+        // TODO FORM definition designed report error to the web GUI, but we are no GUI
+        final DatasetSubmissionImpl submission = new DatasetSubmissionImpl(new FormDefinition("dummy") , dataset, user);
         try
         {
+            log.debug("before Services.getDatasetService().submitDataset for "+dataset.getStoreId());
             Services.getDatasetService().submitDataset(submission, workListeners);
+            log.debug("after Services.getDatasetService().submitDataset for "+dataset.getStoreId());
         }
         catch (final ServiceException exception)
         {
@@ -212,7 +217,7 @@ public class SwordDatasetUtil
             throw newSwordException("EASY metadata validation exception", exception);
         }
         if (!handler.passed())
-            throw newSwordException("Invalid EASY metadata: \n" + handler.getMessages(),null);
+            throw new SWORDException("Invalid EASY metadata: \n" + handler.getMessages(),null,ErrorCodes.ERROR_BAD_REQUEST);
     }
 
     private static SWORDException newSwordException(final String message, final Exception exception)
