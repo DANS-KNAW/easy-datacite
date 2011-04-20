@@ -1,18 +1,25 @@
 package nl.knaw.dans.easy.sword;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletResponse;
 
+import nl.knaw.dans.common.lang.dataset.AccessCategory;
+import nl.knaw.dans.easy.domain.model.Dataset;
+import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
+import nl.knaw.dans.easy.domain.model.emd.EasyMetadataImpl;
+import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
+import nl.knaw.dans.easy.domain.model.emd.types.IsoDate;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
+import nl.knaw.dans.easy.servicelayer.LicenseComposer;
+import nl.knaw.dans.easy.servicelayer.LicenseComposer.LicenseComposerException;
 
+import org.easymock.EasyMock;
+import org.joda.time.DateTime;
 import org.purl.sword.atom.Author;
 import org.purl.sword.atom.Content;
 import org.purl.sword.atom.Contributor;
@@ -41,9 +48,21 @@ import org.slf4j.LoggerFactory;
 
 public class EasySwordServer implements SWORDServer
 {
-    private static int    noOpSumbitCounter = 0;
+    // FIXME
+    private static final String DOWNLOAD_URL_FORMAT = "%s/resources/easy/fileDownloadResource?params={'rootSid':'%s','downloadType':'zip','selectedItem':'root'}";
 
-    private static Logger log               = LoggerFactory.getLogger(EasySwordServer.class);
+    /** TODO share this constant some how with the EASY application */
+    private static final String MYDATASETS = "/mydatasets";
+
+    /**
+     * See {@linkplain http://www.swordapp.org/docs/sword-profile-1.3.html#b.5.5}<br>
+     * Only a published state would be appropriate for code 201
+     */
+    private static final int HTTP_RESPONSE_DATA_ACCEPTED = 202;
+
+    private static int       noOpSumbitCounter           = 0;
+
+    private static Logger    log                         = LoggerFactory.getLogger(EasySwordServer.class);
 
     /**
      * Provides a dumb but plausible service document - it contains an anonymous workspace and
@@ -135,7 +154,7 @@ public class EasySwordServer implements SWORDServer
         return document;
     }
 
-    private String toLocationBase(final String fullLocation) throws SWORDErrorException
+    private static String toLocationBase(final String fullLocation) throws SWORDErrorException
     {
         final URL url;
         try
@@ -148,6 +167,23 @@ public class EasySwordServer implements SWORDServer
         }
         final String subPath = new File(url.getPath()).getParent();
         final String location = url.getProtocol() + "://" + url.getHost() + ":" + url.getPort() + subPath;
+        log.debug("location is: " + location + "    " + fullLocation);
+
+        return location;
+    }
+
+    private static String toServer(final String fullLocation) throws SWORDErrorException
+    {
+        final URL url;
+        try
+        {
+            url = new URL(fullLocation);
+        }
+        catch (final MalformedURLException exception)
+        {
+            throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, fullLocation + " Invalid location: " + exception.getMessage());
+        }
+        final String location = url.getProtocol() + "://" + url.getHost() + ":" + url.getPort();
         log.debug("location is: " + location + "    " + fullLocation);
 
         return location;
@@ -184,40 +220,60 @@ public class EasySwordServer implements SWORDServer
             throw new SWORDErrorException(ErrorCodes.MEDIATION_NOT_ALLOWED, "Mediated deposit not allowed to this collection");
 
         final UnzipResult unzipped = new UnzipResult(deposit.getFile());
-        final String storeID;
-        if (deposit.isNoOp()) {
-            // TODO we may want validation here
-            storeID = String.format("noOp deposit #%d", ++noOpSumbitCounter);
-        }
+        
+        final Dataset dataset;
+        if (deposit.isNoOp())
+            dataset = mockSubmit("mockedDataset:"+ ++noOpSumbitCounter, unzipped);
         else
-        {
-            // Handle the deposit
-            storeID = unzipped.submit(user).getStoreId();
-        }
-        final Summary summary = wrapSummary(deposit.getFilename(), deposit.getSlug(), unzipped.getFiles());
-        return wrapResponse(wrapSwordEntry(deposit, summary, storeID), storeID);
+            dataset = unzipped.submit(user);
+        return wrapResponse(wrapSwordEntry(deposit, user, dataset, unzipped), dataset.getStoreId());
     }
 
-    private static SWORDEntry wrapSwordEntry(final Deposit deposit, final Summary summary, final String storeID) throws SWORDException
+    private Dataset mockSubmit(final String storeID, UnzipResult unzipped)
+    {
+        // TODO we may want to validate the unzipped metadata
+        Dataset dataset = EasyMock.createMock(Dataset.class);
+        EasyMock.expect(dataset.getEasyMetadata()).andReturn(new EasyMetadataImpl(MetadataFormat.UNSPECIFIED)).anyTimes();
+        EasyMock.expect(dataset.getStoreId()).andReturn(storeID).anyTimes();
+        
+        EasyMock.expect(dataset.getAccessCategory()).andReturn(AccessCategory.OPEN_ACCESS).anyTimes();
+
+        //TODO inconsistent date types
+        EasyMock.expect(dataset.getDateSubmitted()).andReturn(new IsoDate()).anyTimes();
+        EasyMock.expect(dataset.getDateAvailable()).andReturn(new DateTime()).anyTimes();
+        
+        EasyMock.expect(dataset.isUnderEmbargo()).andReturn(false).anyTimes();
+        EasyMock.replay(dataset);
+        return dataset;
+    }
+
+    private static SWORDEntry wrapSwordEntry(final Deposit deposit, final EasyUser user, final Dataset dataset, final UnzipResult unzipped)
+            throws SWORDException, SWORDErrorException
     {
         final SWORDEntry swordEntry = new SWORDEntry();
-
-        swordEntry.setTitle(wrapTitle(storeID));
+        final EasyMetadata metadata = dataset.getEasyMetadata();
+        final String location = toLocationBase(deposit.getLocation());
+        final String serverURL = toServer(deposit.getLocation());
+        
+        swordEntry.setTitle(wrapTitle(metadata.getEmdTitle().toString()));
+        swordEntry.setSummary(wrapSummary(metadata.getEmdDescription().toString()));
         swordEntry.addCategory("Category");
-        swordEntry.setId(wrapID(deposit.getSlug(), storeID));
-        swordEntry.setUpdated(getDateTime());
-        swordEntry.setSummary(summary);
-        swordEntry.addAuthors(wrapAuthor(deposit.getUsername()));
-        swordEntry.addLink(wrapEditMediaLink());
-        swordEntry.addLink(wrapEditLink());
-        swordEntry.setGenerator(wrapGenerator());
-        swordEntry.setContent(wrapContent(storeID));
+        swordEntry.setId(dataset.getStoreId());
+        swordEntry.setUpdated(metadata.getEmdDate().toString());
+        swordEntry.addAuthors(wrapAuthor(user));
+
+        // we don't support updating with PUT so skip MediaLink
+        // swordEntry.addLink(wrapEditMediaLink());
+        swordEntry.addLink(wrapLink("edit",location+MYDATASETS));
+        swordEntry.setGenerator(wrapGenerator(serverURL));
+        swordEntry.setContent(wrapContent(serverURL,dataset.getStoreId()));
         swordEntry.setTreatment("Short back and sides");
         swordEntry.setNoOp(deposit.isNoOp());
+        //TODO swordEntry.setRights(rights);
         if (deposit.getOnBehalfOf() != null)
             swordEntry.addContributor(wrapContributor(deposit.getOnBehalfOf()));
         if (deposit.isVerbose())
-            swordEntry.setVerboseDescription("I've done a lot of hard work to get this far!");
+            swordEntry.setVerboseDescription(wrapVerboseDesciption(user, deposit, dataset, unzipped));
 
         return swordEntry;
     }
@@ -227,30 +283,30 @@ public class EasySwordServer implements SWORDServer
         final DepositResponse depostiResponse = new DepositResponse(Deposit.CREATED);
         depostiResponse.setEntry(swordEntry);
         depostiResponse.setLocation("https://eof13.dans.knaw.nl/datasets/id/" + storeID);
+        depostiResponse.setHttpResponse(HTTP_RESPONSE_DATA_ACCEPTED);
         return depostiResponse;
     }
 
-    private static Title wrapTitle(final String storeID)
+    private static Title wrapTitle(final String value)
     {
         final Title title = new Title();
-        title.setContent("DummyServer Deposit: #" + storeID);
+        title.setContent(value);
         return title;
     }
 
-    private static String wrapID(final String slug, final String storeID)
+    private static Summary wrapSummary(final String value)
     {
-        final String id;
-        if (slug != null)
-        {
-            id = slug + " - ID: " + storeID;
-        }
-        else
-        {
-            id = "ID: " + storeID;
-        }
-        return id;
+        final Summary summary = new Summary();
+        summary.setContent(value);
+        return summary;
     }
 
+    /**
+     * See {@linkplain http://www.swordapp.org/docs/sword-profile-1.3.html#b.9.6}<br>
+     * If a server provides an edit-media link it SHOULD allow media resource updating with PUT as
+     * described in [AtomPub] sections 9.3 and 9.6.
+     */
+    @SuppressWarnings("unused")
     private static Link wrapEditMediaLink()
     {
         final Link em = new Link();
@@ -259,44 +315,63 @@ public class EasySwordServer implements SWORDServer
         return em;
     }
 
-    private static Link wrapEditLink()
+    private static Link wrapLink(final String rel, final String location)
     {
-        final Link e = new Link();
-        e.setRel("edit");
-        e.setHref("http://www.myrepository.ac.uk/sdl/workflow/my deposit.atom");
-        return e;
+        final Link link = new Link();
+        link.setRel(rel);
+        link.setHref(location);
+        return link;
     }
 
-    private static Summary wrapSummary(final String filename, final String slug, final List<File> fileList)
+    private static String wrapVerboseDesciption(final EasyUser user, final Deposit deposit, final Dataset dataset, final UnzipResult unzipped)
     {
+
+        final String errorMessage = "Could not add license document to response";
+        try
+        {
+            // FIXME mock works here but not inside license composer (use verbose + noOp to test)
+            log.debug("StoreId:  "+dataset.getStoreId());
+            log.debug("AccessCategory: "+dataset.getAccessCategory());
+            
+            // submission is completed in another thread
+            final boolean isSubmitted = false;
+            
+            final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            new LicenseComposer(user, dataset, isSubmitted).createHtml(outputStream);
+            return outputStream.toString();
+        }
+        catch (final NoSuchMethodError exception)
+        {
+            log.error(errorMessage, exception);
+        }
+        catch (final LicenseComposerException exception)
+        {
+            log.error(errorMessage, exception);
+        }
+        // fall back
+        return "Could not generate license document "+wrapSummary(deposit, unzipped).getContent();
+    }
+
+    private static Summary wrapSummary(final Deposit deposit, final UnzipResult unzipped)
+    {
+        // TODO for consistent behavior better wrap in HTML
         final Summary summary = new Summary();
-        final StringBuffer buffer = new StringBuffer("Deposit file contained: ");
-
-        if (filename != null)
-        {
-            buffer.append("(filename = " + filename + ") ");
-        }
-        if (slug != null)
-        {
-            // Slug may be used to supply a deposit identifier for use as the <atom:id> value.
-            buffer.append("(slug = " + slug + ") ");
-        }
-        buffer.append(Arrays.deepToString(fileList.toArray()));
-
-        summary.setContent(buffer.toString());
+        final String fileNames = Arrays.deepToString(unzipped.getFiles().toArray());
+        final String shortFileNames = fileNames.replaceAll(unzipped.getPath(), "");
+        summary.setContent(deposit.getFilename() + " " + shortFileNames);
         return summary;
     }
 
-    private static Generator wrapGenerator()
+    private static Generator wrapGenerator(final String server)
     {
         final Generator generator = new Generator();
-        generator.setContent("Stuart's Dummy SWORD Server");
-        generator.setUri("http://dummy-sword-server.example.com/");
+        generator.setContent("Easy SWORD Server");
+        generator.setUri(server);
         generator.setVersion("1.3");
         return generator;
     }
 
-    private static Content wrapContent(final String storeID)
+    private static Content wrapContent(final String server, final String storeID) throws SWORDException
     {
         final Content content = new Content();
         final String mediaType = "application/zip";
@@ -307,8 +382,10 @@ public class EasySwordServer implements SWORDServer
         catch (final InvalidMediaTypeException exception)
         {
             log.error(mediaType, exception);
+            throw new SWORDException("",exception);
         }
-        content.setSource("http://www.myrepository.ac.uk/sdl/uploads/upload-" + storeID + ".zip");
+        final String url = String.format(DOWNLOAD_URL_FORMAT,server,storeID);
+        content.setSource(url);
         return content;
     }
 
@@ -320,22 +397,12 @@ public class EasySwordServer implements SWORDServer
         return contributor;
     }
 
-    private static Author wrapAuthor(final String username)
+    private static Author wrapAuthor(final EasyUser user)
     {
         final Author author = new Author();
-        if (username != null)
-            author.setName(username);
-        else
-            author.setName("unknown");
+        author.setName(user.getDisplayName());
+        // TODO author.setEmail(user.getEmail());
         return author;
-    }
-
-    private static String getDateTime()
-    {
-        final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-        final TimeZone utc = TimeZone.getTimeZone("UTC");
-        sdf.setTimeZone(utc);
-        return sdf.format(new Date());
     }
 
     public AtomDocumentResponse doAtomDocument(final AtomDocumentRequest adr) throws SWORDAuthenticationException, SWORDErrorException, SWORDException

@@ -29,6 +29,7 @@ public class UnzipResult
 
     private final List<File>                 files;
     private final File                       folder;
+    private final String destPath;
 
     public UnzipResult(final InputStream inputStream) throws SWORDException, SWORDErrorException
     {
@@ -37,7 +38,7 @@ public class UnzipResult
             // TODO configure temp directory
             final File tempDir = FileUtil.createTempDirectory(new File("temp"), "swunzip");
             final String zipFile = tempDir.getPath() + "/received.zip";
-            final String destPath = tempDir.getPath() + "/unzipped";
+            destPath = tempDir.getPath() + "/unzipped";
             if (!new File(destPath).mkdir())
                 throw new SWORDException("Failed to unzip");
             saveFile(inputStream, zipFile);
@@ -140,5 +141,10 @@ public class UnzipResult
     {
         log.error(message, exception);
         return new SWORDException(message);
+    }
+
+    public String getPath()
+    {
+        return destPath+"/data/";
     }
 }
