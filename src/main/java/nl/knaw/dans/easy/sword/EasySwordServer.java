@@ -48,21 +48,21 @@ import org.slf4j.LoggerFactory;
 
 public class EasySwordServer implements SWORDServer
 {
-    // FIXME
-    private static final String DOWNLOAD_URL_FORMAT = "%s/resources/easy/fileDownloadResource?params={'rootSid':'%s','downloadType':'zip','selectedItem':'root'}";
+    /** TODO share this constant some how with the EASY application */
+    private static final String DOWNLOAD_URL_FORMAT         = "%s/resources/easy/fileDownloadResource?params={'rootSid':'%s','downloadType':'zip','selectedItemList':['*']}";
 
     /** TODO share this constant some how with the EASY application */
-    private static final String MYDATASETS = "/mydatasets";
+    private static final String MYDATASETS                  = "/mydatasets";
 
     /**
      * See {@linkplain http://www.swordapp.org/docs/sword-profile-1.3.html#b.5.5}<br>
      * Only a published state would be appropriate for code 201
      */
-    private static final int HTTP_RESPONSE_DATA_ACCEPTED = 202;
+    private static final int    HTTP_RESPONSE_DATA_ACCEPTED = 202;
 
-    private static int       noOpSumbitCounter           = 0;
+    private static int          noOpSumbitCounter           = 0;
 
-    private static Logger    log                         = LoggerFactory.getLogger(EasySwordServer.class);
+    private static Logger       log                         = LoggerFactory.getLogger(EasySwordServer.class);
 
     /**
      * Provides a dumb but plausible service document - it contains an anonymous workspace and
@@ -220,28 +220,29 @@ public class EasySwordServer implements SWORDServer
             throw new SWORDErrorException(ErrorCodes.MEDIATION_NOT_ALLOWED, "Mediated deposit not allowed to this collection");
 
         final UnzipResult unzipped = new UnzipResult(deposit.getFile());
-        
+        // TODO validate the unzipped metadata
+        unzipped.getEasyMetaData();
+
         final Dataset dataset;
-        if (deposit.isNoOp())
-            dataset = mockSubmit("mockedDataset:"+ ++noOpSumbitCounter, unzipped);
-        else
+        if (!deposit.isNoOp())
             dataset = unzipped.submit(user);
+        else
+            dataset = mockSubmit("mockedDataset:" + ++noOpSumbitCounter);
         return wrapResponse(wrapSwordEntry(deposit, user, dataset, unzipped), dataset.getStoreId());
     }
 
-    private Dataset mockSubmit(final String storeID, UnzipResult unzipped)
+    private Dataset mockSubmit(final String storeID) throws SWORDException
     {
-        // TODO we may want to validate the unzipped metadata
         Dataset dataset = EasyMock.createMock(Dataset.class);
         EasyMock.expect(dataset.getEasyMetadata()).andReturn(new EasyMetadataImpl(MetadataFormat.UNSPECIFIED)).anyTimes();
         EasyMock.expect(dataset.getStoreId()).andReturn(storeID).anyTimes();
-        
+
         EasyMock.expect(dataset.getAccessCategory()).andReturn(AccessCategory.OPEN_ACCESS).anyTimes();
 
-        //TODO inconsistent date types
+        // TODO inconsistent date types
         EasyMock.expect(dataset.getDateSubmitted()).andReturn(new IsoDate()).anyTimes();
         EasyMock.expect(dataset.getDateAvailable()).andReturn(new DateTime()).anyTimes();
-        
+
         EasyMock.expect(dataset.isUnderEmbargo()).andReturn(false).anyTimes();
         EasyMock.replay(dataset);
         return dataset;
@@ -254,7 +255,7 @@ public class EasySwordServer implements SWORDServer
         final EasyMetadata metadata = dataset.getEasyMetadata();
         final String location = toLocationBase(deposit.getLocation());
         final String serverURL = toServer(deposit.getLocation());
-        
+
         swordEntry.setTitle(wrapTitle(metadata.getEmdTitle().toString()));
         swordEntry.setSummary(wrapSummary(metadata.getEmdDescription().toString()));
         swordEntry.addCategory("Category");
@@ -264,12 +265,12 @@ public class EasySwordServer implements SWORDServer
 
         // we don't support updating with PUT so skip MediaLink
         // swordEntry.addLink(wrapEditMediaLink());
-        swordEntry.addLink(wrapLink("edit",location+MYDATASETS));
+        swordEntry.addLink(wrapLink("edit", location + MYDATASETS));
         swordEntry.setGenerator(wrapGenerator(serverURL));
-        swordEntry.setContent(wrapContent(serverURL,dataset.getStoreId()));
+        swordEntry.setContent(wrapContent(serverURL, dataset.getStoreId()));
         swordEntry.setTreatment("Short back and sides");
         swordEntry.setNoOp(deposit.isNoOp());
-        //TODO swordEntry.setRights(rights);
+        // TODO swordEntry.setRights(rights);
         if (deposit.getOnBehalfOf() != null)
             swordEntry.addContributor(wrapContributor(deposit.getOnBehalfOf()));
         if (deposit.isVerbose())
@@ -330,14 +331,13 @@ public class EasySwordServer implements SWORDServer
         try
         {
             // FIXME mock works here but not inside license composer (use verbose + noOp to test)
-            log.debug("StoreId:  "+dataset.getStoreId());
-            log.debug("AccessCategory: "+dataset.getAccessCategory());
-            
-            // submission is completed in another thread
-            final boolean isSubmitted = false;
-            
+            log.debug("StoreId:  " + dataset.getStoreId());
+            log.debug("AccessCategory: " + dataset.getAccessCategory());
+
+            final boolean generatePID = !deposit.isNoOp();
+
             final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            new LicenseComposer(user, dataset, isSubmitted).createHtml(outputStream);
+            new LicenseComposer(user, dataset, generatePID).createHtml(outputStream);
             return outputStream.toString();
         }
         catch (final NoSuchMethodError exception)
@@ -349,7 +349,7 @@ public class EasySwordServer implements SWORDServer
             log.error(errorMessage, exception);
         }
         // fall back
-        return "Could not generate license document "+wrapSummary(deposit, unzipped).getContent();
+        return "Could not generate license document " + wrapSummary(deposit, unzipped).getContent();
     }
 
     private static Summary wrapSummary(final Deposit deposit, final UnzipResult unzipped)
@@ -382,9 +382,9 @@ public class EasySwordServer implements SWORDServer
         catch (final InvalidMediaTypeException exception)
         {
             log.error(mediaType, exception);
-            throw new SWORDException("",exception);
+            throw new SWORDException("", exception);
         }
-        final String url = String.format(DOWNLOAD_URL_FORMAT,server,storeID);
+        final String url = String.format(DOWNLOAD_URL_FORMAT, server, storeID);
         content.setSource(url);
         return content;
     }

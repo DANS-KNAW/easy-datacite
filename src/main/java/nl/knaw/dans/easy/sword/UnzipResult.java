@@ -29,7 +29,8 @@ public class UnzipResult
 
     private final List<File>                 files;
     private final File                       folder;
-    private final String destPath;
+    private final String                     destPath;
+    private byte[]                           easyMetadata;
 
     public UnzipResult(final InputStream inputStream) throws SWORDException, SWORDErrorException
     {
@@ -113,16 +114,18 @@ public class UnzipResult
         return SwordDatasetUtil.submitNewDataset(user, getEasyMetaData(), getDataFolder(), getFiles(), new WorkListener[] {});
     }
 
-    private byte[] getEasyMetaData() throws SWORDException
+    public byte[] getEasyMetaData() throws SWORDException
     {
-        final byte[] easyMetadata;
-        try
+        if (easyMetadata == null)
         {
-            easyMetadata = FileUtil.readFile(getMetadataFile());
-        }
-        catch (final IOException exception)
-        {
-            throw newSWORDException("Failed to extract the EasyMetadata", exception);
+            try
+            {
+                easyMetadata = FileUtil.readFile(getMetadataFile());
+            }
+            catch (final IOException exception)
+            {
+                throw newSWORDException("Failed to extract the EasyMetadata", exception);
+            }
         }
         return easyMetadata;
     }
@@ -145,6 +148,6 @@ public class UnzipResult
 
     public String getPath()
     {
-        return destPath+"/data/";
+        return destPath + "/data/";
     }
 }

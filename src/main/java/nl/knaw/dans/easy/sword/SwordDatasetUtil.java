@@ -132,7 +132,8 @@ public class SwordDatasetUtil
     /** Just a wrapper to wrap exceptions. */
     private static void submit(final EasyUser user, final Dataset dataset, final WorkListener... workListeners) throws SWORDException
     {
-        // TODO FORM definition designed report error to the web GUI, but we are no GUI
+        // TODO don't skip validation of metadata
+        // FORM definition designed to report errors to the web GUI, but we are no GUI
         final DatasetSubmissionImpl submission = new DatasetSubmissionImpl(new FormDefinition("dummy") , dataset, user);
         try
         {
