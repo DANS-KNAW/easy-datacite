@@ -8,18 +8,12 @@ import java.util.Arrays;
 
 import javax.servlet.http.HttpServletResponse;
 
-import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadataImpl;
-import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
-import nl.knaw.dans.easy.domain.model.emd.types.IsoDate;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.LicenseComposer;
 import nl.knaw.dans.easy.servicelayer.LicenseComposer.LicenseComposerException;
 
-import org.easymock.EasyMock;
-import org.joda.time.DateTime;
 import org.purl.sword.atom.Author;
 import org.purl.sword.atom.Content;
 import org.purl.sword.atom.Contributor;
@@ -48,19 +42,18 @@ import org.slf4j.LoggerFactory;
 
 public class EasySwordServer implements SWORDServer
 {
+
     /** TODO share this constant some how with the EASY application */
     private static final String DOWNLOAD_URL_FORMAT         = "%s/resources/easy/fileDownloadResource?params={'rootSid':'%s','downloadType':'zip','selectedItemList':['*']}";
 
     /** TODO share this constant some how with the EASY application */
-    private static final String MYDATASETS                  = "/mydatasets";
+    private static final String DATASET_PATH               = "/datasets/id/";
 
     /**
      * See {@linkplain http://www.swordapp.org/docs/sword-profile-1.3.html#b.5.5}<br>
      * Only a published state would be appropriate for code 201
      */
     private static final int    HTTP_RESPONSE_DATA_ACCEPTED = 202;
-
-    private static int          noOpSumbitCounter           = 0;
 
     private static Logger       log                         = LoggerFactory.getLogger(EasySwordServer.class);
 
@@ -215,45 +208,21 @@ public class EasySwordServer implements SWORDServer
         if (user == null)
             throw new SWORDAuthenticationException(deposit.getUsername() + " not authenticated");
 
-        // Check this is a collection that takes "on behalf of" deposits, else thrown an error
+        // Check this is a collection that takes "on behalf of" deposits, else throw an error
         if (((deposit.getOnBehalfOf() != null) && (!deposit.getOnBehalfOf().equals(""))) && (!deposit.getLocation().contains("deposit?user=")))
             throw new SWORDErrorException(ErrorCodes.MEDIATION_NOT_ALLOWED, "Mediated deposit not allowed to this collection");
 
         final UnzipResult unzipped = new UnzipResult(deposit.getFile());
-        // TODO validate the unzipped metadata
-        unzipped.getEasyMetaData();
-
-        final Dataset dataset;
-        if (!deposit.isNoOp())
-            dataset = unzipped.submit(user);
-        else
-            dataset = mockSubmit("mockedDataset:" + ++noOpSumbitCounter);
-        return wrapResponse(wrapSwordEntry(deposit, user, dataset, unzipped), dataset.getStoreId());
+        final Dataset dataset = unzipped.submit(user, deposit.isNoOp());
+        final String datasetUrl = toServer(deposit.getLocation()) + DATASET_PATH + dataset.getStoreId();
+        return wrapResponse(wrapSwordEntry(deposit, user, dataset, unzipped,datasetUrl), datasetUrl);
     }
 
-    private Dataset mockSubmit(final String storeID) throws SWORDException
-    {
-        Dataset dataset = EasyMock.createMock(Dataset.class);
-        EasyMock.expect(dataset.getEasyMetadata()).andReturn(new EasyMetadataImpl(MetadataFormat.UNSPECIFIED)).anyTimes();
-        EasyMock.expect(dataset.getStoreId()).andReturn(storeID).anyTimes();
-
-        EasyMock.expect(dataset.getAccessCategory()).andReturn(AccessCategory.OPEN_ACCESS).anyTimes();
-
-        // TODO inconsistent date types
-        EasyMock.expect(dataset.getDateSubmitted()).andReturn(new IsoDate()).anyTimes();
-        EasyMock.expect(dataset.getDateAvailable()).andReturn(new DateTime()).anyTimes();
-
-        EasyMock.expect(dataset.isUnderEmbargo()).andReturn(false).anyTimes();
-        EasyMock.replay(dataset);
-        return dataset;
-    }
-
-    private static SWORDEntry wrapSwordEntry(final Deposit deposit, final EasyUser user, final Dataset dataset, final UnzipResult unzipped)
+    private static SWORDEntry wrapSwordEntry(final Deposit deposit, final EasyUser user, final Dataset dataset, final UnzipResult unzipped, String datasetUrl)
             throws SWORDException, SWORDErrorException
     {
         final SWORDEntry swordEntry = new SWORDEntry();
         final EasyMetadata metadata = dataset.getEasyMetadata();
-        final String location = toLocationBase(deposit.getLocation());
         final String serverURL = toServer(deposit.getLocation());
 
         swordEntry.setTitle(wrapTitle(metadata.getEmdTitle().toString()));
@@ -265,7 +234,7 @@ public class EasySwordServer implements SWORDServer
 
         // we don't support updating with PUT so skip MediaLink
         // swordEntry.addLink(wrapEditMediaLink());
-        swordEntry.addLink(wrapLink("edit", location + MYDATASETS));
+        swordEntry.addLink(wrapLink("edit", datasetUrl));
         swordEntry.setGenerator(wrapGenerator(serverURL));
         swordEntry.setContent(wrapContent(serverURL, dataset.getStoreId()));
         swordEntry.setTreatment("Short back and sides");
@@ -283,7 +252,7 @@ public class EasySwordServer implements SWORDServer
     {
         final DepositResponse depostiResponse = new DepositResponse(Deposit.CREATED);
         depostiResponse.setEntry(swordEntry);
-        depostiResponse.setLocation("https://eof13.dans.knaw.nl/datasets/id/" + storeID);
+        depostiResponse.setLocation(storeID);
         depostiResponse.setHttpResponse(HTTP_RESPONSE_DATA_ACCEPTED);
         return depostiResponse;
     }

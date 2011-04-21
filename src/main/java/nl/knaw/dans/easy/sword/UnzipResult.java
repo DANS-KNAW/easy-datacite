@@ -7,12 +7,17 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 
+import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.file.UnzipUtil;
 import nl.knaw.dans.common.lang.util.FileUtil;
 import nl.knaw.dans.easy.domain.model.Dataset;
+import nl.knaw.dans.easy.domain.model.emd.EasyMetadataImpl;
+import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
+import nl.knaw.dans.easy.domain.model.emd.types.IsoDate;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
-import nl.knaw.dans.easy.domain.worker.WorkListener;
 
+import org.easymock.EasyMock;
+import org.joda.time.DateTime;
 import org.purl.sword.base.ErrorCodes;
 import org.purl.sword.base.SWORDErrorException;
 import org.purl.sword.base.SWORDException;
@@ -31,6 +36,7 @@ public class UnzipResult
     private final File                       folder;
     private final String                     destPath;
     private byte[]                           easyMetadata;
+    private int                              noOpSumbitCounter;
 
     public UnzipResult(final InputStream inputStream) throws SWORDException, SWORDErrorException
     {
@@ -109,9 +115,15 @@ public class UnzipResult
         return files;
     };
 
-    public Dataset submit(final EasyUser user) throws SWORDException
+    public Dataset submit(final EasyUser user, boolean mock) throws SWORDException
     {
-        return SwordDatasetUtil.submitNewDataset(user, getEasyMetaData(), getDataFolder(), getFiles(), new WorkListener[] {});
+        if (mock)
+        {
+            getEasyMetaData(); // TODO validate the unzipped metadata
+            return mockSubmit("mockedDataset:" + ++noOpSumbitCounter);
+        }
+
+        return SwordDatasetUtil.submitNewDataset(user, getEasyMetaData(), getDataFolder(), getFiles());
     }
 
     public byte[] getEasyMetaData() throws SWORDException
@@ -149,5 +161,22 @@ public class UnzipResult
     public String getPath()
     {
         return destPath + "/data/";
+    }
+
+    private Dataset mockSubmit(final String storeID) throws SWORDException
+    {
+        Dataset dataset = EasyMock.createMock(Dataset.class);
+        EasyMock.expect(dataset.getEasyMetadata()).andReturn(new EasyMetadataImpl(MetadataFormat.UNSPECIFIED)).anyTimes();
+        EasyMock.expect(dataset.getStoreId()).andReturn(storeID).anyTimes();
+
+        EasyMock.expect(dataset.getAccessCategory()).andReturn(AccessCategory.OPEN_ACCESS).anyTimes();
+
+        // TODO inconsistent date types
+        EasyMock.expect(dataset.getDateSubmitted()).andReturn(new IsoDate()).anyTimes();
+        EasyMock.expect(dataset.getDateAvailable()).andReturn(new DateTime()).anyTimes();
+
+        EasyMock.expect(dataset.isUnderEmbargo()).andReturn(false).anyTimes();
+        EasyMock.replay(dataset);
+        return dataset;
     }
 }

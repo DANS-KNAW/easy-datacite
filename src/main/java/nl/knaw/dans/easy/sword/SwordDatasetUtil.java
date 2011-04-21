@@ -2,6 +2,7 @@ package nl.knaw.dans.easy.sword;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,8 +25,8 @@ import nl.knaw.dans.easy.domain.model.emd.EasyMetadataValidator;
 import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.easy.domain.model.emd.types.BasicString;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
-import nl.knaw.dans.easy.domain.worker.WorkListener;
 import nl.knaw.dans.easy.domain.worker.WorkReporter;
+import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 
 import org.purl.sword.base.ErrorCodes;
@@ -42,7 +43,7 @@ public class SwordDatasetUtil
 {
     public static final String DEFAULT_EMD_VERSION = EasyMetadataValidator.VERSION_0_1;
 
-    private static Logger log     = LoggerFactory.getLogger(SwordDatasetUtil.class);
+    private static Logger      log                 = LoggerFactory.getLogger(SwordDatasetUtil.class);
 
     /**
      * Gets an authenticated user.
@@ -50,8 +51,10 @@ public class SwordDatasetUtil
      * @param userID
      * @param password
      * @return
-     * @throws SWORDAuthenticationException if required services are not available
-     * @throws SWORDException if the user can not be authenticated
+     * @throws SWORDAuthenticationException
+     *         if required services are not available
+     * @throws SWORDException
+     *         if the user can not be authenticated
      */
     public static EasyUser getUser(final String userID, final String password) throws SWORDAuthenticationException, SWORDException
     {
@@ -62,7 +65,7 @@ public class SwordDatasetUtil
         }
         catch (final ServiceException exception)
         {
-            throw newSwordException(userID + " authentication problem",exception);
+            throw newSwordException(userID + " authentication problem", exception);
         }
         if (authentication.getState() == State.NotAuthenticated)
             return null;
@@ -84,16 +87,8 @@ public class SwordDatasetUtil
      * @return
      * @throws SWORDException
      */
-    public static Dataset submitNewDataset(final EasyUser user, final byte[] easyMetadata, final File directory, final List<File> fileList,
-            final WorkListener... workListeners) throws SWORDException
-    {
-        final Dataset dataset = createDataset(user, easyMetadata, directory, fileList);
-        submit(user, dataset, workListeners);
-        return dataset;
-    }
-
-    /** As {@link #submitNewDataset(EasyUser, byte[], File, List)} without the submission. */
-    private static Dataset createDataset(final EasyUser user, final byte[] easyMetadata, final File directory, final List<File> fileList) throws SWORDException
+    public static Dataset submitNewDataset(final EasyUser user, final byte[] easyMetadata, final File directory, final List<File> fileList)
+            throws SWORDException
     {
         validateEasyMetadata(easyMetadata);
 
@@ -102,10 +97,13 @@ public class SwordDatasetUtil
         final Dataset dataset = createEmptyDataset(mdFormat);
 
         enhanceWithDefaults(metadata, dataset);
+        ((DatasetImpl) dataset).setEasyMetadata(metadata);
 
-        ((DatasetImpl)dataset).setEasyMetadata(metadata);
         dataset.setOwnerId(user.getId());
-        addFiles(user, dataset, directory, fileList);
+        dataset.getAdministrativeMetadata().setDepositor(user);
+
+        ingestFiles(user, dataset, directory, fileList);
+        submit(user, dataset);
 
         return dataset;
     }
@@ -129,40 +127,101 @@ public class SwordDatasetUtil
         return metadata;
     }
 
-    /** Just a wrapper to wrap exceptions. */
-    private static void submit(final EasyUser user, final Dataset dataset, final WorkListener... workListeners) throws SWORDException
+    /** Just a wrapper for exceptions. */
+    private static void submit(final EasyUser user, final Dataset dataset) throws SWORDException
     {
         // TODO don't skip validation of metadata
-        // FORM definition designed to report errors to the web GUI, but we are no GUI
-        final DatasetSubmissionImpl submission = new DatasetSubmissionImpl(new FormDefinition("dummy") , dataset, user);
+        // FormDefinition is designed to report errors to the web GUI, but we are no GUI
+        final DatasetSubmissionImpl submission = new DatasetSubmissionImpl(new FormDefinition("dummy"), dataset, user);
+        final MyReporter reporter = new MyReporter("problem submitting " + dataset.getStoreId() + " by " + user, "problem with submitting");
+
         try
         {
-            log.debug("before Services.getDatasetService().submitDataset for "+dataset.getStoreId());
-            Services.getDatasetService().submitDataset(submission, workListeners);
-            log.debug("after Services.getDatasetService().submitDataset for "+dataset.getStoreId());
+            log.debug("before Services.getDatasetService().submitDataset for " + dataset.getStoreId());
+            Services.getDatasetService().submitDataset(submission, reporter);
+            reporter.checkOK();
+            log.debug("after Services.getDatasetService().submitDataset for " + dataset.getStoreId());
         }
         catch (final ServiceException exception)
         {
-            throw newSwordException("Dataset created but submission failed " + dataset.getStoreId() + " "+user.getId(), exception);
+            throw newSwordException("Dataset created but submission failed " + dataset.getStoreId() + " " + user.getId(), exception);
         }
     }
 
-    /** Just a wrapper to wrap exceptions. */
-    private static void addFiles(final EasyUser user, final Dataset dataset, final File tempDirectory, final List<File> fileList) throws SWORDException
+    /** Just a wrapper for exceptions. */
+    private static void ingestFiles(final EasyUser user, final Dataset dataset, final File tempDirectory, final List<File> fileList) throws SWORDException
     {
         final String storeId = dataset.getStoreId();
         try
         {
-            log.debug(user.getId()+" "+user.getDisplayName()+" "+storeId+" "+tempDirectory+" "+Arrays.deepToString(fileList.toArray()));
-            Services.getItemService().addDirectoryContents(user, dataset, storeId, tempDirectory, fileList, new WorkReporter());
+            final ItemService itemService = Services.getItemService();
+            final String message = "ingesting files from " + tempDirectory + " into " + dataset.getStoreId() + " " + Arrays.deepToString(fileList.toArray());
+            final MyReporter reporter = new MyReporter("problem " + message, "ingesting files");
+            log.debug(message);
+            
+            itemService.addDirectoryContents(user, dataset, storeId, tempDirectory, fileList, reporter);
+            
+            final int size = itemService.getFilesAndFolders(user, dataset, storeId, -1, -1, null, null).size();
+            log.debug("addFiles =========================" + //
+                    " workStarted: " + reporter.workStarted + //
+                    " IngestedObjectCount: " + reporter.getIngestedObjectCount() + //
+                    " workEnded: " + reporter.workEnded + //
+                    " exceptions: " + reporter.reportedExceptions.size() + //
+                    " folder count: " + dataset.getChildFolderCount() + //
+                    " itemService files: " + size);
+            reporter.checkOK();
+            if (size < fileList.size())
+                throw newSwordException(String.format("Added only %d files of %d to %s", size, fileList.size(), dataset.getStoreId()), null);
         }
         catch (final ServiceException exception)
         {
-            throw newSwordException("Can't add files to the new dataset " + storeId + " "+user.getId(), exception);
+            throw newSwordException("Can't add files to the new dataset " + storeId + " " + user.getId(), exception);
         }
     }
 
-    /** Just a wrapper to wrap exceptions. */
+    private static class MyReporter extends WorkReporter
+    {
+
+        List<Throwable>      reportedExceptions = new ArrayList<Throwable>();
+        boolean              workStarted;
+        boolean              workEnded;
+        private final String message;
+        private final String messageForClient;
+
+        MyReporter(final String message, final String messageForClient)
+        {
+            this.message = message;
+            this.messageForClient = messageForClient;
+        }
+
+        @Override
+        public void onException(Throwable t)
+        {
+            super.onException(t);
+            log.error(message, t);
+            reportedExceptions.add(t);
+        }
+
+        @Override
+        public boolean onWorkStart()
+        {
+            workStarted = true;
+            return super.onWorkStart();
+        }
+
+        @Override
+        public void onWorkEnd()
+        {
+            workEnded = true;
+            super.onWorkEnd();
+        }
+        public void checkOK () throws SWORDException {
+            if (reportedExceptions.size()>0||!workStarted||!workEnded)
+                throw newSwordException("Dataset created but problem with "+messageForClient,null);
+        }
+    }
+
+    /** Just a wrapper for exceptions. */
     private static Dataset createEmptyDataset(final MetadataFormat metadataFormat) throws SWORDException
     {
         final Dataset dataset;
@@ -172,12 +231,12 @@ public class SwordDatasetUtil
         }
         catch (final ServiceException exception)
         {
-            throw newSwordException("Can't create a new dataset "+metadataFormat, exception);
+            throw newSwordException("Can't create a new dataset " + metadataFormat, exception);
         }
         return dataset;
     }
 
-    /** Just a wrapper to wrap exceptions. */
+    /** Just a wrapper for exceptions. */
     private static EasyMetadata unmarshallEasyMetaData(final byte[] data) throws SWORDException
     {
 
@@ -193,7 +252,7 @@ public class SwordDatasetUtil
         return metadata;
     }
 
-    /** Just a wrapper to wrap exceptions. */
+    /** Just a wrapper for exceptions. */
     private static void validateEasyMetadata(final byte[] data) throws SWORDException
     {
         final XMLErrorHandler handler = new XMLErrorHandler(Reporter.off);
@@ -218,12 +277,12 @@ public class SwordDatasetUtil
             throw newSwordException("EASY metadata validation exception", exception);
         }
         if (!handler.passed())
-            throw new SWORDException("Invalid EASY metadata: \n" + handler.getMessages(),null,ErrorCodes.ERROR_BAD_REQUEST);
+            throw new SWORDException("Invalid EASY metadata: \n" + handler.getMessages(), null, ErrorCodes.ERROR_BAD_REQUEST);
     }
 
     private static SWORDException newSwordException(final String message, final Exception exception)
     {
-        log.error(message,exception);
+        log.error(message, exception);
         return new SWORDException(message);
     }
 }
