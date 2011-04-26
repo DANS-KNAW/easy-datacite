@@ -18,11 +18,16 @@
 	
 	<bean name="data" class="nl.knaw.dans.easy.data.Data">
 		<property name="userRepo" ref="userRepo"/>
+		<property name="groupRepo" ref="groupRepo"/>
 		<property name="easyStore" ref="easyStore"/>
 		<property name="fileStoreAccess" ref="fileStoreAccess"/>
 	</bean>
 	<import resource="store-context.xml"/>
 	<import resource="ldap-context.xml"/>
+	<bean name="groupRepo" class="nl.knaw.dans.easy.ldap.EasyLdapGroupRepo">
+		<constructor-arg ref="ldapClient" />
+		<constructor-arg value="${ldap.context.groups}" />
+	</bean>
 
 	<bean name="externalServices" class="nl.knaw.dans.easy.data.ext.ExternalServices" destroy-method="close">
 		<property name="metadataPidGenerator" ref="metadataPidGenerator" />
@@ -30,16 +35,34 @@
 	<bean name="metadataPidGenerator" class="nl.knaw.dans.commons.pid.PidGenerator" destroy-method="close">
 		<constructor-arg ref="pidConnectionConfiguration" />
 	</bean>
-    <bean name="pidConnectionConfiguration" class="nl.knaw.dans.commons.pid.PidConnectionConfiguration">
-        <property name="username" value="${pid.generator.username}"/>
-        <property name="password" value="${pid.generator.password}"/>
-        <property name="connectionUrl" value="${pid.generator.connectionUrl}"/>
-        <property name="driverClass" value="${pid.generator.driver}"/>
-    </bean>
+	<bean name="pidConnectionConfiguration" class="nl.knaw.dans.commons.pid.PidConnectionConfiguration">
+		<property name="username" value="${pid.generator.username}" />
+		<property name="password" value="${pid.generator.password}" />
+		<property name="connectionUrl" value="${pid.generator.connectionUrl}" />
+		<property name="driverClass" value="${pid.generator.driver}" />
+	</bean>
 
 	<bean name="security" class="nl.knaw.dans.easy.security.Security">
 		<constructor-arg ref="authz"/>
 	</bean>
 	<bean name="authz" class="nl.knaw.dans.easy.security.CodedAuthz"/>
+
+	<!-- BeanPostProcessor for Business layer -->
+	<bean class="nl.knaw.dans.easy.business.bean.BusinessBeanPostProcessor" />
+
+<!-- 
+	<bean name="businessAudit" class="nl.knaw.dans.easy.data.audit.Audit">
+		<property name="trailers">
+			<list>
+				<ref bean="fileBasedAuditTrail" />
+				<bean name="adminMailerAuditTrail" class="nl.knaw.dans.easy.data.audit.AdminMailerAuditTrail"/>
+			</list>
+		</property>
+		<property name="enabled" value="${business.audit.enabled}"/>
+	</bean>
+	<bean name="fileBasedAuditTrail" class="nl.knaw.dans.easy.data.audit.FileBasedAuditTrail" destroy-method="close">
+		<constructor-arg index="0" value="${business.audit.file}"/>
+	</bean>
+ -->
 
 </beans>

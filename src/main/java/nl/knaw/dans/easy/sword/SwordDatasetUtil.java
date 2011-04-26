@@ -133,7 +133,7 @@ public class SwordDatasetUtil
         // TODO don't skip validation of metadata
         // FormDefinition is designed to report errors to the web GUI, but we are no GUI
         final DatasetSubmissionImpl submission = new DatasetSubmissionImpl(new FormDefinition("dummy"), dataset, user);
-        final MyReporter reporter = new MyReporter("problem submitting " + dataset.getStoreId() + " by " + user, "problem with submitting");
+        final MyReporter reporter = new MyReporter("submitting " + dataset.getStoreId() + " by " + user, "problem with submitting");
 
         try
         {
@@ -156,7 +156,7 @@ public class SwordDatasetUtil
         {
             final ItemService itemService = Services.getItemService();
             final String message = "ingesting files from " + tempDirectory + " into " + dataset.getStoreId() + " " + Arrays.deepToString(fileList.toArray());
-            final MyReporter reporter = new MyReporter("problem " + message, "ingesting files");
+            final MyReporter reporter = new MyReporter(message, "ingesting files");
             log.debug(message);
             
             itemService.addDirectoryContents(user, dataset, storeId, tempDirectory, fileList, reporter);
@@ -198,7 +198,7 @@ public class SwordDatasetUtil
         public void onException(Throwable t)
         {
             super.onException(t);
-            log.error(message, t);
+            log.error("problem with "+message, t);
             reportedExceptions.add(t);
         }
 
@@ -206,6 +206,7 @@ public class SwordDatasetUtil
         public boolean onWorkStart()
         {
             workStarted = true;
+            log.debug("started "+message);
             return super.onWorkStart();
         }
 
@@ -213,6 +214,7 @@ public class SwordDatasetUtil
         public void onWorkEnd()
         {
             workEnded = true;
+            log.debug("ended "+message);
             super.onWorkEnd();
         }
         public void checkOK () throws SWORDException {
