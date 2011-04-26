@@ -158,20 +158,22 @@ public class SwordDatasetUtil
             final String message = "ingesting files from " + tempDirectory + " into " + dataset.getStoreId() + " " + Arrays.deepToString(fileList.toArray());
             final MyReporter reporter = new MyReporter(message, "ingesting files");
             log.debug(message);
-            
+
             itemService.addDirectoryContents(user, dataset, storeId, tempDirectory, fileList, reporter);
-            
+
             final int size = itemService.getFilesAndFolders(user, dataset, storeId, -1, -1, null, null).size();
-            log.debug("addFiles =========================" + //
-                    " workStarted: " + reporter.workStarted + //
+            log.debug(" workStarted: " + reporter.workStarted + //
                     " IngestedObjectCount: " + reporter.getIngestedObjectCount() + //
                     " workEnded: " + reporter.workEnded + //
                     " exceptions: " + reporter.reportedExceptions.size() + //
                     " folder count: " + dataset.getChildFolderCount() + //
                     " itemService files: " + size);
             reporter.checkOK();
-            if (size < fileList.size())
-                throw newSwordException(String.format("Added only %d files of %d to %s", size, fileList.size(), dataset.getStoreId()), null);
+            if (size == 0)
+            {
+                log.error("Services.getItemService().getFilesAndFolders() does not find the ingested files, verify /opt/fedora/server/config/custom-db.xml");
+                throw newSwordException("ingested files not retreivable", null);
+            }
         }
         catch (final ServiceException exception)
         {
@@ -195,10 +197,10 @@ public class SwordDatasetUtil
         }
 
         @Override
-        public void onException(Throwable t)
+        public void onException(final Throwable t)
         {
             super.onException(t);
-            log.error("problem with "+message, t);
+            log.error("problem with " + message, t);
             reportedExceptions.add(t);
         }
 
@@ -206,7 +208,6 @@ public class SwordDatasetUtil
         public boolean onWorkStart()
         {
             workStarted = true;
-            log.debug("started "+message);
             return super.onWorkStart();
         }
 
@@ -214,12 +215,13 @@ public class SwordDatasetUtil
         public void onWorkEnd()
         {
             workEnded = true;
-            log.debug("ended "+message);
             super.onWorkEnd();
         }
-        public void checkOK () throws SWORDException {
-            if (reportedExceptions.size()>0||!workStarted||!workEnded)
-                throw newSwordException("Dataset created but problem with "+messageForClient,null);
+
+        public void checkOK() throws SWORDException
+        {
+            if (reportedExceptions.size() > 0 || !workStarted || !workEnded)
+                throw newSwordException("Dataset created but problem with " + messageForClient, null);
         }
     }
 
