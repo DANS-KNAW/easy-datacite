@@ -5,10 +5,17 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import nl.knaw.dans.easy.domain.exceptions.DomainException;
+import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
 import nl.knaw.dans.easy.domain.model.Dataset;
+import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineCollection;
+import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineCollectionImpl;
+import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.LicenseComposer;
@@ -47,7 +54,7 @@ public class EasySwordServer implements SWORDServer
     private static final String DOWNLOAD_URL_FORMAT         = "%s/resources/easy/fileDownloadResource?params={'rootSid':'%s','downloadType':'zip','selectedItemList':['*']}";
 
     /** TODO share this constant some how with the EASY application */
-    private static final String DATASET_PATH               = "/datasets/id/";
+    private static final String DATASET_PATH                = "/datasets/id/";
 
     /**
      * See {@linkplain http://www.swordapp.org/docs/sword-profile-1.3.html#b.5.5}<br>
@@ -215,7 +222,7 @@ public class EasySwordServer implements SWORDServer
         final UnzipResult unzipped = new UnzipResult(deposit.getFile());
         final Dataset dataset = unzipped.submit(user, deposit.isNoOp());
         final String datasetUrl = toServer(deposit.getLocation()) + DATASET_PATH + dataset.getStoreId();
-        return wrapResponse(wrapSwordEntry(deposit, user, dataset, unzipped,datasetUrl), datasetUrl);
+        return wrapResponse(wrapSwordEntry(deposit, user, dataset, unzipped, datasetUrl), datasetUrl);
     }
 
     private static SWORDEntry wrapSwordEntry(final Deposit deposit, final EasyUser user, final Dataset dataset, final UnzipResult unzipped, String datasetUrl)
@@ -227,8 +234,8 @@ public class EasySwordServer implements SWORDServer
 
         swordEntry.setTitle(wrapTitle(metadata.getEmdTitle().toString()));
         swordEntry.setSummary(wrapSummary(metadata.getEmdDescription().toString()));
-        swordEntry.addCategory("Category");
-        swordEntry.setId(dataset.getStoreId());
+        swordEntry.addCategory(formatCategory(metadata.getEmdAudience().getValues()));
+        swordEntry.setId(metadata.getEmdIdentifier().getPersistentIdentifier());
         swordEntry.setUpdated(metadata.getEmdDate().toString());
         swordEntry.addAuthors(wrapAuthor(user));
 
@@ -237,7 +244,7 @@ public class EasySwordServer implements SWORDServer
         swordEntry.addLink(wrapLink("edit", datasetUrl));
         swordEntry.setGenerator(wrapGenerator(serverURL));
         swordEntry.setContent(wrapContent(serverURL, dataset.getStoreId()));
-        swordEntry.setTreatment("Short back and sides");
+        swordEntry.setTreatment("See license");
         swordEntry.setNoOp(deposit.isNoOp());
         // TODO swordEntry.setRights(rights);
         if (deposit.getOnBehalfOf() != null)
@@ -246,6 +253,33 @@ public class EasySwordServer implements SWORDServer
             swordEntry.setVerboseDescription(wrapVerboseDesciption(user, deposit, dataset, unzipped));
 
         return swordEntry;
+    }
+
+    private static String formatCategory(final List<String> values)
+    {
+        if (values.size() == 0)
+            return "none specified";
+        final StringBuffer category = new StringBuffer();
+        final DisciplineCollection disciplineCollection = DisciplineCollectionImpl.getInstance();
+        for (String value : values.toArray(new String[values.size()]))
+        {
+            try
+            {
+                final String name = disciplineCollection.getDisciplineBySid(value).getName();
+                category.append(name + ", ");
+            }
+            catch (ObjectNotFoundException e)
+            {
+                category.append(value + " ");
+                log.error("could not find discipline " + value, e);
+            }
+            catch (DomainException e)
+            {
+                category.append(value + " ");
+                log.error("could not find discipline " + value, e);
+            }
+        }
+        return category.substring(0, category.length() - 2);
     }
 
     private DepositResponse wrapResponse(final SWORDEntry swordEntry, final String storeID)

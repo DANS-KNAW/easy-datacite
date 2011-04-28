@@ -77,7 +77,7 @@ public class SwordDatasetUtil
      * 
      * @param user
      *        the owner of the new dataset
-     * @param easyMetadata
+     * @param metadata
      *        the metadata for the new dataset,
      * @param directory
      *        a directory containing the files for the new dataset
@@ -87,12 +87,9 @@ public class SwordDatasetUtil
      * @return
      * @throws SWORDException
      */
-    public static Dataset submitNewDataset(final EasyUser user, final byte[] easyMetadata, final File directory, final List<File> fileList)
+    public static Dataset submitNewDataset(final EasyUser user, final EasyMetadata metadata, final File directory, final List<File> fileList)
             throws SWORDException
     {
-        validateEasyMetadata(easyMetadata);
-
-        final EasyMetadata metadata = unmarshallEasyMetaData(easyMetadata);
         final MetadataFormat mdFormat = metadata.getEmdOther().getEasApplicationSpecific().getMetadataFormat();
         final Dataset dataset = createEmptyDataset(mdFormat);
 
@@ -241,9 +238,8 @@ public class SwordDatasetUtil
     }
 
     /** Just a wrapper for exceptions. */
-    private static EasyMetadata unmarshallEasyMetaData(final byte[] data) throws SWORDException
+    static EasyMetadata unmarshallEasyMetaData(final byte[] data) throws SWORDException
     {
-
         final EasyMetadata metadata;
         try
         {
@@ -257,7 +253,7 @@ public class SwordDatasetUtil
     }
 
     /** Just a wrapper for exceptions. */
-    private static void validateEasyMetadata(final byte[] data) throws SWORDException
+    static void validateEasyMetadata(final byte[] data) throws SWORDException
     {
         final XMLErrorHandler handler = new XMLErrorHandler(Reporter.off);
         try

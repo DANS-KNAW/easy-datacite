@@ -6,6 +6,7 @@ import java.util.List;
 import nl.knaw.dans.common.lang.file.UnzipListener;
 import nl.knaw.dans.common.lang.file.UnzipUtil;
 import nl.knaw.dans.common.lang.util.FileUtil;
+import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -15,13 +16,14 @@ import org.purl.sword.base.SWORDException;
 /** Mocked implementation. */
 public class SwordDatasetUtilTest extends Tester
 {
-    final static File         basePath       = new File("target/tmp");
-    static File               tempDirectory;
-    static byte[]             easyMetaData;
-    static List<File>         fileList;
+    final static File   basePath = new File("target/tmp");
+    static File         tempDirectory;
+    static EasyMetadata easyMetaData;
+    static List<File>   fileList;
 
     @BeforeClass
-    public static void setupMocking() throws Exception {
+    public static void setupMocking() throws Exception
+    {
         new MockUtil().mockAll();
     }
 
@@ -31,17 +33,19 @@ public class SwordDatasetUtilTest extends Tester
         basePath.mkdirs();
         tempDirectory = FileUtil.createTempDirectory(basePath, "unzip");
         fileList = new UnzipUtil(ZIP_FILE, tempDirectory.getPath(), createUnzipListener()).run();
-        easyMetaData = FileUtil.readFile(META_DATA_FILE);
+        easyMetaData = SwordDatasetUtil.unmarshallEasyMetaData(FileUtil.readFile(META_DATA_FILE));
     }
 
-    @Ignore("adjust mocks") // TODO
+    @Ignore("adjust mocks")
+    // TODO
     @Test
     public void submit() throws Exception
     {
         SwordDatasetUtil.submitNewDataset(MockUtil.USER, easyMetaData, tempDirectory, fileList);
     }
 
-    @Ignore("adjust mocks") // TODO
+    @Ignore("adjust mocks")
+    // TODO
     @Test(expected = SWORDException.class)
     public void anonymousSubmit() throws Exception
     {

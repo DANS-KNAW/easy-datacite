@@ -11,6 +11,7 @@ import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.file.UnzipUtil;
 import nl.knaw.dans.common.lang.util.FileUtil;
 import nl.knaw.dans.easy.domain.model.Dataset;
+import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadataImpl;
 import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.easy.domain.model.emd.types.IsoDate;
@@ -122,18 +123,20 @@ public class UnzipResult
         return files;
     };
 
-    public Dataset submit(final EasyUser user, boolean mock) throws SWORDException
+    public Dataset submit(final EasyUser user, final boolean mock) throws SWORDException
     {
+        SwordDatasetUtil.validateEasyMetadata(getEasyMetaData());
+        // TODO validate not just syntactical but also permitted/mandatory fields
+        final EasyMetadata metadata = SwordDatasetUtil.unmarshallEasyMetaData(getEasyMetaData());
+        
         if (mock)
         {
-            getEasyMetaData(); // TODO validate the unzipped metadata
-            return mockSubmit("mockedDataset:" + ++noOpSumbitCounter);
+            return mockSubmit("mockedDataset:" + ++noOpSumbitCounter, metadata);
         }
-
-        return SwordDatasetUtil.submitNewDataset(user, getEasyMetaData(), getDataFolder(), getFiles());
+        return SwordDatasetUtil.submitNewDataset(user, metadata, getDataFolder(), getFiles());
     }
 
-    public byte[] getEasyMetaData() throws SWORDException
+    private byte[] getEasyMetaData() throws SWORDException
     {
         if (easyMetadata == null)
         {
@@ -170,10 +173,10 @@ public class UnzipResult
         return destPath + "/data/";
     }
 
-    private Dataset mockSubmit(final String storeID) throws SWORDException
+    private Dataset mockSubmit(final String storeID, final EasyMetadata metadata) throws SWORDException
     {
-        Dataset dataset = EasyMock.createMock(Dataset.class);
-        EasyMock.expect(dataset.getEasyMetadata()).andReturn(new EasyMetadataImpl(MetadataFormat.UNSPECIFIED)).anyTimes();
+        final Dataset dataset = EasyMock.createMock(Dataset.class);
+        EasyMock.expect(dataset.getEasyMetadata()).andReturn(metadata).anyTimes();
         EasyMock.expect(dataset.getStoreId()).andReturn(storeID).anyTimes();
 
         EasyMock.expect(dataset.getAccessCategory()).andReturn(AccessCategory.OPEN_ACCESS).anyTimes();
