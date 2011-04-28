@@ -333,13 +333,9 @@ public class EasySwordServer implements SWORDServer
         final String errorMessage = "Could not add license document to response";
         try
         {
-            // FIXME mock works here but not inside license composer (use verbose + noOp to test)
-            log.debug("StoreId:  " + dataset.getStoreId());
-            log.debug("AccessCategory: " + dataset.getAccessCategory());
-
             final boolean generatePID = !deposit.isNoOp();
-
             final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            log.debug(dataset + " AccessCategory=" + dataset.getAccessCategory());
             new LicenseComposer(user, dataset, generatePID).createHtml(outputStream);
             return outputStream.toString();
         }
@@ -350,6 +346,11 @@ public class EasySwordServer implements SWORDServer
         catch (final LicenseComposerException exception)
         {
             log.error(errorMessage, exception);
+        } finally {
+            // FIXME how did the licenseComposer destroy the mocked dataset?
+            // test with sword deposit request options noOp + verbose
+            log.debug(dataset + " metadata=" + dataset.getEasyMetadata());
+            log.debug(dataset + " AccessCategory=" + dataset.getAccessCategory());
         }
         // fall back
         return "Could not generate license document " + wrapSummary(deposit, unzipped).getContent();

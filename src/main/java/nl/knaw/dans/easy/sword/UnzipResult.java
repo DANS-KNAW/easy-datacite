@@ -45,13 +45,14 @@ public class UnzipResult
         {
             // TODO configure temp directory
             File dir = new File("temp");
-            if (!dir.isDirectory()) {
+            if (!dir.isDirectory())
+            {
                 // for testing purposes
                 dir = new File("target/tmp");
                 dir.mkdirs();
             }
             final File tempDir = FileUtil.createTempDirectory(dir, "swunzip");
-            
+
             final String zipFile = tempDir.getPath() + "/received.zip";
             destPath = tempDir.getPath() + "/unzipped";
             if (!new File(destPath).mkdir())
@@ -128,10 +129,10 @@ public class UnzipResult
         SwordDatasetUtil.validateEasyMetadata(getEasyMetaData());
         // TODO validate not just syntactical but also permitted/mandatory fields
         final EasyMetadata metadata = SwordDatasetUtil.unmarshallEasyMetaData(getEasyMetaData());
-        
+
         if (mock)
         {
-            return mockSubmit("mockedDataset:" + ++noOpSumbitCounter, metadata);
+            return mockSubmittedDataset("mockedDataset:" + ++noOpSumbitCounter, metadata);
         }
         return SwordDatasetUtil.submitNewDataset(user, metadata, getDataFolder(), getFiles());
     }
@@ -173,19 +174,23 @@ public class UnzipResult
         return destPath + "/data/";
     }
 
-    private Dataset mockSubmit(final String storeID, final EasyMetadata metadata) throws SWORDException
+    private Dataset mockSubmittedDataset(final String storeID, final EasyMetadata metadata) throws SWORDException
     {
         final Dataset dataset = EasyMock.createMock(Dataset.class);
+
+        // TODO the following lines duplicates logic of DatasetImpl, move to EasyMetadata?
+        final List<IsoDate> lda = metadata.getEmdDate().getEasAvailable();
+        final List<IsoDate> lds = metadata.getEmdDate().getEasDateSubmitted();
+        final DateTime dateAvailable = (lda.size() == 0 ? null : lda.get(0).getValue());
+        final IsoDate dateSubmitted = (lds.size() == 0) ? new IsoDate() : lds.get(0);
+        final boolean underEmbargo = dateAvailable != null && new DateTime().plusMinutes(1).isBefore(dateAvailable);
+
         EasyMock.expect(dataset.getEasyMetadata()).andReturn(metadata).anyTimes();
         EasyMock.expect(dataset.getStoreId()).andReturn(storeID).anyTimes();
-
-        EasyMock.expect(dataset.getAccessCategory()).andReturn(AccessCategory.OPEN_ACCESS).anyTimes();
-
-        // TODO inconsistent date types
-        EasyMock.expect(dataset.getDateSubmitted()).andReturn(new IsoDate()).anyTimes();
-        EasyMock.expect(dataset.getDateAvailable()).andReturn(new DateTime()).anyTimes();
-
-        EasyMock.expect(dataset.isUnderEmbargo()).andReturn(false).anyTimes();
+        EasyMock.expect(dataset.getAccessCategory()).andReturn(metadata.getEmdRights().getAccessCategory()).anyTimes();
+        EasyMock.expect(dataset.getDateSubmitted()).andReturn(dateSubmitted).anyTimes();
+        EasyMock.expect(dataset.getDateAvailable()).andReturn(dateAvailable).anyTimes();
+        EasyMock.expect(dataset.isUnderEmbargo()).andReturn(underEmbargo).anyTimes();
         EasyMock.replay(dataset);
         return dataset;
     }
