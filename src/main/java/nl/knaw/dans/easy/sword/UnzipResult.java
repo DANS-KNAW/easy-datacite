@@ -116,7 +116,7 @@ public class UnzipResult
         }
     }
 
-    public List<File> getFiles()
+    private List<File> getFiles()
     {
         return files;
     };
@@ -164,11 +164,6 @@ public class UnzipResult
     {
         log.error(message, exception);
         return new SWORDException(message);
-    }
-
-    public String getPath()
-    {
-        return destPath + "/data/";
     }
 
     private Dataset mockSubmittedDataset(final EasyMetadata metadata, EasyUser user) throws SWORDException

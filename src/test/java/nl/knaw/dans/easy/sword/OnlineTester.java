@@ -7,11 +7,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import nl.knaw.dans.common.lang.xml.XMLSerializationException;
-import nl.knaw.dans.easy.business.dataset.DatasetSubmissionImpl;
-import nl.knaw.dans.easy.data.ext.EasyMailComposer;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.servicelayer.LicenseComposer;
-import nl.knaw.dans.easy.servicelayer.SubmitNotification;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -52,16 +49,12 @@ public class OnlineTester
         execute(false, true);
     }
 
-    /** Tests whether the mocked dataset provides enough information to generate body of the email body that confirms submission */
+    /** Tests whether the mocked dataset provides enough information to generate body of the message that confirms submission */
     @Test
     public void wrapTreatment() throws Exception
     {
         final Dataset dataset = createMockedDataset();
-
-        final DatasetSubmissionImpl submission = new DatasetSubmissionImpl(null, dataset, MockUtil.USER);
-        final EasyMailComposer composer = new EasyMailComposer(dataset, MockUtil.USER, submission, new SubmitNotification(submission));
-        log.debug(composer.composeHtml(EasySwordServer.TEMPLATE));
-        
+        log.debug(EasyBusinessWrapper.composeTreatment(MockUtil.USER, dataset));
         assertMockedOk(dataset, "after create notification mail content");
     }
 

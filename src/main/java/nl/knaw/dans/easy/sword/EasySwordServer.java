@@ -1,17 +1,12 @@
 package nl.knaw.dans.easy.sword;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import nl.knaw.dans.common.lang.mail.MailComposerException;
-import nl.knaw.dans.easy.business.dataset.DatasetSubmissionImpl;
-import nl.knaw.dans.easy.data.ext.EasyMailComposer;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
 import nl.knaw.dans.easy.domain.model.Dataset;
@@ -19,9 +14,6 @@ import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineCollection;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineCollectionImpl;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
-import nl.knaw.dans.easy.servicelayer.LicenseComposer;
-import nl.knaw.dans.easy.servicelayer.LicenseComposer.LicenseComposerException;
-import nl.knaw.dans.easy.servicelayer.SubmitNotification;
 
 import org.purl.sword.atom.Author;
 import org.purl.sword.atom.Content;
@@ -51,9 +43,6 @@ import org.slf4j.LoggerFactory;
 
 public class EasySwordServer implements SWORDServer
 {
-    /** TODO share constant with {@link SubmitNotification} */
-    static final String TEMPLATE = SubmitNotification.TEMPLATE_BASE_LOCATION+"deposit/depositConfirmation"+".html";
-
     /** TODO share this constant some how with the EASY application */
     private static final String DOWNLOAD_URL_FORMAT         = "%s/resources/easy/fileDownloadResource?params={'rootSid':'%s','downloadType':'zip','selectedItemList':['*']}";
 
@@ -248,13 +237,13 @@ public class EasySwordServer implements SWORDServer
         swordEntry.addLink(wrapLink("edit", datasetUrl));
         swordEntry.setGenerator(wrapGenerator(serverURL));
         swordEntry.setContent(wrapContent(serverURL, dataset.getStoreId()));
-        swordEntry.setTreatment(wrapTreatment(user, deposit, dataset, unzipped));
+        swordEntry.setTreatment(EasyBusinessWrapper.composeTreatment(user, dataset));
         swordEntry.setNoOp(deposit.isNoOp());
         // TODO swordEntry.setRights(rights);
         if (deposit.getOnBehalfOf() != null)
             swordEntry.addContributor(wrapContributor(deposit.getOnBehalfOf()));
         if (deposit.isVerbose())
-            swordEntry.setVerboseDescription(wrapVerboseDescription(user, deposit, dataset, unzipped));
+            swordEntry.setVerboseDescription(EasyBusinessWrapper.composeLicense(user, deposit.isNoOp(), dataset));
 
         return swordEntry;
     }
@@ -331,57 +320,6 @@ public class EasySwordServer implements SWORDServer
         return link;
     }
     
-    private static String wrapTreatment(final EasyUser user, final Deposit deposit, final Dataset dataset, final UnzipResult unzipped)
-    {
-        final String errorMessage = "Could not add treatment content to response";
-        try
-        {
-            final DatasetSubmissionImpl submission = new DatasetSubmissionImpl(null, dataset, user);
-            final EasyMailComposer composer = new EasyMailComposer(dataset, user, submission, new SubmitNotification(submission));
-            return composer.composeHtml(TEMPLATE);
-        }
-        catch (MailComposerException exception)
-        {
-            log.error(errorMessage, exception);
-        }
-        // fall back
-        return "Could not generate treatment content for response " + wrapSummary(deposit, unzipped).getContent();
-    }
-
-    private static String wrapVerboseDescription(final EasyUser user, final Deposit deposit, final Dataset dataset, final UnzipResult unzipped)
-    {
-
-        final String errorMessage = "Could not add license document to response";
-        try
-        {
-            final boolean generatePID = !deposit.isNoOp();
-            final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            log.debug(dataset + " AccessCategory=" + dataset.getAccessCategory());
-            new LicenseComposer(user, dataset, generatePID).createHtml(outputStream);
-            return outputStream.toString();
-        }
-        catch (final NoSuchMethodError exception)
-        {
-            log.error(errorMessage, exception);
-        }
-        catch (final LicenseComposerException exception)
-        {
-            log.error(errorMessage, exception);
-        }
-        // fall back
-        return "Could not generate license document " + wrapSummary(deposit, unzipped).getContent();
-    }
-
-    private static Summary wrapSummary(final Deposit deposit, final UnzipResult unzipped)
-    {
-        // TODO for consistent behavior better wrap in HTML
-        final Summary summary = new Summary();
-        final String fileNames = Arrays.deepToString(unzipped.getFiles().toArray());
-        final String shortFileNames = fileNames.replaceAll(unzipped.getPath(), "");
-        summary.setContent(deposit.getFilename() + " " + shortFileNames);
-        return summary;
-    }
-
     private static Generator wrapGenerator(final String server)
     {
         final Generator generator = new Generator();

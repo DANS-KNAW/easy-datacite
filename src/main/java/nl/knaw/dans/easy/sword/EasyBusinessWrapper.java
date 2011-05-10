@@ -1,5 +1,6 @@
 package nl.knaw.dans.easy.sword;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import nl.knaw.dans.common.jibx.JiBXObjectFactory;
+import nl.knaw.dans.common.lang.mail.MailComposerException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.xml.SchemaCreationException;
 import nl.knaw.dans.common.lang.xml.ValidatorException;
@@ -14,6 +16,7 @@ import nl.knaw.dans.common.lang.xml.XMLDeserializationException;
 import nl.knaw.dans.common.lang.xml.XMLErrorHandler;
 import nl.knaw.dans.common.lang.xml.XMLErrorHandler.Reporter;
 import nl.knaw.dans.easy.business.dataset.DatasetSubmissionImpl;
+import nl.knaw.dans.easy.data.ext.EasyMailComposer;
 import nl.knaw.dans.easy.domain.authn.Authentication.State;
 import nl.knaw.dans.easy.domain.authn.UsernamePasswordAuthentication;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
@@ -26,6 +29,9 @@ import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataForm
 import nl.knaw.dans.easy.domain.model.emd.types.BasicString;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.worker.WorkReporter;
+import nl.knaw.dans.easy.servicelayer.LicenseComposer;
+import nl.knaw.dans.easy.servicelayer.LicenseComposer.LicenseComposerException;
+import nl.knaw.dans.easy.servicelayer.SubmitNotification;
 import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 
@@ -41,6 +47,9 @@ import org.xml.sax.SAXException;
  */
 public class EasyBusinessWrapper
 {
+    /** TODO share constant with {@link SubmitNotification} or define another template */
+    static final String        TEMPLATE            = SubmitNotification.TEMPLATE_BASE_LOCATION + "deposit/depositConfirmation" + ".html";
+
     public static final String DEFAULT_EMD_VERSION = EasyMetadataValidator.VERSION_0_1;
 
     private static Logger      log                 = LoggerFactory.getLogger(EasyBusinessWrapper.class);
@@ -285,4 +294,44 @@ public class EasyBusinessWrapper
         log.error(message, exception);
         return new SWORDException(message);
     }
+
+    public static String composeTreatment(final EasyUser user, final Dataset dataset) throws SWORDException
+    {
+        try
+        {
+            final DatasetSubmissionImpl submission = new DatasetSubmissionImpl(null, dataset, user);
+            final EasyMailComposer composer = new EasyMailComposer(user, dataset, submission, new SubmitNotification(submission));
+            return composer.composeHtml(TEMPLATE);
+        }
+        catch (MailComposerException exception)
+        {
+            final String message = "Could not compose treatment";
+            log.error(message, exception);
+            throw new SWORDException(message);
+        }
+    }
+
+    public static String composeLicense(final EasyUser user, final boolean generateSample, final Dataset dataset) throws SWORDException
+    {
+
+        final String errorMessage = "Could not create license document";
+        try
+        {
+            final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            log.debug(dataset + " AccessCategory=" + dataset.getAccessCategory());
+            new LicenseComposer(user, dataset, generateSample).createHtml(outputStream);
+            return outputStream.toString();
+        }
+        catch (final NoSuchMethodError exception)
+        {
+            log.error(errorMessage, exception);
+            throw new SWORDException(errorMessage);
+        }
+        catch (final LicenseComposerException exception)
+        {
+            log.error(errorMessage, exception);
+            throw new SWORDException(errorMessage);
+        }
+    }
+
 }
