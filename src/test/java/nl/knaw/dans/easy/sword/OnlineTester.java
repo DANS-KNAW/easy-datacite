@@ -1,12 +1,19 @@
 package nl.knaw.dans.easy.sword;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import nl.knaw.dans.common.lang.xml.XMLSerializationException;
+import nl.knaw.dans.easy.business.dataset.DatasetSubmissionImpl;
+import nl.knaw.dans.easy.data.ext.EasyMailComposer;
+import nl.knaw.dans.easy.domain.model.Dataset;
+import nl.knaw.dans.easy.servicelayer.LicenseComposer;
+import nl.knaw.dans.easy.servicelayer.SubmitNotification;
+
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.purl.sword.base.Deposit;
 import org.purl.sword.base.DepositResponse;
@@ -19,7 +26,7 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 public class OnlineTester
 {
-    private static final Logger logger = LoggerFactory.getLogger(OnlineTester.class);
+    private static final Logger log = LoggerFactory.getLogger(OnlineTester.class);
 
     @BeforeClass
     public static void launchServer()
@@ -33,7 +40,6 @@ public class OnlineTester
         execute(true, false);
     }
 
-    @Ignore("fix UnzipResult.mockSubmittedDataset() / EasySwordServer.wrapVerboseDesciption()")
     @Test
     public void depositNoOpVerbose() throws Exception
     {
@@ -44,6 +50,44 @@ public class OnlineTester
     public void depositRealVerbose() throws Exception
     {
         execute(false, true);
+    }
+
+    /** Tests whether the mocked dataset provides enough information to generate body of the email body that confirms submission */
+    @Test
+    public void wrapTreatment() throws Exception
+    {
+        final Dataset dataset = createMockedDataset();
+
+        final DatasetSubmissionImpl submission = new DatasetSubmissionImpl(null, dataset, MockUtil.USER);
+        final EasyMailComposer composer = new EasyMailComposer(dataset, MockUtil.USER, submission, new SubmitNotification(submission));
+        log.debug(composer.composeHtml(EasySwordServer.TEMPLATE));
+        
+        assertMockedOk(dataset, "after create notification mail content");
+    }
+
+    /** Tests whether the mocked dataset provides enough information to generate the license document */
+    @Test
+    public void wrapVerbose() throws Exception
+    {
+        final Dataset dataset = createMockedDataset();
+
+        final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        final LicenseComposer composer = new LicenseComposer(MockUtil.USER, dataset, true);
+        composer.createHtml(outputStream);
+        log.debug(outputStream.toString("UTF-8"));
+        
+        assertMockedOk(dataset, "after create license");
+    }
+
+    private void assertMockedOk(final Dataset dataset, final String string) throws XMLSerializationException
+    {
+        log.debug(string+dataset.getEasyMetadata().asXMLString());
+    }
+
+    private Dataset createMockedDataset() throws SWORDException, SWORDErrorException, FileNotFoundException
+    {
+        final FileInputStream inputStream = new FileInputStream("src/test/resources/input/data-plus-meta.zip");
+        return new UnzipResult(inputStream).submit(MockUtil.USER, true);
     }
 
     private void execute(final boolean noOp, final boolean verbose) throws FileNotFoundException, SWORDAuthenticationException, SWORDErrorException,
@@ -58,8 +102,8 @@ public class OnlineTester
         deposit.setVerbose(verbose);
         deposit.setNoOp(noOp);
         final DepositResponse response = new EasySwordServer().doDeposit(deposit);
-        logger.info("submitted " + response.toString());
-        logger.info("submitted " + response.getHttpResponse());
+        log.info("submitted " + response.toString());
+        log.info("submitted " + response.getHttpResponse());
         if (verbose)
             new FileOutputStream("target/tmp/license.html").write(response.getEntry().getVerboseDescription().getBytes());
     }

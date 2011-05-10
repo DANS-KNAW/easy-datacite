@@ -7,13 +7,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 
-import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.file.UnzipUtil;
 import nl.knaw.dans.common.lang.util.FileUtil;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadataImpl;
-import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.easy.domain.model.emd.types.IsoDate;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 
@@ -132,7 +129,7 @@ public class UnzipResult
 
         if (mock)
         {
-            return mockSubmittedDataset("mockedDataset:" + ++noOpSumbitCounter, metadata);
+            return mockSubmittedDataset(metadata, user);
         }
         return SwordDatasetUtil.submitNewDataset(user, metadata, getDataFolder(), getFiles());
     }
@@ -174,8 +171,11 @@ public class UnzipResult
         return destPath + "/data/";
     }
 
-    private Dataset mockSubmittedDataset(final String storeID, final EasyMetadata metadata) throws SWORDException
+    private Dataset mockSubmittedDataset(final EasyMetadata metadata, EasyUser user) throws SWORDException
     {
+        ++noOpSumbitCounter;
+        final String pid = (noOpSumbitCounter+"xxxxxxxx").replaceAll("(..)(...)(...)", "urn:nbn:nl:ui:$1-$2-$3");
+        final String storeID = "mockedStoreID:" + noOpSumbitCounter;
         final Dataset dataset = EasyMock.createMock(Dataset.class);
 
         // TODO the following lines duplicates logic of DatasetImpl, move to EasyMetadata?
@@ -190,6 +190,9 @@ public class UnzipResult
         EasyMock.expect(dataset.getAccessCategory()).andReturn(metadata.getEmdRights().getAccessCategory()).anyTimes();
         EasyMock.expect(dataset.getDateSubmitted()).andReturn(dateSubmitted).anyTimes();
         EasyMock.expect(dataset.getDateAvailable()).andReturn(dateAvailable).anyTimes();
+        EasyMock.expect(dataset.getPreferredTitle()).andReturn(metadata.getPreferredTitle()).anyTimes();
+        EasyMock.expect(dataset.getDepositor()).andReturn(user).anyTimes();
+        EasyMock.expect(dataset.getPersistentIdentifier()).andReturn(pid).anyTimes();
         EasyMock.expect(dataset.isUnderEmbargo()).andReturn(underEmbargo).anyTimes();
         EasyMock.replay(dataset);
         return dataset;

@@ -5,21 +5,23 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import nl.knaw.dans.common.lang.mail.MailComposerException;
+import nl.knaw.dans.easy.business.dataset.DatasetSubmissionImpl;
+import nl.knaw.dans.easy.data.ext.EasyMailComposer;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineCollection;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineCollectionImpl;
-import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.LicenseComposer;
 import nl.knaw.dans.easy.servicelayer.LicenseComposer.LicenseComposerException;
+import nl.knaw.dans.easy.servicelayer.SubmitNotification;
 
 import org.purl.sword.atom.Author;
 import org.purl.sword.atom.Content;
@@ -49,6 +51,8 @@ import org.slf4j.LoggerFactory;
 
 public class EasySwordServer implements SWORDServer
 {
+    /** TODO share constant with {@link SubmitNotification} */
+    static final String TEMPLATE = SubmitNotification.TEMPLATE_BASE_LOCATION+"deposit/depositConfirmation"+".html";
 
     /** TODO share this constant some how with the EASY application */
     private static final String DOWNLOAD_URL_FORMAT         = "%s/resources/easy/fileDownloadResource?params={'rootSid':'%s','downloadType':'zip','selectedItemList':['*']}";
@@ -232,10 +236,10 @@ public class EasySwordServer implements SWORDServer
         final EasyMetadata metadata = dataset.getEasyMetadata();
         final String serverURL = toServer(deposit.getLocation());
 
-        swordEntry.setTitle(wrapTitle(metadata.getEmdTitle().toString()));
+        swordEntry.setTitle(wrapTitle(dataset.getPreferredTitle()));
         swordEntry.setSummary(wrapSummary(metadata.getEmdDescription().toString()));
         swordEntry.addCategory(formatCategory(metadata.getEmdAudience().getValues()));
-        swordEntry.setId(metadata.getEmdIdentifier().getPersistentIdentifier());
+        swordEntry.setId(dataset.getPersistentIdentifier());
         swordEntry.setUpdated(metadata.getEmdDate().toString());
         swordEntry.addAuthors(wrapAuthor(user));
 
@@ -244,13 +248,13 @@ public class EasySwordServer implements SWORDServer
         swordEntry.addLink(wrapLink("edit", datasetUrl));
         swordEntry.setGenerator(wrapGenerator(serverURL));
         swordEntry.setContent(wrapContent(serverURL, dataset.getStoreId()));
-        swordEntry.setTreatment("See license");
+        swordEntry.setTreatment(wrapTreatment(user, deposit, dataset, unzipped));
         swordEntry.setNoOp(deposit.isNoOp());
         // TODO swordEntry.setRights(rights);
         if (deposit.getOnBehalfOf() != null)
             swordEntry.addContributor(wrapContributor(deposit.getOnBehalfOf()));
         if (deposit.isVerbose())
-            swordEntry.setVerboseDescription(wrapVerboseDesciption(user, deposit, dataset, unzipped));
+            swordEntry.setVerboseDescription(wrapVerboseDescription(user, deposit, dataset, unzipped));
 
         return swordEntry;
     }
@@ -326,8 +330,25 @@ public class EasySwordServer implements SWORDServer
         link.setHref(location);
         return link;
     }
+    
+    private static String wrapTreatment(final EasyUser user, final Deposit deposit, final Dataset dataset, final UnzipResult unzipped)
+    {
+        final String errorMessage = "Could not add treatment content to response";
+        try
+        {
+            final DatasetSubmissionImpl submission = new DatasetSubmissionImpl(null, dataset, user);
+            final EasyMailComposer composer = new EasyMailComposer(dataset, user, submission, new SubmitNotification(submission));
+            return composer.composeHtml(TEMPLATE);
+        }
+        catch (MailComposerException exception)
+        {
+            log.error(errorMessage, exception);
+        }
+        // fall back
+        return "Could not generate treatment content for response " + wrapSummary(deposit, unzipped).getContent();
+    }
 
-    private static String wrapVerboseDesciption(final EasyUser user, final Deposit deposit, final Dataset dataset, final UnzipResult unzipped)
+    private static String wrapVerboseDescription(final EasyUser user, final Deposit deposit, final Dataset dataset, final UnzipResult unzipped)
     {
 
         final String errorMessage = "Could not add license document to response";
@@ -346,11 +367,6 @@ public class EasySwordServer implements SWORDServer
         catch (final LicenseComposerException exception)
         {
             log.error(errorMessage, exception);
-        } finally {
-            // FIXME how did the licenseComposer destroy the mocked dataset?
-            // test with sword deposit request options noOp + verbose
-            log.debug(dataset + " metadata=" + dataset.getEasyMetadata());
-            log.debug(dataset + " AccessCategory=" + dataset.getAccessCategory());
         }
         // fall back
         return "Could not generate license document " + wrapSummary(deposit, unzipped).getContent();

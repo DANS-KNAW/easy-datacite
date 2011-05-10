@@ -1,21 +1,16 @@
 package nl.knaw.dans.easy.sword;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.easy.business.dataset.DatasetSubmissionImpl;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.userrepo.EasyUserRepo;
 import nl.knaw.dans.easy.domain.authn.Authentication.State;
 import nl.knaw.dans.easy.domain.authn.UsernamePasswordAuthentication;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
-import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
-import nl.knaw.dans.easy.domain.dataset.item.ItemOrder;
-import nl.knaw.dans.easy.domain.dataset.item.filter.ItemFilters;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
