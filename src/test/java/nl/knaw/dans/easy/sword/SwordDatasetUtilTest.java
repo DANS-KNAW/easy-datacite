@@ -33,7 +33,7 @@ public class SwordDatasetUtilTest extends Tester
         basePath.mkdirs();
         tempDirectory = FileUtil.createTempDirectory(basePath, "unzip");
         fileList = new UnzipUtil(ZIP_FILE, tempDirectory.getPath(), createUnzipListener()).run();
-        easyMetaData = SwordDatasetUtil.unmarshallEasyMetaData(FileUtil.readFile(META_DATA_FILE));
+        easyMetaData = EasyBusinessWrapper.unmarshallEasyMetaData(FileUtil.readFile(META_DATA_FILE));
     }
 
     @Ignore("adjust mocks")
@@ -41,7 +41,7 @@ public class SwordDatasetUtilTest extends Tester
     @Test
     public void submit() throws Exception
     {
-        SwordDatasetUtil.submitNewDataset(MockUtil.USER, easyMetaData, tempDirectory, fileList);
+        EasyBusinessWrapper.submitNewDataset(MockUtil.USER, easyMetaData, tempDirectory, fileList);
     }
 
     @Ignore("adjust mocks")
@@ -49,7 +49,7 @@ public class SwordDatasetUtilTest extends Tester
     @Test(expected = SWORDException.class)
     public void anonymousSubmit() throws Exception
     {
-        SwordDatasetUtil.submitNewDataset(MockUtil.USER, easyMetaData, tempDirectory, fileList);
+        EasyBusinessWrapper.submitNewDataset(MockUtil.USER, easyMetaData, tempDirectory, fileList);
     }
 
     private static UnzipListener createUnzipListener()

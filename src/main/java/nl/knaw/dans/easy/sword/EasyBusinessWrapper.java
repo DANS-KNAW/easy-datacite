@@ -39,11 +39,11 @@ import org.xml.sax.SAXException;
 /**
  * Wrapper for the easy business API
  */
-public class SwordDatasetUtil
+public class EasyBusinessWrapper
 {
     public static final String DEFAULT_EMD_VERSION = EasyMetadataValidator.VERSION_0_1;
 
-    private static Logger      log                 = LoggerFactory.getLogger(SwordDatasetUtil.class);
+    private static Logger      log                 = LoggerFactory.getLogger(EasyBusinessWrapper.class);
 
     /**
      * Gets an authenticated user.

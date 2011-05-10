@@ -86,7 +86,7 @@ public class EasySwordServer implements SWORDServer
         final String password = sdr.getPassword();
         if (userID != null)
         {
-            if (null == SwordDatasetUtil.getUser(userID, password))
+            if (null == EasyBusinessWrapper.getUser(userID, password))
                 throw new SWORDAuthenticationException(userID + " not authenticated");
         }
 
@@ -215,7 +215,7 @@ public class EasySwordServer implements SWORDServer
 
     public DepositResponse doDeposit(final Deposit deposit) throws SWORDAuthenticationException, SWORDErrorException, SWORDException
     {
-        final EasyUser user = SwordDatasetUtil.getUser(deposit.getUsername(), deposit.getPassword());
+        final EasyUser user = EasyBusinessWrapper.getUser(deposit.getUsername(), deposit.getPassword());
         if (user == null)
             throw new SWORDAuthenticationException(deposit.getUsername() + " not authenticated");
 
@@ -427,7 +427,7 @@ public class EasySwordServer implements SWORDServer
 
     public AtomDocumentResponse doAtomDocument(final AtomDocumentRequest adr) throws SWORDAuthenticationException, SWORDErrorException, SWORDException
     {
-        if (null == SwordDatasetUtil.getUser(adr.getUsername(), adr.getPassword()))
+        if (null == EasyBusinessWrapper.getUser(adr.getUsername(), adr.getPassword()))
             throw new SWORDAuthenticationException(adr.getUsername() + " not authenticated");
 
         return new AtomDocumentResponse(HttpServletResponse.SC_OK);
