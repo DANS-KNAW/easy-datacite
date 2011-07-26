@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<parent>
+		<artifactId>easy</artifactId>
+		<groupId>nl.knaw.dans.easy</groupId>
+		<version>2.0-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<name>Easy Business Logic</name>
+	<groupId>nl.knaw.dans.easy</groupId>
+	<artifactId>easy-business</artifactId>
+	<packaging>jar</packaging>
+	<version>2.0-SNAPSHOT</version>
+	<!-- TODO project name  -->
+	<description>Easy business logic</description>
+
+	<!-- TODO
+		<organization>
+		<name>company name</name>
+		<url>company url</url>
+		</organization>
+	-->
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<dependencies>
+
+		<!-- Project dependencies -->
+		<!-- /Project dependencies -->
+
+		<!-- common jibx client library -->
+		<dependency>
+			<groupId>nl.knaw.dans.common</groupId>
+			<artifactId>dans-jibx</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		
+
+		<dependency>
+			<groupId>nl.knaw.dans.common</groupId>
+			<artifactId>dans-pid</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+
+        <!--
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4</version>
+		</dependency>
+		-->
+
+		<dependency>
+			<groupId>jrdf</groupId>
+			<artifactId>jrdf</artifactId>
+			<version>0.5.5.4</version>
+		</dependency>
+
+		<!-- http client for nl.knaw.dans.easy.util.MultiThreadedHttpClient
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<version>3.1</version>
+		</dependency>
+		-->
+
+		<!-- ArchisCollector uses jdom -->
+		<dependency>
+			<groupId>jdom</groupId>
+			<artifactId>jdom</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<dependency>
+            <groupId>jaxen</groupId>
+            <artifactId>jaxen</artifactId>
+            <version>1.1</version>
+        </dependency>
+
+		<!-- ASPECTJ -->
+		<dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.6.10</version>
+        </dependency>
+
+		<!-- dependency on the test classes of dans-lang for the test scope of this project -->
+		<dependency>
+			<groupId>nl.knaw.dans.common</groupId>
+			<artifactId>dans-lang</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<classifier>tests</classifier>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>1.3.2</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+        <sourceDirectory>src/main/java</sourceDirectory>
+		<testSourceDirectory>src/test/java</testSourceDirectory>
+		<resources>
+			<resource>
+				<filtering>false</filtering>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+			</resource>
+			<resource>
+				<filtering>false</filtering>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+			</resource>
+		</resources>
+		
+		<testResources>
+			<testResource>
+				<filtering>true</filtering>
+                <directory>src/test/resources</directory>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+                <excludes>
+                	<exclude>**/*.doc</exclude>
+                	<exclude>**/*.pdf</exclude>
+                </excludes>
+			</testResource>
+			<testResource>
+				<filtering>false</filtering>
+                <directory>src/test/resources</directory>
+                <includes>
+                    <include>**/*.doc</include>
+                    <include>**/*.pdf</include>
+                </includes>
+			</testResource>
+		</testResources>
+		
+		<plugins>
+
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>**/*OnlineTest.java</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+
+
+			<plugin>
+				<groupId>org.jibx</groupId>
+				<artifactId>maven-jibx-plugin</artifactId>
+				<version>${jibx.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>bind</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<directory>src/main/config/</directory>
+					<includes>
+						<includes>*-binding.xml</includes>
+					</includes>
+					<verbose>false</verbose>
+				</configuration>
+			</plugin>
+
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+                <version>1.3.1</version>
+                <configuration>
+                	<verbose>true</verbose>
+                    <source>${source-code-version}</source>
+                    <target>${byte-code-version}</target>
+                        <!-- 
+                    <includes>
+                        <include>**/business/**/*.java</include>
+                        <include>**/business/aspect/*.aj</include>
+                        <include>**/servicelayer/*.java</include>
+                        <include>**/servicelayer/aspect/*.aj</include>
+                    </includes>
+                         -->
+                    <!--
+                    <excludes>
+                        <exclude>**/*.*</exclude>
+                    </excludes>
+                    -->
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <!--  >goal>test-compile</goal -->
+                        </goals>
+                    </execution>
+               </executions>
+
+           </plugin>
+
+		</plugins>
+
+	</build>
+
+	<repositories>
+
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<releases>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<id>jibx.sf.net</id>
+			<name>JiBX repository</name>
+			<url>http://jibx.sf.net/maven2</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<properties>
+		<jibx.version>1.1.6a</jibx.version>
+	</properties>
+
+</project>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<!-- FormDescription, root element -->
+	<mapping ns="http://easy.dans.knaw.nl/easy/data-form/" name="formDescriptor" 
+		class="nl.knaw.dans.easy.domain.form.FormDescriptor" post-set="postJiBXProcess">
+		
+		<namespace uri="http://easy.dans.knaw.nl/easy/data-form/" prefix="edf"/>
+		
+		<structure type="nl.knaw.dans.easy.domain.form.AbstractInheritableDefinition"/>
+		
+		<value name="ordinal" field="ordinal" usage="optional"/>
+  		  
+		<structure name="panelDefinitions" usage="optional">
+			<collection field="standardPanelDefinitions" get-method="getStandardPanelDefinitions" 
+				factory="nl.knaw.dans.easy.domain.form.FormDescriptor.arrayList">
+				<structure 
+					type="nl.knaw.dans.easy.domain.form.StandardPanelDefinition" usage="optional"/> 
+			</collection>
+			<collection field="termPanelDefinitions" get-method="getTermPanelDefinitions" 
+				factory="nl.knaw.dans.easy.domain.form.FormDescriptor.arrayList">
+				<structure 
+					type="nl.knaw.dans.easy.domain.form.TermPanelDefinition" usage="optional"/> 
+			</collection>
+			<collection field="subHeadingDefinitions" get-method="getSubHeadingDefinitions"
+				factory="nl.knaw.dans.easy.domain.form.FormDescriptor.arrayList">
+				<structure 
+					type="nl.knaw.dans.easy.domain.form.SubHeadingDefinition" usage="optional"/> 
+			</collection>
+		</structure>
+		
+		<structure name="formDefinitions" usage="optional">
+			<collection field="formDefinitions" get-method="getFormDefinitions" 
+				factory="nl.knaw.dans.easy.domain.form.FormDescriptor.arrayList">
+				<structure
+					type="nl.knaw.dans.easy.domain.form.FormDefinition" usage="optional"/> 
+			</collection>
+		</structure>
+
+		<value style="attribute" name="version" get-method="getVersion" field="version"/>
+		
+	</mapping>
+	
+	
+	<!-- AbstractComponent -->
+	<mapping class="nl.knaw.dans.easy.domain.form.AbstractInheritableDefinition" abstract="true" post-set="postAbstractJiBXProcess">
+	
+		<structure name="properties">
+			<value name="id" field="id"/>
+			<value name="labelResourceKey" field="labelResourceKey" usage="optional"/>
+			<value name="shortHelpResourceKey" field="shortHelpResourceKey" usage="optional"/>
+			<value name="helpItem" field="helpItem" usage="optional"/>
+			<value name="helpFile" field="helpFile" usage="optional"/>
+			<value name="instructionFile" field="instructionFile" usage="optional"/>
+			<value name="licenseFile" field="licenseFile" usage="optional"/>
+			<collection field="customProperties" get-method="getCustomProperties" 
+				factory="nl.knaw.dans.easy.domain.form.FormDescriptor.arrayList" usage="optional">
+				<structure name="property" type="nl.knaw.dans.easy.domain.form.CustomProperty" usage="optional"> 
+					<value name="name" field="name"/>
+					<value name="value" field="value"/>
+				</structure>
+			</collection>	
+		</structure>
+	</mapping>
+	
+	<!-- PanelDefinition -->	  
+	<mapping class="nl.knaw.dans.easy.domain.form.PanelDefinition" abstract="true">
+		
+		<structure type="nl.knaw.dans.easy.domain.form.AbstractInheritableDefinition"/>
+	</mapping>
+	
+	
+	<!-- StandardPanelDefinition -->	  
+	<mapping class="nl.knaw.dans.easy.domain.form.StandardPanelDefinition" name="standardPanel">
+		
+		<structure type="nl.knaw.dans.easy.domain.form.PanelDefinition"/>
+		<value name="modelClass" field="modelClass"/>
+		<value name="panelClass" field="panelClass"/>
+		<value name="required" field="required" usage="optional"/>
+		<value name="repeating" field="repeating" usage="optional"/>
+		<collection field="choiceListDefinitions" factory="nl.knaw.dans.easy.domain.form.FormDescriptor.arrayList">
+			<structure
+					type="nl.knaw.dans.easy.domain.form.ChoiceListDefinition" usage="optional"/> 
+		</collection>
+	</mapping>
+	
+	
+	<!-- TermPanelDefinition -->
+	<mapping class="nl.knaw.dans.easy.domain.form.TermPanelDefinition" name="termPanel">
+		
+		<structure type="nl.knaw.dans.easy.domain.form.PanelDefinition"/>
+		<value name="modelClass" field="modelClass"/>
+		<value name="panelClass" field="panelClass"/>
+		<value name="required" field="required" usage="optional"/>
+		<value name="repeating" field="repeating" usage="optional"/>
+		<collection field="choiceListDefinitions" factory="nl.knaw.dans.easy.domain.form.FormDescriptor.arrayList">
+			<structure
+					type="nl.knaw.dans.easy.domain.form.ChoiceListDefinition" usage="optional"/> 
+		</collection>
+		<value name="namespacePrefix" field="namespacePrefix"/>
+		<value name="termName" field="termName"/>
+	</mapping>
+	
+	<!-- SubHeadingDefinition -->
+	<mapping class="nl.knaw.dans.easy.domain.form.SubHeadingDefinition" name="subHeading">
+		
+		<structure type="nl.knaw.dans.easy.domain.form.PanelDefinition"/>
+		<value name="editable" field="editable" default="true" usage="optional"/>
+		<structure name="panels">
+			<collection field="panelIds" factory="nl.knaw.dans.easy.domain.form.FormDescriptor.arrayList" item-type="java.lang.String">
+				<value name="ref-panelId" usage="optional"/> 
+			</collection>
+		</structure>
+			
+	</mapping>
+	 
+	<!-- ChoiceListDefinition -->
+	<mapping class="nl.knaw.dans.easy.domain.form.ChoiceListDefinition" name="choiceListDefinition">
+	
+		<structure type="nl.knaw.dans.easy.domain.form.AbstractInheritableDefinition"/>
+		<value name="schemeName" field="schemeName" usage="optional"/>
+		<value name="nullValid" field="nullValid" usage="optional"/>
+	</mapping>
+	
+	<!-- FormDefinition -->
+	<mapping class="nl.knaw.dans.easy.domain.form.FormDefinition" name="formDefinition">
+	
+		<structure type="nl.knaw.dans.easy.domain.form.AbstractInheritableDefinition"/>
+		<structure name="formPages" usage="optional">
+				<collection field="formPages" factory="nl.knaw.dans.easy.domain.form.FormDescriptor.arrayList">
+					<structure 
+						type="nl.knaw.dans.easy.domain.form.FormPage" usage="optional"/> 
+				</collection>
+		</structure>
+	
+	</mapping>
+	
+	<!-- FormPage -->
+	<mapping class="nl.knaw.dans.easy.domain.form.FormPage" name="formPage">
+	
+		<structure type="nl.knaw.dans.easy.domain.form.AbstractInheritableDefinition"/>
+		<value name="editable" field="editable" default="true" usage="optional"/>
+		<value name="cssContainerClassName" field="cssContainerClassName" usage="optional"/>
+		<structure name="panels">
+			<collection field="panelIds" factory="nl.knaw.dans.easy.domain.form.FormDescriptor.arrayList" item-type="java.lang.String">
+				<value name="ref-panelId" usage="optional"/> 
+			</collection>
+		</structure>
+		
+	</mapping>
+	
+</binding>

@@ -1,0 +1,24 @@
+<body>
+Classes and interfaces concerned with security.
+
+<h3>SecurityOfficers</h3>
+Security is enforced by SecurityOfficers. Each SecurityOfficer holds a proposition that
+it can evaluate against a given context. 
+<p/>
+A xxCheck SecurityOfficer evaluates a certain aspect of the context against it's (basic) proposition or sentence.
+Logical SecurityOfficers (And, Or, Not) can be used to compose more complex propositions.
+The SplitAnswer SecurityOfficer is used to differentiate propositions for visibility and enabling.
+<p/>
+A SecurityOfficer for a given item (component or action) can be obtained from (a class implementing) Authz
+with the method Authz.getSecurityOfficer(String).
+<p/>
+The implication(s) of a proposition held by a SecurityOfficer can be seen as a <i>rule</i>.
+
+<h3>Context</h3>
+The context to be evaluated by a SecurityOfficer or a combination of SecurityOfficers can be
+expressed in a generalized form using ContextParameters.
+
+<hr/>
+see also: <a href="http://www.iep.utm.edu/p/prop-log.htm">Propositional Logic</a>
+
+</body>

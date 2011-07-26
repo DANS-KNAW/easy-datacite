@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addmd:additional-metadata xmlns:addmd="http://easy.dans.knaw.nl/easy/additional-metadata/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://easy.dans.knaw.nl/easy/additional-metadata/ additional-metadata.xsd">
+    <properties>
+        <comment>comment0</comment>
+        <entry key="key0">entry0</entry>
+        <entry key="key1">entry1</entry>
+    </properties>
+    <addmd:additional id="flat-list" label="label0">
+        <content>
+        	<bla></bla>
+        </content>
+    </addmd:additional>
+    <addmd:additional id="id1" label="label1">
+        <content>
+        </content>
+    </addmd:additional>
+</addmd:additional-metadata>

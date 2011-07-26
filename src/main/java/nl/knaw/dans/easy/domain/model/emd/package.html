@@ -1,0 +1,21 @@
+<body>
+Classes involved in the java representation of easymetadata.
+<p>
+{@link nl.knaw.dans.easy.domain.dataset.emd.EasyMetadata} is the main class in this package.
+It contains 0 or more {@link nl.knaw.dans.easy.domain.dataset.emd.EmdContainer}s which in turn contain terms.
+A container groups terms of a certain category. A term is a list of items. The name of both container and term is equal to the name
+of one of the terms defined by <a href="http://dublincore.org/documents/dcmi-terms">Dublin Core Terms</a>, or it is not. When it is not,
+there are reasons to deviate from this standard, either because the standard does not have a term for this category of meta data, or the
+category we want to impose has a too global meaning. As a consequence, containers and terms that deviate from the naming in the above
+mentioned standard cannot be expressed in terms of said standard.
+</p>
+<p>
+A {@link nl.knaw.dans.easy.domain.dataset.emd.EmdContainer} groups meta data of a certain category.
+It contains the term of the same name, as well as terms that qualify it.
+Besides these it can contain lists of items pertaining to the same category but with a more complex structure.
+</p>
+<p>
+Terms that deviate from the naming in the above mentioned standard should be grouped in the container
+{@link nl.knaw.dans.easy.domain.dataset.emd.EmdOther}.
+</p>
+</body>

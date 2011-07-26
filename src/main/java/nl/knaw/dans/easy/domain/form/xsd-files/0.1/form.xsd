@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://easy.dans.knaw.nl/easy/data-form/"
+    xmlns:edf="http://easy.dans.knaw.nl/easy/data-form/" elementFormDefault="unqualified"
+    attributeFormDefault="unqualified">
+
+    <xs:element name="formDescriptor">
+        <xs:annotation>
+            <xs:documentation>Description of Easy Data Forms (edf).</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="properties" type="edf:component-properties"/>
+                <xs:element name="ordinal" type="xs:string" minOccurs="0"/>
+                <xs:element name="panelDefinitions" type="edf:panelDefinitions" minOccurs="0"/>
+                <xs:element name="formDefinitions" type="edf:formDefinitions" minOccurs="0"/>
+            </xs:sequence>
+            <xs:attribute name="version" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="component-properties">
+        <xs:sequence>
+            <xs:element name="id" type="xs:string"/>
+            <xs:element name="labelResourceKey" type="xs:string" minOccurs="0"/>
+            <xs:element name="shortHelpResourceKey" type="xs:string" minOccurs="0"/>
+            <xs:element name="helpItem" type="xs:string" minOccurs="0"/>
+            <xs:element name="helpFile" type="xs:string" minOccurs="0"/>
+            <xs:element name="instructionFile" type="xs:string" minOccurs="0"/>
+            <xs:element name="licenseFile" type="xs:string" minOccurs="0"/>
+            <xs:element name="property" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="name" type="xs:string"/>
+                        <xs:element name="value" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="panelDefinitions">
+        <xs:sequence>
+            <xs:element name="standardPanel" type="edf:standardPanelType" minOccurs="0"
+                maxOccurs="unbounded"/>
+            <xs:element name="termPanel" type="edf:termPanelType" minOccurs="0"
+                maxOccurs="unbounded"/>
+            <xs:element name="subHeading" type="edf:subHeading" minOccurs="0" maxOccurs="unbounded"
+            />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="formDefinitions">
+        <xs:sequence>
+            <xs:element name="formDefinition" type="edf:formDefinition" minOccurs="0"
+                maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="formDefinition">
+        <xs:sequence>
+            <xs:element name="properties" type="edf:component-properties"/>
+            
+            <xs:element name="formPages">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="formPage" type="edf:formPage" maxOccurs="unbounded"
+                            minOccurs="0"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="formPage">
+        <xs:annotation>
+            <xs:documentation>A page in a data form.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="properties" type="edf:component-properties"/>
+            <xs:element name="editable" type="xs:boolean" minOccurs="0"/>
+            <xs:element name="cssContainerClassName" type="xs:string" minOccurs="0"/>
+            <xs:element name="panels" type="edf:panels"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="panels">
+        <xs:sequence>
+            <xs:element name="ref-panelId" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="standardPanelType">
+        <xs:sequence>
+            <xs:element name="properties" type="edf:component-properties"/>
+            <xs:element name="modelClass" type="xs:string"/>
+            <xs:element name="panelClass" type="xs:string"/>
+            <xs:element name="required" type="xs:boolean" minOccurs="0"/>
+            <xs:element name="repeating" type="xs:boolean" minOccurs="0"/>
+            <xs:element name="choiceListDefinition" type="edf:choiceListDefinition"
+                minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="termPanelType">
+        <xs:complexContent>
+            <xs:extension base="edf:standardPanelType">
+                <xs:sequence>
+                    <xs:element name="namespacePrefix" type="xs:string"/>
+                    <xs:element name="termName" type="xs:string"/>                    
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="subHeading">
+        <xs:sequence>
+            <xs:element name="properties" type="edf:component-properties"/>
+            <xs:element name="editable" type="xs:boolean" minOccurs="0"/>
+            <xs:element name="panels" type="edf:panels"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="choiceListDefinition">
+        <xs:annotation>
+            <xs:documentation>Describes scheme(s) used on a panel. Often a scheme is visible as a
+                list of choices.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="properties" type="edf:component-properties"/>
+            <xs:element name="schemeName" type="xs:string" minOccurs="0"/>
+            <xs:element name="nullValid" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Is null a valid choice.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

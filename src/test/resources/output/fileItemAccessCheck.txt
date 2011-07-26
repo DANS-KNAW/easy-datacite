@@ -1,0 +1,295 @@
+
+-----------------------
+1304 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='no idea. user is anonymous.' profile of sessionUser=1 ([ANONYMOUS_ACCESS]) 
+	fileItem id=testFileItem fileItem mask=1 (ANONYMOUS_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1316 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=1 ([ANONYMOUS_ACCESS]) 
+	fileItem id=testFileItem fileItem mask=1 (ANONYMOUS_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1328 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=1 ([ANONYMOUS_ACCESS]) 
+	fileItem id=testFileItem fileItem mask=1 (ANONYMOUS_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1340 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=1 ([ANONYMOUS_ACCESS]) 
+	fileItem id=testFileItem fileItem mask=1 (ANONYMOUS_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1352 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=1 ([ANONYMOUS_ACCESS]) 
+	fileItem id=testFileItem fileItem mask=1 (ANONYMOUS_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1364 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=3 ([ANONYMOUS_ACCESS, OPEN_ACCESS]) 
+	fileItem id=testFileItem fileItem mask=1 (ANONYMOUS_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1365 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=3 ([ANONYMOUS_ACCESS, OPEN_ACCESS]) 
+	fileItem id=testFileItem fileItem mask=2 (OPEN_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1376 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=3 ([ANONYMOUS_ACCESS, OPEN_ACCESS]) 
+	fileItem id=testFileItem fileItem mask=1 (ANONYMOUS_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1377 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=3 ([ANONYMOUS_ACCESS, OPEN_ACCESS]) 
+	fileItem id=testFileItem fileItem mask=2 (OPEN_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1412 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='no idea. user is anonymous.' profile of sessionUser=1 ([ANONYMOUS_ACCESS]) 
+	fileItem id=testFileItem fileItem mask=1 (ANONYMOUS_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1424 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=1 ([ANONYMOUS_ACCESS]) 
+	fileItem id=testFileItem fileItem mask=1 (ANONYMOUS_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1436 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=1 ([ANONYMOUS_ACCESS]) 
+	fileItem id=testFileItem fileItem mask=1 (ANONYMOUS_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1448 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=1 ([ANONYMOUS_ACCESS]) 
+	fileItem id=testFileItem fileItem mask=1 (ANONYMOUS_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1460 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=1 ([ANONYMOUS_ACCESS]) 
+	fileItem id=testFileItem fileItem mask=1 (ANONYMOUS_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1472 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=11 ([ANONYMOUS_ACCESS, OPEN_ACCESS, REQUEST_PERMISSION]) 
+	fileItem id=testFileItem fileItem mask=1 (ANONYMOUS_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1473 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=11 ([ANONYMOUS_ACCESS, OPEN_ACCESS, REQUEST_PERMISSION]) 
+	fileItem id=testFileItem fileItem mask=2 (OPEN_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1474 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=11 ([ANONYMOUS_ACCESS, OPEN_ACCESS, REQUEST_PERMISSION]) 
+	fileItem id=testFileItem fileItem mask=8 (REQUEST_PERMISSION) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1484 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=11 ([ANONYMOUS_ACCESS, OPEN_ACCESS, REQUEST_PERMISSION]) 
+	fileItem id=testFileItem fileItem mask=1 (ANONYMOUS_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1485 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=11 ([ANONYMOUS_ACCESS, OPEN_ACCESS, REQUEST_PERMISSION]) 
+	fileItem id=testFileItem fileItem mask=2 (OPEN_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1486 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=11 ([ANONYMOUS_ACCESS, OPEN_ACCESS, REQUEST_PERMISSION]) 
+	fileItem id=testFileItem fileItem mask=8 (REQUEST_PERMISSION) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1520 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='no idea. user is anonymous.' profile of sessionUser=1 ([ANONYMOUS_ACCESS]) 
+	fileItem id=testFileItem fileItem mask=1 (ANONYMOUS_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1532 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=1 ([ANONYMOUS_ACCESS]) 
+	fileItem id=testFileItem fileItem mask=1 (ANONYMOUS_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1544 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=1 ([ANONYMOUS_ACCESS]) 
+	fileItem id=testFileItem fileItem mask=1 (ANONYMOUS_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1556 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=1 ([ANONYMOUS_ACCESS]) 
+	fileItem id=testFileItem fileItem mask=1 (ANONYMOUS_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1568 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=1 ([ANONYMOUS_ACCESS]) 
+	fileItem id=testFileItem fileItem mask=1 (ANONYMOUS_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1580 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=3 ([ANONYMOUS_ACCESS, OPEN_ACCESS]) 
+	fileItem id=testFileItem fileItem mask=1 (ANONYMOUS_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1581 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=3 ([ANONYMOUS_ACCESS, OPEN_ACCESS]) 
+	fileItem id=testFileItem fileItem mask=2 (OPEN_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1592 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=7 ([ANONYMOUS_ACCESS, OPEN_ACCESS, GROUP_ACCESS]) 
+	fileItem id=testFileItem fileItem mask=1 (ANONYMOUS_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1593 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=7 ([ANONYMOUS_ACCESS, OPEN_ACCESS, GROUP_ACCESS]) 
+	fileItem id=testFileItem fileItem mask=2 (OPEN_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1595 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=7 ([ANONYMOUS_ACCESS, OPEN_ACCESS, GROUP_ACCESS]) 
+	fileItem id=testFileItem fileItem mask=4 (GROUP_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1628 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='no idea. user is anonymous.' profile of sessionUser=1 ([ANONYMOUS_ACCESS]) 
+	fileItem id=testFileItem fileItem mask=1 (ANONYMOUS_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1640 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=1 ([ANONYMOUS_ACCESS]) 
+	fileItem id=testFileItem fileItem mask=1 (ANONYMOUS_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1652 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=1 ([ANONYMOUS_ACCESS]) 
+	fileItem id=testFileItem fileItem mask=1 (ANONYMOUS_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1664 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=1 ([ANONYMOUS_ACCESS]) 
+	fileItem id=testFileItem fileItem mask=1 (ANONYMOUS_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1676 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=1 ([ANONYMOUS_ACCESS]) 
+	fileItem id=testFileItem fileItem mask=1 (ANONYMOUS_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1688 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=11 ([ANONYMOUS_ACCESS, OPEN_ACCESS, REQUEST_PERMISSION]) 
+	fileItem id=testFileItem fileItem mask=1 (ANONYMOUS_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1689 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=11 ([ANONYMOUS_ACCESS, OPEN_ACCESS, REQUEST_PERMISSION]) 
+	fileItem id=testFileItem fileItem mask=2 (OPEN_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1690 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=11 ([ANONYMOUS_ACCESS, OPEN_ACCESS, REQUEST_PERMISSION]) 
+	fileItem id=testFileItem fileItem mask=8 (REQUEST_PERMISSION) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1700 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=15 ([ANONYMOUS_ACCESS, OPEN_ACCESS, GROUP_ACCESS, REQUEST_PERMISSION]) 
+	fileItem id=testFileItem fileItem mask=1 (ANONYMOUS_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1701 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=15 ([ANONYMOUS_ACCESS, OPEN_ACCESS, GROUP_ACCESS, REQUEST_PERMISSION]) 
+	fileItem id=testFileItem fileItem mask=2 (OPEN_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1702 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=15 ([ANONYMOUS_ACCESS, OPEN_ACCESS, GROUP_ACCESS, REQUEST_PERMISSION]) 
+	fileItem id=testFileItem fileItem mask=8 (REQUEST_PERMISSION) 
+	((mask & profile) > 0)=true
+	condition met = true
+-----------------------
+1703 dataset.AdministrativeState=PUBLISHED
+A = check [Profile of sessionUser matches access rights of FileItem] (FileItemAccessCheck)
+	sessionUser id='testUser' profile of sessionUser=15 ([ANONYMOUS_ACCESS, OPEN_ACCESS, GROUP_ACCESS, REQUEST_PERMISSION]) 
+	fileItem id=testFileItem fileItem mask=4 (GROUP_ACCESS) 
+	((mask & profile) > 0)=true
+	condition met = true

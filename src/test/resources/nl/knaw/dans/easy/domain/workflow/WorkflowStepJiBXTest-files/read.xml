@@ -1,0 +1,31 @@
+<?xml version="1.0" standalone="yes"?>
+<wfs:workflow xmlns:wfs="http://easy.dans.knaw.nl/easy/workflow/" version="0.1">
+    <id>dasa_10000</id>
+    <required>true</required>
+    <doneById>piet</doneById>
+    <timeSpent>2.345678</timeSpent>
+    <remarks>
+        <remark version="0.1">
+            <text>Wat een trash!</text>
+            <remarkerId>jan</remarkerId>
+            <remarkDate>2009-08-24T22:21:11.704+02:00</remarkDate>
+        </remark>
+        <remark version="0.1">
+            <text>Let op je woorden, Jan!</text>
+            <remarkerId>marietje</remarkerId>
+            <remarkDate>2009-08-24T22:21:11.784+02:00</remarkDate>
+        </remark>
+    </remarks>
+    <steps>
+        <wfs:workflow version="0.1">
+            <id>dasa_11000</id>
+            <steps>
+                <wfs:workflow version="0.1">
+                    <id>dasa_11100</id>
+                    <completed>true</completed>
+                    <completionTime>2009-08-24T22:21:11.784+02:00</completionTime>
+                </wfs:workflow>
+            </steps>
+        </wfs:workflow>
+    </steps>
+</wfs:workflow>

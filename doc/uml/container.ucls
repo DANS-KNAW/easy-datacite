@@ -1,0 +1,97 @@
+<class-diagram version="0.9.86" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true">  
+  <interface corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.domain.model.Dataset" project="easy-business" 
+    file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/Dataset.java" binary="false">    
+    <position x="292" y="301" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </interface>  
+  <interface corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.domain.model.DatasetItemContainer" 
+    project="easy-business" file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/DatasetItemContainer.java" 
+    binary="false">    
+    <position x="361" y="202" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </interface>  
+  <interface corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.common.lang.repo.DataModelObject" 
+    project="dans-lang" file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/DataModelObject.java" 
+    binary="false">    
+    <position x="448" y="95" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </interface>  
+  <interface corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.domain.model.FolderItem" 
+    project="easy-business" file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/FolderItem.java" 
+    binary="false">    
+    <position x="469" y="304" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </interface>  
+  <interface corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.domain.model.DatasetItem" 
+    project="easy-business" file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/DatasetItem.java" 
+    binary="false">    
+    <position x="550" y="204" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </interface>  
+  <interface corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.domain.model.FileItem" 
+    project="easy-business" file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/FileItem.java" 
+    binary="false">    
+    <position x="651" y="305" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </interface>  
+  <generalization>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.FolderItem" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/FolderItem.java" binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.DatasetItem" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/DatasetItem.java" binary="false"/>  
+  </generalization>  
+  <generalization>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.DatasetItemContainer" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/DatasetItemContainer.java" binary="false"/>    
+    <target project="dans-lang" name="nl.knaw.dans.common.lang.repo.DataModelObject" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/DataModelObject.java" binary="false"/>  
+  </generalization>  
+  <generalization>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.FileItem" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/FileItem.java" binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.DatasetItem" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/DatasetItem.java" binary="false"/>  
+  </generalization>  
+  <generalization>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.Dataset" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/Dataset.java" binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.DatasetItemContainer" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/DatasetItemContainer.java" binary="false"/>  
+  </generalization>  
+  <generalization>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.DatasetItem" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/DatasetItem.java" binary="false"/>    
+    <target project="dans-lang" name="nl.knaw.dans.common.lang.repo.DataModelObject" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/DataModelObject.java" binary="false"/>  
+  </generalization>  
+  <generalization>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.FolderItem" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/FolderItem.java" binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.DatasetItemContainer" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/DatasetItemContainer.java" binary="false"/>  
+  </generalization>  
+  <classifier-display autosize="true" package="true" initial-value="false" signature="true" visibility="true">    
+    <attributes public="false" package="false" protected="false" private="false"/>    
+    <operations public="false" package="false" protected="false" private="false"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

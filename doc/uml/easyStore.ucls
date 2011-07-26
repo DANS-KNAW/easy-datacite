@@ -1,0 +1,175 @@
+<class-diagram version="0.9.86" automaticImage="PNG" icons="true" always-add-relationships="false" 
+  generalizations="true" realizations="true" associations="true" dependencies="true" nesting-relationships="true">  
+  <interface corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.common.lang.repo.DmoStore" project="dans-lang" 
+    file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/DmoStore.java" binary="false">    
+    <position x="161" y="159" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </interface>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.fedora.store.EasyFedoraStore" 
+    project="easy-fedora" file="/easy-fedora/src/main/java/nl/knaw/dans/easy/fedora/store/EasyFedoraStore.java" 
+    binary="false">    
+    <position x="437" y="379" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.common.fedora.store.FedoraDmoStore" 
+    project="dans-fedora" file="/dans-fedora/src/main/java/nl/knaw/dans/common/fedora/store/FedoraDmoStore.java" 
+    binary="false">    
+    <position x="437" y="273" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.common.lang.repo.AbstractDmoStore" project="dans-lang" 
+    file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/AbstractDmoStore.java" binary="false">    
+    <position x="437" y="159" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.common.fedora.DatastreamManager" project="dans-fedora" 
+    file="/dans-fedora/src/main/java/nl/knaw/dans/common/fedora/DatastreamManager.java" binary="false">    
+    <position x="851" y="244" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.common.fedora.Fedora" project="dans-fedora" 
+    file="/dans-fedora/src/main/java/nl/knaw/dans/common/fedora/Fedora.java" binary="false">    
+    <position x="721" y="139" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <interface corner="BOTTOM_RIGHT" language="java" name="fedora.server.management.FedoraAPIM" project="dans-fedora" 
+    file="/data/devhome/.m2/repository/fedora/fedora-client/3.0/fedora-client-3.0.jar" binary="true">    
+    <position x="836" y="467" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </interface>  
+  <class corner="BOTTOM_RIGHT" language="java" name="fedora.client.FedoraClient" project="dans-fedora" 
+    file="/data/devhome/.m2/repository/fedora/fedora-client/3.0/fedora-client-3.0.jar" binary="true">    
+    <position x="702" y="440" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.common.fedora.Repository" project="dans-fedora" 
+    file="/dans-fedora/src/main/java/nl/knaw/dans/common/fedora/Repository.java" binary="false">    
+    <position x="800" y="356" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <association>    
+    <source project="dans-fedora" name="nl.knaw.dans.common.fedora.DatastreamManager" 
+      file="/dans-fedora/src/main/java/nl/knaw/dans/common/fedora/DatastreamManager.java" binary="false" 
+      navigable="false">      
+      <attribute name="repository"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </source>    
+    <target project="dans-fedora" name="nl.knaw.dans.common.fedora.Repository" 
+      file="/dans-fedora/src/main/java/nl/knaw/dans/common/fedora/Repository.java" binary="false" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency>    
+    <source project="easy-fedora" name="nl.knaw.dans.easy.fedora.store.EasyFedoraStore" 
+      file="/easy-fedora/src/main/java/nl/knaw/dans/easy/fedora/store/EasyFedoraStore.java" binary="false"/>    
+    <target project="dans-fedora" name="nl.knaw.dans.common.fedora.Fedora" 
+      file="/dans-fedora/src/main/java/nl/knaw/dans/common/fedora/Fedora.java" binary="false"/>  
+  </dependency>  
+  <association>    
+    <source project="dans-fedora" name="nl.knaw.dans.common.fedora.Repository" 
+      file="/dans-fedora/src/main/java/nl/knaw/dans/common/fedora/Repository.java" binary="false" navigable="false">      
+      <attribute name="fedoraClient"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </source>    
+    <target project="dans-fedora" name="fedora.client.FedoraClient" 
+      file="/data/devhome/.m2/repository/fedora/fedora-client/3.0/fedora-client-3.0.jar" binary="true" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization>    
+    <source project="dans-fedora" name="nl.knaw.dans.common.fedora.store.FedoraDmoStore" 
+      file="/dans-fedora/src/main/java/nl/knaw/dans/common/fedora/store/FedoraDmoStore.java" binary="false"/>    
+    <target project="dans-lang" name="nl.knaw.dans.common.lang.repo.AbstractDmoStore" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/AbstractDmoStore.java" binary="false"/>  
+  </generalization>  
+  <dependency>    
+    <source project="dans-fedora" name="nl.knaw.dans.common.fedora.store.FedoraDmoStore" 
+      file="/dans-fedora/src/main/java/nl/knaw/dans/common/fedora/store/FedoraDmoStore.java" binary="false"/>    
+    <target project="dans-fedora" name="fedora.client.FedoraClient" 
+      file="/data/devhome/.m2/repository/fedora/fedora-client/3.0/fedora-client-3.0.jar" binary="true"/>  
+  </dependency>  
+  <association>    
+    <source project="dans-fedora" name="nl.knaw.dans.common.fedora.Fedora" 
+      file="/dans-fedora/src/main/java/nl/knaw/dans/common/fedora/Fedora.java" binary="false" navigable="false">      
+      <attribute name="datastreamManager"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </source>    
+    <target project="dans-fedora" name="nl.knaw.dans.common.fedora.DatastreamManager" 
+      file="/dans-fedora/src/main/java/nl/knaw/dans/common/fedora/DatastreamManager.java" binary="false" 
+      navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association>    
+    <source project="dans-fedora" name="nl.knaw.dans.common.fedora.store.FedoraDmoStore" 
+      file="/dans-fedora/src/main/java/nl/knaw/dans/common/fedora/store/FedoraDmoStore.java" binary="false" 
+      navigable="false">      
+      <attribute name="fedora"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </source>    
+    <target project="dans-fedora" name="nl.knaw.dans.common.fedora.Fedora" 
+      file="/dans-fedora/src/main/java/nl/knaw/dans/common/fedora/Fedora.java" binary="false" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization>    
+    <source project="easy-fedora" name="nl.knaw.dans.easy.fedora.store.EasyFedoraStore" 
+      file="/easy-fedora/src/main/java/nl/knaw/dans/easy/fedora/store/EasyFedoraStore.java" binary="false"/>    
+    <target project="dans-fedora" name="nl.knaw.dans.common.fedora.store.FedoraDmoStore" 
+      file="/dans-fedora/src/main/java/nl/knaw/dans/common/fedora/store/FedoraDmoStore.java" binary="false"/>  
+  </generalization>  
+  <realization>    
+    <source project="dans-lang" name="nl.knaw.dans.common.lang.repo.AbstractDmoStore" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/AbstractDmoStore.java" binary="false"/>    
+    <target project="dans-lang" name="nl.knaw.dans.common.lang.repo.DmoStore" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/DmoStore.java" binary="false"/>  
+  </realization>  
+  <association>    
+    <source project="dans-fedora" name="nl.knaw.dans.common.fedora.Repository" 
+      file="/dans-fedora/src/main/java/nl/knaw/dans/common/fedora/Repository.java" binary="false" navigable="false">      
+      <attribute name="fedoraAPIM"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </source>    
+    <target project="dans-fedora" name="fedora.server.management.FedoraAPIM" 
+      file="/data/devhome/.m2/repository/fedora/fedora-client/3.0/fedora-client-3.0.jar" binary="true" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association>    
+    <source project="dans-fedora" name="nl.knaw.dans.common.fedora.Fedora" 
+      file="/dans-fedora/src/main/java/nl/knaw/dans/common/fedora/Fedora.java" binary="false" navigable="false">      
+      <attribute name="repository"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </source>    
+    <target project="dans-fedora" name="nl.knaw.dans.common.fedora.Repository" 
+      file="/dans-fedora/src/main/java/nl/knaw/dans/common/fedora/Repository.java" binary="false" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" package="true" initial-value="false" signature="true" visibility="true">    
+    <attributes public="false" package="false" protected="false" private="false"/>    
+    <operations public="false" package="false" protected="false" private="false"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

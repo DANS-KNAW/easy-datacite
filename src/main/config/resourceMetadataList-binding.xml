@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<include path="additional-metadata-binding.xml" />
+    
+	<mapping ns="http://easy.dans.knaw.nl/easy/resource-metadata-list/"
+		name="resource-metadata-list" class="nl.knaw.dans.easy.xml.ResourceMetadataList">
+		
+		<namespace uri="http://easy.dans.knaw.nl/easy/resource-metadata-list/" prefix="rmdl"/>
+		<namespace uri="http://easy.dans.knaw.nl/easy/additional-metadata/" prefix="addmd"/>
+		
+		<collection set-method="setResourceMetadataList" get-method="getResourceMetadataList" 
+			type="java.util.ArrayList">
+           <structure type="nl.knaw.dans.easy.xml.ResourceMetadata"/>
+        </collection>
+	</mapping>
+	
+	<mapping name="resource-metadata" class="nl.knaw.dans.easy.xml.ResourceMetadata">
+		<namespace uri="http://easy.dans.knaw.nl/easy/resource-metadata-list/" prefix="rmdl"/>
+		<namespace uri="http://easy.dans.knaw.nl/easy/additional-metadata/" prefix="addmd"/>
+		<structure name="identifier" ns="http://easy.dans.knaw.nl/easy/resource-metadata-list/">
+			<value name="path" field="path" usage="optional"/>
+			<value name="sid" field="sid" usage="optional" />
+		</structure>
+		
+		<structure name="rights" ns="http://easy.dans.knaw.nl/easy/resource-metadata-list/" usage="optional">
+			<value name="discover" field="categoryDiscover" usage="optional"/>
+			<value name="read" field="categoryRead" usage="optional"/>
+			<value name="write" field="categoryWrite" usage="optional"/>
+			<value name="delete" field="categoryDelete" usage="optional"/>
+		</structure>
+		
+		<structure name="additional-metadata" ns="http://easy.dans.knaw.nl/easy/additional-metadata/"
+			type="nl.knaw.dans.easy.xml.AdditionalMetadata" field="additionalMetadata" 
+			usage="optional"/>
+	</mapping>
+
+</binding>

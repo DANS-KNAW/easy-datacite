@@ -1,0 +1,307 @@
+<class-diagram version="0.9.86" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true">  
+  <interface corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.domain.model.emd.types.SimpleElement" 
+    project="easy-business" 
+    file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/SimpleElement.java" binary="false">    
+    <position x="432" y="56" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </interface>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.domain.model.emd.types.SimpleElementImpl" 
+    project="easy-business" 
+    file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/SimpleElementImpl.java" binary="false">    
+    <position x="432" y="138" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.domain.model.emd.types.BasicString" 
+    project="easy-business" 
+    file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/BasicString.java" binary="false">    
+    <position x="256" y="294" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.domain.model.emd.types.LanguageTokenizedString" 
+    project="easy-business" 
+    file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/LanguageTokenizedString.java" 
+    binary="false">    
+    <position x="263" y="181" width="197" height="43"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.domain.model.emd.types.BasicDate" 
+    project="easy-business" file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/BasicDate.java" 
+    binary="false">    
+    <position x="486" y="292" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.domain.model.emd.types.BasicIdentifier" 
+    project="easy-business" 
+    file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/BasicIdentifier.java" binary="false">    
+    <position x="132" y="383" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.domain.model.emd.types.BasicRemark" 
+    project="easy-business" 
+    file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/BasicRemark.java" binary="false">    
+    <position x="493" y="373" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <enumeration corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.domain.model.emd.types.IsoDate.Format" 
+    project="easy-business" file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/IsoDate.java" 
+    binary="false">    
+    <position x="729" y="367" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </enumeration>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.domain.model.emd.types.IsoDate" 
+    project="easy-business" file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/IsoDate.java" 
+    binary="false">    
+    <position x="729" y="284" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.domain.model.emd.types.Relation" 
+    project="easy-business" file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/Relation.java" 
+    binary="false">    
+    <position x="244" y="473" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.domain.model.emd.types.Spatial.Locator" 
+    project="easy-business" file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/Spatial.java" 
+    binary="false">    
+    <position x="482" y="575" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.domain.model.emd.types.Spatial.Box" 
+    project="easy-business" file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/Spatial.java" 
+    binary="false">    
+    <position x="442" y="658" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.domain.model.emd.types.Spatial" 
+    project="easy-business" file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/Spatial.java" 
+    binary="false">    
+    <position x="485" y="468" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.domain.model.emd.types.Spatial.Point" 
+    project="easy-business" file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/Spatial.java" 
+    binary="false">    
+    <position x="700" y="658" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <association>    
+    <bendpoint x="353" y="554"/>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.Spatial" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/Spatial.java" binary="false" 
+      navigable="false">      
+      <attribute name="box"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </source>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.Spatial.Box" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/Spatial.java" binary="false" 
+      navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.Spatial" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/Spatial.java" binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.Spatial.Locator" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/Spatial.java" binary="false"/>  
+  </nesting>  
+  <generalization>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.BasicIdentifier" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/BasicIdentifier.java" binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.BasicString" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/BasicString.java" binary="false"/>  
+  </generalization>  
+  <association>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.IsoDate" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/IsoDate.java" binary="false" 
+      navigable="false">      
+      <attribute name="DEFAULT_FORMAT"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </source>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.IsoDate.Format" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/IsoDate.java" binary="false" 
+      navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.Relation" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/Relation.java" binary="false" 
+      navigable="false">      
+      <attribute name="subjectIdentifier"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </source>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.BasicIdentifier" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/BasicIdentifier.java" binary="false" 
+      navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.BasicString" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/BasicString.java" binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.LanguageTokenizedString" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/LanguageTokenizedString.java" 
+      binary="false"/>  
+  </generalization>  
+  <nesting>    
+    <bendpoint x="332" y="554"/>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.Spatial" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/Spatial.java" binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.Spatial.Box" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/Spatial.java" binary="false"/>  
+  </nesting>  
+  <generalization>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.LanguageTokenizedString" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/LanguageTokenizedString.java" 
+      binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.SimpleElementImpl" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/SimpleElementImpl.java" 
+      binary="false"/>  
+  </generalization>  
+  <generalization>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.BasicRemark" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/BasicRemark.java" binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.BasicString" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/BasicString.java" binary="false"/>  
+  </generalization>  
+  <generalization>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.Spatial.Point" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/Spatial.java" binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.Spatial.Locator" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/Spatial.java" binary="false"/>  
+  </generalization>  
+  <association>    
+    <bendpoint x="632" y="554"/>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.Spatial" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/Spatial.java" binary="false" 
+      navigable="false">      
+      <attribute name="point"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </source>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.Spatial.Point" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/Spatial.java" binary="false" 
+      navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.Spatial.Box" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/Spatial.java" binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.Spatial.Locator" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/Spatial.java" binary="false"/>  
+  </generalization>  
+  <generalization>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.BasicDate" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/BasicDate.java" binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.LanguageTokenizedString" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/LanguageTokenizedString.java" 
+      binary="false"/>  
+  </generalization>  
+  <realization>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.SimpleElementImpl" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/SimpleElementImpl.java" 
+      binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.SimpleElement" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/SimpleElement.java" binary="false"/>  
+  </realization>  
+  <generalization>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.IsoDate" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/IsoDate.java" binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.SimpleElementImpl" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/SimpleElementImpl.java" 
+      binary="false"/>  
+  </generalization>  
+  <nesting>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.IsoDate" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/IsoDate.java" binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.IsoDate.Format" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/IsoDate.java" binary="false"/>  
+  </nesting>  
+  <association>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.IsoDate" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/IsoDate.java" binary="false" 
+      navigable="false">      
+      <attribute name="format"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </source>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.IsoDate.Format" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/IsoDate.java" binary="false" 
+      navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.Spatial" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/Spatial.java" binary="false" 
+      navigable="false">      
+      <attribute name="place"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </source>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.BasicString" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/BasicString.java" binary="false" 
+      navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.Relation" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/Relation.java" binary="false" 
+      navigable="false">      
+      <attribute name="subjectTitle"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </source>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.BasicString" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/BasicString.java" binary="false" 
+      navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting>    
+    <bendpoint x="611" y="554"/>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.Spatial" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/Spatial.java" binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.types.Spatial.Point" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/types/Spatial.java" binary="false"/>  
+  </nesting>  
+  <classifier-display autosize="true" package="true" initial-value="false" signature="true" visibility="true">    
+    <attributes public="false" package="false" protected="false" private="false"/>    
+    <operations public="false" package="false" protected="false" private="false"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

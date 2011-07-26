@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<format type="org.joda.time.DateTime"
+		serializer="nl.knaw.dans.common.jibx.util.Converter.serializeDateTime"
+		deserializer="nl.knaw.dans.common.jibx.util.Converter.deSerializeDateTime" />
+
+	<mapping ns="http://easy.dans.knaw.nl/easy/permission-sequence-list/"
+		name="permissionSequenceList" class="nl.knaw.dans.easy.domain.dataset.PermissionSequenceListImpl">
+
+		<namespace uri="http://easy.dans.knaw.nl/easy/permission-sequence-list/"
+			prefix="psl" />
+			
+		<structure name="sequences" usage="optional">
+            <collection set-method="setPermissionSequences" get-method="getPermissionSequences" type="java.util.ArrayList">
+                <structure type="nl.knaw.dans.easy.domain.dataset.PermissionSequenceImpl"/>
+            </collection>
+        </structure>
+
+	</mapping>
+	
+	<mapping class="nl.knaw.dans.easy.domain.dataset.PermissionSequenceImpl"
+        name="sequence">
+
+        <value name="requesterId" field="requesterId" usage="optional" />
+        <value name="state" field="state" usage="optional" />
+        <value name="stateLastModified" field="stateLastModified" usage="optional" />
+        
+        <structure name="request" usage="optional">
+	        <value name="lastRequestDate" field="lastRequestDate" usage="optional" />
+	        <value name="acceptConditionsOfUse" field="acceptConditionsOfUse"/>
+	        <value name="requestTitle" field="requestTitle" usage="optional" />
+	        <value name="requestTheme" field="requestTheme" usage="optional" />
+	    </structure>
+        
+        <structure name="reply" usage="optional">
+	        <value name="lastReplyDate" field="lastReplyDate" usage="optional" />
+	        <value name="replyText" field="replyText" usage="optional" />
+	    </structure>
+	    
+	    <structure name="back-log" usage="optional">
+            <collection field="backLog" type="java.util.ArrayList">
+                <structure type="nl.knaw.dans.easy.domain.dataset.PermissionConversationImpl"/>
+            </collection>
+        </structure>
+        
+    </mapping>
+    
+    <mapping class="nl.knaw.dans.easy.domain.dataset.PermissionConversationImpl"
+        name="conversation">
+        
+        <value name="type" field="type" />
+        <value name="state" field="state" usage="optional" />
+        <value name="date" field="date" usage="optional" />
+        <value name="requestTitle" field="requestTitle" usage="optional" />
+        <value name="requestTheme" field="requestTheme" usage="optional" />
+        <value name="replyText" field="replyText" usage="optional" />
+        
+    </mapping>
+
+</binding>

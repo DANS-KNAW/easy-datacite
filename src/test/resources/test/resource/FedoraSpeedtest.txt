@@ -1,0 +1,58 @@
+count = 10
+upS=94 upL=4376 inS=1327 inL=4587 dsS=1911 dsL=4763 relF=1320 relS=2269
+small file: 9
+large file: 437
+
+small ingest: 132
+large ingest: 458
+
+add small ds: 191
+add large ds: 476
+
+first  relation: 132
+second relation: 226
+
+count = 1000
+upS=29214 upL=587617 inS=342096 inL=593577 dsS=180834 dsL=1036511 relF=208106 relS=433350
+small file: 29
+large file: 587
+
+small ingest: 342
+large ingest: 593
+
+add small ds: 180
+add large ds: 1036
+
+first  relation: 208
+second relation: 433
+
+count=1000, extra relation: rel0
+upS=28835 upL=589339 inS=304806 inL=516259 dsS=142522 dsL=917639 rel0=199335 relF=175052 relS=357870
+small file: 28
+large file: 589
+
+small ingest: 304
+large ingest: 516
+
+add small ds: 142
+add large ds: 917
+
+relation zero  : 199
+first  relation: 175
+second relation: 357
+
+count=10 first and second relation changed places
+upS=141 upL=4160 inS=1963 inL=3507 dsS=811 dsL=5577 rel0=1170 relF=1262 relS=2317
+small file: 14
+large file: 416
+
+small ingest: 196
+large ingest: 350
+
+add small ds: 81
+add large ds: 557
+
+relation zero  : 117
+second relation: 231
+first  relation: 126
+

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://easy.dans.knaw.nl/easy/resource-metadata-list/"
+    xmlns:rmdl="http://easy.dans.knaw.nl/easy/resource-metadata-list/"
+    xmlns:addmd="http://easy.dans.knaw.nl/easy/additional-metadata/"
+    elementFormDefault="unqualified">
+    
+    <xs:import schemaLocation="additional-metadata.xsd" namespace="http://easy.dans.knaw.nl/easy/additional-metadata/"/>
+    
+    <xs:element name="resource-metadata-list">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="resource-metadata" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element ref="rmdl:identifier"/>
+                            <xs:element ref="rmdl:rights" minOccurs="0"/>
+                            <xs:element ref="addmd:additional-metadata" minOccurs="0"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="identifier">
+        <xs:complexType>
+            <xs:choice>
+                <xs:element name="path" type="xs:string"/>
+                <xs:element name="sid" type="xs:string"/>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>    
+        
+    <xs:element name="rights" >
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="discover" type="rmdl:access-category" minOccurs="0"/>
+                <xs:element name="read" type="rmdl:access-category" minOccurs="0"/>
+                <xs:element name="write" type="rmdl:access-category" minOccurs="0"/>
+                <xs:element name="delete" type="rmdl:access-category" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>    
+
+    <xs:simpleType name="access-category">
+        <xs:annotation>
+            <xs:documentation>The enumerations 'VisibleTo' and 'AccessibleTo' are obsolete.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:token">
+
+            <!-- An anonymous user is enabled, must agree with license when downloading. -->
+            <xs:enumeration value="ANONYMOUS_ACCESS"/>
+
+            <!-- A known user is enabled, must agree with license when downloading. -->
+            <xs:enumeration value="OPEN_ACCESS"/>
+
+            <!-- Members of a (specific) group are enabled, must agree with license when downloading. -->
+            <xs:enumeration value="GROUP_ACCESS"/>
+            
+            <!-- Users that have been granted permission are enabled, must agree with license when downloading. -->
+            <xs:enumeration value="REQUEST_PERMISSION"/>
+            
+            <!-- Physical files are elsewhere. (Translates to VisibleTo.NONE and AccessibleTo.NONE) -->
+            <xs:enumeration value="ACCESS_ELSEWHERE"/>
+            
+            <!-- Not enabled, but archivists and administrators may be enabled. -->
+            <xs:enumeration value="NO_ACCESS"/>
+            
+            <!-- Everyone is enabled, no need to agree with license. (Not in use yet) -->
+            <!-- xs:enumeration value="FREELY_AVAILABLE"/ -->
+            
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<wfs:workflow xmlns:wfs="http://easy.dans.knaw.nl/easy/workflow/">
+    <id>dataset</id>
+    <doneById>userId3</doneById>
+    <remarks>
+        <remark>
+            <text>text of remark</text>
+            <remarkerId>userId</remarkerId>
+            <remarkDate>2011-06-20T11:47:54.442+02:00</remarkDate>
+        </remark>
+        <remark>
+            <text>text of remark2</text>
+            <remarkerId>userId2</remarkerId>
+            <remarkDate>2011-06-20T11:47:54.555+02:00</remarkDate>
+        </remark>
+    </remarks>
+    <steps>
+        <wfs:workflow>
+            <id>dataset.sip</id>
+            <timeSpentWritable>true</timeSpentWritable>
+            <doneById>completerId</doneById>
+            <timeSpent>2.54</timeSpent>
+            <remarks>
+                <remark>
+                    <text>remark text</text>
+                    <remarkerId>remarkerId</remarkerId>
+                    <remarkDate>2011-06-20T11:47:54.555+02:00</remarkDate>
+                </remark>
+                <remark>
+                    <text>2e remark</text>
+                    <remarkerId>2eremarkerId</remarkerId>
+                    <remarkDate>2011-06-20T11:47:54.555+02:00</remarkDate>
+                </remark>
+            </remarks>
+            <steps>
+                <wfs:workflow>
+                    <id>dataset.sip.files</id>
+                    <doneById>completerId</doneById>
+                    <remarks>
+                        <remark>
+                            <text>remark text</text>
+                            <remarkerId>remarkerId</remarkerId>
+                            <remarkDate>2011-06-20T11:47:54.556+02:00</remarkDate>
+                        </remark>
+                        <remark>
+                            <text>2e remark</text>
+                            <remarkerId>2eremarkerId</remarkerId>
+                            <remarkDate>2011-06-20T11:47:54.556+02:00</remarkDate>
+                        </remark>
+                    </remarks>
+                    <steps>
+                        <wfs:workflow>
+                            <id>dataset.sip.files.completeness</id>
+                            <required>true</required>
+                            <completed>true</completed>
+                            <doneById>completerId</doneById>
+                            <completionTime>2011-06-20T11:47:54.555+02:00</completionTime>
+                            <remarks>
+                                <remark>
+                                    <text>remark text</text>
+                                    <remarkerId>remarkerId</remarkerId>
+                                    <remarkDate>2011-06-20T11:47:54.556+02:00</remarkDate>
+                                </remark>
+                                <remark>
+                                    <text>2e remark</text>
+                                    <remarkerId>2eremarkerId</remarkerId>
+                                    <remarkDate>2011-06-20T11:47:54.556+02:00</remarkDate>
+                                </remark>
+                            </remarks>
+                            <steps/>
+                        </wfs:workflow>
+                        <wfs:workflow>
+                            <id>dataset.sip.files.accessibility</id>
+                            <required>true</required>
+                            <completed>true</completed>
+                            <doneById>completerId</doneById>
+                            <completionTime>2011-06-20T11:47:54.555+02:00</completionTime>
+                            <remarks>
+                                <remark>
+                                    <text>remark text</text>
+                                    <remarkerId>remarkerId</remarkerId>
+                                    <remarkDate>2011-06-20T11:47:54.556+02:00</remarkDate>
+                                </remark>
+                                <remark>
+                                    <text>2e remark</text>
+                                    <remarkerId>2eremarkerId</remarkerId>
+                                    <remarkDate>2011-06-20T11:47:54.556+02:00</remarkDate>
+                                </remark>
+                            </remarks>
+                            <steps/>
+                        </wfs:workflow>
+                        <wfs:workflow>
+                            <id>dataset.sip.files.privacy</id>
+                            <required>true</required>
+                            <completed>true</completed>
+                            <doneById>completerId</doneById>
+                            <completionTime>2011-06-20T11:47:54.555+02:00</completionTime>
+                            <remarks>
+                                <remark>
+                                    <text>remark text</text>
+                                    <remarkerId>remarkerId</remarkerId>
+                                    <remarkDate>2011-06-20T11:47:54.556+02:00</remarkDate>
+                                </remark>
+                                <remark>
+                                    <text>2e remark</text>
+                                    <remarkerId>2eremarkerId</remarkerId>
+                                    <remarkDate>2011-06-20T11:47:54.556+02:00</remarkDate>
+                                </remark>
+                            </remarks>
+                            <steps/>
+                        </wfs:workflow>
+                    </steps>
+                </wfs:workflow>
+                <wfs:workflow>
+                    <id>dataset.sip.file-list</id>
+                    <doneById>completerId</doneById>
+                    <remarks>
+                        <remark>
+                            <text>remark text</text>
+                            <remarkerId>remarkerId</remarkerId>
+                            <remarkDate>2011-06-20T11:47:54.556+02:00</remarkDate>
+                        </remark>
+                        <remark>
+                            <text>2e remark</text>
+                            <remarkerId>2eremarkerId</remarkerId>
+                            <remarkDate>2011-06-20T11:47:54.556+02:00</remarkDate>
+                        </remark>
+                    </remarks>
+                    <steps>
+                        <wfs:workflow>
+                            <id>dataset.sip.file-list.file-metadata</id>
+                            <completed>true</completed>
+                            <doneById>completerId</doneById>
+                            <completionTime>2011-06-20T11:47:54.555+02:00</completionTime>
+                            <remarks>
+                                <remark>
+                                    <text>remark text</text>
+                                    <remarkerId>remarkerId</remarkerId>
+                                    <remarkDate>2011-06-20T11:47:54.556+02:00</remarkDate>
+                                </remark>
+                                <remark>
+                                    <text>2e remark</text>
+                                    <remarkerId>2eremarkerId</remarkerId>
+                                    <remarkDate>2011-06-20T11:47:54.556+02:00</remarkDate>
+                                </remark>
+                            </remarks>
+                            <steps/>
+                        </wfs:workflow>
+                    </steps>
+                </wfs:workflow>
+                <wfs:workflow>
+                    <id>dataset.sip.descriptive-metadata</id>
+                    <doneById>completerId</doneById>
+                    <remarks>
+                        <remark>
+                            <text>remark text</text>
+                            <remarkerId>remarkerId</remarkerId>
+                            <remarkDate>2011-06-20T11:47:54.556+02:00</remarkDate>
+                        </remark>
+                        <remark>
+                            <text>2e remark</text>
+                            <remarkerId>2eremarkerId</remarkerId>
+                            <remarkDate>2011-06-20T11:47:54.556+02:00</remarkDate>
+                        </remark>
+                    </remarks>
+                    <steps>
+                        <wfs:workflow>
+                            <id>dataset.sip.descriptive-metadata.completeness</id>
+                            <required>true</required>
+                            <completed>true</completed>
+                            <doneById>completerId</doneById>
+                            <completionTime>2011-06-20T11:47:54.555+02:00</completionTime>
+                            <remarks>
+                                <remark>
+                                    <text>remark text</text>
+                                    <remarkerId>remarkerId</remarkerId>
+                                    <remarkDate>2011-06-20T11:47:54.556+02:00</remarkDate>
+                                </remark>
+                                <remark>
+                                    <text>2e remark</text>
+                                    <remarkerId>2eremarkerId</remarkerId>
+                                    <remarkDate>2011-06-20T11:47:54.556+02:00</remarkDate>
+                                </remark>
+                            </remarks>
+                            <steps/>
+                        </wfs:workflow>
+                        <wfs:workflow>
+                            <id>dataset.sip.descriptive-metadata.identifiers</id>
+                            <completed>true</completed>
+                            <doneById>completerId</doneById>
+                            <completionTime>2011-06-20T11:47:54.555+02:00</completionTime>
+                            <remarks>
+                                <remark>
+                                    <text>remark text</text>
+                                    <remarkerId>remarkerId</remarkerId>
+                                    <remarkDate>2011-06-20T11:47:54.556+02:00</remarkDate>
+                                </remark>
+                                <remark>
+                                    <text>2e remark</text>
+                                    <remarkerId>2eremarkerId</remarkerId>
+                                    <remarkDate>2011-06-20T11:47:54.556+02:00</remarkDate>
+                                </remark>
+                            </remarks>
+                            <steps/>
+                        </wfs:workflow>
+                    </steps>
+                </wfs:workflow>
+            </steps>
+        </wfs:workflow>
+        <wfs:workflow>
+            <id>dataset.aip</id>
+            <timeSpentWritable>true</timeSpentWritable>
+            <doneById>completerId</doneById>
+            <timeSpent>2.54</timeSpent>
+            <remarks>
+                <remark>
+                    <text>remark text</text>
+                    <remarkerId>remarkerId</remarkerId>
+                    <remarkDate>2011-06-20T11:47:54.556+02:00</remarkDate>
+                </remark>
+                <remark>
+                    <text>2e remark</text>
+                    <remarkerId>2eremarkerId</remarkerId>
+                    <remarkDate>2011-06-20T11:47:54.556+02:00</remarkDate>
+                </remark>
+            </remarks>
+            <steps>
+                <wfs:workflow>
+                    <id>dataset.aip.file-conversion</id>
+                    <completed>true</completed>
+                    <doneById>completerId</doneById>
+                    <completionTime>2011-06-20T11:47:54.555+02:00</completionTime>
+                    <remarks>
+                        <remark>
+                            <text>remark text</text>
+                            <remarkerId>remarkerId</remarkerId>
+                            <remarkDate>2011-06-20T11:47:54.556+02:00</remarkDate>
+                        </remark>
+                        <remark>
+                            <text>2e remark</text>
+                            <remarkerId>2eremarkerId</remarkerId>
+                            <remarkDate>2011-06-20T11:47:54.556+02:00</remarkDate>
+                        </remark>
+                    </remarks>
+                    <steps/>
+                </wfs:workflow>
+                <wfs:workflow>
+                    <id>dataset.aip.file-metadata</id>
+                    <completed>true</completed>
+                    <doneById>completerId</doneById>
+                    <completionTime>2011-06-20T11:47:54.555+02:00</completionTime>
+                    <remarks>
+                        <remark>
+                            <text>remark text</text>
+                            <remarkerId>remarkerId</remarkerId>
+                            <remarkDate>2011-06-20T11:47:54.556+02:00</remarkDate>
+                        </remark>
+                        <remark>
+                            <text>2e remark</text>
+                            <remarkerId>2eremarkerId</remarkerId>
+                            <remarkDate>2011-06-20T11:47:54.556+02:00</remarkDate>
+                        </remark>
+                    </remarks>
+                    <steps/>
+                </wfs:workflow>
+                <wfs:workflow>
+                    <id>dataset.aip.structure</id>
+                    <completed>true</completed>
+                    <doneById>completerId</doneById>
+                    <completionTime>2011-06-20T11:47:54.555+02:00</completionTime>
+                    <remarks>
+                        <remark>
+                            <text>remark text</text>
+                            <remarkerId>remarkerId</remarkerId>
+                            <remarkDate>2011-06-20T11:47:54.556+02:00</remarkDate>
+                        </remark>
+                        <remark>
+                            <text>2e remark</text>
+                            <remarkerId>2eremarkerId</remarkerId>
+                            <remarkDate>2011-06-20T11:47:54.556+02:00</remarkDate>
+                        </remark>
+                    </remarks>
+                    <steps/>
+                </wfs:workflow>
+            </steps>
+        </wfs:workflow>
+        <wfs:workflow>
+            <id>dataset.dip</id>
+            <timeSpentWritable>true</timeSpentWritable>
+            <doneById>completerId</doneById>
+            <timeSpent>2.54</timeSpent>
+            <remarks>
+                <remark>
+                    <text>remark text</text>
+                    <remarkerId>remarkerId</remarkerId>
+                    <remarkDate>2011-06-20T11:47:54.556+02:00</remarkDate>
+                </remark>
+                <remark>
+                    <text>2e remark</text>
+                    <remarkerId>2eremarkerId</remarkerId>
+                    <remarkDate>2011-06-20T11:47:54.556+02:00</remarkDate>
+                </remark>
+            </remarks>
+            <steps>
+                <wfs:workflow>
+                    <id>dataset.dip.publish-files</id>
+                    <required>true</required>
+                    <completed>true</completed>
+                    <doneById>completerId</doneById>
+                    <completionTime>2011-06-20T11:47:54.555+02:00</completionTime>
+                    <remarks>
+                        <remark>
+                            <text>remark text</text>
+                            <remarkerId>remarkerId</remarkerId>
+                            <remarkDate>2011-06-20T11:47:54.556+02:00</remarkDate>
+                        </remark>
+                        <remark>
+                            <text>2e remark</text>
+                            <remarkerId>2eremarkerId</remarkerId>
+                            <remarkDate>2011-06-20T11:47:54.556+02:00</remarkDate>
+                        </remark>
+                    </remarks>
+                    <steps/>
+                </wfs:workflow>
+                <wfs:workflow>
+                    <id>dataset.dip.jumpoff</id>
+                    <completed>true</completed>
+                    <doneById>completerId</doneById>
+                    <completionTime>2011-06-20T11:47:54.555+02:00</completionTime>
+                    <remarks>
+                        <remark>
+                            <text>remark text</text>
+                            <remarkerId>remarkerId</remarkerId>
+                            <remarkDate>2011-06-20T11:47:54.556+02:00</remarkDate>
+                        </remark>
+                        <remark>
+                            <text>2e remark</text>
+                            <remarkerId>2eremarkerId</remarkerId>
+                            <remarkDate>2011-06-20T11:47:54.556+02:00</remarkDate>
+                        </remark>
+                    </remarks>
+                    <steps/>
+                </wfs:workflow>
+                <wfs:workflow>
+                    <id>dataset.dip.relations</id>
+                    <completed>true</completed>
+                    <doneById>completerId</doneById>
+                    <completionTime>2011-06-20T11:47:54.555+02:00</completionTime>
+                    <remarks>
+                        <remark>
+                            <text>remark text</text>
+                            <remarkerId>remarkerId</remarkerId>
+                            <remarkDate>2011-06-20T11:47:54.556+02:00</remarkDate>
+                        </remark>
+                        <remark>
+                            <text>2e remark</text>
+                            <remarkerId>2eremarkerId</remarkerId>
+                            <remarkDate>2011-06-20T11:47:54.556+02:00</remarkDate>
+                        </remark>
+                    </remarks>
+                    <steps/>
+                </wfs:workflow>
+            </steps>
+        </wfs:workflow>
+    </steps>
+</wfs:workflow>

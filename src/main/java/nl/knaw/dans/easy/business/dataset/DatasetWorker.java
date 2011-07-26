@@ -1,0 +1,257 @@
+package nl.knaw.dans.easy.business.dataset;
+
+import java.io.ByteArrayOutputStream;
+
+import nl.knaw.dans.common.lang.RepositoryException;
+import nl.knaw.dans.common.lang.dataset.DatasetState;
+import nl.knaw.dans.common.lang.repo.DataModelObject;
+import nl.knaw.dans.common.lang.repo.UnitOfWork;
+import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
+import nl.knaw.dans.common.lang.repo.exception.UnitOfWorkInterruptException;
+import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
+import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
+import nl.knaw.dans.easy.data.Data;
+import nl.knaw.dans.easy.data.store.EasyStore.RepositoryState;
+import nl.knaw.dans.easy.domain.dataset.DatasetSpecification;
+import nl.knaw.dans.easy.domain.dataset.DatasetSubmission;
+import nl.knaw.dans.easy.domain.exceptions.DataIntegrityException;
+import nl.knaw.dans.easy.domain.exceptions.DomainException;
+import nl.knaw.dans.easy.domain.model.Dataset;
+import nl.knaw.dans.easy.domain.model.DatasetRelations;
+import nl.knaw.dans.easy.domain.model.user.EasyUser;
+import nl.knaw.dans.easy.domain.worker.AbstractWorker;
+import nl.knaw.dans.easy.servicelayer.LicenseComposer;
+import nl.knaw.dans.easy.servicelayer.LicenseComposer.LicenseComposerException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class DatasetWorker extends AbstractWorker
+{
+    
+    private static final Logger logger = LoggerFactory.getLogger(DatasetWorker.class);
+    
+    protected DatasetWorker(EasyUser sessionUser)
+    {
+        super(sessionUser);
+    }
+    
+    protected DatasetWorker(UnitOfWork uow)
+    {
+        super(uow);
+    }
+
+    protected DataModelObject getDataModelObject(String storeId) throws ServiceException
+    {
+        try
+        {
+        	return Data.getEasyStore().retrieve(storeId);
+        }
+        catch (ObjectNotInStoreException e)
+        {
+            throw new ObjectNotAvailableException(e);
+        }
+        catch (RepositoryException e)
+        {
+            throw new ServiceException(e);
+        }
+    }
+    
+    protected byte[] getObjectXml(String storeId) throws ServiceException
+    {
+        try
+        {
+            return Data.getEasyStore().getObjectXML(storeId);
+        }
+        catch (ObjectNotInStoreException e)
+        {
+            throw new ObjectNotAvailableException(e);
+        }
+        catch (RepositoryException e)
+        {
+            throw new ServiceException(e);
+        }
+    }
+    
+    protected void workSave(Dataset dataset) throws ServiceException, DataIntegrityException
+    {
+        DatasetSpecification.evaluate(dataset);
+        DatasetState previousState = dataset.getAdministrativeState();
+        try
+        {
+            getUnitOfWork().attach(dataset);
+            getUnitOfWork().commit();
+        }
+        catch (UnitOfWorkInterruptException e)
+        {
+            dataset.getAdministrativeMetadata().setAdministrativeState(previousState);
+            rollBack(e.getMessage());
+        }
+        catch (RepositoryException e)
+        {
+            dataset.getAdministrativeMetadata().setAdministrativeState(previousState);
+            throw new ServiceException(e);
+        }
+        finally
+        {
+            getUnitOfWork().close();
+        }
+    }
+    
+    protected void workSubmit(DatasetSubmission submission) throws ServiceException, DataIntegrityException
+    {
+        DatasetSpecification.evaluate(submission.getDataset());
+        SubmissionDispatcher dispatcher = SubmissionDispatcherFactory.newSubmissionDispatcher();
+        dispatcher.process((DatasetSubmissionImpl) submission);
+    }
+    
+    protected void publishDataset(Dataset dataset, boolean mustIncludeLicense) throws ServiceException, DataIntegrityException
+    {
+        publish(dataset, mustIncludeLicense);
+    }
+
+    protected void unPublishDataset(Dataset dataset) throws ServiceException, DataIntegrityException
+    {
+        unPublishAsOAIItem(dataset);
+        changeStatus(dataset, DatasetState.SUBMITTED);
+    }
+    
+    protected void maintainDataset(Dataset dataset) throws ServiceException, DataIntegrityException
+    {
+        unPublishAsOAIItem(dataset);
+        changeStatus(dataset, DatasetState.MAINTENANCE);
+    }
+    
+    protected void republishDataset(Dataset dataset, boolean mustIncludeLicense) throws ServiceException, DataIntegrityException
+    {
+        publish(dataset, mustIncludeLicense);
+    }
+    
+    private void publish(Dataset dataset, boolean mustIncludeLicense) throws ServiceException, DataIntegrityException
+    {
+        if (mustIncludeLicense){
+            DatasetWorker.createLicense(dataset);
+        }
+        
+        publishAsOAIItem(dataset);
+        changeStatus(dataset, DatasetState.PUBLISHED);
+
+        // prevent repeated update attempt if followed by unpublish or whatever in the same session
+        dataset.setLicenseContent(null); 
+    }
+    
+    protected void deleteDataset(Dataset dataset) throws ServiceException, DataIntegrityException
+    {
+        unPublishAsOAIItem(dataset);
+        dataset.setState(RepositoryState.Deleted.code);
+        changeStatus(dataset, DatasetState.DELETED); 
+    }
+    
+    protected void restoreDataset(Dataset dataset) throws ServiceException, DataIntegrityException
+    {
+        DatasetState changeTo = DatasetState.DRAFT;
+        if (DatasetState.isPassedSubmission(dataset.getAdministrativeMetadata().getPreviousAdministrativeState()))
+        {
+            changeTo = DatasetState.SUBMITTED;
+        }
+        dataset.setState(RepositoryState.Inactive.code);
+        changeStatus(dataset, changeTo);
+    }
+
+    public static void publishAsOAIItem(Dataset dataset) throws ServiceException
+    {
+        DatasetRelations relations = (DatasetRelations) dataset.getRelations();
+        relations.addOAIIdentifier();
+        try
+        {
+            relations.addOAISetMembership();
+        }
+        catch (DomainException e)
+        {
+            throw new ServiceException(e);
+        }
+        dataset.setState(RepositoryState.Active.code);
+    }
+    
+    public static void unPublishAsOAIItem(Dataset dataset) throws ServiceException
+    {
+        DatasetRelations relations = (DatasetRelations) dataset.getRelations();
+        // do not remove OAIIdentifier.
+        relations.removeOAISetMembership();
+        dataset.setState(RepositoryState.Inactive.code);
+    }
+
+    protected void changeStatus(Dataset dataset, DatasetState changeTo) throws ServiceException, DataIntegrityException
+    {
+        DatasetSpecification.evaluate(dataset);
+        DatasetState previousState = dataset.getAdministrativeState();       
+        try
+        {
+            getUnitOfWork().attach(dataset);
+            dataset.getAdministrativeMetadata().setAdministrativeState(changeTo);
+            getUnitOfWork().commit();
+        }
+        catch (UnitOfWorkInterruptException e)
+        {
+            rollBack(e.getMessage());
+        }
+        catch (ObjectNotInStoreException e)
+        {
+            logger.error("Could not retreive dataset: ", e);
+            throw new ObjectNotAvailableException(e);
+        }
+        catch (RepositoryException e)
+        {
+            dataset.getAdministrativeMetadata().setAdministrativeState(previousState);
+            logger.error("Could not change status of dataset: ", e);
+            throw new ServiceException(e);
+        }
+        finally
+        {
+            getUnitOfWork().close();
+        }       
+    }
+    
+    protected void changeDepositor(Dataset dataset, EasyUser newDepositor) throws ServiceException, DataIntegrityException
+    {
+        DatasetSpecification.evaluate(dataset);
+        String previousDepositorId = dataset.getAdministrativeMetadata().getDepositorId();
+        try
+        {
+            getUnitOfWork().attach(dataset);
+            dataset.getAdministrativeMetadata().setDepositor(newDepositor);
+            getUnitOfWork().commit();
+        }
+        catch (UnitOfWorkInterruptException e)
+        {
+            rollBack(e.getMessage());
+        }
+        catch (RepositoryException e)
+        {
+            dataset.getAdministrativeMetadata().setDepositorId(previousDepositorId);
+            logger.error("Could not change depositor of dataset: ", e);
+            throw new ServiceException(e);
+        }
+        finally
+        {
+            getUnitOfWork().close();
+        }       
+    }
+
+    static boolean createLicense(final Dataset dataset) throws ServiceException
+    {
+        final ByteArrayOutputStream outputStream = new ByteArrayOutputStream(LicenseComposer.ESTIMATED_PDF_SIZE);
+        try
+        {
+            new LicenseComposer(dataset.getDepositor(), dataset, false).createPdf(outputStream);
+        }
+        catch (final LicenseComposerException exception)
+        {
+            throw new ServiceException(exception.getMessage(),exception);
+        }
+    
+        dataset.setLicenseContent(outputStream.toByteArray());
+        return true;
+    }
+
+}
