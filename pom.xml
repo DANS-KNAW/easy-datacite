@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<parent>
+		<!--  see ../pom.xml -->
+		<artifactId>easy</artifactId>
+		<groupId>nl.knaw.dans.easy</groupId>
+		<version>2.0-SNAPSHOT</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>nl.knaw.dans.easy</groupId>
+	<artifactId>easy-fedora</artifactId>
+	<name>Easy Fedora Data Access Implementation</name>
+	<version>2.0-SNAPSHOT</version>
+	<description>
+		Fedora implementation of the Easy Data layer
+	</description>
+
+	<packaging>jar</packaging>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<!-- === DEPENDENCIES === -->
+	<dependencies>
+		<!-- Project dependencies -->
+		<dependency>
+			<groupId>nl.knaw.dans.easy</groupId>
+			<artifactId>easy-business</artifactId>
+			<version>2.0-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>nl.knaw.dans.common</groupId>
+			<artifactId>dans-fedora</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>nl.knaw.dans.common</groupId>
+			<artifactId>dans-solr</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+
+		<!-- dependency on the test classes of dans-lang for the test scope of this project -->
+		<dependency>
+			<groupId>nl.knaw.dans.common</groupId>
+			<artifactId>dans-lang</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<classifier>tests</classifier>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- /Project dependencies -->
+
+		<!--  Hibernate -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate</artifactId>
+			<version>3.2.6.ga</version>
+		</dependency>
+
+		<!-- should not be here, but build fails on continuum if omitted -->
+		<dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.4</version>
+            <scope>test</scope>
+        </dependency>
+		<dependency>
+			<groupId>postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>8.4-701.jdbc3</version>
+		</dependency>
+		<dependency>
+			<groupId>hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>1.8.0.10</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.rkbloom.logdriver</groupId>
+			<artifactId>logdriver</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+	</dependencies>
+
+	<!-- === BUILD === -->
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>**/*OnlineTest.java</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.jibx</groupId>
+				<artifactId>maven-jibx-plugin</artifactId>
+				<version>${jibx.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>bind</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<directory>src/main/config/</directory>
+					<includes>
+						<includes>*-binding.xml</includes>
+					</includes>
+					<verbose>false</verbose>
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</build>
+
+	<repositories>
+	
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<releases>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<id>jibx.sf.net</id>
+			<name>JiBX repository</name>
+			<url>http://jibx.sf.net/maven2</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<properties>
+		<jibx.version>1.1.6a</jibx.version>
+	</properties>
+
+</project>

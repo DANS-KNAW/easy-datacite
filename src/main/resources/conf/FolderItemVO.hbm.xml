@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    
+    <class name="nl.knaw.dans.easy.domain.dataset.item.FolderItemVO" table="easy_folders" schema="public">
+        <id name="sid" type="string">
+            <column name="pid" length="64" />
+            <generator class="assigned" />
+        </id>
+        <property name="parentSid" type="string">
+            <column name="parent_sid" length="64" not-null="true" />
+        </property>
+        <property name="datasetSid" type="string">
+            <column name="dataset_sid" length="64" not-null="true" />
+        </property>
+        <property name="path" type="string">
+            <column name="path" length="256" not-null="true" />
+        </property>
+        <property name="name" type="string">
+            <column name="name" length="256" not-null="true" />
+        </property>
+        
+        <!--  cascading  on all and lazy loading off - the code currently depends on this -->
+        <set name="creatorRoles" inverse="true" lazy="false" table="easy_folder_creator" fetch="select" cascade="all-delete-orphan">
+            <key on-delete="cascade">
+                <column name="pid" length="64" not-null="true" />
+            </key>
+            <one-to-many class="nl.knaw.dans.easy.domain.dataset.item.FolderItemCreatorRole" />
+        </set>
+ 
+        <set name="visibleToList" inverse="true" lazy="false" table="easy_folder_visibility_status" fetch="select" cascade="all-delete-orphan">
+            <key on-delete="cascade">
+                <column name="pid" length="64" not-null="true" />
+            </key>
+            <one-to-many class="nl.knaw.dans.easy.domain.dataset.item.FolderItemVisibleTo" />
+        </set>
+
+        <set name="accessibleToList" inverse="true" lazy="false" table="easy_folder_accessibility_status" fetch="select" cascade="all-delete-orphan">
+            <key on-delete="cascade">
+                <column name="pid" length="64" not-null="true" />
+            </key>
+            <one-to-many class="nl.knaw.dans.easy.domain.dataset.item.FolderItemAccessibleTo" />
+        </set>
+
+    </class>
+    
+</hibernate-mapping>

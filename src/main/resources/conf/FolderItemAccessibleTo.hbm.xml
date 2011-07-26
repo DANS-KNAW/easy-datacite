@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="nl.knaw.dans.easy.domain.dataset.item.FolderItemAccessibleTo" table="easy_folder_accessibility_status" schema="public">
+        <id name="id" type="long">
+            <column name="id" />
+            <generator class="sequence">
+				<param name="sequence">easy_folder_accessibility_status_id_seq</param>
+            </generator>
+        </id>
+        <property name="folderSid" type="string">
+            <column name="pid" length="64" />
+        </property>
+        <property name="accessibleTo" type="nl.knaw.dans.easy.fedora.db.AccessibleToEnumUserType">
+            <column name="accessible_to" length="32" />
+        </property>
+    </class>
+    
+</hibernate-mapping>
