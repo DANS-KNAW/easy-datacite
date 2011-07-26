@@ -1,0 +1,18 @@
+<html xmlns:wicket>
+    <head>
+    </head>
+    <body id="upload-iframe">
+        <div id="hDiv" style="display:none; visibility: hidden;">
+        </div>
+        <form wicket:id="uploadForm" id="formUpload" name="formUpload">
+            <input type="hidden" name="uploadId" wicket:id="uploadId" /><!--
+            a table would keep the buttons allways on one line,
+            but for a smal deposit viewport we want it to wrap
+            in the fileexplorer a width of 100% keeps it on a single line
+            as the row containing the download/update buttons is wide enough
+			unless there are no files
+            --><input type="file" wicket:id="file" onchange="setUploadFilename(this.value)"/><!--
+            --><input type="button" id="submitButton" value="Upload" onclick="startUpload(document.formUpload)" class="noPrint"/>
+        </form>
+    </body>
+</html>

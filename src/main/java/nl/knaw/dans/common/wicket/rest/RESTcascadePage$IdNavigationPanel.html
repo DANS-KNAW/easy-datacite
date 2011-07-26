@@ -1,0 +1,24 @@
+<html xmlns:wicket>
+<wicket:panel>
+	<form wicket:id="navigationForm">
+		<wicket:enclosure child="idField">
+ 		<b>#id</b>
+ 		<input wicket:id="idField"/>
+ 		<div class="topMargin"/>
+ 		</wicket:enclosure>
+ 		<p/>
+ 		
+ 		<table>
+ 		<div wicket:id="group">
+			<tr wicket:id="nextSteps">
+				<td><input type="radio" wicket:id="radio"/></td>
+				<td><div wicket:id="name" class="stepChoice">[step name]</div></td>
+				<td><span wicket:id="description">[step desc]</span></td>
+			</tr>
+ 		</div>
+ 		</table>
+ 		<div class="topMargin"/>
+ 		<input wicket:id="submit" type="submit" value="continue">
+ 	</form>
+</wicket:panel>
+</html>

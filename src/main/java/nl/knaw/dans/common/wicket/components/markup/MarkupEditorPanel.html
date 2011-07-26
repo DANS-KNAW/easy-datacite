@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    
+<html 
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:wicket="http://wicket.sourceforge.net/" 
+	xml:lang="en" 
+	lang="en">
+	
+<head>
+	<wicket:head>
+		<link rel="stylesheet" type="text/css" href="css/markup_editor.css" />
+	</wicket:head>
+</head>
+<body>
+<wicket:panel>
+
+<form wicket:id="markupEditorForm" >
+	<textarea id="markupTextArea" class="markupEditor" wicket:id="markupTextArea"></textarea>
+	<p>
+	<a href="#" wicket:id="submit.link" class="button">
+	<wicket:message key="button.text.save">Save</wicket:message>
+	<img src="images/icon_accept.gif" alt="Submit" style="position:relative; top: 4px;" /></a>
+	 <!-- next line enables IE compatible form submit using the enter key -->
+	 <div style="border:0;width:0;height:0;overflow:hidden;"><input type="submit"/></div> 
+	</p>
+	
+</form>
+<div id="commonFeedbackPanel" wicket:id="commonFeedbackPanel"
+		class="feedback">Messages</div>
+<p/>
+<div wicket:id="outputFeed" class="outputFeed">outputFeed</div>
+</wicket:panel>
+</body>
+</html>

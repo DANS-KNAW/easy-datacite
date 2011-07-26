@@ -1,0 +1,108 @@
+<class-diagram version="0.9.86" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true">  
+  <interface corner="BOTTOM_RIGHT" language="java" 
+    name="nl.knaw.dans.common.wicket.components.search.model.SearchCriterium" project="dans-wicket" 
+    file="/dans-wicket/src/main/java/nl/knaw/dans/common/wicket/components/search/model/SearchCriterium.java" 
+    binary="false">    
+    <position x="200" y="166" width="245" height="43"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </interface>  
+  <class corner="BOTTOM_RIGHT" language="java" 
+    name="nl.knaw.dans.common.wicket.components.search.criteria.AbstractSearchCriterium" project="dans-wicket" 
+    file="/dans-wicket/src/main/java/nl/knaw/dans/common/wicket/components/search/criteria/AbstractSearchCriterium.java" 
+    binary="false">    
+    <position x="321" y="263" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" 
+    name="nl.knaw.dans.common.wicket.components.search.criteria.FacetCriterium" project="dans-wicket" 
+    file="/dans-wicket/src/main/java/nl/knaw/dans/common/wicket/components/search/criteria/FacetCriterium.java" 
+    binary="false">    
+    <position x="132" y="325" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" 
+    name="nl.knaw.dans.common.wicket.components.search.criteria.InitialSearchCriterium" project="dans-wicket" 
+    file="/dans-wicket/src/main/java/nl/knaw/dans/common/wicket/components/search/criteria/InitialSearchCriterium.java" 
+    binary="false">    
+    <position x="196" y="392" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" 
+    name="nl.knaw.dans.common.wicket.components.search.criteria.MultiFilterCriterium" project="dans-wicket" 
+    file="/dans-wicket/src/main/java/nl/knaw/dans/common/wicket/components/search/criteria/MultiFilterCriterium.java" 
+    binary="false">    
+    <position x="542" y="333" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" 
+    name="nl.knaw.dans.common.wicket.components.search.criteria.TextSearchCriterium" project="dans-wicket" 
+    file="/dans-wicket/src/main/java/nl/knaw/dans/common/wicket/components/search/criteria/TextSearchCriterium.java" 
+    binary="false">    
+    <position x="464" y="399" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <generalization>    
+    <source project="dans-wicket" name="nl.knaw.dans.common.wicket.components.search.criteria.MultiFilterCriterium" 
+      file="/dans-wicket/src/main/java/nl/knaw/dans/common/wicket/components/search/criteria/MultiFilterCriterium.java" 
+      binary="false"/>    
+    <target project="dans-wicket" name="nl.knaw.dans.common.wicket.components.search.criteria.AbstractSearchCriterium" 
+      file="/dans-wicket/src/main/java/nl/knaw/dans/common/wicket/components/search/criteria/AbstractSearchCriterium.java" 
+      binary="false"/>  
+  </generalization>  
+  <generalization>    
+    <source project="dans-wicket" name="nl.knaw.dans.common.wicket.components.search.criteria.InitialSearchCriterium" 
+      file="/dans-wicket/src/main/java/nl/knaw/dans/common/wicket/components/search/criteria/InitialSearchCriterium.java" 
+      binary="false"/>    
+    <target project="dans-wicket" name="nl.knaw.dans.common.wicket.components.search.criteria.AbstractSearchCriterium" 
+      file="/dans-wicket/src/main/java/nl/knaw/dans/common/wicket/components/search/criteria/AbstractSearchCriterium.java" 
+      binary="false"/>  
+  </generalization>  
+  <realization>    
+    <source project="dans-wicket" name="nl.knaw.dans.common.wicket.components.search.criteria.AbstractSearchCriterium" 
+      file="/dans-wicket/src/main/java/nl/knaw/dans/common/wicket/components/search/criteria/AbstractSearchCriterium.java" 
+      binary="false"/>    
+    <target project="dans-wicket" name="nl.knaw.dans.common.wicket.components.search.model.SearchCriterium" 
+      file="/dans-wicket/src/main/java/nl/knaw/dans/common/wicket/components/search/model/SearchCriterium.java" 
+      binary="false"/>  
+  </realization>  
+  <generalization>    
+    <source project="dans-wicket" name="nl.knaw.dans.common.wicket.components.search.criteria.FacetCriterium" 
+      file="/dans-wicket/src/main/java/nl/knaw/dans/common/wicket/components/search/criteria/FacetCriterium.java" 
+      binary="false"/>    
+    <target project="dans-wicket" name="nl.knaw.dans.common.wicket.components.search.criteria.AbstractSearchCriterium" 
+      file="/dans-wicket/src/main/java/nl/knaw/dans/common/wicket/components/search/criteria/AbstractSearchCriterium.java" 
+      binary="false"/>  
+  </generalization>  
+  <generalization>    
+    <source project="dans-wicket" name="nl.knaw.dans.common.wicket.components.search.criteria.TextSearchCriterium" 
+      file="/dans-wicket/src/main/java/nl/knaw/dans/common/wicket/components/search/criteria/TextSearchCriterium.java" 
+      binary="false"/>    
+    <target project="dans-wicket" name="nl.knaw.dans.common.wicket.components.search.criteria.AbstractSearchCriterium" 
+      file="/dans-wicket/src/main/java/nl/knaw/dans/common/wicket/components/search/criteria/AbstractSearchCriterium.java" 
+      binary="false"/>  
+  </generalization>  
+  <classifier-display autosize="true" package="true" initial-value="false" signature="true" visibility="true">    
+    <attributes public="false" package="false" protected="false" private="false"/>    
+    <operations public="false" package="false" protected="false" private="false"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

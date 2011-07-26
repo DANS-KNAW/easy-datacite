@@ -1,0 +1,39 @@
+<wicket:panel>
+
+	<form wicket:id="simpleUpload">
+     <fieldset>
+      <legend>Upload files</legend>
+        <p>
+        <label for="upload">File</label>
+        <input wicket:id="fileInput" id="upload" type="file"/>
+        <input type="submit" value="Upload"/>
+     </fieldset>
+    </form>
+
+
+     <div>
+        <span wicket:id="uploadFeedback" class="feedback"/>
+     </div>
+<p/>
+    <div>
+      <h2>Current files in <span wicket:id="container">[container]</span></h2>
+      <p/>
+      <table class="table_standard">
+      	<tr>
+      		<th>File name</th>
+      		<th>Mime type</th>
+      		<th>href</th>
+      		<th> </th>
+      		<th> </th>
+      	</tr>
+        <tr wicket:id="fileList"  class="resource">
+        	<td><span wicket:id="filename">[filename]</span></td>
+        	<td><span wicket:id="mimeType">[mimeType]</span></td>
+            <td width="550"><span title="Use this to reference the file in your markup" wicket:id="href">[href]</span></td>
+            <td><a href="#" title="View or download this file" target="_blank" wicket:id="view">view</a></td>
+            <td><a href="#" title="Delete this file" wicket:id="delete"><img src="/images/trash.gif" alt="delete" /></a></td>
+        </tr>
+      </table>
+    </div>
+
+</wicket:panel>

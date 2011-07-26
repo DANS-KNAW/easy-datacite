@@ -1,0 +1,246 @@
+.tree p {
+  	margin: 0px;
+}
+
+ul.tree {
+	/* width: 480px; */
+	height: 240px;
+	border: 1px solid #DDDDDD;
+}
+
+table.dataview {
+	margin-bottom: 10px;
+	border-bottom: 0px solid #00AAD3;
+	font-size: 1em;
+	font-family: arial;
+	/* border-left:1px solid #ddd; */
+	width:800px;   /* rg 04-07-2011 toevoeging anders zo krap */
+}
+	
+table.dataview caption { 
+	text-align: left; 
+}
+
+table.dataview tr {
+	padding-top: 2px; padding-bottom: 2px;
+}
+
+table.dataview tr.even { 
+	background-color: #fff; /* f2f1f1; */ 
+}
+
+/*
+tr.even td, tr.odd td {
+	border-right: 1px solid #e3e3e3!important;
+}
+*/
+
+table.dataview tr.odd { 
+	background-color: #fff; 
+}
+
+table.dataview tr td { 
+	padding-left: 4px; padding-right: 8px;
+	border-right: 1px solid #DDD;
+	border-bottom: 1px solid #DDD;
+	border-left: 1px solid #DDD;
+}
+
+table.dataview tr th { 
+	color: black;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	padding-left: 4px;
+	padding-right: 8px;
+	border-bottom: 1px solid #bbb;
+	border-top: 1px solid #bbb; 
+	text-align: left;
+	white-space: nowrap!important;
+	vertical-align: middle;
+}
+
+/* CUSTOM */
+table.dataview tr th { 
+	background-position: right; background-repeat:no-repeat;
+}
+
+table.dataview tr th.wicket_orderDown {
+	background-color: #fff; background-image: url(arrow_down.png);
+}
+
+table.dataview tr th.wicket_orderUp {
+	background-color: #fff; background-image: url(arrow_up.png); 
+}
+
+table.dataview tr th.wicket_orderNone {
+	background-image: url(arrow_off.png);
+}
+
+table.dataview tr th a { 
+	font-weight: normal; 
+	color: #000;
+}
+
+/* De volgende 2 selectors toegevoegd vanwege IE9 bug
+   die body achtergrond laat doorschijnen in de
+   File Explorer kolomkoppen. Deze selector maakt
+   de achtergrond weer kolomgrijs. */
+table.dataview tr th a span { 
+	background-color: #E8E8E8;
+}
+
+/* Deze selector maakt de achtergrond van de default
+   Name cell weer wit. */
+table.dataview tr th.wicket_orderUp a span { 
+	background-color: #FFF;
+}
+
+table.dataview #message { 
+	padding-left: 3px; 
+}
+
+table.dataview caption { 
+	padding-bottom: 2px; 
+}
+
+table.FEtable {
+	/* border: 1px solid #DDDDDD; */
+}
+table.FEtable tr td {
+	vertical-align: top;
+	/* border-bottom: 1px solid #DDDDDD; */
+}
+
+a.expandall {
+	margin-right: 0.2em;
+	padding: 4px 2px!important;
+	padding-left:28px!important;
+	color:#000;
+	background: url(expandall.png) no-repeat 0 1px!important;
+	border:1px solid #DDDDDD!important;	
+}
+
+a.expandall:hover {
+	margin-right: 0.2em;
+	padding: 4px 2px!important;
+	padding-left:28px!important;
+	color:#555;
+	background: #ddd url(expandall.png) no-repeat 0 1px!important;
+	border:1px solid #DDDDDD!important;	
+}
+
+a.collapseall {
+	margin-right: 0.2em;
+	padding: 4px 2px!important;
+	padding-left: 28px!important;
+	color:#000;
+	background: url(collapseall.png) no-repeat 0 1px!important;
+	border:1px solid #DDDDDD!important;
+}
+
+a.collapseall:hover {
+	margin-right: 0.2em;
+	padding: 4px 2px!important;
+	padding-left:28px!important;
+	color:#555;
+	background: #ddd url(collapseall.png) no-repeat 0 1px!important;
+	border:1px solid #DDDDDD!important;
+}
+
+a.up {
+	margin-right: 0.4em;	
+	padding: 4px 2px!important;
+	padding-left:28px!important;	
+	color:#000;
+	background: url(up.png) no-repeat 0 1px!important;
+	border:1px solid #DDDDDD!important;
+}
+
+a.up:hover {
+	margin-right: 0.4em;
+	padding: 4px 2px!important;
+	padding-left:28px!important;	
+	color:#555;
+	background:#ddd url(up.png) no-repeat 0 1px!important;
+	border:1px solid #DDDDDD!important;
+}
+
+a.selectall {
+	margin-right: 0.4em;
+	padding: 4px 2px!important;
+	padding-left:28px!important;			
+	color:#000;
+	background: url(selectall.png) no-repeat 0 1px!important;
+	border:1px solid #DDDDDD!important;
+}
+
+a.selectall:hover {
+	margin-right: 0.4em;
+	padding: 4px 2px!important;
+	padding-left:28px!important;	
+	color:#555;
+	background: #ddd url(selectall.png) no-repeat 0 1px!important;
+	border:1px solid #DDDDDD!important;
+}
+
+a.selectnone {
+	margin-right: 0.4em;
+	padding: 4px 2px!important;
+	padding-left:28px!important;			
+	color:#000;
+	background: url(selectnone.png) no-repeat 0 1px!important;
+	border:1px solid #DDDDDD!important;
+}
+
+a.selectnone:hover {
+	margin-right: 0.4em;
+	padding: 4px 2px!important;
+	padding-left:28px!important;	
+	color:#555;
+	background: #ddd url(selectnone.png) no-repeat 0 1px!important;
+	border:1px solid #DDDDDD!important;
+}
+
+.offsetExplorer {
+	margin-top: 1.5em;
+	padding: 0.5em;
+	border: 1px solid #DDD;
+}
+
+.breatheExplorerButtons {
+	margin-top: 1em;
+	margin-bottom: 1em;
+	margin-left: 0.2em;
+}
+
+.breatheTableButtons {
+	margin-left: 3.5em;
+}
+
+.breadcrumb {
+	overflow: hidden;
+	padding-left: 1px;
+	padding-right: 1px;
+}
+
+.breatheLegend {
+	margin-top: 2em;	
+}
+
+.breatheExplorer {
+	margin-top: 0.3em;	
+}
+
+.breatheTree {
+	padding-right: 2em;	
+}
+
+.alignSelectAllWithExplorerTable {
+	margin-right: 4.1em;
+}
+
+.alignBreadcrumbWithExplorerTable {
+	margin-right: 10.1em;
+	border: 1px solid #DDD;
+}
+
