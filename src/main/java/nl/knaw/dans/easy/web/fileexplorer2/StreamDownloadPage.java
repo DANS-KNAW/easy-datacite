@@ -1,7 +1,6 @@
 package nl.knaw.dans.easy.web.fileexplorer2;
 
-
-//commentaar, 2e poging, hk 110708
+// commentaar, 2e poging, hk 110708
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,20 +13,47 @@ import org.apache.wicket.protocol.http.WebResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class StreamDownloadPage extends WebPage {
-	private static final Logger logger = LoggerFactory.getLogger(StreamDownloadPage.class);
+public class StreamDownloadPage extends WebPage
+{
+    private static final Logger logger = LoggerFactory.getLogger(StreamDownloadPage.class);
 
-	// NOTE: GK: don't try to do this with ZipFileContentWrapper...
+    // NOTE: GK: don't try to do this with ZipFileContentWrapper...
 
-	public StreamDownloadPage(FileContentWrapper fcw) {
-		try {
-			write(fcw.getFileName(), fcw.getFileItemVO().getMimetype(), fcw.getFileItemVO().getSize(), fcw.getURL().openStream());
-		} catch (IOException e) {
-			logger.error("Error while trying to stream single file download.", e);
-		}
-	}
+    public StreamDownloadPage(FileContentWrapper fcw)
+    {
+        InputStream is = null;
 
-	private void write(String filename, String mimeType, long length, InputStream inStream) throws IOException
+        try
+        {
+            is = fcw.getURL().openStream();
+            write(fcw.getFileName(), fcw.getFileItemVO().getMimetype(), fcw.getFileItemVO().getSize(), is);
+        }
+        catch (IOException e)
+        {
+            logger.error("Error while trying to stream single file download.", e);
+        }
+        finally
+        {
+            close(is);
+        }
+    }
+
+    private void close(InputStream is)
+    {
+        try
+        {
+            if (is != null)
+            {
+                is.close();
+            }
+        }
+        catch (IOException e)
+        {
+
+        }
+    }
+
+    private void write(String filename, String mimeType, long length, InputStream inStream) throws IOException
     {
         String name = filename == null ? "no-name" : filename.replaceAll(" ", "_");
 
