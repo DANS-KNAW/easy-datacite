@@ -1,0 +1,8 @@
+<rss version="2.0" xmlns:jwplayer="http://developer.longtailvideo.com/">
+  <channel>
+    <title>Erfgoed van de Oorlog, Getuigen Verhalen - Video's</title>
+<item><title>GV_Verhalis_kloosterzusters_04a</title><enclosure url="GV_Verhalis_kloosterzusters_04a.mp4" type="video/mp4" /><jwplayer:streamer>rtmp://dans.flashstreaming.eu/on-demand</jwplayer:streamer></item>
+<item><title>GV_Verhalis_kloosterzusters_04b</title><enclosure url="GV_Verhalis_kloosterzusters_04b.mp4" type="video/mp4" /><jwplayer:streamer>rtmp://dans.flashstreaming.eu/on-demand</jwplayer:streamer></item>
+<item><title>GV_Verhalis_kloosterzusters_04c</title><enclosure url="GV_Verhalis_kloosterzusters_04c.mp4" type="video/mp4" /><jwplayer:streamer>rtmp://dans.flashstreaming.eu/on-demand</jwplayer:streamer></item>
+<item><title>GV_Verhalis_kloosterzusters_04d</title><enclosure url="GV_Verhalis_kloosterzusters_04d.mp4" type="video/mp4" /><jwplayer:streamer>rtmp://dans.flashstreaming.eu/on-demand</jwplayer:streamer></item>
+</channel></rss>

@@ -1,0 +1,9 @@
+<rss version="2.0" xmlns:jwplayer="http://developer.longtailvideo.com/">
+  <channel>
+    <title>Erfgoed van de Oorlog, Getuigen Verhalen - Video's</title>
+<item><title>GV_Wieberdink_dodenmars_01a</title><enclosure url="GV_Wieberdink_dodenmars_01a.mp4" type="video/mp4" /><jwplayer:streamer>rtmp://dans.flashstreaming.eu/on-demand</jwplayer:streamer></item>
+<item><title>GV_Wieberdink_dodenmars_01b</title><enclosure url="GV_Wieberdink_dodenmars_01b.mp4" type="video/mp4" /><jwplayer:streamer>rtmp://dans.flashstreaming.eu/on-demand</jwplayer:streamer></item>
+<item><title>GV_Wieberdink_dodenmars_01c</title><enclosure url="GV_Wieberdink_dodenmars_01c.mp4" type="video/mp4" /><jwplayer:streamer>rtmp://dans.flashstreaming.eu/on-demand</jwplayer:streamer></item>
+<item><title>GV_Wieberdink_dodenmars_01d</title><enclosure url="GV_Wieberdink_dodenmars_01d.mp4" type="video/mp4" /><jwplayer:streamer>rtmp://dans.flashstreaming.eu/on-demand</jwplayer:streamer></item>
+<item><title>GV_Wieberdink_dodenmars_01e</title><enclosure url="GV_Wieberdink_dodenmars_01e.mp4" type="video/mp4" /><jwplayer:streamer>rtmp://dans.flashstreaming.eu/on-demand</jwplayer:streamer></item>
+</channel></rss>

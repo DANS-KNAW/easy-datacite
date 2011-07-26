@@ -1,0 +1,22 @@
+#adminPanel .even {
+	background-color: transparent;
+}
+
+.even {
+	background-color:  #B7CFB7;
+	color: white;
+}
+
+.odd {
+	background-color: #D0E0D0;
+	color: white;
+}
+
+.selected {
+	background-color: #F0F0F0;
+}
+
+#jamonStatistics {
+	padding: 0;
+	border:1px solid #71867A;
+}

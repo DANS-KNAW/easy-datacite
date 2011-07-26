@@ -1,0 +1,63 @@
+<wicket:extend>
+
+<p/>
+<h1>TestPage</h1>
+
+<form wicket:id="form">
+
+<p/>
+	<select wicket:id="color">
+		<option value="foo">bar</option>
+	</select>
+	
+<p/>
+	<select wicket:id="language">
+		<option value="foo">bar</option>
+	</select>
+	
+<p/>
+<table>
+	<tr wicket:id="typelist">
+		<td><select wicket:id="type">
+				<option value="foo">bar</option>
+			</select>
+		</td>
+	</tr>
+</table>
+
+<p/>
+<div wicket:id="spatialPoint">[point panel]</div>
+<p/>
+
+<div wicket:id="selectUserPanel">[selectUserPanel]</div>
+<p/>
+
+<div wicket:id="remarksPanel">[remarksPanel]</div>
+	
+<p/>
+	<input type="submit"/>
+
+</form>
+<p/>
+
+outside of form:
+<p/>
+
+<form wicket:id="depoForm">
+	<table>
+		<tr wicket:id="panels">
+			<td>
+			<div wicket:id="panel">
+			</div>
+			</td>
+		</tr>
+	</table>
+
+<input type="submit"/>
+</form>
+
+
+<p/>
+&nbsp;
+<p/>
+</wicket:extend>

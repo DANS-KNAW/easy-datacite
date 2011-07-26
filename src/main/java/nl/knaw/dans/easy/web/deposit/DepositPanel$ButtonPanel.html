@@ -1,0 +1,36 @@
+<html xmlns:wicket>
+<wicket:panel>
+<table border=0 width=100%>
+<tr>
+	<td class="breatheDepositButtons">&nbsp;</td>
+	<td><div wicket:id="submitDatasetInfoMessage" class="submitDatasetInfoMessage">After submitting</div></td>
+</tr>
+<tr>
+	<td class="labelColumn">
+		<a href="#" wicket:id="previous" class="button button_div_left"><img src="images/icon_previous.gif" alt="Previous"/>
+			<wicket:message key="button.previous">previous</wicket:message>
+		</a>
+	</td>
+	<td>
+	<a href="#" wicket:id="leave" class="button leave_draft"><img src="images/icon_cancel.gif" alt="Leave procedure"/>
+		<wicket:message key="button.leave">leave</wicket:message></a>
+		
+	<a href="#" wicket:id="cancel" class="button"><img src="images/icon_cancel.gif" alt="Cancel"/>
+		<wicket:message key="button.cancel">cancel</wicket:message></a>
+		
+	<a href="#" wicket:id="save" class="button save_draft"><img src="images/icon_save.gif" alt="Save"/>
+		<span wicket:id="saveLabel"/></a>
+		
+	<a href="#" wicket:id="submit" class="pbutton"><img src="images/icon_submit.gif" alt="Submit"/>
+		<wicket:message key="button.submit">submit</wicket:message></a>
+	<span wicket:id="confirm"></span>
+	</td>	
+	<td class="shortHelpColumn">
+		<a href="#" wicket:id="next" class="pbutton button_div_right"><img src="images/icon_next.gif" alt="Next"/>
+			<wicket:message key="button.next">next</wicket:message>
+		</a>
+	</td>
+</tr>
+</table>
+</wicket:panel>
+</html>

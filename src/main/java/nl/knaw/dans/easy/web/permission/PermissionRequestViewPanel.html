@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:wicket="http://wicket.sourceforge.net/" 
+	xml:lang="en" 
+	lang="en">
+<body>
+	<wicket:panel>
+		<p>
+	        <a href="#" wicket:id="back" ><wicket:message key="permission.request.back">[back]</wicket:message></a>
+		</p>
+	
+        <table class="panel"> 
+            <wicket:enclosure child="status.value">
+            <tr>
+                <td><label for="status.value"><wicket:message key="permission.request.status.label" class="viewRequestLabel">[status label]</wicket:message></label></td>
+                <td><label wicket:id="status.value">[status]</label></td>
+            </tr>
+            </wicket:enclosure>
+
+            <wicket:enclosure child="explanation.value"> 
+            <tr>
+                <td>
+                	<label for="explanation.value">
+                		<wicket:message key="permission.request.explanation.label" class="viewRequestLabel">[explanation label]</wicket:message>
+                	</label>
+                </td>
+                <td>
+                	<div wicket:id="explanation.value">[explanation]</div>
+                </td>
+            </tr> 
+            </wicket:enclosure>
+ 
+            <tr>
+                <td><label for="title"><wicket:message key="permission.request.research.title.label" class="viewRequestLabel">[Title]</wicket:message></label></td>
+                <td><label id="title" wicket:id="title">[title]</label></td>
+            </tr>
+
+            <tr>
+                <td><label for="theme"><wicket:message key="permission.request.research.theme.label" class="viewRequestLabel">[theme]</wicket:message></label></td>
+                <td><textarea id="theme" type="text" wicket:id="theme" cols="40" rows="6">[theme]</textarea></td>
+            </tr>
+		</table>
+		
+
+    </wicket:panel>
+</body>
+</html>

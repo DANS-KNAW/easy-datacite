@@ -1,0 +1,32 @@
+<html xmlns:wicket>
+
+<head>
+    <wicket:head>
+        <link rel="stylesheet" type="text/css" href="css/activity_log_panel.css" />
+    </wicket:head>
+</head>
+<body>
+<wicket:panel>
+	<h2><wicket:message key="explanation"></wicket:message></h2>
+	<form wicket:id="choiceForm">
+	    <wicket:message key="choice.year"/> 
+		<select wicket:id="yearChoice"> 
+			<option>site 1</option>
+			<option>site 2</option>
+		</select>&nbsp;&nbsp;
+		<wicket:message key="choice.month"/> 
+		<select wicket:id="monthChoice">
+            <option>site 1</option>
+            <option>site 2</option>
+        </select>&nbsp;&nbsp;
+		
+		<input type="submit" style="display:none" />
+        <a wicket:id="submitLink" class="button"><wicket:message key="button.text.refresh">[Refresh]</wicket:message></a>
+    </form>
+    <p/>
+    <div wicket:id="downloadListPanel">
+    
+    </div>
+</wicket:panel>
+</body>
+</html>

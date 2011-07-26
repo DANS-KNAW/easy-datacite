@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Meta Data Format</title>
+<style>
+					
+					h1 { font-size: 150% ; }
+					h2 { font-size: 125% ; }
+					table { border-collapse: collapse ; border: 1px solid black ; }
+					td, th
+					{ border: 1px solid black ;
+						padding-left:0.5em; padding-right: 0.5em; 
+						padding-top:0.2ex ; padding-bottom:0.2ex 
+					}
+					
+				</style>
+</head>
+<body>
+<h1>Easy II Meta Data Format</h1>
+<table>
+<tr>
+<td>term  name</td>
+<td>properties id</td>
+<td />
+<td>translation table</td>
+<td colspan="2">help</td>
+</tr>
+<tr>
+<td>contributor</td>
+<td>dc.contributor</td>
+<td>optional, repeating</td>
+<td />
+<td>
+<br />
+<em>
+<a href="../../../easy-home/editable/help/Contributor.template">Contributor</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>creator</td>
+<td>dc.creator</td>
+<td>optional, repeating</td>
+<td />
+<td>
+<br />
+<em>
+<a href="../../../easy-home/editable/help/Creator.template">Creator</a>
+</em>shortHelp.dc.creator</td>
+</tr>
+<tr>
+<td>available</td>
+<td>dc.date.available</td>
+<td>optional</td>
+<td>
+<br />
+<em>
+<a href="common.dcterms.date.html">common.dcterms.date.html</a>
+</em>
+</td>
+<td>
+<br />
+<em>
+<a href="../../../easy-home/editable/help/DateAvailable.template">DateAvailable</a>
+</em>shortHelp.dc.date.available</td>
+</tr>
+<tr>
+<td>description</td>
+<td>dc.description</td>
+<td>mandatory</td>
+<td />
+<td>
+<br />
+<em>
+<a href="../../../easy-home/editable/help/Description.template">Description</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>format</td>
+<td>dc.format</td>
+<td>optional, repeating</td>
+<td />
+<td>
+<br />
+<em>
+<a href="../../../easy-home/editable/help/Format.template">Format</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>identifier</td>
+<td>dc.identifier</td>
+<td>optional, repeating</td>
+<td />
+<td>
+<br />
+<em>
+<a href="../../../easy-home/editable/help/Identifier.template">Identifier</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>language</td>
+<td>dc.language</td>
+<td>optional, repeating</td>
+<td />
+<td>
+<br />
+<em>
+<a href="../../../easy-home/editable/help/Language.template">Language</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>language</td>
+<td>dc.language.iso639</td>
+<td>optional, repeating</td>
+<td>
+<br />
+<em>
+<a href="common.dc.language.html">common.dc.language.html</a>
+</em>
+</td>
+<td>
+<br />
+<em>
+<a href="../../../easy-home/editable/help/LanguageIso639.template">LanguageIso639</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>source</td>
+<td>dc.source</td>
+<td>optional</td>
+<td />
+<td>
+<br />
+<em>
+<a href="../../../easy-home/editable/help/Source.template">Source</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>subject</td>
+<td>dc.subject</td>
+<td>optional, repeating</td>
+<td />
+<td>
+<br />
+<em>
+<a href="../../../easy-home/editable/help/Subject.template">Subject</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>title</td>
+<td>dc.title</td>
+<td>mandatory, repeating</td>
+<td />
+<td>
+<br />
+<em>
+<a href="../../../easy-home/editable/help/Title.template">Title</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>type</td>
+<td>dc.type</td>
+<td>optional, repeating</td>
+<td />
+<td>
+<br />
+<em>
+<a href="../../../easy-home/editable/help/Type.template">Type</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>audience</td>
+<td>dcterms.audience</td>
+<td>mandatory, repeating</td>
+<td>
+<br />
+<em>
+<a href="custom.disciplines.html">custom.disciplines.html</a>
+</em>
+</td>
+<td>
+<br />
+<em>
+<a href="../../../easy-home/editable/help/Audience.template">Audience</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>accessrights</td>
+<td>dcterms.accessrights</td>
+<td>mandatory</td>
+<td>
+<br />
+<em>
+<a href="common.dcterms.accessrights.html">common.dcterms.accessrights.html</a>
+</em>
+</td>
+<td>
+<br />
+<em>
+<a href="../../../easy-home/editable/help/AccessRights.template">AccessRights</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>created</td>
+<td>dcterms.created</td>
+<td>optional, repeating</td>
+<td>
+<br />
+<em>
+<a href="common.dcterms.date.html">common.dcterms.date.html</a>
+</em>
+</td>
+<td>
+<br />
+<em>
+<a href="../../../easy-home/editable/help/DateCreated.template">DateCreated</a>
+</em>shortHelp.dcterms.created</td>
+</tr>
+<tr>
+<td>license</td>
+<td>dcterms.license</td>
+<td>mandatory</td>
+<td />
+<td />
+</tr>
+<tr>
+<td>spatial</td>
+<td>dcterms.spatial</td>
+<td>optional, repeating</td>
+<td />
+<td>
+<br />
+<em>
+<a href="../../../easy-home/editable/help/Spatial.template">Spatial</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>temporal</td>
+<td>dcterms.temporal</td>
+<td>optional, repeating</td>
+<td />
+<td>
+<br />
+<em>
+<a href="../../../easy-home/editable/help/Temporal.template">Temporal</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>available</td>
+<td>eas.available</td>
+<td>optional</td>
+<td>
+<br />
+<em>
+<a href="common.dcterms.date.html">common.dcterms.date.html</a>
+</em>
+</td>
+<td>
+<br />
+<em>
+<a href="../../../easy-home/editable/help/DateAvailable.template">DateAvailable</a>
+</em>shortHelp.eas.available</td>
+</tr>
+<tr>
+<td>date</td>
+<td>eas.date</td>
+<td>optional, repeating</td>
+<td>
+<br />
+<em>
+<a href="archaeology.dcterms.date.html">archaeology.dcterms.date.html</a>
+</em>
+</td>
+<td>
+<br />
+<em>
+<a href="../../../easy-home/editable/help/Date.template">Date</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>date_submitted</td>
+<td>eas.dateSubmitted</td>
+<td>optional, repeating</td>
+<td>
+<br />
+<em>
+<a href="archaeology.dcterms.date.html">archaeology.dcterms.date.html</a>
+</em>
+</td>
+<td>
+<br />
+<em>
+<a href="../../../easy-home/editable/help/DateSubmitted.template">DateSubmitted</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>created</td>
+<td>eas.created</td>
+<td>mandatory</td>
+<td>
+<br />
+<em>
+<a href="common.dcterms.date.html">common.dcterms.date.html</a>
+</em>
+</td>
+<td>
+<br />
+<em>
+<a href="../../../easy-home/editable/help/DateCreated.template">DateCreated</a>
+</em>shortHelp.eas.created</td>
+</tr>
+<tr>
+<td>relation</td>
+<td>eas.relation</td>
+<td>optional, repeating</td>
+<td>
+<br />
+<em>
+<a href="common.dcterms.relation.html">common.dcterms.relation.html</a>
+</em>
+</td>
+<td>
+<br />
+<em>
+<a href="../../../easy-home/editable/help/Relation.template">Relation</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>remarks</td>
+<td>eas.remarks</td>
+<td>optional</td>
+<td />
+<td>
+<br />
+<em>
+<a href="../../../easy-home/editable/help/Remarks.template">Remarks</a>
+</em>
+</td>
+</tr>
+</table>
+</body>
+</html>

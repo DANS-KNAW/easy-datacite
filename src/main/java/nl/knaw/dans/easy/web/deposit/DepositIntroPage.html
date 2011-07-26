@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    
+<html 
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:wicket="http://wicket.sourceforge.net/" 
+	xml:lang="en" 
+	lang="en">
+	
+<head>
+	<wicket:head>
+		<link rel="stylesheet" type="text/css" href="css/deposit.css" />
+	</wicket:head>
+</head>
+
+<body>
+<wicket:extend>
+
+<h1>New deposit</h1>
+
+<p>
+Select the discipline of your dataset below. Please read the instructions first, then start the deposit procedure.
+</p>
+	<br />
+	<div id="disciplines" >
+		<div wicket:id="disciplines" class="discipline">
+			<h2 wicket:id="discipline.name">[discipline.name]</h2>
+			<a class="external vtip" wicket:id="instructionLink" title="View the instruction" href="#" target="_blank">[Instructions x]</a>
+			<a href="#" class="button start" wicket:id="startDepositLink"><img src="images/easy-start.png" />Start deposit</a>
+		</div>
+	</div>
+<br/><br/>
+<span class="editablePanel" wicket:id="editablePanel"></span>
+</wicket:extend>
+</body>
+</html>

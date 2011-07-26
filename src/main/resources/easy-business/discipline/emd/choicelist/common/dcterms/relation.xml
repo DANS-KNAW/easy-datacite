@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<comment>oldEasy.ArchDC.dc_relation.scheme</comment>
+    <entry key="conformsTo">conforms to</entry>
+    <entry key="hasFormat">has format</entry>
+    <entry key="hasPart">has part</entry>
+    <entry key="references">references</entry>
+    <entry key="replaces">replaces</entry>
+    <entry key="requires">requires</entry>
+    <entry key="hasVersion">has version</entry>
+    <entry key="isFormatOf">is format of</entry>
+    <entry key="isPartOf">is part of</entry>
+    <entry key="isReferencedBy">is referenced by</entry>
+    <entry key="isReplacedBy">is replaced by</entry>
+    <entry key="isRequiredBy">is required by</entry>
+    <entry key="isVersionOf">is version of</entry>
+</properties>

@@ -1,0 +1,38 @@
+<html xmlns:wicket>
+<wicket:panel>
+
+ <form wicket:id="intermediateForm">
+  Change depositor of dataset
+  <b><span wicket:id="datasetTitle">[datasetTitle]</span></b>
+  <p/>
+
+Previous depositor: <span wicket:id="depositorName"/>
+<p/>
+ <wicket:enclosure child="notifyDepositor">
+  <input id="notifyDepositor" type="checkbox" wicket:id="notifyDepositor"/>
+  <label for="notifyDepositor">Notify previous depositor</label> 
+ </wicket:enclosure>
+ <p/>
+ 
+ <div wicket:id="selectUserPanel">[selectUserPanel]</div>
+
+<p/>
+ <wicket:enclosure child="notifyNewDepositor">
+  <input id="notifyNewDepositor" type="checkbox" wicket:id="notifyNewDepositor"/>
+  <label for="notifyNewDepositor">Notify new depositor</label> 
+ </wicket:enclosure>
+ <br/>
+ 
+<wicket:enclosure child="includeLicense"> 
+  <input id="includeLicense" type="checkbox" wicket:id="includeLicense"/>
+  <label for="includeLicense">Include license agreement</label>
+</wicket:enclosure>
+ 
+ 	<p/>
+  <a wicket:id="submit" href="#" class="pbutton">Change</a>
+  <a wicket:id="cancel" href="#" class="button">Cancel</a>
+  </form>
+  <br/>
+</wicket:panel>
+</html>
+  

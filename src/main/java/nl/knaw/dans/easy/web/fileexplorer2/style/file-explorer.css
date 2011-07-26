@@ -1,0 +1,145 @@
+.NoneAccessible {
+	color: red !important;
+}
+
+.SomeAccessible {
+	color: orange !important;
+}
+
+.AllAccessible {
+	color: green !important;
+}
+
+.EmbargoAccessible {
+	color: blue !important;
+}
+
+.contentBar { 
+	font-size:14px;
+	line-height: 19px;
+}
+
+h2.breatheFilters {
+	padding-left: 0.8em;	
+}
+
+a.download {
+	color:#000;
+	border:1px solid #DDDDDD!important;
+	padding: 4px 20px!important;
+	background: #00a7d4 url(download.png) no-repeat 0 2px!important;
+	padding-left:28px!important;			
+}
+
+a.download:hover {
+	color:#555;
+	border:1px solid #DDDDDD!important;
+	padding: 4px 20px!important;
+	background: #00a7d4 url(download.png) no-repeat 0 2px!important;
+	padding-left:28px!important;	
+}
+
+a.filedetails {
+	color:#000;
+	border:1px solid #DDDDDD!important;
+	padding: 4px 20px!important;
+	background: url(filedetails.png) no-repeat 0 2px!important;
+	padding-left:28px!important;			
+}
+
+a.filedetails:hover {
+	color:#555;
+	border:1px solid #DDDDDD!important;
+	padding: 4px 20px!important;
+	background: #ddd url(filedetails.png) no-repeat 0 2px!important;
+	padding-left:28px!important;	
+}
+
+a.upload {
+	color:#000;
+	border:1px solid #DDDDDD!important;
+	padding: 4px 20px!important;
+	background: url(upload.png) no-repeat 0 2px!important;
+	padding-left:28px!important;			
+}
+
+a.upload:hover {
+	color:#555;
+	border:1px solid #DDDDDD!important;
+	padding: 4px 20px!important;
+	background: #ddd url(upload.png) no-repeat 0 2px!important;
+	padding-left:28px!important;	
+}
+
+a.delete {
+	color:#000;
+	border:1px solid #DDDDDD!important;
+	padding: 4px 20px!important;
+	background: url(delete.png) no-repeat 0 2px!important;
+	padding-left:28px!important;			
+}
+
+a.delete:hover {
+	color:#555;
+	border:1px solid #DDDDDD!important;
+	padding: 4px 20px!important;
+	background: #ddd url(delete.png) no-repeat 0 2px!important;
+	padding-left:28px!important;	
+}
+
+a.import {
+	color:#000;
+	border:1px solid #DDDDDD!important;
+	padding: 4px 20px!important;
+	background: url(import.png) no-repeat 0 2px!important;
+	padding-left:28px!important;			
+}
+a.import:hover {
+	color:#555;
+	border:1px solid #DDDDDD!important;
+	padding: 4px 20px!important;
+	background: #ddd url(import.png) no-repeat 0 2px!important;
+	padding-left:28px!important;	
+}
+
+a.change {
+	color:#000;
+	border:1px solid #DDDDDD!important;
+	padding: 4px 20px!important;
+	/* background: url(download.png) no-repeat 0 2px!important; 
+	padding-left:28px!important; */		
+}
+
+a.change:hover {
+	color:#555;
+	border:1px solid #DDDDDD!important;
+	padding: 4px 20px!important;
+	background: #ddd /* url(download.png) no-repeat 0 2px!important; 
+	/* padding-left:28px!important; */	
+}
+
+a.preview {
+	color:#000;
+	border:1px solid #DDDDDD!important;
+	padding: 4px 20px!important;
+	/* background: url(download.png) no-repeat 0 2px!important;
+	padding-left:28px!important; */			
+}
+
+a.preview:hover {
+	color:#555;
+	border:1px solid #DDDDDD!important;
+	padding: 4px 20px!important;
+	background: #ddd /* url(download.png) no-repeat 0 2px!important;
+	/* padding-left:28px!important; */	
+}
+
+.breatheAll { 
+	margin-top: 1em;
+	margin-left: 2em;
+}
+
+.displayRightsFormInLine {
+	display: inline;	
+}
+

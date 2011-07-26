@@ -1,0 +1,149 @@
+<html xmlns:wicket>
+<wicket:panel>
+	<div id="commonFeedbackPanel" wicket:id="commonFeedbackPanel"
+		class="feedback">Messages</div>
+
+	<table class="panel">
+		<tr>
+			<td><h2>Account</h2></td>
+		</tr>
+		<tr>
+			<td><label for="userId"><wicket:message
+				key="user.userId">User id</wicket:message></label></td>
+			<td><label id="userId" wicket:id="userId" /></td>
+		</tr>
+		
+		<tr>
+			<td><label for="displayName"><wicket:message
+				key="user.displayName">User displayName</wicket:message></label></td>
+			<td><label id="displayName" wicket:id="displayName" /></td>
+		</tr>
+		
+		<tr>
+			<td><label for="email"><wicket:message key="user.email">User email</wicket:message></label></td>
+			<td><label id="email" wicket:id="email" /></td>
+		</tr>
+
+		<tr>
+			<td><h2>Person</h2></td>
+		</tr>
+		
+		<tr>
+			<td><label for="title"><wicket:message key="user.title">User titles</wicket:message></label></td>
+			<td><label id="title" wicket:id="title" /></td>
+		</tr>
+		<tr>
+			<td><label for="initials"><wicket:message
+				key="user.initials">User initials</wicket:message></label></td>
+			<td><label id="initials" wicket:id="initials" /></td>
+		</tr>
+
+		<tr>
+			<td><label for="prefixes"><wicket:message
+				key="user.prefixes">User prefixes</wicket:message></label></td>
+			<td><label id="prefixes" wicket:id="prefixes" /></td>
+		</tr>
+		<tr>
+			<td><label for="surname"><wicket:message
+				key="user.surname">User surname</wicket:message></label></td>
+			<td><label id="surname" wicket:id="surname" /></td>
+		</tr>
+		<tr>
+			<td><label for="function"><wicket:message
+				key="user.function">User function</wicket:message></label></td>
+			<td><label id="function" wicket:id="function" /></td>
+		</tr>
+		<tr>
+			<td><label for="discipline1"><wicket:message
+				key="user.discipline1">Discipline 1</wicket:message></label></td>
+			<td><label id="discipline1" wicket:id="discipline1" /></td>
+		</tr>
+		<tr>
+			<td><label for="discipline2"><wicket:message
+				key="user.discipline2">Discipline 2</wicket:message></label></td>
+			<td><label id="discipline2" wicket:id="discipline2" /></td>
+		</tr>
+		<tr>
+			<td><label for="discipline3"><wicket:message
+				key="user.discipline3">Discipline 3</wicket:message></label></td>
+			<td><label id="discipline3" wicket:id="discipline3" /></td>
+		</tr>
+		<tr>
+			<td><label for="telephone"><wicket:message
+				key="user.telephone">User telephone</wicket:message></label></td>
+			<td><label id="telephone" wicket:id="telephone" /></td>
+		</tr>
+
+		<!-- Todo: disciplines -->		
+		
+		<tr>
+			<td><label for="dai"><wicket:message
+				key="user.dai">DAI</wicket:message></label></td>
+			<td><label id="dai" wicket:id="dai" /></td>
+		</tr>
+		
+		
+
+		<tr>
+			<td><h2>Organisation</h2></td>
+		</tr>
+
+		<tr>
+			<td><label for="organization"><wicket:message
+				key="user.organization">User organization</wicket:message></label></td>
+			<td><label id="organization" wicket:id="organization" /></td>
+		</tr>
+
+		<tr>
+			<td><label for="department"><wicket:message
+				key="user.department">User department</wicket:message></label></td>
+			<td><label id="department" wicket:id="department" /></td>
+		</tr>
+		<tr>
+			<td><label for="address"><wicket:message
+				key="user.address">User address</wicket:message></label></td>
+			<td><label id="address" wicket:id="address" /></td>
+		</tr>
+		<tr>
+			<td><label for="postalCode"><wicket:message
+				key="user.postalCode">User postalCode</wicket:message></label></td>
+			<td><label id="postalCode" wicket:id="postalCode" /></td>
+		</tr>
+		<tr>
+			<td><label for="city"><wicket:message key="user.city">User city</wicket:message></label></td>
+			<td><label id="city" wicket:id="city" /></td>
+		</tr>
+		<tr>
+			<td><label for="country"><wicket:message
+				key="user.country">User country</wicket:message></label></td>
+			<td><label id="country" wicket:id="country" /></td>
+		</tr>
+
+
+		<tr>
+			<td><h2>Settings</h2></td>
+		</tr>
+
+		
+		<!-- inform by email newsletter selection -->
+		<tr>
+			<td><label for="optsForNewsletter"><wicket:message
+				key="user.optsForNewsletter">Inform me</wicket:message></label></td>
+			<td><label id="optsForNewsletter" wicket:id="optsForNewsletter" /></td>
+		</tr>
+		
+		<tr>
+			<td><label for="logMyActions"><wicket:message
+				key="user.logMyActions">Log my actions</wicket:message></label></td>
+			<td><label id="logMyActions" wicket:id="logMyActions" /></td>
+		</tr>
+		
+		
+	</table>
+
+	<p />
+	<a wicket:id="editLink" class="button"><wicket:message key="edit">Edit</wicket:message></a>
+	<a wicket:id="changePasswordLink" class="button"><wicket:message key="changePasswordLink">Change password</wicket:message></a>
+	<p />
+</wicket:panel>
+</html>

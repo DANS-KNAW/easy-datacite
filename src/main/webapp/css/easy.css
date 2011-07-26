@@ -1,0 +1,1687 @@
+/*---------------------------------------------------*/
+/*-------------- main CSS settings ------------------*/
+/*---------------------------------------------------*/
+
+/* 	DEFINITIE KLEUREN
+
+	EASY rood 	: #DC241F;
+	Hover		: #AF1F1B;
+	EASY blauw 	: #00A7D4; 
+
+*/
+
+html {
+	height: 100%; /* this is an IE 6 bugfix */
+	width: 100%;  /* this is an IE 6 bugfix */
+}
+
+body,
+body#easy {
+    margin: 0;
+    padding: 0;
+	background: #213729; /* orginele groen */
+	height: 100%; /* this is an IE 6 bugfix */
+	width: 100%;  /* this is an IE 6 bugfix */
+	font-family: Verdana, Geneva, sans-serif;	
+	font-size: 100%; /* CUSTOM http://www.alistapart.com/articles/howtosizetextincss/ */
+	line-height: 1.125em; /* 16×1.125=18 */
+	min-width: 920px;
+	min-height: 600px;
+}
+
+h1 {
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 150%!important;
+	font-weight: bold;
+	color: #FFF;
+	background-color: #0090B3;
+	background-image: url('../images/title-shade.png');
+	background-position: center top;
+	background-repeat: repeat-x;
+	margin-left: -15px;
+	margin-right: -15px;
+	padding-left: 15px;
+	display: block;
+	padding-bottom: 0.5em;
+	padding-top: 0.5em;
+	margin-bottom: 1em;
+}
+
+h2 {
+	font-family: Verdana, Geneva, sans-serif!important;
+	font-size: 1.125em!important; /* 18px / 112,5% / 14pt - was 160%; */
+	font-weight: bold;
+	color: #555;
+	line-height: 30px;
+}
+
+h3 {
+	font-family: Verdana, Geneva, sans-serif!important;
+	font-size: 1em!important;
+	display: inline;
+	color:#787878;
+	font-weight: bold;
+}
+
+td {
+	vertical-align: top;
+}
+
+th {
+	white-space: nowrap;
+}
+
+a {
+	color: #00A7D4;	/* easy blauw */
+	text-decoration: none!important; /* aanpassing 11-06-2011 */
+	font-family: Verdana, Geneva, sans-serif!important;
+	font-size: 100%;
+}
+
+a:hover {
+	text-decoration: underline!important;
+	color: #156083; /* easy blauw donkerder */
+}
+
+a.action {
+	color:#00A7D4!important; /* DANS BLAUW */
+}
+	
+a.action:hover{
+	color: #156083;
+}
+
+a:visited {
+	text-decoration: none;
+}
+
+a.imgLink {
+	text-decoration: none;
+}
+
+p, ul, ol, dl, pre, fieldset, blockquote  {
+	margin-bottom: 1em;
+	margin-left: 0;
+	margin-right: 0;
+	margin-top: 1em;
+	font-family: Verdana, Geneva, sans-serif!important;
+	font-size: 110%;
+}
+
+ul, ol {
+	margin: 0;
+	padding-left: 2em;
+}
+
+ul {
+	list-style-type: square;
+}
+
+/*---------------------------------------------------*/
+/*-------------- for use in each EASY page  ---------*/
+/*---------------------------------------------------*/
+
+.error {
+    color: #9E0B0E;
+}
+
+.table_standard, .table_standard td {
+	padding: 0.3em 0.3em 0.3em 0.3em;
+}
+
+.editablePanel textArea {
+	width: 100%;
+	height: 300px; 	
+}
+
+/*---------------------------------------------------*/
+/*------------------ forms  -------------------------*/
+/*---------------------------------------------------*/
+
+input.standard {
+	width: 170px;
+	border: 1px solid #888;
+	height: 14px;
+	padding: 2px 4px;
+	color: #666;
+}
+
+.panel label {
+	font-weight: normal;
+	font-size: 110%;
+}
+
+/* MB 11-07-2011 - Gewijzigd tbv het MyRequests View Request-scherm */
+input.readonly  {
+    background-color: transparent;
+   	border: 0;
+    color: #575756;
+}
+
+/* MB 11-07-2011 - Gewijzigd tbv het MyRequests View Request-scherm */
+textarea.readonly  {
+	margin: -0.2em 0 0 -0.2em;
+	padding: 0;
+    background-color: transparent;
+   	border: none;
+    color: #575756;
+    overflow: auto;
+}
+
+.radio input {
+    display:block;
+    float:left;
+}
+
+.radio label {
+    display:block;
+    margin-left:30px;
+}
+
+/*--------------------------------------------------------*/
+/*--------- panel and sub-(sub-sub-)panels styles  -------*/
+/*--------------------------------------------------------*/
+
+.panel {
+	background-color: #FFF; /* #E6E6E6; */
+	border: 1px solid #CDCDCD;
+	padding-top: 1.2em;
+	padding-bottom: 1em;
+	padding-left: 4px;
+	padding-right: 4px;
+	
+/*	Ronde hoeken
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-khtml-border-radius: 10px;
+	border-radius: 10px;
+	behavior: url(./border-radius.htc);
+	border-radius: 10px; */
+}
+
+table.panel {
+	margin-left:-2px;
+}
+
+.panel td {
+	padding: 0.3em 0.8em 0.3em 0.3em;
+}
+
+td.explanation {
+	color:#666;
+	font-size:95%;
+	background: #FFF;
+	border-bottom: 1px solid #DDD;
+	line-height: 18px;
+	width:40%;
+}
+
+.searchHits h1,
+.panel h1 {
+	font-size: 130%;
+	color: black;
+	font-weight: bold;
+	background: transparent;
+	display: block;
+	margin-left: -7px;
+	margin-right: 0px;
+	padding-left: 7px;
+	padding-bottom: 0em;
+	padding-top: 0em;
+	margin-bottom: 0em;
+	padding-left: 16px;
+	color: #00A7D4!important; /* DANS BLAUW */
+}
+
+.searchHits h1 {
+	padding-top: 8px;
+	padding-bottom: 5px;
+}
+
+.searchHits h2 {
+	color: #00A7D4!important;
+}
+
+.panel a, .panel td a {
+	color: #00A7D4!important;
+	text-decoration: underline;
+	font-size: 100%;
+}
+
+.panel a:hover,
+.panel td a:hover {
+	color: #156083!important; /* EASY BLAUW DONKERDER */
+}
+
+/*-----------------------------------*/
+/*------------ sub panel ------------*/
+/*-----------------------------------*/
+
+.panel .panel {
+	background-color: #F0F0F0;
+	border: 1px solid #DDDDDD;
+	padding-top: 1em;
+	padding-bottom: 1em;
+	padding-left: 5px;
+	margin-left: 7px;
+	margin-right: 7px;
+}
+
+.panel .panel h1 {
+	font-size: 120%;
+}
+
+.panel .panel h2, .panel .panel h3 {
+	font-size: 110%;
+}
+
+td .panel h2 {
+	padding-left: 10px; /* aanpassing 08-06-2011 voor header Refine search IN panel */
+}
+
+.panel .panel td {
+	padding: 0.3em 0.8em 0.3em 0.3em;
+}
+
+/*---------------------------------------------------*/
+/*-------------- AbstractEasyNavPage  ---------------*/
+/*---------------------------------------------------*/
+
+#page {
+	width: 90%;
+	margin-left: auto;
+    margin-right: auto;
+    min-height: 100%;
+}
+
+#pageInner{
+	margin-top: 43px; /* aanpassing 11-06-2011 voor uitlijning Dans logo zoals in DANS website */
+	background: #E6E6E6;
+    padding-left: 4px;
+    padding-right: 4px;
+    border: 1px solid #ABABAB;
+	font-family: Verdana, Geneva, sans-serif;
+	color: #575756;
+	font-size: 0.66em; /* 8pt/68.8% - dit was 0.70em */
+	line-height: 1.2em;
+}
+
+#dans a {
+	position: relative;
+	color: white;
+	font-size: 0.84em;
+	text-decoration: none;
+	font-weight: bold;
+	font-style: italic;
+	top: 3px;
+	left: 32px;
+	line-height: 1.3em;
+}
+
+#dans a:hover {
+	text-decoration: underline;
+}
+
+table.users thead tr,
+tr.headers {	/* rg: 04-07-2011 zelfde bovenkant als bij User Administration */
+	background-color: #E8E8E8;
+	padding: 3px!important;
+	height: 20px!important;
+}
+
+table.users thead td,
+tr.headers th {
+	font-weight: bold!important;
+	padding: 10px 4px!important;
+	border: 1px solid #BBB;
+	border-right: 1px solid #DDD;
+}
+
+tr.headers th a span{
+	font-weight: bold;
+}
+
+.latest{
+	width: 90%;
+	border-right: 1px solid #CCC;
+}
+
+table.panel {
+	font-size: 100%;
+}
+
+table.panel.users {
+	font-size: 110%;
+}
+
+td {
+	font-size: 1em; /* erg belangrijkse stijl - niet deleten */
+}
+
+#topBar {
+	top: 0px;
+	left: 0px;
+	overflow: visible;
+	margin-bottom: 1em;
+	width: 100%;
+	display: block;
+	float: left;
+	background: #E6E6E6;
+}
+
+#managementBar {
+	clear: both;
+	display: block;
+	float: left;
+	text-align: left;
+	padding-bottom: 0.6em;
+	width: 100%;
+}
+
+#managementBar.rightalign {
+	text-align: right!important;
+}
+
+.management-action { 
+	background: #EFEFEF;
+	border: 1px solid #C0C0C0;
+	padding: 4px;
+	padding-top: 6px;
+	height: 17px;
+	float: right;
+	margin-top: 7px;
+}
+
+#managementBar a {
+	color: #00A7D4!important; /* DANS BLAUW */
+	padding-right: 0.5em;
+	padding-left: 0.5em;
+	border-right: 1px solid #CCC;
+	font-size: 100%;
+}
+
+#managementBar.rightalign .management-action a {
+	color: #00A7D4; /* dans BLAUW */
+	padding-right: 0!important;
+	padding-left: 0.5em!important;
+	border-right: 1px solid #CCC;
+	padding-right: 5px!important;
+}
+
+a.first {
+	padding-left: 262px!important;
+}
+
+#managementBar.rightalign a.first {
+	padding-left: 0px!important;
+} 
+
+#topBar a:active, #topBar a:hover {
+	color: #156083;
+}
+	
+#managementBar a:active, #managementBar a:hover {
+	color: #156083!important;
+}	
+	
+#first-line {
+	display: block;
+	float: left;
+	height: auto; /* was 100 */
+	width: 100%;
+}
+	
+#first-line #logo {
+	display: block;
+	float: left;
+	margin-top: -43px; /* aanpassing 11-06-2011 - uitlijnen zoals bij DANS website */
+	height: auto; /* was 130 */
+	width: 258px!important;
+}
+	
+#logo a img {	/* aanpassing 21-06-2011 Logo DANS zoals op de DANS website */
+	width: 231px;
+	height: 58px;
+	padding-top: 22px;
+}
+	
+.first-line-left {
+	display: block;
+	float: left;
+	height: 17px;
+	background: #EFEFEF;
+	border: 1px solid #C0C0C0;
+	padding: 4px;
+	padding-top: 6px;
+	width: auto!important; /* -30px ipv lange naam archivist */
+	margin-top: 5px;	
+}
+
+.first-line-left a {	/* links in het menu onder search */
+	padding-right: 5px!important;
+	border-right: 1px solid #CCC;
+}
+		
+.first-line-right {
+	display: block;
+	float: right;
+	padding: 4px;
+	padding-top:7 px;
+	margin-top: 5px;	
+}
+	
+.first-line-right a.requests {
+	width: auto!important;
+	padding-top: 8px;
+	padding: 4px;
+	padding-top: 6px;
+	height: 17px;
+}
+	
+#second-line{
+	display: block;
+	float: left;
+	width: 100%;
+}	
+	
+.second-line-left {
+	display: block;
+	float: left;
+	padding-left: 258px;
+}
+	
+.second-line-left a img {
+	vertical-align: middle;
+	margin-top: 5px;
+}
+	
+.second-line-right {
+	display: block;
+	float: right;
+}
+		
+.second-line-right a {
+	display: block;
+	float: left;
+	height: 22px;
+	width: auto!important;
+	padding: 4px;
+	padding-top: 9px;
+	height: 18px;
+}
+
+.name-buttons span {		
+	font-weight: bold;
+}
+	
+.name-buttons a {
+	color: #00A7D4!important; /* DANS BLAUW */
+	/* font-size: 1.1em;	 iets groter */
+}
+
+.name-buttons a:hover{
+	color: #156083;
+}
+
+span.line {
+	margin-bottom: 9px;	/* netjes in het midden van de naam en buttons en de acties */
+	display: block;
+	float: left;
+	width: 100%;
+}
+	
+a.deposit {
+	display: block;
+	float: right;
+}
+
+#bodyPanel {
+	clear: both;
+	background: #FFF;
+	width: 100%;
+	min-height: 300px;
+	border-bottom: 1px solid #E0E0E0;
+	border-left: 1px solid #E0E0E0;
+	border-right: 1px solid #E0E0E0;
+}
+
+#bodyContent {
+	display: block;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-bottom: 15px;
+}
+
+/* table voor users */
+span.lineheight {
+	line-height: 16px!important; 
+}
+
+table.users tbody tr, table.dataview tr { /* rg: toevoeging 04-07-2011 */
+	height: 24px;
+}
+
+table.users tbody tr:hover,
+table.dataview tr:hover,
+table.dataview tr.even:hover,
+table.dataview tr.even:hover { 
+	background-color: #EEE;
+	color: #111;
+}
+
+table.dataview tr.odd:hover,
+table.dataview tr.odd:hover { 
+	background-color: #EEE;
+	color: #111;
+}
+
+table.users tbody tr td {
+	border-bottom: 1px solid #00A7D4!important;
+	padding-bottom: 1px;
+}
+
+#footer {
+	padding-top: 1.5em;
+	text-align: center;
+	height: 3.5em;
+	border-top: 1px solid #F5F5F5;
+	border-bottom: 1px solid #DDD;
+}
+
+#footer #locale {
+	position: relative;
+	float: left;
+}
+
+#footer #locale a {
+	height: 20px;
+}
+
+#footer #terms {
+	position: relative;
+}
+
+#footer #version {
+	position: relative;
+	color: #6E6E6E;
+	float: right;
+	text-align: right;
+}
+
+/*---------------------------------------------------*/
+/*-------------- feedbackPanel  ---------------------*/
+/*---------------------------------------------------*/
+
+ul li {
+	font-size: 100%!important;
+}
+
+.feedbackPanel li {
+	font-size: 90%!important;
+}
+
+#commonFeedbackPanel {
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+	margin-bottom: 1em;
+	font-size: 100%;
+}
+
+#commonFeedbackPanel ul {
+	margin: 0!important;
+	padding-left: 30px;
+	border: 1px solid #C0C0C0;
+}
+
+li.feedbackPanelERROR {
+	list-style-image: url(../images/icons/messages/cross-circle-frame.png);
+	list-style-type: square;
+	padding: 3px;
+	list-style-position: inside;
+	margin-left: -30px;
+}
+	
+#commonFeedbackPanel ul li.feedbackPanelERROR {
+	background: #EBCCCC;
+	border: 1px solid #DC241F;
+}
+	
+li.feedbackPanelERROR span.feedbackPanelERROR {
+	color: #000;
+	font-size: 95%!important;
+	position: relative;
+	top: -3px;
+}
+	
+li.feedbackPanelCONFIRM {
+    list-style-image: url(../images/icons/messages/tick-circle-frame.png);
+	list-style-type: square;
+	padding: 3px;
+	background: #E2EFD8!important;
+	border: 1px solid #357902;
+	list-style-position: inside; 
+	margin-left: -30px;
+}
+	
+li.feedbackPanelCONFIRM span.feedbackPanelCONFIRM {
+	color: green;
+	font-size: 95%!important;
+	position: relative;
+	top: -3px;
+}
+	
+li.feedbackPanelINFO {
+    list-style-image: url(../images/icons/messages/information-frame.png);
+	list-style-type: square;
+	padding: 3px;
+	background: #E6EEF6!important;
+	border: 1px solid #00A7D4;
+	list-style-position: inside; 
+	margin-left: -30px;
+}
+	
+li.feedbackPanelINFO span.feedbackPanelINFO {
+	color: #156083;
+	font-size: 95%!important;
+	position: relative;
+	top:-3px;
+}
+	
+li.feedbackPanelWARNING {
+ 	list-style-image: url(../images/icons/messages/exclamation.png);
+	list-style-type: square;
+	padding: 3px;	
+	background: #F9E9C2!important;
+	border: 1px solid #D0960A;		
+	list-style-position: inside;
+	margin-left: -30px;
+}
+	
+li.feedbackPanelWARNING span.feedbackPanelWARNING {
+	color: black;
+	font-size: 95%!important;
+	position: relative;
+	top: -3px;
+}
+
+li.feedbackPanelFATAL {
+    list-style-image: url(../images/icons/messages/exclamation-red-frame.png);
+	list-style-type: square;
+	padding: 3px;
+	border: 1px solid #DC241F;
+	list-style-position: inside;
+	margin-left: -30px;
+}
+	
+li.feedbackPanelFATAL span.feedbackPanelFATAL {
+	color: red;
+	font-size: 95%!important;
+	position: relative;
+	top: -3px;
+}
+
+li.feedbackPanelQUESTION {
+    list-style-image: url(../images/icons/messages/question-frame.png);
+	list-style-type: square;
+	padding: 3px;
+	border: 1px solid #025398;
+	list-style-position: inside;
+	margin-left: -30px;
+}
+	
+li.feedbackPanelQUESTION span.feedbackPanelQUESTION {
+	color: #025398;
+	font-size: 95%!important;
+	position: relative;
+	top: -3px;
+}
+
+.feedback li {
+	list-style-type: none;
+}
+
+.panel.registration td input {
+	width: 95%; /* verzoek 17 mei voor 100% width - gelijk trekken registration */
+	border: 1px solid #999;
+	height: 14px;
+	padding: 2px 4px;
+	color: #666;	
+}
+
+.panel td input[type="radio"] {
+	width: 20px;
+}
+
+span.feedbackPanelUNDEFINED {
+}
+
+li.feedbackPanelUNDEFINED {
+}
+
+span.feedbackPanelDEBUG {
+}
+
+li.feedbackPanelDEBUG {
+}
+
+/*---------------------------------------------------*/
+/*-------------- RecursivePanel -------------------- */
+/*---------------------------------------------------*/
+
+/*
+font[color=red]{
+	color:#dc241f!important; DANS ROOD
+}
+*/
+
+.recursiveContainerL1 { /* DEFAULT_CSS_CONTAINER */
+	margin-left: 0px;
+}
+
+.simpleLabel {
+    font-weight: bold;
+}
+
+.recursiveContainerL1 .simpleLabel {
+    font-weight: normal;
+    padding-left: 2em;
+}
+
+.recursiveHeadingL1 {
+	font-family: Verdana, Geneva, sans-serif!important;
+	font-size: 1.1em!important; /* 07-06-2011 aanpassingen - zelfde stijl als h3*/
+	display: inline!important;
+	color: #787878;
+	font-weight: bold!important;
+}
+
+.relationPanel { 
+	padding-bottom: 5px; 
+} 
+
+/* cssContainerClass can be specified on FormDescriptor.FormPage see conf/discipline/emd/form-description */
+
+th.labelColumn,
+th.depositForm0 th.labelColumn, 
+td.labelColumn { 
+	width: 17em; 
+}
+
+.shortHelpColumn,
+.depositForm0 .shortHelpColumn, 
+td.shortHelpColumn { 
+	width: 30%; 
+}
+
+.depositForm0 .multiplier { 
+	width: 8em;
+	padding: 3px; 
+}
+
+/* IE7 bugfix for ticket #365
+   The select (dropdown) on deposit pages disappear when 
+   padding:0; and width:100%; and next table cell has a &nbsp;
+   Adding a one pixel padding fixed the problem
+*/
+.depositForm0 .w_table_cell {
+	padding-right: 1px;
+}
+
+
+.depositForm0 .recursive-panel-item {
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.depositButtonPanel {
+	padding-top: 15px;
+}
+
+.descriptionTab0 .recursive-panel-item {
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-bottom: 1px solid #00a7d4;
+	width:98%; /* ipv 700 px.. op verzoek van EASY/DANS - terwijl dit de leesbaarheid NIET ten goede komt */
+}
+
+.descriptionTab0 .labelColumn { width: 25% }
+.descriptionTab0 .fieldColumn { width: 75% }
+.descriptionTab0 .shortHelpColumn { width: 0% }
+
+.descriptionTab0 td.qualifierCell { 
+	width: 100px;
+	font-weight: bold;
+	font-style: italic;
+}
+
+.descriptionTab0 .qualifierLabel { 
+	float: left;
+	width: 100px;
+	font-weight: bold;
+	font-style: italic;
+}
+
+.descriptionTab0 .qualifiedList {
+	padding-bottom: 0.5em;
+}
+
+.descriptionTab0 .qualifiedList li {
+    list-style-type: circle;
+}
+
+/*---------------------------------------------------*/
+/*------------- Buttons ---------------------------- */
+/*---------------------------------------------------*/
+
+button, .button, .button:visited {
+	border: 1px solid #bbb;
+	color: #003300;
+	font-size: 1em;
+	font-weight: bold;
+	line-height: 1.5em;
+	margin: 0;
+	padding: 4px 20px;
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+button:hover, .button:hover {
+	color: #00AAD3;
+	text-decoration: none;
+}
+
+button[disabled], .button[disabled], .button[disabled]:hover,
+.button_disabled, .button_disabled:hover,
+button_disabled:visited, span.button, span.button:hover,
+pbutton[disabled], .pbutton[disabled], .pbutton[disabled]:hover,
+.pbutton_disabled, .pbutton_disabled:hover,
+pbutton_disabled:visited, span.pbutton, span.pbutton:hover {
+	background: #CCC!important; /* grijs wanneer disabled */
+	border: 1px solid #BBB;
+	color: #888!important;
+	padding: 7px 20px!important; /* aanpassing 19-06-2011 zelfde grote als nornmale button */
+	text-shadow: none!important; /* niet nodig bij een disabled button */
+}
+
+.button_blue, .button_blue:visited {
+	background-image: url(../images/button_shine_blue.jpg);
+	border: 1px solid #003663;
+	color: #FFFFFF;
+	font-weight: bold;
+	line-height: 1.5em;
+	margin: 0;
+	padding: 1px 6px;
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+.button_blue:hover {
+	/* color: #9E0B0E; */
+	color:#00AAD3;
+}
+
+
+/*---------------------------------------------------*/
+/*------------- Other media ------------------------ */
+/*---------------------------------------------------*/
+
+@media print {
+	.noPrint, .w_multiplier, img { 
+  	display: none; 
+    }
+    
+    html, body, #container, #bodyPanel, #bodyContent {
+        position: absolute;
+        left: 0;
+        top: 0;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        border: 0;
+    }
+}
+
+
+/* ------------------------------------------------ */
+/* ---------------- {rg} CUSTOMS ------------------ */
+/* ------------------------------------------------ */
+
+.noRightBorder { 			
+	border-right: 0px!important;
+}
+
+#managementBar{
+	background: #E6E6E6;
+}
+
+/* ======   [ EASY SPRITE ] =========  	*/
+/* 										*/
+/* Toelichting sprites:					*/
+/* 'easy-sprite.png' is een grote file	*/
+/* waarin alle afbeeldingen voor EASY	*/
+/* staan. Voordeel: 1 server request,	*/
+/* dus sneller en lagere belasting!		*/
+/*										*/
+/* Werking:								*/
+/* Element heeft de volgende class		*/
+/* class='sprite <naam element>'		*/
+/* 										*/
+/* background-position: links boven		*/
+/* vb: 0 -16px;							*/
+/* Linksbovenin en 16px van boven		*/
+/*										*/
+/* *********************************** 	*/
+
+.sprite {
+	background:url(../images/easy-sprite.png) no-repeat;
+}
+
+.dutch {
+	background-position: -16px -160px;
+	padding-top: 1px;
+}
+
+.english {
+	background-position: 0 -160px;
+}
+	
+.active {
+		border-bottom: 1px solid #00AAD3;
+}
+	
+a.settings {
+	padding-right: 22px!important;
+	background: url(../images/easy-sprite.png) -16px 0 no-repeat;
+	width: 22px!important;
+	height: 24px!important;
+	padding-bottom: 9px;
+	text-decoration: none;
+	position: relative;
+	top:-5px;
+}
+		
+a.settings:hover {
+	background-position  : -44px 0;
+}
+	
+a.logoff {
+	padding-right: 24px!important;
+	background: url(../images/easy-sprite.png) -16px -24px no-repeat;
+	width: 22px!important;
+	height: 24px!important;
+	padding-bottom: 10px;
+	text-decoration: none;
+	position: relative;
+	top: -5px;		
+}
+		
+a.logoff:hover {
+	background-position  : -44px -24px;
+}
+
+a.datasets {
+	margin-right: 3px;
+	color: #00A7D4!important;
+}	
+	
+a.datasets:hover {
+	color: #156083;
+}
+
+a.requests {
+	color:#00A7D4!important;
+}
+
+a.requests:hover {
+	color: #156083!important;
+}
+
+strong {
+	font-weight: bold;
+}
+
+a.external {	/* rg: toevoeging van een external link icoontje */
+	background: url("../images/li_external.gif") center right no-repeat;
+	padding-right: 13px;
+}
+
+/* -------------- [ HOME ] ------------------ */
+
+/* rg: vtip files */
+p#vtip { 
+	display: none; 
+	position: absolute; 
+	padding: 10px; 
+	left: 5px; 
+	font-size: 0.8em; 
+	background-color: white; 
+	border: 1px solid #00A7D4; 
+	-moz-border-radius: 5px; 
+	-webkit-border-radius: 5px; 
+	z-index: 9999; 
+}
+
+p#vtip #vtipArrow { 
+	position: absolute; 
+	top: -10px; 
+	left: 5px;
+}
+/* einde Vtip files*/
+
+/* MB 05-07-2011  - Uitgecommentarieerd op verzoek van Rob Maijers omdat niet elke pdf
+   met .pdf eindigt waardoor niet elke pdf het icoon krijgt. Nu krijgt geen enkele pdf
+   dus nog een icoon. 
+a.pdf,
+a[href $='.pdf'] { 	
+   padding-left: 18px;
+   background: transparent url(../images/pdf-icon.gif) no-repeat center left;
+}
+*/
+
+.contentBar p {
+	font-size: 1.25em;
+	line-height: 1.4em;
+}
+
+.contentBar {	/* rg: class voor : nl.knaw.dans.common.wicket.components.editablepanel.ViewPanel */ 
+	font-size: 110%;
+	line-height: 19px;
+}
+
+.controlBar { 		/* rg : onderaan de pagina - vooral bij Arch gebruikt voor meldingen en acties etc */
+	padding-top: 8px;		/* meer losstaan van de rest */
+	padding-bottom: 3px;
+}
+
+.controlBar a {
+	font-size:10px;
+	color: #00A7D4!important;
+	font-weight: bold;
+	letter-spacing: 0.1em;
+}
+
+.searchPanel input,
+.refineSearchPanel form input,
+input#searchString {
+	/* toegevoegd door sven
+	display: block;
+	float: left;
+	*/
+	width: 259px!important; 
+	border: 1px solid #BBB;
+	height: 28px;
+	font-family: Verdana, Geneva, sans-serif!important;	
+	font-size: 13px;
+	line-height: 16px;
+	color: #888;
+	padding-left: 3px;
+	font-weight: normal;
+	background: #F4F4F4;
+}
+
+.refineSearchPanel form input[type="text"] {		/* specifiek width search optie rechts */
+	width: 125px!important;
+	height: 21px!important;
+	margin-bottom: 8px;
+	background: #FFF;
+	font-family: Verdana, Geneva, sans-serif;	
+	font-size: 10px!important;
+}
+		
+.refineSearchPanel.panel a.button {
+	text-decoration: none!important;
+}
+		
+#bodyContent div p,
+#bodyContent ul li {
+	line-height: 16px;
+	font-size: 110%;
+}
+
+.personal_bar span { /* CUSTOM */
+	font-weight: bold;
+	font-size: 1.1em;
+	margin-bottom: 4px;
+	color: #111;
+}
+
+.personal_bar span.line {
+	margin-bottom: 15px;
+	display: block;
+}
+
+a.button, .panel td a.button {
+	
+	/* toevoeging sven 
+	margin: 0;
+	padding: 0;
+	display: block;
+	float: left;
+	padding-top: 7px;
+	padding-left: 20px;
+	padding-right: 20px; 
+	einde toevoeging sven */
+	
+	padding:7px 20px!important;
+	background:#00a7d4!important; /* DANS BLAUW */
+	color:#fff!important;
+	font-weight: bold!important;
+	text-shadow: 0 1px 2px rgba(126, 126, 126, 0.5) !important;
+	cursor: pointer !important;
+	
+/*	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	border-radius: 3px;
+	behavior: url(./border-radius.htc);
+	border-radius: 3px; */
+	
+	height: 16px;
+	font-size: 11px;
+}
+
+a.button:hover {
+	background: #156083!important;
+	color:#fff!important;
+	text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5) !important;
+}
+
+/* rg: Prominente button voorstel */
+a.pbutton {
+	padding: 7px 20px!important;
+	color: #FFF!important;
+	background: #00a7d4!important; /* DANS BLAUW */
+	font-weight: bold!important;
+	text-shadow: 0 1px 2px rgba(126, 126, 126, 0.5) !important;
+	cursor: pointer !important;
+	border: 2px solid #000;	
+	height: 16px;
+	
+/*	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	border-radius: 3px;
+	behavior: url(./border-radius.htc);
+	border-radius: 3px; */
+}
+	
+a.pbutton:hover {
+	background: #156083!important;
+	color:#fff!important;
+	text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5) !important;
+}
+
+a.button.start {
+	padding: 0px!important;
+	width: 220px!important;
+	color: #FFF!important; 
+	font-weight: bold!important;
+	padding-left: 20px!important;
+	width: 16px;
+	padding: 1px;
+	text-decoration: none;
+	display: block;
+	border: 1px solid #aaa;
+	width: 96px!important;
+	padding-top: 7px!important;
+	padding-bottom: 7px!important;
+}
+	
+a.button.start:hover {
+	color: #fff!important; 
+	text-decoration: underline;
+}
+	
+a.button.start img {
+	margin-left: -18px;
+	padding-right: 2px;
+	margin-bottom: -2px;
+}
+
+.thirtythree {
+	width: 33%;
+}
+
+.leftlink {
+	text-align: left;
+}
+
+.centerlink {
+	text-align: left;
+}
+
+.rightlink {
+	text-align: right;
+}
+
+.buttonsdeposit {
+	display: table-cell;
+	text-align: center;
+}
+
+.leave_draft {
+	left: 0px;
+}
+
+.save_draft {
+	left: 0px;
+}
+
+.button_div_left {
+	left: 0px;
+}
+
+.button_div_right{
+	right: 0px;
+}
+
+a.leave_draft img,
+a.save_draft img,
+a.button_div_left img,
+a.button_div_right img {
+	margin-bottom: -4px;
+}
+
+input.button.plusMinusButton {
+	padding: 0!important;
+	margin: 0!important;
+	margin-top: -3px;
+	height: 14px!important;
+	padding: 0 5px;
+}
+
+input.button.plusMinusButton:hover {
+	background: #DDD;
+}
+
+button#yui-gen0-button,
+button#yui-gen1-button,
+button#yui-gen2-button,
+button#yui-gen3-button {
+	background: #00A7D4 no-repeat 8px 0!important;
+	width: 80px;
+	color: #FFF!important;
+	font-weight: bold!important;
+	text-shadow: 0 1px 2px rgba(126, 126, 126, 0.5) !important;
+	border: 1px solid #999!important;
+	cursor: pointer;
+	font-size: 12px!important;
+}
+
+.searchPanel form .button,
+.refineSearchPanel form .button {
+	margin-left: -6px; /* zodat het iets over het zoekveld heen ligt */
+	padding: 9px 20px!important;
+	padding-bottom: 8px!important;
+	-moz-padding-start: 10px;
+	border: 1px solid #BBB;
+	border-left: 1px solid #E1E1E2;
+	margin-top: 1px;
+}
+
+.refineSearchPanel form a.button {
+	padding: 4px 10px!important;
+	margin-left: -5px!important;
+	padding-bottom: 5px!important;
+}
+
+td.resources {		/* in home ipv inline style= een class toegevoegd */
+	width: 170px;
+}
+
+/* ----END------- [ HOME ] ------------------ */
+
+
+/* -------------- [ HOME BROWSE ] ------------------ */
+
+.browseFacetsPanel {
+	width: 47%;
+	padding-right: 3%;
+	float: left;
+}
+
+.right {
+	width: 50%!important;
+	padding-right: 0;
+}
+
+.right .panel {
+	padding-bottom: 10px;
+}
+
+/* ----END-------[ HOME BROWSE ] ------------------- */
+
+
+/* --------------- [ BROWSE - SHOW ] ------------ */
+
+.searchResultPanel {
+	 font-size: 1.10em!important; 
+	 line-height: 1.1em;
+}
+
+.searchhitTitle {
+	line-height: 1.3em;
+}
+
+.searchHit-col2 {
+	width: 65%!important;
+}
+
+.searchHit-col3 {
+	width: 35%!important;
+}
+
+.searchHit-col3 div {
+	font-weight: bold;
+	color: #222;
+	padding-left: 20px; /* rust brengen in layout */
+}
+
+.searchHit-col3 span {
+	font-weight: normal;
+	color: #555;
+}
+
+.searchHit {
+	border-bottom: 1px solid #00A7D4; 
+	cursor: pointer;
+	width: 100%;
+}
+
+.searchCriteria { 
+	background: #EEE;
+	padding: 9px 5px;
+	border: 1px solid #DDD;
+}
+
+/* ----END-------- [ BROWSE - SHOW ] ------------ */
+
+
+/* ----------[ PUBLISHED DATA ] --------------- */
+
+.refineSearchPanel.panel.panel {
+	padding-bottom: 2em;
+}
+
+.refineSearchPanel form a.button {
+	display: inline;
+	/* font-size:1em; */
+}
+
+.refineSearchPanel a {
+	/* font-size: 0.9em; */
+	display: block;
+	text-align: left;
+	padding-right: 5px;
+}
+
+.table_kader label,
+.table_standard label {
+	font-weight: bold!important;
+}
+
+.table_standard td a {
+	margin-bottom: 5px;
+	margin-top: -5px;
+	/* font-size: 110%; */
+}
+
+#info_segment_panel td {
+    padding: 12px;
+}
+
+.table_kader {
+	border: 1px solid #BBB;
+	width: 100%;
+	padding: 3px;
+}
+.table_kader th {
+	height: 0;
+	padding: 0;
+	margin: 0;
+}
+
+.table_kader .labelfor{
+	width: 110px!important;
+}
+
+.w_table_cell span {
+	padding: 5px 0px;
+	font-size: 110%;
+}
+.w_table_cell ol,
+.w_table_cell ul {
+	padding-left: 0;
+}
+
+.w_table_cell li {
+	padding: 2px 0px;
+	font-size: 90%;
+}
+
+#disciplines {
+	display: block;
+	float: left;
+	width: 100%;	
+	min-width: 860px;
+	max-width: 100%;
+	height: 100px;
+	margin-bottom: 10px;
+	margin-left: -2px;
+}
+
+div.discipline {
+	display: block;
+	float: left;
+	width: 24%;
+	height: 100px;
+	border: 1px solid #ddd;
+	/* MB 09-06-2011 - uitgezet om rechter border van DepositIntroPage-menus te handhaven */
+	/* border-right: 0; */
+	padding-left:6px;
+}
+
+.discipline span {
+	display: block;
+	width: auto;
+	min-width: 200px;
+	padding: 2px;
+	font-size: 110%;
+	margin: 5px 0;
+	margin-bottom: 10px;
+	padding-left: 4px;
+}
+
+.discipline a {
+	margin: 15px 0!important;
+	padding-left: 0px;
+}
+
+.discipline a.button.start {
+	width: 180px!important; /* 16-06-2011 - toevoeging. Na update waren deze buttons opeens heel klein */
+}
+
+div.discipline.last {
+	border: 1px solid #DDD!important;
+}
+	
+#popupButtonCreator-button {}
+
+/* toevoegen 07-06-2011 */
+span.first-child img {
+	margin-top: 2px!important;
+}
+
+.snippets span {
+    font-weight: normal;
+	font-style: normal;
+}
+
+span.key {
+	color: #666;
+}
+
+/* MB 09-06-2011 - toegevoegd */
+.helpButtonRefineSearch {	
+	position: absolute;
+	margin-top: -2px;
+	padding-left: 6px;
+}
+
+/* MB 22-06-2011 - hierheen verplaatst vanuit deposit.css */
+.form_text {
+	background-color: #FFFFFF;
+	border: 1px solid #333333;
+	color: #2B2B2B;
+	line-height: 15px;
+	margin: 0;
+}
+
+a.popupHelp img {
+	width: 14px;
+	height: 16px;
+}
+
+#refineSearchPanel2 > h1 {
+	display: inline; /* Om het help-vraagteken vlak naast de heading te krijgen */
+}
+
+div.popupDialog {
+	width: 700px;
+}
+
+/* MB 29-06-2011 - toegevoegd tbv het niet-geregistreerd-kader op de login-pagina */
+#not_registered {
+	margin-top: 10px;
+	margin-bottom: 20px;
+	padding: 20px 10px 10px 10px;
+    border: 1px solid #CDCDCD;
+    width: 35em;	
+}
+
+/* MB 30-06-2011 - toegevoegd tbv het login-kader op de login-pagina. */
+#login {
+	position: relative;
+	margin-top: 20px;
+	padding: 10px;
+	border: 1px solid #CDCDCD;
+	width: 35em;
+}
+
+#login .login_margin_bottom {
+	margin-bottom: 1em; 	
+}
+
+#login .login_margin_top {
+	margin-top: 2em;	
+}
+
+#login .login_button {
+	margin-top: 2.2em;
+	margin-bottom: 2em;
+}
+
+#login .login_align_right {
+	position: absolute;
+	right: 33%;
+	margin-top: -0.2em;	
+}
+
+.setStatusPanelLabelWidth {
+	width: 5%;	
+}
+
+.requiredMarkColor {
+	color: #F00;	
+}
+
+/* MB - 11-07-2011, MyRequests additional selectors hack */
+
+.tableWidth {
+	width: 100%;	
+}
+
+.tableLabelWidth {
+	width: 3%;	
+}
+
+.tableLabelWidthReply {
+	width: 10%;	
+}
+
+.tableTdInputWidth {
+	width: 10%;
+}
+
+.tableTdInput {
+	border: 1px solid #CDCDCD;
+	width: 90%;
+}
+
+.tableTdShortHelp {
+	vertical-align: bottom;
+	border-bottom: 1px solid #DDDDDD;
+	width: 10%;	
+}
+
+.tableTdShortHelpReply {
+	vertical-align: bottom;
+	border-bottom: 1px solid #DDDDDD;
+	width: 60%;	
+}
+
+/* View Request */
+
+.first-line-right span.resetSeparator {
+		/* font-size: 0.9em; */
+		font-weight: normal;
+		color: #575756;
+	}
+	
+.viewRequestLabel {
+	font-weight: bold;
+    color: #787878;	
+}
+
+/* MB 13-07-2011 - toegevoegd na functionele aanpassingen in published datasets */ 
+.moveDownDatasetSortBar {
+	padding-bottom: 2em;	
+}
+
+.paddingtop {
+	padding-top:5px;	
+}
+
+.marginbottom {
+	margin-bottom: 15px;	
+}
+
+/* MB 19-07-2011 - info message styling deposit submit button */
+.submitDatasetInfoMessage {
+	padding: 5px 5px 5px 27px;	
+	background-image: url(../images/icons/messages/information-frame.png);
+	background-position: 1%;
+	background-repeat: no-repeat;
+	background-color: #E6EEF6!important;
+	border: 1px solid #00A7D4;	
+	color: #156083;
+	vertical-align: middle;
+}
+
+.breatheDepositButtons {
+	padding-bottom: 4em;
+}
+
+/*
+.searchButton {
+	color: white!important;
+	background-color: #00A7D4 !important;
+	border: 1px solid #BBB;
+	font-weight: bold !important;
+	padding: 7px 20px 7px 20px !important;
+	margin-top: 20px !important;
+	margin-left: 0px !important;
+	text-align: center !important; 
+	vertical-align: text-bottom !important;
+}
+*/

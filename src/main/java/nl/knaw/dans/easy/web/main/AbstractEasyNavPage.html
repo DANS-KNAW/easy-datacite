@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:wicket="http://wicket.sourceforge.net/" 
+	xml:lang="en" 
+	lang="en">
+	
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<wicket:head>
+		<link rel="stylesheet" type="text/css" href="css/easy.css" />
+	</wicket:head>
+	<script type="text/javascript" src="js/jquery-1.3.2.min.js" />
+	<script type="text/javascript" src="js/vtip.js" />
+</head>
+
+<body>
+<wicket:extend>
+<div id="page">		
+	<div class="noPrint" id="dans">
+		<a href="http://www.dans.knaw.nl/">Data Archiving and Networked Services</a>
+	</div>
+	<div id="pageInner">
+		<!-- MARKUP FOR EASY Navigation BEGIN -->
+		<div id="topBar" class="noPrint">
+			<div id="first-line">
+				<div id="logo">
+					<a wicket:id="easyLogoLink"><img src="images/easy_logo.png" /></a>
+				</div>
+				<div class="first-line-left">
+					<a href="#" wicket:id="homePage"><wicket:message key="page.home">[HOME]</wicket:message></a>
+					<a href="#" wicket:id="browsePage" class="browse"><wicket:message key="page.browse">[BROWSE]</wicket:message></a>
+					<a href="#" wicket:id="advancedSearchPage" class="noRightBorder"><wicket:message key="page.advancedsearch">[ADVANCED SEARCH]</wicket:message></a>
+				</div>
+				<div class="first-line-right">
+					<div class="name-buttons">
+						<wicket:enclosure child="login">
+							<a href="#" wicket:id="register" class="vtip" alt="Register" title="Register to get access to EASY">
+							<wicket:message key="page.register">Register</wicket:message></a>
+							<wicket:message key="or">or</wicket:message>
+							<a href="#" wicket:id="login" class="vtip" alt="Login" title="Login to EASY">
+							<wicket:message key="page.login">Login</wicket:message></a>
+						</wicket:enclosure>
+						<wicket:enclosure child="logoff">
+							<span wicket:id="displayName">[displayName]</span> |
+							<a href="#" wicket:id="myRequests" class="requests"><wicket:message key="page.myrequests">My Requests</wicket:message><span class="resetSeparator"> |</span></a>
+							<a href="#" wicket:id="myPersonalInfoLink" class="sprite settings vtip" alt="My personal settings" title="My personal settings">&nbsp;</a> |
+							<a href="#" wicket:id="logoff" class="logoff vtip" alt="Log out" title="Log out"><!-- <wicket:message key="login.logoff"> -->&nbsp;<!-- </wicket:message> --></a>
+						</wicket:enclosure>
+					</div>
+					<span class="line"></span>
+				</div>
+			</div>
+			<div id="second-line">
+				<div class="second-line-left">
+					<span wicket:id="navSearchPanel" class="searchPanel">[SEARCH PANEL]</span>
+					<span wicket:id="searchHelpPopup"></span>
+				</div>
+				<div class="second-line-right">
+					<wicket:enclosure child="myDatasets">
+						<a href="#" wicket:id="myDatasets" class="datasets"><wicket:message key="page.mydatasets">My Datasets</wicket:message></a>
+					</wicket:enclosure>
+					<a href="#" wicket:id="navDeposit" class="button"><wicket:message key="page.deposit">New Deposit</wicket:message></a>
+				</div>
+			</div>
+			<div id="managementBar" wicket:id="managementBarPanel" class="noPrint rightalign" >[MANAGEMENT BAR]</div>
+		</div>
+		<!-- MARKUP FOR  EASY Navigation END -->
+		
+		<!--  MARKUP FOR EASY Page Body BEGIN -->	
+		<div id="bodyPanel">
+			<span id="bodyContent">
+			<wicket:child />
+				<!--  MARKUP FOR  EASY Page Body END -->
+			</span>
+		</div>
+		
+		<!-- MARKUP FOR EASY Footer BEGIN -->
+		<div id="footer" class="noPrint">
+			<div id="version">
+				<span wicket:id="easyVersion">[EASY VERSION]</span>
+			</div>
+			
+			<div id="terms">
+			<a href="http://www.dans.knaw.nl/en/content/data-archive" target="_blank">
+			 <wicket:message key="page.dansRef">[DANS]</wicket:message>
+			</a>|
+			<a href="http://www.dans.knaw.nl/en/content/data-archive/legal-information" target="_blank">
+			 <wicket:message key="page.legalInfoRef">[Legal Info]</wicket:message>
+			</a>|
+			<a href="http://www.dans.knaw.nl/content/property-rights-statement-easy-website" target="_blank">
+			 <wicket:message key="page.propertyRightsRef">[Property rights]</wicket:message>
+			</a>
+			
+			</div>						
+		</div>
+		<!-- MARKUP FOR EASY Footer END -->
+	</div>
+</div>
+</wicket:extend>
+</body>
+</html>

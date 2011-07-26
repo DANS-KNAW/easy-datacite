@@ -1,0 +1,16 @@
+<html xmlns:wicket>
+<wicket:panel>
+<wicket:container wicket:id="statusPanel">[StatusPanel]</wicket:container>
+<wicket:enclosure child="changeDepositorLink">
+<tr>
+	<td class="setStatusPanelLabelWidth">
+		<label for="depositorName"><wicket:message key="depositor">[Depositor:]</wicket:message>: </label>
+	</td>
+	<td>
+		<span id="depositorName" wicket:id="depositorName">[depositor displayname]</span>
+		<a wicket:id="changeDepositorLink" href="#" class="button">Change...</a>
+  	</td>
+</tr>
+</wicket:enclosure>
+</wicket:panel>
+</html>

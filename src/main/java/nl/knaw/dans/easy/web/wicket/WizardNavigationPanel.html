@@ -1,0 +1,37 @@
+<html xmlns:wicket>
+    <wicket:panel>
+        <table width="100%" cellspacing="2" cellpadding="4" border="0" class="panel">
+            <thead>
+                <tr>
+                    <th class="labelColumn">
+                    </th>
+                    <th class="fieldColumn">
+                    </th>
+                    <th class="shortHelpColumn">
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="w_table_cell">
+                        <!-- <b><span wicket:id="label">[label]</span></b> -->
+                        <h2 wicket:id="label">[label]</h2>
+                    </td>
+                    <td class="w_table_cell">
+                        <div wicket:id="pageLinkContainer">
+                            <ol>
+                                <li wicket:id="listView">
+                                    <a wicket:id="pageLink" class="pageLink" href="#"><span wicket:id="pageLinkLabel"/></a>
+                                    <!-- <span wicket:id="pageLink" class="pageLink"><em><span wicket:id="pageLinkLabel"/></em></span> -->
+                                </li>
+                            </ol>
+                        </div>
+                    </td>
+                    <td class="w_table_cell">
+                        <a class="external" wicket:id="instructionLink" title="View the instruction" href="#" target="_blank">[Instructions x]</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </wicket:panel>
+</html>

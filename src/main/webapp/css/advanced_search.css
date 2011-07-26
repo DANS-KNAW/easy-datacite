@@ -1,0 +1,22 @@
+@CHARSET "UTF-8";
+
+#advancedSearchForm {
+	margin-bottom: 1em;
+}
+	
+#advancedSearchCloseButton {
+	float: right;
+}
+
+.search_adv_block {
+	margin: 1em 0 0 0;
+}
+
+#search_adv INPUT[type="text"] { 
+	width: 260px; 
+}
+
+/* MB, toegevoegd 28-06-2011 */
+.adv_search_anyField_marginBottom {
+    margin-bottom: 15px;	
+}

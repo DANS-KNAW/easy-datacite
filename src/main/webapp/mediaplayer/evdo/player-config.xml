@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<!-- streamer>rtmp://dans.flashstreaming.eu/on-demand</streamer -->
+	<streamer>rtmpt://streaming01.dans.knaw.nl/getuigenverhalen</streamer>
+	<image>/mediaplayer/evdo/logo_erfgoedvandeoorlog.gif</image>
+	<author>DANS</author>
+	<description>Erfgoed van de Oorlog, Getuigen Verhalen</description>
+	<backcolor>888888</backcolor>
+	<frontcolor>FFFFFF</frontcolor>
+	<lightcolor>003300</lightcolor>
+	<screencolor>EFEFEF</screencolor>
+	<controlbar>over</controlbar>
+	<dock>false</dock>
+</config>
+

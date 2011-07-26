@@ -1,0 +1,308 @@
+/*---------------------------------------------------*/
+/*-------------- Search  -----------------------*/
+/*---------------------------------------------------*/
+
+.resultMessage {
+	margin-bottom: 1em;
+}
+
+.sortPanel {
+	margin-bottom: 1em;
+}
+
+.refineHead {
+	width: 100%;
+	font-size: 110%;
+	padding-top: 1em;
+	padding-bottom: 1em;
+	color: black;
+	font-weight: bold;
+	font-style: italic;
+}
+
+.searchCriteria {
+	margin-bottom: 1em;
+}
+
+.browseCriteria {
+	margin-bottom: 1em;
+	padding:5px 8px;
+}
+.browseResults{
+	padding:10px 8px;
+
+	border-bottom:1px solid #e1e1e1;
+	margin-top:-10px; 
+}
+
+.searchCriteria a {
+}
+	
+.searchCriteriaSeparator  {
+	margin-right: 1.1em;
+}
+
+.browseFacet .facet_name {
+	color: #444;
+	font-size: 130%; /* was 110% */
+	margin-bottom: 1em;
+	font-style: italic;
+	font-weight: bold;
+	padding-left: 10px;
+}
+
+.refineFacetsPanel .facet_name {
+	color: black;
+	font-weight: bold;
+	margin-bottom: 1em;
+
+}
+
+.refineFacetsPanel div.facet_value {
+	padding-left: 1em;
+}
+
+.refineFacet{
+	font-size: 0.92em!important;
+}
+.pageBrowsePanel {
+	margin-top: 1em;
+	background: #fff;
+	padding:8px;
+	border:1px solid #dfdfdf;
+	color:#222;
+}
+.pageBrowsePanel em{
+	color:#222;
+	font-weight: bold;
+}
+
+
+.searchHit {
+	display: block;
+	color: black;
+	padding-top: 1em;
+	padding-bottom: 1em;
+	width:100%;
+}
+
+.searchHit2 {
+	margin-right: 15px;
+	/* margin-left: -7px; */
+	/* padding: 0 4px; */
+}
+
+.searchHit2:hover, .searchHit2:hover a:hover {	/* hover bij de resultaten */
+	background-color: #E6E6E6;
+	
+}
+
+.odd {
+	background-color: #FFFFFF;
+}
+
+.even {
+}
+
+div.searchHit:hover {
+	color: #000; /* #00AAD6;  hover bij het Published Datasets */
+}
+
+.searchHit em {
+	background:#00a7d4!important; /* DANS BLAUW */
+	color:#fff;
+	padding:0 2px;
+	font-weight: bold;
+}
+
+
+.searchHit-header {
+	font-style:italic;
+}
+
+.searchHit-footer {
+	clear:both;
+	font-style: italic;
+}
+
+.searchHit-colmask {
+	clear:both;
+	float:left;
+	width:100%;			
+	overflow:hidden;
+	right:50%;
+}
+
+.searchHit-columns {
+	float:left;
+	width:100%;
+	position:relative;
+}
+
+.searchHit-col1,
+.searchHit-col2,
+.searchHit-col3 {
+	float:left;
+	position:relative;
+	width: 50%;
+}
+
+.searchHit-col2 .searchhitTitle {
+	font-weight: bold;
+}
+
+/*---------------------------------------------------*/
+/*-------------- Search  -----------------------*/
+/*---------------------------------------------------*/
+
+.resultMessage {
+	margin-bottom: 1em;
+}
+
+.sortPanel {
+	margin-bottom: 1em;
+}
+
+.refineHead {
+	width: 100%;
+	font-size: 110%;
+	padding-top: 1em;
+	padding-bottom: 1em;
+	color: black;
+	font-weight: bold;
+	font-style: italic;
+}
+
+.searchCriteria {
+	margin-bottom: 1em;
+}
+
+.browseCriteria {
+	margin-bottom: 1em;
+	padding:5px 8px;
+	/* border-top:1px solid #e1e1e1;  */
+}
+.browseResults{
+	padding:10px 8px;
+
+	border-bottom:1px solid #e1e1e1;
+	margin-top:-10px; 
+}
+
+.searchCriteria a {
+}
+	
+.searchCriteriaSeparator  {
+	margin-right: 1.1em;
+}
+
+.browseFacet .facet_name {
+	color: #444;
+	font-size: 130%; /* was 110% */
+	margin-bottom: 1em;
+	font-style: italic;
+	font-weight: bold;
+	padding-left: 10px;
+}
+
+.refineFacetsPanel .facet_name {
+	color: black;
+	font-weight: bold;
+	margin-bottom: 1em;
+
+}
+
+.refineFacetsPanel div.facet_value {
+	padding-left: 1em;
+}
+
+.refineFacet{
+	font-size: 0.92em!important;
+}
+.pageBrowsePanel {
+	margin-top: 1em;
+	background: #fff;
+	padding:8px;
+	border:1px solid #dfdfdf;
+	color:#222;
+}
+.pageBrowsePanel em{
+	color:#222;
+	font-weight: bold;
+}
+
+
+.searchHit {
+	display: block;
+	color: black;
+	padding-top: 1em;
+	padding-bottom: 1em;
+	width:100%;
+}
+
+.searchHit2 {
+	margin-right: 15px;
+	/* margin-left: -7px; */
+	/* padding: 0 4px; */
+}
+
+.searchHit2:hover, .searchHit2:hover a:hover {	/* hover bij de resultaten */
+	background-color: #E6E6E6;
+	
+}
+
+.odd {
+	background-color: #FFFFFF;
+}
+
+.even {
+}
+
+div.searchHit:hover {
+	color: #000; /* #00AAD6;  hover bij het Published Datasets */
+}
+
+.searchHit em {
+	background:#00a7d4!important; /* DANS BLAUW */
+	color:#fff;
+	padding:0 2px;
+	font-weight: bold;
+}
+
+
+.searchHit-header {
+	/*color: #9E0B0E; */
+	font-style:italic;
+}
+
+.searchHit-footer {
+	clear:both;
+	font-style: italic;
+}
+
+.searchHit-colmask {
+	clear:both;
+	float:left;
+	width:100%;			
+	overflow:hidden;
+	right:50%;
+}
+
+.searchHit-columns {
+	float:left;
+	width:100%;
+	position:relative;
+}
+
+.searchHit-col1,
+.searchHit-col2,
+.searchHit-col3 {
+	float:left;
+	position:relative;
+	width: 50%;
+}
+
+.searchHit-col2 .searchhitTitle {
+	font-weight: bold;
+}
+

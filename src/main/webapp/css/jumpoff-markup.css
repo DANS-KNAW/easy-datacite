@@ -1,0 +1,14 @@
+/* basic styles for viewing jumpoff markup */
+
+.jumpoffpage h1 {
+	color: blue;
+	font-style: normal;
+	font-size: 200%;
+	font-weight: bold;
+	background-color: transparent;
+	background-image: none;
+}
+
+.jumpoffpage td {
+	padding-right: 5px;
+}

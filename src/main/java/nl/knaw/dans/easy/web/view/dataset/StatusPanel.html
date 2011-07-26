@@ -1,0 +1,25 @@
+<html xmlns:wicket>
+<wicket:panel>
+<tr>
+	<td class="setStatusPanelLabelWidth">
+  		<label for="datasetStatus"><wicket:message key="datasetState">[Status:]</wicket:message>: </label>
+  	</td>
+  	<td>
+  		<div wicket:id="popup">[popup]</div>
+  		<span id="datasetStatus" wicket:id="datasetStatus">[dataset status]</span>
+  		<span wicket:id="statusDate">[status date]</span>
+    	<a wicket:id="continueDeposit" href="#" class="pbutton">Continue deposit</a>
+		<a wicket:id="deleteDataset" href="#" class="button">Delete</a>
+		<a wicket:id="restoreDeleted" href="#" class="button">Restore</a>
+		<a wicket:id="unsubmit" href="#" class="button">Unsubmit...</a>
+		<a wicket:id="publish" href="#" class="pbutton">Publish...</a>
+		<a wicket:id="unpublish" href="#" class="button">Unpublish...</a>
+		<a wicket:id="maintain" href="#" class="button">Maintain...</a>
+		<a wicket:id="republish" href="#" class="pbutton">Republish...</a>
+		<a wicket:id="reuseLink" href="#" class="button">Reuse</a>
+  	</td>
+  </tr>
+  <wicket:container wicket:id="pubProgressPanel">[pubProgressPanel]</wicket:container>
+</wicket:panel>
+</html>
+  

@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Easy II Meta Data Format: archaeology</title>
+<style>
+					
+					h1 { font-size: 150% ; }
+					h2 { font-size: 125% ; }
+					table { border-collapse: collapse ; border: 1px solid black ; }
+					td, th
+					{ border: 1px solid black ;
+						padding-left:0.5em; padding-right: 0.5em; 
+						padding-top:0.2ex ; padding-bottom:0.2ex 
+					}
+					
+				</style>
+</head>
+<body>
+<h1>Easy II Meta Data Format: archaeology</h1>
+<table>
+<tr>
+<td>term  name</td>
+<td>properties id</td>
+<td />
+<td>translation table</td>
+<td colspan="2">help</td>
+</tr>
+<tr>
+<td>license</td>
+<td>license</td>
+<td>mandatory</td>
+<td />
+<td>
+<em>
+<a href="../../../easy-home/editable/help/AccessRights.template">AccessRights</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>contributor</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#elements-contributor">dc.contributor</a>
+</td>
+<td>optional, repeating</td>
+<td />
+<td>
+<em>
+<a href="../../../easy-home/editable/help/Contributor.template">Contributor</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>creator</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#elements-creator">dc.creator</a>
+</td>
+<td>mandatory, repeating</td>
+<td />
+<td>
+<em>
+<a href="../../../easy-home/editable/help/Creator.template">Creator</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>date</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#elements-date">dc.date</a>
+</td>
+<td>optional, repeating</td>
+<td>
+<em>
+<a href="archaeology.dcterms.date.html">archaeology.dcterms.date.html</a>
+</em>
+</td>
+<td>
+<em>
+<a href="../../../easy-home/editable/help/Date.template">Date</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>description</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#elements-description">dc.description</a>
+</td>
+<td>mandatory</td>
+<td />
+<td>
+<em>
+<a href="../../../easy-home/editable/help/Description.template">Description</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>format</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#elements-format">dc.format</a>
+</td>
+<td>optional, repeating</td>
+<td />
+<td>
+<em>
+<a href="../../../easy-home/editable/help/Format.template">Format</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>format</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#elements-format.imt">dc.format.imt</a>
+</td>
+<td>optional, repeating</td>
+<td>
+<em>
+<a href="common.dc.format.html">common.dc.format.html</a>
+</em>
+</td>
+<td>
+<em>
+<a href="../../../easy-home/editable/help/FormatIMT.template">FormatIMT</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>identifier</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#elements-identifier">dc.identifier</a>
+</td>
+<td>optional, repeating</td>
+<td>
+<em>
+<a href="archaeology.dc.identifier.html">archaeology.dc.identifier.html</a>
+</em>
+</td>
+<td>
+<em>
+<a href="../../../easy-home/editable/help/Identifier.template">Identifier</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>language</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#elements-language">dc.language</a>
+</td>
+<td>optional, repeating</td>
+<td />
+<td>
+<em>
+<a href="../../../easy-home/editable/help/Language.template">Language</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>language</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#elements-language.iso639">dc.language.iso639</a>
+</td>
+<td>optional, repeating</td>
+<td>
+<em>
+<a href="common.dc.language.html">common.dc.language.html</a>
+</em>
+</td>
+<td>
+<em>
+<a href="../../../easy-home/editable/help/LanguageIso639.template">LanguageIso639</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>rightsHolder</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#elements-rightsHolder">dc.rightsHolder</a>
+</td>
+<td>optional, repeating</td>
+<td />
+<td>
+<em>
+<a href="../../../easy-home/editable/help/RightsHolder.template">Rights holder</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>publisher</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#elements-publisher">dc.publisher</a>
+</td>
+<td>optional, repeating</td>
+<td />
+<td>
+<em>
+<a href="../../../easy-home/editable/help/Publisher.template">Publisher</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>rights</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#elements-rights">dc.rights</a>
+</td>
+<td>optional, repeating</td>
+<td />
+<td>
+<em>
+<a href="../../../easy-home/editable/help/.template" />
+</em>
+</td>
+</tr>
+<tr>
+<td>source</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#elements-source">dc.source</a>
+</td>
+<td>optional</td>
+<td />
+<td>
+<em>
+<a href="../../../easy-home/editable/help/Source.template">Source</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>subject</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#elements-subject">dc.subject</a>
+</td>
+<td>optional, repeating</td>
+<td />
+<td>
+<em>
+<a href="../../../easy-home/editable/help/Subject.template">Subject</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>subject</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#elements-subject.abr">dc.subject.abr</a>
+</td>
+<td>optional, repeating</td>
+<td>
+<em>
+<a href="archaeology.dc.subject.html">archaeology.dc.subject.html</a>
+</em>
+</td>
+<td>
+<em>
+<a href="../../../easy-home/editable/help/SubjectAbr.template">SubjectAbr</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>title</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#elements-title">dc.title</a>
+</td>
+<td>mandatory</td>
+<td />
+<td>
+<em>
+<a href="../../../easy-home/editable/help/Title.template">Title</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>type</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#elements-type">dc.type</a>
+</td>
+<td>optional, repeating</td>
+<td />
+<td>
+<em>
+<a href="../../../easy-home/editable/help/Type.template">Type</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>type</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#elements-type.dcmi">dc.type.dcmi</a>
+</td>
+<td>optional, repeating</td>
+<td>
+<em>
+<a href="common.dc.type.html">common.dc.type.html</a>
+</em>
+</td>
+<td>
+<em>
+<a href="../../../easy-home/editable/help/TypeDCMI.template">TypeDCMI</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>alternative</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#terms-alternative">dcterms.alternative</a>
+</td>
+<td>optional, repeating</td>
+<td />
+<td>
+<em>
+<a href="../../../easy-home/editable/help/Alternative.template">Alternative</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>accessrights</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#terms-accessrights">dcterms.accessrights</a>
+</td>
+<td>mandatory</td>
+<td>
+<em>
+<a href="archaeology.dcterms.accessrights.html">archaeology.dcterms.accessrights.html</a>
+</em>
+</td>
+<td>
+<em>
+<a href="../../../easy-home/editable/help/AccessRights.template">AccessRights</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>license</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#terms-license">dcterms.license</a>
+</td>
+<td>mandatory</td>
+<td />
+<td />
+</tr>
+<tr>
+<td>spatial</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#terms-spatial">dcterms.spatial</a>
+</td>
+<td>optional, repeating</td>
+<td />
+<td>
+<em>
+<a href="../../../easy-home/editable/help/Spatial.template">Spatial</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>temporal</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#terms-temporal.abr">dcterms.temporal.abr</a>
+</td>
+<td>optional, repeating</td>
+<td>
+<em>
+<a href="archaeology.dcterms.temporal.html">archaeology.dcterms.temporal.html</a>
+</em>
+</td>
+<td>
+<em>
+<a href="../../../easy-home/editable/help/TemporalAbr.template">TemporalAbr</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>temporal</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#terms-temporal">dcterms.temporal</a>
+</td>
+<td>optional, repeating</td>
+<td />
+<td>
+<em>
+<a href="../../../easy-home/editable/help/Temporal.template">Temporal</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>available</td>
+<td>eas.available</td>
+<td>mandatory</td>
+<td>
+<em>
+<a href="common.dcterms.date.html">common.dcterms.date.html</a>
+</em>
+</td>
+<td>
+<em>
+<a href="../../../easy-home/editable/help/DateAvailable.template">DateAvailable</a>
+</em>shortHelp.eas.available</td>
+</tr>
+<tr>
+<td>created</td>
+<td>eas.created</td>
+<td>mandatory</td>
+<td>
+<em>
+<a href="common.dcterms.date.html">common.dcterms.date.html</a>
+</em>
+</td>
+<td>
+<em>
+<a href="../../../easy-home/editable/help/DateCreated.template">DateCreated</a>
+</em>shortHelp.eas.created</td>
+</tr>
+<tr>
+<td>date</td>
+<td>eas.date</td>
+<td>optional, repeating</td>
+<td>
+<em>
+<a href="archaeology.dcterms.date.html">archaeology.dcterms.date.html</a>
+</em>
+</td>
+<td>
+<em>
+<a href="../../../easy-home/editable/help/DateIso8601.template">DateIso8601</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>date_submitted</td>
+<td>eas.dateSubmitted</td>
+<td>optional, repeating</td>
+<td>
+<em>
+<a href="archaeology.dcterms.date.html">archaeology.dcterms.date.html</a>
+</em>
+</td>
+<td>
+<em>
+<a href="../../../easy-home/editable/help/DateSubmitted.template">DateSubmitted</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>relation</td>
+<td>eas.relation</td>
+<td>optional, repeating</td>
+<td>
+<em>
+<a href="common.dcterms.relation.html">common.dcterms.relation.html</a>
+</em>
+</td>
+<td>
+<em>
+<a href="../../../easy-home/editable/help/Relation.template">Relation</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>remarks</td>
+<td>eas.remarks</td>
+<td>optional</td>
+<td />
+<td>
+<em>
+<a href="../../../easy-home/editable/help/Remarks.template">Remarks</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>spatial</td>
+<td>eas.spatial.point</td>
+<td>optional, repeating</td>
+<td>
+<em>
+<a href="archaeology.eas.spatial.html">archaeology.eas.spatial.html</a>
+</em>
+</td>
+<td>
+<em>
+<a href="../../../easy-home/editable/help/SpatialPoint.template">SpatialPoint</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>spatial</td>
+<td>eas.spatial.box</td>
+<td>optional, repeating</td>
+<td>
+<em>
+<a href="archaeology.eas.spatial.html">archaeology.eas.spatial.html</a>
+</em>
+</td>
+<td>
+<em>
+<a href="../../../easy-home/editable/help/SpatialBox.template">SpatialBox</a>
+</em>
+</td>
+</tr>
+</table>
+</body>
+</html>

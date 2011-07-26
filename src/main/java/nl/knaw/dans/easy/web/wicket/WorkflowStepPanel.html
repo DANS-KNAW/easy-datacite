@@ -1,0 +1,34 @@
+<html xmlns:wicket>
+<wicket:panel>
+
+<span wicket:id="title">[title]</span>
+
+<wicket:enclosure child="timeSpent">
+<span class="wf-timeSpent">
+	Time spent (hours):
+	<input wicket:id="timeSpent" type="text" />
+</span>
+</wicket:enclosure>
+
+<wicket:enclosure child="checkBoxContainer">
+<span wicket:id="checkBoxContainer">
+		<input id="completed" type="checkbox" wicket:id="completed"/>
+		<label for="completed" wicket:id="completedLabel"/>
+		<span wicket:id="required" class="wf-required"/>
+</span>
+</wicket:enclosure>
+
+<wicket:enclosure child="doneBy">
+<span class="wf-done">
+	<span wicket:id="doneBy" class="wf-doneBy"/>&nbsp;
+	<span wicket:id="doneOnDate" class="wf-doneOnDate"/>
+</span>
+</wicket:enclosure>
+
+<div wicket:id="kidSteps">
+	<div wicket:id="kidStep"/>
+</div>
+
+</wicket:panel>
+</html>
+  

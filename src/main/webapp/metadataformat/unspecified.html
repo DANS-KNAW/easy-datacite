@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Easy II Meta Data Format: unspecified</title>
+<style>
+					
+					h1 { font-size: 150% ; }
+					h2 { font-size: 125% ; }
+					table { border-collapse: collapse ; border: 1px solid black ; }
+					td, th
+					{ border: 1px solid black ;
+						padding-left:0.5em; padding-right: 0.5em; 
+						padding-top:0.2ex ; padding-bottom:0.2ex 
+					}
+					
+				</style>
+</head>
+<body>
+<h1>Easy II Meta Data Format: unspecified</h1>
+<table>
+<tr>
+<td>term  name</td>
+<td>properties id</td>
+<td />
+<td>translation table</td>
+<td colspan="2">help</td>
+</tr>
+<tr>
+<td>contributor</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#elements-contributor">dc.contributor</a>
+</td>
+<td>optional, repeating</td>
+<td />
+<td>
+<em>
+<a href="../../../easy-home/editable/help/Contributor.template">Contributor</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>creator</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#elements-creator">dc.creator</a>
+</td>
+<td>optional, repeating</td>
+<td />
+<td>
+<em>
+<a href="../../../easy-home/editable/help/Creator.template">Creator</a>
+</em>shortHelp.dc.creator</td>
+</tr>
+<tr>
+<td>available</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#elements-date.available">dc.date.available</a>
+</td>
+<td>optional</td>
+<td>
+<em>
+<a href="common.dcterms.date.html">common.dcterms.date.html</a>
+</em>
+</td>
+<td>
+<em>
+<a href="../../../easy-home/editable/help/DateAvailable.template">DateAvailable</a>
+</em>shortHelp.dc.date.available</td>
+</tr>
+<tr>
+<td>description</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#elements-description">dc.description</a>
+</td>
+<td>mandatory</td>
+<td />
+<td>
+<em>
+<a href="../../../easy-home/editable/help/Description.template">Description</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>format</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#elements-format">dc.format</a>
+</td>
+<td>optional, repeating</td>
+<td />
+<td>
+<em>
+<a href="../../../easy-home/editable/help/Format.template">Format</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>identifier</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#elements-identifier">dc.identifier</a>
+</td>
+<td>optional, repeating</td>
+<td />
+<td>
+<em>
+<a href="../../../easy-home/editable/help/Identifier.template">Identifier</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>language</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#elements-language">dc.language</a>
+</td>
+<td>optional, repeating</td>
+<td />
+<td>
+<em>
+<a href="../../../easy-home/editable/help/Language.template">Language</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>language</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#elements-language.iso639">dc.language.iso639</a>
+</td>
+<td>optional, repeating</td>
+<td>
+<em>
+<a href="common.dc.language.html">common.dc.language.html</a>
+</em>
+</td>
+<td>
+<em>
+<a href="../../../easy-home/editable/help/LanguageIso639.template">LanguageIso639</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>source</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#elements-source">dc.source</a>
+</td>
+<td>optional</td>
+<td />
+<td>
+<em>
+<a href="../../../easy-home/editable/help/Source.template">Source</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>subject</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#elements-subject">dc.subject</a>
+</td>
+<td>optional, repeating</td>
+<td />
+<td>
+<em>
+<a href="../../../easy-home/editable/help/Subject.template">Subject</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>title</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#elements-title">dc.title</a>
+</td>
+<td>mandatory, repeating</td>
+<td />
+<td>
+<em>
+<a href="../../../easy-home/editable/help/Title.template">Title</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>type</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#elements-type">dc.type</a>
+</td>
+<td>optional, repeating</td>
+<td />
+<td>
+<em>
+<a href="../../../easy-home/editable/help/Type.template">Type</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>audience</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#terms-audience">dcterms.audience</a>
+</td>
+<td>mandatory, repeating</td>
+<td>
+<em>
+					currently:
+					<a href="common.dcterms.audience.html">common.dcterms.audience.html</a>
+<br />other configurations might be implemented
+				</em>
+</td>
+<td>
+<em>
+<a href="../../../easy-home/editable/help/Audience.template">Audience</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>accessrights</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#terms-accessrights">dcterms.accessrights</a>
+</td>
+<td>mandatory</td>
+<td>
+<em>
+<a href="common.dcterms.accessrights.html">common.dcterms.accessrights.html</a>
+</em>
+</td>
+<td>
+<em>
+<a href="../../../easy-home/editable/help/AccessRights.template">AccessRights</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>created</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#terms-created">dcterms.created</a>
+</td>
+<td>optional, repeating</td>
+<td>
+<em>
+<a href="common.dcterms.date.html">common.dcterms.date.html</a>
+</em>
+</td>
+<td>
+<em>
+<a href="../../../easy-home/editable/help/DateCreated.template">DateCreated</a>
+</em>shortHelp.dcterms.created</td>
+</tr>
+<tr>
+<td>license</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#terms-license">dcterms.license</a>
+</td>
+<td>mandatory</td>
+<td />
+<td />
+</tr>
+<tr>
+<td>spatial</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#terms-spatial">dcterms.spatial</a>
+</td>
+<td>optional, repeating</td>
+<td />
+<td>
+<em>
+<a href="../../../easy-home/editable/help/Spatial.template">Spatial</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>temporal</td>
+<td>
+<a href="http://dublincore.org/documents/dcmi-terms/#terms-temporal">dcterms.temporal</a>
+</td>
+<td>optional, repeating</td>
+<td />
+<td>
+<em>
+<a href="../../../easy-home/editable/help/Temporal.template">Temporal</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>available</td>
+<td>eas.available</td>
+<td>optional</td>
+<td>
+<em>
+<a href="common.dcterms.date.html">common.dcterms.date.html</a>
+</em>
+</td>
+<td>
+<em>
+<a href="../../../easy-home/editable/help/DateAvailable.template">DateAvailable</a>
+</em>shortHelp.eas.available</td>
+</tr>
+<tr>
+<td>date</td>
+<td>eas.date</td>
+<td>optional, repeating</td>
+<td>
+<em>
+<a href="archaeology.dcterms.date.html">archaeology.dcterms.date.html</a>
+</em>
+</td>
+<td>
+<em>
+<a href="../../../easy-home/editable/help/Date.template">Date</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>date_submitted</td>
+<td>eas.dateSubmitted</td>
+<td>optional, repeating</td>
+<td>
+<em>
+<a href="archaeology.dcterms.date.html">archaeology.dcterms.date.html</a>
+</em>
+</td>
+<td>
+<em>
+<a href="../../../easy-home/editable/help/DateSubmitted.template">DateSubmitted</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>created</td>
+<td>eas.created</td>
+<td>mandatory</td>
+<td>
+<em>
+<a href="common.dcterms.date.html">common.dcterms.date.html</a>
+</em>
+</td>
+<td>
+<em>
+<a href="../../../easy-home/editable/help/DateCreated.template">DateCreated</a>
+</em>shortHelp.eas.created</td>
+</tr>
+<tr>
+<td>relation</td>
+<td>eas.relation</td>
+<td>optional, repeating</td>
+<td>
+<em>
+<a href="common.dcterms.relation.html">common.dcterms.relation.html</a>
+</em>
+</td>
+<td>
+<em>
+<a href="../../../easy-home/editable/help/Relation.template">Relation</a>
+</em>
+</td>
+</tr>
+<tr>
+<td>remarks</td>
+<td>eas.remarks</td>
+<td>optional</td>
+<td />
+<td>
+<em>
+<a href="../../../easy-home/editable/help/Remarks.template">Remarks</a>
+</em>
+</td>
+</tr>
+</table>
+</body>
+</html>

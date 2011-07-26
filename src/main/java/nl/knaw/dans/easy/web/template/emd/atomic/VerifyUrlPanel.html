@@ -1,0 +1,201 @@
+<html xmlns:wicket>
+<wicket:head> 
+<STYLE type="text/css">
+.dialog_header  { color: #fff; font-weight: bold; font-size: 14px; font-family: Arial, Verdana, "Trebuchet MS"; background-color: #00A7D4; margin: 0px; padding-left: 10px; padding-top: 3px; padding-bottom: 3px; padding-right: 10px; border: solid 1px gray; border-bottom: 0px;}
+.dialog_content     { background-color: #DDD;  margin: 0px; padding-left: 10px; padding-top: 5px; padding-bottom: 10px; padding-right: 10px; border: solid 1px grey; border-top: 0px;}
+</STYLE>
+<script type="text/javascript"><!--/*--><![CDATA[/*><!--*/	
+	function checkUrl(relationUrl) {
+		var inputElements = document.getElementsByTagName("input")
+		var len = inputElements.length;
+		var relationUrlValue = "";
+		for (i = 0; i < len; i++) {
+			if (inputElements[i].name == relationUrl) {
+				relationUrlValue = inputElements[i].value;
+				break;
+			}
+
+		}
+		if ("" == relationUrlValue) {
+			easyAlert("No url specified.");
+		} else if (!isValidURL(relationUrlValue)) {
+			easyAlert("No valid url specified.");
+		} else {
+			if (relationUrlValue.substring(0, 7) == "http://") {
+				newWind = window
+						.open(
+								relationUrlValue,
+								"Verify",
+								"height=400,width=650,left=0,top=0,location=yes,scrollbars=yes,resizable=yes,status=yes");
+			} else {
+				newWind = window
+						.open(
+								"http://" + relationUrlValue,
+								"Verify",
+								"height=400,width=650,left=0,top=0,location=yes,scrollbars=yes,resizable=yes,status=yes");
+			}
+			newWind.focus();
+		}
+		//window.open(relationUrlValue.value, 'popuppagemap', 'scrollbars=no,location=no,menuBar=no,resizable=no,status=no,toolbar=no,width=500,height=500');  return false;
+	}
+	function isValidURL(url){
+    var RegExp = /^(([\w]+:)?\/\/)?(([\d\w]|%[a-fA-f\d]{2,2})+(:([\d\w]|%[a-fA-f\d]{2,2})+)?@)?([\d\w][-\d\w]{0,253}[\d\w]\.)+[\w]{2,4}(:[\d]+)?(\/([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)*(\?(&?([-+_~.\d\w]|%[a-fA-f\d]{2,2})=?)*)?(#([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)?$/;
+    if(RegExp.test(url)){
+        return true;
+    }else{
+        return false;
+    }
+} 
+	// Cooler alert / confirm functions,
+	// because the originals do not support titles and are not stylized
+	
+	var ok_function;
+	var cancel_function;
+	var clicks;
+	var dialog;
+	var ifrm;
+	var goto_url;
+
+	function easyAlert(alert_text, alert_title, ok_func) {
+		if (alert_title == null)
+			alert_title = "Easy Notification";
+
+		var ua = navigator.userAgent.toLowerCase();
+
+		clicks = document.createElement("div");
+		clicks.id = "click_shield";
+		if ((ua.indexOf("msie") != -1) && (ua.indexOf("opera") == -1)
+				&& (ua.indexOf("webtv") == -1)) {
+			if (parseFloat(navigator.appVersion.match(/MSIE (.+?);/)[1]) < 7) {
+				ifrm = document.createElement("iframe");
+				ifrm.src = "javascript:false;";
+				ifrm.style.zIndex = 1
+				ifrm.style.position = "absolute";
+				ifrm.style.display = "block";
+				document.body.appendChild(ifrm);
+			}
+			clicks.style.position = "absolute";
+			clicks.style.filter = "Alpha(opacity=0)";	// 35
+			clicks.style.backgroundColor = "grey";
+			window.onscroll = repositionMsgBox;
+		} else {
+			clicks.style.position = "fixed";
+			clicks.style.MozOpacity = 0;	// 0.35
+			clicks.style.Opacity = 0;	// 0.35
+			clicks.style.backgroundColor = "grey";
+		}
+		window.onresize = repositionMsgBox;
+		clicks.style.height = "100%";
+		clicks.style.width = "100%";
+		clicks.style.left = 0;
+		clicks.style.top = 0;
+		clicks.style.zIndex = 2;
+		document.body.appendChild(clicks);
+
+		dialog = document.createElement("div");
+		dialog.id = "messagebox";
+		if ((ua.indexOf("msie") != -1) && (ua.indexOf("opera") == -1)
+				&& (ua.indexOf("webtv") == -1)) {
+			dialog.style.position = "absolute";
+			if (ifrm)
+				dialog.style.position = "absolute";
+		} else
+			dialog.style.position = "fixed";
+		dialog.style.width = "300px";
+		dialog.style.zIndex = 3;
+		dialog.style.visibility = "hidden";
+
+		document.body.appendChild(dialog);
+
+		dialog.innerHTML = "<div class=\"dialog_header\" style=\"width: 100%\"><span>"
+				+ alert_title
+				+ "</span></div><div class=\"dialog_content\" style=\"width: 100%;\"><p>"
+				+ alert_text
+				+ "</p><center><a href=\"#\" class=\"button\" style=\"display: inline;\" title=\"Ok\" onclick=\"closeDialog(true);\"><img src=\"http://easy.dans.knaw.nl/style/pix/icon_ok.gif\" alt=\"Ok\" align=\"absmiddle\" border=\"0\" height=\"15\" width=\"20\">OK</a></center></div>";
+
+		var topval = ((clicks.offsetHeight - dialog.offsetHeight) / 2) + "px";
+		var leftval =  ((clicks.offsetWidth - dialog.offsetWidth) / 2) + "px";
+		dialog.style.top = topval;
+		dialog.style.left = leftval;
+		ok_function = ok_func;
+		dialog.style.visibility = 'visible';
+		dialog.childNodes[1].childNodes[1].childNodes[0].focus();
+		
+		if (ifrm != null) {
+			ifrm.style.top = (clicks.offsetHeight - dialog.offsetHeight) / 2;
+			ifrm.style.left = (clicks.offsetWidth - dialog.offsetWidth) / 2;
+			ifrm.style.width = dialog.offsetWidth;
+			ifrm.style.height = dialog.offsetHeight;
+		} 
+		return true;
+	}
+
+	function closeDialog(result) {
+		document.body.removeChild(document.getElementById('messagebox'));
+		document.body.removeChild(document.getElementById('click_shield'));
+		if (ifrm != null)
+			document.body.removeChild(ifrm);
+		if (result && ok_function != null)
+			ok_function();
+		else if (!result && cancel_function != null)
+			cancel_function();
+		clicks = null;
+		dialog = null;
+	}
+	// since we're not using xhtml strict IE will not take position fixed, so this is IE only
+	// or when the window resizes
+	function repositionMsgBox() {
+		var scrW = 0, scrH = 0, scrOfX = 0, scrOfY = 0;
+		if (typeof (window.innerWidth) == 'number') {
+			scrW = window.innerWidth;
+			scrH = window.innerHeight;
+		} else {
+			if (document.documentElement
+					&& (document.documentElement.clientWidth || document.documentElement.clientHeight)) {
+				scrW = document.documentElement.clientWidth;
+				scrH = document.documentElement.clientHeight;
+			} else {
+				if (document.body
+						&& (document.body.clientWidth || document.body.clientHeight)) {
+					scrW = document.body.clientWidth;
+					scrH = document.body.clientHeight;
+				}
+			}
+		}
+		if (typeof (window.pageYOffset) == 'number') {
+			scrOfY = pageYOffset;
+			scrOfX = pageXOffset;
+		} else {
+			if (document.body
+					&& (document.body.scrollLeft || document.body.scrollTop)) {
+				scrOfY = document.body.scrollTop;
+				scrOfX = document.body.scrollLeft;
+			} else {
+				if (document.documentElement
+						&& (document.documentElement.scrollLeft || document.documentElement.scrollTop)) {
+					scrOfY = document.documentElement.scrollTop;
+					scrOfX = document.documentElement.scrollLeft;
+				}
+			}
+		}
+		if (clicks == null || dialog == null)
+			return;
+		clicks.style.height = "100%";
+		clicks.style.width = "100%";
+		clicks.style.left = scrOfX + "px";
+		clicks.style.top = scrOfY + "px";
+		dialog.style.left = (scrW - dialog.offsetWidth) / 2 + scrOfX + "px";
+		dialog.style.top = (scrH - dialog.offsetHeight) / 2 + scrOfY + "px";
+
+		if (ifrm != null) {
+			ifrm.style.left = (scrW - dialog.offsetWidth) / 2 + scrOfX + "px";
+			ifrm.style.top = (scrH - dialog.offsetHeight) / 2 + scrOfY + "px";
+		}
+	}
+/*-->]]>*/</script>
+</wicket:head>
+<wicket:panel>
+	<a title="Search for a related dataset..." task="setRelation"
+		class="button" name="searchButton" href="#" wicket:id="verifyPopup">[VERIFY]</a>
+</wicket:panel>
+</html>

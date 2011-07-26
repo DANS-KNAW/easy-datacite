@@ -1,0 +1,28 @@
+<html>
+<body>
+<wicket:panel>
+<wicket:enclosure child="message">
+<p/>
+<div wicket:id="message"></div>
+<p/>
+</wicket:enclosure>
+<table>
+	<tr wicket:id="outerList" style="display:block;">
+		<td>
+			<span wicket:id="filename" style="font-weight:bold">[name]</span>
+	
+			<table>
+				<tr wicket:id="innerList">
+					<td wicket:id="key" style="padding-right:1em">[key]</td>
+					<td wicket:id="value">[value]</td>
+				</tr>
+			</table>
+			<br/>
+		</td>
+	</tr>
+</table>
+<div style="text-align: right;"><a wicket:id="close" class="button">Close</a>&nbsp;</div>
+<br/>
+</wicket:panel>
+</body>
+</html>

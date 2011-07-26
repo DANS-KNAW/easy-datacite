@@ -1,0 +1,139 @@
+/*---------------------------------------------------*/
+/*--- tab panel styles (used in DatasetViewPage) --- */
+/*---------------------------------------------------*/
+
+div.tabpanel {
+	border: 0px solid #DDDDDD; /* was 1px */
+}
+
+div.tabpanel div.tab-row {
+	width: 100%;
+	line-height: normal;
+}
+
+div.tabpanel div.tab-row ul {
+	margin: 0;
+	padding: 10px 0px 0;
+	list-style: none;
+}
+
+div.tabpanel div.tab-row li {
+	float: left;
+	margin: 0;
+	padding: 0 0 0 9px;
+}
+
+.tab-row ul li.tab0,				/* de tabs van de dataset allemaal zelfde opmaak */
+.tab-row ul li.tab1,
+.tab-row ul li.tab2,
+.tab-row ul li.tab3,
+.tab-row ul li.tab4,
+.tab-row ul li.tab5{
+	background:url(../images/tab_bg.png) repeat-x;
+	color: #333;
+	padding:2px 25px!important;
+	padding-bottom: 0px!important;
+	border:1px solid #AAA; /* 00a7d4; */
+	border-bottom:1px solid #BBB;
+	margin-right:3px!important;
+	margin-bottom:-1px!important;
+}
+
+div.tabpanel div.tab-row a {
+	display: block;
+	padding: 5px 15px 4px 6px!important;
+	text-decoration: none;
+	font-weight: bold;
+	white-space: nowrap;
+	color: grey;
+}
+	div.tab-row ul li a:hover{ /* hover state van de tabs */
+		color:#222!important;
+	}
+
+
+div.tab-panel {
+	clear: left;
+	background:#fff; 
+	padding-left: 15px;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	border:1px solid #bbb;
+}
+/* custom */ 
+div.tab-panel p{
+	line-height: 1.35em;
+	color:#222!important;
+}
+
+/* MB 05-07-2011: verwijdert door Sven maar ik ben er nog niet zeker van 
+div.tab-panel p a.button{
+	background:#41a0cb url('../images/mail-front.gif') no-repeat scroll 5px 4px;
+	color:#fff;
+	padding:2px 20px;
+	-moz-border-radius: .5em !important;
+	-webkit-border-radius: .5em !important;
+	border-radius: 4px !important;
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.75) !important;
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.75) !important;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.75) !important;
+	text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.3) !important
+	margin-left:4px!important;
+	font-weight:normal;
+	border:1px solid #444;
+}
+*/
+	div.tab-panel p a.button:hover{
+		text-decoration: underline;
+	}
+
+div.tabpanel div.tab-row a:hover {
+	color: blue;
+}
+.w_table_cell{
+	line-height: 20px;
+}
+.w_table_cell b{
+	font-size: 110%;
+	line-height: 16px!important;
+}
+.w_table_cell p{
+	font-size:110%;
+	line-height: 20px!mportant;
+}
+td.w_table_cell a:hover {
+	color:#
+    text-decoration: underline;
+}
+
+li.selected {
+
+}
+
+div.tabpanel div.tab-row li.selected a{
+	color:#000; /* was #000 */
+	font-weight: bold;
+}
+div.tabpanel div.tab-row li:hover,
+div.tabpanel div.tab-row li.selected{
+	background: #fff; 
+	border-bottom: 1px solid white!important;
+}
+
+.sub-panel {
+	padding: 1em;
+	margin-right: 0.7em;
+	margin-bottom: 1.4em;
+	background-color: #f0f0f0;
+	width: 700px;
+}
+/* CuSTOM */
+.fileExplorerPanel {
+	margin-left: -15px;
+	overflow: auto;
+}
+.fileExplorerPanel p{
+	padding:8px;
+	/* padding-top:10px; */
+	padding-bottom: 3px;
+}
