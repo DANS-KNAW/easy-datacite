@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<parent>
+		<artifactId>easy</artifactId>
+		<groupId>nl.knaw.dans.easy</groupId>
+		<version>2.0-SNAPSHOT</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>nl.knaw.dans.easy</groupId>
+	<artifactId>easy-ldap</artifactId>
+	<name>Easy Ldap Data Access Implementation</name>
+	<version>2.0-SNAPSHOT</version>
+	<description>
+		Implementation of Data Access Point(s) in Easy business, using the Lightweight Directory Access Protocol
+	</description>
+
+	<packaging>jar</packaging>
+	
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<!-- === DEPENDENCIES === -->
+	<dependencies>
+
+		<!-- Project dependencies -->
+		<dependency>
+			<groupId>nl.knaw.dans.easy</groupId>
+			<artifactId>easy-business</artifactId>
+			<version>2.0-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+            <groupId>nl.knaw.dans.common</groupId>
+            <artifactId>dans-ldap</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+	</dependencies>
+
+	<!-- === BUILD === -->
+	<build>
+		<plugins>
+
+
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>**/*OnlineTest.java</exclude>
+						<exclude>**/*EmbeddedDSTest.java</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+		</plugins>
+
+	</build>
+
+	<!-- === REPOSITORIES === -->
+	<repositories>
+	
+	</repositories>
+
+	<!-- === PLUGIN REPOSITORIES === -->
+	<pluginRepositories>
+
+	</pluginRepositories>
+
+
+</project>
