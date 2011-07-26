@@ -1,0 +1,104 @@
+# easy schema
+
+attributetype ( 1.3.6.1.4.1.33188.1.1.3
+	NAME 'easyAcceptConditionsOfUse'
+	DESC 'accepts the Conditions of Use of DANS-EASY'
+	EQUALITY booleanMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+	SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.33188.1.1.4
+	NAME 'easyRoles'
+	DESC 'roles of an easyUser'
+	EQUALITY caseIgnoreMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
+attributetype ( 1.3.6.1.4.1.33188.1.1.5
+	NAME 'easyGroups'
+	DESC 'groups an easyUser is part of'
+	EQUALITY caseIgnoreMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
+attributetype ( 1.3.6.1.4.1.33188.1.1.6
+	NAME 'easyFunction'
+	DESC 'function of an easyUser'
+	EQUALITY caseIgnoreMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
+attributetype ( 1.3.6.1.4.1.33188.1.1.14
+	NAME 'easyDiscipline1'
+	DESC 'primary discipline of an easyUser'
+	EQUALITY caseIgnoreMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
+attributetype ( 1.3.6.1.4.1.33188.1.1.15
+	NAME 'easyDiscipline2'
+	DESC 'secondary discipline of an easyUser'
+	EQUALITY caseIgnoreMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
+attributetype ( 1.3.6.1.4.1.33188.1.1.16
+	NAME 'easyDiscipline3'
+	DESC 'tertiary discipline of an easyUser'
+	EQUALITY caseIgnoreMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
+attributetype ( 1.3.6.1.4.1.33188.1.1.17
+	NAME 'easyHasConfirmedGeneralConditions'
+	DESC 'User has confirmed the general conditions of use already'
+	EQUALITY booleanMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+	SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.33188.1.1.8
+	NAME 'easyDai'
+	DESC 'Digitial Author Identifier of an easyUser'
+	EQUALITY caseIgnoreMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
+attributetype ( 1.3.6.1.4.1.33188.1.1.9
+	NAME 'easyOrganizationAddress'
+	DESC 'Address of the organization an easyUser is affiliated with'
+	EQUALITY caseIgnoreMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
+attributetype ( 1.3.6.1.4.1.33188.1.1.10
+	NAME 'easyOrganizationCity'
+	DESC 'City of the organization an easyUser is affiliated with'
+	EQUALITY caseIgnoreMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
+attributetype ( 1.3.6.1.4.1.33188.1.1.11
+	NAME 'easyOrganizationCountry'
+	DESC 'Country of the organization an easyUser is affiliated with'
+	EQUALITY caseIgnoreMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
+attributetype ( 1.3.6.1.4.1.33188.1.1.12
+	NAME 'easyOrganizationTelephone'
+	DESC 'Telephone number of an easyUser at the organization he is affiliated with'
+	EQUALITY caseIgnoreMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
+attributetype ( 1.3.6.1.4.1.33188.1.1.13
+	NAME 'easyLogMyActions'
+	DESC 'Allow actions to be displayed in log'
+	EQUALITY booleanMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+	SINGLE-VALUE )
+
+objectclass ( 1.3.6.1.4.1.33188.1.2.1
+	NAME 'easyUser'
+	DESC 'An entry which represents a user of the easy application'
+	SUP dansUser
+	STRUCTURAL
+	MUST ( uid $ objectclass )
+	MAY ( easyAcceptConditionsOfUse $ easyRoles $ easyGroups $ easyFunction $ easyDiscipline1 $ easyDiscipline2 $ easyDiscipline3 $ easyDai $ easyOrganizationAddress $ easyOrganizationCity $ easyOrganizationCountry $ easyOrganizationTelephone $ easyLogMyActions $ easyHasConfirmedGeneralConditions ) )
+
+objectclass ( 1.3.6.1.4.1.33188.1.2.2
+	NAME 'easyGroup'
+	DESC 'An entry which represents a group in the easy application'
+	SUP organizationalUnit
+	STRUCTURAL
+	MUST ( ou $ objectclass )
+	MAY ( dansState ) )
