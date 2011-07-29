@@ -9,7 +9,7 @@ import nl.knaw.dans.easy.domain.exceptions.ApplicationException;
 public class AdditionalLicenseUnit extends AbstractBinaryUnit
 {
 
-	public static final String	UNIT_LABEL			= "additional license";
+	public static final String	UNIT_LABEL			= "additional_license.pdf";
 
 	public static final String	UNIT_ID				= "ADDITIONAL_LICENSE";
 
