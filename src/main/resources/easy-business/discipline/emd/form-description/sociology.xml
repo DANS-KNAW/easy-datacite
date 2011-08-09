@@ -505,7 +505,7 @@
 		<formDefinition>
             <properties>
                 <id>emd-deposit-wizard</id>
-                <instructionFile>http://www.dans.knaw.nl/content/categorieen/publicaties/dans-data-guide-5</instructionFile>
+                <instructionFile>http://www.dans.knaw.nl/en/content/instructions-depositing-social-science-data</instructionFile>
             </properties>
             <formPages>
                 <formPage>

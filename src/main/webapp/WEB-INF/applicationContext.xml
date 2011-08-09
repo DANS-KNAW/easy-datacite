@@ -52,7 +52,6 @@
 		<property name="trailers">
 			<list>
 				<ref bean="fileBasedAuditTrail" />
-				<bean name="adminMailerAuditTrail" class="nl.knaw.dans.easy.data.audit.AdminMailerAuditTrail"/>
 			</list>
 		</property>
 		<property name="enabled" value="${business.audit.enabled}"/>

@@ -1,6 +1,5 @@
 package nl.knaw.dans.easy.web.authn;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -9,7 +8,6 @@ import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.common.wicket.util.LettersAndDigitsValidator;
 import nl.knaw.dans.easy.domain.authn.Registration;
-import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceList;
 import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasyResources;
@@ -30,7 +28,6 @@ import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.Radio;
-import org.apache.wicket.markup.html.form.RadioChoice;
 import org.apache.wicket.markup.html.form.RadioGroup;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.SubmitLink;
@@ -52,7 +49,8 @@ public class RegistrationForm extends AbstractEasyStatelessForm<ApplicationUser>
     private static final Logger logger = LoggerFactory.getLogger(RegistrationPage.class);
     private static final String INFO_PAGE = "registrationpage.header";
     private static final String WI_REGISTER = "register";
-    private static final SubmitLink registerLink = new SubmitLink(WI_REGISTER);
+    
+    private final SubmitLink registerLink = new SubmitLink(WI_REGISTER);
 
     private String paramUserId;
     private String paramDateTime;
@@ -141,8 +139,8 @@ public class RegistrationForm extends AbstractEasyStatelessForm<ApplicationUser>
         final AcceptConditions acceptConditions = new AcceptConditions(ApplicationUser.ACCEPT_CONDITIONS);
         add(acceptConditions);
 
-        RegistrationForm.registerLink.setEnabled(false);
-        add(RegistrationForm.registerLink);
+        registerLink.setEnabled(false);
+        add(registerLink);
 
         SubmitLink cancelLink = new SubmitLink(RegistrationPage.CANCEL_LINK)
         {
@@ -178,7 +176,7 @@ public class RegistrationForm extends AbstractEasyStatelessForm<ApplicationUser>
         protected void onSelectionChanged(Object newSelection)
         {
             boolean accept = new Boolean(true).equals(newSelection);
-            RegistrationForm.registerLink.setEnabled(accept);
+            registerLink.setEnabled(accept);
         }
     }
 

@@ -504,7 +504,7 @@
 		<formDefinition>
             <properties>
                 <id>emd-deposit-wizard</id>
-                <instructionFile>http://www.dans.knaw.nl/en/content/data-archive/depositing-data</instructionFile>
+                <instructionFile>http://www.dans.knaw.nl/en/content/general-instructions-depositing-data</instructionFile>
             </properties>
             <formPages>
                 <formPage>
