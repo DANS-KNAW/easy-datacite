@@ -32,6 +32,8 @@ import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.servicelayer.services.UserService;
 
 import org.easymock.EasyMock;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeUtils;
 
 public class MockUtil
 {
@@ -50,11 +52,17 @@ public class MockUtil
 
     public static void mockAll() throws Exception
     {
+        mockNow();
         mockItemService();
         mockDatasetService();
         mockUser();
         mockDisciplineService();
         mockFileStoreAccess();
+    }
+
+    private static void mockNow()
+    {
+        DateTimeUtils.setCurrentMillisFixed(new DateTime("2011-08-29T14:42:08").getMillis());
     }
 
     public static void mockFileStoreAccess() throws Exception

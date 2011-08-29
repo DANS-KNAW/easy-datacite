@@ -51,6 +51,8 @@ public class SubmitTest extends EasySwordServerTester
         final String zip = new File("src/test/resources/input/data-plus-meta.zip").getPath();
         deposit.setFile(new FileInputStream(zip));
         
-        assertAsExpected(easySwordServer.doDeposit(deposit).toString(), "deposit_"+verbose+noOp+".xml");
+        final String regexp = "-- CreationDate: .*--"; // iText generates creation date as comment, ignore that
+        final String actualResults = easySwordServer.doDeposit(deposit).toString().replaceAll(regexp, "");
+        assertAsExpected(actualResults, "deposit_"+verbose+noOp+".xml");
     }
 }
