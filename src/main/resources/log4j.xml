@@ -12,7 +12,7 @@
 	</appender>
 
 	<appender name="easy.drfa" class="org.apache.log4j.DailyRollingFileAppender">
-    	<param name="file" 				value="${easy.home}/sword-log/easy.log"/>
+    	<param name="file" 				value="${easy.home}/sword-log/easy-sword.log"/>
     	<param name="Append" 			value="true" />
 		<param name="datePattern" 		value="'.'yyyy-MM-dd'.log'"/>
     	<layout class="org.apache.log4j.PatternLayout">
@@ -21,7 +21,7 @@
   	</appender>
 
 	<appender name="easy.err" class="org.apache.log4j.FileAppender">
-        <param name="File"   value="${easy.home}/sword-log/easy-error.log" />
+        <param name="File"   value="${easy.home}/sword-log/error.log" />
         <param name="Append" value="true" />
         <param name="Threshold" value="warn"/>
         <layout class="org.apache.log4j.PatternLayout">

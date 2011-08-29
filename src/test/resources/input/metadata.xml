@@ -32,7 +32,7 @@
     <dcterms:license>accept</dcterms:license>
   </emd:rights>
   <emd:audience>
-    <dcterms:audience eas:schemeId="custom.disciplines">easy-discipline:1</dcterms:audience>
+    <dcterms:audience eas:schemeId="custom.disciplines">easy-discipline:root</dcterms:audience>
   </emd:audience>
   <emd:other>
     <eas:application-specific>

@@ -123,10 +123,12 @@ public class UnzipResult
 
     public Dataset submit(final EasyUser user, final boolean mock) throws SWORDException
     {
-        EasyBusinessWrapper.validateEasyMetadata(getEasyMetaData());
-        // TODO validate not just syntactical but also permitted/mandatory fields
+        EasyBusinessWrapper.validateSyntax(getEasyMetaData());
+        
         final EasyMetadata metadata = EasyBusinessWrapper.unmarshallEasyMetaData(getEasyMetaData());
 
+        EasyBusinessWrapper.validateSemantics(user, metadata);
+        
         if (mock)
         {
             return mockSubmittedDataset(metadata, user);

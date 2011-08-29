@@ -75,7 +75,7 @@ public class EasySwordServer implements SWORDServer
         final String password = sdr.getPassword();
         if (userID != null)
         {
-            if (null == EasyBusinessWrapper.getUser(userID, password))
+            if (null == getUser(userID, password))
                 throw new SWORDAuthenticationException(userID + " not authenticated");
         }
 
@@ -204,7 +204,7 @@ public class EasySwordServer implements SWORDServer
 
     public DepositResponse doDeposit(final Deposit deposit) throws SWORDAuthenticationException, SWORDErrorException, SWORDException
     {
-        final EasyUser user = EasyBusinessWrapper.getUser(deposit.getUsername(), deposit.getPassword());
+        final EasyUser user = getUser(deposit.getUsername(), deposit.getPassword());
         if (user == null)
             throw new SWORDAuthenticationException(deposit.getUsername() + " not authenticated");
 
@@ -232,7 +232,7 @@ public class EasySwordServer implements SWORDServer
         swordEntry.setUpdated(metadata.getEmdDate().toString());
         swordEntry.addAuthors(wrapAuthor(user));
 
-        // we don't support updating with PUT so skip MediaLink
+        // we won't support updating (task for archivists) so skip MediaLink
         // swordEntry.addLink(wrapEditMediaLink());
         swordEntry.addLink(wrapLink("edit", datasetUrl));
         swordEntry.setGenerator(wrapGenerator(serverURL));
@@ -319,7 +319,7 @@ public class EasySwordServer implements SWORDServer
         link.setHref(location);
         return link;
     }
-    
+
     private static Generator wrapGenerator(final String server)
     {
         final Generator generator = new Generator();
@@ -363,9 +363,14 @@ public class EasySwordServer implements SWORDServer
         return author;
     }
 
+    private EasyUser getUser(final String userID, final String password) throws SWORDAuthenticationException, SWORDException
+    {
+        return EasyBusinessWrapper.getUser(userID, password);
+    }
+
     public AtomDocumentResponse doAtomDocument(final AtomDocumentRequest adr) throws SWORDAuthenticationException, SWORDErrorException, SWORDException
     {
-        if (null == EasyBusinessWrapper.getUser(adr.getUsername(), adr.getPassword()))
+        if (null == getUser(adr.getUsername(), adr.getPassword()))
             throw new SWORDAuthenticationException(adr.getUsername() + " not authenticated");
 
         return new AtomDocumentResponse(HttpServletResponse.SC_OK);

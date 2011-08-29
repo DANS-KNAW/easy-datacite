@@ -1,6 +1,7 @@
 package nl.knaw.dans.easy.sword;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,6 +12,10 @@ import nl.knaw.dans.easy.data.userrepo.EasyUserRepo;
 import nl.knaw.dans.easy.domain.authn.Authentication.State;
 import nl.knaw.dans.easy.domain.authn.UsernamePasswordAuthentication;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
+import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
+import nl.knaw.dans.easy.domain.dataset.item.ItemOrder;
+import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
+import nl.knaw.dans.easy.domain.dataset.item.filter.ItemFilters;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
@@ -59,14 +64,31 @@ public class MockUtil
                 EasyMock.isA(List.class), //
                 EasyMock.isA(WorkReporter.class));
         EasyMock.expectLastCall().anyTimes();
-//        EasyMock.expect(itemService.getFiles(//
-//                EasyMock.isA(EasyUserImpl.class), //
-//                EasyMock.isA(DatasetImpl.class), //
-//                (Integer)EasyMock.isNull(),//
-//                (Integer)EasyMock.isNull(),//
-//                (ItemOrder)EasyMock.isNull(),//
-//                (Integer)EasyMock.isNull(),//
-//                (ItemFilters)EasyMock.isNull())).andReturn(new ArrayList<FileItemVO>() ).anyTimes();
+        
+        EasyMock.expect(itemService.getFilesAndFolders(//
+                EasyMock.isA(EasyUserImpl.class), //
+                EasyMock.isA(DatasetImpl.class), //
+                EasyMock.isA(HashSet.class))//
+                ).andReturn(new ArrayList<ItemVO>()).anyTimes();
+
+        EasyMock.expect(itemService.getFilesAndFolders(//
+                EasyMock.isA(EasyUserImpl.class), //
+                EasyMock.isA(DatasetImpl.class), //
+                EasyMock.isA(String.class), //parent sid 
+                EasyMock.isA(Integer.class),// limit
+                EasyMock.isA(Integer.class),// offset
+                (ItemOrder)EasyMock.isNull(),//
+                (ItemFilters)EasyMock.isNull())//
+                ).andReturn(new ArrayList<ItemVO>()).anyTimes();
+
+        EasyMock.expect(itemService.getFiles(//
+                EasyMock.isA(EasyUserImpl.class), //
+                EasyMock.isA(DatasetImpl.class), //
+                EasyMock.isA(String.class), //parent sid 
+                (Integer)EasyMock.isNull(),// limit
+                (Integer)EasyMock.isNull(),// offset
+                (ItemOrder)EasyMock.isNull(),//
+                (ItemFilters)EasyMock.isNull())).andReturn(new ArrayList<FileItemVO>() ).anyTimes();
 
         EasyMock.replay(itemService);
     }
@@ -102,6 +124,8 @@ public class MockUtil
 
         new Data().setUserRepo(userRepo);
         new Services().setUserService(userService);
+
+        EasyMock.expect(userRepo.findById(VALID_USER_ID)).andReturn(USER).anyTimes();
 
         EasyMock.expect(userRepo.authenticate(VALID_USER_ID, PASSWORD)).andReturn(true).anyTimes();
         EasyMock.expect(userRepo.authenticate(INVALID_USER_ID, PASSWORD)).andReturn(false).anyTimes();

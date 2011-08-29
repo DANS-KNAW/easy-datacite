@@ -1,5 +1,6 @@
 package nl.knaw.dans.easy.sword;
 
+import java.io.File;
 import java.io.FileInputStream;
 
 import org.junit.BeforeClass;
@@ -14,7 +15,7 @@ public class SubmitTest extends EasySwordServerTester
         new MockUtil().mockAll();
     }
 
-    @Ignore("mock system DateTime to make the test repeatable")
+    @Ignore("WorkReporter.workStart and .workEnd not called by mocked itemService.addDirectoryContents" /* FIXME */) 
     @Test
     public void submit() throws Exception
     {
@@ -23,10 +24,10 @@ public class SubmitTest extends EasySwordServerTester
         deposit.setPassword(MockUtil.PASSWORD);
         deposit.setLocation(LOCATION);
         
-        // TODO what next?
-        deposit.setFile(new FileInputStream(META_DATA_FILE));
-        deposit.setContentDisposition(ZIP_FILE.getPath());
-
+        final String zip = new File("src/test/resources/input/data-plus-meta.zip").getPath();
+        deposit.setFile(new FileInputStream(zip));
+        
+        //TODO the private method easySwordServer.getUser should be mocked or overridden
         assertAsExpected(easySwordServer.doDeposit(deposit).toString(), "deposit.xml");
     }
 }

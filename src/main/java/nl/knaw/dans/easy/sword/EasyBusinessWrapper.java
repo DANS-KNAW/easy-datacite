@@ -4,11 +4,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import nl.knaw.dans.common.jibx.JiBXObjectFactory;
+import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.mail.MailComposerException;
+import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.xml.SchemaCreationException;
 import nl.knaw.dans.common.lang.xml.ValidatorException;
@@ -16,10 +17,11 @@ import nl.knaw.dans.common.lang.xml.XMLDeserializationException;
 import nl.knaw.dans.common.lang.xml.XMLErrorHandler;
 import nl.knaw.dans.common.lang.xml.XMLErrorHandler.Reporter;
 import nl.knaw.dans.easy.business.dataset.DatasetSubmissionImpl;
+import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.ext.EasyMailComposer;
-import nl.knaw.dans.easy.domain.authn.Authentication.State;
-import nl.knaw.dans.easy.domain.authn.UsernamePasswordAuthentication;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
+import nl.knaw.dans.easy.domain.emd.validation.FormatValidator;
+import nl.knaw.dans.easy.domain.exceptions.DataIntegrityException;
 import nl.knaw.dans.easy.domain.form.FormDefinition;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
@@ -52,7 +54,7 @@ public class EasyBusinessWrapper
 
     public static final String DEFAULT_EMD_VERSION = EasyMetadataValidator.VERSION_0_1;
 
-    private static Logger      log                 = LoggerFactory.getLogger(EasyBusinessWrapper.class);
+    private static Logger      logger              = LoggerFactory.getLogger(EasyBusinessWrapper.class);
 
     /**
      * Gets an authenticated user.
@@ -65,20 +67,33 @@ public class EasyBusinessWrapper
      * @throws SWORDException
      *         if the user can not be authenticated
      */
-    public static EasyUser getUser(final String userID, final String password) throws SWORDAuthenticationException, SWORDException
+    public static EasyUser getUser(final String userId, final String password) throws SWORDAuthenticationException, SWORDException
     {
-        final UsernamePasswordAuthentication authentication = new UsernamePasswordAuthentication(userID, password);
+        authenticate(userId, password);
         try
         {
-            Services.getUserService().authenticate(authentication);
+            return Data.getUserRepo().findById(userId);
         }
-        catch (final ServiceException exception)
+        catch (ObjectNotInStoreException exception)
         {
-            throw newSwordException(userID + " authentication problem", exception);
+            throw newSwordException(userId + " authentication problem", exception);
         }
-        if (authentication.getState() == State.NotAuthenticated)
-            return null;
-        return authentication.getUser();
+        catch (RepositoryException exception)
+        {
+            throw newSwordException(userId + " authentication problem", exception);
+        }
+    }
+
+    private static void authenticate(final String userId, final String password) throws SWORDException
+    {
+        try
+        {
+            Data.getUserRepo().authenticate(userId, password);
+        }
+        catch (RepositoryException exception)
+        {
+            throw newSwordException(userId + " authentication problem", exception);
+        }
     }
 
     /**
@@ -92,7 +107,6 @@ public class EasyBusinessWrapper
      *        a directory containing the files for the new dataset
      * @param fileList
      *        the list of files in the directory to add to the new dataset
-     * @param workListeners
      * @return
      * @throws SWORDException
      */
@@ -136,19 +150,21 @@ public class EasyBusinessWrapper
     /** Just a wrapper for exceptions. */
     private static void submit(final EasyUser user, final Dataset dataset) throws SWORDException
     {
-        // TODO don't skip validation of metadata
-        // FormDefinition is designed to report errors to the web GUI, but we are no GUI
         final DatasetSubmissionImpl submission = new DatasetSubmissionImpl(new FormDefinition("dummy"), dataset, user);
         final MyReporter reporter = new MyReporter("submitting " + dataset.getStoreId() + " by " + user, "problem with submitting");
 
         try
         {
-            log.debug("before Services.getDatasetService().submitDataset for " + dataset.getStoreId());
+            logger.debug("before Services.getDatasetService().submitDataset for " + dataset.getStoreId());
             Services.getDatasetService().submitDataset(submission, reporter);
             reporter.checkOK();
-            log.debug("after Services.getDatasetService().submitDataset for " + dataset.getStoreId());
+            logger.debug("after Services.getDatasetService().submitDataset for " + dataset.getStoreId());
         }
         catch (final ServiceException exception)
+        {
+            throw newSwordException("Dataset created but submission failed " + dataset.getStoreId() + " " + user.getId(), exception);
+        }
+        catch (DataIntegrityException exception)
         {
             throw newSwordException("Dataset created but submission failed " + dataset.getStoreId() + " " + user.getId(), exception);
         }
@@ -161,14 +177,19 @@ public class EasyBusinessWrapper
         try
         {
             final ItemService itemService = Services.getItemService();
-            final String message = "ingesting files from " + tempDirectory + " into " + dataset.getStoreId() + " " + Arrays.deepToString(fileList.toArray());
+            final StringBuffer list = new StringBuffer();
+            for (File file : fileList)
+            {
+                list.append("\n\t" + file);
+            }
+            final String message = "ingesting files from " + tempDirectory + " into " + dataset.getStoreId() + list;
             final MyReporter reporter = new MyReporter(message, "ingesting files");
-            log.debug(message);
+            logger.debug(message);
 
             itemService.addDirectoryContents(user, dataset, storeId, tempDirectory, fileList, reporter);
 
             final int size = itemService.getFilesAndFolders(user, dataset, storeId, -1, -1, null, null).size();
-            log.debug(" workStarted: " + reporter.workStarted + //
+            logger.debug(" workStarted: " + reporter.workStarted + //
                     " IngestedObjectCount: " + reporter.getIngestedObjectCount() + //
                     " workEnded: " + reporter.workEnded + //
                     " exceptions: " + reporter.reportedExceptions.size() + //
@@ -177,7 +198,7 @@ public class EasyBusinessWrapper
             reporter.checkOK();
             if (size == 0)
             {
-                log.error("Services.getItemService().getFilesAndFolders() does not find the ingested files, verify /opt/fedora/server/config/custom-db.xml");
+                logger.error("Services.getItemService().getFilesAndFolders() does not find the ingested files, verify /opt/fedora/server/config/custom-db.xml");
                 throw newSwordException("ingested files not retreivable", null);
             }
         }
@@ -206,7 +227,7 @@ public class EasyBusinessWrapper
         public void onException(final Throwable t)
         {
             super.onException(t);
-            log.error("problem with " + message, t);
+            logger.error("problem with " + message, t);
             reportedExceptions.add(t);
         }
 
@@ -261,8 +282,15 @@ public class EasyBusinessWrapper
         return metadata;
     }
 
-    /** Just a wrapper for exceptions. */
-    static void validateEasyMetadata(final byte[] data) throws SWORDException
+    static void validateSemantics(final EasyUser user, final EasyMetadata metadata) throws SWORDException
+    {
+        final EasySwordValidationReporter validationReporter = new EasySwordValidationReporter();
+        FormatValidator.instance().validate(metadata, validationReporter);
+        if (!validationReporter.isMetadataValid())
+            throw new SWORDException(user.getId() + " tried to submit invalid meta data");
+    }
+
+    static void validateSyntax(final byte[] data) throws SWORDException
     {
         final XMLErrorHandler handler = new XMLErrorHandler(Reporter.off);
         try
@@ -291,8 +319,8 @@ public class EasyBusinessWrapper
 
     private static SWORDException newSwordException(final String message, final Exception exception)
     {
-        log.error(message, exception);
-        return new SWORDException(message);
+        logger.error(message, exception);
+        return new SWORDException(message, exception);
     }
 
     public static String composeTreatment(final EasyUser user, final Dataset dataset) throws SWORDException
@@ -306,7 +334,7 @@ public class EasyBusinessWrapper
         catch (MailComposerException exception)
         {
             final String message = "Could not compose treatment";
-            log.error(message, exception);
+            logger.error(message, exception);
             throw new SWORDException(message);
         }
     }
@@ -318,18 +346,18 @@ public class EasyBusinessWrapper
         try
         {
             final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            log.debug(dataset + " AccessCategory=" + dataset.getAccessCategory());
+            logger.debug(dataset + " AccessCategory=" + dataset.getAccessCategory());
             new LicenseComposer(user, dataset, generateSample).createHtml(outputStream);
             return outputStream.toString();
         }
         catch (final NoSuchMethodError exception)
         {
-            log.error(errorMessage, exception);
+            logger.error(errorMessage, exception);
             throw new SWORDException(errorMessage);
         }
         catch (final LicenseComposerException exception)
         {
-            log.error(errorMessage, exception);
+            logger.error(errorMessage, exception);
             throw new SWORDException(errorMessage);
         }
     }
