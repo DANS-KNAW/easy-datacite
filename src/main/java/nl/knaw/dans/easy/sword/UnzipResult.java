@@ -30,6 +30,7 @@ public class UnzipResult
     private static final String              DATA                  = "data";
     private static final String              DESCRIPTION           = "Expecting a file '" + METADATA + "' and a folder '" + DATA + "'.";
     private static final SWORDErrorException WANT_FILE_AND_FOLDER  = new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, DESCRIPTION);
+
     private static Logger                    log                   = LoggerFactory.getLogger(EasyBusinessWrapper.class);
 
     private final List<File>                 files;

@@ -155,10 +155,8 @@ public class EasyBusinessWrapper
 
         try
         {
-            logger.debug("before Services.getDatasetService().submitDataset for " + dataset.getStoreId());
             Services.getDatasetService().submitDataset(submission, reporter);
             reporter.checkOK();
-            logger.debug("after Services.getDatasetService().submitDataset for " + dataset.getStoreId());
         }
         catch (final ServiceException exception)
         {
@@ -189,12 +187,6 @@ public class EasyBusinessWrapper
             itemService.addDirectoryContents(user, dataset, storeId, tempDirectory, fileList, reporter);
 
             final int size = itemService.getFilesAndFolders(user, dataset, storeId, -1, -1, null, null).size();
-            logger.debug(" workStarted: " + reporter.workStarted + //
-                    " IngestedObjectCount: " + reporter.getIngestedObjectCount() + //
-                    " workEnded: " + reporter.workEnded + //
-                    " exceptions: " + reporter.reportedExceptions.size() + //
-                    " folder count: " + dataset.getChildFolderCount() + //
-                    " itemService files: " + size);
             reporter.checkOK();
             if (size == 0)
             {
@@ -212,8 +204,6 @@ public class EasyBusinessWrapper
     {
 
         List<Throwable>      reportedExceptions = new ArrayList<Throwable>();
-        boolean              workStarted;
-        boolean              workEnded;
         private final String message;
         private final String messageForClient;
 
@@ -231,23 +221,11 @@ public class EasyBusinessWrapper
             reportedExceptions.add(t);
         }
 
-        @Override
-        public boolean onWorkStart()
-        {
-            workStarted = true;
-            return super.onWorkStart();
-        }
-
-        @Override
-        public void onWorkEnd()
-        {
-            workEnded = true;
-            super.onWorkEnd();
-        }
-
         public void checkOK() throws SWORDException
         {
-            if (reportedExceptions.size() > 0 || !workStarted || !workEnded)
+            logger.debug(
+                    " exceptions: \n" + reportedExceptions.size() + "\n" + super.toString());
+            if (reportedExceptions.size() > 0 )
                 throw newSwordException("Dataset created but problem with " + messageForClient, null);
         }
     }

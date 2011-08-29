@@ -56,7 +56,7 @@ public class OnlineTester
     public void wrapTreatment() throws Exception
     {
         final Dataset dataset = createMockedDataset();
-        log.debug(EasyBusinessWrapper.composeTreatment(MockUtil.USER, dataset));
+        EasyBusinessWrapper.composeTreatment(MockUtil.USER, dataset);
         assertMockedOk(dataset, "after create notification mail content");
     }
 
@@ -65,7 +65,7 @@ public class OnlineTester
     public void wrapVerbose() throws Exception
     {
         final Dataset dataset = createMockedDataset();
-        log.debug(EasyBusinessWrapper.composeLicense(MockUtil.USER, true, dataset));
+        EasyBusinessWrapper.composeLicense(MockUtil.USER, true, dataset);
         
         assertMockedOk(dataset, "after create license");
     }
@@ -93,7 +93,7 @@ public class OnlineTester
         deposit.setVerbose(verbose);
         deposit.setNoOp(noOp);
         final DepositResponse response = new EasySwordServer().doDeposit(deposit);
-        log.info("submitted " + response.toString());
+        //log.info("submitted " + response.toString());
         log.info("submitted " + response.getHttpResponse());
         if (verbose)
             new FileOutputStream("target/tmp/license.html").write(response.getEntry().getVerboseDescription().getBytes());
