@@ -16,7 +16,11 @@ import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.ItemOrder;
 import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.filter.ItemFilters;
+import nl.knaw.dans.easy.domain.exceptions.DomainException;
+import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
 import nl.knaw.dans.easy.domain.model.Dataset;
+import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineCollection;
+import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainerImpl;
 import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
@@ -147,7 +151,35 @@ public class MockUtil
 //        userService.authenticate(EasyMock.eq(new UsernamePasswordAuthentication(null, null)));
 //        EasyMock.expectLastCall().anyTimes();
 
+
+        
         EasyMock.replay(userRepo, userService);
+    }
+    
+    public static DisciplineCollection mockDisciplineCollection () {
+    
+        final String disciplineId = "easy-discipline:2";
+        final DisciplineContainerImpl discipline = new DisciplineContainerImpl(disciplineId);
+        DisciplineCollection disciplineCollection = EasyMock.createMock(DisciplineCollection.class);
+        discipline.setName("Humanities");
+        try
+        {
+            EasyMock.expect(
+                    disciplineCollection.getDisciplineBySid(disciplineId)
+            ).andReturn(discipline).anyTimes();
+        }
+        catch (ObjectNotFoundException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        catch (DomainException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } 
+        EasyMock.replay(disciplineCollection);
+        return disciplineCollection;
     }
 
     private static EasyUserImpl createSomeBody()

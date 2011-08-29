@@ -1,6 +1,5 @@
 package nl.knaw.dans.easy.sword;
 
-import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -40,6 +39,7 @@ public class OnlineTester
     @Test
     public void depositNoOpVerbose() throws Exception
     {
+        LicenseComposer.injectDisciplineCollection(MockUtil.mockDisciplineCollection());
         execute(true, true);
     }
 
@@ -63,12 +63,8 @@ public class OnlineTester
     public void wrapVerbose() throws Exception
     {
         final Dataset dataset = createMockedDataset();
-
-        final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        final LicenseComposer composer = new LicenseComposer(MockUtil.USER, dataset, true);
-        composer.createHtml(outputStream);
-        log.debug(outputStream.toString("UTF-8"));
-        
+        LicenseComposer.injectDisciplineCollection(MockUtil.mockDisciplineCollection());
+        log.debug(EasyBusinessWrapper.composeLicense(MockUtil.USER, true, dataset));
         assertMockedOk(dataset, "after create license");
     }
 
