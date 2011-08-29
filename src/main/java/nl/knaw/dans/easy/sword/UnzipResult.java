@@ -24,11 +24,13 @@ import org.slf4j.LoggerFactory;
 
 public class UnzipResult
 {
-    private static final String              METADATA             = "easyMetadata.xml";
-    private static final String              DATA                 = "data";
-    private static final String              DESCRIPTION          = "Expecting a file '" + METADATA + "' and a folder '" + DATA + "'.";
-    private static final SWORDErrorException WANT_FILE_AND_FOLDER = new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, DESCRIPTION);
-    private static Logger                    log                  = LoggerFactory.getLogger(EasyBusinessWrapper.class);
+    public static final String               NO_OP_STORE_ID_DOMAIN = "mockedStoreID:";
+
+    private static final String              METADATA              = "easyMetadata.xml";
+    private static final String              DATA                  = "data";
+    private static final String              DESCRIPTION           = "Expecting a file '" + METADATA + "' and a folder '" + DATA + "'.";
+    private static final SWORDErrorException WANT_FILE_AND_FOLDER  = new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, DESCRIPTION);
+    private static Logger                    log                   = LoggerFactory.getLogger(EasyBusinessWrapper.class);
 
     private final List<File>                 files;
     private final File                       folder;
@@ -124,11 +126,11 @@ public class UnzipResult
     public Dataset submit(final EasyUser user, final boolean mock) throws SWORDException
     {
         EasyBusinessWrapper.validateSyntax(getEasyMetaData());
-        
+
         final EasyMetadata metadata = EasyBusinessWrapper.unmarshallEasyMetaData(getEasyMetaData());
 
         EasyBusinessWrapper.validateSemantics(user, metadata);
-        
+
         if (mock)
         {
             return mockSubmittedDataset(metadata, user);
@@ -171,8 +173,8 @@ public class UnzipResult
     private Dataset mockSubmittedDataset(final EasyMetadata metadata, EasyUser user) throws SWORDException
     {
         ++noOpSumbitCounter;
-        final String pid = (noOpSumbitCounter+"xxxxxxxx").replaceAll("(..)(...)(...)", "urn:nbn:nl:ui:$1-$2-$3");
-        final String storeID = "mockedStoreID:" + noOpSumbitCounter;
+        final String pid = (noOpSumbitCounter + "xxxxxxxx").replaceAll("(..)(...)(...)", "urn:nbn:nl:ui:$1-$2-$3");
+        final String storeID = NO_OP_STORE_ID_DOMAIN + noOpSumbitCounter;
         final Dataset dataset = EasyMock.createMock(Dataset.class);
 
         // TODO the following lines duplicates logic of DatasetImpl, move to EasyMetadata?

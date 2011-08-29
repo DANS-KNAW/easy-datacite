@@ -7,13 +7,12 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import nl.knaw.dans.easy.domain.exceptions.DomainException;
+import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
 import nl.knaw.dans.easy.domain.model.Dataset;
-import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineCollection;
-import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineCollectionImpl;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
+import nl.knaw.dans.easy.servicelayer.services.Services;
 
 import org.purl.sword.atom.Author;
 import org.purl.sword.atom.Content;
@@ -253,12 +252,11 @@ public class EasySwordServer implements SWORDServer
         if (values.size() == 0)
             return "none specified";
         final StringBuffer category = new StringBuffer();
-        final DisciplineCollection disciplineCollection = DisciplineCollectionImpl.getInstance();
         for (String value : values.toArray(new String[values.size()]))
         {
             try
             {
-                final String name = disciplineCollection.getDisciplineBySid(value).getName();
+                final String name = Services.getDisciplineService().getDisciplineById(value).getName();
                 category.append(name + ", ");
             }
             catch (ObjectNotFoundException e)
@@ -266,7 +264,7 @@ public class EasySwordServer implements SWORDServer
                 category.append(value + " ");
                 log.error("could not find discipline " + value, e);
             }
-            catch (DomainException e)
+            catch (ServiceException e)
             {
                 category.append(value + " ");
                 log.error("could not find discipline " + value, e);
