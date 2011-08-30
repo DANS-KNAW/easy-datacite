@@ -2,6 +2,7 @@ package nl.knaw.dans.easy.sword;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -74,8 +75,7 @@ public class MockUtil
             EasyMock.expect(fileStoreAccess.getFilenames(//
                     UnzipResult.NO_OP_STORE_ID_DOMAIN + i,//
                     true)//
-            ).andReturn((List<String>) new ArrayList<String>()).anyTimes();
-
+            ).andReturn(Arrays.asList(new String[]{"just-a-file-name"})).anyTimes();
         EasyMock.replay(fileStoreAccess);
     }
 

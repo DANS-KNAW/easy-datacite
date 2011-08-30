@@ -19,6 +19,7 @@ import nl.knaw.dans.common.lang.xml.XMLErrorHandler.Reporter;
 import nl.knaw.dans.easy.business.dataset.DatasetSubmissionImpl;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.ext.EasyMailComposer;
+import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
 import nl.knaw.dans.easy.domain.emd.validation.FormatValidator;
 import nl.knaw.dans.easy.domain.exceptions.DataIntegrityException;
@@ -185,14 +186,7 @@ public class EasyBusinessWrapper
             logger.debug(message);
 
             itemService.addDirectoryContents(user, dataset, storeId, tempDirectory, fileList, reporter);
-
-            final int size = itemService.getFilesAndFolders(user, dataset, storeId, -1, -1, null, null).size();
             reporter.checkOK();
-            if (size == 0)
-            {
-                logger.error("Services.getItemService().getFilesAndFolders() does not find the ingested files, verify /opt/fedora/server/config/custom-db.xml");
-                throw newSwordException("ingested files not retreivable", null);
-            }
         }
         catch (final ServiceException exception)
         {

@@ -19,7 +19,7 @@ public class SubmitTest extends EasySwordServerTester
         MockUtil.mockAll();
     }
 
-    @Ignore("WorkReporter.workStart and .workEnd not called by mocked itemService.addDirectoryContents" /* FIXME */) 
+    //@Ignore("WorkReporter.workStart and .workEnd not called by mocked itemService.addDirectoryContents" /* FIXME */) 
     @Test
     public void submit() throws Exception
     {
