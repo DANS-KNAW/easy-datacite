@@ -8,6 +8,11 @@
 		<constructor-arg ref="ldapClient"/>
 		<constructor-arg value="${ldap.context.users}"/>
 	</bean>
+
+	<bean name="groupRepo" class="nl.knaw.dans.easy.ldap.EasyLdapGroupRepo">
+		<constructor-arg ref="ldapClient" />
+		<constructor-arg value="${ldap.context.groups}" />
+	</bean>
 	
 	<bean name="migrationRepo" class="nl.knaw.dans.easy.ldap.EasyLdapMigrationRepo">
 		<constructor-arg ref="ldapClient"/>

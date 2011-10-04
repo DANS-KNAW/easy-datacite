@@ -1,6 +1,7 @@
 package nl.knaw.dans.easy.sword;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -124,7 +125,7 @@ public class UnzipResult
         return files;
     };
 
-    public Dataset submit(final EasyUser user, final boolean mock) throws SWORDException
+    public Dataset submit(final EasyUser user, final boolean mock) throws SWORDErrorException, SWORDException
     {
         EasyBusinessWrapper.validateSyntax(getEasyMetaData());
 
@@ -139,13 +140,16 @@ public class UnzipResult
         return EasyBusinessWrapper.submitNewDataset(user, metadata, getDataFolder(), getFiles());
     }
 
-    private byte[] getEasyMetaData() throws SWORDException
+    private byte[] getEasyMetaData() throws SWORDException, SWORDErrorException
     {
         if (easyMetadata == null)
         {
             try
             {
                 easyMetadata = FileUtil.readFile(getMetadataFile());
+            }
+            catch (final FileNotFoundException exception){
+                throw newSwordInputException("File not found: "+getMetadataFile(), exception);
             }
             catch (final IOException exception)
             {
@@ -171,7 +175,13 @@ public class UnzipResult
         return new SWORDException(message);
     }
 
-    private Dataset mockSubmittedDataset(final EasyMetadata metadata, EasyUser user) throws SWORDException
+    private static SWORDErrorException newSwordInputException(final String message, final Exception exception)
+    {
+        log.error(message, exception);
+        return new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST,message);
+    }
+
+    private Dataset mockSubmittedDataset(final EasyMetadata metadata, EasyUser user)
     {
         ++noOpSumbitCounter;
         final String pid = (noOpSumbitCounter + "xxxxxxxx").replaceAll("(..)(...)(...)", "urn:nbn:nl:ui:$1-$2-$3");

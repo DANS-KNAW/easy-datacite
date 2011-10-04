@@ -6,6 +6,15 @@
 
 	<display-name>Easy SWORD Demo Server</display-name>
 
+<!--	<error-page>-->
+<!--		<error-code>404</error-code>-->
+<!--		<location>/errorPages/error404.html</location>-->
+<!--	</error-page>-->
+<!--	<error-page>-->
+<!--		<error-code>500</error-code>-->
+<!--		<location>/errorPages/error500.html</location>-->
+<!--	</error-page>-->
+
 	<!-- EASY Configuration -->
 
 	<context-param>

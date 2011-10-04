@@ -4,7 +4,7 @@
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 
 	<appender name="A1" class="org.apache.log4j.FileAppender">
-        <param name="File"   value="${easy.home}/sword-log/A1.log" />
+        <param name="File"   value="${easy.home}/log/sword/A1.log" />
         <param name="Append" value="false" />
         <layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%t %-5p %c{2} - %m%n"/>
@@ -12,7 +12,7 @@
 	</appender>
 
 	<appender name="easy.drfa" class="org.apache.log4j.DailyRollingFileAppender">
-    	<param name="file" 				value="${easy.home}/sword-log/easy-sword.log"/>
+    	<param name="file" 				value="${easy.home}/log/sword/easy-sword.log"/>
     	<param name="Append" 			value="true" />
 		<param name="datePattern" 		value="'.'yyyy-MM-dd'.log'"/>
     	<layout class="org.apache.log4j.PatternLayout">
@@ -21,7 +21,7 @@
   	</appender>
 
 	<appender name="easy.err" class="org.apache.log4j.FileAppender">
-        <param name="File"   value="${easy.home}/sword-log/error.log" />
+        <param name="File"   value="${easy.home}/log/sword/error.log" />
         <param name="Append" value="true" />
         <param name="Threshold" value="warn"/>
         <layout class="org.apache.log4j.PatternLayout">
@@ -35,7 +35,7 @@
 	</appender>
 	
 	<appender name="service.profiling" class="org.apache.log4j.RollingFileAppender">
-        <param name="file"              value="${easy.home}/sword-log/service-profiling.csv"/>
+        <param name="file"              value="${easy.home}/log/sword/service-profiling.csv"/>
         <param name="Append"            value="true" />
         <param name="MaxFileSize"       value="500KB"/>
         <param name="MaxBackupIndex"    value="5"/>
@@ -45,7 +45,7 @@
     </appender>
     
     <appender name="submission-error" class="org.apache.log4j.RollingFileAppender">
-        <param name="file"              value="${easy.home}/sword-log/submission-error.log"/>
+        <param name="file"              value="${easy.home}/log/sword/submission-error.log"/>
         <param name="Append"            value="true" />
         <param name="MaxFileSize"       value="5MB"/>
         <param name="MaxBackupIndex"    value="5"/>

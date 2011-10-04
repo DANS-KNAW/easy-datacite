@@ -44,7 +44,7 @@ public class OnlineTester
         execute(true, true);
     }
 
-    @Ignore("Ingest problems" /* FIXME */) 
+    //@Ignore("Ingest problems" /* FIXME */) 
     @Test
     public void depositRealVerbose() throws Exception
     {

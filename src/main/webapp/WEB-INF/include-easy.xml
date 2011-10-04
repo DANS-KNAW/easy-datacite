@@ -11,10 +11,12 @@
 		<property name="userService" ref="userService"/>
 		<property name="datasetService" ref="datasetService"/>
 		<property name="itemService" ref="itemService"/>
+		<property name="disciplineService" ref="disciplineService" />
 	</bean>
 	<bean name="userService" class="nl.knaw.dans.easy.business.services.EasyUserService" />
 	<bean name="datasetService" class="nl.knaw.dans.easy.business.services.EasyDatasetService" />
 	<bean name="itemService" class="nl.knaw.dans.easy.business.services.EasyItemService" />
+	<bean name="disciplineService" class="nl.knaw.dans.easy.business.services.EasyDisciplineCollectionService"></bean>
 	
 	<bean name="data" class="nl.knaw.dans.easy.data.Data">
 		<property name="userRepo" ref="userRepo"/>
@@ -24,10 +26,6 @@
 	</bean>
 	<import resource="store-context.xml"/>
 	<import resource="ldap-context.xml"/>
-	<bean name="groupRepo" class="nl.knaw.dans.easy.ldap.EasyLdapGroupRepo">
-		<constructor-arg ref="ldapClient" />
-		<constructor-arg value="${ldap.context.groups}" />
-	</bean>
 
 	<bean name="externalServices" class="nl.knaw.dans.easy.data.ext.ExternalServices" destroy-method="close">
 		<property name="metadataPidGenerator" ref="metadataPidGenerator" />

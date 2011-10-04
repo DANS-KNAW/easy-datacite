@@ -3,16 +3,13 @@ package nl.knaw.dans.easy.sword;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
+import java.text.MessageFormat;
 
 import javax.servlet.http.HttpServletResponse;
 
-import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
-import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
-import nl.knaw.dans.easy.servicelayer.services.Services;
 
 import org.purl.sword.atom.Author;
 import org.purl.sword.atom.Content;
@@ -54,7 +51,7 @@ public class EasySwordServer implements SWORDServer
      */
     private static final int    HTTP_RESPONSE_DATA_ACCEPTED = 202;
 
-    private static Logger       log                         = LoggerFactory.getLogger(EasySwordServer.class);
+    static Logger       log                         = LoggerFactory.getLogger(EasySwordServer.class);
 
     /**
      * Provides a dumb but plausible service document - it contains an anonymous workspace and
@@ -70,6 +67,7 @@ public class EasySwordServer implements SWORDServer
     public ServiceDocument doServiceDocument(final ServiceDocumentRequest sdr) throws SWORDAuthenticationException, SWORDErrorException, SWORDException
     {
         // Authenticate the user
+        log.info(MessageFormat.format("SERVICE DOCUMENT user={0}; IP={1}; location={2}; onBehalfOf={3}",sdr.getUsername(),sdr.getIPAddress(),sdr.getLocation(),sdr.getOnBehalfOf()));
         final String userID = sdr.getUsername();
         final String password = sdr.getPassword();
         if (userID != null)
@@ -97,39 +95,18 @@ public class EasySwordServer implements SWORDServer
             final Collection collection = createDummyCollection(1);
             collection.setTitle("Nested collection: " + sdr.getLocation().substring(sdr.getLocation().indexOf('?') + 1));
             collection.setLocation(locationBase + "/deposit/nested");
+            // TODO allow configuration of the policy text
             collection.setCollectionPolicy("No guarantee of service, or that deposits will be retained for any length of time.");
             service.addWorkspace(createWorkSpace(collection, "Nested service document workspace"));
         }
-        else
+        else if (sdr.getUsername() != null)
         {
-            Collection collection = createDummyCollection(1);
-            collection.setTitle("Anonymous submitters collection");
-            collection.setLocation(locationBase + "/deposit/anon");
-            collection.setAbstract("A collection that anonymous users can deposit into");
-            collection.setService(locationBase + "/servicedocument?nested=anon");
-            Workspace workspace = createWorkSpace(collection, "Anonymous submitters workspace");
-            collection = createDummyCollection(1);
-            collection.setTitle("Anonymous submitters other collection");
-            collection.setLocation(locationBase + "/deposit/anonymous");
-            collection.setAbstract("Another collection that anonymous users can deposit into");
-            workspace.addCollection(collection);
-            service.addWorkspace(workspace);
-
-            if (sdr.getUsername() != null)
-            {
-                collection = createDummyCollection(0.8f);
-                collection.setTitle("Authenticated collection for " + userID);
-                collection.setLocation(locationBase + "/deposit/" + userID);
-                collection.setAbstract("A collection that " + userID + " can deposit into");
-                collection.setService(locationBase + "/servicedocument?nested=authenticated");
-                workspace = createWorkSpace(collection, "Authenticated workspace for " + userID);
-                collection = createDummyCollection(0.123f);
-                collection.setTitle("Second authenticated collection for " + userID);
-                collection.setLocation(locationBase + "/deposit/" + userID + "-2");
-                collection.setAbstract("A collection that " + userID + " can deposit into");
-                workspace.addCollection(collection);
-                service.addWorkspace(workspace);
-            }
+            final Collection collection = createDummyCollection(0.8f);
+            collection.setTitle("Authenticated collection for " + userID);
+            collection.setLocation(locationBase + "/deposit/" + userID);
+            collection.setAbstract("A collection that " + userID + " can deposit into");
+            collection.setService(locationBase + "/servicedocument?nested=authenticated");
+            service.addWorkspace(createWorkSpace(collection, "Authenticated workspace for " + userID));
         }
 
         final String onBehalfOf = sdr.getOnBehalfOf();
@@ -193,7 +170,7 @@ public class EasySwordServer implements SWORDServer
     {
         final Collection collection = new Collection();
         collection.setCollectionPolicy("No guarantee of service, or that deposits will be retained for any length of time.");
-        collection.setTreatment("This is a dummy server");
+        collection.setTreatment("This is a test server");
         collection.addAccepts("application/zip");
         collection.addAccepts("application/xml");
         collection.addAcceptPackaging("http://purl.org/net/sword-types/METSDSpaceSIP");
@@ -203,6 +180,8 @@ public class EasySwordServer implements SWORDServer
 
     public DepositResponse doDeposit(final Deposit deposit) throws SWORDAuthenticationException, SWORDErrorException, SWORDException
     {
+        log.info(MessageFormat.format("DEPOSIT user={0}; IP={1}; location={2}; fileName={3}",deposit.getUsername(),deposit.getIPAddress(),deposit.getLocation(),deposit.getFilename()));
+
         final EasyUser user = getUser(deposit.getUsername(), deposit.getPassword());
         if (user == null)
             throw new SWORDAuthenticationException(deposit.getUsername() + " not authenticated");
@@ -226,7 +205,7 @@ public class EasySwordServer implements SWORDServer
 
         swordEntry.setTitle(wrapTitle(dataset.getPreferredTitle()));
         swordEntry.setSummary(wrapSummary(metadata.getEmdDescription().toString()));
-        swordEntry.addCategory(formatCategory(metadata.getEmdAudience().getValues()));
+        swordEntry.addCategory(EasyBusinessWrapper.formatAudience(metadata));
         swordEntry.setId(dataset.getPersistentIdentifier());
         swordEntry.setUpdated(metadata.getEmdDate().toString());
         swordEntry.addAuthors(wrapAuthor(user));
@@ -245,32 +224,6 @@ public class EasySwordServer implements SWORDServer
             swordEntry.setVerboseDescription(EasyBusinessWrapper.composeLicense(user, deposit.isNoOp(), dataset));
 
         return swordEntry;
-    }
-
-    private static String formatCategory(final List<String> values)
-    {
-        if (values.size() == 0)
-            return "none specified";
-        final StringBuffer category = new StringBuffer();
-        for (String value : values.toArray(new String[values.size()]))
-        {
-            try
-            {
-                final String name = Services.getDisciplineService().getDisciplineById(value).getName();
-                category.append(name + ", ");
-            }
-            catch (ObjectNotFoundException e)
-            {
-                category.append(value + " ");
-                log.error("could not find discipline " + value, e);
-            }
-            catch (ServiceException e)
-            {
-                category.append(value + " ");
-                log.error("could not find discipline " + value, e);
-            }
-        }
-        return category.substring(0, category.length() - 2);
     }
 
     private DepositResponse wrapResponse(final SWORDEntry swordEntry, final String storeID)
@@ -361,7 +314,7 @@ public class EasySwordServer implements SWORDServer
         return author;
     }
 
-    private EasyUser getUser(final String userID, final String password) throws SWORDAuthenticationException, SWORDException
+    private EasyUser getUser(final String userID, final String password) throws SWORDErrorException, SWORDException
     {
         return EasyBusinessWrapper.getUser(userID, password);
     }

@@ -6,12 +6,11 @@ import java.util.List;
 import nl.knaw.dans.common.lang.file.UnzipListener;
 import nl.knaw.dans.common.lang.file.UnzipUtil;
 import nl.knaw.dans.common.lang.util.FileUtil;
-import nl.knaw.dans.common.lang.xml.XMLDeserializationException;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
+import org.purl.sword.base.SWORDErrorException;
 import org.purl.sword.base.SWORDException;
 
 public class EasyBusinessWrapperTest extends Tester
@@ -22,7 +21,7 @@ public class EasyBusinessWrapperTest extends Tester
     @BeforeClass
     public static void setupMocking() throws Exception
     {
-        new MockUtil().mockAll();
+        MockUtil.mockAll();
     }
 
     @BeforeClass
@@ -44,9 +43,11 @@ public class EasyBusinessWrapperTest extends Tester
         {
             if (expectedCause == null)
                 throw se;
-            if (!(se.getCause().getClass().equals(expectedCause)))
+            if (se.getCause()==null||!(se.getCause().getClass().equals(expectedCause)))
                 throw se;
         }
+        if (expectedCause != null)
+            throw new Exception("expected "+expectedCause.getName());
     }
 
     //@Ignore("WorkReporter.workStart and .workEnd not called by mocked itemService.addDirectoryContents" /* FIXME */) 
@@ -56,12 +57,12 @@ public class EasyBusinessWrapperTest extends Tester
         execute(ZIP_FILE, META_DATA_FILE, null);
     }
 
-    @Test
+    @Test (expected=SWORDErrorException.class)
     public void invalidMetadataByMM() throws Throwable
     {
         final File zipFile = new File("src/test/resources/input/invalidMetadata.zip");
         final File metaDataFile = new File(tempDirectory + "/easyMetadata.xml");
-        execute(zipFile, metaDataFile, XMLDeserializationException.class);
+        execute(zipFile, metaDataFile, SWORDErrorException.class);
     }
 
     private static UnzipListener createUnzipListener()

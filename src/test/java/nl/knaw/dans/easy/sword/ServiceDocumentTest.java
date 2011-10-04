@@ -2,16 +2,15 @@ package nl.knaw.dans.easy.sword;
 
 
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.purl.sword.base.SWORDAuthenticationException;
+import org.purl.sword.base.SWORDErrorException;
 import org.purl.sword.base.ServiceDocumentRequest;
 
 public class ServiceDocumentTest extends EasySwordServerTester
 {
     @BeforeClass
     public static void setupMocking() throws Exception {
-        new MockUtil().mockAll();
+        MockUtil.mockAll();
     }
 
     @Test
@@ -24,7 +23,7 @@ public class ServiceDocumentTest extends EasySwordServerTester
         assertAsExpected(easySwordServer.doServiceDocument(request).toString(), "serviceDocumentWithUser.xml");
     }
 
-    @Test(expected=SWORDAuthenticationException.class)
+    @Test(expected=SWORDErrorException.class)
     public void serviceDocumentWrongUser() throws Exception
     {
         final ServiceDocumentRequest request = new ServiceDocumentRequest();
@@ -34,7 +33,7 @@ public class ServiceDocumentTest extends EasySwordServerTester
         assertAsExpected(easySwordServer.doServiceDocument(request).toString(), "serviceDocumentWrongUser.xml");
     }
 
-    @Test
+    @Test(expected=SWORDErrorException.class)
     public void serviceDocumentWithoutUser() throws Exception
     {
         final ServiceDocumentRequest request = new ServiceDocumentRequest();

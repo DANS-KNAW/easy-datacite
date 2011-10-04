@@ -19,7 +19,6 @@ import nl.knaw.dans.common.lang.xml.XMLErrorHandler.Reporter;
 import nl.knaw.dans.easy.business.dataset.DatasetSubmissionImpl;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.ext.EasyMailComposer;
-import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
 import nl.knaw.dans.easy.domain.emd.validation.FormatValidator;
 import nl.knaw.dans.easy.domain.exceptions.DataIntegrityException;
@@ -40,6 +39,7 @@ import nl.knaw.dans.easy.servicelayer.services.Services;
 
 import org.purl.sword.base.ErrorCodes;
 import org.purl.sword.base.SWORDAuthenticationException;
+import org.purl.sword.base.SWORDErrorException;
 import org.purl.sword.base.SWORDException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,7 +68,7 @@ public class EasyBusinessWrapper
      * @throws SWORDException
      *         if the user can not be authenticated
      */
-    public static EasyUser getUser(final String userId, final String password) throws SWORDAuthenticationException, SWORDException
+    public static EasyUser getUser(final String userId, final String password) throws SWORDException, SWORDErrorException
     {
         authenticate(userId, password);
         try
@@ -85,11 +85,13 @@ public class EasyBusinessWrapper
         }
     }
 
-    private static void authenticate(final String userId, final String password) throws SWORDException
+    private static void authenticate(final String userId, final String password) throws SWORDException, SWORDErrorException
     {
         try
         {
-            Data.getUserRepo().authenticate(userId, password);
+            if (userId == null || password == null || !Data.getUserRepo().authenticate(userId, password))
+                throw newSwordInputException("invalid or missing username ["+userId+"] or password", null);
+            logger.info(userId + " authenticated");
         }
         catch (RepositoryException exception)
         {
@@ -217,9 +219,8 @@ public class EasyBusinessWrapper
 
         public void checkOK() throws SWORDException
         {
-            logger.debug(
-                    " exceptions: \n" + reportedExceptions.size() + "\n" + super.toString());
-            if (reportedExceptions.size() > 0 )
+            logger.debug(" exceptions: \n" + reportedExceptions.size() + "\n" + super.toString());
+            if (reportedExceptions.size() > 0)
                 throw newSwordException("Dataset created but problem with " + messageForClient, null);
         }
     }
@@ -240,7 +241,7 @@ public class EasyBusinessWrapper
     }
 
     /** Just a wrapper for exceptions. */
-    static EasyMetadata unmarshallEasyMetaData(final byte[] data) throws SWORDException
+    static EasyMetadata unmarshallEasyMetaData(final byte[] data) throws SWORDErrorException
     {
         final EasyMetadata metadata;
         try
@@ -249,20 +250,20 @@ public class EasyBusinessWrapper
         }
         catch (final XMLDeserializationException exception)
         {
-            throw newSwordException("EASY metadata unmarshall exception", exception);
+            throw newSwordInputException("EASY metadata unmarshall exception: " + exception.getMessage(), exception);
         }
         return metadata;
     }
 
-    static void validateSemantics(final EasyUser user, final EasyMetadata metadata) throws SWORDException
+    static void validateSemantics(final EasyUser user, final EasyMetadata metadata) throws SWORDErrorException
     {
         final EasySwordValidationReporter validationReporter = new EasySwordValidationReporter();
         FormatValidator.instance().validate(metadata, validationReporter);
         if (!validationReporter.isMetadataValid())
-            throw new SWORDException(user.getId() + " tried to submit invalid meta data");
+            throw newSwordInputException(user.getId() + " tried to submit invalid meta data", null);
     }
 
-    static void validateSyntax(final byte[] data) throws SWORDException
+    static void validateSyntax(final byte[] data) throws SWORDErrorException, SWORDException
     {
         final XMLErrorHandler handler = new XMLErrorHandler(Reporter.off);
         try
@@ -271,28 +272,34 @@ public class EasyBusinessWrapper
         }
         catch (final ValidatorException exception)
         {
-            throw newSwordException("EASY metadata validation exception", exception);
+            throw newSwordInputException("EASY metadata validation exception: " + exception.getMessage(), exception);
         }
         catch (final UnsupportedEncodingException exception)
         {
-            throw newSwordException("EASY metadata validation exception", exception);
+            throw newSwordInputException("EASY metadata encoding exception: " + exception.getMessage(), exception);
         }
         catch (final SAXException exception)
         {
-            throw newSwordException("EASY metadata validation exception", exception);
+            throw newSwordInputException("EASY metadata parse exception: " + exception.getMessage(), exception);
         }
         catch (final SchemaCreationException exception)
         {
-            throw newSwordException("EASY metadata validation exception", exception);
+            throw newSwordException("EASY metadata schema creation problem", exception);
         }
         if (!handler.passed())
-            throw new SWORDException("Invalid EASY metadata: \n" + handler.getMessages(), null, ErrorCodes.ERROR_BAD_REQUEST);
+            throw newSwordInputException("Invalid EASY metadata: \n" + handler.getMessages(), null);
     }
 
     private static SWORDException newSwordException(final String message, final Exception exception)
     {
         logger.error(message, exception);
         return new SWORDException(message, exception);
+    }
+
+    private static SWORDErrorException newSwordInputException(final String message, final Exception exception)
+    {
+        logger.error(message, exception);
+        return new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, message);
     }
 
     public static String composeTreatment(final EasyUser user, final Dataset dataset) throws SWORDException
@@ -306,14 +313,12 @@ public class EasyBusinessWrapper
         catch (MailComposerException exception)
         {
             final String message = "Could not compose treatment";
-            logger.error(message, exception);
-            throw new SWORDException(message);
+            throw newSwordException(message, exception);
         }
     }
 
     public static String composeLicense(final EasyUser user, final boolean generateSample, final Dataset dataset) throws SWORDException
     {
-
         final String errorMessage = "Could not create license document";
         try
         {
@@ -329,9 +334,19 @@ public class EasyBusinessWrapper
         }
         catch (final LicenseComposerException exception)
         {
-            logger.error(errorMessage, exception);
-            throw new SWORDException(errorMessage);
+            throw newSwordException(errorMessage + ": " + exception.getMessage(), exception);
         }
     }
 
+    static String formatAudience(final EasyMetadata metadata) throws SWORDErrorException
+    {
+        try
+        {
+            return LicenseComposer.formatAudience(metadata);
+        }
+        catch (final LicenseComposerException exception)
+        {
+            throw newSwordInputException(exception.getMessage(), exception);
+        }
+    }
 }
