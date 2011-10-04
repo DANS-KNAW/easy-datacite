@@ -12,7 +12,7 @@ import org.purl.sword.base.SWORDAuthenticationException;
 import org.purl.sword.base.SWORDErrorException;
 import org.purl.sword.base.SWORDException;
 
-public class SubmitTest extends EasySwordServerTester
+public class SubmitTester extends EasySwordServerTester
 {
     @BeforeClass
     public static void setupMocking() throws Exception {
