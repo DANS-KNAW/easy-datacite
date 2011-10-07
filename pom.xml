@@ -6,13 +6,12 @@
 	<parent>
 	    <artifactId>dans-commons</artifactId>
 	    <groupId>nl.knaw.dans.common</groupId>
-	    <version>1.0-SNAPSHOT</version>
+	    <version>2.x-SNAPSHOT</version>
 	</parent>
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>nl.knaw.dans.common</groupId>
   <artifactId>dans-pid</artifactId>
-  <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <organization>
         <name>DANS</name>
@@ -21,6 +20,7 @@
 
   <name>DANS pid</name>
   <url>http://develop01.dans.knaw.nl/maven2/eof-open-source/dans-pid</url>
+  <version>${parent.version}</version>
   <description>generate persistent identifiers</description>
 
     <!-- Continuum settings: please add people to notify in case of build failure/success -->
