@@ -6,15 +6,22 @@ import java.util.List;
 import nl.knaw.dans.common.lang.file.UnzipListener;
 import nl.knaw.dans.common.lang.file.UnzipUtil;
 import nl.knaw.dans.common.lang.util.FileUtil;
+import nl.knaw.dans.common.lang.xml.XMLSerializationException;
+import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.purl.sword.base.SWORDErrorException;
 import org.purl.sword.base.SWORDException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class EasyBusinessFacadeTest extends Tester
+// composeLicense and verbose submissions are integration tests and do not belong in this test class
 {
+    private static final Logger log = LoggerFactory.getLogger(EasyBusinessFacadeTest.class);
+
     final static File basePath = new File("target/tmp");
     static File       tempDirectory;
 
@@ -31,7 +38,7 @@ public class EasyBusinessFacadeTest extends Tester
         tempDirectory = FileUtil.createTempDirectory(basePath, "unzip");
     }
 
-    private static void execute(final File zipFile, final File metaDataFile, final Class<? extends Exception> expectedCause) throws Exception
+    private static void executeSubmit(final File zipFile, final File metaDataFile, final Class<? extends Exception> expectedCause) throws Exception
     {
         final List<File> fileList = new UnzipUtil(zipFile, tempDirectory.getPath(), createUnzipListener()).run();
         try
@@ -50,11 +57,10 @@ public class EasyBusinessFacadeTest extends Tester
             throw new Exception("expected "+expectedCause.getName());
     }
 
-    //@Ignore("WorkReporter.workStart and .workEnd not called by mocked itemService.addDirectoryContents" /* FIXME */) 
     @Test
     public void submit() throws Exception
     {
-        execute(ZIP_FILE, META_DATA_FILE, null);
+        executeSubmit(ZIP_FILE, META_DATA_FILE, null);
     }
 
     @Test (expected=SWORDErrorException.class)
@@ -62,7 +68,7 @@ public class EasyBusinessFacadeTest extends Tester
     {
         final File zipFile = new File("src/test/resources/input/invalidMetadata.zip");
         final File metaDataFile = new File(tempDirectory + "/easyMetadata.xml");
-        execute(zipFile, metaDataFile, SWORDErrorException.class);
+        executeSubmit(zipFile, metaDataFile, SWORDErrorException.class);
     }
 
     private static UnzipListener createUnzipListener()
@@ -78,7 +84,6 @@ public class EasyBusinessFacadeTest extends Tester
             @Override
             public void onUnzipStarted(final long totalBytes)
             {
-                // TODO Auto-generated method stub
             }
 
             @Override

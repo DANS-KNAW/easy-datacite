@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.zip.ZipException;
 
 import nl.knaw.dans.common.lang.file.UnzipUtil;
 import nl.knaw.dans.common.lang.util.FileUtil;
@@ -84,11 +85,15 @@ public class UnzipResult
             for (final File file : files)
             {
                 // yes, we do have some real data
-                if (file.isFile())
+                if (file.isFile() && !file.getPath().equals(destPath+"/"+METADATA))
                     return;
             }
             // oops, just folders
             throw WANT_FILE_AND_FOLDER;
+        }
+        catch (final ZipException exception)
+        {
+            throw newSwordInputException("Failed to unzip deposited file", exception);
         }
         catch (final IOException exception)
         {
@@ -149,6 +154,7 @@ public class UnzipResult
                 easyMetadata = FileUtil.readFile(getMetadataFile());
             }
             catch (final FileNotFoundException exception){
+                // should never happen: prevented by checks in constructor
                 throw newSwordInputException("File not found: "+getMetadataFile(), exception);
             }
             catch (final IOException exception)

@@ -123,39 +123,44 @@ public class EasySwordServer implements SWORDServer
         return document;
     }
 
-    private static String toLocationBase(final String fullLocation) throws SWORDErrorException
+    private static String toLocationBase(final String inputLocation) throws SWORDErrorException
     {
-        final URL url;
-        try
-        {
-            url = new URL(fullLocation);
-        }
-        catch (final MalformedURLException exception)
-        {
-            throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, fullLocation + " Invalid location: " + exception.getMessage());
-        }
+        final URL url = toUrl(inputLocation);
+        final String baseLocation = toBaseLocation(url);
         final String subPath = new File(url.getPath()).getParent();
-        final String location = url.getProtocol() + "://" + url.getHost() + ":" + url.getPort() + subPath;
-        log.debug("location is: " + location + "    " + fullLocation);
+        final String outputLocation = baseLocation + subPath;
+        log.debug("location is: " + outputLocation + "    " + inputLocation);
+
+        return outputLocation;
+    }
+
+    private static String toServer(final String inputLocation) throws SWORDErrorException
+    {
+        final String location = toBaseLocation(toUrl(inputLocation));
+        log.debug("location is: " + location + "    " + inputLocation);
 
         return location;
     }
 
-    private static String toServer(final String fullLocation) throws SWORDErrorException
+    private static String toBaseLocation(final URL url)
+    {
+        return url.getProtocol() + "://" + url.getHost() + ":" + url.getPort();
+    }
+
+    private static URL toUrl(final String inputLocation) throws SWORDErrorException
     {
         final URL url;
         try
         {
-            url = new URL(fullLocation);
+            url = new URL(inputLocation);
         }
         catch (final MalformedURLException exception)
         {
-            throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, fullLocation + " Invalid location: " + exception.getMessage());
+            final String message = inputLocation + " Invalid location: " + exception.getMessage();
+            log.error(message,exception);
+            throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, message);
         }
-        final String location = url.getProtocol() + "://" + url.getHost() + ":" + url.getPort();
-        log.debug("location is: " + location + "    " + fullLocation);
-
-        return location;
+        return url;
     }
 
     private Workspace createWorkSpace(final Collection collection, final String title)
@@ -310,7 +315,7 @@ public class EasySwordServer implements SWORDServer
     {
         final Author author = new Author();
         author.setName(user.getDisplayName());
-        // TODO author.setEmail(user.getEmail());
+        author.setEmail(user.getEmail());
         return author;
     }
 

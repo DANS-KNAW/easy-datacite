@@ -124,7 +124,8 @@ public class MockUtil
 
     public static void mockDatasetService() throws Exception
     {
-        final Dataset dataset = new DatasetImpl("mock:" + (countDatasets++), MetadataFormat.SOCIOLOGY);
+        // no increment of countDatasets as it makes the test results unpredictable
+        final Dataset dataset = new DatasetImpl("mock:" + (countDatasets), MetadataFormat.SOCIOLOGY);
         final DatasetService datasetService = EasyMock.createMock(DatasetService.class);
         new Services().setDatasetService(datasetService);
 
