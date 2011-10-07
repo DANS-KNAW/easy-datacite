@@ -2,14 +2,14 @@
 	<parent>
 		<artifactId>dans-commons</artifactId>
 		<groupId>nl.knaw.dans.common</groupId>
-		<version>1.0-SNAPSHOT</version>
+		<version>2.x-SNAPSHOT</version>
 	</parent>
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>nl.knaw.dans.common</groupId>
   <artifactId>dans-solr</artifactId>
   <name>DANS-Solr</name>
-  <version>1.0-SNAPSHOT</version>
+  <version>${parent.version}</version>
   <url>http://develop01.dans.knaw.nl/maven2/eof-open-source/solr</url>
   <description>Common DANS Solr implementation</description>
 
@@ -71,7 +71,7 @@
 		<dependency>
             <groupId>nl.knaw.dans.common</groupId>
             <artifactId>dans-lang</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${parent.version}</version>
         </dependency>
 
 		<!-- Unit testing dependencies -->
