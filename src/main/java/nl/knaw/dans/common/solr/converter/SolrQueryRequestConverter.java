@@ -110,10 +110,13 @@ public class SolrQueryRequestConverter
 					SolrUtil.escapeColon( ((SearchQuery) fieldValue).getQueryString()) :
 					SolrUtil.escapeColon(SolrUtil.toString( fieldValue ))
 			);
-		queryStringValuePart = "("+ queryStringValuePart +")";
 
 		if (fieldQuery instanceof CombinedOptionalField)
 		{
+			// assume that the values must be forced into phrases using double quotes around them
+			// note that it would be better if we could ask the field if it needs forcing to a phrase
+			queryStringValuePart = "(\""+ queryStringValuePart +"\")";
+			
 			List<String> names = ((CombinedOptionalField<?>)fieldQuery).getNames();
 			StringBuilder sbQuery = new StringBuilder();
 			// name1:value OR name2: value OR name3:value, etc..
@@ -128,6 +131,7 @@ public class SolrQueryRequestConverter
 		}
 		else
 		{
+			queryStringValuePart = "("+ queryStringValuePart +")";
 			queryString = fieldQuery.getName() + ":" + queryStringValuePart;
 		}
 

@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.TimeZone;
 
+import nl.knaw.dans.common.lang.util.Range;
+
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormatter;
@@ -47,6 +49,11 @@ public class SolrUtil
 		{
 			return toString((Date) in);
 		}
+		else if (in instanceof Range<?>)
+        {
+            return toString((Range<?>) in);
+        }
+        
 		return in;
 	}
 	
@@ -68,4 +75,24 @@ public class SolrUtil
 	    format.setTimeZone(TimeZone.getTimeZone("UTC"));
 	    return format.format(d);
 	}
+	
+    /**
+     * Support for range values (resulting in range queries)
+     */
+    public static String toString(final Range<?> range)
+    {
+        String startQueryString = "";
+        if (range.getStart() == null)
+            startQueryString = "*";
+        else
+            startQueryString = range.getStart().toString();
+
+        String endQueryString = "";
+        if (range.getEnd() == null)
+            endQueryString = "*";
+        else
+            endQueryString = range.getEnd().toString();
+
+        return "[" + startQueryString + " TO " + endQueryString + "]";
+    }
 }
