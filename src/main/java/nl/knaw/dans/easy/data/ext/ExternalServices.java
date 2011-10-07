@@ -93,8 +93,11 @@ public class ExternalServices
     public void close()
     {
         logger.info("Closing " + this.getClass().getSimpleName());
-        boolean send = ADMIN_MAILER.sendApplicationClosing();
-        logger.info(send ? "Sending admin mail on close" : "Not sending admin mail on close");
+        if (ADMIN_MAILER != null)
+        {
+            boolean send = ADMIN_MAILER.sendApplicationClosing();
+            logger.info(send ? "Sending admin mail on close" : "Not sending admin mail on close");
+        }
     }
 
 }

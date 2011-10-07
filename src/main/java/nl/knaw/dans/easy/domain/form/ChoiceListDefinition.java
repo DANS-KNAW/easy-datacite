@@ -3,7 +3,7 @@ package nl.knaw.dans.easy.domain.form;
 
 public class ChoiceListDefinition extends AbstractInheritableDefinition<ChoiceListDefinition>
 {
-
+    
     private static final long serialVersionUID = 767251261447410517L;
     
     private String schemeName;

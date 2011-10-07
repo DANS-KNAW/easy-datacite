@@ -18,6 +18,8 @@ public class StandardPanelDefinition extends PanelDefinition
     // keep modifier protected, JiBX needs it.
     protected boolean repeating;
     // keep modifier protected, JiBX needs it.
+    protected String validatorClassName;
+    
     protected List<ChoiceListDefinition> choiceListDefinitions = new ArrayList<ChoiceListDefinition>();
     
     protected StandardPanelDefinition()
@@ -76,6 +78,11 @@ public class StandardPanelDefinition extends PanelDefinition
         this.repeating = repeating;
     }
 
+    public String getValidatorClassName()
+    {
+        return validatorClassName;
+    }
+
     public List<ChoiceListDefinition> getChoiceListDefinitions()
     {
         return choiceListDefinitions;
@@ -120,6 +127,7 @@ public class StandardPanelDefinition extends PanelDefinition
         clone.panelClass = panelClass;
         clone.required = required;
         clone.repeating = repeating;
+        clone.validatorClassName = validatorClassName;
         
         for (ChoiceListDefinition clDef : choiceListDefinitions)
         {

@@ -23,6 +23,8 @@ import nl.knaw.dans.easy.domain.model.emd.types.IsoDate;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.LicenseComposer;
 import nl.knaw.dans.easy.servicelayer.LicenseComposer.LicenseComposerException;
+import nl.knaw.dans.easy.servicelayer.services.DisciplineCollectionService;
+import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.util.TestHelper;
 
 import org.easymock.EasyMock;
@@ -37,7 +39,6 @@ public class LicenseComposerTest extends TestHelper
     private static EasyUser depositor;
     private static EasyMetadataImpl metadata;
     private static FileStoreAccess fileStoreAccess;
-	private static DisciplineCollection	disciplineCollection;
 	private static DisciplineContainerImpl	discipline;
 
     @BeforeClass
@@ -50,7 +51,6 @@ public class LicenseComposerTest extends TestHelper
         fileStoreAccess = EasyMock.createMock(FileStoreAccess.class);
         dataset = EasyMock.createMock(Dataset.class);
         depositor = EasyMock.createMock(EasyUser.class);
-        disciplineCollection = EasyMock.createMock(DisciplineCollection.class);
         metadata = (EasyMetadataImpl) JiBXObjectFactory.unmarshal(EasyMetadataImpl.class, metadataResource);       
 
         new Data().setFileStoreAccess(fileStoreAccess);
@@ -85,22 +85,19 @@ public class LicenseComposerTest extends TestHelper
         execute(generateSample, PDF_OUTPUT+"-submitted.pdf");
     }
 
-    private void execute(final boolean generateSample, final String fileName) throws LicenseComposerException,
-            FileNotFoundException, ObjectNotFoundException, DomainException {
+    private void execute(final boolean generateSample, final String fileName) throws Exception {
         
         clearFile(fileName);
-        
         LicenseComposer licenseComposer = new LicenseComposer(depositor, dataset, generateSample);
-        licenseComposer.injectDisciplineCollection(disciplineCollection);
 
-        EasyMock.replay(dataset, depositor, fileStoreAccess, disciplineCollection);
+        EasyMock.replay(dataset, depositor, fileStoreAccess);
 
         licenseComposer.createPdf(new FileOutputStream(fileName));
 
-        EasyMock.verify(dataset, depositor, fileStoreAccess, disciplineCollection);
+        EasyMock.verify(dataset, depositor, fileStoreAccess);
         assertTrue(new File(fileName).exists());
     }
-    
+
     private void clearFile(final String fileName) {
         final File file = new File(fileName);
         file.delete();
@@ -112,7 +109,7 @@ public class LicenseComposerTest extends TestHelper
         final String sid = "easy-dataset:123";
         final String[] fileNames ={"folder1/fileA.txt","folder1/fileB.txt","folder2/fileX.txt","folder2/fileY.txt"};
 
-        EasyMock.reset(dataset, depositor, fileStoreAccess, disciplineCollection);
+        EasyMock.reset(dataset, depositor, fileStoreAccess);
         EasyMock.expect(fileStoreAccess.getFilenames(sid, true)).andReturn(Arrays.asList(fileNames)).times(1);
         
         EasyMock.expect(depositor.getDisplayName()).andReturn("Jan Klaasen").times(1);
@@ -129,11 +126,15 @@ public class LicenseComposerTest extends TestHelper
         EasyMock.expect(dataset.getEasyMetadata()).andReturn(metadata).times(1);
         EasyMock.expect(dataset.getStoreId()).andReturn(sid).times(1);
 
-        String disciplineId = "easy-discipline:2";
-		discipline = new DisciplineContainerImpl(disciplineId);
+        final String disciplineId = "easy-discipline:2";
+        final DisciplineContainerImpl discipline = new DisciplineContainerImpl(disciplineId);
+        final DisciplineCollectionService disciplineService= EasyMock.createMock(DisciplineCollectionService.class);;
+        new Services().setDisciplineService(disciplineService);
         discipline.setName("Humanities");
+
         EasyMock.expect(
-        		disciplineCollection.getDisciplineBySid(disciplineId)
-        	).andReturn(discipline); 
+                disciplineService.getDisciplineById(disciplineId)
+        ).andReturn(discipline).anyTimes();
+        EasyMock.replay(disciplineService);
     }
 }

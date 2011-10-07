@@ -113,8 +113,12 @@ public interface FileStoreAccess {
 	 */
     boolean hasChildItems(String parentSid) throws StoreAccessException;
 
-    /* @return a map with StoreId's as key and names as values */
+    /**
+     * @return map with key=storeId and value=name pairs.
+     */
     Map<String, String> getAllFiles(String datasetStoreId) throws StoreAccessException;
 
+    FileItemVO findFileByPath(String datasetSid, String relativePath) throws StoreAccessException;
     
+    FolderItemVO findFolderByPath(String datasetSid, String relativePath) throws StoreAccessException;
 }

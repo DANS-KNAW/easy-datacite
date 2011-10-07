@@ -11,11 +11,10 @@ public class ResourceMetadataList extends AbstractJiBXObject<ResourceMetadataLis
 {
 
     private static final long serialVersionUID = 4665139159743935829L;
-    
+
     private Map<String, ResourceMetadata> resourceMetadataMap = new LinkedHashMap<String, ResourceMetadata>();
-    
-    
-    public void setResourceMetadataList(List<ResourceMetadata> resourceMetadataList)
+
+    public void setResourceMetadataAsList(List<ResourceMetadata> resourceMetadataList)
     {
         resourceMetadataMap.clear();
         for (ResourceMetadata fmd : resourceMetadataList)
@@ -23,17 +22,17 @@ public class ResourceMetadataList extends AbstractJiBXObject<ResourceMetadataLis
             resourceMetadataMap.put(fmd.getIdentifier(), fmd);
         }
     }
-    
-    public List<ResourceMetadata> getResourceMetadataList()
+
+    public List<ResourceMetadata> getResourceMetadataAsList()
     {
         return new ArrayList<ResourceMetadata>(resourceMetadataMap.values());
     }
-    
+
     public ResourceMetadata getResourceMetadata(String pathOrSid)
     {
         return resourceMetadataMap.get(pathOrSid);
     }
-    
+
     public void addResourceMetadata(ResourceMetadata fmd)
     {
         resourceMetadataMap.put(fmd.getIdentifier(), fmd);

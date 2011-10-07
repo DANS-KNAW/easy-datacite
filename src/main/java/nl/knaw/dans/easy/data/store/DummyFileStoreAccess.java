@@ -370,4 +370,17 @@ public class DummyFileStoreAccess implements FileStoreAccess
         throw new UnsupportedOperationException("This is a dummy, dummy.");
     }
 
+    @Override
+    public FileItemVO findFileByPath(String datasetSid, String relativePath) throws StoreAccessException
+    {
+        throw new UnsupportedOperationException("This is a dummy, dummy.");
+    }
+
+    @Override
+    public FolderItemVO findFolderByPath(String datasetSid, String relativePath) throws StoreAccessException
+    {
+        throw new UnsupportedOperationException("This is a dummy, dummy.");
+    }
+
+
 }

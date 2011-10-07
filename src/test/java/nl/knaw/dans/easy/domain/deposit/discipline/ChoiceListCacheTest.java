@@ -2,14 +2,11 @@ package nl.knaw.dans.easy.domain.deposit.discipline;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Properties;
 
 import nl.knaw.dans.common.lang.AbstractCache;
 import nl.knaw.dans.common.lang.CacheException;
-import nl.knaw.dans.common.lang.ResourceNotFoundException;
 import nl.knaw.dans.common.lang.test.ClassPathHacker;
 import nl.knaw.dans.easy.util.TestHelper;
 
@@ -28,24 +25,24 @@ public class ChoiceListCacheTest extends TestHelper
         before(ChoiceListCacheTest.class);
     }
 
-    @Test
-    public void getProperties() throws IOException, ResourceNotFoundException
-    {
-        Properties props = ChoiceListCache.getInstance().getProperties("archaeology.eas.spatial");
-        // props.list(System.out);
-        assertEquals(3, props.size());
-        assertEquals("lengte/breedte (graden)", props.getProperty("degrees"));
-    }
-    
-    @Test
-    public void getLocaleProperties() throws IOException, ResourceNotFoundException
-    {
-        Locale locale = Locale.US;
-        Properties props = ChoiceListCache.getInstance().getProperties("archaeology.eas.spatial", locale);
-        //props.list(System.out);
-        assertEquals(3, props.size());
-        assertEquals("longitude/latitude (degrees)", props.getProperty("degrees"));
-    }
+//    @Test
+//    public void getProperties() throws IOException, ResourceNotFoundException
+//    {
+//        Properties props = ChoiceListCache.getInstance().getProperties("archaeology.eas.spatial");
+//        // props.list(System.out);
+//        assertEquals(3, props.size());
+//        assertEquals("lengte/breedte (graden)", props.getProperty("degrees"));
+//    }
+//    
+//    @Test
+//    public void getLocaleProperties() throws IOException, ResourceNotFoundException
+//    {
+//        Locale locale = Locale.US;
+//        Properties props = ChoiceListCache.getInstance().getProperties("archaeology.eas.spatial", locale);
+//        //props.list(System.out);
+//        assertEquals(3, props.size());
+//        assertEquals("longitude/latitude (degrees)", props.getProperty("degrees"));
+//    }
 
     // Will not work when you are offline because of
     // <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">

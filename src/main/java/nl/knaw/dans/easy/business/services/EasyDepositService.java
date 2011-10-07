@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
 public class EasyDepositService extends AbstractEasyService implements DepositService
 {
 
-    public static final String                CONF_LOCATION     = "easy-business/discipline/emd/form-description";
+    //public static final String                CONF_LOCATION     = "easy-business/discipline/emd/form-description";
 
     private static Logger                     logger            = LoggerFactory.getLogger(EasyDepositService.class);
 
@@ -156,7 +156,7 @@ public class EasyDepositService extends AbstractEasyService implements DepositSe
     {
         try
         {
-            loadFormDescriptors(CONF_LOCATION);
+            loadMap();
         }
         catch (ResourceNotFoundException e)
         {
@@ -164,11 +164,11 @@ public class EasyDepositService extends AbstractEasyService implements DepositSe
         }
     }
     
-    protected void loadFormDescriptors(String location) throws ResourceNotFoundException
+    protected void loadMap() throws ResourceNotFoundException
     {
         synchronized (formDescriptorMap)
         {
-            FormDescriptorLoader.loadFormDescriptors(location, formDescriptorMap);
+            FormDescriptorLoader.loadFormDescriptors(formDescriptorMap);
             List<String> invalidDescriptors = new ArrayList<String>();
             for (FormDescriptor descriptor : formDescriptorMap.values())
             {

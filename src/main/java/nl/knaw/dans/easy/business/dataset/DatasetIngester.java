@@ -25,6 +25,13 @@ public class DatasetIngester implements SubmissionProcessor
 {   
     private static final Logger logger = LoggerFactory.getLogger(DatasetIngester.class);
     
+    private boolean updateFileRights;
+    
+    public DatasetIngester(boolean updateFileRights)
+    {
+        this.updateFileRights = updateFileRights;
+    }
+    
     public boolean continueAfterFailure()
     {
         return false;
@@ -54,14 +61,18 @@ public class DatasetIngester implements SubmissionProcessor
                 dataset.removeGroup(new GroupImpl(Group.ID_ARCHEOLOGY));
             }
             //  End provisional implementation of assigning groups
-            VisibleTo vt = VisibleTo.ANONYMOUS; // all files are visible, unless an archivist decides differently.
-            AccessibleTo at = AccessibleTo.translate(accessCategory);
-            UpdateInfo updateInfo = new UpdateInfo();
-            updateInfo.updateAccessibleTo(at);
-            updateInfo.updateVisibleTo(vt);
-            List<String> sids = Arrays.asList(dataset.getStoreId());
-            ItemWorkerProxy proxy = new ItemWorkerProxy(uow);
-            proxy.updateObjects(dataset, sids, updateInfo, null);
+            
+            if (updateFileRights)
+            {
+                VisibleTo vt = VisibleTo.ANONYMOUS; // all files are visible, unless an archivist decides differently.
+                AccessibleTo at = AccessibleTo.translate(accessCategory);
+                UpdateInfo updateInfo = new UpdateInfo();
+                updateInfo.updateAccessibleTo(at);
+                updateInfo.updateVisibleTo(vt);
+                List<String> sids = Arrays.asList(dataset.getStoreId());
+                ItemWorkerProxy proxy = new ItemWorkerProxy(uow);
+                proxy.updateObjects(dataset, sids, updateInfo, null);
+            }
             
             uow.commit();
             submission.setSubmitted(true); 

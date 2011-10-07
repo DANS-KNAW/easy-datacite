@@ -9,7 +9,7 @@
 		<namespace uri="http://easy.dans.knaw.nl/easy/resource-metadata-list/" prefix="rmdl"/>
 		<namespace uri="http://easy.dans.knaw.nl/easy/additional-metadata/" prefix="addmd"/>
 		
-		<collection set-method="setResourceMetadataList" get-method="getResourceMetadataList" 
+		<collection set-method="setResourceMetadataAsList" get-method="getResourceMetadataAsList" 
 			type="java.util.ArrayList">
            <structure type="nl.knaw.dans.easy.xml.ResourceMetadata"/>
         </collection>
@@ -19,8 +19,8 @@
 		<namespace uri="http://easy.dans.knaw.nl/easy/resource-metadata-list/" prefix="rmdl"/>
 		<namespace uri="http://easy.dans.knaw.nl/easy/additional-metadata/" prefix="addmd"/>
 		<structure name="identifier" ns="http://easy.dans.knaw.nl/easy/resource-metadata-list/">
-			<value name="path" field="path" usage="optional"/>
-			<value name="sid" field="sid" usage="optional" />
+			<value name="path" set-method="setPath" get-method="getPath" usage="optional"/>
+			<value name="sid" set-method="setSid" get-method="getSid" usage="optional" />
 		</structure>
 		
 		<structure name="rights" ns="http://easy.dans.knaw.nl/easy/resource-metadata-list/" usage="optional">

@@ -205,7 +205,7 @@ public class FormDescriptor extends AbstractInheritableDefinition<FormDescriptor
     }
 
     // JiBX
-    protected List<TermPanelDefinition> getTermPanelDefinitions()
+    public List<TermPanelDefinition> getTermPanelDefinitions()
     {
         synchronized (termPanelMap)
         {

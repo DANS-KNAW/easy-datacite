@@ -133,7 +133,8 @@ public class ItemWorker extends AbstractWorker
         }
         catch (UnitOfWorkInterruptException e)
         {
-            rollBack(e.getMessage());
+            //rollBack(e.getMessage());
+            throw new UnsupportedOperationException("Rollback not implemented");
         }
         catch (RepositoryException e)
         {
@@ -145,7 +146,7 @@ public class ItemWorker extends AbstractWorker
         }
     }
 
-    private void checkIntegrity(Dataset dataset, DataModelObject dmo)
+    protected void checkIntegrity(Dataset dataset, DataModelObject dmo)
     {
         String datasetId;
         if (dmo instanceof DatasetItem)

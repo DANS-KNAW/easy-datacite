@@ -22,6 +22,7 @@ import nl.knaw.dans.easy.domain.model.FileItem;
 import nl.knaw.dans.easy.domain.model.FileItemMetadata;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
+import nl.knaw.dans.easy.xml.AdditionalMetadata;
 
 public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem
 {
@@ -137,6 +138,18 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem
     public FileItemMetadata getFileItemMetadata()
     {
         return getFileItemMetadataImpl();
+    }
+    
+    @Override
+    public AdditionalMetadata getAdditionalMetadata()
+    {
+        return getFileItemMetadata().getAdditionalMetadata();
+    }
+    
+    @Override
+    public void setAdditionalMetadata(AdditionalMetadata additionalMetadata)
+    {
+        getFileItemMetadata().setAdditionalMetadata(additionalMetadata);
     }
     
     private FileItemMetadataImpl getFileItemMetadataImpl()

@@ -74,7 +74,7 @@ public class DatasetSubmissionImpl implements DatasetSubmission
         this.metadataValid = metadataValid;
     }
 
-    protected boolean isMailSend()
+    public boolean isMailSend()
     {
         return mailSend;
     }

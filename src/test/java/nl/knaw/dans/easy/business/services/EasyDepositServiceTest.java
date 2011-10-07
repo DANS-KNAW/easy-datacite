@@ -3,12 +3,9 @@ package nl.knaw.dans.easy.business.services;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
-import nl.knaw.dans.common.lang.ResourceNotFoundException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.test.ClassPathHacker;
-import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceList;
 import nl.knaw.dans.easy.domain.deposit.discipline.DepositDiscipline;
-import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
 import nl.knaw.dans.easy.domain.form.FormDescriptor;
 import nl.knaw.dans.easy.domain.form.TermPanelDefinition;
 import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific;
@@ -27,14 +24,6 @@ public class EasyDepositServiceTest extends TestHelper
     {
         ClassPathHacker.addFile("../easy-webui/src/main/resources");
         before(EasyDepositServiceTest.class);
-    }
-
-    @Test(expected = ResourceNotFoundException.class)
-    public void loadFormDescriptionsFromInvalidLocation() throws ServiceException, ResourceNotFoundException
-    {
-        startOfTest("loadFormDescriptionsFromInvalidLocation");
-        EasyDepositService eds = new EasyDepositService();
-        eds.loadFormDescriptors("foo");
     }
 
     @Test

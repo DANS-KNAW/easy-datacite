@@ -85,7 +85,8 @@ public class DatasetWorker extends AbstractWorker
         catch (UnitOfWorkInterruptException e)
         {
             dataset.getAdministrativeMetadata().setAdministrativeState(previousState);
-            rollBack(e.getMessage());
+          //rollBack(e.getMessage());
+            throw new UnsupportedOperationException("Rollback not implemented");
         }
         catch (RepositoryException e)
         {
@@ -193,7 +194,8 @@ public class DatasetWorker extends AbstractWorker
         }
         catch (UnitOfWorkInterruptException e)
         {
-            rollBack(e.getMessage());
+            //rollBack(e.getMessage());
+            throw new UnsupportedOperationException("Rollback not implemented");
         }
         catch (ObjectNotInStoreException e)
         {
@@ -224,7 +226,8 @@ public class DatasetWorker extends AbstractWorker
         }
         catch (UnitOfWorkInterruptException e)
         {
-            rollBack(e.getMessage());
+          //rollBack(e.getMessage());
+            throw new UnsupportedOperationException("Rollback not implemented");
         }
         catch (RepositoryException e)
         {

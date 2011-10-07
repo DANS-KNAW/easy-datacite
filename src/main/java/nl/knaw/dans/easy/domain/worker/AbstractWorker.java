@@ -3,9 +3,7 @@ package nl.knaw.dans.easy.domain.worker;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.UnitOfWork;
-import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.data.store.EasyUnitOfWork;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 
@@ -49,21 +47,17 @@ public abstract class AbstractWorker
     {
         return listeners;
     }
+    
+    public void informListeners(Throwable t)
+    {
+        for (WorkListener listener : getListeners())
+        {
+            listener.onException(t);
+        }
+    }
 
     public UnitOfWork getUnitOfWork()
     {
         return unitOfWork;
-    }
-
-    protected void rollBack(String message) throws ServiceException
-    {
-        try
-        {
-            getUnitOfWork().rollBack(message);
-        }
-        catch (RepositoryException e)
-        {
-            throw new ServiceException("Exception during rollback: ", e);
-        }
     }
 }

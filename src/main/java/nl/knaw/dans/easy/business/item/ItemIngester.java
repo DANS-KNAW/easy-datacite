@@ -146,7 +146,8 @@ public class ItemIngester extends AbstractWorker
         }
         catch (UnitOfWorkInterruptException e)
         {
-            rollBack(e.getMessage());
+            //rollBack(e.getMessage());
+            throw new UnsupportedOperationException("Rollback not implemented");
         }
         catch (RepositoryException e)
         {
@@ -210,6 +211,8 @@ public class ItemIngester extends AbstractWorker
             kidFile.setParent(parentContainer);
             setFileRights(kidFile);
             addAdditionalMetadata(kidFile);
+            
+            getUnitOfWork().saveAndDetach(kidFile);
         }
     }
 
@@ -252,6 +255,8 @@ public class ItemIngester extends AbstractWorker
             currentFile.setOwnerId(sessionUser.getId());
             setFileRights(currentFile);
             addAdditionalMetadata(currentFile);
+            
+            getUnitOfWork().saveAndDetach(currentFile);
         }
     }
 

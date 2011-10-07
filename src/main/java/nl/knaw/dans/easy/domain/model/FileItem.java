@@ -8,6 +8,7 @@ import org.dom4j.Element;
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.repo.types.CommonFileItem;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
+import nl.knaw.dans.easy.xml.AdditionalMetadata;
 
 public interface FileItem extends DatasetItem, CommonFileItem
 {
@@ -18,6 +19,10 @@ public interface FileItem extends DatasetItem, CommonFileItem
     File getFile();
     
     FileItemMetadata getFileItemMetadata();
+    
+    AdditionalMetadata getAdditionalMetadata();
+    
+    void setAdditionalMetadata(AdditionalMetadata additionalMetadata);
     
     CreatorRole getCreatorRole();
     

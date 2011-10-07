@@ -38,6 +38,9 @@ public class EmdRights extends AbstractEmdContainer
     public static final String LICENSE = "license";
     
     public static final String LICENSE_ACCEPT = "accept";
+    public static final String SCHEME_LICENSE_ACCEPT_E2V1 = "Easy2 version 1";
+    // used for migration corrections
+    public static final String SCHEME_LICENSE_ACCEPT_E1V1 = "Easy version 1";
     
     //TODO: JUnit Test, if this key exist in accessrights.xml
     //public static final String OTHER_ACCESS_KEY = "ar_noAccess";
@@ -127,6 +130,10 @@ public class EmdRights extends AbstractEmdContainer
      */
     public List<BasicString> getTermsLicense()
     {
+        if (termsLicense == null)
+        {
+            termsLicense = new ArrayList<BasicString>();
+        }
         return termsLicense;
     }
 
@@ -140,6 +147,65 @@ public class EmdRights extends AbstractEmdContainer
     public void setTermsLicense(final List<BasicString> termsLicense)
     {
         this.termsLicense = termsLicense;
+    }
+    
+    // not very strong. 
+    // migrated datasets have the form
+    // <dcterms:license eas:scheme="EASY version 1">accept</dcterms:license>
+    // newly created ones have the form
+    // <dcterms:license>accept</dcterms:license>
+    // adding a eas:scheme-value would improve reliability.
+    public boolean hasAcceptedLicense()
+    {
+        boolean accepted = false;
+        for (BasicString bs : getTermsLicense())
+        {
+            if (LICENSE_ACCEPT.equals(bs.getValue()))
+            {
+                accepted = true;
+                break;
+            }
+        }
+        return accepted;
+    }
+    
+    // Attention! this method is not yet (2011-08-03) used in the web-ui.
+    public void setAcceptedLicense(boolean accepted)
+    {
+        setAcceptedLicense(accepted, SCHEME_LICENSE_ACCEPT_E2V1);
+    }
+    
+    // Attention! only use for migration correction
+    public void setAcceptedLicense(boolean accepted, String scheme)
+    {
+        if (accepted && !hasAcceptedLicense())
+        {
+            BasicString bs = new BasicString(LICENSE_ACCEPT);
+            bs.setScheme(scheme);
+            getTermsLicense().add(bs);
+        }
+        if (!accepted)
+        {
+            removeAcceptedLicense();
+        }
+    }
+    
+    private boolean removeAcceptedLicense()
+    {
+        BasicString accept = null;
+        for (BasicString bs : getTermsLicense())
+        {
+            if (LICENSE_ACCEPT.equals(bs.getValue()))
+            {
+                accept = bs;
+                break;
+            }
+        }
+        if (accept != null)
+        {
+            getTermsLicense().remove(accept);
+        }
+        return accept != null;
     }
     
     public List<BasicString> getTermsRightsHolder()

@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 public class MetadataPidGenerator implements SubmissionProcessor
 {
-    private static final String PID_ERROR = "deposit.pid_error";
+    public static final String PID_ERROR = "deposit.pid_error";
     private static final Logger logger = LoggerFactory.getLogger(DatasetIngester.class);
 
     public boolean continueAfterFailure()
@@ -49,6 +49,7 @@ public class MetadataPidGenerator implements SubmissionProcessor
             ((DatasetRelations)submission.getDataset().getRelations()).setPersistentIdentifier(pid);
             logger.debug("Generated new Pid. pid=" + pid);
         }
+        // TODO: catch all prevents normal error handling for all callers. 
         catch (final Exception exception)
         {
             return reportError("Can't generate persistent identifier", submission, exception);

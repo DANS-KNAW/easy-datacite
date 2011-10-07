@@ -20,6 +20,7 @@ import nl.knaw.dans.easy.business.item.DownloadWorkDispatcher;
 import nl.knaw.dans.easy.business.item.ItemIngester;
 import nl.knaw.dans.easy.business.item.ItemIngesterDelegator;
 import nl.knaw.dans.easy.business.item.ItemWorkDispatcher;
+import nl.knaw.dans.easy.business.md.amd.AdditionalMetadataUpdateStrategy;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.EasyUnitOfWork;
 import nl.knaw.dans.easy.data.store.StoreAccessException;
@@ -39,10 +40,12 @@ import nl.knaw.dans.easy.domain.exceptions.ApplicationException;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.DatasetItemContainer;
 import nl.knaw.dans.easy.domain.model.FileItem;
+import nl.knaw.dans.easy.domain.model.FolderItem;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.worker.WorkListener;
 import nl.knaw.dans.easy.security.authz.AuthzStrategyProvider;
 import nl.knaw.dans.easy.servicelayer.services.ItemService;
+import nl.knaw.dans.easy.xml.ResourceMetadataList;
 
 import org.dom4j.Element;
 import org.slf4j.Logger;
@@ -62,6 +65,22 @@ public class EasyItemService extends AbstractEasyService implements ItemService
     {
         FileItem fileItem = getItemWorkDispatcher().getFileItem(sessionUser, dataset, fileItemId);
         return fileItem;
+    }
+    
+    @Override
+    public FileItem getFileItemByPath(EasyUser sessionUser, Dataset dataset, String path) throws ObjectNotAvailableException, CommonSecurityException,
+            ServiceException
+    {
+        FileItem fileItem = getItemWorkDispatcher().getFileItemByPath(sessionUser, dataset, path);
+        return fileItem;
+    }
+
+    @Override
+    public FolderItem getFolderItemByPath(EasyUser sessionUser, Dataset dataset, String path) throws ObjectNotAvailableException, CommonSecurityException,
+            ServiceException
+    {
+        FolderItem folderItem = getItemWorkDispatcher().getFolderItemByPath(sessionUser, dataset, path);
+        return folderItem;
     }
     
     @Override
@@ -105,7 +124,7 @@ public class EasyItemService extends AbstractEasyService implements ItemService
     }
 
     @MutatesDataset
-    public void addDirectoryContents(EasyUser sessionUser, Dataset dataset, String parentId, File rootFile, 
+    private void addDirectoryContents(EasyUser sessionUser, Dataset dataset, String parentId, File rootFile, 
             FileFilter ingestFilter, ItemIngesterDelegator delegator, WorkListener...workListeners) throws ServiceException
     {
         UnitOfWork uow = new EasyUnitOfWork(sessionUser);
@@ -169,7 +188,16 @@ public class EasyItemService extends AbstractEasyService implements ItemService
             uow.close();
         }
     }
+    
+    @Override
+    public void updateFileItemMetadata(EasyUser sessionUser, Dataset dataset, ResourceMetadataList resourceMetadataList, AdditionalMetadataUpdateStrategy strategy,
+            WorkListener... workListeners) throws ServiceException
+    {
+        getItemWorkDispatcher().updateFileItemMetadata(sessionUser, dataset, resourceMetadataList, strategy, workListeners);
+        
+    }
 
+    // old fashioned additional metadata 
     @MutatesDataset
     public void saveDescriptiveMetadata(EasyUser sessionUser, final Dataset dataset, final Map<String, Element> descriptiveMetadataMap) throws ServiceException
     {
@@ -409,4 +437,6 @@ public class EasyItemService extends AbstractEasyService implements ItemService
 		DownloadRegistration registration = new DownloadRegistration(sessionUser, dataset, downloads);
     	registration.registerDownloads();
 	}
+
+
 }

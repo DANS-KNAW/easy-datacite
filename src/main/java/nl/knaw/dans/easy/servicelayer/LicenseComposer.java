@@ -26,19 +26,19 @@ import nl.knaw.dans.common.lang.mail.MailComposer;
 import nl.knaw.dans.common.lang.mail.MailComposerException;
 import nl.knaw.dans.common.lang.pdf.PdfPageLayouter;
 import nl.knaw.dans.common.lang.pdf.PdfPageLayouter.HeaderImageException;
+import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.StoreAccessException;
-import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
 import nl.knaw.dans.easy.domain.model.Dataset;
-import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineCollection;
-import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineCollectionImpl;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import nl.knaw.dans.easy.domain.model.emd.Term;
 import nl.knaw.dans.easy.domain.model.emd.types.IsoDate;
 import nl.knaw.dans.easy.domain.model.emd.types.MetadataItem;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
+import nl.knaw.dans.easy.servicelayer.services.DisciplineCollectionService;
+import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.util.EasyHome;
 
 import org.apache.commons.io.FileUtils;
@@ -101,7 +101,6 @@ public class LicenseComposer
 
     private static final String TERM_PROPERTIES = "MetadataTerms.properties";
 
-    @SuppressWarnings("rawtypes")
     private final Map<Enum, String> snippets = new HashMap<Enum, String>();
 
     private static enum SnippetKey
@@ -111,7 +110,6 @@ public class LicenseComposer
 
     private final URL headerImage;
 
-    @SuppressWarnings("rawtypes")
     private final HashMap parserProperties;
 
     private final Properties metadataNames;
@@ -123,8 +121,6 @@ public class LicenseComposer
     private final Dataset dataset;
 
     private final boolean generateSample;
-
-	private DisciplineCollection	disciplineCollection;
 
     public static final int ESTIMATED_PDF_SIZE = 70*1024;
 
@@ -148,7 +144,7 @@ public class LicenseComposer
 
         final String other = getSnippetContent("OtherAccess.html");
         snippets.put(SnippetKey.version, getSnippetContent("LicenseVersion.txt"));
-        String body = generateSample ? "Body-sample.html" : "Body.html";
+        final String body = generateSample ? "Body-sample.html" : "Body.html";
         snippets.put(SnippetKey.body, getSnippetContent(body));
         snippets.put(SnippetKey.embargo, getSnippetContent("Embargo.html"));
         snippets.put(SnippetKey.tail, getSnippetContent("Tail.html"));
@@ -170,26 +166,13 @@ public class LicenseComposer
         {
             return uri.toURL();
         }
-        catch (MalformedURLException e)
+        catch (final MalformedURLException e)
         {
             throw new LicenseComposerException(uri + " " + e.getMessage(),e);
         }
     }
 
-	private DisciplineCollection getDisciplineCollection()
-	{
-		if (disciplineCollection == null)
-			return DisciplineCollectionImpl.getInstance();
-		else
-			return this.disciplineCollection;
-	}
-
-	public void injectDisciplineCollection(DisciplineCollection disciplineCollection)
-	{
-		this.disciplineCollection = disciplineCollection;
-	}
-
-	public void createPdf(final OutputStream outputStream) throws LicenseComposerException
+    public void createPdf(final OutputStream outputStream) throws LicenseComposerException
     {
         final Document document = new Document();
         try
@@ -260,14 +243,14 @@ public class LicenseComposer
         }
     }
 
-    protected Element formatMetaData(Document document) throws LicenseComposerException
+    protected Element formatMetaData(final Document document) throws LicenseComposerException
     {
         Table table;
         try
         {
             table = new Table(2);
         }
-        catch (BadElementException e)
+        catch (final BadElementException e)
         {
             throw new LicenseComposerException(e);
         }
@@ -288,7 +271,7 @@ public class LicenseComposer
                 {
                     table.addCell(metadataNames.getProperty(name, name));
                 }
-                catch (BadElementException e)
+                catch (final BadElementException e)
                 {
                     throw new LicenseComposerException(e);
                 }
@@ -304,14 +287,14 @@ public class LicenseComposer
                     {
                         table.addCell(string);
                     }
-                    catch (BadElementException e)
+                    catch (final BadElementException e)
                     {
                         throw new LicenseComposerException(e);
                     }
                 }
                 else if (term.getName().equals(Term.Name.ACCESSRIGHTS))
                 {
-                    MetadataItem item = items.get(0); // was non empty!
+                    final MetadataItem item = items.get(0); // was non empty!
                     
                     string = formatAccesRights(item);
                     
@@ -319,7 +302,7 @@ public class LicenseComposer
                     {
                         table.addCell(string);
                     }
-                    catch (BadElementException e)
+                    catch (final BadElementException e)
                     {
                         throw new LicenseComposerException(e);
                     }
@@ -332,7 +315,7 @@ public class LicenseComposer
                     {
                         table.addCell(string.substring(1, string.length() - 1));
                     }
-                    catch (BadElementException e)
+                    catch (final BadElementException e)
                     {
                         throw new LicenseComposerException(e);
                     }
@@ -347,7 +330,7 @@ public class LicenseComposer
         String accesRights = "";
         
         //AccessCategory cat = AccessCategory.valueOf(item.toString());
-        String categoryString = item.toString();
+        final String categoryString = item.toString();
         
         // TODO use properties file for mapping these metadata values
         
@@ -384,32 +367,31 @@ public class LicenseComposer
         return accesRights;
     }
     
-	protected String formatAudience(final EasyMetadata easyMetadata) throws LicenseComposerException
-	{
-		Iterator<String> it = easyMetadata.getEmdAudience().getValues().iterator();
-		String string= "";
-		while(it.hasNext())
-		{
-			String sid = it.next();
-			DisciplineContainer discipline;
-			try
-			{
-				discipline = getDisciplineCollection().getDisciplineBySid(sid);
-				string += discipline.getName();
-			}
-			catch (ObjectNotFoundException e)
-			{
-				throw new LicenseComposerException(e);
-			}
-			catch (DomainException e)
-			{
-				throw new LicenseComposerException(e);
-			}
-			if (it.hasNext())
-				string += ", ";
-		}
-		return string;
-	}
+    public static String formatAudience(final EasyMetadata easyMetadata) throws LicenseComposerException
+    {
+        final DisciplineCollectionService disciplineService = Services.getDisciplineService();
+        if (disciplineService == null)
+            throw new LicenseComposerException("discipline service not configured", null);
+
+        StringBuffer string = new StringBuffer();
+        for (String sid : easyMetadata.getEmdAudience().getValues())
+        {
+            try
+            {
+                string.append(", ");
+                string.append(disciplineService.getDisciplineById(sid).getName());
+            }
+            catch (final ObjectNotFoundException e)
+            {
+                throw new LicenseComposerException("discipline not found: " + sid, e);
+            }
+            catch (final ServiceException e)
+            {
+                throw new LicenseComposerException("discipline service error: " + e.getMessage(), e);
+            }
+        }
+        return string.substring(2);
+    }
 
     private String compose(final SnippetKey snippet)
             throws LicenseComposerException
@@ -461,7 +443,7 @@ public class LicenseComposer
         {
             return Data.getFileStoreAccess().getFilenames(sid, true);
         }
-        catch (StoreAccessException e)
+        catch (final StoreAccessException e)
         {
             throw new LicenseComposerException("can not find uploaded filenames of dataset", e);
         }

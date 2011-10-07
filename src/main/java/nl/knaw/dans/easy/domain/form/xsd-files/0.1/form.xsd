@@ -99,6 +99,7 @@
             <xs:element name="panelClass" type="xs:string"/>
             <xs:element name="required" type="xs:boolean" minOccurs="0"/>
             <xs:element name="repeating" type="xs:boolean" minOccurs="0"/>
+            <xs:element name="validatorClassName" type="xs:string" minOccurs="0"/>
             <xs:element name="choiceListDefinition" type="edf:choiceListDefinition"
                 minOccurs="0"/>
         </xs:sequence>

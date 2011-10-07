@@ -11,10 +11,12 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.file.ZipFileItem;
 import nl.knaw.dans.common.lang.file.ZipFolderItem;
 import nl.knaw.dans.common.lang.file.ZipItem;
 import nl.knaw.dans.common.lang.file.ZipUtil;
+import nl.knaw.dans.common.lang.repo.UnitMetadata;
 import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.service.exceptions.FileSizeException;
@@ -31,6 +33,7 @@ import nl.knaw.dans.easy.domain.download.FileContentWrapper;
 import nl.knaw.dans.easy.domain.download.ZipFileContentWrapper;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.model.Dataset;
+import nl.knaw.dans.easy.domain.model.DescriptiveMetadata;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.DownloadFilter;
 
@@ -130,32 +133,46 @@ public class DownloadWorker
             logger.error("Unable to apply download filter: ", e);
             throw new ServiceException(e);
         }
+        catch (RepositoryException e)
+        {
+            logger.error("Unable to create zip file: ", e);
+            throw new ServiceException(e);
+        }
 
         return zippedContent;
     }
 
-    private URL getAdditionalLicenseUrl(final Dataset dataset) throws ServiceException
+    private URL getAdditionalLicenseUrl(final Dataset dataset) throws ServiceException, RepositoryException
     {
-        final URL url = Data.getEasyStore().getFileURL(dataset.getStoreId(), AdditionalLicenseUnit.UNIT_ID, new DateTime());
-        try
+        List<UnitMetadata> addLicenseList = Data.getEasyStore().getUnitMetadata(dataset.getStoreId(), AdditionalLicenseUnit.UNIT_ID);
+        if (addLicenseList.isEmpty())
         {
-            // TODO is this check in the right layer?
-            final InputStream stream = url.openStream();
-            if (stream == null)
-            {
-                return null;
-            }
-            stream.close();
-            return url;
-        }
-        catch (final IOException e)
-        {
-            // TODO just something like not found is OK
             return null;
+        }
+        else
+        {
+            final URL url = Data.getEasyStore().getFileURL(dataset.getStoreId(), AdditionalLicenseUnit.UNIT_ID, new DateTime());
+//        try
+//        {
+//            // TODO is this check in the right layer?
+//            final InputStream stream = url.openStream();
+//            if (stream == null)
+//            {
+//                return null;
+//            }
+//            stream.close();
+//            return url;
+//        }
+//        catch (final IOException e)
+//        {
+//            // TODO just something like not found is OK
+//            return null;
+//        }
+            return url;
         }
     }
     
-    protected File createZipFile(final List<? extends ItemVO> items, final URL additionalLicenseUrl) throws IOException, ZipFileLengthException
+    protected File createZipFile(final List<? extends ItemVO> items, final URL additionalLicenseUrl) throws IOException, ZipFileLengthException, RepositoryException
     {
         final List<ZipItem> zipItems = toZipItems(items);
         
@@ -187,6 +204,8 @@ public class DownloadWorker
         final List<ZipItem> zipItems = new ArrayList<ZipItem>();
 
         int totalSize = calculateTotalSizeUnzipped(items);
+        logger.debug("total size unzipped " + totalSize);
+        
         if (totalSize > MAX_DOWNLOAD_SIZE)
         {
             throw new ZipFileLengthException(totalSize/MEGA_BYTE, MAX_DOWNLOAD_SIZE/MEGA_BYTE);
@@ -238,8 +257,9 @@ public class DownloadWorker
      *        files selected by the user that have download permission
      * @return a temporary file containing the metatdata
      * @throws IOException
+     * @throws RepositoryException 
      */
-    File createDescriptiveFileMetadataFile(final List<? extends ItemVO> items) throws IOException
+    File createDescriptiveFileMetadataFile(final List<? extends ItemVO> items) throws IOException, RepositoryException
     {
         final File metaFile = File.createTempFile("meta", ".xml");
         boolean hasMetaData = false;
@@ -251,8 +271,15 @@ public class DownloadWorker
         {
             if (item instanceof FileItemVO)
             {
+                List<UnitMetadata> umdList = Data.getEasyStore().getUnitMetadata(item.getSid(), DescriptiveMetadata.UNIT_ID);
+                if (!umdList.isEmpty())
+                {
+                    hasMetaData = true;
+                    collectMetadata(metaOutputStream, item);
+                }
+                
                 // NB: the left part of the expression is our primary objective, so keep it on the left!
-                hasMetaData = collectMetadata(metaOutputStream, item) || hasMetaData;
+                //hasMetaData = collectMetadata(metaOutputStream, item) || hasMetaData;
             }
         }
         metaOutputStream.println("</metadata>");

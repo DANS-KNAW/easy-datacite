@@ -247,10 +247,19 @@ public class CodedAuthz extends AbstractEasyService implements Authz
             rules.put(
                     "void nl.knaw.dans.easy.business.item.ItemWorkDispatcher.updateObjects(EasyUser, Dataset, List, UpdateInfo, ItemFilters, UnitOfWork, WorkListener[])",
                     getUpdateItemRule());
+            rules.put("void nl.knaw.dans.easy.business.item.ItemWorkDispatcher.updateFileItemMetadata(EasyUser, Dataset, ResourceMetadataList, AdditionalMetadataUpdateStrategy, WorkListener[])",
+                    getEnableToArchivistRule());
+            
             rules.put("void nl.knaw.dans.easy.business.item.ItemWorkDispatcher.saveDescriptiveMetadata(EasyUser, UnitOfWork, Dataset, Map, WorkListener[])",
                     getEnableToArchivistRule()); // TODO but not if published or deleted?
             rules.put("FileItemDescription nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFileItemDescription(EasyUser, Dataset, FileItem)", getFileItemDescriptionAccessRule());
+            
             rules.put("FileItem nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFileItem(EasyUser, Dataset, String)", getFileItemContentsAccessRule());
+            rules.put("FileItem nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFileItemByPath(EasyUser, Dataset, String)", getNoSecurityOfficer());
+            
+            rules.put("FileItem nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFolderItem(EasyUser, Dataset, String)", getNoSecurityOfficer());
+            rules.put("FileItem nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFolderItemByPath(EasyUser, Dataset, String)", getNoSecurityOfficer());
+            
             rules.put("URL nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFileContentURL(EasyUser, Dataset, FileItem)", getFreelyAvailableContentRule());
             
             

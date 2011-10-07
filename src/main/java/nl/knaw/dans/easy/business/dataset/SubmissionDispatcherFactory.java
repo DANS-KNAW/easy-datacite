@@ -11,7 +11,8 @@ public class SubmissionDispatcherFactory
     
     public enum Style
     {
-        WEB
+        WEB,
+        BATCH_INGEST
     }
     
     public static final Style DEFAULT_STYLE = Style.WEB;
@@ -62,8 +63,14 @@ public class SubmissionDispatcherFactory
             processors.add(new MetadataValidator());
             processors.add(new MetadataPidGenerator());
             processors.add(new MetadataLicenseGenerator());
-            threadedProcessors.add(new DatasetIngester());
+            threadedProcessors.add(new DatasetIngester(true));
             threadedProcessors.add(new MailSender());
+        }
+        else if (Style.BATCH_INGEST.equals(style))
+        {
+            processors.add(new MetadataPidGenerator());
+            processors.add(new MetadataLicenseGenerator());
+            processors.add(new DatasetIngester(false));
         }
         else
         {

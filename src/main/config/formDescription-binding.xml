@@ -78,6 +78,7 @@
 		<value name="panelClass" field="panelClass"/>
 		<value name="required" field="required" usage="optional"/>
 		<value name="repeating" field="repeating" usage="optional"/>
+		<value name="validatorClassName" field="validatorClassName" usage="optional"/>
 		<collection field="choiceListDefinitions" factory="nl.knaw.dans.easy.domain.form.FormDescriptor.arrayList">
 			<structure
 					type="nl.knaw.dans.easy.domain.form.ChoiceListDefinition" usage="optional"/> 
@@ -93,6 +94,7 @@
 		<value name="panelClass" field="panelClass"/>
 		<value name="required" field="required" usage="optional"/>
 		<value name="repeating" field="repeating" usage="optional"/>
+		<value name="validatorClassName" field="validatorClassName" usage="optional"/>
 		<collection field="choiceListDefinitions" factory="nl.knaw.dans.easy.domain.form.FormDescriptor.arrayList">
 			<structure
 					type="nl.knaw.dans.easy.domain.form.ChoiceListDefinition" usage="optional"/> 

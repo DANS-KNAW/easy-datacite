@@ -25,6 +25,7 @@ public class ResourceMetadata extends AbstractJiBXObject<ResourceMetadata>
     
     public ResourceMetadata(String identifier)
     {
+        identifier = identifier.trim();
         if (identifier.startsWith(FileItem.NAMESPACE))
         {
             this.sid = identifier;
@@ -39,11 +40,20 @@ public class ResourceMetadata extends AbstractJiBXObject<ResourceMetadata>
     {
         return sid == null ? path : sid;
     }
-
+    
+    public void setPath(String path)
+    {
+        this.path = path == null ? null : path.trim();
+    }
 
     public String getPath()
     {
         return path;
+    }
+    
+    public void setSid(String sid)
+    {
+        this.sid = sid == null ? null : sid.trim();
     }
 
     public String getSid()

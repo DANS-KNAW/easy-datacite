@@ -106,7 +106,7 @@ public class ResourceMetadataListTest
         JiBXObjectFactory.unmarshal(ResourceMetadataList.class, 
                 new File("src/test/resources/test-files/resource-metadata-list.xml"));
         
-        for (ResourceMetadata rmd : rml.getResourceMetadataList())
+        for (ResourceMetadata rmd : rml.getResourceMetadataAsList())
         {
             FileItemMetadata fimd = new FileItemMetadataImpl("test");
             fimd.setAdditionalMetadata(rmd.getAdditionalMetadata());
@@ -114,7 +114,7 @@ public class ResourceMetadataListTest
                 logger.debug("\n" + fimd.asXMLString(4) + "\n");
         }
         
-        assertEquals(2, rml.getResourceMetadataList().size());
+        assertEquals(2, rml.getResourceMetadataAsList().size());
     }
 
 

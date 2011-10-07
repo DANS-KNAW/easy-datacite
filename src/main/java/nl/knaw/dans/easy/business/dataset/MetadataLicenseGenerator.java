@@ -1,7 +1,6 @@
 package nl.knaw.dans.easy.business.dataset;
 
 import java.io.ByteArrayOutputStream;
-import java.net.MalformedURLException;
 
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
@@ -41,11 +40,6 @@ public class MetadataLicenseGenerator implements SubmissionProcessor
             logger.error("failed to create license document for " + datasetId, exception);
             return false;
         }
-//        catch (MalformedURLException e)
-//        {
-//            throw new RuntimeException(e);
-//        }
-
         dataset.setLicenseContent(outputStream.toByteArray());
         return true;
     }
