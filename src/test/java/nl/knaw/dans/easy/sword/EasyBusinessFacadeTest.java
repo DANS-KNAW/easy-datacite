@@ -13,7 +13,7 @@ import org.junit.Test;
 import org.purl.sword.base.SWORDErrorException;
 import org.purl.sword.base.SWORDException;
 
-public class EasyBusinessWrapperTest extends Tester
+public class EasyBusinessFacadeTest extends Tester
 {
     final static File basePath = new File("target/tmp");
     static File       tempDirectory;
