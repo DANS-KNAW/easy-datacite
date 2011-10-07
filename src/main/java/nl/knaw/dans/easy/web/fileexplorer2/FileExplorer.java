@@ -85,19 +85,19 @@ public class FileExplorer extends AbstractDatasetModelPanel {
 		published = datasetModel.getObject().getAdministrativeState().equals(DatasetState.PUBLISHED);
 		
 		// initialize a ModalWindow for file details
-		final ModalWindow modalFileDetails = createModalWindow("modalFileDetails", 400, "File details");
+		final ModalWindow modalFileDetails = Util.createModalWindow("modalFileDetails", 400, "File details");
         add(modalFileDetails);
 		
         // initialize a ModalWindow for downloads
-		final ModalWindow modalDownload = createModalWindow("modalDownload", 400, "Notice: Download");
+		final ModalWindow modalDownload = Util.createModalWindow("modalDownload", 400, "Notice: Download");
         add(modalDownload);
         
         // initialize a ModalWindow for delete files
-		final ModalWindow modalDelete = createModalWindow("modalDelete", 450, "Delete file(s)/folder(s)");
+		final ModalWindow modalDelete = Util.createModalWindow("modalDelete", 450, "Delete file(s)/folder(s)");
         add(modalDelete);
         
         // initialize a ModalWindow for importing file metadata
-		final ModalWindow modalImport = createModalWindow("modalImport", 450, "Import file metadata");
+		final ModalWindow modalImport = Util.createModalWindow("modalImport", 450, "Import file metadata");
         add(modalImport);
         
         // initialize a ModalWindow for uploads
@@ -214,7 +214,7 @@ public class FileExplorer extends AbstractDatasetModelPanel {
 		};
 		
 		// a small check to see if this dataset has an Additional License
-		final boolean hasAdditionalLicense = FileUtil.getAdditionalLicenseResource(datasetModel) != null;
+		final boolean hasAdditionalLicense = Util.getAdditionalLicenseResource(datasetModel) != null;
 		
         columns[1] = new AbstractColumn<Void>(new Model<String>("Name"), "name") {
 			private static final long serialVersionUID = 1L;
@@ -502,15 +502,6 @@ public class FileExplorer extends AbstractDatasetModelPanel {
 		}
 		
 		return result;
-	}
-	
-	private ModalWindow createModalWindow(String id, int initialWidth, String title) {
-		ModalWindow modal = new ModalWindow(id);
-		modal.setUseInitialHeight(false);
-		modal.setInitialWidth(initialWidth);
-		modal.setTitle(title);
-		modal.add(CSSPackageResource.getHeaderContribution(FileExplorer.class, "style/modal.css"));
-        return modal;
 	}
 	
 	private ModalWindow createModalUploadWindow(String id, int initialWidth, String title) {

@@ -12,7 +12,7 @@ import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.editabletexts.EasyEditablePanel;
-import nl.knaw.dans.easy.web.fileexplorer2.FileUtil;
+import nl.knaw.dans.easy.web.fileexplorer2.Util;
 import nl.knaw.dans.easy.web.template.AbstractEasyPage;
 import nl.knaw.dans.easy.web.view.dataset.DatasetViewPage;
 import nl.knaw.dans.easy.web.view.dataset.UnitMetaDataResource;
@@ -97,7 +97,7 @@ public class PermissionRequestForm extends PermissionForm
         addRequired(new CheckBox(CONDITIONS_WID, conditionsModel)).setEnabled(editMode);
         
         // Additional conditions
-        final UnitMetaDataResource additionalLicenseResource = FileUtil.getAdditionalLicenseResource(datasetModel);
+        final UnitMetaDataResource additionalLicenseResource = Util.getAdditionalLicenseResource(datasetModel);
         final Component additionalLicense = new ResourceLink<UnitMetaDataResource>("additionalLicense", additionalLicenseResource);
         final boolean hasAdditionalLicense = additionalLicenseResource != null;
         additionalLicense.setVisible(hasAdditionalLicense);

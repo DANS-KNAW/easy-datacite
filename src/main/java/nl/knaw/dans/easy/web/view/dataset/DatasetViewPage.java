@@ -165,6 +165,13 @@ public class DatasetViewPage extends AbstractEasyNavPage
             throw new InternalWebError();
         }
         
+        if (datasetId == null)
+        {
+            errorMessage(EasyResources.INSUFFICIENT_PARAMETERS);
+            logger.error("Unable to initialize this page. datasetId is null.");
+            throw new InternalWebError();
+        }
+        
         datasetModel = getDatasetModel(datasetId);
 
         // maybe link from user that got permission for the dataset or depositor visiting permissions tab

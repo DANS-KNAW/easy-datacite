@@ -76,13 +76,13 @@
 			}
 			clicks.style.position = "absolute";
 			clicks.style.filter = "Alpha(opacity=0)";	// 35
-			clicks.style.backgroundColor = "grey";
+			clicks.style.backgroundColor = "grey";	// black
 			window.onscroll = repositionMsgBox;
 		} else {
 			clicks.style.position = "fixed";
 			clicks.style.MozOpacity = 0;	// 0.35
 			clicks.style.Opacity = 0;	// 0.35
-			clicks.style.backgroundColor = "grey";
+			clicks.style.backgroundColor = "grey";	// black
 		}
 		window.onresize = repositionMsgBox;
 		clicks.style.height = "100%";

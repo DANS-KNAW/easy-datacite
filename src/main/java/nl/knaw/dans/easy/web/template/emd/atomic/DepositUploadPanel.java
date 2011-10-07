@@ -39,7 +39,6 @@ public class DepositUploadPanel extends AbstractDatasetModelPanel
      *        Wicket id
      * @param dataset
      *        the dataset that is to be the container of uploaded files and folders
-     * @param fileExplorerLinkVisible
      */
     public DepositUploadPanel(final String id, final DatasetModel model)
     {
@@ -76,10 +75,10 @@ public class DepositUploadPanel extends AbstractDatasetModelPanel
         add(easyUpload);
 
         uploadPanelHolder = new WebMarkupContainer("depositUploadPanelbuttonsPanel");
-        int height = 300;
-        try {
-            height = Integer.parseInt(new StringResourceModel("popup.height", this, null).getString());
-        }catch(NumberFormatException nfe){}
+//        int height = 300;
+//        try {
+//            height = Integer.parseInt(new StringResourceModel("popup.height", this, null).getString());
+//        }catch(NumberFormatException nfe){}
 
         int width = 600;
         try{

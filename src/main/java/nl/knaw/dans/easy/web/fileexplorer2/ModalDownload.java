@@ -285,7 +285,7 @@ public class ModalDownload extends Panel
         add(cancel);
 
         final Model<Boolean> conditionsAccepted = new Model<Boolean>(EasySession.getSessionUser().hasAcceptedGeneralConditions());
-        final UnitMetaDataResource additionalLicenseResource = FileUtil.getAdditionalLicenseResource(datasetModel);
+        final UnitMetaDataResource additionalLicenseResource = Util.getAdditionalLicenseResource(datasetModel);
         final Component additionalLicense = new ResourceLink<UnitMetaDataResource>("additionalLicense", additionalLicenseResource);
         final boolean hasAdditionalLicense = additionalLicenseResource != null;
         additionalLicense.setVisible(downloadAllowed && hasAdditionalLicense);

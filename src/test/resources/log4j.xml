@@ -46,6 +46,10 @@
 		<level value="error"/>
 	</logger>
 	
+	<logger name="nl.knaw.dans.easy.business">
+  		<level value="debug"/> 
+	</logger>
+	
 	<logger name="nl.knaw.dans.easy.web">
   		<level value="debug"/> 
 	</logger>

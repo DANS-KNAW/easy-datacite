@@ -40,6 +40,130 @@ public class TestHomePage
     private StatisticsLogger statisticsLoggerMock;
     private SearchService searchServiceMock;
 
+    @Test
+    public void testRenderLoggedOff()
+    {
+        userIsLoggedOff();
+        replayAll();
+    
+        renderHomePage();
+        assertLinkVisibilityConformsToLoggedOffStatus();
+        assertHomeBrowseAdvSearchVisible();
+        assertNavDepositVisible();
+        assertPersonalBarItemsNotRendered();
+        assertManagementPanelNotRendered();
+    }
+
+    private void userIsLoggedOff()
+    {
+        expectUser(EasyUserAnonymous.getInstance());
+    }
+
+    private void expectUser(EasyUser user)
+    {
+        expect(easySessionMock.getUser()).andReturn(user).anyTimes();
+        expect(EasySession.getSessionUser()).andReturn(user).anyTimes();
+        expect(easySessionMock.getContextParameters()).andReturn(new ContextParameters(user)).anyTimes();
+    }
+
+    private void renderHomePage()
+    {
+        tester.startPage(HomePage.class);
+        tester.assertRenderedPage(HomePage.class);
+    }
+
+    private void assertLinkVisibilityConformsToLoggedOffStatus()
+    {
+        tester.assertVisible("login");
+        tester.assertVisible("register");
+        tester.assertInvisible("logoff");
+    }
+
+    private void assertHomeBrowseAdvSearchVisible()
+    {
+        tester.assertVisible("homePage");
+        tester.assertVisible("browsePage");
+        tester.assertVisible("advancedSearchPage");
+    }
+
+    private void assertNavDepositVisible()
+    {
+        tester.assertVisible("navDeposit");
+    }
+
+    private void assertPersonalBarItemsNotRendered()
+    {
+        assertNull("MyDatasets rendered but should not be", tester.getTagByWicketId("myDatasets"));
+        assertNull("MyRequests rendered but should not be", tester.getTagByWicketId("myRequests"));
+    }
+
+    private void assertManagementPanelNotRendered()
+    {
+        assertNull("Management bar panel rendered but should not be", tester.getTagByWicketId("managementBarPanel"));
+    }
+
+    private void assertNormalUserNameInDisplayName()
+    {
+        tester.assertLabel("displayName", "Norman Normal");
+    }
+
+    @Test
+    public void testRenderLoggedInAsUser()
+    {
+        normalUserIsLoggedIn();
+        replayAll();
+    
+        renderHomePage();
+        assertLinkVisibilityConformsToLoggedInStatus();
+        assertHomeBrowseAdvSearchVisible();
+        assertNavDepositVisible();
+        assertPersonalBarItemsVisible();
+        assertManagementPanelNotRendered();
+        assertNormalUserNameInDisplayName();
+    }
+
+    private void normalUserIsLoggedIn()
+    {
+        expectUser(normalUser);
+    }
+
+    private void assertLinkVisibilityConformsToLoggedInStatus()
+    {
+        tester.assertInvisible("login");
+        tester.assertInvisible("register");
+        tester.assertVisible("logoff");
+    }
+
+    @Test
+    public void testRenderLoggedInAsArchivist()
+    {
+        archivistIsLoggedIn();
+        replayAll();
+    
+        renderHomePage();
+        assertLinkVisibilityConformsToLoggedInStatus();
+        assertHomeBrowseAdvSearchVisible();
+        assertNavDepositVisible();
+        assertPersonalBarItemsVisible();
+        assertArchivistManagementPanelVisible();
+        assertArchivstUserNameAndRolesInDisplayName();
+    }
+
+    @Test
+    public void testRenderLoggedInAsAdmin()
+    {
+        adminIsLoggedIn();
+        replayAll();
+    
+        renderHomePage();
+        assertLinkVisibilityConformsToLoggedInStatus();
+        assertHomeBrowseAdvSearchVisible();
+        assertNavDepositVisible();
+        assertPersonalBarItemsVisible();
+        assertAdminManagementPanelVisible();
+        assertAdminUserNameAndRolesInDisplayName();
+    }
+
     @Before
     public void setUp() throws Exception
     {
@@ -125,81 +249,6 @@ public class TestHomePage
         resetAll();
     }
 
-    @Test
-    public void testRenderLoggedOff()
-    {
-        userIsLoggedOff();
-        replayAll();
-
-        renderHomePage();
-        assertLinkVisibilityConformsToLoggedOffStatus();
-        assertHomeBrowseAdvSearchVisible();
-        assertNavDepositVisible();
-        assertPersonalBarItemsNotRendered();
-        assertManagementPanelNotRendered();
-    }
-
-    private void userIsLoggedOff()
-    {
-        expectUser(EasyUserAnonymous.getInstance());
-    }
-
-    private void assertNavDepositVisible()
-    {
-        tester.assertVisible("navDeposit");
-    }
-
-    private void assertPersonalBarItemsNotRendered()
-    {
-        assertNull("MyDatasets rendered but should not be", tester.getTagByWicketId("myDatasets"));
-        assertNull("MyRequests rendered but should not be", tester.getTagByWicketId("myRequests"));
-    }
-
-    private void assertManagementPanelNotRendered()
-    {
-        assertNull("Management bar panel rendered but should not be", tester.getTagByWicketId("managementBarPanel"));
-    }
-
-    @Test
-    public void testRenderLoggedInAsUser()
-    {
-        normalUserIsLoggedIn();
-        replayAll();
-
-        renderHomePage();
-        assertLinkVisibilityConformsToLoggedInStatus();
-        assertHomeBrowseAdvSearchVisible();
-        assertNavDepositVisible();
-        assertPersonalBarItemsVisible();
-        assertManagementPanelNotRendered();
-        assertNormalUserNameInDisplayName();
-    }
-
-    private void assertNormalUserNameInDisplayName()
-    {
-        tester.assertLabel("displayName", "Norman Normal");
-    }
-
-    private void normalUserIsLoggedIn()
-    {
-        expectUser(normalUser);
-    }
-
-    @Test
-    public void testRenderLoggedInAsArchivist()
-    {
-        archivistIsLoggedIn();
-        replayAll();
-
-        renderHomePage();
-        assertLinkVisibilityConformsToLoggedInStatus();
-        assertHomeBrowseAdvSearchVisible();
-        assertNavDepositVisible();
-        assertPersonalBarItemsVisible();
-        assertArchivistManagementPanelVisible();
-        assertArchivstUserNameAndRolesInDisplayName();
-    }
-
     private void assertArchivstUserNameAndRolesInDisplayName()
     {
         tester.assertLabel("displayName", "Archie Archiver (Archivist)");
@@ -210,50 +259,14 @@ public class TestHomePage
         expectUser(archivistUser);
     }
 
-    @Test
-    public void testRenderLoggedInAsAdmin()
-    {
-        adminIsLoggedIn();
-        replayAll();
-
-        renderHomePage();
-        assertLinkVisibilityConformsToLoggedInStatus();
-        assertHomeBrowseAdvSearchVisible();
-        assertNavDepositVisible();
-        assertPersonalBarItemsVisible();
-        assertAdminManagementPanelVisible();
-        assertAdminUserNameAndRolesInDisplayName();
-    }
-
     private void assertAdminUserNameAndRolesInDisplayName()
     {
         tester.assertLabel("displayName", "Ad Administrator (Administrator)");
     }
     
-    public void adminIsLoggedIn()
+    private void adminIsLoggedIn()
     {
         expectUser(adminUser);
-    }
-
-    private void assertLinkVisibilityConformsToLoggedInStatus()
-    {
-        tester.assertInvisible("login");
-        tester.assertInvisible("register");
-        tester.assertVisible("logoff");
-    }
-
-    private void assertLinkVisibilityConformsToLoggedOffStatus()
-    {
-        tester.assertVisible("login");
-        tester.assertVisible("register");
-        tester.assertInvisible("logoff");
-    }
-
-    private void assertHomeBrowseAdvSearchVisible()
-    {
-        tester.assertVisible("homePage");
-        tester.assertVisible("browsePage");
-        tester.assertVisible("advancedSearchPage");
     }
 
     private void assertPersonalBarItemsVisible()
@@ -277,18 +290,5 @@ public class TestHomePage
         tester.assertVisible("managementBarPanel:trashCan");
         tester.assertVisible("managementBarPanel:userInfo");
         tester.assertVisible("managementBarPanel:editableContent");
-    }
-
-    private void renderHomePage()
-    {
-        tester.startPage(HomePage.class);
-        tester.assertRenderedPage(HomePage.class);
-    }
-
-    private void expectUser(EasyUser user)
-    {
-        expect(easySessionMock.getUser()).andReturn(user).anyTimes();
-        expect(EasySession.getSessionUser()).andReturn(user).anyTimes();
-        expect(easySessionMock.getContextParameters()).andReturn(new ContextParameters(user)).anyTimes();
     }
 }

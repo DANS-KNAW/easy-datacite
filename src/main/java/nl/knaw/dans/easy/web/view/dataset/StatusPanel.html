@@ -4,11 +4,13 @@
 	<td class="setStatusPanelLabelWidth">
   		<label for="datasetStatus"><wicket:message key="datasetState">[Status:]</wicket:message>: </label>
   	</td>
-  	<td>
+  	<td class="setStatusPanelValueWidth">
   		<div wicket:id="popup">[popup]</div>
   		<span id="datasetStatus" wicket:id="datasetStatus">[dataset status]</span>
   		<span wicket:id="statusDate">[status date]</span>
-    	<a wicket:id="continueDeposit" href="#" class="pbutton">Continue deposit</a>
+  	</td>
+  	<td>
+  		<a wicket:id="continueDeposit" href="#" class="pbutton">Continue deposit</a>
 		<a wicket:id="deleteDataset" href="#" class="button">Delete</a>
 		<a wicket:id="restoreDeleted" href="#" class="button">Restore</a>
 		<a wicket:id="unsubmit" href="#" class="button">Unsubmit...</a>

@@ -5,6 +5,7 @@ import java.util.List;
 
 import nl.knaw.dans.common.lang.security.authz.AuthzStrategy;
 import nl.knaw.dans.common.lang.security.authz.AuthzStrategy.TriState;
+import nl.knaw.dans.common.lang.service.exceptions.FileSizeException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceRuntimeException;
 import nl.knaw.dans.common.wicket.components.explorer.ITreeItem;
@@ -23,14 +24,18 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.extensions.ajax.markup.html.IndicatingAjaxLink;
+import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.link.AbstractLink;
-import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.link.PopupSettings;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.util.resource.IResourceStream;
+import org.apache.wicket.util.resource.UrlResourceStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import wickettree.AbstractTree;
 
@@ -39,13 +44,20 @@ public class NamePanel extends Panel
 {
 	private static final long serialVersionUID = 1L;
 	
+	private static final Logger logger = LoggerFactory.getLogger(NamePanel.class);
+	
+	private static final String MSG_FILE_SIZE_TOLARGE = "download.fileSizeToLarge";
+	
 	public NamePanel(final String name, final IModel<ITreeItem> model, final AbstractTree<ITreeItem> tree, final DatasetModel datasetModel, final SelectableFolderContent content, final boolean hasAdditionalLicense, final AjaxLink<Void> fileActionLink) throws ServiceRuntimeException, ServiceException {
        super(name, model);
+       
+       final ModalWindow popup = Util.createModalWindow("popup", 450, "Maximum download size exceeded");
+       add(popup);
        
        AbstractLink link = null; 
        String style = "";
        
-       TreeItem item = (TreeItem)model.getObject();
+       final TreeItem item = (TreeItem)model.getObject();
        AuthzStrategy strategy = item.getItemVO().getAuthzStrategy();
        
        if(item.getType().equals(Type.FOLDER)) {
@@ -78,21 +90,57 @@ public class NamePanel extends Panel
            
     	   if(canUnitBeRead && !hasAdditionalLicense && EasySession.getSessionUser().hasAcceptedGeneralConditions()) {
     		   	// the user has already accepted general conditions and there are no additional conditions so create a direct download link
-				final FileContentWrapper fcw = Services.getItemService().getContent(EasySession.getSessionUser(), datasetModel.getObject(), item.getId());
-				link = new Link<Void>("link"){
+				link = new IndicatingAjaxLink<Void>("link"){
 					private static final long serialVersionUID = 1L;
 
 					@Override
-					public void onClick() {
-						// register this download action
-						List<ItemVO> downloadList = new ArrayList<ItemVO>();
-						downloadList.add(fcw.getFileItemVO());
-						Services.getItemService().registerDownload(EasySession.getSessionUser(), datasetModel.getObject(), downloadList);
+					public void onClick(AjaxRequestTarget target) {
+						final Model<FileContentWrapper> fcwModel = new Model<FileContentWrapper>(null);
+						FileSizeException exception = new FileSizeException("");
 						
-						new StreamDownloadPage(fcw);
+						try {
+							fcwModel.setObject(Services.getItemService().getContent(EasySession.getSessionUser(), datasetModel.getObject(), item.getId()));
+						} catch (FileSizeException e) {
+							exception = e;
+							logger.info("File size too large for download: " + item.getName() + "(" + item.getId() + ")");
+						} catch (ServiceRuntimeException e) {
+							logger.error("Encountered problem while preparing FileContentWrapper for direct download link.");
+						} catch (ServiceException e) {
+							logger.error("Encountered problem while preparing FileContentWrapper for direct download link.");
+						}
+						
+						if(fcwModel.getObject() != null) {
+							// register this download action
+							List<ItemVO> downloadList = new ArrayList<ItemVO>();
+							final FileContentWrapper fcw = fcwModel.getObject();
+							downloadList.add(fcw.getFileItemVO());
+							Services.getItemService().registerDownload(EasySession.getSessionUser(), datasetModel.getObject(), downloadList);
+							
+							final AJAXDownload download = new AJAXDownload()
+                            {
+                                private static final long serialVersionUID = 1L;
+
+                                @Override
+                                protected IResourceStream getResourceStream()
+                                {
+                                    return new UrlResourceStream(fcw.getURL());
+                                }
+
+                                @Override
+                                protected String getFileName()
+                                {
+                                    return fcw.getFileName();
+                                }
+                            };
+                            add(download);
+                            download.initiate(target);
+						} else {
+							// download can't be handled so show a message
+							popup.setContent(new ModalPopup(popup, new StringResourceModel(MSG_FILE_SIZE_TOLARGE, this, new Model<FileSizeException>(exception)).getObject()));
+							popup.show(target);
+						}
 					}
 				};
-				((Link) link).setPopupSettings(new PopupSettings(PopupSettings.RESIZABLE | PopupSettings.SCROLLBARS));
     	   } else {
     		   link = fileActionLink;
     	   }

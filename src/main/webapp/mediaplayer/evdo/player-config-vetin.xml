@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<streamer>rtmpt://streaming01.dans.knaw.nl/veteraneninstituut</streamer>
+	<author>Veteraneninstituut</author>
+	<description>Oral History</description>
+	<backcolor>71867A</backcolor>
+	<frontcolor>FFFFFF</frontcolor>
+	<lightcolor>003300</lightcolor>
+	<screencolor>D0E0D0</screencolor>
+	<dock>false</dock>
+</config>
+
