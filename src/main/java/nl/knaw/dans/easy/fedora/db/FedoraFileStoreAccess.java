@@ -51,7 +51,7 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
                                                                    + " WHERE parentSid=:parentSid";
 
     private static final String       ALL_FILES_QUERY      = "SELECT name, sid FROM " + FileItemVO.class.getName()
-    + " WHERE datasetSid=:datasetSid";
+        + " WHERE datasetSid=:datasetSid";
 
     private static final String       FOLDERNAME_QUERY     = "SELECT name, sid FROM " + FolderItemVO.class.getName()
                                                                    + " WHERE parentSid=:parentSid";
@@ -63,15 +63,21 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
     private static final String       HASCHILDFOLDER_QUERY = "SELECT sid FROM " + FolderItemVO.class.getName()
                                                                    + " WHERE parentSid=:parentSid";               // LIMIT
     // 1
+    
+    private static final String FILE_PATH_QUERY = "SELECT fivo FROM " + FileItemVO.class.getName() //
+        + " AS fivo" //
+        + " WHERE datasetSid=:datasetSid AND path=:path";
+    
+    private static final String FOLDER_PATH_QUERY = "SELECT fovo FROM " + FolderItemVO.class.getName() //
+        + " AS fovo" //
+        + " WHERE datasetSid=:datasetSid AND (path=:path OR path=:path2)";
 
     private static final String       NAME_FILE_ITEM       = FileItemVO.class.getName();
     private static final String       NAME_FOLDER_ITEM     = FolderItemVO.class.getName();
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     static private Class[]            implementedFilters   = {CreatorRoleFieldFilter.class, VisibleToFieldFilter.class,
             AccessibleToFieldFilter.class                  };
-
-    private Fedora                    fedora;
 
     public FedoraFileStoreAccess()
     {
@@ -80,7 +86,6 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
 
     public FedoraFileStoreAccess(Fedora fedora, DbLocalConfig localConfig)
     {
-        this.fedora = fedora;
         DbUtil.setLocalConfig(localConfig);
         DbUtil.checkConnection();
     }
@@ -110,6 +115,7 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
         return result;
     }
 
+    @SuppressWarnings("unchecked")
     public FileItemVO findFileById(String sid) throws StoreAccessException
     {
         FileItemVO fivo = null;
@@ -137,7 +143,71 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
         }
         return fivo;
     }
+    
+    @SuppressWarnings("unchecked")
+    public FileItemVO findFileByPath(String datasetSid, String relativePath) throws StoreAccessException
+    {
+        FileItemVO fivo = null;
+        Session session = sessionFactory.openSession();
+        
+        try
+        {
+            session.beginTransaction();
+            List<FileItemVO> items = session.createQuery(FILE_PATH_QUERY) //
+                .setParameter("datasetSid", datasetSid) //
+                .setParameter("path", relativePath) //
+                .setFetchSize(1) //
+                .list();
+            if (items.size() > 0)
+            {
+                fivo = items.get(0);
+            }
+        }
+        catch (HibernateException e)
+        {
+            throw new StoreAccessException(e);
+        }
+        finally
+        {
+            session.getTransaction().commit();
+            sessionFactory.closeSession();
+        }
+        return fivo;
+    }
+    
+    @SuppressWarnings("unchecked")
+    public FolderItemVO findFolderByPath(String datasetSid, String relativePath) throws StoreAccessException
+    {
+        FolderItemVO fovo = null;
+        Session session = sessionFactory.openSession();
+        String path2 = relativePath.endsWith("/") ? relativePath.substring(0, relativePath.length() -1) : relativePath + "/";
+        try
+        {
+            session.beginTransaction();
+            List<FolderItemVO> items = session.createQuery(FOLDER_PATH_QUERY) //
+                .setParameter("datasetSid", datasetSid) //
+                .setParameter("path", relativePath) //
+                .setParameter("path2", path2) //
+                .setFetchSize(1) //
+                .list();
+            if (items.size() > 0)
+            {
+                fovo = items.get(0);
+            }
+        }
+        catch (HibernateException e)
+        {
+            throw new StoreAccessException(e);
+        }
+        finally
+        {
+            session.getTransaction().commit();
+            sessionFactory.closeSession();
+        }
+        return fovo;
+    }
 
+    @SuppressWarnings("unchecked")
     public FolderItemVO findFolderById(String sid) throws StoreAccessException
     {
         FolderItemVO fovo = null;
@@ -166,6 +236,7 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
         return fovo;
     }
 
+    @SuppressWarnings("unchecked")
     public List<FileItemVO> findFilesById(Collection<String> sids) throws StoreAccessException
     {
         if (sids.isEmpty())
@@ -192,6 +263,7 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
         return fivoList;
     }
 
+    @SuppressWarnings("unchecked")
     public List<FolderItemVO> findFoldersById(Collection<String> sids) throws StoreAccessException
     {
         if (sids.isEmpty())

@@ -7,6 +7,7 @@ import java.util.List;
 
 import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
+import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 import nl.knaw.dans.easy.fedora.store.AbstractOnlineTest;
 
@@ -45,6 +46,33 @@ public class FedoraFileStoreAccessOnlineTest extends AbstractOnlineTest
         assertEquals(2, fivos.size());
         assertEquals("easy-file:2173", fivos.get(0).getSid());
         assertEquals("easy-file:3695", fivos.get(1).getSid());
+    }
+    
+    @Ignore("Local variables")
+    @Test 
+    public void findFileByPath() throws Exception
+    {
+        String datasetId = "easy-dataset:10";
+        String relativePath = "original/img/00000087.002";
+        FileItemVO fivo = fsAccess.findFileByPath(datasetId, relativePath);
+        assertEquals(relativePath, fivo.getPath());
+        assertEquals(datasetId, fivo.getDatasetSid());
+    }
+    
+    @Ignore("Local variables")
+    @Test
+    public void findFolderByPath() throws Exception
+    {
+        String datasetId = "easy-dataset:17";
+        String relativePath = "original/prc/";
+        FolderItemVO fovo = fsAccess.findFolderByPath(datasetId, relativePath);
+        assertEquals(relativePath, fovo.getPath());
+        assertEquals(datasetId, fovo.getDatasetSid());
+        
+        relativePath = "original/prc";
+        fovo = fsAccess.findFolderByPath(datasetId, relativePath);
+        assertEquals(relativePath + "/", fovo.getPath());
+        assertEquals(datasetId, fovo.getDatasetSid());
     }
     
     @Test(expected = IllegalArgumentException.class)
