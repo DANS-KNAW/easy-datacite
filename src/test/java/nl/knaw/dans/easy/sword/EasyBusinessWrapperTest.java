@@ -36,8 +36,8 @@ public class EasyBusinessWrapperTest extends Tester
         final List<File> fileList = new UnzipUtil(zipFile, tempDirectory.getPath(), createUnzipListener()).run();
         try
         {
-            final EasyMetadata easyMetaData = EasyBusinessWrapper.unmarshallEasyMetaData(FileUtil.readFile(metaDataFile));
-            EasyBusinessWrapper.submitNewDataset(MockUtil.USER, easyMetaData, tempDirectory, fileList);
+            final EasyMetadata easyMetaData = EasyBusinessFacade.unmarshallEasyMetaData(FileUtil.readFile(metaDataFile));
+            EasyBusinessFacade.submitNewDataset(MockUtil.USER, easyMetaData, tempDirectory, fileList);
         }
         catch (final SWORDException se)
         {

@@ -48,14 +48,14 @@ import org.xml.sax.SAXException;
 /**
  * Wrapper for the easy business API
  */
-public class EasyBusinessWrapper
+public class EasyBusinessFacade
 {
     /** TODO share constant with {@link SubmitNotification} or define another template */
     static final String        TEMPLATE            = SubmitNotification.TEMPLATE_BASE_LOCATION + "deposit/depositConfirmation" + ".html";
 
     public static final String DEFAULT_EMD_VERSION = EasyMetadataValidator.VERSION_0_1;
 
-    private static Logger      logger              = LoggerFactory.getLogger(EasyBusinessWrapper.class);
+    private static Logger      logger              = LoggerFactory.getLogger(EasyBusinessFacade.class);
 
     /**
      * Gets an authenticated user.

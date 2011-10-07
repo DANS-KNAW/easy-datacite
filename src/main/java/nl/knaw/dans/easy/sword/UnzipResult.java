@@ -32,7 +32,7 @@ public class UnzipResult
     private static final String              DESCRIPTION           = "Expecting a file '" + METADATA + "' and a folder '" + DATA + "'.";
     private static final SWORDErrorException WANT_FILE_AND_FOLDER  = new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, DESCRIPTION);
 
-    private static Logger                    log                   = LoggerFactory.getLogger(EasyBusinessWrapper.class);
+    private static Logger                    log                   = LoggerFactory.getLogger(EasyBusinessFacade.class);
 
     private final List<File>                 files;
     private final File                       folder;
@@ -127,17 +127,17 @@ public class UnzipResult
 
     public Dataset submit(final EasyUser user, final boolean mock) throws SWORDErrorException, SWORDException
     {
-        EasyBusinessWrapper.validateSyntax(getEasyMetaData());
+        EasyBusinessFacade.validateSyntax(getEasyMetaData());
 
-        final EasyMetadata metadata = EasyBusinessWrapper.unmarshallEasyMetaData(getEasyMetaData());
+        final EasyMetadata metadata = EasyBusinessFacade.unmarshallEasyMetaData(getEasyMetaData());
 
-        EasyBusinessWrapper.validateSemantics(user, metadata);
+        EasyBusinessFacade.validateSemantics(user, metadata);
 
         if (mock)
         {
             return mockSubmittedDataset(metadata, user);
         }
-        return EasyBusinessWrapper.submitNewDataset(user, metadata, getDataFolder(), getFiles());
+        return EasyBusinessFacade.submitNewDataset(user, metadata, getDataFolder(), getFiles());
     }
 
     private byte[] getEasyMetaData() throws SWORDException, SWORDErrorException

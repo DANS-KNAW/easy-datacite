@@ -56,7 +56,7 @@ public class OnlineTester
     public void wrapTreatment() throws Exception
     {
         final Dataset dataset = createMockedDataset();
-        EasyBusinessWrapper.composeTreatment(MockUtil.USER, dataset);
+        EasyBusinessFacade.composeTreatment(MockUtil.USER, dataset);
         assertMockedOk(dataset, "after create notification mail content");
     }
 
@@ -65,7 +65,7 @@ public class OnlineTester
     public void wrapVerbose() throws Exception
     {
         final Dataset dataset = createMockedDataset();
-        EasyBusinessWrapper.composeLicense(MockUtil.USER, true, dataset);
+        EasyBusinessFacade.composeLicense(MockUtil.USER, true, dataset);
         
         assertMockedOk(dataset, "after create license");
     }

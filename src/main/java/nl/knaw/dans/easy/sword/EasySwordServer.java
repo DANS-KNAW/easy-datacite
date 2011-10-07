@@ -205,7 +205,7 @@ public class EasySwordServer implements SWORDServer
 
         swordEntry.setTitle(wrapTitle(dataset.getPreferredTitle()));
         swordEntry.setSummary(wrapSummary(metadata.getEmdDescription().toString()));
-        swordEntry.addCategory(EasyBusinessWrapper.formatAudience(metadata));
+        swordEntry.addCategory(EasyBusinessFacade.formatAudience(metadata));
         swordEntry.setId(dataset.getPersistentIdentifier());
         swordEntry.setUpdated(metadata.getEmdDate().toString());
         swordEntry.addAuthors(wrapAuthor(user));
@@ -215,13 +215,13 @@ public class EasySwordServer implements SWORDServer
         swordEntry.addLink(wrapLink("edit", datasetUrl));
         swordEntry.setGenerator(wrapGenerator(serverURL));
         swordEntry.setContent(wrapContent(serverURL, dataset.getStoreId()));
-        swordEntry.setTreatment(EasyBusinessWrapper.composeTreatment(user, dataset));
+        swordEntry.setTreatment(EasyBusinessFacade.composeTreatment(user, dataset));
         swordEntry.setNoOp(deposit.isNoOp());
         // TODO swordEntry.setRights(rights);
         if (deposit.getOnBehalfOf() != null)
             swordEntry.addContributor(wrapContributor(deposit.getOnBehalfOf()));
         if (deposit.isVerbose())
-            swordEntry.setVerboseDescription(EasyBusinessWrapper.composeLicense(user, deposit.isNoOp(), dataset));
+            swordEntry.setVerboseDescription(EasyBusinessFacade.composeLicense(user, deposit.isNoOp(), dataset));
 
         return swordEntry;
     }
@@ -316,7 +316,7 @@ public class EasySwordServer implements SWORDServer
 
     private EasyUser getUser(final String userID, final String password) throws SWORDErrorException, SWORDException
     {
-        return EasyBusinessWrapper.getUser(userID, password);
+        return EasyBusinessFacade.getUser(userID, password);
     }
 
     public AtomDocumentResponse doAtomDocument(final AtomDocumentRequest adr) throws SWORDAuthenticationException, SWORDErrorException, SWORDException
