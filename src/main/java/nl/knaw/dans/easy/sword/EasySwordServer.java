@@ -50,6 +50,9 @@ public class EasySwordServer implements SWORDServer
      * Only a published state would be appropriate for code 201
      */
     private static final int    HTTP_RESPONSE_DATA_ACCEPTED = 202;
+    
+    private static String policy = "easy.sword.server.policy not configured";
+    private static String treatment = "easy.sword.server.treatment not configured";
 
     static Logger       log                         = LoggerFactory.getLogger(EasySwordServer.class);
 
@@ -95,8 +98,8 @@ public class EasySwordServer implements SWORDServer
             final Collection collection = createDummyCollection(1);
             collection.setTitle("Nested collection: " + sdr.getLocation().substring(sdr.getLocation().indexOf('?') + 1));
             collection.setLocation(locationBase + "/deposit/nested");
-            // TODO allow configuration of the policy text
-            collection.setCollectionPolicy("No guarantee of service, or that deposits will be retained for any length of time.");
+            collection.setCollectionPolicy(policy);
+            collection.setTreatment(treatment);
             service.addWorkspace(createWorkSpace(collection, "Nested service document workspace"));
         }
         else if (sdr.getUsername() != null)
@@ -174,8 +177,8 @@ public class EasySwordServer implements SWORDServer
     private Collection createDummyCollection(final float qualityValue)
     {
         final Collection collection = new Collection();
-        collection.setCollectionPolicy("No guarantee of service, or that deposits will be retained for any length of time.");
-        collection.setTreatment("This is a test server");
+        collection.setCollectionPolicy(policy);
+        collection.setTreatment(treatment);
         collection.addAccepts("application/zip");
         collection.addAccepts("application/xml");
         collection.addAcceptPackaging("http://purl.org/net/sword-types/METSDSpaceSIP");
@@ -330,5 +333,17 @@ public class EasySwordServer implements SWORDServer
             throw new SWORDAuthenticationException(adr.getUsername() + " not authenticated");
 
         return new AtomDocumentResponse(HttpServletResponse.SC_OK);
+    }
+
+    // TODO please peer review web.xml configuration 
+    public static void setPolicy(String policy)
+    {
+        EasySwordServer.policy = policy;
+    }
+
+    // TODO please peer review web.xml configuration 
+    public static void setTreatment(String treatment)
+    {
+        EasySwordServer.treatment = treatment;
     }
 }

@@ -20,6 +20,8 @@ public class ServiceDocumentTest extends EasySwordServerTester
         request.setUsername(MockUtil.VALID_USER_ID);
         request.setPassword(MockUtil.PASSWORD);
         request.setLocation(LOCATION);
+        EasySwordServer.setPolicy("No guarantee of service, or that deposits will be retained for any length of time.");
+        EasySwordServer.setTreatment("This is a test server");
         assertAsExpected(easySwordServer.doServiceDocument(request).toString(), "serviceDocumentWithUser.xml");
     }
 
