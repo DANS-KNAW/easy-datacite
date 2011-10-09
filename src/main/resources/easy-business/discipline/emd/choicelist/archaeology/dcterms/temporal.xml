@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<comment>oldEasy.ArchDC.abrTemporal</comment>
+    <entry key="PALEO">Paleolithicum: tot 8800 vC</entry>
+    <entry key="PALEOV">Paleolithicum vroeg: tot 300000 C14</entry>
+    <entry key="PALEOM">Paleolithicum midden: 300000 - 35000 C14</entry>
+    <entry key="PALEOL">Paleolithicum laat: 35000 C14 - 8800 vC</entry>
+    <entry key="PALEOLA">Paleolithicum laat A: 35000 - 18000 C14</entry>
+    <entry key="PALEOB">Paleolithicum laat B: 18000 C14 -8800 vC</entry>
+    <entry key="MESO">Mesolithicum: 8800 - 4900 vC</entry>
+    <entry key="MESOV">Mesolithicum vroeg: 8800 - 7100 vC</entry>
+    <entry key="MESOM">Mesolithicum midden: 7100 - 6450 vC</entry>
+    <entry key="MESOL">Mesolithicum laat: 6450 -4900 vC</entry>
+    <entry key="NEO">Neolithicum: 5300 - 2000 vC</entry>
+    <entry key="NEOV">Neolithicum vroeg: 5300 - 4200 vC</entry>
+    <entry key="NEOVA">Neolithicum vroeg A: 5300 - 4900 vC</entry>
+    <entry key="NEOVB">Neolithicum vroeg B: 4900 - 4200 vC</entry>
+    <entry key="NEOM">Neolithicum midden: 4200 - 2850 vC</entry>
+    <entry key="NEOMA">Neolithicum midden A: 4200 - 3400 vC</entry>
+    <entry key="NEOMB">Neolithicum midden B: 3400 - 2850 vC</entry>
+    <entry key="NEOL">Neolithicum laat: 2850 - 2000 vC</entry>
+    <entry key="NEOLA">Neolithicum laat A: 2850 - 2450 vC</entry>
+    <entry key="NEOLB">Neolithicum laat B: 2450 - 2000 vC</entry>
+    <entry key="BRONS">Bronstijd: 2000 - 800 vC</entry>
+    <entry key="BRONSV">Bronstijd vroeg: 2000 - 1800 vC</entry>
+    <entry key="BRONSM">Bronstijd midden: 1800 - 1100 vC</entry>
+    <entry key="BRONSMA">Bronstijd midden A: 1800 - 1500 vC</entry>
+    <entry key="BRONSMB">Bronstijd midden B: 1500 - 1100 vC</entry>
+    <entry key="BRONSL">Bronstijd laat: 1100 - 800 vC</entry>
+    <entry key="IJZ">IJzertijd: 800 - 12 vC</entry>
+    <entry key="IJZV">IJzertijd vroeg: 800 - 500 vC</entry>
+    <entry key="IJZM">IJzertijd midden: 500 - 250 vC</entry>
+    <entry key="IJZL">IJzertijd laat: 250 - 12 vC</entry>
+    <entry key="ROM">Romeinse tijd: 12 vC - 450 nC</entry>
+    <entry key="ROMV">Romeinse tijd vroeg: 12 vC - 70 nC</entry>
+    <entry key="ROMVA">Romeinse tijd vroeg A: 12 vC - 25 nC</entry>
+    <entry key="ROMVB">Romeinse tijd vroeg B: 25 - 70 nC</entry>
+    <entry key="ROMM">Romeinse tijd midden: 70 - 270 nC</entry>
+    <entry key="ROMMA">Romeinse tijd midden A: 70 - 150 nC</entry>
+    <entry key="ROMMB">Romeinse tijd midden B: 150 - 270 nC</entry>
+    <entry key="ROML">Romeinse tijd laat: 270 - 450 nC</entry>
+    <entry key="ROMLA">Romeinse tijd laat A: 270 - 350 nC</entry>
+    <entry key="ROMLB">Romeinse tijd laat B: 350 - 450 nC</entry>
+    <entry key="XME">Middeleeuwen: 450 - 1500 nC</entry>
+    <entry key="VME">Middeleeuwen vroeg: 450 - 1050 nC</entry>
+    <entry key="VMEA">Middeleeuwen vroeg A: 450 - 525 nC</entry>
+    <entry key="VMEB">Middeleeuwen vroeg B: 525 - 725 nC</entry>
+    <entry key="VMEC">Middeleeuwen vroeg C: 725 - 900 nC</entry>
+    <entry key="VMED">Middeleeuwen vroeg D: 900 - 1050 nC</entry>
+    <entry key="LME">Middeleeuwen laat: 1050 - 1500 nC</entry>
+    <entry key="LMEA">Middeleeuwen laat A: 1050 - 1250 nC</entry>
+    <entry key="LMEB">Middeleeuwen laat B: 1250 - 1500 nC</entry>
+    <entry key="NT">Nieuwe tijd: 1500 - heden</entry>
+    <entry key="NTA">Nieuwe tijd A: 1500 - 1650 nC</entry>
+    <entry key="NTB">Nieuwe tijd B: 1650 - 1850 nC</entry>
+    <entry key="NTC">Nieuwe tijd C: 1850 - heden</entry>
+    <entry key="XXX">Onbekend</entry>
+</properties>

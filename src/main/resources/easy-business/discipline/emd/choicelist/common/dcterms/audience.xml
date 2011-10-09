@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<comment>oldEasy.Simple.audience</comment>
+    <entry key="D30000">Humanities</entry>
+    <entry key="archeology">-Archaeology</entry>
+    <entry key="D35000">-Arts</entry>
+    <entry key="D35300">--Dramaturgy</entry>
+    <entry key="historyofart">--History of arts and architecture</entry>
+    <entry key="D35400">--Media sciences</entry>
+    <entry key="D35200">--Musicology</entry>
+    <entry key="history">-History</entry>
+    <entry key="D34100">--Antiquity</entry>
+    <entry key="D34200">--Middle Ages</entry>
+    <entry key="D34300">--Early modern history</entry>
+    <entry key="D34400">--Modern history</entry>
+    <entry key="D34500">--Contemporary history</entry>
+    <entry key="language">-Language and literature studies</entry>
+    <entry key="D36400">--Baltic and Slavonic language and literature studies</entry>
+    <entry key="D36100">--Classic studies</entry>
+    <entry key="D36200">--Germanic language and literature studies</entry>
+    <entry key="D36300">--Roman language and literature studies</entry>
+    <entry key="D36900">--Language and literature studies of other language groups</entry>
+    <entry key="D31000">-Palaeography, bibliology, bibliography, library science</entry>
+    <entry key="D32000">-Philosophy</entry>
+    <entry key="theology">-Theology and religious sciences</entry>
+    <entry key="D40000">Social sciences</entry>
+    <entry key="economicsbusiness">-Economics</entry>
+    <entry key="C50000">-Environmental studies</entry>
+    <entry key="publicadmin">-Political and administrative sciences</entry>
+    <entry key="D42100">--Political science</entry>
+    <entry key="D42200">--Social and Public administration</entry>
+    <entry key="law">-Science of law</entry>
+    <entry key="D41100">--History of Law</entry>
+    <entry key="D41200">--Private (procedural) law</entry>
+    <entry key="D41300">--Criminal (procedural) law and criminology</entry>
+    <entry key="D41400">--Constitutional and administrative law</entry>
+    <entry key="D41500">--Interdisciplinary branches of law</entry>
+    <entry key="D41600D">--International law</entry>
+    <entry key="D44000">-Traffic and transport studies</entry>
+    <entry key="behavioral">Behavioural sciences</entry>
+    <entry key="D53000">-Gerontology</entry>
+    <entry key="D54000">-Pedagogics</entry>
+    <entry key="psychology">-Psychology</entry>
+    <entry key="A84200">-Science of education</entry>
+    <entry key="D60000">Socio-cultural sciences</entry>
+    <entry key="D66000">-Communication sciences</entry>
+    <entry key="D63000">-Cultural anthropology</entry>
+    <entry key="D64000">-Demography</entry>
+    <entry key="C20000">-Development studies</entry>
+    <entry key="D67000">-Leisure and recreation studies</entry>
+    <entry key="D69000">-Personnel administration and management</entry>
+    <entry key="D62000">-Social geography</entry>
+    <entry key="D68000">-Social security studies</entry>
+    <entry key="sociology">-Sociology</entry>
+    <entry key="D65000">-Urban and rural planning</entry>
+    <entry key="C40000">-Women's studies</entry>
+    <entry key="D20000">Life sciences and Medicine</entry>
+    <entry key="D24000">-Health Sciences</entry>
+    <entry key="GeoSpat">Geospatial sciences</entry>
+</properties>
