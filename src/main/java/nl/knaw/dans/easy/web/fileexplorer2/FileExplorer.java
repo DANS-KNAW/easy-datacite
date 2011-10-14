@@ -9,8 +9,10 @@ import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.security.authz.AuthzMessage;
 import nl.knaw.dans.common.lang.security.authz.AuthzStrategy;
 import nl.knaw.dans.common.lang.security.authz.AuthzStrategy.TriState;
+import nl.knaw.dans.common.lang.service.exceptions.FileSizeException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceRuntimeException;
+import nl.knaw.dans.common.lang.service.exceptions.ZipFileLengthException;
 import nl.knaw.dans.common.wicket.EnumChoiceRenderer;
 import nl.knaw.dans.common.wicket.components.explorer.ExplorerPanel;
 import nl.knaw.dans.common.wicket.components.explorer.ITreeItem;
@@ -60,6 +62,8 @@ public class FileExplorer extends AbstractDatasetModelPanel {
 	
 	private static final Logger logger = LoggerFactory.getLogger(FileExplorer.class);
 	
+	private static final String MSG_ZIP_SIZE_TOLARGE = "download.zipSizeToLarge";
+	
 	final private ExplorerPanel explorer;
 	final private ITreeProvider<ITreeItem> treeProvider;
 	final private ArrayList<TreeItem> selectedFiles = new ArrayList<TreeItem>();
@@ -104,6 +108,9 @@ public class FileExplorer extends AbstractDatasetModelPanel {
 		final ModalWindow modalUpload = createModalUploadWindow("modalUpload", 450, "Upload files");
         add(modalUpload);
         
+        // initialize a ModalWindow for messages
+		final ModalWindow modalMessage = Util.createModalWindow("modalMessage", 450, "Message");
+        add(modalMessage);
         
         Form<Void> filterForm = new Form<Void>("filterForm");
         final HashMap<Enum<?>, CheckBox> filterMap = new HashMap<Enum<?>, CheckBox>();
@@ -314,6 +321,11 @@ public class FileExplorer extends AbstractDatasetModelPanel {
 						download.initiate(target);
 						// register this download action
 						Services.getItemService().registerDownload(getSessionUser(), datasetModel.getObject(), zfcw.getDownloadedItemVOs());
+					} catch (ZipFileLengthException e) {
+						logger.info("File size too large for download!", e.getMessage());
+						// download can't be handled so show a message
+						modalMessage.setContent(new ModalPopup(modalMessage, new StringResourceModel(MSG_ZIP_SIZE_TOLARGE, this, new Model<FileSizeException>(e)).getObject()));
+						modalMessage.show(target);
 					} catch (ServiceRuntimeException e) {
 						logger.error("Error creating direct download link for zip file.", e);
 					} catch (ServiceException e) {
