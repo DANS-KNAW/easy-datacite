@@ -60,6 +60,7 @@ public class IdentifierListWrapper extends AbstractDefaultListWrapper<Identifier
         if (SCHEMENAME_FILTER_LIST == null)
         {
             SCHEMENAME_FILTER_LIST = new ArrayList<String>();
+            SCHEMENAME_FILTER_LIST.add(EmdConstants.SCHEME_PID);
             SCHEMENAME_FILTER_LIST.add(EmdConstants.SCHEME_AIP_ID);
             SCHEMENAME_FILTER_LIST.add(EmdConstants.SCHEME_ARCHIS_ONDERZOEK_M_NR);
             SCHEMENAME_FILTER_LIST.add(EmdConstants.SCHEME_DMO_ID);

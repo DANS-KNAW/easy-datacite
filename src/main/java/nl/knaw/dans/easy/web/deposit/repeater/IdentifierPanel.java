@@ -1,6 +1,5 @@
 package nl.knaw.dans.easy.web.deposit.repeater;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +12,6 @@ import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
 import nl.knaw.dans.easy.domain.model.emd.types.BasicIdentifier;
-import nl.knaw.dans.easy.domain.model.emd.types.EmdConstants;
 import nl.knaw.dans.easy.web.deposit.repeasy.IdentifierListWrapper;
 import nl.knaw.dans.easy.web.deposit.repeasy.IdentifierListWrapper.IdentifierModel;
 
