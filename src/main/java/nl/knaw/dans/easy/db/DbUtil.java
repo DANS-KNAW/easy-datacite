@@ -11,8 +11,6 @@ import nl.knaw.dans.easy.db.exceptions.DbException;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class DbUtil {
 
