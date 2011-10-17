@@ -49,4 +49,6 @@ public interface EasyStore extends DmoStore
     
     URL getDescriptiveMetadataURL(String sid);
 
+    URL getStreamURL(String storeId, String streamId);
+
 }

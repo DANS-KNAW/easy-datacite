@@ -339,4 +339,11 @@ public class DummyEasyStore implements EasyStore
         return null;
     }
 
+    @Override
+    public URL getStreamURL(String storeId, String streamId)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

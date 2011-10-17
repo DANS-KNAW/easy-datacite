@@ -13,7 +13,7 @@ import nl.knaw.dans.easy.domain.exceptions.DeserializationException;
 public final class WorkflowFactory
 {
     
-    public static final String DATASET_WORKFLOW_PATH = "conf/dataset/workflow/datasetWorkflow.xml";
+    public static final String DATASET_WORKFLOW_PATH = "xml-files/datasetWorkflow.xml";
     
     private WorkflowFactory()
     {
@@ -40,14 +40,10 @@ public final class WorkflowFactory
         InputStream inStream = null;
         try
         {
-            inStream = ResourceLocator.getInputStream(path);
+            inStream = WorkflowFactory.class.getResourceAsStream(DATASET_WORKFLOW_PATH);
             wfStep = (WorkflowStep) JiBXObjectFactory.unmarshal(WorkflowStep.class, inStream);
         }
         catch (IOException e)
-        {
-            throw new DeserializationException(e);
-        }
-        catch (ResourceNotFoundException e)
         {
             throw new DeserializationException(e);
         }
