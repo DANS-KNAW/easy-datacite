@@ -133,6 +133,27 @@ public interface ItemService extends EasyService
      *        the user that initiates this action
      * @param dataset
      *        the dataset that is affected
+     * @param file
+     *        an xml-file that can be deserialized as a {@link ResourceMetadataList}
+     * @param strategy
+     *        the {@link AdditionalMetadataUpdateStrategy} to use
+     * @param workListeners
+     *        listener(s) for events in the process, can be null
+     * @throws ServiceException
+     *         wrapper for exceptions
+     */
+    void updateFileItemMetadata(EasyUser sessionUser, Dataset dataset, File file, AdditionalMetadataUpdateStrategy strategy, WorkListener... workListeners)
+            throws ServiceException;
+
+    /**
+     * Update FileItem metadata according to a {@link ResourceMetadataList}. The ResourceMetadataList
+     * contains sections of {@link ResourceMetadata} identified with the fileItemId or the relative path
+     * within the dataset.
+     * 
+     * @param sessionUser
+     *        the user that initiates this action
+     * @param dataset
+     *        the dataset that is affected
      * @param resourceMetadataList
      *        the object containing ResourceMetadata
      * @param strategy
@@ -258,6 +279,7 @@ public interface ItemService extends EasyService
 
     ZipFileContentWrapper getZippedContent(EasyUser sessionUser, final Dataset dataset, final Collection<RequestedItem> requestedItems) throws ServiceException;
 
+    @Deprecated
     void saveDescriptiveMetadata(EasyUser sessionUser, final Dataset dataset, final Map<String, Element> fileMetadataMap) throws ServiceException;
 
     void registerDownload(EasyUser sessionUser, Dataset dataset, List<? extends ItemVO> downloads);

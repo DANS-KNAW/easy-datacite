@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import nl.knaw.dans.common.jibx.JiBXObjectFactory;
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.UnitOfWork;
 import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
@@ -15,6 +16,10 @@ import nl.knaw.dans.common.lang.security.authz.AuthzStrategy;
 import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
+import nl.knaw.dans.common.lang.xml.SchemaCreationException;
+import nl.knaw.dans.common.lang.xml.ValidatorException;
+import nl.knaw.dans.common.lang.xml.XMLDeserializationException;
+import nl.knaw.dans.common.lang.xml.XMLErrorHandler;
 import nl.knaw.dans.easy.business.item.DownloadRegistration;
 import nl.knaw.dans.easy.business.item.DownloadWorkDispatcher;
 import nl.knaw.dans.easy.business.item.ItemIngester;
@@ -46,10 +51,12 @@ import nl.knaw.dans.easy.domain.worker.WorkListener;
 import nl.knaw.dans.easy.security.authz.AuthzStrategyProvider;
 import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.xml.ResourceMetadataList;
+import nl.knaw.dans.easy.xml.ResourceMetadataListValidator;
 
 import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml.sax.SAXException;
 
 public class EasyItemService extends AbstractEasyService implements ItemService
 {
@@ -190,6 +197,44 @@ public class EasyItemService extends AbstractEasyService implements ItemService
     }
     
     @Override
+    public void updateFileItemMetadata(EasyUser sessionUser, Dataset dataset, File file, AdditionalMetadataUpdateStrategy strategy,
+            WorkListener... workListeners) throws ServiceException
+    {
+        try
+        {
+            XMLErrorHandler handler = ResourceMetadataListValidator.instance().validate(file, null);
+            if (!handler.passed())
+            {
+                logger.warn("Invalid resource metadata: " + handler.getMessages());
+                throw new ServiceException("Invalid resource metadata: " + handler.getMessages());
+            }
+        }
+        catch (ValidatorException e)
+        {
+            throw new ServiceException(e);
+        }
+        catch (SAXException e)
+        {
+            throw new ServiceException(e);
+        }
+        catch (SchemaCreationException e)
+        {
+            throw new ServiceException(e);
+        }
+        
+        try
+        {
+            ResourceMetadataList rmdList = (ResourceMetadataList) JiBXObjectFactory.unmarshal(ResourceMetadataList.class, file);
+            updateFileItemMetadata(sessionUser, dataset, rmdList, strategy, workListeners);
+        }
+        catch (XMLDeserializationException e)
+        {
+            throw new ServiceException(e);
+        }
+        
+    }
+    
+    @Override
     public void updateFileItemMetadata(EasyUser sessionUser, Dataset dataset, ResourceMetadataList resourceMetadataList, AdditionalMetadataUpdateStrategy strategy,
             WorkListener... workListeners) throws ServiceException
     {
@@ -199,6 +244,7 @@ public class EasyItemService extends AbstractEasyService implements ItemService
 
     // old fashioned additional metadata 
     @MutatesDataset
+    @Deprecated
     public void saveDescriptiveMetadata(EasyUser sessionUser, final Dataset dataset, final Map<String, Element> descriptiveMetadataMap) throws ServiceException
     {
         final UnitOfWork uow = new EasyUnitOfWork(sessionUser);

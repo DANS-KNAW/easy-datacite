@@ -152,22 +152,6 @@ public class DownloadWorker
         else
         {
             final URL url = Data.getEasyStore().getFileURL(dataset.getStoreId(), AdditionalLicenseUnit.UNIT_ID, new DateTime());
-//        try
-//        {
-//            // TODO is this check in the right layer?
-//            final InputStream stream = url.openStream();
-//            if (stream == null)
-//            {
-//                return null;
-//            }
-//            stream.close();
-//            return url;
-//        }
-//        catch (final IOException e)
-//        {
-//            // TODO just something like not found is OK
-//            return null;
-//        }
             return url;
         }
     }
