@@ -20,10 +20,11 @@
     	</layout>
   	</appender>
 
-	<appender name="easy.err" class="org.apache.log4j.FileAppender">
-        <param name="File"   value="${easy.home}/logs/easy-error.log" />
-        <param name="Append" value="true" />
-        <param name="Threshold" value="warn"/>
+	<appender name="easy.err" class="org.apache.log4j.RollingFileAppender">
+        <param name="File"   			value="${easy.home}/logs/easy-error.log" />
+        <param name="Append" 			value="true" />
+        <param name="MaxFileSize"       value="100MB"/>
+        <param name="Threshold" 		value="warn"/>
         <layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%p %d [%t] - %m [%M] # %C.(%F:%L)%n"/>
         </layout>
