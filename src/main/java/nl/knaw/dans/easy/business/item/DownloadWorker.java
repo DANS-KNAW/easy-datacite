@@ -13,13 +13,11 @@ import java.util.List;
 
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.file.ZipFileItem;
-import nl.knaw.dans.common.lang.file.ZipFolderItem;
-import nl.knaw.dans.common.lang.file.ZipItem;
 import nl.knaw.dans.common.lang.file.ZipUtil;
 import nl.knaw.dans.common.lang.repo.UnitMetadata;
 import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
-import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.service.exceptions.FileSizeException;
+import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.service.exceptions.ZipFileLengthException;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.FileStoreAccess;
@@ -158,7 +156,7 @@ public class DownloadWorker
     
     protected File createZipFile(final List<? extends ItemVO> items, final URL additionalLicenseUrl) throws IOException, ZipFileLengthException, RepositoryException
     {
-        final List<ZipItem> zipItems = toZipItems(items);
+        final List<ZipFileItem> zipItems = toZipItems(items);
         
         final URL generalConditionsUrl = DownloadWorker.class.getResource(GENERAL_CONDITIONS_FILE_NAME);
         if (generalConditionsUrl != null)
@@ -183,9 +181,9 @@ public class DownloadWorker
     }
 
     // Note: could determine total size of files before trying to zip them 
-    private List<ZipItem> toZipItems(final List<? extends ItemVO> items) throws ZipFileLengthException
+    private List<ZipFileItem> toZipItems(final List<? extends ItemVO> items) throws ZipFileLengthException
     {
-        final List<ZipItem> zipItems = new ArrayList<ZipItem>();
+        final List<ZipFileItem> zipItems = new ArrayList<ZipFileItem>();
 
         int totalSize = calculateTotalSizeUnzipped(items);
         logger.debug("total size unzipped " + totalSize);
@@ -208,7 +206,7 @@ public class DownloadWorker
                 }
                 else if (item instanceof FolderItemVO)
                 {
-                    final ZipFolderItem zipFolderItem = new ZipFolderItem(item.getPath());
+                    final ZipFileItem zipFolderItem = new ZipFileItem(item.getPath());
                     zipItems.add(zipFolderItem);
                 }
                 else
