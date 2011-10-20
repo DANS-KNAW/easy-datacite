@@ -1,11 +1,13 @@
 package nl.knaw.dans.easy.fedora.db;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.Arrays;
 import java.util.List;
 
 import nl.knaw.dans.easy.data.store.StoreAccessException;
+import nl.knaw.dans.easy.data.store.StoreException;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
@@ -103,6 +105,26 @@ public class FedoraFileStoreAccessOnlineTest extends AbstractOnlineTest
         {
             System.err.println(s);
         }
+    }
+    
+    @Test
+    public void getDatasetId() throws Exception
+    {
+        String datasetId = fsAccess.getDatasetId("easy-folder:1");
+        System.err.println(datasetId);
+    }
+    
+    @Test
+    public void getDatasetIdWithNoneExistingItemId() throws Exception
+    {
+        String datasetId = fsAccess.getDatasetId("easy-folder:0");
+        assertNull(datasetId);
+    }
+    
+    @Test(expected = StoreException.class)
+    public void getDatasetIdWithWrongParameter() throws Exception
+    {
+        fsAccess.getDatasetId("easy-dataset:1");
     }
 
 }

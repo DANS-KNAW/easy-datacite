@@ -10,6 +10,7 @@ import java.util.Set;
 
 import nl.knaw.dans.common.fedora.Fedora;
 import nl.knaw.dans.easy.data.store.StoreAccessException;
+import nl.knaw.dans.easy.data.store.StoreException;
 import nl.knaw.dans.easy.db.DbLocalConfig;
 import nl.knaw.dans.easy.db.DbUtil;
 import nl.knaw.dans.easy.db.ThreadLocalSessionFactory;
@@ -25,6 +26,8 @@ import nl.knaw.dans.easy.domain.dataset.item.filter.ItemFilter;
 import nl.knaw.dans.easy.domain.dataset.item.filter.ItemFilters;
 import nl.knaw.dans.easy.domain.dataset.item.filter.VisibleToFieldFilter;
 import nl.knaw.dans.easy.domain.exceptions.NoFilterValuesSelectedException;
+import nl.knaw.dans.easy.domain.model.FileItem;
+import nl.knaw.dans.easy.domain.model.FolderItem;
 import nl.knaw.dans.easy.fedora.db.exceptions.UnknownItemFilterException;
 
 import org.hibernate.Criteria;
@@ -71,6 +74,14 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
     private static final String FOLDER_PATH_QUERY = "SELECT fovo FROM " + FolderItemVO.class.getName() //
         + " AS fovo" //
         + " WHERE datasetSid=:datasetSid AND (path=:path OR path=:path2)";
+    
+    private static final String DATASET_ID_OF_FOLDER_QUERY = "SELECT datasetSid AS datasetId FROM "
+        + FolderItemVO.class.getName() //
+        + " WHERE pid=:itemId";
+    
+    private static final String DATASET_ID_OF_FILE_QUERY = "SELECT datasetSid AS datasetId FROM "
+        + FileItemVO.class.getName() //
+        + " WHERE pid=:itemId";
 
     private static final String       NAME_FILE_ITEM       = FileItemVO.class.getName();
     private static final String       NAME_FOLDER_ITEM     = FolderItemVO.class.getName();
@@ -419,6 +430,32 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
         {
             sessionFactory.closeSession();
         }
+    }
+    
+    @Override
+    public String getDatasetId(String storeId) throws StoreException
+    {
+        String query;
+        if (storeId.startsWith(FolderItem.NAMESPACE))
+        {
+            query = DATASET_ID_OF_FOLDER_QUERY;
+        }
+        else if (storeId.startsWith(FileItem.NAMESPACE))
+        {
+            query = DATASET_ID_OF_FILE_QUERY;
+        }
+        else
+        {
+            throw new StoreException("storeId with unqueriable namespace: " + storeId);
+        }
+        
+        Session session = sessionFactory.openSession();
+        String result = (String) session.createQuery(query)
+            .setParameter("itemId", storeId)
+            .uniqueResult();
+
+        
+        return result;
     }
 
     private int getChildCount(String parentSid, Integer limit, Integer offset, ItemOrder order, ItemFilters filters)
