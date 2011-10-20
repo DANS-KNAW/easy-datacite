@@ -121,4 +121,12 @@ public interface FileStoreAccess {
     FileItemVO findFileByPath(String datasetSid, String relativePath) throws StoreAccessException;
     
     FolderItemVO findFolderByPath(String datasetSid, String relativePath) throws StoreAccessException;
+    
+    /**
+     * Get the datasetId of the dataset the item with <code>storeId</code> belongs to.
+     * @param storeId storeId with namespace "easy-file" or "easy-folder"
+     * @return the datasetId or <code>null</code> if an object with <code>storeId</code> was not found
+     * @throws StoreException wrapper for exceptions
+     */
+    String getDatasetId(String storeId) throws StoreException;
 }
