@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.RepositoryException;
-import nl.knaw.dans.common.lang.file.ZipFileItem;
+import nl.knaw.dans.common.lang.file.ZipItem;
 import nl.knaw.dans.common.lang.file.ZipUtil;
 import nl.knaw.dans.common.lang.repo.UnitMetadata;
 import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
@@ -156,12 +156,12 @@ public class DownloadWorker
     
     protected File createZipFile(final List<? extends ItemVO> items, final URL additionalLicenseUrl) throws IOException, ZipFileLengthException, RepositoryException
     {
-        final List<ZipFileItem> zipItems = toZipItems(items);
+        final List<ZipItem> zipItems = toZipItems(items);
         
         final URL generalConditionsUrl = DownloadWorker.class.getResource(GENERAL_CONDITIONS_FILE_NAME);
         if (generalConditionsUrl != null)
         {
-            zipItems.add(new ZipFileItem(METADATA_PATH + GENERAL_CONDITIONS_FILE_NAME, generalConditionsUrl));
+            zipItems.add(new ZipItem(METADATA_PATH + GENERAL_CONDITIONS_FILE_NAME, generalConditionsUrl));
         }
         else
         {
@@ -169,11 +169,11 @@ public class DownloadWorker
         }
         
         if (additionalLicenseUrl != null)
-            zipItems.add(new ZipFileItem(METADATA_PATH + AdditionalLicenseUnit.UNIT_LABEL, additionalLicenseUrl));
+            zipItems.add(new ZipItem(METADATA_PATH + AdditionalLicenseUnit.UNIT_LABEL, additionalLicenseUrl));
 
         final File descriptiveFileMetadata = createDescriptiveFileMetadataFile(items);
         if (descriptiveFileMetadata != null)
-            zipItems.add(new ZipFileItem(METADATA_PATH + DESCRIPTIVE_METADATA_FILE_NAME, descriptiveFileMetadata.toURI().toURL()));
+            zipItems.add(new ZipItem(METADATA_PATH + DESCRIPTIVE_METADATA_FILE_NAME, descriptiveFileMetadata.toURI().toURL()));
 
         final File zipFile = File.createTempFile("easy", ".zip");
         ZipUtil.zipFiles(zipFile, zipItems);
@@ -181,9 +181,9 @@ public class DownloadWorker
     }
 
     // Note: could determine total size of files before trying to zip them 
-    private List<ZipFileItem> toZipItems(final List<? extends ItemVO> items) throws ZipFileLengthException
+    private List<ZipItem> toZipItems(final List<? extends ItemVO> items) throws ZipFileLengthException
     {
-        final List<ZipFileItem> zipItems = new ArrayList<ZipFileItem>();
+        final List<ZipItem> zipItems = new ArrayList<ZipItem>();
 
         int totalSize = calculateTotalSizeUnzipped(items);
         logger.debug("total size unzipped " + totalSize);
@@ -201,12 +201,12 @@ public class DownloadWorker
                 {
                     totalSize += ((FileItemVO) item).getSize();
                     final URL url = Data.getEasyStore().getFileURL(item.getSid());
-                    final ZipFileItem zipFileItem = new ZipFileItem(item.getPath(), url);
+                    final ZipItem zipFileItem = new ZipItem(item.getPath(), url);
                     zipItems.add(zipFileItem);
                 }
                 else if (item instanceof FolderItemVO)
                 {
-                    final ZipFileItem zipFolderItem = new ZipFileItem(item.getPath());
+                    final ZipItem zipFolderItem = new ZipItem(item.getPath());
                     zipItems.add(zipFolderItem);
                 }
                 else
