@@ -147,8 +147,6 @@ public class FileExplorerTest {
     			isA(String.class), isA(Integer.class), isA(Integer.class), or(isNull(ItemOrder.class), isA(ItemOrder.class)), 
     			or(isNull(ItemFilters.class), isA(ItemFilters.class)))).andReturn(filesAndFolders).anyTimes();
     	expect(itemServiceMock.hasChildItems(isA(String.class))).andReturn(false).anyTimes();
-    	expect(itemServiceMock.getZippedContent(isA(EasyUser.class), isA(Dataset.class), isA(List.class))).andThrow(new ZipFileLengthException(datasetSid)).once();
-    	expect(itemServiceMock.getZippedContent(isA(EasyUser.class), isA(Dataset.class), isA(List.class))).andThrow(new TooManyFilesException(datasetSid)).once();
     }
     
     private FileItemVO mockFile() {
@@ -244,8 +242,9 @@ public class FileExplorerTest {
     }
     
     @Test
-    public void testDownloadSizeTooLargeHasAcceptedConditions()
+    public void testDownloadSizeTooLargeHasAcceptedConditions() throws ServiceException
     {
+    	expect(itemServiceMock.getZippedContent(isA(EasyUser.class), isA(Dataset.class), isA(List.class))).andThrow(new ZipFileLengthException(datasetSid)).once();
     	normalUserIsLoggedIn();
         replayAll();
         renderPage();
@@ -256,8 +255,9 @@ public class FileExplorerTest {
     }
     
     @Test
-    public void testDownloadSizeTooLargeHasntAcceptedGeneralConditions()
+    public void testDownloadSizeTooLargeHasntAcceptedGeneralConditions() throws ServiceException
     {
+    	expect(itemServiceMock.getZippedContent(isA(EasyUser.class), isA(Dataset.class), isA(List.class))).andThrow(new ZipFileLengthException(datasetSid)).once();
     	normalUserIsLoggedIn();
         replayAll();
         renderPage();
@@ -268,27 +268,27 @@ public class FileExplorerTest {
     }
     
     @Test
-    public void testDownloadTooManyFilesHasAcceptedGeneralConditions()
+    public void testDownloadTooManyFilesHasAcceptedGeneralConditions() throws ServiceException
     {
+    	expect(itemServiceMock.getZippedContent(isA(EasyUser.class), isA(Dataset.class), isA(List.class))).andThrow(new TooManyFilesException(datasetSid)).once();
     	normalUserIsLoggedIn();
         replayAll();
         renderPage();
         ((EasyUserTestImpl)normalUser).setHasAcceptedGeneralConditions(true);
         
-        tester.clickLink("tabs:panel:fe:downloadLink", true);
         tester.clickLink("tabs:panel:fe:downloadLink", true);
         tester.assertContains("You have selected \\d+ files. Please select less than \\d+ files.");
     }
     
     @Test
-    public void testDownloadTooManyFilesHasntAcceptedGeneralConditions()
+    public void testDownloadTooManyFilesHasntAcceptedGeneralConditions() throws ServiceException
     {
+    	expect(itemServiceMock.getZippedContent(isA(EasyUser.class), isA(Dataset.class), isA(List.class))).andThrow(new TooManyFilesException(datasetSid)).once();
     	normalUserIsLoggedIn();
         replayAll();
         renderPage();
         ((EasyUserTestImpl)normalUser).setHasAcceptedGeneralConditions(false);
         
-        tester.clickLink("tabs:panel:fe:downloadLink", true);
         tester.clickLink("tabs:panel:fe:downloadLink", true);
         tester.assertContains("You have selected \\d+ files. Please select less than \\d+ files.");
     }
