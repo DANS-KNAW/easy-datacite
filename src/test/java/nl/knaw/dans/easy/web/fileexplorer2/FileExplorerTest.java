@@ -17,6 +17,7 @@ import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
+import nl.knaw.dans.common.lang.service.exceptions.TooManyFilesException;
 import nl.knaw.dans.common.lang.service.exceptions.ZipFileLengthException;
 import nl.knaw.dans.common.lang.user.User.State;
 import nl.knaw.dans.easy.domain.dataset.PermissionSequenceListImpl;
@@ -146,7 +147,8 @@ public class FileExplorerTest {
     			isA(String.class), isA(Integer.class), isA(Integer.class), or(isNull(ItemOrder.class), isA(ItemOrder.class)), 
     			or(isNull(ItemFilters.class), isA(ItemFilters.class)))).andReturn(filesAndFolders).anyTimes();
     	expect(itemServiceMock.hasChildItems(isA(String.class))).andReturn(false).anyTimes();
-    	expect(itemServiceMock.getZippedContent(isA(EasyUser.class), isA(Dataset.class), isA(List.class))).andThrow(new ZipFileLengthException(datasetSid)).anyTimes();
+    	expect(itemServiceMock.getZippedContent(isA(EasyUser.class), isA(Dataset.class), isA(List.class))).andThrow(new ZipFileLengthException(datasetSid)).once();
+    	expect(itemServiceMock.getZippedContent(isA(EasyUser.class), isA(Dataset.class), isA(List.class))).andThrow(new TooManyFilesException(datasetSid)).once();
     }
     
     private FileItemVO mockFile() {
@@ -205,18 +207,31 @@ public class FileExplorerTest {
     	expect(RepoAccess.getDelegator()).andReturn(delegatorMock).anyTimes();
     	expect(delegatorMock.getGroups(isA(EasyUser.class))).andReturn(new LinkedList<Group>());
     	
-        normalUser = new EasyUserImpl("normal") {
-			private static final long serialVersionUID = 1L;
-        	
-			@Override
-			public boolean hasAcceptedGeneralConditions() {
-        		return true;
-        	}
-        };
+        normalUser = new EasyUserTestImpl("normal", true);
         normalUser.setFirstname("Norman");
         normalUser.setSurname("Normal");
         normalUser.addRole(Role.USER);
         normalUser.setState(State.ACTIVE);
+    }
+    
+    private static class EasyUserTestImpl extends EasyUserImpl {
+		private static final long serialVersionUID = 1L;
+		boolean hasAcceptedGeneralConditions;
+
+		public EasyUserTestImpl(String userId, boolean hasAcceptedGeneralConditions)
+        {
+            super(userId);
+            this.hasAcceptedGeneralConditions = hasAcceptedGeneralConditions;
+        }
+		
+		public void setHasAcceptedGeneralConditions(boolean hasAcceptedGeneralConditions) {
+			this.hasAcceptedGeneralConditions = hasAcceptedGeneralConditions;
+		}
+		
+    	@Override
+    	public boolean hasAcceptedGeneralConditions() {
+    		return hasAcceptedGeneralConditions;
+    	}
     }
 
     private void renderPage()
@@ -229,17 +244,53 @@ public class FileExplorerTest {
     }
     
     @Test
-    public void testDownloadSizeTooLarge()
+    public void testDownloadSizeTooLargeHasAcceptedConditions()
     {
     	normalUserIsLoggedIn();
         replayAll();
         renderPage();
+        ((EasyUserTestImpl)normalUser).setHasAcceptedGeneralConditions(true);
         
-        //System.out.println(tester.getServletResponse().getDocument());
         tester.clickLink("tabs:panel:fe:downloadLink", true);
-        tester.assertContains("too large to be downloaded");
-        //System.out.println("****************************************************");
-        //System.out.println(tester.getServletResponse().getDocument());
+        tester.assertContains("The files selected, in total \\d+MB, are too large to be downloaded. Please select a total of less than \\d+MB at a time.");
+    }
+    
+    @Test
+    public void testDownloadSizeTooLargeHasntAcceptedGeneralConditions()
+    {
+    	normalUserIsLoggedIn();
+        replayAll();
+        renderPage();
+        ((EasyUserTestImpl)normalUser).setHasAcceptedGeneralConditions(false);
+        
+        tester.clickLink("tabs:panel:fe:downloadLink", true);
+        tester.assertContains("The files selected, in total \\d+MB, are too large to be downloaded. Please select a total of less than \\d+MB at a time.");
+    }
+    
+    @Test
+    public void testDownloadTooManyFilesHasAcceptedGeneralConditions()
+    {
+    	normalUserIsLoggedIn();
+        replayAll();
+        renderPage();
+        ((EasyUserTestImpl)normalUser).setHasAcceptedGeneralConditions(true);
+        
+        tester.clickLink("tabs:panel:fe:downloadLink", true);
+        tester.clickLink("tabs:panel:fe:downloadLink", true);
+        tester.assertContains("You have selected \\d+ files. Please select less than \\d+ files.");
+    }
+    
+    @Test
+    public void testDownloadTooManyFilesHasntAcceptedGeneralConditions()
+    {
+    	normalUserIsLoggedIn();
+        replayAll();
+        renderPage();
+        ((EasyUserTestImpl)normalUser).setHasAcceptedGeneralConditions(false);
+        
+        tester.clickLink("tabs:panel:fe:downloadLink", true);
+        tester.clickLink("tabs:panel:fe:downloadLink", true);
+        tester.assertContains("You have selected \\d+ files. Please select less than \\d+ files.");
     }
     
     @After
