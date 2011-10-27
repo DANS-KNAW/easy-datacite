@@ -38,6 +38,7 @@ public class Data
     private static DatasetSearch   datasetSearch;
     private static SearchEngine    searchEngine;
     private static int             downloadLimit; // max. size of download in Mb
+    private static int			   maxNumberOfFiles;
 
     private static boolean         locked;
     private static Logger          logger              = LoggerFactory.getLogger(Data.class);
@@ -175,6 +176,26 @@ public class Data
         }
         
         logger.info("Download limit is set to " + Data.downloadLimit + " MB");
+    }
+    
+    public static int getMaxNumberOfFiles()
+    {
+        return maxNumberOfFiles;
+    }
+
+    public void setMaxNumberOfFiles(String maxNumberOfFiles)
+    {
+        try 
+        {
+            Data.maxNumberOfFiles = Integer.parseInt(maxNumberOfFiles);
+        }
+        catch (NumberFormatException e)
+        {
+            logger.error("not a valid number: " + maxNumberOfFiles);
+            throw e;
+        }
+        
+        logger.info("Max number of files is set to " + Data.maxNumberOfFiles);
     }
     
     // more DAP getters

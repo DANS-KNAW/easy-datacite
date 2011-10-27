@@ -18,6 +18,7 @@ import nl.knaw.dans.common.lang.repo.UnitMetadata;
 import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
 import nl.knaw.dans.common.lang.service.exceptions.FileSizeException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
+import nl.knaw.dans.common.lang.service.exceptions.TooManyFilesException;
 import nl.knaw.dans.common.lang.service.exceptions.ZipFileLengthException;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.FileStoreAccess;
@@ -44,6 +45,7 @@ public class DownloadWorker
     
     public static final int MEGA_BYTE = 1024*1024;
     public static final int MAX_DOWNLOAD_SIZE = Data.getDownloadLimit() * MEGA_BYTE;
+    public static final int MAX_NUMBER_OF_FILES = Data.getMaxNumberOfFiles();
     
     private static final FileStoreAccess FILE_STORE_ACCESS = Data.getFileStoreAccess();
     private static final String METADATA_PATH                  = "meta/";
@@ -154,7 +156,7 @@ public class DownloadWorker
         }
     }
     
-    protected File createZipFile(final List<? extends ItemVO> items, final URL additionalLicenseUrl) throws IOException, ZipFileLengthException, RepositoryException
+    protected File createZipFile(final List<? extends ItemVO> items, final URL additionalLicenseUrl) throws IOException, ZipFileLengthException, RepositoryException, TooManyFilesException
     {
         final List<ZipItem> zipItems = toZipItems(items);
         
@@ -181,8 +183,11 @@ public class DownloadWorker
     }
 
     // Note: could determine total size of files before trying to zip them 
-    private List<ZipItem> toZipItems(final List<? extends ItemVO> items) throws ZipFileLengthException
+    private List<ZipItem> toZipItems(final List<? extends ItemVO> items) throws ZipFileLengthException, TooManyFilesException
     {
+    	if(items.size() > MAX_NUMBER_OF_FILES) {
+    		throw new TooManyFilesException(items.size(), MAX_NUMBER_OF_FILES);
+    	}
         final List<ZipItem> zipItems = new ArrayList<ZipItem>();
 
         int totalSize = calculateTotalSizeUnzipped(items);
