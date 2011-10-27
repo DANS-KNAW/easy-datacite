@@ -83,6 +83,7 @@
 		<property name="searchEngine" ref="searchEngine"/>
 		
 		<property name="downloadLimit" value="${data.downloadLimit}"/>
+		<property name="maxNumberOfFiles" value="${file.downloadLimit}"/>
 	</bean>
 
 	<bean name="userRepo" class="nl.knaw.dans.easy.ldap.EasyLdapUserRepo">

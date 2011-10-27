@@ -8,6 +8,7 @@ import nl.knaw.dans.common.lang.security.authz.AuthzStrategy.TriState;
 import nl.knaw.dans.common.lang.service.exceptions.FileSizeException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceRuntimeException;
+import nl.knaw.dans.common.lang.service.exceptions.TooManyFilesException;
 import nl.knaw.dans.common.lang.service.exceptions.ZipFileLengthException;
 import nl.knaw.dans.common.wicket.components.explorer.ITreeItem.Type;
 import nl.knaw.dans.easy.domain.dataset.EasyFile;
@@ -68,6 +69,7 @@ public class ModalDownload extends Panel
     private static final String MSG_DONT_SHOW = "download.dontShowAgain";
     private static final String MSG_ZIP_SIZE_TOLARGE = "download.zipSizeToLarge";
     private static final String MSG_FILE_SIZE_TOLARGE = "download.fileSizeToLarge";
+    private static final String MSG_TOO_MANY_FILES = "download.tooManyFiles";
 
     public ModalDownload(final ModalWindow window, TreeItem item, DatasetModel datasetModel)
     {
@@ -237,6 +239,12 @@ public class ModalDownload extends Panel
                                         new DownloadStatistics(zfcw), new DisciplineStatistics(datasetModel.getObject()));
                             }
                         };
+                    }
+                    catch (TooManyFilesException e) {
+                    	logger.info("Too many files requested for download ("+e.getAmount()+"). Limit is "+e.getLimit()+ " files.", e.getMessage());
+                    	// zip exceeds number of files limit
+                        message = new StringResourceModel(MSG_TOO_MANY_FILES, this, new Model<TooManyFilesException>(e));
+                        downloadAllowed = false;
                     }
                     catch (ZipFileLengthException e)
                     {
