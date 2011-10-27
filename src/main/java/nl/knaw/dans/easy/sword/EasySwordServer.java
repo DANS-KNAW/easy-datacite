@@ -98,8 +98,7 @@ public class EasySwordServer implements SWORDServer
             final Collection collection = createDummyCollection(1);
             collection.setTitle("Nested collection: " + sdr.getLocation().substring(sdr.getLocation().indexOf('?') + 1));
             collection.setLocation(locationBase + "/deposit/nested");
-            collection.setCollectionPolicy(policy);
-            collection.setTreatment(treatment);
+            collection.setMediation(false);
             service.addWorkspace(createWorkSpace(collection, "Nested service document workspace"));
         }
         else if (sdr.getUsername() != null)
@@ -109,6 +108,7 @@ public class EasySwordServer implements SWORDServer
             collection.setLocation(locationBase + "/deposit/" + userID);
             collection.setAbstract("A collection that " + userID + " can deposit into");
             collection.setService(locationBase + "/servicedocument?nested=authenticated");
+            collection.setMediation(false);
             service.addWorkspace(createWorkSpace(collection, "Authenticated workspace for " + userID));
         }
 
@@ -122,7 +122,7 @@ public class EasySwordServer implements SWORDServer
             collection.setMediation(true);
             service.addWorkspace(createWorkSpace(collection, "Personal workspace for " + onBehalfOf));
         }
-        // log.debug("document is: " + document.toString());
+        log.info("return service document to " + userID + " " + document.toString());
         return document;
     }
 
@@ -201,7 +201,9 @@ public class EasySwordServer implements SWORDServer
         final UnzipResult unzipped = new UnzipResult(deposit.getFile());
         final Dataset dataset = unzipped.submit(user, deposit.isNoOp());
         final String datasetUrl = toServer(deposit.getLocation()) + DATASET_PATH + dataset.getStoreId();
-        return wrapResponse(wrapSwordEntry(deposit, user, dataset, unzipped, datasetUrl), datasetUrl);
+        DepositResponse response = wrapResponse(wrapSwordEntry(deposit, user, dataset, unzipped, datasetUrl), datasetUrl);
+        log.info("return service document to " + deposit.getUsername() + " " + response.toString());
+        return response;
     }
 
     private static SWORDEntry wrapSwordEntry(final Deposit deposit, final EasyUser user, final Dataset dataset, final UnzipResult unzipped, String datasetUrl)
@@ -329,10 +331,11 @@ public class EasySwordServer implements SWORDServer
 
     public AtomDocumentResponse doAtomDocument(final AtomDocumentRequest adr) throws SWORDAuthenticationException, SWORDErrorException, SWORDException
     {
+        log.info(MessageFormat.format("ATOM DOC user={0}; IP={1}; location={2}",adr.getUsername(),adr.getIPAddress(),adr.getLocation()));
         if (null == getUser(adr.getUsername(), adr.getPassword()))
             throw new SWORDAuthenticationException(adr.getUsername() + " not authenticated");
 
-        return new AtomDocumentResponse(HttpServletResponse.SC_OK);
+        return new AtomDocumentResponse(HttpServletResponse.SC_NOT_IMPLEMENTED);
     }
 
     // TODO please peer review web.xml configuration 

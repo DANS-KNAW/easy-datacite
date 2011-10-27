@@ -17,6 +17,7 @@ import nl.knaw.dans.common.lang.xml.XMLDeserializationException;
 import nl.knaw.dans.common.lang.xml.XMLErrorHandler;
 import nl.knaw.dans.common.lang.xml.XMLErrorHandler.Reporter;
 import nl.knaw.dans.easy.business.dataset.DatasetSubmissionImpl;
+import nl.knaw.dans.easy.business.dataset.DatasetWorker;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.ext.EasyMailComposer;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
@@ -150,16 +151,20 @@ public class EasyBusinessFacade
         return metadata;
     }
 
-    /** Just a wrapper for exceptions. */
+    /** Wraps exceptions thrown by new DatasetWorker(user).workSubmit(submission) */
     private static void submit(final EasyUser user, final Dataset dataset) throws SWORDException
     {
         final DatasetSubmissionImpl submission = new DatasetSubmissionImpl(new FormDefinition("dummy"), dataset, user);
-        final MyReporter reporter = new MyReporter("submitting " + dataset.getStoreId() + " by " + user, "problem with submitting");
 
         try
         {
-            Services.getDatasetService().submitDataset(submission, reporter);
-            reporter.checkOK();
+            new DatasetWorker(user)
+            {
+                public void workSubmit(DatasetSubmissionImpl submission) throws DataIntegrityException, ServiceException
+                {
+                    super.workSubmit(submission);
+                }
+            }.workSubmit(submission);
         }
         catch (final ServiceException exception)
         {
@@ -171,7 +176,7 @@ public class EasyBusinessFacade
         }
     }
 
-    /** Just a wrapper for exceptions. */
+    /** Wraps exceptions thrown by Services.getItemService().addDirectoryContents(user, dataset, ...) */
     private static void ingestFiles(final EasyUser user, final Dataset dataset, final File tempDirectory, final List<File> fileList) throws SWORDException
     {
         final String storeId = dataset.getStoreId();
@@ -225,7 +230,7 @@ public class EasyBusinessFacade
         }
     }
 
-    /** Just a wrapper for exceptions. */
+    /** Wraps exceptions thrown by Services.getDatasetService().newDataset(metadataFormat). */
     private static Dataset createEmptyDataset(final MetadataFormat metadataFormat) throws SWORDException
     {
         final Dataset dataset;

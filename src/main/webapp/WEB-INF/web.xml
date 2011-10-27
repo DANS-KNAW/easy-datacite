@@ -12,15 +12,18 @@
 	<context-param>
 	    <param-name>contextConfigLocation</param-name>
 	    <param-value>/WEB-INF/include-easy.xml</param-value>
-		<bean name="sword" class="nl.knaw.dans.easy.sword.EasySwordServer">
-			<property name="treatment" ref="${easy.sword.server.treatment}"/>
-			<property name="policy" ref="${easy.sword.server.policy}"/>
-		</bean>
 	</context-param>
 
 	<listener>
 	    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+
+	<context-param>
+		<bean name="sword" class="nl.knaw.dans.easy.sword.EasySwordServer">
+			<property name="treatment" ref="${easy.sword.server.treatment}"/>
+			<property name="policy" ref="${easy.sword.server.policy}"/>
+		</bean>
+	</context-param>
 
 	<!-- SWORD Configuration -->
 

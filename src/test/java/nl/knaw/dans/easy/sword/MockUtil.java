@@ -157,6 +157,7 @@ public class MockUtil
 
         EasyMock.expect(userRepo.findById(VALID_USER_ID)).andReturn(USER).anyTimes();
 
+        EasyMock.expect(userRepo.exists(VALID_USER_ID)).andReturn(true).anyTimes();
         EasyMock.expect(userRepo.authenticate(VALID_USER_ID, PASSWORD)).andReturn(true).anyTimes();
         EasyMock.expect(userRepo.authenticate(INVALID_USER_ID, PASSWORD)).andReturn(false).anyTimes();
         EasyMock.expect(userRepo.authenticate(null, null)).andReturn(false).anyTimes();
