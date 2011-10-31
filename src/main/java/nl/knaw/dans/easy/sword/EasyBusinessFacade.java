@@ -8,6 +8,8 @@ import java.util.List;
 
 import nl.knaw.dans.common.jibx.JiBXObjectFactory;
 import nl.knaw.dans.common.lang.RepositoryException;
+import nl.knaw.dans.common.lang.log.Event;
+import nl.knaw.dans.common.lang.log.RL;
 import nl.knaw.dans.common.lang.mail.MailComposerException;
 import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
@@ -17,10 +19,10 @@ import nl.knaw.dans.common.lang.xml.XMLDeserializationException;
 import nl.knaw.dans.common.lang.xml.XMLErrorHandler;
 import nl.knaw.dans.common.lang.xml.XMLErrorHandler.Reporter;
 import nl.knaw.dans.easy.business.dataset.DatasetSubmissionImpl;
-import nl.knaw.dans.easy.business.dataset.DatasetWorker;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.ext.EasyMailComposer;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
+import nl.knaw.dans.easy.domain.deposit.discipline.DepositDiscipline;
 import nl.knaw.dans.easy.domain.emd.validation.FormatValidator;
 import nl.knaw.dans.easy.domain.exceptions.DataIntegrityException;
 import nl.knaw.dans.easy.domain.form.FormDefinition;
@@ -37,7 +39,6 @@ import nl.knaw.dans.easy.servicelayer.LicenseComposer.LicenseComposerException;
 import nl.knaw.dans.easy.servicelayer.SubmitNotification;
 import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
-
 import org.purl.sword.base.ErrorCodes;
 import org.purl.sword.base.SWORDAuthenticationException;
 import org.purl.sword.base.SWORDErrorException;
@@ -76,11 +77,11 @@ public class EasyBusinessFacade
         {
             return Data.getUserRepo().findById(userId);
         }
-        catch (ObjectNotInStoreException exception)
+        catch (final ObjectNotInStoreException exception)
         {
             throw newSwordException(userId + " authentication problem", exception);
         }
-        catch (RepositoryException exception)
+        catch (final RepositoryException exception)
         {
             throw newSwordException(userId + " authentication problem", exception);
         }
@@ -94,7 +95,7 @@ public class EasyBusinessFacade
                 throw newSwordInputException("invalid or missing username ["+userId+"] or password", null);
             logger.info(userId + " authenticated");
         }
-        catch (RepositoryException exception)
+        catch (final RepositoryException exception)
         {
             throw newSwordException(userId + " authentication problem", exception);
         }
@@ -150,27 +151,42 @@ public class EasyBusinessFacade
         }
         return metadata;
     }
-
-    /** Wraps exceptions thrown by new DatasetWorker(user).workSubmit(submission) */
-    private static void submit(final EasyUser user, final Dataset dataset) throws SWORDException
+    
+    private static FormDefinition getFormDefinition(final EasyMetadata emd) throws SWORDException 
     {
-        final DatasetSubmissionImpl submission = new DatasetSubmissionImpl(new FormDefinition("dummy"), dataset, user);
-
+        final MetadataFormat mdFormat = emd.getEmdOther().getEasApplicationSpecific().getMetadataFormat();
+        
+        DepositDiscipline depoDisc;
         try
         {
-            new DatasetWorker(user)
-            {
-                public void workSubmit(DatasetSubmissionImpl submission) throws DataIntegrityException, ServiceException
-                {
-                    super.workSubmit(submission);
-                }
-            }.workSubmit(submission);
+            depoDisc = Services.getDepositService().getDiscipline(mdFormat);
+        }
+        catch (final ServiceException e)
+        {
+            RL.error(new Event("Cannot get deposit discipline.", e, e.getMessage(), "MetadataFormat is " + mdFormat));
+            throw newSwordException("Cannot get deposit discipline." , e);
+        }
+        
+        final FormDefinition formDefinition = depoDisc.getEmdFormDescriptor().getFormDefinition(DepositDiscipline.EMD_DEPOSITFORM_ARCHIVIST);
+        return formDefinition;
+    }
+    
+    /** Wraps exceptions thrown by Services.getDatasetService().submitDataset */
+    private static void submit(final EasyUser user, final Dataset dataset) throws SWORDException
+    {
+//        final DatasetSubmissionImpl submission = new DatasetSubmissionImpl(new FormDefinition("dummy"), dataset, user);
+        final DatasetSubmissionImpl submission = new DatasetSubmissionImpl(getFormDefinition(dataset.getEasyMetadata()), dataset, user);
+        final MyReporter reporter = new MyReporter("submitting " + dataset.getStoreId() + " by " + user, "problem with submitting");
+        try
+        {
+            Services.getDatasetService().submitDataset(submission, reporter);
+            reporter.checkOK();
         }
         catch (final ServiceException exception)
         {
             throw newSwordException("Dataset created but submission failed " + dataset.getStoreId() + " " + user.getId(), exception);
         }
-        catch (DataIntegrityException exception)
+        catch (final DataIntegrityException exception)
         {
             throw newSwordException("Dataset created but submission failed " + dataset.getStoreId() + " " + user.getId(), exception);
         }
@@ -184,7 +200,7 @@ public class EasyBusinessFacade
         {
             final ItemService itemService = Services.getItemService();
             final StringBuffer list = new StringBuffer();
-            for (File file : fileList)
+            for (final File file : fileList)
             {
                 list.append("\n\t" + file);
             }
@@ -315,7 +331,7 @@ public class EasyBusinessFacade
             final EasyMailComposer composer = new EasyMailComposer(user, dataset, submission, new SubmitNotification(submission));
             return composer.composeHtml(TEMPLATE);
         }
-        catch (MailComposerException exception)
+        catch (final MailComposerException exception)
         {
             final String message = "Could not compose treatment";
             throw newSwordException(message, exception);

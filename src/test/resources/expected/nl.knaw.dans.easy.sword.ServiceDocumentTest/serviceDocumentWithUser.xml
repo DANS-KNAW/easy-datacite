@@ -14,6 +14,7 @@
          <sword:collectionPolicy>No guarantee of service, or that deposits will be retained for any length of time.</sword:collectionPolicy>
          <dcterms:abstract>A collection that somebody can deposit into</dcterms:abstract>
          <sword:service>http://localhost:8080/easy-sword/servicedocument?nested=authenticated</sword:service>
+         <sword:mediation>false</sword:mediation>
          <sword:treatment>This is a test server</sword:treatment>
       </app:collection>
    </app:workspace>

@@ -11,6 +11,7 @@ import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.purl.sword.base.SWORDErrorException;
 import org.purl.sword.base.SWORDException;
@@ -57,6 +58,7 @@ public class EasyBusinessFacadeTest extends Tester
             throw new Exception("expected "+expectedCause.getName());
     }
 
+    @Ignore
     @Test
     public void submit() throws Exception
     {

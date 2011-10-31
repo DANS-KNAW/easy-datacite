@@ -27,6 +27,10 @@
 	<import resource="store-context.xml"/>
 	<import resource="ldap-context.xml"/>
 
+	<bean class="nl.knaw.dans.easy.business.dataset.SubmissionDispatcherFactory">
+		<constructor-arg value="BATCH_INGEST"/>
+	</bean>
+	
 	<bean name="externalServices" class="nl.knaw.dans.easy.data.ext.ExternalServices" destroy-method="close">
 		<property name="metadataPidGenerator" ref="metadataPidGenerator" />
 	</bean>
@@ -48,7 +52,6 @@
 	<!-- BeanPostProcessor for Business layer -->
 	<bean class="nl.knaw.dans.easy.business.bean.BusinessBeanPostProcessor" />
 
-<!-- 
 	<bean name="businessAudit" class="nl.knaw.dans.easy.data.audit.Audit">
 		<property name="trailers">
 			<list>
@@ -59,8 +62,7 @@
 		<property name="enabled" value="${business.audit.enabled}"/>
 	</bean>
 	<bean name="fileBasedAuditTrail" class="nl.knaw.dans.easy.data.audit.FileBasedAuditTrail" destroy-method="close">
-		<constructor-arg index="0" value="${business.audit.file}"/>
+		<constructor-arg index="0" value="${sword.audit.file}"/>
 	</bean>
- -->
 
 </beans>

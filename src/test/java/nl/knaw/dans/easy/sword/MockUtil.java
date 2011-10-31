@@ -18,6 +18,9 @@ import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.ItemOrder;
 import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.filter.ItemFilters;
+import nl.knaw.dans.easy.domain.deposit.discipline.DepositDiscipline;
+import nl.knaw.dans.easy.domain.deposit.discipline.DisciplineImpl;
+import nl.knaw.dans.easy.domain.form.FormDescriptor;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainerImpl;
 import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
@@ -27,6 +30,7 @@ import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.domain.worker.WorkListener;
 import nl.knaw.dans.easy.domain.worker.WorkReporter;
 import nl.knaw.dans.easy.servicelayer.services.DatasetService;
+import nl.knaw.dans.easy.servicelayer.services.DepositService;
 import nl.knaw.dans.easy.servicelayer.services.DisciplineCollectionService;
 import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
@@ -127,9 +131,12 @@ public class MockUtil
         // no increment of countDatasets as it makes the test results unpredictable
         final Dataset dataset = new DatasetImpl("mock:" + (countDatasets), MetadataFormat.SOCIOLOGY);
         final DatasetService datasetService = EasyMock.createMock(DatasetService.class);
+        final DepositService depositService = EasyMock.createMock(DepositService.class);
+        final FormDescriptor formDescriptor = new FormDescriptor("dummy");
         new Services().setDatasetService(datasetService);
 
         EasyMock.expect(datasetService.newDataset(MetadataFormat.SOCIOLOGY)).andReturn(dataset).anyTimes();
+        EasyMock.expect(depositService.getDiscipline(MetadataFormat.SOCIOLOGY)).andReturn(new DisciplineImpl(formDescriptor )).anyTimes();
 
         datasetService.submitDataset(EasyMock.isA(DatasetSubmissionImpl.class), EasyMock.isA(WorkListener.class));
         EasyMock.expectLastCall().anyTimes();
