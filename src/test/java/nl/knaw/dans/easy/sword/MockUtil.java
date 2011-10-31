@@ -18,7 +18,6 @@ import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.ItemOrder;
 import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.filter.ItemFilters;
-import nl.knaw.dans.easy.domain.deposit.discipline.DepositDiscipline;
 import nl.knaw.dans.easy.domain.deposit.discipline.DisciplineImpl;
 import nl.knaw.dans.easy.domain.form.FormDescriptor;
 import nl.knaw.dans.easy.domain.model.Dataset;

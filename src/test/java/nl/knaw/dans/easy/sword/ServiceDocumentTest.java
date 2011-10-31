@@ -2,7 +2,6 @@ package nl.knaw.dans.easy.sword;
 
 
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.purl.sword.base.SWORDErrorException;
 import org.purl.sword.base.ServiceDocumentRequest;

@@ -11,11 +11,13 @@
 		<property name="userService" ref="userService"/>
 		<property name="datasetService" ref="datasetService"/>
 		<property name="itemService" ref="itemService"/>
+		<property name="depositService" ref="depositService" />
 		<property name="disciplineService" ref="disciplineService" />
 	</bean>
 	<bean name="userService" class="nl.knaw.dans.easy.business.services.EasyUserService" />
 	<bean name="datasetService" class="nl.knaw.dans.easy.business.services.EasyDatasetService" />
 	<bean name="itemService" class="nl.knaw.dans.easy.business.services.EasyItemService" />
+	<bean name="depositService" class="nl.knaw.dans.easy.business.services.EasyDepositService"></bean>
 	<bean name="disciplineService" class="nl.knaw.dans.easy.business.services.EasyDisciplineCollectionService"></bean>
 	
 	<bean name="data" class="nl.knaw.dans.easy.data.Data">
@@ -52,17 +54,17 @@
 	<!-- BeanPostProcessor for Business layer -->
 	<bean class="nl.knaw.dans.easy.business.bean.BusinessBeanPostProcessor" />
 
-	<bean name="businessAudit" class="nl.knaw.dans.easy.data.audit.Audit">
-		<property name="trailers">
-			<list>
-				<ref bean="fileBasedAuditTrail" />
-				<bean name="adminMailerAuditTrail" class="nl.knaw.dans.easy.data.audit.AdminMailerAuditTrail"/>
-			</list>
-		</property>
-		<property name="enabled" value="${business.audit.enabled}"/>
-	</bean>
-	<bean name="fileBasedAuditTrail" class="nl.knaw.dans.easy.data.audit.FileBasedAuditTrail" destroy-method="close">
-		<constructor-arg index="0" value="${sword.audit.file}"/>
-	</bean>
+<!--	<bean name="businessAudit" class="nl.knaw.dans.easy.data.audit.Audit">-->
+<!--		<property name="trailers">-->
+<!--			<list>-->
+<!--				<ref bean="fileBasedAuditTrail" />-->
+<!--				<bean name="adminMailerAuditTrail" class="nl.knaw.dans.easy.data.audit.AdminMailerAuditTrail"/>-->
+<!--			</list>-->
+<!--		</property>-->
+<!--		<property name="enabled" value="${business.audit.enabled}"/>-->
+<!--	</bean>-->
+<!--	<bean name="fileBasedAuditTrail" class="nl.knaw.dans.easy.data.audit.FileBasedAuditTrail" destroy-method="close">-->
+<!--		<constructor-arg index="0" value="${sword.audit.file}"/>-->
+<!--	</bean>-->
 
 </beans>

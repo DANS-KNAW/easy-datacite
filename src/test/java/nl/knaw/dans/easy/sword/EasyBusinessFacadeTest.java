@@ -6,8 +6,6 @@ import java.util.List;
 import nl.knaw.dans.common.lang.file.UnzipListener;
 import nl.knaw.dans.common.lang.file.UnzipUtil;
 import nl.knaw.dans.common.lang.util.FileUtil;
-import nl.knaw.dans.common.lang.xml.XMLSerializationException;
-import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 
 import org.junit.BeforeClass;
@@ -15,13 +13,11 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.purl.sword.base.SWORDErrorException;
 import org.purl.sword.base.SWORDException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class EasyBusinessFacadeTest extends Tester
 // composeLicense and verbose submissions are integration tests and do not belong in this test class
 {
-    private static final Logger log = LoggerFactory.getLogger(EasyBusinessFacadeTest.class);
+//    private static final Logger log = LoggerFactory.getLogger(EasyBusinessFacadeTest.class);
 
     final static File basePath = new File("target/tmp");
     static File       tempDirectory;

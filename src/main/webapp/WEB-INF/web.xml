@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?> 
 <web-app xmlns="http://java.sun.com/xml/ns/j2ee"
 	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd"
+	 xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
 	 version="2.4">
 
 	<display-name>Easy SWORD Demo Server</display-name>
@@ -17,13 +16,6 @@
 	<listener>
 	    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-
-	<context-param>
-		<bean name="sword" class="nl.knaw.dans.easy.sword.EasySwordServer">
-			<property name="treatment" ref="${easy.sword.server.treatment}"/>
-			<property name="policy" ref="${easy.sword.server.policy}"/>
-		</bean>
-	</context-param>
 
 	<!-- SWORD Configuration -->
 
@@ -54,7 +46,7 @@
 	<context-param>
 		<description>URLs for the client to connect to</description>
 		<param-name>client-urls</param-name>
-		<param-value>https://eof12.dans.knaw.nl/easy-sword</param-value>
+		<param-value>http://localhost:8083/easy-sword/servicedocument,http://demo.dspace.org/sword/servicedocument,http://sword.intralibrary.com/IntraLibrary-Deposit/service</param-value>
 	</context-param>
 
 	<context-param>
@@ -69,7 +61,7 @@
 
 	<context-param>
 		<param-name>deposit-url</param-name>
-		<param-value>https://eof12.dans.knaw.nl/easy-sword/</param-value>
+		<param-value>http://localhost:8083/easy-sword/</param-value>
 	</context-param>
 
 
