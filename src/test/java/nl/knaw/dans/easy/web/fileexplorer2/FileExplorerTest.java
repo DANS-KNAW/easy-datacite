@@ -277,7 +277,7 @@ public class FileExplorerTest {
         ((EasyUserTestImpl)normalUser).setHasAcceptedGeneralConditions(true);
         
         tester.clickLink("tabs:panel:fe:downloadLink", true);
-        tester.assertContains("You have selected \\d+ files. Please select less than \\d+ files.");
+        tester.assertContains("You have selected \\d+ files. This is more than the maximum of \\d+ you can download at once. Please select \\d+ or fewer files.");
     }
     
     @Test
@@ -290,7 +290,7 @@ public class FileExplorerTest {
         ((EasyUserTestImpl)normalUser).setHasAcceptedGeneralConditions(false);
         
         tester.clickLink("tabs:panel:fe:downloadLink", true);
-        tester.assertContains("You have selected \\d+ files. Please select less than \\d+ files.");
+        tester.assertContains("You have selected \\d+ files. This is more than the maximum of \\d+ you can download at once. Please select \\d+ or fewer files.");
     }
     
     @After
