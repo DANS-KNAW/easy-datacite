@@ -19,6 +19,11 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasySession;
 import nl.knaw.dans.easy.web.common.DatasetModel;
+import nl.knaw.dans.easy.web.statistics.DatasetStatistics;
+import nl.knaw.dans.easy.web.statistics.DisciplineStatistics;
+import nl.knaw.dans.easy.web.statistics.DownloadStatistics;
+import nl.knaw.dans.easy.web.statistics.StatisticsEvent;
+import nl.knaw.dans.easy.web.statistics.StatisticsLogger;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
@@ -134,6 +139,8 @@ public class NamePanel extends Panel
                             };
                             add(download);
                             download.initiate(target);
+                            StatisticsLogger.getInstance().logEvent(StatisticsEvent.DOWNLOAD_FILE_REQUEST, new DatasetStatistics(datasetModel.getObject()),
+                                    new DownloadStatistics(fcw), new DisciplineStatistics(datasetModel.getObject()));
 						} else {
 							// download can't be handled so show a message
 							popup.setContent(new ModalPopup(popup, new StringResourceModel(MSG_FILE_SIZE_TOLARGE, this, new Model<FileSizeException>(exception)).getObject()));

@@ -9,6 +9,7 @@ import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.security.authz.AuthzMessage;
 import nl.knaw.dans.common.lang.security.authz.AuthzStrategy;
 import nl.knaw.dans.common.lang.security.authz.AuthzStrategy.TriState;
+import nl.knaw.dans.common.lang.service.exceptions.FileSizeException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceRuntimeException;
 import nl.knaw.dans.common.lang.service.exceptions.TooManyFilesException;
@@ -28,6 +29,11 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasySession;
 import nl.knaw.dans.easy.web.common.DatasetModel;
+import nl.knaw.dans.easy.web.statistics.DatasetStatistics;
+import nl.knaw.dans.easy.web.statistics.DisciplineStatistics;
+import nl.knaw.dans.easy.web.statistics.DownloadStatistics;
+import nl.knaw.dans.easy.web.statistics.StatisticsEvent;
+import nl.knaw.dans.easy.web.statistics.StatisticsLogger;
 import nl.knaw.dans.easy.web.template.AbstractDatasetModelPanel;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -322,6 +328,8 @@ public class FileExplorer extends AbstractDatasetModelPanel {
 						download.initiate(target);
 						// register this download action
 						Services.getItemService().registerDownload(getSessionUser(), datasetModel.getObject(), zfcw.getDownloadedItemVOs());
+						StatisticsLogger.getInstance().logEvent(StatisticsEvent.DOWNLOAD_DATASET_REQUEST, new DatasetStatistics(datasetModel.getObject()),
+                                new DownloadStatistics(zfcw), new DisciplineStatistics(datasetModel.getObject()));
 					} catch (TooManyFilesException e) {
 						logger.info("Too many files requested for download ("+e.getAmount()+"). Limit is "+e.getLimit()+ " files.", e.getMessage());
 						// download can't be handled so show a message
