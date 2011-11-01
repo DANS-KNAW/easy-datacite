@@ -26,6 +26,7 @@ import nl.knaw.dans.easy.domain.deposit.discipline.DepositDiscipline;
 import nl.knaw.dans.easy.domain.emd.validation.FormatValidator;
 import nl.knaw.dans.easy.domain.exceptions.DataIntegrityException;
 import nl.knaw.dans.easy.domain.form.FormDefinition;
+import nl.knaw.dans.easy.domain.form.PanelDefinition;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadataImpl;
@@ -39,6 +40,7 @@ import nl.knaw.dans.easy.servicelayer.LicenseComposer.LicenseComposerException;
 import nl.knaw.dans.easy.servicelayer.SubmitNotification;
 import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
+
 import org.purl.sword.base.ErrorCodes;
 import org.purl.sword.base.SWORDAuthenticationException;
 import org.purl.sword.base.SWORDErrorException;
@@ -114,9 +116,10 @@ public class EasyBusinessFacade
      *        the list of files in the directory to add to the new dataset
      * @return
      * @throws SWORDException
+     * @throws SWORDErrorException 
      */
     public static Dataset submitNewDataset(final EasyUser user, final EasyMetadata metadata, final File directory, final List<File> fileList)
-            throws SWORDException
+            throws SWORDException, SWORDErrorException
     {
         final MetadataFormat mdFormat = metadata.getEmdOther().getEasApplicationSpecific().getMetadataFormat();
         final Dataset dataset = createEmptyDataset(mdFormat);
@@ -172,15 +175,46 @@ public class EasyBusinessFacade
     }
     
     /** Wraps exceptions thrown by Services.getDatasetService().submitDataset */
-    private static void submit(final EasyUser user, final Dataset dataset) throws SWORDException
+    private static void submit(final EasyUser user, final Dataset dataset) throws SWORDException, SWORDErrorException
     {
 //        final DatasetSubmissionImpl submission = new DatasetSubmissionImpl(new FormDefinition("dummy"), dataset, user);
         final DatasetSubmissionImpl submission = new DatasetSubmissionImpl(getFormDefinition(dataset.getEasyMetadata()), dataset, user);
-        final MyReporter reporter = new MyReporter("submitting " + dataset.getStoreId() + " by " + user, "problem with submitting");
+        final IngestReporter reporter = new IngestReporter("submitting " + dataset.getStoreId() + " by " + user, "problem with submitting");
         try
         {
+            logger.info("submitting " + dataset.getStoreId() + " " + user.getId());
             Services.getDatasetService().submitDataset(submission, reporter);
             reporter.checkOK();
+            if (submission.hasGlobalMessages())
+            {
+                for (String s : submission.getGlobalErrorMessages())
+                    logger.error(s);
+                for (String s : submission.getGlobalInfoMessages())
+                    logger.error(s);
+            }
+            if (submission.hasMetadataErrors())
+            {
+                /*
+                 * TODO rather validate before creating the dataset, requires refactoring of
+                 * MetadataValidator.process(submission) into validate(metadata,formDefinition)
+                 */
+                final String format = "%s created by [%s] but not submitted because meta data has errors: ";
+                String message = String.format(format, dataset.getStoreId(), user.getId());
+                for (PanelDefinition panelDef : submission.getFirstErrorPage().getPanelDefinitions())
+                {
+                    if (panelDef.getErrorMessages().size() > 0)
+                        message += " " + panelDef.getLabelResourceKey() + " " + panelDef.getErrorMessages();
+                }
+                throw newSwordInputException(message, null);
+            }
+            if (!submission.isCompleted())
+            {
+                throw newSwordException("submission incomplete " + dataset.getStoreId() + " " + user.getId(), null);
+            }
+            if (!submission.isMailSend())
+            {
+                logger.warn("no submission mail sent for " + dataset.getStoreId() + " " + user.getId());
+            }
         }
         catch (final ServiceException exception)
         {
@@ -205,7 +239,7 @@ public class EasyBusinessFacade
                 list.append("\n\t" + file);
             }
             final String message = "ingesting files from " + tempDirectory + " into " + dataset.getStoreId() + list;
-            final MyReporter reporter = new MyReporter(message, "ingesting files");
+            final IngestReporter reporter = new IngestReporter(message, "ingesting files");
             logger.debug(message);
 
             itemService.addDirectoryContents(user, dataset, storeId, tempDirectory, fileList, reporter);
@@ -217,14 +251,14 @@ public class EasyBusinessFacade
         }
     }
 
-    private static class MyReporter extends WorkReporter
+    private static class IngestReporter extends WorkReporter
     {
 
         List<Throwable>      reportedExceptions = new ArrayList<Throwable>();
         private final String message;
         private final String messageForClient;
 
-        MyReporter(final String message, final String messageForClient)
+        IngestReporter(final String message, final String messageForClient)
         {
             this.message = message;
             this.messageForClient = messageForClient;

@@ -30,7 +30,7 @@
 	<import resource="ldap-context.xml"/>
 
 	<bean class="nl.knaw.dans.easy.business.dataset.SubmissionDispatcherFactory">
-		<constructor-arg value="BATCH_INGEST"/>
+		<constructor-arg value="SWORD_INGEST"/>
 	</bean>
 	
 	<bean name="externalServices" class="nl.knaw.dans.easy.data.ext.ExternalServices" destroy-method="close">
