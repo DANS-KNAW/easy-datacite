@@ -42,7 +42,7 @@ public class HelpPopup extends Panel
                         + "<img src='/images/button_help.gif' alt='help' /></a>\n" //
 
                         // Initially hidden div-element that implements the dialog.
-                        + "<div id='popupDialog%s' class='yui-pe-content popupDialog' style='visibility:hidden'>\n" //
+                        + "<div id='popupDialog%s' class='yui-pe-content popupDialog' style='display:none'>\n" //
                         + "<div class='hd'>Help</div>\n" //
                         + "<div class='bd'>\n%s</div>\n</div>", anchorName, anchorName, content);
     }

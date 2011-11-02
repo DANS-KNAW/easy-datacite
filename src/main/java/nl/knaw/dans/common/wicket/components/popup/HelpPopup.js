@@ -16,6 +16,7 @@ DANS.createHelpPopup = function(anchor) {
 	YAHOO.util.Event.addListener('popupButton'+anchor, 'click', showPopup, popupButton, true);
 	
 	function showPopup () {
+		document.getElementById('popupDialog'+anchor).style.display = 'block';
 		popupDialog.show();
 	}
 }
