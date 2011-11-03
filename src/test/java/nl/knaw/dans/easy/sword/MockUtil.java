@@ -128,11 +128,18 @@ public class MockUtil
 
     public static void mockDepositService() throws Exception
     {
-        final DisciplineImpl discipline = new DisciplineImpl(new FormDescriptor("dummy"));
+        final DisciplineImpl disciplineSociology = new DisciplineImpl(new FormDescriptor(MetadataFormat.SOCIOLOGY.toString().toLowerCase()));
+        final DisciplineImpl disciplineArcheology = new DisciplineImpl(new FormDescriptor(MetadataFormat.ARCHAEOLOGY.toString().toLowerCase()));
+        final DisciplineImpl disciplineHistory = new DisciplineImpl(new FormDescriptor(MetadataFormat.HISTORY.toString().toLowerCase()));
+        final DisciplineImpl disciplineUnspecified = new DisciplineImpl(new FormDescriptor(MetadataFormat.UNSPECIFIED.toString().toLowerCase()));
 
         final DepositService depositService = EasyMock.createMock(DepositService.class);
         new Services().setDepositService(depositService);
-        EasyMock.expect(depositService.getDiscipline(EasyMock.isA(MetadataFormat.class))).andReturn(discipline).anyTimes();
+        
+        EasyMock.expect(depositService.getDiscipline(MetadataFormat.SOCIOLOGY)).andReturn(disciplineSociology).anyTimes();
+        EasyMock.expect(depositService.getDiscipline(MetadataFormat.ARCHAEOLOGY)).andReturn(disciplineArcheology).anyTimes();
+        EasyMock.expect(depositService.getDiscipline(MetadataFormat.HISTORY)).andReturn(disciplineHistory).anyTimes();
+        EasyMock.expect(depositService.getDiscipline(MetadataFormat.UNSPECIFIED)).andReturn(disciplineUnspecified).anyTimes();
     }
 
     public static void mockDatasetService() throws Exception

@@ -15,10 +15,7 @@ import org.purl.sword.base.SWORDErrorException;
 import org.purl.sword.base.SWORDException;
 
 public class EasyBusinessFacadeTest extends Tester
-// composeLicense and verbose submissions are integration tests and do not belong in this test class
 {
-//    private static final Logger log = LoggerFactory.getLogger(EasyBusinessFacadeTest.class);
-
     final static File basePath = new File("target/tmp");
     static File       tempDirectory;
 
@@ -58,6 +55,15 @@ public class EasyBusinessFacadeTest extends Tester
     public void submit() throws Exception
     {
         executeSubmit(ZIP_FILE, META_DATA_FILE, null);
+    }
+
+    @Ignore // FIXME see MockUtil.mockDepositService
+    @Test (expected=SWORDErrorException.class)
+    public void missingMetadataFields() throws Throwable
+    {
+        final File zipFile = new File("src/test/resources/input/data-plus-missing-meta-fields.zip");
+        final File metaDataFile = new File(tempDirectory + "/easyMetadata.xml");
+        executeSubmit(zipFile, metaDataFile, SWORDErrorException.class);
     }
 
     @Test (expected=SWORDErrorException.class)

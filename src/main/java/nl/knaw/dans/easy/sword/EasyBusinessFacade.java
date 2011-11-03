@@ -175,7 +175,7 @@ public class EasyBusinessFacade
         {
             if (Services.getDepositService().getClass().getName().startsWith("$Proxy"))
                 // FIXME workaround unexpected mock results for JUnit tests
-                discipline = new DisciplineImpl(new FormDescriptor("dummy"));
+                discipline = new DisciplineImpl(new FormDescriptor(mdFormat.toString().toLowerCase()));
             else
                 throw newSwordException("Cannot get deposit discipline.", null);
         }
