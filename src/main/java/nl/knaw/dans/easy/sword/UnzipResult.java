@@ -37,9 +37,13 @@ public class UnzipResult
 
     private final List<File>                 files;
     private final File                       folder;
+    private final File                       tempDir;
     private final String                     destPath;
+    private final String                     zipFile;
     private byte[]                           easyMetadata;
     private int                              noOpSumbitCounter;
+
+
 
     public UnzipResult(final InputStream inputStream) throws SWORDException, SWORDErrorException
     {
@@ -53,9 +57,9 @@ public class UnzipResult
                 dir = new File("target/tmp");
                 dir.mkdirs();
             }
-            final File tempDir = FileUtil.createTempDirectory(dir, "swunzip");
+            tempDir = FileUtil.createTempDirectory(dir, "swunzip");
 
-            final String zipFile = tempDir.getPath() + "/received.zip";
+            zipFile = tempDir.getPath() + "/received.zip";
             destPath = tempDir.getPath() + "/unzipped";
             if (!new File(destPath).mkdir())
                 throw new SWORDException("Failed to unzip");
@@ -130,6 +134,10 @@ public class UnzipResult
         return files;
     };
 
+    /**
+     * @param user
+     * @param mock if true nothing should be really added to the repository, thus client can be tested without flooding the repository
+     */
     public Dataset submit(final EasyUser user, final boolean mock) throws SWORDErrorException, SWORDException
     {
         EasyBusinessFacade.validateSyntax(getEasyMetaData());
@@ -142,7 +150,19 @@ public class UnzipResult
         {
             return mockSubmittedDataset(metadata, user);
         }
-        return EasyBusinessFacade.submitNewDataset(user, metadata, getDataFolder(), getFiles());
+        final Dataset dataset = EasyBusinessFacade.submitNewDataset(user, metadata, getDataFolder(), getFiles());
+        clearTemp();
+        return dataset;
+    }
+
+    private void clearTemp()
+    {
+        // delete files before folders
+        for (int i=files.size() ; --i>=0 ;)
+                files.get(i).delete();
+        new File(zipFile).delete();
+        new File(destPath).delete();
+        tempDir.delete();
     }
 
     private byte[] getEasyMetaData() throws SWORDException, SWORDErrorException

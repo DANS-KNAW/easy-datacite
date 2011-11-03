@@ -54,7 +54,6 @@ public class EasyBusinessFacadeTest extends Tester
             throw new Exception("expected "+expectedCause.getName());
     }
 
-    @Ignore // TODO fix mocks
     @Test
     public void submit() throws Exception
     {

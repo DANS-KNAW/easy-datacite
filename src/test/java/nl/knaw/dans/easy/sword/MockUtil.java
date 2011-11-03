@@ -59,6 +59,7 @@ public class MockUtil
         mockNow();
         mockItemService();
         mockDatasetService();
+        mockDepositService();
         mockUser();
         mockDisciplineService();
         mockFileStoreAccess();
@@ -125,18 +126,23 @@ public class MockUtil
         EasyMock.replay(itemService);
     }
 
+    public static void mockDepositService() throws Exception
+    {
+        final DisciplineImpl discipline = new DisciplineImpl(new FormDescriptor("dummy"));
+
+        final DepositService depositService = EasyMock.createMock(DepositService.class);
+        new Services().setDepositService(depositService);
+        EasyMock.expect(depositService.getDiscipline(EasyMock.isA(MetadataFormat.class))).andReturn(discipline).anyTimes();
+    }
+
     public static void mockDatasetService() throws Exception
     {
         // no increment of countDatasets as it makes the test results unpredictable
         final Dataset dataset = new DatasetImpl("mock:" + (countDatasets), MetadataFormat.SOCIOLOGY);
         final DatasetService datasetService = EasyMock.createMock(DatasetService.class);
-        final DepositService depositService = EasyMock.createMock(DepositService.class);
-        final FormDescriptor formDescriptor = new FormDescriptor("dummy");
         new Services().setDatasetService(datasetService);
 
-        EasyMock.expect(datasetService.newDataset(MetadataFormat.SOCIOLOGY)).andReturn(dataset).anyTimes();
-        EasyMock.expect(depositService.getDiscipline(MetadataFormat.SOCIOLOGY)).andReturn(new DisciplineImpl(formDescriptor )).anyTimes();
-
+        EasyMock.expect(datasetService.newDataset(EasyMock.isA(MetadataFormat.class))).andReturn(dataset).anyTimes();
         datasetService.submitDataset(EasyMock.isA(DatasetSubmissionImpl.class), EasyMock.isA(WorkListener.class));
         EasyMock.expectLastCall().anyTimes();
 
