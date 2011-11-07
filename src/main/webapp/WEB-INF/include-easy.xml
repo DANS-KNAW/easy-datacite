@@ -54,6 +54,9 @@
 	<!-- BeanPostProcessor for Business layer -->
 	<bean class="nl.knaw.dans.easy.business.bean.BusinessBeanPostProcessor" />
 
+<!-- FIXME java.io.IOException: Could not create audit directory: audit-log
+        at nl.knaw.dans.easy.data.audit.FileBasedAuditTrail.<init>(FileBasedAuditTrail.java:33)
+   -->
 <!--	<bean name="businessAudit" class="nl.knaw.dans.easy.data.audit.Audit">-->
 <!--		<property name="trailers">-->
 <!--			<list>-->
