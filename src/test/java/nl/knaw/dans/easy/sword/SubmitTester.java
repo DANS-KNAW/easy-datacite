@@ -3,7 +3,10 @@ package nl.knaw.dans.easy.sword;
 import java.io.File;
 import java.io.FileInputStream;
 
-import org.junit.BeforeClass;
+import nl.knaw.dans.common.lang.mail.Mailer;
+import nl.knaw.dans.easy.data.ext.ExternalServices;
+
+import org.junit.Before;
 import org.junit.Test;
 import org.purl.sword.base.Deposit;
 import org.purl.sword.base.SWORDErrorException;
@@ -15,9 +18,18 @@ public class SubmitTester extends EasySwordServerTester
 {
     private static final String PROPER_ZIP = new File("src/test/resources/input/data-plus-meta.zip").getPath();
 
-    @BeforeClass
-    public static void setupMocking() throws Exception {
+    @Before
+    public void setupMocking() throws Exception {
         MockUtil.mockAll();
+    }
+    
+    @Test // FIME test was supposed to touch AbstractNotification.send(...)
+    public void submitWithoutMailer() throws Exception
+    {
+        final Mailer saved = ExternalServices.getMailOffice();
+        new ExternalServices().setMailOffice(null);
+        execute(false, false, PROPER_ZIP);
+        new ExternalServices().setMailOffice(saved);
     }
 
     @Test

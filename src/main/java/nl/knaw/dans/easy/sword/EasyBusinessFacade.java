@@ -216,15 +216,15 @@ public class EasyBusinessFacade
                 }
                 throw newSwordInputException(message, null);
             }
+            if (!submission.isMailSend())
+            {
+                logger.warn("no submission mail sent for " + dataset.getStoreId() + " " + user.getId());
+            }
             if (!submission.isCompleted())
             {
                 if (!Services.getDatasetService().getClass().getName().startsWith("$Proxy"))
                     // FIXME workaround mock problems for JUnit tests
                     throw newSwordException("submission incomplete " + dataset.getStoreId() + " " + user.getId(), null);
-            }
-            if (!submission.isMailSend())
-            {
-                logger.warn("no submission mail sent for " + dataset.getStoreId() + " " + user.getId());
             }
         }
         catch (final ServiceException exception)
