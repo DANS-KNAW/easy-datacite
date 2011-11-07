@@ -35,16 +35,16 @@
 	
 	<bean name="externalServices" class="nl.knaw.dans.easy.data.ext.ExternalServices" destroy-method="close">
 		<property name="metadataPidGenerator" ref="metadataPidGenerator" />
+		<property name="mailOffice" ref="mailOffice"/>
+		<property name="adminMailer" ref="adminMailer"/>
 	</bean>
-	<bean name="metadataPidGenerator" class="nl.knaw.dans.commons.pid.PidGenerator" destroy-method="close">
-		<constructor-arg ref="pidConnectionConfiguration" />
+	<import resource="pid-context.xml"/>
+	<import resource="mail-context.xml"/>
+
+	<bean name="resourceLocator" class="nl.knaw.dans.common.lang.ResourceLocator">
+		<constructor-arg ref="easyHome"/>
 	</bean>
-	<bean name="pidConnectionConfiguration" class="nl.knaw.dans.commons.pid.PidConnectionConfiguration">
-		<property name="username" value="${pid.generator.username}" />
-		<property name="password" value="${pid.generator.password}" />
-		<property name="connectionUrl" value="${pid.generator.connectionUrl}" />
-		<property name="driverClass" value="${pid.generator.driver}" />
-	</bean>
+	<bean name="easyHome" class="nl.knaw.dans.easy.util.EasyHome" />
 
 	<bean name="security" class="nl.knaw.dans.easy.security.Security">
 		<constructor-arg ref="authz"/>
