@@ -54,20 +54,17 @@
 	<!-- BeanPostProcessor for Business layer -->
 	<bean class="nl.knaw.dans.easy.business.bean.BusinessBeanPostProcessor" />
 
-<!-- FIXME java.io.IOException: Could not create audit directory: audit-log
-        at nl.knaw.dans.easy.data.audit.FileBasedAuditTrail.<init>(FileBasedAuditTrail.java:33)
-   -->
-<!--	<bean name="businessAudit" class="nl.knaw.dans.easy.data.audit.Audit">-->
-<!--		<property name="trailers">-->
-<!--			<list>-->
-<!--				<ref bean="fileBasedAuditTrail" />-->
-<!--				<bean name="adminMailerAuditTrail" class="nl.knaw.dans.easy.data.audit.AdminMailerAuditTrail"/>-->
-<!--			</list>-->
-<!--		</property>-->
-<!--		<property name="enabled" value="${business.audit.enabled}"/>-->
-<!--	</bean>-->
-<!--	<bean name="fileBasedAuditTrail" class="nl.knaw.dans.easy.data.audit.FileBasedAuditTrail" destroy-method="close">-->
-<!--		<constructor-arg index="0" value="${sword.audit.file}"/>-->
-<!--	</bean>-->
+	<bean name="businessAudit" class="nl.knaw.dans.easy.data.audit.Audit">
+		<property name="trailers">
+			<list>
+				<ref bean="fileBasedAuditTrail" />
+				<bean name="adminMailerAuditTrail" class="nl.knaw.dans.easy.data.audit.AdminMailerAuditTrail"/>
+			</list>
+		</property>
+		<property name="enabled" value="${business.audit.enabled}"/>
+	</bean>
+	<bean name="fileBasedAuditTrail" class="nl.knaw.dans.easy.data.audit.FileBasedAuditTrail" destroy-method="close">
+		<constructor-arg index="0" value="${sword.audit.file}"/>
+	</bean>
 
 </beans>
