@@ -368,7 +368,7 @@ public class EasyBusinessFacade
         return new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, message);
     }
 
-    public static String composeTreatment(final EasyUser user, final Dataset dataset) throws SWORDException
+    public static String getSubmussionNotification(final EasyUser user, final Dataset dataset) throws SWORDException
     {
         try
         {
@@ -378,12 +378,12 @@ public class EasyBusinessFacade
         }
         catch (final MailComposerException exception)
         {
-            final String message = "Could not compose treatment";
+            final String message = "Could not compose submussion notification";
             throw newSwordException(message, exception);
         }
     }
 
-    public static String composeLicense(final EasyUser user, final boolean generateSample, final Dataset dataset) throws SWORDException
+    public static String getLicenseAsHtml(final EasyUser user, final boolean generateSample, final Dataset dataset) throws SWORDException
     {
         final String errorMessage = "Could not create license document";
         try

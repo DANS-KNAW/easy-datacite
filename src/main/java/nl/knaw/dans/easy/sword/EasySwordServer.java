@@ -225,13 +225,13 @@ public class EasySwordServer implements SWORDServer
         swordEntry.addLink(wrapLink("edit", datasetUrl));
         swordEntry.setGenerator(wrapGenerator(serverURL));
         swordEntry.setContent(wrapContent(serverURL, dataset.getStoreId()));
-        swordEntry.setTreatment(EasyBusinessFacade.composeTreatment(user, dataset));
+        swordEntry.setTreatment(EasyBusinessFacade.getSubmussionNotification(user, dataset));
         swordEntry.setNoOp(deposit.isNoOp());
         // TODO swordEntry.setRights(rights);
         if (deposit.getOnBehalfOf() != null)
             swordEntry.addContributor(wrapContributor(deposit.getOnBehalfOf()));
         if (deposit.isVerbose())
-            swordEntry.setVerboseDescription(EasyBusinessFacade.composeLicense(user, deposit.isNoOp(), dataset));
+            swordEntry.setVerboseDescription(EasyBusinessFacade.getLicenseAsHtml(user, deposit.isNoOp(), dataset));
 
         return swordEntry;
     }
