@@ -21,7 +21,7 @@
 	
 	<bean name="adminMailer" class="nl.knaw.dans.common.lang.mail.AdminMailer">
 		<constructor-arg ref="mailOffice"/>
-		<constructor-arg value="Easy"/>
+		<constructor-arg value="EasySword"/>
 		<property name="sendOnStarting" value="${admin.mailer.sendOnStarting}"/>
 		<property name="sendOnClosing" value="${admin.mailer.sendOnClosing}"/>
 		<property name="exeptionMailInterval" value="15"/>
