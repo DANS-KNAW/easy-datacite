@@ -26,6 +26,7 @@ import nl.knaw.dans.easy.domain.dataset.item.filter.ItemFilter;
 import nl.knaw.dans.easy.domain.dataset.item.filter.ItemFilters;
 import nl.knaw.dans.easy.domain.dataset.item.filter.VisibleToFieldFilter;
 import nl.knaw.dans.easy.domain.exceptions.NoFilterValuesSelectedException;
+import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.FileItem;
 import nl.knaw.dans.easy.domain.model.FolderItem;
 import nl.knaw.dans.easy.fedora.db.exceptions.UnknownItemFilterException;
@@ -52,12 +53,12 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
 
     private static final String       FILENAME_QUERY       = "SELECT name FROM " + FileItemVO.class.getName()
                                                                    + " WHERE parentSid=:parentSid";
-
-    private static final String       ALL_FILES_QUERY      = "SELECT name, sid FROM " + FileItemVO.class.getName()
-        + " WHERE datasetSid=:datasetSid";
-
+    
     private static final String       FOLDERNAME_QUERY     = "SELECT name, sid FROM " + FolderItemVO.class.getName()
                                                                    + " WHERE parentSid=:parentSid";
+    
+    private static final String       ALL_FILES_QUERY      = "SELECT name, sid FROM " + FileItemVO.class.getName()
+        + " WHERE datasetSid=:datasetSid";
 
     private static final String       HASCHILDFILE_QUERY   = "SELECT sid FROM " + FileItemVO.class.getName()
                                                                    + " WHERE parentSid=:parentSid";               // LIMIT
@@ -66,6 +67,14 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
     private static final String       HASCHILDFOLDER_QUERY = "SELECT sid FROM " + FolderItemVO.class.getName()
                                                                    + " WHERE parentSid=:parentSid";               // LIMIT
     // 1
+    
+    private static final String       SELECT_DATASET_FILEITEMS = "SELECT fivo FROM " + FileItemVO.class.getName() //
+        + " AS fivo"//
+        + " WHERE datasetSid=:datasetSid"; //
+    
+    private static final String       SELECT_DATASET_FOLDERITEMS = "SELECT fovo FROM " + FolderItemVO.class.getName() //
+        + " AS fovo"//
+        + " WHERE datasetSid=:datasetSid"; //
     
     private static final String FILE_PATH_QUERY = "SELECT fivo FROM " + FileItemVO.class.getName() //
         + " AS fivo" //
@@ -582,6 +591,42 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
         {
             sessionFactory.closeSession();
         }
+    }
+    
+    public List<ItemVO> getItemAndAllChildren(String sid) throws StoreAccessException
+    {
+        List<ItemVO> itemVOs = new ArrayList<ItemVO>();
+        try
+        {
+            Session session = sessionFactory.openSession();
+            if (sid.startsWith(Dataset.NAMESPACE))
+            {
+                collectDatasetChildren(itemVOs, session, sid);
+            }
+        }
+        catch (HibernateException e)
+        {
+            throw new StoreAccessException(e);
+        }
+        finally
+        {
+            sessionFactory.closeSession();
+        }
+        return itemVOs;
+    }
+
+    @SuppressWarnings("unchecked")
+    private void collectDatasetChildren(List<ItemVO> itemVOs, Session session, String datasetId)
+    {
+        List<FileItemVO> files = session.createQuery(SELECT_DATASET_FILEITEMS)
+            .setParameter("datasetSid", datasetId)
+            .list();
+        itemVOs.addAll(files);
+        
+        List<FolderItemVO> folders = session.createQuery(SELECT_DATASET_FOLDERITEMS)
+            .setParameter("datasetSid", datasetId)
+            .list();
+        itemVOs.addAll(folders);
     }
 
     @SuppressWarnings("unchecked")
