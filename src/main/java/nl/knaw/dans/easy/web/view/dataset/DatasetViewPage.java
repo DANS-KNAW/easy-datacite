@@ -120,7 +120,7 @@ public class DatasetViewPage extends AbstractEasyNavPage
 	private DatasetModel	datasetModel;
 	
 	private boolean mustLogin;
-
+	
     public static String urlFor(Dataset dataset, int tabIndex, boolean mustLogin, Component component)
     {
         return urlFor(dataset.getStoreId(), tabIndex, mustLogin, component);

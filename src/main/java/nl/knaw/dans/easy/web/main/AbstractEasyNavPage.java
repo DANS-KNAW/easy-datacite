@@ -274,6 +274,7 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage
         add(new BookmarkablePageLink<HomePage>(HOME_PAGE, HomePage.class));
         add(new BookmarkablePageLink<BrowsePage>(BROWSE_PAGE, BrowsePage.class));
         add(new BookmarkablePageLink<AdvSearchPage>(ADVANCED_SEARCH_PAGE, AdvSearchPage.class));
+        
 
         // management bar
         ManagementBarPanel mgmBar = new ManagementBarPanel(MANAGEMENT_BAR_PANEL);

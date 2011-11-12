@@ -223,5 +223,24 @@
 
 	<!-- BeanPostProcessor for Business layer -->
 	<bean class="nl.knaw.dans.easy.business.bean.BusinessBeanPostProcessor" />
+	
+	
+	<!-- a HTTP Session-scoped bean exposed as a proxy -->
+    <bean id="taskService" class="nl.knaw.dans.common.wicket.TaskServiceImpl" scope="session">
+          
+          <!-- this next element effects the proxying of the surrounding bean -->
+          <aop:scoped-proxy/>
+          <constructor-arg>
+          	<bean class="org.wicketstuff.progressbar.spring.AsynchronousExecutor"/>
+          </constructor-arg>
+    </bean>
+    
+    <!-- a singleton-scoped bean injected with a proxy to the above bean -->
+    <bean id="sessionScopeService" class="nl.knaw.dans.easy.web.SessionScopeService">
+    
+        <!-- a reference to the proxied 'taskService' bean -->
+        <property name="taskService" ref="taskService"/>
+
+    </bean>
 
 </beans>

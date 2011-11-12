@@ -248,6 +248,7 @@ public class EasyWicketApplication extends CommonWicketApplication
     {
         return new EasyUploadWebRequest(servletRequest);
     }
+    
 
     @Override
     protected void onDestroy()
