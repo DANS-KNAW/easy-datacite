@@ -4,7 +4,6 @@ import nl.knaw.dans.common.wicket.components.upload.EasyUploadProcess;
 import nl.knaw.dans.common.wicket.components.upload.EasyUploadProcesses;
 import nl.knaw.dans.common.wicket.components.upload.EasyUploadStatus;
 
-import org.apache.wicket.Application;
 import org.apache.wicket.markup.html.DynamicWebResource;
 import org.json.JSONArray;
 
