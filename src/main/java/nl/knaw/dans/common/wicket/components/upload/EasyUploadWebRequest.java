@@ -139,7 +139,7 @@ public class EasyUploadWebRequest extends ServletWebRequest {
 				if (e instanceof SizeLimitExceededException)
 				{
 					String filename = EasyUploadRequest.getFilename();
-					final String defaultValue = "Upload of '"+ filename +"'failed: it is larger than " + maxsize +". Please refer to the <a href=\"#\">help</a>";
+					final String defaultValue = "Upload of '"+ filename +"'failed: it is larger than " + maxsize +".";
 					message = defaultValue;
 					LOG.info(message);
 				}
