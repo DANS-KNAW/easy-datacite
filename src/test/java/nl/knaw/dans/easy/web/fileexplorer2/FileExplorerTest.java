@@ -251,7 +251,7 @@ public class FileExplorerTest {
         ((EasyUserTestImpl)normalUser).setHasAcceptedGeneralConditions(true);
         
         tester.clickLink("tabs:panel:fe:downloadLink", true);
-        tester.assertContains("The files selected, in total \\d+MB, are too large to be downloaded. Please select a total of less than \\d+MB at a time.");
+        tester.assertContains("Downloading is limited");
     }
     
     @Test
@@ -264,7 +264,7 @@ public class FileExplorerTest {
         ((EasyUserTestImpl)normalUser).setHasAcceptedGeneralConditions(false);
         
         tester.clickLink("tabs:panel:fe:downloadLink", true);
-        tester.assertContains("The files selected, in total \\d+MB, are too large to be downloaded. Please select a total of less than \\d+MB at a time.");
+        tester.assertContains("Downloading is limited");
     }
     
     @Test
@@ -277,7 +277,7 @@ public class FileExplorerTest {
         ((EasyUserTestImpl)normalUser).setHasAcceptedGeneralConditions(true);
         
         tester.clickLink("tabs:panel:fe:downloadLink", true);
-        tester.assertContains("You have selected \\d+ files. This is more than the maximum of \\d+ you can download at once. Please select \\d+ or fewer files.");
+        tester.assertContains("Downloading is limited");
     }
     
     @Test
@@ -290,7 +290,7 @@ public class FileExplorerTest {
         ((EasyUserTestImpl)normalUser).setHasAcceptedGeneralConditions(false);
         
         tester.clickLink("tabs:panel:fe:downloadLink", true);
-        tester.assertContains("You have selected \\d+ files. This is more than the maximum of \\d+ you can download at once. Please select \\d+ or fewer files.");
+        tester.assertContains("Downloading is limited");
     }
     
     @After
