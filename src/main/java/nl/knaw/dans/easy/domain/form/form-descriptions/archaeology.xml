@@ -587,7 +587,7 @@
                 <properties>
                     <id>archaeology.eas.spatial</id>
                 </properties>
-                <nullValid>false</nullValid>
+                <nullValid>true</nullValid>
             </choiceListDefinition>
 			<namespacePrefix>eas</namespacePrefix>
 			<termName>spatial</termName>
@@ -606,7 +606,7 @@
                 <properties>
                     <id>archaeology.eas.spatial</id>
                 </properties>
-                <nullValid>false</nullValid>
+                <nullValid>true</nullValid>
             </choiceListDefinition>
 			<namespacePrefix>eas</namespacePrefix>
 			<termName>spatial</termName>
