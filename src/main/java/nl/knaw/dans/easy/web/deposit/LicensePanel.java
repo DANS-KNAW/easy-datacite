@@ -53,7 +53,7 @@ public class LicensePanel extends AbstractCustomPanel
         {
             super(CUSTOM_PANEL_ID);
             add(new EasyEditablePanel("editablePanel", getLicenceMessage(), easyMetadata.getEmdIdentifier()));
-            add(new AcceptLicense("acceptLicense"));
+            add(new AcceptLicense("acceptLicense").setVisible(!AccessCategory.NO_ACCESS.equals(easyMetadata.getEmdRights().getAccessCategory())));
             //add(new ResourceLink<LicenseResource>("licenseLink", new LicenseResource()));
         }
         
