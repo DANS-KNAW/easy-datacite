@@ -35,6 +35,8 @@ import org.slf4j.LoggerFactory;
  */
 public class EasyWicketApplication extends CommonWicketApplication
 {
+    public static final int DEFAULT_MAX_UPLOAD_SIZE_MB = 256;
+
     /**
      * Use this in resource urls instead of org.apache.wicket.application
      */
@@ -68,7 +70,7 @@ public class EasyWicketApplication extends CommonWicketApplication
         getApplicationSettings().setAccessDeniedPage(LoginPage.class);
         getApplicationSettings().setInternalErrorPage(ErrorPage.class);
         // TODO: get from easy config (see EasyPropertyPlaceholderConfigurer)
-        getApplicationSettings().setDefaultMaximumUploadSize(Bytes.megabytes(256));
+        getApplicationSettings().setDefaultMaximumUploadSize(Bytes.megabytes(DEFAULT_MAX_UPLOAD_SIZE_MB));
 
         if (isInDevelopmentMode())
         {
