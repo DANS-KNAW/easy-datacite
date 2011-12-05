@@ -1,7 +1,10 @@
 package nl.knaw.dans.easy.domain.model;
 
+import java.util.Set;
+
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.repo.collections.DmoContainerItemRelations;
+import nl.knaw.dans.common.lang.repo.relations.Relation;
 import nl.knaw.dans.common.lang.repo.relations.RelsConstants;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer;
@@ -62,6 +65,17 @@ public class DatasetRelations extends DmoContainerItemRelations
     public void setPersistentIdentifier(String pid)
     {
         addRelation(RelsConstants.DANS_NS.HAS_PID, pid, RelsConstants.RDF_LITERAL);
+    }
+    
+    public String getPersistentIdentifier()
+    {
+        String persistentIdentifier = null;
+        Set<Relation> pidLiterals = getRelation(RelsConstants.DANS_NS.HAS_PID.getURI().toString(), null);
+        if (!pidLiterals.isEmpty())
+        {
+            persistentIdentifier = (String) pidLiterals.iterator().next().getObject();
+        }
+        return persistentIdentifier;
     }
     
 //    public void removePersistentIdentifier()
