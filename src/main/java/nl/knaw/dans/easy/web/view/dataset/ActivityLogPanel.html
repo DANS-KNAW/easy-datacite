@@ -7,7 +7,13 @@
 </head>
 <body>
 <wicket:panel>
-	<h2><wicket:message key="explanation"></wicket:message></h2>
+	<wicket:message key="explanation"></wicket:message>
+	<ul class="paddingtop">
+            	<li class="feedbackPanelINFO">
+                	<wicket:message key="tempMessage" class="feedbackPanelINFO"></wicket:message>
+               	</li>
+            </ul>
+     <br/>
 	<form wicket:id="choiceForm">
 	    <wicket:message key="choice.year"/> 
 		<select wicket:id="yearChoice"> 

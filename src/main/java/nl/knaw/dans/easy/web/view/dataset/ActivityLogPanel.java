@@ -86,24 +86,27 @@ public class ActivityLogPanel extends AbstractEasyPanel
     
     private void displayDownloads(int year, int month)
     {
-        addOrReplace(new DownloadListPanel("downloadListPanel", year, month));
+    	DownloadListPanel dlp = new DownloadListPanel("downloadListPanel", year, month);
+    	dlp.setVisible(dlp.isNotEmpty());
+        addOrReplace(dlp);
     }
     
     private class DownloadListPanel extends Panel
     {
         
         private static final long serialVersionUID = -7996685875625497073L;
-        
+        private boolean notEmpty = false;
         
         public DownloadListPanel(String id, int year, int month)
         {
             super(id);
             
             // show temporary info message
-            infoMessage("tempMessage");
+            //infoMessage("tempMessage");
             
             DateTime pDate = new DateTime(year, month, 1, 0, 0, 0, 0);
             DownloadList downloadList;
+            
             try
             {
                 DownloadHistory dlh = Services.getDatasetService().getDownloadHistoryFor(getSessionUser(), dataset, pDate);
@@ -114,6 +117,7 @@ public class ActivityLogPanel extends AbstractEasyPanel
                 else
                 {
                     downloadList = dlh.getDownloadList();
+                    notEmpty = true;
                 }
                 add(new Label("downloadCount", Integer.toString(downloadList.getDownloadCount())));
                 add(new Label("downloadedBytes", Long.toString(downloadList.getTotalBytes())));
@@ -223,6 +227,10 @@ public class ActivityLogPanel extends AbstractEasyPanel
                 LOGGER.error(message, e);
                 throw new InternalWebError();
             }
+        }
+        
+        boolean isNotEmpty() {
+        	return notEmpty;
         }
 
     }
