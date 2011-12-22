@@ -3,6 +3,8 @@ package nl.knaw.dans.easy.data.store;
 import nl.knaw.dans.common.lang.dataset.CommonDataset;
 import nl.knaw.dans.common.lang.repo.AbstractDmoContext;
 import nl.knaw.dans.common.lang.repo.jumpoff.JumpoffDmo;
+import nl.knaw.dans.easy.domain.collections.SimpleCollection;
+import nl.knaw.dans.easy.domain.collections.SimpleCollectionImpl;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
 import nl.knaw.dans.easy.domain.dataset.FileItemImpl;
 import nl.knaw.dans.easy.domain.dataset.FolderItemImpl;
@@ -29,6 +31,7 @@ public class EasyDmoContext extends AbstractDmoContext
 		addToRegistry(FolderItem.NAMESPACE, FolderItemImpl.class);
 		addToRegistry(FileItem.NAMESPACE, FileItemImpl.class);
 		addToRegistry(DisciplineContainer.NAMESPACE, DisciplineContainerImpl.class);
+		addToRegistry(SimpleCollection.NAMESPACE, SimpleCollectionImpl.class);
 		addToRegistry(DownloadHistory.NAMESPACE, DownloadHistory.class);
 		addToRegistry(JumpoffDmo.NAMESPACE, JumpoffDmo.class);
 		addToRegistry("dccd", CommonDataset.class);

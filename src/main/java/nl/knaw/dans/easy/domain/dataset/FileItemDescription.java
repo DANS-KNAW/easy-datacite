@@ -62,6 +62,7 @@ public class FileItemDescription implements Serializable
     	return getMetadataForArchDepo();
     }
     
+    @SuppressWarnings("unchecked")
     public List<KeyValuePair> getMetadataForAnonKnown() {
     	List<KeyValuePair> props = new ArrayList<KeyValuePair>();
     	
@@ -107,6 +108,7 @@ public class FileItemDescription implements Serializable
     	return props;
     }
     
+    @SuppressWarnings("unchecked")
     public List<KeyValuePair> getMetadataForArchDepo() {
     	List<KeyValuePair> props = new ArrayList<KeyValuePair>();
     	

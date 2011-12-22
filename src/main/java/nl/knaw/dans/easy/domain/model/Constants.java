@@ -30,6 +30,11 @@ public interface Constants
     String CM_OAI_SET_1  = "easy-model:oai-set1";
     
     /**
+     * Content model for simple collections
+     */
+    String CM_SIMPLE_COLLECTION_1 = "easy-model:simple-collection1";
+    
+    /**
      * The prefix for OAI identifiers. A complete OAI identifier complies to:
      * <pre>
      *   oai-identifier = scheme ":" namespace-identifier ":" local-identifier

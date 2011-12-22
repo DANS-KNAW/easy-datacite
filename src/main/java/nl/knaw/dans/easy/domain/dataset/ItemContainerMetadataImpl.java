@@ -58,7 +58,7 @@ public class ItemContainerMetadataImpl extends AbstractItemMetadataImpl<DatasetI
     }
 
     // ///////////////////////////////////////////
-    protected void setNop(List list)
+    protected void setNop(List<?> list)
     {
         // needed for jiBx deserialization
     }

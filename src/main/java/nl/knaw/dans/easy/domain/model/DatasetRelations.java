@@ -9,7 +9,7 @@ import nl.knaw.dans.common.lang.repo.relations.RelsConstants;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer;
 
-public class DatasetRelations extends DmoContainerItemRelations
+public class DatasetRelations extends DmoContainerItemRelations<Dataset>
 {
 
     private static final long serialVersionUID = 4284528908966717267L;

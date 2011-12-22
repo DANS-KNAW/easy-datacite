@@ -33,7 +33,7 @@ public class WorkflowFactoryTest
             logger.debug("number of required steps: " + root.countRequiredSteps());
         if (verbose)
             logger.debug("\n" + root.printStructure(4) + "\n");
-        if (verbose)
+        //if (verbose)
             logger.debug("\n" + root.asXMLString(4) + "\n");
     }
     

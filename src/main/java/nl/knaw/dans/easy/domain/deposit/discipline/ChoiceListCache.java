@@ -3,7 +3,6 @@ package nl.knaw.dans.easy.domain.deposit.discipline;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
-import java.util.Properties;
 
 import nl.knaw.dans.common.jibx.JiBXObjectFactory;
 import nl.knaw.dans.common.lang.AbstractCache;

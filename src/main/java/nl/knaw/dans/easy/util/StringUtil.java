@@ -10,10 +10,10 @@ public final class StringUtil
         return string.substring(0, 1).toUpperCase() + string.substring(1);
     }
 
-    public static String commaSeparatedList(Collection objects)
+    public static String commaSeparatedList(Collection<?> objects)
     {
         StringBuilder sb = new StringBuilder();
-        Iterator iter = objects.iterator();
+        Iterator<?> iter = objects.iterator();
         while (iter.hasNext())
         {
             sb.append(iter.next());

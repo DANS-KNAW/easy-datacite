@@ -107,7 +107,7 @@ public class FolderItemImpl extends AbstractDatasetItemImpl implements FolderIte
         return dc;
     }
 
-    public AbstractItemMetadataImpl getDatasetItemMetadata()
+    public ItemContainerMetadataImpl getDatasetItemMetadata()
     {
         return getDatasetItemContainerMetadata();
     }

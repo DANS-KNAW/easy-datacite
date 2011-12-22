@@ -19,10 +19,32 @@
             <param name="ConversionPattern" value="%d;%m%n"/>
         </layout>
     </appender>
+    
+    <!-- 
+    log4j.appender.SYSLOG=org.apache.log4j.net.SyslogAppender
+	log4j.appender.SYSLOG.syslogHost=127.0.0.1
+	log4j.appender.SYSLOG.layout=org.apache.log4j.PatternLayout
+	log4j.appender.SYSLOG.layout.conversionPattern=%d{ISO8601} %-5p [%t] %c{2} %x - %m%n
+	log4j.appender.SYSLOG.Facility=LOCAL1
+     -->
+     
+    <appender name="SYSLOG" class="org.apache.log4j.net.SyslogAppender">
+    	<param name="syslogHost" 		value="127.0.0.1"/>
+    	<param name="Facility"			value="LOCAL1"/>
+    	<param name="Threshold" 		value="DEBUG"/>
+    	<layout class="org.apache.log4j.PatternLayout">
+           <!-- param name="ConversionPattern" value="%m;%n"/ -->
+       </layout>
+    </appender>
 	
 	<logger name="nl.knaw.dans.easy.business.aspect.ServiceProfiling">
 	   <level value="info"/>
 	   <appender-ref ref="service.profiling"/>
+	</logger>
+	
+	<logger name="nl.knaw.dans.easy.data.audit.SyslogAuditTrail" additivity="false">
+	   <level value="debug"/>
+	   <appender-ref ref="SYSLOG"/>
 	</logger>
 	
 	<logger name="nl.knaw.dans">

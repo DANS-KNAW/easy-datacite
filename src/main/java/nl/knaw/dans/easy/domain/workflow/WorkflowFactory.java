@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import nl.knaw.dans.common.jibx.JiBXObjectFactory;
-import nl.knaw.dans.common.lang.ResourceLocator;
-import nl.knaw.dans.common.lang.ResourceNotFoundException;
 import nl.knaw.dans.common.lang.xml.XMLDeserializationException;
 import nl.knaw.dans.easy.domain.exceptions.DeserializationException;
 

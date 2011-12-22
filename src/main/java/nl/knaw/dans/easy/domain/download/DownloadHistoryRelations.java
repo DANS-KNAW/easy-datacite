@@ -8,7 +8,7 @@ import nl.knaw.dans.common.lang.repo.relations.Relation;
 import nl.knaw.dans.common.lang.repo.relations.RelsConstants;
 import nl.knaw.dans.easy.domain.exceptions.ApplicationException;
 
-public class DownloadHistoryRelations extends AbstractRelations
+public class DownloadHistoryRelations extends AbstractRelations<DownloadHistory>
 {
 
     private static final long serialVersionUID = -6811813052690582306L;

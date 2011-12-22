@@ -7,7 +7,12 @@ package nl.knaw.dans.easy.domain.exceptions;
  */
 public class AnonymousUserException extends DomainRuntimeException
 {
-	public AnonymousUserException()
+	/**
+     * 
+     */
+    private static final long serialVersionUID = -1806127483115916003L;
+
+    public AnonymousUserException()
 	{
 	}
 
