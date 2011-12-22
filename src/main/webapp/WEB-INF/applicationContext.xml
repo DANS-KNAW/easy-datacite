@@ -52,6 +52,7 @@
 		<property name="trailers">
 			<list>
 				<ref bean="fileBasedAuditTrail" />
+				<ref bean="syslogAuditTrail" />
 			</list>
 		</property>
 		<property name="enabled" value="${business.audit.enabled}"/>
@@ -60,6 +61,8 @@
 	<bean name="fileBasedAuditTrail" class="nl.knaw.dans.easy.data.audit.FileBasedAuditTrail" destroy-method="close">
 		<constructor-arg index="0" value="${business.audit.file}"/>
 	</bean>
+	
+	<bean name="syslogAuditTrail" class="nl.knaw.dans.easy.data.audit.SyslogAuditTrail"/>
 	
 	<!-- ================== -->
 	<!--    BeanFactory     -->

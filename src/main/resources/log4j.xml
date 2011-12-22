@@ -60,6 +60,13 @@
         </filter>
     </appender>
     
+    <appender name="SYSLOG" class="org.apache.log4j.net.SyslogAppender">
+    	<param name="syslogHost" 		value="127.0.0.1"/>
+    	<param name="Facility"			value="LOCAL1"/>
+    	<param name="Threshold" 		value="DEBUG"/>
+    	<layout class="org.apache.log4j.PatternLayout">
+       </layout>
+    </appender> 
 
 	<category name="org.apache.log4j.xml">
 		<priority value="debug" />
@@ -74,6 +81,11 @@
        <level value="info"/>
        <appender-ref ref="service.profiling"/>
     </logger>
+    
+    <logger name="nl.knaw.dans.easy.data.audit.SyslogAuditTrail" additivity="false">
+	   <level value="debug"/>
+	   <appender-ref ref="SYSLOG"/>
+	</logger>
     
     <logger name="nl.knaw.dans.easy.business.dataset.SubmissionDispatcher">
        <appender-ref ref="submission-error"/>
