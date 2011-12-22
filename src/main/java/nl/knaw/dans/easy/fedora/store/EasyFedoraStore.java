@@ -53,6 +53,7 @@ public class EasyFedoraStore extends FedoraDmoStore implements EasyStore
         addConverter(new FolderItemConverter());
         addConverter(new FileItemConverter());
         addConverter(new DisciplineContainerConverter());
+        addConverter(new SimpleCollectionConverter());
         addConverter(new DownloadHistoryConverter());
         addConverter(new CommonDatasetConverter());
         
