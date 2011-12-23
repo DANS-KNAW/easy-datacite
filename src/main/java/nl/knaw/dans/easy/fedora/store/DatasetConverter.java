@@ -80,10 +80,9 @@ public class DatasetConverter extends AbstractDobConverter<DatasetImpl>
     }
 
     @Override
-    public void deserialize(DigitalObject digitalObject, DatasetImpl dmo) throws ObjectDeserializationException
+    public void deserialize(DigitalObject digitalObject, DatasetImpl dataset) throws ObjectDeserializationException
     {
-        super.deserialize(digitalObject, dmo);
-        DatasetImpl dataset = (DatasetImpl) dmo;
+        super.deserialize(digitalObject, dataset);
 
         try
         {
