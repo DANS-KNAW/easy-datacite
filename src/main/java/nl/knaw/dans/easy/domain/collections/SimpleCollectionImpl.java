@@ -3,19 +3,25 @@ package nl.knaw.dans.easy.domain.collections;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Set;
 
+import nl.knaw.dans.common.jibx.bean.JiBXDublinCoreMetadata;
 import nl.knaw.dans.common.lang.ApplicationException;
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.AbstractDataModelObject;
+import nl.knaw.dans.common.lang.repo.MetadataUnit;
 import nl.knaw.dans.common.lang.repo.UnitOfWork;
+import nl.knaw.dans.common.lang.repo.bean.DublinCoreMetadata;
+import nl.knaw.dans.common.lang.repo.bean.DublinCoreMetadata.PropertyName;
 import nl.knaw.dans.common.lang.repo.exception.NoUnitOfWorkAttachedException;
 import nl.knaw.dans.common.lang.repo.relations.Relations;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SimpleCollectionImpl extends AbstractDataModelObject implements SimpleCollection
+public class SimpleCollectionImpl extends AbstractDataModelObject implements SimpleCollection, Observer
 {
     
     /**
@@ -26,8 +32,8 @@ public class SimpleCollectionImpl extends AbstractDataModelObject implements Sim
     private static final Logger logger = LoggerFactory.getLogger(SimpleCollectionImpl.class);
     
     private SimpleCollection parent;
-    private List<SimpleCollection> children = new ArrayList<SimpleCollection>();
-    
+    private final List<SimpleCollection> children = new ArrayList<SimpleCollection>();
+    private JiBXDublinCoreMetadata dcMetadata;
 
     public SimpleCollectionImpl(String storeId)
     {
@@ -36,6 +42,7 @@ public class SimpleCollectionImpl extends AbstractDataModelObject implements Sim
         {
             throw new IllegalArgumentException("Invallid storeId: " + storeId);
         }
+        setDcMetadata(new JiBXDublinCoreMetadata());
         setState("Active");
         setOwnerId("FedoraAdmin");
     }
@@ -44,6 +51,22 @@ public class SimpleCollectionImpl extends AbstractDataModelObject implements Sim
     public String getObjectNamespace()
     {
         return NAMESPACE;
+    }
+    
+    @Override
+    public void setLabel(String label)
+    {
+        super.setLabel(label);
+        getDcMetadata().set(PropertyName.Title, label);
+    }
+    
+    @Override
+    public void update(Observable o, Object arg)
+    {
+        if (PropertyName.Title.equals(arg))
+        {
+            super.setLabel(getDcMetadata().getFirst(PropertyName.Title));
+        }
     }
     
     @Override
@@ -72,37 +95,70 @@ public class SimpleCollectionImpl extends AbstractDataModelObject implements Sim
         return new SimpleCollectionRelations(this);
     }
     
+    public DublinCoreMetadata getDcMetadata()
+    {
+        return dcMetadata;
+    }
+    
+    /**
+     * NO PUBLIC METHOD, used for deserialisation.
+     * @param jdc dcmd to set.
+     */
+    public void setDcMetadata(JiBXDublinCoreMetadata jdc)
+    {
+        if (dcMetadata != null)
+        {
+            dcMetadata.deleteObserver(this);
+        }
+        dcMetadata = jdc;
+        dcMetadata.addObserver(this);
+    }
+    
     @Override
-    public boolean isOAISet()
+    public List<MetadataUnit> getMetadataUnits()
+    {
+        List<MetadataUnit> metadataUnits = super.getMetadataUnits();
+        metadataUnits.add(getDcMetadata());
+        return metadataUnits;
+    }
+
+    @Override
+    public boolean isPublishedAsOAISet()
     {
         return getRelations().hasOAISetRelation();
     }
     
-    @Override
-    public void setOAISet(boolean isOAISet)
+    public void publishAsOAISet()
     {
-        if (isOAISet)
+        SimpleCollection parent = getParent();
+        if (parent != null)
         {
-            String setSpec = createSetSpec(getSetElement());
-            getRelations().addOAISetRelation(setSpec, getLabel());
+            parent.publishAsOAISet();
         }
-        else
-        {
-            getRelations().removeOAISetRelation();
-        }
+        String setSpec = createOAISetSpec(getOAISetElement());
+        getRelations().addOAISetRelation(setSpec, getLabel());
     }
     
-    protected String createSetSpec(String setElements)
+    public void unpublishAsOAISet()
+    {
+        for (SimpleCollection child : getChildren())
+        {
+            child.unpublishAsOAISet();
+        }
+        getRelations().removeOAISetRelation();
+    }
+    
+    protected String createOAISetSpec(String setElements)
     {
         SimpleCollectionImpl parent = (SimpleCollectionImpl) getParent();
         if (parent != null)
         {
-            setElements = parent.createSetSpec(parent.getSetElement() + ":" + setElements);
+            setElements = parent.createOAISetSpec(parent.getOAISetElement() + ":" + setElements);
         }
         return setElements;
     }
     
-    protected String getSetElement()
+    protected String getOAISetElement()
     {
         return getStoreId().substring(NAMESPACE.length() + 1);
     }
@@ -166,6 +222,10 @@ public class SimpleCollectionImpl extends AbstractDataModelObject implements Sim
         {
             throw new IllegalArgumentException("Cannot add child that is me!");
         }
+        if (child.isPublishedAsOAISet())
+        {
+            throw new IllegalArgumentException("Cannot add a child that is published as OAI set.");
+        }
         SimpleCollectionImpl childImpl;
         if (child instanceof SimpleCollectionImpl)
         {
@@ -194,19 +254,28 @@ public class SimpleCollectionImpl extends AbstractDataModelObject implements Sim
             this.parent = parent;
             getRelations().setParent(parent);
             parentSet = true;
-            logger.debug("[" + getLabel() + "] now has parent " + parent);
+            logger.debug("[" + getStoreId() + "] now has parent " + parent);
         }
         return parentSet;
     }
     
-    public boolean remove(SimpleCollectionImpl child)
+    public boolean removeChild(SimpleCollection child)
     {
+        SimpleCollectionImpl childImpl;
+        if (child instanceof SimpleCollectionImpl)
+        {
+            childImpl = (SimpleCollectionImpl) child;
+        }
+        else
+        {
+            throw new IllegalArgumentException("Child is not a " + SimpleCollectionImpl.class.getName());
+        }
+        
         boolean childRemoved = false;
-        if (child.removeParent(this))
+        if (childImpl.removeParent(this))
         {
             children.remove(child);
             getRelations().removeChild(child);
-            setOAISet(false);
             childRemoved = true;
         }
         return childRemoved;
@@ -219,8 +288,9 @@ public class SimpleCollectionImpl extends AbstractDataModelObject implements Sim
         {
             this.parent = null;
             getRelations().removeParent(parent);
+            unpublishAsOAISet();
             parrentRemoved = true;
-            logger.debug("[" + getLabel() + "] removed parent " + parent);
+            logger.debug("[" + getStoreId() + "] removed parent " + parent);
         }
         return parrentRemoved;
     }
