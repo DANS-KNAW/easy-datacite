@@ -12,18 +12,24 @@ import nl.knaw.dans.common.fedora.rdf.FedoraURIReference;
 import nl.knaw.dans.common.fedora.store.FedoraDmoStore;
 import nl.knaw.dans.common.jibx.JiBXObjectFactory;
 import nl.knaw.dans.common.lang.RepositoryException;
+import nl.knaw.dans.common.lang.repo.AbstractDmoFactory;
 import nl.knaw.dans.common.lang.repo.DataModelObject;
 import nl.knaw.dans.common.lang.repo.exception.ObjectDeserializationException;
 import nl.knaw.dans.common.lang.repo.relations.RelsConstants;
 import nl.knaw.dans.common.lang.reposearch.RepoSearchListener;
 import nl.knaw.dans.common.lang.search.SearchEngine;
 import nl.knaw.dans.common.lang.xml.XMLDeserializationException;
-import nl.knaw.dans.easy.data.store.EasyDmoContext;
 import nl.knaw.dans.easy.data.store.EasyStore;
+import nl.knaw.dans.easy.domain.collections.EasyCollectionDmoFactory;
+import nl.knaw.dans.easy.domain.dataset.DatasetFactory;
 import nl.knaw.dans.easy.domain.dataset.DescriptiveMetadataImpl;
 import nl.knaw.dans.easy.domain.dataset.EasyFile;
+import nl.knaw.dans.easy.domain.dataset.FileItemFactory;
+import nl.knaw.dans.easy.domain.dataset.FolderItemFactory;
 import nl.knaw.dans.easy.domain.download.DownloadHistory;
+import nl.knaw.dans.easy.domain.download.DownloadHistoryFactory;
 import nl.knaw.dans.easy.domain.exceptions.ApplicationException;
+import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainerFactory;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadataImpl;
 
@@ -47,16 +53,30 @@ public class EasyFedoraStore extends FedoraDmoStore implements EasyStore
 
     public EasyFedoraStore(String name, final Fedora fedora, final SearchEngine searchEngine)
     {
-        super(name, fedora, new EasyDmoContext());
-
-        addConverter(new DatasetConverter());
-        addConverter(new FolderItemConverter());
-        addConverter(new FileItemConverter());
-        addConverter(new DisciplineContainerConverter());
-        addConverter(new SimpleCollectionConverter());
-        addConverter(new DownloadHistoryConverter());
-        addConverter(new CommonDatasetConverter());
+        super(name, fedora);
         
+        AbstractDmoFactory.register(new DatasetFactory());
+        addConverter(new DatasetConverter());
+        
+        AbstractDmoFactory.register(new FileItemFactory());
+        addConverter(new FileItemConverter());
+        
+        AbstractDmoFactory.register(new FolderItemFactory());
+        addConverter(new FolderItemConverter());
+        
+        AbstractDmoFactory.register(new DisciplineContainerFactory());
+        addConverter(new DisciplineContainerConverter());
+        
+        AbstractDmoFactory.register(new EasyCollectionDmoFactory());
+        addConverter(new SimpleCollectionConverter());
+        
+        AbstractDmoFactory.register(new DownloadHistoryFactory());
+        addConverter(new DownloadHistoryConverter());
+        
+        // CommonDataset was a hobby of Lodewijk. Does not fit into the system.
+        // addConverter(new CommonDatasetConverter());
+        
+        // nl.knaw.dans.common.lang.repo.jumpoff.JumpoffDmo is taken care of in super.
 
         if (searchEngine != null)
             addEventListener(new RepoSearchListener(searchEngine));
