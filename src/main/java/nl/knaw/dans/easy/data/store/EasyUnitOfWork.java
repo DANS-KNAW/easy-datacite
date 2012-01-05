@@ -3,7 +3,6 @@ package nl.knaw.dans.easy.data.store;
 import nl.knaw.dans.common.lang.repo.AbstractUnitOfWork;
 import nl.knaw.dans.common.lang.repo.DataModelObject;
 import nl.knaw.dans.common.lang.repo.DmoStore;
-import nl.knaw.dans.common.lang.repo.DmoContext;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 
@@ -64,12 +63,6 @@ public class EasyUnitOfWork extends AbstractUnitOfWork
 	protected String getUpdateLogMessage(DataModelObject dmo)
 	{
 		return createUpdateMessage(dmo.getStoreId(), user);
-	}
-
-
-	public DmoContext getContext()
-	{
-		return EasyDmoContext.getInstance();
 	}
 
 }

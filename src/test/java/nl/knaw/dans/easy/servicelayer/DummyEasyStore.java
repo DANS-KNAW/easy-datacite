@@ -2,15 +2,11 @@ package nl.knaw.dans.easy.servicelayer;
 import java.net.URL;
 import java.util.List;
 
-import org.joda.time.DateTime;
-
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.BinaryUnit;
 import nl.knaw.dans.common.lang.repo.DataModelObject;
-import nl.knaw.dans.common.lang.repo.DmoUpdateConcurrencyGuard;
-import nl.knaw.dans.common.lang.repo.DmoContext;
-import nl.knaw.dans.common.lang.repo.DmoFactory;
 import nl.knaw.dans.common.lang.repo.DmoStoreEventListener;
+import nl.knaw.dans.common.lang.repo.DmoUpdateConcurrencyGuard;
 import nl.knaw.dans.common.lang.repo.MetadataUnit;
 import nl.knaw.dans.common.lang.repo.UnitMetadata;
 import nl.knaw.dans.common.lang.repo.exception.ConcurrentUpdateException;
@@ -19,6 +15,8 @@ import nl.knaw.dans.common.lang.repo.relations.Relation;
 import nl.knaw.dans.easy.data.store.EasyStore;
 import nl.knaw.dans.easy.domain.download.DownloadHistory;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
+
+import org.joda.time.DateTime;
 
 public class DummyEasyStore implements EasyStore
 {
