@@ -2,6 +2,7 @@ package nl.knaw.dans.easy.domain.model.disciplinecollection;
 
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.AbstractDmoFactory;
+import nl.knaw.dans.common.lang.repo.DmoNamespace;
 
 public class DisciplineContainerFactory extends AbstractDmoFactory<DisciplineContainer>
 {
@@ -19,7 +20,7 @@ public class DisciplineContainerFactory extends AbstractDmoFactory<DisciplineCon
     }
 
     @Override
-    public String getNamespace()
+    public DmoNamespace getNamespace()
     {
         return DisciplineContainer.NAMESPACE;
     }

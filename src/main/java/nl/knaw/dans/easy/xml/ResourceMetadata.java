@@ -26,7 +26,7 @@ public class ResourceMetadata extends AbstractJiBXObject<ResourceMetadata>
     public ResourceMetadata(String identifier)
     {
         identifier = identifier.trim();
-        if (identifier.startsWith(FileItem.NAMESPACE))
+        if (identifier.startsWith(FileItem.NAMESPACE.getValue()))
         {
             this.sid = identifier;
         }

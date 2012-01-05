@@ -2,12 +2,13 @@ package nl.knaw.dans.easy.domain.download;
 
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.AbstractDmoFactory;
+import nl.knaw.dans.common.lang.repo.DmoNamespace;
 
 public class DownloadHistoryFactory extends AbstractDmoFactory<DownloadHistory>
 {
 
     @Override
-    public String getNamespace()
+    public DmoNamespace getNamespace()
     {
         return DownloadHistory.NAMESPACE;
     }

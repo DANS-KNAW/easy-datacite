@@ -17,6 +17,7 @@ import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.repo.BinaryUnit;
+import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.common.lang.repo.MetadataUnit;
 import nl.knaw.dans.common.lang.repo.bean.DublinCoreMetadata;
 import nl.knaw.dans.common.lang.repo.collections.AbstractDmoRecursiveItem;
@@ -89,7 +90,7 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
         this.easyMetadata = easyMetadata;
     }
 
-    public String getObjectNamespace()
+    public DmoNamespace getObjectNamespace()
     {
         return NAMESPACE;
     }

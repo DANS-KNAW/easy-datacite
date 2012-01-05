@@ -1,13 +1,15 @@
 package nl.knaw.dans.easy.security;
 
+import nl.knaw.dans.common.lang.repo.DmoNamespace;
+
 
 public class DmoNamespaceCheck extends AbstractCheck
 {
     
-    private final String[] allowedNamespaces;
+    private final DmoNamespace[] allowedNamespaces;
     private final String proposition;
     
-    public DmoNamespaceCheck(String...namespaces)
+    public DmoNamespaceCheck(DmoNamespace...namespaces)
     {
         allowedNamespaces = namespaces;
         proposition = PropositionBuilder.buildOrProposition("storeId starts with", namespaces);
@@ -23,7 +25,7 @@ public class DmoNamespaceCheck extends AbstractCheck
             int i = 0;
             while (!conditionMet && i < allowedNamespaces.length)
             {
-                conditionMet = storeId.startsWith(allowedNamespaces[i++]);
+                conditionMet = storeId.startsWith(allowedNamespaces[i++].getValue());
             }
         }
         return conditionMet;

@@ -1,8 +1,10 @@
 package nl.knaw.dans.easy.domain.model;
 
+import nl.knaw.dans.common.lang.repo.DmoNamespace;
+
 
 
 public interface FolderItem extends DatasetItem, DatasetItemContainer
 {
-    String NAMESPACE = "easy-folder";
+    DmoNamespace NAMESPACE = new DmoNamespace("easy-folder");
 }

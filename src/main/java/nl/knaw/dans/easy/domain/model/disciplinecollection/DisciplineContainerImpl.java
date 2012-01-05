@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import nl.knaw.dans.common.lang.RepositoryException;
+import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.common.lang.repo.MetadataUnit;
 import nl.knaw.dans.common.lang.repo.RepoUtil;
 import nl.knaw.dans.common.lang.repo.collections.AbstractDmoRecursiveItem;
@@ -24,7 +25,7 @@ public class DisciplineContainerImpl extends AbstractDmoRecursiveItem
 		super(storeId);
 	}
 	
-	public String getObjectNamespace()
+	public DmoNamespace getObjectNamespace()
 	{
 	 	return NAMESPACE;
 	}
@@ -94,7 +95,7 @@ public class DisciplineContainerImpl extends AbstractDmoRecursiveItem
 				for (String childSid : childSids)
 				{
 					String namespace = RepoUtil.getNamespaceFromSid(childSid);
-					if (namespace.equals(DisciplineContainer.NAMESPACE))
+					if (namespace.equals(DisciplineContainer.NAMESPACE.getValue()))
 					{
 						// check if we still have a validated copy of the object in the old cache
 						if (childDisciplinesCache != null)

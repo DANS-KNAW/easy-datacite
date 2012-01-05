@@ -12,6 +12,7 @@ import java.util.List;
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.repo.AbstractDmoFactory;
 import nl.knaw.dans.common.lang.repo.DataModelObject;
+import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.EasyUnitOfWork;
 import nl.knaw.dans.easy.data.store.FileStoreAccess;
@@ -71,7 +72,7 @@ public class ItemIngesterTest
             }
 
             @Override
-            public String getNamespace()
+            public DmoNamespace getNamespace()
             {
                 return null;
             }

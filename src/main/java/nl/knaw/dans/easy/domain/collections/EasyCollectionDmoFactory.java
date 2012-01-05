@@ -3,6 +3,7 @@ package nl.knaw.dans.easy.domain.collections;
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.AbstractDmoFactory;
 import nl.knaw.dans.common.lang.repo.DmoDecorator;
+import nl.knaw.dans.common.lang.repo.DmoNamespace;
 
 public class EasyCollectionDmoFactory extends AbstractDmoFactory<SimpleCollection>
 {
@@ -22,7 +23,7 @@ public class EasyCollectionDmoFactory extends AbstractDmoFactory<SimpleCollectio
     }
 
     @Override
-    public String getNamespace()
+    public DmoNamespace getNamespace()
     {
         return EasyCollectionDmoDecorator.NAMESPACE;
     }

@@ -2,6 +2,7 @@ package nl.knaw.dans.easy.domain.dataset;
 
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.AbstractDmoFactory;
+import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.easy.domain.model.FileItem;
 
 public class FileItemFactory extends AbstractDmoFactory<FileItem>
@@ -20,7 +21,7 @@ public class FileItemFactory extends AbstractDmoFactory<FileItem>
     }
 
     @Override
-    public String getNamespace()
+    public DmoNamespace getNamespace()
     {
         return FileItem.NAMESPACE;
     }

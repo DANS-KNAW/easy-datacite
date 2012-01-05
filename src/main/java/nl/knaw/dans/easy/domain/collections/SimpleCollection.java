@@ -9,11 +9,7 @@ import nl.knaw.dans.easy.domain.model.Constants;
 public interface SimpleCollection extends DataModelObject
 {
 
-    String NAMESPACE     = "easy-collection";
-
     String CONTENT_MODEL = Constants.CM_SIMPLE_COLLECTION_1;
-
-    String ROOT_ID       = NAMESPACE + ":" + "esc";
 
     /**
      * Does this SimpleCollection have a parent.

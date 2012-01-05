@@ -6,6 +6,7 @@ import java.util.Set;
 
 import nl.knaw.dans.common.jibx.bean.JiBXDublinCoreMetadata;
 import nl.knaw.dans.common.lang.RepositoryException;
+import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.common.lang.repo.MetadataUnit;
 import nl.knaw.dans.common.lang.repo.UnitOfWork;
 import nl.knaw.dans.common.lang.repo.bean.DublinCoreMetadata;
@@ -38,7 +39,7 @@ public class FolderItemImpl extends AbstractDatasetItemImpl implements FolderIte
         super(storeId);
     }
 
-    public String getObjectNamespace()
+    public DmoNamespace getObjectNamespace()
     {
         return NAMESPACE;
     }
@@ -292,7 +293,7 @@ public class FolderItemImpl extends AbstractDatasetItemImpl implements FolderIte
             container = folderItemImpl;
         }
 
-        public String getObjectNamespace()
+        public DmoNamespace getObjectNamespace()
         {
             return container.getObjectNamespace();
         }

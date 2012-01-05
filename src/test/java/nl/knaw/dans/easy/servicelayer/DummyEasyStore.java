@@ -5,6 +5,7 @@ import java.util.List;
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.BinaryUnit;
 import nl.knaw.dans.common.lang.repo.DataModelObject;
+import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.common.lang.repo.DmoStoreEventListener;
 import nl.knaw.dans.common.lang.repo.DmoUpdateConcurrencyGuard;
 import nl.knaw.dans.common.lang.repo.MetadataUnit;
@@ -225,7 +226,7 @@ public class DummyEasyStore implements EasyStore
     }
 
     @Override
-    public String nextSid(String objectNamespace) throws RepositoryException
+    public String nextSid(DmoNamespace objectNamespace) throws RepositoryException
     {
         // TODO Auto-generated method stub
         return null;

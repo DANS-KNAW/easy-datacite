@@ -6,11 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.dom4j.Element;
-
 import nl.knaw.dans.common.jibx.bean.JiBXDublinCoreMetadata;
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.repo.BinaryUnit;
+import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.common.lang.repo.MetadataUnit;
 import nl.knaw.dans.common.lang.repo.bean.DublinCoreMetadata;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
@@ -23,6 +22,8 @@ import nl.knaw.dans.easy.domain.model.FileItemMetadata;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.xml.AdditionalMetadata;
+
+import org.dom4j.Element;
 
 public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem
 {
@@ -40,7 +41,7 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem
         super(storeId);
     }
     
-    public String getObjectNamespace()
+    public DmoNamespace getObjectNamespace()
     {
         return NAMESPACE;
     }

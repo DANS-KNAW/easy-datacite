@@ -235,7 +235,7 @@ public class ItemIngester extends AbstractWorker
     {
         if (file.isDirectory())
         {
-            if (!storeId.startsWith(FolderItem.NAMESPACE))
+            if (!storeId.startsWith(FolderItem.NAMESPACE.getValue()))
             {
                 throw new RepositoryException("Cannot update " + storeId + " because it is not a FolderItem.");
             }
@@ -248,7 +248,7 @@ public class ItemIngester extends AbstractWorker
         }
         else
         {
-            if (!storeId.startsWith(FileItem.NAMESPACE))
+            if (!storeId.startsWith(FileItem.NAMESPACE.getValue()))
             {
                 throw new RepositoryException("Cannot update " + storeId + " because it is not a FileItem.");
             }

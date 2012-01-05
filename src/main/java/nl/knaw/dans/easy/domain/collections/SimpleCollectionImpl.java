@@ -12,6 +12,7 @@ import nl.knaw.dans.common.lang.ApplicationException;
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.AbstractDataModelObject;
 import nl.knaw.dans.common.lang.repo.DmoDecorator;
+import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.common.lang.repo.MetadataUnit;
 import nl.knaw.dans.common.lang.repo.UnitOfWork;
 import nl.knaw.dans.common.lang.repo.bean.DublinCoreMetadata;
@@ -40,7 +41,7 @@ public class SimpleCollectionImpl extends AbstractDataModelObject implements Sim
     public SimpleCollectionImpl(String storeId, DmoDecorator dmoDecorator)
     {
         super(storeId);
-        if (storeId == null || !storeId.startsWith(dmoDecorator.getObjectNamespace()))
+        if (storeId == null || !storeId.startsWith(dmoDecorator.getObjectNamespace().getValue()))
         {
             throw new IllegalArgumentException("Invallid storeId: " + storeId);
         }
@@ -51,7 +52,7 @@ public class SimpleCollectionImpl extends AbstractDataModelObject implements Sim
     }
 
     @Override
-    public String getObjectNamespace()
+    public DmoNamespace getObjectNamespace()
     {
         return dmoDecorator.getObjectNamespace();
     }
@@ -172,7 +173,7 @@ public class SimpleCollectionImpl extends AbstractDataModelObject implements Sim
     
     protected String getOAISetElement()
     {
-        return getStoreId().substring(NAMESPACE.length() + 1);
+        return getStoreId().substring(getObjectNamespace().getValue().length() + 1);
     }
 
     @Override

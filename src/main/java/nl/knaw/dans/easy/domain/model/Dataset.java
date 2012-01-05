@@ -6,6 +6,7 @@ import java.util.Set;
 
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
+import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer;
@@ -20,8 +21,10 @@ import org.joda.time.DateTime;
 public interface Dataset extends DatasetItemContainer
 {
     AccessCategory DEFAULT_ACCESS_CATEGORY = AccessCategory.OPEN_ACCESS;
+    
+    String NAME_SPACE_VALUE = "easy-dataset";
 
-    String         NAMESPACE               = "easy-dataset";
+    DmoNamespace NAMESPACE = new DmoNamespace(NAME_SPACE_VALUE);
 
     EasyMetadata getEasyMetadata();
 

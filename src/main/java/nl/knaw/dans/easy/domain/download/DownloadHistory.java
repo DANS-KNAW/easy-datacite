@@ -3,6 +3,7 @@ package nl.knaw.dans.easy.domain.download;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.repo.AbstractDataModelObject;
+import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.common.lang.repo.MetadataUnit;
 import nl.knaw.dans.common.lang.repo.relations.Relations;
 import nl.knaw.dans.easy.domain.download.DownloadList.Level;
@@ -14,7 +15,7 @@ public class DownloadHistory extends AbstractDataModelObject
     
     private static final long serialVersionUID = -3007955623753515227L;
     
-    public static final String NAMESPACE      = "easy-dlh";
+    public static final DmoNamespace NAMESPACE = new DmoNamespace("easy-dlh");
     
     private String objectId;
     private DownloadList downloadList;
@@ -31,7 +32,7 @@ public class DownloadHistory extends AbstractDataModelObject
         downloadList = new DownloadList(listType, level);
     }
 
-    public String getObjectNamespace()
+    public DmoNamespace getObjectNamespace()
     {
         return NAMESPACE;
     }

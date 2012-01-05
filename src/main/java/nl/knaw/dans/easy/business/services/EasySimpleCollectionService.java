@@ -15,16 +15,16 @@ public class EasySimpleCollectionService extends AbstractEasyService implements 
     @Override
     public SimpleCollection getRoot() throws ServiceException
     {
-        SimpleCollection root;
-        try
-        {
-            root = Data.getSimpleCollectionFactory().getRootCollection(null);
-        }
-        catch (RepositoryException e)
-        {
-            throw new ServiceException(e);
-        }
-        return root;
+//        SimpleCollection root;
+//        try
+//        {
+//            root = Data.getSimpleCollectionFactory().getRootCollection(null);
+//        }
+//        catch (RepositoryException e)
+//        {
+//            throw new ServiceException(e);
+//        }
+        return null;
     }
 
     @Override

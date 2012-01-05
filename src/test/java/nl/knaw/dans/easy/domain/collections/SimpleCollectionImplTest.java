@@ -10,7 +10,7 @@ import org.junit.Test;
 public class SimpleCollectionImplTest
 {
     
-    private static final String ID_ROOT = SimpleCollection.ROOT_ID;
+    private static final String ID_ROOT = EasyCollectionDmoDecorator.ROOT_ID;
     
     private SimpleCollectionImpl root;
     private SimpleCollectionImpl rootKid;

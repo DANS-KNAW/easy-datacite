@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 @SearchBean(
 		defaultIndex = DatasetsIndex.class, 
-		typeIdentifier = Dataset.NAMESPACE)
+		typeIdentifier = Dataset.NAME_SPACE_VALUE)
 public class EasyDatasetSB extends DatasetSB
 {
     @SuppressWarnings("unused")

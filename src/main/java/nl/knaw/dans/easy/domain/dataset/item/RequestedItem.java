@@ -1,5 +1,6 @@
 package nl.knaw.dans.easy.domain.dataset.item;
 
+import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.FileItem;
 import nl.knaw.dans.easy.domain.model.FolderItem;
@@ -42,10 +43,10 @@ public class RequestedItem
         return hasNameSpace(FileItem.NAMESPACE);
     }
 
-    private boolean hasNameSpace(String namespace)
+    private boolean hasNameSpace(DmoNamespace namespace)
     {
         // not including the ":" in the test, allows to extend the name space with Dummy for testing
-        return storeId.startsWith(namespace);
+        return storeId.startsWith(namespace.getValue());
     }
 
     public boolean filesOnly()

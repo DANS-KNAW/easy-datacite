@@ -1,10 +1,14 @@
 package nl.knaw.dans.easy.domain.model.disciplinecollection;
 
+import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
 
 public interface DisciplineCollection
 {
+    
+    public static final DmoNamespace NAME_SPACE = new DmoNamespace("discipline-collection");
+    
 	/**
 	 * Returns the root discipline in the discipline hierarchy.
 	 * @return the root discipline

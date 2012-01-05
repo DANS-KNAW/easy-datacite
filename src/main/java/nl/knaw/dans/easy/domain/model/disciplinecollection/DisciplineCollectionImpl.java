@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import nl.knaw.dans.common.lang.RepositoryException;
+import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.common.lang.repo.collections.AbstractDmoCollection;
 import nl.knaw.dans.common.lang.repo.collections.DmoCollectionMember;
 import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
@@ -51,9 +52,9 @@ public class DisciplineCollectionImpl extends AbstractDmoCollection implements
 		return classes;
 	}
 
-	public String getObjectNamespace()
+	public DmoNamespace getObjectNamespace()
 	{
-		return "discipline-collection";
+		return NAME_SPACE;
 	}
 	
 	@Override

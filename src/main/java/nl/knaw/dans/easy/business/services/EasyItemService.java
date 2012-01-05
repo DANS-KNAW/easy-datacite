@@ -372,7 +372,7 @@ public class EasyItemService extends AbstractEasyService implements ItemService
         {
             for (final String storeId : storeIds)
             {
-                if (storeId.startsWith(FileItem.NAMESPACE))
+                if (storeId.startsWith(FileItem.NAMESPACE.getValue()))
                 {
                     items.add(Data.getFileStoreAccess().findFileById(storeId));
                 }

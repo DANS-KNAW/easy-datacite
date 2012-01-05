@@ -3,6 +3,7 @@ package nl.knaw.dans.easy.domain.dataset;
 import java.util.HashSet;
 import java.util.Set;
 
+import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.common.lang.repo.collections.AbstractDmoCollection;
 import nl.knaw.dans.common.lang.repo.collections.DmoCollectionMember;
 
@@ -41,9 +42,9 @@ public class DatasetItemCollection extends AbstractDmoCollection
 		return classes;
 	}
 
-	public String getObjectNamespace()
+	public DmoNamespace getObjectNamespace()
 	{
-		return "dataset-item-collection";
+		return new DmoNamespace("dataset-item-collection");
 	}
 	
 	@Override

@@ -8,7 +8,6 @@ import nl.knaw.dans.easy.data.store.FileStoreAccess;
 import nl.knaw.dans.easy.data.userrepo.EasyUserRepo;
 import nl.knaw.dans.easy.data.userrepo.GroupRepo;
 import nl.knaw.dans.easy.data.userrepo.RepoAccessDelegatorImpl;
-import nl.knaw.dans.easy.domain.collections.SimpleCollectionFactory;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.Group;
 import nl.knaw.dans.easy.domain.model.user.RepoAccess;
@@ -38,7 +37,7 @@ public class Data
     private static FileStoreAccess fileStoreAccess;
     private static DatasetSearch   datasetSearch;
     private static SearchEngine    searchEngine;
-    private static SimpleCollectionFactory simpleCollectionFactory;
+    //private static SimpleCollectionFactory simpleCollectionFactory;
     private static int             downloadLimit; // max. size of download in Mb
     private static int			   maxNumberOfFiles;
 
@@ -158,14 +157,14 @@ public class Data
         return searchEngine;
     }
     
-    public static SimpleCollectionFactory getSimpleCollectionFactory()
-    {
-        if (simpleCollectionFactory == null)
-        {
-            throw new DataConfigurationException("No simpleCollectionFactory set. Make sure the application context is properly configured.");
-        }
-        return simpleCollectionFactory;
-    }
+//    public static SimpleCollectionFactory getSimpleCollectionFactory()
+//    {
+//        if (simpleCollectionFactory == null)
+//        {
+//            throw new DataConfigurationException("No simpleCollectionFactory set. Make sure the application context is properly configured.");
+//        }
+//        return simpleCollectionFactory;
+//    }
 
     public static int getDownloadLimit()
     {
@@ -269,12 +268,12 @@ public class Data
         logger.debug("Injected dependency searchEngine: " + searchEngine);
     }
     
-    public void setSimpleCollectionFactory(SimpleCollectionFactory simpleCollectionFactory)
-    {
-        checkLock();
-        Data.simpleCollectionFactory = simpleCollectionFactory;
-        logger.debug("Injected dependency simpleCollectionFactory: " + simpleCollectionFactory);
-    }
+//    public void setSimpleCollectionFactory(SimpleCollectionFactory simpleCollectionFactory)
+//    {
+//        checkLock();
+//        Data.simpleCollectionFactory = simpleCollectionFactory;
+//        logger.debug("Injected dependency simpleCollectionFactory: " + simpleCollectionFactory);
+//    }
 
     private void checkLock()
     {

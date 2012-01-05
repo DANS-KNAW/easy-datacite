@@ -1,6 +1,8 @@
 package nl.knaw.dans.easy.security;
 
 import static org.junit.Assert.*;
+import nl.knaw.dans.common.lang.repo.jumpoff.JumpoffDmo;
+import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer;
 import nl.knaw.dans.easy.security.ContextParameters;
 import nl.knaw.dans.easy.security.DmoNamespaceCheck;
 
@@ -12,7 +14,7 @@ public class DmoNamespaceCheckTest
     @Test
     public void explain()
     {
-        DmoNamespaceCheck nsc = new DmoNamespaceCheck("dans-jumpoff", "easy-discipline");
+        DmoNamespaceCheck nsc = new DmoNamespaceCheck(JumpoffDmo.NAMESPACE, DisciplineContainer.NAMESPACE);
         
         ContextParameters ctx = new ContextParameters("dans-jumpoff:41");
         //System.err.println(nsc.explain(ctx));
