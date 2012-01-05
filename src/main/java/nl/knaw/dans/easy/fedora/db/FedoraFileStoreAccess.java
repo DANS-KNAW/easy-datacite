@@ -445,11 +445,11 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
     public String getDatasetId(String storeId) throws StoreException
     {
         String query;
-        if (storeId.startsWith(FolderItem.NAMESPACE))
+        if (storeId.startsWith(FolderItem.NAMESPACE.getValue()))
         {
             query = DATASET_ID_OF_FOLDER_QUERY;
         }
-        else if (storeId.startsWith(FileItem.NAMESPACE))
+        else if (storeId.startsWith(FileItem.NAMESPACE.getValue()))
         {
             query = DATASET_ID_OF_FILE_QUERY;
         }
@@ -599,7 +599,7 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
         try
         {
             Session session = sessionFactory.openSession();
-            if (sid.startsWith(Dataset.NAMESPACE))
+            if (sid.startsWith(Dataset.NAMESPACE.getValue()))
             {
                 collectDatasetChildren(itemVOs, session, sid);
             }

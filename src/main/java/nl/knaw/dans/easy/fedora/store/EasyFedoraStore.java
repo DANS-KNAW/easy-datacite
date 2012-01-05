@@ -68,7 +68,7 @@ public class EasyFedoraStore extends FedoraDmoStore implements EasyStore
         addConverter(new DisciplineContainerConverter());
         
         AbstractDmoFactory.register(new EasyCollectionDmoFactory());
-        addConverter(new SimpleCollectionConverter());
+        //addConverter(new SimpleCollectionConverter());
         
         AbstractDmoFactory.register(new DownloadHistoryFactory());
         addConverter(new DownloadHistoryConverter());

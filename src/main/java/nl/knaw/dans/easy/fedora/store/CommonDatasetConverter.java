@@ -6,6 +6,7 @@ import nl.knaw.dans.common.fedora.store.AbstractDobConverter;
 import nl.knaw.dans.common.jibx.JiBXObjectFactory;
 import nl.knaw.dans.common.jibx.bean.JiBXDublinCoreMetadata;
 import nl.knaw.dans.common.lang.dataset.CommonDataset;
+import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.common.lang.repo.bean.DublinCoreMetadata;
 import nl.knaw.dans.common.lang.repo.exception.ObjectDeserializationException;
 import nl.knaw.dans.common.lang.xml.XMLDeserializationException;
@@ -16,7 +17,7 @@ public class CommonDatasetConverter extends AbstractDobConverter<CommonDataset>
 {
 	public CommonDatasetConverter()
 	{
-		super("dccd");
+		super(new DmoNamespace("dccd"));
 	}
 	
 	@Override

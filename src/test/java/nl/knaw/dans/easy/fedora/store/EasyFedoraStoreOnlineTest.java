@@ -53,7 +53,7 @@ public class EasyFedoraStoreOnlineTest extends AbstractOnlineTest
 	@Test
 	public void ingestRetrievePurge() throws Exception
 	{
-		Dataset dataset = getDummyDataset(store.nextSid("easy-dataset"));
+		Dataset dataset = getDummyDataset(store.nextSid(Dataset.NAMESPACE));
 
 		String datasetId = store.ingest(dataset, "ingest dataset for test");
 		assertTrue(datasetId.startsWith("easy-dataset"));
@@ -69,7 +69,7 @@ public class EasyFedoraStoreOnlineTest extends AbstractOnlineTest
 		AdministrativeMetadata amd = dataset2.getAdministrativeMetadata();
 		assertNotNull(amd.getTimestamp());
 
-		if (verbose)
+		//if (verbose)
 			logger.debug("\n" + amd.asXMLString(4) + "\n");
 
 		EasyMetadata emd = dataset2.getEasyMetadata();
@@ -95,7 +95,7 @@ public class EasyFedoraStoreOnlineTest extends AbstractOnlineTest
 	//@Test
 	public void retrieveMultipleInstances() throws RepositoryException
 	{
-	    Dataset dataset1 = getDummyDataset(store.nextSid("easy-dataset"));
+	    Dataset dataset1 = getDummyDataset(store.nextSid(Dataset.NAMESPACE));
         String storeId = store.ingest(dataset1, "ingest dataset for test");
         
         Dataset dataset2 = (Dataset) store.retrieve(storeId);
