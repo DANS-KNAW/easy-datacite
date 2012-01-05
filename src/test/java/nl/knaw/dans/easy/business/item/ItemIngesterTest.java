@@ -10,11 +10,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
+import nl.knaw.dans.common.lang.repo.AbstractDmoFactory;
 import nl.knaw.dans.common.lang.repo.DataModelObject;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.EasyUnitOfWork;
 import nl.knaw.dans.easy.data.store.FileStoreAccess;
-import nl.knaw.dans.easy.domain.dataset.FileItemImpl;
 import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
@@ -61,6 +61,27 @@ public class ItemIngesterTest
         expect(Data.getFileStoreAccess()).andReturn(fileStoreAccessMock).anyTimes();
         fileMock = PowerMock.createMock(File.class);
         fileItemMock = PowerMock.createMock(FileItem.class);
+        
+        AbstractDmoFactory.register(FileItem.NAMESPACE, new AbstractDmoFactory<FileItem>()
+        {
+            @Override
+            public FileItem newDmo()
+            {
+                return fileItemMock;
+            }
+
+            @Override
+            public String getNamespace()
+            {
+                return null;
+            }
+
+            @Override
+            public FileItem createDmo(String storeId)
+            {
+                return null;
+            }
+        });
     }
 
     @Test
@@ -113,6 +134,7 @@ public class ItemIngesterTest
         rootFileIsDirectory();
         noFilesAndFoldersUnderParentContainer();
         noFilesUnderRootFolder();
+        
         replayAll();
 
         ItemIngester ii = new ItemIngester(datasetMock, userMock, null);
@@ -161,6 +183,7 @@ public class ItemIngesterTest
     public void noItemsUnderParentContainerAndOneFileInRootFolder() throws Exception
     {
         // Set up preconditions
+
         normalUserLoggedIn();
         creatorRoleIsDepositor();
         datasetHasStoreId("easy-dataset:1");
@@ -171,9 +194,11 @@ public class ItemIngesterTest
         rootFileIsDirectory();
         noFilesAndFoldersUnderParentContainer();
         oneFileUnderRootFolder();
+        
 
         // Set up expectations
-        expect(unitOfWorkMock.createObject(FileItemImpl.class)).andReturn(fileItemMock);
+        //expect(unitOfWorkMock.createObject(FileItemImpl.class)).andReturn(fileItemMock);
+        
         fileItemMock.setFile(fileMock);
         fileItemMock.setCreatorRole(CreatorRole.DEPOSITOR);
         fileItemMock.setDatasetId("easy-dataset:1");
@@ -182,7 +207,7 @@ public class ItemIngesterTest
         fileItemMock.setVisibleTo(VisibleTo.ANONYMOUS);
         fileItemMock.setAccessibleTo(AccessibleTo.KNOWN);
         unitOfWorkMock.saveAndDetach(fileItemMock);
-
+        
         replayAll();
 
         ItemIngester ii = new ItemIngester(datasetMock, userMock, null);

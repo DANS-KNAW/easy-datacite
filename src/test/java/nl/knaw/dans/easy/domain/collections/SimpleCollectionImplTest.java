@@ -19,19 +19,19 @@ public class SimpleCollectionImplTest
     @Test(expected = IllegalArgumentException.class)
     public void illegalConstructor()
     {
-        new SimpleCollectionImpl(null);
+        new SimpleCollectionImpl(null, null);
     }
     
     @Test(expected = IllegalArgumentException.class)
     public void illegalConstructor2()
     {
-        new SimpleCollectionImpl("foo");
+        new SimpleCollectionImpl("foo", new EasyCollectionDmoDecorator());
     }
     
     @Test
     public void labelAndDcTitle()
     {
-        SimpleCollectionImpl root = new SimpleCollectionImpl(ID_ROOT);
+        SimpleCollectionImpl root = new SimpleCollectionImpl(ID_ROOT, new EasyCollectionDmoDecorator());
         
         root.setLabel("foo");
         assertEquals("foo", root.getLabel());
@@ -40,12 +40,17 @@ public class SimpleCollectionImplTest
         root.getDcMetadata().set(PropertyName.Title, "bar");
         assertEquals("bar", root.getLabel());
         assertEquals("bar", root.getDcMetadata().getFirst(PropertyName.Title));
+        
+        root.getDcMetadata().add(PropertyName.Title, "another title");
+        assertEquals("bar", root.getLabel());
+        assertEquals("bar", root.getDcMetadata().getFirst(PropertyName.Title));
+        assertEquals("another title", root.getDcMetadata().get(PropertyName.Title).get(1));
     }
     
     @Test
     public void getSetElement()
     {
-        SimpleCollectionImpl root = new SimpleCollectionImpl(ID_ROOT);
+        SimpleCollectionImpl root = new SimpleCollectionImpl(ID_ROOT, new EasyCollectionDmoDecorator());
         assertEquals("esc", root.getOAISetElement());
     }
     
@@ -79,12 +84,12 @@ public class SimpleCollectionImplTest
 
     private void createHierarchy()
     {
-        root = new SimpleCollectionImpl(SimpleCollection.ROOT_ID);
+        root = new SimpleCollectionImpl(EasyCollectionDmoDecorator.ROOT_ID, new EasyCollectionDmoDecorator());
         root.setLabel("root of easy collections");        
-        rootKid = new SimpleCollectionImpl(SimpleCollection.NAMESPACE + ":1");
+        rootKid = new SimpleCollectionImpl(EasyCollectionDmoDecorator.NAMESPACE + ":1", new EasyCollectionDmoDecorator());
         rootKid.setLabel("Collection A");
         root.addChild(rootKid);
-        kidKid = new SimpleCollectionImpl(SimpleCollection.NAMESPACE + ":2");
+        kidKid = new SimpleCollectionImpl(EasyCollectionDmoDecorator.NAMESPACE + ":2", new EasyCollectionDmoDecorator());
         kidKid.setLabel("Collection AA");
         rootKid.addChild(kidKid);
     }

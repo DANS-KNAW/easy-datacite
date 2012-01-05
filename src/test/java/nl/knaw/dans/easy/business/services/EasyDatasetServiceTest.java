@@ -1,13 +1,15 @@
 package nl.knaw.dans.easy.business.services;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.AbstractDataModelObject;
+import nl.knaw.dans.common.lang.repo.AbstractDmoFactory;
 import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
 import nl.knaw.dans.common.lang.security.authz.AuthzStrategy;
 import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
@@ -27,8 +29,8 @@ import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineCollection;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainerImpl;
-import nl.knaw.dans.easy.domain.model.emd.types.BasicString;
 import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
+import nl.knaw.dans.easy.domain.model.emd.types.BasicString;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
@@ -42,7 +44,13 @@ import org.easymock.EasyMock;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
- 
+import org.junit.runner.RunWith;
+import org.powermock.api.easymock.PowerMock;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(AbstractDmoFactory.class)
 public class EasyDatasetServiceTest extends TestHelper
 {
 
@@ -289,10 +297,10 @@ public class EasyDatasetServiceTest extends TestHelper
         Dataset input = new DatasetImpl("dummy-dataset:1");
 
         // test SOCIOLOGY, UNSPECIFIED AND HISTORY
+        PowerMock.mockStatic(AbstractDmoFactory.class);
         EasyMock.reset(easyStore);
-        EasyMock.expect(easyStore.createDmo(DatasetImpl.class)).andReturn(input)
-                .times(3);
-        EasyMock.replay(easyStore);
+        EasyMock.expect(AbstractDmoFactory.newDmo(Dataset.NAMESPACE)).andReturn(input).times(3);
+        PowerMock.replay(AbstractDmoFactory.class);
         {
             Dataset output = service.newDataset(MetadataFormat.SOCIOLOGY);
             assertEquals(0, output.getEasyMetadata().getEmdAudience().getTermsAudience().size());
@@ -306,19 +314,18 @@ public class EasyDatasetServiceTest extends TestHelper
             assertEquals(0, output.getEasyMetadata().getEmdAudience().getTermsAudience().size());
             assertEquals(input, output);
         }
-        EasyMock.verify(easyStore);
-    	
+        PowerMock.verify(AbstractDmoFactory.class);
         
         // test ARCHAEOLOGY
         DisciplineContainer discInput = new DisciplineContainerImpl("dummy-discipline:1"); 
 
-        EasyMock.reset(easyStore);
-        EasyMock.expect(easyStore.createDmo(DatasetImpl.class)).andReturn(input)
-        .times(1);
+        PowerMock.reset(AbstractDmoFactory.class);
+        EasyMock.expect(AbstractDmoFactory.newDmo(Dataset.NAMESPACE)).andReturn(input).times(1);
         EasyMock.reset(disciplineCollection);
         EasyMock.expect(disciplineCollection.getDisciplineByName(MetadataFormat.ARCHAEOLOGY.name())).
         	andReturn(discInput).times(1);
         EasyMock.replay(easyStore, disciplineCollection);
+        PowerMock.replay(AbstractDmoFactory.class);
         {
             Dataset output = service.newDataset(MetadataFormat.ARCHAEOLOGY);
             
@@ -328,7 +335,8 @@ public class EasyDatasetServiceTest extends TestHelper
             assertEquals(ChoiceListGetter.CHOICELIST_CUSTOM_PREFIX + ChoiceListGetter.CHOICELIST_DISCIPLINES_POSTFIX, 
             		audience.getSchemeId());
         }
-        EasyMock.verify(easyStore);
+        EasyMock.verify(disciplineCollection);
+        PowerMock.verify(AbstractDmoFactory.class);
     }
     
     private static class TestReporter extends WorkReporter

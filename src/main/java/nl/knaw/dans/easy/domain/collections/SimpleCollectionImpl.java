@@ -11,6 +11,7 @@ import nl.knaw.dans.common.jibx.bean.JiBXDublinCoreMetadata;
 import nl.knaw.dans.common.lang.ApplicationException;
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.AbstractDataModelObject;
+import nl.knaw.dans.common.lang.repo.DmoDecorator;
 import nl.knaw.dans.common.lang.repo.MetadataUnit;
 import nl.knaw.dans.common.lang.repo.UnitOfWork;
 import nl.knaw.dans.common.lang.repo.bean.DublinCoreMetadata;
@@ -31,17 +32,19 @@ public class SimpleCollectionImpl extends AbstractDataModelObject implements Sim
     
     private static final Logger logger = LoggerFactory.getLogger(SimpleCollectionImpl.class);
     
-    private SimpleCollection parent;
+    private final DmoDecorator dmoDecorator;
     private final List<SimpleCollection> children = new ArrayList<SimpleCollection>();
+    private SimpleCollection parent;
     private JiBXDublinCoreMetadata dcMetadata;
-
-    public SimpleCollectionImpl(String storeId)
+    
+    public SimpleCollectionImpl(String storeId, DmoDecorator dmoDecorator)
     {
         super(storeId);
-        if (storeId == null || !storeId.startsWith(SimpleCollection.NAMESPACE))
+        if (storeId == null || !storeId.startsWith(dmoDecorator.getObjectNamespace()))
         {
             throw new IllegalArgumentException("Invallid storeId: " + storeId);
         }
+        this.dmoDecorator = dmoDecorator;
         setDcMetadata(new JiBXDublinCoreMetadata());
         setState("Active");
         setOwnerId("FedoraAdmin");
@@ -50,22 +53,30 @@ public class SimpleCollectionImpl extends AbstractDataModelObject implements Sim
     @Override
     public String getObjectNamespace()
     {
-        return NAMESPACE;
+        return dmoDecorator.getObjectNamespace();
     }
     
     @Override
     public void setLabel(String label)
     {
-        super.setLabel(label);
+        // label is updated by observable.notify. see #update(Observable, Object)
         getDcMetadata().set(PropertyName.Title, label);
     }
     
     @Override
     public void update(Observable o, Object arg)
     {
-        if (PropertyName.Title.equals(arg))
+        if (o instanceof JiBXDublinCoreMetadata)
         {
-            super.setLabel(getDcMetadata().getFirst(PropertyName.Title));
+            update((JiBXDublinCoreMetadata)o, ((PropertyName)arg));
+        }
+    }
+    
+    private void update(JiBXDublinCoreMetadata jibxDcMetadata, PropertyName propName)
+    {
+        if (PropertyName.Title.equals(propName))
+        {
+            super.setLabel(jibxDcMetadata.getFirst(PropertyName.Title));
         }
     }
     
@@ -83,6 +94,7 @@ public class SimpleCollectionImpl extends AbstractDataModelObject implements Sim
         return !hasParent() && !hasChildren();
     }
     
+    // in stead of using generics, return a typed relations object.
     @Override
     public SimpleCollectionRelations getRelations()
     {

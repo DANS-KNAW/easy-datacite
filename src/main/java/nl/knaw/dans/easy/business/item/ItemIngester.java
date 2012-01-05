@@ -10,13 +10,12 @@ import java.util.Map;
 
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
+import nl.knaw.dans.common.lang.repo.AbstractDmoFactory;
 import nl.knaw.dans.common.lang.repo.UnitOfWork;
 import nl.knaw.dans.common.lang.repo.exception.UnitOfWorkInterruptException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.EasyUnitOfWork;
-import nl.knaw.dans.easy.domain.dataset.FileItemImpl;
-import nl.knaw.dans.easy.domain.dataset.FolderItemImpl;
 import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
@@ -122,7 +121,9 @@ public class ItemIngester extends AbstractWorker
                 String storeId = members.get(DEPOSITOR_FOLDER_NAME);
                 if (storeId == null)
                 {
-                    FolderItem original = (FolderItem) getUnitOfWork().createObject(FolderItemImpl.class);
+                    FolderItem original = (FolderItem) AbstractDmoFactory.newDmo(FolderItem.NAMESPACE);
+                    //getUnitOfWork().createObject(FolderItemImpl.class);
+                    
                     original.setLabel(DEPOSITOR_FOLDER_NAME);
                     original.setOwnerId(sessionUser.getId());
                     original.setDatasetId(dataset.getStoreId());
@@ -187,7 +188,8 @@ public class ItemIngester extends AbstractWorker
     {
         if (file.isDirectory())
         {
-            FolderItem kidFolder = (FolderItem) getUnitOfWork().createObject(FolderItemImpl.class);
+            FolderItem kidFolder = (FolderItem) AbstractDmoFactory.newDmo(FolderItem.NAMESPACE);
+            //getUnitOfWork().createObject(FolderItemImpl.class);
             kidFolder.setLabel(file.getName());
             kidFolder.setOwnerId(sessionUser.getId());
             kidFolder.setDatasetId(dataset.getStoreId());
@@ -202,7 +204,8 @@ public class ItemIngester extends AbstractWorker
         }
         else
         {
-            FileItem kidFile = (FileItem) getUnitOfWork().createObject(FileItemImpl.class);
+            FileItem kidFile = (FileItem) AbstractDmoFactory.newDmo(FileItem.NAMESPACE);
+            //getUnitOfWork().createObject(FileItemImpl.class);
             kidFile.setFile(file);
             kidFile.setCreatorRole(creatorRole);
             kidFile.setDatasetId(dataset.getStoreId());

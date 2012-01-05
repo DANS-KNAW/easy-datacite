@@ -58,26 +58,26 @@ public class DummyEasyStore implements EasyStore
         return false;
     }
 
-    @Override
-    public DataModelObject createDmo(Class<? extends DataModelObject> clazz) throws RepositoryException
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
+//    @Override
+//    public DataModelObject createDmo(Class<? extends DataModelObject> clazz) throws RepositoryException
+//    {
+//        // TODO Auto-generated method stub
+//        return null;
+//    }
 
-    @Override
-    public DmoContext getContext()
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
+//    @Override
+//    public DmoContext getContext()
+//    {
+//        // TODO Auto-generated method stub
+//        return null;
+//    }
 
-    @Override
-    public DmoFactory getDmoFactory()
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
+//    @Override
+//    public DmoFactory getDmoFactory()
+//    {
+//        // TODO Auto-generated method stub
+//        return null;
+//    }
 
     @Override
     public URL getFileURL(String storeId, String unitId)
@@ -191,19 +191,19 @@ public class DummyEasyStore implements EasyStore
         
     }
 
-    @Override
-    public void setContext(DmoContext namespaceRegistry)
-    {
-        // TODO Auto-generated method stub
-        
-    }
+//    @Override
+//    public void setContext(DmoContext namespaceRegistry)
+//    {
+//        // TODO Auto-generated method stub
+//        
+//    }
 
-    @Override
-    public void setDmoFactory(DmoFactory factory)
-    {
-        // TODO Auto-generated method stub
-        
-    }
+//    @Override
+//    public void setDmoFactory(DmoFactory factory)
+//    {
+//        // TODO Auto-generated method stub
+//        
+//    }
 
     @Override
     public void setEventListeners(List<DmoStoreEventListener> storeEventListeners)

@@ -5,6 +5,7 @@ import java.net.URL;
 import nl.knaw.dans.common.jibx.JiBXObjectFactory;
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
+import nl.knaw.dans.common.lang.repo.AbstractDmoFactory;
 import nl.knaw.dans.common.lang.repo.DataModelObject;
 import nl.knaw.dans.common.lang.repo.UnitMetadata;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
@@ -67,7 +68,7 @@ public class DatasetWorkDispatcher
             // property lists contain (a sort of) audit trail on the cloned dataset. remove them.
             clonedEmd.getEmdOther().getPropertyListCollection().clear();
 
-            clonedDataset = (DatasetImpl) Data.getEasyStore().createDmo(DatasetImpl.class);
+            clonedDataset = (DatasetImpl) AbstractDmoFactory.newDmo(Dataset.NAMESPACE);;
             clonedDataset.setEasyMetadata(clonedEmd);
             clonedDataset.getAdministrativeMetadata().setDepositor(sessionUser);
         }

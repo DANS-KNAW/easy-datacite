@@ -11,6 +11,7 @@ import java.util.List;
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.ResourceNotFoundException;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
+import nl.knaw.dans.common.lang.repo.AbstractDmoFactory;
 import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
 import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
@@ -43,7 +44,13 @@ import org.joda.time.DateTime;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.api.easymock.PowerMock;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(AbstractDmoFactory.class)
 public class EasyItemServiceTest extends TestHelper
 {
 
@@ -104,25 +111,19 @@ public class EasyItemServiceTest extends TestHelper
         Dataset dataset = new DatasetImpl("easy-dataset:1");
         dataset.getAdministrativeMetadata().setDepositor(sessionUser);
         String parentId = dataset.getStoreId();
-
+        
+        PowerMock.mockStatic(AbstractDmoFactory.class);
         EasyMock.reset(easyStore, fileStoreAccess);
         
         EasyMock.expect(easyStore.retrieve("easy-dataset:1")).andReturn(dataset);
         EasyMock.expect(fileStoreAccess.getFilesAndFolders("easy-dataset:1", -1, -1, null, null))
             .andReturn(new ArrayList<ItemVO>()).times(1);
-        EasyMock.expect(easyStore.createDmo(FolderItemImpl.class))
-            .andReturn(new FolderItemImpl("easy-folder:original"));
+        EasyMock.expect(AbstractDmoFactory.newDmo(FolderItem.NAMESPACE)).andReturn(new FolderItemImpl("easy-folder:original"));
         EasyMock.expect(fileStoreAccess.getFilesAndFolders("easy-folder:original", -1, -1, null, null))
             .andReturn(new ArrayList<ItemVO>()).times(1);
         
-        EasyMock.expect(easyStore.createDmo(FolderItemImpl.class))
-            .andReturn(new FolderItemImpl("easy-folder:1"));
-        
-        //EasyMock.expect(easyStore.nextSid("easy-folder")).andReturn("easy-folder:1");
-        //EasyMock.expect(easyStore.nextSid("easy-file")).andReturn("easy-file:1");
-        EasyMock.expect(easyStore.createDmo(FileItemImpl.class))
-            .andReturn(new FileItemImpl("easy-file:1"));
-        
+        EasyMock.expect(AbstractDmoFactory.newDmo(FolderItem.NAMESPACE)).andReturn(new FolderItemImpl("easy-folder:1"));
+        EasyMock.expect(AbstractDmoFactory.newDmo(FileItem.NAMESPACE)).andReturn(new FileItemImpl("easy-file:1"));
         
         EasyMock.expect(easyStore.ingest(
                 EasyMock.isA(FileItem.class), 
@@ -133,9 +134,11 @@ public class EasyItemServiceTest extends TestHelper
         EasyMock.expect(easyStore.ingest(dataset, "Ingested by  (testUser)")).andReturn("easy-dataset:1");
         
         EasyMock.replay(easyStore, fileStoreAccess);
+        PowerMock.replay(AbstractDmoFactory.class);
         service.addDirectoryContents(sessionUser, dataset, parentId, rootFile, filesToIngest, reporter);
 
         EasyMock.verify(easyStore, fileStoreAccess);
+        PowerMock.verify(AbstractDmoFactory.class);
         
         assertTrue(reporter.workStarted);
         assertEquals(3, reporter.getIngestedObjectCount());

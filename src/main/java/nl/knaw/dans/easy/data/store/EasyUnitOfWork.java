@@ -15,7 +15,7 @@ public class EasyUnitOfWork extends AbstractUnitOfWork
 		
 	public EasyUnitOfWork(EasyUser user)
 	{
-		super(user.isAnonymous()? null : user.getId());
+		super(user == null ? null : user.isAnonymous()? null : user.getId());
 		this.user = user;
 	}
 	

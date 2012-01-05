@@ -8,6 +8,7 @@ import java.util.List;
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.dataset.CommonDataset;
+import nl.knaw.dans.common.lang.repo.AbstractDmoFactory;
 import nl.knaw.dans.common.lang.repo.DataModelObject;
 import nl.knaw.dans.common.lang.repo.UnitMetadata;
 import nl.knaw.dans.common.lang.security.authz.AuthzStrategy;
@@ -101,7 +102,7 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
     {
         try
         {
-            final Dataset dataset = (Dataset) Data.getEasyStore().createDmo(DatasetImpl.class);
+            final Dataset dataset = (Dataset) AbstractDmoFactory.newDmo(Dataset.NAMESPACE);
             dataset.getEasyMetadata().getEmdOther().getEasApplicationSpecific().setMetadataFormat(mdFormat);
             prepareDataset(dataset);
 
@@ -119,7 +120,7 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
         DatasetImpl dataset;
         try
         {
-            dataset = (DatasetImpl) Data.getEasyStore().createDmo(DatasetImpl.class);
+            dataset = (DatasetImpl) AbstractDmoFactory.newDmo(Dataset.NAMESPACE);;
             dataset.setEasyMetadata(emd);
             dataset.setAdministrativeMetadata(amd);
             prepareDataset(dataset);

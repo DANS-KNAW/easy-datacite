@@ -77,12 +77,12 @@ public class Data
     }
 
     /**
-     * Unlock Data.
+     * NO PUBLIC METHOD! ONLY FOR TESTS! Unlock Data. 
      */
-    void unlock()
+    public static void unlock()
     {
         locked = false;
-        logger.debug(this + " has been unlocked.");
+        logger.debug(Data.class.getName() + " has been unlocked.");
     }
 
     /**
