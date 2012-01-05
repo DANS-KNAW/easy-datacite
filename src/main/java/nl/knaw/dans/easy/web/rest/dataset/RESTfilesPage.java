@@ -101,13 +101,13 @@ public class RESTfilesPage extends RESTcascadePage
     {
         String storeId;
         String itemId = getUrlFragments()[LEVEL];
-        if (itemId.startsWith(FileItem.NAMESPACE))
+        if (itemId.startsWith(FileItem.NAMESPACE.getValue()))
         {
             storeId = itemId;
         }
         else
         {
-            storeId = FileItem.NAMESPACE + ":" + itemId;
+            storeId = FileItem.NAMESPACE.getValue() + ":" + itemId;
         }
         return storeId;
     }

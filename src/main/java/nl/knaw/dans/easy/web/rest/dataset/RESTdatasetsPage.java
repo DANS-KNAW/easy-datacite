@@ -119,13 +119,13 @@ public class RESTdatasetsPage extends RESTcascadePage
     {
         String storeId;
         String itemId = getUrlFragments()[LEVEL];
-        if (itemId.startsWith(Dataset.NAMESPACE))
+        if (itemId.startsWith(Dataset.NAMESPACE.getValue()))
         {
             storeId = itemId;
         }
         else
         {
-            storeId = Dataset.NAMESPACE + ":" + itemId;
+            storeId = Dataset.NAMESPACE.getValue() + ":" + itemId;
         }
         return storeId;
     }
