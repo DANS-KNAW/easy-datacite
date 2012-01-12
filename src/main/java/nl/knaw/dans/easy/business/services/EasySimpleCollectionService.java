@@ -2,9 +2,8 @@ package nl.knaw.dans.easy.business.services;
 
 import java.util.Map;
 
-import nl.knaw.dans.common.lang.RepositoryException;
+import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
-import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.domain.collections.SimpleCollection;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.services.SimpleCollectionService;
@@ -13,7 +12,7 @@ public class EasySimpleCollectionService extends AbstractEasyService implements 
 {
 
     @Override
-    public SimpleCollection getRoot() throws ServiceException
+    public SimpleCollection getRoot(DmoNamespace namespace) throws ServiceException
     {
 //        SimpleCollection root;
 //        try

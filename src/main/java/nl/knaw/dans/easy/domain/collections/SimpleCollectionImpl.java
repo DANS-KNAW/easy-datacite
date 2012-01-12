@@ -173,7 +173,7 @@ public class SimpleCollectionImpl extends AbstractDataModelObject implements Sim
     
     protected String getOAISetElement()
     {
-        return getStoreId().substring(getObjectNamespace().getValue().length() + 1);
+        return isRoot() ? getObjectNamespace().getValue() : getDmoStoreId().getId();
     }
 
     @Override
@@ -202,6 +202,12 @@ public class SimpleCollectionImpl extends AbstractDataModelObject implements Sim
             }
         }
         return Collections.unmodifiableList(children);
+    }
+    
+    @Override
+    public boolean isRoot()
+    {
+        return !hasParent();
     }
 
     @Override
@@ -267,7 +273,7 @@ public class SimpleCollectionImpl extends AbstractDataModelObject implements Sim
             this.parent = parent;
             getRelations().setParent(parent);
             parentSet = true;
-            logger.debug("[" + getStoreId() + "] now has parent " + parent);
+            logger.debug("[" + getStoreId() + "] now has parent [" + parent.getStoreId() + "]");
         }
         return parentSet;
     }

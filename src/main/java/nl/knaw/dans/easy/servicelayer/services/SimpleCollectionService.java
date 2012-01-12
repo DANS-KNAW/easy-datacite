@@ -2,6 +2,7 @@ package nl.knaw.dans.easy.servicelayer.services;
 
 import java.util.Map;
 
+import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.domain.collections.SimpleCollection;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
@@ -9,7 +10,7 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 public interface SimpleCollectionService extends EasyService
 {
     
-    SimpleCollection getRoot() throws ServiceException;
+    SimpleCollection getRoot(DmoNamespace namespace) throws ServiceException;
     
     SimpleCollection getCollection(String storeId);
     

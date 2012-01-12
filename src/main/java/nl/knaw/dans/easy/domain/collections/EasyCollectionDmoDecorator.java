@@ -19,10 +19,9 @@ public class EasyCollectionDmoDecorator implements DmoDecorator
     
     
     /**
-     * The rootId for Easy (simple) collections. The last part 'esc' is used for OAI setSpec.
-     * So this last part should be unique within the system!
+     * The rootId for Easy (simple) collections.
      */
-    public static final String ROOT_ID   = NAMESPACE.getValue() + ":" + "esc";
+    public static final String ROOT_ID   = NAMESPACE.getValue() + ":" + SimpleCollection.ROOT_ID;
 
     @Override
     public DmoNamespace getObjectNamespace()

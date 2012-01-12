@@ -11,6 +11,16 @@ public interface SimpleCollection extends DataModelObject
 
     String CONTENT_MODEL = Constants.CM_SIMPLE_COLLECTION_1;
 
+    String ROOT_ID       = "root";
+
+    /**
+     * A SimpleCollection is root of a collection if it does not have a parent.
+     * 
+     * @return <code>true</code> if this SimpleCollection is root of a collection, <code>false</code>
+     *         otherwise.
+     */
+    boolean isRoot();
+
     /**
      * Does this SimpleCollection have a parent.
      * 

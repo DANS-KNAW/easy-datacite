@@ -51,7 +51,7 @@ public class SimpleCollectionImplTest
     public void getSetElement()
     {
         SimpleCollectionImpl root = new SimpleCollectionImpl(ID_ROOT, new EasyCollectionDmoDecorator());
-        assertEquals("esc", root.getOAISetElement());
+        assertEquals(EasyCollectionDmoDecorator.NAMESPACE.getValue(), root.getOAISetElement());
     }
     
     @Test
@@ -59,9 +59,9 @@ public class SimpleCollectionImplTest
     {
         createHierarchy();
         
-        assertEquals("esc", root.createOAISetSpec(root.getOAISetElement()));
-        assertEquals("esc:1", rootKid.createOAISetSpec(rootKid.getOAISetElement()));
-        assertEquals("esc:1:2", kidKid.createOAISetSpec(kidKid.getOAISetElement()));
+        assertEquals("easy-collection", root.createOAISetSpec(root.getOAISetElement()));
+        assertEquals("easy-collection:1", rootKid.createOAISetSpec(rootKid.getOAISetElement()));
+        assertEquals("easy-collection:1:2", kidKid.createOAISetSpec(kidKid.getOAISetElement()));
         
         assertEquals("Collection A", rootKid.getDcMetadata().getFirst(PropertyName.Title));
     }
