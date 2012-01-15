@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.relations.AbstractRelations;
 import nl.knaw.dans.common.lang.repo.relations.Relation;
 import nl.knaw.dans.common.lang.repo.relations.RelsConstants;
@@ -32,14 +33,14 @@ public class SimpleCollectionRelations extends AbstractRelations<SimpleCollectio
         removeRelation(RelsConstants.DANS_NS.HAS_PARENT, object);
     }
     
-    public String getParentId()
+    public DmoStoreId getParentId()
     {
-        String parentId = null;
+        DmoStoreId parentId = null;
         Set<Relation> parentRelations = getRelation(RelsConstants.DANS_NS.HAS_PARENT.getURI().toString(), null);
         if (!parentRelations.isEmpty())
         {
             Relation parentRelation = parentRelations.iterator().next();
-            parentId = RelsConstants.stripFedoraUri((String) parentRelation.getObject());
+            parentId = DmoStoreId.newDmoStoreId(RelsConstants.stripFedoraUri((String) parentRelation.getObject()));
         }
         return parentId;
     }
@@ -56,13 +57,13 @@ public class SimpleCollectionRelations extends AbstractRelations<SimpleCollectio
         removeRelation(RelsConstants.DANS_NS.HAS_CHILD, object);
     }
     
-    public List<String> getChildIds()
+    public List<DmoStoreId> getChildIds()
     {
-        List<String> childIds = new ArrayList<String>();
+        List<DmoStoreId> childIds = new ArrayList<DmoStoreId>();
         Set<Relation> childRelations = getRelation(RelsConstants.DANS_NS.HAS_CHILD.getURI().toString(), null);
         for (Relation r : childRelations)
         {
-            childIds.add(RelsConstants.stripFedoraUri((String) r.getObject()));
+            childIds.add(DmoStoreId.newDmoStoreId(RelsConstants.stripFedoraUri((String) r.getObject())));
         }
         return childIds;
     }

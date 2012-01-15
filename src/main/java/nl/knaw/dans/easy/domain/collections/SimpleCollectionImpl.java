@@ -13,6 +13,7 @@ import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.AbstractDataModelObject;
 import nl.knaw.dans.common.lang.repo.DmoDecorator;
 import nl.knaw.dans.common.lang.repo.DmoNamespace;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.MetadataUnit;
 import nl.knaw.dans.common.lang.repo.UnitOfWork;
 import nl.knaw.dans.common.lang.repo.bean.DublinCoreMetadata;
@@ -179,7 +180,7 @@ public class SimpleCollectionImpl extends AbstractDataModelObject implements Sim
     @Override
     public SimpleCollection getParent()
     {
-        String parentId = getParentId();
+        DmoStoreId parentId = getParentId();
         if (parentId != null && parent == null)
         {
             parent = getObject(parentId);
@@ -190,13 +191,13 @@ public class SimpleCollectionImpl extends AbstractDataModelObject implements Sim
     @Override
     public List<SimpleCollection> getChildren()
     {
-        List<String> childIds = getChildIds();
+        List<DmoStoreId> childIds = getChildIds();
         if (childIds.size() != children.size())
         {
             children.clear();
-            for (String storeId : childIds)
+            for (DmoStoreId dmoStoreId : childIds)
             {
-                SimpleCollectionImpl kid = (SimpleCollectionImpl) getObject(storeId);
+                SimpleCollectionImpl kid = (SimpleCollectionImpl) getObject(dmoStoreId);
                 kid.parent = this;
                 children.add(kid);
             }
@@ -207,7 +208,8 @@ public class SimpleCollectionImpl extends AbstractDataModelObject implements Sim
     @Override
     public boolean isRoot()
     {
-        return !hasParent();
+        DmoStoreId dmoStoreId = getDmoStoreId();
+        return !hasParent() && dmoStoreId != null && ROOT_ID.equals(dmoStoreId.getId());
     }
 
     @Override
@@ -217,7 +219,7 @@ public class SimpleCollectionImpl extends AbstractDataModelObject implements Sim
     }
     
     @Override
-    public String getParentId()
+    public DmoStoreId getParentId()
     {
         return getRelations().getParentId();
     }
@@ -229,7 +231,7 @@ public class SimpleCollectionImpl extends AbstractDataModelObject implements Sim
     }
     
     @Override
-    public List<String> getChildIds()
+    public List<DmoStoreId> getChildIds()
     {
         return getRelations().getChildIds();
     }
@@ -268,7 +270,7 @@ public class SimpleCollectionImpl extends AbstractDataModelObject implements Sim
     private boolean setParent(SimpleCollection parent)
     {
         boolean parentSet = false;
-        if (!hasParent())
+        if (!hasParent() && !isRoot())
         {
             this.parent = parent;
             getRelations().setParent(parent);
@@ -314,13 +316,13 @@ public class SimpleCollectionImpl extends AbstractDataModelObject implements Sim
         return parrentRemoved;
     }
     
-    private SimpleCollection getObject(String storeId)
+    private SimpleCollection getObject(DmoStoreId dmoStoreId)
     {
         SimpleCollection simpleCollection = null;
         try
         {
             UnitOfWork uow = getUnitOfWork();
-            simpleCollection = (SimpleCollection) uow.retrieveObject(storeId);
+            simpleCollection = (SimpleCollection) uow.retrieveObject(dmoStoreId.getStoreId());
         }
         catch (NoUnitOfWorkAttachedException e)
         {

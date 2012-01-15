@@ -106,12 +106,7 @@ public class SimpleCollectionCacheTest
         MockRootCreator creator = new MockRootCreator(wide, deep);
         SimpleCollectionCreator.register(creator);
         
-        int x = wide + 1;
-        for (int i = 1; i <= deep; i++)
-        {
-            x = wide * x + 1;
-        }
-        return x;
+        return MockRootCreator.calculateItems(wide, deep);
     }
 
 }

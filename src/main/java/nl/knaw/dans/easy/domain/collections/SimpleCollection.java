@@ -3,6 +3,7 @@ package nl.knaw.dans.easy.domain.collections;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.repo.DataModelObject;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.bean.DublinCoreMetadata;
 import nl.knaw.dans.easy.domain.model.Constants;
 
@@ -11,12 +12,20 @@ public interface SimpleCollection extends DataModelObject
 
     String CONTENT_MODEL = Constants.CM_SIMPLE_COLLECTION_1;
 
+    /**
+     * Id of a SimpleCollection that is the root of a collection tree.
+     */
     String ROOT_ID       = "root";
 
     /**
-     * A SimpleCollection is root of a collection if it does not have a parent.
+     * Is this SimpleCollection the root of a collection tree.
+     * <p/>
+     * A SimpleCollection is root of a collection tree if it 
+     * <ul>
+     * <li>does not have a parent;</li>
+     * <li>its storeId equals {@link #ROOT_ID}.</li>
      * 
-     * @return <code>true</code> if this SimpleCollection is root of a collection, <code>false</code>
+     * @return <code>true</code> if this SimpleCollection is root of a collection tree, <code>false</code>
      *         otherwise.
      */
     boolean isRoot();
@@ -39,12 +48,12 @@ public interface SimpleCollection extends DataModelObject
     SimpleCollection getParent();
 
     /**
-     * Get the storeId of the parent of this SimpleCollection.
+     * Get the DmoStoreId of the parent of this SimpleCollection.
      * 
-     * @return storeId of the parent of this SimpleCollection or <code>null</code> if this
+     * @return DmoStoreId of the parent of this SimpleCollection or <code>null</code> if this
      *         SimpleCollection has no parent.
      */
-    String getParentId();
+    DmoStoreId getParentId();
 
     /**
      * Does this SimpleCollection have children.
@@ -67,7 +76,7 @@ public interface SimpleCollection extends DataModelObject
      * 
      * @return storeIds of the direct children of this SimpleCollection.
      */
-    List<String> getChildIds();
+    List<DmoStoreId> getChildIds();
 
     /**
      * Get Dublin Core metadata for this SimpleCollection.
