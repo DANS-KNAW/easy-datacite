@@ -32,7 +32,7 @@ public class DownloadHistory extends AbstractDataModelObject
         downloadList = new DownloadList(listType, level);
     }
 
-    public DmoNamespace getObjectNamespace()
+    public DmoNamespace getDmoNamespace()
     {
         return NAMESPACE;
     }

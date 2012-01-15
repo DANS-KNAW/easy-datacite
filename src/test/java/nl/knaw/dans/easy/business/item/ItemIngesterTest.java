@@ -207,7 +207,7 @@ public class ItemIngesterTest
         fileItemMock.setParent(parentContainerMock);
         fileItemMock.setVisibleTo(VisibleTo.ANONYMOUS);
         fileItemMock.setAccessibleTo(AccessibleTo.KNOWN);
-        unitOfWorkMock.saveAndDetach(fileItemMock);
+        EasyMock.expect(unitOfWorkMock.saveAndDetach(fileItemMock)).andReturn(fileItemMock);
         
         replayAll();
 

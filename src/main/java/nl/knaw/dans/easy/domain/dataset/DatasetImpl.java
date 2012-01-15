@@ -90,7 +90,7 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
         this.easyMetadata = easyMetadata;
     }
 
-    public DmoNamespace getObjectNamespace()
+    public DmoNamespace getDmoNamespace()
     {
         return NAMESPACE;
     }

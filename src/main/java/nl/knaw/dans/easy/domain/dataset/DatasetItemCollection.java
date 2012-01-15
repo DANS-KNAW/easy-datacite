@@ -42,7 +42,7 @@ public class DatasetItemCollection extends AbstractDmoCollection
 		return classes;
 	}
 
-	public DmoNamespace getObjectNamespace()
+	public DmoNamespace getDmoNamespace()
 	{
 		return new DmoNamespace("dataset-item-collection");
 	}

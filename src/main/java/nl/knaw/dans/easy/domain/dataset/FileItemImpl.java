@@ -41,7 +41,7 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem
         super(storeId);
     }
     
-    public DmoNamespace getObjectNamespace()
+    public DmoNamespace getDmoNamespace()
     {
         return NAMESPACE;
     }

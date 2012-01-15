@@ -53,7 +53,7 @@ public class SimpleCollectionImpl extends AbstractDataModelObject implements Sim
     }
 
     @Override
-    public DmoNamespace getObjectNamespace()
+    public DmoNamespace getDmoNamespace()
     {
         return dmoDecorator.getObjectNamespace();
     }
@@ -174,7 +174,7 @@ public class SimpleCollectionImpl extends AbstractDataModelObject implements Sim
     
     protected String getOAISetElement()
     {
-        return isRoot() ? getObjectNamespace().getValue() : getDmoStoreId().getId();
+        return isRoot() ? getDmoNamespace().getValue() : getDmoStoreId().getId();
     }
 
     @Override

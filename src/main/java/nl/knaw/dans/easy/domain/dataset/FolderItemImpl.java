@@ -39,7 +39,7 @@ public class FolderItemImpl extends AbstractDatasetItemImpl implements FolderIte
         super(storeId);
     }
 
-    public DmoNamespace getObjectNamespace()
+    public DmoNamespace getDmoNamespace()
     {
         return NAMESPACE;
     }
@@ -293,9 +293,9 @@ public class FolderItemImpl extends AbstractDatasetItemImpl implements FolderIte
             container = folderItemImpl;
         }
 
-        public DmoNamespace getObjectNamespace()
+        public DmoNamespace getDmoNamespace()
         {
-            return container.getObjectNamespace();
+            return container.getDmoNamespace();
         }
 
         public boolean isDeletable()

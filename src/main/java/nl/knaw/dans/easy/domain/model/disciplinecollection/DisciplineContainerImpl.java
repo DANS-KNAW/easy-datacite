@@ -25,7 +25,7 @@ public class DisciplineContainerImpl extends AbstractDmoRecursiveItem
 		super(storeId);
 	}
 	
-	public DmoNamespace getObjectNamespace()
+	public DmoNamespace getDmoNamespace()
 	{
 	 	return NAMESPACE;
 	}

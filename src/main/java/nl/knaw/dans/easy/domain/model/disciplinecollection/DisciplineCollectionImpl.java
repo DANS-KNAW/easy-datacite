@@ -52,7 +52,7 @@ public class DisciplineCollectionImpl extends AbstractDmoCollection implements
 		return classes;
 	}
 
-	public DmoNamespace getObjectNamespace()
+	public DmoNamespace getDmoNamespace()
 	{
 		return NAME_SPACE;
 	}
