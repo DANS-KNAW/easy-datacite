@@ -20,7 +20,6 @@ import javax.xml.transform.stream.StreamSource;
 import nl.knaw.dans.common.lang.ResourceLocator;
 import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceListCache;
 import nl.knaw.dans.easy.domain.form.FormDescriptorLoader;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadataValidator;
 import nl.knaw.dans.easy.web.editabletexts.EasyEditablePanel;
 import nl.knaw.dans.easy.web.main.AbstractEasyNavPage;
 
@@ -30,7 +29,6 @@ import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
-import org.apache.wicket.markup.html.link.DownloadLink;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.util.file.File;
@@ -50,12 +48,7 @@ public class EmdDocPage extends AbstractEasyNavPage
             MalformedURLException
     {
         super(parameters);
-        
-        final URL schemaURL = EasyMetadataValidator.instance().getSchemaURL(EasyMetadataValidator.VERSION_0_1);
-        
         add(new EasyEditablePanel("intro", "/editable/emdIntro.template"));
-        add(new DownloadLink("xsd", new File(schemaURL.toURI())));
-        
         add(createTabbedPanel("format", createFormatTabs()));
         add(createTabbedPanel("translation", createTranslationTabs()));
     }
@@ -108,7 +101,7 @@ public class EmdDocPage extends AbstractEasyNavPage
     private List<ITab> createFormatTabs() throws URISyntaxException, MalformedURLException
     {
         final List<ITab> tabs = new ArrayList<ITab>();
-        final URI uri = FormDescriptorLoader.class.getResource(FormDescriptorLoader.FORM_DESCRIPTIONS).toURI();
+        final URI uri = ResourceLocator.getURL(FormDescriptorLoader.FORM_DESCRIPTIONS_FULL_PATH).toURI();
         for (final File file : new Folder(uri).getNestedFiles())
         {
             final String title = file.getName().toUpperCase().replace(".XML", "");
