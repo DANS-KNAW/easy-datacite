@@ -108,6 +108,8 @@ public abstract class AbstractNotification
     final public void send() throws ServiceException
     {
         final Mailer mailOffice = ExternalServices.getMailOffice();
+        if (mailOffice==null)
+            throw new ServiceException(new NullPointerException("no mail office available"));
         try
         {
             mailOffice.sendMail(getSubject(), getText(), getHtml(), getAttachementsAsArray(), getReceiverEmail());

@@ -30,7 +30,7 @@ public class FileBasedAuditTrail implements AuditTrail
         auditDirectory = auditFile.getParentFile();
         if (!auditDirectory.exists() && !auditDirectory.mkdirs())
         {
-            throw new IOException("Could not create audit directory: " + auditDirectory.getPath());
+            throw new IOException("Could not create audit directory: " + auditDirectory.getAbsolutePath());
         }
     }
 

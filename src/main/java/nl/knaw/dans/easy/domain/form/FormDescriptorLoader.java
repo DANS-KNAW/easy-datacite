@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 
 public class FormDescriptorLoader
 {
-    
+    public static final String FORM_DESCRIPTIONS_FULL_PATH = "easy-business/discipline/emd/form-description/";
     public static final String FORM_DESCRIPTIONS = "form-descriptions/";
 
     public static final String[] LOCATIONS =
