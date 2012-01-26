@@ -20,7 +20,6 @@ import nl.knaw.dans.common.lang.reposearch.RepoSearchListener;
 import nl.knaw.dans.common.lang.search.SearchEngine;
 import nl.knaw.dans.common.lang.xml.XMLDeserializationException;
 import nl.knaw.dans.easy.data.store.EasyStore;
-import nl.knaw.dans.easy.domain.collections.EasyCollectionDmoFactory;
 import nl.knaw.dans.easy.domain.dataset.DatasetFactory;
 import nl.knaw.dans.easy.domain.dataset.DescriptiveMetadataImpl;
 import nl.knaw.dans.easy.domain.dataset.EasyFile;
@@ -67,9 +66,6 @@ public class EasyFedoraStore extends FedoraDmoStore implements EasyStore
         AbstractDmoFactory.register(new DisciplineContainerFactory());
         addConverter(new DisciplineContainerConverter());
         
-        AbstractDmoFactory.register(new EasyCollectionDmoFactory());
-        //addConverter(new SimpleCollectionConverter());
-        
         AbstractDmoFactory.register(new DownloadHistoryFactory());
         addConverter(new DownloadHistoryConverter());
         
@@ -77,6 +73,10 @@ public class EasyFedoraStore extends FedoraDmoStore implements EasyStore
         // addConverter(new CommonDatasetConverter());
         
         // nl.knaw.dans.common.lang.repo.jumpoff.JumpoffDmo is taken care of in super.
+        
+        // nl.knaw.dans.i.dmo.collections.DmoCollection
+        // AbstractDmoFactory is set by comp.dmo.collections
+        
 
         if (searchEngine != null)
             addEventListener(new RepoSearchListener(searchEngine));
