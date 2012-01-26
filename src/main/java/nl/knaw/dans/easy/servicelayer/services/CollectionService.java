@@ -3,20 +3,26 @@ package nl.knaw.dans.easy.servicelayer.services;
 import java.util.Map;
 
 import nl.knaw.dans.common.lang.repo.DmoNamespace;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.domain.collections.SimpleCollection;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
+import nl.knaw.dans.i.dmo.collections.DmoCollection;
 
-public interface SimpleCollectionService extends EasyService
+public interface CollectionService extends EasyService
 {
     
-    SimpleCollection getRoot(DmoNamespace namespace) throws ServiceException;
+    DmoCollection getRoot(DmoNamespace namespace) throws ServiceException;
     
-    SimpleCollection getCollection(String storeId);
+    DmoCollection getCollection(DmoStoreId dmoStoreId) throws ServiceException;
+    
+    DmoCollection createRoot(EasyUser sessionUser, String namespace) throws ServiceException;
+    
+    void saveCollection(EasyUser sessionUser, DmoCollection collection) throws ServiceException;
+    
     
     SimpleCollection newCollection(EasyUser sessionUser, SimpleCollection parent, String title);
     
-    void saveCollection(EasyUser sessionUser, SimpleCollection collection);
     
     boolean attachCollection(EasyUser sessionUser, SimpleCollection parent, SimpleCollection child);
     
