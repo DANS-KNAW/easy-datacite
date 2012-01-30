@@ -1,11 +1,8 @@
 package nl.knaw.dans.easy.business.services;
 
-import java.util.Map;
-
 import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
-import nl.knaw.dans.easy.domain.collections.SimpleCollection;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.services.CollectionService;
 import nl.knaw.dans.i.dmo.collections.CollectionManager;
@@ -104,43 +101,7 @@ public class EasyCollectionService extends AbstractEasyService implements Collec
     }
 
     @Override
-    public SimpleCollection newCollection(EasyUser sessionUser, SimpleCollection parent, String title)
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-
-    @Override
-    public boolean attachCollection(EasyUser sessionUser, SimpleCollection parent, SimpleCollection child)
-    {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean detachCollection(EasyUser sessionUser, SimpleCollection collection)
-    {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean publishAsOAISet(EasyUser sessionUser, SimpleCollection collection)
-    {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean unpublishAsOAISet(EasyUser sessionUser, SimpleCollection collection)
-    {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public Map<String, SimpleCollection> getAllCollections()
+    public DmoCollection createCollection(EasyUser sessionUser, DmoCollection parent, String label, String shortName) throws ServiceException
     {
         // TODO Auto-generated method stub
         return null;
