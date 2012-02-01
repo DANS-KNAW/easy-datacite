@@ -4,9 +4,12 @@ import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.apache.wicket.Session;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.protocol.https.RequireHttps;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
@@ -14,11 +17,14 @@ import nl.knaw.dans.easy.domain.authn.Authentication;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasySession;
+import nl.knaw.dans.easy.web.HomePage;
 import nl.knaw.dans.easy.web.main.AbstractEasyNavPage;
 
 @RequireHttps
 public class FederativeAuthenticationResultPage extends AbstractEasyNavPage
 {
+    private static Logger       logger                  = LoggerFactory.getLogger(FederativeAuthenticationResultPage.class);
+    
     static final String FEDUSERID_ATTRIBUTE_NAME = "Shib-eduPersonPN";
     // Notes
     // request.getAttributeNames(); will not return the Shibboleth variables
@@ -40,21 +46,36 @@ public class FederativeAuthenticationResultPage extends AbstractEasyNavPage
         init();
     }
 
+    // TODO texts must come from property files
     private void init()
     {
+        setStatelessHint(true);
+        
         String resultMessage = "";
         
-        // TODO texts must come from property files
-        
-        HttpServletRequest request = getWebRequestCycle().getWebRequest().getHttpServletRequest();
-        if (hasFederativeAuthentication(request))
+        if (((AbstractEasyNavPage) getPage()).isAuthenticated())
         {
+            // Already logged in
             resultMessage = "You are logged in and can start using EASY";
         }
         else
         {
-            // not authentcated
-            resultMessage = "Sorry, but you are not logged in, pleasy try again";
+            HttpServletRequest request = getWebRequestCycle().getWebRequest().getHttpServletRequest();
+            if (hasFederativeAuthentication(request))
+            {
+                logger.info("login via the federation was succesfull");
+                //setResponsePage(getPage().getClass()); // this only works if the page is stateless
+                // Just go to the home page, without showing a message
+                throw new RestartResponseAtInterceptPageException(HomePage.class);
+            }
+            else
+            {
+                // not authentcated
+                
+                // Could mean that the federative login was OK, but there is no mapping to an EASY account
+                // That is not handled right now!
+                resultMessage = "Sorry, but you are not logged in (possibly because your federative account has not been linked to an easy account), pleasy try again";
+            }
         }
         
         add(new Label("authenticationMessage", resultMessage));
@@ -92,14 +113,17 @@ public class FederativeAuthenticationResultPage extends AbstractEasyNavPage
             }
             catch (ObjectNotAvailableException e)
             {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                logger.info("There is no mapping for the given federative user id: " + fedUserId);
             }
             catch (ServiceException e)
             {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                logger.error("Could not get easy user with the given federative user id: " + fedUserId, e);
             }
+        }
+        else
+        {
+            // no fedId should not happen unless this page was requested without Shibboleth redirect!!!
+            logger.error("Could not retrieve the Federative user identification from Shibboleth");
         }
         
         return result;
@@ -127,6 +151,7 @@ public class FederativeAuthenticationResultPage extends AbstractEasyNavPage
         return fedUserId;
     }
     
+    // utility for printing header info
     private void printRequest(HttpServletRequest request)
     {
         System.out.println("headers");
@@ -147,6 +172,6 @@ public class FederativeAuthenticationResultPage extends AbstractEasyNavPage
             System.out.println(name + "=" + value);
         }
         
-        // NOTE there is a BUG that hides the Shibboleth attributes from the getAttributeNames()
+        // NOTE the Shibboleth attributes are not available from the getAttributeNames()
     }
 }

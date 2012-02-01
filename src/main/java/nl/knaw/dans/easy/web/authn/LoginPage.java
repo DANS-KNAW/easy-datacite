@@ -42,7 +42,17 @@ public class LoginPage extends AbstractAuthenticationPage
         setStatelessHint(true);
         
         // Federative Athentication Link
-        add(new ExternalLink("federationLink", getFederationURLString(), "Login"));
+        add(new ExternalLink("federationLink", getFederationURLString(), "Login")
+        {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            protected boolean getStatelessHint()
+            {
+                return true;
+            }
+            
+        });
         
         UsernamePasswordAuthentication authentication;
 		try
@@ -73,7 +83,7 @@ public class LoginPage extends AbstractAuthenticationPage
           returnURLString = URLEncoder.encode(returnURLString, "UTF-8");
           
           // add the easy return page url as parameter to 
-          // the external federation service provider (SP) url
+          // the Shibboleth url
           String federationURLString = "https://eof12.dans.knaw.nl/Shibboleth.sso/Login?target=";
           linkURLString = federationURLString + returnURLString;
           logger.debug("link URL: " + linkURLString);
