@@ -21,7 +21,7 @@
 	
 	<!-- Note: the latest nl.knaw.dans.easy.version is >>NOT<< in artifactory. -->
 	<!-- So you can only build this project when the nl.knaw.dans.easy.version -->
-	<!--                        is in your editor.                             -->
+	<!-- (see below) is in your editor or in your .m2 repository.              -->
 	
 	<properties>
 		<source-code-version>1.6</source-code-version>
