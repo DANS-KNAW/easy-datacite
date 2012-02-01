@@ -1,6 +1,7 @@
 package nl.knaw.dans.easy.data;
 
 import nl.knaw.dans.common.lang.search.SearchEngine;
+import nl.knaw.dans.easy.data.federation.FederativeUserRepo;
 import nl.knaw.dans.easy.data.migration.MigrationRepo;
 import nl.knaw.dans.easy.data.search.DatasetSearch;
 import nl.knaw.dans.easy.data.store.EasyStore;
@@ -33,6 +34,7 @@ public class Data
     private static EasyUserRepo    userRepo;
     private static GroupRepo       groupRepo;
     private static MigrationRepo   migrationRepo;
+    private static FederativeUserRepo federativeUserRepo;
     private static EasyStore       easyStore;
     private static FileStoreAccess fileStoreAccess;
     private static DatasetSearch   datasetSearch;
@@ -119,6 +121,15 @@ public class Data
             throw new DataConfigurationException("No MigrationRepo set. Make sure the application context is properly configured.");
         }
         return migrationRepo;
+    }
+
+    public static FederativeUserRepo getFederativeUserRepo()
+    {
+        if (federativeUserRepo == null)
+        {
+            throw new DataConfigurationException("No FederativeUserRepo set. Make sure the application context is properly configured.");
+        }
+        return federativeUserRepo;
     }
 
     public static EasyStore getEasyStore()
@@ -231,6 +242,13 @@ public class Data
         logger.debug("Injected dependency migrationRepo: " + migrationRepo);
     }
 
+    public void setFederativeUserRepo(final FederativeUserRepo federativeUserRepo) throws IllegalStateException
+    {
+        checkLock();
+        Data.federativeUserRepo = federativeUserRepo;
+        logger.debug("Injected dependency federativeUserRepo: " + federativeUserRepo);
+    }
+    
     public void setEasyStore(final EasyStore easyStore)
     {
         checkLock();

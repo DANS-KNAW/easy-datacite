@@ -10,6 +10,7 @@ public class Services
     private static DepositService depositService;
     private static UserService userService;
     private static MigrationService migrationService;
+    private static FederativeUserService federativeUserService;
     private static SearchService searchService;
     private static DisciplineCollectionService disciplineService;
     private static JumpoffService jumpoffService;
@@ -73,6 +74,11 @@ public class Services
         return migrationService;
     }
 
+    public static FederativeUserService getFederativeUserService()
+    {
+        return federativeUserService;
+    }
+
 	public static SearchService getSearchService()
 	{
 		return searchService;
@@ -123,6 +129,13 @@ public class Services
         logger.debug("Injected dependency migrationService: " + migrationService);
     }
 
+    public void setFederativeUserService(FederativeUserService federativeUserService)
+    {
+        checkLock();
+        Services.federativeUserService = federativeUserService;
+        logger.debug("Injected dependency federativeUserService: " + federativeUserService);
+    }
+
 	public void setDisciplineService(DisciplineCollectionService disciplineService)
 	{
         checkLock();
@@ -150,4 +163,5 @@ public class Services
             throw new IllegalStateException(ILLEGAL_METHOD_CALL);
         }
     }
+
 }
