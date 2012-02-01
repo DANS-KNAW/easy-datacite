@@ -73,6 +73,18 @@
 			<artifactId>dans-solr</artifactId>
 			<version>${parent.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>nl.knaw.dans</groupId>
+			<artifactId>comp.repository</artifactId>
+			<version>0.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>nl.knaw.dans</groupId>
+			<artifactId>comp.dmocollections</artifactId>
+			<version>0.0</version>
+		</dependency>
 
 		<!-- End dependencies on Repositories and other Data Access Points -->
 
@@ -141,7 +153,7 @@
 		<dependency>
 			<groupId>org.easymock</groupId>
 			<artifactId>easymock</artifactId>
-			<version>3.0</version>
+			<version>3.1</version>
 			<scope>test</scope>
 		</dependency>
 
