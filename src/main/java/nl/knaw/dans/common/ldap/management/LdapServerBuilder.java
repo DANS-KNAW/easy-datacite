@@ -24,6 +24,7 @@ public abstract class LdapServerBuilder
     public static final String EASY_GROUPS_CONTEXT        = "ou=groups," + EASY_CONTEXT;
     public static final String EASY_USERS_CONTEXT         = "ou=users," + EASY_CONTEXT;
     public static final String EASY_MIGRATION_CONTEXT     = "ou=migration," + EASY_CONTEXT;
+    public static final String EASY_FEDERATION_CONTEXT     = "ou=federation," + EASY_CONTEXT;
 
     public static final String DCCD_CONTEXT               = "ou=dccd," + Constants.DANS_CONTEXT;
     public static final String DCCD_ORGANISATIONS_CONTEXT = "ou=organisations," + DCCD_CONTEXT;
@@ -229,6 +230,21 @@ public abstract class LdapServerBuilder
             buildContext(dn, attrs);
         }
 
+        dn = Constants.TEST_FEDERATION_CONTEXT;
+        if (!isContextBound(dn))
+        {
+            Attributes attrs = new BasicAttributes();
+            Attribute oc = new BasicAttribute("objectclass");
+            oc.add("extensibleObject");
+            oc.add("organizationalUnit");
+            oc.add("top");
+
+            attrs.put(oc);
+            attrs.put("ou", Constants.ouFEDERATION);
+
+            buildContext(dn, attrs);
+        }        
+
         System.out.println("END BUILDING DANS CONTEXTS");
     }
     
@@ -295,7 +311,22 @@ public abstract class LdapServerBuilder
 
             buildContext(dn, attrs);
         }
+        
+        dn = EASY_FEDERATION_CONTEXT;
+        if (!isContextBound(dn))
+        {
+            Attributes attrs = new BasicAttributes();
+            Attribute oc = new BasicAttribute("objectclass");
+            oc.add("extensibleObject");
+            oc.add("organizationalUnit");
+            oc.add("top");
 
+            attrs.put(oc);
+            attrs.put("ou", "federation");
+
+            buildContext(dn, attrs);
+        }
+        
         System.out.println("END BUILDING EASY CONTEXTS");
     }
     

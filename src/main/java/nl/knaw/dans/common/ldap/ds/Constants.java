@@ -29,5 +29,8 @@ public class Constants
     
     public static final String ouMIGRATION                  = "migration";
     public static final String TEST_MIGRATION_CONTEXT       = "ou=" + ouMIGRATION + "," + TEST_CONTEXT;
+    
+    public static final String ouFEDERATION                  = "federation";
+    public static final String TEST_FEDERATION_CONTEXT       = "ou=" + ouFEDERATION + "," + TEST_CONTEXT;
 
 }

@@ -10,17 +10,17 @@ import javax.naming.directory.BasicAttributes;
 
 public class DANSSchema extends AbstractSchema
 {
-    
-    public static final String SCHEMA_NAME = "dans";
-    
+
+    public static final String     SCHEMA_NAME = "dans";
+
     private final List<Attributes> attributeTypes;
     private final List<Attributes> objectClasses;
-    
+
     public DANSSchema()
     {
         // attributetypes
         attributeTypes = new ArrayList<Attributes>();
-        
+
         Attributes attrs = new BasicAttributes(true);
         attrs.put("NUMERICOID", "1.3.6.1.4.1.33188.0.1.1");
         attrs.put("NAME", "dansState");
@@ -29,7 +29,7 @@ public class DANSSchema extends AbstractSchema
         attrs.put("SYNTAX", "1.3.6.1.4.1.1466.115.121.1.15"); // DirectoryString
         attrs.put("SINGLE-VALUE", "TRUE");
         attributeTypes.add(attrs);
-        
+
         attrs = new BasicAttributes(true);
         attrs.put("NUMERICOID", "1.3.6.1.4.1.33188.0.1.2");
         attrs.put("NAME", "dansPrefixes");
@@ -38,7 +38,7 @@ public class DANSSchema extends AbstractSchema
         attrs.put("SYNTAX", "1.3.6.1.4.1.1466.115.121.1.15"); // DirectoryString
         attrs.put("SINGLE-VALUE", "TRUE");
         attributeTypes.add(attrs);
-        
+
         attrs = new BasicAttributes(true);
         attrs.put("NUMERICOID", "1.3.6.1.4.1.33188.0.1.3");
         attrs.put("NAME", "dansAcceptConditionsOfUse");
@@ -47,7 +47,7 @@ public class DANSSchema extends AbstractSchema
         attrs.put("SYNTAX", "1.3.6.1.4.1.1466.115.121.1.7"); // Boolean syntax
         attrs.put("SINGLE-VALUE", "TRUE");
         attributeTypes.add(attrs);
-        
+
         attrs = new BasicAttributes(true);
         attrs.put("NUMERICOID", "1.3.6.1.4.1.33188.0.1.4");
         attrs.put("NAME", "dansLastLogin");
@@ -56,7 +56,7 @@ public class DANSSchema extends AbstractSchema
         attrs.put("SYNTAX", "1.3.6.1.4.1.1466.115.121.1.24"); // Generalized Time (yyyyMMddHHmmssZ)
         attrs.put("SINGLE-VALUE", "TRUE");
         attributeTypes.add(attrs);
-        
+
         attrs = new BasicAttributes(true);
         attrs.put("NUMERICOID", "1.3.6.1.4.1.33188.0.1.5");
         attrs.put("NAME", "dansStoreId");
@@ -65,7 +65,7 @@ public class DANSSchema extends AbstractSchema
         attrs.put("SYNTAX", "1.3.6.1.4.1.1466.115.121.1.15"); // DirectoryString
         attrs.put("SINGLE-VALUE", "TRUE");
         attributeTypes.add(attrs);
-        
+
         attrs = new BasicAttributes(true);
         attrs.put("NUMERICOID", "1.3.6.1.4.1.33188.0.1.6");
         attrs.put("NAME", "dansPreviousId");
@@ -74,7 +74,7 @@ public class DANSSchema extends AbstractSchema
         attrs.put("SYNTAX", "1.3.6.1.4.1.1466.115.121.1.15"); // DirectoryString
         attrs.put("SINGLE-VALUE", "TRUE");
         attributeTypes.add(attrs);
-        
+
         attrs = new BasicAttributes(true);
         attrs.put("NUMERICOID", "1.3.6.1.4.1.33188.0.1.7");
         attrs.put("NAME", "dansPid");
@@ -83,7 +83,7 @@ public class DANSSchema extends AbstractSchema
         attrs.put("SYNTAX", "1.3.6.1.4.1.1466.115.121.1.15"); // DirectoryString
         attrs.put("SINGLE-VALUE", "TRUE");
         attributeTypes.add(attrs);
-        
+
         attrs = new BasicAttributes(true);
         attrs.put("NUMERICOID", "1.3.6.1.4.1.33188.0.1.8");
         attrs.put("NAME", "dansMigrationDate");
@@ -92,7 +92,7 @@ public class DANSSchema extends AbstractSchema
         attrs.put("SYNTAX", "1.3.6.1.4.1.1466.115.121.1.24"); // Generalized Time (yyyyMMddHHmmssZ)
         attrs.put("SINGLE-VALUE", "TRUE");
         attributeTypes.add(attrs);
-        
+
         attrs = new BasicAttributes(true);
         attrs.put("NUMERICOID", "1.3.6.1.4.1.33188.0.1.9");
         attrs.put("NAME", "dansNewsletter");
@@ -101,7 +101,7 @@ public class DANSSchema extends AbstractSchema
         attrs.put("SYNTAX", "1.3.6.1.4.1.1466.115.121.1.7"); // Boolean syntax
         attrs.put("SINGLE-VALUE", "TRUE");
         attributeTypes.add(attrs);
-        
+
         attrs = new BasicAttributes(true);
         attrs.put("NUMERICOID", "1.3.6.1.4.1.33188.0.1.10");
         attrs.put("NAME", "dansAltTel");
@@ -109,10 +109,30 @@ public class DANSSchema extends AbstractSchema
         attrs.put("EQUALITY", "caseIgnoreMatch");
         attrs.put("SYNTAX", "1.3.6.1.4.1.1466.115.121.1.15"); // DirectoryString
         attributeTypes.add(attrs);
+
+        // Federative user mapping, federative user id
+        attrs = new BasicAttributes(true);
+        attrs.put("NUMERICOID", "1.3.6.1.4.1.33188.0.1.11");
+        attrs.put("NAME", "fedUserId");
+        attrs.put("DESC", "A federative user identifier");
+        attrs.put("EQUALITY", "caseIgnoreMatch");
+        attrs.put("SYNTAX", "1.3.6.1.4.1.1466.115.121.1.15"); // DirectoryString
+        attrs.put("SINGLE-VALUE", "TRUE");
+        attributeTypes.add(attrs);
+        
+        // Federative user mapping, dans user id
+        attrs = new BasicAttributes(true);
+        attrs.put("NUMERICOID", "1.3.6.1.4.1.33188.0.1.12");
+        attrs.put("NAME", "dansUserId");
+        attrs.put("DESC", "A dans user identifier for the mapping from a federative user id");
+        attrs.put("EQUALITY", "caseIgnoreMatch");
+        attrs.put("SYNTAX", "1.3.6.1.4.1.1466.115.121.1.15"); // DirectoryString
+        attrs.put("SINGLE-VALUE", "TRUE");
+        attributeTypes.add(attrs);
         
         // objectClasses
         objectClasses = new ArrayList<Attributes>();
-        
+
         attrs = new BasicAttributes(true);
         attrs.put("NUMERICOID", "1.3.6.1.4.1.33188.0.2.1");
         attrs.put("NAME", "dansUser");
@@ -131,7 +151,7 @@ public class DANSSchema extends AbstractSchema
         may.add("dansAltTel");
         attrs.put(may);
         objectClasses.add(attrs);
-        
+
         attrs = new BasicAttributes(true);
         attrs.put("NUMERICOID", "1.3.6.1.4.1.33188.0.2.2");
         attrs.put("NAME", "dansIdMap");
@@ -147,6 +167,22 @@ public class DANSSchema extends AbstractSchema
         may.add("dansMigrationDate");
         attrs.put(may);
         objectClasses.add(attrs);
+
+        // Federative user mapping
+        attrs = new BasicAttributes(true);
+        attrs.put("NUMERICOID", "1.3.6.1.4.1.33188.0.2.3");
+        attrs.put("NAME", "dansFedIdMap");
+        attrs.put("DESC", "An entry which represents a mapping from an Fedarative user Id to a Dans user Id");
+        attrs.put("SUP", "top");
+        attrs.put("STRUCTURAL", "true");
+        must = new BasicAttribute("MUST", "fedUserId");
+        must.add("objectclass");
+        attrs.put(must);
+        may = new BasicAttribute("MAY");
+        may.add("dansUserId");
+        attrs.put(may);
+        objectClasses.add(attrs);
+
     }
 
     public List<Attributes> getAttributeTypes()
@@ -164,7 +200,5 @@ public class DANSSchema extends AbstractSchema
     {
         return SCHEMA_NAME;
     }
-    
-    
 
 }
