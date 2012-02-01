@@ -13,6 +13,7 @@
 		<property name="itemService" ref="itemService"/>
 		<property name="userService" ref="userService"/>
 		<property name="migrationService" ref="migrationService"/>
+		<property name="federativeUserService" ref="federativeUserService"/>
 		<property name="searchService" ref="searchService"/>
 		<property name="disciplineService" ref="disciplineService" />
 		<property name="jumpoffService" ref="jumpoffService" />
@@ -34,6 +35,8 @@
 	<bean name="searchService" class="nl.knaw.dans.easy.business.services.EasySearchService" />
 	
 	<bean name="migrationService" class="nl.knaw.dans.easy.business.services.EasyMigrationService" />
+
+	<bean name="federativeUserService" class="nl.knaw.dans.easy.business.services.EasyFederativeUserService" />
 
 	<!-- ================== -->
 	<!--      Security      -->
@@ -80,6 +83,7 @@
 		<property name="userRepo" ref="userRepo"/>
 		<property name="groupRepo" ref="groupRepo"/>
 		<property name="migrationRepo" ref="migrationRepo"/>
+		<property name="federativeUserRepo" ref="federativeUserRepo"/>
 		<property name="easyStore" ref="easyStore"/>
 		<property name="fileStoreAccess" ref="fileStoreAccess"/>
 		<property name="datasetSearch" ref="datasetSearch"/>
@@ -102,6 +106,11 @@
     <bean name="migrationRepo" class="nl.knaw.dans.easy.ldap.EasyLdapMigrationRepo">
         <constructor-arg ref="ldapClient"/>
         <constructor-arg value="${ldap.context.migration}"/>
+    </bean>
+
+    <bean name="federativeUserRepo" class="nl.knaw.dans.easy.ldap.EasyLdapFederativeUserRepo">
+        <constructor-arg ref="ldapClient"/>
+        <constructor-arg value="${ldap.context.federation}"/>
     </bean>
 
 	<bean name="ldapClient" class="nl.knaw.dans.common.ldap.ds.LdapClient">
