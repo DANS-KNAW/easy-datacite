@@ -19,6 +19,12 @@ public interface CollectionService extends EasyService
     
     void saveCollection(EasyUser sessionUser, DmoCollection collection) throws ServiceException;
     
+    void attachCollection(EasyUser sessionUser, DmoCollection parent, DmoCollection child) throws ServiceException;
     
+    void detachCollection(EasyUser sessionUser, DmoCollection collection) throws ServiceException;
+    
+    void publishAsOAISet(EasyUser sessionUser, DmoCollection collection) throws ServiceException;
+    
+    void unpublishAsOAISet(EasyUser sessionUser, DmoCollection collection) throws ServiceException;
 
 }

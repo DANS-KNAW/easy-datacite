@@ -24,7 +24,6 @@ public class JumpoffWorkDispatcher
         try
         {
             jumpoffDmo = Data.getEasyStore().findJumpoffDmoFor(storeId);
-            //System.err.println(jumpoffDmo.getJumpoffMarkup().getMarkup());
         }
         catch (RepositoryException e)
         {

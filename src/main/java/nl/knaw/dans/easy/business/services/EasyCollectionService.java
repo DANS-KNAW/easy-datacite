@@ -22,17 +22,10 @@ public class EasyCollectionService extends AbstractEasyService implements Collec
     }
     
     @Override
-    public void doBeanPostProcessing() throws ServiceException
-    {
-        
-    }
-    
-    @Override
     public DmoCollection createRoot(EasyUser sessionUser, String namespace) throws ServiceException
     {
-        String ownerId = sessionUser.isAnonymous() ? null : sessionUser.getId();
         DmoNamespace dmoNamespace = new DmoNamespace(namespace);
-        CollectionManager manager = dmoCollections.newManager(ownerId);
+        CollectionManager manager = dmoCollections.newManager(getOwnerId(sessionUser));
         DmoCollection root;
         try
         {
@@ -88,8 +81,7 @@ public class EasyCollectionService extends AbstractEasyService implements Collec
     @Override
     public void saveCollection(EasyUser sessionUser, DmoCollection collection) throws ServiceException
     {
-        String ownerId = sessionUser.isAnonymous() ? null : sessionUser.getId();
-        CollectionManager manager = dmoCollections.newManager(ownerId);
+        CollectionManager manager = dmoCollections.newManager(getOwnerId(sessionUser));
         try
         {
             manager.update(collection);
@@ -103,8 +95,79 @@ public class EasyCollectionService extends AbstractEasyService implements Collec
     @Override
     public DmoCollection createCollection(EasyUser sessionUser, DmoCollection parent, String label, String shortName) throws ServiceException
     {
-        // TODO Auto-generated method stub
-        return null;
+        DmoCollection collection;
+        CollectionManager manager = dmoCollections.newManager(getOwnerId(sessionUser));
+        try
+        {
+            collection = manager.createCollection(parent, label, shortName);
+        }
+        catch (CollectionsException e)
+        {
+            throw new ServiceException(e);
+        }
+        return collection;
+    }
+
+    @Override
+    public void attachCollection(EasyUser sessionUser, DmoCollection parent, DmoCollection child) throws ServiceException
+    {
+        CollectionManager manager = dmoCollections.newManager(getOwnerId(sessionUser));
+        try
+        {
+            manager.attachCollection(parent, child);
+        }
+        catch (CollectionsException e)
+        {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public void detachCollection(EasyUser sessionUser, DmoCollection collection) throws ServiceException
+    {
+        CollectionManager manager = dmoCollections.newManager(getOwnerId(sessionUser));
+        try
+        {
+            manager.detachCollection(collection);
+        }
+        catch (CollectionsException e)
+        {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public void publishAsOAISet(EasyUser sessionUser, DmoCollection collection) throws ServiceException
+    {
+        CollectionManager manager = dmoCollections.newManager(getOwnerId(sessionUser));
+        try
+        {
+            manager.publishAsOAISet(collection);
+        }
+        catch (CollectionsException e)
+        {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public void unpublishAsOAISet(EasyUser sessionUser, DmoCollection collection) throws ServiceException
+    {
+        CollectionManager manager = dmoCollections.newManager(getOwnerId(sessionUser));
+        try
+        {
+            manager.unpublishAsOAISet(collection);
+        }
+        catch (CollectionsException e)
+        {
+            throw new ServiceException(e);
+        }
+    }
+    
+    private String getOwnerId(EasyUser sessionUser)
+    {
+        String ownerId = sessionUser.isAnonymous() ? null : sessionUser.getId();
+        return ownerId;
     }
 
 }
