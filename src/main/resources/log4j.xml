@@ -33,6 +33,16 @@
              <param name="AcceptOnMatch" value="true"/>
         </filter>
 	</appender>
+	
+	<appender name="service.profiling" class="org.apache.log4j.RollingFileAppender">
+        <param name="file"              value="${easy.home}/logs/sword/service-profiling.csv"/>
+        <param name="Append"            value="true" />
+        <param name="MaxFileSize"       value="500KB"/>
+        <param name="MaxBackupIndex"    value="5"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d;%m%n"/>
+        </layout>
+    </appender>
     
     <appender name="submission-error" class="org.apache.log4j.RollingFileAppender">
         <param name="file"              value="${easy.home}/logs/sword/submission-error.log"/>
