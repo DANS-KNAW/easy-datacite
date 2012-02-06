@@ -42,4 +42,15 @@ public class ServiceDocumentTest extends EasySwordServerTester
         request.setLocation(LOCATION);
         assertAsExpected(easySwordServer.doServiceDocument(request).toString(), "serviceDocumentWithoutUser.xml");
     }
+    
+
+    // TODO put this test elsewhere
+    @Test
+    public void calculateHashTest() throws Exception
+    {
+        String hash = easySwordServer.calculateHash("richardzijdeman@SURFguest.nl", "d49bcb3d-ffb6-4748-aef4-8ca6319f3afb");
+        System.out.println("Hash=" + hash);
+        // TODO compare with known value
+        //8zu/I4oxV7DbirRQiMx30dELtkA=
+    }
 }

@@ -12,6 +12,7 @@ import nl.knaw.dans.common.lang.log.Event;
 import nl.knaw.dans.common.lang.log.RL;
 import nl.knaw.dans.common.lang.mail.MailComposerException;
 import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
+import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.xml.SchemaCreationException;
 import nl.knaw.dans.common.lang.xml.ValidatorException;
@@ -26,6 +27,7 @@ import nl.knaw.dans.easy.domain.deposit.discipline.DepositDiscipline;
 import nl.knaw.dans.easy.domain.deposit.discipline.DisciplineImpl;
 import nl.knaw.dans.easy.domain.emd.validation.FormatValidator;
 import nl.knaw.dans.easy.domain.exceptions.DataIntegrityException;
+import nl.knaw.dans.easy.domain.federation.FederativeUserIdMap;
 import nl.knaw.dans.easy.domain.form.FormDefinition;
 import nl.knaw.dans.easy.domain.form.FormDescriptor;
 import nl.knaw.dans.easy.domain.form.PanelDefinition;
@@ -91,6 +93,41 @@ public class EasyBusinessFacade
         }
     }
 
+    // NO authentication, is done via the federation
+    public static EasyUser getFederativeUser(final String fedUserId) throws SWORDException, SWORDErrorException
+    {
+        FederativeUserIdMap userIdMap = null;
+        try
+        {
+            userIdMap = Data.getFederativeUserRepo().findById(fedUserId);
+        }
+        catch (ObjectNotInStoreException e)
+        {
+            logger.debug("Object not found. fedUserId='" + fedUserId + "'");
+            throw new SWORDException("Object not found. fedUserId='" + fedUserId + "' :", e);
+        }
+        catch (RepositoryException e)
+        {
+            logger.debug("Could not get user with fedUserId '" + fedUserId + "' :", e);
+            throw new SWORDException("Could not get user with fedUserId '" + fedUserId + "' :", e);
+        }
+        
+        String userId = userIdMap.getDansUserId();
+        logger.debug("Found easy user for federative user: fedUserId='" + fedUserId + "', userId='" + userId + "'");
+        try
+        {
+            return Data.getUserRepo().findById(userId);
+        }
+        catch (final ObjectNotInStoreException exception)
+        {
+            throw newSwordException(userId + " authentication problem", exception);
+        }
+        catch (final RepositoryException exception)
+        {
+            throw newSwordException(userId + " authentication problem", exception);
+        }
+    }
+        
     private static void authenticate(final String userId, final String password) throws SWORDException, SWORDErrorException
     {
         try

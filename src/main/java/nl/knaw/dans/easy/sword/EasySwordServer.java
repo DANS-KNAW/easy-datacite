@@ -1,12 +1,14 @@
 package nl.knaw.dans.easy.sword;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.MessageFormat;
 
 import javax.servlet.http.HttpServletResponse;
 
+import nl.knaw.dans.common.lang.util.Base64Coder;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
@@ -36,6 +38,9 @@ import org.purl.sword.base.Workspace;
 import org.purl.sword.server.SWORDServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class EasySwordServer implements SWORDServer
 {
@@ -329,6 +334,81 @@ public class EasySwordServer implements SWORDServer
         return EasyBusinessFacade.getUser(userID, password);
     }
 
+    private EasyUser getUser(final Deposit deposit) throws SWORDErrorException, SWORDException
+    {
+        final String USERNAME_INDICATING_FEDERATIVE_LOGIN = "nl.knaw.dans.easy.federatedUser";
+        
+        if(0 == deposit.getUsername().compareTo(USERNAME_INDICATING_FEDERATIVE_LOGIN))
+        {
+            // fedrative user
+            // TODO retrieve the fedUserId from the password
+            final String fedUserId = "";
+            
+            return getFederativeUser(fedUserId);
+        }
+        else
+        {
+            // Easy user - NON-federative
+            return getUser(deposit.getUsername(), deposit.getPassword());
+        }
+    }
+    
+    // TODO Maybe rename
+    private String extractUserIdFromToken(final String token)
+    {
+        // TODO implement
+        final int HASH_LENGTH = 28; // But that means 7 bytes for the binary hash
+        // get last X bytes, this should be the hash
+        // the string before it is the federativeUserId
+        if (token.length() > HASH_LENGTH)
+        {
+            int hashPos = token.length() - HASH_LENGTH - 1;
+            String fedUserId = token.substring(0, hashPos);
+            String givenHashString = token.substring(hashPos);
+            // calculate the hash with the secret key
+            String hash = calculateHash(fedUserId, "d49bcb3d-ffb6-4748-aef4-8ca6319f3afb");
+            if (0 != hash.compareTo(givenHashString))
+            {
+                // TODO fail if hash is not OK!
+            }
+            return fedUserId; 
+        }
+        else
+        {
+            return ""; // error; token is to small
+        }
+    }
+    
+    public String calculateHash(final String message, final String key)
+    {
+        String hash = "";
+        String messagePlusKey = message + key;
+        try
+        {
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA");
+            messageDigest.update(messagePlusKey.getBytes("UTF-8"));
+            byte rawBytes[] = messageDigest.digest();
+            hash = new String(Base64Coder.encode(rawBytes));
+        }
+        catch (NoSuchAlgorithmException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } 
+        
+        return hash;
+    }
+    
+    private EasyUser getFederativeUser(final String fedUserId) throws SWORDErrorException, SWORDException
+    {
+        return EasyBusinessFacade.getFederativeUser(fedUserId);
+    }
+    
     public AtomDocumentResponse doAtomDocument(final AtomDocumentRequest adr) throws SWORDAuthenticationException, SWORDErrorException, SWORDException
     {
         log.info(MessageFormat.format("ATOM DOC user={0}; IP={1}; location={2}",adr.getUsername(),adr.getIPAddress(),adr.getLocation()));
