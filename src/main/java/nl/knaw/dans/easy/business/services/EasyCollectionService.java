@@ -3,6 +3,7 @@ package nl.knaw.dans.easy.business.services;
 import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
+import nl.knaw.dans.easy.domain.model.Constants;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.services.CollectionService;
 import nl.knaw.dans.i.dmo.collections.CollectionManager;
@@ -13,12 +14,20 @@ import nl.knaw.dans.i.dmo.collections.exceptions.NoSuchCollectionException;
 
 public class EasyCollectionService extends AbstractEasyService implements CollectionService
 {
+    public static final String NS_EASY_COLLECTION = "easy-collection";
     
     private final DmoCollections dmoCollections;
     
     public EasyCollectionService(DmoCollections dmoCollections)
     {
         this.dmoCollections = dmoCollections;
+    }
+    
+    @Override
+    public void doBeanPostProcessing() throws ServiceException
+    {
+        dmoCollections.setContentModelOAISet(new DmoStoreId(Constants.CM_SIMPLE_COLLECTION_1));
+        dmoCollections.registerNamespace(new DmoNamespace(NS_EASY_COLLECTION));
     }
     
     @Override

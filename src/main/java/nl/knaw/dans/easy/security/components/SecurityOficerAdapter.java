@@ -6,20 +6,21 @@ import org.slf4j.LoggerFactory;
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
 import nl.knaw.dans.easy.data.Data;
+import nl.knaw.dans.easy.domain.exceptions.ApplicationException;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.security.ContextParameters;
 import nl.knaw.dans.easy.security.SecurityOfficer;
 import nl.knaw.dans.i.security.SecurityAgent;
 
-public class SecurityAgentAdapter implements SecurityAgent
+public class SecurityOficerAdapter implements SecurityAgent
 {
 
-    private static final Logger   logger = LoggerFactory.getLogger(SecurityAgentAdapter.class);
+    private static final Logger   logger = LoggerFactory.getLogger(SecurityOficerAdapter.class);
 
     private final String          securityId;
     private final SecurityOfficer officer;
 
-    public SecurityAgentAdapter(String securityId, SecurityOfficer officer)
+    public SecurityOficerAdapter(String securityId, SecurityOfficer officer)
     {
         this.securityId = securityId;
         this.officer = officer;
@@ -49,13 +50,17 @@ public class SecurityAgentAdapter implements SecurityAgent
             }
             catch (RepositoryException e)
             {
-                logger.warn("Could not get sessionUser with id " + ownerId + " from repository. " +
-                        "Returning not allowed for secured operation " + securityId, e);
-                return false;
+                logger.warn("Could not get sessionUser with id " + ownerId + " from repository.");
+                throw new ApplicationException(e);
             }
         }
         ContextParameters ctxParameters = new ContextParameters(sessionUser, args);
-        return officer.isEnableAllowed(ctxParameters);
+        boolean allowed = officer.isEnableAllowed(ctxParameters);
+        if (!allowed)
+        {
+            logger.info(officer.explainEnableAllowed(ctxParameters));
+        }
+        return allowed;
     }
 
 }
