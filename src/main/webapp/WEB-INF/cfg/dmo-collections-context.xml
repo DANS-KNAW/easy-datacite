@@ -11,6 +11,17 @@
 	
 	<!-- Provided interface iDmoCollections -->
 	<bean name="dmoCollections" class="nl.knaw.dans.comp.dmocollections.DmoCollectionsImpl">
+		<property name="securityAgents" ref="dmoCollectionsAgents"/>
 	</bean>
+	
+	<!-- the factory bean, which contains a method called createInstance() -->
+	<bean id="componentSecurity" class="nl.knaw.dans.easy.security.components.ComponentSecurity">
+  <!-- inject any dependencies required by this locator bean -->
+</bean>
+
+<!-- the bean to be created via the factory bean -->
+<bean id="dmoCollectionsAgents"
+      factory-bean="componentSecurity"
+      factory-method="getDmoCollectionsAgents"/>
 	
 </beans>

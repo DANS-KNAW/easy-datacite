@@ -21,6 +21,7 @@
 		<property name="searchService" ref="searchService"/>
 		<property name="disciplineService" ref="disciplineService" />
 		<property name="jumpoffService" ref="jumpoffService" />
+		<!-- property name="collectionService" ref="collectionService" /-->
 
 	</bean>
 	
@@ -41,6 +42,10 @@
 	<bean name="migrationService" class="nl.knaw.dans.easy.business.services.EasyMigrationService" />
 
 	<bean name="federativeUserService" class="nl.knaw.dans.easy.business.services.EasyFederativeUserService" />
+	
+	<bean name="collectionService" class="nl.knaw.dans.easy.business.services.EasyCollectionService">
+		<constructor-arg ref="dmoCollections" />
+	</bean>
 
 	<!-- ================== -->
 	<!--      Security      -->
