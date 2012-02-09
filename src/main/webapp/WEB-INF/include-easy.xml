@@ -9,12 +9,14 @@
 
 	<bean name="services" class="nl.knaw.dans.easy.servicelayer.services.Services">
 		<property name="userService" ref="userService"/>
+		<property name="federativeUserService" ref="federativeUserService"/>
 		<property name="datasetService" ref="datasetService"/>
 		<property name="itemService" ref="itemService"/>
 		<property name="depositService" ref="depositService" />
 		<property name="disciplineService" ref="disciplineService" />
 	</bean>
 	<bean name="userService" class="nl.knaw.dans.easy.business.services.EasyUserService" />
+	<bean name="federativeUserService" class="nl.knaw.dans.easy.business.services.EasyFederativeUserService" />
 	<bean name="datasetService" class="nl.knaw.dans.easy.business.services.EasyDatasetService" />
 	<bean name="itemService" class="nl.knaw.dans.easy.business.services.EasyItemService" />
 	<bean name="depositService" class="nl.knaw.dans.easy.business.services.EasyDepositService"></bean>
@@ -22,6 +24,7 @@
 	
 	<bean name="data" class="nl.knaw.dans.easy.data.Data">
 		<property name="userRepo" ref="userRepo"/>
+		<property name="federativeUserRepo" ref="federativeUserRepo"/>
 		<property name="groupRepo" ref="groupRepo"/>
 		<property name="easyStore" ref="easyStore"/>
 		<property name="fileStoreAccess" ref="fileStoreAccess"/>

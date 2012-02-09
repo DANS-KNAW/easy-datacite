@@ -93,7 +93,7 @@ public class EasyBusinessFacade
         }
     }
 
-    // NO authentication, is done via the federation
+    // NO username/password authentication, that is allready done via the federation
     public static EasyUser getFederativeUser(final String fedUserId) throws SWORDException, SWORDErrorException
     {
         FederativeUserIdMap userIdMap = null;

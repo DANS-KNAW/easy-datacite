@@ -18,6 +18,11 @@
 		<constructor-arg ref="ldapClient"/>
 		<constructor-arg value="${ldap.context.migration}"/>
 	</bean>
+
+	<bean name="federativeUserRepo" class="nl.knaw.dans.easy.ldap.EasyLdapFederativeUserRepo">
+		<constructor-arg ref="ldapClient" />
+		<constructor-arg value="${ldap.context.federation}" />
+	</bean>
 	
 	<bean name="ldapClient" class="nl.knaw.dans.common.ldap.ds.LdapClient">
 		<property name="dirContextSupplier" ref="dirContextSupplier"/>

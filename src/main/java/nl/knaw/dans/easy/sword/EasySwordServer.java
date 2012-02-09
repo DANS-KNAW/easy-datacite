@@ -8,7 +8,6 @@ import java.text.MessageFormat;
 
 import javax.servlet.http.HttpServletResponse;
 
-import nl.knaw.dans.common.lang.util.Base64Coder;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
@@ -58,6 +57,11 @@ public class EasySwordServer implements SWORDServer
     
     private static String policy = "easy.sword.server.policy not configured";
     private static String treatment = "easy.sword.server.treatment not configured";
+
+    // Federative related constants
+    static final String USERNAME_INDICATING_FEDERATIVE_LOGIN = "nl.knaw.dans.easy.federatedUser";
+    // TODO This secret key should not be in the code but read from an external file! 
+    static final String FEDERATIVE_LOGIN_SECRET = "d49bcb3d-ffb6-4748-aef4-8ca6319f3afb";
 
     static Logger       log                         = LoggerFactory.getLogger(EasySwordServer.class);
 
@@ -331,64 +335,70 @@ public class EasySwordServer implements SWORDServer
 
     private EasyUser getUser(final String userID, final String password) throws SWORDErrorException, SWORDException
     {
-        return EasyBusinessFacade.getUser(userID, password);
-    }
-
-    private EasyUser getUser(final Deposit deposit) throws SWORDErrorException, SWORDException
-    {
-        final String USERNAME_INDICATING_FEDERATIVE_LOGIN = "nl.knaw.dans.easy.federatedUser";
-        
-        if(0 == deposit.getUsername().compareTo(USERNAME_INDICATING_FEDERATIVE_LOGIN))
+        if(0 == userID.compareTo(USERNAME_INDICATING_FEDERATIVE_LOGIN))
         {
-            // fedrative user
-            // TODO retrieve the fedUserId from the password
-            final String fedUserId = "";
+            // handle federative user, password contains token
+            final String fedUserId = extractUserIdFromToken(password);
             
-            return getFederativeUser(fedUserId);
+            return EasyBusinessFacade.getFederativeUser(fedUserId);
         }
         else
         {
             // Easy user - NON-federative
-            return getUser(deposit.getUsername(), deposit.getPassword());
+            return EasyBusinessFacade.getUser(userID, password);
         }
     }
     
-    // TODO Maybe rename
-    private String extractUserIdFromToken(final String token)
+    // Needed for token based authorization
+    String extractUserIdFromToken(final String token)
     {
-        // TODO implement
-        final int HASH_LENGTH = 28; // But that means 7 bytes for the binary hash
-        // get last X bytes, this should be the hash
+        final int HASH_LENGTH = 40; // This depends on hash algorithm and conversion to string
+        String fedUserId = null;
+        
+        // get last bytes containing the hash
         // the string before it is the federativeUserId
         if (token.length() > HASH_LENGTH)
         {
-            int hashPos = token.length() - HASH_LENGTH - 1;
-            String fedUserId = token.substring(0, hashPos);
+            int hashPos = token.length() - HASH_LENGTH;
+            String givenFedUserId = token.substring(0, hashPos);
             String givenHashString = token.substring(hashPos);
+            log.debug("input id: " + givenFedUserId + ", hash: " + givenHashString);
+            
             // calculate the hash with the secret key
-            String hash = calculateHash(fedUserId, "d49bcb3d-ffb6-4748-aef4-8ca6319f3afb");
-            if (0 != hash.compareTo(givenHashString))
+            String hash = calculateHash(givenFedUserId, FEDERATIVE_LOGIN_SECRET);
+            if (0 == hash.compareTo(givenHashString))
             {
+                fedUserId = givenFedUserId;
+            }
+            else
+            {
+                log.info("Hash is not correct: " + givenHashString);
                 // TODO fail if hash is not OK!
             }
-            return fedUserId; 
         }
         else
         {
-            return ""; // error; token is to small
+            log.info("Token is to small: " + Integer.toString(token.length()));
+            // error; token is to small
         }
+        
+        return fedUserId; 
     }
     
-    public String calculateHash(final String message, final String key)
+    // TODO create a HashUtils or HashCalculator class
+    String calculateHash(final String message, final String key)
     {
+        final String HASH_ALGORITHM = "SHA-1";
         String hash = "";
         String messagePlusKey = message + key;
         try
         {
-            MessageDigest messageDigest = MessageDigest.getInstance("SHA");
+            MessageDigest messageDigest = MessageDigest.getInstance(HASH_ALGORITHM);
             messageDigest.update(messagePlusKey.getBytes("UTF-8"));
-            byte rawBytes[] = messageDigest.digest();
-            hash = new String(Base64Coder.encode(rawBytes));
+            byte bytes[] = messageDigest.digest();
+            log.debug("Binary hash length=" + Integer.toString(bytes.length));
+            hash = new String(convertToHexString(bytes));
+            log.debug("String hash length=" + Integer.toString(hash.length()));
         }
         catch (NoSuchAlgorithmException e)
         {
@@ -403,10 +413,21 @@ public class EasySwordServer implements SWORDServer
         
         return hash;
     }
-    
-    private EasyUser getFederativeUser(final String fedUserId) throws SWORDErrorException, SWORDException
+
+    // TODO add to a HashUtils or StringUtils class
+    String convertToHexString(byte[] bytes)
     {
-        return EasyBusinessFacade.getFederativeUser(fedUserId);
+        if (bytes == null) 
+            return null;
+        
+        StringBuffer hexString = new StringBuffer(2 * bytes.length);
+        for (int i = 0; i < bytes.length; i++) 
+        {
+            // convert the nibbles, because toHexString does not prepend zero
+            hexString.append(Integer.toHexString((0xF0 & bytes[i])>>4));
+            hexString.append(Integer.toHexString(0x0F & bytes[i]));
+        }
+        return hexString.toString();
     }
     
     public AtomDocumentResponse doAtomDocument(final AtomDocumentRequest adr) throws SWORDAuthenticationException, SWORDErrorException, SWORDException
