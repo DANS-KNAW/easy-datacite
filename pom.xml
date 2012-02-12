@@ -12,6 +12,16 @@
   <version>${parent.version}</version>
   <url>http://develop01.dans.knaw.nl/maven2/eof-open-source/solr</url>
   <description>Common DANS Solr implementation</description>
+  
+  	<properties>
+		<source-code-version>1.6</source-code-version>
+		<byte-code-version>1.6</byte-code-version>
+		<pmd-rule-set>http://develop01.dans.knaw.nl/svn/mixed/eof-open-source/trunk/solr/docs/pmd/basic.xml</pmd-rule-set>
+		<!-- servers -->
+        <repository-server>develop01.dans.knaw.nl</repository-server>
+        <solr.version>3.5.0</solr.version>
+	</properties>
+
 
 	<organization>
 		<name>DANS</name>
@@ -34,14 +44,6 @@
 			</notifier>
 		</notifiers>
 	</ciManagement>
-
-	<properties>
-		<source-code-version>1.6</source-code-version>
-		<byte-code-version>1.6</byte-code-version>
-		<pmd-rule-set>http://develop01.dans.knaw.nl/svn/mixed/eof-open-source/trunk/solr/docs/pmd/basic.xml</pmd-rule-set>
-		<!-- servers -->
-        <repository-server>develop01.dans.knaw.nl</repository-server>
-	</properties>
 
 	<!-- Source control: should not be altered provided you use the artifactId as projectname -->
 	<scm>
@@ -84,7 +86,7 @@
         <dependency>
         	<groupId>org.apache.solr</groupId>
         	<artifactId>solr-solrj</artifactId>
-        	<version>3.5.0</version>
+        	<version>${solr.version}</version>
         </dependency>
 	</dependencies>
 	
