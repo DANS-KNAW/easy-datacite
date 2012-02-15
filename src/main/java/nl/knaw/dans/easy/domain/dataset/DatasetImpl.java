@@ -641,11 +641,11 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
     {
         List<DisciplineContainer> allDisciplines = getParentDisciplines();
         //
-        StringBuilder sb = new StringBuilder("allDisciplines\n");
-        for (DisciplineContainer dc : allDisciplines)
-        {
-            sb.append(dc.getStoreId() + " " + dc.getName() + "\n");
-        }
+//        StringBuilder sb = new StringBuilder("allDisciplines\n");
+//        for (DisciplineContainer dc : allDisciplines)
+//        {
+//            sb.append(dc.getStoreId() + " " + dc.getName() + "\n");
+//        }
 
         List<DisciplineContainer> leafDisciplines = new ArrayList<DisciplineContainer>();
 

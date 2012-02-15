@@ -1,6 +1,7 @@
 package nl.knaw.dans.easy.data;
 
 import nl.knaw.dans.common.lang.search.SearchEngine;
+import nl.knaw.dans.easy.data.collections.EasyCollections;
 import nl.knaw.dans.easy.data.federation.FederativeUserRepo;
 import nl.knaw.dans.easy.data.migration.MigrationRepo;
 import nl.knaw.dans.easy.data.search.DatasetSearch;
@@ -39,7 +40,8 @@ public class Data
     private static FileStoreAccess fileStoreAccess;
     private static DatasetSearch   datasetSearch;
     private static SearchEngine    searchEngine;
-    //private static SimpleCollectionFactory simpleCollectionFactory;
+    private static EasyCollections easyCollections;
+    
     private static int             downloadLimit; // max. size of download in Mb
     private static int			   maxNumberOfFiles;
 
@@ -167,6 +169,15 @@ public class Data
         }
         return searchEngine;
     }
+    
+    public static EasyCollections getEasyCollections()
+    {
+        if (easyCollections == null)
+        {
+            throw new DataConfigurationException("No EasyCollections set. Make sure the application context is properly configured.");
+        }
+        return easyCollections;
+    }
 
     public static int getDownloadLimit()
     {
@@ -275,6 +286,13 @@ public class Data
         checkLock();
         Data.searchEngine = searchEngine;
         logger.debug("Injected dependency searchEngine: " + searchEngine);
+    }
+    
+    public void setEasyCollections(final EasyCollections easyCollections)
+    {
+        checkLock();
+        Data.easyCollections = easyCollections;
+        logger.debug("Injected dependency easyCollections: " + easyCollections);
     }
     
     private void checkLock()

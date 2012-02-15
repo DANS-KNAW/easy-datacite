@@ -32,7 +32,7 @@ public interface Constants
     /**
      * Content model for simple collections
      */
-    String CM_SIMPLE_COLLECTION_1 = "easy-model:simple-collection1";
+    String CM_EASY_COLLECTION_1 = "easy-model:easy-collection1";
     
     /**
      * The prefix for OAI identifiers. A complete OAI identifier complies to:
