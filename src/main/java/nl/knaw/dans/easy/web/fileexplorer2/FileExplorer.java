@@ -9,7 +9,6 @@ import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.security.authz.AuthzMessage;
 import nl.knaw.dans.common.lang.security.authz.AuthzStrategy;
 import nl.knaw.dans.common.lang.security.authz.AuthzStrategy.TriState;
-import nl.knaw.dans.common.lang.service.exceptions.FileSizeException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceRuntimeException;
 import nl.knaw.dans.common.lang.service.exceptions.TooManyFilesException;
