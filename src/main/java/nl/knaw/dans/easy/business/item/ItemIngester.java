@@ -189,7 +189,8 @@ public class ItemIngester extends AbstractWorker
         if (file.isDirectory())
         {
             FolderItem kidFolder = (FolderItem) AbstractDmoFactory.newDmo(FolderItem.NAMESPACE);
-            //getUnitOfWork().createObject(FolderItemImpl.class);
+            getUnitOfWork().attach(kidFolder);
+            
             kidFolder.setLabel(file.getName());
             kidFolder.setOwnerId(sessionUser.getId());
             kidFolder.setDatasetId(dataset.getStoreId());
@@ -205,7 +206,8 @@ public class ItemIngester extends AbstractWorker
         else
         {
             FileItem kidFile = (FileItem) AbstractDmoFactory.newDmo(FileItem.NAMESPACE);
-            //getUnitOfWork().createObject(FileItemImpl.class);
+            getUnitOfWork().attach(kidFile);
+            
             kidFile.setFile(file);
             kidFile.setCreatorRole(creatorRole);
             kidFile.setDatasetId(dataset.getStoreId());
