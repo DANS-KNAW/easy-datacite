@@ -17,6 +17,8 @@ import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.exception.ObjectExistsException;
 import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
 import nl.knaw.dans.common.lang.test.Tester;
+import nl.knaw.dans.common.lang.user.User;
+import nl.knaw.dans.common.lang.user.UserImpl;
 import nl.knaw.dans.common.lang.util.Base64Coder;
 import nl.knaw.dans.common.ldap.repo.MissingAttributeException;
 import nl.knaw.dans.easy.data.Data;
@@ -326,7 +328,34 @@ public class EasyUserRepoOnlineTest extends AbstractOnlineTest
         // cleanup
         repo.delete(test);
     }
+    
+    @Test
+    public void isPasswordStored() throws RepositoryException
+    {
+        EasyUser test = new EasyUserImpl();
+        test.setId("test");
+        test.setSurname("Pietersen");
+        // NO password set
 
+        // remove players
+        if (repo.exists(test.getId()))
+            repo.delete(test);
+
+        repo.add(test);
+        
+        assertFalse(repo.isPasswordStored(test.getId()));
+        repo.delete(test);
+        
+        // Now set the password
+        test.setPassword("geheim");
+        repo.add(test);
+        
+        assertTrue(repo.isPasswordStored(test.getId()));
+        
+        // cleanup
+        repo.delete(test);
+    }
+    
     @Test
     public void findAll() throws RepositoryException
     {
