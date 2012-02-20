@@ -50,6 +50,7 @@ public class UserInfoEditPanel extends AbstractEasyStatelessPanel implements Eas
 
     private final SwitchPanel parent;
     private final boolean enableModeSwitch;
+    private boolean hasPassword = false;
 
     public UserInfoEditPanel(final SwitchPanel parent, final String userId, final boolean enableModeSwitch)
     {
@@ -76,10 +77,20 @@ public class UserInfoEditPanel extends AbstractEasyStatelessPanel implements Eas
         {
             throw new RestartResponseException(new ErrorPage());
         }
-        else
+        
+        // check if user has a password, federative users might not have it.
+        try
         {
-            constructPanel(user);
+            hasPassword = Services.getUserService().isUserWithStoredPassword(user);
         }
+        catch (ServiceException e)
+        {
+            final String message = errorMessage(EasyResources.INTERNAL_ERROR);
+            logger.error(message, e);
+            throw new InternalWebError();
+        }
+        
+        constructPanel(user);
     }
 
     private void constructPanel(final EasyUser user)
@@ -99,7 +110,7 @@ public class UserInfoEditPanel extends AbstractEasyStatelessPanel implements Eas
 
             addCommonFeedbackPanel();
 
-            add(new Label(UserProperties.USER_ID));
+            add(new Label(UserProperties.USER_ID).setVisible(hasPassword));
 
             addWithComponentFeedback(new TextField(UserProperties.TITLE), new ResourceModel("user.title"));
 

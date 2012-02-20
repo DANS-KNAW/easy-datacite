@@ -1,6 +1,7 @@
 package nl.knaw.dans.easy.web.authn;
 
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
+import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.services.Services;
@@ -30,7 +31,8 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
 
     private final SwitchPanel parent;
     private final boolean       enableModeSwitch;
-
+    private boolean hasPassword = false;
+    
     public UserInfoDisplayPanel(final SwitchPanel parent, final String userId, final boolean enableModeSwitch)
     {
         super(SwitchPanel.SWITCH_PANEL_WI);
@@ -57,10 +59,20 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
         {
             throw new RestartResponseException(new ErrorPage());
         }
-        else
+        
+        // check if user has a password, federative users might not have it.
+        try
         {
-            constructPanel(user);
+            hasPassword = Services.getUserService().isUserWithStoredPassword(user);
         }
+        catch (ServiceException e)
+        {
+            final String message = errorMessage(EasyResources.INTERNAL_ERROR);
+            logger.error(message, e);
+            throw new InternalWebError();
+        }
+        
+        constructPanel(user);
     }
 
     private void constructPanel(EasyUser user)
@@ -69,7 +81,8 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
 
         addCommonFeedbackPanel();
         
-        add(new Label(UserProperties.USER_ID));
+        Label userIdLabel = new Label(UserProperties.USER_ID);
+        add(userIdLabel);
         add(new Label(UserProperties.DISPLAYNAME));
         add(new Label(UserProperties.TITLE));
         add(new Label(UserProperties.INITIALS));
@@ -123,6 +136,13 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
             }          
         };
         add(changePasswordLink);
+        
+        // hide information from user without a password (federative only user)
+        if(!hasPassword)
+        {
+            changePasswordLink.setVisible(false);
+            userIdLabel.setVisible(false);
+        }
     }
     
     private String getDisciplineString(String id)
