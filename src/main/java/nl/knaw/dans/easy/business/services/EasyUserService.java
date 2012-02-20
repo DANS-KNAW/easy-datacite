@@ -16,6 +16,7 @@ import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.domain.annotations.MutatesUser;
 import nl.knaw.dans.easy.domain.authn.Authentication;
 import nl.knaw.dans.easy.domain.authn.ChangePasswordMessenger;
+import nl.knaw.dans.easy.domain.authn.FederativeUserRegistration;
 import nl.knaw.dans.easy.domain.authn.ForgottenPasswordMailAuthentication;
 import nl.knaw.dans.easy.domain.authn.ForgottenPasswordMessenger;
 import nl.knaw.dans.easy.domain.authn.Registration;
@@ -251,7 +252,29 @@ public class EasyUserService extends AbstractEasyService implements UserService
         logger.debug("Handled registration: " + registration.toString());
         return registration;
     }
+    
+    public FederativeUserRegistration handleRegistrationRequest(FederativeUserRegistration registration) throws ServiceException
+    {
+        registrationService.handleRegistrationRequest(registration);
+        logger.debug("Handled registration: " + registration.toString());
+        return registration;
+    }
 
+    public boolean isUserWithStoredPassword(final EasyUser user) throws ServiceException
+    {
+        boolean hasPassword;
+        try
+        {
+            hasPassword = Data.getUserRepo().isPasswordStored(user.getId());
+        }
+        catch (RepositoryException e)
+        {
+            throw new ServiceException(e);
+        }
+        
+        return hasPassword;
+    }
+    
     public void changePassword(final ChangePasswordMessenger messenger)  throws ServiceException
     {
         // delegate to specialized service.
@@ -310,6 +333,7 @@ public class EasyUserService extends AbstractEasyService implements UserService
         }
         return passwordService;
     }
+
 
 
 }

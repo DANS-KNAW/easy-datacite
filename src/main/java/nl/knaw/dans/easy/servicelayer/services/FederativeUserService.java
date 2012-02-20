@@ -14,4 +14,5 @@ public interface FederativeUserService
     EasyUser getUserById(EasyUser sessionUser, String fedUserId) throws ObjectNotAvailableException, ServiceException;
 
     // TODO support adding a federative user, given an EasyUser object and a federative user id
+    void addFedUserToEasyUserIdCoupling(String fedUserId, String easyUserId) throws ServiceException;
 }

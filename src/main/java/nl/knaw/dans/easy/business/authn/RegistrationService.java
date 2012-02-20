@@ -10,10 +10,12 @@ import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.domain.annotations.MutatesUser;
 import nl.knaw.dans.easy.domain.authn.Authentication;
+import nl.knaw.dans.easy.domain.authn.FederativeUserRegistration;
 import nl.knaw.dans.easy.domain.authn.Registration;
 import nl.knaw.dans.easy.domain.authn.RegistrationMailAuthentication;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.RegistrationConfirmation;
+import nl.knaw.dans.easy.servicelayer.services.Services;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,6 +87,82 @@ public class RegistrationService extends AbstractTokenList
         }
     }
 
+    public FederativeUserRegistration handleRegistrationRequest(FederativeUserRegistration registration)
+    {
+        if (!FederativeUserRegistrationSpecification.isSatisfiedBy(registration))
+        {
+            logger.debug("Registration does not conform to specification: " + registration.toString());
+            return registration;
+        }
+
+        handleRegistration(registration);
+        
+        if (registration.isCompleted())
+        {
+            logger.debug("Registered: " + registration.toString());
+        }
+        else
+        {
+            logger.error("Registration process unsuccessful: " + registration.toString());
+            rollBackRegistration(registration);
+        }
+        
+        return registration;
+    }
+    
+    private FederativeUserRegistration handleRegistration(FederativeUserRegistration registration)
+    {
+        // NOTE Activate User
+        registration.getUser().setState(EasyUser.State.ACTIVE);
+        // whipe any password jsut to be sure?
+        registration.getUser().setPassword(null);
+        
+        // put new user in UserRepo
+        EasyUser user = registration.getUser();
+        try
+        {
+            add(user, user);
+        }
+        catch (RepositoryException e)
+        {
+            logger.error("Could not store a user for registration: ", e);
+            registration.setState(FederativeUserRegistration.State.SystemError, e);
+            return registration;
+        }
+
+        
+        // make coupling with federative User ID?
+        try
+        {
+            Services.getFederativeUserService().addFedUserToEasyUserIdCoupling(registration.getFederativeUserId(), user.getId());
+        }
+        catch (ServiceException e)
+        {
+            logger.error("Could not couple a federated user for registration: ", e);
+            registration.setState(FederativeUserRegistration.State.SystemError, e);
+            return registration;
+        }
+
+        registration.setState(FederativeUserRegistration.State.Registered);
+
+        return registration;
+    }
+
+    private void rollBackRegistration(FederativeUserRegistration registration)
+    {
+        logger.debug("Trying a rollback.");
+        EasyUser user = registration.getUser();
+        try
+        {
+            delete(user, user);
+            logger.debug("Rollback of user registration successful.");
+        }
+        catch (RepositoryException e)
+        {
+            logger.error("Rollback of user registration unsuccessful: " + e);
+        }
+    }
+    
     public Registration handleRegistrationRequest(Registration registration)
     {
         if (!RegistrationSpecification.isSatisfiedBy(registration))

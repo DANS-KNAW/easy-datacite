@@ -11,6 +11,7 @@ import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.domain.authn.Authentication;
 import nl.knaw.dans.easy.domain.authn.ChangePasswordMessenger;
+import nl.knaw.dans.easy.domain.authn.FederativeUserRegistration;
 import nl.knaw.dans.easy.domain.authn.ForgottenPasswordMailAuthentication;
 import nl.knaw.dans.easy.domain.authn.ForgottenPasswordMessenger;
 import nl.knaw.dans.easy.domain.authn.Registration;
@@ -57,6 +58,20 @@ public interface UserService
      */
     Registration handleRegistrationRequest(Registration registration) throws ServiceException;
 
+    FederativeUserRegistration handleRegistrationRequest(FederativeUserRegistration registration) throws ServiceException;
+
+    /**
+     * Determine if there is a password stored for the given user. 
+     * This does not determine if a user is federative, because some federative users might have a password stored. 
+     * This is the case for EASY accounts (with password) that have been coupled with a federative account.
+     * 
+     * @param user
+     *        user
+     * @return <code>true</code> if a password is stored, <code>false</code> otherwise
+     * @throws ServiceException
+     */
+    boolean isUserWithStoredPassword(final EasyUser user) throws ServiceException;
+    
     void changePassword(ChangePasswordMessenger messenger) throws ServiceException;
 
     void handleForgottenPasswordRequest(ForgottenPasswordMessenger messenger) throws ServiceException;

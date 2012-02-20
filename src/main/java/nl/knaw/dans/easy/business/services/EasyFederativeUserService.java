@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nl.knaw.dans.common.lang.RepositoryException;
+import nl.knaw.dans.common.lang.repo.exception.ObjectExistsException;
 import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
@@ -62,6 +63,42 @@ public class EasyFederativeUserService extends AbstractEasyService implements Fe
         }
         
         return user;
+    }
+
+    @Override
+    public void addFedUserToEasyUserIdCoupling(String fedUserId, String easyUserId) throws ServiceException
+    {
+        // Overwrite any existing coupling (idMap) for that federation Id
+        try
+        {
+            if (Data.getFederativeUserRepo().exists(fedUserId))
+            {
+                    Data.getFederativeUserRepo().delete(fedUserId);
+                    logger.debug("Removed coupling for federated user Id: " + fedUserId + ", but should replace it with easy Id: " + easyUserId);
+            }
+        }
+        catch (RepositoryException e1)
+        {
+            logger.debug("Could not add coupling for federated user Id '" + fedUserId + "' :", e1);
+            throw new ServiceException("Could not add coupling for federated user Id '" + fedUserId + "' :", e1);
+        }
+        
+        FederativeUserIdMap idMap = new FederativeUserIdMap(fedUserId, easyUserId);
+        try
+        {
+            Data.getFederativeUserRepo().add(idMap);
+            logger.debug("Added coupling for federated user Id: " + fedUserId + " with easy Id: " + easyUserId);
+        }
+        catch (ObjectExistsException e)
+        {
+            logger.debug("Could not add coupling for federated user Id '" + fedUserId + "' :", e);
+            throw new ServiceException("Could not add coupling for federated user Id '" + fedUserId + "' :", e);
+        }
+        catch (RepositoryException e)
+        {
+            logger.debug("Could not add coupling for federated user Id '" + fedUserId + "' :", e);
+            throw new ServiceException("Could not add coupling for federated user Id '" + fedUserId + "' :", e);
+        }
     }
 
 }
