@@ -111,7 +111,7 @@
 		<dependency>
 			<groupId>nl.knaw.dans</groupId>
 			<artifactId>platform.interfaces</artifactId>
-			<version>0.0</version>
+			<version>0.0-SNAPSHOT</version>
 		</dependency>
 		
 	</dependencies>
