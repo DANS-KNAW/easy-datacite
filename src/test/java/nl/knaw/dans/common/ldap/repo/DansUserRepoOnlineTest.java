@@ -278,6 +278,33 @@ public class DansUserRepoOnlineTest extends AbstractRepoOnlineTest
     }
 
     @Test
+    public void isPasswordStored() throws RepositoryException
+    {
+        User test = new UserImpl();
+        test.setId("test");
+        test.setSurname("Pietersen");
+        // NO password set
+
+        // remove players
+        if (repo.exists(test.getId()))
+            repo.delete(test);
+
+        repo.add(test);
+        
+        assertFalse(repo.isPasswordStored(test.getId()));
+        repo.delete(test);
+        
+        // Now set the password
+        test.setPassword("geheim");
+        repo.add(test);
+        
+        assertTrue(repo.isPasswordStored(test.getId()));
+        
+        // cleanup
+        repo.delete(test);
+    }
+    
+    @Test
     public void findAll() throws RepositoryException
     {
         List<User> users = repo.findAll();

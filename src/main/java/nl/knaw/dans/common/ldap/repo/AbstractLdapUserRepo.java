@@ -71,6 +71,47 @@ public abstract class AbstractLdapUserRepo<T extends User> extends AbstractGener
         return authenticated;
     }
 
+    /**
+     * Note that {@link User.getPassword()} will not give the password from the repository after 'unmarshalling'.
+     * The user repository must be queried for this because the password is never retrieved from the repository 
+     * and the User object does not contain it.  
+     * 
+     */
+    public boolean isPasswordStored(String userId) throws RepositoryException
+    {
+        if (StringUtils.isBlank(userId))
+        {
+            logger.debug("Insufficient data for getting user info.");
+            throw new IllegalArgumentException();
+        }
+        String filter = "(&(objectClass=" + getObjectClassName() + ")(uid=" + userId + "))";
+
+        final String PASSWD_ATTR_NAME = "userPassword";
+        boolean passwordStored = false;
+        SearchControls ctls = new SearchControls();
+        ctls.setSearchScope(SearchControls.ONELEVEL_SCOPE);
+        ctls.setCountLimit(1);
+        ctls.setReturningAttributes(new String[] {"uid", PASSWD_ATTR_NAME});
+
+        try
+        {
+            NamingEnumeration<SearchResult> resultEnum = getClient().search(getContext(), filter, ctls);
+            while (resultEnum.hasMoreElements())
+            {
+                SearchResult result = resultEnum.next();
+                Attributes attrs = result.getAttributes();
+                if (attrs.get(PASSWD_ATTR_NAME) != null)
+                    passwordStored = true;
+            }
+        }
+        catch (NamingException e)
+        {
+            throw new RepositoryException(e);
+        }
+        
+        return passwordStored;
+    }
+    
     public List<T> find(T example)
     {
         throw new UnsupportedOperationException();
