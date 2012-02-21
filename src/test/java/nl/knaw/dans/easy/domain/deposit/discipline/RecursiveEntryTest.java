@@ -23,23 +23,23 @@ public class RecursiveEntryTest
     @Test
     public void serializeDeserializeEmpty() throws Exception
     {
-        RecursiveEntry entry = new RecursiveEntry();
+        JiBXRecursiveEntry entry = new JiBXRecursiveEntry();
         if (verbose)
             logger.debug("\n" + entry.asXMLString(4) + "\n");
-        RecursiveEntry entry2 = (RecursiveEntry) JiBXObjectFactory.unmarshal(RecursiveEntry.class, entry.asObjectXML());
+        JiBXRecursiveEntry entry2 = (JiBXRecursiveEntry) JiBXObjectFactory.unmarshal(JiBXRecursiveEntry.class, entry.asObjectXML());
         assertEquals(entry.asXMLString(), entry2.asXMLString());
     }
     
     @Test
     public void serializeDeserializeFull() throws Exception
     {
-        RecursiveEntry entry = new RecursiveEntry();
+        JiBXRecursiveEntry entry = new JiBXRecursiveEntry();
         entry.setKey("ABC");
         entry.setName("Name");
         entry.setShortname("shortname");
         entry.setOrdinal(1);
         
-        RecursiveEntry a = new RecursiveEntry();
+        JiBXRecursiveEntry a = new JiBXRecursiveEntry();
         a.setKey("cABC");
         a.setName("cName");
         a.setShortname("cshortname");
@@ -47,7 +47,7 @@ public class RecursiveEntryTest
         
         entry.add(a);
         
-        RecursiveEntry b = new RecursiveEntry();
+        JiBXRecursiveEntry b = new JiBXRecursiveEntry();
         b.setKey("bABC");
         b.setName("bName");
         b.setShortname("bshortname");
@@ -57,21 +57,21 @@ public class RecursiveEntryTest
         
         if (verbose)
             logger.debug("\n" + entry.asXMLString(4) + "\n");
-        RecursiveEntry entry2 = (RecursiveEntry) JiBXObjectFactory.unmarshal(RecursiveEntry.class, entry.asObjectXML());
+        JiBXRecursiveEntry entry2 = (JiBXRecursiveEntry) JiBXObjectFactory.unmarshal(JiBXRecursiveEntry.class, entry.asObjectXML());
         assertEquals(entry.asXMLString(), entry2.asXMLString());
     }
     
     @Test(expected = IllegalArgumentException.class)
     public void addToSelf()
     {
-        RecursiveEntry entry = new RecursiveEntry();
+        JiBXRecursiveEntry entry = new JiBXRecursiveEntry();
         entry.add(entry);
     }
     
     @Test(expected = NullPointerException.class)
     public void addNull() throws Exception
     {
-        RecursiveEntry entry = new RecursiveEntry();
+        JiBXRecursiveEntry entry = new JiBXRecursiveEntry();
         entry.add(null);
         entry.asXMLString();
     }
@@ -79,25 +79,25 @@ public class RecursiveEntryTest
     @Test
     public void comparable()
     {
-        RecursiveEntry entry = new RecursiveEntry();
+        JiBXRecursiveEntry entry = new JiBXRecursiveEntry();
         entry.setKey("ABC");
         entry.setName("Name");
         entry.setShortname("shortname");
         entry.setOrdinal(1);
         
-        RecursiveEntry a = new RecursiveEntry();
+        JiBXRecursiveEntry a = new JiBXRecursiveEntry();
         a.setKey("cABC");
         a.setName("cName");
         a.setShortname("cshortname");
         a.setOrdinal(2);
         
-        RecursiveEntry b = new RecursiveEntry();
+        JiBXRecursiveEntry b = new JiBXRecursiveEntry();
         b.setKey("bABC");
         b.setName("bName");
         b.setShortname("bshortname");
         b.setOrdinal(3);
         
-        List<RecursiveEntry> entries = new ArrayList<RecursiveEntry>();
+        List<JiBXRecursiveEntry> entries = new ArrayList<JiBXRecursiveEntry>();
         entries.add(a);
         entries.add(b);
         entries.add(entry);

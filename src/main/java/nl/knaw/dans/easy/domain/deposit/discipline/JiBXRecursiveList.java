@@ -7,25 +7,22 @@ import java.util.List;
 
 import nl.knaw.dans.common.jibx.AbstractJiBXObject;
 
-public class RecursiveList extends AbstractJiBXObject<RecursiveList> implements RecursiveNode, Serializable
+public class JiBXRecursiveList extends AbstractJiBXObject<JiBXRecursiveList> implements RecursiveNode, Serializable
 {
     
-    public static final String LID_ARCHAEOLOGY_DC_SUBJECT = "archaeology.dc.subject";
-    public static final String LID_ARCHAEOLOGY_DCTERMS_TEMPORAL = "archaeology.dcterms.temporal";
-
     private static final long serialVersionUID = 3490879024839204765L;
     
     private String listId;
-    private List<RecursiveEntry> recursiveEntries = new ArrayList<RecursiveEntry>();
+    private List<JiBXRecursiveEntry> recursiveEntries = new ArrayList<JiBXRecursiveEntry>();
     
     
     @SuppressWarnings("unused")
-    private RecursiveList()
+    private JiBXRecursiveList()
     {
         // used by JiBX
     }
     
-    protected RecursiveList(String listId)
+    protected JiBXRecursiveList(String listId)
     {
         this.listId = listId;
     }
@@ -40,17 +37,17 @@ public class RecursiveList extends AbstractJiBXObject<RecursiveList> implements 
         this.listId = listId;
     }
 
-    public List<RecursiveEntry> getChildren()
+    public List<JiBXRecursiveEntry> getChildren()
     {
         return recursiveEntries;
     }
 
-    public void setChildren(List<RecursiveEntry> recursiveEntries)
+    public void setChildren(List<JiBXRecursiveEntry> recursiveEntries)
     {
         this.recursiveEntries = recursiveEntries;
     }
     
-    public void add(RecursiveEntry re)
+    public void add(JiBXRecursiveEntry re)
     {
         if (re == null)
         {
@@ -59,13 +56,13 @@ public class RecursiveList extends AbstractJiBXObject<RecursiveList> implements 
         recursiveEntries.add(re);
     }
     
-    public RecursiveEntry getEntry(String key)
+    public JiBXRecursiveEntry getEntry(String key)
     {
-        RecursiveEntry entry = null;
-        Iterator<RecursiveEntry> iter = recursiveEntries.iterator();
+        JiBXRecursiveEntry entry = null;
+        Iterator<JiBXRecursiveEntry> iter = recursiveEntries.iterator();
         while (iter.hasNext() && entry == null)
         {
-            RecursiveEntry kid = iter.next();
+            JiBXRecursiveEntry kid = iter.next();
             entry = kid.get(key);
         }
         return entry;

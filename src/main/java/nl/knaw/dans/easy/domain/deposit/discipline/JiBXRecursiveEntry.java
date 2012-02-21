@@ -7,7 +7,7 @@ import java.util.List;
 
 import nl.knaw.dans.common.jibx.AbstractJiBXObject;
 
-public class RecursiveEntry extends AbstractJiBXObject<RecursiveEntry> implements RecursiveNode, Serializable, Comparable<RecursiveEntry>
+public class JiBXRecursiveEntry extends AbstractJiBXObject<JiBXRecursiveEntry> implements RecursiveNode, Serializable, Comparable<JiBXRecursiveEntry>
 {
 
     private static final long serialVersionUID = -1709403472957310519L;
@@ -17,14 +17,14 @@ public class RecursiveEntry extends AbstractJiBXObject<RecursiveEntry> implement
     private String name;
     private int ordinal;
     
-    private List<RecursiveEntry> children = new ArrayList<RecursiveEntry>();
+    private List<JiBXRecursiveEntry> children = new ArrayList<JiBXRecursiveEntry>();
     
-    public RecursiveEntry()
+    public JiBXRecursiveEntry()
     {
         
     }
     
-    public RecursiveEntry(String key, String shortname, String name, int ordinal)
+    public JiBXRecursiveEntry(String key, String shortname, String name, int ordinal)
     {
         this.key = key;
         this.shortname = shortname;
@@ -72,17 +72,17 @@ public class RecursiveEntry extends AbstractJiBXObject<RecursiveEntry> implement
         this.ordinal = ordinal;
     }
 
-    public List<RecursiveEntry> getChildren()
+    public List<JiBXRecursiveEntry> getChildren()
     {
         return children;
     }
 
-    public void setChildren(List<RecursiveEntry> children)
+    public void setChildren(List<JiBXRecursiveEntry> children)
     {
         this.children = children;
     }
     
-    public void add(RecursiveEntry re)
+    public void add(JiBXRecursiveEntry re)
     {
         if (re == null)
         {
@@ -95,19 +95,19 @@ public class RecursiveEntry extends AbstractJiBXObject<RecursiveEntry> implement
         children.add(re);
     }
     
-    public RecursiveEntry get(String key)
+    public JiBXRecursiveEntry get(String key)
     {
-        RecursiveEntry entry = null;
+        JiBXRecursiveEntry entry = null;
         if (getKey().equals(key))
         {
             entry = this;
         }
         else
         {
-            Iterator<RecursiveEntry> iter = children.iterator();
+            Iterator<JiBXRecursiveEntry> iter = children.iterator();
             while (iter.hasNext() && entry == null)
             {
-                RecursiveEntry kid = iter.next();
+                JiBXRecursiveEntry kid = iter.next();
                 entry = kid.get(key);
             }
         }
@@ -115,7 +115,7 @@ public class RecursiveEntry extends AbstractJiBXObject<RecursiveEntry> implement
     }
 
     @Override
-    public int compareTo(RecursiveEntry re)
+    public int compareTo(JiBXRecursiveEntry re)
     {
         if (re == null)
         {

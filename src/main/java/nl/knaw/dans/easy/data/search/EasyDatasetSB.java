@@ -84,6 +84,10 @@ public class EasyDatasetSB extends DatasetSB
 	@SearchField(name = AUDIENCE_FIELD)
 	private List<String> audience;
 	
+	public static final String EASY_COLLECTIONS_FIELD = "easy_collections";
+	@SearchField(name = EASY_COLLECTIONS_FIELD)
+	private List<String> collections;
+	
 	public static final String PERMISSION_STATUS_FIELD = "psl_permission_status";
 	@SearchField(name = PERMISSION_STATUS_FIELD, converter=PermissionRequestSearchInfoConverter.class)
 	private List<PermissionRequestSearchInfo> permissionStatusList;
@@ -207,6 +211,16 @@ public class EasyDatasetSB extends DatasetSB
 	{
 		return audience;
 	}
+
+    public List<String> getCollections()
+    {
+        return collections;
+    }
+
+    public void setCollections(List<String> collections)
+    {
+        this.collections = collections;
+    }
 
     public List<PermissionRequestSearchInfo> getPermissionStatusList()
     {

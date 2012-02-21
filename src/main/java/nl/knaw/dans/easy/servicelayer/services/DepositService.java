@@ -6,7 +6,7 @@ import java.util.Locale;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceList;
 import nl.knaw.dans.easy.domain.deposit.discipline.DepositDiscipline;
-import nl.knaw.dans.easy.domain.deposit.discipline.RecursiveList;
+import nl.knaw.dans.easy.domain.deposit.discipline.JiBXRecursiveList;
 import nl.knaw.dans.easy.domain.form.FormDefinition;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
@@ -56,7 +56,7 @@ public interface DepositService extends EasyService
     
     byte[] getChoicesAsByteArray(String listId, Locale locale) throws ServiceException;
     
-    RecursiveList getRecursiveList(String listId, Locale locale) throws ServiceException;
+    JiBXRecursiveList getRecursiveList(String listId, Locale locale) throws ServiceException;
     
     void getArchisInfo(BasicIdentifier archisIdentifier, EasyMetadata easyMetadata) throws ServiceException;
     

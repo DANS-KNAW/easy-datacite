@@ -12,10 +12,16 @@ import nl.knaw.dans.common.lang.CacheException;
 import nl.knaw.dans.common.lang.ResourceNotFoundException;
 import nl.knaw.dans.common.lang.xml.XMLDeserializationException;
 
-public class RecursiveListCache extends AbstractListCache<RecursiveList>
+public class RecursiveListCache extends AbstractListCache<JiBXRecursiveList>
 {
     
-    public static final String     BASE_FOLDER = "easy-business/discipline/emd/recursivelist/";
+    public static final String BASE_FOLDER = "easy-business/discipline/emd/recursivelist/";
+
+    public static final String LID_EASY_COLLECTIONS = "easy-collections/collections";
+
+    public static final String LID_ARCHAEOLOGY_DC_SUBJECT = "archaeology.dc.subject";
+
+    public static final String LID_ARCHAEOLOGY_DCTERMS_TEMPORAL = "archaeology.dcterms.temporal";
     
     private static final Logger logger = LoggerFactory.getLogger(RecursiveListCache.class);
     
@@ -37,14 +43,14 @@ public class RecursiveListCache extends AbstractListCache<RecursiveList>
         return BASE_FOLDER;
     }
 
-    protected RecursiveList getObjectForCache(String key, Locale locale) throws CacheException, IOException
+    protected JiBXRecursiveList getObjectForCache(String key, Locale locale) throws CacheException, IOException
     {
-        RecursiveList list = null;
+        JiBXRecursiveList list = null;
         InputStream inStream = null;
         try
         {
             inStream = getInputStream(key, locale);
-            list = (RecursiveList) JiBXObjectFactory.unmarshal(RecursiveList.class, inStream);
+            list = (JiBXRecursiveList) JiBXObjectFactory.unmarshal(JiBXRecursiveList.class, inStream);
         }
         catch (IOException e)
         {

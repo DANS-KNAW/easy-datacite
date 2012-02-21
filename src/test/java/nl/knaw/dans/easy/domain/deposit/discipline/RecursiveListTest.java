@@ -19,25 +19,25 @@ public class RecursiveListTest
     @Test
     public void serializeDeserializeEmpty() throws Exception
     {
-        RecursiveList rl = new RecursiveList("foo");
+        JiBXRecursiveList rl = new JiBXRecursiveList("foo");
         if (verbose)
             logger.debug("\n" + rl.asXMLString(4) + "\n");
-        RecursiveList rl2 = (RecursiveList) JiBXObjectFactory.unmarshal(RecursiveList.class, rl.asObjectXML());
+        JiBXRecursiveList rl2 = (JiBXRecursiveList) JiBXObjectFactory.unmarshal(JiBXRecursiveList.class, rl.asObjectXML());
         assertEquals(rl.asXMLString(), rl2.asXMLString());
     }
     
     @Test
     public void serializeDeserializeFull() throws Exception
     {
-        RecursiveList rl = new RecursiveList("foo");
+        JiBXRecursiveList rl = new JiBXRecursiveList("foo");
         
-        RecursiveEntry entry = new RecursiveEntry();
+        JiBXRecursiveEntry entry = new JiBXRecursiveEntry();
         entry.setKey("ABC");
         entry.setName("Name");
         entry.setShortname("shortname");
         entry.setOrdinal(1);
         
-        RecursiveEntry a = new RecursiveEntry();
+        JiBXRecursiveEntry a = new JiBXRecursiveEntry();
         a.setKey("a");
         a.setName("aName");
         a.setShortname("aShortname");
@@ -47,7 +47,7 @@ public class RecursiveListTest
         
         rl.add(entry);
         
-        RecursiveEntry b = new RecursiveEntry();
+        JiBXRecursiveEntry b = new JiBXRecursiveEntry();
         b.setKey("bABC");
         b.setName("bName");
         b.setShortname("bshortname");
@@ -57,10 +57,10 @@ public class RecursiveListTest
         
         //if (verbose)
             logger.debug("\n" + rl.asXMLString(4) + "\n");
-        RecursiveList rl2 = (RecursiveList) JiBXObjectFactory.unmarshal(RecursiveList.class, rl.asObjectXML());
+        JiBXRecursiveList rl2 = (JiBXRecursiveList) JiBXObjectFactory.unmarshal(JiBXRecursiveList.class, rl.asObjectXML());
         assertEquals(rl.asXMLString(), rl2.asXMLString());
         
-        RecursiveEntry af = rl.getEntry("a");
+        JiBXRecursiveEntry af = rl.getEntry("a");
         assertEquals(a, af);
     }
 

@@ -27,6 +27,7 @@ import nl.knaw.dans.common.lang.repo.collections.DmoContainerItem;
 import nl.knaw.dans.common.lang.repo.relations.Relations;
 import nl.knaw.dans.common.lang.reposearch.HasSearchBeans;
 import nl.knaw.dans.common.lang.search.IndexDocument;
+import nl.knaw.dans.easy.data.collections.EasyCollections;
 import nl.knaw.dans.easy.data.search.EasyDatasetSB;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
@@ -528,44 +529,49 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
     @SuppressWarnings("serial")
     public Collection<Object> getSearchBeans()
     {
-        final EasyDatasetSB ds = new EasyDatasetSB();
+        final EasyDatasetSB searchBean = new EasyDatasetSB();
         EasyMetadata emd = getEasyMetadata();
         AdministrativeMetadata amd = getAdministrativeMetadata();
 
-        ds.setStoreId(getStoreId());
+        searchBean.setStoreId(getStoreId());
         // TODO: implement repository naming
-        ds.setStoreName("eof12");
-        ds.setDublinCore(emd.getDublinCoreMetadata());
-        ds.setDepositorId(amd.getDepositorId());
-        ds.setState(amd.getAdministrativeState());
-        ds.setWorkflowProgress(amd.getWorkflowData().getWorkflow().countRequiredStepsCompleted());
-        ds.setAssigneeId(amd.getWorkflowData().getAssigneeId());
-        ds.setAudience(emd.getEmdAudience().getValues());
-        ds.setPermissionStatusList(getPermissionSequenceList().getSearchInfoList());
-        ds.setAccessCategory(getAccessCategory());
+        searchBean.setStoreName("eof12");
+        searchBean.setDublinCore(emd.getDublinCoreMetadata());
+        searchBean.setDepositorId(amd.getDepositorId());
+        searchBean.setState(amd.getAdministrativeState());
+        searchBean.setWorkflowProgress(amd.getWorkflowData().getWorkflow().countRequiredStepsCompleted());
+        searchBean.setAssigneeId(amd.getWorkflowData().getAssigneeId());
+        searchBean.setAudience(emd.getEmdAudience().getValues());
+        searchBean.setPermissionStatusList(getPermissionSequenceList().getSearchInfoList());
+        searchBean.setAccessCategory(getAccessCategory());
 
-        ds.setDateCreated(emd.getEmdDate().getDateCreated());
-        ds.setDateCreatedFormatted(emd.getEmdDate().getFormattedDateCreated());
-        ds.setDateAvailable(emd.getEmdDate().getDateAvailable());
-        ds.setDateAvailableFormatted(emd.getEmdDate().getFormattedDateAvailable());
+        searchBean.setDateCreated(emd.getEmdDate().getDateCreated());
+        searchBean.setDateCreatedFormatted(emd.getEmdDate().getFormattedDateCreated());
+        searchBean.setDateAvailable(emd.getEmdDate().getDateAvailable());
+        searchBean.setDateAvailableFormatted(emd.getEmdDate().getFormattedDateAvailable());
 
         // set state change dates
-        ds.setDateDeleted(amd.getDateOfLastChangeTo(DatasetState.DELETED));
-        ds.setDatePublished(amd.getDateOfLastChangeTo(DatasetState.PUBLISHED));
-        ds.setDateSubmitted(amd.getDateOfLastChangeTo(DatasetState.SUBMITTED));
+        searchBean.setDateDeleted(amd.getDateOfLastChangeTo(DatasetState.DELETED));
+        searchBean.setDatePublished(amd.getDateOfLastChangeTo(DatasetState.PUBLISHED));
+        searchBean.setDateSubmitted(amd.getDateOfLastChangeTo(DatasetState.SUBMITTED));
         if (amd.getAdministrativeState().equals(DatasetState.DRAFT))
         {
-            ds.setDateDraftSaved(this.getLastModified());
+            searchBean.setDateDraftSaved(this.getLastModified());
         }
         
         // set archaeology-specific fields
-        ds.setArchaeologyDcSubject(emd.getEmdSubject().getArchaeologyDcSubjectValues());
-        ds.setArchaeologyDctermsTemporal(emd.getEmdCoverage().getArchaeologyTermsTemporalValues());
+        searchBean.setArchaeologyDcSubject(emd.getEmdSubject().getArchaeologyDcSubjectValues());
+        searchBean.setArchaeologyDctermsTemporal(emd.getEmdCoverage().getArchaeologyTermsTemporalValues());
+        
+        // set collections
+        List<String> collectionMemberships = new ArrayList<String>();
+        collectionMemberships.addAll(DmoStoreId.asStrings(getRelations().getMemberships(EasyCollections.DMO_NAMESPACE_EASY_COLLECTION)));
+        searchBean.setCollections(collectionMemberships);
         
         return new ArrayList<Object>(1)
         {
             {
-                add(ds);
+                add(searchBean);
             }
         };
     }
@@ -688,6 +694,13 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
     protected Relations newRelationsObject()
     {
         return new DatasetRelations(this);
+    }
+    
+    // Awaiting generics in relations, which is awaiting clearing discipline multi-inheritance obstacles.
+    @Override
+    public DatasetRelations getRelations()
+    {
+        return (DatasetRelations) super.getRelations();
     }
 
     public boolean hasVisibleItems(final EasyUser user)

@@ -5,6 +5,6 @@ import java.util.List;
 public interface RecursiveNode
 {
     
-    List<RecursiveEntry> getChildren();
+    List<JiBXRecursiveEntry> getChildren();
 
 }

@@ -32,7 +32,7 @@ public class CreateTemporalRecursiveListTest
     
     public void create(String listId, String[] roots) throws Exception
     {
-        RecursiveList rl = new RecursiveList(listId);
+        JiBXRecursiveList rl = new JiBXRecursiveList(listId);
         ChoiceList subject = ChoiceListCache.getInstance().getList(listId);
         List<KeyValuePair> choices = subject.getChoices();
         int rootOrdinal = 0;
@@ -44,21 +44,21 @@ public class CreateTemporalRecursiveListTest
             if (isRoot(kvp, roots))
             {
                 rootOrdinal += 1000;
-                rl.add(new RecursiveEntry(key, shortname, name, rootOrdinal));
+                rl.add(new JiBXRecursiveEntry(key, shortname, name, rootOrdinal));
             }
             else
             {
                 String rootKey = getRootKey(kvp.getKey(), roots);
-                RecursiveEntry root = rl.getEntry(rootKey);
+                JiBXRecursiveEntry root = rl.getEntry(rootKey);
                 int ordinal = root.getOrdinal() + 10;
-                for (RecursiveEntry entry : root.getChildren())
+                for (JiBXRecursiveEntry entry : root.getChildren())
                 {
                     if (entry.getOrdinal() >= ordinal)
                     {
                         ordinal = entry.getOrdinal() + 10;
                     }
                 }
-                root.add(new RecursiveEntry(key, shortname, name, ordinal));
+                root.add(new JiBXRecursiveEntry(key, shortname, name, ordinal));
             }
         }
         System.out.println(rl.asXMLString(4));
