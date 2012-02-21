@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import nl.knaw.dans.common.fedora.Fedora;
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
+import nl.knaw.dans.common.lang.repo.DmoStores;
 import nl.knaw.dans.common.lang.search.SearchEngine;
 import nl.knaw.dans.common.lang.test.Tester;
 import nl.knaw.dans.common.solr.SolrSearchEngine;
@@ -42,8 +43,10 @@ public abstract class AbstractOnlineTest
     
     public static void setUpData() throws MalformedURLException
     {
+        DmoStores.skipThisRubbish = true;
         Data data = new Data();
         EasyStore easyStore = new EasyFedoraStore("easy", getFedora(), getSearchEngine());
+        
         data.setEasyStore(easyStore);
     }
     

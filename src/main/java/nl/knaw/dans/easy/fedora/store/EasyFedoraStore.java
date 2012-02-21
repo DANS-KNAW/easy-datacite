@@ -14,6 +14,7 @@ import nl.knaw.dans.common.jibx.JiBXObjectFactory;
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.AbstractDmoFactory;
 import nl.knaw.dans.common.lang.repo.DataModelObject;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.exception.ObjectDeserializationException;
 import nl.knaw.dans.common.lang.repo.relations.RelsConstants;
 import nl.knaw.dans.common.lang.reposearch.RepoSearchListener;
@@ -83,16 +84,16 @@ public class EasyFedoraStore extends FedoraDmoStore implements EasyStore
 
     }
     
-    public URL getFileURL(String storeId)
+    public URL getFileURL(DmoStoreId dmoStoreId)
     {
-        return getStreamURL(storeId, EasyFile.UNIT_ID);
+        return getStreamURL(dmoStoreId, EasyFile.UNIT_ID);
     }
     
     @Override
-    public URL getStreamURL(String storeId, String streamId)
+    public URL getStreamURL(DmoStoreId dmoStoreId, String streamId)
     {
         URL url = null;
-        final String spec = getFedora().getBaseURL() + "/get/" + storeId + "/" + streamId;
+        final String spec = getFedora().getBaseURL() + "/get/" + dmoStoreId.getStoreId() + "/" + streamId;
         try
         {
             url = new URL(spec);
@@ -104,9 +105,9 @@ public class EasyFedoraStore extends FedoraDmoStore implements EasyStore
         return url;
     }
 
-    public URL getDescriptiveMetadataURL(String storeId)
+    public URL getDescriptiveMetadataURL(DmoStoreId dmoStoreId)
     {
-        final String spec = getFedora().getBaseURL() + "/get/" + storeId + "/" + DescriptiveMetadataImpl.UNIT_ID;
+        final String spec = getFedora().getBaseURL() + "/get/" + dmoStoreId.getStoreId() + "/" + DescriptiveMetadataImpl.UNIT_ID;
         try
         {
             return new URL(spec);
@@ -119,13 +120,13 @@ public class EasyFedoraStore extends FedoraDmoStore implements EasyStore
 
     public DownloadHistory findDownloadHistoryFor(DataModelObject objectDmo, String period) throws RepositoryException
     {
-        return findDownloadHistoryFor(objectDmo.getStoreId(), period);
+        return findDownloadHistoryFor(objectDmo.getDmoStoreId(), period);
     }
 
-    public DownloadHistory findDownloadHistoryFor(String objectStoreId, String period) throws RepositoryException
+    public DownloadHistory findDownloadHistoryFor(DmoStoreId dmoStoreId, String period) throws RepositoryException
     {
         DownloadHistory dlh = null;
-        String dmoObjectRef = FedoraURIReference.create(objectStoreId);
+        String dmoObjectRef = FedoraURIReference.create(dmoStoreId.getStoreId());
         String query = createDownloadHistoryQuery(dmoObjectRef, period);
         try
         {
@@ -135,7 +136,7 @@ public class EasyFedoraStore extends FedoraDmoStore implements EasyStore
                 Map<String, Node> row = tupleIterator.next();
                 String subject = row.get("s").toString();
                 String subjectStoreId = FedoraURIReference.strip(subject);
-                dlh = (DownloadHistory) retrieve(subjectStoreId);
+                dlh = (DownloadHistory) retrieve(new DmoStoreId(subjectStoreId));
             }
         }
         catch (IOException e)
@@ -162,7 +163,7 @@ public class EasyFedoraStore extends FedoraDmoStore implements EasyStore
                 Map<String, Node> row = tupleIterator.next();
                 String subject = row.get("s").toString();
                 String storeId = FedoraURIReference.strip(subject);
-                DownloadHistory dlh = (DownloadHistory) retrieve(storeId);
+                DownloadHistory dlh = (DownloadHistory) retrieve(new DmoStoreId(storeId));
                 dlhList.add(dlh);
             }
         }
@@ -177,9 +178,9 @@ public class EasyFedoraStore extends FedoraDmoStore implements EasyStore
         return dlhList;
     }
 
-    public EasyMetadata getEasyMetaData(String storeId, DateTime asOfDateTime) throws RepositoryException
+    public EasyMetadata getEasyMetaData(DmoStoreId dmoStoreId, DateTime asOfDateTime) throws RepositoryException
     {
-        final MIMETypedStream mts = getFedora().getDatastreamAccessor().getDatastreamDissemination(storeId, EasyMetadata.UNIT_ID, asOfDateTime);
+        final MIMETypedStream mts = getFedora().getDatastreamAccessor().getDatastreamDissemination(dmoStoreId.getStoreId(), EasyMetadata.UNIT_ID, asOfDateTime);
         try
         {
             return (EasyMetadata) JiBXObjectFactory.unmarshal(EasyMetadataImpl.class, mts.getStream());

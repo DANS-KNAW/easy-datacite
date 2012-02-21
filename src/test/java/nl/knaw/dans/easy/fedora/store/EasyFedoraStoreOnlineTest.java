@@ -11,6 +11,7 @@ import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.dataset.DatasetSB;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.dataset.DatasetsIndex;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.jumpoff.JumpoffDmo;
 import nl.knaw.dans.common.lang.search.SearchResult;
 import nl.knaw.dans.common.lang.search.simple.SimpleField;
@@ -58,12 +59,12 @@ public class EasyFedoraStoreOnlineTest extends AbstractOnlineTest
 		String datasetId = store.ingest(dataset, "ingest dataset for test");
 		assertTrue(datasetId.startsWith("easy-dataset"));
 
-		byte[] objectXML = store.getObjectXML(datasetId);
+		byte[] objectXML = store.getObjectXML(new DmoStoreId(datasetId));
 		if (verbose)
 			logger.debug("\n" + new String(objectXML) + "\n");
 
 		// Retrieved dataset
-		Dataset dataset2 = (Dataset) store.retrieve(datasetId);
+		Dataset dataset2 = (Dataset) store.retrieve(new DmoStoreId(datasetId));
 		assertNotNull(dataset2.getTimestamp());
 
 		AdministrativeMetadata amd = dataset2.getAdministrativeMetadata();
@@ -98,8 +99,8 @@ public class EasyFedoraStoreOnlineTest extends AbstractOnlineTest
 	    Dataset dataset1 = getDummyDataset(store.nextSid(Dataset.NAMESPACE));
         String storeId = store.ingest(dataset1, "ingest dataset for test");
         
-        Dataset dataset2 = (Dataset) store.retrieve(storeId);
-        Dataset dataset3 = (Dataset) store.retrieve(storeId);
+        Dataset dataset2 = (Dataset) store.retrieve(new DmoStoreId(storeId));
+        Dataset dataset3 = (Dataset) store.retrieve(new DmoStoreId(storeId));
         System.err.println(dataset1);
         System.err.println(dataset2);
         System.err.println(dataset3);
@@ -124,7 +125,7 @@ public class EasyFedoraStoreOnlineTest extends AbstractOnlineTest
 //        JumpoffDmo jod = new JumpoffDmo(store.nextSid(JumpoffDmo.OBJECT_NS), datasetId);
 //        String jodId = store.ingest(jod, "ingest jumpoff for test");
         
-        JumpoffDmo foundJod = store.findJumpoffDmoFor(datasetId);
+        JumpoffDmo foundJod = store.findJumpoffDmoFor(new DmoStoreId(datasetId));
         assertNotNull(foundJod);
         assertEquals("easy-jumpoff:31", foundJod.getStoreId());
         assertEquals(datasetId, foundJod.getObjectId());
