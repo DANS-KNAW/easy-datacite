@@ -6,9 +6,9 @@ import java.util.Locale;
 
 import nl.knaw.dans.common.jibx.JiBXObjectFactory;
 import nl.knaw.dans.common.jibx.bean.JiBXRecursiveList;
-import nl.knaw.dans.common.jibx.bean.RecursiveList;
 import nl.knaw.dans.common.lang.CacheException;
 import nl.knaw.dans.common.lang.ResourceNotFoundException;
+import nl.knaw.dans.common.lang.repo.bean.RecursiveList;
 import nl.knaw.dans.common.lang.xml.XMLDeserializationException;
 
 import org.slf4j.Logger;

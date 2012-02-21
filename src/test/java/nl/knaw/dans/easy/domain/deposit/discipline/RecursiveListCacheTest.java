@@ -1,7 +1,7 @@
 package nl.knaw.dans.easy.domain.deposit.discipline;
 
 import static org.junit.Assert.assertEquals;
-import nl.knaw.dans.common.jibx.bean.RecursiveList;
+import nl.knaw.dans.common.lang.repo.bean.RecursiveList;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.test.ClassPathHacker;
 

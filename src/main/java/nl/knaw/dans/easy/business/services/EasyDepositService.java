@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import nl.knaw.dans.common.jibx.bean.RecursiveList;
 import nl.knaw.dans.common.lang.CacheException;
 import nl.knaw.dans.common.lang.ResourceNotFoundException;
+import nl.knaw.dans.common.lang.repo.bean.RecursiveList;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.domain.deposit.discipline.ArchisCollector;
 import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceList;
