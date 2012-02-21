@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import nl.knaw.dans.common.jibx.bean.RecursiveList;
 import nl.knaw.dans.common.lang.CacheException;
 import nl.knaw.dans.common.lang.ResourceNotFoundException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
@@ -17,7 +18,6 @@ import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceListCache;
 import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceListGetter;
 import nl.knaw.dans.easy.domain.deposit.discipline.DepositDiscipline;
 import nl.knaw.dans.easy.domain.deposit.discipline.DisciplineImpl;
-import nl.knaw.dans.easy.domain.deposit.discipline.JiBXRecursiveList;
 import nl.knaw.dans.easy.domain.deposit.discipline.RecursiveListCache;
 import nl.knaw.dans.easy.domain.form.FormDescriptor;
 import nl.knaw.dans.easy.domain.form.FormDescriptorLoader;
@@ -88,9 +88,9 @@ public class EasyDepositService extends AbstractEasyService implements DepositSe
     }
     
     @Override
-    public JiBXRecursiveList getRecursiveList(String listId, Locale locale) throws ServiceException
+    public RecursiveList getRecursiveList(String listId, Locale locale) throws ServiceException
     {
-        JiBXRecursiveList recursiveList;
+        RecursiveList recursiveList;
         try
         {
             recursiveList = RecursiveListCache.getInstance().getList(listId, locale);

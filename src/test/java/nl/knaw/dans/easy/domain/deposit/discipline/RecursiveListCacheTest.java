@@ -1,7 +1,7 @@
 package nl.knaw.dans.easy.domain.deposit.discipline;
 
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.assertEquals;
+import nl.knaw.dans.common.jibx.bean.RecursiveList;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.test.ClassPathHacker;
 
@@ -23,10 +23,10 @@ public class RecursiveListCacheTest
     @Test
     public void getRecursiveList() throws Exception
     {
-        JiBXRecursiveList subjectList = RecursiveListCache.getInstance().getList(ID_SUBJECT);
+        RecursiveList subjectList = RecursiveListCache.getInstance().getList(ID_SUBJECT);
         assertEquals(ID_SUBJECT, subjectList.getListId());
         
-        JiBXRecursiveList temporalList = RecursiveListCache.getInstance().getList(ID_TEMPORAL);
+        RecursiveList temporalList = RecursiveListCache.getInstance().getList(ID_TEMPORAL);
         assertEquals(ID_TEMPORAL, temporalList.getListId());
     }
     

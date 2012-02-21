@@ -4,15 +4,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import nl.knaw.dans.common.jibx.JiBXObjectFactory;
+import nl.knaw.dans.common.jibx.bean.JiBXRecursiveList;
+import nl.knaw.dans.common.jibx.bean.RecursiveList;
 import nl.knaw.dans.common.lang.CacheException;
 import nl.knaw.dans.common.lang.ResourceNotFoundException;
 import nl.knaw.dans.common.lang.xml.XMLDeserializationException;
 
-public class RecursiveListCache extends AbstractListCache<JiBXRecursiveList>
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class RecursiveListCache extends AbstractListCache<RecursiveList>
 {
     
     public static final String BASE_FOLDER = "easy-business/discipline/emd/recursivelist/";
@@ -43,9 +45,9 @@ public class RecursiveListCache extends AbstractListCache<JiBXRecursiveList>
         return BASE_FOLDER;
     }
 
-    protected JiBXRecursiveList getObjectForCache(String key, Locale locale) throws CacheException, IOException
+    protected RecursiveList getObjectForCache(String key, Locale locale) throws CacheException, IOException
     {
-        JiBXRecursiveList list = null;
+        RecursiveList list = null;
         InputStream inStream = null;
         try
         {
