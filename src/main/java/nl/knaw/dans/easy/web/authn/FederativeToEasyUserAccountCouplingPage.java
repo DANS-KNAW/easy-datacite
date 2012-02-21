@@ -44,7 +44,9 @@ public class FederativeToEasyUserAccountCouplingPage extends AbstractEasyNavPage
     {
         super();
         this.federativeUserId = federativeUserId;
-        init();
+        // TODO enable page this when functionality is completed
+        throw new InternalWebError();
+        //        init();
     }
 
     private void init()

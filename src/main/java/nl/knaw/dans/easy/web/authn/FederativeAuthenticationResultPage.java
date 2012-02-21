@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
+import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.domain.authn.Authentication;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.services.Services;
@@ -44,12 +45,16 @@ public class FederativeAuthenticationResultPage extends AbstractEasyNavPage
     public FederativeAuthenticationResultPage()
     {
         super();
-        init();
+        
+        // TODO enable page this when functionality is completed
+        throw new InternalWebError();
+        //init();
     }
 
     // TODO texts must come from property files
     private void init()
     {
+
         setStatelessHint(true);
         
         String resultMessage = "";
