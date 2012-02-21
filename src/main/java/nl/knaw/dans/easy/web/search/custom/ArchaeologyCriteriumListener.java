@@ -10,7 +10,7 @@ import nl.knaw.dans.common.wicket.components.search.model.CriteriumListener;
 import nl.knaw.dans.common.wicket.components.search.model.SearchCriterium;
 import nl.knaw.dans.common.wicket.components.search.model.SearchRequestBuilder;
 import nl.knaw.dans.easy.data.search.EasyDatasetSB;
-import nl.knaw.dans.easy.domain.deposit.discipline.RecursiveList;
+import nl.knaw.dans.easy.domain.deposit.discipline.RecursiveListCache;
 
 public class ArchaeologyCriteriumListener implements CriteriumListener
 {
@@ -73,14 +73,14 @@ public class ArchaeologyCriteriumListener implements CriteriumListener
         
         facetConfig = new FacetConfig(EasyDatasetSB.ARCHAEOLOGY_DCTERMS_TEMPORAL);
         facetConfig.setFacetNameTranslator(new FieldNameResourceTranslator());
-        facetConfig.setFacetValueTranslator(new RecursiveListTranslator(RecursiveList.LID_ARCHAEOLOGY_DCTERMS_TEMPORAL));
-        facetConfig.setFacetValueCollapser(new RecursiveListValueCollapser(RecursiveList.LID_ARCHAEOLOGY_DCTERMS_TEMPORAL, true));
+        facetConfig.setFacetValueTranslator(new RecursiveListTranslator(RecursiveListCache.LID_ARCHAEOLOGY_DCTERMS_TEMPORAL));
+        facetConfig.setFacetValueCollapser(new RecursiveListValueCollapser(RecursiveListCache.LID_ARCHAEOLOGY_DCTERMS_TEMPORAL, true));
         refineFacets.add(facetConfig);
 
         facetConfig = new FacetConfig(EasyDatasetSB.ARCHAEOLOGY_DC_SUBJECT);
         facetConfig.setFacetNameTranslator(new FieldNameResourceTranslator());
-        facetConfig.setFacetValueTranslator(new RecursiveListTranslator(RecursiveList.LID_ARCHAEOLOGY_DC_SUBJECT));
-        facetConfig.setFacetValueCollapser(new RecursiveListValueCollapser(RecursiveList.LID_ARCHAEOLOGY_DC_SUBJECT, true));
+        facetConfig.setFacetValueTranslator(new RecursiveListTranslator(RecursiveListCache.LID_ARCHAEOLOGY_DC_SUBJECT));
+        facetConfig.setFacetValueCollapser(new RecursiveListValueCollapser(RecursiveListCache.LID_ARCHAEOLOGY_DC_SUBJECT, true));
         refineFacets.add(facetConfig);
 
         return refineFacets;

@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
 
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.components.search.Translator;
-import nl.knaw.dans.easy.domain.deposit.discipline.RecursiveEntry;
-import nl.knaw.dans.easy.domain.deposit.discipline.RecursiveList;
+import nl.knaw.dans.easy.domain.deposit.discipline.JiBXRecursiveEntry;
+import nl.knaw.dans.easy.domain.deposit.discipline.JiBXRecursiveList;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 
 public class RecursiveListTranslator implements Translator<String>
@@ -32,8 +32,8 @@ public class RecursiveListTranslator implements Translator<String>
         String translation = null;
         try
         {
-            RecursiveList recursiveList = Services.getDepositService().getRecursiveList(listId, locale);
-            RecursiveEntry entry = recursiveList.getEntry(originalValue);
+            JiBXRecursiveList recursiveList = Services.getDepositService().getRecursiveList(listId, locale);
+            JiBXRecursiveEntry entry = recursiveList.getEntry(originalValue);
             if (entry == null)
             {
                 logger.error("No entry found for key '" + originalValue + "' in list " + listId);

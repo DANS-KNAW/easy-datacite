@@ -19,7 +19,6 @@ import nl.knaw.dans.common.wicket.components.search.criteria.CriteriumLabel;
 import nl.knaw.dans.common.wicket.components.search.criteria.InitialSearchCriterium;
 import nl.knaw.dans.common.wicket.components.search.criteria.TextSearchCriterium;
 import nl.knaw.dans.common.wicket.components.search.facets.FacetConfig;
-import nl.knaw.dans.common.wicket.components.search.model.CriteriumListener;
 import nl.knaw.dans.common.wicket.components.search.model.SearchCriterium;
 import nl.knaw.dans.common.wicket.components.search.model.SearchModel;
 import nl.knaw.dans.common.wicket.components.search.model.SearchRequestBuilder;
@@ -27,9 +26,12 @@ import nl.knaw.dans.common.wicket.components.search.results.SearchResultConfig;
 import nl.knaw.dans.common.wicket.components.search.results.SortLinkConfig;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.data.search.EasyDatasetSB;
+import nl.knaw.dans.easy.domain.deposit.discipline.RecursiveListCache;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.web.EasySession;
 import nl.knaw.dans.easy.web.authn.LoginPage;
+import nl.knaw.dans.easy.web.search.custom.RecursiveListTranslator;
+import nl.knaw.dans.easy.web.search.custom.RecursiveListValueCollapser;
 import nl.knaw.dans.easy.web.search.pages.AdvSearchPage;
 import nl.knaw.dans.easy.web.search.pages.BrowsePage;
 
@@ -140,12 +142,14 @@ public abstract class AbstractSearchResultPage extends AbstractSearchPage
                 }
             }
 
+            @SuppressWarnings("unchecked")
             @Override
             protected void onBrowseMoreClicked(SearchModel searchModel)
             {
                 setResponsePage(new BrowsePage(searchModel, (Class<? extends AbstractSearchResultPage>) getPage().getClass()));
             }
 
+            @SuppressWarnings("unchecked")
             @Override
             protected void onAdvancedSearchClicked(SearchModel searchModel)
             {
@@ -180,6 +184,14 @@ public abstract class AbstractSearchResultPage extends AbstractSearchPage
         facetConfig.setFacetValueTranslator(new DisciplineTranslator());
         facetConfig.setFacetValueCollapser(new DisciplineFacetValueCollapser(true));
         refineFacets.add(facetConfig);
+        
+//        facetConfig = new FacetConfig(EasyDatasetSB.EASY_COLLECTIONS_FIELD);
+//        facetConfig.setOrder(FacetConfig.Order.BY_ALPHABET);
+//        facetConfig.setShowParentFacet(true);
+//        facetConfig.setFacetNameTranslator(new FieldNameResourceTranslator());
+//        facetConfig.setFacetValueTranslator(new RecursiveListTranslator(RecursiveListCache.LID_EASY_COLLECTIONS));
+//        facetConfig.setFacetValueCollapser(new RecursiveListValueCollapser(RecursiveListCache.LID_EASY_COLLECTIONS, true));
+//        refineFacets.add(facetConfig);
 
         facetConfig = new FacetConfig(EasyDatasetSB.DS_ACCESSCATEGORY_FIELD);
         facetConfig.setOrder(FacetConfig.Order.BY_COUNT);

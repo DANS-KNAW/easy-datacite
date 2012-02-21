@@ -5,12 +5,10 @@ import java.lang.reflect.Constructor;
 import nl.knaw.dans.common.wicket.components.search.model.SearchData;
 import nl.knaw.dans.common.wicket.components.search.model.SearchModel;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
-import nl.knaw.dans.easy.web.HomePage;
 import nl.knaw.dans.easy.web.main.AbstractEasyNavPage;
 import nl.knaw.dans.easy.web.search.custom.ArchaeologyCriteriumListener;
 
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.RestartResponseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,11 +49,6 @@ public abstract class AbstractSearchPage extends AbstractEasyNavPage
 	public SearchModel getSearchModel()
 	{
 	    SearchModel searchModel = (SearchModel) getDefaultModel();
-//	    if (searchModel == null)
-//	    {
-//	        searchModel = new SearchModel();
-//	        setDefaultModel(searchModel);
-//	    }
 		return searchModel;
 	}
 	
