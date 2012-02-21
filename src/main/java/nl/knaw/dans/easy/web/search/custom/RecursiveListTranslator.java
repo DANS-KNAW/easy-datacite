@@ -2,16 +2,16 @@ package nl.knaw.dans.easy.web.search.custom;
 
 import java.util.Locale;
 
+import nl.knaw.dans.common.jibx.bean.RecursiveEntry;
+import nl.knaw.dans.common.jibx.bean.RecursiveList;
+import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
+import nl.knaw.dans.common.wicket.components.search.Translator;
+import nl.knaw.dans.easy.servicelayer.services.Services;
+
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
-import nl.knaw.dans.common.wicket.components.search.Translator;
-import nl.knaw.dans.easy.domain.deposit.discipline.JiBXRecursiveEntry;
-import nl.knaw.dans.easy.domain.deposit.discipline.JiBXRecursiveList;
-import nl.knaw.dans.easy.servicelayer.services.Services;
 
 public class RecursiveListTranslator implements Translator<String>
 {
@@ -32,8 +32,8 @@ public class RecursiveListTranslator implements Translator<String>
         String translation = null;
         try
         {
-            JiBXRecursiveList recursiveList = Services.getDepositService().getRecursiveList(listId, locale);
-            JiBXRecursiveEntry entry = recursiveList.getEntry(originalValue);
+            RecursiveList recursiveList = Services.getDepositService().getRecursiveList(listId, locale);
+            RecursiveEntry entry = recursiveList.getEntry(originalValue);
             if (entry == null)
             {
                 logger.error("No entry found for key '" + originalValue + "' in list " + listId);

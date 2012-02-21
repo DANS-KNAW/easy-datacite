@@ -3,14 +3,14 @@ package nl.knaw.dans.easy.web.search.custom;
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.knaw.dans.common.jibx.bean.RecursiveEntry;
+import nl.knaw.dans.common.jibx.bean.RecursiveList;
+import nl.knaw.dans.common.jibx.bean.RecursiveNode;
 import nl.knaw.dans.common.lang.search.FacetValue;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.components.search.facets.CollapsedFacetValue;
 import nl.knaw.dans.common.wicket.components.search.facets.FacetValueCollapser;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
-import nl.knaw.dans.easy.domain.deposit.discipline.JiBXRecursiveEntry;
-import nl.knaw.dans.easy.domain.deposit.discipline.JiBXRecursiveList;
-import nl.knaw.dans.easy.domain.deposit.discipline.RecursiveNode;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 
 import org.slf4j.Logger;
@@ -35,7 +35,7 @@ public class RecursiveListValueCollapser implements FacetValueCollapser<String>
     public List<CollapsedFacetValue<String>> collapse(List<FacetValue<String>> originalValues, FacetValue<String> selectedValue)
     {
         List<CollapsedFacetValue<String>> collapsedValues = new ArrayList<CollapsedFacetValue<String>>();
-        JiBXRecursiveList recursiveList;
+        RecursiveList recursiveList;
         try
         {
             recursiveList = Services.getDepositService().getRecursiveList(recursiveListId, null);
@@ -57,13 +57,13 @@ public class RecursiveListValueCollapser implements FacetValueCollapser<String>
         }
         
         
-        for (JiBXRecursiveEntry entry : recursiveNode.getChildren())
+        for (RecursiveEntry entry : recursiveNode.getChildren())
         {
             CollapsedFacetValue<String> collapsed = new CollapsedFacetValue<String>();
             collapsed.setValue(entry.getKey());
             for (FacetValue<String> facetValue : originalValues)
             {
-                JiBXRecursiveEntry kid = entry.get(facetValue.getValue());
+                RecursiveEntry kid = entry.get(facetValue.getValue());
                 if (kid != null)
                 {
                     collapsed.addFacetValue(facetValue);
