@@ -21,7 +21,7 @@ public class SearchModel implements IModel<SearchData>
     private static final long serialVersionUID = 2540244607992268707L;
     private static final Logger	LOGGER 				= LoggerFactory.getLogger(SearchModel.class);
         
-    private SearchData searchData;
+    private final SearchData searchData;
                 
     public SearchModel()
     {
