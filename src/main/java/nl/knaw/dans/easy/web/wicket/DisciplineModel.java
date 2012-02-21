@@ -1,5 +1,6 @@
 package nl.knaw.dans.easy.web.wicket;
 
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 
@@ -23,7 +24,7 @@ public class DisciplineModel extends Model<String>
 		String audienceId = (String) super.getObject();
 		try
 		{
-			return Services.getDisciplineService().getDisciplineName(audienceId);
+			return Services.getDisciplineService().getDisciplineName(new DmoStoreId(audienceId));
 		} catch (Exception e)
 		{
 	        LOGGER.error("Unable to convert audienceId "+ audienceId +" to discipline name", e);

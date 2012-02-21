@@ -3,6 +3,7 @@ package nl.knaw.dans.easy.web.fileexplorer2;
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.security.authz.AuthzStrategy;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.domain.dataset.FileItemDescription;
@@ -81,7 +82,7 @@ public class ModalFileDetails extends Panel{
     {
         try
         {
-        	FileItemDescription description = Services.getItemService().getFileItemDescription(EasySession.getSessionUser(), dataset.getObject(), item.getId());
+        	FileItemDescription description = Services.getItemService().getFileItemDescription(EasySession.getSessionUser(), dataset.getObject(), new DmoStoreId(item.getId()));
         	if(EasySession.getSessionUser().hasRole(Role.ARCHIVIST) || dataset.getObject().hasDepositor(EasySession.getSessionUser())) {
         		// metadata for Arch/Depo
         		List<KeyValuePair> metadata = description.getMetadataForArchDepo();

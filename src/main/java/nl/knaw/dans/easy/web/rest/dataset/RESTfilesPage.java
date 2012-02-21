@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.protocol.http.servlet.AbortWithWebErrorCodeException;
-
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
@@ -80,7 +80,7 @@ public class RESTfilesPage extends RESTcascadePage
         Dataset dataset = (Dataset) getPageParameters().get(RESTdatasetsPage.PM_DATASET);
         try
         {
-            fileItem = Services.getItemService().getFileItem(EasySession.getSessionUser(), dataset, getFileItemId());
+            fileItem = Services.getItemService().getFileItem(EasySession.getSessionUser(), dataset, new DmoStoreId(getFileItemId()));
         }
         catch (ObjectNotAvailableException e)
         {

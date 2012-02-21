@@ -3,6 +3,7 @@ package nl.knaw.dans.easy.web.fileexplorer2;
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.security.authz.AuthzStrategy;
 import nl.knaw.dans.common.lang.security.authz.AuthzStrategy.TriState;
 import nl.knaw.dans.common.lang.service.exceptions.FileSizeException;
@@ -104,7 +105,7 @@ public class NamePanel extends Panel
 						FileSizeException exception = new FileSizeException("");
 						
 						try {
-							fcwModel.setObject(Services.getItemService().getContent(EasySession.getSessionUser(), datasetModel.getObject(), item.getId()));
+							fcwModel.setObject(Services.getItemService().getContent(EasySession.getSessionUser(), datasetModel.getObject(), new DmoStoreId(item.getId())));
 						} catch (FileSizeException e) {
 							exception = e;
 							logger.info("File size too large for download: " + item.getName() + "(" + item.getId() + ")");

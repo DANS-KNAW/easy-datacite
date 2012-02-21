@@ -3,6 +3,7 @@ package nl.knaw.dans.easy.web.search;
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.search.FacetValue;
 import nl.knaw.dans.common.wicket.components.search.facets.CollapsedFacetValue;
 import nl.knaw.dans.common.wicket.components.search.facets.FacetValueCollapser;
@@ -37,7 +38,7 @@ public class DisciplineFacetValueCollapser implements FacetValueCollapser<String
 			if (selectedValue == null)
 				searchDiscipline = Services.getDisciplineService().getRootDiscipline();
 			else
-				searchDiscipline = Services.getDisciplineService().getDisciplineById(selectedValue.getValue());
+				searchDiscipline = Services.getDisciplineService().getDisciplineById(new DmoStoreId(selectedValue.getValue()));
 		
 			for(DisciplineContainer subDiscipline : searchDiscipline.getSubDisciplines())
 			{

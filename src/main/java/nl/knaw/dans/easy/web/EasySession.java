@@ -6,6 +6,7 @@ import java.util.Map;
 
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.DataModelObject;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.components.CommonSession;
 import nl.knaw.dans.easy.domain.authn.Authentication;
@@ -221,7 +222,7 @@ public final class EasySession extends CommonSession
         synchronized (dmoObjectMap)
         {
         	logger.debug("Adding "+ dmoModel.getStoreId() +" to the session object map");
-            dmoObjectMap.put(dmoModel.getStoreId(), dmoModel);
+            dmoObjectMap.put(dmoModel.getDmoStoreId(), dmoModel);
         }
     }
 
@@ -229,19 +230,19 @@ public final class EasySession extends CommonSession
      * Get the DataModelObject with the given storeId from cache. If the requested object is not in cache (anymore), an
      * attempt will be made to get it from the service-layer.
      * 
-     * @param storeId
+     * @param dmoStoreId
      *        the storeId of the requested object
      * @return the requested object
      * @throws ServiceException 
      * @throws ServiceException
      *         as a wrapper for exceptions
      */
-    public DataModelObject getDataset(String storeId) throws ServiceException
+    public DataModelObject getDataset(DmoStoreId dmoStoreId) throws ServiceException
     {
         DataModelObject dmo = null;
         synchronized (dmoObjectMap)
         {
-            DatasetModel dmoModel = (DatasetModel) dmoObjectMap.get(storeId);
+            DatasetModel dmoModel = (DatasetModel) dmoObjectMap.get(dmoStoreId);
             if (dmoModel != null) dmo = dmoModel.getObject();
         }
         try
@@ -249,10 +250,10 @@ public final class EasySession extends CommonSession
 			if (dmo == null || dmo.isInvalidated())
 			{
 				if (dmo == null)
-					logger.debug("Object not in objectMap, getting it from service: " + storeId);
+					logger.debug("Object not in objectMap, getting it from service: " + dmoStoreId);
 				else
-					logger.debug("Object "+ storeId +" was invalidated, retreiving a new one from service.");
-			    dmo = Services.getDatasetService().getDataset(getUser(), storeId);
+					logger.debug("Object "+ dmoStoreId +" was invalidated, retreiving a new one from service.");
+			    dmo = Services.getDatasetService().getDataset(getUser(), dmoStoreId);
 			}
 		}
 		catch (RepositoryException e)

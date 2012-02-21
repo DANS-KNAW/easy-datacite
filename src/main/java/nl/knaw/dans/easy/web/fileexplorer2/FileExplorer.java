@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.dataset.DatasetState;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.security.authz.AuthzMessage;
 import nl.knaw.dans.common.lang.security.authz.AuthzStrategy;
 import nl.knaw.dans.common.lang.security.authz.AuthzStrategy.TriState;
@@ -148,7 +149,7 @@ public class FileExplorer extends AbstractDatasetModelPanel {
         });
         add(filterForm);
         
-		treeProvider = new TreeItemProvider(datasetModel.getStoreId(), filterMap);
+		treeProvider = new TreeItemProvider(datasetModel.getDmoStoreId(), filterMap);
 		explorer = new ExplorerPanel("explorer", null, treeProvider) {
 			private static final long serialVersionUID = 1L;
 			
@@ -464,9 +465,9 @@ public class FileExplorer extends AbstractDatasetModelPanel {
         		List<TreeItem> items = new ArrayList<TreeItem>();
         		items.addAll(selectedFiles);
         		items.addAll(selectedFolders);
-        		List<String> sidList = new ArrayList<String>();
+        		List<DmoStoreId> sidList = new ArrayList<DmoStoreId>();
 				for(TreeItem item: items) {
-					sidList.add(item.getId());
+					sidList.add(new DmoStoreId(item.getId()));
 				}
 				try {
 					VisibleTo newVisibleTo = viewRights.getModelObject();

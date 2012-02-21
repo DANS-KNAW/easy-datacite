@@ -3,6 +3,7 @@ package nl.knaw.dans.easy.web.fileexplorer2;
 import java.net.MalformedURLException;
 import java.util.Map;
 
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.domain.dataset.item.filter.ItemFilters;
 import nl.knaw.dans.easy.domain.model.*;
@@ -67,9 +68,9 @@ class ClientRequestParameters
         return get(WANTED_SID);
     }
 
-    public String getDatasetSid()
+    public DmoStoreId getDatasetSid()
     {
-        return getOptional(DATASET_SID);
+        return new DmoStoreId(getOptional(DATASET_SID));
     }
 
     public boolean getWantFilesAndFolders()

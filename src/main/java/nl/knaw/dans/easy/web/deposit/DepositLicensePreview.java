@@ -3,6 +3,7 @@ package nl.knaw.dans.easy.web.deposit;
 import java.text.MessageFormat;
 
 import nl.knaw.dans.common.lang.dataset.DatasetState;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
 import nl.knaw.dans.easy.domain.dataset.LicenseUnit;
@@ -54,7 +55,8 @@ public class DepositLicensePreview extends DynamicWebResource
             public byte[] getData()
             {
                 setCacheable(false);
-                return createContent(getParameters().getString("id"));
+                DmoStoreId dmoStoreId = new DmoStoreId(getParameters().getString("id"));
+                return createContent(dmoStoreId);
             }
 
             @Override
@@ -66,7 +68,7 @@ public class DepositLicensePreview extends DynamicWebResource
         };
     }
 
-    private static byte[] createContent(final String storeId)
+    private static byte[] createContent(final DmoStoreId storeId)
     {
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         if (storeId != null && !storeId.equals(""))
@@ -76,7 +78,7 @@ public class DepositLicensePreview extends DynamicWebResource
         return outputStream.toByteArray();
     }
 
-    private static void createLicenseContent(final ByteArrayOutputStream outputStream, final String storeId)
+    private static void createLicenseContent(final ByteArrayOutputStream outputStream, final DmoStoreId storeId)
     {
         final EasySession easySession = (EasySession) Session.get();
         final EasyUser user = easySession.getUser();
@@ -95,7 +97,7 @@ public class DepositLicensePreview extends DynamicWebResource
         }
     }
 
-    private static void createErrorContent(final String storeId, final ByteArrayOutputStream outputStream)
+    private static void createErrorContent(final DmoStoreId storeId, final ByteArrayOutputStream outputStream)
     {
         final Document document = new Document();
         try
@@ -118,7 +120,7 @@ public class DepositLicensePreview extends DynamicWebResource
         }
     }
 
-    private static Dataset getDataset(final String storeId)
+    private static Dataset getDataset(final DmoStoreId storeId)
     {
         try
         {
@@ -128,6 +130,7 @@ public class DepositLicensePreview extends DynamicWebResource
         {
             logger.error(MessageFormat.format("could not get dataset {0}", storeId), exception);
         }
-        return new DatasetImpl(storeId);
+        // ????????????????????????? HB
+        return new DatasetImpl(storeId.getStoreId());
     }
 }

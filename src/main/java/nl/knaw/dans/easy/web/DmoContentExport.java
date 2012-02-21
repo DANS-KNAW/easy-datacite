@@ -9,6 +9,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
+import nl.knaw.dans.common.lang.repo.DsUnitId;
 import nl.knaw.dans.common.lang.repo.UnitMetadata;
 import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
@@ -99,13 +101,23 @@ public class DmoContentExport extends DynamicWebResource
         
         public DmoContentExportResponse(String storeId, String unitId)
         {
-            checkParameters(storeId, unitId);
+            DmoStoreId dmoStoreId = null;
+            DsUnitId dsUnitId = null;
+            try
+            {
+                dmoStoreId = new DmoStoreId(storeId);
+                dsUnitId = new DsUnitId(unitId);
+            }
+            catch (IllegalArgumentException e)
+            {
+                errorCode = HttpServletResponse.SC_BAD_REQUEST;
+            }
             
             if (errorCode == 0)
-                retrieveUnitMetadata(storeId, unitId);
+                retrieveUnitMetadata(dmoStoreId, dsUnitId);
             
             if (errorCode == 0)
-                retrieveData(storeId, unitId);
+                retrieveData(dmoStoreId, dsUnitId);
         }
         
         public UnitMetadata getUnitMetadata()
@@ -157,7 +169,7 @@ public class DmoContentExport extends DynamicWebResource
             }
         }
 
-        private void retrieveUnitMetadata(String storeId, String unitId)
+        private void retrieveUnitMetadata(DmoStoreId storeId, DsUnitId unitId)
         {
             try
             {
@@ -184,7 +196,7 @@ public class DmoContentExport extends DynamicWebResource
             }
         }
         
-        private void retrieveData(String storeId, String unitId)
+        private void retrieveData(DmoStoreId storeId, DsUnitId unitId)
         {
             try
             {

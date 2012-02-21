@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
@@ -98,7 +99,7 @@ public class RESTdatasetsPage extends RESTcascadePage
         Dataset dataset;
         try
         {                                                     
-            dataset = Services.getDatasetService().getDataset(EasySession.getSessionUser(), getDatasetId());
+            dataset = Services.getDatasetService().getDataset(EasySession.getSessionUser(), new DmoStoreId(getDatasetId()));
         }
         catch (ObjectNotAvailableException e)
         {

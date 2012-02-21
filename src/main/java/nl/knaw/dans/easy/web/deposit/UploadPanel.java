@@ -3,6 +3,7 @@ package nl.knaw.dans.easy.web.deposit;
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.common.DatasetModel;
@@ -38,7 +39,7 @@ public class UploadPanel extends AbstractCustomPanel
         }
         else
         {
-            String datasetId = datasetModel.getObject().getStoreId();
+            DmoStoreId datasetId = datasetModel.getObject().getDmoStoreId();
             List<String> list = new ArrayList<String>();
             try
             {

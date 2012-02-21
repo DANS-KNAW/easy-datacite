@@ -9,6 +9,7 @@ import java.net.URLConnection;
 
 import javax.servlet.http.HttpServletResponse;
 
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.domain.download.FileContentWrapper;
@@ -59,8 +60,9 @@ public class SingleFileDownloadHandler extends AbstractDownloadHandler
         {
             ioStream = getURLConnection().getInputStream();
             
-            // logging for statistics
-            Dataset dataset = (Dataset) EasySession.get().getDataset(fileDownloadResponse.getMandatoryStringParam(FileDownloadResponse.DATASET_ID));
+            // logging for statistics is badly placed code
+            DmoStoreId dmoStoreId = new DmoStoreId(fileDownloadResponse.getMandatoryStringParam(FileDownloadResponse.DATASET_ID));
+            Dataset dataset = (Dataset) EasySession.get().getDataset(dmoStoreId);
             StatisticsLogger.getInstance().logEvent(StatisticsEvent.DOWNLOAD_FILE_REQUEST, new DatasetStatistics(dataset), new DownloadStatistics(fileContentWrapper), new DisciplineStatistics(dataset));
             
             return ioStream;
@@ -122,8 +124,8 @@ public class SingleFileDownloadHandler extends AbstractDownloadHandler
             EasySession session = (EasySession) Session.get();
             try
             {
-                final String datasetStoreId = fileDownloadResponse.getMandatoryStringParam(FileDownloadResponse.DATASET_ID);
-                final String fileStoreId = fileDownloadResponse.getMandatoryStringParam(FileDownloadResponse.SELECTED_ITEM);
+                final DmoStoreId datasetStoreId = new DmoStoreId(fileDownloadResponse.getMandatoryStringParam(FileDownloadResponse.DATASET_ID));
+                final DmoStoreId fileStoreId = new DmoStoreId(fileDownloadResponse.getMandatoryStringParam(FileDownloadResponse.SELECTED_ITEM));
                 final Dataset dataset = (Dataset) session.getDataset(datasetStoreId);
                 fileContentWrapper = Services.getItemService().getContent(session.getUser(), dataset, fileStoreId);
             }

@@ -3,6 +3,7 @@ package nl.knaw.dans.easy.web.template.emd.atomic;
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
@@ -61,7 +62,7 @@ public class ShowFilesPanel extends Panel{
 	private void getFiles(Dataset dataset, String sid, List<ItemVO> items ) {
 		List<ItemVO> newItems = new ArrayList<ItemVO>();
 		try {
-			newItems = Services.getItemService().getFilesAndFolders(EasySession.getSessionUser(), dataset, sid, -1, -1, null, null);
+			newItems = Services.getItemService().getFilesAndFolders(EasySession.getSessionUser(), dataset, new DmoStoreId(sid), -1, -1, null, null);
     	} catch (ServiceException e) {
 			logger.error("Something went wrong while trying to get files in ShowFilesPanel.java");
 		}

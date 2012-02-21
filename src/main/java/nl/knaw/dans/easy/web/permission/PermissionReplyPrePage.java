@@ -1,5 +1,6 @@
 package nl.knaw.dans.easy.web.permission;
 
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.domain.model.Dataset;
@@ -44,7 +45,7 @@ public class PermissionReplyPrePage extends AbstractEasyNavPage
         try
         {         
             // Get the dataset using the id in the url
-            Dataset dataset = Services.getDatasetService().getDataset(sessionUser, datasetId);
+            Dataset dataset = Services.getDatasetService().getDataset(sessionUser, new DmoStoreId(datasetId));
             
             // The dataset is not in the ContextParameters, add it because the authorization needs it.
             getEasySession().setContextParameters(new ContextParameters(sessionUser, dataset));

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.security.authz.AuthzStrategy;
 import nl.knaw.dans.common.lang.security.authz.AuthzStrategy.TriState;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
@@ -48,7 +49,7 @@ public class TreeItemProvider implements ITreeProvider<ITreeItem>
 	
 	private boolean intermediate;
 	
-	public TreeItemProvider(String datasetSid, HashMap<Enum<?>, CheckBox> filters)
+	public TreeItemProvider(DmoStoreId datasetSid, HashMap<Enum<?>, CheckBox> filters)
 	{
 		//this(false);
 		this.filters = filters;
@@ -76,7 +77,7 @@ public class TreeItemProvider implements ITreeProvider<ITreeItem>
 			rootFolder.setSid(dataset.getStoreId());
 			TreeItem root = new TreeItem(rootFolder, null);
 			
-			List<ItemVO> items = Services.getItemService().getFilesAndFolders(sessionUser, dataset, dataset.getStoreId(), -1, -1, null, null);
+			List<ItemVO> items = Services.getItemService().getFilesAndFolders(sessionUser, dataset, dataset.getDmoStoreId(), -1, -1, null, null);
 			for(ItemVO item : items) {
 				AuthzStrategy strategy = item.getAuthzStrategy();
 				if(item instanceof FileItemVO && strategy.canUnitBeDiscovered("EASY_FILE")) {
@@ -155,7 +156,7 @@ public class TreeItemProvider implements ITreeProvider<ITreeItem>
 	{
 		boolean result = false;
 		try {
-			result = item.getParent() == null || !item.getChildren().isEmpty() || Services.getItemService().hasChildItems(item.getId());
+			result = item.getParent() == null || !item.getChildren().isEmpty() || Services.getItemService().hasChildItems(new DmoStoreId(item.getId()));
 		} catch (ServiceException e) {
 			logger.error("Error while fetching children.", e);
 		}
@@ -165,9 +166,10 @@ public class TreeItemProvider implements ITreeProvider<ITreeItem>
 	@SuppressWarnings("unchecked")
 	public Iterator<ITreeItem> getChildren(final ITreeItem item)
 	{
+	    DmoStoreId itemId = new DmoStoreId(item.getId());
 		try {
-			if(Services.getItemService().hasChildItems(item.getId()) && item.getChildrenWithFiles().isEmpty()) {
-				List<ItemVO> items = Services.getItemService().getFilesAndFolders(sessionUser, dataset, item.getId(), -1, -1, null, null);
+			if(Services.getItemService().hasChildItems(itemId) && item.getChildrenWithFiles().isEmpty()) {
+				List<ItemVO> items = Services.getItemService().getFilesAndFolders(sessionUser, dataset, itemId, -1, -1, null, null);
 				for(ItemVO child : items) {
 					AuthzStrategy strategy = child.getAuthzStrategy();
 					if(child instanceof FileItemVO && strategy.canUnitBeDiscovered("EASY_FILE")) {

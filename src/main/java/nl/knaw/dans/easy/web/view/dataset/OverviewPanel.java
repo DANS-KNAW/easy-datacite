@@ -3,6 +3,8 @@ package nl.knaw.dans.easy.web.view.dataset;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.repo.DataModelObject;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
+import nl.knaw.dans.common.lang.repo.DsUnitId;
 import nl.knaw.dans.common.lang.repo.UnitMetadata;
 import nl.knaw.dans.common.lang.repo.jumpoff.JumpoffDmo;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
@@ -69,7 +71,7 @@ public class OverviewPanel extends AbstractEasyPanel
             {
                 try
                 {
-                    Services.getJumpoffService().deleteMetadataUnit(getSessionUser(), resourceRef.getContainerId(), resourceRef.getUnitId());
+                    Services.getJumpoffService().deleteMetadataUnit(getSessionUser(), new DmoStoreId(resourceRef.getContainerId()), new DsUnitId(resourceRef.getUnitId()));
                 }
                 catch (ServiceException e)
                 {
@@ -84,7 +86,7 @@ public class OverviewPanel extends AbstractEasyPanel
             {
                 try
                 {
-                    return Services.getJumpoffService().getJumpoffDmoFor(getSessionUser(), targetDmo.getStoreId());
+                    return Services.getJumpoffService().getJumpoffDmoFor(getSessionUser(), targetDmo.getDmoStoreId());
                 }
                 catch (ServiceException e)
                 {

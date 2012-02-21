@@ -1,5 +1,6 @@
 package nl.knaw.dans.easy.web.template.emd.atomic;
 
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.components.upload.EasyUpload;
 import nl.knaw.dans.common.wicket.components.upload.EasyUploadConfig;
@@ -138,7 +139,7 @@ public class DepositUploadPanel extends AbstractDatasetModelPanel
     
     private boolean hasDirectoriesOrFiles()
     {
-        String datasetId = getDataset().getStoreId();
+        DmoStoreId datasetId = getDataset().getDmoStoreId();
         try
         {
            return Services.getItemService().hasChildItems(datasetId);

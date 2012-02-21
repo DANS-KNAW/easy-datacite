@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.domain.dataset.item.RequestedItem;
@@ -89,8 +90,9 @@ public class ZipDownloadHandler extends AbstractDownloadHandler
         {
             inStream = new FileInputStream(getZipFile());
             
-            // logging for statistics
-            Dataset dataset = (Dataset) EasySession.get().getDataset(fileDownloadResponse.getMandatoryStringParam(FileDownloadResponse.DATASET_ID));
+            // logging for statistics is badly placed code.
+            DmoStoreId datasetId = new DmoStoreId(fileDownloadResponse.getMandatoryStringParam(FileDownloadResponse.DATASET_ID));
+            Dataset dataset = (Dataset) EasySession.get().getDataset(datasetId);
             StatisticsLogger.getInstance().logEvent(StatisticsEvent.DOWNLOAD_DATASET_REQUEST, new DatasetStatistics(dataset), new DownloadZipStatistics(contentWrapper), new DisciplineStatistics(dataset));
         }
         catch (FileNotFoundException e)
@@ -126,7 +128,8 @@ public class ZipDownloadHandler extends AbstractDownloadHandler
             EasySession session = EasySession.get();
             try
             {
-                Dataset dataset = (Dataset) session.getDataset(fileDownloadResponse.getMandatoryStringParam(FileDownloadResponse.DATASET_ID));
+                DmoStoreId datasetId = new DmoStoreId(fileDownloadResponse.getMandatoryStringParam(FileDownloadResponse.DATASET_ID));
+                Dataset dataset = (Dataset) session.getDataset(datasetId);
                 contentWrapper = Services.getItemService().getZippedContent(session.getUser(), dataset, requestedItems);
             }
             catch (CommonSecurityException e)

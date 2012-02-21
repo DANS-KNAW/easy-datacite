@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import nl.knaw.dans.common.lang.repo.DataModelObject;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.components.upload.UploadStatus;
 import nl.knaw.dans.common.wicket.components.upload.postprocess.IUploadPostProcess;
@@ -55,7 +56,8 @@ public class IngestPostProcess implements IUploadPostProcess {
 		    	
     	try
         {
-            Services.getItemService().addDirectoryContents(EasySession.get().getUser(), dataset, parentSid, destPath, fileList, new WorkReporter()
+    	    DmoStoreId parentDmoStoreId = parentSid == null ? null : new DmoStoreId(parentSid);
+            Services.getItemService().addDirectoryContents(EasySession.get().getUser(), dataset, parentDmoStoreId, destPath, fileList, new WorkReporter()
             {
                 
                 private double actionCount;

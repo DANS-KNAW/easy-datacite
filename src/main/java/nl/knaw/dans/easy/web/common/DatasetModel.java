@@ -17,7 +17,7 @@ public class DatasetModel extends DMOModel<Dataset>
     {
     	super(storeId);
     	init();
-    	Dataset dataset = Services.getDatasetService().getDataset(EasySession.get().getUser(), getStoreId());
+    	Dataset dataset = Services.getDatasetService().getDataset(EasySession.get().getUser(), getDmoStoreId());
     	setObject(dataset);
     }
 
@@ -42,7 +42,7 @@ public class DatasetModel extends DMOModel<Dataset>
     {
 		try
         {
-            return Services.getDatasetService().getDataset(EasySession.get().getUser(), getStoreId());
+            return Services.getDatasetService().getDataset(EasySession.get().getUser(), getDmoStoreId());
         }
         catch (ServiceException e)
         {

@@ -3,6 +3,7 @@ package nl.knaw.dans.easy.web.fileexplorer2;
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.security.authz.AuthzStrategy;
 import nl.knaw.dans.common.lang.security.authz.AuthzStrategy.TriState;
 import nl.knaw.dans.common.lang.service.exceptions.FileSizeException;
@@ -153,7 +154,7 @@ public class ModalDownload extends Panel
                     try
                     {
                         final FileContentWrapper fcw = Services.getItemService().getContent(EasySession.getSessionUser(), datasetModel.getObject(),
-                                requestedItems.get(0).getStoreId());
+                                new DmoStoreId(requestedItems.get(0).getStoreId()));
 
                         link = new IndicatingAjaxLink<Void>("downloadLink")
                         {

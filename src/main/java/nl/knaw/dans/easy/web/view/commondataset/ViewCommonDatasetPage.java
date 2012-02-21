@@ -3,6 +3,7 @@ package nl.knaw.dans.easy.web.view.commondataset;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.dataset.CommonDataset;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.servicelayer.services.Services;
@@ -30,7 +31,7 @@ public class ViewCommonDatasetPage extends AbstractEasyNavPage
         CommonDataset dataset = null;
         try
 		{
-			dataset = Services.getDatasetService().getCommonDataset(datasetId);
+			dataset = Services.getDatasetService().getCommonDataset(new DmoStoreId(datasetId));
 		}
 		catch (ServiceException e)
 		{

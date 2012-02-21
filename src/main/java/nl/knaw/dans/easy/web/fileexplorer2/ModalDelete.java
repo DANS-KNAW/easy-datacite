@@ -3,6 +3,7 @@ package nl.knaw.dans.easy.web.fileexplorer2;
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceRuntimeException;
 import nl.knaw.dans.easy.domain.dataset.item.UpdateInfo;
@@ -44,9 +45,9 @@ public class ModalDelete extends Panel{
 
 			@Override
 			public void onClick(AjaxRequestTarget target) {
-				List<String> sidList = new ArrayList<String>();
+				List<DmoStoreId> sidList = new ArrayList<DmoStoreId>();
 				for(TreeItem item: items) {
-					sidList.add(item.getId());
+					sidList.add(new DmoStoreId(item.getId()));
 				}
 				try {
 					Services.getItemService().updateObjects(EasySession.getSessionUser(), dataset.getObject(), sidList, new UpdateInfo(null,null,null,true), null);

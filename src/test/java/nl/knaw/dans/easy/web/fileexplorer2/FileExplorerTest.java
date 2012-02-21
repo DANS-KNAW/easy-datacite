@@ -14,6 +14,7 @@ import java.util.List;
 
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
@@ -76,6 +77,7 @@ public class FileExplorerTest {
     private ItemService itemServiceMock;
     
     private String datasetSid = "test-dataset:1";
+    private DmoStoreId datasetDmoStoreId = new DmoStoreId(datasetSid);
     
     @Before
     public void setUp() throws Exception
@@ -144,9 +146,9 @@ public class FileExplorerTest {
     	ArrayList<ItemVO> filesAndFolders = new ArrayList<ItemVO>();
     	filesAndFolders.add(mockFile());
     	expect(itemServiceMock.getFilesAndFolders(isA(EasyUser.class), isA(Dataset.class), 
-    			isA(String.class), isA(Integer.class), isA(Integer.class), or(isNull(ItemOrder.class), isA(ItemOrder.class)), 
+    			isA(DmoStoreId.class), isA(Integer.class), isA(Integer.class), or(isNull(ItemOrder.class), isA(ItemOrder.class)), 
     			or(isNull(ItemFilters.class), isA(ItemFilters.class)))).andReturn(filesAndFolders).anyTimes();
-    	expect(itemServiceMock.hasChildItems(isA(String.class))).andReturn(false).anyTimes();
+    	expect(itemServiceMock.hasChildItems(isA(DmoStoreId.class))).andReturn(false).anyTimes();
     }
     
     private FileItemVO mockFile() {
@@ -168,7 +170,7 @@ public class FileExplorerTest {
     {
     	mockDataset();
     	datasetServiceMock = PowerMock.createMock(DatasetService.class);
-    	expect(datasetServiceMock.getDataset(isA(EasyUser.class), isA(String.class))).andReturn(datasetMock).anyTimes();
+    	expect(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).andReturn(datasetMock).anyTimes();
     	expect(datasetServiceMock.getAdditionalLicense(isA(Dataset.class))).andReturn(null).anyTimes();
     }
     
@@ -176,6 +178,7 @@ public class FileExplorerTest {
     {
     	datasetMock = PowerMock.createMock(Dataset.class);
     	expect(datasetMock.getStoreId()).andReturn(datasetSid).anyTimes();
+    	expect(datasetMock.getDmoStoreId()).andReturn(datasetDmoStoreId).anyTimes();
     	expect(datasetMock.getMetadataFormat()).andReturn(MetadataFormat.ARCHAEOLOGY).anyTimes();
     	expect(datasetMock.getAuthzStrategy()).andReturn(new AuthzStrategyTestImpl()).anyTimes();
     	expect(datasetMock.getDepositor()).andReturn(normalUser).anyTimes();

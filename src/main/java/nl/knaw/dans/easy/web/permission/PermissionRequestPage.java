@@ -2,6 +2,7 @@ package nl.knaw.dans.easy.web.permission;
 
 import java.text.MessageFormat;
 
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.domain.model.Dataset;
@@ -88,7 +89,7 @@ public class PermissionRequestPage extends AbstractEasyNavPage
         DatasetModel datasetModel;
         try
         {
-            dataset = Services.getDatasetService().getDataset(user, datasetId);
+            dataset = Services.getDatasetService().getDataset(user, new DmoStoreId(datasetId));
             datasetModel = new DatasetModel(dataset);
         }
         catch (ServiceException e)

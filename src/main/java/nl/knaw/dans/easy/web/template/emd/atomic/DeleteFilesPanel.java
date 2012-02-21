@@ -3,6 +3,7 @@ package nl.knaw.dans.easy.web.template.emd.atomic;
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.UpdateInfo;
@@ -31,7 +32,7 @@ public class DeleteFilesPanel extends Panel{
 			@Override
 			public void onClick(AjaxRequestTarget target) {
 				try {
-					List<String> sids = getSids(Services.getItemService().getFilesAndFolders(EasySession.getSessionUser(), datasetModel.getObject(), datasetModel.getObject().getStoreId(), -1, -1, null, null));
+					List<DmoStoreId> sids = getSids(Services.getItemService().getFilesAndFolders(EasySession.getSessionUser(), datasetModel.getObject(), datasetModel.getObject().getDmoStoreId(), -1, -1, null, null));
 					Services.getItemService().updateObjects(EasySession.getSessionUser(), datasetModel.getObject(), sids, new UpdateInfo(null,null,null,true), null);
 					// Remove all messages from the uploadpanel
 					target.appendJavascript("removeMessages();");
@@ -52,11 +53,11 @@ public class DeleteFilesPanel extends Panel{
 		});
     }
 	
-	private List<String> getSids(List<ItemVO> items) {
-		List<String> result = new ArrayList<String>();
+	private List<DmoStoreId> getSids(List<ItemVO> items) {
+		List<DmoStoreId> result = new ArrayList<DmoStoreId>();
 		
 		for(ItemVO item: items) {
-			result.add(item.getSid());
+			result.add(new DmoStoreId(item.getSid()));
 		}
 		
 		return result;
