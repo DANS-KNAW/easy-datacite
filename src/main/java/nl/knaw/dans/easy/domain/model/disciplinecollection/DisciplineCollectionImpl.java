@@ -18,10 +18,10 @@ public class DisciplineCollectionImpl extends AbstractDmoCollection implements
 		 DisciplineCollection
 {
 	public static final String EASY_DISCIPLINE_ROOT = "easy-discipline:root";
+	
+	public static final DmoStoreId EASY_DISCIPLINE_ROOT_DMO_STORE_ID = new DmoStoreId(EASY_DISCIPLINE_ROOT);
 
 	private static final long serialVersionUID = -382996789753365029L;
-
-	private static final DmoStoreId EASY_DISCIPLINE_ROOT_DMO_STORE_ID = new DmoStoreId(EASY_DISCIPLINE_ROOT);
 
 	private static final String DISCIPLINE_COLLECTION_SID = "dataset-item-collection:root";
 	
