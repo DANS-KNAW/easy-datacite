@@ -2,8 +2,8 @@ package nl.knaw.dans.easy.web.search.custom;
 
 import java.util.Locale;
 
-import nl.knaw.dans.common.jibx.bean.RecursiveEntry;
-import nl.knaw.dans.common.jibx.bean.RecursiveList;
+import nl.knaw.dans.common.lang.repo.bean.RecursiveEntry;
+import nl.knaw.dans.common.lang.repo.bean.RecursiveList;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.components.search.Translator;
 import nl.knaw.dans.easy.servicelayer.services.Services;

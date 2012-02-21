@@ -3,9 +3,9 @@ package nl.knaw.dans.easy.web.search.custom;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.knaw.dans.common.jibx.bean.RecursiveEntry;
-import nl.knaw.dans.common.jibx.bean.RecursiveList;
-import nl.knaw.dans.common.jibx.bean.RecursiveNode;
+import nl.knaw.dans.common.lang.repo.bean.RecursiveEntry;
+import nl.knaw.dans.common.lang.repo.bean.RecursiveList;
+import nl.knaw.dans.common.lang.repo.bean.RecursiveNode;
 import nl.knaw.dans.common.lang.search.FacetValue;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.components.search.facets.CollapsedFacetValue;
