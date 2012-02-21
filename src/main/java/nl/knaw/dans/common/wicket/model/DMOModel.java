@@ -2,8 +2,10 @@ package nl.knaw.dans.common.wicket.model;
 
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.DataModelObject;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceRuntimeException;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.model.IModel;
 import org.slf4j.Logger;
@@ -19,6 +21,7 @@ public abstract class DMOModel<T extends DataModelObject> implements IModel<T>
     private T                 dmo;
 
     private final String      storeId;
+    private DmoStoreId dmoStoreId;
     
     /**
      * Dynamic reloading
@@ -30,17 +33,20 @@ public abstract class DMOModel<T extends DataModelObject> implements IModel<T>
     public DMOModel(String storeId)
     {
         this.storeId = storeId;
+        this.dmoStoreId = storeId == null ? null : new DmoStoreId(storeId);
     }
 
     public DMOModel(T dmo)
     {
         this.dmo = dmo;
         this.storeId = dmo.getStoreId();
+        this.dmoStoreId = storeId == null ? null : new DmoStoreId(storeId);
     }
 
     public DMOModel(DMOModel<T> model)
     {
     	this.storeId = model.getStoreId();
+    	this.dmoStoreId = storeId == null ? null : new DmoStoreId(storeId);
     	this.dmo = model.getCachedObject();
     	this.dynamicReload = model.isDynamicReloadEnabled();
     }
@@ -48,6 +54,15 @@ public abstract class DMOModel<T extends DataModelObject> implements IModel<T>
     public String getStoreId()
     {
         return storeId;
+    }
+    
+    public DmoStoreId getDmoStoreId()
+    {
+        if (dmoStoreId == null && !StringUtils.isBlank(storeId))
+        {
+            dmoStoreId = new DmoStoreId(storeId);
+        }
+        return dmoStoreId;
     }
 
     @Override
