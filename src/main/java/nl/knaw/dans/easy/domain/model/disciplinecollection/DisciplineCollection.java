@@ -1,6 +1,7 @@
 package nl.knaw.dans.easy.domain.model.disciplinecollection;
 
 import nl.knaw.dans.common.lang.repo.DmoNamespace;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
 
@@ -29,7 +30,7 @@ public interface DisciplineCollection
 	 * this sid 
 	 * @throws DomainException wrapper exception
 	 */
-	DisciplineContainer getDisciplineBySid(String disciplineId)
+	DisciplineContainer getDisciplineBySid(DmoStoreId disciplineId)
 			throws ObjectNotFoundException, DomainException;
 
 	/**

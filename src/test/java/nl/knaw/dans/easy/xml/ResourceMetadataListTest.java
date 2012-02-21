@@ -7,6 +7,7 @@ import java.io.File;
 
 import nl.knaw.dans.common.jibx.JiBXObjectFactory;
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.test.Tester;
 import nl.knaw.dans.common.lang.xml.Dom4jReader;
 import nl.knaw.dans.common.lang.xml.XMLDeserializationException;
@@ -108,7 +109,7 @@ public class ResourceMetadataListTest
         
         for (ResourceMetadata rmd : rml.getResourceMetadataAsList())
         {
-            FileItemMetadata fimd = new FileItemMetadataImpl("test");
+            FileItemMetadata fimd = new FileItemMetadataImpl(new DmoStoreId("test:1"));
             fimd.setAdditionalMetadata(rmd.getAdditionalMetadata());
             if (verbose)
                 logger.debug("\n" + fimd.asXMLString(4) + "\n");

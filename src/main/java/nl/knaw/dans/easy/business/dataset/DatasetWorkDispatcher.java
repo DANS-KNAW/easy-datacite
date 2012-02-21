@@ -7,6 +7,8 @@ import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.repo.AbstractDmoFactory;
 import nl.knaw.dans.common.lang.repo.DataModelObject;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
+import nl.knaw.dans.common.lang.repo.DsUnitId;
 import nl.knaw.dans.common.lang.repo.UnitMetadata;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.xml.XMLException;
@@ -38,16 +40,16 @@ import org.joda.time.DateTime;
 public class DatasetWorkDispatcher
 {
 
-    public DataModelObject getDataModelObject(EasyUser sessionUser, String storeId) throws ServiceException
+    public DataModelObject getDataModelObject(EasyUser sessionUser, DmoStoreId dmoStoreId) throws ServiceException
     {
         DatasetWorker worker = new DatasetWorker(sessionUser);
-        return worker.getDataModelObject(storeId);
+        return worker.getDataModelObject(dmoStoreId);
     }
 
     public byte[] getObjectXml(EasyUser sessionUser, Dataset dataset) throws ServiceException
     {
         DatasetWorker worker = new DatasetWorker(sessionUser);
-        return worker.getObjectXml(dataset.getStoreId());
+        return worker.getObjectXml(dataset.getDmoStoreId());
     }
 
     public Dataset cloneDataset(EasyUser sessionUser, Dataset dataset) throws ServiceException
@@ -68,7 +70,7 @@ public class DatasetWorkDispatcher
             // property lists contain (a sort of) audit trail on the cloned dataset. remove them.
             clonedEmd.getEmdOther().getPropertyListCollection().clear();
 
-            clonedDataset = (DatasetImpl) AbstractDmoFactory.newDmo(Dataset.NAMESPACE);;
+            clonedDataset = (DatasetImpl) AbstractDmoFactory.newDmo(Dataset.NAMESPACE);
             clonedDataset.setEasyMetadata(clonedEmd);
             clonedDataset.getAdministrativeMetadata().setDepositor(sessionUser);
         }
@@ -228,7 +230,7 @@ public class DatasetWorkDispatcher
 
     public URL getUnitMetadataURL(EasyUser sessionUser, Dataset dataset, UnitMetadata unitMetadata) throws ServiceException
     {
-        URL url = Data.getEasyStore().getFileURL(dataset.getStoreId(), unitMetadata.getId(), unitMetadata.getCreationDate());
+        URL url = Data.getEasyStore().getFileURL(dataset.getDmoStoreId(), new DsUnitId(unitMetadata.getId()), unitMetadata.getCreationDate());
         return url;
     }
 
@@ -238,7 +240,7 @@ public class DatasetWorkDispatcher
      */
     public URL getAdditionalLicenseURL(EasyUser sessionUser, Dataset dataset, UnitMetadata unitMetadata) throws ServiceException
     {
-        URL url = Data.getEasyStore().getFileURL(dataset.getStoreId(), unitMetadata.getId(), unitMetadata.getCreationDate());
+        URL url = Data.getEasyStore().getFileURL(dataset.getDmoStoreId(), new DsUnitId(unitMetadata.getId()), unitMetadata.getCreationDate());
         return url;
     }
 }

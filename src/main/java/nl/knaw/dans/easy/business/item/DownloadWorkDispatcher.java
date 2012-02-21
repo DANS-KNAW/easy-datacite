@@ -2,6 +2,7 @@ package nl.knaw.dans.easy.business.item;
 
 import java.util.Collection;
 
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.domain.dataset.item.RequestedItem;
@@ -13,7 +14,7 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 public class DownloadWorkDispatcher
 {
     
-    public FileContentWrapper prepareFileContent(EasyUser sessionUser, Dataset dataset, String fileItemId)
+    public FileContentWrapper prepareFileContent(EasyUser sessionUser, Dataset dataset, DmoStoreId fileItemId)
         throws CommonSecurityException, ServiceException
     {
         DownloadWorker worker = new DownloadWorker();

@@ -11,6 +11,7 @@ import java.util.Map;
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.repo.AbstractDmoFactory;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.UnitOfWork;
 import nl.knaw.dans.common.lang.repo.exception.UnitOfWorkInterruptException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
@@ -113,7 +114,7 @@ public class ItemIngester extends AbstractWorker
                 throw new IllegalArgumentException("The given file is not a directory: " + rootFile.getPath());
             }
 
-            Map<String, String> members = collectMembers(parentContainer.getStoreId());
+            Map<String, String> members = collectMembers(parentContainer.getDmoStoreId());
             
             // Files and folders submitted by depositor go into folder 'original'.
             if (parentContainer instanceof Dataset && CreatorRole.DEPOSITOR.equals(creatorRole))
@@ -126,16 +127,16 @@ public class ItemIngester extends AbstractWorker
                     
                     original.setLabel(DEPOSITOR_FOLDER_NAME);
                     original.setOwnerId(sessionUser.getId());
-                    original.setDatasetId(dataset.getStoreId());
+                    original.setDatasetId(dataset.getDmoStoreId());
                     original.setParent(parentContainer);
                     parentContainer = original;
                 }
                 else
                 {
-                    FolderItem original = (FolderItem) getUnitOfWork().retrieveObject(storeId);
+                    FolderItem original = (FolderItem) getUnitOfWork().retrieveObject(new DmoStoreId(storeId));
                     parentContainer = original;
                 }
-                members = collectMembers(parentContainer.getStoreId());
+                members = collectMembers(parentContainer.getDmoStoreId());
             }
             // End files and folders submitted by depositor go into folder 'original'.
             
@@ -178,7 +179,7 @@ public class ItemIngester extends AbstractWorker
         }
         else
         {
-            updateFile(storeId, file);
+            updateFile(new DmoStoreId(storeId), file);
         }
     }
 
@@ -193,7 +194,7 @@ public class ItemIngester extends AbstractWorker
             
             kidFolder.setLabel(file.getName());
             kidFolder.setOwnerId(sessionUser.getId());
-            kidFolder.setDatasetId(dataset.getStoreId());
+            kidFolder.setDatasetId(dataset.getDmoStoreId());
             // set parent before iterating kids. see DatasetItem setParent/ getPath
             kidFolder.setParent(parentContainer);
             
@@ -210,7 +211,7 @@ public class ItemIngester extends AbstractWorker
             
             kidFile.setFile(file);
             kidFile.setCreatorRole(creatorRole);
-            kidFile.setDatasetId(dataset.getStoreId());
+            kidFile.setDatasetId(dataset.getDmoStoreId());
             kidFile.setOwnerId(sessionUser.getId());
             // order of next statements is of importance for migration
             kidFile.setParent(parentContainer);
@@ -232,12 +233,12 @@ public class ItemIngester extends AbstractWorker
     }
 
     // update FileItems and FolderItems
-    private void updateFile(String storeId, File file) throws RepositoryException, IOException,
+    private void updateFile(DmoStoreId storeId, File file) throws RepositoryException, IOException,
             UnitOfWorkInterruptException, DomainException
     {
         if (file.isDirectory())
         {
-            if (!storeId.startsWith(FolderItem.NAMESPACE.getValue()))
+            if (!storeId.isInNamespace(FolderItem.NAMESPACE))
             {
                 throw new RepositoryException("Cannot update " + storeId + " because it is not a FolderItem.");
             }
@@ -250,7 +251,7 @@ public class ItemIngester extends AbstractWorker
         }
         else
         {
-            if (!storeId.startsWith(FileItem.NAMESPACE.getValue()))
+            if (!storeId.isInNamespace(FileItem.NAMESPACE))
             {
                 throw new RepositoryException("Cannot update " + storeId + " because it is not a FileItem.");
             }
@@ -265,7 +266,7 @@ public class ItemIngester extends AbstractWorker
         }
     }
 
-    private Map<String, String> collectMembers(String parentId) throws RepositoryException
+    private Map<String, String> collectMembers(DmoStoreId parentId) throws RepositoryException
     {
         Map<String, String> members = new HashMap<String, String>();
         List<ItemVO> items = Data.getFileStoreAccess().getFilesAndFolders(parentId, -1, -1, null, null);

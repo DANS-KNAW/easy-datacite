@@ -7,6 +7,7 @@ import java.util.Set;
 import nl.knaw.dans.common.jibx.bean.JiBXDublinCoreMetadata;
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.DmoNamespace;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.MetadataUnit;
 import nl.knaw.dans.common.lang.repo.UnitOfWork;
 import nl.knaw.dans.common.lang.repo.bean.DublinCoreMetadata;
@@ -117,9 +118,9 @@ public class FolderItemImpl extends AbstractDatasetItemImpl implements FolderIte
     {
         if (itemContainerMetadata == null)
         {
-            itemContainerMetadata = new ItemContainerMetadataImpl(getStoreId());
+            itemContainerMetadata = new ItemContainerMetadataImpl(getDmoStoreId());
         }
-        itemContainerMetadata.setSid(getStoreId());
+        itemContainerMetadata.setDmoStoreId(getDmoStoreId());
         return itemContainerMetadata;
     }
 
@@ -248,7 +249,7 @@ public class FolderItemImpl extends AbstractDatasetItemImpl implements FolderIte
         container.setChildren(children);
     }
 
-    public Set<String> getChildSids() throws RepositoryException
+    public Set<DmoStoreId> getChildSids() throws RepositoryException
     {
         return container.getChildSids();
     }

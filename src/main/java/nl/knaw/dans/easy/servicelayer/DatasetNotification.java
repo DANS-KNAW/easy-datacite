@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 
 import nl.knaw.dans.common.lang.mail.Attachement;
+import nl.knaw.dans.common.lang.repo.DsUnitId;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.util.StreamUtil;
 import nl.knaw.dans.easy.data.Data;
@@ -151,7 +152,7 @@ public abstract class DatasetNotification extends AbstractNotification
         }
         else
         {
-            final URL url = Data.getEasyStore().getFileURL(dataset.getStoreId(), LicenseUnit.UNIT_ID);
+            final URL url = Data.getEasyStore().getFileURL(dataset.getDmoStoreId(), new DsUnitId(LicenseUnit.UNIT_ID));
             final byte[] bytes = StreamUtil.getBytes(url.openStream());
             license = new Attachement(LicenseUnit.UNIT_LABEL, LicenseUnit.MIME_TYPE, bytes);
         }

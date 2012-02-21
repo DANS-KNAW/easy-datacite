@@ -10,6 +10,7 @@ import java.util.Arrays;
 import nl.knaw.dans.common.jibx.JiBXObjectFactory;
 import nl.knaw.dans.common.lang.ResourceLocator;
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.test.ClassPathHacker;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.FileStoreAccess;
@@ -106,7 +107,7 @@ public class LicenseComposerTest extends TestHelper
 
     private void prepare(final boolean isUnderEmbargo) throws Exception
     {
-        final String sid = "easy-dataset:123";
+    	final DmoStoreId sid = new DmoStoreId("easy-dataset:123");
         final String[] fileNames ={"folder1/fileA.txt","folder1/fileB.txt","folder2/fileX.txt","folder2/fileY.txt"};
 
         EasyMock.reset(dataset, depositor, fileStoreAccess);
@@ -124,10 +125,10 @@ public class LicenseComposerTest extends TestHelper
         EasyMock.expect(dataset.isUnderEmbargo()).andReturn(isUnderEmbargo).times(1);
         EasyMock.expect(dataset.getPreferredTitle()).andReturn("A mocked dataset").times(1);
         EasyMock.expect(dataset.getEasyMetadata()).andReturn(metadata).times(1);
-        EasyMock.expect(dataset.getStoreId()).andReturn(sid).times(1);
+        EasyMock.expect(dataset.getDmoStoreId()).andReturn(sid).times(1);
 
-        final String disciplineId = "easy-discipline:2";
-        final DisciplineContainerImpl discipline = new DisciplineContainerImpl(disciplineId);
+        final DmoStoreId disciplineId = new DmoStoreId("easy-discipline:2");
+        final DisciplineContainerImpl discipline = new DisciplineContainerImpl("easy-discipline:2");
         final DisciplineCollectionService disciplineService= EasyMock.createMock(DisciplineCollectionService.class);;
         new Services().setDisciplineService(disciplineService);
         discipline.setName("Humanities");

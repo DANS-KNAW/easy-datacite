@@ -1,5 +1,6 @@
 package nl.knaw.dans.easy.business.services;
 
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
@@ -22,7 +23,7 @@ public class EasyDisciplineCollectionService implements
 		}
 	}
 
-	public DisciplineContainer getDisciplineById(String disciplineId) throws ServiceException, ObjectNotFoundException
+	public DisciplineContainer getDisciplineById(DmoStoreId disciplineId) throws ServiceException, ObjectNotFoundException
 	{
 		try
 		{
@@ -34,7 +35,7 @@ public class EasyDisciplineCollectionService implements
 		}
 	}
 	
-	public String getDisciplineName(String disciplineId)
+	public String getDisciplineName(DmoStoreId disciplineId)
 			throws ServiceException, ObjectNotFoundException
 	{
 		try

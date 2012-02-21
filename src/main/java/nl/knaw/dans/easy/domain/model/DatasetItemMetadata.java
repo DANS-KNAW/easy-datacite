@@ -1,21 +1,22 @@
 package nl.knaw.dans.easy.domain.model;
 
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.MetadataUnitXMLBean;
 
 public interface DatasetItemMetadata extends MetadataUnitXMLBean
 {
     
-    void setSid(String storeId);
+    void setDmoStoreId(DmoStoreId storeId);
     
-    String getSid();
+    DmoStoreId getDmoStoreId();
     
-    String getParentSid();
+    DmoStoreId getParentDmoStoreId();
     
-    void setParentSid(String parentSid);
+    void setParentDmoStoreId(DmoStoreId parentSid);
     
-    String getDatasetId();
+    DmoStoreId getDatasetDmoStoreId();
     
-    void setDatasetId(String datasetId);
+    void setDatasetDmoStoreId(DmoStoreId datasetId);
     
     String getName();
     

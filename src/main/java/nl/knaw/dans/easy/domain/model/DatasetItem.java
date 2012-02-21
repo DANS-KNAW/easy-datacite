@@ -1,19 +1,20 @@
 package nl.knaw.dans.easy.domain.model;
 
 import nl.knaw.dans.common.lang.repo.DataModelObject;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 
 public interface DatasetItem extends DataModelObject
 {  
-    String getDatasetId();
+    DmoStoreId getDatasetId();
     
-    void setDatasetId(String datasetId);
+    void setDatasetId(DmoStoreId datasetId);
     
     DatasetItemMetadata getDatasetItemMetadata();
 
     void setParent(DatasetItemContainer parent) throws DomainException;
     
-    boolean isDescendantOf(String storeId);
+    boolean isDescendantOf(DmoStoreId dmoStoreId);
     
     boolean isDescendantOf(DataModelObject dmo);
     

@@ -127,10 +127,10 @@ public class FileItemAccessCheckTest
     
     private void evaluateDatasetDescendancy(EasyUser user, TestDataset dataset)
     {
-        FileItem fileItem = new FileItemImpl("testFileItem");
+        FileItem fileItem = new FileItemImpl("file:testFileItem");
         evaluateFileItemAccess(user, dataset, fileItem);
         
-        fileItem.setDatasetId(dataset.getStoreId());
+        fileItem.setDatasetId(dataset.getDmoStoreId());
         evaluateFileItemAccess(user, dataset, fileItem);
     }
 
@@ -182,7 +182,7 @@ public class FileItemAccessCheckTest
 
         public TestDataset()
         {
-            super("whatever");
+            super("easy:whatever");
         }
 
         DatasetState datasetState;

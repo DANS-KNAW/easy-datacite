@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.repo.DataModelObject;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.UnitOfWork;
 import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
 import nl.knaw.dans.common.lang.repo.exception.UnitOfWorkInterruptException;
@@ -41,11 +42,11 @@ public class DatasetWorker extends AbstractWorker
         super(uow);
     }
 
-    protected DataModelObject getDataModelObject(String storeId) throws ServiceException
+    protected DataModelObject getDataModelObject(DmoStoreId dmoStoreId) throws ServiceException
     {
         try
         {
-        	return Data.getEasyStore().retrieve(storeId);
+        	return Data.getEasyStore().retrieve(dmoStoreId);
         }
         catch (ObjectNotInStoreException e)
         {
@@ -57,11 +58,11 @@ public class DatasetWorker extends AbstractWorker
         }
     }
     
-    protected byte[] getObjectXml(String storeId) throws ServiceException
+    protected byte[] getObjectXml(DmoStoreId dmoStoreId) throws ServiceException
     {
         try
         {
-            return Data.getEasyStore().getObjectXML(storeId);
+            return Data.getEasyStore().getObjectXML(dmoStoreId);
         }
         catch (ObjectNotInStoreException e)
         {

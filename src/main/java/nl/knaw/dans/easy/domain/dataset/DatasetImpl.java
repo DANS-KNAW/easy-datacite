@@ -18,6 +18,7 @@ import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.repo.BinaryUnit;
 import nl.knaw.dans.common.lang.repo.DmoNamespace;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.MetadataUnit;
 import nl.knaw.dans.common.lang.repo.bean.DublinCoreMetadata;
 import nl.knaw.dans.common.lang.repo.collections.AbstractDmoRecursiveItem;
@@ -422,11 +423,11 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
     {
         if (itemContainerMetadata == null)
         {
-            itemContainerMetadata = new ItemContainerMetadataImpl(getStoreId());
+            itemContainerMetadata = new ItemContainerMetadataImpl(getDmoStoreId());
         }
 
         // in case storeId was not known at time of instantiation of ItemContainerMetadataImpl.
-        itemContainerMetadata.setSid(getStoreId());
+        itemContainerMetadata.setDmoStoreId(getDmoStoreId());
 
         return itemContainerMetadata;
     }
@@ -629,7 +630,7 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
         for (BasicString audience : audienceList)
         {
             DisciplineContainer discipline;
-            discipline = DisciplineCollectionImpl.getInstance().getDisciplineBySid(audience.getValue());
+            discipline = DisciplineCollectionImpl.getInstance().getDisciplineBySid(new DmoStoreId(audience.getValue()));
             if (discipline == null)
                 throw new IllegalStateException("Audience field with value " + audience.getValue() + " is not a valid discipline sid");
             disciplines.add(discipline);

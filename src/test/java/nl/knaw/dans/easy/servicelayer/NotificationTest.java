@@ -6,6 +6,8 @@ import java.lang.reflect.Method;
 import java.net.URL;
 
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
+import nl.knaw.dans.common.lang.repo.DsUnitId;
 import nl.knaw.dans.easy.business.dataset.DatasetSubmissionImpl;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.ext.ExternalServices;
@@ -60,9 +62,9 @@ public class NotificationTest extends AbstractMailFixture
         new Data().setEasyStore(new DummyEasyStore()
         {
             @Override
-            public URL getFileURL(final String storeId, final String unitId)
+            public URL getFileURL(final DmoStoreId storeId, final DsUnitId unitId)
             {
-                return getClass().getResource(storeId + "-" + unitId + ".pdf");
+                return getClass().getResource(storeId + "-" + unitId.getUnitId() + ".pdf");
             }
         });
     }

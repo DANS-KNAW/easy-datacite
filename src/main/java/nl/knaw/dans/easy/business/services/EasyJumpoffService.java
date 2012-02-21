@@ -4,6 +4,8 @@ import java.net.URL;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.repo.DataModelObject;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
+import nl.knaw.dans.common.lang.repo.DsUnitId;
 import nl.knaw.dans.common.lang.repo.UnitMetadata;
 import nl.knaw.dans.common.lang.repo.jumpoff.JumpoffDmo;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
@@ -23,19 +25,19 @@ public class EasyJumpoffService extends AbstractEasyService implements JumpoffSe
     
 
     @Override
-    public void deleteMetadataUnit(EasyUser sessionUser, String storeId, String unitId) throws ServiceException
+    public void deleteMetadataUnit(EasyUser sessionUser, DmoStoreId storeId, DsUnitId unitId) throws ServiceException
     {
         getDispatcher().deleteUnit(sessionUser, storeId, unitId, "purged by " + getUserId(sessionUser));
     }
 
     @Override
-    public JumpoffDmo getJumpoffDmoFor(EasyUser sessionUser,String storeId) throws ServiceException
+    public JumpoffDmo getJumpoffDmoFor(EasyUser sessionUser, DmoStoreId storeId) throws ServiceException
     {
         return getDispatcher().getJumpoffDmo(sessionUser, storeId);
     }
 
     @Override
-    public URL getURL(String storeId, String unitId) throws ServiceException
+    public URL getURL(DmoStoreId storeId, DsUnitId unitId) throws ServiceException
     {
         return getDispatcher().retrieveURL(storeId, unitId);
     }
@@ -56,7 +58,7 @@ public class EasyJumpoffService extends AbstractEasyService implements JumpoffSe
         return getDispatcher().getUnitMetadata(sessionUser, jumpoffDmo);
     }
     
-    public List<UnitMetadata> getUnitMetadata(EasyUser sessionUser,String storeId, String unitId) throws ServiceException
+    public List<UnitMetadata> getUnitMetadata(EasyUser sessionUser, DmoStoreId storeId, DsUnitId unitId) throws ServiceException
     {
         return getDispatcher().retrieveUnitMetadata(sessionUser, storeId, unitId);
     }

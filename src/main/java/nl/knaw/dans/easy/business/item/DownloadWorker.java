@@ -14,6 +14,8 @@ import java.util.List;
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.file.ZipItem;
 import nl.knaw.dans.common.lang.file.ZipUtil;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
+import nl.knaw.dans.common.lang.repo.DsUnitId;
 import nl.knaw.dans.common.lang.repo.UnitMetadata;
 import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
 import nl.knaw.dans.common.lang.service.exceptions.FileSizeException;
@@ -63,10 +65,10 @@ public class DownloadWorker
 
     }
 
-    protected FileContentWrapper getFileContent(final EasyUser sessionUser, final Dataset dataset, final String fileItemId) throws CommonSecurityException,
+    protected FileContentWrapper getFileContent(final EasyUser sessionUser, final Dataset dataset, final DmoStoreId fileItemId) throws CommonSecurityException,
             ServiceException
     {
-        final FileContentWrapper fileContentWrapper = new FileContentWrapper(fileItemId);
+        final FileContentWrapper fileContentWrapper = new FileContentWrapper(fileItemId.getStoreId());
         final DownloadFilter downloadFilter = new DownloadFilter(sessionUser, dataset);
         try
         {
@@ -82,7 +84,7 @@ public class DownloadWorker
                 }
 
                 fileContentWrapper.setFileItemVO(fileItemVO);
-                final URL url = Data.getEasyStore().getFileURL(fileItemVO.getSid());
+                final URL url = Data.getEasyStore().getFileURL(new DmoStoreId(fileItemVO.getSid()));
                 fileContentWrapper.setURL(url);
             }
             else
@@ -144,14 +146,14 @@ public class DownloadWorker
 
     private URL getAdditionalLicenseUrl(final Dataset dataset) throws ServiceException, RepositoryException
     {
-        List<UnitMetadata> addLicenseList = Data.getEasyStore().getUnitMetadata(dataset.getStoreId(), AdditionalLicenseUnit.UNIT_ID);
+        List<UnitMetadata> addLicenseList = Data.getEasyStore().getUnitMetadata(dataset.getDmoStoreId(), new DsUnitId(AdditionalLicenseUnit.UNIT_ID));
         if (addLicenseList.isEmpty())
         {
             return null;
         }
         else
         {
-            final URL url = Data.getEasyStore().getFileURL(dataset.getStoreId(), AdditionalLicenseUnit.UNIT_ID, new DateTime());
+            final URL url = Data.getEasyStore().getFileURL(dataset.getDmoStoreId(), new DsUnitId(AdditionalLicenseUnit.UNIT_ID), new DateTime());
             return url;
         }
     }
@@ -205,7 +207,7 @@ public class DownloadWorker
                 if (item instanceof FileItemVO)
                 {
                     totalSize += ((FileItemVO) item).getSize();
-                    final URL url = Data.getEasyStore().getFileURL(item.getSid());
+                    final URL url = Data.getEasyStore().getFileURL(new DmoStoreId(item.getSid()));
                     final ZipItem zipFileItem = new ZipItem(item.getPath(), url);
                     zipItems.add(zipFileItem);
                 }
@@ -258,7 +260,7 @@ public class DownloadWorker
         {
             if (item instanceof FileItemVO)
             {
-                List<UnitMetadata> umdList = Data.getEasyStore().getUnitMetadata(item.getSid(), DescriptiveMetadata.UNIT_ID);
+                List<UnitMetadata> umdList = Data.getEasyStore().getUnitMetadata(new DmoStoreId(item.getSid()), new DsUnitId(DescriptiveMetadata.UNIT_ID));
                 if (!umdList.isEmpty())
                 {
                     hasMetaData = true;
@@ -283,7 +285,7 @@ public class DownloadWorker
         InputStream stream = null;
         try
         {
-            stream = Data.getEasyStore().getDescriptiveMetadataURL(item.getSid()).openStream();
+            stream = Data.getEasyStore().getDescriptiveMetadataURL(new DmoStoreId(item.getSid())).openStream();
             int b;
             while (0 < (b = stream.read()))
             {
@@ -307,18 +309,18 @@ public class DownloadWorker
         // TODO move fedoraFileStoreAccess: saves transactions
         // TODO merge with FileMetadataPanel.getFileItemsRecursively and FileExplorerUpdateCommand.createSidList
         final List<ItemVO> itemVOs = new ArrayList<ItemVO>();
-        final List<String> leaves = new ArrayList<String>();
+        final List<DmoStoreId> leaves = new ArrayList<DmoStoreId>();
         for (final RequestedItem requestItem : requestedItems)
         {
             if (requestItem.isFile())
             {
-                leaves.add(requestItem.getStoreId());
+                leaves.add(new DmoStoreId(requestItem.getStoreId()));
             } else if (requestItem.filesOnly()) {
-                itemVOs.addAll(FILE_STORE_ACCESS.getFiles(requestItem.getStoreId(), -1, -1, null, null));
+                itemVOs.addAll(FILE_STORE_ACCESS.getFiles(new DmoStoreId(requestItem.getStoreId()), -1, -1, null, null));
                 
             } else
             {
-                recursiveGet(itemVOs, requestItem.getStoreId());
+                recursiveGet(itemVOs, new DmoStoreId(requestItem.getStoreId()));
             }
         }
         if (!leaves.isEmpty())
@@ -328,14 +330,14 @@ public class DownloadWorker
         return itemVOs;
     }
 
-    private static void recursiveGet(final List<ItemVO> itemVOs, final String folderId) throws StoreAccessException
+    private static void recursiveGet(final List<ItemVO> itemVOs, final DmoStoreId folderId) throws StoreAccessException
     {
         final List<ItemVO> children = FILE_STORE_ACCESS.getFilesAndFolders(folderId, -1, -1, null, null);
         for (final ItemVO itemVO : children)
         {
             if (itemVO instanceof FolderItemVO)
             {
-                recursiveGet(itemVOs, itemVO.getSid());
+                recursiveGet(itemVOs, new DmoStoreId(itemVO.getSid()));
             }
         }
         itemVOs.addAll(children);

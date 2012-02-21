@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import nl.knaw.dans.common.lang.RepositoryException;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.UnitOfWork;
 import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
 import nl.knaw.dans.common.lang.security.authz.AuthzStrategy;
@@ -47,12 +48,12 @@ public class ItemWorkDispatcher
         ingester.workAddDirectoryContents(parentContainer, rootFile, fileFilter);
     }
     
-    public void updateObjects(EasyUser sessionUser, Dataset dataset, List<String> sids, UpdateInfo updateInfo, ItemFilters itemFilters, UnitOfWork uow, WorkListener...workListeners)
+    public void updateObjects(EasyUser sessionUser, Dataset dataset, List<DmoStoreId> dmoStoreIds, UpdateInfo updateInfo, ItemFilters itemFilters, UnitOfWork uow, WorkListener...workListeners)
         throws ServiceException
     {
         ItemWorker worker = new ItemWorker(uow);
         worker.addWorkListeners(workListeners);
-        worker.workUpdateObjects(dataset, sids, updateInfo, itemFilters);
+        worker.workUpdateObjects(dataset, dmoStoreIds, updateInfo, itemFilters);
     }   
     
     public void updateFileItemMetadata(EasyUser sessionUser, Dataset dataset, ResourceMetadataList resourceMetadataList, AdditionalMetadataUpdateStrategy strategy,
@@ -70,7 +71,7 @@ public class ItemWorkDispatcher
         worker.saveDescriptiveMetadata(dataset, descriptiveMetadataMap);
     }
     
-    public FileItem getFileItem(EasyUser sessionUser, Dataset dataset, String fileItemId) throws ServiceException
+    public FileItem getFileItem(EasyUser sessionUser, Dataset dataset, DmoStoreId fileItemId) throws ServiceException
     {
         FileItem fileItem = getFileItem(dataset, fileItemId);
         String name = fileItem.getAutzStrategyName();
@@ -79,7 +80,7 @@ public class ItemWorkDispatcher
         return fileItem;
     }
     
-    public FolderItem getFolderItem(EasyUser sessionUser, Dataset dataset, String folderItemId) throws ServiceException
+    public FolderItem getFolderItem(EasyUser sessionUser, Dataset dataset, DmoStoreId folderItemId) throws ServiceException
     {
         FolderItem folderItem = getFolderItem(dataset, folderItemId);
         
@@ -91,7 +92,7 @@ public class ItemWorkDispatcher
         FileItemVO fileItemVO;
         try
         {
-            fileItemVO = Data.getFileStoreAccess().findFileByPath(dataset.getStoreId(), path);
+            fileItemVO = Data.getFileStoreAccess().findFileByPath(dataset.getDmoStoreId(), path);
         }
         catch (StoreAccessException e)
         {
@@ -101,7 +102,7 @@ public class ItemWorkDispatcher
         {
             throw new ObjectNotAvailableException("FileItem not found: datasetId=" + dataset.getStoreId() + " path=" + path);
         }
-        return getFileItem(sessionUser, dataset, fileItemVO.getSid());
+        return getFileItem(sessionUser, dataset, new DmoStoreId(fileItemVO.getSid()));
     }
 
     public FolderItem getFolderItemByPath(EasyUser sessionUser, Dataset dataset, String path) throws ObjectNotAvailableException, ServiceException
@@ -109,7 +110,7 @@ public class ItemWorkDispatcher
         FolderItemVO folderItemVO;
         try
         {
-            folderItemVO = Data.getFileStoreAccess().findFolderByPath(dataset.getStoreId(), path);
+            folderItemVO = Data.getFileStoreAccess().findFolderByPath(dataset.getDmoStoreId(), path);
         }
         catch (StoreAccessException e)
         {
@@ -119,7 +120,7 @@ public class ItemWorkDispatcher
         {
             throw new ObjectNotAvailableException("FileItem not found: datasetId=" + dataset.getStoreId() + " path=" + path);
         }
-        return getFolderItem(sessionUser, dataset, folderItemVO.getSid());
+        return getFolderItem(sessionUser, dataset, new DmoStoreId(folderItemVO.getSid()));
     }
 
     
@@ -130,23 +131,23 @@ public class ItemWorkDispatcher
     
     public URL getFileContentURL(EasyUser sessionUser, Dataset dataset, FileItem fileItem) throws ServiceException
     {
-        URL url = Data.getEasyStore().getFileURL(fileItem.getStoreId());
+        URL url = Data.getEasyStore().getFileURL(fileItem.getDmoStoreId());
         return url;
     }
 
-    public URL getDescriptiveMetadataURL(EasyUser sessionUser, Dataset dataset, String fileItemId) throws ServiceException
+    public URL getDescriptiveMetadataURL(EasyUser sessionUser, Dataset dataset, DmoStoreId fileItemId) throws ServiceException
     {
         URL url = Data.getEasyStore().getDescriptiveMetadataURL(fileItemId);
         return url;
     }
     
-    private FileItem getFileItem(Dataset dataset, String fileItemId) throws ObjectNotAvailableException, ServiceException
+    private FileItem getFileItem(Dataset dataset, DmoStoreId fileItemId) throws ObjectNotAvailableException, ServiceException
     {
         FileItem fileItem;
         try
         {
             fileItem = (FileItem) Data.getEasyStore().retrieve(fileItemId);
-            if (!fileItem.getFileItemMetadata().getDatasetId().equals(dataset.getStoreId()))
+            if (!fileItem.getFileItemMetadata().getDatasetDmoStoreId().equals(dataset.getStoreId()))
             {
                 throw new ObjectNotAvailableException("FileItem '" + fileItemId + "' does not belong to dataset '" + dataset.getStoreId() + "'");
             }                    
@@ -162,7 +163,7 @@ public class ItemWorkDispatcher
         return fileItem;
     }
     
-    private FolderItem getFolderItem(Dataset dataset, String folderItemId) throws ObjectNotAvailableException, ServiceException
+    private FolderItem getFolderItem(Dataset dataset, DmoStoreId folderItemId) throws ObjectNotAvailableException, ServiceException
     {
         FolderItem folderItem;
         try

@@ -26,6 +26,7 @@ import nl.knaw.dans.common.lang.mail.MailComposer;
 import nl.knaw.dans.common.lang.mail.MailComposerException;
 import nl.knaw.dans.common.lang.pdf.PdfPageLayouter;
 import nl.knaw.dans.common.lang.pdf.PdfPageLayouter.HeaderImageException;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.StoreAccessException;
@@ -228,7 +229,7 @@ public class LicenseComposer
     private void foramtUploadedFileNames(final Document document) throws DocumentException,
             LicenseComposerException
     {
-        final List<String> fileNames = getDatasetFileNames(dataset.getStoreId());
+        final List<String> fileNames = getDatasetFileNames(dataset.getDmoStoreId());
         if (fileNames == null || fileNames.size() == 0)
         {
             document.add(new Paragraph("No uploaded files."));
@@ -379,7 +380,7 @@ public class LicenseComposer
             try
             {
                 string.append(", ");
-                string.append(disciplineService.getDisciplineById(sid).getName());
+                string.append(disciplineService.getDisciplineById(new DmoStoreId(sid)).getName());
             }
             catch (final ObjectNotFoundException e)
             {
@@ -437,7 +438,7 @@ public class LicenseComposer
         return styles;
     }
 
-    private static List<String> getDatasetFileNames(final String sid) throws LicenseComposerException
+    private static List<String> getDatasetFileNames(final DmoStoreId sid) throws LicenseComposerException
     {
         try
         {

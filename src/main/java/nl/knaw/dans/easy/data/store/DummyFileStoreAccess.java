@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemAccessibleTo;
@@ -178,13 +179,13 @@ public class DummyFileStoreAccess implements FileStoreAccess
         items.put(folderSid, folder);
     }
 
-    public List<ItemVO> getFilesAndFolders(final String parentSid, final Integer limit,//
+    public List<ItemVO> getFilesAndFolders(final DmoStoreId parentSid, final Integer limit,//
             final Integer offset, final ItemOrder order, final ItemFilters filters)
             throws StoreAccessException
     {
         if (limit > 0 || offset > 0 || order != null)
             throw new StoreAccessException("order and pages not implemented yet.");
-        if (!compositions.containsKey(parentSid))
+        if (!compositions.containsKey(parentSid.getStoreId()))
             throw new StoreAccessException(parentSid + " not found.");
 
         List<ItemVO> result = new ArrayList<ItemVO>();
@@ -224,13 +225,13 @@ public class DummyFileStoreAccess implements FileStoreAccess
         return result;
     }
 
-    public List<String> getFilenames(final String parentSid, final boolean recursive)
+    public List<String> getFilenames(final DmoStoreId parentSid, final boolean recursive)
             throws StoreAccessException
     {
         return getFilenames(parentSid, recursive, "");
     }
 
-    private List<String> getFilenames(final String parentSid, final boolean recursive,
+    private List<String> getFilenames(final DmoStoreId parentSid, final boolean recursive,
             final String prefix) throws StoreAccessException
     {
         final List<String> result = new ArrayList<String>();
@@ -247,7 +248,7 @@ public class DummyFileStoreAccess implements FileStoreAccess
             if (compositions.get(folder.getSid()).size() > 0)
             {
 
-                result.addAll(getFilenames(folder.getSid(), recursive, prefix + folder.getName()
+                result.addAll(getFilenames(new DmoStoreId(folder.getSid()), recursive, prefix + folder.getName()
                         + "\\"));
             }
             else
@@ -257,13 +258,13 @@ public class DummyFileStoreAccess implements FileStoreAccess
         return result;
     }
 
-    public boolean hasChildItems(final String parentSid)
+    public boolean hasChildItems(final DmoStoreId parentSid)
     {
         final FolderItemVO folder = (FolderItemVO) items.get(parentSid);
         return ((folder).getChildItemCount() > 0);
     }
 
-    public List<FileItemVO> getFiles(final String parentSid, final Integer limit,
+    public List<FileItemVO> getFiles(final DmoStoreId parentSid, final Integer limit,
             final Integer offset, final ItemOrder order, final ItemFilters filters)
             throws StoreAccessException
     {
@@ -283,7 +284,7 @@ public class DummyFileStoreAccess implements FileStoreAccess
      * Returns cloned objects, so that the internal composition cannot get changed by external
      * parties.
      */
-    public List<FolderItemVO> getFolders(final String parentSid, final Integer limit,
+    public List<FolderItemVO> getFolders(final DmoStoreId parentSid, final Integer limit,
             final Integer offset, final ItemOrder order, final ItemFilters filters)
             throws StoreAccessException
     {
@@ -305,7 +306,7 @@ public class DummyFileStoreAccess implements FileStoreAccess
         return result;
     }
 
-    public List<FileItemVO> getFiles(final String parentSid, final Integer limit,
+    public List<FileItemVO> getFiles(final DmoStoreId parentSid, final Integer limit,
             final Integer offset, final ItemOrder order, final ItemFilters filter,
             final EasyUser sessionUser) throws ServiceException
     {
@@ -319,7 +320,7 @@ public class DummyFileStoreAccess implements FileStoreAccess
         }
     }
 
-    public URLConnection getFileURLConnection(final String sid) throws StoreAccessException
+    public URLConnection getFileURLConnection(final DmoStoreId sid) throws StoreAccessException
     {
         throw new RuntimeException("method not implemented");
     }
@@ -330,60 +331,60 @@ public class DummyFileStoreAccess implements FileStoreAccess
         throw new RuntimeException("method not implemented");
     }
 
-    public FileItemVO findFileById(String sid)
+    public FileItemVO findFileById(DmoStoreId sid)
     {
         throw new UnsupportedOperationException("This is a dummy, dummy.");
     }
 
-    public List<FileItemVO> findFilesById(Collection<String> sids) throws StoreAccessException
+    public List<FileItemVO> findFilesById(Collection<DmoStoreId> sids) throws StoreAccessException
     {
         throw new UnsupportedOperationException("This is a dummy, dummy.");
     }
 
-    public List<ItemVO> findFilesAndFoldersById(Collection<String> sids) throws StoreAccessException
+    public List<ItemVO> findFilesAndFoldersById(Collection<DmoStoreId> sids) throws StoreAccessException
     {
         // TODO Auto-generated method stub
         return null;
     }
 
-    public FolderItemVO findFolderById(String sid) throws StoreAccessException
+    public FolderItemVO findFolderById(DmoStoreId sid) throws StoreAccessException
     {
         // TODO Auto-generated method stub
         return null;
     }
 
-    public List<FolderItemVO> findFoldersById(Collection<String> sids) throws StoreAccessException
+    public List<FolderItemVO> findFoldersById(Collection<DmoStoreId> sids) throws StoreAccessException
     {
         // TODO Auto-generated method stub
         return null;
     }
 
-    public URL getFileURL(String sid)
+    public URL getFileURL(DmoStoreId sid)
     {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Map<String, String> getAllFiles(String datasetSid) throws StoreAccessException
+    public Map<String, String> getAllFiles(DmoStoreId datasetSid) throws StoreAccessException
     {
         throw new UnsupportedOperationException("This is a dummy, dummy.");
     }
 
     @Override
-    public FileItemVO findFileByPath(String datasetSid, String relativePath) throws StoreAccessException
+    public FileItemVO findFileByPath(DmoStoreId datasetSid, String relativePath) throws StoreAccessException
     {
         throw new UnsupportedOperationException("This is a dummy, dummy.");
     }
 
     @Override
-    public FolderItemVO findFolderByPath(String datasetSid, String relativePath) throws StoreAccessException
+    public FolderItemVO findFolderByPath(DmoStoreId datasetSid, String relativePath) throws StoreAccessException
     {
         throw new UnsupportedOperationException("This is a dummy, dummy.");
     }
 
     @Override
-    public String getDatasetId(String storeId) throws StoreException
+    public String getDatasetId(DmoStoreId storeId) throws StoreException
     {
         // TODO Auto-generated method stub
         return null;

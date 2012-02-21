@@ -5,6 +5,7 @@ import java.util.Set;
 
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.DmoNamespace;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.collections.AbstractDmoCollection;
 import nl.knaw.dans.common.lang.repo.collections.DmoCollectionMember;
 import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
@@ -20,7 +21,11 @@ public class DisciplineCollectionImpl extends AbstractDmoCollection implements
 
 	private static final long serialVersionUID = -382996789753365029L;
 
+	private static final DmoStoreId EASY_DISCIPLINE_ROOT_DMO_STORE_ID = new DmoStoreId(EASY_DISCIPLINE_ROOT);
+
 	private static final String DISCIPLINE_COLLECTION_SID = "dataset-item-collection:root";
+	
+	private static final DmoStoreId DISCIPLINE_COLLECTION_DMO_STORE_ID = new DmoStoreId(DISCIPLINE_COLLECTION_SID);
 
 	private static Set<Class<? extends DmoCollectionMember>> classes;
 	 
@@ -78,7 +83,7 @@ public class DisciplineCollectionImpl extends AbstractDmoCollection implements
 		    // 
 			if (rootDiscipline == null || rootDiscipline.isInvalidated())
 			{	
-				rootDiscipline = (DisciplineContainer) Data.getEasyStore().retrieve(EASY_DISCIPLINE_ROOT);
+				rootDiscipline = (DisciplineContainer) Data.getEasyStore().retrieve(EASY_DISCIPLINE_ROOT_DMO_STORE_ID);
 			}
 			return rootDiscipline;
 		}
@@ -95,7 +100,7 @@ public class DisciplineCollectionImpl extends AbstractDmoCollection implements
 	/* (non-Javadoc)
 	 * @see nl.knaw.dans.easy.domain.model.disciplinecollection.IDisciplineCollection#getDisciplineById(java.lang.String)
 	 */
-	public DisciplineContainer getDisciplineBySid(String disciplineId) throws ObjectNotFoundException, DomainException
+	public DisciplineContainer getDisciplineBySid(DmoStoreId disciplineId) throws ObjectNotFoundException, DomainException
 	{
 		DisciplineContainer d = null;
 		d = getSubDisciplineById(getRootDiscipline(), disciplineId);
@@ -105,11 +110,11 @@ public class DisciplineCollectionImpl extends AbstractDmoCollection implements
 	}
 
 	private DisciplineContainer getSubDisciplineById(DisciplineContainer discipline,
-				String disciplineId) throws DomainException 
+				DmoStoreId disciplineId) throws DomainException 
 	{
 		for (DisciplineContainer subDiscipline : discipline.getSubDisciplines() )
 		{
-			if (subDiscipline.getStoreId().equals(disciplineId))
+			if (subDiscipline.getDmoStoreId().equals(disciplineId))
 				return subDiscipline;
 			DisciplineContainer result = getSubDisciplineById(subDiscipline, disciplineId);
 			if (result != null)

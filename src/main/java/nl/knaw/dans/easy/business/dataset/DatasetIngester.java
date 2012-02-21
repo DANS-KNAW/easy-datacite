@@ -5,6 +5,7 @@ import java.util.List;
 
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.UnitOfWork;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.business.item.ItemWorker;
@@ -69,7 +70,7 @@ public class DatasetIngester implements SubmissionProcessor
                 UpdateInfo updateInfo = new UpdateInfo();
                 updateInfo.updateAccessibleTo(at);
                 updateInfo.updateVisibleTo(vt);
-                List<String> sids = Arrays.asList(dataset.getStoreId());
+                List<DmoStoreId> sids = Arrays.asList(dataset.getDmoStoreId());
                 ItemWorkerProxy proxy = new ItemWorkerProxy(uow);
                 proxy.updateObjects(dataset, sids, updateInfo, null);
             }
@@ -97,7 +98,7 @@ public class DatasetIngester implements SubmissionProcessor
             super(uow);
         }
         
-        protected void updateObjects(Dataset dataset, List<String> sids, UpdateInfo updateInfo,
+        protected void updateObjects(Dataset dataset, List<DmoStoreId> sids, UpdateInfo updateInfo,
                 ItemFilters itemFilters) throws ServiceException
         {
             super.workUpdateObjects(dataset, sids, updateInfo, itemFilters);

@@ -23,9 +23,9 @@ public class EasyFileItemAutzStrategyTest
     public void timeTest()
     {
         EasyUser user = getAnonymousUser();
-        Dataset dataset = new DatasetImpl("foo-dataset");
-        FileItem fileItem = new FileItemImpl("foo-fileItem");
-        fileItem.setDatasetId(dataset.getStoreId());
+        Dataset dataset = new DatasetImpl("foo:dataset");
+        FileItem fileItem = new FileItemImpl("foo:fileItem");
+        fileItem.setDatasetId(dataset.getDmoStoreId());
         
         EasyFileItemAuthzStrategy strategy = new EasyFileItemAuthzStrategy(user, fileItem, dataset);
         long start = System.currentTimeMillis();

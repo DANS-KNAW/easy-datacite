@@ -7,6 +7,7 @@ import java.util.List;
 
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.security.authz.AuthzMessage;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.DatasetItemContainerMetadata;
@@ -29,9 +30,9 @@ public class EasyItemContainerAuthzStrategyTest
         accessCategories.add(AccessCategory.ANONYMOUS_ACCESS);
         
         //constructor
-        EasyMock.expect(dataset.getStoreId()).andReturn("dataset:1");
+        EasyMock.expect(dataset.getDmoStoreId()).andReturn(new DmoStoreId("dataset:1"));
         EasyMock.expect(dataset.getDatasetItemContainerMetadata()).andReturn(icmd).times(2);
-        EasyMock.expect(icmd.getDatasetId()).andReturn("dataset:1");
+        EasyMock.expect(icmd.getDatasetDmoStoreId()).andReturn(new DmoStoreId("dataset:1"));
         
         //isEnableAllowed?
         EasyMock.expect(dataset.getAdministrativeState()).andReturn(DatasetState.PUBLISHED);
@@ -65,9 +66,9 @@ public class EasyItemContainerAuthzStrategyTest
         accessCategories.add(AccessCategory.OPEN_ACCESS);
         
         //constructor
-        EasyMock.expect(dataset.getStoreId()).andReturn("dataset:1");
+        EasyMock.expect(dataset.getDmoStoreId()).andReturn(new DmoStoreId("dataset:1"));
         EasyMock.expect(dataset.getDatasetItemContainerMetadata()).andReturn(icmd).times(2);
-        EasyMock.expect(icmd.getDatasetId()).andReturn("dataset:1");
+        EasyMock.expect(icmd.getDatasetDmoStoreId()).andReturn(new DmoStoreId("dataset:1"));
         
         //isEnableAllowed?
         EasyMock.expect(dataset.getAdministrativeState()).andReturn(DatasetState.PUBLISHED);

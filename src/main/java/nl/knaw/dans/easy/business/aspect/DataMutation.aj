@@ -1,5 +1,6 @@
 package nl.knaw.dans.easy.business.aspect;
 
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.jumpoff.JumpoffDmo;
 import nl.knaw.dans.easy.data.audit.Audit;
 import nl.knaw.dans.easy.data.audit.DatasetAuditRecord;
@@ -27,7 +28,7 @@ public aspect DataMutation
         execution(@MutatesJumpoffDmo * *(..))
         && args(sessionUser, jumpoffDmo, ..);
     
-    pointcut jumpoffDmoMutation2(EasyUser sessionUser, String storeId) :
+    pointcut jumpoffDmoMutation2(EasyUser sessionUser, DmoStoreId storeId) :
         execution(@MutatesJumpoffDmo * *(..))
         && args(sessionUser, storeId, ..);
     
@@ -36,7 +37,7 @@ public aspect DataMutation
     pointcut invalidMutatesUser() : execution(@MutatesUser * *(!EasyUser, ..));
     
     pointcut invalidMutatesJumpoffDmo() : execution(@MutatesJumpoffDmo * *(..)) 
-        && !(args(EasyUser, JumpoffDmo, ..) || args(EasyUser, String, ..));
+        && !(args(EasyUser, JumpoffDmo, ..) || args(EasyUser, DmoStoreId, ..));
     
     declare error : invalidMutatesDataset() : "Invalid use of annotation @MutatesDataset. "
         + "Expected parameters: 0. EasyUser, 1. Dataset, ..";
@@ -59,7 +60,7 @@ public aspect DataMutation
         Audit.storeAuditRecord(new JumpoffAuditRecord(sessionUser, jumpoffDmo, thisJoinPoint));
     }
     
-    before(EasyUser sessionUser, String storeId) : jumpoffDmoMutation2(sessionUser, storeId)
+    before(EasyUser sessionUser, DmoStoreId storeId) : jumpoffDmoMutation2(sessionUser, storeId)
     {
         Audit.storeAuditRecord(new JumpoffAuditRecord(sessionUser, storeId, thisJoinPoint));
     }

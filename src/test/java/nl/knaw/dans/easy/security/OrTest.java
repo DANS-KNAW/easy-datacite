@@ -31,20 +31,20 @@ public class OrTest
         SecurityOfficer or = new Or(
                 new DatasetStateCheck(DatasetState.DELETED),
                 new DmoNamespaceCheck(Dataset.NAMESPACE));
-        assertTrue(or.getProposition().contains("[Dataset state is DELETED] OR [storeId starts with easy-dataset]"));
+        assertTrue(or.getProposition().contains("[Dataset state is DELETED] OR [storeId is within namespace easy-dataset]"));
         
         or = new Or(
                 new DatasetStateCheck(DatasetState.DELETED),
                 new DmoNamespaceCheck(Dataset.NAMESPACE),
                 new EmbargoFreeCheck());
-        assertTrue(or.getProposition().contains("[Dataset state is DELETED] OR [storeId starts with easy-dataset]"));
+        assertTrue(or.getProposition().contains("[Dataset state is DELETED] OR [storeId is within namespace easy-dataset]"));
         
         or = new Or(
                 new DatasetStateCheck(DatasetState.DELETED),
                 new DmoNamespaceCheck(Dataset.NAMESPACE),
                 new EmbargoFreeCheck(),
                 new FileItemContentsAccessCheck());
-        assertTrue(or.getProposition().contains("[Dataset state is DELETED] OR [storeId starts with easy-dataset]"));
+        assertTrue(or.getProposition().contains("[Dataset state is DELETED] OR [storeId is within namespace easy-dataset]"));
         
         or = new Or(
                 new DatasetStateCheck(DatasetState.DELETED),
@@ -52,7 +52,7 @@ public class OrTest
                 new EmbargoFreeCheck(),
                 new FileItemContentsAccessCheck(),
                 new HasRoleCheck(Role.ADMIN));
-        assertTrue(or.getProposition().contains("[Dataset state is DELETED] OR [storeId starts with easy-dataset]"));
+        assertTrue(or.getProposition().contains("[Dataset state is DELETED] OR [storeId is within namespace easy-dataset]"));
     }
 
 }

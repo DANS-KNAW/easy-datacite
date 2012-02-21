@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import nl.knaw.dans.common.lang.ApplicationException;
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.UnitOfWork;
 import nl.knaw.dans.common.lang.repo.exception.UnitOfWorkInterruptException;
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
@@ -65,7 +66,7 @@ public class FileItemMetadataUpdateWorker extends ItemWorker
                 }
                 else
                 {
-                    FileItem fileItem = (FileItem) uow.retrieveObject(fileItemId);
+                    FileItem fileItem = (FileItem) uow.retrieveObject(new DmoStoreId(fileItemId));
                     updateMetadata(fileItem, dataset, rmd);
                 }
             }
@@ -168,7 +169,7 @@ public class FileItemMetadataUpdateWorker extends ItemWorker
         String path = rmd.getPath();
         try
         {
-            FileItemVO fileItemVO = Data.getFileStoreAccess().findFileByPath(dataset.getStoreId(), path);
+            FileItemVO fileItemVO = Data.getFileStoreAccess().findFileByPath(dataset.getDmoStoreId(), path);
             fileItemId = fileItemVO != null ? fileItemVO.getSid() : null;
         }
         catch (StoreAccessException e)

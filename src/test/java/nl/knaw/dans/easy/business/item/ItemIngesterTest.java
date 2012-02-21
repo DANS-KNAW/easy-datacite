@@ -13,9 +13,11 @@ import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.repo.AbstractDmoFactory;
 import nl.knaw.dans.common.lang.repo.DataModelObject;
 import nl.knaw.dans.common.lang.repo.DmoNamespace;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.EasyUnitOfWork;
 import nl.knaw.dans.easy.data.store.FileStoreAccess;
+import nl.knaw.dans.easy.domain.dataset.FileItemImpl;
 import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
@@ -110,6 +112,7 @@ public class ItemIngesterTest
     private void datasetHasStoreId(String id)
     {
         expect(datasetMock.getStoreId()).andReturn(id).anyTimes();
+        expect(datasetMock.getDmoStoreId()).andReturn(new DmoStoreId(id)).anyTimes();
     }
     
     private void datasetHasAccessCategory(AccessCategory category)
@@ -146,6 +149,7 @@ public class ItemIngesterTest
 
     private void parentContainerHasStoreId()
     {
+        expect(parentContainerMock.getDmoStoreId()).andReturn(new DmoStoreId("easy-folder:1")).anyTimes();
         expect(parentContainerMock.getStoreId()).andReturn("easy-folder:1").anyTimes();
     }
 
@@ -162,7 +166,8 @@ public class ItemIngesterTest
     private void noFilesAndFoldersUnderParentContainer() throws Exception
     {
         final List<ItemVO> empty = new LinkedList<ItemVO>();
-        expect(fileStoreAccessMock.getFilesAndFolders("easy-folder:1", -1, -1, null, null)).andReturn(empty);
+        DmoStoreId folderId = new DmoStoreId("easy-folder:1");
+        expect(fileStoreAccessMock.getFilesAndFolders(folderId, -1, -1, null, null)).andReturn(empty);
     }
 
     private void noFilesUnderRootFolder() throws Exception
@@ -202,7 +207,7 @@ public class ItemIngesterTest
         
         fileItemMock.setFile(fileMock);
         fileItemMock.setCreatorRole(CreatorRole.DEPOSITOR);
-        fileItemMock.setDatasetId("easy-dataset:1");
+        fileItemMock.setDatasetId(new DmoStoreId("easy-dataset:1"));
         fileItemMock.setOwnerId("normal");
         fileItemMock.setParent(parentContainerMock);
         fileItemMock.setVisibleTo(VisibleTo.ANONYMOUS);

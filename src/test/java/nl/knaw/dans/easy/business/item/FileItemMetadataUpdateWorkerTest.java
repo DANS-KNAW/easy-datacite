@@ -2,6 +2,7 @@ package nl.knaw.dans.easy.business.item;
 
 import static org.junit.Assert.*;
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.UnitOfWork;
 import nl.knaw.dans.easy.business.md.amd.AdditionalMetadataUpdateStrategy;
 import nl.knaw.dans.easy.business.md.amd.ElementnameUpdateStrategy;
@@ -57,15 +58,17 @@ public class FileItemMetadataUpdateWorkerTest
                 new String[]{"element3", "value 3"});
         
         FileItemVO fileItemVO = new FileItemVO();
-        fileItemVO.setSid("fileItemId");
+        fileItemVO.setSid("easy:fileItemId");
         AdditionalMetadata originalAmd = new AdditionalMetadata();
         
+        DmoStoreId datasetId = new DmoStoreId("easy:dataset");
+        DmoStoreId fileItemId = new DmoStoreId("easy:fileItemId");
         EasyMock.reset(MOCK_UOW, MOCK_DATASET, MOCK_FSACCES, MOCK_FILE_ITEM);
         MOCK_UOW.attach(MOCK_DATASET);
-        EasyMock.expect(MOCK_DATASET.getStoreId()).andReturn("datasetId").anyTimes();
-        EasyMock.expect(MOCK_FSACCES.findFileByPath("datasetId", path)).andReturn(fileItemVO);
-        EasyMock.expect(MOCK_UOW.retrieveObject("fileItemId")).andReturn(MOCK_FILE_ITEM);
-        EasyMock.expect(MOCK_FILE_ITEM.getDatasetId()).andReturn("datasetId");
+        EasyMock.expect(MOCK_DATASET.getDmoStoreId()).andReturn(datasetId).anyTimes();
+        EasyMock.expect(MOCK_FSACCES.findFileByPath(datasetId, path)).andReturn(fileItemVO);
+        EasyMock.expect(MOCK_UOW.retrieveObject(fileItemId)).andReturn(MOCK_FILE_ITEM);
+        EasyMock.expect(MOCK_FILE_ITEM.getDatasetId()).andReturn(datasetId);
         MOCK_FILE_ITEM.setVisibleTo(VisibleTo.ANONYMOUS);
         MOCK_FILE_ITEM.setAccessibleTo(AccessibleTo.RESTRICTED_GROUP);
         EasyMock.expect(MOCK_FILE_ITEM.getAdditionalMetadata()).andReturn(originalAmd);

@@ -4,6 +4,7 @@ import java.util.List;
 
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.DataModelObject;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.UnitOfWork;
 import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
 import nl.knaw.dans.common.lang.repo.exception.UnitOfWorkInterruptException;
@@ -42,16 +43,16 @@ public class ItemWorker extends AbstractWorker
         super(uow);
     }
 
-    protected void workUpdateObjects(Dataset dataset, List<String> sids, UpdateInfo updateInfo, ItemFilters itemFilters) throws ServiceException
+    protected void workUpdateObjects(Dataset dataset, List<DmoStoreId> dmoStoreIds, UpdateInfo updateInfo, ItemFilters itemFilters) throws ServiceException
     {
 
         UnitOfWork uow = getUnitOfWork();
 
         try
         {
-            for (String storeId : sids)
+            for (DmoStoreId sdmoStoreId : dmoStoreIds)
             {
-                DataModelObject dmo = uow.retrieveObject(storeId);
+                DataModelObject dmo = uow.retrieveObject(sdmoStoreId);
                 checkIntegrity(dataset, dmo);
                 update(dmo, updateInfo, itemFilters);
             }
@@ -65,7 +66,7 @@ public class ItemWorker extends AbstractWorker
                 logger.debug("\n" + "---------------------------------------------------------------------\n"
                         + "------------------------- UPDATING OBJECTS --------------------------\n"
                         + "---------------------------------------------------------------------\n" + updateInfo.getAction() + "\n"
-                        + "Objects selected for update=(" + StringUtil.commaSeparatedList(sids) + ");\n"
+                        + "Objects selected for update=(" + StringUtil.commaSeparatedList(dmoStoreIds) + ");\n"
                         + "---------------------------------------------------------------------\n");
 
                 for (DataModelObject dmo : uow.getAttachedObjects())
@@ -103,7 +104,7 @@ public class ItemWorker extends AbstractWorker
                             updateLine += "accessibleTo (" + updateInfo.getAccessibleTo() + "); ";
                         }
                     }
-                    if (updateInfo.getActions().contains(UpdateInfo.Action.RENAME) && sids.contains(dmo.getStoreId()))
+                    if (updateInfo.getActions().contains(UpdateInfo.Action.RENAME) && dmoStoreIds.contains(dmo.getDmoStoreId()))
                     {
                         updateLine += "renaming " + dmo.getStoreId() + " to " + updateInfo.getName();
                     }
@@ -148,20 +149,20 @@ public class ItemWorker extends AbstractWorker
 
     protected void checkIntegrity(Dataset dataset, DataModelObject dmo)
     {
-        String datasetId;
+        DmoStoreId datasetId;
         if (dmo instanceof DatasetItem)
         {
             datasetId = ((DatasetItem) dmo).getDatasetId();
         }
         else if (dmo instanceof Dataset)
         {
-            datasetId = ((Dataset) dmo).getStoreId();
+            datasetId = ((Dataset) dmo).getDmoStoreId();
         }
         else
         {
             throw new ApplicationException("Unknown DataModelObject: " + dmo);
         }
-        if (!dataset.getStoreId().equals(datasetId))
+        if (!dataset.getDmoStoreId().equals(datasetId))
         {
             throw new ApplicationException("The DataModelObject with id " + dmo.getStoreId() + " does not belong to the dataset " + dataset.getStoreId());
         }
@@ -194,10 +195,10 @@ public class ItemWorker extends AbstractWorker
         }
         if (updateInfo.hasPropagatingUpdates())
         {
-            List<ItemVO> itemVOs = Data.getFileStoreAccess().getFilesAndFolders(itemContainer.getStoreId(), -1, -1, null, itemFilters);
+            List<ItemVO> itemVOs = Data.getFileStoreAccess().getFilesAndFolders(itemContainer.getDmoStoreId(), -1, -1, null, itemFilters);
             for (ItemVO itemVO : itemVOs)
             {
-                DatasetItem kidItem = (DatasetItem) getUnitOfWork().retrieveObject(itemVO.getSid());
+                DatasetItem kidItem = (DatasetItem) getUnitOfWork().retrieveObject(new DmoStoreId(itemVO.getSid()));
                 update(kidItem, updateInfo, itemFilters);
             }
         }

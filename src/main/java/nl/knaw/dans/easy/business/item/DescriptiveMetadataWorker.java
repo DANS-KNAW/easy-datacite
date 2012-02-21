@@ -8,6 +8,7 @@ import java.util.Set;
 import org.dom4j.Element;
 
 import nl.knaw.dans.common.lang.RepositoryException;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.UnitOfWork;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.data.Data;
@@ -27,7 +28,7 @@ public class DescriptiveMetadataWorker extends AbstractWorker
     protected void saveDescriptiveMetadata(final Dataset dataset, final Map<String, Element> descriptiveMetadataMap) throws ServiceException
     {
         final Set<String> filesToChange = new HashSet<String>(descriptiveMetadataMap.keySet());
-        final Map<String, String> files = getAllFiles(dataset.getStoreId());
+        final Map<String, String> files = getAllFiles(dataset.getDmoStoreId());
         for (final String fileStoreId : files.keySet())
         {
             final String fileName = files.get(fileStoreId);
@@ -35,7 +36,7 @@ public class DescriptiveMetadataWorker extends AbstractWorker
             {
                 try
                 {
-                    final FileItem fileItem = (FileItem) getUnitOfWork().retrieveObject(fileStoreId);
+                    final FileItem fileItem = (FileItem) getUnitOfWork().retrieveObject(new DmoStoreId(fileStoreId));
                     fileItem.setDescriptiveMetadata(descriptiveMetadataMap.get(fileName));
                 }
                 catch (final RepositoryException e)
@@ -55,7 +56,7 @@ public class DescriptiveMetadataWorker extends AbstractWorker
         }
     }
 
-    private Map<String, String> getAllFiles(final String datasetStoreId) throws ServiceException
+    private Map<String, String> getAllFiles(final DmoStoreId datasetStoreId) throws ServiceException
     {
         try
         {

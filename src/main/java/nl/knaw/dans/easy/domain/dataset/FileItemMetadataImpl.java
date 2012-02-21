@@ -2,6 +2,7 @@ package nl.knaw.dans.easy.domain.dataset;
 
 import java.net.URI;
 
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.FileItemMetadata;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
@@ -35,7 +36,7 @@ public class FileItemMetadataImpl extends AbstractItemMetadataImpl<FileItemMetad
         super();
     }
     
-    public FileItemMetadataImpl(String sid)
+    public FileItemMetadataImpl(DmoStoreId sid)
     {
         super(sid);
     }

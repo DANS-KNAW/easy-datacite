@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.ItemOrder;
@@ -12,15 +13,15 @@ import nl.knaw.dans.easy.domain.dataset.item.filter.ItemFilters;
 
 public interface FileStoreAccess {
     
-    FileItemVO findFileById(String sid) throws StoreAccessException;
+    FileItemVO findFileById(DmoStoreId dmoStoreId) throws StoreAccessException;
     
-    FolderItemVO findFolderById(String sid) throws StoreAccessException;
+    FolderItemVO findFolderById(DmoStoreId dmoStoreId) throws StoreAccessException;
     
-    List<FileItemVO> findFilesById(Collection<String> sids) throws StoreAccessException;
+    List<FileItemVO> findFilesById(Collection<DmoStoreId> sids) throws StoreAccessException;
     
-    List<FolderItemVO> findFoldersById(Collection<String> sids) throws StoreAccessException;
+    List<FolderItemVO> findFoldersById(Collection<DmoStoreId> sids) throws StoreAccessException;
     
-    List<ItemVO> findFilesAndFoldersById(Collection<String> sids) throws StoreAccessException;
+    List<ItemVO> findFilesAndFoldersById(Collection<DmoStoreId> sids) throws StoreAccessException;
 
 	/**
 	 * Gets a list of files from a folder or dataset (based on parentSid).
@@ -38,7 +39,7 @@ public interface FileStoreAccess {
 	 * @throws StoreAccessException
 	 */
 	public List<FileItemVO> getFiles(
-			String parentSid, 
+			DmoStoreId parentSid, 
 			Integer limit, 
 			Integer offset, 
 			ItemOrder order, 
@@ -60,7 +61,7 @@ public interface FileStoreAccess {
 	 * @throws StoreAccessException
 	 */
 	public List<FolderItemVO> getFolders(
-			String parentSid, 
+			DmoStoreId parentSid, 
 			Integer limit, 
 			Integer offset, 
 			ItemOrder order, 
@@ -83,7 +84,7 @@ public interface FileStoreAccess {
 	 * @throws StoreAccessException
 	 */
 	public List<ItemVO> getFilesAndFolders(
-			String parentSid, 
+			DmoStoreId parentSid, 
 			Integer limit, 
 			Integer offset, 
 			ItemOrder order, 
@@ -101,7 +102,7 @@ public interface FileStoreAccess {
 	 * @return returns a list of filenames with their full path
 	 * @throws StoreException
 	 */
-	List<String> getFilenames(String parentSid, boolean recursive) throws StoreAccessException;
+	List<String> getFilenames(DmoStoreId parentSid, boolean recursive) throws StoreAccessException;
 
 	/**
 	 * Returns true when the item container contains one or more child items 
@@ -111,16 +112,16 @@ public interface FileStoreAccess {
 	 * @return true when the parentSid has a folder with name folderName 
 	 * @throws StoreException
 	 */
-    boolean hasChildItems(String parentSid) throws StoreAccessException;
+    boolean hasChildItems(DmoStoreId parentSid) throws StoreAccessException;
 
     /**
      * @return map with key=storeId and value=name pairs.
      */
-    Map<String, String> getAllFiles(String datasetStoreId) throws StoreAccessException;
+    Map<String, String> getAllFiles(DmoStoreId datasetStoreId) throws StoreAccessException;
 
-    FileItemVO findFileByPath(String datasetSid, String relativePath) throws StoreAccessException;
+    FileItemVO findFileByPath(DmoStoreId datasetSid, String relativePath) throws StoreAccessException;
     
-    FolderItemVO findFolderByPath(String datasetSid, String relativePath) throws StoreAccessException;
+    FolderItemVO findFolderByPath(DmoStoreId datasetSid, String relativePath) throws StoreAccessException;
     
     /**
      * Get the datasetId of the dataset the item with <code>storeId</code> belongs to.
@@ -128,5 +129,5 @@ public interface FileStoreAccess {
      * @return the datasetId or <code>null</code> if an object with <code>storeId</code> was not found
      * @throws StoreException wrapper for exceptions
      */
-    String getDatasetId(String storeId) throws StoreException;
+    String getDatasetId(DmoStoreId storeId) throws StoreException;
 }

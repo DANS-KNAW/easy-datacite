@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import nl.knaw.dans.common.jibx.JiBXObjectFactory;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.test.Tester;
 import nl.knaw.dans.common.lang.xml.Dom4jReader;
 import nl.knaw.dans.common.lang.xml.XMLException;
@@ -30,7 +31,8 @@ public class FileItemMetadataImplTest
     @Test
     public void serializeDeserializeEmpty() throws XMLException
     {
-        FileItemMetadata fimd = new FileItemMetadataImpl("foo:123");
+        DmoStoreId fileItemId = new DmoStoreId("foo:123");
+        FileItemMetadata fimd = new FileItemMetadataImpl(fileItemId);
         
         FileItemMetadata fimd2 = (FileItemMetadata) JiBXObjectFactory.unmarshal(FileItemMetadataImpl.class, fimd.asObjectXML());
         assertEquals(fimd.asXMLString(), fimd2.asXMLString());
@@ -43,12 +45,15 @@ public class FileItemMetadataImplTest
     @Test
     public void serializeDeserializeFull() throws Exception
     {
-        FileItemMetadataImpl fimd = new FileItemMetadataImpl("foo:123");
+        DmoStoreId fileItemId = new DmoStoreId("foo:123");
+        DmoStoreId datasetId = new DmoStoreId("dataset:123");
+        DmoStoreId folderId = new DmoStoreId("folder:123");
+        FileItemMetadataImpl fimd = new FileItemMetadataImpl(fileItemId);
         
-        fimd.setDatasetId("dataset:123");
+        fimd.setDatasetDmoStoreId(datasetId);
         fimd.setMimeType("foo/bar");
         fimd.setName("Testing the pasting");
-        fimd.setParentSid("folder:123");
+        fimd.setParentDmoStoreId(folderId);
         fimd.setSize(123L);
         fimd.setCreatorRole(CreatorRole.ARCHIVIST);
         fimd.setAccessibleTo(AccessibleTo.ANONYMOUS);
@@ -99,13 +104,17 @@ public class FileItemMetadataImplTest
         // - datasetId:java.lang.String
         // versionable:boolean --> leave it for the time being
         
-        FileItemMetadataImpl fimd = new FileItemMetadataImpl("foo:123");
+        DmoStoreId fileItemId = new DmoStoreId("foo:123");
+        DmoStoreId datasetId = new DmoStoreId("dataset:123");
+        DmoStoreId folderId = new DmoStoreId("folder:123");
+        
+        FileItemMetadataImpl fimd = new FileItemMetadataImpl(fileItemId);
         assertTrue(fimd.isDirty());
         
-        fimd.setDatasetId("dataset:123");
+        fimd.setDatasetDmoStoreId(datasetId);
         assertTrue(fimd.isDirty());
         fimd.setDirty(false);
-        fimd.setDatasetId("dataset:123");
+        fimd.setDatasetDmoStoreId(datasetId);
         assertFalse(fimd.isDirty());
         
         fimd.setMimeType("foo/bar");
@@ -126,10 +135,10 @@ public class FileItemMetadataImplTest
         assertTrue(fimd.isDirty());
         
         fimd.setDirty(false);
-        fimd.setParentSid("folder:123");
+        fimd.setParentDmoStoreId(folderId);
         assertTrue(fimd.isDirty());
         fimd.setDirty(false);
-        fimd.setParentSid("folder:123");
+        fimd.setParentDmoStoreId(folderId);
         assertFalse(fimd.isDirty());
         
         fimd.setSize(123L);

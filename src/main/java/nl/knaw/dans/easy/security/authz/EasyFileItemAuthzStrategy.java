@@ -41,7 +41,7 @@ public class EasyFileItemAuthzStrategy extends AbstractDatasetAutzStrategy
     {
         super.checkAttributes();
         if (fileItem == null) throw new IllegalArgumentException("Insufficient parameters: no fileItem");
-        if (!getDataset().getStoreId().equals(fileItem.getDatasetId()))
+        if (!getDataset().getDmoStoreId().equals(fileItem.getDatasetId()))
             throw new IllegalArgumentException("FileItem is not part of given dataset");
         
 //        if (!AUTHZ_STRATEGY_NAME.equals(fileItem.getAutzStrategyName()))

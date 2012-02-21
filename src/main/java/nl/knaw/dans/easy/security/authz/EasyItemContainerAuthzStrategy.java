@@ -1,6 +1,7 @@
 package nl.knaw.dans.easy.security.authz;
 
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.user.User;
 import nl.knaw.dans.easy.domain.model.DatasetItemContainer;
 
@@ -42,9 +43,9 @@ public class EasyItemContainerAuthzStrategy extends AbstractDatasetAutzStrategy
     {
         super.checkAttributes();
         if (itemContainer == null) throw new IllegalArgumentException("Insufficient parameters: no itemContainer");
-        String datasetId = getDataset().getStoreId();
-        if (!(datasetId.equals(itemContainer.getDatasetItemContainerMetadata().getDatasetId())
-              || datasetId.equals(itemContainer.getStoreId())))
+        DmoStoreId datasetId = getDataset().getDmoStoreId();
+        if (!(datasetId.equals(itemContainer.getDatasetItemContainerMetadata().getDatasetDmoStoreId())
+              || datasetId.equals(itemContainer.getDmoStoreId())))
             throw new IllegalArgumentException("ItemContainer is not given dataset, nor part of given dataset");
     }
 

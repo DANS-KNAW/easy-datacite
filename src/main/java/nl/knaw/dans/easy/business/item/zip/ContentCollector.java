@@ -10,6 +10,7 @@ import nl.knaw.dans.common.lang.collect.CollectorException;
 import nl.knaw.dans.common.lang.file.ZipItem;
 import nl.knaw.dans.common.lang.file.ZipUtil;
 import nl.knaw.dans.common.lang.progress.ProgressSubject;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
@@ -40,7 +41,7 @@ public class ContentCollector extends ProgressSubject implements Collector<List<
             ZipItem zipItem = new ZipItem(itemVO.getPath());
             if (itemVO instanceof FileItemVO)
             {
-                URL url = Data.getEasyStore().getFileURL(itemVO.getSid());
+                URL url = Data.getEasyStore().getFileURL(new DmoStoreId(itemVO.getSid()));
                 zipItem.setStreamUrl(url);
             }
             try

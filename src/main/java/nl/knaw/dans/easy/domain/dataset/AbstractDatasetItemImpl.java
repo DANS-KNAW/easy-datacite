@@ -5,6 +5,7 @@ import java.util.Set;
 
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.DataModelObject;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.collections.AbstractDmoContainerItem;
 import nl.knaw.dans.common.lang.repo.collections.DmoCollection;
 import nl.knaw.dans.common.lang.repo.collections.DmoContainer;
@@ -23,7 +24,7 @@ public abstract class AbstractDatasetItemImpl extends AbstractDmoContainerItem i
     public AbstractDatasetItemImpl(String storeId)
     {
         super(storeId);
-        getDatasetItemMetadata().setSid(storeId);
+        getDatasetItemMetadata().setDmoStoreId(new DmoStoreId(storeId));
     }
 
 	public Set<DmoCollection> getCollections()
@@ -33,14 +34,14 @@ public abstract class AbstractDatasetItemImpl extends AbstractDmoContainerItem i
 		return c;
 	}
     
-    public String getDatasetId()
+    public DmoStoreId getDatasetId()
     {
-        return getDatasetItemMetadata().getDatasetId();
+        return getDatasetItemMetadata().getDatasetDmoStoreId();
     }
 
-    public void setDatasetId(String datasetId)
+    public void setDatasetId(DmoStoreId datasetId)
     {
-        getDatasetItemMetadata().setDatasetId(datasetId);
+        getDatasetItemMetadata().setDatasetDmoStoreId(datasetId);
         // add relation to dataset.
         DmoContainerItemRelations relations = (DmoContainerItemRelations) getRelations();
         relations.setSubordinateTo(datasetId);
@@ -73,22 +74,22 @@ public abstract class AbstractDatasetItemImpl extends AbstractDmoContainerItem i
             DatasetItem datasetItem = (DatasetItem) parent;
             getDatasetItemMetadata().setPath(datasetItem.getPath() + "/" + getLabel());
         }
-        getDatasetItemMetadata().setParentSid(parent.getStoreId());
+        getDatasetItemMetadata().setParentDmoStoreId(parent.getDmoStoreId());
         parent.onChildAdded(this);
     }
     
     @Override
-    public boolean isDescendantOf(String storeId)
+    public boolean isDescendantOf(DmoStoreId dmoStoreId)
     {
-        return storeId != null 
-            && (storeId.equals(getDatasetItemMetadata().getDatasetId())
-            || storeId.equals(getDatasetItemMetadata().getParentSid()));
+        return dmoStoreId != null 
+            && (dmoStoreId.equals(getDatasetItemMetadata().getDatasetDmoStoreId())
+            || dmoStoreId.equals(getDatasetItemMetadata().getParentDmoStoreId()));
     }
     
     @Override
     public boolean isDescendantOf(DataModelObject dmo)
     {
-        return dmo != null && isDescendantOf(dmo.getStoreId());
+        return dmo != null && isDescendantOf(dmo.getDmoStoreId());
     }
     
     @Override

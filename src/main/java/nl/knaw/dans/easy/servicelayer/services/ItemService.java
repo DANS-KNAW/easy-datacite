@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import nl.knaw.dans.common.lang.repo.DataModelObject;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
@@ -43,7 +44,7 @@ import org.dom4j.Element;
 public interface ItemService extends EasyService
 {
 
-    FileItem getFileItem(EasyUser sessionUser, Dataset dataset, String fileItemId) throws ObjectNotAvailableException, CommonSecurityException,
+    FileItem getFileItem(EasyUser sessionUser, Dataset dataset, DmoStoreId dmoStoreId) throws ObjectNotAvailableException, CommonSecurityException,
             ServiceException;
 
     FileItem getFileItemByPath(EasyUser sessionUser, Dataset dataset, String path) throws ObjectNotAvailableException, CommonSecurityException,
@@ -52,13 +53,13 @@ public interface ItemService extends EasyService
     FolderItem getFolderItemByPath(EasyUser sessionUser, Dataset dataset, String path) throws ObjectNotAvailableException, CommonSecurityException,
             ServiceException;
 
-    FileItemDescription getFileItemDescription(EasyUser sessionUser, Dataset dataset, String fileItemId) throws ObjectNotAvailableException,
+    FileItemDescription getFileItemDescription(EasyUser sessionUser, Dataset dataset, DmoStoreId fileItemId) throws ObjectNotAvailableException,
             CommonSecurityException, ServiceException;
 
     URL getFileContentURL(EasyUser sessionUser, Dataset dataset, FileItem fileItem) throws ObjectNotAvailableException, CommonSecurityException,
             ServiceException;
 
-    URL getDescriptiveMetadataURL(EasyUser sessionUser, Dataset dataset, String fileItemId) throws ObjectNotAvailableException, CommonSecurityException,
+    URL getDescriptiveMetadataURL(EasyUser sessionUser, Dataset dataset, DmoStoreId fileItemId) throws ObjectNotAvailableException, CommonSecurityException,
             ServiceException;
 
     /**
@@ -95,11 +96,11 @@ public interface ItemService extends EasyService
      * @throws ServiceException
      *         wrapper for exceptions
      */
-    void addDirectoryContents(EasyUser sessionUser, Dataset dataset, String parentId, File rootFile, List<File> filesToIngest, WorkListener... workListeners)
+    void addDirectoryContents(EasyUser sessionUser, Dataset dataset, DmoStoreId parentId, File rootFile, List<File> filesToIngest, WorkListener... workListeners)
             throws ServiceException;
 
     // used by easyTools batch ingest
-    void addDirectoryContents(EasyUser sessionUser, Dataset dataset, String parentId, File rootFile, ItemIngesterDelegator delegator,
+    void addDirectoryContents(EasyUser sessionUser, Dataset dataset, DmoStoreId parentId, File rootFile, ItemIngesterDelegator delegator,
             WorkListener... workListeners) throws ServiceException;
 
     /**
@@ -121,7 +122,7 @@ public interface ItemService extends EasyService
      * @throws ServiceException
      *         wrapper for exceptions
      */
-    void updateObjects(EasyUser sessionUser, Dataset dataset, List<String> sidList, UpdateInfo updateInfo, ItemFilters itemFilters,
+    void updateObjects(EasyUser sessionUser, Dataset dataset, List<DmoStoreId> sidList, UpdateInfo updateInfo, ItemFilters itemFilters,
             WorkListener... workListeners) throws ServiceException;
 
     /**
@@ -186,7 +187,7 @@ public interface ItemService extends EasyService
      * @return
      * @throws ServiceException
      */
-    public List<FileItemVO> getFiles(EasyUser sessionUser, Dataset dataset, String parentSid, Integer limit, Integer offset, ItemOrder order,
+    public List<FileItemVO> getFiles(EasyUser sessionUser, Dataset dataset, DmoStoreId parentSid, Integer limit, Integer offset, ItemOrder order,
             ItemFilters filters) throws ServiceException;
 
     /**
@@ -209,7 +210,7 @@ public interface ItemService extends EasyService
      * @return
      * @throws ServiceException
      */
-    public List<FolderItemVO> getFolders(EasyUser sessionUser, Dataset dataset, String parentSid, Integer limit, Integer offset, ItemOrder order,
+    public List<FolderItemVO> getFolders(EasyUser sessionUser, Dataset dataset, DmoStoreId parentSid, Integer limit, Integer offset, ItemOrder order,
             ItemFilters filters) throws ServiceException;
 
     /**
@@ -230,13 +231,13 @@ public interface ItemService extends EasyService
      * @return
      * @throws ServiceAccessException
      */
-    List<ItemVO> getFilesAndFolders(EasyUser sessionUser, Dataset dataset, String parentSid, Integer limit, Integer offset, ItemOrder order, ItemFilters filters)
+    List<ItemVO> getFilesAndFolders(EasyUser sessionUser, Dataset dataset, DmoStoreId parentSid, Integer limit, Integer offset, ItemOrder order, ItemFilters filters)
             throws ServiceException;
 
-    List<ItemVO> getFilesAndFolders(EasyUser sessionUser, Dataset dataset, Collection<String> itemIds) throws ServiceException;
+    List<ItemVO> getFilesAndFolders(EasyUser sessionUser, Dataset dataset, Collection<DmoStoreId> itemIds) throws ServiceException;
 
     Collection<FileItemVO> getFileItemsRecursively(EasyUser sessionUser, Dataset dataset, final Collection<FileItemVO> items, final ItemFilters filter,
-            final String... storeIds) throws ServiceException;
+            final DmoStoreId... storeIds) throws ServiceException;
 
     /**
      * Returns a list of filenames with their full path
@@ -248,7 +249,7 @@ public interface ItemService extends EasyService
      * @return returns a list of filenames with their full path
      * @throws ServiceException
      */
-    List<String> getFilenames(String parentSid, boolean recursive) throws ServiceException;
+    List<String> getFilenames(DmoStoreId parentSid, boolean recursive) throws ServiceException;
 
     /**
      * Returns true when the item container contains one or more child items
@@ -260,7 +261,7 @@ public interface ItemService extends EasyService
      * @return true when the parentSid has a folder with name folderName
      * @throws ServiceException
      */
-    boolean hasChildItems(String parentSid) throws ServiceException;
+    boolean hasChildItems(DmoStoreId parentSid) throws ServiceException;
 
     /**
      * Get a download connection for a certain file.
@@ -275,7 +276,7 @@ public interface ItemService extends EasyService
      * @throws ServiceException
      *         wrapper for exceptions
      */
-    FileContentWrapper getContent(EasyUser sessionUser, Dataset dataset, String fileItemId) throws ServiceException;
+    FileContentWrapper getContent(EasyUser sessionUser, Dataset dataset, DmoStoreId fileItemId) throws ServiceException;
 
     ZipFileContentWrapper getZippedContent(EasyUser sessionUser, final Dataset dataset, final Collection<RequestedItem> requestedItems) throws ServiceException;
 

@@ -10,6 +10,7 @@ import java.util.List;
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.AbstractDataModelObject;
 import nl.knaw.dans.common.lang.repo.AbstractDmoFactory;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
 import nl.knaw.dans.common.lang.security.authz.AuthzStrategy;
 import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
@@ -80,13 +81,13 @@ public class EasyDatasetServiceTest extends TestHelper
     @Test
     public void getDataModelObject() throws ServiceException, ObjectNotInStoreException, RepositoryException
     {
-        String storeId = "easy-dataset:123";
+        DmoStoreId storeId = new DmoStoreId("easy-dataset:123");
         EasyUser user = new EasyUserImpl("foo");
         user.addRole(Role.ARCHIVIST);
         user.setState(State.ACTIVE);
         
         EasyMock.reset(easyStore);
-        EasyMock.expect(easyStore.retrieve(storeId)).andReturn(new DatasetImpl(storeId));
+        EasyMock.expect(easyStore.retrieve(storeId)).andReturn(new DatasetImpl("easy-dataset:123"));
         
         EasyMock.replay(easyStore);
         service.getDataModelObject(user, storeId);
@@ -97,13 +98,13 @@ public class EasyDatasetServiceTest extends TestHelper
     @Test
     public void getDataset() throws Exception
     {
-        String storeId = "easy-dataset:123";
+        DmoStoreId storeId = new DmoStoreId("easy-dataset:123");
         EasyUser user = new EasyUserImpl("foo");
         user.addRole(Role.ARCHIVIST);
         user.setState(State.ACTIVE);
         
         EasyMock.reset(easyStore);
-        EasyMock.expect(easyStore.retrieve(storeId)).andReturn(new DatasetImpl(storeId));
+        EasyMock.expect(easyStore.retrieve(storeId)).andReturn(new DatasetImpl("easy-dataset:123"));
         
         EasyMock.replay(easyStore);
         Dataset dataset = service.getDataset(user, storeId);

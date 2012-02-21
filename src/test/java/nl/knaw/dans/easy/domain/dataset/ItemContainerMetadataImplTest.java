@@ -8,6 +8,7 @@ import java.util.List;
 
 import nl.knaw.dans.common.jibx.JiBXObjectFactory;
 import nl.knaw.dans.common.lang.RepositoryException;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.dummy.DummyUnitOfWork;
 import nl.knaw.dans.common.lang.test.Tester;
 import nl.knaw.dans.common.lang.xml.XMLException;
@@ -32,11 +33,14 @@ public class ItemContainerMetadataImplTest
     @Test
     public void serializeDeserializeFull() throws XMLException
     {
-    	ItemContainerMetadataImpl icmd = new ItemContainerMetadataImpl("foo:123");
-        icmd.setDatasetId("dataset:123");
+        DmoStoreId folderItemId = new DmoStoreId("foo:123");
+        DmoStoreId datasetId = new DmoStoreId("dataset:123");
+        
+    	ItemContainerMetadataImpl icmd = new ItemContainerMetadataImpl(folderItemId);
+        icmd.setDatasetDmoStoreId(datasetId);
 
         icmd.setName("Testing item container metadata");
-        icmd.setParentSid("folder:123");
+        icmd.setParentDmoStoreId(new DmoStoreId("folder:123"));
 
         if (verbose)
             logger.debug("\n" + icmd.asXMLString(4) + "\n");
@@ -52,7 +56,7 @@ public class ItemContainerMetadataImplTest
     @Test
     public void administration() throws XMLSerializationException, RepositoryException
     {
-        ItemContainerMetadataImpl icmd = new ItemContainerMetadataImpl("foo:123");
+        ItemContainerMetadataImpl icmd = new ItemContainerMetadataImpl(new DmoStoreId("foo:123"));
         assertEquals(0, icmd.getChildFileCount());
         assertEquals(0, icmd.getTotalFileCount());
         assertEquals(0, icmd.getChildFolderCount());
@@ -126,11 +130,11 @@ public class ItemContainerMetadataImplTest
         icmd.setDirty(false);
         assertFalse(icmd.isDirty());
         
-        icmd.setParentSid("foo:122");
+        icmd.setParentDmoStoreId(new DmoStoreId("foo:122"));
         assertTrue(icmd.isDirty());
         icmd.setDirty(false);
         
-        icmd.setDatasetId("foo:121");
+        icmd.setDatasetDmoStoreId(new DmoStoreId("foo:121"));
         assertTrue(icmd.isDirty());
         icmd.setDirty(false);
         

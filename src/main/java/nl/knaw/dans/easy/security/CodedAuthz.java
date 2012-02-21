@@ -254,26 +254,26 @@ public class CodedAuthz extends AbstractEasyService implements Authz
                     getEnableToArchivistRule()); // TODO but not if published or deleted?
             rules.put("FileItemDescription nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFileItemDescription(EasyUser, Dataset, FileItem)", getFileItemDescriptionAccessRule());
             
-            rules.put("FileItem nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFileItem(EasyUser, Dataset, String)", getFileItemContentsAccessRule());
+            rules.put("FileItem nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFileItem(EasyUser, Dataset, DmoStoreId)", getFileItemContentsAccessRule());
             rules.put("FileItem nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFileItemByPath(EasyUser, Dataset, String)", getNoSecurityOfficer());
             
-            rules.put("FileItem nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFolderItem(EasyUser, Dataset, String)", getNoSecurityOfficer());
+            rules.put("FileItem nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFolderItem(EasyUser, Dataset, DmoStoreId)", getNoSecurityOfficer());
             rules.put("FileItem nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFolderItemByPath(EasyUser, Dataset, String)", getNoSecurityOfficer());
             
             rules.put("URL nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFileContentURL(EasyUser, Dataset, FileItem)", getFreelyAvailableContentRule());
             
             
             // Not that strong, because FileItem is represented by id, due to mishap in FileItemVO design.
-            rules.put("URL nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getDescriptiveMetadataURL(EasyUser, Dataset, String)", getViewDatasetRule());
+            rules.put("URL nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getDescriptiveMetadataURL(EasyUser, Dataset, DmoStoreId)", getViewDatasetRule());
             
             // DownloadWorkDispatcher
-            rules.put("FileContentWrapper nl.knaw.dans.easy.business.item.DownloadWorkDispatcher.prepareFileContent(EasyUser, Dataset, String)",
+            rules.put("FileContentWrapper nl.knaw.dans.easy.business.item.DownloadWorkDispatcher.prepareFileContent(EasyUser, Dataset, DmoStoreId)",
                     getDownloadRule());
             rules.put("ZipFileContentWrapper nl.knaw.dans.easy.business.item.DownloadWorkDispatcher.prepareZippedContent(EasyUser, Dataset, Collection)",
                     getDownloadRule());
 
             // DatasetWorkDispatcher
-            rules.put("DataModelObject nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.getDataModelObject(EasyUser, String)", getViewDatasetRule()); 
+            rules.put("DataModelObject nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.getDataModelObject(EasyUser, DmoStoreId)", getViewDatasetRule()); 
                                                                                                                                                              
             rules.put("byte[] nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.getObjectXml(EasyUser, Dataset)",
                     getEnableToDepositorOrArchivistOrAdminRule());
@@ -313,13 +313,13 @@ public class CodedAuthz extends AbstractEasyService implements Authz
                     getEnableToArchivistOrAdminRule());
             rules.put("void nl.knaw.dans.easy.business.jumpoff.JumpoffWorkDispatcher.deleteJumpoff(EasyUser, JumpoffDmo, DataModelObject, String)",
                     getEnableToArchivistOrAdminRule());
-            rules.put("void nl.knaw.dans.easy.business.jumpoff.JumpoffWorkDispatcher.deleteUnit(EasyUser, String, String, String)",
+            rules.put("void nl.knaw.dans.easy.business.jumpoff.JumpoffWorkDispatcher.deleteUnit(EasyUser, DmoStoreId, DsUnitId, String)",
                     getEnableToArchivistOrAdminRule());
             rules.put("void nl.knaw.dans.easy.business.jumpoff.JumpoffWorkDispatcher.toggleEditorMode(EasyUser, JumpoffDmo)",
                     getEnableToArchivistOrAdminRule());
-            rules.put("List nl.knaw.dans.easy.business.jumpoff.JumpoffWorkDispatcher.retrieveUnitMetadata(EasyUser, String, String)",
+            rules.put("List nl.knaw.dans.easy.business.jumpoff.JumpoffWorkDispatcher.retrieveUnitMetadata(EasyUser, DmoStoreId, DsUnitId)",
                     getJumpoffDmoNameSpaceRule());
-            rules.put("URL nl.knaw.dans.easy.business.jumpoff.JumpoffWorkDispatcher.retrieveURL(String, String)", getJumpoffDmoNameSpaceRule());
+            rules.put("URL nl.knaw.dans.easy.business.jumpoff.JumpoffWorkDispatcher.retrieveURL(DmoStoreId, DsUnitId)", getJumpoffDmoNameSpaceRule());
 
             // EasyUserService
             // used to be getUserByIdRule() but changed to loggedInUser for activity log panel

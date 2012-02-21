@@ -24,13 +24,13 @@ public interface DepositService extends EasyService
     /**
      * Get the Discipline with the given disciplineId.
      * 
-     * @param disciplineId
+     * @param formatId
      *        disciplineId
      * @return Discipline with the given disciplineId
      * @throws ServiceException
      *         wrapper for exceptions
      */
-    DepositDiscipline getDiscipline(String disciplineId) throws ServiceException;
+    DepositDiscipline getDiscipline(String formatId) throws ServiceException;
 
     /**
      * Get the Discipline with the given easy metadata format.

@@ -20,7 +20,7 @@ public class PropositionBuilderTest
                 new DatasetStateCheck(DatasetState.DELETED),
                 new DmoNamespaceCheck(Dataset.NAMESPACE),
                 new EmbargoFreeCheck());
-        assertEquals("([Dataset state is DELETED] OR [storeId starts with easy-dataset] OR [Dataset is not under embargo at current date])", prop);
+        assertEquals("([Dataset state is DELETED] OR [storeId is within namespace easy-dataset] OR [Dataset is not under embargo at current date])", prop);
     }
 
 }

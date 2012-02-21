@@ -9,6 +9,7 @@ import java.util.Map;
 
 import nl.knaw.dans.common.jibx.JiBXObjectFactory;
 import nl.knaw.dans.common.lang.RepositoryException;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.UnitOfWork;
 import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
 import nl.knaw.dans.common.lang.repo.exception.UnitOfWorkInterruptException;
@@ -67,7 +68,7 @@ public class EasyItemService extends AbstractEasyService implements ItemService
     private DownloadWorkDispatcher downloadWorkDispatcher;
     
     @Override
-    public FileItem getFileItem(EasyUser sessionUser, Dataset dataset, String fileItemId) throws ObjectNotAvailableException, CommonSecurityException,
+    public FileItem getFileItem(EasyUser sessionUser, Dataset dataset, DmoStoreId fileItemId) throws ObjectNotAvailableException, CommonSecurityException,
             ServiceException
     {
         FileItem fileItem = getItemWorkDispatcher().getFileItem(sessionUser, dataset, fileItemId);
@@ -91,7 +92,7 @@ public class EasyItemService extends AbstractEasyService implements ItemService
     }
     
     @Override
-    public FileItemDescription getFileItemDescription(EasyUser sessionUser, Dataset dataset, String fileItemId) throws ObjectNotAvailableException,
+    public FileItemDescription getFileItemDescription(EasyUser sessionUser, Dataset dataset, DmoStoreId fileItemId) throws ObjectNotAvailableException,
             CommonSecurityException, ServiceException
     {
     	FileItem fileItem = getFileItem(dataset, fileItemId);
@@ -106,7 +107,7 @@ public class EasyItemService extends AbstractEasyService implements ItemService
     }
     
     @Override
-    public URL getDescriptiveMetadataURL(EasyUser sessionUser, Dataset dataset, String fileItemId) throws ObjectNotAvailableException, CommonSecurityException,
+    public URL getDescriptiveMetadataURL(EasyUser sessionUser, Dataset dataset, DmoStoreId fileItemId) throws ObjectNotAvailableException, CommonSecurityException,
             ServiceException
     {
         return getItemWorkDispatcher().getDescriptiveMetadataURL(sessionUser, dataset, fileItemId);
@@ -114,7 +115,7 @@ public class EasyItemService extends AbstractEasyService implements ItemService
 
     // used by web-ui
     @Override
-    public void addDirectoryContents(EasyUser sessionUser, Dataset dataset, String parentId, File rootFile, List<File> filesToIngest, WorkListener...workListeners)
+    public void addDirectoryContents(EasyUser sessionUser, Dataset dataset, DmoStoreId parentId, File rootFile, List<File> filesToIngest, WorkListener...workListeners)
             throws ServiceException
     {
         FileFilter ingestFilter = new ItemIngester.ListFilter(filesToIngest);
@@ -123,7 +124,7 @@ public class EasyItemService extends AbstractEasyService implements ItemService
     
     // used by repo tools, batch ingest
     @Override
-    public void addDirectoryContents(EasyUser sessionUser, Dataset dataset, String parentId, File rootFile, 
+    public void addDirectoryContents(EasyUser sessionUser, Dataset dataset, DmoStoreId parentId, File rootFile, 
             ItemIngesterDelegator delegator, WorkListener... workListeners) throws ServiceException
     {
         FileFilter ingestFilter = new ItemIngester.IngestFilter();
@@ -131,7 +132,7 @@ public class EasyItemService extends AbstractEasyService implements ItemService
     }
 
     @MutatesDataset
-    private void addDirectoryContents(EasyUser sessionUser, Dataset dataset, String parentId, File rootFile, 
+    private void addDirectoryContents(EasyUser sessionUser, Dataset dataset, DmoStoreId parentId, File rootFile, 
             FileFilter ingestFilter, ItemIngesterDelegator delegator, WorkListener...workListeners) throws ServiceException
     {
         UnitOfWork uow = new EasyUnitOfWork(sessionUser);
@@ -173,7 +174,7 @@ public class EasyItemService extends AbstractEasyService implements ItemService
      * {@inheritDoc}
      */
     @MutatesDataset
-    public void updateObjects(EasyUser sessionUser, Dataset dataset, List<String> sidList, UpdateInfo updateInfo,
+    public void updateObjects(EasyUser sessionUser, Dataset dataset, List<DmoStoreId> sidList, UpdateInfo updateInfo,
             ItemFilters itemFilters, WorkListener... workListeners) throws ServiceException
     {
         if (sidList.isEmpty())
@@ -267,7 +268,7 @@ public class EasyItemService extends AbstractEasyService implements ItemService
         }
     }
     
-    public List<String> getFilenames(final String parentSid, final boolean recursive) throws ServiceException
+    public List<String> getFilenames(final DmoStoreId parentSid, final boolean recursive) throws ServiceException
     {
         try
         {
@@ -279,7 +280,7 @@ public class EasyItemService extends AbstractEasyService implements ItemService
         }
     }
 
-    public List<ItemVO> getFilesAndFolders(EasyUser sessionUser, Dataset dataset, final String parentSid, final Integer limit, final Integer offset, final ItemOrder order, final ItemFilters filters)
+    public List<ItemVO> getFilesAndFolders(EasyUser sessionUser, Dataset dataset, final DmoStoreId parentSid, final Integer limit, final Integer offset, final ItemOrder order, final ItemFilters filters)
             throws ServiceException
     {
         List<ItemVO> itemList;
@@ -297,7 +298,7 @@ public class EasyItemService extends AbstractEasyService implements ItemService
         return itemList;
     }
 
-    public boolean hasChildItems(final String parentSid) throws ServiceException
+    public boolean hasChildItems(final DmoStoreId parentSid) throws ServiceException
     {
         try
         {
@@ -309,7 +310,7 @@ public class EasyItemService extends AbstractEasyService implements ItemService
         }
     }
 
-    public List<FileItemVO> getFiles(EasyUser sessionUser, Dataset dataset, final String parentSid, final Integer limit, final Integer offset, final ItemOrder order, final ItemFilters filters)
+    public List<FileItemVO> getFiles(EasyUser sessionUser, Dataset dataset, final DmoStoreId parentSid, final Integer limit, final Integer offset, final ItemOrder order, final ItemFilters filters)
             throws ServiceException
     {
         List<FileItemVO> fileItemList;
@@ -325,7 +326,7 @@ public class EasyItemService extends AbstractEasyService implements ItemService
         return fileItemList;
     }
 
-    public List<FolderItemVO> getFolders(EasyUser sessionUser, Dataset dataset, final String parentSid, final Integer limit, final Integer offset, final ItemOrder order, final ItemFilters filters)
+    public List<FolderItemVO> getFolders(EasyUser sessionUser, Dataset dataset, final DmoStoreId parentSid, final Integer limit, final Integer offset, final ItemOrder order, final ItemFilters filters)
             throws ServiceException
     {
         List<FolderItemVO> folderItemList;
@@ -342,7 +343,7 @@ public class EasyItemService extends AbstractEasyService implements ItemService
         return folderItemList;
     }
 
-    public List<ItemVO> getFilesAndFolders(EasyUser sessionUser, Dataset dataset, final Collection<String> itemIds) throws ServiceException
+    public List<ItemVO> getFilesAndFolders(EasyUser sessionUser, Dataset dataset, final Collection<DmoStoreId> itemIds) throws ServiceException
     {
         List<ItemVO> itemList;
         try
@@ -360,19 +361,19 @@ public class EasyItemService extends AbstractEasyService implements ItemService
     
     @Override
     public Collection<FileItemVO> getFileItemsRecursively(EasyUser sessionUser, Dataset dataset, Collection<FileItemVO> items, ItemFilters filter,
-            String... storeIds) throws ServiceException
+            DmoStoreId... storeIds) throws ServiceException
     {
         AuthzStrategyProvider provider = new AuthzStrategyProvider(sessionUser, dataset);
         return getFileItemsRecursively(provider, items, filter, storeIds);
     }
     
-    private Collection<FileItemVO> getFileItemsRecursively(AuthzStrategyProvider provider, final Collection<FileItemVO> items, final ItemFilters filter, final String... storeIds) throws ServiceException
+    private Collection<FileItemVO> getFileItemsRecursively(AuthzStrategyProvider provider, final Collection<FileItemVO> items, final ItemFilters filter, final DmoStoreId... storeIds) throws ServiceException
     {
         try
         {
-            for (final String storeId : storeIds)
+            for (final DmoStoreId storeId : storeIds)
             {
-                if (storeId.startsWith(FileItem.NAMESPACE.getValue()))
+                if (storeId.isInNamespace(FileItem.NAMESPACE))
                 {
                     items.add(Data.getFileStoreAccess().findFileById(storeId));
                 }
@@ -388,7 +389,7 @@ public class EasyItemService extends AbstractEasyService implements ItemService
                         }
                         else
                         {
-                            getFileItemsRecursively(provider, items, filter, ((FolderItemVO) item).getSid());
+                            getFileItemsRecursively(provider, items, filter, new DmoStoreId(((FolderItemVO) item).getSid()));
                         }
                     }
                 }
@@ -404,7 +405,7 @@ public class EasyItemService extends AbstractEasyService implements ItemService
     /**
      * {@inheritDoc}
      */
-    public FileContentWrapper getContent(EasyUser sessionUser, final Dataset dataset, final String fileItemId) throws ServiceException
+    public FileContentWrapper getContent(EasyUser sessionUser, final Dataset dataset, final DmoStoreId fileItemId) throws ServiceException
     {
         final FileContentWrapper fileContentWrapper = getDownloadWorkDispatcher().prepareFileContent(sessionUser, dataset, fileItemId);
         if (logger.isDebugEnabled())
@@ -456,13 +457,13 @@ public class EasyItemService extends AbstractEasyService implements ItemService
         }
     }
     
-    private FileItem getFileItem(Dataset dataset, String fileItemId) throws ObjectNotAvailableException, ServiceException
+    private FileItem getFileItem(Dataset dataset, DmoStoreId fileItemId) throws ObjectNotAvailableException, ServiceException
     {
         FileItem fileItem;
         try
         {
             fileItem = (FileItem) Data.getEasyStore().retrieve(fileItemId);
-            if (!fileItem.getFileItemMetadata().getDatasetId().equals(dataset.getStoreId()))
+            if (!fileItem.getFileItemMetadata().getDatasetDmoStoreId().equals(dataset.getDmoStoreId()))
             {
                 throw new ObjectNotAvailableException("FileItem '" + fileItemId + "' does not belong to dataset '" + dataset.getStoreId() + "'");
             }                    

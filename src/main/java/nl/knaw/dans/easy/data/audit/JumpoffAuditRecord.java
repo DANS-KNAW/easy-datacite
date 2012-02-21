@@ -1,7 +1,7 @@
 package nl.knaw.dans.easy.data.audit;
 
 import org.aspectj.lang.JoinPoint;
-
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.jumpoff.JumpoffDmo;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 
@@ -16,10 +16,10 @@ public class JumpoffAuditRecord extends AbstractAuditRecord<JumpoffDmo>
         tracedObjectId = tracedObject.getStoreId();
     }
     
-    public JumpoffAuditRecord(EasyUser sessionUser, String tracedObjectId, JoinPoint joinPoint)
+    public JumpoffAuditRecord(EasyUser sessionUser, DmoStoreId tracedObjectId, JoinPoint joinPoint)
     {
         super(sessionUser, null, joinPoint);
-        this.tracedObjectId = tracedObjectId;
+        this.tracedObjectId = tracedObjectId.getStoreId();
     }
 
     @Override

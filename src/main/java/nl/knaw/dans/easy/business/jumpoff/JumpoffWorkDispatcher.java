@@ -5,6 +5,8 @@ import java.util.List;
 
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.DataModelObject;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
+import nl.knaw.dans.common.lang.repo.DsUnitId;
 import nl.knaw.dans.common.lang.repo.UnitMetadata;
 import nl.knaw.dans.common.lang.repo.UnitOfWork;
 import nl.knaw.dans.common.lang.repo.exception.UnitOfWorkInterruptException;
@@ -18,7 +20,7 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 public class JumpoffWorkDispatcher
 {
 
-    public JumpoffDmo getJumpoffDmo(EasyUser sessionUser, String storeId) throws ServiceException
+    public JumpoffDmo getJumpoffDmo(EasyUser sessionUser, DmoStoreId storeId) throws ServiceException
     {
         JumpoffDmo jumpoffDmo = null;
         try
@@ -66,7 +68,7 @@ public class JumpoffWorkDispatcher
     {
         try
         {
-            return Data.getEasyStore().getUnitMetadata(jumpoffDmo.getStoreId());
+            return Data.getEasyStore().getUnitMetadata(jumpoffDmo.getDmoStoreId());
         }
         catch (RepositoryException e)
         {
@@ -74,7 +76,7 @@ public class JumpoffWorkDispatcher
         }
     }
 
-    public List<UnitMetadata> retrieveUnitMetadata(EasyUser sessionUser, String storeId, String unitId) throws ServiceException
+    public List<UnitMetadata> retrieveUnitMetadata(EasyUser sessionUser, DmoStoreId storeId, DsUnitId unitId) throws ServiceException
     {
         try
         {
@@ -86,13 +88,13 @@ public class JumpoffWorkDispatcher
         }
     }
 
-    public URL retrieveURL(String storeId, String unitId) throws ServiceException
+    public URL retrieveURL(DmoStoreId storeId, DsUnitId unitId) throws ServiceException
     {
         return Data.getEasyStore().getFileURL(storeId, unitId);
     }
 
     @MutatesJumpoffDmo
-    public void deleteUnit(EasyUser sessionUser, String storeId, String unitId, String logMessage) throws ServiceException
+    public void deleteUnit(EasyUser sessionUser, DmoStoreId storeId, DsUnitId unitId, String logMessage) throws ServiceException
     {
         try
         {

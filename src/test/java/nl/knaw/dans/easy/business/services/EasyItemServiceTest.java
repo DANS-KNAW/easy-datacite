@@ -12,6 +12,7 @@ import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.ResourceNotFoundException;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.repo.AbstractDmoFactory;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
 import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
@@ -81,17 +82,18 @@ public class EasyItemServiceTest extends TestHelper
         Dataset dataset = new DatasetImpl("easy-dataset:1");
         dataset.getAdministrativeMetadata().setAdministrativeState(DatasetState.PUBLISHED);
         FileItem fileItem = new FileItemImpl("easy-file:1");
-        fileItem.setDatasetId(dataset.getStoreId());
+        fileItem.setDatasetId(dataset.getDmoStoreId());
         
+        DmoStoreId fileItemId = new DmoStoreId("easy-file:1");
         EasyMock.reset(easyStore);
-        EasyMock.expect(easyStore.retrieve("easy-file:1")).andReturn(fileItem);
+        EasyMock.expect(easyStore.retrieve(fileItemId)).andReturn(fileItem);
         EasyMock.replay(easyStore);
         
-        FileItemDescription fid = service.getFileItemDescription(sessionUser, dataset, "easy-file:1");
+        FileItemDescription fid = service.getFileItemDescription(sessionUser, dataset, fileItemId);
         
         EasyMock.verify(easyStore);
         
-        assertEquals(fid.getFileItemMetadata().getSid(), "easy-file:1");
+        assertEquals(fid.getFileItemMetadata().getDmoStoreId(), fileItemId);
         assertNotNull(fid.getDescriptiveMetadata());
         assertNotNull(fid.getDescriptiveMetadata().getProperties());
     }
@@ -110,16 +112,18 @@ public class EasyItemServiceTest extends TestHelper
         File rootFile = Tester.getFile("test-files/EasyItemService/filesToIngest");
         Dataset dataset = new DatasetImpl("easy-dataset:1");
         dataset.getAdministrativeMetadata().setDepositor(sessionUser);
-        String parentId = dataset.getStoreId();
+        DmoStoreId parentId = dataset.getDmoStoreId();
+        DmoStoreId datasetId = new DmoStoreId("easy-dataset:1");
+        DmoStoreId folderItemId = new DmoStoreId("easy-folder:original");
         
         PowerMock.mockStatic(AbstractDmoFactory.class);
         EasyMock.reset(easyStore, fileStoreAccess);
         
-        EasyMock.expect(easyStore.retrieve("easy-dataset:1")).andReturn(dataset);
-        EasyMock.expect(fileStoreAccess.getFilesAndFolders("easy-dataset:1", -1, -1, null, null))
+        EasyMock.expect(easyStore.retrieve(datasetId)).andReturn(dataset);
+        EasyMock.expect(fileStoreAccess.getFilesAndFolders(datasetId, -1, -1, null, null))
             .andReturn(new ArrayList<ItemVO>()).times(1);
         EasyMock.expect(AbstractDmoFactory.newDmo(FolderItem.NAMESPACE)).andReturn(new FolderItemImpl("easy-folder:original"));
-        EasyMock.expect(fileStoreAccess.getFilesAndFolders("easy-folder:original", -1, -1, null, null))
+        EasyMock.expect(fileStoreAccess.getFilesAndFolders(folderItemId, -1, -1, null, null))
             .andReturn(new ArrayList<ItemVO>()).times(1);
         
         EasyMock.expect(AbstractDmoFactory.newDmo(FolderItem.NAMESPACE)).andReturn(new FolderItemImpl("easy-folder:1"));
@@ -150,8 +154,8 @@ public class EasyItemServiceTest extends TestHelper
     {
     	Dataset dataset = new DatasetImpl("easy-dataset:1");
         
-        List<String> sidList = new ArrayList<String>();
-        sidList.add("foo:21");
+        List<DmoStoreId> sidList = new ArrayList<DmoStoreId>();
+        sidList.add(new DmoStoreId("foo:21"));
         UpdateInfo info = new UpdateInfo(VisibleTo.NONE, AccessibleTo.ANONYMOUS, "bla", true);
         service.updateObjects(getTestUser(), dataset, sidList, info, null);
     }
@@ -168,12 +172,13 @@ public class EasyItemServiceTest extends TestHelper
         File rootFile = Tester.getFile("test-files/EasyItemService/filesToIngest");
         Dataset dataset = new DatasetImpl("easy-dataset:1");
         dataset.getAdministrativeMetadata().setDepositor(sessionUser);
-        String parentId = dataset.getStoreId();
+        DmoStoreId parentId = dataset.getDmoStoreId();
+        DmoStoreId datasetId = new DmoStoreId("easy-dataset:1");
 
         EasyMock.reset(easyStore, fileStoreAccess);
         
-        EasyMock.expect(easyStore.retrieve("easy-dataset:1")).andReturn(dataset);
-        EasyMock.expect(fileStoreAccess.getFilesAndFolders("easy-dataset:1", -1, -1, null, null))
+        EasyMock.expect(easyStore.retrieve(datasetId)).andReturn(dataset);
+        EasyMock.expect(fileStoreAccess.getFilesAndFolders(datasetId, -1, -1, null, null))
             .andThrow(new ApplicationException("I'm too tired to run."));
         
         EasyMock.replay(easyStore, fileStoreAccess);

@@ -1,5 +1,7 @@
 package nl.knaw.dans.easy.business.aspect;
 
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
+import nl.knaw.dans.common.lang.repo.DsUnitId;
 import nl.knaw.dans.easy.business.services.EasyDatasetService;
 import nl.knaw.dans.easy.business.services.EasyDepositService;
 import nl.knaw.dans.easy.business.services.EasyDisciplineCollectionService;
@@ -26,7 +28,7 @@ public aspect ServiceProfiling
         execution(public * EasySearchService.*(..)) ||
         execution(public * EasyUserService.*(..)) ||
         (execution(public * EasyJumpoffService.*(..)) && 
-                !execution(public * EasyJumpoffService.*(String, String))
+                !execution(public * EasyJumpoffService.*(DmoStoreId, DsUnitId))
                 )||
         execution(public * EasyItemService.*(..)) ||
         execution(public * EasyDisciplineCollectionService.*(..)); 

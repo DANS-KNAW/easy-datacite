@@ -5,6 +5,7 @@ import java.util.List;
 
 import nl.knaw.dans.common.lang.dataset.CommonDataset;
 import nl.knaw.dans.common.lang.repo.DataModelObject;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.UnitMetadata;
 import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
@@ -32,7 +33,7 @@ public interface DatasetService extends EasyService
 {
     
     //Method not used and no security with this signature possible
-	CommonDataset getCommonDataset(String sid) throws ServiceException;
+	CommonDataset getCommonDataset(DmoStoreId dmoStoreId) throws ServiceException;
 	
 	
     /**
@@ -62,7 +63,7 @@ public interface DatasetService extends EasyService
      * @throws ServiceException
      *         wrapper for exceptions
      */
-    Dataset getDataset(EasyUser sessionUser, String storeId) throws ObjectNotAvailableException, CommonSecurityException, ServiceException;
+    Dataset getDataset(EasyUser sessionUser, DmoStoreId dmoStoreId) throws ObjectNotAvailableException, CommonSecurityException, ServiceException;
 
     /**
      * Get the DataModelObject with the given id.
@@ -75,11 +76,11 @@ public interface DatasetService extends EasyService
      * @throws ServiceException
      *         wrapper for exceptions
      */
-    DataModelObject getDataModelObject(EasyUser sessionUser, String storeId) throws ObjectNotAvailableException, CommonSecurityException, ServiceException;
+    DataModelObject getDataModelObject(EasyUser sessionUser, DmoStoreId dmoStoreId) throws ObjectNotAvailableException, CommonSecurityException, ServiceException;
 
     byte[] getObjectXml(EasyUser sessionUser, Dataset dataset) throws ObjectNotAvailableException, CommonSecurityException, ServiceException;
     
-    boolean exists(String storeId) throws ServiceException;
+    boolean exists(DmoStoreId dmoStoreId) throws ServiceException;
     
     /**
      * Clone a dataset in such a way that it is fit for reuse.

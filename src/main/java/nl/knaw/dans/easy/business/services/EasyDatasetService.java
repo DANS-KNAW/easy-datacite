@@ -10,6 +10,8 @@ import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.dataset.CommonDataset;
 import nl.knaw.dans.common.lang.repo.AbstractDmoFactory;
 import nl.knaw.dans.common.lang.repo.DataModelObject;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
+import nl.knaw.dans.common.lang.repo.DsUnitId;
 import nl.knaw.dans.common.lang.repo.UnitMetadata;
 import nl.knaw.dans.common.lang.security.authz.AuthzStrategy;
 import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
@@ -120,7 +122,7 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
         DatasetImpl dataset;
         try
         {
-            dataset = (DatasetImpl) AbstractDmoFactory.newDmo(Dataset.NAMESPACE);;
+            dataset = (DatasetImpl) AbstractDmoFactory.newDmo(Dataset.NAMESPACE);
             dataset.setEasyMetadata(emd);
             dataset.setAdministrativeMetadata(amd);
             prepareDataset(dataset);
@@ -173,9 +175,9 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
     /**
      * {@inheritDoc}
      */
-    public Dataset getDataset(final EasyUser sessionUser, final String storeId) throws ServiceException
+    public Dataset getDataset(final EasyUser sessionUser, final DmoStoreId dmoStoreId) throws ServiceException
     {
-        Dataset dataset = (Dataset) getDataModelObject(sessionUser, storeId);
+        Dataset dataset = (Dataset) getDataModelObject(sessionUser, dmoStoreId);
         String name = dataset.getAutzStrategyName();
         AuthzStrategy strategy = AuthzStrategyProvider.newAuthzStrategy(name, sessionUser, dataset, dataset);
         dataset.setAuthzStrategy(strategy);
@@ -185,9 +187,9 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
     /**
      * {@inheritDoc}
      */
-    public DataModelObject getDataModelObject(final EasyUser sessionUser, final String storeId) throws ServiceException
+    public DataModelObject getDataModelObject(final EasyUser sessionUser, final DmoStoreId dmoStoreId) throws ServiceException
     {
-        final DataModelObject dmo = getDatasetWorkDispatcher().getDataModelObject(sessionUser, storeId);
+        final DataModelObject dmo = getDatasetWorkDispatcher().getDataModelObject(sessionUser, dmoStoreId);
         if (LOGGER.isDebugEnabled())
         {
             LOGGER.debug("User '" + getUserId(sessionUser) + "' retrieved object " + getStoreId(dmo));
@@ -206,7 +208,7 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
         return objectXml;
     }
     
-    public boolean exists(String storeId) throws ServiceException
+    public boolean exists(DmoStoreId storeId) throws ServiceException
     {
         try
         {
@@ -421,8 +423,8 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
     @Override
 	public URL getAdditionalLicenseURL(Dataset dataset) throws ServiceException {
     	URL url = Data.getEasyStore().getFileURL(
-                dataset.getStoreId(), 
-                AdditionalLicenseUnit.UNIT_ID);
+                dataset.getDmoStoreId(), 
+                new DsUnitId(AdditionalLicenseUnit.UNIT_ID));
 		return url;
 	}
     
@@ -441,7 +443,7 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
         return datasetWorkDispatcher;
     }
 
-	public CommonDataset getCommonDataset(final String sid) throws ServiceException
+	public CommonDataset getCommonDataset(final DmoStoreId sid) throws ServiceException
 	{
 		try
 		{
@@ -458,7 +460,7 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
 		// TODO add security: only depositor and archivist
 		try
 		{
-			return Data.getEasyStore().getUnitMetadata(dataset.getStoreId(), AdditionalLicenseUnit.UNIT_ID);
+			return Data.getEasyStore().getUnitMetadata(dataset.getDmoStoreId(), new DsUnitId(AdditionalLicenseUnit.UNIT_ID));
 		}
 		catch (final RepositoryException e)
 		{
@@ -481,7 +483,7 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
 		{
 			// code smell: same sort done in UnitMetaDataPanel, can't we just get the last from the store?
 			// see also Data.getEasyStore().getFileURL(storeId, unitId, dateTime)
-			List<UnitMetadata> list = Data.getEasyStore().getUnitMetadata(dataset.getStoreId(), AdditionalLicenseUnit.UNIT_ID);
+			List<UnitMetadata> list = Data.getEasyStore().getUnitMetadata(dataset.getDmoStoreId(), new DsUnitId(AdditionalLicenseUnit.UNIT_ID));
 			if (list == null || list.size() < 1 ) return null;
 			Collections.sort(list, new CompareByCreationDate());
 			return list.get(0);
@@ -497,7 +499,7 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
 		// TODO add security: only known users
 		try
 		{
-			return Data.getEasyStore().getUnitMetadata(dataset.getStoreId(), LicenseUnit.UNIT_ID);
+			return Data.getEasyStore().getUnitMetadata(dataset.getDmoStoreId(), new DsUnitId(LicenseUnit.UNIT_ID));
 		}
 		catch (final RepositoryException e)
 		{

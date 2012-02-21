@@ -6,6 +6,7 @@ import java.util.List;
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.DataModelObject;
 import nl.knaw.dans.common.lang.repo.DmoStore;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.domain.download.DownloadHistory;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 
@@ -37,18 +38,18 @@ public interface EasyStore extends DmoStore
         }
     }
     
-    EasyMetadata getEasyMetaData(String sid, DateTime asOfDateTime) throws RepositoryException;
+    EasyMetadata getEasyMetaData(DmoStoreId dmoStoreId, DateTime asOfDateTime) throws RepositoryException;
 
     DownloadHistory findDownloadHistoryFor(DataModelObject objectDmo, String period) throws RepositoryException;
 
-    DownloadHistory findDownloadHistoryFor(String objectStoreId, String period) throws RepositoryException;
+    DownloadHistory findDownloadHistoryFor(DmoStoreId dmoStoreId, String period) throws RepositoryException;
 
     List<DownloadHistory> findDownloadHistoryFor(DataModelObject dmo) throws RepositoryException;
     
-    URL getFileURL(String sid);
+    URL getFileURL(DmoStoreId dmoStoreId);
     
-    URL getDescriptiveMetadataURL(String sid);
+    URL getDescriptiveMetadataURL(DmoStoreId dmoStoreId);
 
-    URL getStreamURL(String storeId, String streamId);
+    URL getStreamURL(DmoStoreId dmoStoreId, String streamId);
 
 }

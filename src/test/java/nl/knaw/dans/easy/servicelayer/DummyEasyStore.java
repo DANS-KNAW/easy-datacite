@@ -7,7 +7,9 @@ import nl.knaw.dans.common.lang.repo.BinaryUnit;
 import nl.knaw.dans.common.lang.repo.DataModelObject;
 import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.common.lang.repo.DmoStoreEventListener;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.DmoUpdateConcurrencyGuard;
+import nl.knaw.dans.common.lang.repo.DsUnitId;
 import nl.knaw.dans.common.lang.repo.MetadataUnit;
 import nl.knaw.dans.common.lang.repo.UnitMetadata;
 import nl.knaw.dans.common.lang.repo.exception.ConcurrentUpdateException;
@@ -30,7 +32,7 @@ public class DummyEasyStore implements EasyStore
     }
 
     @Override
-    public DownloadHistory findDownloadHistoryFor(String objectStoreId, String period) throws RepositoryException
+    public DownloadHistory findDownloadHistoryFor(DmoStoreId objectStoreId, String period) throws RepositoryException
     {
         // TODO Auto-generated method stub
         return null;
@@ -51,7 +53,7 @@ public class DummyEasyStore implements EasyStore
     }
 
     @Override
-    public boolean addRelationship(String storeId, String relationship, String object, boolean isLiteral, String dataType) throws RepositoryException
+    public boolean addRelationship(DmoStoreId storeId, String relationship, String object, boolean isLiteral, String dataType) throws RepositoryException
     {
         // TODO Auto-generated method stub
         return false;
@@ -79,21 +81,21 @@ public class DummyEasyStore implements EasyStore
 //    }
 
     @Override
-    public URL getFileURL(String storeId, String unitId)
+    public URL getFileURL(DmoStoreId storeId, DsUnitId unitId)
     {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public URL getFileURL(String storeId, String unitId, DateTime dateTime)
+    public URL getFileURL(DmoStoreId storeId, DsUnitId unitId, DateTime dateTime)
     {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public DateTime getLastModified(String storeId) throws RepositoryException
+    public DateTime getLastModified(DmoStoreId storeId) throws RepositoryException
     {
         // TODO Auto-generated method stub
         return null;
@@ -107,7 +109,7 @@ public class DummyEasyStore implements EasyStore
     }
 
     @Override
-    public byte[] getObjectXML(String storeId) throws RepositoryException
+    public byte[] getObjectXML(DmoStoreId storeId) throws RepositoryException
     {
         // TODO Auto-generated method stub
         return null;
@@ -121,21 +123,21 @@ public class DummyEasyStore implements EasyStore
     }
 
     @Override
-    public List<Relation> getRelations(String storeId, String predicate) throws RepositoryException
+    public List<Relation> getRelations(DmoStoreId storeId, String predicate) throws RepositoryException
     {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public List<String> getSidsByContentModel(String contentModel) throws RepositoryException
+    public List<DmoStoreId> getSidsByContentModel(DmoStoreId contentModel) throws RepositoryException
     {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public List<UnitMetadata> getUnitMetadata(String storeId, String unitId) throws RepositoryException
+    public List<UnitMetadata> getUnitMetadata(DmoStoreId storeId, DsUnitId unitId) throws RepositoryException
     {
         // TODO Auto-generated method stub
         return null;
@@ -163,7 +165,7 @@ public class DummyEasyStore implements EasyStore
     }
 
     @Override
-    public boolean purgeRelationship(String storeId, String relationship, String object, boolean isLiteral, String dataType) throws RepositoryException
+    public boolean purgeRelationship(DmoStoreId storeId, String relationship, String object, boolean isLiteral, String dataType) throws RepositoryException
     {
         // TODO Auto-generated method stub
         return false;
@@ -177,7 +179,7 @@ public class DummyEasyStore implements EasyStore
     }
 
     @Override
-    public DataModelObject retrieve(String storeId) throws RepositoryException
+    public DataModelObject retrieve(DmoStoreId storeId) throws RepositoryException
     {
         // TODO Auto-generated method stub
         return null;
@@ -261,28 +263,28 @@ public class DummyEasyStore implements EasyStore
     }
 
     @Override
-    public JumpoffDmo findJumpoffDmoFor(String objectStoreId) throws RepositoryException
+    public JumpoffDmo findJumpoffDmoFor(DmoStoreId objectStoreId) throws RepositoryException
     {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public List<UnitMetadata> getUnitMetadata(String storeId) throws RepositoryException
+    public List<UnitMetadata> getUnitMetadata(DmoStoreId storeId) throws RepositoryException
     {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public DateTime puregUnit(String storeId, String unitId, String logMessage) throws RepositoryException
+    public DateTime puregUnit(DmoStoreId storeId, DsUnitId unitId, String logMessage) throws RepositoryException
     {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public void addOrUpdateBinaryUnit(String storeId, BinaryUnit binaryUnit, String logMessage) throws RepositoryException
+    public void addOrUpdateBinaryUnit(DmoStoreId storeId, BinaryUnit binaryUnit, String logMessage) throws RepositoryException
     {
         // TODO Auto-generated method stub
         
@@ -290,7 +292,7 @@ public class DummyEasyStore implements EasyStore
 
 
     @Override
-    public List<String> findSubordinates(String storeId) throws RepositoryException
+    public List<DmoStoreId> findSubordinates(DmoStoreId storeId) throws RepositoryException
     {
         // TODO Auto-generated method stub
         return null;
@@ -304,42 +306,42 @@ public class DummyEasyStore implements EasyStore
     }
 
     @Override
-    public EasyMetadata getEasyMetaData(String sid, DateTime asOfDateTime) throws RepositoryException
+    public EasyMetadata getEasyMetaData(DmoStoreId sid, DateTime asOfDateTime) throws RepositoryException
     {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public boolean exists(String storeId) throws RepositoryException
+    public boolean exists(DmoStoreId storeId) throws RepositoryException
     {
         // TODO Auto-generated method stub
         return false;
     }
 
     @Override
-    public void addOrUpdateMetadataUnit(String storeId, MetadataUnit metadataUnit, String logMessage) throws RepositoryException
+    public void addOrUpdateMetadataUnit(DmoStoreId storeId, MetadataUnit metadataUnit, String logMessage) throws RepositoryException
     {
         // TODO Auto-generated method stub
         
     }
 
     @Override
-    public URL getFileURL(String sid)
+    public URL getFileURL(DmoStoreId sid)
     {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public URL getDescriptiveMetadataURL(String sid)
+    public URL getDescriptiveMetadataURL(DmoStoreId sid)
     {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public URL getStreamURL(String storeId, String streamId)
+    public URL getStreamURL(DmoStoreId storeId, String streamId)
     {
         // TODO Auto-generated method stub
         return null;

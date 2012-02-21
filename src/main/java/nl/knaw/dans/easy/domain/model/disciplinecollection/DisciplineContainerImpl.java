@@ -7,6 +7,7 @@ import java.util.Set;
 
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.DmoNamespace;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.MetadataUnit;
 import nl.knaw.dans.common.lang.repo.RepoUtil;
 import nl.knaw.dans.common.lang.repo.collections.AbstractDmoRecursiveItem;
@@ -91,11 +92,11 @@ public class DisciplineContainerImpl extends AbstractDmoRecursiveItem
 				List<DisciplineContainer> childDisciplines = new ArrayList<DisciplineContainer>();
 				
 				// get all child disciplines from the store
-				Set<String> childSids = getChildSids();
-				for (String childSid : childSids)
+				Set<DmoStoreId> childSids = getChildSids();
+				for (DmoStoreId childSid : childSids)
 				{
-					String namespace = RepoUtil.getNamespaceFromSid(childSid);
-					if (namespace.equals(DisciplineContainer.NAMESPACE.getValue()))
+					DmoNamespace namespace = childSid.getNamespace();
+					if (namespace.equals(DisciplineContainer.NAMESPACE))
 					{
 						// check if we still have a validated copy of the object in the old cache
 						if (childDisciplinesCache != null)
@@ -104,7 +105,7 @@ public class DisciplineContainerImpl extends AbstractDmoRecursiveItem
 							for (DisciplineContainer cachedChild : childDisciplinesCache)
 							{
 								if (!cachedChild.isInvalidated() &&
-										cachedChild.getStoreId().equals(childSid))
+										cachedChild.getDmoStoreId().equals(childSid))
 								{
 									validCachedChild = cachedChild;
 									break;

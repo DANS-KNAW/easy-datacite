@@ -157,9 +157,9 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem
     {
         if (fileItemMetadata == null)
         {
-            fileItemMetadata = new FileItemMetadataImpl(getStoreId());
+            fileItemMetadata = new FileItemMetadataImpl(getDmoStoreId());
         }
-        fileItemMetadata.setSid(getStoreId());
+        fileItemMetadata.setDmoStoreId(getDmoStoreId());
         return fileItemMetadata;
     }
     

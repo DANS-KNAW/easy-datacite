@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.DatasetItem;
 import nl.knaw.dans.easy.domain.model.DatasetItemContainerMetadata;
@@ -43,7 +44,7 @@ public class ItemContainerMetadataImpl extends AbstractItemMetadataImpl<DatasetI
         super();
     }
 
-    public ItemContainerMetadataImpl(String sid)
+    public ItemContainerMetadataImpl(DmoStoreId sid)
     {
         super(sid);
     }
