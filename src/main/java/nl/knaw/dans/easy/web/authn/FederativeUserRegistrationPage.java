@@ -66,9 +66,7 @@ public class FederativeUserRegistrationPage extends AbstractEasyNavPage
     {
         super();
         this.appUser = appUser;
-        // TODO enable page this when functionality is completed
-        throw new InternalWebError();
-        //        init();
+        init();
     }
 
     private void init()

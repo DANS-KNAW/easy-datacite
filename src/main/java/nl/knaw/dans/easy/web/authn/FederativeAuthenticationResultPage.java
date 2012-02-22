@@ -45,10 +45,7 @@ public class FederativeAuthenticationResultPage extends AbstractEasyNavPage
     public FederativeAuthenticationResultPage()
     {
         super();
-        
-        // TODO enable page this when functionality is completed
-        throw new InternalWebError();
-        //init();
+        init();
     }
 
     // TODO texts must come from property files
