@@ -42,10 +42,6 @@
 		<level value="error"/>
 	</logger>
 	
-	<logger name="org.apache.wicket.Localizer">
-		<level value="error"/>
-	</logger>
-	
 	<logger name="nl.knaw.dans.easy.business">
   		<level value="debug"/> 
 	</logger>
