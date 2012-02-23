@@ -1,7 +1,6 @@
 package nl.knaw.dans.easy.sword;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.MessageFormat;
@@ -38,9 +37,6 @@ import org.purl.sword.server.SWORDServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
 public class EasySwordServer implements SWORDServer
 {
     /** TODO share this constant some how with the EASY application */
@@ -54,16 +50,11 @@ public class EasySwordServer implements SWORDServer
      * Only a published state would be appropriate for code 201
      */
     private static final int    HTTP_RESPONSE_DATA_ACCEPTED = 202;
-    
-    private static String policy = "easy.sword.server.policy not configured";
-    private static String treatment = "easy.sword.server.treatment not configured";
 
-    // Federative related constants
-    static final String USERNAME_INDICATING_FEDERATIVE_LOGIN = "nl.knaw.dans.easy.federatedUser";
-    // TODO This secret key should not be in the code but read from an external file! 
-    static final String FEDERATIVE_LOGIN_SECRET = "d49bcb3d-ffb6-4748-aef4-8ca6319f3afb";
+    private static String       policy                      = "easy.sword.server.policy not configured";
+    private static String       treatment                   = "easy.sword.server.treatment not configured";
 
-    static Logger       log                         = LoggerFactory.getLogger(EasySwordServer.class);
+    static Logger               log                         = LoggerFactory.getLogger(EasySwordServer.class);
 
     /**
      * Provides a dumb but plausible service document - it contains an anonymous workspace and
@@ -79,12 +70,13 @@ public class EasySwordServer implements SWORDServer
     public ServiceDocument doServiceDocument(final ServiceDocumentRequest sdr) throws SWORDAuthenticationException, SWORDErrorException, SWORDException
     {
         // Authenticate the user
-        log.info(MessageFormat.format("SERVICE DOCUMENT user={0}; IP={1}; location={2}; onBehalfOf={3}",sdr.getUsername(),sdr.getIPAddress(),sdr.getLocation(),sdr.getOnBehalfOf()));
+        log.info(MessageFormat.format("SERVICE DOCUMENT user={0}; IP={1}; location={2}; onBehalfOf={3}", sdr.getUsername(), sdr.getIPAddress(),
+                sdr.getLocation(), sdr.getOnBehalfOf()));
         final String userID = sdr.getUsername();
         final String password = sdr.getPassword();
         if (userID != null)
         {
-            if (null == getUser(userID, password))
+            if (null == EasyBusinessFacade.getUser(userID, password))
                 throw new SWORDAuthenticationException(userID + " not authenticated");
         }
 
@@ -169,7 +161,7 @@ public class EasySwordServer implements SWORDServer
         catch (final MalformedURLException exception)
         {
             final String message = inputLocation + " Invalid location: " + exception.getMessage();
-            log.error(message,exception);
+            log.error(message, exception);
             throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, message);
         }
         return url;
@@ -197,9 +189,10 @@ public class EasySwordServer implements SWORDServer
 
     public DepositResponse doDeposit(final Deposit deposit) throws SWORDAuthenticationException, SWORDErrorException, SWORDException
     {
-        log.info(MessageFormat.format("DEPOSIT user={0}; IP={1}; location={2}; fileName={3}",deposit.getUsername(),deposit.getIPAddress(),deposit.getLocation(),deposit.getFilename()));
+        log.info(MessageFormat.format("DEPOSIT user={0}; IP={1}; location={2}; fileName={3}", deposit.getUsername(), deposit.getIPAddress(),
+                deposit.getLocation(), deposit.getFilename()));
 
-        final EasyUser user = getUser(deposit.getUsername(), deposit.getPassword());
+        final EasyUser user = EasyBusinessFacade.getUser(deposit.getUsername(), deposit.getPassword());
         if (user == null)
             throw new SWORDAuthenticationException(deposit.getUsername() + " not authenticated");
 
@@ -333,119 +326,22 @@ public class EasySwordServer implements SWORDServer
         return author;
     }
 
-    private EasyUser getUser(final String userID, final String password) throws SWORDErrorException, SWORDException
-    {
-        if(0 == userID.compareTo(USERNAME_INDICATING_FEDERATIVE_LOGIN))
-        {
-            // handle federative user, password contains token
-            final String fedUserId = extractUserIdFromToken(password);
-            
-            return EasyBusinessFacade.getFederativeUser(fedUserId);
-        }
-        else
-        {
-            // Easy user - NON-federative
-            return EasyBusinessFacade.getUser(userID, password);
-        }
-    }
-    
-    // Needed for token based authorization
-    String extractUserIdFromToken(final String token)
-    {
-        final int HASH_LENGTH = 40; // This depends on hash algorithm and conversion to string
-        String fedUserId = null;
-        
-        // get last bytes containing the hash
-        // the string before it is the federativeUserId
-        if (token.length() > HASH_LENGTH)
-        {
-            int hashPos = token.length() - HASH_LENGTH;
-            String givenFedUserId = token.substring(0, hashPos);
-            String givenHashString = token.substring(hashPos);
-            log.debug("input id: " + givenFedUserId + ", hash: " + givenHashString);
-            
-            // calculate the hash with the secret key
-            String hash = calculateHash(givenFedUserId, FEDERATIVE_LOGIN_SECRET);
-            if (0 == hash.compareTo(givenHashString))
-            {
-                fedUserId = givenFedUserId;
-            }
-            else
-            {
-                log.info("Hash is not correct: " + givenHashString);
-                // TODO fail if hash is not OK!
-            }
-        }
-        else
-        {
-            log.info("Token is to small: " + Integer.toString(token.length()));
-            // error; token is to small
-        }
-        
-        return fedUserId; 
-    }
-    
-    // TODO create a HashUtils or HashCalculator class
-    String calculateHash(final String message, final String key)
-    {
-        final String HASH_ALGORITHM = "SHA-1";
-        String hash = "";
-        String messagePlusKey = message + key;
-        try
-        {
-            MessageDigest messageDigest = MessageDigest.getInstance(HASH_ALGORITHM);
-            messageDigest.update(messagePlusKey.getBytes("UTF-8"));
-            byte bytes[] = messageDigest.digest();
-            log.debug("Binary hash length=" + Integer.toString(bytes.length));
-            hash = new String(convertToHexString(bytes));
-            log.debug("String hash length=" + Integer.toString(hash.length()));
-        }
-        catch (NoSuchAlgorithmException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        catch (UnsupportedEncodingException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } 
-        
-        return hash;
-    }
-
-    // TODO add to a HashUtils or StringUtils class
-    String convertToHexString(byte[] bytes)
-    {
-        if (bytes == null) 
-            return null;
-        
-        StringBuffer hexString = new StringBuffer(2 * bytes.length);
-        for (int i = 0; i < bytes.length; i++) 
-        {
-            // convert the nibbles, because toHexString does not prepend zero
-            hexString.append(Integer.toHexString((0xF0 & bytes[i])>>4));
-            hexString.append(Integer.toHexString(0x0F & bytes[i]));
-        }
-        return hexString.toString();
-    }
-    
     public AtomDocumentResponse doAtomDocument(final AtomDocumentRequest adr) throws SWORDAuthenticationException, SWORDErrorException, SWORDException
     {
-        log.info(MessageFormat.format("ATOM DOC user={0}; IP={1}; location={2}",adr.getUsername(),adr.getIPAddress(),adr.getLocation()));
-        if (null == getUser(adr.getUsername(), adr.getPassword()))
+        log.info(MessageFormat.format("ATOM DOC user={0}; IP={1}; location={2}", adr.getUsername(), adr.getIPAddress(), adr.getLocation()));
+        if (null == EasyBusinessFacade.getUser(adr.getUsername(), adr.getPassword()))
             throw new SWORDAuthenticationException(adr.getUsername() + " not authenticated");
 
         return new AtomDocumentResponse(HttpServletResponse.SC_NOT_IMPLEMENTED);
     }
 
-    // TODO please peer review web.xml configuration 
+    // TODO please peer review web.xml configuration
     public static void setPolicy(String policy)
     {
         EasySwordServer.policy = policy;
     }
 
-    // TODO please peer review web.xml configuration 
+    // TODO please peer review web.xml configuration
     public static void setTreatment(String treatment)
     {
         EasySwordServer.treatment = treatment;

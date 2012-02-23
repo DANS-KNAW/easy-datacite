@@ -12,7 +12,6 @@ import nl.knaw.dans.common.lang.log.Event;
 import nl.knaw.dans.common.lang.log.RL;
 import nl.knaw.dans.common.lang.mail.MailComposerException;
 import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
-import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.xml.SchemaCreationException;
 import nl.knaw.dans.common.lang.xml.ValidatorException;
@@ -78,6 +77,14 @@ public class EasyBusinessFacade
      */
     public static EasyUser getUser(final String userId, final String password) throws SWORDException, SWORDErrorException
     {
+        final FederativeAuthentication federativeAuthentication = new FederativeAuthentication(userId, password);
+        if (!federativeAuthentication.canBeTraditionalAccount())
+        {
+            final String fedUserId = federativeAuthentication.getUserId();
+            return getFederativeUser(fedUserId);
+        }
+
+        // not a federative user
         authenticate(userId, password);
         try
         {
@@ -94,25 +101,25 @@ public class EasyBusinessFacade
     }
 
     // NO username/password authentication, that is allready done via the federation
-    public static EasyUser getFederativeUser(final String fedUserId) throws SWORDException, SWORDErrorException
+    private static EasyUser getFederativeUser(final String fedUserId) throws SWORDException, SWORDErrorException
     {
         FederativeUserIdMap userIdMap = null;
         try
         {
             userIdMap = Data.getFederativeUserRepo().findById(fedUserId);
         }
-        catch (ObjectNotInStoreException e)
+        catch (final ObjectNotInStoreException e)
         {
             logger.debug("Object not found. fedUserId='" + fedUserId + "'");
             throw new SWORDException("Object not found. fedUserId='" + fedUserId + "' :", e);
         }
-        catch (RepositoryException e)
+        catch (final RepositoryException e)
         {
             logger.debug("Could not get user with fedUserId '" + fedUserId + "' :", e);
             throw new SWORDException("Could not get user with fedUserId '" + fedUserId + "' :", e);
         }
         
-        String userId = userIdMap.getDansUserId();
+        final String userId = userIdMap.getDansUserId();
         logger.debug("Found easy user for federative user: fedUserId='" + fedUserId + "', userId='" + userId + "'");
         try
         {
@@ -233,9 +240,9 @@ public class EasyBusinessFacade
             reporter.checkOK();
             if (submission.hasGlobalMessages())
             {
-                for (String s : submission.getGlobalErrorMessages())
+                for (final String s : submission.getGlobalErrorMessages())
                     logger.error(s);
-                for (String s : submission.getGlobalInfoMessages())
+                for (final String s : submission.getGlobalInfoMessages())
                     logger.error(s);
             }
             if (submission.hasMetadataErrors())
@@ -246,7 +253,7 @@ public class EasyBusinessFacade
                  */
                 final String format = "%s created by [%s] but not submitted because meta data has errors: ";
                 String message = String.format(format, dataset.getStoreId(), user.getId());
-                for (PanelDefinition panelDef : submission.getFirstErrorPage().getPanelDefinitions())
+                for (final PanelDefinition panelDef : submission.getFirstErrorPage().getPanelDefinitions())
                 {
                     if (panelDef.getErrorMessages().size() > 0)
                         message += " " + panelDef.getLabelResourceKey() + " " + panelDef.getErrorMessages();

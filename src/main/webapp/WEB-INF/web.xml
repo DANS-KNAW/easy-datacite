@@ -64,6 +64,10 @@
 		<param-value>http://localhost:8083/easy-sword/</param-value>
 	</context-param>
 
+	<context-param> 
+		<param-name>upload-temp-directory</param-name> 
+		<param-value>/usr/share/tomcat5/temp/</param-value> 
+	</context-param>
 
 	<!-- Servlets -->
 
