@@ -123,7 +123,7 @@ public class ItemIngester extends AbstractWorker
                 if (storeId == null)
                 {
                     FolderItem original = (FolderItem) AbstractDmoFactory.newDmo(FolderItem.NAMESPACE);
-                    //getUnitOfWork().createObject(FolderItemImpl.class);
+                    getUnitOfWork().attach(original);
                     
                     original.setLabel(DEPOSITOR_FOLDER_NAME);
                     original.setOwnerId(sessionUser.getId());
