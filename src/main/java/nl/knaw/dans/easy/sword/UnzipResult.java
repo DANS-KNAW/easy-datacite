@@ -11,13 +11,7 @@ import java.util.zip.ZipException;
 
 import nl.knaw.dans.common.lang.file.UnzipUtil;
 import nl.knaw.dans.common.lang.util.FileUtil;
-import nl.knaw.dans.easy.domain.model.Dataset;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.domain.model.emd.types.IsoDate;
-import nl.knaw.dans.easy.domain.model.user.EasyUser;
 
-import org.easymock.EasyMock;
-import org.joda.time.DateTime;
 import org.purl.sword.base.ErrorCodes;
 import org.purl.sword.base.SWORDErrorException;
 import org.purl.sword.base.SWORDException;
@@ -26,8 +20,6 @@ import org.slf4j.LoggerFactory;
 
 public class UnzipResult
 {
-    public static final String               NO_OP_STORE_ID_DOMAIN = "mockedStoreID:";
-
     private static final String              METADATA              = "easyMetadata.xml";
     private static final String              DATA                  = "data";
     private static final String              DESCRIPTION           = "Expecting a file '" + METADATA + "' and a folder '" + DATA + "'.";
@@ -41,9 +33,6 @@ public class UnzipResult
     private final String                     destPath;
     private final String                     zipFile;
     private byte[]                           easyMetadata;
-    private int                              noOpSumbitCounter;
-
-
 
     public UnzipResult(final InputStream inputStream) throws SWORDException, SWORDErrorException
     {
@@ -129,33 +118,12 @@ public class UnzipResult
         }
     }
 
-    private List<File> getFiles()
+    List<File> getFiles()
     {
         return files;
     };
 
-    /**
-     * @param user
-     * @param mock if true nothing should be really added to the repository, thus client can be tested without flooding the repository
-     */
-    public Dataset submit(final EasyUser user, final boolean mock) throws SWORDErrorException, SWORDException
-    {
-        EasyBusinessFacade.validateSyntax(getEasyMetaData());
-
-        final EasyMetadata metadata = EasyBusinessFacade.unmarshallEasyMetaData(getEasyMetaData());
-
-        EasyBusinessFacade.validateSemantics(user, metadata);
-
-        if (mock)
-        {
-            return mockSubmittedDataset(metadata, user);
-        }
-        final Dataset dataset = EasyBusinessFacade.submitNewDataset(user, metadata, getDataFolder(), getFiles());
-        clearTemp();
-        return dataset;
-    }
-
-    private void clearTemp()
+    void clearTemp()
     {
         // delete files before folders
         for (int i=files.size() ; --i>=0 ;)
@@ -165,7 +133,7 @@ public class UnzipResult
         tempDir.delete();
     }
 
-    private byte[] getEasyMetaData() throws SWORDException, SWORDErrorException
+    byte[] getEasyMetaData() throws SWORDException, SWORDErrorException
     {
         if (easyMetadata == null)
         {
@@ -190,7 +158,7 @@ public class UnzipResult
         return new File(folder.getPath() + "/" + METADATA);
     }
 
-    private File getDataFolder()
+    File getDataFolder()
     {
         return new File(folder.getPath() + "/" + DATA);
     }
@@ -205,32 +173,5 @@ public class UnzipResult
     {
         log.error(message, exception);
         return new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST,message);
-    }
-
-    private Dataset mockSubmittedDataset(final EasyMetadata metadata, EasyUser user)
-    {
-        ++noOpSumbitCounter;
-        final String pid = (noOpSumbitCounter + "xxxxxxxx").replaceAll("(..)(...)(...)", "urn:nbn:nl:ui:$1-$2-$3");
-        final String storeID = NO_OP_STORE_ID_DOMAIN + noOpSumbitCounter;
-        final Dataset dataset = EasyMock.createMock(Dataset.class);
-
-        // TODO the following lines duplicates logic of DatasetImpl, move to EasyMetadata?
-        final List<IsoDate> lda = metadata.getEmdDate().getEasAvailable();
-        final List<IsoDate> lds = metadata.getEmdDate().getEasDateSubmitted();
-        final DateTime dateAvailable = (lda.size() == 0 ? null : lda.get(0).getValue());
-        final IsoDate dateSubmitted = (lds.size() == 0) ? new IsoDate() : lds.get(0);
-        final boolean underEmbargo = dateAvailable != null && new DateTime().plusMinutes(1).isBefore(dateAvailable);
-
-        EasyMock.expect(dataset.getEasyMetadata()).andReturn(metadata).anyTimes();
-        EasyMock.expect(dataset.getStoreId()).andReturn(storeID).anyTimes();
-        EasyMock.expect(dataset.getAccessCategory()).andReturn(metadata.getEmdRights().getAccessCategory()).anyTimes();
-        EasyMock.expect(dataset.getDateSubmitted()).andReturn(dateSubmitted).anyTimes();
-        EasyMock.expect(dataset.getDateAvailable()).andReturn(dateAvailable).anyTimes();
-        EasyMock.expect(dataset.getPreferredTitle()).andReturn(metadata.getPreferredTitle()).anyTimes();
-        EasyMock.expect(dataset.getDepositor()).andReturn(user).anyTimes();
-        EasyMock.expect(dataset.getPersistentIdentifier()).andReturn(pid).anyTimes();
-        EasyMock.expect(dataset.isUnderEmbargo()).andReturn(underEmbargo).anyTimes();
-        EasyMock.replay(dataset);
-        return dataset;
     }
 }

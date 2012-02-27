@@ -20,10 +20,11 @@ public class SubmitTester extends EasySwordServerTester
 
     @Before
     public void setupMocking() throws Exception {
+        System.setProperty("easy.home", "../easy-home");
         MockUtil.mockAll();
     }
     
-    @Test // FIME test was supposed to touch AbstractNotification.send(...)
+    @Test // FIXME test was supposed to touch AbstractNotification.send(...)
     public void submitWithoutMailer() throws Exception
     {
         final Mailer saved = ExternalServices.getMailOffice();
@@ -96,6 +97,12 @@ public class SubmitTester extends EasySwordServerTester
     public void tooManyRootFolders() throws Throwable
     {
         execute(false, true, new File("src/test/resources/input/too-many-root-folers.zip").getPath());
+    }
+
+    @Test (expected=SWORDErrorException.class)
+    public void missingMetadataFields() throws Throwable
+    {
+        execute(false, true, new File("src/test/resources/input/data-plus-missing-meta-fields.zip").getPath());
     }
 
     @Test (expected=SWORDErrorException.class)

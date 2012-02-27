@@ -8,6 +8,7 @@ import nl.knaw.dans.common.lang.file.UnzipUtil;
 import nl.knaw.dans.common.lang.util.FileUtil;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -19,8 +20,8 @@ public class EasyBusinessFacadeTest extends Tester
     final static File basePath = new File("target/tmp");
     static File       tempDirectory;
 
-    @BeforeClass
-    public static void setupMocking() throws Exception
+    @Before
+    public void setupMocking() throws Exception
     {
         MockUtil.mockAll();
     }
@@ -48,22 +49,14 @@ public class EasyBusinessFacadeTest extends Tester
                 throw se;
         }
         if (expectedCause != null)
-            throw new Exception("expected "+expectedCause.getName());
+            throw new Exception("got no exception but expected "+expectedCause.getName());
     }
 
+   // @Ignore //FIXME getFormDefinition returns null
     @Test
     public void submit() throws Exception
     {
         executeSubmit(ZIP_FILE, META_DATA_FILE, null);
-    }
-
-    @Ignore // FIXME see MockUtil.mockDepositService
-    @Test (expected=SWORDErrorException.class)
-    public void missingMetadataFields() throws Throwable
-    {
-        final File zipFile = new File("src/test/resources/input/data-plus-missing-meta-fields.zip");
-        final File metaDataFile = new File(tempDirectory + "/easyMetadata.xml");
-        executeSubmit(zipFile, metaDataFile, SWORDErrorException.class);
     }
 
     @Test (expected=SWORDErrorException.class)

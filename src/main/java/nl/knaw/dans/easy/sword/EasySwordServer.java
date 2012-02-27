@@ -200,15 +200,43 @@ public class EasySwordServer implements SWORDServer
         if (((deposit.getOnBehalfOf() != null) && (!deposit.getOnBehalfOf().equals(""))) && (!deposit.getLocation().contains("deposit?user=")))
             throw new SWORDErrorException(ErrorCodes.MEDIATION_NOT_ALLOWED, "Mediated deposit not allowed to this collection");
 
-        final UnzipResult unzipped = new UnzipResult(deposit.getFile());
-        final Dataset dataset = unzipped.submit(user, deposit.isNoOp());
+        final Dataset dataset = process(deposit, user);
+        
         final String datasetUrl = toServer(deposit.getLocation()) + DATASET_PATH + dataset.getStoreId();
-        DepositResponse response = wrapResponse(wrapSwordEntry(deposit, user, dataset, unzipped, datasetUrl), datasetUrl);
+        final DepositResponse response = wrapResponse(wrapSwordEntry(deposit, user, dataset, datasetUrl), datasetUrl);
         log.info("return service document to " + deposit.getUsername() + " " + response.toString());
         return response;
     }
 
-    private static SWORDEntry wrapSwordEntry(final Deposit deposit, final EasyUser user, final Dataset dataset, final UnzipResult unzipped, String datasetUrl)
+    private Dataset process(final Deposit deposit, final EasyUser user) throws SWORDException, SWORDErrorException
+    {
+        final UnzipResult unzipped = new UnzipResult(deposit.getFile());
+        final EasyMetadata metadata = validate(user, unzipped.getEasyMetaData());
+        final Dataset dataset = submit(deposit, user, unzipped, metadata);
+        return dataset;
+    }
+
+    private EasyMetadata validate(final EasyUser user, byte[] easyMetaData) throws SWORDErrorException, SWORDException
+    {
+        EasyBusinessFacade.validateSyntax(easyMetaData);
+        final EasyMetadata metadata = EasyBusinessFacade.unmarshallEasyMetaData(easyMetaData);
+        EasyBusinessFacade.validateSemantics(user, metadata);
+        return metadata;
+    }
+
+    private Dataset submit(final Deposit deposit, final EasyUser user, final UnzipResult unzipped, final EasyMetadata metadata) throws SWORDException,
+            SWORDErrorException
+    {
+        final Dataset dataset;
+        if (deposit.isNoOp())
+            dataset = EasyBusinessFacade.mockSubmittedDataset(metadata, user);
+        else
+            dataset = EasyBusinessFacade.submitNewDataset(user, metadata, unzipped.getDataFolder(), unzipped.getFiles());
+        unzipped.clearTemp();
+        return dataset;
+    }
+
+    private static SWORDEntry wrapSwordEntry(final Deposit deposit, final EasyUser user, final Dataset dataset, final String datasetUrl)
             throws SWORDException, SWORDErrorException
     {
         final SWORDEntry swordEntry = new SWORDEntry();
@@ -336,13 +364,13 @@ public class EasySwordServer implements SWORDServer
     }
 
     // TODO please peer review web.xml configuration
-    public static void setPolicy(String policy)
+    public static void setPolicy(final String policy)
     {
         EasySwordServer.policy = policy;
     }
 
     // TODO please peer review web.xml configuration
-    public static void setTreatment(String treatment)
+    public static void setTreatment(final String treatment)
     {
         EasySwordServer.treatment = treatment;
     }

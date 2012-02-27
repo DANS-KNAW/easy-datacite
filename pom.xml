@@ -64,6 +64,7 @@
 			<groupId>org.easymock</groupId>
 			<artifactId>easymock</artifactId>
 			<version>${easymock.version}</version>
+			<!-- not just for testing, the NoOp option is implemented with mocks -->
 		</dependency>
 		
 	</dependencies>

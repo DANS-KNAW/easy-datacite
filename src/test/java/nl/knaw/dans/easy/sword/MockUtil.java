@@ -18,8 +18,6 @@ import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.ItemOrder;
 import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.filter.ItemFilters;
-import nl.knaw.dans.easy.domain.deposit.discipline.DisciplineImpl;
-import nl.knaw.dans.easy.domain.form.FormDescriptor;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainerImpl;
 import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
@@ -29,7 +27,6 @@ import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.domain.worker.WorkListener;
 import nl.knaw.dans.easy.domain.worker.WorkReporter;
 import nl.knaw.dans.easy.servicelayer.services.DatasetService;
-import nl.knaw.dans.easy.servicelayer.services.DepositService;
 import nl.knaw.dans.easy.servicelayer.services.DisciplineCollectionService;
 import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
@@ -47,6 +44,7 @@ public class MockUtil
     protected static final String       INVALID_USER_ID               = "nobody";
     protected static final String       VALID_USER_ID                 = "somebody";
     protected static final String       ARCHIV_USER_ID                = "archivist";
+    public static final String          NO_OP_STORE_ID_DOMAIN         = "mockedStoreID:";
 
     protected static final EasyUserImpl USER                          = createSomeBody();
     protected static final EasyUserImpl ARCHIVIST                     = createArchivist();
@@ -59,7 +57,6 @@ public class MockUtil
         mockNow();
         mockItemService();
         mockDatasetService();
-        mockDepositService();
         mockUser();
         mockDisciplineService();
         mockFileStoreAccess();
@@ -77,7 +74,7 @@ public class MockUtil
 
         for (int i = 1; i <= MAX_NR_OF_VERBOSE_NO_OP_TESTS; i++)
             EasyMock.expect(fileStoreAccess.getFilenames(//
-                    UnzipResult.NO_OP_STORE_ID_DOMAIN + i,//
+                    NO_OP_STORE_ID_DOMAIN + i,//
                     true)//
             ).andReturn(Arrays.asList(new String[]{"just-a-file-name"})).anyTimes();
         EasyMock.replay(fileStoreAccess);
@@ -124,22 +121,6 @@ public class MockUtil
                 (ItemFilters) EasyMock.isNull())).andReturn(new ArrayList<FileItemVO>()).anyTimes();
 
         EasyMock.replay(itemService);
-    }
-
-    public static void mockDepositService() throws Exception
-    {
-        final DisciplineImpl disciplineSociology = new DisciplineImpl(new FormDescriptor(MetadataFormat.SOCIOLOGY.toString().toLowerCase()));
-        final DisciplineImpl disciplineArcheology = new DisciplineImpl(new FormDescriptor(MetadataFormat.ARCHAEOLOGY.toString().toLowerCase()));
-        final DisciplineImpl disciplineHistory = new DisciplineImpl(new FormDescriptor(MetadataFormat.HISTORY.toString().toLowerCase()));
-        final DisciplineImpl disciplineUnspecified = new DisciplineImpl(new FormDescriptor(MetadataFormat.UNSPECIFIED.toString().toLowerCase()));
-
-        final DepositService depositService = EasyMock.createMock(DepositService.class);
-        new Services().setDepositService(depositService);
-        
-        EasyMock.expect(depositService.getDiscipline(MetadataFormat.SOCIOLOGY)).andReturn(disciplineSociology).anyTimes();
-        EasyMock.expect(depositService.getDiscipline(MetadataFormat.ARCHAEOLOGY)).andReturn(disciplineArcheology).anyTimes();
-        EasyMock.expect(depositService.getDiscipline(MetadataFormat.HISTORY)).andReturn(disciplineHistory).anyTimes();
-        EasyMock.expect(depositService.getDiscipline(MetadataFormat.UNSPECIFIED)).andReturn(disciplineUnspecified).anyTimes();
     }
 
     public static void mockDatasetService() throws Exception
