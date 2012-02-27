@@ -345,7 +345,7 @@ public class FormDescriptor extends AbstractInheritableDefinition<FormDescriptor
     }
 
     // Factory methods for JiBX
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     protected static List arrayList()
     {
         return new ArrayList();

@@ -20,69 +20,82 @@ public class MetadataValidator implements SubmissionProcessor
     
     // To complete the form model, alongside a TermPanel, a ContainerPanel should be implemented. As for now we do not validate containers.
     private static final String CONTAINERPANEL_NOT_IMPLEMENTED = "containerPanel not implemented";
+
+    private boolean metadataIsValid =true;
     
     public boolean continueAfterFailure()
     {
         return true;
     }
 
-    public boolean process(DatasetSubmissionImpl submission)
+    public boolean process(final DatasetSubmissionImpl submission)
     {
-        submission.setMetadataValid(true);
-        FormDefinition definition = submission.getFormDefinition();
+        final FormDefinition definition = submission.getFormDefinition();
+        final EasyMetadata easyMetadata = submission.getDataset().getEasyMetadata();
         
-        for (FormPage formPage : definition.getFormPages())
-        {
-            List<PanelDefinition> panelDefinitions = formPage.getPanelDefinitions();
-            iteratePanels(submission, panelDefinitions);
-        }
-        return submission.isMetadataValid();
+        iterateFormPages(definition, easyMetadata);
+        submission.setMetadataValid(metadataIsValid);
+        return metadataIsValid;
+    }
+    
+    public boolean validate(final FormDefinition formDefinition, final EasyMetadata easyMetadata)
+    {
+        iterateFormPages(formDefinition, easyMetadata);
+        return metadataIsValid;
     }
 
-    private void iteratePanels(DatasetSubmissionImpl submission, List<PanelDefinition> panelDefinitions)
+    private void iterateFormPages(final FormDefinition definition, final EasyMetadata easyMetadata)
     {
-        for (PanelDefinition pDef : panelDefinitions)
+        for (final FormPage formPage : definition.getFormPages())
+        {
+            final List<PanelDefinition> panelDefinitions = formPage.getPanelDefinitions();
+            iteratePanels(easyMetadata, panelDefinitions);
+        }
+    }
+
+    private void iteratePanels(final EasyMetadata emd, final List<PanelDefinition> panelDefinitions)
+    {
+        for (final PanelDefinition pDef : panelDefinitions)
         {
             if (pDef instanceof TermPanelDefinition)
             {
-                validateTerm(submission, (TermPanelDefinition) pDef);
+                validateTerm(emd, (TermPanelDefinition) pDef);
             }
             else if (pDef instanceof SubHeadingDefinition)
             {
-                SubHeadingDefinition shDef = (SubHeadingDefinition) pDef;
-                List<PanelDefinition> pDefs = shDef.getPanelDefinitions();
-                iteratePanels(submission, pDefs);
+                final SubHeadingDefinition shDef = (SubHeadingDefinition) pDef;
+                final List<PanelDefinition> pDefs = shDef.getPanelDefinitions();
+                iteratePanels(emd, pDefs);
             }
         }
     }
 
-    private void validateTerm(DatasetSubmissionImpl submission, TermPanelDefinition tpDef)
+    private void validateTerm(final EasyMetadata emd, final TermPanelDefinition tpDef)
     {
         if (!CONTAINERPANEL_NOT_IMPLEMENTED.equals(tpDef.getNamespacePrefix()))
         {
-            EasyMetadata emd = submission.getDataset().getEasyMetadata();
-            Term term = new Term(tpDef.getTermName(), tpDef.getNamespacePrefix());
-            List<MetadataItem> items = emd.getTerm(term);
+            final Term term = new Term(tpDef.getTermName(), tpDef.getNamespacePrefix());
+            final List<MetadataItem> items = emd.getTerm(term);
             
-            checkRequired(submission, tpDef, items);
-            checkComplete(submission, tpDef, items);
+            checkRequired(tpDef, items);
+            checkComplete(tpDef, items);
         }
     }
 
-    private void checkRequired(DatasetSubmissionImpl submission, TermPanelDefinition tpDef, List<MetadataItem> items)
+    private void checkRequired(final TermPanelDefinition tpDef, final List<MetadataItem> items)
     {
         // required fields
         if (tpDef.isRequired())
         {
             if(items.isEmpty())
             {
-                submission.setMetadataValid(false);
+                metadataIsValid = false;
                 tpDef.addErrorMessage(MSG_REQUIRED);
             }
         }
     }
     
-    private void checkComplete(DatasetSubmissionImpl submission, TermPanelDefinition tpDef, List<MetadataItem> items)
+    private void checkComplete(final TermPanelDefinition tpDef, final List<MetadataItem> items)
     {
         // everything complete?
         
@@ -90,16 +103,16 @@ public class MetadataValidator implements SubmissionProcessor
         int boxCounter = -1;
         for (int index = 0; index < items.size(); index ++)
         {
-            MetadataItem item = items.get(index);
+            final MetadataItem item = items.get(index);
             if (item instanceof Spatial)
             {
-                Spatial spatial = (Spatial) item;
+                final Spatial spatial = (Spatial) item;
                 if ("eas.spatial.point".equals(tpDef.getId()) && spatial.getPoint() != null)
                 {
                     pointCounter++;
                     if (!item.isComplete())
                     {
-                        submission.setMetadataValid(false);
+                        metadataIsValid = false;
                         tpDef.addItemErrorMessage(pointCounter, MSG_INCOMPLETE);
                     }
                 }
@@ -108,7 +121,7 @@ public class MetadataValidator implements SubmissionProcessor
                     boxCounter++;
                     if (!item.isComplete())
                     {
-                        submission.setMetadataValid(false);
+                        metadataIsValid = false;
                         tpDef.addItemErrorMessage(boxCounter, MSG_INCOMPLETE);
                     }
                 }
@@ -116,7 +129,7 @@ public class MetadataValidator implements SubmissionProcessor
             }
             else if (!item.isComplete())
             {
-                submission.setMetadataValid(false);
+                metadataIsValid = false;
                 tpDef.addItemErrorMessage(index, MSG_INCOMPLETE);
             }
         }
