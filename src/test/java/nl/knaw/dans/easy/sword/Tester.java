@@ -20,7 +20,6 @@ public abstract class Tester
     @BeforeClass
     public static void setDepositService() throws Exception
     {
-//        System.setProperty("easy.home", "../easy-home");
         final EasyDepositService service = new EasyDepositService();
         service.doBeanPostProcessing();
         new Services().setDepositService(service);

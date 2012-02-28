@@ -7,6 +7,7 @@ import nl.knaw.dans.common.lang.mail.Mailer;
 import nl.knaw.dans.easy.data.ext.ExternalServices;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.purl.sword.base.Deposit;
 import org.purl.sword.base.SWORDErrorException;
@@ -18,12 +19,13 @@ public class SubmitTester extends EasySwordServerTester
 {
     private static final String PROPER_ZIP = new File("src/test/resources/input/data-plus-meta.zip").getPath();
 
-    @Before
+    @Before // FIXME some tests stumble over easy-home if run stand-alone
     public void setupMocking() throws Exception {
+        //EasyHome.setValue(System.getProperty("easy.home"));
         MockUtil.mockAll();
     }
     
-    @Test // FIXME test was supposed to touch AbstractNotification.send(...)
+    @Test // TODO test was supposed to touch AbstractNotification.send(...)
     public void submitWithoutMailer() throws Exception
     {
         final Mailer saved = ExternalServices.getMailOffice();
@@ -53,55 +55,62 @@ public class SubmitTester extends EasySwordServerTester
     @Test (expected=SWORDErrorException.class)
     public void invalidZip() throws Throwable
     {
-        execute(false, true, new File("src/test/resources/input/metadata.xml").getPath());
+        execute(false, true, new File("src/test/resources/input/" + "metadata.xml").getPath());
     }
 
     @Test (expected=SWORDErrorException.class)
     public void neitherMetaDataNorData() throws Throwable
     {
-        execute(false, true, new File("src/test/resources/input/datasetPictures.zip").getPath());
+        execute(false, true, getZip("datasetPictures"));
     }
 
     @Test (expected=SWORDErrorException.class)
     public void noMetaData() throws Throwable
     {
-        execute(false, true, new File("src/test/resources/input/data-only.zip").getPath());
+        execute(false, true, getZip("data-only"));
     }
 
     @Test (expected=SWORDErrorException.class)
     public void emptyZip() throws Throwable
     {
-        execute(false, true, new File("src/test/resources/input/empty.zip").getPath());
+        execute(false, true, getZip("empty"));
     }
 
     @Test (expected=SWORDErrorException.class)
     public void dataIsFile() throws Throwable
     {
-        execute(false, true, new File("src/test/resources/input/data-is-file.zip").getPath());
+        execute(false, true, getZip("data-is-file"));
     }
 
     @Test (expected=SWORDErrorException.class)
     public void metaIsFolder() throws Throwable
     {
-        execute(false, true, new File("src/test/resources/input/meta-is-folder.zip").getPath());
+        execute(false, true, getZip("meta-is-folder"));
     }
 
     @Test (expected=SWORDErrorException.class)
     public void justFolders() throws Throwable
     {
-        execute(false, true, new File("src/test/resources/input/no-files-infolders.zip").getPath());
+        execute(false, true, getZip("no-files-infolders"));
     }
 
     @Test (expected=SWORDErrorException.class)
     public void tooManyRootFolders() throws Throwable
     {
-        execute(false, true, new File("src/test/resources/input/too-many-root-folers.zip").getPath());
+        execute(false, true, getZip("too-many-root-folers"));
     }
 
     @Test (expected=SWORDErrorException.class)
     public void missingMetadataFields() throws Throwable
     {
-        execute(false, true, new File("src/test/resources/input/data-plus-missing-meta-fields.zip").getPath());
+        execute(false, true, getZip("data-plus-missing-meta-fields"));
+    }
+
+    @Ignore // FIXME
+    @Test 
+    public void spatialMetadata() throws Throwable
+    {
+        execute(false, true, getZip("data-plus-spatial-metadata"));
     }
 
     @Test (expected=SWORDErrorException.class)
@@ -126,6 +135,11 @@ public class SubmitTester extends EasySwordServerTester
     public void locationWithoutProtocol() throws Throwable
     {
         execute(MockUtil.VALID_USER_ID,MockUtil.PASSWORD,"//"+LOCATION);
+    }
+
+    private String getZip(String string)
+    {
+        return new File("src/test/resources/input/" + string + ".zip").getPath();
     }
 
     private void execute(String invalidUserId, String password, String location) throws Exception

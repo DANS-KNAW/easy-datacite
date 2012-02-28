@@ -27,7 +27,6 @@ import nl.knaw.dans.easy.data.ext.EasyMailComposer;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
 import nl.knaw.dans.easy.domain.deposit.discipline.DepositDiscipline;
 import nl.knaw.dans.easy.domain.deposit.discipline.DisciplineImpl;
-import nl.knaw.dans.easy.domain.emd.validation.FormatValidator;
 import nl.knaw.dans.easy.domain.exceptions.DataIntegrityException;
 import nl.knaw.dans.easy.domain.federation.FederativeUserIdMap;
 import nl.knaw.dans.easy.domain.form.FormDefinition;
@@ -378,10 +377,10 @@ public class EasyBusinessFacade
     static void validateSemantics(final EasyMetadata metadata) throws SWORDErrorException, SWORDException
     {
         // check the format
-        final EasySwordValidationReporter validationReporter = new EasySwordValidationReporter();
-        FormatValidator.instance().validate(metadata, validationReporter);
-        if (!validationReporter.isMetadataValid())
-            throw newSwordInputException("invalid meta data", null);
+//        final EasySwordValidationReporter validationReporter = new EasySwordValidationReporter();
+//        FormatValidator.instance().validate(metadata, validationReporter);
+//        if (!validationReporter.isMetadataValid())
+//            throw newSwordInputException("invalid meta data: "+validationReporter.getMessages(), null);
 
         // check for mandatory fields and allowed values
         final FormDefinition formDefinition = getFormDefinition(metadata);

@@ -31,7 +31,8 @@ public class ValidationTest extends Tester
     /**
      * Documents expected content of &lt;atom:summary type="text"> in the HTTP response 400 Bad Request.
      * The metadata files won't cause a draft dataset when submitted. Input errors not detected by the
-     * validation will pass a NoOp submission but might cause a draft dataset when submitted for real.
+     * validation (such as trailing or leading white space) will pass a NoOp submission but might cause a
+     * draft dataset when submitted for real.
      */
     @Parameters
     public static Collection<String[]> createParameters() throws Exception
@@ -39,11 +40,15 @@ public class ValidationTest extends Tester
         final List<String[]> constructortSignatureInstances = new ArrayList<String[]>();
         constructortSignatureInstances.add(new String[] {"missingMetadata.xml", "[deposit.field_required]"});
         constructortSignatureInstances.add(new String[] {"disciplineWithWhiteSpace.xml", null});
+        constructortSignatureInstances.add(new String[] {"SpatialPoint.xml", null});
+//        constructortSignatureInstances.add(new String[] {"SpatialPointWithoutSchema.xml", "inv alid"});
+//        constructortSignatureInstances.add(new String[] {"SpatialPointWithoutX.xml", "inval id"});
+//        constructortSignatureInstances.add(new String[] {"SpatialPointWithoutY.xml", "inval id"});
         return constructortSignatureInstances;
     }
 
     @Test
-    public void executeFailingValidation() throws Exception
+    public void executeValidation() throws Exception
     {
         final byte[] fileContent = FileUtil.readFile(new File("src/test/resources/input/" + metadataFileName));
         final EasyMetadata metadata = (EasyMetadata) JiBXObjectFactory.unmarshal(EasyMetadataImpl.class, fileContent);
@@ -54,7 +59,7 @@ public class ValidationTest extends Tester
         catch (final SWORDErrorException se)
         {
             if (messageContent == null)
-                throw new Exception("\n" + metadataFileName + " no ewrror expected but got " + se.toString());
+                throw new Exception("\n" + metadataFileName + " no error expected but got " + se.toString());
             if (!se.getMessage().contains(messageContent))
                 throw new Exception("\n" + metadataFileName + " expected a message containing " + messageContent + "\nbut got " + se.getMessage());
             return;
@@ -62,7 +67,7 @@ public class ValidationTest extends Tester
         catch (final Exception se)
         {
             if (messageContent == null)
-                throw new Exception("\n" + metadataFileName + " no ewrror expected but got " + se.toString());
+                throw new Exception("\n" + metadataFileName + " no error expected but got " + se.toString());
             throw new Exception("\n" + metadataFileName + " expected " + SWORDErrorException.class.getName() + " with a message containing " + messageContent
                     + "\nbut got " + se.toString());
         }

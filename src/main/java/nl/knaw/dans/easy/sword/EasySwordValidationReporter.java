@@ -1,6 +1,7 @@
 package nl.knaw.dans.easy.sword;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -27,8 +28,18 @@ public class EasySwordValidationReporter implements ValidationReporter
 
     public boolean isMetadataValid()
     {
-        logger.debug(infoReports.size() + " info reports " + warningReports.size() + " warning reports " + errorReports.size() + " error reports");
+        logger.debug(getMsgs());
         return valid;
+    }
+
+    public String getMessages()
+    {
+        return getMsgs();
+    }
+
+    private String getMsgs()
+    {
+        return infoReports.size() + " info reports " + Arrays.toString(infoReports.toArray()) + warningReports.size() + Arrays.toString(warningReports.toArray()) + " warning reports " + errorReports.size() + " error reports " + Arrays.toString(errorReports.toArray());
     }
 
     @Override
