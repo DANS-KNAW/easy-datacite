@@ -2,6 +2,7 @@ package nl.knaw.dans.easy.business.dataset;
 
 import java.util.List;
 
+import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.easy.domain.form.FormDefinition;
 import nl.knaw.dans.easy.domain.form.FormPage;
 import nl.knaw.dans.easy.domain.form.PanelDefinition;
@@ -76,7 +77,17 @@ public class MetadataValidator implements SubmissionProcessor
         {
             final Term term = new Term(tpDef.getTermName(), tpDef.getNamespacePrefix());
             final List<MetadataItem> items = emd.getTerm(term);
-            
+            if (tpDef.getTermName().equals(Term.Name.LICENSE.termName))
+        	{
+        		if (AccessCategory.NO_ACCESS.equals(emd.getEmdRights().getAccessCategory())) 
+        		{
+        			tpDef.setRequired(false);
+        		}
+        		else
+        		{
+        			tpDef.setRequired(true);
+        		}
+        	}
             checkRequired(tpDef, items);
             checkComplete(tpDef, items);
         }
