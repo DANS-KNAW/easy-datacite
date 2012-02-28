@@ -20,7 +20,6 @@ public class SubmitTester extends EasySwordServerTester
 
     @Before
     public void setupMocking() throws Exception {
-        System.setProperty("easy.home", "../easy-home");
         MockUtil.mockAll();
     }
     

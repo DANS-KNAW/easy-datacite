@@ -220,7 +220,7 @@ public class EasySwordServer implements SWORDServer
     {
         EasyBusinessFacade.validateSyntax(easyMetaData);
         final EasyMetadata metadata = EasyBusinessFacade.unmarshallEasyMetaData(easyMetaData);
-        EasyBusinessFacade.validateSemantics(user, metadata);
+        EasyBusinessFacade.validateSemantics(metadata);
         return metadata;
     }
 

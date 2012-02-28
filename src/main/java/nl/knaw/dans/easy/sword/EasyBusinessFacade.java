@@ -375,18 +375,18 @@ public class EasyBusinessFacade
         return metadata;
     }
 
-    static void validateSemantics(final EasyUser user, final EasyMetadata metadata) throws SWORDErrorException, SWORDException
+    static void validateSemantics(final EasyMetadata metadata) throws SWORDErrorException, SWORDException
     {
         // check the format
         final EasySwordValidationReporter validationReporter = new EasySwordValidationReporter();
         FormatValidator.instance().validate(metadata, validationReporter);
         if (!validationReporter.isMetadataValid())
-            throw newSwordInputException(user.getId() + " tried to submit invalid meta data", null);
+            throw newSwordInputException("invalid meta data", null);
 
         // check for mandatory fields and allowed values
         final FormDefinition formDefinition = getFormDefinition(metadata);
         if (!new MetadataValidator().validate(formDefinition, metadata))
-            throw newSwordInputException(user.getId() + " tried to submit invalid meta data\n" + EasyBusinessFacade.extractValidationMessages(formDefinition),
+            throw newSwordInputException("invalid meta data\n" + EasyBusinessFacade.extractValidationMessages(formDefinition),
                     null);
     }
 

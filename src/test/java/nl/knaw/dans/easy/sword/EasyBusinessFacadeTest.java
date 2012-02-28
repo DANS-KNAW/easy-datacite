@@ -10,7 +10,6 @@ import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.purl.sword.base.SWORDErrorException;
 import org.purl.sword.base.SWORDException;
