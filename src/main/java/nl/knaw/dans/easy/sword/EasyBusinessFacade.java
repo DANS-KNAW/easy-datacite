@@ -397,7 +397,8 @@ public class EasyBusinessFacade
             for (final PanelDefinition pDef : formPage.getPanelDefinitions())
             {
                 final String prefix = " " + formPage.getLabelResourceKey() + "." + pDef.getLabelResourceKey();
-                msg += prefix + " " + Arrays.deepToString(pDef.getErrorMessages().toArray());
+                if ( pDef.getErrorMessages().size()>0)
+                    msg += prefix + " " + Arrays.deepToString(pDef.getErrorMessages().toArray());
                 final Map<Integer, List<String>> messages = pDef.getItemErrorMessages();
                 for (final int i : messages.keySet())
                     msg += prefix + "." + i + messages.get(i);
