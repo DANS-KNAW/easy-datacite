@@ -14,7 +14,6 @@ public abstract  class EasySwordServerTester extends Tester
     @BeforeClass
     public static void createSwordServer() throws Exception
     {
-        System.setProperty("easy.home", "../easy-home");
         easySwordServer = new EasySwordServer();
     }
 

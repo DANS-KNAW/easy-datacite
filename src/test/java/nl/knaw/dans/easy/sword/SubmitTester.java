@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 
 import nl.knaw.dans.common.lang.mail.Mailer;
 import nl.knaw.dans.easy.data.ext.ExternalServices;
+import nl.knaw.dans.easy.util.EasyHome;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -19,9 +20,9 @@ public class SubmitTester extends EasySwordServerTester
 {
     private static final String PROPER_ZIP = new File("src/test/resources/input/data-plus-meta.zip").getPath();
 
-    @Before // FIXME some tests stumble over easy-home if run stand-alone
+    @Before
     public void setupMocking() throws Exception {
-        //EasyHome.setValue(System.getProperty("easy.home"));
+        EasyHome.setValue(System.getProperty("easy.home"));
         MockUtil.mockAll();
     }
     
