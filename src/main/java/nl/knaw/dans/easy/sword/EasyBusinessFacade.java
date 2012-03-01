@@ -27,6 +27,7 @@ import nl.knaw.dans.easy.data.ext.EasyMailComposer;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
 import nl.knaw.dans.easy.domain.deposit.discipline.DepositDiscipline;
 import nl.knaw.dans.easy.domain.deposit.discipline.DisciplineImpl;
+import nl.knaw.dans.easy.domain.emd.validation.FormatValidator;
 import nl.knaw.dans.easy.domain.exceptions.DataIntegrityException;
 import nl.knaw.dans.easy.domain.federation.FederativeUserIdMap;
 import nl.knaw.dans.easy.domain.form.FormDefinition;
@@ -67,7 +68,7 @@ public class EasyBusinessFacade
     static final String        TEMPLATE            = SubmitNotification.TEMPLATE_BASE_LOCATION + "deposit/depositConfirmation" + ".html";
 
     public static final String DEFAULT_EMD_VERSION = EasyMetadataValidator.VERSION_0_1;
-    private static int                noOpSumbitCounter;
+    private static int         noOpSumbitCounter;
     private static Logger      logger              = LoggerFactory.getLogger(EasyBusinessFacade.class);
 
     /**
@@ -207,7 +208,7 @@ public class EasyBusinessFacade
         return metadata;
     }
 
-    static FormDefinition getFormDefinition(final EasyMetadata emd) throws SWORDException
+    private static FormDefinition getFormDefinition(final EasyMetadata emd) throws SWORDException
     {
         final MetadataFormat mdFormat = emd.getEmdOther().getEasApplicationSpecific().getMetadataFormat();
 
@@ -230,8 +231,8 @@ public class EasyBusinessFacade
                 throw newSwordException("Cannot get deposit discipline.", null);
         }
         final FormDefinition formDefinition = discipline.getEmdFormDescriptor().getFormDefinition(DepositDiscipline.EMD_DEPOSITFORM_ARCHIVIST);
-        if (formDefinition==null)
-            throw newSwordException("Cannot get formdefinition for MetadataFormat "+mdFormat.toString(), null);
+        if (formDefinition == null)
+            throw newSwordException("Cannot get formdefinition for MetadataFormat " + mdFormat.toString(), null);
         return formDefinition;
     }
 
@@ -256,10 +257,7 @@ public class EasyBusinessFacade
             }
             if (submission.hasMetadataErrors())
             {
-                /*
-                 * TODO rather validate before creating the dataset, requires refactoring of
-                 * MetadataValidator.process(submission) into validate(metadata,formDefinition)
-                 */
+                // should have been covered by validateSemantics
                 final String format = "%s created by [%s] but not submitted because meta data has errors: ";
                 String message = String.format(format, dataset.getStoreId(), user.getId());
                 for (final PanelDefinition panelDef : submission.getFirstErrorPage().getPanelDefinitions())
@@ -360,7 +358,7 @@ public class EasyBusinessFacade
     }
 
     /** Just a wrapper for exceptions. */
-    static EasyMetadata unmarshallEasyMetaData(final byte[] data) throws SWORDErrorException
+    private static EasyMetadata unmarshallEasyMetaData(final byte[] data) throws SWORDErrorException
     {
         final EasyMetadata metadata;
         try
@@ -374,38 +372,23 @@ public class EasyBusinessFacade
         return metadata;
     }
 
-    static void validateSemantics(final EasyMetadata metadata) throws SWORDErrorException, SWORDException
+    /**
+     * 
+     * @param easyMetaData xml text representation
+     * @return unmarshalled easyMetaData
+     * @throws SWORDErrorException
+     * @throws SWORDException
+     */
+    public static EasyMetadata validate(byte[] easyMetaData) throws SWORDErrorException, SWORDException
     {
-        // check the format
-//        final EasySwordValidationReporter validationReporter = new EasySwordValidationReporter();
-//        FormatValidator.instance().validate(metadata, validationReporter);
-//        if (!validationReporter.isMetadataValid())
-//            throw newSwordInputException("invalid meta data: "+validationReporter.getMessages(), null);
-
-        // check for mandatory fields and allowed values
-        final FormDefinition formDefinition = getFormDefinition(metadata);
-        if (!new MetadataValidator().validate(formDefinition, metadata))
-            throw newSwordInputException("invalid meta data\n" + EasyBusinessFacade.extractValidationMessages(formDefinition),
-                    null);
+        validateSyntax(easyMetaData);
+        final EasyMetadata unmarshalled = EasyBusinessFacade.unmarshallEasyMetaData(easyMetaData);
+        EasyBusinessFacade.validateMandatoryFields(unmarshalled);
+        EasyBusinessFacade.validateControlledVocabulairies(unmarshalled);
+        return unmarshalled;
     }
 
-    static String extractValidationMessages(final FormDefinition formDefinition)
-    {
-        String msg = "";
-        for (final FormPage formPage : formDefinition.getFormPages())
-            for (final PanelDefinition pDef : formPage.getPanelDefinitions())
-            {
-                final String prefix = " " + formPage.getLabelResourceKey() + "." + pDef.getLabelResourceKey();
-                if ( pDef.getErrorMessages().size()>0)
-                    msg += prefix + " " + Arrays.deepToString(pDef.getErrorMessages().toArray());
-                final Map<Integer, List<String>> messages = pDef.getItemErrorMessages();
-                for (final int i : messages.keySet())
-                    msg += prefix + "." + i + messages.get(i);
-            }
-        return msg;
-    }
-
-    static void validateSyntax(final byte[] data) throws SWORDErrorException, SWORDException
+    private static void validateSyntax(final byte[] data) throws SWORDErrorException, SWORDException
     {
         final XMLErrorHandler handler = new XMLErrorHandler(Reporter.off);
         try
@@ -430,6 +413,38 @@ public class EasyBusinessFacade
         }
         if (!handler.passed())
             throw newSwordInputException("Invalid EASY metadata: \n" + handler.getMessages(), null);
+    }
+
+    private static void validateMandatoryFields(final EasyMetadata metadata) throws SWORDErrorException, SWORDException
+    {
+         final EasySwordValidationReporter validationReporter = new EasySwordValidationReporter();
+         FormatValidator.instance().validate(metadata, validationReporter);
+         if (!validationReporter.isMetadataValid())
+         throw newSwordInputException("invalid meta data: "+validationReporter.getMessages(), null);
+    }
+
+    private static void validateControlledVocabulairies(final EasyMetadata metadata) throws SWORDErrorException, SWORDException
+    {
+        final FormDefinition formDefinition = getFormDefinition(metadata);
+        if (!new MetadataValidator().validate(formDefinition, metadata))
+            throw newSwordInputException("invalid meta data\n" + EasyBusinessFacade.extractValidationMessages(formDefinition), null);
+    }
+
+    private static String extractValidationMessages(final FormDefinition formDefinition)
+    {
+        String msg = "";
+        for (final FormPage formPage : formDefinition.getFormPages())
+            for (final PanelDefinition pDef : formPage.getPanelDefinitions())
+            {
+                final String prefix = " " + formPage.getLabelResourceKey() + "." + pDef.getLabelResourceKey();
+                if (pDef.getErrorMessages().size() > 0)
+                    msg += prefix + " " + Arrays.deepToString(pDef.getErrorMessages().toArray());
+                final Map<Integer, List<String>> messages = pDef.getItemErrorMessages();
+                for (final int i : messages.keySet())
+                    if (messages.get(i).size() > 0)
+                        msg += prefix + "." + i + messages.get(i);
+            }
+        return msg;
     }
 
     private static SWORDException newSwordException(final String message, final Exception exception)
@@ -480,7 +495,7 @@ public class EasyBusinessFacade
         }
     }
 
-    static String formatAudience(final EasyMetadata metadata) throws SWORDErrorException
+    public static String formatAudience(final EasyMetadata metadata) throws SWORDErrorException
     {
         try
         {
@@ -494,10 +509,11 @@ public class EasyBusinessFacade
 
     public static final String NO_OP_STORE_ID_DOMAIN = "mockedStoreID:";
 
-    static Dataset mockSubmittedDataset(final EasyMetadata metadata, final EasyUser user)
+    public static Dataset mockSubmittedDataset(final EasyMetadata metadata, final EasyUser user)
     {
-        //++noOpSumbitCounter;
-        noOpSumbitCounter = 1; // TODO constant value for unit tests but for production increment might be nicer
+        // ++noOpSumbitCounter;
+        noOpSumbitCounter = 1; 
+        // TODO constant value for unit tests but for production increment might be nicer
         final String pid = (noOpSumbitCounter + "xxxxxxxx").replaceAll("(..)(...)(...)", "urn:nbn:nl:ui:$1-$2-$3");
         final String storeID = NO_OP_STORE_ID_DOMAIN + noOpSumbitCounter;
         final Dataset dataset = EasyMock.createMock(Dataset.class);

@@ -192,36 +192,33 @@ public class EasySwordServer implements SWORDServer
         log.info(MessageFormat.format("DEPOSIT user={0}; IP={1}; location={2}; fileName={3}", deposit.getUsername(), deposit.getIPAddress(),
                 deposit.getLocation(), deposit.getFilename()));
 
-        final EasyUser user = EasyBusinessFacade.getUser(deposit.getUsername(), deposit.getPassword());
-        if (user == null)
-            throw new SWORDAuthenticationException(deposit.getUsername() + " not authenticated");
+        final EasyUser user = checkUser(deposit);
+        checkOnBehalfOf(deposit);
 
-        // Check this is a collection that takes "on behalf of" deposits, else throw an error
-        if (((deposit.getOnBehalfOf() != null) && (!deposit.getOnBehalfOf().equals(""))) && (!deposit.getLocation().contains("deposit?user=")))
-            throw new SWORDErrorException(ErrorCodes.MEDIATION_NOT_ALLOWED, "Mediated deposit not allowed to this collection");
-
-        final Dataset dataset = process(deposit, user);
+        final UnzipResult unzipped = new UnzipResult(deposit.getFile());
+        final EasyMetadata metadata = EasyBusinessFacade.validate(unzipped.getEasyMetaData());
+        final Dataset dataset = submit(deposit, user, unzipped, metadata);
         
         final String datasetUrl = toServer(deposit.getLocation()) + DATASET_PATH + dataset.getStoreId();
-        final DepositResponse response = wrapResponse(wrapSwordEntry(deposit, user, dataset, datasetUrl), datasetUrl);
+        final SWORDEntry swordEntry = wrapSwordEntry(deposit, user, dataset, datasetUrl);
+        final DepositResponse response = wrapResponse(swordEntry, datasetUrl);
         log.info("return service document to " + deposit.getUsername() + " " + response.toString());
         return response;
     }
 
-    private Dataset process(final Deposit deposit, final EasyUser user) throws SWORDException, SWORDErrorException
+    private EasyUser checkUser(final Deposit deposit) throws SWORDException, SWORDErrorException, SWORDAuthenticationException
     {
-        final UnzipResult unzipped = new UnzipResult(deposit.getFile());
-        final EasyMetadata metadata = validate(user, unzipped.getEasyMetaData());
-        final Dataset dataset = submit(deposit, user, unzipped, metadata);
-        return dataset;
+        final EasyUser user = EasyBusinessFacade.getUser(deposit.getUsername(), deposit.getPassword());
+        if (user == null)
+            throw new SWORDAuthenticationException(deposit.getUsername() + " not authenticated");
+        return user;
     }
 
-    private EasyMetadata validate(final EasyUser user, byte[] easyMetaData) throws SWORDErrorException, SWORDException
+    private void checkOnBehalfOf(final Deposit deposit) throws SWORDErrorException
     {
-        EasyBusinessFacade.validateSyntax(easyMetaData);
-        final EasyMetadata metadata = EasyBusinessFacade.unmarshallEasyMetaData(easyMetaData);
-        EasyBusinessFacade.validateSemantics(metadata);
-        return metadata;
+        // Check this is a collection that takes "on behalf of" deposits, else throw an error
+        if (((deposit.getOnBehalfOf() != null) && (!deposit.getOnBehalfOf().equals(""))) && (!deposit.getLocation().contains("deposit?user=")))
+            throw new SWORDErrorException(ErrorCodes.MEDIATION_NOT_ALLOWED, "Mediated deposit not allowed to this collection");
     }
 
     private Dataset submit(final Deposit deposit, final EasyUser user, final UnzipResult unzipped, final EasyMetadata metadata) throws SWORDException,

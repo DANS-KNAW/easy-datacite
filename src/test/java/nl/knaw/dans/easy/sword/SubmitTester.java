@@ -106,7 +106,7 @@ public class SubmitTester extends EasySwordServerTester
         execute(false, true, getZip("data-plus-missing-meta-fields"));
     }
 
-    @Ignore // FIXME
+    @Ignore // FIXME some xsd seems to be missing
     @Test 
     public void spatialMetadata() throws Throwable
     {
