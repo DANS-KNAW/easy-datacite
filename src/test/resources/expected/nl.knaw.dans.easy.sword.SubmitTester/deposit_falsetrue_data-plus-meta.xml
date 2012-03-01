@@ -8,13 +8,13 @@
    <atom:content type="application/zip" src="http://localhost:8080/resources/easy/fileDownloadResource?params={'rootSid':'mockedStoreID:1','downloadType':'zip','selectedItemList':['*']}"/>
    <atom:generator uri="http://localhost:8080" version="1.3">Easy SWORD Server</atom:generator>
    <atom:link href="http://localhost:8080/datasets/id/mockedStoreID:1" rel="edit"/>
-   <atom:summary type="text">test</atom:summary>
-   <atom:title type="text">meta data with spatial info</atom:title>
-   <atom:updated>2012-02-28;2012-02-28;2012-02-28</atom:updated>
+   <atom:summary type="text">maar een paar bestandjes</atom:summary>
+   <atom:title type="text">Sword deposit test</atom:title>
+   <atom:updated>2010</atom:updated>
    <atom:category>Humanities</atom:category>
    <sword:treatment>
       &lt;p&gt;Dear Some Body,&lt;/p&gt;
-      &lt;p&gt;Thank you very much for submitting your dataset 'meta data with spatial info' to DANS EASY. This E-mail contains more information regarding when your dataset will become available to the public, implementation of any changes, your data's permanent discoverability, and the Licence agreement.&lt;/p&gt;
+      &lt;p&gt;Thank you very much for submitting your dataset 'Sword deposit test' to DANS EASY. This E-mail contains more information regarding when your dataset will become available to the public, implementation of any changes, your data's permanent discoverability, and the Licence agreement.&lt;/p&gt;
       &lt;h4&gt;Availability to the public&lt;/h4&gt;
       Within a few working days, DANS staff will make your data available to the public in accordance with the conditions indicated by you. DANS guarantees that your data will remain accessible and safely stored for the long term.
       &lt;p&gt;You can follow the status of your dataset in 'My datasets' to see if it is already available to the public. You will see this option in EASY when you log in. Or you may use this direct link: &lt;a href="../"&gt;&lt;/a&gt;&lt;/p&gt;

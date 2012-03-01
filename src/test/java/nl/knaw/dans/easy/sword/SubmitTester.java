@@ -8,7 +8,6 @@ import nl.knaw.dans.easy.data.ext.ExternalServices;
 import nl.knaw.dans.easy.util.EasyHome;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.purl.sword.base.Deposit;
 import org.purl.sword.base.SWORDErrorException;
@@ -107,11 +106,17 @@ public class SubmitTester extends EasySwordServerTester
         execute(false, true, getZip("data-plus-missing-meta-fields"));
     }
 
-    @Ignore // FIXME some xsd seems to be missing
     @Test 
     public void spatialMetadata() throws Throwable
     {
         execute(false, true, getZip("data-plus-spatial-metadata"));
+    }
+
+    @Test 
+    public void whiteSpace() throws Throwable
+    {
+        // TODO the zip file fails in the real world
+        execute(false, true, getZip("discipilneWithWhiteSpace"));
     }
 
     @Test (expected=SWORDErrorException.class)
@@ -153,7 +158,7 @@ public class SubmitTester extends EasySwordServerTester
         deposit.setNoOp(true);
         deposit.setFile(new FileInputStream(PROPER_ZIP));
         
-        execute(deposit);
+        execute(deposit,location.replaceAll("\\/", "_"));
     }
 
     private void execute(boolean verbose, boolean noOp, final String zip) throws Exception,
@@ -167,13 +172,13 @@ public class SubmitTester extends EasySwordServerTester
         deposit.setNoOp(noOp);
         deposit.setFile(new FileInputStream(zip));
         
-        execute(deposit);
+        execute(deposit,"_"+new File(zip).getName().replace(".zip", ""));
     }
 
-    private void execute(final Deposit deposit) throws Exception
+    private void execute(final Deposit deposit, final String zip) throws Exception
     {
         final String regexp = "-- CreationDate: .*--"; // iText generates creation date as comment, ignore that
         final String actualResults = easySwordServer.doDeposit(deposit).toString().replaceAll(regexp, "");
-        assertAsExpected(actualResults, "deposit_"+deposit.isVerbose()+deposit.isNoOp()+".xml");
+        assertAsExpected(actualResults, "deposit_"+deposit.isVerbose()+deposit.isNoOp()+zip+".xml");
     }
 }

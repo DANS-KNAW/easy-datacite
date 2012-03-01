@@ -30,9 +30,8 @@
     <emd:relation/>
     <emd:coverage>
         <eas:spatial>
-            <eas:point eas:scheme="degrees">
+            <eas:point eas:scheme="degrees" eas:schemeId="archaeology.eas.spatial">
                 <eas:x>12</eas:x>
-                <eas:y>34</eas:y>
             </eas:point>
         </eas:spatial>
     </emd:coverage>

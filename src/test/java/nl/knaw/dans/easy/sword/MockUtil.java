@@ -194,6 +194,7 @@ public class MockUtil
         discipline.setName("Humanities");
 
         EasyMock.expect(disciplineService.getDisciplineById(disciplineId)).andReturn(discipline).anyTimes();
+        EasyMock.expect(disciplineService.getDisciplineById("\n    "+disciplineId+"\n    ")).andReturn(discipline).anyTimes();
         EasyMock.replay(disciplineService);
     }
 

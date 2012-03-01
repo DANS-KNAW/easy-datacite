@@ -35,13 +35,22 @@ public class ValidationTest extends Tester
     public static Collection<String[]> createParameters() throws Exception
     {
         final List<String[]> constructortSignatureInstances = new ArrayList<String[]>();
+        
+        // no longer causes a draft dataset after refactoring nl.knaw.dans.easy.business.dataset.MetadataValidator
         constructortSignatureInstances.add(new String[] {"missingMetadata.xml", "[deposit.field_required]"});
+        
+        // used to cause a draft dataset because the notification message could not be created
         constructortSignatureInstances.add(new String[] {"disciplineWithWhiteSpace.xml", null});
-        //FIXME some xsd seems to be missing
-//        constructortSignatureInstances.add(new String[] {"SpatialPoint.xml", null});
-//        constructortSignatureInstances.add(new String[] {"SpatialPointWithoutSchema.xml", "inv alid"});
-//        constructortSignatureInstances.add(new String[] {"SpatialPointWithoutX.xml", "inval id"});
-//        constructortSignatureInstances.add(new String[] {"SpatialPointWithoutY.xml", "inval id"});
+
+        // in this example a schema id is added manually after download of the xml from a test dataset
+        constructortSignatureInstances.add(new String[] {"SpatialPoint.xml", null});
+        
+        // just as downloaded from a test dataset
+        constructortSignatureInstances.add(new String[] {"SpatialPointWithoutSchemaId.xml", "Expected is 'archaeology.eas.spatial'"});
+        
+        // TODO make error message more specific
+        constructortSignatureInstances.add(new String[] {"SpatialPointWithoutX.xml", "invalid"});
+        constructortSignatureInstances.add(new String[] {"SpatialPointWithoutY.xml", "invalid"});
         return constructortSignatureInstances;
     }
 
@@ -65,11 +74,11 @@ public class ValidationTest extends Tester
         {
             if (messageContent == null)
                 throw new Exception("\n" + metadataFileName + " no error expected but got " + se.toString());
-            throw new Exception("\n" + metadataFileName + " expected " + SWORDErrorException.class.getName() + " with a message containing " + messageContent
+            throw new Exception("\n" + metadataFileName + " expected " + SWORDErrorException.class.getName() + " with a message containing: " + messageContent
                     + "\nbut got " + se.toString(),se);
         }
         if (messageContent != null)
-            throw new Exception("\n" + metadataFileName + " expected " + SWORDErrorException.class.getName() + " with a message containing " + messageContent
+            throw new Exception("\n" + metadataFileName + " expected " + SWORDErrorException.class.getName() + " with a message containing: " + messageContent
                     + "\nbut got no exception");
     }
 }
