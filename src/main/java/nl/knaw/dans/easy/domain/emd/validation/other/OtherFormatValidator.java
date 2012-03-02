@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import nl.knaw.dans.easy.domain.emd.validation.ValidatorLists;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import nl.knaw.dans.easy.domain.model.emd.ValidationReporter;
 import nl.knaw.dans.easy.domain.model.emd.Validator;
@@ -12,15 +13,14 @@ public class OtherFormatValidator implements Validator
 {
 
     private static OtherFormatValidator INSTANCE;
-    
-    private static List<Validator> VALIDATORS 
-        = Collections.synchronizedList(new ArrayList<Validator>());
-    
+
+    private static List<Validator>      VALIDATORS = Collections.synchronizedList(new ArrayList<Validator>());
+
     private OtherFormatValidator()
     {
-        // populate VALIDATORS
+        VALIDATORS.addAll(ValidatorLists.getCommonValidators());
     }
-    
+
     public static OtherFormatValidator instance()
     {
         synchronized (VALIDATORS)

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import nl.knaw.dans.easy.domain.emd.validation.ValidatorLists;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import nl.knaw.dans.easy.domain.model.emd.ValidationReporter;
 import nl.knaw.dans.easy.domain.model.emd.Validator;
@@ -19,7 +20,7 @@ public class ArchaeologyFormatValidator implements Validator
     private ArchaeologyFormatValidator()
     {
         VALIDATORS.add(new EasSpatialValidator());
-        // TODO add more validators
+        VALIDATORS.addAll(ValidatorLists.getArchaeologyValidators());
     }
     
     public static ArchaeologyFormatValidator instance()

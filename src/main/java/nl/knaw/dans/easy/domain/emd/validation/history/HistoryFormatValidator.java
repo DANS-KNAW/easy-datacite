@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import nl.knaw.dans.easy.domain.emd.validation.ValidatorLists;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import nl.knaw.dans.easy.domain.model.emd.ValidationReporter;
 import nl.knaw.dans.easy.domain.model.emd.Validator;
@@ -18,7 +19,7 @@ public class HistoryFormatValidator implements Validator
     
     private HistoryFormatValidator()
     {
-        // populate VALIDATORS
+        VALIDATORS.addAll(ValidatorLists.getCommonValidators());
     }
     
     public static HistoryFormatValidator instance()
