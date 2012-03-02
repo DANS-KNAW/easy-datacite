@@ -54,7 +54,7 @@ public class EasySwordServer implements SWORDServer
     private static String       policy                      = "easy.sword.server.policy not configured";
     private static String       treatment                   = "easy.sword.server.treatment not configured";
 
-    static Logger               log                         = LoggerFactory.getLogger(EasySwordServer.class);
+    private static Logger               log                         = LoggerFactory.getLogger(EasySwordServer.class);
 
     /**
      * Provides a dumb but plausible service document - it contains an anonymous workspace and
@@ -196,7 +196,7 @@ public class EasySwordServer implements SWORDServer
         checkOnBehalfOf(deposit);
 
         final UnzipResult unzipped = new UnzipResult(deposit.getFile());
-        final EasyMetadata metadata = EasyBusinessFacade.validate(unzipped.getEasyMetaData());
+        final EasyMetadata metadata = EasyMetadataFacade.validate(unzipped.getEasyMetaData());
         final Dataset dataset = submit(deposit, user, unzipped, metadata);
         
         final String datasetUrl = toServer(deposit.getLocation()) + DATASET_PATH + dataset.getStoreId();

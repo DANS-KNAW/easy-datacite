@@ -48,7 +48,7 @@ public class ValidationTest extends Tester
         // just as downloaded from a test dataset
         constructortSignatureInstances.add(new String[] {"SpatialPointWithoutSchemaId.xml", "Expected is 'archaeology.eas.spatial'"});
         
-        // TODO make error message more specific
+        // TODO make error message mores specific, needs architectural solution see also EBIU workaround
         constructortSignatureInstances.add(new String[] {"SpatialPointWithoutX.xml", "invalid"});
         constructortSignatureInstances.add(new String[] {"SpatialPointWithoutY.xml", "invalid"});
         return constructortSignatureInstances;
@@ -60,7 +60,7 @@ public class ValidationTest extends Tester
         final byte[] fileContent = FileUtil.readFile(new File("src/test/resources/input/" + metadataFileName));
         try
         {
-            EasyBusinessFacade.validate(fileContent);
+            EasyMetadataFacade.validate(fileContent);
         }
         catch (final SWORDErrorException se)
         {

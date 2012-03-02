@@ -118,12 +118,12 @@ public class UnzipResult
         }
     }
 
-    List<File> getFiles()
+    public List<File> getFiles()
     {
         return files;
     };
 
-    void clearTemp()
+    public void clearTemp()
     {
         // delete files before folders
         for (int i=files.size() ; --i>=0 ;)
@@ -133,7 +133,7 @@ public class UnzipResult
         tempDir.delete();
     }
 
-    byte[] getEasyMetaData() throws SWORDException, SWORDErrorException
+    public byte[] getEasyMetaData() throws SWORDException, SWORDErrorException
     {
         if (easyMetadata == null)
         {
@@ -158,7 +158,7 @@ public class UnzipResult
         return new File(folder.getPath() + "/" + METADATA);
     }
 
-    File getDataFolder()
+    public File getDataFolder()
     {
         return new File(folder.getPath() + "/" + DATA);
     }

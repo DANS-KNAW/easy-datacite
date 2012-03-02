@@ -37,7 +37,7 @@ public class EasyBusinessFacadeTest extends Tester
         final List<File> fileList = new UnzipUtil(zipFile, tempDirectory.getPath(), createUnzipListener()).run();
         try
         {
-            final EasyMetadata easyMetaData = EasyBusinessFacade.validate(FileUtil.readFile(metaDataFile));
+            final EasyMetadata easyMetaData = EasyMetadataFacade.validate(FileUtil.readFile(metaDataFile));
             EasyBusinessFacade.submitNewDataset(MockUtil.USER, easyMetaData, tempDirectory, fileList);
         }
         catch (final SWORDException se)
@@ -51,7 +51,6 @@ public class EasyBusinessFacadeTest extends Tester
             throw new Exception("got no exception but expected "+expectedCause.getName());
     }
 
-   // @Ignore //FIXME getFormDefinition returns null
     @Test
     public void submit() throws Exception
     {

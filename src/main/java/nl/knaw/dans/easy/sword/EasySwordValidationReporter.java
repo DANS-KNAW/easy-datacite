@@ -39,7 +39,9 @@ public class EasySwordValidationReporter implements ValidationReporter
 
     private String getMsgs()
     {
-        return infoReports.size() + " info reports " + Arrays.toString(infoReports.toArray()) + warningReports.size() + Arrays.toString(warningReports.toArray()) + " warning reports " + errorReports.size() + " error reports " + Arrays.toString(errorReports.toArray());
+        return infoReports.size() + " info reports " + Arrays.toString(infoReports.toArray()) + "\n"//
+                + warningReports.size() + " warning reports " + Arrays.toString(warningReports.toArray()) + "\n" //
+                + errorReports.size() + " error reports " + Arrays.toString(errorReports.toArray());
     }
 
     @Override
