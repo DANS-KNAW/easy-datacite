@@ -36,6 +36,8 @@ public class ValidationTest extends Tester
     {
         final List<String[]> constructortSignatureInstances = new ArrayList<String[]>();
         
+        constructortSignatureInstances.add(new String[] {"invalidAccessRights.xml", " is not a valid key in the list "});
+
         // no longer causes a draft dataset after refactoring nl.knaw.dans.easy.business.dataset.MetadataValidator
         constructortSignatureInstances.add(new String[] {"missingMetadata.xml", "[deposit.field_required]"});
         

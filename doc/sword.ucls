@@ -1,0 +1,90 @@
+<class-diagram version="0.9.86" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true">  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.sword.EasyBusinessFacade" project="easy-sword" 
+    file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasyBusinessFacade.java" binary="false">    
+    <position x="381" y="280" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="false"/>      
+      <operations public="true" package="true" protected="true" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.sword.EasySwordServer" project="easy-sword" 
+    file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasySwordServer.java" binary="false">    
+    <position x="207" y="99" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="false"/>      
+      <operations public="true" package="true" protected="true" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.sword.EasySwordValidationReporter" 
+    project="easy-sword" file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasySwordValidationReporter.java" 
+    binary="false">    
+    <position x="670" y="264" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="false"/>      
+      <operations public="true" package="true" protected="true" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.sword.EasyBusinessFacade.IngestReporter" 
+    project="easy-sword" file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasyBusinessFacade.java" binary="false">    
+    <position x="506" y="458" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="false"/>      
+      <operations public="true" package="true" protected="true" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.sword.UnzipResult" project="easy-sword" 
+    file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/UnzipResult.java" binary="false">    
+    <position x="107" y="258" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="false"/>      
+      <operations public="true" package="true" protected="true" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.sword.FederativeAuthentication" 
+    project="easy-sword" file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/FederativeAuthentication.java" 
+    binary="false">    
+    <position x="261" y="480" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="false"/>      
+      <operations public="true" package="true" protected="true" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.sword.EasyMetadataFacade" project="easy-sword" 
+    file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasyMetadataFacade.java" binary="false">    
+    <position x="546" y="74" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="false"/>      
+      <operations public="true" package="true" protected="true" private="false"/>    
+    </display>  
+  </class>  
+  <dependency>    
+    <source project="easy-sword" name="nl.knaw.dans.easy.sword.EasyBusinessFacade" 
+      file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasyBusinessFacade.java" binary="false"/>    
+    <target project="easy-sword" name="nl.knaw.dans.easy.sword.FederativeAuthentication" 
+      file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/FederativeAuthentication.java" binary="false"/>  
+  </dependency>  
+  <nesting>    
+    <source project="easy-sword" name="nl.knaw.dans.easy.sword.EasyBusinessFacade" 
+      file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasyBusinessFacade.java" binary="false"/>    
+    <target project="easy-sword" name="nl.knaw.dans.easy.sword.EasyBusinessFacade.IngestReporter" 
+      file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasyBusinessFacade.java" binary="false"/>  
+  </nesting>  
+  <dependency>    
+    <source project="easy-sword" name="nl.knaw.dans.easy.sword.EasyMetadataFacade" 
+      file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasyMetadataFacade.java" binary="false"/>    
+    <target project="easy-sword" name="nl.knaw.dans.easy.sword.EasySwordValidationReporter" 
+      file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasySwordValidationReporter.java" binary="false"/>  
+  </dependency>  
+  <dependency>    
+    <source project="easy-sword" name="nl.knaw.dans.easy.sword.EasySwordServer" 
+      file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasySwordServer.java" binary="false"/>    
+    <target project="easy-sword" name="nl.knaw.dans.easy.sword.UnzipResult" 
+      file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/UnzipResult.java" binary="false"/>  
+  </dependency>  
+  <classifier-display autosize="true" package="true" initial-value="false" signature="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="false"/>    
+    <operations public="true" package="true" protected="true" private="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
