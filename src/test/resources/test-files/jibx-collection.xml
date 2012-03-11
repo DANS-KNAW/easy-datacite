@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<dmo-collection dmo-namespace="easy-simple" id="root">
+    <label>Root of easy-simple dmoCollection</label>
+    <dc-metadata>
+    	<oai_dc:dc 
+    		xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" 
+    		xmlns:dc="http://purl.org/dc/elements/1.1/">
+    		<dc:type>Type, in this file, is the first element</dc:type>
+    		<dc:type>But marshalled and unmarshalled, the element 'type' will be last.</dc:type>
+    		<dc:format>dc elements can be in any order</dc:format>
+    		<dc:format>there can be multiple dc elements of the same name</dc:format>
+    		<dc:creator>jibx</dc:creator>
+    		<dc:description>This is the root of collection easy-simple.</dc:description>
+    		<dc:format>multiple elements of the same name do not have to be grouped.</dc:format>
+    	</oai_dc:dc>
+    </dc-metadata>
+    <dmo-collections>
+        <dmo-collection id="1">
+            <label>kid 1</label>
+            <dc-metadata/>
+            <dmo-collections/>
+        </dmo-collection>
+        <dmo-collection id="2">
+            <label>kid 2</label>
+            <dc-metadata/>
+            <dmo-collections/>
+        </dmo-collection>
+        <dmo-collection id="3">
+            <label>kid 3</label>
+            <dc-metadata/>
+            <dmo-collections/>
+        </dmo-collection>
+        <dmo-collection id="4">
+            <label>kid 4</label>
+            <dc-metadata/>
+            <dmo-collections/>
+        </dmo-collection>
+        <dmo-collection id="5">
+            <label>kid 5</label>
+            <dc-metadata/>
+            <dmo-collections/>
+        </dmo-collection>
+    </dmo-collections>
+</dmo-collection>

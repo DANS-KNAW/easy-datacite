@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dmo-collection xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:oai-dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="https://easy.dans.knaw.nl/schemas/collections/dmo-collection.xsd"
+	dmo-namespace="easy-collection" id="root">
+	<label>root of easy collections</label>
+	<short-name>root of easy collections</short-name>
+	<oai-set>true</oai-set>
+	<dmo-collections>
+		<dmo-collection id="1">
+			<label>Oral History</label>
+			<short-name>Oral History</short-name>
+			<oai-set>true</oai-set>
+		</dmo-collection>
+		<dmo-collection id="2">
+			<label>World War II</label>
+			<short-name>World War II</short-name>
+			<oai-set>true</oai-set>
+			<dmo-collections>
+				<dmo-collection id="3">
+					<label>Getuigen Verhalen</label>
+					<short-name>Getuigen Verhalen</short-name>
+					<oai-set>true</oai-set>
+				</dmo-collection>
+			</dmo-collections>
+		</dmo-collection>
+		<dmo-collection id="4">
+			<label>Carare</label>
+			<short-name>Carare</short-name>
+			<oai-set>true</oai-set>
+		</dmo-collection>
+	</dmo-collections>
+</dmo-collection>
