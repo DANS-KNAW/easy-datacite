@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<schema name="easyDatasets" version="1.2">
-  <!-- attribute "name" is the name of this schema and is only used for display purposes.
-    Applications should change this to reflect the nature of the search collection.
-    version="1.2" is Solr's version number for the schema syntax and semantics.  It should
-    not normally be changed by applications.
-    1.0: multiValued attribute did not exist, all fields are multiValued by nature
-    1.1: multiValued attribute introduced, false by default 
-    1.2: omitTermFreqAndPositions attribute introduced, true by default except for text fields.
-  -->
+<schema name="easyDatasets" version="1.4">
+	<!-- attribute "name" is the name of this schema and is only used for display purposes.
+   	Applications should change this to reflect the nature of the search collection.
+   	version="1.4" is Solr's version number for the schema syntax and semantics. It should
+ 	not normally be changed by applications.
+ 	1.0: multiValued attribute did not exist, all fields are multiValued by nature
+ 	1.1: multiValued attribute introduced, false by default
+ 	1.2: omitTermFreqAndPositions attribute introduced, true by default except for text fields.
+ 	1.3: removed optional field compress feature
+ 	1.4: default auto-phrase (QueryParser feature) to off
+ 	-->
   
   <types>
     <!-- The StrField type is not analyzed, but indexed/stored verbatim.  
@@ -237,6 +239,7 @@
    <field name="emd_audience"                   type="string" indexed="true" stored="true" multiValued="true" /> 
    <field name="archaeology_dc_subject"         type="string" indexed="true" stored="true" multiValued="true" /> 
    <field name="archaeology_dcterms_temporal"   type="string" indexed="true" stored="true" multiValued="true" /> 
+   <field name="easy_collections"   type="string" indexed="true" stored="true" multiValued="true" /> 
  </fields>
 
  <!-- Field to use to determine and enforce document uniqueness. 
