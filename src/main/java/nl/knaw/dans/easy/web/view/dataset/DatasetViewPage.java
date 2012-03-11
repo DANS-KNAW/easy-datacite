@@ -28,6 +28,7 @@ import nl.knaw.dans.easy.web.statistics.DisciplineStatistics;
 import nl.knaw.dans.easy.web.statistics.StatisticsEvent;
 import nl.knaw.dans.easy.web.statistics.StatisticsLogger;
 import nl.knaw.dans.easy.web.template.AbstractEasyPage;
+import nl.knaw.dans.easy.web.view.dataset.relations.RelationsPanel;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.Page;
@@ -96,6 +97,8 @@ public class DatasetViewPage extends AbstractEasyNavPage
      * Resource id.
      */
     public static final String  RI_TAB_ACTIVITY_LOG     = "tab.activitylog";
+    
+    public static final String RI_TAB_RELATIONS = "tab.relations";
 
     /**
      * Wicket id.
@@ -344,6 +347,7 @@ public class DatasetViewPage extends AbstractEasyNavPage
         tabs.add(getAdministrationTab());
         tabs.add(getPermissionsTab());
         tabs.add(getActivityLogTab());
+        tabs.add(getRelationsTab());
         TabbedPanel tabbedPanel = new TabbedPanel(WI_VIEW_TABS, tabs)
         {
 
@@ -493,6 +497,28 @@ public class DatasetViewPage extends AbstractEasyNavPage
             }
 
         };
+	}
+	
+	private SimpleTab getRelationsTab()
+	{
+	    return new SimpleTab(new ResourceModel(RI_TAB_RELATIONS))
+	    {
+
+            private static final long serialVersionUID = 991745080592548879L;
+
+            @Override
+            public Panel getPanel(String panelId)
+            {
+                return new RelationsPanel(panelId, datasetModel);
+            }
+            
+            @Override
+            public boolean isVisible()
+            {
+                return true;
+            }
+	        
+	    };
 	}
 	
 	@SuppressWarnings("serial")

@@ -38,7 +38,7 @@ public class RecursiveListValueCollapser implements FacetValueCollapser<String>
         RecursiveList recursiveList;
         try
         {
-            recursiveList = Services.getDepositService().getRecursiveList(recursiveListId, null);
+            recursiveList = Services.getSearchService().getRecursiveList(recursiveListId, null);
         }
         catch (ServiceException e)
         {
@@ -53,7 +53,7 @@ public class RecursiveListValueCollapser implements FacetValueCollapser<String>
         }
         else
         {
-            recursiveNode = recursiveList.getEntry(selectedValue.getValue());
+            recursiveNode = recursiveList.get(selectedValue.getValue());
         }
         
         

@@ -7,7 +7,8 @@
 	<import resource="cfg/repository-context.xml"/>
 	<import resource="cfg/dmo-collections-context.xml"/>
 	
-
+	<bean class="nl.knaw.dans.easy.business.bean.EasyContextListener" />
+	
 	<!-- ================= -->
 	<!-- Business Services -->
 	<!-- ================= -->
@@ -96,7 +97,7 @@
 		<property name="fileStoreAccess" ref="fileStoreAccess"/>
 		<property name="datasetSearch" ref="datasetSearch"/>
 		<property name="searchEngine" ref="searchEngine"/>
-		<property name="easyCollections" ref="easyCollections"/>
+		<property name="collectionAccess" ref="collectionAccess"/>
 		
 		<property name="downloadLimit" value="${data.downloadLimit}"/>
 		<property name="maxNumberOfFiles" value="${file.downloadLimit}"/>
@@ -175,7 +176,7 @@
 		<constructor-arg index="0" ref="searchEngine"/>
 	</bean >
 	
-	<bean name="easyCollections" class="nl.knaw.dans.easy.data.collections.EasyCollectionsImpl">
+	<bean name="collectionAccess" class="nl.knaw.dans.easy.data.collections.DmoCollectionsAccessImpl">
 		<constructor-arg ref="dmoCollections"/>
 	</bean>
 

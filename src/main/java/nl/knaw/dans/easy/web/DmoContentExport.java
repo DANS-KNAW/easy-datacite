@@ -17,7 +17,6 @@ import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.util.StreamUtil;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.markup.html.DynamicWebResource;
 import org.apache.wicket.protocol.http.WebResponse;
 import org.slf4j.Logger;
@@ -159,14 +158,6 @@ public class DmoContentExport extends DynamicWebResource
         public boolean hasError()
         {
             return errorCode != 0;
-        }
-
-        private void checkParameters(String storeId, String unitId)
-        {
-            if (StringUtils.isBlank(storeId) || StringUtils.isBlank(unitId))
-            {
-                errorCode = HttpServletResponse.SC_BAD_REQUEST;
-            }
         }
 
         private void retrieveUnitMetadata(DmoStoreId storeId, DsUnitId unitId)

@@ -32,8 +32,8 @@ public class RecursiveListTranslator implements Translator<String>
         String translation = null;
         try
         {
-            RecursiveList recursiveList = Services.getDepositService().getRecursiveList(listId, locale);
-            RecursiveEntry entry = recursiveList.getEntry(originalValue);
+            RecursiveList recursiveList = Services.getSearchService().getRecursiveList(listId, locale);
+            RecursiveEntry entry = recursiveList.get(originalValue);
             if (entry == null)
             {
                 logger.error("No entry found for key '" + originalValue + "' in list " + listId);

@@ -10,7 +10,7 @@ import nl.knaw.dans.common.wicket.components.search.model.CriteriumListener;
 import nl.knaw.dans.common.wicket.components.search.model.SearchCriterium;
 import nl.knaw.dans.common.wicket.components.search.model.SearchRequestBuilder;
 import nl.knaw.dans.easy.data.search.EasyDatasetSB;
-import nl.knaw.dans.easy.domain.deposit.discipline.RecursiveListCache;
+import nl.knaw.dans.easy.search.RecursiveListCache;
 
 public class ArchaeologyCriteriumListener implements CriteriumListener
 {

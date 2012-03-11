@@ -28,7 +28,8 @@ div.tabpanel div.tab-row li {
 .tab-row ul li.tab2,
 .tab-row ul li.tab3,
 .tab-row ul li.tab4,
-.tab-row ul li.tab5{
+.tab-row ul li.tab5,
+.tab-row ul li.tab6{
 	background:url(../images/tab_bg.png) repeat-x;
 	color: #333;
 	padding:2px 25px!important;
@@ -127,6 +128,14 @@ div.tabpanel div.tab-row li.selected{
 	background-color: #f0f0f0;
 	width: 700px;
 }
+
+.other-panel {
+	padding: 1em;
+	margin-right: 1.4em;
+	margin-bottom: 1.4em;
+	background-color: #e0f0f0;
+}
+
 /* CuSTOM */
 .fileExplorerPanel {
 	margin-left: -15px;

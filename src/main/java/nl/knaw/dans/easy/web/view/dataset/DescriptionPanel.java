@@ -2,7 +2,6 @@ package nl.knaw.dans.easy.web.view.dataset;
 
 import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.easy.domain.deposit.discipline.DepositDiscipline;
-import nl.knaw.dans.easy.domain.model.PermissionSequence.State;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import nl.knaw.dans.easy.web.RedirectData;
 import nl.knaw.dans.easy.web.common.DatasetModel;
