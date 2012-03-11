@@ -24,6 +24,10 @@ public class OpenLdapServerBuilder extends LdapServerBuilder
         this.providerUrl = providerUrl;
         this.securityPrincipal = securityPrincipal;
         setSecurityCredentials(securityCredentials);
+        System.out.println("Starting OpenLsapServerBuilder");
+        System.out.println("providerUrl=" + getProviderUrl());
+        System.out.println("securityPrincipal=" + getSecurityPrincipal());
+        System.out.println("securityCredentials=" + getSecurityCredentials());
     }
 
     @Override
@@ -64,6 +68,7 @@ public class OpenLdapServerBuilder extends LdapServerBuilder
         String providerUrl = args.length > 0 ? args[0] : null;
         String securityPrincipal = args.length > 1 ? args[1] : null;
         String securityCredentials = args.length > 2 ? args[2] : null;
+        
         OpenLdapServerBuilder builder = new OpenLdapServerBuilder(providerUrl, securityPrincipal, securityCredentials);
         builder.buildServer();
     }

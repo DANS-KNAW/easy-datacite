@@ -30,22 +30,13 @@ public abstract class LdapServerBuilder
     public static final String DCCD_ORGANISATIONS_CONTEXT = "ou=organisations," + DCCD_CONTEXT;
     public static final String DCCD_USERS_CONTEXT         = "ou=users," + DCCD_CONTEXT;
     
-    private final DirContext ctx;
-    private final DirContext rootContext;
-    
+    private DirContext ctx;
+    private DirContext rootContext;
     private String securityCredentials;
     
     public LdapServerBuilder() throws NamingException
     {
-        Hashtable<String, String> env = new Hashtable<String, String>();
-        env.put(Context.INITIAL_CONTEXT_FACTORY, Constants.CONTEXT_FACTORY);
-        env.put(Context.SECURITY_AUTHENTICATION, Constants.SIMPLE_AUTHENTICATION);
-
-        env.put(Context.PROVIDER_URL, getProviderUrl());
-        env.put(Context.SECURITY_PRINCIPAL, getSecurityPrincipal());
-        env.put(Context.SECURITY_CREDENTIALS, getSecurityCredentials());
-        ctx = new InitialDirContext(env);
-        rootContext = ctx.getSchema("");
+       
     }
 
     public abstract String getProviderUrl();
@@ -65,14 +56,34 @@ public abstract class LdapServerBuilder
     {
         this.securityCredentials = securityCredentials;
     }
-
-    public DirContext getDirContext()
+    
+    protected Hashtable<String, String> getEnvironment()
     {
+        Hashtable<String, String> env = new Hashtable<String, String>();
+        env.put(Context.INITIAL_CONTEXT_FACTORY, Constants.CONTEXT_FACTORY);
+        env.put(Context.SECURITY_AUTHENTICATION, Constants.SIMPLE_AUTHENTICATION);
+
+        env.put(Context.PROVIDER_URL, getProviderUrl());
+        env.put(Context.SECURITY_PRINCIPAL, getSecurityPrincipal());
+        env.put(Context.SECURITY_CREDENTIALS, getSecurityCredentials());
+        return env;
+    }
+
+    public DirContext getDirContext() throws NamingException
+    {
+        if (ctx == null)
+        {
+            ctx = new InitialDirContext(getEnvironment());
+        }
         return ctx;
     }
 
-    public DirContext getRootContext()
+    public DirContext getRootContext() throws NamingException
     {
+        if (rootContext == null)
+        {
+            rootContext = getDirContext().getSchema("");
+        }
         return rootContext;
     }
     
@@ -387,7 +398,7 @@ public abstract class LdapServerBuilder
         boolean hasContext = false;
         try
         {
-            ctx.listBindings(context);
+            getDirContext().listBindings(context);
             hasContext = true;
             System.out.println("Context found: " + context);
         }
@@ -400,13 +411,13 @@ public abstract class LdapServerBuilder
     
     protected void buildContext(String name, Attributes attrs) throws NamingException
     {
-        ctx.createSubcontext(name, attrs);
+        getDirContext().createSubcontext(name, attrs);
         System.out.println("Added subContext: " + name);
     }
     
     protected void createSchema(String name, Attributes attrs) throws NamingException
     {
-        rootContext.createSubcontext(name, attrs);
+        getRootContext().createSubcontext(name, attrs);
         System.out.println("Added schema: " + name);
     }
     
@@ -415,7 +426,7 @@ public abstract class LdapServerBuilder
         boolean hasName = false;
         try
         {
-            rootContext.list(name);
+            getRootContext().list(name);
             hasName = true;
             System.out.println("Schema found: " + name);
         }
