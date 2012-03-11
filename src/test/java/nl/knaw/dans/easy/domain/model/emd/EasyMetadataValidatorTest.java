@@ -1,18 +1,22 @@
 package nl.knaw.dans.easy.domain.model.emd;
 
+import static org.junit.Assert.*;
+
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 
 import javax.xml.validation.Schema;
 
+import nl.knaw.dans.common.jibx.JiBXObjectFactory;
+import nl.knaw.dans.common.lang.dataset.AccessCategory;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.xml.SchemaCreationException;
 import nl.knaw.dans.common.lang.xml.ValidatorException;
 import nl.knaw.dans.common.lang.xml.XMLErrorHandler;
 import nl.knaw.dans.common.lang.xml.XMLException;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadataImpl;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadataValidator;
 import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.easy.util.TestHelper;
 
@@ -120,6 +124,24 @@ public class EasyMetadataValidatorTest extends TestHelper
     public void testUnknownVersion() throws ValidatorException, SchemaCreationException
     {
         EasyMetadataValidator.instance().getSchema("foo");
+    }
+    
+    @Test
+    public void validateVesaXml() throws Exception
+    {
+        File file = new File("src/test/resources/xml-validator/vesa.xml");
+        XMLErrorHandler handler = EasyMetadataValidator.instance().validate(file, EasyMetadataValidator.VERSION_0_1);
+        assertTrue(handler.passed());
+        
+        EasyMetadata emd = (EasyMetadata) JiBXObjectFactory.unmarshal(EasyMetadataImpl.class, file);
+        String audience = emd.getEmdAudience().getDisciplines().get(0).getValue();
+        new DmoStoreId(audience);
+        
+        assertEquals(AccessCategory.OPEN_ACCESS, emd.getEmdRights().getAccessCategory());
+        
+        String uri = emd.getEmdSource().getDcSource().get(0).getValue();
+        new URI(uri.trim());
+        
     }
 
 }

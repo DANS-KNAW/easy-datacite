@@ -1,0 +1,133 @@
+<?xml version="1.0" ?><emd:easymetadata emd:version="0.1" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/" xmlns:emd="http://easy.dans.knaw.nl/easy/easymetadata/">
+	<emd:title>
+		<dc:title>
+			Behandeling van het rapport van de Tijdelijke commissie onderzoek financieel stelsel (31980, nr. 4) (debat met de commissie)
+		</dc:title>
+	</emd:title>
+	<emd:creator>
+		<dc:creator>
+			Tweede Kamer der Staten-Generaal
+		</dc:creator>
+	</emd:creator>
+	<emd:subject>
+		<dc:subject>
+			spreker:Irrgang  partij:SP
+		</dc:subject>
+		<dc:subject>
+			spreker:Plasterk  partij:PvdA
+		</dc:subject>
+		<dc:subject>
+			spreker:Dijkgraaf  partij:SGP
+		</dc:subject>
+		<dc:subject>
+			spreker:Slob  partij:ChristenUnie
+		</dc:subject>
+		<dc:subject>
+			spreker:Van Vliet  partij:PVV
+		</dc:subject>
+		<dc:subject>
+			spreker:Thieme  partij:PvdD
+		</dc:subject>
+		<dc:subject>
+			spreker:Koolmees  partij:D66
+		</dc:subject>
+		<dc:subject>
+			spreker:Braakhuis  partij:GroenLinks
+		</dc:subject>
+		<dc:subject>
+			spreker:Mulder  partij:VVD
+		</dc:subject>
+		<dc:subject>
+			spreker:Blanksma-van den Heuvel  partij:CDA
+		</dc:subject>
+		<dc:subject>
+			Tweede Kamer der Staten-Generaal
+		</dc:subject>
+		<dc:subject>
+			zittingsperiode: 2009-2010
+		</dc:subject>
+		<dc:subject>
+			Financiën
+		</dc:subject>
+		<dc:subject>
+			Organisatie en beleid
+		</dc:subject>
+		<dc:subject>
+			Bestuur
+		</dc:subject>
+		<dc:subject>
+			Parlement
+		</dc:subject>
+		<dc:subject>
+			datum van zitting: 2010-09-14
+		</dc:subject>
+	</emd:subject>
+	<emd:description>
+		<dc:description>
+			Behandeling van het rapport van de Tijdelijke commissie onderzoek financieel stelsel (31980, nr. 4) (debat met de commissie)
+		</dc:description>
+	</emd:description>
+	<emd:publisher>
+		<dc:publisher>
+			https://zoek.officielebekendmakingen.nl
+		</dc:publisher>
+	</emd:publisher>
+	<emd:contributor>
+		<dc:contributor>
+			http://www.politicalmashup.nl
+		</dc:contributor>
+	</emd:contributor>
+	<emd:date>
+		<eas:created eas:format="DAY" eas:scheme="W3CDTF">2010-09-14T15:18:23.146Z</eas:created>
+	</emd:date>
+	<emd:type>
+		<dc:type eas:scheme="DCMI" eas:schemeId="common.dc.type">
+			Dataset
+		</dc:type>
+	</emd:type>
+	<emd:identifier>
+		<dc:identifier>
+			h-tk-20092010-99-8030
+		</dc:identifier>
+		<dc:identifier>
+			uva-mmarx-0-2012-02-23-11-26-11
+		</dc:identifier>
+	</emd:identifier>
+	<emd:source>
+		<dc:source>
+			https://zoek.officielebekendmakingen.nl/h-tk-20092010-99-8030.pdf
+		</dc:source>
+		<dc:source>
+			https://zoek.officielebekendmakingen.nl/h-tk-20092010-99-8030.xml
+		</dc:source>
+		<dc:source>
+			https://zoek.officielebekendmakingen.nl/h-tk-20092010-99-8030.html
+		</dc:source>
+	</emd:source>
+	<emd:language>
+		<dc:language>
+			Dutch
+		</dc:language>
+	</emd:language>
+	<emd:coverage>
+		<dcterms:spatial>
+			Netherlands
+		</dcterms:spatial>
+		<dcterms:temporal>
+			2009-2010
+		</dcterms:temporal>
+	</emd:coverage>
+	<emd:rights>
+		<dcterms:accessRights eas:schemeId="common.dcterms.accessrights">
+			OPEN_ACCESS
+		</dcterms:accessRights>
+		<dcterms:license>
+			accept
+		</dcterms:license>
+	</emd:rights>
+	<emd:audience>
+		<dcterms:audience eas:schemeId="custom.disciplines">
+			easy-discipline:23
+		</dcterms:audience>
+	</emd:audience>
+</emd:easymetadata>

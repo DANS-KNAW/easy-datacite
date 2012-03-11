@@ -1,9 +1,10 @@
-package nl.knaw.dans.easy.domain.deposit.discipline;
+package nl.knaw.dans.easy.search;
 
 import static org.junit.Assert.assertEquals;
 import nl.knaw.dans.common.lang.repo.bean.RecursiveList;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.test.ClassPathHacker;
+import nl.knaw.dans.easy.search.RecursiveListCache;
 
 import org.junit.BeforeClass;
 import org.junit.Test;

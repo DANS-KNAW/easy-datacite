@@ -225,7 +225,7 @@ public class EmdRights extends AbstractEmdContainer
         {
             try
             {
-                accessCat = AccessCategory.valueOf(termsAccessRights.get(0).getValue());
+                accessCat = AccessCategory.valueOf(termsAccessRights.get(0).getValue().trim());
             }
             catch (IllegalArgumentException e)
             {

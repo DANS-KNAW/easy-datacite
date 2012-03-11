@@ -1,7 +1,11 @@
 package nl.knaw.dans.easy.business.services;
 
+import java.util.Locale;
+
+import nl.knaw.dans.common.lang.CacheException;
 import nl.knaw.dans.common.lang.dataset.DatasetSB;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
+import nl.knaw.dans.common.lang.repo.bean.RecursiveList;
 import nl.knaw.dans.common.lang.search.Field;
 import nl.knaw.dans.common.lang.search.SearchRequest;
 import nl.knaw.dans.common.lang.search.SearchResult;
@@ -15,6 +19,7 @@ import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.search.EasyDatasetSB;
 import nl.knaw.dans.easy.domain.model.WorkflowData;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
+import nl.knaw.dans.easy.search.RecursiveListCache;
 import nl.knaw.dans.easy.servicelayer.services.SearchService;
 
 public class EasySearchService extends AbstractEasyService implements SearchService 
@@ -258,6 +263,21 @@ public class EasySearchService extends AbstractEasyService implements SearchServ
 		{
 			throw new ServiceException(e);
 		}
-	}	
+	}
+	
+    @Override
+    public RecursiveList getRecursiveList(String listId, Locale locale) throws ServiceException
+    {
+        RecursiveList recursiveList;
+        try
+        {
+            recursiveList = RecursiveListCache.getInstance().getList(listId, locale);
+        }
+        catch (CacheException e)
+        {
+            throw new ServiceException(e);
+        }
+        return recursiveList;
+    }
 	
 }

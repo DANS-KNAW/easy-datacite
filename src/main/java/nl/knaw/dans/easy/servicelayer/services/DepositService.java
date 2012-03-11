@@ -56,8 +56,6 @@ public interface DepositService extends EasyService
     
     byte[] getChoicesAsByteArray(String listId, Locale locale) throws ServiceException;
     
-    RecursiveList getRecursiveList(String listId, Locale locale) throws ServiceException;
-    
     void getArchisInfo(BasicIdentifier archisIdentifier, EasyMetadata easyMetadata) throws ServiceException;
     
 }

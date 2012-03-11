@@ -1,7 +1,7 @@
 package nl.knaw.dans.easy.data;
 
 import nl.knaw.dans.common.lang.search.SearchEngine;
-import nl.knaw.dans.easy.data.collections.EasyCollections;
+import nl.knaw.dans.easy.data.collections.DmoCollectionsAccess;
 import nl.knaw.dans.easy.data.federation.FederativeUserRepo;
 import nl.knaw.dans.easy.data.migration.MigrationRepo;
 import nl.knaw.dans.easy.data.search.DatasetSearch;
@@ -40,7 +40,7 @@ public class Data
     private static FileStoreAccess fileStoreAccess;
     private static DatasetSearch   datasetSearch;
     private static SearchEngine    searchEngine;
-    private static EasyCollections easyCollections;
+    private static DmoCollectionsAccess dmoCollectionAccess;
     
     private static int             downloadLimit; // max. size of download in Mb
     private static int			   maxNumberOfFiles;
@@ -170,13 +170,13 @@ public class Data
         return searchEngine;
     }
     
-    public static EasyCollections getEasyCollections()
+    public static DmoCollectionsAccess getCollectionAccess()
     {
-        if (easyCollections == null)
+        if (dmoCollectionAccess == null)
         {
-            throw new DataConfigurationException("No EasyCollections set. Make sure the application context is properly configured.");
+            throw new DataConfigurationException("No dmoCollectionAccess set. Make sure the application context is properly configured.");
         }
-        return easyCollections;
+        return dmoCollectionAccess;
     }
 
     public static int getDownloadLimit()
@@ -288,11 +288,11 @@ public class Data
         logger.debug("Injected dependency searchEngine: " + searchEngine);
     }
     
-    public void setEasyCollections(final EasyCollections easyCollections)
+    public void setCollectionAccess(final DmoCollectionsAccess dmoCollectionAccess)
     {
         checkLock();
-        Data.easyCollections = easyCollections;
-        logger.debug("Injected dependency easyCollections: " + easyCollections);
+        Data.dmoCollectionAccess = dmoCollectionAccess;
+        logger.debug("Injected dependency easyCollections: " + dmoCollectionAccess);
     }
     
     private void checkLock()

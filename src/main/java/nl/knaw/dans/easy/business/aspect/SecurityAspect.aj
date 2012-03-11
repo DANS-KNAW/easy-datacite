@@ -15,7 +15,9 @@ import nl.knaw.dans.easy.business.services.EasyUserService;
 import nl.knaw.dans.easy.security.ContextParameters;
 import nl.knaw.dans.easy.security.Security;
 import nl.knaw.dans.easy.security.SecurityOfficer;
+import nl.knaw.dans.i.security.annotations.SecuredOperation;
 
+import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +42,13 @@ public aspect SecurityAspect
     pointcut allPublicMethods() :
         execution(public * ItemWorkDispatcher.*(..)) ||
         execution(public * DatasetWorkDispatcher.*(..));
+    
+    /**
+     * Defines a pointcut on all operations that are annotated with {@link SecuredOperation}.
+     * Using an annotation is more flexible than declaring secured operations in this aspect.
+     */
+    pointcut securedOperation() : 
+        execution(@SecuredOperation * *.*(..));
 
     /**
      * Guards access to the methods listed in pointcut securityBeforeMethod. If the SecurityOfficer assigned to the
@@ -72,6 +81,41 @@ public aspect SecurityAspect
         else if (logger.isDebugEnabled())
         {
             logger.debug("Entering allowed by security: " + signature);
+        }
+    }
+    
+    /**
+     * Guards access to the methods annotated with {@link SecuredOperation}. If the SecurityOfficer assigned to the
+     * operationId of the invoked method says that enabling of the method, given the context, is not allowed, an
+     * EasySecurityException will be thrown.
+     * <p/>
+     * Besides that, an extensive explanation will be printed to the log. Because the explanation contains id's of
+     * objects and gives insight to the precise working of the security mechanism, it would be a security risk in itself
+     * if such detailed information would become known to the outside world. Therefore the thrown exception only carries
+     * a reference to this detailed explanation in it's message.
+     * 
+     * @throws CommonSecurityException
+     *         if the SecurityOfficer assigned to the operationId says that enabling of the method,
+     *         given the context, is not allowed
+     */
+    before() throws CommonSecurityException : securedOperation()
+    {
+        ContextParameters ctxParameters = new ContextParameters(thisJoinPoint.getArgs());
+        MethodSignature methodSignature = (MethodSignature) thisJoinPointStaticPart.getSignature();
+        String operationId = methodSignature.getMethod().getAnnotation(SecuredOperation.class).id();
+        SecurityOfficer officer = Security.getAuthz().getSecurityOfficer(operationId);
+        if (!officer.isEnableAllowed(ctxParameters))
+        {
+            String msg = ("\nForbidden! \n" + AspectUtil.printJoinPoint(thisJoinPoint)
+                    + "\nConditions that must be met before entering this method:\n\t"
+                    + officer.getProposition() + "\nThe SecurityOfficer explains why it is not allowed: "
+                    + officer.explainEnableAllowed(ctxParameters)
+                    + printStackTrace() + "\n");
+            throwError(ctxParameters, officer, msg);
+        }
+        else if (logger.isDebugEnabled())
+        {
+            logger.debug("Entering allowed by security: " + operationId);
         }
     }
 

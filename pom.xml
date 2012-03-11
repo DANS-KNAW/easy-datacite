@@ -101,6 +101,22 @@
 			<classifier>tests</classifier>
 			<scope>test</scope>
 		</dependency>
+		
+		<!-- dependency on nl.knaw.dans comp.repository for the test scope of this project -->
+		<dependency>
+			<groupId>nl.knaw.dans</groupId>
+			<artifactId>comp.repository</artifactId>
+			<version>0.0-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<!-- dependency on nl.knaw.dans comp.dmocollections for the test scope of this project -->
+		<dependency>
+			<groupId>nl.knaw.dans</groupId>
+			<artifactId>comp.dmocollections</artifactId>
+			<version>0.0-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>org.apache.commons</groupId>

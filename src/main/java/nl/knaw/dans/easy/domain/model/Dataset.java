@@ -29,6 +29,8 @@ public interface Dataset extends DatasetItemContainer
     EasyMetadata getEasyMetadata();
 
     AdministrativeMetadata getAdministrativeMetadata();
+    
+    DatasetRelations getRelations();
 
     DatasetState getAdministrativeState();
 

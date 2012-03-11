@@ -30,6 +30,29 @@ public class AspectUtil
             .toString();
     }
     
+    public static String printSource(JoinPoint jp)
+    {
+        return new StringBuilder()//
+            .append(" (")//
+            .append(jp.getSourceLocation().getFileName())//
+            .append(":")//
+            .append(jp.getSourceLocation().getLine())//
+            .append(")")//
+            .toString();
+    }
+    
+    public static String printSourceAndSignature(JoinPoint jp)
+    {
+        return new StringBuilder()//
+            .append(" (")//
+            .append(jp.getSourceLocation().getFileName())//
+            .append(":")//
+            .append(jp.getSourceLocation().getLine())//
+            .append(")\n\t===> ")//
+            .append(jp.getSignature().toString()) //
+            .toString();
+    }
+    
     public static String printParameters(JoinPoint jp)
     {
         StringBuilder sb = new StringBuilder("Arguments: ");

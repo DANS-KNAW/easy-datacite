@@ -1,28 +1,37 @@
 package nl.knaw.dans.easy.business.dataset;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Iterator;
+import java.util.Set;
 
 import nl.knaw.dans.common.lang.RepositoryException;
+import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.repo.DataModelObject;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.UnitOfWork;
 import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
 import nl.knaw.dans.common.lang.repo.exception.UnitOfWorkInterruptException;
+import nl.knaw.dans.common.lang.repo.relations.RelsConstants;
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.EasyStore.RepositoryState;
+import nl.knaw.dans.easy.domain.collections.ECollection;
 import nl.knaw.dans.easy.domain.dataset.DatasetSpecification;
 import nl.knaw.dans.easy.domain.dataset.DatasetSubmission;
 import nl.knaw.dans.easy.domain.exceptions.DataIntegrityException;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
+import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
+import nl.knaw.dans.easy.domain.model.Constants;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.DatasetRelations;
+import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.worker.AbstractWorker;
 import nl.knaw.dans.easy.servicelayer.LicenseComposer;
 import nl.knaw.dans.easy.servicelayer.LicenseComposer.LicenseComposerException;
+import nl.knaw.dans.i.dmo.collections.exceptions.CollectionsException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -164,14 +173,47 @@ public class DatasetWorker extends AbstractWorker
     {
         DatasetRelations relations = (DatasetRelations) dataset.getRelations();
         relations.addOAIIdentifier();
+        
         try
         {
-            relations.addOAISetMembership();
+            // discipline sets
+            for (DisciplineContainer dc : dataset.getLeafDisciplines())
+            {
+                relations.addOAISetMembership(dc.getDmoStoreId());
+            }
+            
+            // driver set
+            if (AccessCategory.isOpenAccess(dataset.getAccessCategory()) && !dataset.isUnderEmbargo())
+            {
+                relations.addOAISetMembership(Constants.OAI_DRIVER_SET_DMO_ID);
+            }
+            
+            // dmoCollections
+            Iterator<ECollection> iter = ECollection.iterator();
+            while (iter.hasNext())
+            {
+                ECollection eColl = iter.next();
+                Set<DmoStoreId> memberIds = relations.getCollectionMemberships(eColl.namespace);
+                Set<DmoStoreId> oaiEndNodes = Data.getCollectionAccess().filterOAIEndNodes(memberIds);
+                for (DmoStoreId collectionId : oaiEndNodes)
+                {
+                    relations.addOAISetMembership(collectionId);
+                }
+            }
+        }
+        catch (ObjectNotFoundException e)
+        {
+            throw new ServiceException(e);
         }
         catch (DomainException e)
         {
             throw new ServiceException(e);
         }
+        catch (CollectionsException e)
+        {
+            throw new ServiceException(e);
+        }
+        
         dataset.setState(RepositoryState.Active.code);
     }
     

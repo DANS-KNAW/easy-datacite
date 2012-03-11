@@ -1,4 +1,4 @@
-package nl.knaw.dans.easy.domain.deposit.discipline;
+package nl.knaw.dans.easy.search;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,6 +10,7 @@ import nl.knaw.dans.common.lang.CacheException;
 import nl.knaw.dans.common.lang.ResourceNotFoundException;
 import nl.knaw.dans.common.lang.repo.bean.RecursiveList;
 import nl.knaw.dans.common.lang.xml.XMLDeserializationException;
+import nl.knaw.dans.easy.domain.deposit.discipline.AbstractListCache;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,9 +18,9 @@ import org.slf4j.LoggerFactory;
 public class RecursiveListCache extends AbstractListCache<RecursiveList>
 {
     
-    public static final String BASE_FOLDER = "easy-business/discipline/emd/recursivelist/";
+    public static final String BASE_FOLDER = "easy-business/search/recursivelist/";
 
-    public static final String LID_EASY_COLLECTIONS = "easy-collections/collections";
+    public static final String LID_EASY_COLLECTIONS = "dmo-collections.easy-collections";
 
     public static final String LID_ARCHAEOLOGY_DC_SUBJECT = "archaeology.dc.subject";
 

@@ -12,7 +12,6 @@ import java.util.Set;
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
-import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.collections.DmoContainerItem;
 import nl.knaw.dans.common.lang.repo.relations.Relation;
@@ -20,8 +19,7 @@ import nl.knaw.dans.common.lang.repo.relations.Relations;
 import nl.knaw.dans.common.lang.test.Tester;
 import nl.knaw.dans.common.lang.user.User.State;
 import nl.knaw.dans.easy.data.Data;
-import nl.knaw.dans.easy.data.collections.EasyCollections;
-import nl.knaw.dans.easy.data.collections.EasyCollectionsImpl;
+import nl.knaw.dans.easy.data.collections.DmoCollectionsAccess;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
 import nl.knaw.dans.easy.domain.model.Dataset;
@@ -35,7 +33,6 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.Group;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.domain.user.GroupImpl;
-import nl.knaw.dans.i.dmo.collections.DmoCollections;
 
 import org.easymock.EasyMock;
 import org.junit.Test;
@@ -145,9 +142,9 @@ public class DatasetImplTest
     @Test
     public void addRelationsButOnlyOneOfAKind() throws Exception
     {
-        EasyCollections easyCollections = EasyMock.createMock(EasyCollections.class);
+        DmoCollectionsAccess dmoCollectionAccess = EasyMock.createMock(DmoCollectionsAccess.class);
         Data.unlock();
-        new Data().setEasyCollections(easyCollections);
+        new Data().setCollectionAccess(dmoCollectionAccess);
         
         Dataset dataset = new DatasetImpl("dummy:2");
         DatasetRelations relations = (DatasetRelations) dataset.getRelations();
@@ -159,19 +156,19 @@ public class DatasetImplTest
         relations.addOAIIdentifier();
         assertEquals(1, relations.size());
         
-        EasyMock.expect(easyCollections.filterOAIEndNodes(EasyMock.isA(Set.class)))
+        EasyMock.expect(dmoCollectionAccess.filterOAIEndNodes(EasyMock.isA(Set.class)))
             .andReturn(new HashSet<DmoStoreId>()).anyTimes();
-        EasyMock.replay(easyCollections);
+        EasyMock.replay(dmoCollectionAccess);
         
-        relations.addOAISetMembership();
+        relations.addOAISetMembership(new DmoStoreId("foo:bar"));
         if (verbose)
             printRelations(relations);
         assertEquals(2, relations.size());
         
-        relations.addOAISetMembership();
+        relations.addOAISetMembership(new DmoStoreId("foo:bar"));
         assertEquals(2, relations.size());
         
-        EasyMock.verify(easyCollections);
+        EasyMock.verify(dmoCollectionAccess);
     }
     
     private void printRelations(Relations relations)

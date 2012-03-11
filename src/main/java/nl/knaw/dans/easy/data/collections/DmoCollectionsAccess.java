@@ -2,20 +2,20 @@ package nl.knaw.dans.easy.data.collections;
 
 import java.util.Set;
 
-import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
+import nl.knaw.dans.easy.domain.collections.ECollection;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.i.dmo.collections.DmoCollection;
 import nl.knaw.dans.i.dmo.collections.exceptions.CollectionsException;
 
-public interface EasyCollections
+public interface DmoCollectionsAccess
 {
 
-    DmoNamespace DMO_NAMESPACE_EASY_COLLECTION = new DmoNamespace("easy-collection");
+    
 
-    DmoCollection createRoot(EasyUser sessionUser) throws CollectionsException;
+    DmoCollection createRoot(EasyUser sessionUser, ECollection eColl) throws CollectionsException;
 
-    DmoCollection getRoot() throws CollectionsException;
+    DmoCollection getRoot(ECollection eColl) throws CollectionsException;
 
     DmoCollection getCollection(DmoStoreId dmoStoreId) throws CollectionsException;
 

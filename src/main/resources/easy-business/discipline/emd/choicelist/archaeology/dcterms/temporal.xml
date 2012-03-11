@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-	<comment>oldEasy.ArchDC.abrTemporal</comment>
+	<comment>Datering Nederlandse geschiedenis volgens het R.O.B. (http://home.zonnet.nl/postbus/datering.html)</comment>
     <entry key="PALEO">Paleolithicum: tot 8800 vC</entry>
     <entry key="PALEOV">Paleolithicum vroeg: tot 300000 C14</entry>
     <entry key="PALEOM">Paleolithicum midden: 300000 - 35000 C14</entry>
     <entry key="PALEOL">Paleolithicum laat: 35000 C14 - 8800 vC</entry>
     <entry key="PALEOLA">Paleolithicum laat A: 35000 - 18000 C14</entry>
+    <!-- should be PALEOLB -->
     <entry key="PALEOB">Paleolithicum laat B: 18000 C14 -8800 vC</entry>
     <entry key="MESO">Mesolithicum: 8800 - 4900 vC</entry>
     <entry key="MESOV">Mesolithicum vroeg: 8800 - 7100 vC</entry>

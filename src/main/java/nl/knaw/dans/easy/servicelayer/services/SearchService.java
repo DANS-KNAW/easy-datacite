@@ -1,7 +1,10 @@
 package nl.knaw.dans.easy.servicelayer.services;
 
 
+import java.util.Locale;
+
 import nl.knaw.dans.common.lang.dataset.DatasetSB;
+import nl.knaw.dans.common.lang.repo.bean.RecursiveList;
 import nl.knaw.dans.common.lang.search.SearchRequest;
 import nl.knaw.dans.common.lang.search.SearchResult;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
@@ -36,4 +39,6 @@ public interface SearchService
     int getNumberOfItemsInMyWork(EasyUser user) throws ServiceException;
 
     int getNumberOfItemsInTrashcan(EasyUser user) throws ServiceException;
+    
+    RecursiveList getRecursiveList(String listId, Locale locale) throws ServiceException;
 }

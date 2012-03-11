@@ -325,6 +325,10 @@ public class CodedAuthz extends AbstractEasyService implements Authz
             // used to be getUserByIdRule() but changed to loggedInUser for activity log panel
             rules.put("EasyUser nl.knaw.dans.easy.business.services.EasyUserService.getUserById(EasyUser, String)", 
             		getEnableToLoggedInUserRule());
+            
+            // new! operations annotated with @SecuredOperation
+            rules.put("nl.knaw.dans.easy.servicelayer.services.CollectionService.updateCollectionMemberships", 
+                    getEnableToArchivistOrAdminRule());
         }
         return rules;
     }
@@ -749,10 +753,7 @@ public class CodedAuthz extends AbstractEasyService implements Authz
         {
             freelyAvailableContentRule = new Or( //
                     new HasRoleCheck(Role.ARCHIVIST, Role.ADMIN), //
-                    new IsDepositorOfFileItemCheck(), //
-                    new And( //
-                            new FileItemContentsAccessCheck(), //
-                            new FreelyAvailableContentCheck()));
+                    new FreelyAvailableContentCheck());
             logger.debug("Created rule: " + freelyAvailableContentRule.getProposition());
         }
         return freelyAvailableContentRule;

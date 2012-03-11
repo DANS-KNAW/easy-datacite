@@ -27,8 +27,9 @@ import nl.knaw.dans.common.lang.repo.collections.DmoContainerItem;
 import nl.knaw.dans.common.lang.repo.relations.Relations;
 import nl.knaw.dans.common.lang.reposearch.HasSearchBeans;
 import nl.knaw.dans.common.lang.search.IndexDocument;
-import nl.knaw.dans.easy.data.collections.EasyCollections;
+import nl.knaw.dans.easy.data.collections.DmoCollectionsAccess;
 import nl.knaw.dans.easy.data.search.EasyDatasetSB;
+import nl.knaw.dans.easy.domain.collections.ECollection;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
@@ -565,7 +566,7 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
         
         // set collections
         List<String> collectionMemberships = new ArrayList<String>();
-        collectionMemberships.addAll(DmoStoreId.asStrings(getRelations().getMemberships(EasyCollections.DMO_NAMESPACE_EASY_COLLECTION)));
+        collectionMemberships.addAll(DmoStoreId.asStrings(getRelations().getCollectionMemberships(ECollection.EasyCollection.namespace)));
         searchBean.setCollections(collectionMemberships);
         
         return new ArrayList<Object>(1)

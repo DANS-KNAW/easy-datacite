@@ -8,9 +8,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import nl.knaw.dans.common.lang.CacheException;
 import nl.knaw.dans.common.lang.ResourceNotFoundException;
-import nl.knaw.dans.common.lang.repo.bean.RecursiveList;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.domain.deposit.discipline.ArchisCollector;
 import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceList;
@@ -18,7 +16,6 @@ import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceListCache;
 import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceListGetter;
 import nl.knaw.dans.easy.domain.deposit.discipline.DepositDiscipline;
 import nl.knaw.dans.easy.domain.deposit.discipline.DisciplineImpl;
-import nl.knaw.dans.easy.domain.deposit.discipline.RecursiveListCache;
 import nl.knaw.dans.easy.domain.form.FormDescriptor;
 import nl.knaw.dans.easy.domain.form.FormDescriptorLoader;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
@@ -85,21 +82,6 @@ public class EasyDepositService extends AbstractEasyService implements DepositSe
             throw new ServiceException(e);
         } 
         return choiceList;
-    }
-    
-    @Override
-    public RecursiveList getRecursiveList(String listId, Locale locale) throws ServiceException
-    {
-        RecursiveList recursiveList;
-        try
-        {
-            recursiveList = RecursiveListCache.getInstance().getList(listId, locale);
-        }
-        catch (CacheException e)
-        {
-            throw new ServiceException(e);
-        }
-        return recursiveList;
     }
     
     public byte[] getChoicesAsByteArray(String listId, Locale locale) throws ServiceException

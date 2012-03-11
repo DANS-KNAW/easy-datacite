@@ -1,5 +1,7 @@
 package nl.knaw.dans.easy.domain.model;
 
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
+
 
 public interface Constants
 {
@@ -30,11 +32,6 @@ public interface Constants
     String CM_OAI_SET_1  = "easy-model:oai-set1";
     
     /**
-     * Content model for simple collections
-     */
-    String CM_EASY_COLLECTION_1 = "easy-model:easy-collection1";
-    
-    /**
      * The prefix for OAI identifiers. A complete OAI identifier complies to:
      * <pre>
      *   oai-identifier = scheme ":" namespace-identifier ":" local-identifier
@@ -48,5 +45,7 @@ public interface Constants
      * 
      */
     String OAI_DRIVER_SET_ID = "easy-data:oai-driverset1";
+    
+    DmoStoreId OAI_DRIVER_SET_DMO_ID = new DmoStoreId(OAI_DRIVER_SET_ID);
     
 }

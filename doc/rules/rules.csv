@@ -1,17 +1,17 @@
-Rules;2011-06-17 10:21
+Rules;2012-02-29 11:13
 ;
 ITEM;PROPOSITION
 nl.knaw.dans.easy.web.main.AbstractEasyNavPage:managementBarPanel;[SessionUser has role ARCHIVIST or ADMIN]
 nl.knaw.dans.easy.web.admin.UsersOverviewPage;[SessionUser has role ARCHIVIST or ADMIN]
 nl.knaw.dans.easy.web.admin.UserDetailsPage;[SessionUser has role ARCHIVIST or ADMIN]
 nl.knaw.dans.easy.web.admin.EditableContentPage;[SessionUser has role ARCHIVIST or ADMIN]
-nl.knaw.dans.easy.web.search.MyDatasetsSearchViewPage;[SessionUser has role USER or ARCHIVIST or ADMIN]
-nl.knaw.dans.easy.web.search.MyWorkSearchViewPage;[SessionUser has role ARCHIVIST]
-nl.knaw.dans.easy.web.search.OurWorkSearchViewPage;[SessionUser has role ARCHIVIST]
-nl.knaw.dans.easy.web.search.AllWorkSearchViewPage;[SessionUser has role ADMIN]
-nl.knaw.dans.easy.web.search.SearchAllSearchViewPage;[SessionUser has role ADMIN]
-nl.knaw.dans.easy.web.search.TrashCanSearchViewPage;[SessionUser has role ARCHIVIST or ADMIN]
-nl.knaw.dans.easy.web.permission.PermissionReplyPage;[SessionUser is depositor of dataset]
+nl.knaw.dans.easy.web.search.pages.MyDatasetsSearchResultPage;[SessionUser has role USER or ARCHIVIST or ADMIN]
+nl.knaw.dans.easy.web.search.pages.MyWorkSearchResultPage;[SessionUser has role ARCHIVIST]
+nl.knaw.dans.easy.web.search.pages.OurWorkSearchResultPage;[SessionUser has role ARCHIVIST]
+nl.knaw.dans.easy.web.search.pages.AllWorkSearchResultPage;[SessionUser has role ARCHIVIST]
+nl.knaw.dans.easy.web.search.pages.SearchAllSearchResultPage;[SessionUser has role ARCHIVIST or ADMIN]
+nl.knaw.dans.easy.web.search.pages.TrashCanSearchResultPage;[SessionUser has role ARCHIVIST or ADMIN]
+nl.knaw.dans.easy.web.permission.PermissionReplyPage;([SessionUser is depositor of dataset] OR [SessionUser has role ARCHIVIST])
 nl.knaw.dans.easy.web.permission.PermissionRequestPage;[SessionUser has role USER or ARCHIVIST or ADMIN]
 nl.knaw.dans.easy.web.jamon.EasyJamonAdminPage;[SessionUser has role ADMIN]
 nl.knaw.dans.easy.web.deposit.DepositIntroPage;[SessionUser has role USER or ARCHIVIST or ADMIN]
@@ -41,17 +41,20 @@ nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:delet
 nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:viewEditJumpoffPanel:editForm;[SessionUser has role ARCHIVIST or ADMIN]
 nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:viewEditJumpoffPanel:jumpoffMetadataPanel;[SessionUser has role ARCHIVIST or ADMIN]
 nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:editLink;[SessionUser has role ARCHIVIST]
-nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:downloadPanel;[SessionUser has role ARCHIVIST or ADMIN]
-void nl.knaw.dans.easy.business.item.ItemWorkDispatcher.addDirectoryContents(EasyUser, Dataset, DatasetItemContainer, File, List, UnitOfWork, WorkListener[]);([SessionUser has role ARCHIVIST] OR ([Dataset state is DRAFT] AND [SessionUser is depositor of dataset]))
+void nl.knaw.dans.easy.business.item.ItemWorkDispatcher.addDirectoryContents(EasyUser, Dataset, DatasetItemContainer, File, FileFilter, UnitOfWork, ItemIngesterDelegator, WorkListener[]);([SessionUser has role ARCHIVIST] OR ([Dataset state is DRAFT] AND [SessionUser is depositor of dataset]))
 void nl.knaw.dans.easy.business.item.ItemWorkDispatcher.updateObjects(EasyUser, Dataset, List, UpdateInfo, ItemFilters, UnitOfWork, WorkListener[]);([SessionUser has role ARCHIVIST] OR (([SessionUser is depositor of dataset] AND [Dataset state is DRAFT]) AND [Update actions are confined to { DELETE, RENAME } ]))
+void nl.knaw.dans.easy.business.item.ItemWorkDispatcher.updateFileItemMetadata(EasyUser, Dataset, ResourceMetadataList, AdditionalMetadataUpdateStrategy, WorkListener[]);[SessionUser has role ARCHIVIST]
 void nl.knaw.dans.easy.business.item.ItemWorkDispatcher.saveDescriptiveMetadata(EasyUser, UnitOfWork, Dataset, Map, WorkListener[]);[SessionUser has role ARCHIVIST]
-FileItemDescription nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFileItemDescription(EasyUser, Dataset, String);([Dataset state is PUBLISHED] OR [SessionUser has role ARCHIVIST or ADMIN] OR [SessionUser is depositor of FileItem])
-FileItem nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFileItem(EasyUser, Dataset, String);([SessionUser has role ARCHIVIST or ADMIN] OR [SessionUser is depositor of FileItem] OR [Profile of sessionUser matches access rights for the contents of the FileItem])
-URL nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFileContentURL(EasyUser, Dataset, FileItem);([SessionUser has role ARCHIVIST or ADMIN] OR [SessionUser is depositor of FileItem] OR ([Profile of sessionUser matches access rights for the contents of the FileItem] AND [Content stream of FileItem is marked as freely available content]))
-URL nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getDescriptiveMetadataURL(EasyUser, Dataset, String);([Dataset state is PUBLISHED] OR ([SessionUser is depositor of dataset] AND [Dataset state is DRAFT or SUBMITTED or MAINTENANCE]) OR [SessionUser has role ADMIN or ARCHIVIST])
-FileContentWrapper nl.knaw.dans.easy.business.item.DownloadWorkDispatcher.prepareFileContent(EasyUser, Dataset, String);(([Dataset state is PUBLISHED] AND [Dataset is not under embargo at current date]) OR ([SessionUser has role ARCHIVIST or ADMIN] OR [SessionUser is depositor of dataset]))
+FileItemDescription nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFileItemDescription(EasyUser, Dataset, FileItem);([Dataset state is PUBLISHED] OR [SessionUser has role ARCHIVIST or ADMIN] OR [SessionUser is depositor of FileItem])
+FileItem nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFileItem(EasyUser, Dataset, DmoStoreId);([SessionUser has role ARCHIVIST or ADMIN] OR [SessionUser is depositor of FileItem] OR [Profile of sessionUser matches access rights for the contents of the FileItem])
+FileItem nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFileItemByPath(EasyUser, Dataset, String);[NoSecurityOfficer implements no security]
+FileItem nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFolderItem(EasyUser, Dataset, DmoStoreId);[NoSecurityOfficer implements no security]
+FileItem nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFolderItemByPath(EasyUser, Dataset, String);[NoSecurityOfficer implements no security]
+URL nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFileContentURL(EasyUser, Dataset, FileItem);([SessionUser has role ARCHIVIST or ADMIN] OR [Content stream of FileItem is marked as freely available content])
+URL nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getDescriptiveMetadataURL(EasyUser, Dataset, DmoStoreId);([Dataset state is PUBLISHED] OR ([SessionUser is depositor of dataset] AND [Dataset state is DRAFT or SUBMITTED or MAINTENANCE]) OR [SessionUser has role ADMIN or ARCHIVIST])
+FileContentWrapper nl.knaw.dans.easy.business.item.DownloadWorkDispatcher.prepareFileContent(EasyUser, Dataset, DmoStoreId);(([Dataset state is PUBLISHED] AND [Dataset is not under embargo at current date]) OR ([SessionUser has role ARCHIVIST or ADMIN] OR [SessionUser is depositor of dataset]))
 ZipFileContentWrapper nl.knaw.dans.easy.business.item.DownloadWorkDispatcher.prepareZippedContent(EasyUser, Dataset, Collection);(([Dataset state is PUBLISHED] AND [Dataset is not under embargo at current date]) OR ([SessionUser has role ARCHIVIST or ADMIN] OR [SessionUser is depositor of dataset]))
-DataModelObject nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.getDataModelObject(EasyUser, String);([Dataset state is PUBLISHED] OR ([SessionUser is depositor of dataset] AND [Dataset state is DRAFT or SUBMITTED or MAINTENANCE]) OR [SessionUser has role ADMIN or ARCHIVIST])
+DataModelObject nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.getDataModelObject(EasyUser, DmoStoreId);([Dataset state is PUBLISHED] OR ([SessionUser is depositor of dataset] AND [Dataset state is DRAFT or SUBMITTED or MAINTENANCE]) OR [SessionUser has role ADMIN or ARCHIVIST])
 byte[] nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.getObjectXml(EasyUser, Dataset);([SessionUser is depositor of dataset] OR [SessionUser has role ARCHIVIST or ADMIN])
 Dataset nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.cloneDataset(EasyUser, Dataset);[SessionUser has role USER or ARCHIVIST or ADMIN]
 void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.saveEasyMetadata(EasyUser, Dataset, WorkListener[]);([SessionUser has role ARCHIVIST] OR ([Dataset state is DRAFT] AND [SessionUser is depositor of dataset]))
@@ -66,14 +69,14 @@ void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.changeDepositor(Ea
 void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.deleteDataset(EasyUser, Dataset);(([SessionUser is depositor of dataset] AND [Dataset state is DRAFT]) OR ([SessionUser has role ARCHIVIST] AND [Dataset state is DRAFT or SUBMITTED or PUBLISHED or MAINTENANCE]))
 void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.restoreDataset(EasyUser, Dataset);[SessionUser has role ADMIN]
 void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.purgeDataset(EasyUser, Dataset, WorkListener[]);([SessionUser has role ADMIN] AND [Dataset state is DELETED])
-void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.savePermissionRequest(EasyUser, Dataset, PermissionRequestModel, WorkListener[]);[DummyAuthz is a dummy Authz]
-void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.savePermissionReply(EasyUser, Dataset, PermissionReplyModel, WorkListener[]);[DummyAuthz is a dummy Authz]
-DownloadHistory nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.getDownloadHistoryFor(EasyUser, Dataset, DateTime);([SessionUser is depositor of dataset] OR [SessionUser has role ARCHIVIST or ADMIN])
+void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.savePermissionRequest(EasyUser, Dataset, PermissionRequestModel, WorkListener[]);[SessionUser has role USER or ARCHIVIST or ADMIN]
+void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.savePermissionReply(EasyUser, Dataset, PermissionReplyModel, WorkListener[]);[SessionUser is depositor of dataset]
+DownloadHistory nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.getDownloadHistoryFor(EasyUser, Dataset, DateTime);[SessionUser has role USER or ARCHIVIST or ADMIN]
 URL nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.getUnitMetadataURL(EasyUser, Dataset, UnitMetadata);[SessionUser has role ARCHIVIST or ADMIN]
 void nl.knaw.dans.easy.business.jumpoff.JumpoffWorkDispatcher.saveJumpoffDmo(EasyUser, JumpoffDmo, DataModelObject);[SessionUser has role ARCHIVIST or ADMIN]
 void nl.knaw.dans.easy.business.jumpoff.JumpoffWorkDispatcher.deleteJumpoff(EasyUser, JumpoffDmo, DataModelObject, String);[SessionUser has role ARCHIVIST or ADMIN]
-void nl.knaw.dans.easy.business.jumpoff.JumpoffWorkDispatcher.deleteUnit(EasyUser, String, String, String);[SessionUser has role ARCHIVIST or ADMIN]
+void nl.knaw.dans.easy.business.jumpoff.JumpoffWorkDispatcher.deleteUnit(EasyUser, DmoStoreId, DsUnitId, String);[SessionUser has role ARCHIVIST or ADMIN]
 void nl.knaw.dans.easy.business.jumpoff.JumpoffWorkDispatcher.toggleEditorMode(EasyUser, JumpoffDmo);[SessionUser has role ARCHIVIST or ADMIN]
-List nl.knaw.dans.easy.business.jumpoff.JumpoffWorkDispatcher.retrieveUnitMetadata(EasyUser, String, String);[storeId starts with dans-jumpoff]
-URL nl.knaw.dans.easy.business.jumpoff.JumpoffWorkDispatcher.retrieveURL(String, String);[storeId starts with dans-jumpoff]
-EasyUser nl.knaw.dans.easy.business.services.EasyUserService.getUserById(EasyUser, String);([SessionUser has role ARCHIVIST or ADMIN] OR [SessionUser is user under edit])
+List nl.knaw.dans.easy.business.jumpoff.JumpoffWorkDispatcher.retrieveUnitMetadata(EasyUser, DmoStoreId, DsUnitId);[storeId is within namespace dans-jumpoff]
+URL nl.knaw.dans.easy.business.jumpoff.JumpoffWorkDispatcher.retrieveURL(DmoStoreId, DsUnitId);[storeId is within namespace dans-jumpoff]
+EasyUser nl.knaw.dans.easy.business.services.EasyUserService.getUserById(EasyUser, String);[SessionUser has role USER or ARCHIVIST or ADMIN]
