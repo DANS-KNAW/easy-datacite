@@ -15,7 +15,7 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>istore</name>
+  <name>store</name>
 
   <dependencies> 
   	
