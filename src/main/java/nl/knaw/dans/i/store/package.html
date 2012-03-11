@@ -1,0 +1,36 @@
+<body>
+Defines the IStore interface.
+Typical usage:
+<pre>
+        ...
+    (1) StoreSession session = storeManager.newStoreSession("ownerId");
+        try 
+        {
+            MyDataModelObject myDmo = (MyDataModelObject) session.getDataModelObject(myDmoStoreId);
+            // ...
+    (2)     // do things with myDmo and its associated classes
+            // ...
+    (3)     session.commit();
+        }
+        finally
+        {
+    (4)     session.close();
+        }
+        ...
+</pre>
+<ol>
+<li>An instance of StoreSession is obtained from an implementation of StoreManager.</li>
+<li>DataModelObjects are deserializations of xml. Associations to other DataModelObjects are not concrete.
+However, during the time a DataModelObject is attached to a StoreSession, you can traverse the
+object graph of associated DataModelObjects, and let them interact.</li>
+<li>After the interaction, all affected DataModelObjects are committed to the repository.</li>
+<li>In a final clause, the temporary association with the session is released. Associations from
+one DataModelObject to another that were realized during the session, remain intact.</li>
+</ol>
+<p/>
+Related documentation: <code>Dropbox/ti/platform/interfaces/0.0/istore/</code>
+
+<h3>Package overview</h3>
+<!-- ydoc picture -->
+
+</body>
