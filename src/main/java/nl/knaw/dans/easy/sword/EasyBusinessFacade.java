@@ -254,7 +254,7 @@ public class EasyBusinessFacade
             final IngestReporter reporter = new IngestReporter(message, "ingesting files");
             logger.debug(message);
 
-            itemService.addDirectoryContents(user, dataset, storeId, tempDirectory, fileList, reporter);
+            itemService.addDirectoryContents(user, dataset, dataset.getDmoStoreId(), tempDirectory, fileList, reporter);
             reporter.checkOK();
         }
         catch (final ServiceException exception)

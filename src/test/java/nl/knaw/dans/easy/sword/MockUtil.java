@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.business.dataset.DatasetSubmissionImpl;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.FileStoreAccess;
@@ -74,7 +75,7 @@ public class MockUtil
 
         for (int i = 1; i <= MAX_NR_OF_VERBOSE_NO_OP_TESTS; i++)
             EasyMock.expect(fileStoreAccess.getFilenames(//
-                    NO_OP_STORE_ID_DOMAIN + i,//
+                    new DmoStoreId(NO_OP_STORE_ID_DOMAIN + i),//
                     true)//
             ).andReturn(Arrays.asList(new String[]{"just-a-file-name"})).anyTimes();
         EasyMock.replay(fileStoreAccess);
@@ -89,7 +90,7 @@ public class MockUtil
         itemService.addDirectoryContents(//
                 EasyMock.isA(EasyUserImpl.class), //
                 EasyMock.isA(DatasetImpl.class), //
-                EasyMock.isA(String.class), //
+                EasyMock.isA(DmoStoreId.class), //
                 EasyMock.isA(File.class), //
                 EasyMock.isA(List.class), //
                 EasyMock.isA(WorkReporter.class));
@@ -104,7 +105,7 @@ public class MockUtil
         EasyMock.expect(itemService.getFilesAndFolders(//
                 EasyMock.isA(EasyUserImpl.class), //
                 EasyMock.isA(DatasetImpl.class), //
-                EasyMock.isA(String.class), // parent sid
+                EasyMock.isA(DmoStoreId.class), // parent sid
                 EasyMock.isA(Integer.class),// limit
                 EasyMock.isA(Integer.class),// offset
                 (ItemOrder) EasyMock.isNull(),//
@@ -114,7 +115,7 @@ public class MockUtil
         EasyMock.expect(itemService.getFiles(//
                 EasyMock.isA(EasyUserImpl.class), //
                 EasyMock.isA(DatasetImpl.class), //
-                EasyMock.isA(String.class), // parent sid
+                EasyMock.isA(DmoStoreId.class), // parent sid
                 (Integer) EasyMock.isNull(),// limit
                 (Integer) EasyMock.isNull(),// offset
                 (ItemOrder) EasyMock.isNull(),//
@@ -186,15 +187,15 @@ public class MockUtil
     public static void mockDisciplineService() throws Exception
     {
 
-        final String disciplineId = "easy-discipline:2";
-        final DisciplineContainerImpl discipline = new DisciplineContainerImpl(disciplineId);
+        final DmoStoreId disciplineId = new DmoStoreId("easy-discipline:2");
+        final DisciplineContainerImpl discipline = new DisciplineContainerImpl(disciplineId.getId());
         final DisciplineCollectionService disciplineService = EasyMock.createMock(DisciplineCollectionService.class);
         ;
         new Services().setDisciplineService(disciplineService);
         discipline.setName("Humanities");
 
-        EasyMock.expect(disciplineService.getDisciplineById(disciplineId)).andReturn(discipline).anyTimes();
-        EasyMock.expect(disciplineService.getDisciplineById("\n    "+disciplineId+"\n    ")).andReturn(discipline).anyTimes();
+        EasyMock.expect(disciplineService.getDisciplineById(EasyMock.isA(DmoStoreId.class))).andReturn(discipline).anyTimes();
+       // EasyMock.expect(disciplineService.getDisciplineById(new DmoStoreId("\n    "+disciplineId+"\n    "))).andReturn(discipline).anyTimes();
         EasyMock.replay(disciplineService);
     }
 
