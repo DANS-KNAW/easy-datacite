@@ -87,7 +87,11 @@ public class ValidatorLists
                 @Override
                 public String getValidatedValue(EasyMetadata emd)
                 {
-                    return emd.getEmdRights().getValues().get(0);
+                    final List<String> values = emd.getEmdRights().getValues();
+                    if (values == null || values.size() == 0)
+                        return null;
+                    return values.get(0);
+//                    return emd.getEmdRights().getValues().get(0);
                 }
             });
         }
