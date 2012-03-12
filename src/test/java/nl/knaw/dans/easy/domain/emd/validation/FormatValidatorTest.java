@@ -60,7 +60,7 @@ public class FormatValidatorTest
         assertFalse(reporter.isMetadataValid());
         assertEquals(0, reporter.infoReports.size());
         assertEquals(0, reporter.warningReports.size());
-        assertEquals(1, reporter.errorReports.size());
+        assertEquals(2, reporter.errorReports.size());
         
         if (verbose)
             reporter.printReports();
