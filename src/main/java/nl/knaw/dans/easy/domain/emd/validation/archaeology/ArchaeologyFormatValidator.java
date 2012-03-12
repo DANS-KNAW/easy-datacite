@@ -19,7 +19,6 @@ public class ArchaeologyFormatValidator implements Validator
     
     private ArchaeologyFormatValidator()
     {
-        VALIDATORS.add(new EasSpatialValidator());
         VALIDATORS.addAll(ValidatorLists.getArchaeologyValidators());
     }
     
