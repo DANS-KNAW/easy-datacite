@@ -40,7 +40,7 @@
 			servlet container). 
 		</description>
 		<param-name>maxUploadSize</param-name>
-		<param-value>2048</param-value>
+		<param-value>-1</param-value>
 	</context-param>
 
 	<context-param>
