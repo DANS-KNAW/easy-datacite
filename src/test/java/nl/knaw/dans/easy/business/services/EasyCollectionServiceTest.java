@@ -7,9 +7,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import nl.knaw.dans.c.dmo.collections.util.MockCollectionCreator;
 import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
-import nl.knaw.dans.comp.dmocollections.testUtil.MockCollectionCreator;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.collections.DmoCollectionsAccess;
 import nl.knaw.dans.easy.domain.collections.ECollection;

@@ -13,8 +13,8 @@ public aspect UsesAspect
     
     pointcut canDo() : withincode(* nl.knaw.dans.easy..*Test.*(..));
     
-    pointcut components() : call(* nl.knaw.dans.comp..*.*(..))
-        || call(nl.knaw.dans.comp..new(..));
+    pointcut components() : call(* nl.knaw.dans.c..*.*(..))
+        || call(nl.knaw.dans.c..new(..));
     
     declare error : components() && !canDo()
         : "Illegal direct call to component layer. " +

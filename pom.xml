@@ -92,6 +92,12 @@
             <artifactId>aspectjrt</artifactId>
             <version>1.6.10</version>
         </dependency>
+        
+        <dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>1.3.2</version>
+		</dependency>
 
 		<!-- dependency on the test classes of dans-lang for the test scope of this project -->
 		<dependency>
@@ -102,32 +108,31 @@
 			<scope>test</scope>
 		</dependency>
 		
-		<!-- dependency on nl.knaw.dans comp.repository for the test scope of this project -->
+		<!-- dependency on nl.knaw.dans.platform.components.store for the test scope of this project -->
 		<dependency>
-			<groupId>nl.knaw.dans</groupId>
-			<artifactId>comp.repository</artifactId>
-			<version>0.0-SNAPSHOT</version>
+			<groupId>nl.knaw.dans.platform.components</groupId>
+			<artifactId>store</artifactId>
+			<version>1.0</version>
 			<scope>test</scope>
 		</dependency>
 		
-		<!-- dependency on nl.knaw.dans comp.dmocollections for the test scope of this project -->
+		<!-- dependency on nl.knaw.dans.platform.components.dmo-collections for the test scope of this project -->
 		<dependency>
-			<groupId>nl.knaw.dans</groupId>
-			<artifactId>comp.dmocollections</artifactId>
-			<version>0.0-SNAPSHOT</version>
+			<groupId>nl.knaw.dans.platform.components</groupId>
+			<artifactId>dmo-collections</artifactId>
+			<version>1.0</version>
 			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>1.3.2</version>
 		</dependency>
 		
 		<dependency>
-			<groupId>nl.knaw.dans</groupId>
-			<artifactId>platform.interfaces</artifactId>
-			<version>0.0-SNAPSHOT</version>
+			<groupId>nl.knaw.dans.platform.interfaces</groupId>
+			<artifactId>idmo-collections</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>nl.knaw.dans.platform.interfaces</groupId>
+			<artifactId>isecurity</artifactId>
+			<version>1.0</version>
 		</dependency>
 		
 	</dependencies>
