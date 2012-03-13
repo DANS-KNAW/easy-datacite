@@ -164,22 +164,14 @@ public class MockUtil
         EasyMock.expect(userRepo.authenticate(null, null)).andReturn(false).anyTimes();
         EasyMock.expect(userRepo.authenticate("", "")).andReturn(false).anyTimes();
 
-        // EasyMock.expect(userRepo.findById(VALID_USER_ID)).andReturn(USER).anyTimes();
         final UsernamePasswordAuthentication value = new UsernamePasswordAuthentication(PASSWORD, VALID_USER_ID);
         value.setState(State.Authenticated);
         value.setUser(new EasyUserImpl(VALID_USER_ID));
-        // userService.authenticate(EasyMock.eq(value));
         userService.authenticate(EasyMock.isA(UsernamePasswordAuthentication.class));
         EasyMock.expectLastCall().anyTimes();
 
         EasyMock.expect(userRepo.findById(ARCHIV_USER_ID)).andReturn(ARCHIVIST).anyTimes();
         EasyMock.expect(userRepo.findById(INVALID_USER_ID)).andReturn(null).anyTimes();
-        // userService.authenticate(EasyMock.eq(new UsernamePasswordAuthentication(null,
-        // ARCHIV_USER_ID)));
-        // EasyMock.expectLastCall().anyTimes();
-
-        // userService.authenticate(EasyMock.eq(new UsernamePasswordAuthentication(null, null)));
-        // EasyMock.expectLastCall().anyTimes();
 
         EasyMock.replay(userRepo, userService);
     }
@@ -195,7 +187,6 @@ public class MockUtil
         discipline.setName("Humanities");
 
         EasyMock.expect(disciplineService.getDisciplineById(EasyMock.isA(DmoStoreId.class))).andReturn(discipline).anyTimes();
-       // EasyMock.expect(disciplineService.getDisciplineById(new DmoStoreId("\n    "+disciplineId+"\n    "))).andReturn(discipline).anyTimes();
         EasyMock.replay(disciplineService);
     }
 

@@ -70,13 +70,13 @@ public class EasyMetadataFacade
     {
         validateSyntax(easyMetaData);
         final EasyMetadata unmarshalled = unmarshallEasyMetaData(easyMetaData);
-        validateMandatoryFields(unmarshalled);
         validateControlledVocabulairies(unmarshalled);
+        validateMandatoryFields(unmarshalled);
         return unmarshalled;
     }
 
     /** Just a wrapper for exceptions. */
-    private static void validateControlledVocabulairies(final EasyMetadata metadata) throws SWORDErrorException, SWORDException
+    private static void validateMandatoryFields(final EasyMetadata metadata) throws SWORDErrorException, SWORDException
     {
         final FormDefinition formDefinition = EasyMetadataFacade.getFormDefinition(metadata);
         if (!new MetadataValidator().validate(formDefinition, metadata))
@@ -84,7 +84,7 @@ public class EasyMetadataFacade
     }
 
     /** Just a wrapper for exceptions. */
-    private static void validateMandatoryFields(final EasyMetadata metadata) throws SWORDErrorException, SWORDException
+    private static void validateControlledVocabulairies(final EasyMetadata metadata) throws SWORDErrorException, SWORDException
     {
          final EasySwordValidationReporter validationReporter = new EasySwordValidationReporter();
          FormatValidator.instance().validate(metadata, validationReporter);

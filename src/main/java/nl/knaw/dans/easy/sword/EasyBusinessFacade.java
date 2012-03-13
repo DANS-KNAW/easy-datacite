@@ -7,6 +7,7 @@ import java.util.List;
 
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.mail.MailComposerException;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.business.dataset.DatasetSubmissionImpl;
@@ -375,7 +376,8 @@ public class EasyBusinessFacade
         noOpSumbitCounter = 1; 
         // TODO constant value for unit tests but for production increment might be nicer
         final String pid = (noOpSumbitCounter + "xxxxxxxx").replaceAll("(..)(...)(...)", "urn:nbn:nl:ui:$1-$2-$3");
-        final String storeID = NO_OP_STORE_ID_DOMAIN + noOpSumbitCounter;
+        final String storeId = NO_OP_STORE_ID_DOMAIN + noOpSumbitCounter;
+        DmoStoreId DmoStoreID = new DmoStoreId(storeId);
         final Dataset dataset = EasyMock.createMock(Dataset.class);
 
         // TODO the following lines duplicates logic of DatasetImpl, move to EasyMetadata?
@@ -386,7 +388,8 @@ public class EasyBusinessFacade
         final boolean underEmbargo = dateAvailable != null && new DateTime().plusMinutes(1).isBefore(dateAvailable);
 
         EasyMock.expect(dataset.getEasyMetadata()).andReturn(metadata).anyTimes();
-        EasyMock.expect(dataset.getStoreId()).andReturn(storeID).anyTimes();
+        EasyMock.expect(dataset.getStoreId()).andReturn(storeId).anyTimes();
+        EasyMock.expect(dataset.getDmoStoreId()).andReturn(DmoStoreID).anyTimes();
         EasyMock.expect(dataset.getAccessCategory()).andReturn(metadata.getEmdRights().getAccessCategory()).anyTimes();
         EasyMock.expect(dataset.getDateSubmitted()).andReturn(dateSubmitted).anyTimes();
         EasyMock.expect(dataset.getDateAvailable()).andReturn(dateAvailable).anyTimes();
