@@ -77,7 +77,10 @@ public class ValidatorLists
             @Override
             public String getValidatedValue(EasyMetadata emd)
             {
-                return emd.getEmdRelation().getValues().get(0);
+                final List<String> values = emd.getEmdRelation().getValues();
+                if (values == null || values.size() == 0)
+                    return null;
+                return values.get(0);
             }
         });
         for (String type : validatorTypes)
@@ -91,7 +94,6 @@ public class ValidatorLists
                     if (values == null || values.size() == 0)
                         return null;
                     return values.get(0);
-//                    return emd.getEmdRights().getValues().get(0);
                 }
             });
         }

@@ -36,6 +36,11 @@ public abstract class ChoiceListValidator implements Validator
         // TODO why is there a second value 'accept'?
         final String value = getValidatedValue(emd);
 
+        if (value == null)
+        {
+            // don't make controlled vocabularies mandatory, that is checked otherwise
+            return;
+        }
         if (!choiceListContains(value))
         {
             reporter.setMetadataValid(false);
