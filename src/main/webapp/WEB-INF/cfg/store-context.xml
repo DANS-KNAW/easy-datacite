@@ -5,11 +5,11 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 	
 	<!-- Required interface DmoStore-->
-	<bean class="nl.knaw.dans.comp.repository.adapter.Repository$Registrator">
+	<bean class="nl.knaw.dans.c.store.adapter.Repository$Registrator">
 		<property name="dmoStore" ref="easyStore"/>
 	</bean>
 	
 	<!-- Provided interface iStore-->
-	<bean name="storeManager" class="nl.knaw.dans.comp.repository.StoreManagerImpl"/>
+	<bean name="storeManager" class="nl.knaw.dans.c.store.StoreManagerImpl"/>
 	
 </beans>

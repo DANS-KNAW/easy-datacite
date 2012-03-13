@@ -5,12 +5,12 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
 	<!-- Required interface iStore -->
-	<bean class="nl.knaw.dans.comp.dmocollections.store.Store$Registrator">
+	<bean class="nl.knaw.dans.c.dmo.collections.store.Store$Registrator">
 		<property name="storeManager" ref="storeManager" />
 	</bean>
 
 	<!-- Provided interface iDmoCollections -->
-	<bean name="dmoCollections" class="nl.knaw.dans.comp.dmocollections.DmoCollectionsImpl">
+	<bean name="dmoCollections" class="nl.knaw.dans.c.dmo.collections.DmoCollectionsImpl">
 		<property name="securityAgents" ref="dmoCollectionsAgents" />
 	</bean>
 
