@@ -17,7 +17,7 @@ public class ECollectionEntry implements Serializable
     private final DmoStoreId collectionId;
     private final String label;
     private final String shortName;
-    private final boolean oaiSet;
+    private final boolean oaiSetEnabled;
     private final int level;
     
     private boolean member;
@@ -32,7 +32,7 @@ public class ECollectionEntry implements Serializable
         this.collectionId = collection.getDmoStoreId();
         this.label = collection.getLabel();
         this.shortName = collection.getShortName();
-        this.oaiSet = collection.isPublishedAsOAISet();
+        this.oaiSetEnabled = collection.isPublishedAsOAISet();
         this.level = level;
     }
 
@@ -53,7 +53,7 @@ public class ECollectionEntry implements Serializable
 
     public void setPublishedAsOAISet(boolean publishedAsOAISet)
     {
-        if (isOaiSet())
+        if (isOaiSetEnabled())
         {
             this.publishedAsOAISet = publishedAsOAISet;
         }
@@ -79,9 +79,9 @@ public class ECollectionEntry implements Serializable
         return StringUtils.repeat("-", level -1) + shortName;
     }
 
-    public boolean isOaiSet()
+    public boolean isOaiSetEnabled()
     {
-        return oaiSet;
+        return oaiSetEnabled;
     }
     
     public int getLevel()
@@ -101,8 +101,8 @@ public class ECollectionEntry implements Serializable
             .append(getLevelName()) //
             .append("] [level=") //
             .append(level) //
-            .append("] [isOAISet=") //
-            .append(oaiSet) //
+            .append("] [isOAISetEnabled=") //
+            .append(oaiSetEnabled) //
             .append("] [isMember=") //
             .append(member) //
             .append("] [isPublishedAsOAISet=") //

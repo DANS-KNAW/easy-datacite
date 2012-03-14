@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.domain.collections.ECollection;
@@ -79,8 +80,16 @@ public class DatasetRelationUpdater
         a.removeAll(oaiMemberships);
         b.removeAll(originalOaiMemberships);
 
-        dataset.getRelations().removeOAISetMembership(a);
-        dataset.getRelations().addOAISetMembership(b);
+        if (DatasetState.PUBLISHED.equals(dataset.getAdministrativeMetadata().getAdministrativeState())
+                && !dataset.isUnderEmbargo())
+        {
+            dataset.getRelations().removeOAISetMembership(a);
+            dataset.getRelations().addOAISetMembership(b);
+        }
+        else
+        {
+            dataset.getRelations().removeOAISetMembership();
+        }
     }
 
 }
