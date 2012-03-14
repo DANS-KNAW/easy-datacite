@@ -5,9 +5,9 @@
 
   <parent>
     <groupId>nl.knaw.dans.platform.interfaces</groupId>
-    <artifactId>pm-interfaces</artifactId>
+    <artifactId>aggregate-interfaces</artifactId>
     <version>1.1-SNAPSHOT</version>
-    <relativePath>../pm-interfaces/pom.xml</relativePath>
+    <relativePath>../aggregate-interfaces/pom.xml</relativePath>
   </parent>
 
   <groupId>nl.knaw.dans.platform.interfaces</groupId>
