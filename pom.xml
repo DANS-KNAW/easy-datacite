@@ -5,9 +5,9 @@
 
   <parent>
     <groupId>nl.knaw.dans.platform.components</groupId>
-    <artifactId>pm-components</artifactId>
+    <artifactId>aggregate-components</artifactId>
     <version>1.1-SNAPSHOT</version>
-    <relativePath>../pm-components/pom.xml</relativePath>
+    <relativePath>../aggregate-components/pom.xml</relativePath>
   </parent>
 
   <groupId>nl.knaw.dans</groupId>
