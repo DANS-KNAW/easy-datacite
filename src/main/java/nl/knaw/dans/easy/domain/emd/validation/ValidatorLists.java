@@ -8,13 +8,22 @@ import java.util.Map;
 import nl.knaw.dans.easy.domain.emd.validation.archaeology.EasSpatialValidator;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import nl.knaw.dans.easy.domain.model.emd.Validator;
+import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
+import static nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat.ARCHAEOLOGY;
+import static nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat.HISTORY;
+import static nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat.SOCIOLOGY;
+import static nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat.UNSPECIFIED;
 
+/**
+ * Helper class that creates the lists of validators used to initialize the validators per discipline.
+ */
 public class ValidatorLists
 {
-    private static final String                       ARCHAEOLOGY    = "archaeology";
-    private static final String                       COMMON         = "common";
-    private static final String[]                     validatorTypes = {COMMON, ARCHAEOLOGY};
-    private static final Map<String, List<Validator>> validatorLists = new HashMap<String, List<Validator>>();
+    private static final String                               XPATH_RIGHTS   = "/emd:easymetadata/emd:rights/dcterms:accessRights/";
+    private static final String                               XPATH_RELATION = "/emd:easymetadata/emd:relation/dcterms:relation/";
+    private static final MetadataFormat[]                     ALL_FORMATS    = MetadataFormat.values();
+    private static final MetadataFormat[]                     COMMON_FORMATS = {HISTORY, SOCIOLOGY, UNSPECIFIED};
+    private static final Map<MetadataFormat, List<Validator>> validatorLists = new HashMap<MetadataFormat, List<Validator>>();
 
     /**
      * TODO add validators for the unchecked xml files
@@ -62,50 +71,59 @@ public class ValidatorLists
          * http://java-x.blogspot.com/2006/03/singleton-pattern-in-java.html
          */
 
-        for (String type : validatorTypes)
-        {
+        for (final MetadataFormat type : ALL_FORMATS)
             validatorLists.put(type, new ArrayList<Validator>());
-        }
-        validatorLists.get(ARCHAEOLOGY).add(new EasSpatialValidator());
-        addChoiclistValidators();
+        addValidators();
     }
 
-    private static void addChoiclistValidators()
+    private static void addValidators()
     {
-        validatorLists.get(COMMON).add(new ChoiceListValidator(COMMON + ".dcterms.relation", "/emd:easymetadata/emd:relation/dcterms:relation/")
+        validatorLists.get(ARCHAEOLOGY).add(new EasSpatialValidator());
+        for (final MetadataFormat type : COMMON_FORMATS)
+            validatorLists.get(type).add(createRelationsValidator("common.dcterms.relation", XPATH_RELATION));
+        for (final MetadataFormat type : ALL_FORMATS)
+            validatorLists.get(type).add(createRightsValidator((src(type) + ".dcterms.accessrights"), XPATH_RIGHTS));
+    }
+
+    private static String src(final MetadataFormat type)
+    {
+        if (type == ARCHAEOLOGY)
+            return ARCHAEOLOGY.name().toLowerCase();
+        return "common";
+    }
+
+    private static ChoiceListValidator createRightsValidator(final String listId, final String xPathStub)
+    {
+        return new ChoiceListValidator(listId, xPathStub)
         {
             @Override
-            public String getValidatedValue(EasyMetadata emd)
+            public String getValidatedValue(final EasyMetadata emd)
+            {
+                final List<String> values = emd.getEmdRights().getValues();
+                if (values == null || values.size() == 0)
+                    return null;
+                return values.get(0);
+            }
+        };
+    }
+
+    private static ChoiceListValidator createRelationsValidator(final String listId, final String xPathStub)
+    {
+        return new ChoiceListValidator(listId, xPathStub)
+        {
+            @Override
+            public String getValidatedValue(final EasyMetadata emd)
             {
                 final List<String> values = emd.getEmdRelation().getValues();
                 if (values == null || values.size() == 0)
                     return null;
                 return values.get(0);
             }
-        });
-        for (String type : validatorTypes)
-        {
-            validatorLists.get(type).add(new ChoiceListValidator(type + ".dcterms.accessrights", "/emd:easymetadata/emd:rights/dcterms:accessRights/")
-            {
-                @Override
-                public String getValidatedValue(EasyMetadata emd)
-                {
-                    final List<String> values = emd.getEmdRights().getValues();
-                    if (values == null || values.size() == 0)
-                        return null;
-                    return values.get(0);
-                }
-            });
-        }
+        };
     }
 
-    public static List<Validator> getCommonValidators()
+    public static List<Validator> getArchaeologyValidators(final MetadataFormat metadataFormat)
     {
-        return validatorLists.get(COMMON);
-    }
-
-    public static List<Validator> getArchaeologyValidators()
-    {
-        return validatorLists.get(ARCHAEOLOGY);
+        return validatorLists.get(metadataFormat);
     }
 }

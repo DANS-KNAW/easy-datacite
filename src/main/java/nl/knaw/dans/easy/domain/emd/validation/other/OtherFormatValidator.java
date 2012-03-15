@@ -8,6 +8,7 @@ import nl.knaw.dans.easy.domain.emd.validation.ValidatorLists;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import nl.knaw.dans.easy.domain.model.emd.ValidationReporter;
 import nl.knaw.dans.easy.domain.model.emd.Validator;
+import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
 
 public class OtherFormatValidator implements Validator
 {
@@ -18,7 +19,7 @@ public class OtherFormatValidator implements Validator
 
     private OtherFormatValidator()
     {
-        VALIDATORS.addAll(ValidatorLists.getCommonValidators());
+        VALIDATORS.addAll(ValidatorLists.getArchaeologyValidators(MetadataFormat.UNSPECIFIED));
     }
 
     public static OtherFormatValidator instance()

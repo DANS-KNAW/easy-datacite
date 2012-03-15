@@ -8,6 +8,7 @@ import nl.knaw.dans.easy.domain.emd.validation.ValidatorLists;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import nl.knaw.dans.easy.domain.model.emd.ValidationReporter;
 import nl.knaw.dans.easy.domain.model.emd.Validator;
+import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
 
 public class ArchaeologyFormatValidator implements Validator
 {
@@ -19,7 +20,7 @@ public class ArchaeologyFormatValidator implements Validator
     
     private ArchaeologyFormatValidator()
     {
-        VALIDATORS.addAll(ValidatorLists.getArchaeologyValidators());
+        VALIDATORS.addAll(ValidatorLists.getArchaeologyValidators(MetadataFormat.ARCHAEOLOGY));
     }
     
     public static ArchaeologyFormatValidator instance()
