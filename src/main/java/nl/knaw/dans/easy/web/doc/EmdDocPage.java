@@ -49,7 +49,7 @@ public class EmdDocPage extends AbstractEasyNavPage
     {
         super(parameters);
         add(new EasyEditablePanel("intro", "/editable/emdIntro.template"));
-//        add(createTabbedPanel("format", createFormatTabs()));
+        add(createTabbedPanel("format", createFormatTabs()));
         add(createTabbedPanel("translation", createTranslationTabs()));
     }
 
@@ -98,18 +98,18 @@ public class EmdDocPage extends AbstractEasyNavPage
         return tabs;
     }
 
-//    private List<ITab> createFormatTabs() throws URISyntaxException, MalformedURLException
-//    {
-//        final List<ITab> tabs = new ArrayList<ITab>();
-//        final URI uri = ResourceLocator.getURL(FormDescriptorLoader.FORM_DESCRIPTIONS_FULL_PATH).toURI();
-//        for (final File file : new Folder(uri).getNestedFiles())
-//        {
-//            final String title = file.getName().toUpperCase().replace(".XML", "");
-//            final String content = transform(file.toURI().toURL(), META_DATA_FORMAT_XSL);
-//            tabs.add(createTab("format", title, "Easy-II Meta Data Format: "+title, content));
-//        }
-//        return tabs;
-//    }
+    private List<ITab> createFormatTabs() throws URISyntaxException, MalformedURLException
+    {
+        final List<ITab> tabs = new ArrayList<ITab>();
+        final String path = FormDescriptorLoader.class.getResource(FormDescriptorLoader.FORM_DESCRIPTIONS).getPath();
+        for (final File file : new Folder(path).getNestedFiles())
+        {
+            final String title = file.getName().toUpperCase().replace(".XML", "");
+            final String content = transform(file.toURI().toURL(), META_DATA_FORMAT_XSL);
+            tabs.add(createTab("format", title, "Easy-II Meta Data Format: "+title, content));
+        }
+        return tabs;
+    }
 
     private AbstractTab createTab(final String group, final String tabLinkTitle, final String contentTitle, final String content)
     {
@@ -184,8 +184,8 @@ public class EmdDocPage extends AbstractEasyNavPage
 
     private static Transformer createTransformer(final String string) throws TransformerException, TransformerFactoryConfigurationError, URISyntaxException
     {
-        final URI uri = EmdDocPage.class.getResource(string).toURI();
-        final StreamSource source = new StreamSource(new File(uri));
+        String path = EmdDocPage.class.getResource(string).getPath();
+        final StreamSource source = new StreamSource(new File(path));
         return TransformerFactory.newInstance().newTransformer(source);
     }
 }
