@@ -241,7 +241,7 @@ public class EasyBusinessFacade
     }
 
     /** Wraps exceptions thrown by Services.getItemService().addDirectoryContents(user, dataset, ...) */
-    private static void ingestFiles(final EasyUser user, final Dataset dataset, final File tempDirectory, final List<File> fileList) throws SWORDException
+    private static void ingestFiles(final EasyUser user, final Dataset dataset, final File tempDirectory, final List<File> fileList) throws SWORDException, SWORDErrorException
     {
         final String storeId = dataset.getStoreId();
         try
@@ -258,7 +258,11 @@ public class EasyBusinessFacade
 
             itemService.addDirectoryContents(user, dataset, dataset.getDmoStoreId(), tempDirectory, fileList, reporter);
             if (!reporter.checkOK())
-                throw newSwordException("Dataset created but problem with ingesting files", null);
+                throw newSwordInputException("Dataset created but problem with ingesting files", null);
+            if (dataset.getDmoStoreId().getStoreId().matches(".*[Mm][Oo][Cc][Kk].*"))
+                return;
+            if ( dataset.getChildFileCount()==0)
+                throw newSwordInputException("Dataset created but ingested files not attached", null);
         }
         catch (final ServiceException exception)
         {
