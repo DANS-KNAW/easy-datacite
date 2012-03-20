@@ -1,8 +1,9 @@
 package nl.knaw.dans.easy.sword;
 
+import static nl.knaw.dans.easy.sword.EasyMetadataFacade.getFormDefinition;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.RepositoryException;
@@ -23,13 +24,12 @@ import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataForm
 import nl.knaw.dans.easy.domain.model.emd.types.BasicString;
 import nl.knaw.dans.easy.domain.model.emd.types.IsoDate;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
-import nl.knaw.dans.easy.domain.worker.WorkReporter;
 import nl.knaw.dans.easy.servicelayer.LicenseComposer;
 import nl.knaw.dans.easy.servicelayer.LicenseComposer.LicenseComposerException;
 import nl.knaw.dans.easy.servicelayer.SubmitNotification;
 import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
-import static nl.knaw.dans.easy.sword.EasyMetadataFacade.*;
+
 import org.easymock.EasyMock;
 import org.joda.time.DateTime;
 import org.purl.sword.base.ErrorCodes;
@@ -193,12 +193,13 @@ public class EasyBusinessFacade
         // final DatasetSubmissionImpl submission = new DatasetSubmissionImpl(new
         // FormDefinition("dummy"), dataset, user);
         final DatasetSubmissionImpl submission = new DatasetSubmissionImpl(getFormDefinition(dataset.getEasyMetadata()), dataset, user);
-        final IngestReporter reporter = new IngestReporter("submitting " + dataset.getStoreId() + " by " + user, "problem with submitting");
+        final IngestReporter reporter = new IngestReporter("submitting " + dataset.getStoreId() + " by " + user);
         try
         {
             logger.info("submitting " + dataset.getStoreId() + " " + user.getId());
             Services.getDatasetService().submitDataset(submission, reporter);
-            reporter.checkOK();
+            if (!reporter.checkOK())
+                throw newSwordException("Dataset created but problem with submitting", null);
             if (submission.hasGlobalMessages())
             {
                 for (final String s : submission.getGlobalErrorMessages())
@@ -252,44 +253,16 @@ public class EasyBusinessFacade
                 list.append("\n\t" + file);
             }
             final String message = "ingesting files from " + tempDirectory + " into " + dataset.getStoreId() + list;
-            final IngestReporter reporter = new IngestReporter(message, "ingesting files");
+            final IngestReporter reporter = new IngestReporter(message);
             logger.debug(message);
 
             itemService.addDirectoryContents(user, dataset, dataset.getDmoStoreId(), tempDirectory, fileList, reporter);
-            reporter.checkOK();
+            if (!reporter.checkOK())
+                throw newSwordException("Dataset created but problem with ingesting files", null);
         }
         catch (final ServiceException exception)
         {
             throw newSwordException("Can't add files to the new dataset " + storeId + " " + user.getId(), exception);
-        }
-    }
-
-    private static class IngestReporter extends WorkReporter
-    {
-
-        List<Throwable>      reportedExceptions = new ArrayList<Throwable>();
-        private final String message;
-        private final String messageForClient;
-
-        IngestReporter(final String message, final String messageForClient)
-        {
-            this.message = message;
-            this.messageForClient = messageForClient;
-        }
-
-        @Override
-        public void onException(final Throwable t)
-        {
-            super.onException(t);
-            logger.error("problem with " + message, t);
-            reportedExceptions.add(t);
-        }
-
-        void checkOK() throws SWORDException
-        {
-            logger.debug(" exceptions: \n" + reportedExceptions.size() + "\n" + super.toString());
-            if (reportedExceptions.size() > 0)
-                throw newSwordException("Dataset created but problem with " + messageForClient, null);
         }
     }
     
