@@ -42,22 +42,23 @@ public class RelationInfoPanel extends Panel
 
         List<Relation> list = dataset.getEasyMetadata().getEmdRelation().getEasRelation();
         RepeatingView view = new RepeatingView("repeatingRelation");
-        int k = 0;
-        if (list != null && !list.isEmpty()
-            && dataset.getEasyMetadata().getEmdRelation().getEasRelation().get(0).hasEmphasis())
+       
+        if (list != null && !list.isEmpty())
         {
             for (Iterator<Relation> i = list.iterator(); i.hasNext();)
             {
-                WebMarkupContainer item = new WebMarkupContainer(view.newChildId());
-                view.add(item);
-                Object obj = i.next();
+            	Object obj = i.next();
                 String relTitle = (String)new PropertyModel(obj, "subjectTitle.value").getObject();
                 String relUrl =  (String)new PropertyModel(obj, "subjectLink.string").getObject();
-                ExternalLink link = new ExternalLink("relationLink", relUrl);
-                link.setVisible(relUrl!=null);
-                link.add(new Label("relationTitle", relTitle).setVisible(relTitle!=null));
-                item.add(link);
-                k++;
+                boolean emphasis = (Boolean)new PropertyModel(obj, "emphasis").getObject();
+                if (emphasis) {
+	                WebMarkupContainer item = new WebMarkupContainer(view.newChildId());
+	                view.add(item);
+	                ExternalLink link = new ExternalLink("relationLink", relUrl);
+	                link.setVisible(relUrl!=null);
+	                link.add(new Label("relationTitle", relTitle).setVisible(relTitle!=null));
+	                item.add(link);
+	            }
             }
         }
         view.setVisible(view.size() != 0);
