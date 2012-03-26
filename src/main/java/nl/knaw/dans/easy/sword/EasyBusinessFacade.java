@@ -258,11 +258,7 @@ public class EasyBusinessFacade
 
             itemService.addDirectoryContents(user, dataset, dataset.getDmoStoreId(), tempDirectory, fileList, reporter);
             if (!reporter.checkOK())
-                throw newSwordInputException("Dataset created but problem with ingesting files", null);
-            if (dataset.getDmoStoreId().getStoreId().matches(".*[Mm][Oo][Cc][Kk].*"))
-                return;
-            if ( dataset.getChildFileCount()==0)
-                throw newSwordInputException("Dataset created but ingested files not attached", null);
+                throw newSwordException("Dataset created but problem with ingesting files", null);
         }
         catch (final ServiceException exception)
         {
@@ -300,7 +296,9 @@ public class EasyBusinessFacade
     private static SWORDException newSwordException(final String message, final Exception exception)
     {
         logger.error(message, exception);
-        return new SWORDException(message, exception);
+        if (exception !=null)
+            return new SWORDException(message, exception);
+        return new SWORDException(message, new Exception(message));
     }
 
     private static SWORDErrorException newSwordInputException(final String message, final Exception exception)
