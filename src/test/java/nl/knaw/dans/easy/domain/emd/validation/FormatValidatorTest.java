@@ -9,10 +9,10 @@ import java.util.List;
 
 import nl.knaw.dans.common.lang.test.Tester;
 import nl.knaw.dans.easy.domain.emd.validation.archaeology.EasSpatialValidator;
+import nl.knaw.dans.easy.domain.emd.validation.base.ValidationReport;
+import nl.knaw.dans.easy.domain.emd.validation.base.ValidationReporter;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadataImpl;
-import nl.knaw.dans.easy.domain.model.emd.ValidationReport;
-import nl.knaw.dans.easy.domain.model.emd.ValidationReporter;
 import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.easy.domain.model.emd.types.Spatial;
 import nl.knaw.dans.easy.domain.model.emd.types.Spatial.Point;

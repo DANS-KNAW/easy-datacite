@@ -1,4 +1,4 @@
-package nl.knaw.dans.easy.domain.emd.validation;
+package nl.knaw.dans.easy.domain.emd.validation.base;
 
 
 import nl.knaw.dans.common.lang.ApplicationException;
@@ -10,9 +10,6 @@ import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.domain.model.emd.ValidationReport;
-import nl.knaw.dans.easy.domain.model.emd.ValidationReporter;
-import nl.knaw.dans.easy.domain.model.emd.Validator;
 
 public abstract class ChoiceListValidator implements Validator
 {

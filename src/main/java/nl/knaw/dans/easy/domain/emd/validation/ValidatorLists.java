@@ -6,8 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import nl.knaw.dans.easy.domain.emd.validation.archaeology.EasSpatialValidator;
+import nl.knaw.dans.easy.domain.emd.validation.base.ChoiceListValidator;
+import nl.knaw.dans.easy.domain.emd.validation.base.Validator;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.domain.model.emd.Validator;
 import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
 import static nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat.ARCHAEOLOGY;
 import static nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat.HISTORY;

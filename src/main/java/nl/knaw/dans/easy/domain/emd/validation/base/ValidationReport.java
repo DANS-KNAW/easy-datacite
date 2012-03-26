@@ -1,4 +1,4 @@
-package nl.knaw.dans.easy.domain.model.emd;
+package nl.knaw.dans.easy.domain.emd.validation.base;
 
 import java.io.Serializable;
 

@@ -1,8 +1,9 @@
 <class-diagram version="0.9.86" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="true" dependencies="false" nesting-relationships="true">  
-  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.domain.emd.validation.ChoiceListValidator" 
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.domain.emd.validation.base.ChoiceListValidator" 
     project="easy-business" 
-    file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/ChoiceListValidator.java" binary="false">    
+    file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/base/ChoiceListValidator.java" 
+    binary="false">    
     <position x="1188" y="281" width="-1" height="-1"/>    
     <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -77,9 +78,9 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <interface corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.domain.model.emd.Validator" 
-    project="easy-business" file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/Validator.java" 
-    binary="false">    
+  <interface corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.domain.emd.validation.base.Validator" 
+    project="easy-business" 
+    file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/base/Validator.java" binary="false">    
     <position x="473" y="-17" width="-1" height="-1"/>    
     <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -104,40 +105,44 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <realization>    
-    <source project="easy-business" 
-      name="nl.knaw.dans.easy.domain.emd.validation.archaeology.ArchaeologyFormatValidator" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/archaeology/ArchaeologyFormatValidator.java" 
-      binary="false"/>    
-    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.Validator" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/Validator.java" binary="false"/>  
-  </realization>  
-  <realization>    
+  <association>    
     <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.sociology.SociologyFormatValidator" 
       file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/sociology/SociologyFormatValidator.java" 
-      binary="false"/>    
-    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.Validator" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/Validator.java" binary="false"/>  
-  </realization>  
-  <realization>    
-    <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.history.HistoryFormatValidator" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/history/HistoryFormatValidator.java" 
-      binary="false"/>    
-    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.Validator" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/Validator.java" binary="false"/>  
-  </realization>  
-  <association>    
-    <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.history.HistoryFormatValidator" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/history/HistoryFormatValidator.java" 
       binary="false" navigable="false">      
       <attribute name="VALIDATORS"/>      
       <multiplicity minimum="0" maximum="2147483647"/>    
     </source>    
-    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.Validator" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/Validator.java" binary="false" 
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.base.Validator" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/base/Validator.java" binary="false" 
       navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
+  <realization>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.archaeology.EasSpatialValidator" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/archaeology/EasSpatialValidator.java" 
+      binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.base.Validator" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/base/Validator.java" binary="false"/>  
+  </realization>  
+  <association>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.FormatValidator" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/FormatValidator.java" binary="false" 
+      navigable="false">      
+      <attribute name="INSTANCE"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </source>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.FormatValidator" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/FormatValidator.java" binary="false" 
+      navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.ValidatorLists" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/ValidatorLists.java" binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.archaeology.EasSpatialValidator" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/archaeology/EasSpatialValidator.java" 
+      binary="false"/>  
+  </dependency>  
   <association>    
     <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.history.HistoryFormatValidator" 
       file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/history/HistoryFormatValidator.java" 
@@ -150,6 +155,20 @@
       binary="false" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
+  <realization>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.history.HistoryFormatValidator" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/history/HistoryFormatValidator.java" 
+      binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.base.Validator" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/base/Validator.java" binary="false"/>  
+  </realization>  
+  <realization>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.base.ChoiceListValidator" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/base/ChoiceListValidator.java" 
+      binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.base.Validator" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/base/Validator.java" binary="false"/>  
+  </realization>  
   <association>    
     <source project="easy-business" 
       name="nl.knaw.dans.easy.domain.emd.validation.archaeology.ArchaeologyFormatValidator" 
@@ -158,105 +177,20 @@
       <attribute name="VALIDATORS"/>      
       <multiplicity minimum="0" maximum="2147483647"/>    
     </source>    
-    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.Validator" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/Validator.java" binary="false" 
-      navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <realization>    
-    <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.other.OtherFormatValidator" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/other/OtherFormatValidator.java" 
-      binary="false"/>    
-    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.Validator" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/Validator.java" binary="false"/>  
-  </realization>  
-  <dependency>    
-    <bendpoint x="633" y="422"/>    
-    <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.ValidatorLists" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/ValidatorLists.java" binary="false"/>    
-    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.Validator" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/Validator.java" binary="false"/>  
-  </dependency>  
-  <realization>    
-    <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.archaeology.EasSpatialValidator" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/archaeology/EasSpatialValidator.java" 
-      binary="false"/>    
-    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.Validator" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/Validator.java" binary="false"/>  
-  </realization>  
-  <association>    
-    <source project="easy-business" name="nl.knaw.dans.easy.domain.deposit.discipline.ChoiceList" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/deposit/discipline/ChoiceList.java" binary="false" 
-      navigable="false">      
-      <attribute name="choices"/>      
-      <multiplicity minimum="0" maximum="2147483647"/>    
-    </source>    
-    <target project="easy-business" name="nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/deposit/discipline/KeyValuePair.java" binary="false" 
-      navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <dependency>    
-    <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.ChoiceListValidator" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/ChoiceListValidator.java" 
-      binary="false"/>    
-    <target project="easy-business" name="nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/deposit/discipline/KeyValuePair.java" binary="false"/>  
-  </dependency>  
-  <dependency>    
-    <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.ValidatorLists" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/ValidatorLists.java" binary="false"/>    
-    <target project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.archaeology.EasSpatialValidator" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/archaeology/EasSpatialValidator.java" 
-      binary="false"/>  
-  </dependency>  
-  <association>    
-    <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.sociology.SociologyFormatValidator" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/sociology/SociologyFormatValidator.java" 
-      binary="false" navigable="false">      
-      <attribute name="VALIDATORS"/>      
-      <multiplicity minimum="0" maximum="2147483647"/>    
-    </source>    
-    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.Validator" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/Validator.java" binary="false" 
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.base.Validator" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/base/Validator.java" binary="false" 
       navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association>    
-    <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.archaeology.EasSpatialValidator" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/archaeology/EasSpatialValidator.java" 
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.base.ChoiceListValidator" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/base/ChoiceListValidator.java" 
       binary="false" navigable="false">      
       <attribute name="choiceList"/>      
       <multiplicity minimum="0" maximum="1"/>    
     </source>    
     <target project="easy-business" name="nl.knaw.dans.easy.domain.deposit.discipline.ChoiceList" 
       file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/deposit/discipline/ChoiceList.java" binary="false" 
-      navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association>    
-    <source project="easy-business" 
-      name="nl.knaw.dans.easy.domain.emd.validation.archaeology.ArchaeologyFormatValidator" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/archaeology/ArchaeologyFormatValidator.java" 
-      binary="false" navigable="false">      
-      <attribute name="INSTANCE"/>      
-      <multiplicity minimum="0" maximum="1"/>    
-    </source>    
-    <target project="easy-business" 
-      name="nl.knaw.dans.easy.domain.emd.validation.archaeology.ArchaeologyFormatValidator" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/archaeology/ArchaeologyFormatValidator.java" 
-      binary="false" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association>    
-    <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.other.OtherFormatValidator" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/other/OtherFormatValidator.java" 
-      binary="false" navigable="false">      
-      <attribute name="VALIDATORS"/>      
-      <multiplicity minimum="0" maximum="2147483647"/>    
-    </source>    
-    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.Validator" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/Validator.java" binary="false" 
       navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
@@ -273,10 +207,11 @@
     <display labels="true" multiplicity="true"/>  
   </association>  
   <realization>    
-    <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.FormatValidator" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/FormatValidator.java" binary="false"/>    
-    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.Validator" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/Validator.java" binary="false"/>  
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.sociology.SociologyFormatValidator" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/sociology/SociologyFormatValidator.java" 
+      binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.base.Validator" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/base/Validator.java" binary="false"/>  
   </realization>  
   <association>    
     <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.sociology.SociologyFormatValidator" 
@@ -290,29 +225,72 @@
       binary="false" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <dependency>    
-    <bendpoint x="1164" y="129"/>    
-    <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.archaeology.EasSpatialValidator" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/archaeology/EasSpatialValidator.java" 
-      binary="false"/>    
-    <target project="easy-business" name="nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/deposit/discipline/KeyValuePair.java" binary="false"/>  
-  </dependency>  
   <association>    
-    <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.FormatValidator" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/FormatValidator.java" binary="false" 
-      navigable="false">      
-      <attribute name="INSTANCE"/>      
-      <multiplicity minimum="0" maximum="1"/>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.history.HistoryFormatValidator" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/history/HistoryFormatValidator.java" 
+      binary="false" navigable="false">      
+      <attribute name="VALIDATORS"/>      
+      <multiplicity minimum="0" maximum="2147483647"/>    
     </source>    
-    <target project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.FormatValidator" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/FormatValidator.java" binary="false" 
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.base.Validator" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/base/Validator.java" binary="false" 
       navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association>    
-    <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.ChoiceListValidator" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/ChoiceListValidator.java" 
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.FormatValidator" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/FormatValidator.java" binary="false" 
+      navigable="false">      
+      <attribute name="VALIDATOR_MAP"/>      
+      <multiplicity minimum="0" maximum="2147483647"/>    
+    </source>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.base.Validator" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/base/Validator.java" binary="false" 
+      navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.ValidatorLists" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/ValidatorLists.java" binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.base.ChoiceListValidator" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/base/ChoiceListValidator.java" 
+      binary="false"/>  
+  </dependency>  
+  <association>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.other.OtherFormatValidator" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/other/OtherFormatValidator.java" 
+      binary="false" navigable="false">      
+      <attribute name="VALIDATORS"/>      
+      <multiplicity minimum="0" maximum="2147483647"/>    
+    </source>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.base.Validator" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/base/Validator.java" binary="false" 
+      navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.FormatValidator" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/FormatValidator.java" binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.base.Validator" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/base/Validator.java" binary="false"/>  
+  </realization>  
+  <association>    
+    <source project="easy-business" 
+      name="nl.knaw.dans.easy.domain.emd.validation.archaeology.ArchaeologyFormatValidator" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/archaeology/ArchaeologyFormatValidator.java" 
+      binary="false" navigable="false">      
+      <attribute name="INSTANCE"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </source>    
+    <target project="easy-business" 
+      name="nl.knaw.dans.easy.domain.emd.validation.archaeology.ArchaeologyFormatValidator" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/archaeology/ArchaeologyFormatValidator.java" 
+      binary="false" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.archaeology.EasSpatialValidator" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/archaeology/EasSpatialValidator.java" 
       binary="false" navigable="false">      
       <attribute name="choiceList"/>      
       <multiplicity minimum="0" maximum="1"/>    
@@ -322,31 +300,54 @@
       navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization>    
-    <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.ChoiceListValidator" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/ChoiceListValidator.java" 
+  <dependency>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.base.ChoiceListValidator" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/base/ChoiceListValidator.java" 
       binary="false"/>    
-    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.Validator" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/Validator.java" binary="false"/>  
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/deposit/discipline/KeyValuePair.java" binary="false"/>  
+  </dependency>  
+  <realization>    
+    <source project="easy-business" 
+      name="nl.knaw.dans.easy.domain.emd.validation.archaeology.ArchaeologyFormatValidator" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/archaeology/ArchaeologyFormatValidator.java" 
+      binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.base.Validator" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/base/Validator.java" binary="false"/>  
   </realization>  
+  <realization>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.other.OtherFormatValidator" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/other/OtherFormatValidator.java" 
+      binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.base.Validator" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/base/Validator.java" binary="false"/>  
+  </realization>  
+  <dependency>    
+    <bendpoint x="633" y="422"/>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.ValidatorLists" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/ValidatorLists.java" binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.base.Validator" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/base/Validator.java" binary="false"/>  
+  </dependency>  
   <association>    
-    <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.FormatValidator" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/FormatValidator.java" binary="false" 
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.deposit.discipline.ChoiceList" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/deposit/discipline/ChoiceList.java" binary="false" 
       navigable="false">      
-      <attribute name="VALIDATOR_MAP"/>      
+      <attribute name="choices"/>      
       <multiplicity minimum="0" maximum="2147483647"/>    
     </source>    
-    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.Validator" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/Validator.java" binary="false" 
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/deposit/discipline/KeyValuePair.java" binary="false" 
       navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <dependency>    
-    <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.ValidatorLists" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/ValidatorLists.java" binary="false"/>    
-    <target project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.ChoiceListValidator" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/ChoiceListValidator.java" 
-      binary="false"/>  
+    <bendpoint x="1164" y="129"/>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.archaeology.EasSpatialValidator" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/archaeology/EasSpatialValidator.java" 
+      binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/deposit/discipline/KeyValuePair.java" binary="false"/>  
   </dependency>  
   <classifier-display autosize="true" package="true" initial-value="false" signature="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true"/>    

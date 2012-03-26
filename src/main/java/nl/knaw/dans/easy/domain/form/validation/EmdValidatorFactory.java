@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import nl.knaw.dans.easy.domain.emd.validation.archaeology.EasSpatialValidator;
-import nl.knaw.dans.easy.domain.model.emd.Validator;
+import nl.knaw.dans.easy.domain.emd.validation.base.Validator;
 
 public class EmdValidatorFactory
 {

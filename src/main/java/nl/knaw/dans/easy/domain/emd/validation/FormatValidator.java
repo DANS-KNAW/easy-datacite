@@ -6,13 +6,13 @@ import java.util.Map;
 
 import nl.knaw.dans.common.lang.ApplicationException;
 import nl.knaw.dans.easy.domain.emd.validation.archaeology.ArchaeologyFormatValidator;
+import nl.knaw.dans.easy.domain.emd.validation.base.ValidationReport;
+import nl.knaw.dans.easy.domain.emd.validation.base.ValidationReporter;
+import nl.knaw.dans.easy.domain.emd.validation.base.Validator;
 import nl.knaw.dans.easy.domain.emd.validation.history.HistoryFormatValidator;
 import nl.knaw.dans.easy.domain.emd.validation.other.OtherFormatValidator;
 import nl.knaw.dans.easy.domain.emd.validation.sociology.SociologyFormatValidator;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.domain.model.emd.ValidationReport;
-import nl.knaw.dans.easy.domain.model.emd.ValidationReporter;
-import nl.knaw.dans.easy.domain.model.emd.Validator;
 import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
 
 public class FormatValidator implements Validator
