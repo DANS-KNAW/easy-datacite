@@ -7,8 +7,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.knaw.dans.easy.domain.model.emd.ValidationReport;
-import nl.knaw.dans.easy.domain.model.emd.ValidationReporter;
+import nl.knaw.dans.easy.domain.emd.validation.base.ValidationReport;
+import nl.knaw.dans.easy.domain.emd.validation.base.ValidationReporter;
 
 public class EasySwordValidationReporter implements ValidationReporter
 {

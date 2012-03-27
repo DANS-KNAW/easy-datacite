@@ -75,17 +75,19 @@
       <operations public="false" package="false" protected="false" private="false"/>    
     </display>  
   </class>  
-  <interface corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.domain.model.emd.ValidationReporter" 
-    project="easy-business" 
-    file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/ValidationReporter.java" binary="false">    
+  <interface corner="BOTTOM_RIGHT" language="java" 
+    name="nl.knaw.dans.easy.domain.emd.validation.base.ValidationReporter" project="easy-business" 
+    file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/base/ValidationReporter.java" 
+    binary="false">    
     <position x="733" y="-57" width="-1" height="-1"/>    
     <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false"/>      
       <operations public="false" package="false" protected="false" private="false"/>    
     </display>  
   </interface>  
-  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.domain.model.emd.ValidationReport" 
-    project="easy-business" file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/ValidationReport.java" 
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.domain.emd.validation.base.ValidationReport" 
+    project="easy-business" 
+    file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/base/ValidationReport.java" 
     binary="false">    
     <position x="1043" y="72" width="-1" height="-1"/>    
     <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
@@ -101,6 +103,13 @@
       <operations public="false" package="false" protected="false" private="false"/>    
     </display>  
   </class>  
+  <dependency>    
+    <bendpoint x="342" y="258"/>    
+    <source project="easy-sword" name="nl.knaw.dans.easy.sword.EasyBusinessFacade" 
+      file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasyBusinessFacade.java" binary="false"/>    
+    <target project="easy-sword" name="org.purl.sword.base.SWORDErrorException" 
+      file="/data/devhome/.m2/repository/sword/sword-common/1.1/sword-common-1.1.jar" binary="true"/>  
+  </dependency>  
   <realization>    
     <source project="easy-sword" name="nl.knaw.dans.easy.sword.EasySwordServer" 
       file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasySwordServer.java" binary="false"/>    
@@ -108,16 +117,86 @@
       file="/data/devhome/.m2/repository/sword/sword-common/1.1/sword-common-1.1.jar" binary="true"/>  
   </realization>  
   <dependency>    
+    <source project="easy-sword" name="nl.knaw.dans.easy.sword.EasyBusinessFacade" 
+      file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasyBusinessFacade.java" binary="false"/>    
+    <target project="easy-sword" name="nl.knaw.dans.easy.sword.FederativeAuthentication" 
+      file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/FederativeAuthentication.java" binary="false"/>  
+  </dependency>  
+  <association>    
+    <bendpoint x="924" y="103"/>    
+    <source project="easy-sword" name="nl.knaw.dans.easy.sword.EasySwordValidationReporter" 
+      file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasySwordValidationReporter.java" binary="false" 
+      navigable="false">      
+      <attribute name="errorReports"/>      
+      <multiplicity minimum="0" maximum="2147483647"/>    
+    </source>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.base.ValidationReport" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/base/ValidationReport.java" 
+      binary="false" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association>    
+    <bendpoint x="917" y="40"/>    
+    <source project="easy-sword" name="nl.knaw.dans.easy.sword.EasySwordValidationReporter" 
+      file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasySwordValidationReporter.java" binary="false" 
+      navigable="false">      
+      <attribute name="infoReports"/>      
+      <multiplicity minimum="0" maximum="2147483647"/>    
+    </source>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.base.ValidationReport" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/base/ValidationReport.java" 
+      binary="false" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency>    
+    <source project="easy-sword" name="nl.knaw.dans.easy.sword.EasySwordServer" 
+      file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasySwordServer.java" binary="false"/>    
+    <target project="easy-sword" name="nl.knaw.dans.easy.sword.UnzipResult" 
+      file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/UnzipResult.java" binary="false"/>  
+  </dependency>  
+  <association>    
+    <source project="easy-sword" name="nl.knaw.dans.easy.sword.EasySwordValidationReporter" 
+      file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasySwordValidationReporter.java" binary="false" 
+      navigable="false">      
+      <attribute name="warningReports"/>      
+      <multiplicity minimum="0" maximum="2147483647"/>    
+    </source>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.base.ValidationReport" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/base/ValidationReport.java" 
+      binary="false" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization>    
+    <source project="easy-sword" name="nl.knaw.dans.easy.sword.EasySwordValidationReporter" 
+      file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasySwordValidationReporter.java" binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.emd.validation.base.ValidationReporter" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/emd/validation/base/ValidationReporter.java" 
+      binary="false"/>  
+  </realization>  
+  <generalization>    
+    <source project="easy-sword" name="nl.knaw.dans.easy.sword.IngestReporter" 
+      file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/IngestReporter.java" binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.worker.WorkReporter" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/worker/WorkReporter.java" binary="false"/>  
+  </generalization>  
+  <dependency>    
     <source project="easy-sword" name="nl.knaw.dans.easy.sword.EasyMetadataFacade" 
       file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasyMetadataFacade.java" binary="false"/>    
     <target project="easy-sword" name="org.purl.sword.base.SWORDErrorException" 
       file="/data/devhome/.m2/repository/sword/sword-common/1.1/sword-common-1.1.jar" binary="true"/>  
   </dependency>  
   <dependency>    
+    <source project="easy-sword" name="nl.knaw.dans.easy.sword.EasyBusinessFacade" 
+      file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasyBusinessFacade.java" binary="false"/>    
+    <target project="easy-sword" name="nl.knaw.dans.easy.sword.IngestReporter" 
+      file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/IngestReporter.java" binary="false"/>  
+  </dependency>  
+  <dependency>    
+    <bendpoint x="88" y="-65"/>    
     <source project="easy-sword" name="nl.knaw.dans.easy.sword.EasySwordServer" 
       file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasySwordServer.java" binary="false"/>    
-    <target project="easy-sword" name="nl.knaw.dans.easy.sword.UnzipResult" 
-      file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/UnzipResult.java" binary="false"/>  
+    <target project="easy-sword" name="org.purl.sword.base.SWORDErrorException" 
+      file="/data/devhome/.m2/repository/sword/sword-common/1.1/sword-common-1.1.jar" binary="true"/>  
   </dependency>  
   <association>    
     <bendpoint x="243" y="-12"/>    
@@ -130,87 +209,11 @@
       file="/data/devhome/.m2/repository/sword/sword-common/1.1/sword-common-1.1.jar" binary="true" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association>    
-    <bendpoint x="924" y="103"/>    
-    <source project="easy-sword" name="nl.knaw.dans.easy.sword.EasySwordValidationReporter" 
-      file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasySwordValidationReporter.java" binary="false" 
-      navigable="false">      
-      <attribute name="errorReports"/>      
-      <multiplicity minimum="0" maximum="2147483647"/>    
-    </source>    
-    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.ValidationReport" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/ValidationReport.java" binary="false" 
-      navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
   <dependency>    
     <source project="easy-sword" name="nl.knaw.dans.easy.sword.EasyMetadataFacade" 
       file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasyMetadataFacade.java" binary="false"/>    
     <target project="easy-sword" name="nl.knaw.dans.easy.sword.EasySwordValidationReporter" 
       file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasySwordValidationReporter.java" binary="false"/>  
-  </dependency>  
-  <dependency>    
-    <bendpoint x="88" y="-65"/>    
-    <source project="easy-sword" name="nl.knaw.dans.easy.sword.EasySwordServer" 
-      file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasySwordServer.java" binary="false"/>    
-    <target project="easy-sword" name="org.purl.sword.base.SWORDErrorException" 
-      file="/data/devhome/.m2/repository/sword/sword-common/1.1/sword-common-1.1.jar" binary="true"/>  
-  </dependency>  
-  <generalization>    
-    <source project="easy-sword" name="nl.knaw.dans.easy.sword.IngestReporter" 
-      file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/IngestReporter.java" binary="false"/>    
-    <target project="easy-business" name="nl.knaw.dans.easy.domain.worker.WorkReporter" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/worker/WorkReporter.java" binary="false"/>  
-  </generalization>  
-  <association>    
-    <bendpoint x="917" y="40"/>    
-    <source project="easy-sword" name="nl.knaw.dans.easy.sword.EasySwordValidationReporter" 
-      file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasySwordValidationReporter.java" binary="false" 
-      navigable="false">      
-      <attribute name="infoReports"/>      
-      <multiplicity minimum="0" maximum="2147483647"/>    
-    </source>    
-    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.ValidationReport" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/ValidationReport.java" binary="false" 
-      navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <dependency>    
-    <bendpoint x="342" y="258"/>    
-    <source project="easy-sword" name="nl.knaw.dans.easy.sword.EasyBusinessFacade" 
-      file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasyBusinessFacade.java" binary="false"/>    
-    <target project="easy-sword" name="org.purl.sword.base.SWORDErrorException" 
-      file="/data/devhome/.m2/repository/sword/sword-common/1.1/sword-common-1.1.jar" binary="true"/>  
-  </dependency>  
-  <association>    
-    <source project="easy-sword" name="nl.knaw.dans.easy.sword.EasySwordValidationReporter" 
-      file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasySwordValidationReporter.java" binary="false" 
-      navigable="false">      
-      <attribute name="warningReports"/>      
-      <multiplicity minimum="0" maximum="2147483647"/>    
-    </source>    
-    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.ValidationReport" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/ValidationReport.java" binary="false" 
-      navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <realization>    
-    <source project="easy-sword" name="nl.knaw.dans.easy.sword.EasySwordValidationReporter" 
-      file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasySwordValidationReporter.java" binary="false"/>    
-    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.ValidationReporter" 
-      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/ValidationReporter.java" binary="false"/>  
-  </realization>  
-  <dependency>    
-    <source project="easy-sword" name="nl.knaw.dans.easy.sword.EasyBusinessFacade" 
-      file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasyBusinessFacade.java" binary="false"/>    
-    <target project="easy-sword" name="nl.knaw.dans.easy.sword.IngestReporter" 
-      file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/IngestReporter.java" binary="false"/>  
-  </dependency>  
-  <dependency>    
-    <source project="easy-sword" name="nl.knaw.dans.easy.sword.EasyBusinessFacade" 
-      file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/EasyBusinessFacade.java" binary="false"/>    
-    <target project="easy-sword" name="nl.knaw.dans.easy.sword.FederativeAuthentication" 
-      file="/easy-sword/src/main/java/nl/knaw/dans/easy/sword/FederativeAuthentication.java" binary="false"/>  
   </dependency>  
   <classifier-display autosize="true" package="true" initial-value="false" signature="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="false"/>    
