@@ -1,8 +1,6 @@
 package nl.knaw.dans.easy.domain.emd.validation.base;
 
-
-import static nl.knaw.dans.easy.domain.emd.validation.base.EmdXPath.RELATION;
-import static nl.knaw.dans.easy.domain.emd.validation.base.EmdXPath.RIGHTS;
+import static nl.knaw.dans.easy.domain.emd.validation.base.EmdXPath.*;
 
 import java.util.List;
 
@@ -19,6 +17,34 @@ import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 public abstract class ChoiceListValidator implements Validator
 {
 
+    public static final class RightsValidator extends ChoiceListValidator
+    {
+        public RightsValidator(final String listId)
+        {
+            super(listId, RIGHTS.getXPath());
+        }
+
+        @Override
+        public List<String> getValidatedValue(final EasyMetadata emd)
+        {
+            return emd.getEmdRights().getValues();
+        }
+    }
+
+    public static final class RelationsValidator extends ChoiceListValidator
+    {
+        public RelationsValidator(final String listId)
+        {
+            super(listId, RELATION.getXPath());
+        }
+
+        @Override
+        public List<String> getValidatedValue(final EasyMetadata emd)
+        {
+            return emd.getEmdRelation().getValues();
+        }
+    }
+
     private final String listId;
     private final String xPathStub;
     private ChoiceList   choiceList;
@@ -30,19 +56,20 @@ public abstract class ChoiceListValidator implements Validator
 
     }
 
-    public abstract String getValidatedValue(EasyMetadata emd);
+    abstract List<String> getValidatedValue(EasyMetadata emd);
 
     @Override
     public synchronized void validate(final EasyMetadata emd, final ValidationReporter reporter)
     {
         // TODO why is there a second value 'accept'?
-        final String value = getValidatedValue(emd);
-
-        if (value == null)
-        {
-            // don't make controlled vocabularies mandatory, that is checked otherwise
+        // controlled vocabularies are not mandatory, so null values are OK
+        final List<String> values = getValidatedValue(emd);
+        if (values == null || values.size() == 0)
             return;
-        }
+        final String value = values.get(0);
+        if (value == null)
+            return;
+
         if (!choiceListContains(value))
         {
             reporter.setMetadataValid(false);
@@ -84,35 +111,5 @@ public abstract class ChoiceListValidator implements Validator
             }
         }
         return choiceList;
-    }
-
-    public static ChoiceListValidator createRelationsValidator(final String listId)
-    {
-        return new ChoiceListValidator(listId, RELATION.getXPath())
-        {
-            @Override
-            public String getValidatedValue(final EasyMetadata emd)
-            {
-                final List<String> values = emd.getEmdRelation().getValues();
-                if (values == null || values.size() == 0)
-                    return null;
-                return values.get(0);
-            }
-        };
-    }
-
-    public static ChoiceListValidator createRightsValidator(final String listId)
-    {
-        return new ChoiceListValidator(listId, RIGHTS.getXPath())
-        {
-            @Override
-            public String getValidatedValue(final EasyMetadata emd)
-            {
-                final List<String> values = emd.getEmdRights().getValues();
-                if (values == null || values.size() == 0)
-                    return null;
-                return values.get(0);
-            }
-        };
     }
 }
