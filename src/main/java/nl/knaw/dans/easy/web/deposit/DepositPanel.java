@@ -739,4 +739,13 @@ public class DepositPanel extends AbstractDatasetModelPanel
             });
         }
     }
+
+    /**
+     * This method is needed to run init() method of DepositPanel class.
+     * This method is used by Archis2EditPanel.
+     * @param initiated
+     */
+	public void setInitiated(boolean initiated) {
+		this.initiated = initiated;
+	}
 }
