@@ -1,6 +1,11 @@
 package nl.knaw.dans.easy.domain.emd.validation.base;
 
 
+import static nl.knaw.dans.easy.domain.emd.validation.base.EmdXPath.RELATION;
+import static nl.knaw.dans.easy.domain.emd.validation.base.EmdXPath.RIGHTS;
+
+import java.util.List;
+
 import nl.knaw.dans.common.lang.ApplicationException;
 import nl.knaw.dans.common.lang.CacheException;
 import nl.knaw.dans.common.lang.ResourceNotFoundException;
@@ -79,5 +84,35 @@ public abstract class ChoiceListValidator implements Validator
             }
         }
         return choiceList;
+    }
+
+    public static ChoiceListValidator createRelationsValidator(final String listId)
+    {
+        return new ChoiceListValidator(listId, RELATION.getXPath())
+        {
+            @Override
+            public String getValidatedValue(final EasyMetadata emd)
+            {
+                final List<String> values = emd.getEmdRelation().getValues();
+                if (values == null || values.size() == 0)
+                    return null;
+                return values.get(0);
+            }
+        };
+    }
+
+    public static ChoiceListValidator createRightsValidator(final String listId)
+    {
+        return new ChoiceListValidator(listId, RIGHTS.getXPath())
+        {
+            @Override
+            public String getValidatedValue(final EasyMetadata emd)
+            {
+                final List<String> values = emd.getEmdRights().getValues();
+                if (values == null || values.size() == 0)
+                    return null;
+                return values.get(0);
+            }
+        };
     }
 }

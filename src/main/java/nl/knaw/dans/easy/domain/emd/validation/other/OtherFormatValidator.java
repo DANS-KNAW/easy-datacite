@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import nl.knaw.dans.easy.domain.emd.validation.ValidatorLists;
+import nl.knaw.dans.easy.domain.emd.validation.base.CommonValidators;
 import nl.knaw.dans.easy.domain.emd.validation.base.ValidationReporter;
 import nl.knaw.dans.easy.domain.emd.validation.base.Validator;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
 
 public class OtherFormatValidator implements Validator
 {
@@ -19,7 +18,7 @@ public class OtherFormatValidator implements Validator
 
     private OtherFormatValidator()
     {
-        VALIDATORS.addAll(ValidatorLists.getArchaeologyValidators(MetadataFormat.UNSPECIFIED));
+        VALIDATORS.addAll(CommonValidators.getList());
     }
 
     public static OtherFormatValidator instance()

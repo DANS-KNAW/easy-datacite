@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import nl.knaw.dans.easy.domain.emd.validation.ValidatorLists;
+import nl.knaw.dans.easy.domain.emd.validation.base.ChoiceListValidator;
 import nl.knaw.dans.easy.domain.emd.validation.base.ValidationReporter;
 import nl.knaw.dans.easy.domain.emd.validation.base.Validator;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
+import static nl.knaw.dans.easy.domain.emd.validation.base.EmdXPath.*;
 
 public class ArchaeologyFormatValidator implements Validator
 {
@@ -20,7 +20,8 @@ public class ArchaeologyFormatValidator implements Validator
     
     private ArchaeologyFormatValidator()
     {
-        VALIDATORS.addAll(ValidatorLists.getArchaeologyValidators(MetadataFormat.ARCHAEOLOGY));
+        VALIDATORS.add(new EasSpatialValidator());
+        VALIDATORS.add(ChoiceListValidator.createRightsValidator("archaeology.dcterms.accessrights"));
     }
     
     public static ArchaeologyFormatValidator instance()
