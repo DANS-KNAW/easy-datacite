@@ -101,6 +101,12 @@ public class Archis2EditPanel extends AbstractRepeaterPanel<Archis2ListWrapper.A
                             }
                             else
                             {
+                            	((DepositPanel)form.getParent()).setInitiated(false);//set initated variable of DepositPanel to false to run init() method.
+                            	EasyMetadata emd = getEasyMetadata();
+                            	if (emd.getEmdIdentifier() != null)
+                            	{
+                            		emd.getEmdIdentifier().removeIdentifier(archisId.getScheme());
+                            	}
                                 Archis2EditPanel.this.info(item.getIndex(), "Imported data for Archis omg_nr. '" + nummer + "'");
                             }
                         }
@@ -112,7 +118,8 @@ public class Archis2EditPanel extends AbstractRepeaterPanel<Archis2ListWrapper.A
                             Archis2EditPanel.this.error(e.getMessage());
                         }
                     }
-                    target.addComponent(form);
+                    
+                    target.addComponent(form.getParent());
                 }
                 
                 @Override
