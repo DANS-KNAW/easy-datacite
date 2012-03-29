@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import nl.knaw.dans.easy.domain.model.emd.types.BasicString;
-import nl.knaw.dans.easy.domain.model.emd.types.EmdConstants;
+import nl.knaw.dans.easy.domain.model.emd.types.EmdScheme;
 import nl.knaw.dans.easy.domain.model.emd.types.Spatial;
 
 /**
@@ -134,7 +134,7 @@ public class EmdCoverage extends AbstractEmdContainer
     
     public List<String> getArchaeologyTermsTemporalValues()
     {
-        return getTermsTemporalValues(EmdConstants.SCHEME_ID_ARCHAEOLOGY_DCTERMS_TEMPORAL);
+        return getTermsTemporalValues(EmdScheme.ARCHAEOLOGY_DCTERMS_TEMPORAL.getId());
     }
 
     /**

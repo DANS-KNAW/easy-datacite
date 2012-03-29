@@ -72,11 +72,6 @@ public final class EmdConstants
      */
     public static final String SCHEME_ARCHIS_ONDERZOEK_M_NR = "Archis_onderzoek_m_nr";
     
-    public static final String SCHEME_ID_ARCHAEOLOGY_ACCESSRIGHTS = "archaeology.dcterms.accessrights";
-    public static final String SCHEME_ID_COMMON_ACCESSRIGHTS = "common.dcterms.accessrights";
-    public static final String SCHEME_ID_ARCHAEOLOGY_DC_SUBJECT = "archaeology.dc.subject";
-    public static final String SCHEME_ID_ARCHAEOLOGY_DCTERMS_TEMPORAL = "archaeology.dcterms.temporal";
-    
     public static final String SCHEME_ID_DISCIPLINES = "custom.disciplines";
 
 }

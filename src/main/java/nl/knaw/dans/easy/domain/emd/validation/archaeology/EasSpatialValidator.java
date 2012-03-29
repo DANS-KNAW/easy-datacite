@@ -1,5 +1,7 @@
 package nl.knaw.dans.easy.domain.emd.validation.archaeology;
 
+import static nl.knaw.dans.easy.domain.emd.validation.base.EmdXPath.SPATIAL_COVERAGE;
+
 import java.util.List;
 
 import nl.knaw.dans.common.lang.ApplicationException;
@@ -15,13 +17,13 @@ import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import nl.knaw.dans.easy.domain.model.emd.EmdCoverage;
+import nl.knaw.dans.easy.domain.model.emd.types.EmdScheme;
 import nl.knaw.dans.easy.domain.model.emd.types.Spatial;
-import static nl.knaw.dans.easy.domain.emd.validation.base.EmdXPath.*;
 
 public class EasSpatialValidator implements Validator
 {
     
-    public static final String LIST_ID = "archaeology.eas.spatial";
+    public static final String LIST_ID = EmdScheme.ARCHAEOLOGY_EAS_SPATIAL.getId();
     
     private ChoiceList choiceList;
     

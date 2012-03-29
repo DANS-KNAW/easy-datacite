@@ -39,7 +39,7 @@ import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.easy.domain.model.emd.types.BasicString;
-import nl.knaw.dans.easy.domain.model.emd.types.EmdConstants;
+import nl.knaw.dans.easy.domain.model.emd.types.EmdScheme;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.worker.WorkListener;
 import nl.knaw.dans.easy.security.authz.AuthzStrategyProvider;
@@ -164,7 +164,7 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
             archAudience.setValue(arch.getStoreId());
             easyMetadata.getEmdAudience().getTermsAudience().add(archAudience);
             
-            easyMetadata.getEmdRights().setAccessCategory(AccessCategory.OPEN_ACCESS, EmdConstants.SCHEME_ID_ARCHAEOLOGY_ACCESSRIGHTS);
+            easyMetadata.getEmdRights().setAccessCategory(AccessCategory.OPEN_ACCESS, EmdScheme.ARCHAEOLOGY_DCTERMS_ACCESSRIGHTS.getId());
         }
         else // set default metadata settings
         {

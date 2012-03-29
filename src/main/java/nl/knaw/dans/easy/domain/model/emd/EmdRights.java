@@ -8,7 +8,7 @@ import java.util.Map;
 
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.easy.domain.model.emd.types.BasicString;
-import nl.knaw.dans.easy.domain.model.emd.types.EmdConstants;
+import nl.knaw.dans.easy.domain.model.emd.types.EmdScheme;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -237,7 +237,7 @@ public class EmdRights extends AbstractEmdContainer
     
     public void setAccessCategory(AccessCategory accessCat)
     {
-        setAccessCategory(accessCat, EmdConstants.SCHEME_ID_COMMON_ACCESSRIGHTS);
+        setAccessCategory(accessCat, EmdScheme.COMMON_DCTERMS_ACCESSRIGHTS.getId());
     }
     
     public void setAccessCategory(AccessCategory accessCat, String schemeId)

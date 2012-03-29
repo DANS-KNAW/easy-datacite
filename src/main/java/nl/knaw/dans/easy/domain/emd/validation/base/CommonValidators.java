@@ -2,7 +2,10 @@ package nl.knaw.dans.easy.domain.emd.validation.base;
 
 import java.util.ArrayList;
 import java.util.List;
-import static nl.knaw.dans.easy.domain.emd.validation.base.ChoiceListValidator.*;
+
+import nl.knaw.dans.easy.domain.emd.validation.base.ChoiceListValidator.RelationsValidator;
+import nl.knaw.dans.easy.domain.emd.validation.base.ChoiceListValidator.RightsValidator;
+import nl.knaw.dans.easy.domain.model.emd.types.EmdScheme;
 
 public class CommonValidators
 {
@@ -11,8 +14,8 @@ public class CommonValidators
     static
     {
         VALIDATORS = new ArrayList<Validator>();
-        VALIDATORS.add(new RightsValidator("common.dcterms.accessrights"));
-        VALIDATORS.add(new RelationsValidator("common.dcterms.relation"));
+        VALIDATORS.add(new RightsValidator(EmdScheme.COMMON_DCTERMS_ACCESSRIGHTS.getId()));
+        VALIDATORS.add(new RelationsValidator(EmdScheme.COMMON_DCTERMS_RELATION.getId()));
     }
 
     /**

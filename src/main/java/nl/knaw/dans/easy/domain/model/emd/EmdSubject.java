@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import nl.knaw.dans.easy.domain.model.emd.types.BasicString;
-import nl.knaw.dans.easy.domain.model.emd.types.EmdConstants;
+import nl.knaw.dans.easy.domain.model.emd.types.EmdScheme;
 
 /**
  * Container for resource properties of category subject.
@@ -76,7 +76,7 @@ public class EmdSubject extends AbstractEmdContainer
     
     public List<String> getArchaeologyDcSubjectValues()
     {
-        return getDcSubjectValues(EmdConstants.SCHEME_ID_ARCHAEOLOGY_DC_SUBJECT);
+        return getDcSubjectValues(EmdScheme.ARCHAEOLOGY_DC_SUBJECT.getId());
     }
 
 }
