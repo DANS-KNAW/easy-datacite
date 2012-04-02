@@ -202,7 +202,6 @@ public class EasySwordServer implements SWORDServer
         final String datasetUrl = toServer(deposit.getLocation()) + DATASET_PATH + dataset.getStoreId();
         final SWORDEntry swordEntry = wrapSwordEntry(deposit, user, dataset, datasetUrl);
         final DepositResponse response = wrapResponse(swordEntry, datasetUrl);
-        log.info("return service document to " + deposit.getUsername() + " " + response.toString());
         return response;
     }
 
