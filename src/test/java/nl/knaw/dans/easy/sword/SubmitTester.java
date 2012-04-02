@@ -28,6 +28,7 @@ public class SubmitTester extends EasySwordServerTester
     @Test // TODO test was supposed to touch AbstractNotification.send(...)
     public void submitWithoutMailer() throws Exception
     {
+        checkEasyHome();
         final Mailer saved = ExternalServices.getMailOffice();
         new ExternalServices().setMailOffice(null);
         execute(false, false, PROPER_ZIP);
@@ -37,18 +38,27 @@ public class SubmitTester extends EasySwordServerTester
     @Test
     public void submit() throws Exception
     {
+        checkEasyHome();
         execute(false, false, PROPER_ZIP);
+    }
+
+    private void checkEasyHome() throws Exception
+    {
+        if (EasyHome.getValue() == null)
+            throw new Exception("Please specify the system property '" + EasyHome.EASY_HOME_KEY + "'");
     }
 
     @Test
     public void submitVerboseNoOp() throws Exception
     {
+        checkEasyHome();
         execute(true, true, PROPER_ZIP);
     }
 
     @Test
     public void submitNoOp() throws Exception
     {
+        checkEasyHome();
         execute(false, true, PROPER_ZIP);
     }
 
@@ -109,12 +119,14 @@ public class SubmitTester extends EasySwordServerTester
     @Test 
     public void spatialMetadata() throws Throwable
     {
+        checkEasyHome();
         execute(false, true, getZip("data-plus-spatial-metadata"));
     }
 
     @Test 
     public void whiteSpace() throws Throwable
     {
+        checkEasyHome();
         // TODO the zip file fails in the real world
         execute(false, true, getZip("discipilneWithWhiteSpace"));
     }

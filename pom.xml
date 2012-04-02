@@ -30,6 +30,7 @@
 		<nl.knaw.dans.easy.version>2.x-SNAPSHOT</nl.knaw.dans.easy.version>
 		<junit.version>4.7</junit.version>
 		<easymock.version>3.1</easymock.version>
+		<jetty.version>6.1.21</jetty.version>
 	</properties>
 
 	<dependencies>
@@ -66,7 +67,12 @@
 			<version>${easymock.version}</version>
 			<!-- not just for testing, the NoOp option is implemented with mocks -->
 		</dependency>
-		
+		<dependency>
+			<groupId>org.mortbay.jetty</groupId>
+			<artifactId>jetty</artifactId>
+			<version>${jetty.version}</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 	
 	<build>
