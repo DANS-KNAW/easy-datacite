@@ -14,7 +14,7 @@ import org.purl.sword.base.SWORDErrorException;
 import org.purl.sword.base.SWORDException;
 
 /** Integration test for the configuration. */
-public class SubmitTester extends EasySwordServerTester
+public class SubmitTest extends EasySwordServerTester
 // maven should not run this test therefore the name should not start or end with test.
 {
     private static final String PROPER_ZIP = new File("src/test/resources/input/data-plus-meta.zip").getPath();
