@@ -53,6 +53,10 @@ public class ValidationTest extends Tester
         // TODO make error message mores specific, needs architectural solution see also EBIU workaround
         constructortSignatureInstances.add(new String[] {"SpatialPointWithoutX.xml", "invalid"});
         constructortSignatureInstances.add(new String[] {"SpatialPointWithoutY.xml", "invalid"});
+
+        constructortSignatureInstances.add(new String[] {"InvalidDiscipline.xml", "Value 'nonsense' is not facet-valid"});
+        constructortSignatureInstances.add(new String[] {"SaxError.xml", "must be terminated by the matching end-tag"});
+
         return constructortSignatureInstances;
     }
 
