@@ -123,7 +123,7 @@ public class UserDetailsEditPanel extends AbstractEasyPanel implements EasyResou
 
             addWithComponentFeedback(new TextField<String>(UserProperties.COUNTRY), new ResourceModel("user.country"));
 
-            addWithComponentFeedback(new TextField<String>(UserProperties.DAI).add(new PatternValidator(Pattern.compile("\\d{8}[A-Z]"))), new ResourceModel(
+            addWithComponentFeedback(new TextField<String>(UserProperties.DAI).add(new PatternValidator(Pattern.compile("\\d{8}[A-Z0-9]"))), new ResourceModel(
                     "user.dai"));
 
             FormComponent email = new RequiredTextField<String>(UserProperties.EMAIL);

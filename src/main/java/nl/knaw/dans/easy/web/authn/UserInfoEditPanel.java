@@ -151,7 +151,7 @@ public class UserInfoEditPanel extends AbstractEasyStatelessPanel implements Eas
             telephone.add(TelephoneNumberValidator.instance());
             addWithComponentFeedback(telephone, new ResourceModel("user.telephone"));
 
-            addWithComponentFeedback(new TextField<String>(ApplicationUser.DAI).add(new PatternValidator(Pattern.compile("\\d{8}[A-Z]"))), new ResourceModel(
+            addWithComponentFeedback(new TextField<String>(ApplicationUser.DAI).add(new PatternValidator(Pattern.compile("\\d{8}[A-Z0-9]"))), new ResourceModel(
                     RegistrationPage.USER_DAI));
 
             // inform by email newsletter selection (Yes/No radio buttons)

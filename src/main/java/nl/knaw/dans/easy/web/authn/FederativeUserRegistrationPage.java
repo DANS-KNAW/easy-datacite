@@ -115,7 +115,7 @@ public class FederativeUserRegistrationPage extends AbstractEasyNavPage
             add(new DropDownChoice<KeyValuePair>(ApplicationUser.DISCIPLINE3, new PropertyModel<KeyValuePair>(appUser, ApplicationUser.DISCIPLINE3),
                     DisciplineUtils.getDisciplinesChoiceList().getChoices(), new KvpChoiceRenderer()));
 
-            addWithComponentFeedback(new TextField<String>(ApplicationUser.DAI).add(new PatternValidator(Pattern.compile("\\d{8}[A-Z]"))), new ResourceModel(
+            addWithComponentFeedback(new TextField<String>(ApplicationUser.DAI).add(new PatternValidator(Pattern.compile("\\d{8}[A-Z0-9]"))), new ResourceModel(
                     RegistrationPage.USER_DAI));
             addWithComponentFeedback(new TextField<String>(ApplicationUser.ORGANIZATION), new ResourceModel(RegistrationPage.USER_ORGANIZATION));
             addWithComponentFeedback(new TextField<String>(ApplicationUser.DEPARTMENT), new ResourceModel(RegistrationPage.USER_DEPARTMENT));
