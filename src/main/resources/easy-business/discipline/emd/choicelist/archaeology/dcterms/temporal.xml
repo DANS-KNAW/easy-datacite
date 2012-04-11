@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-	<comment>Datering Nederlandse geschiedenis volgens het R.O.B. (http://home.zonnet.nl/postbus/datering.html)</comment>
+	<comment>TABEL 9: PERIODE Datering Nederlandse geschiedenis volgens het R.O.B. (http://home.zonnet.nl/postbus/datering.html)</comment>
     <entry key="PALEO">Paleolithicum: tot 8800 vC</entry>
     <entry key="PALEOV">Paleolithicum vroeg: tot 300000 C14</entry>
     <entry key="PALEOM">Paleolithicum midden: 300000 - 35000 C14</entry>
