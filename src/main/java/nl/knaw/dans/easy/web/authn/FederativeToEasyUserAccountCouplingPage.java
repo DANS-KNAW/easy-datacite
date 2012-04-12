@@ -37,14 +37,14 @@ public class FederativeToEasyUserAccountCouplingPage extends AbstractEasyNavPage
     public FederativeToEasyUserAccountCouplingPage()
     {
         super();
-        init();
+//        init();
     }
 
     public FederativeToEasyUserAccountCouplingPage(String federativeUserId)
     {
         super();
         this.federativeUserId = federativeUserId;
-        init();
+//        init();
     }
 
     private void init()

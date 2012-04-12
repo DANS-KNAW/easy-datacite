@@ -45,13 +45,12 @@ public class FederativeAuthenticationResultPage extends AbstractEasyNavPage
     public FederativeAuthenticationResultPage()
     {
         super();
-        init();
+//        init();
     }
 
     // TODO texts must come from property files
     private void init()
     {
-
         setStatelessHint(true);
         
         String resultMessage = "";

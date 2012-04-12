@@ -42,19 +42,19 @@ public class LoginPage extends AbstractAuthenticationPage
         setStatelessHint(true);
         
         // Federative Authentication Link
-        add(new ExternalLink("federationLink", getFederationURLString(), "Login")
-        {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            protected boolean getStatelessHint()
-            {
-                return true;
-            }
-            
-        });
+//        add(new ExternalLink("federationLink", getFederationURLString(), "Login")
+//        {
+//            private static final long serialVersionUID = 1L;
+//
+//            @Override
+//            protected boolean getStatelessHint()
+//            {
+//                return true;
+//            }
+//            
+//        });
         // Note: add an invisible link if you don't want it: add(new ExternalLink("federationLink","","").setVisible(false));
-        //add(new ExternalLink("federationLink","","").setVisible(false));
+        add(new ExternalLink("federationLink","","").setVisible(false));
         
         UsernamePasswordAuthentication authentication;
 		try

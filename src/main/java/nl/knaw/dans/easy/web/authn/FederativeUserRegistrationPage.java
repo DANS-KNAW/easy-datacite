@@ -66,7 +66,7 @@ public class FederativeUserRegistrationPage extends AbstractEasyNavPage
     {
         super();
         this.appUser = appUser;
-        init();
+//        init();
     }
 
     private void init()
