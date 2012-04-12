@@ -365,7 +365,7 @@ public class FacetPanel extends BaseSearchPanel
 
 		// if the facet field is available and not already selected and contains multiple facets
 		// with one or more values then it can be shown
-		if (facetField.getValue().size() > 1)
+		if (facetField.getValue().size() > 0)
 		{
 			return hasMultipleNonZeroCounts(facetField.getValue());
 		}
@@ -383,7 +383,7 @@ public class FacetPanel extends BaseSearchPanel
 				facetOneOrMoreCount++;						
 			}
 		}
-		return facetOneOrMoreCount >= 2;
+		return facetOneOrMoreCount > 0;
 	}
 
 	private static FacetCriterium getPreviousSelection(FacetConfig config, SearchRequestBuilder requestBuilder)
