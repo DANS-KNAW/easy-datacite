@@ -38,16 +38,7 @@ public class UnzipResult
     {
         try
         {
-            // TODO configure temp directory
-            File dir = new File("temp");
-            if (!dir.isDirectory())
-            {
-                // for testing purposes
-                dir = new File("target/tmp");
-                dir.mkdirs();
-            }
-            tempDir = FileUtil.createTempDirectory(dir, "swunzip");
-
+            tempDir = FileUtil.createTempDirectory(new File(Context.getUnzip()), "swunzip");
             zipFile = tempDir.getPath() + "/received.zip";
             destPath = tempDir.getPath() + "/unzipped";
             if (!new File(destPath).mkdir())

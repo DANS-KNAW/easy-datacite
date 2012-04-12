@@ -51,8 +51,8 @@ public class EasySwordServer implements SWORDServer
      */
     private static final int    HTTP_RESPONSE_DATA_ACCEPTED = 202;
 
-    private static String       policy                      = "easy.sword.server.policy not configured";
-    private static String       treatment                   = "easy.sword.server.treatment not configured";
+    private static String       policy                      = Context.getPolicy();
+    private static String       treatment                   = Context.getTreatment();
 
     private static Logger               log                         = LoggerFactory.getLogger(EasySwordServer.class);
 

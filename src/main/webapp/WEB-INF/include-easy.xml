@@ -7,6 +7,12 @@
 	<!-- user.name PropertyPlaceholderConfigurer: a file [user.name].properties should be on the classPath -->
 	<bean class="nl.knaw.dans.common.lang.spring.UsernamePropertyPlaceholderConfigurer"/>
 
+	<bean name="easySwordContext" class="nl.knaw.dans.easy.sword.Context">
+		<property name="unzip" value="${easy.sword.server.unzip.dir}"/>
+		<property name="treatment" value="${easy.sword.server.treatment}"/>
+		<property name="policy" value="${easy.sword.server.policy}"/>
+	</bean>
+
 	<bean name="services" class="nl.knaw.dans.easy.servicelayer.services.Services">
 		<property name="userService" ref="userService"/>
 		<property name="federativeUserService" ref="federativeUserService"/>
