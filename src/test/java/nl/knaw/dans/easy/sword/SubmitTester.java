@@ -57,6 +57,6 @@ public class SubmitTester extends SubmitFixture
     public void whiteSpace() throws Throwable
     {
         // TODO the zip file fails in the real world
-        execute(false, true, getZip("discipilneWithWhiteSpace"));
+        execute(false, true, getZip("disciplineWithWhiteSpace"));
     }
 }
