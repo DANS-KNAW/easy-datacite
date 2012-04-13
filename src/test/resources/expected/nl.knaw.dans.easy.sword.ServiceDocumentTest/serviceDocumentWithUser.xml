@@ -5,7 +5,7 @@
    <sword:noOp>true</sword:noOp>
    <app:workspace>
       <atom:title type="text">Authenticated workspace for somebody</atom:title>
-      <app:collection href="http://localhost:8080/easy-sword/deposit/somebody">
+      <app:collection href="http://mockedhost:8080/servlet/deposit/somebody">
          <atom:title type="text">Authenticated collection for somebody</atom:title>
          <app:accept>application/zip</app:accept>
          <app:accept>application/xml</app:accept>
@@ -13,7 +13,7 @@
          <sword:acceptPackaging q="0.8">http://purl.org/net/sword-types/bagit</sword:acceptPackaging>
          <sword:collectionPolicy>No guarantee of service, or that deposits will be retained for any length of time.</sword:collectionPolicy>
          <dcterms:abstract>A collection that somebody can deposit into</dcterms:abstract>
-         <sword:service>http://localhost:8080/easy-sword/servicedocument?nested=authenticated</sword:service>
+         <sword:service>http://mockedhost:8080/servlet/servicedocument?nested=authenticated</sword:service>
          <sword:mediation>false</sword:mediation>
          <sword:treatment>This is a test server</sword:treatment>
       </app:collection>

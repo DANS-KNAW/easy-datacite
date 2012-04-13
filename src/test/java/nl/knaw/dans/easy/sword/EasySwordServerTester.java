@@ -8,7 +8,7 @@ import org.junit.BeforeClass;
  */
 public abstract  class EasySwordServerTester extends Tester
 {
-    protected static final String LOCATION = "http://localhost:8080/easy-sword/serviceDocument";
+    protected static final String LOCATION = "http://mockedhost:8080/servlet/request";
     protected static EasySwordServer easySwordServer;
     
     @BeforeClass
