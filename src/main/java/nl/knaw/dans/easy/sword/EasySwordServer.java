@@ -40,9 +40,6 @@ import org.slf4j.LoggerFactory;
 public class EasySwordServer implements SWORDServer
 {
     /** TODO share this constant some how with the EASY application */
-    private static final String DOWNLOAD_URL_FORMAT         = "%s/resources/easy/fileDownloadResource?params={'rootSid':'%s','downloadType':'zip','selectedItemList':['*']}";
-
-    /** TODO share this constant some how with the EASY application */
     private static final String DATASET_PATH                = "/datasets/id/";
 
     /**
@@ -50,9 +47,6 @@ public class EasySwordServer implements SWORDServer
      * Only a published state would be appropriate for code 201
      */
     private static final int    HTTP_RESPONSE_DATA_ACCEPTED = 202;
-
-    private static String       policy                      = Context.getPolicy();
-    private static String       treatment                   = Context.getTreatment();
 
     private static Logger               log                         = LoggerFactory.getLogger(EasySwordServer.class);
 
@@ -167,7 +161,7 @@ public class EasySwordServer implements SWORDServer
         return url;
     }
 
-    private Workspace createWorkSpace(final Collection collection, final String title)
+    private static Workspace createWorkSpace(final Collection collection, final String title)
     {
         final Workspace workspace = new Workspace();
         workspace.setTitle(title);
@@ -175,11 +169,11 @@ public class EasySwordServer implements SWORDServer
         return workspace;
     }
 
-    private Collection createDummyCollection(final float qualityValue)
+    private static Collection createDummyCollection(final float qualityValue)
     {
         final Collection collection = new Collection();
-        collection.setCollectionPolicy(policy);
-        collection.setTreatment(treatment);
+        collection.setCollectionPolicy(Context.getPolicy());
+        collection.setTreatment(Context.getTreatment());
         collection.addAccepts("application/zip");
         collection.addAccepts("application/xml");
         collection.addAcceptPackaging("http://purl.org/net/sword-types/METSDSpaceSIP");
@@ -205,7 +199,7 @@ public class EasySwordServer implements SWORDServer
         return response;
     }
 
-    private EasyUser checkUser(final Deposit deposit) throws SWORDException, SWORDErrorException, SWORDAuthenticationException
+    private static EasyUser checkUser(final Deposit deposit) throws SWORDException, SWORDErrorException, SWORDAuthenticationException
     {
         final EasyUser user = EasyBusinessFacade.getUser(deposit.getUsername(), deposit.getPassword());
         if (user == null)
@@ -213,14 +207,14 @@ public class EasySwordServer implements SWORDServer
         return user;
     }
 
-    private void checkOnBehalfOf(final Deposit deposit) throws SWORDErrorException
+    private static void checkOnBehalfOf(final Deposit deposit) throws SWORDErrorException
     {
         // Check this is a collection that takes "on behalf of" deposits, else throw an error
         if (((deposit.getOnBehalfOf() != null) && (!deposit.getOnBehalfOf().equals(""))) && (!deposit.getLocation().contains("deposit?user=")))
             throw new SWORDErrorException(ErrorCodes.MEDIATION_NOT_ALLOWED, "Mediated deposit not allowed to this collection");
     }
 
-    private Dataset submit(final Deposit deposit, final EasyUser user, final UnzipResult unzipped, final EasyMetadata metadata) throws SWORDException,
+    private static Dataset submit(final Deposit deposit, final EasyUser user, final UnzipResult unzipped, final EasyMetadata metadata) throws SWORDException,
             SWORDErrorException
     {
         final Dataset dataset;
@@ -237,8 +231,6 @@ public class EasySwordServer implements SWORDServer
     {
         final SWORDEntry swordEntry = new SWORDEntry();
         final EasyMetadata metadata = dataset.getEasyMetadata();
-        final String serverURL = toServer(deposit.getLocation());
-
         swordEntry.setTitle(wrapTitle(dataset.getPreferredTitle()));
         swordEntry.setSummary(wrapSummary(metadata.getEmdDescription().toString()));
         swordEntry.addCategory(EasyBusinessFacade.formatAudience(metadata));
@@ -249,8 +241,8 @@ public class EasySwordServer implements SWORDServer
         // we won't support updating (task for archivists) so skip MediaLink
         // swordEntry.addLink(wrapEditMediaLink());
         swordEntry.addLink(wrapLink("edit", datasetUrl));
-        swordEntry.setGenerator(wrapGenerator(serverURL));
-        swordEntry.setContent(wrapContent(serverURL, dataset.getStoreId()));
+        swordEntry.setGenerator(wrapGenerator(deposit.getLocation().replace("/deposit", "")));
+        swordEntry.setContent(wrapContent(datasetUrl));
         swordEntry.setTreatment(EasyBusinessFacade.getSubmussionNotification(user, dataset));
         swordEntry.setNoOp(deposit.isNoOp());
         // TODO swordEntry.setRights(rights);
@@ -262,7 +254,7 @@ public class EasySwordServer implements SWORDServer
         return swordEntry;
     }
 
-    private DepositResponse wrapResponse(final SWORDEntry swordEntry, final String storeID)
+    private static DepositResponse wrapResponse(final SWORDEntry swordEntry, final String storeID)
     {
         final DepositResponse depostiResponse = new DepositResponse(Deposit.CREATED);
         depostiResponse.setEntry(swordEntry);
@@ -316,10 +308,10 @@ public class EasySwordServer implements SWORDServer
         return generator;
     }
 
-    private static Content wrapContent(final String server, final String storeID) throws SWORDException
+    private static Content wrapContent(final String url) throws SWORDException
     {
         final Content content = new Content();
-        final String mediaType = "application/zip";
+        final String mediaType = "text/html";
         try
         {
             content.setType(mediaType);
@@ -329,7 +321,6 @@ public class EasySwordServer implements SWORDServer
             log.error(mediaType, exception);
             throw new SWORDException("", exception);
         }
-        final String url = String.format(DOWNLOAD_URL_FORMAT, server, storeID);
         content.setSource(url);
         return content;
     }
@@ -357,17 +348,5 @@ public class EasySwordServer implements SWORDServer
             throw new SWORDAuthenticationException(adr.getUsername() + " not authenticated");
 
         return new AtomDocumentResponse(HttpServletResponse.SC_NOT_IMPLEMENTED);
-    }
-
-    // TODO please peer review web.xml configuration
-    public static void setPolicy(final String policy)
-    {
-        EasySwordServer.policy = policy;
-    }
-
-    // TODO please peer review web.xml configuration
-    public static void setTreatment(final String treatment)
-    {
-        EasySwordServer.treatment = treatment;
     }
 }

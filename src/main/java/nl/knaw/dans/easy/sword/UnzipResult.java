@@ -44,6 +44,8 @@ public class UnzipResult
             if (!new File(destPath).mkdir())
                 throw new SWORDException("Failed to unzip");
             saveFile(inputStream, zipFile);
+            // TODO refactor UnzipUtil to accept: new ZipInputStream(new BufferedInputStream(inputStream));
+            // then we can skip storing the intermediate received.zip
             files = UnzipUtil.unzip(new File(zipFile), destPath);
             folder = new File(destPath);
             if (files.size() < 2)

@@ -43,7 +43,7 @@ public class Start
     {
         if (EasyHome.getValue() == null)
             throw new Exception("Please specify the system property '" + EasyHome.EASY_HOME_KEY + "'");
-        ClassPathHacker.addFile("src/main/resources/conf");
+        ClassPathHacker.addFile("src/main/resources/");
 
         int port = args.length > 0 ? Integer.valueOf(args[0]) : PORT;
         int sslPort = args.length > 1 ? Integer.valueOf(args[1]) : SSL_PORT;
