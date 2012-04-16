@@ -45,10 +45,12 @@ import org.slf4j.LoggerFactory;
 public class EasyBusinessFacade
 {
     /** TODO share constant with {@link SubmitNotification} or define another template */
-    static final String        TEMPLATE            = SubmitNotification.TEMPLATE_BASE_LOCATION + "deposit/depositConfirmation" + ".html";
+    static final String        TEMPLATE              = SubmitNotification.TEMPLATE_BASE_LOCATION + "deposit/depositConfirmation" + ".html";
 
-    private static int         noOpSumbitCounter;
-    private static Logger      logger              = LoggerFactory.getLogger(EasyBusinessFacade.class);
+    private static int         noOpSumbitCounter     = 0;
+    public static final String NO_OP_STORE_ID_DOMAIN = "mockedStoreID:";
+    
+    private static Logger      logger                = LoggerFactory.getLogger(EasyBusinessFacade.class);
 
     /**
      * Gets an authenticated user.
@@ -241,7 +243,8 @@ public class EasyBusinessFacade
     }
 
     /** Wraps exceptions thrown by Services.getItemService().addDirectoryContents(user, dataset, ...) */
-    private static void ingestFiles(final EasyUser user, final Dataset dataset, final File tempDirectory, final List<File> fileList) throws SWORDException, SWORDErrorException
+    private static void ingestFiles(final EasyUser user, final Dataset dataset, final File tempDirectory, final List<File> fileList) throws SWORDException,
+            SWORDErrorException
     {
         final String storeId = dataset.getStoreId();
         try
@@ -265,7 +268,7 @@ public class EasyBusinessFacade
             throw newSwordException("Can't add files to the new dataset " + storeId + " " + user.getId(), exception);
         }
     }
-    
+
     public static String formatAudience(final EasyMetadata metadata) throws SWORDErrorException
     {
         try
@@ -296,7 +299,7 @@ public class EasyBusinessFacade
     private static SWORDException newSwordException(final String message, final Exception exception)
     {
         logger.error(message, exception);
-        if (exception !=null)
+        if (exception != null)
             return new SWORDException(message, exception);
         return new SWORDException(message, new Exception(message));
     }
@@ -343,13 +346,14 @@ public class EasyBusinessFacade
         }
     }
 
-    public static final String NO_OP_STORE_ID_DOMAIN = "mockedStoreID:";
-
+    static void resetNoOpSubmitCounter(){
+        // JUnit test execution order is unstable, a constant value makes results stable
+        noOpSumbitCounter = 0;
+    }
+    
     public static Dataset mockSubmittedDataset(final EasyMetadata metadata, final EasyUser user)
     {
-        // ++noOpSumbitCounter;
-        noOpSumbitCounter = 1; 
-        // TODO constant value for unit tests but for production increment might be nicer
+        ++noOpSumbitCounter;
         final String pid = (noOpSumbitCounter + "xxxxxxxx").replaceAll("(..)(...)(...)", "urn:nbn:nl:ui:$1-$2-$3");
         final String storeId = NO_OP_STORE_ID_DOMAIN + noOpSumbitCounter;
         DmoStoreId DmoStoreID = new DmoStoreId(storeId);

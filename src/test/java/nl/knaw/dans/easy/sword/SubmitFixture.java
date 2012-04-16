@@ -41,6 +41,7 @@ public class SubmitFixture extends EasySwordServerTester
 
     private void execute(final Deposit deposit, final String zip) throws Exception
     {
+        EasyBusinessFacade.resetNoOpSubmitCounter();
         final String regexp = "-- CreationDate: .*--"; // iText generates creation date as comment, ignore that
         final String actualResults = easySwordServer.doDeposit(deposit).toString().replaceAll(regexp, "");
         assertAsExpected(actualResults, "deposit_"+deposit.isVerbose()+deposit.isNoOp()+zip+".xml");
