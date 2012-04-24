@@ -186,6 +186,11 @@ public class EasySwordServer implements SWORDServer
         log.info(MessageFormat.format("DEPOSIT user={0}; IP={1}; location={2}; fileName={3}", deposit.getUsername(), deposit.getIPAddress(),
                 deposit.getLocation(), deposit.getFilename()));
 
+        /*
+         * TODO authentication too late for "Expect: 100-Continue" ?
+         * http://git.661346.n2.nabble.com/PATCH-smart-http-Don-t-use-Expect-100-Continue-td6028355.html
+         * http://htmlhelp.com/reference/html40/forms/form.html
+         */
         final EasyUser user = checkUser(deposit);
         checkOnBehalfOf(deposit);
 

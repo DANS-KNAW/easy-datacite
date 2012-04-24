@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.purl.sword.base.Deposit;
 import org.purl.sword.base.SWORDErrorException;
+import org.purl.sword.base.SwordValidationInfo;
 
 public class InvalidSubmitTest extends SubmitFixture
 //maven should not run this test therefore the name should not start or end with test.
@@ -97,23 +98,16 @@ public class InvalidSubmitTest extends SubmitFixture
      execute(MockUtil.VALID_USER_ID,MockUtil.PASSWORD,"//"+LOCATION);
  }
 
- private void execute(String invalidUserId, String password, String location) throws Exception
+ private SwordValidationInfo execute(String userId, String password, String location) throws Exception
  {
      final Deposit deposit = new Deposit();
-     deposit.setUsername(invalidUserId);
+     deposit.setUsername(userId);
      deposit.setPassword(password);
      deposit.setLocation(location);
      deposit.setVerbose(false);
      deposit.setNoOp(true);
      deposit.setFile(new FileInputStream(PROPER_ZIP));
      
-     execute(deposit,location.replaceAll("\\/", "_"));
- }
-
- private void execute(final Deposit deposit, final String zip) throws Exception
- {
-     final String regexp = "-- CreationDate: .*--"; // iText generates creation date as comment, ignore that
-     final String actualResults = easySwordServer.doDeposit(deposit).toString().replaceAll(regexp, "");
-     assertAsExpected(actualResults, "deposit_"+deposit.isVerbose()+deposit.isNoOp()+zip+".xml");
+     return execute(deposit,location.replaceAll("\\/", "_"));
  }
 }

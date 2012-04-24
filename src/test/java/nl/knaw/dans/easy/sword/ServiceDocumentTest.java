@@ -13,7 +13,9 @@ import org.easymock.EasyMock;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.purl.sword.base.SWORDErrorException;
+import org.purl.sword.base.ServiceDocument;
 import org.purl.sword.base.ServiceDocumentRequest;
+import static org.purl.sword.base.SwordValidationInfoType.*;
 
 public class ServiceDocumentTest extends EasySwordServerTester
 {
@@ -84,8 +86,9 @@ public class ServiceDocumentTest extends EasySwordServerTester
         request.setLocation(LOCATION);
         new Context().setPolicy("No guarantee of service, or that deposits will be retained for any length of time.");
         new Context().setTreatment("This is a test server");
-        assertAsExpected(easySwordServer.doServiceDocument(request).toString(), "serviceDocumentWithFederativeUser.xml");
-
+        final ServiceDocument serviceDocument = easySwordServer.doServiceDocument(request);
+        assertAsExpected(serviceDocument.toString(), "serviceDocumentWithFederativeUser.xml");
+        // TODO upgrade compliancy level to VALID
+        assertCompliant(WARNING, serviceDocument.validate());
     }
-
 }

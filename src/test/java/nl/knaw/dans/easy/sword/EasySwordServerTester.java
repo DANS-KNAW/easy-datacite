@@ -1,6 +1,8 @@
 package nl.knaw.dans.easy.sword;
 
 import org.junit.BeforeClass;
+import org.purl.sword.base.SwordValidationInfo;
+import org.purl.sword.base.SwordValidationInfoType;
 
 /**
  * Fixture that creates the sword server and provides default values.<br>
@@ -15,6 +17,14 @@ public abstract  class EasySwordServerTester extends Tester
     public static void createSwordServer() throws Exception
     {
         easySwordServer = new EasySwordServer();
+    }
+
+    protected void assertCompliant(SwordValidationInfoType level, SwordValidationInfo info) throws Exception
+    {
+        final StringBuffer buffer = new StringBuffer();
+        info.createString(info, buffer, " ");
+        if (!level.equals(info.getType()))
+            throw new Exception (buffer.toString());
     }
 
 }

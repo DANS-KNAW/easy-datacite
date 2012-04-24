@@ -7,10 +7,14 @@ import nl.knaw.dans.easy.util.EasyHome;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.purl.sword.base.SwordValidationInfo;
+
+import static org.purl.sword.base.SwordValidationInfoType.*;
 
 /** Integration test for the configuration. */
 public class SubmitTester extends SubmitFixture
-// Maven should not run this test because easy.home is required. Therefore the name should not start or end with test.
+// The name should not start or end with test because Maven should not run this test.
+// Why not? The tests require the system property easy.home.
 {
 
     @BeforeClass
@@ -25,37 +29,49 @@ public class SubmitTester extends SubmitFixture
     {
         final Mailer saved = ExternalServices.getMailOffice();
         new ExternalServices().setMailOffice(null);
-        execute(false, false, PROPER_ZIP);
+        SwordValidationInfo info = execute(false, false, PROPER_ZIP);
+        // TODO upgrade compliancy level to VALID
+        assertCompliant(WARNING, info);
         new ExternalServices().setMailOffice(saved);
     }
 
     @Test
     public void submit() throws Exception
     {
-        execute(false, false, PROPER_ZIP);
+        SwordValidationInfo info = execute(false, false, PROPER_ZIP);
+        // TODO upgrade compliancy level to VALID
+        assertCompliant(WARNING, info);
     }
 
     @Test
     public void submitVerboseNoOp() throws Exception
     {
-        execute(true, true, PROPER_ZIP);
+        SwordValidationInfo info = execute(true, true, PROPER_ZIP);
+        // TODO upgrade compliancy level to VALID
+        assertCompliant(INFO, info);
     }
 
     @Test
     public void submitNoOp() throws Exception
     {
-        execute(false, true, PROPER_ZIP);
+        SwordValidationInfo info = execute(false, true, PROPER_ZIP);
+        // TODO upgrade compliancy level to VALID
+        assertCompliant(INFO, info);
     }
 
     @Test 
     public void spatialMetadata() throws Throwable
     {
-        execute(false, true, getZip("data-plus-spatial-metadata"));
+        SwordValidationInfo info = execute(false, true, getZip("data-plus-spatial-metadata"));
+        // TODO upgrade compliancy level to VALID
+        assertCompliant(INFO, info);
     }
 
     @Test 
     public void whiteSpace() throws Throwable
     {
-        execute(false, true, getZip("disciplineWithWhiteSpace"));
+        SwordValidationInfo info = execute(false, true, getZip("disciplineWithWhiteSpace"));
+        // TODO upgrade compliancy level to VALID
+        assertCompliant(INFO, info);
     }
 }
