@@ -1,13 +1,13 @@
 package nl.knaw.dans.easy.sword;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.List;
 import java.util.zip.ZipException;
+import java.util.zip.ZipInputStream;
 
 import nl.knaw.dans.common.lang.file.UnzipUtil;
 import nl.knaw.dans.common.lang.util.FileUtil;
@@ -22,7 +22,7 @@ public class UnzipResult
 {
     private static final String              METADATA              = "easyMetadata.xml";
     private static final String              DATA                  = "data";
-    private static final String              DESCRIPTION           = "Expecting a file '" + METADATA + "' and a folder '" + DATA + "'.";
+    private static final String              DESCRIPTION           = "Expecting a file '" + METADATA + "' and files in folder '" + DATA + "'.";
     private static final SWORDErrorException WANT_FILE_AND_FOLDER  = new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, DESCRIPTION);
 
     private static Logger                    log                   = LoggerFactory.getLogger(EasyBusinessFacade.class);
@@ -31,7 +31,6 @@ public class UnzipResult
     private final File                       folder;
     private final File                       tempDir;
     private final String                     destPath;
-    private final String                     zipFile;
     private byte[]                           easyMetadata;
 
     public UnzipResult(final InputStream inputStream) throws SWORDException, SWORDErrorException
@@ -39,14 +38,10 @@ public class UnzipResult
         try
         {
             tempDir = FileUtil.createTempDirectory(new File(Context.getUnzip()), "swunzip");
-            zipFile = tempDir.getPath() + "/received.zip";
             destPath = tempDir.getPath() + "/unzipped";
             if (!new File(destPath).mkdir())
                 throw new SWORDException("Failed to unzip");
-            saveFile(inputStream, zipFile);
-            // TODO refactor UnzipUtil to accept: new ZipInputStream(new BufferedInputStream(inputStream));
-            // then we can skip storing the intermediate received.zip
-            files = UnzipUtil.unzip(new File(zipFile), destPath);
+            files = UnzipUtil.unzip(new ZipInputStream(new BufferedInputStream(inputStream)), destPath);
             folder = new File(destPath);
             if (files.size() < 2)
             {
@@ -83,31 +78,7 @@ public class UnzipResult
         }
         catch (final IOException exception)
         {
-            throw newSWORDException("Failed to unzip deposited file", exception);
-        }
-    }
-
-    private static void saveFile(final InputStream inputStream, final String file) throws SWORDException
-    {
-        try
-        {
-            new File(file).createNewFile();
-            final OutputStream outputStream = new FileOutputStream(file);
-            try
-            {
-                final byte buffer[] = new byte[2048];
-                int count;
-                while ((count = inputStream.read(buffer, 0, buffer.length)) != -1)
-                    outputStream.write(buffer, 0, count);
-            }
-            finally
-            {
-                outputStream.close();
-            }
-        }
-        catch (final IOException exception)
-        {
-            throw newSWORDException("Failed to save deposited zip file", exception);
+            throw newSwordInputException("Failed to unzip deposited file", exception);
         }
     }
 
@@ -121,7 +92,6 @@ public class UnzipResult
         // delete files before folders
         for (int i=files.size() ; --i>=0 ;)
                 files.get(i).delete();
-        new File(zipFile).delete();
         new File(destPath).delete();
         tempDir.delete();
     }
