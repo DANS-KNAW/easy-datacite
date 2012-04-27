@@ -194,7 +194,7 @@ public class EasySwordServer implements SWORDServer
         final EasyUser user = checkUser(deposit);
         checkOnBehalfOf(deposit);
 
-        final UnzipResult unzipped = new UnzipResult(deposit.getFile());
+        final Payload unzipped = new Payload(deposit.getFile());
         final EasyMetadata metadata = EasyMetadataFacade.validate(unzipped.getEasyMetaData());
         final Dataset dataset = submit(deposit, user, unzipped, metadata);
         
@@ -219,7 +219,7 @@ public class EasySwordServer implements SWORDServer
             throw new SWORDErrorException(ErrorCodes.MEDIATION_NOT_ALLOWED, "Mediated deposit not allowed to this collection");
     }
 
-    private static Dataset submit(final Deposit deposit, final EasyUser user, final UnzipResult unzipped, final EasyMetadata metadata) throws SWORDException,
+    private static Dataset submit(final Deposit deposit, final EasyUser user, final Payload unzipped, final EasyMetadata metadata) throws SWORDException,
             SWORDErrorException
     {
         final Dataset dataset;

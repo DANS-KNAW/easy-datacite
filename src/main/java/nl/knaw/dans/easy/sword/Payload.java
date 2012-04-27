@@ -18,7 +18,7 @@ import org.purl.sword.base.SWORDException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class UnzipResult
+public class Payload
 {
     private static final String              METADATA              = "easyMetadata.xml";
     private static final String              DATA                  = "data";
@@ -33,7 +33,7 @@ public class UnzipResult
     private final String                     destPath;
     private byte[]                           easyMetadata;
 
-    public UnzipResult(final InputStream inputStream) throws SWORDException, SWORDErrorException
+    public Payload(final InputStream inputStream) throws SWORDException, SWORDErrorException
     {
         try
         {
