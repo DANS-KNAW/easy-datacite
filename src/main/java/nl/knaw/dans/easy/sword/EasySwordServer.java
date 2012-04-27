@@ -194,9 +194,9 @@ public class EasySwordServer implements SWORDServer
         final EasyUser user = checkUser(deposit);
         checkOnBehalfOf(deposit);
 
-        final Payload unzipped = new Payload(deposit.getFile());
-        final EasyMetadata metadata = EasyMetadataFacade.validate(unzipped.getEasyMetaData());
-        final Dataset dataset = submit(deposit, user, unzipped, metadata);
+        final Payload payload = new Payload(deposit.getFile());
+        final EasyMetadata metadata = EasyMetadataFacade.validate(payload.getEasyMetaData());
+        final Dataset dataset = submit(deposit, user, payload, metadata);
         
         final String datasetUrl = toServer(deposit.getLocation()) + DATASET_PATH + dataset.getStoreId();
         final SWORDEntry swordEntry = wrapSwordEntry(deposit, user, dataset, datasetUrl);
@@ -219,15 +219,15 @@ public class EasySwordServer implements SWORDServer
             throw new SWORDErrorException(ErrorCodes.MEDIATION_NOT_ALLOWED, "Mediated deposit not allowed to this collection");
     }
 
-    private static Dataset submit(final Deposit deposit, final EasyUser user, final Payload unzipped, final EasyMetadata metadata) throws SWORDException,
+    private static Dataset submit(final Deposit deposit, final EasyUser user, final Payload payload, final EasyMetadata metadata) throws SWORDException,
             SWORDErrorException
     {
         final Dataset dataset;
         if (deposit.isNoOp())
             dataset = EasyBusinessFacade.mockSubmittedDataset(metadata, user);
         else
-            dataset = EasyBusinessFacade.submitNewDataset(user, metadata, unzipped.getDataFolder(), unzipped.getFiles());
-        unzipped.clearTemp();
+            dataset = EasyBusinessFacade.submitNewDataset(user, metadata, payload.getDataFolder(), payload.getFiles());
+        payload.clearTemp();
         return dataset;
     }
 
