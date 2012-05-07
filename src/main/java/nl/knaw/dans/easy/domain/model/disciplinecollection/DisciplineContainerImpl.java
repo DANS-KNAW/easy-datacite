@@ -9,7 +9,6 @@ import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.MetadataUnit;
-import nl.knaw.dans.common.lang.repo.RepoUtil;
 import nl.knaw.dans.common.lang.repo.collections.AbstractDmoRecursiveItem;
 import nl.knaw.dans.common.lang.repo.collections.DmoCollection;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
