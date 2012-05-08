@@ -195,7 +195,7 @@ public class EasySwordServer implements SWORDServer
         checkOnBehalfOf(deposit);
 
         final Payload payload = new Payload(deposit.getFile());
-        final EasyMetadata metadata = EasyMetadataFacade.validate(payload.getEasyMetaData());
+        final EasyMetadata metadata = payload.getEasyMetadata();
         final Dataset dataset = submit(deposit, user, payload, metadata);
         
         final String datasetUrl = toServer(deposit.getLocation()) + DATASET_PATH + dataset.getStoreId();
