@@ -1,6 +1,7 @@
 package nl.knaw.dans.easy.domain.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Set;
@@ -111,6 +112,32 @@ public class DatasetRelationsTest
         
         storeIds = relations.getCollectionMemberships(ECollection.EasyInterestArea.namespace);
         assertEquals(0, storeIds.size());
+    }
+    
+    @Test
+    public void isCollectionMember() throws Exception
+    {
+        Dataset dataset = (Dataset) AbstractDmoFactory.newDmo(Dataset.NAMESPACE);
+        DatasetRelations relations = dataset.getRelations();
+        relations.addCollectionMembership(new DmoStoreId(ECollection.EasyCollection.namespace, "1"));
+        relations.addCollectionMembership(new DmoStoreId(ECollection.EasyCollection.namespace, "2"));
+        relations.addCollectionMembership(new DmoStoreId(ECollection.EasyResearchArea.namespace, "1"));
+        
+        assertFalse(relations.isCollectionMember(new DmoStoreId(ECollection.EasyResearchArea.namespace, "2")));
+        assertTrue(relations.isCollectionMember(new DmoStoreId(ECollection.EasyCollection.namespace, "2")));
+    }
+    
+    @Test
+    public void isOAISetMember() throws Exception
+    {
+        Dataset dataset = (Dataset) AbstractDmoFactory.newDmo(Dataset.NAMESPACE);
+        DatasetRelations relations = dataset.getRelations();
+        relations.addOAISetMembership(new DmoStoreId("foo-bar:1"));
+        relations.addOAISetMembership(new DmoStoreId("foo-bar:2"));
+        relations.addOAISetMembership(new DmoStoreId("baz:1"));
+        
+        assertFalse(relations.isOAISetMember(new DmoStoreId("baz:2")));
+        assertTrue(relations.isOAISetMember(new DmoStoreId("foo-bar:2")));
     }
 
 }

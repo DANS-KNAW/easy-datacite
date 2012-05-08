@@ -13,6 +13,7 @@ public class Services
     private static FederativeUserService federativeUserService;
     private static SearchService searchService;
     private static DisciplineCollectionService disciplineService;
+    private static CollectionService collectionService;
     private static JumpoffService jumpoffService;
     
     private static boolean LOCKED;
@@ -89,6 +90,11 @@ public class Services
 		return disciplineService;
 	}
 	
+	public static CollectionService getCollectionService()
+	{
+	    return collectionService;
+	}
+	
 	public static JumpoffService getJumpoffService()
 	{
 	    return jumpoffService;
@@ -141,6 +147,13 @@ public class Services
         checkLock();
 		Services.disciplineService = disciplineService;
         logger.debug("Injected dependency disciplineCollectionService: " + disciplineService);
+	}
+	
+	public void setCollectionService(CollectionService collectionService)
+	{
+	    checkLock();
+	    Services.collectionService = collectionService;
+	    logger.debug("injected dependency collectionService: " + collectionService);
 	}
 	
 	public void setJumpoffService(JumpoffService jumpoffService)

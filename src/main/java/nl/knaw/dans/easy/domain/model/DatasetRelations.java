@@ -106,6 +106,12 @@ public class DatasetRelations extends DmoContainerItemRelations<Dataset>
         return memberships;
     }
     
+    public boolean isOAISetMember(DmoStoreId setStoreId)
+    {
+        Set<DmoStoreId> memberships = getOAISetMemberships(setStoreId.getNamespace());
+        return memberships.contains(setStoreId);
+    }
+    
     public void addCollectionMembership(DmoStoreId dmoStoreId)
     {
         if (!ECollection.isECollection(dmoStoreId))
@@ -185,6 +191,12 @@ public class DatasetRelations extends DmoContainerItemRelations<Dataset>
             }
         }
         return memberships;
+    }
+    
+    public boolean isCollectionMember(DmoStoreId collectionStoreId)
+    {
+        Set<DmoStoreId> memberships = getCollectionMemberships(collectionStoreId.getNamespace());
+        return memberships.contains(collectionStoreId);
     }
 
     public void setPersistentIdentifier(String pid)
