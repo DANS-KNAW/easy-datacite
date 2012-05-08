@@ -100,7 +100,7 @@ public class EasySwordServer implements SWORDServer
         {
             final Collection collection = createDummyCollection(0.8f);
             collection.setTitle("Authenticated collection for " + userID);
-            collection.setLocation(locationBase + "/deposit/" + userID);
+            collection.setLocation(locationBase + "deposit");
             collection.setAbstract("A collection that " + userID + " can deposit into");
             collection.setService(locationBase + "/servicedocument?nested=authenticated");
             collection.setMediation(false);

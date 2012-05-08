@@ -20,9 +20,9 @@ import org.slf4j.LoggerFactory;
 
 public class Payload
 {
-    private static final String              METADATA              = "easyMetadata.xml";
+    private static final String              EMD              = "easyMetadata.xml";
     private static final String              DATA                  = "data";
-    private static final String              DESCRIPTION           = "Expecting a file '" + METADATA + "' and files in folder '" + DATA + "'.";
+    private static final String              DESCRIPTION           = "Expecting a file '" + EMD + "' and files in folder '" + DATA + "'.";
     private static final SWORDErrorException WANT_FILE_AND_FOLDER  = new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, DESCRIPTION);
 
     private static Logger                    log                   = LoggerFactory.getLogger(EasyBusinessFacade.class);
@@ -66,7 +66,7 @@ public class Payload
             for (final File file : files)
             {
                 // yes, we do have some real data
-                if (file.isFile() && !file.getPath().equals(destPath+"/"+METADATA))
+                if (file.isFile() && !file.getPath().equals(destPath+"/"+EMD))
                     return;
             }
             // oops, just folders
@@ -118,7 +118,7 @@ public class Payload
 
     private File getMetadataFile()
     {
-        return new File(folder.getPath() + "/" + METADATA);
+        return new File(folder.getPath() + "/" + EMD);
     }
 
     public File getDataFolder()

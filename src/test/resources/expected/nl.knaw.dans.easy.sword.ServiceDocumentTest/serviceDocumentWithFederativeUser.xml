@@ -5,7 +5,7 @@
    <sword:noOp>true</sword:noOp>
    <app:workspace>
       <atom:title type="text">Authenticated workspace for nl.knaw.dans.easy.federatedUser</atom:title>
-      <app:collection href="http://mockedhost:8080/servlet/deposit/nl.knaw.dans.easy.federatedUser">
+      <app:collection href="http://mockedhost:8080/servletdeposit">
          <atom:title type="text">Authenticated collection for nl.knaw.dans.easy.federatedUser</atom:title>
          <app:accept>application/zip</app:accept>
          <app:accept>application/xml</app:accept>

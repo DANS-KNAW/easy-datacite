@@ -98,13 +98,11 @@ public class EasyBusinessFacade
         }
         catch (final ObjectNotInStoreException e)
         {
-            logger.debug("Object not found. fedUserId='" + fedUserId + "'");
-            throw new SWORDException("Object not found. fedUserId='" + fedUserId + "' :", e);
+            throw newSwordInputException(fedUserId + " authentication problem", e);
         }
         catch (final RepositoryException e)
         {
-            logger.debug("Could not get user with fedUserId '" + fedUserId + "' :", e);
-            throw new SWORDException("Could not get user with fedUserId '" + fedUserId + "' :", e);
+            throw newSwordException("Could not get user with fedUserId '" + fedUserId + "' :", e);
         }
 
         final String userId = userIdMap.getDansUserId();
@@ -115,7 +113,7 @@ public class EasyBusinessFacade
         }
         catch (final ObjectNotInStoreException exception)
         {
-            throw newSwordException(userId + " authentication problem", exception);
+            throw newSwordInputException(userId + " authentication problem", exception);
         }
         catch (final RepositoryException exception)
         {
