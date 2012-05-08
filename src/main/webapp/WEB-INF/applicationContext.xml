@@ -22,7 +22,7 @@
 		<property name="searchService" ref="searchService"/>
 		<property name="disciplineService" ref="disciplineService" />
 		<property name="jumpoffService" ref="jumpoffService" />
-		<!-- property name="collectionService" ref="collectionService" /-->
+		<property name="collectionService" ref="collectionService" />
 
 	</bean>
 	
