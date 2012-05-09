@@ -47,7 +47,7 @@ public class AdministrativeMetadataImpl extends AbstractTimestampedJiBXObject<Ad
     
     private List<StateChangeDate> stateChangeDates = new ArrayList<StateChangeDate>();
 
-    protected AdministrativeMetadataImpl()
+    public AdministrativeMetadataImpl()
     {
         workflowData = new WorkflowDataImpl();
     }
