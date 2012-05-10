@@ -1,9 +1,5 @@
 package nl.knaw.dans.easy.business.bean;
 
-import nl.knaw.dans.easy.data.Data;
-import nl.knaw.dans.easy.data.collections.DmoCollectionsAccessImpl;
-import nl.knaw.dans.easy.domain.exceptions.ApplicationException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEvent;
