@@ -1,14 +1,9 @@
 package nl.knaw.dans.easy.data.collections;
 
-import java.net.URL;
-import java.util.Iterator;
 import java.util.Set;
 
 import nl.knaw.dans.common.lang.repo.DataModelObject;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
-import nl.knaw.dans.common.lang.xml.ValidatorException;
-import nl.knaw.dans.common.lang.xml.XMLErrorHandler;
-import nl.knaw.dans.common.lang.xml.XMLSerializationException;
 import nl.knaw.dans.easy.domain.collections.ECollection;
 import nl.knaw.dans.easy.domain.model.Constants;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
@@ -35,6 +30,7 @@ public class DmoCollectionsAccessImpl implements DmoCollectionsAccess
         {
             dmoCollections.registerNamespace(eColl.namespace);
         }
+        logger.info("Completed initialization.");
     }
     
     /* (non-Javadoc)
