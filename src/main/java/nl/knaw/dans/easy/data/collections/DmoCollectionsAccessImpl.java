@@ -147,34 +147,40 @@ public class DmoCollectionsAccessImpl implements DmoCollectionsAccess
     }
     
     // hack to get a collection tree into all Fedora repositories that are used.
-    public void initializeCollections() throws CollectionsException, ValidatorException, XMLSerializationException
-    {
-        CollectionManager manager = dmoCollections.newManager("migration");
-        Iterator<ECollection> collIter = ECollection.iterator();
-        while (collIter.hasNext())
-        {
-            ECollection eColl = collIter.next();
-            if (!manager.exists(eColl.namespace))
-            {
-                URL templateUrl = eColl.getTemplateURL();
-                if (templateUrl != null)
-                {
-                    XMLErrorHandler handler = dmoCollections.validateXml(templateUrl);
-                    if (handler.passed())
-                    {
-                        logger.info("Ingesting collection template for " + eColl.namespace.getValue());
-                        manager.createRoot(templateUrl, false);
-                    }
-                    else
-                    {
-                        throw new CollectionsException("Invallid xml in template for " + eColl.namespace.getValue() + handler.getMessages());
-                    }
-                    
-                }
-            }
-            
-        }
-    }
+    // !!WARNING!!
+    // Causes deadlock at full server restart:
+    // If Fedora not yet running,
+    //      this method never returns
+    //      Tomcat keeps waiting....
+    //      ... and Fedora never starts.
+//    public void initializeCollections() throws CollectionsException, ValidatorException, XMLSerializationException
+//    {
+//        CollectionManager manager = dmoCollections.newManager("migration");
+//        Iterator<ECollection> collIter = ECollection.iterator();
+//        while (collIter.hasNext())
+//        {
+//            ECollection eColl = collIter.next();
+//            if (!manager.exists(eColl.namespace))
+//            {
+//                URL templateUrl = eColl.getTemplateURL();
+//                if (templateUrl != null)
+//                {
+//                    XMLErrorHandler handler = dmoCollections.validateXml(templateUrl);
+//                    if (handler.passed())
+//                    {
+//                        logger.info("Ingesting collection template for " + eColl.namespace.getValue());
+//                        manager.createRoot(templateUrl, false);
+//                    }
+//                    else
+//                    {
+//                        throw new CollectionsException("Invallid xml in template for " + eColl.namespace.getValue() + handler.getMessages());
+//                    }
+//                    
+//                }
+//            }
+//            
+//        }
+//    }
     
     private String getOwnerId(EasyUser sessionUser)
     {

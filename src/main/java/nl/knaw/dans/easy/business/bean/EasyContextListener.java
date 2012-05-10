@@ -36,6 +36,19 @@ public class EasyContextListener implements ApplicationListener
     }
 
     /**
+     * !!WARNING!!
+     * <br/><b>
+     * Never use this method if back-end services are called!
+     * </b><br/>
+     * Example: call to Fedora at application startup --> deadlock at full server restart
+     * <pre>
+     * 
+     * If Fedora not yet running,
+     *      this method never returns
+     *      Tomcat keeps waiting....
+     *      ... and Fedora never starts.
+     *      
+     * </pre>
      * Published when the ApplicationContext is initialized or refreshed, e.g. using the refresh() method
      * on the ConfigurableApplicationContext interface. "Initialized" here means that all beans are
      * loaded, post-processor beans are detected and activated, singletons are pre-instantiated, and the
@@ -48,21 +61,7 @@ public class EasyContextListener implements ApplicationListener
      */
     private void onContextRefreshed(ContextRefreshedEvent event)
     {
-        initializeCollections();
 
-    }
-
-    private void initializeCollections()
-    {
-        DmoCollectionsAccessImpl easyCollectionsImpl = (DmoCollectionsAccessImpl) Data.getCollectionAccess();
-        try
-        {
-            easyCollectionsImpl.initializeCollections();
-        }
-        catch (Exception e) // catch-all allowed on initialization.
-        {
-            throw new ApplicationException(e);
-        }
     }
 
     /**
