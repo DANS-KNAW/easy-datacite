@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.List;
 import java.util.zip.ZipException;
 import java.util.zip.ZipInputStream;
@@ -21,38 +22,69 @@ import org.slf4j.LoggerFactory;
 
 public class Payload
 {
-    private static Logger      log = LoggerFactory.getLogger(EasyBusinessFacade.class);
+    enum MDFileName
+    {
+        easyMetadata, DansDatasetMetadata;
 
-    private final List<File>   files;
-    private final File         tempDir;
-    private final File         dataFolder;
-    private final File         metadataFile;
+        static boolean accepts(final File file)
+        {
+            final String baseName = file.getName().replace(".xml", "");
+            return file.isFile() && Arrays.toString(values()).contains(baseName);
+        }
 
-    private final EasyMetadata easyMetadata;
+        static String fileNames()
+        {
+            String result = "";
+            for (MDFileName value : values())
+            {
+                result += " " + value + ".xml";
+            }
+            return result;
+        }
+    };
+
+    private static final String MESSAGE = "Expecting a file with one of the names " + MDFileName.fileNames() + "and a folder with files.";
+
+    private static Logger       log     = LoggerFactory.getLogger(EasyBusinessFacade.class);
+
+    private final File          tempDir;
+    private final File          dataFolder;
+    private final List<File>    files;
+    private final EasyMetadata  easyMetadata;
 
     public Payload(final InputStream inputStream) throws SWORDException, SWORDErrorException
     {
+        final File metadataFile;
         tempDir = createTempDir();
         files = unzip(inputStream);
 
         final File[] rootEntries = zipHasTwoRootEntries();
-        if (rootEntries[0].isDirectory() && rootEntries[1].isFile())
+        if (rootEntries[0].isDirectory() && MDFileName.accepts(rootEntries[1]))
         {
             dataFolder = rootEntries[0];
             metadataFile = rootEntries[1];
         }
-        else if (rootEntries[1].isDirectory() && rootEntries[0].isFile())
+        else if (rootEntries[1].isDirectory() && MDFileName.accepts(rootEntries[0]))
         {
             dataFolder = rootEntries[1];
             metadataFile = rootEntries[0];
         }
         else
         {
-            throw newSwordInputException("Expecting a file and a folder with files.", null);
+            throw newSwordInputException(MESSAGE, null);
         }
 
-        folderHasFiles();
-        easyMetadata = createEasyMetadata();
+        folderHasFiles(metadataFile);
+        easyMetadata = createEasyMetadata(metadataFile);
+    }
+
+    private EasyMetadata createEasyMetadata(final File metadataFile) throws SWORDErrorException, SWORDException
+    {
+        if (metadataFile.getName().startsWith(MDFileName.easyMetadata.name()))
+            return EasyMetadataFacade.validate(readMetadata(metadataFile));
+        
+        // TODO apply cross-walker conversion
+        return EasyMetadataFacade.validate(readMetadata(metadataFile));
     }
 
     private List<File> unzip(final InputStream inputStream) throws SWORDErrorException
@@ -88,21 +120,12 @@ public class Payload
         final File[] rootContent = tempDir.listFiles();
         if (files.size() < 2 || rootContent == null || rootContent.length != 2)
         {
-            // an XML file and a folder in the root of the unzipped directory, no more no less
-            throw newSwordInputException("Expecting a file and a folder with files.", null);
+            throw newSwordInputException(MESSAGE, null);
         }
         return rootContent;
     }
 
-    private EasyMetadata createEasyMetadata() throws SWORDErrorException, SWORDException
-    {
-        if (metadataFile.getName().equals("easyMetadata.xml"))
-            return EasyMetadataFacade.validate(readMetadata());
-        else
-            return EasyMetadataFacade.validate(readMetadata());
-    }
-
-    private void folderHasFiles() throws SWORDErrorException
+    private void folderHasFiles(final File metadataFile) throws SWORDErrorException
     {
         for (final File file : files)
         {
@@ -130,7 +153,7 @@ public class Payload
         return easyMetadata;
     }
 
-    private byte[] readMetadata() throws SWORDErrorException, SWORDException
+    private byte[] readMetadata(final File metadataFile) throws SWORDErrorException, SWORDException
     {
         byte[] readFile;
         try
