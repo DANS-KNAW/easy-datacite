@@ -34,7 +34,7 @@ public class EasyContextListener implements ApplicationListener
     /**
      * !!WARNING!!
      * <br/><b>
-     * Never use this method if back-end services are called!
+     * Never use this method if back-end services are called in your method!
      * </b><br/>
      * Example: call to Fedora at application startup --> deadlock at full server restart
      * <pre>
