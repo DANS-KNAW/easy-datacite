@@ -31,9 +31,17 @@
 		<junit.version>4.7</junit.version>
 		<easymock.version>3.1</easymock.version>
 		<jetty.version>6.1.21</jetty.version>
+		<nl.knaw.dans.platform.language.version>def-1.0-SNAPSHOT</nl.knaw.dans.platform.language.version>
 	</properties>
 
 	<dependencies>
+	<!-- 
+		<dependency>
+			<groupId>nl.knaw.dans.platform.language</groupId>
+			<artifactId>def</artifactId>
+			<version>${nl.knaw.dans.platform.language.version}</version>
+		</dependency>
+	 -->
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>easy-fedora</artifactId>
