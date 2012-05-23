@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-	<comment>oldEasy.ArchDC.dcTerms_spatialPoint.scheme, oldEasy.ArchDC.dcTerms_spatialBox.scheme</comment>
 	<entry key="RD">RD (in m.)</entry>
 	<entry key="degrees">longitude/latitude (degrees)</entry>
 	<entry key="locale">locale coordinates</entry>

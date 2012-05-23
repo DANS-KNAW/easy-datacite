@@ -26,7 +26,7 @@ public class FormDescriptorLoaderTest
     {
         Map<String, FormDescriptor> formDescriptorMap = new HashMap<String, FormDescriptor>();
         FormDescriptorLoader.loadFormDescriptors(formDescriptorMap);
-        assertEquals(4, formDescriptorMap.size());
+        assertEquals(5, formDescriptorMap.size());
         
         for (String name : formDescriptorMap.keySet())
         {

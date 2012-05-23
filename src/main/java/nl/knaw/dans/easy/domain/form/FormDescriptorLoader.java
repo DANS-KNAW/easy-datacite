@@ -23,6 +23,7 @@ public class FormDescriptorLoader
         FORM_DESCRIPTIONS + "archaeology.xml",
         FORM_DESCRIPTIONS + "history.xml",
         FORM_DESCRIPTIONS + "sociology.xml",
+        FORM_DESCRIPTIONS + "lifescience.xml",
         FORM_DESCRIPTIONS + "unspecified.xml",
     };
     

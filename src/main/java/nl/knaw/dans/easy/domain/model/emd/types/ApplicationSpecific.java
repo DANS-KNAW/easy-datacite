@@ -10,7 +10,8 @@ public class ApplicationSpecific implements Serializable
         UNSPECIFIED,
         SOCIOLOGY,
         HISTORY,
-        ARCHAEOLOGY
+        ARCHAEOLOGY,
+        LIFESCIENCE
     }
 
     /**
