@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<comment>CAB Thesaurus (http://www.cabi.org/cabthesaurus/mtwdk.exe?yi=home)</comment>
+    <entry key="AB">Animal Breeds</entry>
+    <entry key="AM">Anatomical and Morphological Structures</entry>
+    <entry key="AT">Activities Terms</entry>
+    <entry key="BG">Biogeographic Units</entry>
+	<entry key="CH">Chemicals and Chemical Groups</entry>
+	<entry key="CL">Climate Terms</entry>
+	<entry key="CO">Commodities</entry>
+	<entry key="DS">Disciplines, Occupations and Industries</entry>
+	<entry key="DT">Disease Terms</entry>
+	<entry key="GE">Geographic Entities</entry>
+	<entry key="HT">Habitat Terms</entry>
+	<entry key="IN">Infrastructure Terms</entry>
+	<entry key="IO">Institutions and Organisations Terms</entry>
+	<entry key="LA">Language Terms</entry>
+	<entry key="MI">Miscellaneous Terms</entry>
+	<entry key="OG">Organism Groups</entry>
+	<entry key="ON">Organism Names</entry>
+	<entry key="PE">Persons</entry>
+	<entry key="PG">People Groups</entry>
+	<entry key="SO">Soil Types</entry>
+	<entry key="TF">Topographic Features</entry>
+	<entry key="TM">Techniques, Methodologies and Equipment</entry>
+	<entry key="TP">Time Periods</entry>
+	<entry key="VT">Vegetation Types</entry> 
+</properties>
