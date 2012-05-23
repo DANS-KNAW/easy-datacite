@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<comment>oldEasy.ArchDC.dc_identifier.scheme</comment>
+    <entry key="ISBN">ISBN</entry>
+    <entry key="ISSN">ISSN</entry>
+    <entry key="bibliographicCitation">Bibliographic citation</entry>
+    
+    <entry key="Archis_onderzoek">Archis onderzoek</entry>
+    <entry key="Archis_vondstmelding">Archis vondstmelding</entry>
+    <entry key="Archis_art.41">Archis art.41</entry>
+    <entry key="Archis_waarneming">Archis waarneming</entry>
+    <entry key="Archis_monument">Archis monument</entry>
+    <entry key="eDNA-project">eDNA-project</entry>
+    <entry key="url">Url</entry> 
+</properties>
