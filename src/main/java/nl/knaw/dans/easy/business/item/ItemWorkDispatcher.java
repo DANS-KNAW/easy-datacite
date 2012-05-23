@@ -169,7 +169,7 @@ public class ItemWorkDispatcher
         try
         {
             folderItem = (FolderItem) Data.getEasyStore().retrieve(folderItemId);
-            if (!folderItem.getDatasetId().equals(dataset.getStoreId()))
+            if (!folderItem.getDatasetId().equals(dataset.getDmoStoreId()))
             {
                 throw new ObjectNotAvailableException("FolderItem '" + folderItemId + "' does not belong to dataset '" + dataset.getStoreId() + "'");
             }                    
