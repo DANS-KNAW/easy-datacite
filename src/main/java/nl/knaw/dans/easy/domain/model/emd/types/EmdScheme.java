@@ -16,6 +16,8 @@ public enum EmdScheme
     COMMON_DCTERMS_AUDIENCE /* choicelist + */,
     COMMON_DCTERMS_DATE /* choicelist + */,
     COMMON_DCTERMS_RELATION /* choicelist + */,
+    LIFESCIENCE_DC_SUBJECT /* choicelist + */,
+    LIFESCIENCE_EAS_SPATIAL /* choicelist + */,
     ;
     public String getId()
     {
