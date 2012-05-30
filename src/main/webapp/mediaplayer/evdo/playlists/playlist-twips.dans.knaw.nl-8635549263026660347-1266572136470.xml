@@ -1,9 +1,9 @@
 <rss version="2.0" xmlns:jwplayer="http://developer.longtailvideo.com/">
   <channel>
     <title>Erfgoed van de Oorlog, Getuigen Verhalen - Video's</title>
-<item><title>GV_Verhalis_kloosterzusters_05a</title><enclosure url="GV_Verhalis_kloosterzusters_05a.mp4" type="video/mp4" /><jwplayer:streamer>rtmp://dans.flashstreaming.eu/on-demand</jwplayer:streamer></item>
-<item><title>GV_Verhalis_kloosterzusters_05b</title><enclosure url="GV_Verhalis_kloosterzusters_05b.mp4" type="video/mp4" /><jwplayer:streamer>rtmp://dans.flashstreaming.eu/on-demand</jwplayer:streamer></item>
-<item><title>GV_Verhalis_kloosterzusters_05c</title><enclosure url="GV_Verhalis_kloosterzusters_05c.mp4" type="video/mp4" /><jwplayer:streamer>rtmp://dans.flashstreaming.eu/on-demand</jwplayer:streamer></item>
-<item><title>GV_Verhalis_kloosterzusters_05d</title><enclosure url="GV_Verhalis_kloosterzusters_05d.mp4" type="video/mp4" /><jwplayer:streamer>rtmp://dans.flashstreaming.eu/on-demand</jwplayer:streamer></item>
-<item><title>GV_Verhalis_kloosterzusters_05e</title><enclosure url="GV_Verhalis_kloosterzusters_05e.mp4" type="video/mp4" /><jwplayer:streamer>rtmp://dans.flashstreaming.eu/on-demand</jwplayer:streamer></item>
+<item><title>GV_Verhalis_kloosterzusters_05a</title><enclosure url="GV_Verhalis_kloosterzusters_05a.mp4" type="video/mp4" /><jwplayer:streamer>rtmpt://streaming01.dans.knaw.nl/getuigenverhalen</jwplayer:streamer></item>
+<item><title>GV_Verhalis_kloosterzusters_05b</title><enclosure url="GV_Verhalis_kloosterzusters_05b.mp4" type="video/mp4" /><jwplayer:streamer>rtmpt://streaming01.dans.knaw.nl/getuigenverhalen</jwplayer:streamer></item>
+<item><title>GV_Verhalis_kloosterzusters_05c</title><enclosure url="GV_Verhalis_kloosterzusters_05c.mp4" type="video/mp4" /><jwplayer:streamer>rtmpt://streaming01.dans.knaw.nl/getuigenverhalen</jwplayer:streamer></item>
+<item><title>GV_Verhalis_kloosterzusters_05d</title><enclosure url="GV_Verhalis_kloosterzusters_05d.mp4" type="video/mp4" /><jwplayer:streamer>rtmpt://streaming01.dans.knaw.nl/getuigenverhalen</jwplayer:streamer></item>
+<item><title>GV_Verhalis_kloosterzusters_05e</title><enclosure url="GV_Verhalis_kloosterzusters_05e.mp4" type="video/mp4" /><jwplayer:streamer>rtmpt://streaming01.dans.knaw.nl/getuigenverhalen</jwplayer:streamer></item>
 </channel></rss>

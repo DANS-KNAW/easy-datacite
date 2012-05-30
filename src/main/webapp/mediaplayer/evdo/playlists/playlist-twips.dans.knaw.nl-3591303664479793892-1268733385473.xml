@@ -1,0 +1,10 @@
+<rss version="2.0" xmlns:jwplayer="http://developer.longtailvideo.com/">
+  <channel>
+    <title>Erfgoed van de Oorlog, Getuigen Verhalen - Video's</title>
+<item><title>GV_Lumen_verzetsgroep_BVA_01.mp4</title><enclosure url="GV_Lumen_verzetsgroep_BVA_01.mp4" type="video/mp4" /><jwplayer:streamer>rtmpt://streaming01.dans.knaw.nl/getuigenverhalen</jwplayer:streamer></item>
+<item><title>GV_Lumen_verzetsgroep_BVA_02.mp4</title><enclosure url="GV_Lumen_verzetsgroep_BVA_02.mp4" type="video/mp4" /><jwplayer:streamer>rtmpt://streaming01.dans.knaw.nl/getuigenverhalen</jwplayer:streamer></item>
+<item><title>GV_Lumen_verzetsgroep_BVA_03.mp4</title><enclosure url="GV_Lumen_verzetsgroep_BVA_03.mp4" type="video/mp4" /><jwplayer:streamer>rtmpt://streaming01.dans.knaw.nl/getuigenverhalen</jwplayer:streamer></item>
+<item><title>GV_Lumen_verzetsgroep_BVA_04.mp4</title><enclosure url="GV_Lumen_verzetsgroep_BVA_04.mp4" type="video/mp4" /><jwplayer:streamer>rtmpt://streaming01.dans.knaw.nl/getuigenverhalen</jwplayer:streamer></item>
+<item><title>GV_Lumen_verzetsgroep_BVA_05.mp4</title><enclosure url="GV_Lumen_verzetsgroep_BVA_05.mp4" type="video/mp4" /><jwplayer:streamer>rtmpt://streaming01.dans.knaw.nl/getuigenverhalen</jwplayer:streamer></item>
+<item><title>GV_Lumen_verzetsgroep_BVA_06.mp4</title><enclosure url="GV_Lumen_verzetsgroep_BVA_06.mp4" type="video/mp4" /><jwplayer:streamer>rtmpt://streaming01.dans.knaw.nl/getuigenverhalen</jwplayer:streamer></item>
+</channel></rss>

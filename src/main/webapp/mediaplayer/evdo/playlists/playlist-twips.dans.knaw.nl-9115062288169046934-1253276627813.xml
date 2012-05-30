@@ -4,12 +4,12 @@
 		<item>
 			<title>GV_Cultuur%26Co_Verzetsvrouwen_04a</title>
 			<enclosure url="GV_CultuurCo_Verzetsvrouwen_04a.mp4" type="video/mp4"/>
-			<jwplayer:streamer>rtmp://dans.flashstreaming.eu/on-demand</jwplayer:streamer>
+			<jwplayer:streamer>rtmpt://streaming01.dans.knaw.nl/getuigenverhalen</jwplayer:streamer>
 		</item>
 		<item>
 			<title>GV_Cultuur%26Co_Verzetsvrouwen_04b</title>
 			<enclosure url="GV_CultuurCo_Verzetsvrouwen_04b.mp4" type="video/mp4"/>
-			<jwplayer:streamer>rtmp://dans.flashstreaming.eu/on-demand</jwplayer:streamer>
+			<jwplayer:streamer>rtmpt://streaming01.dans.knaw.nl/getuigenverhalen</jwplayer:streamer>
 		</item>
 	</channel>
 </rss>
