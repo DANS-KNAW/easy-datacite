@@ -6,8 +6,8 @@ var DANS = function () {};
 DANS.createHelpPopup = function(anchor) {
 	var popupButton = new YAHOO.widget.Button('popupButton'+anchor);
 	var popupDialog = new YAHOO.widget.Dialog('popupDialog'+anchor, { 
-		fixedcenter: true,
-		visible: false,
+		xy:[500,10], 
+		visible:false,
 		close: true,
 		constraintoviewport: true,
 		modal: true });
