@@ -82,6 +82,7 @@ public class ActivityLogPanel extends AbstractEasyPanel
         ActivityLogForm activityLogForm = new ActivityLogForm("choiceForm");
         add(activityLogForm);
         displayDownloads(activityLogForm.getYear(), activityLogForm.getMonth());
+        addOrReplace(new DownloadActivityLogPanel("downloadActivityLogPanel", dataset, getSessionUser()));
     }
     
     private void displayDownloads(int year, int month)
