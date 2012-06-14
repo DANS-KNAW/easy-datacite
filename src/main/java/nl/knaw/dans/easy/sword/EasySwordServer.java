@@ -68,10 +68,10 @@ public class EasySwordServer implements SWORDServer
                 sdr.getLocation(), sdr.getOnBehalfOf()));
         final String userID = sdr.getUsername();
         final String password = sdr.getPassword();
-        if (userID != null)
+        if (userID != null&&userID.length()!=0)
         {
             if (null == EasyBusinessFacade.getUser(userID, password))
-                throw new SWORDAuthenticationException(userID + " not authenticated");
+                throw new SWORDAuthenticationException("Bad credentials");
         }
 
         // Allow users to force the throwing of a SWORD error exception by setting
@@ -87,22 +87,15 @@ public class EasySwordServer implements SWORDServer
         final Service service = new Service("1.3", true, true);
         document.setService(service);
         final String locationBase = toLocationBase(sdr.getLocation());
+        service.setGenerator(wrapGenerator(sdr.getLocation()));
 
-        if (sdr.getLocation().contains("?nested="))
-        {
-            final Collection collection = createDummyCollection(1);
-            collection.setTitle("Nested collection: " + sdr.getLocation().substring(sdr.getLocation().indexOf('?') + 1));
-            collection.setLocation(locationBase + "/deposit/nested");
-            collection.setMediation(false);
-            service.addWorkspace(createWorkSpace(collection, "Nested service document workspace"));
-        }
-        else if (sdr.getUsername() != null)
+        if (sdr.getUsername() != null)
         {
             final Collection collection = createDummyCollection(0.8f);
             collection.setTitle("Authenticated collection for " + userID);
             collection.setLocation(locationBase + "deposit");
             collection.setAbstract("A collection that " + userID + " can deposit into");
-            collection.setService(locationBase + "/servicedocument?nested=authenticated");
+            //collection.setService(locationBase + "servicedocument?nested=authenticated");
             collection.setMediation(false);
             service.addWorkspace(createWorkSpace(collection, "Authenticated workspace for " + userID));
         }
@@ -176,8 +169,7 @@ public class EasySwordServer implements SWORDServer
         collection.setTreatment(Context.getTreatment());
         collection.addAccepts("application/zip");
         collection.addAccepts("application/xml");
-        collection.addAcceptPackaging("http://purl.org/net/sword-types/METSDSpaceSIP");
-        collection.addAcceptPackaging("http://purl.org/net/sword-types/bagit", qualityValue);
+        collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/docs/ddm/dans-dataset-md.html");
         return collection;
     }
 
@@ -246,7 +238,7 @@ public class EasySwordServer implements SWORDServer
         // we won't support updating (task for archivists) so skip MediaLink
         // swordEntry.addLink(wrapEditMediaLink());
         swordEntry.addLink(wrapLink("edit", datasetUrl));
-        swordEntry.setGenerator(wrapGenerator(deposit.getLocation().replace("/deposit", "")));
+        swordEntry.setGenerator(wrapGenerator(deposit.getLocation()));
         swordEntry.setContent(wrapContent(datasetUrl));
         swordEntry.setTreatment(EasyBusinessFacade.getSubmussionNotification(user, dataset));
         swordEntry.setNoOp(deposit.isNoOp());

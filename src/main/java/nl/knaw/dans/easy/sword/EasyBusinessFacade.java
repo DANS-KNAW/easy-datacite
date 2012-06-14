@@ -65,6 +65,8 @@ public class EasyBusinessFacade
      */
     public static EasyUser getUser(final String userId, final String password) throws SWORDException, SWORDErrorException
     {
+        if (userId==null ||userId.length()==0)
+            return null;
         final FederativeAuthentication federativeAuthentication = new FederativeAuthentication(userId, password);
         if (!federativeAuthentication.canBeTraditionalAccount())
         {
