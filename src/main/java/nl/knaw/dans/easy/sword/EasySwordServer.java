@@ -162,14 +162,20 @@ public class EasySwordServer implements SWORDServer
         return workspace;
     }
 
-    private static Collection createDummyCollection(final float qualityValue)
+    private static Collection createDummyCollection(final float qualityValue) throws SWORDException
     {
         final Collection collection = new Collection();
         collection.setCollectionPolicy(Context.getPolicy());
         collection.setTreatment(Context.getTreatment());
         collection.addAccepts("application/zip");
-        collection.addAccepts("application/xml");
-        collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/docs/ddm/dans-dataset-md.html");
+
+        collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/md/emd/2012/easymetadata.xsd", qualityValue);
+        collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/docs/emd/emd.html");
+
+        collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/md/dataset/2012/dans-dataset-md.xsd");
+        collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/docs/ddm/dans-dataset-md.html", qualityValue);
+        // TODO replace with collection.addAcceptPackaging(DDMValidator.instance().getSchemaURL("").toString(), qualityValue);
+
         return collection;
     }
 

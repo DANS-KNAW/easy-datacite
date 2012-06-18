@@ -24,7 +24,7 @@ public class Payload
 {
     enum MDFileName
     {
-        easyMetadata, DansDatasetMetadata;
+        easyMetadata("deprecated"), DansDatasetMetadata("not yet implemented");
 
         static boolean accepts(final File file)
         {
@@ -32,18 +32,22 @@ public class Payload
             return file.isFile() && Arrays.toString(values()).contains(baseName);
         }
 
+        final String note;
+        MDFileName(final String note){
+            this.note = note;
+        }
         static String fileNames()
         {
             String result = "";
             for (MDFileName value : values())
             {
-                result += " " + value + ".xml";
+                result += " " + value + ".xml ("+value.note+")";
             }
             return result;
         }
     };
 
-    private static final String MESSAGE = "Expecting a file with one of the names " + MDFileName.fileNames() + "and a folder with files.";
+    private static final String MESSAGE = "Expecting a folder with files and a file with one of the names:" + MDFileName.fileNames();
 
     private static Logger       log     = LoggerFactory.getLogger(EasyBusinessFacade.class);
 
@@ -84,7 +88,7 @@ public class Payload
             return EasyMetadataFacade.validate(readMetadata(metadataFile));
         
         // TODO apply cross-walker conversion
-        return EasyMetadataFacade.validate(readMetadata(metadataFile));
+        throw newSwordInputException("Format not yet implemented: "+metadataFile.getName(),null);
     }
 
     private List<File> unzip(final InputStream inputStream) throws SWORDErrorException

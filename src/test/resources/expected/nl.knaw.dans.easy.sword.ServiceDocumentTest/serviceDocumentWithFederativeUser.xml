@@ -3,17 +3,18 @@
    <sword:version>1.3</sword:version>
    <sword:verbose>true</sword:verbose>
    <sword:noOp>true</sword:noOp>
+   <atom:generator uri="http://mockedhost:8080/servlet/request" version="1.3">Easy SWORD Server</atom:generator>
    <app:workspace>
       <atom:title type="text">Authenticated workspace for nl.knaw.dans.easy.federatedUser</atom:title>
       <app:collection href="http://mockedhost:8080/servletdeposit">
          <atom:title type="text">Authenticated collection for nl.knaw.dans.easy.federatedUser</atom:title>
          <app:accept>application/zip</app:accept>
-         <app:accept>application/xml</app:accept>
-         <sword:acceptPackaging q="1.0">http://purl.org/net/sword-types/METSDSpaceSIP</sword:acceptPackaging>
-         <sword:acceptPackaging q="0.8">http://purl.org/net/sword-types/bagit</sword:acceptPackaging>
+         <sword:acceptPackaging q="1.0">http://eof12.dans.knaw.nl/schemas/md/dataset/2012/dans-dataset-md.xsd</sword:acceptPackaging>
+         <sword:acceptPackaging q="0.8">http://eof12.dans.knaw.nl/schemas/md/emd/2012/easymetadata.xsd</sword:acceptPackaging>
+         <sword:acceptPackaging q="1.0">http://eof12.dans.knaw.nl/schemas/docs/emd/emd.html</sword:acceptPackaging>
+         <sword:acceptPackaging q="1.0">http://eof12.dans.knaw.nl/schemas/md/dataset/2012/dans-dataset-md.xsd</sword:acceptPackaging>
          <sword:collectionPolicy>No guarantee of service, or that deposits will be retained for any length of time.</sword:collectionPolicy>
          <dcterms:abstract>A collection that nl.knaw.dans.easy.federatedUser can deposit into</dcterms:abstract>
-         <sword:service>http://mockedhost:8080/servlet/servicedocument?nested=authenticated</sword:service>
          <sword:mediation>false</sword:mediation>
          <sword:treatment>This is a test server</sword:treatment>
       </app:collection>
