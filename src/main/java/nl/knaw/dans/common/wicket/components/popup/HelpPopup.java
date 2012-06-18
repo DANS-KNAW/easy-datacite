@@ -37,7 +37,7 @@ public class HelpPopup extends Panel
     {
         return String.format( //
                 // Button/link to trigger pop-up
-                "<a class='popupHelp' " //
+                "<a href=\"#\" class='popupHelp' " //
                         + "id='popupButton%s'>" //
                         + "<img src='/images/button_help.gif' alt='help' /></a>\n" //
 
