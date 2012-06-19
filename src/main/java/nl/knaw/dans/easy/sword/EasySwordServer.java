@@ -48,7 +48,7 @@ public class EasySwordServer implements SWORDServer
      */
     private static final int    HTTP_RESPONSE_DATA_ACCEPTED = 202;
 
-    private static Logger               log                         = LoggerFactory.getLogger(EasySwordServer.class);
+    private static Logger       log                         = LoggerFactory.getLogger(EasySwordServer.class);
 
     /**
      * Provides a dumb but plausible service document - it contains an anonymous workspace and
@@ -66,52 +66,60 @@ public class EasySwordServer implements SWORDServer
         // Authenticate the user
         log.info(MessageFormat.format("SERVICE DOCUMENT user={0}; IP={1}; location={2}; onBehalfOf={3}", sdr.getUsername(), sdr.getIPAddress(),
                 sdr.getLocation(), sdr.getOnBehalfOf()));
-        final String userID = sdr.getUsername();
-        final String password = sdr.getPassword();
-        if (userID != null&&userID.length()!=0)
-        {
-            if (null == EasyBusinessFacade.getUser(userID, password))
-                throw new SWORDAuthenticationException("Bad credentials");
-        }
 
-        // Allow users to force the throwing of a SWORD error exception by setting
-        // the OnBehalfOf user to 'error'
-        if ((sdr.getOnBehalfOf() != null) && (sdr.getOnBehalfOf().equals("error")))
+        final EasyUser easyUser = authenticate(sdr.getUsername(), sdr.getPassword());
+        if (sdr.getOnBehalfOf() != null)
         {
-            // Throw the error exception
+            /*
+             * Allow users to force the throwing of a SWORD error exception by setting the OnBehalfOf
+             * user to 'error'
+             */
+            // un-comment next line as as soon as mediation gets implemented:
+            // if (sdr.getOnBehalfOf().equals("error"))
             throw new SWORDErrorException(ErrorCodes.MEDIATION_NOT_ALLOWED, "Mediated deposits not allowed");
         }
 
-        // Create and return a dummy ServiceDocument
+        // Create and return a ServiceDocument
         final ServiceDocument document = new ServiceDocument();
         final Service service = new Service("1.3", true, true);
         document.setService(service);
-        final String locationBase = toLocationBase(sdr.getLocation());
         service.setGenerator(wrapGenerator(sdr.getLocation()));
 
-        if (sdr.getUsername() != null)
-        {
-            final Collection collection = createDummyCollection(0.8f);
-            collection.setTitle("Authenticated collection for " + userID);
+        final String locationBase = toLocationBase(sdr.getLocation());
+        final Collection collection = createCollection();
+        final String easyHomePage = toBaseLocation(toUrl(sdr.getLocation()));
+        if (easyUser != null)
             collection.setLocation(locationBase + "deposit");
-            collection.setAbstract("A collection that " + userID + " can deposit into");
-            //collection.setService(locationBase + "servicedocument?nested=authenticated");
-            collection.setMediation(false);
-            service.addWorkspace(createWorkSpace(collection, "Authenticated workspace for " + userID));
-        }
+        else 
+            collection.setLocation("");
+        collection.setAbstract(MessageFormat.format(Context.getCollectionAbstract(), easyHomePage));
+        service.addWorkspace(createWorkSpace(collection, Context.getWorkspaceTitle()));
 
-        final String onBehalfOf = sdr.getOnBehalfOf();
-        if ((onBehalfOf != null) && (!onBehalfOf.equals("")))
-        {
-            final Collection collection = createDummyCollection(0.8f);
-            collection.setTitle("Personal collection for " + onBehalfOf);
-            collection.setLocation(locationBase + "/deposit?user=" + onBehalfOf);
-            collection.setAbstract("An abstract goes in here");
-            collection.setMediation(true);
-            service.addWorkspace(createWorkSpace(collection, "Personal workspace for " + onBehalfOf));
-        }
-        log.info("return service document to " + userID + " " + document.toString());
+        // see org.purl.sword.server.DummyServer for further options such as OnBehalfOf
+        log.debug("returned service document:\n" + document.toString());
         return document;
+    }
+/**
+ * 
+ * @param userID
+ * @param password
+ * @return
+ * @throws SWORDException
+ * @throws SWORDErrorException
+ * @throws SWORDAuthenticationException only if credentials were specified and proved to be wrong
+ */
+    private EasyUser authenticate(final String userID, final String password) throws SWORDException, SWORDErrorException, SWORDAuthenticationException
+    {
+        final EasyUser easyUser;
+        if (userID == null || userID.length() == 0)
+            easyUser = null;
+        else
+        {
+            easyUser = EasyBusinessFacade.getUser(userID, password);
+            if (null == easyUser)
+                throw new SWORDAuthenticationException("Bad credentials");
+        }
+        return easyUser;
     }
 
     private static String toLocationBase(final String inputLocation) throws SWORDErrorException
@@ -135,7 +143,10 @@ public class EasySwordServer implements SWORDServer
 
     private static String toBaseLocation(final URL url)
     {
-        return url.getProtocol() + "://" + url.getHost() + ":" + url.getPort();
+        if (url.getPort()>=0)
+            return url.getProtocol() + "://" + url.getHost() + ":" + url.getPort();
+        else 
+            return url.getProtocol() + "://" + url.getHost();
     }
 
     private static URL toUrl(final String inputLocation) throws SWORDErrorException
@@ -162,19 +173,23 @@ public class EasySwordServer implements SWORDServer
         return workspace;
     }
 
-    private static Collection createDummyCollection(final float qualityValue) throws SWORDException
+    private static Collection createCollection() throws SWORDException
     {
         final Collection collection = new Collection();
-        collection.setCollectionPolicy(Context.getPolicy());
-        collection.setTreatment(Context.getTreatment());
+        collection.setCollectionPolicy(Context.getCollectionPolicy());
+        collection.setTreatment(Context.getCollectionTreatment());
         collection.addAccepts("application/zip");
+        collection.setMediation(false);
+        collection.setTitle(Context.getCollectionTitle());
 
-        collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/md/emd/2012/easymetadata.xsd", qualityValue);
-        collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/docs/emd/emd.html");
+        collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/md/emd/2012/easymetadata.xsd", 0.8f);
+        collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/docs/emd/emd.html", 0.8f);
 
         collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/md/dataset/2012/dans-dataset-md.xsd");
-        collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/docs/ddm/dans-dataset-md.html", qualityValue);
-        // TODO replace with collection.addAcceptPackaging(DDMValidator.instance().getSchemaURL("").toString(), qualityValue);
+        collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/docs/ddm/dans-dataset-md.html");
+        // TODO replace with
+        // collection.addAcceptPackaging(DDMValidator.instance().getSchemaURL("").toString(),
+        // qualityValue);
 
         return collection;
     }
@@ -195,7 +210,7 @@ public class EasySwordServer implements SWORDServer
         final Payload payload = new Payload(deposit.getFile());
         final EasyMetadata metadata = payload.getEasyMetadata();
         final Dataset dataset = submit(deposit, user, payload, metadata);
-        
+
         final String datasetUrl = toServer(deposit.getLocation()) + DATASET_PATH + dataset.getStoreId();
         final SWORDEntry swordEntry = wrapSwordEntry(deposit, user, dataset, datasetUrl);
         final DepositResponse response = wrapResponse(swordEntry, datasetUrl);
@@ -229,8 +244,8 @@ public class EasySwordServer implements SWORDServer
         return dataset;
     }
 
-    private static SWORDEntry wrapSwordEntry(final Deposit deposit, final EasyUser user, final Dataset dataset, final String datasetUrl)
-            throws SWORDException, SWORDErrorException
+    private static SWORDEntry wrapSwordEntry(final Deposit deposit, final EasyUser user, final Dataset dataset, final String datasetUrl) throws SWORDException,
+            SWORDErrorException
     {
         final SWORDEntry swordEntry = new SWORDEntry();
         final EasyMetadata metadata = dataset.getEasyMetadata();

@@ -1,36 +1,88 @@
 package nl.knaw.dans.easy.sword;
 
+import org.purl.sword.base.SWORDException;
+
 public class Context
 {
     /** Directory were deposits are unzipped. Default value required for unit tests. */
-    private static String unzip = "target/tmp";
-    private static String treatment = "easy.sword.server.treatment not configured";
-    private static String policy = "easy.sword.server.policy not configured";
-    
+    private static String unzip               = "target/tmp";
+
+    private static String workspaceTitle      = null;
+    private static String collectionTreatment = null;
+    private static String collectionPolicy    = null;
+    private static String collectionTitle     = null;
+    private static String collectionAbstract  = null;
+
     public void setUnzip(String unzip)
     {
         Context.unzip = unzip;
     }
-    public static String getUnzip()
+
+    public static String getUnzip() throws SWORDException
     {
+        if (unzip == null)
+            throw new SWORDException("missing configuration: unzip");
         return unzip;
     }
-    
-    public void setTreatment(String treatment)
+
+    public void setWorkspaceTitle(String workspaceTitle)
     {
-        Context.treatment = treatment;
+        Context.workspaceTitle = workspaceTitle;
     }
-    public static String getTreatment()
+
+    public static String getWorkspaceTitle() throws SWORDException
     {
-        return treatment;
+        if (workspaceTitle == null)
+            throw new SWORDException("missing configuration: workspaceTitle");
+        return workspaceTitle;
     }
-    
-    public void setPolicy(String policy)
+
+    public void setCollectionTreatment(String collectionTreatment)
     {
-        Context.policy = policy;
+        Context.collectionTreatment = collectionTreatment;
     }
-    public static String getPolicy()
+
+    public static String getCollectionTreatment() throws SWORDException
     {
-        return policy;
+        if (collectionTreatment == null)
+            throw new SWORDException("missing configuration: collectionTreatment");
+        return collectionTreatment;
     }
+
+    public void setCollectionPolicy(String collectionPolicy)
+    {
+        Context.collectionPolicy = collectionPolicy;
+    }
+
+    public static String getCollectionPolicy() throws SWORDException
+    {
+        if (collectionPolicy == null)
+            throw new SWORDException("missing configuration: collectionPolicy");
+        return collectionPolicy;
+    }
+
+    public void setCollectionTitle(String collectionTitle)
+    {
+        Context.collectionTitle = collectionTitle;
+    }
+
+    public static String getCollectionTitle() throws SWORDException
+    {
+        if (collectionTitle == null)
+            throw new SWORDException("missing configuration: collectionTitle");
+        return collectionTitle;
+    }
+
+    public void setCollectionAbstract(String collectionAbstract)
+    {
+        Context.collectionAbstract = collectionAbstract;
+    }
+
+    public static String getCollectionAbstract() throws SWORDException
+    {
+        if (collectionAbstract == null)
+            throw new SWORDException("missing configuration: collectionAbstract");
+        return collectionAbstract;
+    }
+
 }

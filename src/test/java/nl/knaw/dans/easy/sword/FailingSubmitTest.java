@@ -8,6 +8,7 @@ import nl.knaw.dans.easy.util.EasyHome;
 import org.junit.Before;
 import org.junit.Test;
 import org.purl.sword.base.Deposit;
+import org.purl.sword.base.SWORDAuthenticationException;
 import org.purl.sword.base.SWORDErrorException;
 import org.purl.sword.base.SwordValidationInfo;
 
@@ -74,13 +75,13 @@ public class FailingSubmitTest extends SubmitFixture
      execute(false, true, getZip("data-plus-missing-meta-fields"));
  }
 
- @Test (expected=SWORDErrorException.class)
+ @Test (expected=SWORDAuthenticationException.class)
  public void unknowUser() throws Throwable
  {
      execute(MockUtil.INVALID_USER_ID,MockUtil.PASSWORD,LOCATION);
  }
 
- @Test (expected=SWORDErrorException.class)
+ @Test (expected=SWORDAuthenticationException.class)
  public void invalidPassword() throws Throwable
  {
      execute(MockUtil.INVALID_USER_ID,MockUtil.PASSWORD,LOCATION);

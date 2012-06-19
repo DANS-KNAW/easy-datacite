@@ -9,8 +9,11 @@
 
 	<bean name="easySwordContext" class="nl.knaw.dans.easy.sword.Context">
 		<property name="unzip" value="${easy.sword.server.unzip.dir}"/>
-		<property name="treatment" value="${easy.sword.server.treatment}"/>
-		<property name="policy" value="${easy.sword.server.policy}"/>
+ 		<property name="workspaceTitle" value="${easy.sword.server.workspace.title}"/>
+		<property name="collectionTreatment" value="${easy.sword.server.collection.treatment}"/>
+		<property name="collectionPolicy" value="${easy.sword.server.collection.policy}"/>
+		<property name="collectionTitle" value="${easy.sword.server.collection.title}"/>
+		<property name="collectionAbstract" value="${easy.sword.server.collection.abstract}"/>
 	</bean>
 
 	<bean name="services" class="nl.knaw.dans.easy.servicelayer.services.Services">

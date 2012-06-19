@@ -59,11 +59,11 @@ public class EasyBusinessFacade
      * @param password
      * @return
      * @throws SWORDAuthenticationException
-     *         if required services are not available
-     * @throws SWORDException
      *         if the user can not be authenticated
+     * @throws SWORDException
+     *         if required services are not available
      */
-    public static EasyUser getUser(final String userId, final String password) throws SWORDException, SWORDErrorException
+    public static EasyUser getUser(final String userId, final String password) throws SWORDException, SWORDErrorException, SWORDAuthenticationException
     {
         if (userId==null ||userId.length()==0)
             return null;
@@ -71,6 +71,8 @@ public class EasyBusinessFacade
         if (!federativeAuthentication.canBeTraditionalAccount())
         {
             final String fedUserId = federativeAuthentication.getUserId();
+            if (fedUserId== null)
+                throw new SWORDAuthenticationException("invalid credentials", null);
             return getFederativeUser(fedUserId);
         }
 
@@ -82,7 +84,7 @@ public class EasyBusinessFacade
         }
         catch (final ObjectNotInStoreException exception)
         {
-            throw newSwordException(userId + " authentication problem", exception);
+            throw new SWORDAuthenticationException(userId + " authentication problem", exception);
         }
         catch (final RepositoryException exception)
         {
@@ -91,7 +93,7 @@ public class EasyBusinessFacade
     }
 
     // NO username/password authentication, that is allready done via the federation
-    private static EasyUser getFederativeUser(final String fedUserId) throws SWORDException, SWORDErrorException
+    private static EasyUser getFederativeUser(final String fedUserId) throws SWORDException, SWORDAuthenticationException
     {
         FederativeUserIdMap userIdMap = null;
         try
@@ -100,7 +102,7 @@ public class EasyBusinessFacade
         }
         catch (final ObjectNotInStoreException e)
         {
-            throw newSwordInputException(fedUserId + " authentication problem", e);
+            throw new SWORDAuthenticationException(fedUserId + " authentication problem", e);
         }
         catch (final RepositoryException e)
         {
@@ -115,7 +117,7 @@ public class EasyBusinessFacade
         }
         catch (final ObjectNotInStoreException exception)
         {
-            throw newSwordInputException(userId + " authentication problem", exception);
+            throw new SWORDAuthenticationException(userId + " authentication problem", exception);
         }
         catch (final RepositoryException exception)
         {
@@ -123,12 +125,14 @@ public class EasyBusinessFacade
         }
     }
 
-    private static void authenticate(final String userId, final String password) throws SWORDException, SWORDErrorException
+    private static void authenticate(final String userId, final String password) throws SWORDException, SWORDErrorException, SWORDAuthenticationException
     {
         try
         {
-            if (userId == null || password == null || !Data.getUserRepo().authenticate(userId, password))
-                throw newSwordInputException("invalid or missing username [" + userId + "] or password", null);
+            if (userId == null || password == null)
+                throw newSwordInputException("missing username [" + userId + "] or password", null);
+            else if (!Data.getUserRepo().authenticate(userId, password))
+                throw new SWORDAuthenticationException("invalid username [" + userId + "] or password", null);
             logger.info(userId + " authenticated");
         }
         catch (final RepositoryException exception)
