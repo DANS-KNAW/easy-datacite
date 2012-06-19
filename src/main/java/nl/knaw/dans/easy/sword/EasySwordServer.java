@@ -182,11 +182,13 @@ public class EasySwordServer implements SWORDServer
         collection.setMediation(false);
         collection.setTitle(Context.getCollectionTitle());
 
-        collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/md/emd/2012/easymetadata.xsd", 0.8f);
-        collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/docs/emd/emd.html", 0.8f);
+        // qualityValue indicates this is the preferred format
+        collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/md/emd/2012/easymetadata.xsd", 1f);
+        collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/docs/emd/emd.html", 1f);
 
-        collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/md/dataset/2012/dans-dataset-md.xsd");
-        collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/docs/ddm/dans-dataset-md.html");
+        // qualityValue indicates this format is not (yet) supported
+        collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/md/dataset/2012/dans-dataset-md.xsd",0f);
+        collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/docs/ddm/dans-dataset-md.html",0f);
         // TODO replace with
         // collection.addAcceptPackaging(DDMValidator.instance().getSchemaURL("").toString(),
         // qualityValue);

@@ -9,10 +9,10 @@
       <app:collection href="">
          <atom:title type="text">EASY</atom:title>
          <app:accept>application/zip</app:accept>
-         <sword:acceptPackaging q="0.8">http://eof12.dans.knaw.nl/schemas/md/emd/2012/easymetadata.xsd</sword:acceptPackaging>
-         <sword:acceptPackaging q="0.8">http://eof12.dans.knaw.nl/schemas/docs/emd/emd.html</sword:acceptPackaging>
-         <sword:acceptPackaging q="1.0">http://eof12.dans.knaw.nl/schemas/md/dataset/2012/dans-dataset-md.xsd</sword:acceptPackaging>
-         <sword:acceptPackaging q="1.0">http://eof12.dans.knaw.nl/schemas/docs/ddm/dans-dataset-md.html</sword:acceptPackaging>
+         <sword:acceptPackaging q="1.0">http://eof12.dans.knaw.nl/schemas/md/emd/2012/easymetadata.xsd</sword:acceptPackaging>
+         <sword:acceptPackaging q="1.0">http://eof12.dans.knaw.nl/schemas/docs/emd/emd.html</sword:acceptPackaging>
+         <sword:acceptPackaging q="0.0">http://eof12.dans.knaw.nl/schemas/md/dataset/2012/dans-dataset-md.xsd</sword:acceptPackaging>
+         <sword:acceptPackaging q="0.0">http://eof12.dans.knaw.nl/schemas/docs/ddm/dans-dataset-md.html</sword:acceptPackaging>
          <sword:collectionPolicy>No guarantee of service, or that deposits will be retained for any length of time.</sword:collectionPolicy>
          <dcterms:abstract>Electronic Archive System, accepts deposits by users registered on http://mockedhost:8080</dcterms:abstract>
          <sword:mediation>false</sword:mediation>
