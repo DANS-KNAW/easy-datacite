@@ -12,6 +12,7 @@ import nl.knaw.dans.easy.servicelayer.services.Services;
 import org.easymock.EasyMock;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.purl.sword.base.SWORDAuthenticationException;
 import org.purl.sword.base.SWORDErrorException;
 import org.purl.sword.base.ServiceDocument;
 import org.purl.sword.base.ServiceDocumentRequest;
@@ -45,7 +46,7 @@ public class ServiceDocumentTest extends EasySwordServerTester
         new Context().setWorkspaceTitle("DANS sword interface");
     }
 
-    @Test(expected = SWORDErrorException.class)
+    @Test(expected = SWORDAuthenticationException.class)
     public void serviceDocumentWrongUser() throws Exception
     {
         final ServiceDocumentRequest request = new ServiceDocumentRequest();
