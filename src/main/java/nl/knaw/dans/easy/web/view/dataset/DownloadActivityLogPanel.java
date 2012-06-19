@@ -34,7 +34,7 @@ public class DownloadActivityLogPanel extends Panel
 	
 	private final EasyUser easyUser;
 	
-	private boolean downloadDataAvailable;
+	private boolean downloadHistoryAvailable;
 
 	private boolean				initiated;
 	private DownloadList downloadList = null;
@@ -54,7 +54,7 @@ public class DownloadActivityLogPanel extends Panel
 			init();
 			initiated = true;
 		}
-		this.setVisible(isDownloadDataAvailable());
+		this.setVisible(isDownloadHistoryAvailableAvailable() && easyUser.hasRole(Role.ARCHIVIST));
 		super.onBeforeRender();
 	}
 
@@ -62,10 +62,11 @@ public class DownloadActivityLogPanel extends Panel
 	{
 		add(new ResourceLink(DOWNLOAD_CSV, getCSVWebResource(dataset)));	
 		try {
-			DownloadHistory dlh = Services.getDatasetService().getDownloadHistoryFor(easyUser, dataset, new DateTime());
-			if (dlh !=null){
-				downloadDataAvailable = easyUser.hasRole(Role.ARCHIVIST);
-				downloadList = dlh.getDownloadList();	
+			DownloadHistory downloadHistory = Services.getDatasetService().getDownloadHistoryFor(easyUser, dataset, new DateTime());
+			if (downloadHistory !=null)
+			{
+				downloadHistoryAvailable = true;
+				downloadList = downloadHistory.getDownloadList();	
 			}
 		} catch (ServiceException e) {
 			LOGGER.error("error getting downloader for activity log.", e );
@@ -75,7 +76,6 @@ public class DownloadActivityLogPanel extends Panel
 	
 	private WebResource getCSVWebResource(final Dataset dataset)
 	{
-		
 		WebResource export = new WebResource()
 		{
 
@@ -84,28 +84,49 @@ public class DownloadActivityLogPanel extends Panel
 			@Override
 			public IResourceStream getResourceStream()
 			{
-				
-				
-				final List<DownloadRecord> drl = downloadList.getRecords();
 				StringBuffer sb = new StringBuffer();
-				for (DownloadRecord dr : drl)
+				
+				final List<DownloadRecord> downloadRecord = downloadList.getRecords();
+				
+				if (downloadRecord != null)
 				{
-					EasyUser downloader;
-					try {
-						downloader = Services.getUserService().getUserById(easyUser, dr.getDownloaderId());
-					
-					sb.append(downloader.getId());
-					sb.append(";");
-					sb.append(downloader.getEmail());
-					sb.append(";");
-					sb.append(downloader.getOrganization());
-					sb.append(";");
-					sb.append(downloader.getFunction());
-					sb.append(";\n");
-					} catch (ObjectNotAvailableException e) {
-						LOGGER.error("error getting downloader object for activity log.", e );
-					} catch (ServiceException e) {
-						LOGGER.error("error getting user service for activity log.", e );
+					for (DownloadRecord dr : downloadRecord)
+					{
+						EasyUser downloader;
+						try 
+						{
+							downloader = Services.getUserService().getUserById(easyUser, dr.getDownloaderId());
+							if (downloader != null && downloader.isLogMyActions())  
+							{
+								sb.append(dr.getDownloadTime());
+								sb.append(";");
+								sb.append(downloader.getId());
+								sb.append(";");
+								sb.append(downloader.getEmail());
+								sb.append(";");
+								if (downloader.getOrganization() != null) {
+									sb.append(downloader.getOrganization());
+								} 
+								else
+								{
+									sb.append(" ");
+								}
+								sb.append(";");
+								if (downloader.getFunction() != null)
+								{
+									sb.append(downloader.getFunction());
+								} 
+								else
+								{
+									sb.append(" ");
+								}
+								sb.append(";\n");
+							}
+						} catch (ObjectNotAvailableException e) {
+							LOGGER.error("error getting downloader object for activity log.", e );
+						} catch (ServiceException e) {
+							LOGGER.error("error getting user service for activity log.", e );
+						}
 					}
 				}
 				return new StringResourceStream(sb.toString(), "text/csv");
@@ -122,8 +143,8 @@ public class DownloadActivityLogPanel extends Panel
 		return export;
 	}
 
-	public boolean isDownloadDataAvailable() {
-		return downloadDataAvailable;
+	public boolean isDownloadHistoryAvailableAvailable() {
+		return downloadHistoryAvailable;
 	}
 
 }
