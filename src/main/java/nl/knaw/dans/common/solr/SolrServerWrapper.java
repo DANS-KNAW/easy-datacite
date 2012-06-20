@@ -67,9 +67,9 @@ public class SolrServerWrapper
 		try
 		{
 			SolrQuery query = SolrQueryRequestConverter.convert(request);
-			QueryResponse solrResponse = server.query(query);
-
 			LOGGER.debug("Solr: searching with " + query.toString() + ".");
+
+			QueryResponse solrResponse = server.query(query);
 
 			SimpleSearchResult result = SolrQueryResponseConverter.convert(
 					solrResponse, request.getIndex());
