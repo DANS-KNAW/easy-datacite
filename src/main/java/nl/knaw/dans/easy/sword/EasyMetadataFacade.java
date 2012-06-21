@@ -91,22 +91,22 @@ public class EasyMetadataFacade
         }
         catch (final ValidatorException exception)
         {
-            throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, ("EASY metadata validation exception: " + exception.getMessage()));
+            throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "EASY metadata validation exception: " + exception.getMessage());
         }
         catch (final UnsupportedEncodingException exception)
         {
-            throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, ("EASY metadata encoding exception: " + exception.getMessage()));
+            throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "EASY metadata encoding exception: " + exception.getMessage());
         }
         catch (final SAXException exception)
         {
-            throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, ("EASY metadata parse exception: " + exception.getMessage()));
+            throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "EASY metadata parse exception: " + exception.getMessage());
         }
         catch (final SchemaCreationException exception)
         {
-            throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "EASY metadata schema creation problem");
+            throw new SWORDException("EASY metadata schema creation problem",exception);
         }
         if (!handler.passed())
-            throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, ("Invalid EASY metadata: \n" + handler.getMessages()));
+            throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "Invalid EASY metadata: \n" + handler.getMessages());
     }
 
     private static String extractValidationMessages(final FormDefinition formDefinition)
