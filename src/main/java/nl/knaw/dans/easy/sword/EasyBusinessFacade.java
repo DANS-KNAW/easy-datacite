@@ -66,7 +66,7 @@ public class EasyBusinessFacade
     public static EasyUser getUser(final String userId, final String password) throws SWORDException, SWORDErrorException, SWORDAuthenticationException
     {
         if (userId==null ||userId.length()==0)
-            return null;
+            throw new SWORDAuthenticationException("no credentials", null);
         final FederativeAuthentication federativeAuthentication = new FederativeAuthentication(userId, password);
         if (!federativeAuthentication.canBeTraditionalAccount())
         {
@@ -84,7 +84,7 @@ public class EasyBusinessFacade
         }
         catch (final ObjectNotInStoreException exception)
         {
-            throw new SWORDAuthenticationException(userId + " authentication problem", exception);
+            throw new SWORDAuthenticationException(userId + " not authenticed", exception);
         }
         catch (final RepositoryException exception)
         {

@@ -87,6 +87,30 @@ public class FailingSubmitTest extends SubmitFixture
      execute(MockUtil.INVALID_USER_ID,MockUtil.PASSWORD,LOCATION);
  }
 
+ @Test (expected=SWORDAuthenticationException.class)
+ public void noUsernoPassword() throws Throwable
+ {
+     execute(null,null,LOCATION);
+ }
+
+ @Test (expected=SWORDAuthenticationException.class)
+ public void noUser() throws Throwable
+ {
+     execute(null,MockUtil.PASSWORD,LOCATION);
+ }
+
+ @Test (expected=SWORDAuthenticationException.class)
+ public void emptyUseremptyPassword() throws Throwable
+ {
+     execute("","",LOCATION);
+ }
+
+ @Test (expected=SWORDAuthenticationException.class)
+ public void emptyUser() throws Throwable
+ {
+     execute("",MockUtil.PASSWORD,LOCATION);
+ }
+
  @Test (expected=SWORDErrorException.class)
  public void invalidLocationProtocol() throws Throwable
  {

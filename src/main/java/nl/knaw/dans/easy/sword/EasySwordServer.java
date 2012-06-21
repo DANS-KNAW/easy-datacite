@@ -63,13 +63,21 @@ public class EasySwordServer implements SWORDServer
      */
     public ServiceDocument doServiceDocument(final ServiceDocumentRequest sdr) throws SWORDAuthenticationException, SWORDErrorException, SWORDException
     {
-        // Authenticate the user
         log.info(MessageFormat.format("SERVICE DOCUMENT user={0}; IP={1}; location={2}; onBehalfOf={3}", sdr.getUsername(), sdr.getIPAddress(),
                 sdr.getLocation(), sdr.getOnBehalfOf()));
 
-        final EasyUser easyUser = authenticate(sdr.getUsername(), sdr.getPassword());
+        boolean authenticated = true;
+        try
+        {
+            EasyBusinessFacade.getUser(sdr.getUsername(), sdr.getPassword());
+        }
+        catch (SWORDAuthenticationException e)
+        {
+            authenticated = false;
+        }
         if (sdr.getOnBehalfOf() != null)
         {
+            // see also org.purl.sword.server.DummyServer
             /*
              * Allow users to force the throwing of a SWORD error exception by setting the OnBehalfOf
              * user to 'error'
@@ -79,47 +87,41 @@ public class EasySwordServer implements SWORDServer
             throw new SWORDErrorException(ErrorCodes.MEDIATION_NOT_ALLOWED, "Mediated deposits not allowed");
         }
 
-        // Create and return a ServiceDocument
-        final ServiceDocument document = new ServiceDocument();
         final Service service = new Service("1.3", true, true);
-        document.setService(service);
         service.setGenerator(wrapGenerator(sdr.getLocation()));
+        service.addWorkspace(createWorkSpace(createCollection(sdr.getLocation(), authenticated)));
 
-        final String locationBase = toLocationBase(sdr.getLocation());
-        final Collection collection = createCollection();
-        final String easyHomePage = toBaseLocation(toUrl(sdr.getLocation()));
-        if (easyUser != null)
-            collection.setLocation(locationBase + "deposit");
-        else 
-            collection.setLocation("");
-        collection.setAbstract(MessageFormat.format(Context.getCollectionAbstract(), easyHomePage));
-        service.addWorkspace(createWorkSpace(collection, Context.getWorkspaceTitle()));
-
-        // see org.purl.sword.server.DummyServer for further options such as OnBehalfOf
+        final ServiceDocument document = new ServiceDocument(service);
         log.debug("returned service document:\n" + document.toString());
         return document;
     }
-/**
- * 
- * @param userID
- * @param password
- * @return
- * @throws SWORDException
- * @throws SWORDErrorException
- * @throws SWORDAuthenticationException only if credentials were specified and proved to be wrong
- */
-    private EasyUser authenticate(final String userID, final String password) throws SWORDException, SWORDErrorException, SWORDAuthenticationException
+
+    private Collection createCollection(String location, boolean authorised) throws SWORDErrorException, SWORDException
     {
-        final EasyUser easyUser;
-        if (userID == null || userID.length() == 0)
-            easyUser = null;
+        final String locationBase = toLocationBase(location);
+        final String easyHomePage = toBaseLocation(toUrl(location));
+        final Collection collection = new Collection();
+        collection.setCollectionPolicy(Context.getCollectionPolicy());
+        collection.setTreatment(Context.getCollectionTreatment());
+        collection.addAccepts("application/zip");
+        collection.setMediation(false);
+        collection.setTitle(Context.getCollectionTitle());
+        collection.setAbstract(MessageFormat.format(Context.getCollectionAbstract(), easyHomePage));
+
+        // qualityValue indicates this is the preferred format
+        collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/md/emd/2012/easymetadata.xsd", 1f);
+        collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/docs/emd/emd.html", 1f);
+
+        // qualityValue indicates this format is not (yet) supported
+        collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/md/dataset/2012/dans-dataset-md.xsd", 0f);
+        collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/docs/ddm/dans-dataset-md.html", 0f);
+        // TODO replace URL with DDMValidator.instance().getSchemaURL("").toString()
+        
+        if (authorised)
+            collection.setLocation(locationBase + "deposit");
         else
-        {
-            easyUser = EasyBusinessFacade.getUser(userID, password);
-            if (null == easyUser)
-                throw new SWORDAuthenticationException("Bad credentials");
-        }
-        return easyUser;
+            collection.setLocation("");
+        return collection;
     }
 
     private static String toLocationBase(final String inputLocation) throws SWORDErrorException
@@ -143,9 +145,9 @@ public class EasySwordServer implements SWORDServer
 
     private static String toBaseLocation(final URL url)
     {
-        if (url.getPort()>=0)
+        if (url.getPort() >= 0)
             return url.getProtocol() + "://" + url.getHost() + ":" + url.getPort();
-        else 
+        else
             return url.getProtocol() + "://" + url.getHost();
     }
 
@@ -165,35 +167,12 @@ public class EasySwordServer implements SWORDServer
         return url;
     }
 
-    private static Workspace createWorkSpace(final Collection collection, final String title)
+    private static Workspace createWorkSpace(final Collection collection) throws SWORDException
     {
         final Workspace workspace = new Workspace();
-        workspace.setTitle(title);
+        workspace.setTitle(Context.getWorkspaceTitle());
         workspace.addCollection(collection);
         return workspace;
-    }
-
-    private static Collection createCollection() throws SWORDException
-    {
-        final Collection collection = new Collection();
-        collection.setCollectionPolicy(Context.getCollectionPolicy());
-        collection.setTreatment(Context.getCollectionTreatment());
-        collection.addAccepts("application/zip");
-        collection.setMediation(false);
-        collection.setTitle(Context.getCollectionTitle());
-
-        // qualityValue indicates this is the preferred format
-        collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/md/emd/2012/easymetadata.xsd", 1f);
-        collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/docs/emd/emd.html", 1f);
-
-        // qualityValue indicates this format is not (yet) supported
-        collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/md/dataset/2012/dans-dataset-md.xsd",0f);
-        collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/docs/ddm/dans-dataset-md.html",0f);
-        // TODO replace with
-        // collection.addAcceptPackaging(DDMValidator.instance().getSchemaURL("").toString(),
-        // qualityValue);
-
-        return collection;
     }
 
     public DepositResponse doDeposit(final Deposit deposit) throws SWORDAuthenticationException, SWORDErrorException, SWORDException
@@ -206,7 +185,7 @@ public class EasySwordServer implements SWORDServer
          * http://git.661346.n2.nabble.com/PATCH-smart-http-Don-t-use-Expect-100-Continue-td6028355.html
          * http://htmlhelp.com/reference/html40/forms/form.html
          */
-        final EasyUser user = checkUser(deposit);
+        final EasyUser user = EasyBusinessFacade.getUser(deposit.getUsername(), deposit.getPassword());
         checkOnBehalfOf(deposit);
 
         final Payload payload = new Payload(deposit.getFile());
@@ -217,14 +196,6 @@ public class EasySwordServer implements SWORDServer
         final SWORDEntry swordEntry = wrapSwordEntry(deposit, user, dataset, datasetUrl);
         final DepositResponse response = wrapResponse(swordEntry, datasetUrl);
         return response;
-    }
-
-    private static EasyUser checkUser(final Deposit deposit) throws SWORDException, SWORDErrorException, SWORDAuthenticationException
-    {
-        final EasyUser user = EasyBusinessFacade.getUser(deposit.getUsername(), deposit.getPassword());
-        if (user == null)
-            throw new SWORDAuthenticationException(deposit.getUsername() + " not authenticated");
-        return user;
     }
 
     private static void checkOnBehalfOf(final Deposit deposit) throws SWORDErrorException

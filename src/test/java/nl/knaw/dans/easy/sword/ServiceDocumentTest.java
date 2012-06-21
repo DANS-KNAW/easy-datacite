@@ -13,7 +13,6 @@ import org.easymock.EasyMock;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.purl.sword.base.SWORDAuthenticationException;
-import org.purl.sword.base.SWORDErrorException;
 import org.purl.sword.base.ServiceDocument;
 import org.purl.sword.base.ServiceDocumentRequest;
 import static org.purl.sword.base.SwordValidationInfoType.*;
