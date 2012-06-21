@@ -27,15 +27,11 @@ import nl.knaw.dans.easy.servicelayer.services.Services;
 import org.purl.sword.base.ErrorCodes;
 import org.purl.sword.base.SWORDErrorException;
 import org.purl.sword.base.SWORDException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 public class EasyMetadataFacade
 {
     private static final String DEFAULT_EMD_VERSION = EasyMetadataValidator.VERSION_0_1;
-
-    private static Logger      logger              = LoggerFactory.getLogger(EasyMetadataFacade.class);
 
     /** Just a wrapper for exceptions. */
     private static EasyMetadata unmarshallEasyMetaData(final byte[] data) throws SWORDErrorException
@@ -47,16 +43,9 @@ public class EasyMetadataFacade
         }
         catch (final XMLDeserializationException exception)
         {
-            throw newSwordInputException("EASY metadata unmarshall exception: " + exception.getMessage(), exception);
+            throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, ("EASY metadata unmarshall exception: " + exception.getMessage()));
         }
         return metadata;
-    }
-
-    /** Wraps exceptions after logging them. */
-    private static SWORDErrorException newSwordInputException(final String message, final Throwable exception)
-    {
-        logger.error(message, exception);
-        return new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, message);
     }
 
     /**
@@ -80,7 +69,7 @@ public class EasyMetadataFacade
     {
         final FormDefinition formDefinition = EasyMetadataFacade.getFormDefinition(metadata);
         if (!new MetadataValidator().validate(formDefinition, metadata))
-            throw newSwordInputException("invalid meta data\n" + extractValidationMessages(formDefinition), null);
+            throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, ("invalid meta data\n" + extractValidationMessages(formDefinition)));
     }
 
     /** Just a wrapper for exceptions. */
@@ -89,7 +78,7 @@ public class EasyMetadataFacade
          final EasySwordValidationReporter validationReporter = new EasySwordValidationReporter();
          FormatValidator.instance().validate(metadata, validationReporter);
          if (!validationReporter.isMetadataValid())
-         throw newSwordInputException("invalid meta data: "+validationReporter.getMessages(), null);
+         throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, ("invalid meta data: "+validationReporter.getMessages()));
     }
 
     /** Just a wrapper for exceptions. */
@@ -102,22 +91,22 @@ public class EasyMetadataFacade
         }
         catch (final ValidatorException exception)
         {
-            throw newSwordInputException("EASY metadata validation exception: " + exception.getMessage(), exception);
+            throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, ("EASY metadata validation exception: " + exception.getMessage()));
         }
         catch (final UnsupportedEncodingException exception)
         {
-            throw newSwordInputException("EASY metadata encoding exception: " + exception.getMessage(), exception);
+            throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, ("EASY metadata encoding exception: " + exception.getMessage()));
         }
         catch (final SAXException exception)
         {
-            throw newSwordInputException("EASY metadata parse exception: " + exception.getMessage(), exception);
+            throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, ("EASY metadata parse exception: " + exception.getMessage()));
         }
         catch (final SchemaCreationException exception)
         {
-            throw newSwordInputException("EASY metadata schema creation problem", exception);
+            throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "EASY metadata schema creation problem");
         }
         if (!handler.passed())
-            throw newSwordInputException("Invalid EASY metadata: \n" + handler.getMessages(), null);
+            throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, ("Invalid EASY metadata: \n" + handler.getMessages()));
     }
 
     private static String extractValidationMessages(final FormDefinition formDefinition)
@@ -147,13 +136,13 @@ public class EasyMetadataFacade
         }
         catch (final ServiceException e)
         {
-            throw newSwordInputException("Cannot get deposit discipline.", e);
+            throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "Cannot get deposit discipline.");
         }
         if (discipline == null)
-                throw newSwordInputException("Cannot get deposit discipline.", null);
+                throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "Cannot get deposit discipline.");
         final FormDefinition formDefinition = discipline.getEmdFormDescriptor().getFormDefinition(DepositDiscipline.EMD_DEPOSITFORM_ARCHIVIST);
         if (formDefinition == null)
-            throw newSwordInputException("Cannot get formdefinition for MetadataFormat " + mdFormat.toString(), null);
+            throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, ("Cannot get formdefinition for MetadataFormat " + mdFormat.toString()));
         return formDefinition;
     }
 }

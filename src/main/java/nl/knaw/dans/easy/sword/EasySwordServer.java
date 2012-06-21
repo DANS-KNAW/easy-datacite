@@ -161,7 +161,6 @@ public class EasySwordServer implements SWORDServer
         catch (final MalformedURLException exception)
         {
             final String message = inputLocation + " Invalid location: " + exception.getMessage();
-            log.error(message, exception);
             throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, message);
         }
         return url;
@@ -228,13 +227,21 @@ public class EasySwordServer implements SWORDServer
         swordEntry.setId(dataset.getPersistentIdentifier());
         swordEntry.setUpdated(metadata.getEmdDate().toString());
         swordEntry.addAuthors(wrapAuthor(user));
+        
+        // This element SHOULD be included. If the POST request results in the creation of packaged
+        // resource, the server MAY use this element to declare the packaging type. If used it SHOULD
+        // take a value from [SWORD-TYPES].
+        //swordEntry.setPackaging("?");
 
         // we won't support updating (task for archivists) so skip MediaLink
         // swordEntry.addLink(wrapEditMediaLink());
         swordEntry.addLink(wrapLink("edit", datasetUrl));
         swordEntry.setGenerator(wrapGenerator(deposit.getLocation()));
         swordEntry.setContent(wrapContent(datasetUrl));
-        swordEntry.setTreatment(EasyBusinessFacade.getSubmussionNotification(user, dataset));
+        
+        // http://validator.swordapp.org doesn't like a complex element
+        swordEntry.setTreatment("<div>"+EasyBusinessFacade.getSubmussionNotification(user, dataset)+"</div>");
+        
         swordEntry.setNoOp(deposit.isNoOp());
         // TODO swordEntry.setRights(rights);
         if (deposit.getOnBehalfOf() != null)
@@ -309,7 +316,6 @@ public class EasySwordServer implements SWORDServer
         }
         catch (final InvalidMediaTypeException exception)
         {
-            log.error(mediaType, exception);
             throw new SWORDException("", exception);
         }
         content.setSource(url);
@@ -335,8 +341,7 @@ public class EasySwordServer implements SWORDServer
     public AtomDocumentResponse doAtomDocument(final AtomDocumentRequest adr) throws SWORDAuthenticationException, SWORDErrorException, SWORDException
     {
         log.info(MessageFormat.format("ATOM DOC user={0}; IP={1}; location={2}", adr.getUsername(), adr.getIPAddress(), adr.getLocation()));
-        if (null == EasyBusinessFacade.getUser(adr.getUsername(), adr.getPassword()))
-            throw new SWORDAuthenticationException(adr.getUsername() + " not authenticated");
+        EasyBusinessFacade.getUser(adr.getUsername(), adr.getPassword());
 
         return new AtomDocumentResponse(HttpServletResponse.SC_NOT_IMPLEMENTED);
     }

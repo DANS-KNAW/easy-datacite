@@ -17,8 +17,6 @@ import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import org.purl.sword.base.ErrorCodes;
 import org.purl.sword.base.SWORDErrorException;
 import org.purl.sword.base.SWORDException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class Payload
 {
@@ -49,8 +47,6 @@ public class Payload
 
     private static final String MESSAGE = "Expecting a folder with files and a file with one of the names:" + MDFileName.fileNames();
 
-    private static Logger       log     = LoggerFactory.getLogger(EasyBusinessFacade.class);
-
     private final File          tempDir;
     private final File          dataFolder;
     private final List<File>    files;
@@ -75,7 +71,7 @@ public class Payload
         }
         else
         {
-            throw newSwordInputException(MESSAGE, null);
+            throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, MESSAGE);
         }
 
         folderHasFiles(metadataFile);
@@ -88,7 +84,7 @@ public class Payload
             return EasyMetadataFacade.validate(readMetadata(metadataFile));
         
         // TODO apply cross-walker conversion
-        throw newSwordInputException("Format not yet implemented: "+metadataFile.getName(),null);
+        throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, ("Format not yet implemented: "+metadataFile.getName()));
     }
 
     private List<File> unzip(final InputStream inputStream) throws SWORDErrorException
@@ -99,11 +95,11 @@ public class Payload
         }
         catch (final ZipException exception)
         {
-            throw newSwordInputException("Failed to unzip deposited file", exception);
+            throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "Failed to unzip deposited file");
         }
         catch (final IOException exception)
         {
-            throw newSwordInputException("Failed to unzip deposited file", exception);
+            throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "Failed to unzip deposited file");
         }
     }
 
@@ -115,7 +111,7 @@ public class Payload
         }
         catch (final IOException exception)
         {
-            throw newSWORDException("Could not create temp dir for unzip", exception);
+            throw new SWORDException("Could not create temp dir for unzip");
         }
     }
 
@@ -124,7 +120,7 @@ public class Payload
         final File[] rootContent = tempDir.listFiles();
         if (files.size() < 2 || rootContent == null || rootContent.length != 2)
         {
-            throw newSwordInputException(MESSAGE, null);
+            throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, MESSAGE);
         }
         return rootContent;
     }
@@ -136,7 +132,7 @@ public class Payload
             if (file.isFile() && !file.getPath().equals(metadataFile.toString()))
                 return;
         }
-        throw newSwordInputException("No files in the folder.", null);
+        throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "No files in the folder.");
     }
 
     public List<File> getFiles()
@@ -167,25 +163,13 @@ public class Payload
         catch (final FileNotFoundException exception)
         {
             // should never happen: prevented by checks in constructor
-            throw newSwordInputException("File not found: " + metadataFile, exception);
+            throw new SWORDException(("File not found: " + metadataFile));
         }
         catch (final IOException exception)
         {
-            throw newSWORDException("Failed to extract the EasyMetadata", exception);
+            throw new SWORDException("Failed to extract the EasyMetadata",exception);
         }
         return readFile;
-    }
-
-    private static SWORDException newSWORDException(final String message, final Exception exception)
-    {
-        log.error(message, exception);
-        return new SWORDException(message);
-    }
-
-    private static SWORDErrorException newSwordInputException(final String message, final Exception exception)
-    {
-        log.error(message, exception);
-        return new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, message);
     }
 
     public File getDataFolder()

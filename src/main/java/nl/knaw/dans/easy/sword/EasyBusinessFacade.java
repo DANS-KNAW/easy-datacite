@@ -45,7 +45,7 @@ import org.slf4j.LoggerFactory;
 public class EasyBusinessFacade
 {
     /** TODO share constant with {@link SubmitNotification} or define another template */
-    static final String        TEMPLATE              = SubmitNotification.TEMPLATE_BASE_LOCATION + "deposit/depositConfirmation" + ".html";
+    static final String        TEMPLATE              = SubmitNotification.TEMPLATE_BASE_LOCATION + "deposit/depositConfirmation";
 
     private static int         noOpSumbitCounter     = 0;
     public static final String NO_OP_STORE_ID_DOMAIN = "mockedStoreID:";
@@ -88,7 +88,7 @@ public class EasyBusinessFacade
         }
         catch (final RepositoryException exception)
         {
-            throw newSwordException(userId + " authentication problem", exception);
+            throw new SWORDException((userId + " authentication problem"), exception);
         }
     }
 
@@ -106,7 +106,7 @@ public class EasyBusinessFacade
         }
         catch (final RepositoryException e)
         {
-            throw newSwordException("Could not get user with fedUserId '" + fedUserId + "' :", e);
+            throw new SWORDException(("Could not get user with fedUserId '" + fedUserId + "' :"), e);
         }
 
         final String userId = userIdMap.getDansUserId();
@@ -121,7 +121,7 @@ public class EasyBusinessFacade
         }
         catch (final RepositoryException exception)
         {
-            throw newSwordException(userId + " authentication problem", exception);
+            throw new SWORDException((userId + " authentication problem"), exception);
         }
     }
 
@@ -130,14 +130,14 @@ public class EasyBusinessFacade
         try
         {
             if (userId == null || password == null)
-                throw newSwordInputException("missing username [" + userId + "] or password", null);
+                throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, ("missing username [" + userId + "] or password"));
             else if (!Data.getUserRepo().authenticate(userId, password))
                 throw new SWORDAuthenticationException("invalid username [" + userId + "] or password", null);
             logger.info(userId + " authenticated");
         }
         catch (final RepositoryException exception)
         {
-            throw newSwordException(userId + " authentication problem", exception);
+            throw new SWORDException((userId + " authentication problem"), exception);
         }
     }
 
@@ -205,7 +205,7 @@ public class EasyBusinessFacade
             logger.info("submitting " + dataset.getStoreId() + " " + user.getId());
             Services.getDatasetService().submitDataset(submission, reporter);
             if (!reporter.checkOK())
-                throw newSwordException("Dataset created but problem with submitting", null);
+                throw new SWORDException("Dataset created but problem with submitting");
             if (submission.hasGlobalMessages())
             {
                 for (final String s : submission.getGlobalErrorMessages())
@@ -223,7 +223,7 @@ public class EasyBusinessFacade
                     if (panelDef.getErrorMessages().size() > 0)
                         message += " " + panelDef.getLabelResourceKey() + " " + panelDef.getErrorMessages();
                 }
-                throw newSwordInputException(message, null);
+                throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, message);
             }
             if (!submission.isMailSend())
             {
@@ -233,16 +233,16 @@ public class EasyBusinessFacade
             {
                 if (!Services.getDatasetService().getClass().getName().startsWith("$Proxy"))
                     // FIXME workaround mock problems for JUnit tests
-                    throw newSwordException("submission incomplete " + dataset.getStoreId() + " " + user.getId(), null);
+                    throw new SWORDException(("submission incomplete " + dataset.getStoreId() + " " + user.getId()));
             }
         }
         catch (final ServiceException exception)
         {
-            throw newSwordException("Dataset created but submission failed " + dataset.getStoreId() + " " + user.getId(), exception);
+            throw new SWORDException(("Dataset created but submission failed " + dataset.getStoreId() + " " + user.getId()), exception);
         }
         catch (final DataIntegrityException exception)
         {
-            throw newSwordException("Dataset created but submission failed " + dataset.getStoreId() + " " + user.getId(), exception);
+            throw new SWORDException(("Dataset created but submission failed " + dataset.getStoreId() + " " + user.getId()), exception);
         }
     }
 
@@ -265,11 +265,11 @@ public class EasyBusinessFacade
 
             itemService.addDirectoryContents(user, dataset, dataset.getDmoStoreId(), tempDirectory, fileList, reporter);
             if (!reporter.checkOK())
-                throw newSwordException("Dataset created but problem with ingesting files", null);
+                throw new SWORDException("Dataset created but problem with ingesting files");
         }
         catch (final ServiceException exception)
         {
-            throw newSwordException("Can't add files to the new dataset " + storeId + " " + user.getId(), exception);
+            throw new SWORDException(("Can't add files to the new dataset " + storeId + " " + user.getId()), exception);
         }
     }
 
@@ -281,7 +281,7 @@ public class EasyBusinessFacade
         }
         catch (final LicenseComposerException exception)
         {
-            throw newSwordInputException(exception.getMessage(), exception);
+            throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, exception.getMessage());
         }
     }
 
@@ -295,23 +295,9 @@ public class EasyBusinessFacade
         }
         catch (final ServiceException exception)
         {
-            throw newSwordException("Can't create a new dataset " + metadataFormat, exception);
+            throw new SWORDException(("Can't create a new dataset " + metadataFormat), exception);
         }
         return dataset;
-    }
-
-    private static SWORDException newSwordException(final String message, final Exception exception)
-    {
-        logger.error(message, exception);
-        if (exception != null)
-            return new SWORDException(message, exception);
-        return new SWORDException(message, new Exception(message));
-    }
-
-    private static SWORDErrorException newSwordInputException(final String message, final Exception exception)
-    {
-        logger.error(message, exception);
-        return new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, message);
     }
 
     public static String getSubmussionNotification(final EasyUser user, final Dataset dataset) throws SWORDException
@@ -320,12 +306,12 @@ public class EasyBusinessFacade
         {
             final DatasetSubmissionImpl submission = new DatasetSubmissionImpl(null, dataset, user);
             final EasyMailComposer composer = new EasyMailComposer(user, dataset, submission, new SubmitNotification(submission));
-            return composer.composeHtml(TEMPLATE);
+            return composer.composeHtml(TEMPLATE+".html");
         }
         catch (final MailComposerException exception)
         {
             final String message = "Could not compose submussion notification";
-            throw newSwordException(message, exception);
+            throw new SWORDException(message, exception);
         }
     }
 
@@ -346,7 +332,7 @@ public class EasyBusinessFacade
         }
         catch (final LicenseComposerException exception)
         {
-            throw newSwordException(errorMessage + ": " + exception.getMessage(), exception);
+            throw new SWORDException((errorMessage + ": " + exception.getMessage()), exception);
         }
     }
 
