@@ -45,7 +45,7 @@ public class ServiceDocumentTest extends EasySwordServerTester
         new Context().setWorkspaceTitle("DANS sword interface");
     }
 
-    @Test(expected = SWORDAuthenticationException.class)
+    @Test
     public void serviceDocumentWrongUser() throws Exception
     {
         final ServiceDocumentRequest request = new ServiceDocumentRequest();
