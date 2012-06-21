@@ -12,7 +12,6 @@ import nl.knaw.dans.easy.servicelayer.services.Services;
 import org.easymock.EasyMock;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.purl.sword.base.SWORDAuthenticationException;
 import org.purl.sword.base.ServiceDocument;
 import org.purl.sword.base.ServiceDocumentRequest;
 import static org.purl.sword.base.SwordValidationInfoType.*;
@@ -32,17 +31,7 @@ public class ServiceDocumentTest extends EasySwordServerTester
         request.setUsername(MockUtil.VALID_USER_ID);
         request.setPassword(MockUtil.PASSWORD);
         request.setLocation(LOCATION);
-        mockContext();
         assertAsExpected(easySwordServer.doServiceDocument(request).toString(), "serviceDocumentWithUser.xml");
-    }
-
-    private void mockContext()
-    {
-        new Context().setCollectionPolicy("No guarantee of service, or that deposits will be retained for any length of time.");
-        new Context().setCollectionTreatment("This is a test server");
-        new Context().setCollectionAbstract("Electronic Archive System, accepts deposits by users registered on {0}");
-        new Context().setCollectionTitle("EASY");
-        new Context().setWorkspaceTitle("DANS sword interface");
     }
 
     @Test
@@ -92,7 +81,6 @@ public class ServiceDocumentTest extends EasySwordServerTester
         request.setUsername("nl.knaw.dans.easy.federatedUser");
         request.setPassword(mailAddress + "f33bbf238a3157b0db8ab45088cc77d1d10bb640");
         request.setLocation(LOCATION);
-        mockContext();
         final ServiceDocument serviceDocument = easySwordServer.doServiceDocument(request);
         assertAsExpected(serviceDocument.toString(), "serviceDocumentWithFederativeUser.xml");
         // TODO upgrade compliancy level to VALID
