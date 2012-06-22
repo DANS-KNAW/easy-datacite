@@ -14,7 +14,7 @@ import org.purl.sword.base.SwordValidationInfo;
 
 public class SubmitFixture extends EasySwordServerTester
 {
-    static final String   PROPER_ZIP = new File("src/test/resources/input/data-plus-meta.zip").getPath();
+    public static final String   PROPER_ZIP = new File("src/test/resources/input/data-plus-meta.zip").getPath();
 
     @Before
     public void setupMocking() throws Exception

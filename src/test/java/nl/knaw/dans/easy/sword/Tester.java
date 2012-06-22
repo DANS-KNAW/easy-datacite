@@ -13,7 +13,7 @@ import org.junit.BeforeClass;
  */
 public abstract class Tester
 {
-    protected static final File META_DATA_FILE = new File("src/test/resources/input/metadata.xml");
+    public static final File META_DATA_FILE = new File("src/test/resources/input/metadata.xml");
     protected static final File ZIP_FILE       = new File("src/test/resources/input/datasetPictures.zip");
     private final OutputUtil    testOutput     = new OutputUtil(this.getClass());
 
