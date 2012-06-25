@@ -7,23 +7,21 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.ConnectException;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.AuthScope;
+import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.InputStreamRequestEntity;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.meterware.httpunit.WebConversation;
-import com.meterware.httpunit.WebResponse;
 
 public class IntegrationTest
 {
@@ -41,20 +39,24 @@ public class IntegrationTest
     @Test
     public void serviceDocument() throws Exception
     {
-        // TODO rewrite to replace HttpUnit by HttpClient
-        final WebConversation webConversation = new WebConversation();
-        webConversation.setAuthentication("SWORD", "", "");
+
+        final UsernamePasswordCredentials credentials = new UsernamePasswordCredentials("anonymous", "password");
+        final HttpMethod post = new GetMethod("http://localhost:8083/servicedocument");
+        final HttpClient client = new HttpClient();
+        client.getState().setCredentials(AuthScope.ANY, credentials);
+
         try
         {
-            final WebResponse response = webConversation.getResponse("http://u:p@localhost:8083/servicedocument");
-            log.debug(response.toString());
-            log.debug(response.getResponseMessage());
-            log.debug("\n" + response.getText());
-            // log.debug(response.getContentType());
+            client.executeMethod(post);
+
+            if (post.getStatusCode() == HttpStatus.SC_OK)
+                log.info("\n" + post.getResponseBodyAsString());
+            else
+                fail("Start was launched? Unexpected failure: " + post.getStatusLine().toString());
         }
-        catch (final ConnectException e)
+        finally
         {
-            fail("please first launch Start");
+            post.releaseConnection();
         }
     }
 
@@ -91,7 +93,7 @@ public class IntegrationTest
             else if (post.getStatusCode() == HttpStatus.SC_UNAUTHORIZED)
                 fail("please register EASY userID: " + credentials.getUserName() + " with password: " + credentials.getUserName());
             else
-                fail("Unexpected failure: " + post.getStatusLine().toString());
+                fail("Start was launched? Unexpected failure: " + post.getStatusLine().toString());
         }
         finally
         {

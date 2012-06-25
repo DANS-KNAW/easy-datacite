@@ -82,13 +82,6 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>httpunit</groupId>
-			<artifactId>httpunit</artifactId>
-			<version>1.7</version>
-			<type>jar</type>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>HTTPClient</groupId>
 			<artifactId>HTTPClient</artifactId>
 			<version>0.3-3</version>
