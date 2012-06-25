@@ -88,6 +88,13 @@
 			<type>jar</type>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>HTTPClient</groupId>
+			<artifactId>HTTPClient</artifactId>
+			<version>0.3-3</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 	
 	<build>
