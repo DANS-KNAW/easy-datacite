@@ -18,6 +18,7 @@ import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.InputStreamRequestEntity;
 import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.httpclient.methods.multipart.FilePart;
 import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.Part;
@@ -31,11 +32,14 @@ import org.slf4j.LoggerFactory;
 
 public class IntegrationTest
 {
-    private static final String URL    = "http://localhost:" + Start.PORT + "/";
-    private static final int    MILLIS = 1000;
-    private static Server       server;
+    private static final String                      URL       = "http://localhost:" + Start.PORT + "/";
+    private static final UsernamePasswordCredentials DEPOSITOR = new UsernamePasswordCredentials("depositor", "123456");
+    private static final UsernamePasswordCredentials ANONYMOUS = new UsernamePasswordCredentials("anonymous", "password");
+    private static final int                         MILLIS    = 1000;
 
-    private static Logger       log    = LoggerFactory.getLogger(EasySwordServer.class);
+    private static Server                            server;
+
+    private static Logger                            log       = LoggerFactory.getLogger(EasySwordServer.class);
 
     @BeforeClass
     public static void start() throws Exception
@@ -45,7 +49,7 @@ public class IntegrationTest
         {
             server.start();
         }
-        catch (BindException e)
+        catch (final BindException e)
         {
             throw new Exception(URL + " already in use", e);
         }
@@ -66,72 +70,72 @@ public class IntegrationTest
     @Test
     public void serviceDocument() throws Exception
     {
+        final HttpMethod method = new GetMethod(URL + "servicedocument");
+        execute(method, createClient(ANONYMOUS, null));
 
-        final UsernamePasswordCredentials credentials = new UsernamePasswordCredentials("anonymous", "password");
-        final HttpMethod post = new GetMethod(URL + "servicedocument");
-        final HttpClient client = new HttpClient();
-        client.getState().setCredentials(AuthScope.ANY, credentials);
-
-        try
-        {
-            client.executeMethod(post);
-
-            if (post.getStatusCode() == HttpStatus.SC_OK)
-                log.info("\n" + post.getResponseBodyAsString());
-            else
-                fail("Start was launched? Unexpected failure: " + post.getStatusLine().toString());
-        }
-        finally
-        {
-            post.releaseConnection();
-        }
+        if (method.getStatusCode() == HttpStatus.SC_OK)
+            log.info("\n" + method.getResponseBodyAsString());
+        else
+            fail("Unexpected failure: " + method.getStatusLine().toString());
     }
 
     @Test
     public void depositProperZip() throws Exception
     {
-        doAcceptedDeposit(SubmitFixture.PROPER_ZIP, false, false, 15 * MILLIS);
+        doAcceptedDeposit(createRequest(SubmitFixture.PROPER_ZIP), 15 * MILLIS);
     }
 
-    private void doAcceptedDeposit(final String file, final boolean verbose, final boolean noOp, int timeout) throws FileNotFoundException, IOException,
-            HttpException
+    private static void doAcceptedDeposit(final RequestEntity request, final int timeout) throws Exception
     {
-        final UsernamePasswordCredentials credentials = new UsernamePasswordCredentials("depositor", "123456");
+        final PostMethod method = new PostMethod(URL + "deposit");
+        method.setRequestEntity(request);
+        execute(method, createClient(DEPOSITOR, timeout));
 
-        final FileInputStream input = new FileInputStream(new File(file));
-        final InputStreamRequestEntity entity1 = new InputStreamRequestEntity(input);
+        if (method.getStatusCode() == HttpStatus.SC_ACCEPTED)
+            log.info("\n" + method.getResponseBodyAsString());
+        else if (method.getStatusCode() == HttpStatus.SC_UNAUTHORIZED)
+            fail("please register EASY userID: " + DEPOSITOR.getUserName() + " with password: " + DEPOSITOR.getUserName());
+        else
+            fail("Unexpected failure: " + method.getStatusLine().toString());
+    }
 
+    private static HttpClient createClient(final UsernamePasswordCredentials credentials, final Integer timeout)
+    {
+        final HttpClient client = new HttpClient();
+        client.getState().setCredentials(AuthScope.ANY, credentials);
+        if (timeout != null)
+            client.getParams().setSoTimeout(timeout);
+        return client;
+    }
+
+    private static void execute(final HttpMethod method, final HttpClient client) throws IOException, HttpException
+    {
+        try
+        {
+            client.executeMethod(method);
+        }
+        finally
+        {
+            method.releaseConnection();
+        }
+    }
+
+    private static RequestEntity createRequest(final String file) throws FileNotFoundException
+    {
+        return new InputStreamRequestEntity(new FileInputStream(new File(file)));
+    }
+
+    @SuppressWarnings("unused"/* TODO fix error "415 unsupported Media Type" */)
+    private static RequestEntity createRequest(final String file, final boolean verbose, final boolean noOp) throws FileNotFoundException
+    {
         final Part[] parts = {new FilePart(file, new File(file))};
-        HttpClientParams params = new HttpClientParams();
+        final HttpClientParams params = new HttpClientParams();
         params.setBooleanParameter("X-No-Op", noOp);
         params.setBooleanParameter("X-Verbose", verbose);
-        @SuppressWarnings("unused"/* TODO fix error "415 unsupported Media Type" to use entity2 */)
-        final MultipartRequestEntity entity2 = new MultipartRequestEntity(parts, params);
         // http://svn.apache.org/viewvc/httpcomponents/oac.hc3x/trunk/src/examples/
         // http://hc.apache.org/httpclient-3.x/
         assertFalse("not yet implemented", noOp);
         assertFalse("not yet implemented", verbose);
-
-        final PostMethod post = new PostMethod(URL + "deposit");
-        final HttpClient client = new HttpClient();
-        client.getState().setCredentials(AuthScope.ANY, credentials);
-        client.getParams().setSoTimeout(timeout);
-        post.setRequestEntity(entity1);
-
-        try
-        {
-            client.executeMethod(post);
-
-            if (post.getStatusCode() == HttpStatus.SC_ACCEPTED)
-                log.info(file + "\n" + post.getResponseBodyAsString());
-            else if (post.getStatusCode() == HttpStatus.SC_UNAUTHORIZED)
-                fail("please register EASY userID: " + credentials.getUserName() + " with password: " + credentials.getUserName());
-            else
-                fail("Start was launched? Unexpected failure: " + post.getStatusLine().toString());
-        }
-        finally
-        {
-            post.releaseConnection();
-        }
+        return new MultipartRequestEntity(parts, params);
     }
 }
