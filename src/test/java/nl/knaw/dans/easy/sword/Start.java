@@ -41,22 +41,16 @@ public class Start
      */
     public static void main(final String[] args) throws Exception // NOPMD
     {
-        if (EasyHome.getValue() == null)
-            throw new Exception("Please specify the system property '" + EasyHome.EASY_HOME_KEY + "'");
-        ClassPathHacker.addFile("src/main/resources/");
-
         int port = args.length > 0 ? Integer.valueOf(args[0]) : PORT;
         int sslPort = args.length > 1 ? Integer.valueOf(args[1]) : SSL_PORT;
         final Server server = createServer(port, sslPort);
 
         try
         {
-            System.out.println(">>> STARTING EMBEDDED JETTY SERVER, PRESS ANY KEY TO STOP"); // NOPMD
             server.start();
+            System.out.println(">>> STARTED EMBEDDED JETTY SERVER, PRESS ANY KEY TO STOP"); // NOPMD
             while (System.in.available() == 0)
-            {
                 Thread.sleep(SLEEPTIME); // NOPMD
-            }
             server.stop();
             server.join();
         }
@@ -67,8 +61,12 @@ public class Start
         }
     }
 
-    static Server createServer(int port, int sslPort)
+    static Server createServer(int port, int sslPort) throws Exception
     {
+        if (EasyHome.getValue() == null)
+            throw new Exception("Please specify the system property '" + EasyHome.EASY_HOME_KEY + "'");
+        ClassPathHacker.addFile("src/main/resources/");
+
         final Server server = new Server(); // NOPMD
 
         System.out.println(">>> Creating connector on port " + port);
