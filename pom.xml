@@ -18,7 +18,7 @@
 	</description>
 
 	<packaging>jar</packaging>
-	
+
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
@@ -26,6 +26,33 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
+	
+	<profiles>
+		<profile>
+			<id>maven.filter.values</id>
+			<activation>
+				<file>
+					<exists>${user.home}/.m2/maven-filter-values.properties</exists>
+				</file>
+			</activation>
+			<build>
+				<filters>
+					<filter>${user.home}/.m2/maven-filter-values.properties</filter>
+				</filters>
+			</build>
+		</profile>
+		<profile>
+			<id>pom.specified.values</id>
+			<activation>
+				<file>
+					<missing>${user.home}/.m2/maven-filter-values.properties</missing>
+				</file>
+			</activation>
+			<properties>
+				<evm.host.address>127.0.0.1</evm.host.address>
+			</properties>
+		</profile>
+	</profiles>
 
 	<!-- === DEPENDENCIES === -->
 	<dependencies>
@@ -36,20 +63,27 @@
 			<artifactId>easy-business</artifactId>
 			<version>${parent.version}</version>
 		</dependency>
-		
+
 		<dependency>
-            <groupId>nl.knaw.dans.common</groupId>
-            <artifactId>dans-ldap</artifactId>
-            <version>${parent.version}</version>
-        </dependency>
+			<groupId>nl.knaw.dans.common</groupId>
+			<artifactId>dans-ldap</artifactId>
+			<version>${parent.version}</version>
+		</dependency>
 
 	</dependencies>
 
 	<!-- === BUILD === -->
 	<build>
+		<testResources>
+			<testResource>
+				<filtering>true</filtering>
+				<directory>src/test/resources</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+			</testResource>
+		</testResources>
 		<plugins>
-
-
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
@@ -65,7 +99,7 @@
 
 	<!-- === REPOSITORIES === -->
 	<repositories>
-	
+
 	</repositories>
 
 	<!-- === PLUGIN REPOSITORIES === -->
