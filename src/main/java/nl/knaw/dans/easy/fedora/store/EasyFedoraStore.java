@@ -32,6 +32,7 @@ import nl.knaw.dans.easy.domain.exceptions.ApplicationException;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainerFactory;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadataImpl;
+import nl.knaw.dans.easy.fedora.db.FileStoreSyncListener;
 
 import org.joda.time.DateTime;
 import org.jrdf.graph.Node;
@@ -48,11 +49,6 @@ public class EasyFedoraStore extends FedoraDmoStore implements EasyStore
 
     public EasyFedoraStore(String name, final Fedora fedora)
     {
-        this(name, fedora, null);
-    }
-
-    public EasyFedoraStore(String name, final Fedora fedora, final SearchEngine searchEngine)
-    {
         super(name, fedora);
         
         AbstractDmoFactory.register(new DatasetFactory());
@@ -68,20 +64,7 @@ public class EasyFedoraStore extends FedoraDmoStore implements EasyStore
         addConverter(new DisciplineContainerConverter());
         
         AbstractDmoFactory.register(new DownloadHistoryFactory());
-        addConverter(new DownloadHistoryConverter());
-        
-        // CommonDataset was a hobby of Lodewijk. Does not fit into the system.
-        // addConverter(new CommonDatasetConverter());
-        
-        // nl.knaw.dans.common.lang.repo.jumpoff.JumpoffDmo is taken care of in super.
-        
-        // nl.knaw.dans.i.dmo.collections.DmoCollection
-        // AbstractDmoFactory is set by comp.dmo.collections
-        
-
-        if (searchEngine != null)
-            addEventListener(new RepoSearchListener(searchEngine));
-
+        addConverter(new DownloadHistoryConverter());        
     }
     
     public URL getFileURL(DmoStoreId dmoStoreId)

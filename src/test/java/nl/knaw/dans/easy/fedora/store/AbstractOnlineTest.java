@@ -6,13 +6,16 @@ import nl.knaw.dans.common.fedora.Fedora;
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.repo.DmoStores;
+import nl.knaw.dans.common.lang.reposearch.RepoSearchListener;
 import nl.knaw.dans.common.lang.search.SearchEngine;
 import nl.knaw.dans.common.lang.test.Tester;
 import nl.knaw.dans.common.solr.SolrSearchEngine;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.search.EasySearchBeanFactory;
 import nl.knaw.dans.easy.data.store.EasyStore;
+import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.db.DbLocalConfig;
+import nl.knaw.dans.easy.db.DbUtil;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
 import nl.knaw.dans.easy.domain.model.AdministrativeMetadata;
 import nl.knaw.dans.easy.domain.model.Dataset;
@@ -20,6 +23,7 @@ import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import nl.knaw.dans.easy.domain.model.emd.types.BasicString;
 import nl.knaw.dans.easy.domain.model.emd.types.IsoDate;
 import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
+import nl.knaw.dans.easy.fedora.db.FileStoreSyncListener;
 
 import org.joda.time.DateTime;
 
@@ -41,11 +45,14 @@ public abstract class AbstractOnlineTest
     
     private static DbLocalConfig dbLocalConfig;
     
-    public static void setUpData() throws MalformedURLException
+    public static void setUpData() throws MalformedURLException, StoreAccessException
     {
         DmoStores.skipThisRubbish = true;
         Data data = new Data();
-        EasyStore easyStore = new EasyFedoraStore("easy", getFedora(), getSearchEngine());
+        EasyStore easyStore = new EasyFedoraStore("easy", getFedora());
+        DbUtil.setLocalConfig(getDbLocalConfig());
+        easyStore.addEventListener(new RepoSearchListener(getSearchEngine()));
+        easyStore.addEventListener(new FileStoreSyncListener());
         
         data.setEasyStore(easyStore);
     }

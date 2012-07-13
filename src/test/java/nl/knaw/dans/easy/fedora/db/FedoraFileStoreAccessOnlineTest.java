@@ -9,6 +9,7 @@ import java.util.List;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.data.store.StoreException;
+import nl.knaw.dans.easy.db.DbUtil;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
@@ -25,9 +26,10 @@ public class FedoraFileStoreAccessOnlineTest extends AbstractOnlineTest
     private static FedoraFileStoreAccess fsAccess;
     
     @BeforeClass
-    public static void beforeClass()
+    public static void beforeClass() throws StoreAccessException
     {
-        fsAccess = new FedoraFileStoreAccess(getFedora(), getDbLocalConfig());
+    	DbUtil.setLocalConfig(getDbLocalConfig());
+        fsAccess = new FedoraFileStoreAccess();
     }
     
     @Ignore("Local variables")

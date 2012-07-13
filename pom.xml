@@ -3,8 +3,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<parent>
-		<!--  see ../pom.xml -->
-		<artifactId>easy</artifactId>
+		<!-- see ../pom.xml -->
+		<artifactId>easy-application</artifactId>
 		<groupId>nl.knaw.dans.easy</groupId>
 		<version>2.x-SNAPSHOT</version>
 	</parent>
@@ -49,7 +49,8 @@
 			<version>${parent.version}</version>
 		</dependency>
 
-		<!-- dependency on the test classes of dans-lang for the test scope of this project -->
+		<!-- dependency on the test classes of dans-lang for the test scope of 
+			this project -->
 		<dependency>
 			<groupId>nl.knaw.dans.common</groupId>
 			<artifactId>dans-lang</artifactId>
@@ -60,7 +61,7 @@
 
 		<!-- /Project dependencies -->
 
-		<!--  Hibernate -->
+		<!-- Hibernate -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate</artifactId>
@@ -69,11 +70,11 @@
 
 		<!-- should not be here, but build fails on continuum if omitted -->
 		<dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.4</version>
-            <scope>test</scope>
-        </dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.4</version>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>postgresql</groupId>
 			<artifactId>postgresql</artifactId>
@@ -92,9 +93,46 @@
 		</dependency>
 
 	</dependencies>
+	
+	<profiles>
+		<profile>
+			<id>maven.filter.values</id>
+			<activation>
+				<file>
+					<exists>${user.home}/.m2/maven-filter-values.properties</exists>
+				</file>
+			</activation>
+			<build>
+				<filters>
+					<filter>${user.home}/.m2/maven-filter-values.properties</filter>
+				</filters>
+			</build>
+		</profile>
+		<profile>
+			<id>pom.specified.values</id>
+			<activation>
+				<file>
+					<missing>${user.home}/.m2/maven-filter-values.properties</missing>
+				</file>
+			</activation>
+			<properties>
+				<evm.host.address>127.0.0.1</evm.host.address>
+			</properties>
+		</profile>
+	</profiles>
+	
 
 	<!-- === BUILD === -->
 	<build>
+		<testResources>
+			<testResource>
+				<filtering>true</filtering>
+				<directory>src/test/resources</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+			</testResource>
+		</testResources>
 		<plugins>
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
@@ -129,7 +167,7 @@
 	</build>
 
 	<repositories>
-	
+
 	</repositories>
 
 	<pluginRepositories>

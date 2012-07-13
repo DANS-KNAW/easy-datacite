@@ -14,8 +14,24 @@ import org.hibernate.classic.Session;
  *
  */
 public class ThreadLocalSessionFactory {
+	
+	private static ThreadLocalSessionFactory INSTANCE;
 
 	private ThreadLocal<SessionInfo> localSessionInfo = new ThreadLocal<SessionInfo>();
+	
+	private ThreadLocalSessionFactory()
+	{
+		
+	}
+	
+	public static ThreadLocalSessionFactory instance()
+	{
+		if (INSTANCE == null)
+		{
+			INSTANCE = new ThreadLocalSessionFactory();
+		}
+		return INSTANCE;
+	}
 	
 	/**
 	 * Get a new or existing Session object. If a session already was created

@@ -11,6 +11,8 @@ import nl.knaw.dans.easy.db.exceptions.DbException;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DbUtil {
 
@@ -23,6 +25,9 @@ public class DbUtil {
     private static Object sessionFactoryCreateLock = new Object();
 
     private static SessionFactory sessionFactory;
+    
+    private static final Logger logger = LoggerFactory.getLogger(DbUtil.class);
+	
 
 
     public static Configuration getConfiguration() throws DbException
@@ -64,6 +69,11 @@ public class DbUtil {
 	{
 		localConfig = config;
 	}
+	
+	public static boolean hasLocalConfig()
+	{
+		return localConfig != null;
+	}
 
 	public static void resetSessionFactory()
 	{
@@ -84,6 +94,9 @@ public class DbUtil {
 		return sessionFactory;
 	}
 
+	// This method, with the //conn = getSessionFactory().openSession().connection(); 
+	// in the try clause out-commented for ages
+	// does effectively nothing.
 	public static void checkConnection() throws CouldNotConnectToDatabaseException, DbException
 	{
 		Connection conn = null;
@@ -107,6 +120,21 @@ public class DbUtil {
 					throw new DbException(e);
 				}
 			}
+		}
+	}
+	
+	/**
+	 * 
+	 * Used by Spring.
+	 *
+	 */
+	public static class Registrator
+	{
+		
+		public void setLocalConfig(DbLocalConfig localConfig)
+		{
+			DbUtil.setLocalConfig(localConfig);
+			logger.info("Configured DbUtil for " + localConfig.getConnectionUrl());
 		}
 	}
 

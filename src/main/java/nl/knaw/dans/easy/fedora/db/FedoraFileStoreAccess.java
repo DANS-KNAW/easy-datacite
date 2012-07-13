@@ -15,6 +15,7 @@ import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.data.store.StoreException;
 import nl.knaw.dans.easy.db.DbLocalConfig;
 import nl.knaw.dans.easy.db.DbUtil;
+//import nl.knaw.dans.easy.db.DbUtil;
 import nl.knaw.dans.easy.db.ThreadLocalSessionFactory;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
@@ -51,7 +52,7 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
 {
     private static final Logger       LOGGER               = LoggerFactory.getLogger(FedoraFileStoreAccess.class);
 
-    private ThreadLocalSessionFactory sessionFactory       = new ThreadLocalSessionFactory();
+    private ThreadLocalSessionFactory sessionFactory       = ThreadLocalSessionFactory.instance();
 
     private static final String       FILENAME_QUERY       = "SELECT name FROM " + FileItemVO.class.getName()
                                                                    + " WHERE parentSid=:parentSid";
@@ -101,15 +102,12 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
     static private Class[]            implementedFilters   = {CreatorRoleFieldFilter.class, VisibleToFieldFilter.class,
             AccessibleToFieldFilter.class                  };
 
-    public FedoraFileStoreAccess()
+    public FedoraFileStoreAccess() throws StoreAccessException
     {
-        // null constructor (do not call)
-    }
-
-    public FedoraFileStoreAccess(Fedora fedora, DbLocalConfig localConfig)
-    {
-        DbUtil.setLocalConfig(localConfig);
-        DbUtil.checkConnection();
+    	if (!DbUtil.hasLocalConfig())
+    	{
+    		throw new StoreAccessException("No local configuration set on " + DbUtil.class.getName());
+    	}
     }
 
     private String getInfoMsg(DmoStoreId parentSid, Integer limit, Integer offset, ItemOrder order, ItemFilters filters)
@@ -749,4 +747,5 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
             result.add(Restrictions.eq(propertyName, values.next()));
         return result;
     }
+    
 }

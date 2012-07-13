@@ -48,7 +48,7 @@ public class FedoraFileStoreAccessTest
 	private static FedoraFileStoreAccess	fileStoreAccess;
 	
 	@BeforeClass
-	public static void beforeClass()
+	public static void beforeClass() throws StoreAccessException
 	{
 		FedoraDbTestSchema.init(); 
 		dummyFileStore  = new DummyFileStoreAccess();
