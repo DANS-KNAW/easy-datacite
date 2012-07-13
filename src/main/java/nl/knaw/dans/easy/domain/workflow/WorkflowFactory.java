@@ -39,6 +39,10 @@ public final class WorkflowFactory
         try
         {
             inStream = WorkflowFactory.class.getResourceAsStream(DATASET_WORKFLOW_PATH);
+            if (inStream == null)
+            {
+            	throw new IOException("No resource at " + DATASET_WORKFLOW_PATH);
+            }
             wfStep = (WorkflowStep) JiBXObjectFactory.unmarshal(WorkflowStep.class, inStream);
         }
         catch (IOException e)

@@ -2,6 +2,7 @@ package nl.knaw.dans.easy.domain.dataset.item;
 
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
+import nl.knaw.dans.easy.domain.model.FileItem;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 
@@ -17,6 +18,20 @@ public class FileItemVO extends AbstractItemVO implements java.io.Serializable, 
 
 	public FileItemVO()
 	{
+	}
+	
+	public FileItemVO(FileItem fileItem)
+	{
+	    super(fileItem.getDmoStoreId().getStoreId(),
+	            fileItem.getFileItemMetadata().getParentDmoStoreId().getStoreId(),
+	            fileItem.getDatasetId().getStoreId(),
+	            fileItem.getLabel());
+	    size = (int) fileItem.getSize();
+	    mimetype = fileItem.getFileItemMetadata().getMimeType();
+	    creatorRole = fileItem.getCreatorRole();
+	    visibleTo = fileItem.getVisibleTo();
+	    accessibleTo = fileItem.getAccessibleTo();
+	    setPath(fileItem.getPath());
 	}
 
 	public FileItemVO(String sid, String parentSid, String datasetSid,
@@ -169,5 +184,22 @@ public class FileItemVO extends AbstractItemVO implements java.io.Serializable, 
 			return false;
 		return true;
 	}
+
+    public void updateTo(FileItem fileItem)
+    {
+        if (!getSid().equals(fileItem.getStoreId()))
+        {
+            throw new IllegalArgumentException("Cannot update FileItemVO " + getSid() + " to " + fileItem);
+        }
+        setParentSid(fileItem.getDatasetItemMetadata().getParentDmoStoreId().getStoreId());
+        setDatasetSid(fileItem.getDatasetId().getStoreId());
+        setName(fileItem.getLabel());
+        size = (int) fileItem.getSize();
+        mimetype = fileItem.getFileItemMetadata().getMimeType();
+        creatorRole = fileItem.getCreatorRole();
+        visibleTo = fileItem.getVisibleTo();
+        accessibleTo = fileItem.getAccessibleTo();
+        setPath(fileItem.getPath());
+    }
 
 }

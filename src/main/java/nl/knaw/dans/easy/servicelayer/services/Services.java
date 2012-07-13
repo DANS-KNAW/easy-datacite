@@ -44,7 +44,7 @@ public class Services
     /**
      * Unlock Services.
      */
-    void unlock()
+    public void unlock()
     {
         LOCKED = false;
         logger.debug(this + " has been unlocked.");

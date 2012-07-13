@@ -8,7 +8,9 @@ import java.util.Set;
 
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
+import nl.knaw.dans.easy.domain.model.FolderItem;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
+import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 
 
 public class FolderItemVO extends AbstractItemVO implements Cloneable
@@ -22,6 +24,18 @@ public class FolderItemVO extends AbstractItemVO implements Cloneable
 
 	public FolderItemVO()
 	{
+	}
+	
+	public FolderItemVO(FolderItem folderItem)
+	{
+	    super(folderItem.getDmoStoreId().getStoreId(),
+	            folderItem.getDatasetItemMetadata().getParentDmoStoreId().getStoreId(),
+	            folderItem.getDatasetId().getStoreId(),
+	            folderItem.getLabel());
+	    setPath(folderItem.getPath());
+	    setAccessibleToes(folderItem.getDatasetItemContainerMetadata().getAccessibleToList());
+	    setVisibleToes(folderItem.getDatasetItemContainerMetadata().getVisibleToList());
+	    setCreators(folderItem.getDatasetItemContainerMetadata().getCreatorRoles());
 	}
 
 	public FolderItemVO(String pid, String parentSid, String datasetSid,
@@ -45,6 +59,17 @@ public class FolderItemVO extends AbstractItemVO implements Cloneable
 	{
 		this.creatorRolesOfChildren = creatorRoles;
 	}
+	
+	// ... and yet another translation...
+	private void setCreators(List<CreatorRole> creatorRoles)
+	{
+	    creatorRolesOfChildren.clear();
+	    String storeId = getSid();
+	    for (CreatorRole creatorRole : creatorRoles)
+	    {
+	        creatorRolesOfChildren.add(new FolderItemCreatorRole(storeId, creatorRole));
+	    }
+	}
 
 	public Set<FolderItemCreatorRole> getCreatorRoles()
 	{
@@ -54,6 +79,17 @@ public class FolderItemVO extends AbstractItemVO implements Cloneable
 	public void setVisibleToList(Set<FolderItemVisibleTo> visibleToList)
 	{
 		this.visibleToOfChildren = visibleToList;
+	}
+	
+	// ... and strange enumerations lead to strange names...
+	private void setVisibleToes(List<VisibleTo> visibleToes)
+	{
+	    visibleToOfChildren.clear();
+	    String storeId = getSid();
+	    for (VisibleTo visibleToe : visibleToes)
+	    {
+	        visibleToOfChildren.add(new FolderItemVisibleTo(storeId, visibleToe));
+	    }
 	}
 
 	public Set<FolderItemVisibleTo> getVisibleToList()
@@ -65,7 +101,18 @@ public class FolderItemVO extends AbstractItemVO implements Cloneable
 	{
 		this.accesibleToOfChildren = accesibleToList;
 	}
-
+	
+	// The accessCategory has too many manifestations!
+	protected void setAccessibleToes(List<AccessibleTo> accesibleToes)
+	{
+	    accesibleToOfChildren.clear();
+	    String storeId = getSid();
+	    for (AccessibleTo accessibleToe : accesibleToes)
+	    {
+	        accesibleToOfChildren.add(new FolderItemAccessibleTo(storeId, accessibleToe));
+	    }
+	}
+	
 	public Set<FolderItemAccessibleTo> getAccessibleToList()
 	{
 		return accesibleToOfChildren;
@@ -124,6 +171,8 @@ public class FolderItemVO extends AbstractItemVO implements Cloneable
 				+ ((creatorRolesOfChildren == null) ? 0 : creatorRolesOfChildren.hashCode());
 		result = prime * result
 				+ ((visibleToOfChildren == null) ? 0 : visibleToOfChildren.hashCode());
+		result = prime * result
+		        + ((accesibleToOfChildren == null) ? 0 : accesibleToOfChildren.hashCode());
 		return result;
 	}
 
@@ -151,6 +200,14 @@ public class FolderItemVO extends AbstractItemVO implements Cloneable
 				return false;
 		} else if (!visibleToOfChildren.equals(other.visibleToOfChildren))
 			return false;
+		if (accesibleToOfChildren == null)
+		{
+		    if (other.accesibleToOfChildren != null)
+		        return false;
+		} else if (!accesibleToOfChildren.equals(other.accesibleToOfChildren))
+		{
+		    return false;
+		}
 		return true;
 	}
 
@@ -190,6 +247,22 @@ public class FolderItemVO extends AbstractItemVO implements Cloneable
 		}
 		return clone;
 	}
+
+    public void updateTo(FolderItem folderItem)
+    {
+        if (!getSid().equals(folderItem.getStoreId()))
+        {
+            throw new IllegalArgumentException("Cannot update FolderItemVO " + getSid() + " to " + folderItem);
+        }
+        setParentSid(folderItem.getDatasetItemContainerMetadata().getParentDmoStoreId().getStoreId());
+        setDatasetSid(folderItem.getDatasetId().getStoreId());
+        setName(folderItem.getLabel());
+        setPath(folderItem.getPath());
+        setAccessibleToes(folderItem.getDatasetItemContainerMetadata().getAccessibleToList());
+        setVisibleToes(folderItem.getDatasetItemContainerMetadata().getVisibleToList());
+        setCreators(folderItem.getDatasetItemContainerMetadata().getCreatorRoles());
+        
+    }
 
 	
 }
