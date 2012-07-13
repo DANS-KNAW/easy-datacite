@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 
 import java.sql.*;
 
+import nl.knaw.dans.common.lang.test.Tester;
+
 import org.junit.*;
 import org.slf4j.*;
 import static nl.knaw.dans.commons.pid.PidTableProperties.*;
@@ -26,7 +28,7 @@ public class PidGeneratorOnlineTest
         {
             // note that Maven needs dependencies for supported databases
             Class.forName("org.postgresql.Driver");
-            final String url = "jdbc:postgresql://localhost/pid_generator";
+            final String url = Tester.getString("pid.database.url");
 
             final String user = "postgres";
             final String password = "postgres";

@@ -159,6 +159,14 @@
             <artifactId>postgresql</artifactId>
             <version>8.4-701.jdbc3</version>
         </dependency>
+        
+        <!-- dependency on dans-lang for the test scope of this project -->
+		<dependency>
+			<groupId>nl.knaw.dans.common</groupId>
+			<artifactId>dans-lang</artifactId>
+			<version>${parent.version}</version>
+			<scope>test</scope>
+		</dependency>
 
     </dependencies>
 
