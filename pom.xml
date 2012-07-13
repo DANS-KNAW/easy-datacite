@@ -14,6 +14,33 @@
 	<packaging>war</packaging>
 	<version>2.2-beta-2</version>
 	<description>Easy Web Application</description>
+	
+	<profiles>
+		<profile>
+			<id>maven.filter.values</id>
+			<activation>
+				<file>
+					<exists>${user.home}/.m2/maven-filter-values.properties</exists>
+				</file>
+			</activation>
+			<build>
+				<filters>
+					<filter>${user.home}/.m2/maven-filter-values.properties</filter>
+				</filters>
+			</build>
+		</profile>
+		<profile>
+			<id>pom.specified.values</id>
+			<activation>
+				<file>
+					<missing>${user.home}/.m2/maven-filter-values.properties</missing>
+				</file>
+			</activation>
+			<properties>
+				<evm.host.address>127.0.0.1</evm.host.address>
+			</properties>
+		</profile>
+	</profiles>
 
 	<!-- TODO <organization> <name>company name</name> <url>company url</url> 
 		</organization> -->
@@ -190,6 +217,30 @@
 			<testResources> <testResource> <filtering>true</filtering> <directory>src/test/resources</directory> 
 			<includes> <include>**/*.*</include> </includes> </testResource> </testResources> -->
 
+		<resources>
+			<resource>
+				<filtering>true</filtering>
+				<directory>src/main/resources/conf/app</directory>
+				<targetPath>conf/app</targetPath>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+			</resource>
+			<resource>
+                <filtering>false</filtering>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.html</include>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                    <include>**/*.pdf</include>
+                    <include>**/*.*</include>
+                </includes>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+            </resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
