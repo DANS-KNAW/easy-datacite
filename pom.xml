@@ -6,7 +6,6 @@
 	</parent>
 
   <modelVersion>4.0.0</modelVersion>
-  <groupId>nl.knaw.dans.common</groupId>
   <artifactId>dans-solr</artifactId>
   <name>DANS-Solr</name>
   <version>${parent.version}</version>
@@ -14,59 +13,13 @@
   <description>Common DANS Solr implementation</description>
   
   	<properties>
-		<source-code-version>1.6</source-code-version>
-		<byte-code-version>1.6</byte-code-version>
-		<pmd-rule-set>http://develop01.dans.knaw.nl/svn/mixed/eof-open-source/trunk/solr/docs/pmd/basic.xml</pmd-rule-set>
-		<!-- servers -->
-        <repository-server>develop01.dans.knaw.nl</repository-server>
         <solr.version>3.5.0</solr.version>
 	</properties>
-
 
 	<organization>
 		<name>DANS</name>
 		<url>http://www.dans.knaw.nl</url>
 	</organization>
-
-
-	<!-- Continuum settings: please add people to notify in case of build failure/success -->
-	<ciManagement>
-		<system>continuum</system>
-		<url>http://continuum.dans.knaw.nl/</url>
-		<notifiers>
-			<!-- Please add notifiers -->
-			<notifier>
-				<type>mail</type>
-				<configuration>
-					<address>lodewijk.bogaards@dans.knaw.nl</address>
-				</configuration>
-				<sendOnSuccess>false</sendOnSuccess>
-			</notifier>
-		</notifiers>
-	</ciManagement>
-
-	<!-- Source control: should not be altered provided you use the artifactId as projectname -->
-	<scm>
-		<connection>scm:svn:http://develop01.dans.knaw.nl/svn/mixed/eof-open-source/trunk/solr</connection>
-		<developerConnection>scm:svn:https://develop01.dans.knaw.nl/svn/mixed/eof-open-source/trunk/solr</developerConnection>
-		<url>http://develop01.dans.knaw.nl/svn/mixed/eof-open-source/trunk/solr</url>
-	</scm>
-
-	<!-- Please supply a list of developers working on the project -->
-	<developers>
-		<developer>
-			<id>lodewijk</id>
-			<name>Lodewijk Boogaards</name>
-			<email>lodewijk.boogaards@dans.knaw.nl</email>
-			<organization>DANS</organization>
-			<organizationUrl>http://www.dans.knaw.nl/</organizationUrl>
-			<roles>
-				<role>Developer</role>
-			</roles>
-			<!-- Assuming we're all in the same time-zone -->
-			<timezone>+1</timezone>
-		</developer>
-	</developers>
 	
 	<dependencies>
 		<!-- dans common language dependencies -->
@@ -76,13 +29,6 @@
             <version>${parent.version}</version>
         </dependency>
 
-		<!-- Unit testing dependencies -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.7</version>
-            <scope>test</scope>
-        </dependency>
         <dependency>
         	<groupId>org.apache.solr</groupId>
         	<artifactId>solr-solrj</artifactId>
@@ -97,8 +43,6 @@
 	</dependencies>
 	
 	<build>
-		<sourceDirectory>src/main/java</sourceDirectory>
-		<testSourceDirectory>src/test/java</testSourceDirectory>
 		<resources>
             <resource>
                 <filtering>true</filtering>
@@ -129,63 +73,6 @@
                 </includes>
             </testResource>
         </testResources>
-
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<groupId>org.apache.maven.plugins</groupId>
-				<configuration>
-					<source>${source-code-version}</source>
-					<target>${byte-code-version}</target>
-					<debug>true</debug>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<useFile>true</useFile>
-					<systemProperties>
-						<property>
-							<name>net.sourceforge.cobertura.datafile</name>
-							<value>${basedir}/target/cobertura/cobertura.ser</value>
-						</property>
-					</systemProperties>
-					<excludes>
-						<exclude>**/*OnlineTest.java</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-				<configuration>
-					<enableRulesSummary>false</enableRulesSummary>
-				</configuration>
-			</plugin>
-
-			<!-- buildNumber
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>buildnumber-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>validate</phase>
-						<goals>
-							<goal>create</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<doCheck>false</doCheck>
-					<doUpdate>false</doUpdate>
-				</configuration>
-			</plugin>
-			-->
-
-		</plugins>
 	</build>
 
 	<reporting>
