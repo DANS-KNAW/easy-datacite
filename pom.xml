@@ -9,7 +9,6 @@
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>nl.knaw.dans.easy</groupId>
 	<artifactId>easy-ldap</artifactId>
 	<name>Easy Ldap Data Access Implementation</name>
 	<version>${parent.version}</version>
@@ -83,29 +82,7 @@
 				</includes>
 			</testResource>
 		</testResources>
-		<plugins>
-			<plugin>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>**/*OnlineTest.java</exclude>
-						<exclude>**/*EmbeddedDSTest.java</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
-		</plugins>
 
 	</build>
-
-	<!-- === REPOSITORIES === -->
-	<repositories>
-
-	</repositories>
-
-	<!-- === PLUGIN REPOSITORIES === -->
-	<pluginRepositories>
-
-	</pluginRepositories>
-
 
 </project>
