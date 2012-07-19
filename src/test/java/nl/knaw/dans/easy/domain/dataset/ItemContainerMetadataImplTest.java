@@ -9,7 +9,6 @@ import java.util.List;
 import nl.knaw.dans.common.jibx.JiBXObjectFactory;
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
-import nl.knaw.dans.common.lang.repo.dummy.DummyUnitOfWork;
 import nl.knaw.dans.common.lang.test.Tester;
 import nl.knaw.dans.common.lang.xml.XMLException;
 import nl.knaw.dans.common.lang.xml.XMLSerializationException;
@@ -115,12 +114,12 @@ public class ItemContainerMetadataImplTest
         // - datasetId:java.lang.String
         // versionable:boolean --> leave it for the time being
 
-		DummyUnitOfWork dmoUow = new DummyUnitOfWork();
+		//DummyUnitOfWork dmoUow = new DummyUnitOfWork();
 
 		
         FolderItemImpl folder = new FolderItemImpl("foo:123");
         
-        dmoUow.attach(folder);
+        //dmoUow.attach(folder);
         
         DatasetItemContainerMetadata icmd = folder.getDatasetItemContainerMetadata();
         assertTrue(icmd.isDirty());

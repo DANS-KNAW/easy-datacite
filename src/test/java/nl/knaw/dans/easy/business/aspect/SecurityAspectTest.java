@@ -27,7 +27,6 @@ public class SecurityAspectTest
     public void testSomeMethod() throws ServiceException
     {
         workDispatcher.addDirectoryContents(null, null, null, null, null, null, null);
-        
     }
     
 }

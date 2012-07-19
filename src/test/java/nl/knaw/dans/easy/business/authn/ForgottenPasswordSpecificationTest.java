@@ -32,6 +32,7 @@ public class ForgottenPasswordSpecificationTest extends TestHelper
         ForgottenPasswordMessenger messenger = new ForgottenPasswordMessenger();
         assertFalse(ForgottenPasswordSpecification.isSatisfiedBy(messenger));
         assertEquals(State.InsufficientData, messenger.getState());
+        
     }
     
     @Test
