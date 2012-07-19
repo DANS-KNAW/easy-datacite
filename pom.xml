@@ -276,9 +276,9 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<execute >
+										<execute>
                   							<runOnIncremental>true</runOnIncremental>
-                						</execute >
+                						</execute>
 									</action>
 								</pluginExecution>
 							</pluginExecutions>

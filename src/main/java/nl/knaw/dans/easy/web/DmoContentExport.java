@@ -25,13 +25,13 @@ import org.slf4j.LoggerFactory;
 public class DmoContentExport extends DynamicWebResource
 {
 
-    private static final long   serialVersionUID = 6186922192776184192L;
+    private static final long serialVersionUID = 6186922192776184192L;
 
-    private static final Logger logger           = LoggerFactory.getLogger(DmoContentExport.class);
+    private static final Logger logger = LoggerFactory.getLogger(DmoContentExport.class);
 
-    public static final String  PARAM_STORE_ID   = "sid";
-    public static final String  PARAM_UNIT_ID    = "did";
-    
+    public static final String PARAM_STORE_ID = "sid";
+    public static final String PARAM_UNIT_ID = "did";
+
     private Map<String, DmoContentExportResponse> responses = new HashMap<String, DmoContentExportResponse>();
 
     @Override
@@ -49,7 +49,7 @@ public class DmoContentExport extends DynamicWebResource
         {
             super.setHeaders(response);
             UnitMetadata umd = exportResponse.getUnitMetadata();
-            
+
             response.setContentType(umd.getMimeType());
             response.setHeader("Content-Disposition", "filename=" + umd.getLabel());
             response.setHeader("Content-Length", "" + umd.getSize());
@@ -57,7 +57,7 @@ public class DmoContentExport extends DynamicWebResource
     }
 
     private DmoContentExportResponse getExportResponse(String storeId, String unitId)
-    {        
+    {
         DmoContentExportResponse exportResponse = responses.get(storeId + unitId);
         if (exportResponse == null)
         {
@@ -79,7 +79,7 @@ public class DmoContentExport extends DynamicWebResource
             logger.error("Unable to send error response.", e);
         }
     }
-    
+
     @Override
     protected ResourceState getResourceState()
     {
@@ -88,16 +88,16 @@ public class DmoContentExport extends DynamicWebResource
         DmoContentExportResponse exportResponse = responses.remove(storeId + unitId);
         return exportResponse;
     }
-    
+
     private static class DmoContentExportResponse extends DynamicWebResource.ResourceState
     {
 
         private static final long serialVersionUID = 5039616045135391720L;
-        
+
         private UnitMetadata unitMetadata;
         private byte[] data;
         private int errorCode;
-        
+
         public DmoContentExportResponse(String storeId, String unitId)
         {
             DmoStoreId dmoStoreId = null;
@@ -111,14 +111,14 @@ public class DmoContentExport extends DynamicWebResource
             {
                 errorCode = HttpServletResponse.SC_BAD_REQUEST;
             }
-            
+
             if (errorCode == 0)
                 retrieveUnitMetadata(dmoStoreId, dsUnitId);
-            
+
             if (errorCode == 0)
                 retrieveData(dmoStoreId, dsUnitId);
         }
-        
+
         public UnitMetadata getUnitMetadata()
         {
             return unitMetadata;
@@ -136,7 +136,7 @@ public class DmoContentExport extends DynamicWebResource
                 return data;
             }
         }
-        
+
         @Override
         public String getContentType()
         {
@@ -154,7 +154,7 @@ public class DmoContentExport extends DynamicWebResource
         {
             return errorCode;
         }
-        
+
         public boolean hasError()
         {
             return errorCode != 0;
@@ -164,7 +164,7 @@ public class DmoContentExport extends DynamicWebResource
         {
             try
             {
-                List<UnitMetadata> umdList = Services.getJumpoffService().getUnitMetadata(EasySession.get().getUser(),storeId, unitId);
+                List<UnitMetadata> umdList = Services.getJumpoffService().getUnitMetadata(EasySession.get().getUser(), storeId, unitId);
                 if (umdList.size() > 0)
                 {
                     unitMetadata = umdList.get(0);
@@ -186,7 +186,7 @@ public class DmoContentExport extends DynamicWebResource
                 logger.error("Unable to serve content. storeId=" + storeId + " unitId=" + unitId, e);
             }
         }
-        
+
         private void retrieveData(DmoStoreId storeId, DsUnitId unitId)
         {
             try
@@ -207,12 +207,12 @@ public class DmoContentExport extends DynamicWebResource
                 logger.error("Unable to serve content. storeId=" + storeId + " unitId=" + unitId, e);
             }
             catch (IOException e)
-            { 
+            {
                 errorCode = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
                 logger.error("Unable to serve content. storeId=" + storeId + " unitId=" + unitId, e);
             }
         }
-        
+
     }
 
 }
