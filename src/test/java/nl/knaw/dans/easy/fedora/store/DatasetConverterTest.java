@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import nl.knaw.dans.common.fedora.fox.DigitalObject;
 import nl.knaw.dans.common.lang.RepositoryException;
-import nl.knaw.dans.common.lang.repo.dummy.DummyUnitOfWork;
 import nl.knaw.dans.common.lang.test.Tester;
 import nl.knaw.dans.common.lang.xml.XMLSerializationException;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
@@ -33,13 +32,9 @@ public class DatasetConverterTest
     @Test
     public void testConversion() throws XMLSerializationException, RepositoryException, DomainException, ObjectNotFoundException
     {
-    	DummyUnitOfWork dmoUow = new DummyUnitOfWork();
-
     	DatasetImpl dataset = new DatasetImpl("easy-dataset:123");
         dataset.getAdministrativeMetadata().setDepositorId("kees4");
         dataset.getEasyMetadata().getEmdTitle().getDcTitle().add(new BasicString("Test Dataset"));
-        
-        dmoUow.attach(dataset);
         
         dataset.addFileOrFolder(new FileItemImpl("dummy-file:123"));
         

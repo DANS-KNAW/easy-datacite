@@ -2,13 +2,10 @@ package nl.knaw.dans.easy.fedora.store;
 
 import static org.junit.Assert.assertEquals;
 import nl.knaw.dans.common.fedora.fox.DigitalObject;
-import nl.knaw.dans.common.lang.repo.dummy.DummyUnitOfWork;
 import nl.knaw.dans.common.lang.test.Tester;
 import nl.knaw.dans.common.lang.xml.XMLSerializationException;
 import nl.knaw.dans.easy.domain.dataset.FileItemImpl;
 import nl.knaw.dans.easy.domain.dataset.FolderItemImpl;
-import nl.knaw.dans.easy.domain.model.FileItem;
-import nl.knaw.dans.easy.domain.model.FolderItem;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 
 import org.junit.Test;
@@ -27,7 +24,6 @@ private static final Logger logger = LoggerFactory.getLogger(FolderItemConverter
     @Test
     public void testConverter() throws XMLSerializationException, Exception
     {
-    	DummyUnitOfWork dmoUow = new DummyUnitOfWork();
     	
         FolderItemImpl fo1 = new FolderItemImpl("easy-folder:1");
         FileItemImpl fi1 = new FileItemImpl("easy-file:1");
@@ -36,8 +32,6 @@ private static final Logger logger = LoggerFactory.getLogger(FolderItemConverter
         fi1.setCreatorRole(CreatorRole.ARCHIVIST);
         fi2.setCreatorRole(CreatorRole.DEPOSITOR);
         
-        dmoUow.attach(fo1);
-        dmoUow.attach(fo2);
         
         fo1.addFileOrFolder(fi1);
         fo2.addFileOrFolder(fi2);

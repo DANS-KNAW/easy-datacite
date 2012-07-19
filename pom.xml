@@ -3,14 +3,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<parent>
-		<!-- see ../pom.xml -->
 		<artifactId>easy-application</artifactId>
 		<groupId>nl.knaw.dans.easy</groupId>
 		<version>2.x-SNAPSHOT</version>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>nl.knaw.dans.easy</groupId>
 	<artifactId>easy-fedora</artifactId>
 	<name>Easy Fedora Data Access Implementation</name>
 	<version>${parent.version}</version>
@@ -27,6 +25,10 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
+	
+	<properties>
+		<jibx.version>1.1.6a</jibx.version>
+	</properties>
 
 	<!-- === DEPENDENCIES === -->
 	<dependencies>
@@ -49,16 +51,6 @@
 			<version>${parent.version}</version>
 		</dependency>
 
-		<!-- dependency on the test classes of dans-lang for the test scope of 
-			this project -->
-		<dependency>
-			<groupId>nl.knaw.dans.common</groupId>
-			<artifactId>dans-lang</artifactId>
-			<version>${parent.version}</version>
-			<classifier>tests</classifier>
-			<scope>test</scope>
-		</dependency>
-
 		<!-- /Project dependencies -->
 
 		<!-- Hibernate -->
@@ -68,13 +60,6 @@
 			<version>3.2.6.ga</version>
 		</dependency>
 
-		<!-- should not be here, but build fails on continuum if omitted -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.4</version>
-			<scope>test</scope>
-		</dependency>
 		<dependency>
 			<groupId>postgresql</groupId>
 			<artifactId>postgresql</artifactId>
@@ -164,6 +149,41 @@
 			</plugin>
 
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.jibx</groupId>
+										<artifactId>
+											maven-jibx-plugin
+										</artifactId>
+										<versionRange>
+											[1.1.6a,)
+										</versionRange>
+										<goals>
+											<goal>bind</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute >
+                  							<runOnIncremental>true</runOnIncremental>
+                						</execute >
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 
 	<repositories>
@@ -183,9 +203,5 @@
 			<url>http://jibx.sf.net/maven2</url>
 		</pluginRepository>
 	</pluginRepositories>
-
-	<properties>
-		<jibx.version>1.1.6a</jibx.version>
-	</properties>
 
 </project>

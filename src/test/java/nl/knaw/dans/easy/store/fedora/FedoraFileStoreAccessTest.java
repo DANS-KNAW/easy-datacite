@@ -10,7 +10,6 @@ import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.data.store.DummyFileStoreAccess;
 import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.db.DbUtil;
-import nl.knaw.dans.easy.db.exceptions.DbException;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemAccessibleTo;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemCreatorRole;
@@ -32,8 +31,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Test;
 import org.junit.Ignore;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -307,7 +306,7 @@ public class FedoraFileStoreAccessTest
 	
 	@Test
 	public void insertSelectAndCompareItemVOs() throws RepositoryException,
-			HibernateException, DbException, CloneNotSupportedException
+			HibernateException, CloneNotSupportedException
 	{
 		logger.debug("starting test: insertSelectAndCompareFileItemVOs");
 	
