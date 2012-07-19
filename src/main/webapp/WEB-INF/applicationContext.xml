@@ -151,7 +151,7 @@
         <constructor-arg index="1" ref="fedora"/>
         <property name="eventListeners">
         	<list>
-        		<!-- ref bean="fileStoreSyncListener"/-->
+        		<ref bean="fileStoreSyncListener"/>
         		<ref bean="repoSearchListener"/>
         	</list>
         </property>
