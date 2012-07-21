@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
-
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.relations.AbstractRelations;
 import nl.knaw.dans.common.lang.repo.relations.Relation;
 import nl.knaw.dans.common.lang.repo.relations.RelsConstants;
 import nl.knaw.dans.i.dmo.collections.DmoCollection;
+
+import org.apache.commons.lang.StringUtils;
 
 public class DmoCollectionRelations extends AbstractRelations<DmoCollection>
 {
