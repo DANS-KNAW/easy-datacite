@@ -25,7 +25,7 @@
 	</licenses>
 	
 	<properties>
-		<jibx.version>1.1.6a</jibx.version>
+		<jibx.version>1.2.4.5</jibx.version>
 	</properties>
 
 	<dependencies>
