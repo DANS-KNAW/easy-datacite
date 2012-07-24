@@ -58,13 +58,13 @@
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>easy-business</artifactId>
-			<version>${parent.version}</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>nl.knaw.dans.common</groupId>
 			<artifactId>dans-wicket</artifactId>
-			<version>${parent.version}</version>
+			<version>${project.parent.version}</version>
 			<exclusions>
 				<!-- Slf4j 1.5.0 is a dependency of wicket 1.4.12, but we need Slf4j 
 					1.6.4 for solr -->
@@ -86,19 +86,19 @@
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>easy-ldap</artifactId>
-			<version>${parent.version}</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>easy-fedora</artifactId>
-			<version>${parent.version}</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>nl.knaw.dans.common</groupId>
 			<artifactId>dans-solr</artifactId>
-			<version>${parent.version}</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 		
 		<dependency>
