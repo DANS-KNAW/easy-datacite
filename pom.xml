@@ -11,7 +11,6 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>dans-ldap</artifactId>
 	<name>DANS Ldap Data Access Implementation</name>
-	<version>${parent.version}</version>
     <packaging>jar</packaging>
     <organization>
         <name>DANS</name>
@@ -35,7 +34,7 @@
         <dependency>
             <groupId>nl.knaw.dans.common</groupId>
             <artifactId>dans-lang</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
 
         <!-- Spring dependencies -->
@@ -160,7 +159,7 @@
     <site>
         <id>develop01.knaw.dans.nl</id>
         <name>Deployment Server</name>
-        <url>scp://${repository-server}/var/www/html/maven2/eof-open-source/${artifactId}</url>
+        <url>scp://${repository-server}/var/www/html/maven2/eof-open-source/${project.artifactId}</url>
     </site>
     </distributionManagement>
 	
