@@ -11,7 +11,6 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>easy-ldap</artifactId>
 	<name>Easy Ldap Data Access Implementation</name>
-	<version>2.x-SNAPSHOT</version>
 	<description>
 		Implementation of Data Access Point(s) in Easy business, using the Lightweight Directory Access Protocol
 	</description>
@@ -60,13 +59,13 @@
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>easy-business</artifactId>
-			<version>${parent.version}</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>nl.knaw.dans.common</groupId>
 			<artifactId>dans-ldap</artifactId>
-			<version>${parent.version}</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 
 	</dependencies>
