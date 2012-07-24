@@ -13,7 +13,6 @@
 	<name>Easy Business Logic</name>
 	<artifactId>easy-business</artifactId>
 	<packaging>jar</packaging>
-	<version>2.x-SNAPSHOT</version>
 	<description>Easy business logic</description>
 
 	<licenses>
@@ -34,13 +33,13 @@
 		<dependency>
 			<groupId>nl.knaw.dans.common</groupId>
 			<artifactId>dans-jibx</artifactId>
-			<version>${parent.version}</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>nl.knaw.dans.common</groupId>
 			<artifactId>dans-pid</artifactId>
-			<version>${parent.version}</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 
 		<dependency>
