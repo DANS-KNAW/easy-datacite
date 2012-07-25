@@ -23,7 +23,11 @@ import org.slf4j.LoggerFactory;
  * @author Roshan Timal
  */
 public class Resource extends AbstractResource {
-
+	/**
+	 * Instantiate a logger.
+	 */
+	private static final Logger logger = LoggerFactory.getLogger(Resource.class);
+	
 	/**
 	 * Some convenient immutable Strings.
 	 */
@@ -152,6 +156,7 @@ public class Resource extends AbstractResource {
 	 * @return Simple 500 response, with no body.
 	 */
 	protected Response internalServerError(Throwable t) {
+		logger.error(t.getMessage());
 		return simpleResponse(HTTP_INTERNAL_SERVER_ERROR,
 				"Internal server error.");
 	}
