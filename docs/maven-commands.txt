@@ -1,0 +1,2 @@
+generate report site:
+mvn -Ddependency.locations.enabled=false site
