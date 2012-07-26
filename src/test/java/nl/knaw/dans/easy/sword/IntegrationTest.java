@@ -9,6 +9,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.BindException;
 
+import nl.knaw.dans.easy.util.EasyHome;
+
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpMethod;
@@ -31,6 +33,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class IntegrationTest
+//The name should not start or end with test because Maven should not run this test.
+//Why not? The tests require the system property easy.home.
 {
     private static final String                      URL       = "http://localhost:" + Start.PORT + "/";
     private static final UsernamePasswordCredentials DEPOSITOR = new UsernamePasswordCredentials("depositor", "123456");
@@ -44,6 +48,9 @@ public class IntegrationTest
     @BeforeClass
     public static void start() throws Exception
     {
+        if (EasyHome.getValue() == null)
+            throw new Exception("Please specify the system property '" + EasyHome.EASY_HOME_KEY + "'");
+
         server = Start.createServer(Start.PORT, Start.SSL_PORT);
         try
         {

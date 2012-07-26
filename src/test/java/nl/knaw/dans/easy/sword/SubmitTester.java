@@ -21,6 +21,7 @@ public class SubmitTester extends SubmitFixture
     @BeforeClass
     public static void checkEasyHome() throws Exception
     {
+        EasyHome.setValue(System.getProperty("easy.home"));
         if (EasyHome.getValue() == null)
             throw new Exception("Please specify the system property '" + EasyHome.EASY_HOME_KEY + "'");
     }
