@@ -13,6 +13,7 @@ import org.junit.BeforeClass;
  */
 public abstract class Tester
 {
+    private static Services services= new Services();
     public static final File META_DATA_FILE = new File("src/test/resources/input/metadata.xml");
     protected static final File ZIP_FILE       = new File("src/test/resources/input/datasetPictures.zip");
     private final OutputUtil    testOutput     = new OutputUtil(this.getClass());
@@ -22,7 +23,8 @@ public abstract class Tester
     {
         final EasyDepositService service = new EasyDepositService();
         service.doBeanPostProcessing();
-        new Services().setDepositService(service);
+        services.unlock();
+        services.setDepositService(service);
     }
 
     /** See {@link OutputUtil#assertAsExpected(String, String)} */

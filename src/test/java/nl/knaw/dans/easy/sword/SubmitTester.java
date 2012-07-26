@@ -6,6 +6,7 @@ import nl.knaw.dans.easy.data.ext.ExternalServices;
 import nl.knaw.dans.easy.util.EasyHome;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.purl.sword.base.SwordValidationInfo;
 
@@ -24,7 +25,7 @@ public class SubmitTester extends SubmitFixture
             throw new Exception("Please specify the system property '" + EasyHome.EASY_HOME_KEY + "'");
     }
 
-    @Test // TODO test was supposed to touch AbstractNotification.send(...)
+    @Ignore @Test // TODO test was supposed to touch AbstractNotification.send(...)
     public void submitWithoutMailer() throws Exception
     {
         final Mailer saved = ExternalServices.getMailOffice();

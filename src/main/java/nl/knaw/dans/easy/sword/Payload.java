@@ -37,7 +37,7 @@ public class Payload
         static String fileNames()
         {
             String result = "";
-            for (MDFileName value : values())
+            for (final MDFileName value : values())
             {
                 result += " " + value + ".xml ("+value.note+")";
             }
@@ -105,13 +105,19 @@ public class Payload
 
     private File createTempDir() throws SWORDException
     {
+        final File basePath = new File(Context.getUnzip());
+        final String prefix = "swunzip";
+        if (!basePath.exists()) {
+            if (! basePath.mkdir())
+                throw new SWORDException("please create location for temporary unzip directories: "+basePath.getAbsolutePath());
+        }
         try
         {
-            return FileUtil.createTempDirectory(new File(Context.getUnzip()), "swunzip");
+            return FileUtil.createTempDirectory(basePath, prefix);
         }
         catch (final IOException exception)
         {
-            throw new SWORDException("Could not create temp dir for unzip");
+            throw new SWORDException("Could not create temp dir: "+basePath.getAbsolutePath()+"/"+prefix);
         }
     }
 

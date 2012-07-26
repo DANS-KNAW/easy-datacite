@@ -62,9 +62,11 @@ public class IntegrationTest
     @AfterClass
     public static void stop() throws Exception
     {
-        server.stop();
-        server.join();
-        log.debug("stopped server");
+        if (server !=null) {
+            server.stop();
+            server.join();
+            log.debug("stopped server");
+        }
     }
 
     @Test

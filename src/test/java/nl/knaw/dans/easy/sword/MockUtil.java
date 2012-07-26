@@ -159,12 +159,14 @@ public class MockUtil
         EasyMock.replay(datasetService);
     }
 
+    private static Data data = new Data();
     public static void mockUser() throws Exception
     {
         final EasyUserRepo userRepo = EasyMock.createMock(EasyUserRepo.class);
         final UserService userService = EasyMock.createMock(UserService.class);
 
-        new Data().setUserRepo(userRepo);
+        Data.unlock();
+        data.setUserRepo(userRepo);
         new Services().setUserService(userService);
 
         EasyMock.expect(userRepo.findById(VALID_USER_ID)).andReturn(USER).anyTimes();

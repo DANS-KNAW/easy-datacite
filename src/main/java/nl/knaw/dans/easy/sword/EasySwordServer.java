@@ -118,7 +118,7 @@ public class EasySwordServer implements SWORDServer
         // TODO replace URL with DDMValidator.instance().getSchemaURL("").toString()
         
         if (authorised)
-            collection.setLocation(locationBase + "deposit");
+            collection.setLocation(locationBase  + (locationBase.endsWith("/")?"":"/") + "deposit");
         else
             collection.setLocation("");
         return collection;
