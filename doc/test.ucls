@@ -25,8 +25,8 @@
       <operations public="true" package="true" protected="true" private="false"/>    
     </display>  
   </class>  
-  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.sword.IntegrationTest" project="st-easy-sword" 
-    file="/st-easy-sword/src/test/java/nl/knaw/dans/easy/sword/IntegrationTest.java" binary="false">    
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.sword.IntegrationTester" project="st-easy-sword" 
+    file="/st-easy-sword/src/test/java/nl/knaw/dans/easy/sword/IntegrationTester.java" binary="false">    
     <position x="598" y="-27" width="-1" height="-1"/>    
     <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="false"/>      
@@ -109,6 +109,28 @@
     </display>  
   </class>  
   <generalization>    
+    <source project="st-easy-sword" name="nl.knaw.dans.easy.sword.EasySwordServerTester" 
+      file="/st-easy-sword/src/test/java/nl/knaw/dans/easy/sword/EasySwordServerTester.java" binary="false"/>    
+    <target project="st-easy-sword" name="nl.knaw.dans.easy.sword.Tester" 
+      file="/st-easy-sword/src/test/java/nl/knaw/dans/easy/sword/Tester.java" binary="false"/>  
+  </generalization>  
+  <association>    
+    <source project="st-easy-sword" name="nl.knaw.dans.easy.sword.Tester" 
+      file="/st-easy-sword/src/test/java/nl/knaw/dans/easy/sword/Tester.java" binary="false" navigable="false">      
+      <attribute name="testOutput"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </source>    
+    <target project="st-easy-sword" name="nl.knaw.dans.easy.sword.OutputUtil" 
+      file="/st-easy-sword/src/test/java/nl/knaw/dans/easy/sword/OutputUtil.java" binary="false" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization>    
+    <source project="st-easy-sword" name="nl.knaw.dans.easy.sword.EasyBusinessFacadeTest" 
+      file="/st-easy-sword/src/test/java/nl/knaw/dans/easy/sword/EasyBusinessFacadeTest.java" binary="false"/>    
+    <target project="st-easy-sword" name="nl.knaw.dans.easy.sword.Tester" 
+      file="/st-easy-sword/src/test/java/nl/knaw/dans/easy/sword/Tester.java" binary="false"/>  
+  </generalization>  
+  <generalization>    
     <source project="st-easy-sword" name="nl.knaw.dans.easy.sword.ServiceDocumentTest" 
       file="/st-easy-sword/src/test/java/nl/knaw/dans/easy/sword/ServiceDocumentTest.java" binary="false"/>    
     <target project="st-easy-sword" name="nl.knaw.dans.easy.sword.EasySwordServerTester" 
@@ -137,28 +159,6 @@
       file="/st-easy-sword/src/test/java/nl/knaw/dans/easy/sword/SubmitFixture.java" binary="false"/>    
     <target project="st-easy-sword" name="nl.knaw.dans.easy.sword.EasySwordServerTester" 
       file="/st-easy-sword/src/test/java/nl/knaw/dans/easy/sword/EasySwordServerTester.java" binary="false"/>  
-  </generalization>  
-  <generalization>    
-    <source project="st-easy-sword" name="nl.knaw.dans.easy.sword.EasySwordServerTester" 
-      file="/st-easy-sword/src/test/java/nl/knaw/dans/easy/sword/EasySwordServerTester.java" binary="false"/>    
-    <target project="st-easy-sword" name="nl.knaw.dans.easy.sword.Tester" 
-      file="/st-easy-sword/src/test/java/nl/knaw/dans/easy/sword/Tester.java" binary="false"/>  
-  </generalization>  
-  <association>    
-    <source project="st-easy-sword" name="nl.knaw.dans.easy.sword.Tester" 
-      file="/st-easy-sword/src/test/java/nl/knaw/dans/easy/sword/Tester.java" binary="false" navigable="false">      
-      <attribute name="testOutput"/>      
-      <multiplicity minimum="0" maximum="1"/>    
-    </source>    
-    <target project="st-easy-sword" name="nl.knaw.dans.easy.sword.OutputUtil" 
-      file="/st-easy-sword/src/test/java/nl/knaw/dans/easy/sword/OutputUtil.java" binary="false" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization>    
-    <source project="st-easy-sword" name="nl.knaw.dans.easy.sword.EasyBusinessFacadeTest" 
-      file="/st-easy-sword/src/test/java/nl/knaw/dans/easy/sword/EasyBusinessFacadeTest.java" binary="false"/>    
-    <target project="st-easy-sword" name="nl.knaw.dans.easy.sword.Tester" 
-      file="/st-easy-sword/src/test/java/nl/knaw/dans/easy/sword/Tester.java" binary="false"/>  
   </generalization>  
   <classifier-display autosize="true" package="true" initial-value="false" signature="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true"/>    

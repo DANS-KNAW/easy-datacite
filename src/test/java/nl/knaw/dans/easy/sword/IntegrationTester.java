@@ -32,9 +32,7 @@ import org.mortbay.jetty.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class IntegrationTest
-//The name should not start or end with test because Maven should not run this test.
-//Why not? The tests require the system property easy.home.
+public class IntegrationTester
 {
     private static final String                      URL       = "http://localhost:" + Start.PORT + "/";
     private static final UsernamePasswordCredentials DEPOSITOR = new UsernamePasswordCredentials("depositor", "123456");
