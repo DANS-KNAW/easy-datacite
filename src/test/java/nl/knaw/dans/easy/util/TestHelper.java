@@ -33,7 +33,7 @@ public abstract class TestHelper
     private static final String NO_CURRENT_CLASS = "  ==! NO CURRENT CLASS SET ON TESTHELPER !==";
 
 
-    private static final String         BUNDLE_NAME     = "test-parameters";
+    private static final String         BUNDLE_NAME     = "test";
 
     private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
     

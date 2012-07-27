@@ -4,6 +4,7 @@ import java.util.Set;
 
 import nl.knaw.dans.common.lang.repo.DataModelObject;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
+import nl.knaw.dans.common.lang.repo.bean.RecursiveList;
 import nl.knaw.dans.easy.domain.collections.ECollection;
 import nl.knaw.dans.easy.domain.model.Constants;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
@@ -133,6 +134,13 @@ public class DmoCollectionsAccessImpl implements DmoCollectionsAccess
         assertECollection(collection);
         CollectionManager manager = dmoCollections.newManager(getOwnerId(sessionUser));
         manager.unpublishAsOAISet(collection);
+    }
+    
+    @Override
+    public RecursiveList getRecursiveList(ECollection eColl) throws CollectionsException
+    {
+        CollectionManager manager = dmoCollections.newManager(null);
+        return manager.getRecursiveList(eColl.namespace);
     }
     
     @Override

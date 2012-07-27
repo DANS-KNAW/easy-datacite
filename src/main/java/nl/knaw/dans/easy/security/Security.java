@@ -58,7 +58,7 @@ public class Security
     /**
      * Unlock Security.
      */
-    void unlock()
+    public void unlock()
     {
         locked = false;
         logger.debug(this + " has been unlocked.");

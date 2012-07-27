@@ -3,6 +3,7 @@ package nl.knaw.dans.easy.data.collections;
 import java.util.Set;
 
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
+import nl.knaw.dans.common.lang.repo.bean.RecursiveList;
 import nl.knaw.dans.easy.domain.collections.ECollection;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.i.dmo.collections.DmoCollection;
@@ -32,5 +33,7 @@ public interface DmoCollectionsAccess
     void unpublishAsOAISet(EasyUser sessionUser, DmoCollection collection) throws CollectionsException;
     
     Set<DmoStoreId> filterOAIEndNodes(Set<DmoStoreId> memberIds) throws CollectionsException;
+    
+    RecursiveList getRecursiveList(ECollection eColl) throws CollectionsException;
 
 }
