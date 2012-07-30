@@ -130,6 +130,16 @@ public class DANSSchema extends AbstractSchema
         attrs.put("SINGLE-VALUE", "TRUE");
         attributeTypes.add(attrs);
         
+        // A test attribute
+        attrs = new BasicAttributes(true);
+        attrs.put("NUMERICOID", "1.3.6.1.4.1.33188.0.1.13");
+        attrs.put("NAME", "dansTestAttr");
+        attrs.put("DESC", "A dans test attribute");
+        attrs.put("EQUALITY", "caseIgnoreMatch");
+        attrs.put("SYNTAX", "1.3.6.1.4.1.1466.115.121.1.15"); // DirectoryString
+        attrs.put("SINGLE-VALUE", "TRUE");
+        attributeTypes.add(attrs);
+        
         // objectClasses
         objectClasses = new ArrayList<Attributes>();
 

@@ -150,7 +150,7 @@ public class DansUserRepoOnlineTest extends AbstractRepoOnlineTest
         assertEquals(piet, users.get(0));
 
         // cleanup
-        //repo.delete(piet);
+        repo.delete(piet);
     }
 
     @Test
@@ -187,8 +187,8 @@ public class DansUserRepoOnlineTest extends AbstractRepoOnlineTest
         assertTrue(idNameMap.containsKey("klaas"));
 
         // cleanup
-        //repo.delete(piet);
-        //repo.delete(klaas);
+        repo.delete(piet);
+        repo.delete(klaas);
     }
 
     @Test

@@ -265,8 +265,8 @@ public class LdapClientOnlineTest extends AbstractOnlineTest
         
         // ----------------------------------------------
         
-        //client.deleteEntry(rdnSix, subContext);
-        //client.deleteEntry(rdnOne, subContext);
+        client.deleteEntry(rdnSix, subContext);
+        client.deleteEntry(rdnOne, subContext);
     }
 
     private void deleteEntryIfExists(String rdn, String subContext) throws NamingException
