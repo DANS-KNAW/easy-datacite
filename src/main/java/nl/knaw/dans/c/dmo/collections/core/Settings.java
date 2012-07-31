@@ -25,7 +25,8 @@ public class Settings
     private final Map<String, SecurityAgent> securityAgents = 
         Collections.synchronizedMap(new HashMap<String, SecurityAgent>());
     private  boolean securityEnabled = true;
-    private String contentModelOAISet;;
+    private boolean allowSecuredMethods;
+    private String contentModelOAISet;
     
     public static Settings instance()
     {
@@ -106,7 +107,12 @@ public class Settings
     {
         securityEnabled = enabled;
     }
-    
+
+    public void setAllowSecuredMethods(boolean allowSecuredMethods)
+    {
+        this.allowSecuredMethods = allowSecuredMethods;
+    }
+
     public SecurityAgent getAgentFor(String securityId)
     {
         if (securityEnabled)
@@ -124,13 +130,15 @@ public class Settings
             logger.warn("*                            ^^^                        *");
             logger.warn("*********************************************************");
             logger.warn("                                                         ");
+            logger.info("Method is secured: " + securityId);
+            logger.info("SecurityAgent.isAllowed will return " + allowSecuredMethods);
             return new SecurityAgent()
             {
                 
                 @Override
                 public boolean isAllowed(String ownerId, Object... args)
                 {
-                    return true;
+                    return allowSecuredMethods;
                 }
                 
                 @Override

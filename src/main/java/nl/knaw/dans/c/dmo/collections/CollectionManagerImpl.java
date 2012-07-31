@@ -142,6 +142,8 @@ public class CollectionManagerImpl implements CollectionManager
         {
             DmoStoreId dmoStoreId = Store.getStoreManager().nextDmoStoreId(parent.getDmoNamespace());
             child = new DmoCollectionImpl(dmoStoreId);
+            child.setLabel(label);
+            child.setShortName(shortName);
             child.getDcMetadata().addCreator(getOwnerId());
             ((DmoCollectionImpl) parent).addChild(child);
             storeDescending(child);

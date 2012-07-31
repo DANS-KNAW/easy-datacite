@@ -5,10 +5,13 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.URL;
 
 import nl.knaw.dans.c.dmo.collections.core.AbstractDmoCollectionsTest;
 import nl.knaw.dans.c.dmo.collections.core.DmoCollectionImpl;
+import nl.knaw.dans.c.dmo.collections.core.Settings;
 import nl.knaw.dans.c.dmo.collections.store.CollectionsCache;
 import nl.knaw.dans.c.dmo.collections.store.Store;
 import nl.knaw.dans.common.lang.repo.DataModelObject;
@@ -22,6 +25,7 @@ import nl.knaw.dans.i.dmo.collections.exceptions.CollectionsException;
 import nl.knaw.dans.i.dmo.collections.exceptions.NamespaceNotUniqueException;
 import nl.knaw.dans.i.dmo.collections.exceptions.SecurityViolationException;
 import nl.knaw.dans.i.security.SecurityAgent;
+import nl.knaw.dans.i.security.annotations.SecuredOperation;
 import nl.knaw.dans.i.security.annotations.SecuredOperationUtil;
 import nl.knaw.dans.i.store.StoreManager;
 import nl.knaw.dans.i.store.StoreSession;
@@ -269,6 +273,41 @@ public class CollectionManagerImplTest extends AbstractDmoCollectionsTest
         verify(mockAgent);
         
         assertTrue(thrown);
+    }
+    
+    
+    @Test
+    public void allSecuredOperations() throws Exception
+    {
+        initializeWithNoSecurity();
+        Settings.instance().setAllowSecuredMethods(false);
+        CollectionManager colMan = new CollectionManagerImpl(ownerIdManager);
+        
+        for (Method method : colMan.getClass().getDeclaredMethods())
+        {
+            if (method.getAnnotation(SecuredOperation.class) != null)
+            {
+                boolean thrown = false;
+                Class<?>[] types = method.getParameterTypes();
+                Object[] params = new Object[types.length];
+                for (int i = 0; i < types.length; i++)
+                {
+                    if (Boolean.TYPE.equals(types[i]))
+                    {
+                        params[i] = Boolean.FALSE;
+                    }
+                }
+                try
+                {
+                    method.invoke(colMan, params);
+                }
+                catch (InvocationTargetException e)
+                {
+                    thrown = (e.getCause() instanceof SecurityViolationException);
+                }
+                assertTrue("Not secured: " + method.getName(), thrown);
+            }
+        }
     }
     
     

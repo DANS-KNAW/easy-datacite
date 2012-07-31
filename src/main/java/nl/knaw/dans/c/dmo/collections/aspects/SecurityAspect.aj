@@ -13,7 +13,7 @@ public aspect SecurityAspect
 {    
     
     pointcut securedManagerOperation(CollectionManagerImpl manager) : 
-        execution(@SecuredOperation public * CollectionManager+.*(..))
+        execution(@SecuredOperation public * CollectionManagerImpl.*(..))
         && target(manager);
     
     before(CollectionManagerImpl manager) throws SecurityViolationException : securedManagerOperation(manager)

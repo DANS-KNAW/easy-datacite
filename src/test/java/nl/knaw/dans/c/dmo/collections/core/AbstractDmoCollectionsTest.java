@@ -27,6 +27,7 @@ public abstract class AbstractDmoCollectionsTest extends EasyMock
         Settings.reset();
         Settings.instance().configure(configuration);
         Settings.instance().setSecurityEnabled(false);
+        Settings.instance().setAllowSecuredMethods(true);
     }
     
     public static void initializeWithSecurity(SecurityAgent...agents)
