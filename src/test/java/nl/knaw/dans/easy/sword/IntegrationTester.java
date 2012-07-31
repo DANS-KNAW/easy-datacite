@@ -1,6 +1,5 @@
 package nl.knaw.dans.easy.sword;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
 import java.io.File;
@@ -21,10 +20,6 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.InputStreamRequestEntity;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
-import org.apache.commons.httpclient.methods.multipart.FilePart;
-import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
-import org.apache.commons.httpclient.methods.multipart.Part;
-import org.apache.commons.httpclient.params.HttpClientParams;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -34,10 +29,11 @@ import org.slf4j.LoggerFactory;
 
 public class IntegrationTester
 {
-    private static final String                      URL       = "http://localhost:" + Start.PORT + "/";
+    private static final String                      LOCALHOST = "http://localhost:";
+    private static final String                      URL       = LOCALHOST + Start.PORT + "/";
     private static final UsernamePasswordCredentials DEPOSITOR = new UsernamePasswordCredentials("depositor", "123456");
     private static final UsernamePasswordCredentials ANONYMOUS = new UsernamePasswordCredentials("anonymous", "password");
-    private static final int                         MILLIS    = 1000;
+    private static final int                         SECOND    = 1000;
 
     private static Server                            server;
 
@@ -67,7 +63,8 @@ public class IntegrationTester
     @AfterClass
     public static void stop() throws Exception
     {
-        if (server !=null) {
+        if (server != null)
+        {
             server.stop();
             server.join();
             log.debug("stopped server");
@@ -78,32 +75,69 @@ public class IntegrationTester
     public void serviceDocument() throws Exception
     {
         final HttpMethod method = new GetMethod(URL + "servicedocument");
-        execute(method, createClient(ANONYMOUS, null));
-
-        if (method.getStatusCode() == HttpStatus.SC_OK)
-            log.info("\n" + method.getResponseBodyAsString());
-        else
+        execute(method,createClient(ANONYMOUS, null));
+        if (method.getStatusCode() != HttpStatus.SC_OK)
             fail("Unexpected failure: " + method.getStatusLine().toString());
     }
 
     @Test
     public void depositProperZip() throws Exception
     {
-        doAcceptedDeposit(createRequest(SubmitFixture.PROPER_ZIP), 15 * MILLIS);
+        final RequestEntity request = createRequest(new File(SubmitFixture.PROPER_ZIP));
+        final PostMethod method = createPostMethod(request, false, false);
+        doDeposit(method, 15 * SECOND, HttpStatus.SC_ACCEPTED);
     }
 
-    private static void doAcceptedDeposit(final RequestEntity request, final int timeout) throws Exception
+    @Test
+    public void depositInvalidZip() throws Exception
     {
-        final PostMethod method = new PostMethod(URL + "deposit");
-        method.setRequestEntity(request);
-        execute(method, createClient(DEPOSITOR, timeout));
+        final RequestEntity request = createRequest(SubmitFixture.META_DATA_FILE);
+        final PostMethod method = createPostMethod(request, false, false);
+        doDeposit(method, 15 * SECOND, HttpStatus.SC_UNSUPPORTED_MEDIA_TYPE);
+    }
 
-        if (method.getStatusCode() == HttpStatus.SC_ACCEPTED)
-            log.info("\n" + method.getResponseBodyAsString());
+    private static void doDeposit(final PostMethod method, final int timeout, final int expectedStatus) throws Exception
+    {
+        execute(method, createClient(DEPOSITOR, timeout));
+        if (method.getStatusCode() == expectedStatus)
+            ;
         else if (method.getStatusCode() == HttpStatus.SC_UNAUTHORIZED)
             fail("please register EASY userID: " + DEPOSITOR.getUserName() + " with password: " + DEPOSITOR.getUserName());
         else
-            fail("Unexpected failure: " + method.getStatusLine().toString());
+            fail("Unexpected response code: " + method.getStatusLine().toString());
+    }
+
+    private static void execute(final HttpMethod method, final HttpClient client) throws IOException, HttpException
+    {
+        try
+        {
+            client.executeMethod(method);
+            switch (method.getStatusCode())
+            {
+            case HttpStatus.SC_ACCEPTED:
+                ;// already logged by org.purl.sword.base.DepositResponse
+            case HttpStatus.SC_OK:
+                ;// already logged
+                break;
+            default:
+                // TODO unmarshall responsbody for the href of the root element <sword:error>
+                log.info("\n" + method.getResponseBodyAsString());
+            }
+        }
+        finally
+        {
+            method.releaseConnection();
+        }
+        log.info(Thread.currentThread().getStackTrace()[3].getMethodName() + ": " + method.getStatusLine());
+    }
+
+    private static PostMethod createPostMethod(final RequestEntity request, final Boolean noOp, final Boolean verbose)
+    {
+        final PostMethod method = new PostMethod(URL + "deposit");
+        method.setRequestEntity(request);
+        method.addRequestHeader("X-No-Op", noOp.toString());
+        method.addRequestHeader("X-Verbose", verbose.toString());
+        return method;
     }
 
     private static HttpClient createClient(final UsernamePasswordCredentials credentials, final Integer timeout)
@@ -115,34 +149,8 @@ public class IntegrationTester
         return client;
     }
 
-    private static void execute(final HttpMethod method, final HttpClient client) throws IOException, HttpException
+    private static RequestEntity createRequest(final File file) throws FileNotFoundException
     {
-        try
-        {
-            client.executeMethod(method);
-        }
-        finally
-        {
-            method.releaseConnection();
-        }
-    }
-
-    private static RequestEntity createRequest(final String file) throws FileNotFoundException
-    {
-        return new InputStreamRequestEntity(new FileInputStream(new File(file)));
-    }
-
-    @SuppressWarnings("unused"/* TODO fix error "415 unsupported Media Type" */)
-    private static RequestEntity createRequest(final String file, final boolean verbose, final boolean noOp) throws FileNotFoundException
-    {
-        final Part[] parts = {new FilePart(file, new File(file))};
-        final HttpClientParams params = new HttpClientParams();
-        params.setBooleanParameter("X-No-Op", noOp);
-        params.setBooleanParameter("X-Verbose", verbose);
-        // http://svn.apache.org/viewvc/httpcomponents/oac.hc3x/trunk/src/examples/
-        // http://hc.apache.org/httpclient-3.x/
-        assertFalse("not yet implemented", noOp);
-        assertFalse("not yet implemented", verbose);
-        return new MultipartRequestEntity(parts, params);
+        return new InputStreamRequestEntity(new FileInputStream(file));
     }
 }

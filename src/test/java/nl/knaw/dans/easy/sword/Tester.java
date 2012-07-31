@@ -13,18 +13,21 @@ import org.junit.BeforeClass;
  */
 public abstract class Tester
 {
-    private static Services services= new Services();
-    public static final File META_DATA_FILE = new File("src/test/resources/input/metadata.xml");
+    private static Services     services;
+    public static final File    META_DATA_FILE = new File("src/test/resources/input/metadata.xml");
     protected static final File ZIP_FILE       = new File("src/test/resources/input/datasetPictures.zip");
     private final OutputUtil    testOutput     = new OutputUtil(this.getClass());
 
     @BeforeClass
     public static void setDepositService() throws Exception
     {
-        final EasyDepositService service = new EasyDepositService();
-        service.doBeanPostProcessing();
-        services.unlock();
-        services.setDepositService(service);
+        if (services == null)
+        {
+            final EasyDepositService service = new EasyDepositService();
+            service.doBeanPostProcessing();
+            services = new Services();
+            services.setDepositService(service);
+        }
     }
 
     /** See {@link OutputUtil#assertAsExpected(String, String)} */
