@@ -15,7 +15,9 @@ import nl.knaw.dans.easy.business.dataset.DatasetSubmissionImpl;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.ext.EasyMailComposer;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
+import nl.knaw.dans.easy.domain.exceptions.ApplicationException;
 import nl.knaw.dans.easy.domain.exceptions.DataIntegrityException;
+import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
 import nl.knaw.dans.easy.domain.federation.FederativeUserIdMap;
 import nl.knaw.dans.easy.domain.form.PanelDefinition;
 import nl.knaw.dans.easy.domain.model.Dataset;
@@ -265,11 +267,15 @@ public class EasyBusinessFacade
 
             itemService.addDirectoryContents(user, dataset, dataset.getDmoStoreId(), tempDirectory, fileList, reporter);
             if (!reporter.checkOK())
-                throw new SWORDException("Dataset created but problem with ingesting files");
+                throw new SWORDException("Dataset created ("+storeId+") but problem with ingesting files");
         }
         catch (final ServiceException exception)
         {
-            throw new SWORDException(("Can't add files to the new dataset " + storeId + " " + user.getId()), exception);
+            Throwable cause = exception.getCause();
+            if (cause instanceof ApplicationException && cause.getCause() instanceof ObjectNotFoundException)
+                throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST,"Dataset created ("+storeId+") but problem with ingesting files: "+cause.getCause().getMessage());
+            else
+                throw new SWORDException(("Can't add files to the new dataset " + storeId + " " + user.getId()), exception);
         }
     }
 

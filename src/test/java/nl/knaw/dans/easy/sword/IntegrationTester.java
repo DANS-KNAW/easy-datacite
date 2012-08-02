@@ -23,14 +23,15 @@ import org.apache.commons.httpclient.methods.RequestEntity;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.junit.Assert.*;
 import org.mortbay.jetty.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class IntegrationTester
 {
-    private static final String                      LOCALHOST = "http://localhost:";
-    private static final String                      URL       = LOCALHOST + Start.PORT + "/";
+    private static final String                      DIR       = new File(SubmitFixture.PROPER_ZIP).getParent();
+    private static final String                      URL       = "http://localhost:" + Start.PORT + "/";
     private static final UsernamePasswordCredentials DEPOSITOR = new UsernamePasswordCredentials("depositor", "123456");
     private static final UsernamePasswordCredentials ANONYMOUS = new UsernamePasswordCredentials("anonymous", "password");
     private static final int                         SECOND    = 1000;
@@ -74,10 +75,20 @@ public class IntegrationTester
     @Test
     public void serviceDocument() throws Exception
     {
-        final HttpMethod method = new GetMethod(URL + "servicedocument");
-        execute(method,createClient(ANONYMOUS, null));
-        if (method.getStatusCode() != HttpStatus.SC_OK)
-            fail("Unexpected failure: " + method.getStatusLine().toString());
+        final GetMethod method = new GetMethod(URL + "servicedocument");
+        execute(method, createClient(ANONYMOUS, null));
+        int scOk = HttpStatus.SC_OK;
+        assertResponseCode(method, scOk);
+    }
+
+    @Test
+    public void mediatedServiceDocument() throws Exception
+    {
+        final GetMethod method = new GetMethod(URL + "servicedocument");
+        method.addRequestHeader("X-On-Behalf-Of", DEPOSITOR.getUserName());
+        execute(method, createClient(DEPOSITOR, null));
+        int scOk = HttpStatus.SC_PRECONDITION_FAILED;
+        assertResponseCode(method, scOk);
     }
 
     @Test
@@ -86,6 +97,23 @@ public class IntegrationTester
         final RequestEntity request = createRequest(new File(SubmitFixture.PROPER_ZIP));
         final PostMethod method = createPostMethod(request, false, false);
         doDeposit(method, 15 * SECOND, HttpStatus.SC_ACCEPTED);
+    }
+
+    @Test
+    public void mediatedDeposit() throws Exception
+    {
+        final RequestEntity request = createRequest(new File(SubmitFixture.PROPER_ZIP));
+        final PostMethod method = createPostMethod(request, false, false);
+        method.addRequestHeader("X-On-Behalf-Of", DEPOSITOR.getUserName());
+        doDeposit(method, 15 * SECOND, HttpStatus.SC_PRECONDITION_FAILED);
+    }
+
+    @Test
+    public void draftDeposit() throws Exception
+    {
+        final RequestEntity request = createRequest(new File(DIR + "/invalidDisciplineId.zip"));
+        final PostMethod method = createPostMethod(request, false, false);
+        doDeposit(method, 15 * SECOND, HttpStatus.SC_BAD_REQUEST);
     }
 
     @Test
@@ -105,6 +133,12 @@ public class IntegrationTester
             fail("please register EASY userID: " + DEPOSITOR.getUserName() + " with password: " + DEPOSITOR.getUserName());
         else
             fail("Unexpected response code: " + method.getStatusLine().toString());
+    }
+
+    private static void assertResponseCode(final GetMethod method, int expectedResponseCode)
+    {
+        final String message = "unexpected response code: " + method.getStatusLine().toString();
+        assertTrue(message, method.getStatusCode() == expectedResponseCode);
     }
 
     private static void execute(final HttpMethod method, final HttpClient client) throws IOException, HttpException

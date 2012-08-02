@@ -43,7 +43,7 @@ public class EasyMetadataFacade
         }
         catch (final XMLDeserializationException exception)
         {
-            throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, ("EASY metadata unmarshall exception: " + exception.getMessage()));
+            throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, ("EASY metadata unmarshall exception: " + exception.getMessage()));
         }
         return metadata;
     }
@@ -69,7 +69,7 @@ public class EasyMetadataFacade
     {
         final FormDefinition formDefinition = EasyMetadataFacade.getFormDefinition(metadata);
         if (!new MetadataValidator().validate(formDefinition, metadata))
-            throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, ("invalid meta data\n" + extractValidationMessages(formDefinition)));
+            throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, ("invalid meta data\n" + extractValidationMessages(formDefinition)));
     }
 
     /** Just a wrapper for exceptions. */
@@ -78,7 +78,7 @@ public class EasyMetadataFacade
          final EasySwordValidationReporter validationReporter = new EasySwordValidationReporter();
          FormatValidator.instance().validate(metadata, validationReporter);
          if (!validationReporter.isMetadataValid())
-         throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, ("invalid meta data: "+validationReporter.getMessages()));
+         throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, ("invalid meta data: "+validationReporter.getMessages()));
     }
 
     /** Just a wrapper for exceptions. */
@@ -91,22 +91,22 @@ public class EasyMetadataFacade
         }
         catch (final ValidatorException exception)
         {
-            throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "EASY metadata validation exception: " + exception.getMessage());
+            throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, "EASY metadata validation exception: " + exception.getMessage());
         }
         catch (final UnsupportedEncodingException exception)
         {
-            throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "EASY metadata encoding exception: " + exception.getMessage());
+            throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, "EASY metadata encoding exception: " + exception.getMessage());
         }
         catch (final SAXException exception)
         {
-            throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "EASY metadata parse exception: " + exception.getMessage());
+            throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, "EASY metadata parse exception: " + exception.getMessage());
         }
         catch (final SchemaCreationException exception)
         {
             throw new SWORDException("EASY metadata schema creation problem",exception);
         }
         if (!handler.passed())
-            throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "Invalid EASY metadata: \n" + handler.getMessages());
+            throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, "Invalid EASY metadata: \n" + handler.getMessages());
     }
 
     private static String extractValidationMessages(final FormDefinition formDefinition)
@@ -136,13 +136,13 @@ public class EasyMetadataFacade
         }
         catch (final ServiceException e)
         {
-            throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "Cannot get deposit discipline.");
+            throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, "Cannot get deposit discipline.");
         }
         if (discipline == null)
-                throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "Cannot get deposit discipline.");
+                throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, "Cannot get deposit discipline.");
         final FormDefinition formDefinition = discipline.getEmdFormDescriptor().getFormDefinition(DepositDiscipline.EMD_DEPOSITFORM_ARCHIVIST);
         if (formDefinition == null)
-            throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, ("Cannot get formdefinition for MetadataFormat " + mdFormat.toString()));
+            throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, ("Cannot get formdefinition for MetadataFormat " + mdFormat.toString()));
         return formDefinition;
     }
 }
