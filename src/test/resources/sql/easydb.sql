@@ -2,7 +2,7 @@
 -- Database: easydb
 /*
 
-CREATE ROLE easyAdmin LOGIN
+CREATE ROLE easyadmin LOGIN
   ENCRYPTED PASSWORD 'xx =easypass'
   NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE;
 
