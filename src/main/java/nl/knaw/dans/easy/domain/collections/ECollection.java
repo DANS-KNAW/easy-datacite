@@ -64,6 +64,21 @@ public enum ECollection
         return namespaces;
     }
     
+    public static ECollection collectionFor(DmoNamespace namespace)
+    {
+        ECollection eColl = null;
+        Iterator<ECollection> iter = iterator();
+        while (eColl == null && iter.hasNext())
+        {
+            ECollection ec = iter.next();
+            if (ec.namespace.equals(namespace))
+            {
+                eColl = ec;
+            }
+        }
+        return eColl;
+    }
+    
     public static Iterator<ECollection> iterator()
     {
         return new ECollectionIterartor();

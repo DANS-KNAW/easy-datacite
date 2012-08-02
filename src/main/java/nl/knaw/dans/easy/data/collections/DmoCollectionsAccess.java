@@ -2,6 +2,7 @@ package nl.knaw.dans.easy.data.collections;
 
 import java.util.Set;
 
+import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.bean.RecursiveList;
 import nl.knaw.dans.easy.domain.collections.ECollection;
@@ -35,5 +36,7 @@ public interface DmoCollectionsAccess
     Set<DmoStoreId> filterOAIEndNodes(Set<DmoStoreId> memberIds) throws CollectionsException;
     
     RecursiveList getRecursiveList(ECollection eColl) throws CollectionsException;
+    
+    RecursiveList getRecursiveList(DmoNamespace namespace) throws CollectionsException;
 
 }

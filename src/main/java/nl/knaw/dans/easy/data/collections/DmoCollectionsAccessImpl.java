@@ -3,6 +3,7 @@ package nl.knaw.dans.easy.data.collections;
 import java.util.Set;
 
 import nl.knaw.dans.common.lang.repo.DataModelObject;
+import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.bean.RecursiveList;
 import nl.knaw.dans.easy.domain.collections.ECollection;
@@ -139,8 +140,14 @@ public class DmoCollectionsAccessImpl implements DmoCollectionsAccess
     @Override
     public RecursiveList getRecursiveList(ECollection eColl) throws CollectionsException
     {
+        return getRecursiveList(eColl.namespace);
+    }
+    
+    @Override
+    public RecursiveList getRecursiveList(DmoNamespace namespace) throws CollectionsException
+    {
         CollectionManager manager = dmoCollections.newManager(null);
-        return manager.getRecursiveList(eColl.namespace);
+        return manager.getRecursiveList(namespace);
     }
     
     @Override

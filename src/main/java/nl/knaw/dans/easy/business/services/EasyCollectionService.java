@@ -7,7 +7,9 @@ import java.util.Map;
 import java.util.Set;
 
 import nl.knaw.dans.common.lang.RepositoryException;
+import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
+import nl.knaw.dans.common.lang.repo.bean.RecursiveList;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.business.dataset.DatasetRelationUpdater;
 import nl.knaw.dans.easy.data.Data;
@@ -208,6 +210,36 @@ public class EasyCollectionService extends AbstractEasyService implements Collec
         {
             throw new ServiceException(e);
         }
+    }
+    
+    @Override
+    public RecursiveList getRecursiveList(ECollection eColl) throws ServiceException
+    {
+        RecursiveList recursiveList;
+        try
+        {
+            recursiveList = Data.getCollectionAccess().getRecursiveList(eColl);
+        }
+        catch (CollectionsException e)
+        {
+            throw new ServiceException(e);
+        }
+        return recursiveList;
+    }
+    
+    @Override
+    public RecursiveList getRecursiveList(DmoNamespace namespace) throws ServiceException
+    {
+        RecursiveList recursiveList;
+        try
+        {
+            recursiveList = Data.getCollectionAccess().getRecursiveList(namespace);
+        }
+        catch (CollectionsException e)
+        {
+            throw new ServiceException(e);
+        }
+        return recursiveList;
     }
     
     private DatasetRelationUpdater getDatasetRelationUpdater()

@@ -3,7 +3,9 @@ package nl.knaw.dans.easy.servicelayer.services;
 import java.util.List;
 import java.util.Map;
 
+import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
+import nl.knaw.dans.common.lang.repo.bean.RecursiveList;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.domain.collections.ECollection;
 import nl.knaw.dans.easy.domain.model.Dataset;
@@ -50,5 +52,9 @@ public interface CollectionService extends EasyService
      */
     @SecuredOperation
     void updateCollectionMemberships(EasyUser sessionUser, Dataset dataset, Map<ECollection, List<ECollectionEntry>> entryMap) throws ServiceException;
+    
+    RecursiveList getRecursiveList(ECollection eColl) throws ServiceException;
+    
+    RecursiveList getRecursiveList(DmoNamespace namespace) throws ServiceException;
 
 }
