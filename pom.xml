@@ -101,24 +101,6 @@
 			<version>${project.parent.version}</version>
 		</dependency>
 		
-		<dependency>
-			<groupId>nl.knaw.dans.platform.components</groupId>
-			<artifactId>dmo-collections</artifactId>
-			<version>1.0</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>nl.knaw.dans.platform.components</groupId>
-			<artifactId>store</artifactId>
-			<version>1.0</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>nl.knaw.dans.platform.interfaces</groupId>
-			<artifactId>istore</artifactId>
-			<version>1.0</version>
-		</dependency>
-
 		<!-- End dependencies on Repositories and other Data Access Points -->
 
 		<!-- End project dependencies -->
