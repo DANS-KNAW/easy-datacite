@@ -57,8 +57,8 @@ public class Payload
         final File metadataFile;
         tempDir = createTempDir();
         files = unzip(inputStream);
-
         final File[] rootEntries = zipHasTwoRootEntries();
+
         if (rootEntries[0].isDirectory() && MDFileName.accepts(rootEntries[1]))
         {
             dataFolder = rootEntries[0];
@@ -75,7 +75,18 @@ public class Payload
         }
 
         folderHasFiles(metadataFile);
+        assertPathLimits();
         easyMetadata = createEasyMetadata(metadataFile);
+    }
+
+    private void assertPathLimits() throws SWORDErrorException
+    {
+        // limitation caused by varchar(256) of fileItem and folderItem tables
+        final int maxLength = 256 + dataFolder.getPath().length() - "original".length();
+        for (File file:files){
+            if (file.getPath().length()>maxLength)
+                throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "path name exceeds 247 characters: "+file.getPath());
+        }
     }
 
     private EasyMetadata createEasyMetadata(final File metadataFile) throws SWORDErrorException, SWORDException

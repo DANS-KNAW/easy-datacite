@@ -24,7 +24,7 @@ public class FailingSubmitTest extends SubmitFixture
  @Test (expected=SWORDErrorException.class)
  public void invalidZip() throws Throwable
  {
-     execute(false, true, new File("src/test/resources/input/" + "metadata.xml").getPath());
+     execute(false, true, new File(INPUT_DIR + "metadata.xml").getPath());
  }
 
  @Test (expected=SWORDErrorException.class)
@@ -73,6 +73,12 @@ public class FailingSubmitTest extends SubmitFixture
  public void missingMetadataFields() throws Throwable
  {
      execute(false, true, getZip("data-plus-missing-meta-fields"));
+ }
+
+ @Test (expected=SWORDErrorException.class)
+ public void tooLongPath() throws Throwable
+ {
+     execute(false, true, getZip("max-path-exceeded"));
  }
 
  @Test (expected=SWORDAuthenticationException.class)

@@ -267,15 +267,19 @@ public class EasyBusinessFacade
 
             itemService.addDirectoryContents(user, dataset, dataset.getDmoStoreId(), tempDirectory, fileList, reporter);
             if (!reporter.checkOK())
-                throw new SWORDException("Dataset created ("+storeId+") but problem with ingesting files");
+                throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST,"Dataset created ("+storeId+") but problem with ingesting files");
         }
         catch (final ServiceException exception)
         {
             Throwable cause = exception.getCause();
+            final String message = "Dataset created ("+storeId+") but problem with ingesting files: ";
             if (cause instanceof ApplicationException && cause.getCause() instanceof ObjectNotFoundException)
-                throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST,"Dataset created ("+storeId+") but problem with ingesting files: "+cause.getCause().getMessage());
+            {
+                // needed at least for invalid discipline id
+                throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST,message + cause.getCause().getMessage());
+            }
             else
-                throw new SWORDException(("Can't add files to the new dataset " + storeId + " " + user.getId()), exception);
+                throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST,message + exception);
         }
     }
 

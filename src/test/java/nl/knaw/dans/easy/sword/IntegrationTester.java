@@ -24,7 +24,10 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import static org.purl.sword.base.SwordValidationInfoType.INFO;
+
 import org.mortbay.jetty.Server;
+import org.purl.sword.base.SwordValidationInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -95,6 +98,14 @@ public class IntegrationTester
     public void depositProperZip() throws Exception
     {
         final RequestEntity request = createRequest(new File(SubmitFixture.PROPER_ZIP));
+        final PostMethod method = createPostMethod(request, false, false);
+        doDeposit(method, 15 * SECOND, HttpStatus.SC_ACCEPTED);
+    }
+
+    @Test 
+    public void maxPathLength() throws Throwable
+    {
+        final RequestEntity request = createRequest(new File(SubmitFixture.getZip("max-path")));
         final PostMethod method = createPostMethod(request, false, false);
         doDeposit(method, 15 * SECOND, HttpStatus.SC_ACCEPTED);
     }
