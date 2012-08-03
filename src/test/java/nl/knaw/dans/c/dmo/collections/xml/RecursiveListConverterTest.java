@@ -1,6 +1,7 @@
 package nl.knaw.dans.c.dmo.collections.xml;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
 import java.net.URL;
@@ -30,6 +31,12 @@ public class RecursiveListConverterTest extends AbstractDmoCollectionsTest
         RecursiveList recursiveList = RecursiveListConverter.convert(dmoRoot);
         
         //System.err.println(recursiveList.asXMLString(4));
+        RecursiveEntry rlRoot = recursiveList.get(dmoRoot.getStoreId());
+        assertNotNull(rlRoot);
+        assertEquals(dmoRoot.getShortName(), rlRoot.getShortname());
+        assertEquals(dmoRoot.getLabel(), rlRoot.getName());
+        assertEquals(0, rlRoot.getOrdinal());
+        
         RecursiveEntry lastEntry = recursiveList.get("jib-col:14");
         assertEquals("Shortname of jib-col:14", lastEntry.getShortname());
         assertEquals("Label of jib-col:14", lastEntry.getName());

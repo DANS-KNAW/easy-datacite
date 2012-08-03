@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <recursive-list list-id="easy-collection">
-    <entry key="easy-collection:1" shortname="Oral History" name="Oral History" ordinal="1"/>
-    <entry key="easy-collection:2" shortname="World War II" name="World War II" ordinal="2">
-        <entry key="easy-collection:3" shortname="Getuigen Verhalen" name="Getuigen Verhalen" ordinal="3"/>
+    <entry key="easy-collection:root" shortname="root of easy collections" name="Root of easy-collection">
+        <entry key="easy-collection:1" shortname="Oral History" name="Oral History" ordinal="1"/>
+        <entry key="easy-collection:2" shortname="World War II" name="World War II" ordinal="2">
+            <entry key="easy-collection:3" shortname="Getuigen Verhalen" name="Getuigen Verhalen" ordinal="3"/>
+        </entry>
+        <entry key="easy-collection:4" shortname="Carare" name="Carare" ordinal="4"/>
     </entry>
-    <entry key="easy-collection:4" shortname="Carare" name="Carare" ordinal="4"/>
 </recursive-list>

@@ -56,10 +56,10 @@ public class CollectionsCache
             if (root == null)
             {
                 root = getRootFromStore(rootId);
-            }
-            if (root != null)
-            {
-                addToCacheDescending(root);
+                if (root != null)
+                {
+                    addToCacheDescending(root);
+                }
             }
         }
         return root;
@@ -193,7 +193,7 @@ public class CollectionsCache
             DmoCollection parent = collection;
             while (parent != null)
             {
-                cache.put(parent.getDmoStoreId(), collection);
+                cache.put(parent.getDmoStoreId(), parent);
                 parent = parent.getParent();
             }
         }

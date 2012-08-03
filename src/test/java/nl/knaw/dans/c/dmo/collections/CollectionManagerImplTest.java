@@ -171,6 +171,7 @@ public class CollectionManagerImplTest extends AbstractDmoCollectionsTest
             .andReturn(new DmoStoreId(testStoreId.getNamespace(), "43"));
         expect(storeManager.newStoreSession(ownerIdManager)).andReturn(storeSession);
         storeSession.attach(isA(DataModelObject.class));
+        storeSession.attach(isA(DataModelObject.class));
         storeSession.commit();
         storeSession.close();
         

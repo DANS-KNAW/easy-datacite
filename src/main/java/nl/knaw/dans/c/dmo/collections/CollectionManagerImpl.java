@@ -146,7 +146,7 @@ public class CollectionManagerImpl implements CollectionManager
             child.setShortName(shortName);
             child.getDcMetadata().addCreator(getOwnerId());
             ((DmoCollectionImpl) parent).addChild(child);
-            storeDescending(child);
+            storeDescending(parent);
             logger.debug("Stored DmoCollection '" + dmoStoreId.getStoreId());
         }
         catch (RepositoryException e)

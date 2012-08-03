@@ -16,21 +16,21 @@ public class RecursiveListConverter
     {
         RecursiveList recursiveList = new JiBXRecursiveList(collection.getDmoNamespace().getValue());
         ordinal = 0;
-        addChildren(collection, recursiveList);
+        doConvert(collection, recursiveList);
         return recursiveList;
     }
 
-    private static void addChildren(DmoCollection collection, RecursiveNode node)
+    private static void doConvert(DmoCollection collection, RecursiveNode node)
     {
+        RecursiveEntry entry = new JiBXRecursiveEntry();
+        entry.setKey(collection.getStoreId());
+        entry.setName(collection.getLabel());
+        entry.setShortname(collection.getShortName());
+        entry.setOrdinal(ordinal++);
+        node.add(entry);
         for (DmoCollection kid : collection.getChildren())
         {
-            RecursiveEntry entry = new JiBXRecursiveEntry();
-            entry.setKey(kid.getStoreId());
-            entry.setName(kid.getLabel());
-            entry.setShortname(kid.getShortName());
-            entry.setOrdinal(++ordinal);
-            node.add(entry);
-            addChildren(kid, entry);
+            doConvert(kid, entry);
         }
         
     }
