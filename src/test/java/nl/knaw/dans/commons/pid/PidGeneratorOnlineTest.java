@@ -20,6 +20,8 @@ public class PidGeneratorOnlineTest
 
     private static Connection connection;
     private static PidGenerator defaultGenerator;
+    
+    private static long originalValue;
 
     @BeforeClass
     public static void getConnection() throws Exception
@@ -27,23 +29,31 @@ public class PidGeneratorOnlineTest
         if (connection == null)
         {
             // note that Maven needs dependencies for supported databases
-            Class.forName("org.postgresql.Driver");
+            Class.forName(Tester.getString("pid.database.driver"));
             final String url = Tester.getString("pid.database.url");
 
-            final String user = "postgres";
-            final String password = "postgres";
+            final String user = Tester.getString("pid.database.username");
+            final String password = Tester.getString("pid.database.userpass");
 
             connection = DriverManager.getConnection(url, user, password);
             connection.setAutoCommit(false);
 
             defaultGenerator = new PidGenerator(connection);
         }
+        originalValue = defaultGenerator.fetchId();
+        logger.debug("original value was " + originalValue);
     }
 
     @AfterClass
-    public static void closeConnection() throws Exception
+    public static void cleanup() throws Exception
     {
-        connection.close();
+        if (connection != null)
+        {
+            defaultGenerator.updateId(originalValue);
+            logger.debug("database state restored. original value is " + originalValue);
+            connection.close();
+            logger.debug("Closed connection");
+        }
     }
 
     @Before

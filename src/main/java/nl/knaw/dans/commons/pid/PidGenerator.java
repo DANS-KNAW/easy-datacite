@@ -24,6 +24,12 @@ public class PidGenerator
             super(explanation, cause);
             logger.error(explanation, cause);
         }
+        
+        private PidException(String explanation)
+        {
+            super(explanation);
+            logger.error(explanation);
+        }
     };
 
     /**
@@ -95,7 +101,7 @@ public class PidGenerator
         }
         catch (final SQLException exception)
         {
-            throw new PidException("Unable to read last generated.",exception);
+            throw new PidException("Unable to read last generated.", exception);
         }
 
         final long nextId = PidCaculator.getNext(lastId);
@@ -138,15 +144,29 @@ public class PidGenerator
     long fetchId() throws SQLException
     {
         if (connection == null) throw new NullPointerException("no connection with the persisten identifier database");
-        final Statement stat =
-                connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-                        ResultSet.CONCUR_READ_ONLY);
-        final String statement = "SELECT " + VALUE_COLUMN_NAME + " FROM " + TABLE_NAME;
-        final ResultSet resultSet = stat.executeQuery(statement + whereClause);
-        resultSet.next();
-        final long id = resultSet.getLong(1);
-        resultSet.close();
-        stat.close();
+        Statement stat = null;
+        ResultSet resultSet = null;
+        long id;
+        try
+        {
+            stat = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+                            ResultSet.CONCUR_READ_ONLY);
+            final String statement = "SELECT " + VALUE_COLUMN_NAME + " FROM " + TABLE_NAME + whereClause;
+            resultSet = stat.executeQuery(statement);
+            boolean canMove = resultSet.next();
+            if (!canMove)
+            {
+                throw new PidException("No id in result set: " + statement);
+            }
+            id = resultSet.getLong(1);
+        }
+        finally
+        {
+            if (stat != null)
+                stat.close();
+            if (resultSet != null)
+                resultSet.close();          
+        }
 
         logger.info(String.format("PidGenerator - last (%s = %s)", id, PidConverter.encode(id)));
         return id;
