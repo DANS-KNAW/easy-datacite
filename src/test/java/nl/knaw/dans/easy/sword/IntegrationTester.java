@@ -1,5 +1,6 @@
 package nl.knaw.dans.easy.sword;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
@@ -23,11 +24,7 @@ import org.apache.commons.httpclient.methods.RequestEntity;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import static org.purl.sword.base.SwordValidationInfoType.INFO;
-
 import org.mortbay.jetty.Server;
-import org.purl.sword.base.SwordValidationInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

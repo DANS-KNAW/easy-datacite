@@ -11,6 +11,7 @@ import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 
+import org.apache.commons.httpclient.HttpStatus;
 import org.purl.sword.atom.Author;
 import org.purl.sword.atom.Content;
 import org.purl.sword.atom.Contributor;
@@ -46,7 +47,6 @@ public class EasySwordServer implements SWORDServer
      * See {@linkplain http://www.swordapp.org/docs/sword-profile-1.3.html#b.5.5}<br>
      * Only a published state would be appropriate for code 201
      */
-    private static final int    HTTP_RESPONSE_DATA_ACCEPTED = 202;
 
     private static Logger       log                         = LoggerFactory.getLogger(EasySwordServer.class);
 
@@ -257,7 +257,7 @@ public class EasySwordServer implements SWORDServer
         final DepositResponse depostiResponse = new DepositResponse(Deposit.CREATED);
         depostiResponse.setEntry(swordEntry);
         depostiResponse.setLocation(storeID);
-        depostiResponse.setHttpResponse(HTTP_RESPONSE_DATA_ACCEPTED);
+        depostiResponse.setHttpResponse(HttpStatus.SC_ACCEPTED);
         return depostiResponse;
     }
 
