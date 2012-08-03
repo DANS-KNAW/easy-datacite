@@ -40,7 +40,7 @@ import org.slf4j.LoggerFactory;
 public class EasySwordServer implements SWORDServer
 {
     /** TODO share this constant some how with the EASY application */
-    private static final String DATASET_PATH                = "/datasets/id/";
+    private static final String DATASET_PATH                = "/ui/datasets/id/";
 
     /**
      * See {@linkplain http://www.swordapp.org/docs/sword-profile-1.3.html#b.5.5}<br>
