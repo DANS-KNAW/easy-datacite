@@ -11,12 +11,15 @@ import java.util.zip.ZipException;
 import java.util.zip.ZipInputStream;
 
 import nl.knaw.dans.common.lang.file.UnzipUtil;
+import nl.knaw.dans.common.lang.mail.ApplicationMailer;
 import nl.knaw.dans.common.lang.util.FileUtil;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 
 import org.purl.sword.base.ErrorCodes;
 import org.purl.sword.base.SWORDErrorException;
 import org.purl.sword.base.SWORDException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Payload
 {
@@ -51,6 +54,8 @@ public class Payload
     private final File          dataFolder;
     private final List<File>    files;
     private final EasyMetadata  easyMetadata;
+
+    private static final Logger logger = LoggerFactory.getLogger(Payload.class);
 
     public Payload(final InputStream inputStream) throws SWORDException, SWORDErrorException
     {
@@ -106,10 +111,12 @@ public class Payload
         }
         catch (final ZipException exception)
         {
+            logger.error("unzip problem",exception);
             throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "Failed to unzip deposited file");
         }
         catch (final IOException exception)
         {
+            logger.error("unzip problem",exception);
             throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "Failed to unzip deposited file");
         }
     }

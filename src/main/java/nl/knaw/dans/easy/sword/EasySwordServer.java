@@ -41,14 +41,14 @@ import org.slf4j.LoggerFactory;
 public class EasySwordServer implements SWORDServer
 {
     /** TODO share this constant some how with the EASY application */
-    private static final String DATASET_PATH                = "/ui/datasets/id/";
+    private static final String DATASET_PATH = "/ui/datasets/id/";
 
     /**
      * See {@linkplain http://www.swordapp.org/docs/sword-profile-1.3.html#b.5.5}<br>
      * Only a published state would be appropriate for code 201
      */
 
-    private static Logger       log                         = LoggerFactory.getLogger(EasySwordServer.class);
+    private static Logger       log          = LoggerFactory.getLogger(EasySwordServer.class);
 
     /**
      * Provides a dumb but plausible service document - it contains an anonymous workspace and
@@ -71,7 +71,7 @@ public class EasySwordServer implements SWORDServer
         {
             EasyBusinessFacade.getUser(sdr.getUsername(), sdr.getPassword());
         }
-        catch (SWORDAuthenticationException e)
+        catch (final SWORDAuthenticationException e)
         {
             authenticated = false;
         }
@@ -96,7 +96,7 @@ public class EasySwordServer implements SWORDServer
         return document;
     }
 
-    private Collection createCollection(String location, boolean authorised) throws SWORDErrorException, SWORDException
+    private Collection createCollection(final String location, final boolean authorised) throws SWORDErrorException, SWORDException
     {
         final String locationBase = toLocationBase(location);
         final String easyHomePage = toBaseLocation(toUrl(location));
@@ -116,9 +116,9 @@ public class EasySwordServer implements SWORDServer
         collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/md/dataset/2012/dans-dataset-md.xsd", 0f);
         collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/docs/ddm/dans-dataset-md.html", 0f);
         // TODO replace URL with DDMValidator.instance().getSchemaURL("").toString()
-        
+
         if (authorised)
-            collection.setLocation(locationBase  + (locationBase.endsWith("/")?"":"/") + "deposit");
+            collection.setLocation(locationBase + (locationBase.endsWith("/") ? "" : "/") + "deposit");
         else
             collection.setLocation("");
         return collection;
@@ -227,27 +227,27 @@ public class EasySwordServer implements SWORDServer
         swordEntry.setId(dataset.getPersistentIdentifier());
         swordEntry.setUpdated(metadata.getEmdDate().toString());
         swordEntry.addAuthors(wrapAuthor(user));
-        
+
         // This element SHOULD be included. If the POST request results in the creation of packaged
         // resource, the server MAY use this element to declare the packaging type. If used it SHOULD
         // take a value from [SWORD-TYPES].
-        //swordEntry.setPackaging("?");
+        // swordEntry.setPackaging("?");
 
         // we won't support updating (task for archivists) so skip MediaLink
         // swordEntry.addLink(wrapEditMediaLink());
         swordEntry.addLink(wrapLink("edit", datasetUrl));
         swordEntry.setGenerator(wrapGenerator(deposit.getLocation()));
         swordEntry.setContent(wrapContent(datasetUrl));
-        
+
         // http://validator.swordapp.org doesn't like a complex element
-        swordEntry.setTreatment("<div>"+EasyBusinessFacade.getSubmussionNotification(user, dataset)+"</div>");
-        
+        swordEntry.setTreatment("<div>" + EasyBusinessFacade.getSubmussionNotification(user, dataset) + "</div>");
+
         swordEntry.setNoOp(deposit.isNoOp());
         // TODO swordEntry.setRights(rights);
         if (deposit.getOnBehalfOf() != null)
             swordEntry.addContributor(wrapContributor(deposit.getOnBehalfOf()));
         if (deposit.isVerbose())
-            swordEntry.setVerboseDescription(EasyBusinessFacade.getLicenseAsHtml(user, deposit.isNoOp(), dataset));
+            swordEntry.setVerboseDescription("<div>" + EasyBusinessFacade.verboseInfo(user, dataset) + "</div>");
 
         return swordEntry;
     }

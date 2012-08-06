@@ -2,8 +2,9 @@ package nl.knaw.dans.easy.sword;
 
 import static nl.knaw.dans.easy.sword.EasyMetadataFacade.getFormDefinition;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.RepositoryException;
@@ -14,6 +15,7 @@ import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.business.dataset.DatasetSubmissionImpl;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.ext.EasyMailComposer;
+import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
 import nl.knaw.dans.easy.domain.exceptions.ApplicationException;
 import nl.knaw.dans.easy.domain.exceptions.DataIntegrityException;
@@ -51,7 +53,7 @@ public class EasyBusinessFacade
 
     private static int         noOpSumbitCounter     = 0;
     public static final String NO_OP_STORE_ID_DOMAIN = "mockedStoreID:";
-    
+
     private static Logger      logger                = LoggerFactory.getLogger(EasyBusinessFacade.class);
 
     /**
@@ -67,13 +69,13 @@ public class EasyBusinessFacade
      */
     public static EasyUser getUser(final String userId, final String password) throws SWORDException, SWORDErrorException, SWORDAuthenticationException
     {
-        if (userId==null ||userId.length()==0)
+        if (userId == null || userId.length() == 0)
             throw new SWORDAuthenticationException("no credentials", null);
         final FederativeAuthentication federativeAuthentication = new FederativeAuthentication(userId, password);
         if (!federativeAuthentication.canBeTraditionalAccount())
         {
             final String fedUserId = federativeAuthentication.getUserId();
-            if (fedUserId== null)
+            if (fedUserId == null)
                 throw new SWORDAuthenticationException("invalid credentials", null);
             return getFederativeUser(fedUserId);
         }
@@ -201,13 +203,14 @@ public class EasyBusinessFacade
         // final DatasetSubmissionImpl submission = new DatasetSubmissionImpl(new
         // FormDefinition("dummy"), dataset, user);
         final DatasetSubmissionImpl submission = new DatasetSubmissionImpl(getFormDefinition(dataset.getEasyMetadata()), dataset, user);
+        // String storeId = dataset.getStoreId();
         final IngestReporter reporter = new IngestReporter("submitting " + dataset.getStoreId() + " by " + user);
         try
         {
             logger.info("submitting " + dataset.getStoreId() + " " + user.getId());
             Services.getDatasetService().submitDataset(submission, reporter);
             if (!reporter.checkOK())
-                throw new SWORDException("Dataset created but problem with submitting");
+                throw createSubmitException(dataset, "");
             if (submission.hasGlobalMessages())
             {
                 for (final String s : submission.getGlobalErrorMessages())
@@ -218,14 +221,13 @@ public class EasyBusinessFacade
             if (submission.hasMetadataErrors())
             {
                 // should have been covered by validateSemantics
-                final String format = "%s created by [%s] but not submitted because meta data has errors: ";
-                String message = String.format(format, dataset.getStoreId(), user.getId());
+                String message = "";
                 for (final PanelDefinition panelDef : submission.getFirstErrorPage().getPanelDefinitions())
                 {
                     if (panelDef.getErrorMessages().size() > 0)
                         message += " " + panelDef.getLabelResourceKey() + " " + panelDef.getErrorMessages();
                 }
-                throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, message);
+                throw createSubmitException(dataset, message);
             }
             if (!submission.isMailSend())
             {
@@ -234,25 +236,36 @@ public class EasyBusinessFacade
             if (!submission.isCompleted())
             {
                 if (!Services.getDatasetService().getClass().getName().startsWith("$Proxy"))
-                    // FIXME workaround mock problems for JUnit tests
-                    throw new SWORDException(("submission incomplete " + dataset.getStoreId() + " " + user.getId()));
+                    // FIXME condition is workaround for mock problems with JUnit tests
+                    throw createSubmitException(dataset, "");
             }
         }
         catch (final ServiceException exception)
         {
-            throw new SWORDException(("Dataset created but submission failed " + dataset.getStoreId() + " " + user.getId()), exception);
+            throw createSubmitException(dataset, exception);
         }
         catch (final DataIntegrityException exception)
         {
-            throw new SWORDException(("Dataset created but submission failed " + dataset.getStoreId() + " " + user.getId()), exception);
+            throw createSubmitException(dataset, exception);
         }
+    }
+
+    private static SWORDErrorException createSubmitException(final Dataset dataset, String cause)
+    {
+        return new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, "Created dataset (" + dataset.getStoreId() + ") with status draft. "
+                + "Please use the web interface to remove the dataset or to correct the [meta]data and retry submission. \n" + cause);
+    }
+
+    private static SWORDErrorException createSubmitException(final Dataset dataset, Throwable cause)
+    {
+        logger.error("failed to submit " + dataset.getStoreId(), cause);
+        return createSubmitException(dataset, cause.getMessage());
     }
 
     /** Wraps exceptions thrown by Services.getItemService().addDirectoryContents(user, dataset, ...) */
     private static void ingestFiles(final EasyUser user, final Dataset dataset, final File tempDirectory, final List<File> fileList) throws SWORDException,
             SWORDErrorException
     {
-        final String storeId = dataset.getStoreId();
         try
         {
             final ItemService itemService = Services.getItemService();
@@ -267,19 +280,18 @@ public class EasyBusinessFacade
 
             itemService.addDirectoryContents(user, dataset, dataset.getDmoStoreId(), tempDirectory, fileList, reporter);
             if (!reporter.checkOK())
-                throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST,"Dataset created ("+storeId+") but problem with ingesting files");
+                throw createSubmitException(dataset, "");
         }
         catch (final ServiceException exception)
         {
-            Throwable cause = exception.getCause();
-            final String message = "Dataset created ("+storeId+") but problem with ingesting files: ";
+            final Throwable cause = exception.getCause();
             if (cause instanceof ApplicationException && cause.getCause() instanceof ObjectNotFoundException)
             {
                 // needed at least for invalid discipline id
-                throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST,message + cause.getCause().getMessage());
+                throw createSubmitException(dataset, cause.getCause());
             }
             else
-                throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST,message + exception);
+                throw createSubmitException(dataset, exception);
         }
     }
 
@@ -310,47 +322,61 @@ public class EasyBusinessFacade
         return dataset;
     }
 
-    public static String getSubmussionNotification(final EasyUser user, final Dataset dataset) throws SWORDException
+    public static String getSubmussionNotification(final EasyUser user, final Dataset dataset) throws SWORDErrorException
     {
         try
         {
             final DatasetSubmissionImpl submission = new DatasetSubmissionImpl(null, dataset, user);
             final EasyMailComposer composer = new EasyMailComposer(user, dataset, submission, new SubmitNotification(submission));
-            return composer.composeHtml(TEMPLATE+".html");
+            String html = composer.composeHtml(TEMPLATE + ".html");
+            logger.debug(html);
+            return html;
         }
         catch (final MailComposerException exception)
         {
-            final String message = "Could not compose submussion notification";
-            throw new SWORDException(message, exception);
+            throw createSubmitException(dataset, exception);
         }
     }
 
-    public static String getLicenseAsHtml(final EasyUser user, final boolean generateSample, final Dataset dataset) throws SWORDException
+    public static String verboseInfo(final EasyUser user, final Dataset dataset)
     {
-        final String errorMessage = "Could not create license document";
+        /**
+         * the example from the specification
+         * 
+         * <pre>
+         * <sword:verboseDescription>
+         *   Does collection exist? True.
+         *   User authenticates? True.
+         *   User: jbloggs
+         *   User has rights to collection? True. 
+         * </sword:verboseDescription>
+         * </pre>
+         */
+        StringBuffer sb = new StringBuffer("\n\r");
+        String format = "<p>{0}</p>\n\r";
+        sb.append(MessageFormat.format(format,  "created dataset: " + dataset.getStoreId()));
+        sb.append(MessageFormat.format(format,  "dataset owner: " + dataset.getOwnerId()));
+        sb.append(MessageFormat.format(format, "confirmation and licence mailed to: " + user.getEmail()));
+        sb.append(MessageFormat.format(format, dataset.getEasyMetadata().toString("; ").replaceAll("\n", "</p>\n\r<p>")));
         try
         {
-            final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            logger.debug(dataset + " AccessCategory=" + dataset.getAccessCategory());
-            new LicenseComposer(user, dataset, generateSample).createHtml(outputStream);
-            return outputStream.toString();
+            List<String> filenames = Data.getFileStoreAccess().getFilenames(dataset.getDmoStoreId(), true);
+            sb.append(MessageFormat.format(format, "archived file names: "+Arrays.deepToString(filenames.toArray())));
         }
-        catch (final NoSuchMethodError exception)
+        catch (StoreAccessException e)
         {
-            logger.error(errorMessage, exception);
-            throw new SWORDException(errorMessage);
+            sb.append(MessageFormat.format(format, "problem retreiving file names: "+e.getMessage()));
+            logger.error("problem retreiving file names of "+dataset.getStoreId(),e);
         }
-        catch (final LicenseComposerException exception)
-        {
-            throw new SWORDException((errorMessage + ": " + exception.getMessage()), exception);
-        }
+        return sb.toString();
     }
 
-    static void resetNoOpSubmitCounter(){
+    static void resetNoOpSubmitCounter()
+    {
         // JUnit test execution order is unstable, a constant value makes results stable
         noOpSumbitCounter = 0;
     }
-    
+
     public static Dataset mockSubmittedDataset(final EasyMetadata metadata, final EasyUser user)
     {
         ++noOpSumbitCounter;
@@ -368,6 +394,7 @@ public class EasyBusinessFacade
 
         EasyMock.expect(dataset.getEasyMetadata()).andReturn(metadata).anyTimes();
         EasyMock.expect(dataset.getStoreId()).andReturn(storeId).anyTimes();
+        EasyMock.expect(dataset.getOwnerId()).andReturn(user.getId()).anyTimes();
         EasyMock.expect(dataset.getDmoStoreId()).andReturn(DmoStoreID).anyTimes();
         EasyMock.expect(dataset.getAccessCategory()).andReturn(metadata.getEmdRights().getAccessCategory()).anyTimes();
         EasyMock.expect(dataset.getDateSubmitted()).andReturn(dateSubmitted).anyTimes();
