@@ -19,7 +19,7 @@ public class TextFieldPanel<T extends Object> extends AbstractRepeaterPanel<T>
      * @param model
      *        a model of sort IModel&lt;ListWrapper&lt;T>>
      */
-    public TextFieldPanel(String wicketId, IModel model)
+    public TextFieldPanel(String wicketId, IModel<ListWrapper<T>> model)
     {
         super(wicketId, model);
     }

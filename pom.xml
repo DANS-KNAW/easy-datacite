@@ -183,10 +183,16 @@
 		<resources>
 			<resource>
 				<filtering>true</filtering>
-				<directory>src/main/resources/conf/app</directory>
-				<targetPath>conf/app</targetPath>
+				<directory>src/main/resources</directory>
 				<includes>
-					<include>**/*.*</include>
+					<include>conf/app/**/*.*</include>
+				</includes>
+			</resource>
+			<resource>
+				<filtering>false</filtering>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>conf/dataset/**/*.*</include>
 				</includes>
 			</resource>
 			<resource>
