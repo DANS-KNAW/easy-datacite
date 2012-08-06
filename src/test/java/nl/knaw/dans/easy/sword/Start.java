@@ -1,7 +1,6 @@
 package nl.knaw.dans.easy.sword;
 
 import nl.knaw.dans.common.lang.test.ClassPathHacker;
-import nl.knaw.dans.easy.util.EasyHome;
 
 import org.mortbay.jetty.Connector;
 import org.mortbay.jetty.Server;
@@ -63,8 +62,6 @@ public class Start
 
     static Server createServer(int port, int sslPort) throws Exception
     {
-        if (EasyHome.getValue() == null)
-            throw new Exception("Please specify the system property '" + EasyHome.EASY_HOME_KEY + "'");
         ClassPathHacker.addFile("src/main/resources/");
 
         final Server server = new Server(); // NOPMD

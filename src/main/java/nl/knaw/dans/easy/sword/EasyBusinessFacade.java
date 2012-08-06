@@ -8,13 +8,13 @@ import java.util.Arrays;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.RepositoryException;
+import nl.knaw.dans.common.lang.mail.MailComposer;
 import nl.knaw.dans.common.lang.mail.MailComposerException;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.business.dataset.DatasetSubmissionImpl;
 import nl.knaw.dans.easy.data.Data;
-import nl.knaw.dans.easy.data.ext.EasyMailComposer;
 import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
 import nl.knaw.dans.easy.domain.exceptions.ApplicationException;
@@ -322,19 +322,17 @@ public class EasyBusinessFacade
         return dataset;
     }
 
-    public static String getSubmussionNotification(final EasyUser user, final Dataset dataset) throws SWORDErrorException
+    public static String getDepositTreatment(final EasyUser user, final Dataset dataset) throws SWORDException
     {
         try
         {
-            final DatasetSubmissionImpl submission = new DatasetSubmissionImpl(null, dataset, user);
-            final EasyMailComposer composer = new EasyMailComposer(user, dataset, submission, new SubmitNotification(submission));
-            String html = composer.composeHtml(TEMPLATE + ".html");
+            final String html = new MailComposer(user,dataset).compose(Context.getDepositTreatment(),true);
             logger.debug(html);
             return html;
         }
         catch (final MailComposerException exception)
         {
-            throw createSubmitException(dataset, exception);
+            throw new SWORDException("could not compose deposit treatment", exception);
         }
     }
 

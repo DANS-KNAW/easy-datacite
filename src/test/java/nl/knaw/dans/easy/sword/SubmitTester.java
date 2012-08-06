@@ -1,31 +1,20 @@
 package nl.knaw.dans.easy.sword;
 
 
+import static org.purl.sword.base.SwordValidationInfoType.INFO;
+import static org.purl.sword.base.SwordValidationInfoType.WARNING;
 import nl.knaw.dans.common.lang.mail.Mailer;
 import nl.knaw.dans.easy.data.ext.ExternalServices;
-import nl.knaw.dans.easy.util.EasyHome;
 
-import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.purl.sword.base.SwordValidationInfo;
-
-import static org.purl.sword.base.SwordValidationInfoType.*;
 
 /** Integration test for the configuration. */
 public class SubmitTester extends SubmitFixture
 // The name should not start or end with test because Maven should not run this test.
 // Why not? The tests require the system property easy.home.
 {
-
-    @BeforeClass
-    public static void checkEasyHome() throws Exception
-    {
-        EasyHome.setValue(System.getProperty("easy.home"));
-        if (EasyHome.getValue() == null)
-            throw new Exception("Please specify the system property '" + EasyHome.EASY_HOME_KEY + "'");
-    }
-
     @Ignore @Test // TODO test was supposed to touch AbstractNotification.send(...)
     public void submitWithoutMailer() throws Exception
     {

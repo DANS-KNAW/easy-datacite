@@ -240,7 +240,7 @@ public class EasySwordServer implements SWORDServer
         swordEntry.setContent(wrapContent(datasetUrl));
 
         // http://validator.swordapp.org doesn't like a complex element
-        swordEntry.setTreatment("<div>" + EasyBusinessFacade.getSubmussionNotification(user, dataset) + "</div>");
+        swordEntry.setTreatment("<div>" + EasyBusinessFacade.getDepositTreatment(user, dataset) + "</div>");
 
         swordEntry.setNoOp(deposit.isNoOp());
         // TODO swordEntry.setRights(rights);

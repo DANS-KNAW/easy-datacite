@@ -3,8 +3,6 @@ package nl.knaw.dans.easy.sword;
 import java.io.File;
 import java.io.FileInputStream;
 
-import nl.knaw.dans.easy.util.EasyHome;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.purl.sword.base.Deposit;
@@ -17,7 +15,6 @@ public class FailingSubmitTest extends SubmitFixture
 {
  @Before
  public void setupMocking() throws Exception {
-     EasyHome.setValue(System.getProperty("easy.home"));
      MockUtil.mockAll();
  }
  

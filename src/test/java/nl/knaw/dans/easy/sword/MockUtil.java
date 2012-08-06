@@ -70,6 +70,7 @@ public class MockUtil
         context.setCollectionPolicy("No guarantee of service, or that deposits will be retained for any length of time.");
         context.setCollectionTreatment("This is a test server");
         context.setCollectionAbstract("Electronic Archive System, accepts deposits by users registered on {0}");
+        context.setdepositTreatment("Details are sent to ~EasyUser.getEmail~");
         context.setCollectionTitle("EASY");
         context.setWorkspaceTitle("DANS sword interface");
     }

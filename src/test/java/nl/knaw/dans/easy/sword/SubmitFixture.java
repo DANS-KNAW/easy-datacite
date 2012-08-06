@@ -4,9 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
 
-import nl.knaw.dans.easy.util.EasyHome;
-
-import org.junit.Before;
 import org.purl.sword.base.Deposit;
 import org.purl.sword.base.DepositResponse;
 import org.purl.sword.base.SWORDException;
@@ -16,13 +13,6 @@ public class SubmitFixture extends EasySwordServerTester
 {
     public static final String INPUT_DIR  = "src/test/resources/input/";
     public static final String PROPER_ZIP = new File(INPUT_DIR + "data-plus-meta.zip").getPath();
-
-    @Before
-    public void setupMocking() throws Exception
-    {
-        EasyHome.setValue(System.getProperty("easy.home"));
-        MockUtil.mockAll();
-    }
 
     protected static String getZip(String string)
     {
@@ -52,5 +42,4 @@ public class SubmitFixture extends EasySwordServerTester
         assertAsExpected(actualResults, "deposit_" + deposit.isVerbose() + deposit.isNoOp() + zip + ".xml");
         return depositResponse.unmarshall(actualResults, new Properties());
     }
-
 }

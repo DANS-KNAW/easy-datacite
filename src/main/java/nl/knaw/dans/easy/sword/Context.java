@@ -1,5 +1,7 @@
 package nl.knaw.dans.easy.sword;
 
+import java.io.InputStream;
+
 import org.purl.sword.base.SWORDException;
 
 public class Context
@@ -12,6 +14,7 @@ public class Context
     private static String collectionPolicy    = null;
     private static String collectionTitle     = null;
     private static String collectionAbstract  = null;
+    private static String depositTreatment     = null;
 
     public void setUnzip(String unzip)
     {
@@ -83,6 +86,19 @@ public class Context
         if (collectionAbstract == null)
             throw new SWORDException("missing configuration: collectionAbstract");
         return collectionAbstract;
+    }
+
+
+    public void setdepositTreatment(String depositTreatment)
+    {
+        Context.depositTreatment = depositTreatment;
+    }
+    
+    public static String getDepositTreatment() throws SWORDException
+    {
+        if (depositTreatment == null)
+            throw new SWORDException("missing configuration: depositTreatment");
+        return depositTreatment;
     }
 
 }
