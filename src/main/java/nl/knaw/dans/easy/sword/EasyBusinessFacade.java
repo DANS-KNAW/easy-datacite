@@ -22,6 +22,7 @@ import nl.knaw.dans.easy.domain.exceptions.ApplicationException;
 import nl.knaw.dans.easy.domain.exceptions.DataIntegrityException;
 import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
 import nl.knaw.dans.easy.domain.federation.FederativeUserIdMap;
+import nl.knaw.dans.easy.domain.form.FormDefinition;
 import nl.knaw.dans.easy.domain.form.PanelDefinition;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
@@ -30,6 +31,7 @@ import nl.knaw.dans.easy.domain.model.emd.types.BasicString;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.LicenseComposer;
 import nl.knaw.dans.easy.servicelayer.LicenseComposer.LicenseComposerException;
+import nl.knaw.dans.easy.servicelayer.SubmitNotification;
 import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 
@@ -209,7 +211,7 @@ public class EasyBusinessFacade
                 logger.warn("no submission mail sent for " + dataset.getStoreId() + " " + user.getId());
             if (!submission.isCompleted())
             {
-                // With the http-header noOp and with unit tests we use mocked datasets
+                // For unit tests we use mocked datasets
                 if (!Services.getDatasetService().getClass().getName().startsWith("$Proxy"))
                 {
                     // FIXME a mocked dataset does not set the submission conditions, nor sends a mail
@@ -386,7 +388,7 @@ public class EasyBusinessFacade
         noOpSumbitCounter = 0;
     }
 
-    public static Dataset mockSubmittedDataset(final EasyMetadata metadata, final EasyUser user)
+    public static Dataset mockSubmittedDataset(final EasyMetadata metadata, final EasyUser user) throws SWORDErrorException
     {
         ++noOpSumbitCounter;
         final String pid = (noOpSumbitCounter + "xxxxxxxx").replaceAll("(..)(...)(...)", "urn:nbn:nl:ui:$1-$2-$3");
@@ -398,10 +400,16 @@ public class EasyBusinessFacade
         EasyMock.expect(dataset.getStoreId()).andReturn(storeId).anyTimes();
         EasyMock.expect(dataset.getOwnerId()).andReturn(user.getId()).anyTimes();
         EasyMock.expect(dataset.getDmoStoreId()).andReturn(DmoStoreID).anyTimes();
+        EasyMock.expect(dataset.getDepositor()).andReturn(user).anyTimes();
         EasyMock.expect(dataset.getAccessCategory()).andReturn(metadata.getEmdRights().getAccessCategory()).anyTimes();
         EasyMock.expect(dataset.getPreferredTitle()).andReturn(metadata.getPreferredTitle()).anyTimes();
         EasyMock.expect(dataset.getPersistentIdentifier()).andReturn(pid).anyTimes();
         EasyMock.replay(dataset);
+
+        final FormDefinition formDefinition = getFormDefinition(dataset.getEasyMetadata());
+        final DatasetSubmissionImpl submission = new DatasetSubmissionImpl(formDefinition, dataset, user);
+        if (!new SubmitNotification(submission).sendMail(false))
+            logger.error(storeId + " Mocked submit notification was no sent to " + user.getId());
         return dataset;
     }
 }
