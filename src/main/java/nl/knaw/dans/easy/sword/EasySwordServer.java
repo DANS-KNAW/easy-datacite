@@ -40,26 +40,11 @@ import org.slf4j.LoggerFactory;
 
 public class EasySwordServer implements SWORDServer
 {
-    /** TODO share this constant some how with the EASY application */
-    private static final String DATASET_PATH = "/ui/datasets/id/";
+    private static Logger       log          = LoggerFactory.getLogger(EasySwordServer.class);
 
     /**
      * See {@linkplain http://www.swordapp.org/docs/sword-profile-1.3.html#b.5.5}<br>
      * Only a published state would be appropriate for code 201
-     */
-
-    private static Logger       log          = LoggerFactory.getLogger(EasySwordServer.class);
-
-    /**
-     * Provides a dumb but plausible service document - it contains an anonymous workspace and
-     * collection, and one personalised for the onBehalfOf user.
-     * 
-     * @param onBehalfOf
-     *        The user that the client is acting on behalf of
-     * @throws SWORDAuthenticationException
-     *         If the credentials are bad
-     * @throws SWORDErrorException
-     *         If something goes wrong, such as
      */
     public ServiceDocument doServiceDocument(final ServiceDocumentRequest sdr) throws SWORDAuthenticationException, SWORDErrorException, SWORDException
     {
@@ -191,7 +176,7 @@ public class EasySwordServer implements SWORDServer
         final EasyMetadata metadata = payload.getEasyMetadata();
         final Dataset dataset = submit(deposit, user, payload, metadata);
 
-        final String datasetUrl = toServer(deposit.getLocation()) + DATASET_PATH + dataset.getStoreId();
+        final String datasetUrl = toServer(deposit.getLocation()) + Context.getDatasetPath() + dataset.getStoreId();
         final SWORDEntry swordEntry = wrapSwordEntry(deposit, user, dataset, datasetUrl);
         final DepositResponse response = wrapResponse(swordEntry, datasetUrl);
         return response;

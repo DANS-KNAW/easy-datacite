@@ -73,6 +73,7 @@ public class MockUtil
         context.setdepositTreatment("Details are sent to ~EasyUser.getEmail~");
         context.setCollectionTitle("EASY");
         context.setWorkspaceTitle("DANS sword interface");
+        context.setDatasetPath("/ui/datasets/id/");
     }
 
     private static void mockNow()

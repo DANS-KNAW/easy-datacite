@@ -132,6 +132,14 @@ public class IntegrationTester
     }
 
     @Test
+    public void noOpDeposit() throws Exception
+    {
+        final RequestEntity request = createRequest(new File(SubmitFixture.PROPER_ZIP));
+        final PostMethod method = createPostMethod(request, true, false);
+        doDeposit(method, 15 * SECOND, HttpStatus.SC_ACCEPTED);
+    }
+
+    @Test
     public void maxPathLength() throws Throwable
     {
         final RequestEntity request = createRequest(new File(SubmitFixture.getZip("max-path")));

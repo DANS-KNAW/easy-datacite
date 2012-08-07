@@ -1,7 +1,5 @@
 package nl.knaw.dans.easy.sword;
 
-import java.io.InputStream;
-
 import org.purl.sword.base.SWORDException;
 
 public class Context
@@ -15,6 +13,7 @@ public class Context
     private static String collectionTitle     = null;
     private static String collectionAbstract  = null;
     private static String depositTreatment     = null;
+    private static String datasetPath     = null;
 
     public void setUnzip(String unzip)
     {
@@ -99,6 +98,18 @@ public class Context
         if (depositTreatment == null)
             throw new SWORDException("missing configuration: depositTreatment");
         return depositTreatment;
+    }
+
+    public void setDatasetPath(String datasetPath)
+    {
+        Context.datasetPath = datasetPath;
+    }
+
+    public static String getDatasetPath() throws SWORDException
+    {
+        if (datasetPath == null)
+            throw new SWORDException("missing configuration: datasetPath");
+        return datasetPath;
     }
 
 }

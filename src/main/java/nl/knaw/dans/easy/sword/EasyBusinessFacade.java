@@ -26,16 +26,13 @@ import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.easy.domain.model.emd.types.BasicString;
-import nl.knaw.dans.easy.domain.model.emd.types.IsoDate;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.LicenseComposer;
 import nl.knaw.dans.easy.servicelayer.LicenseComposer.LicenseComposerException;
-import nl.knaw.dans.easy.servicelayer.SubmitNotification;
 import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 
 import org.easymock.EasyMock;
-import org.joda.time.DateTime;
 import org.purl.sword.base.ErrorCodes;
 import org.purl.sword.base.SWORDAuthenticationException;
 import org.purl.sword.base.SWORDErrorException;
@@ -48,9 +45,6 @@ import org.slf4j.LoggerFactory;
  */
 public class EasyBusinessFacade
 {
-    /** TODO share constant with {@link SubmitNotification} or define another template */
-    static final String        TEMPLATE              = SubmitNotification.TEMPLATE_BASE_LOCATION + "deposit/depositConfirmation";
-
     private static int         noOpSumbitCounter     = 0;
     public static final String NO_OP_STORE_ID_DOMAIN = "mockedStoreID:";
 
@@ -383,24 +377,13 @@ public class EasyBusinessFacade
         DmoStoreId DmoStoreID = new DmoStoreId(storeId);
         final Dataset dataset = EasyMock.createMock(Dataset.class);
 
-        // TODO the following lines duplicates logic of DatasetImpl, move to EasyMetadata?
-        final List<IsoDate> lda = metadata.getEmdDate().getEasAvailable();
-        final List<IsoDate> lds = metadata.getEmdDate().getEasDateSubmitted();
-        final DateTime dateAvailable = (lda.size() == 0 ? null : lda.get(0).getValue());
-        final IsoDate dateSubmitted = (lds.size() == 0) ? new IsoDate() : lds.get(0);
-        final boolean underEmbargo = dateAvailable != null && new DateTime().plusMinutes(1).isBefore(dateAvailable);
-
         EasyMock.expect(dataset.getEasyMetadata()).andReturn(metadata).anyTimes();
         EasyMock.expect(dataset.getStoreId()).andReturn(storeId).anyTimes();
         EasyMock.expect(dataset.getOwnerId()).andReturn(user.getId()).anyTimes();
         EasyMock.expect(dataset.getDmoStoreId()).andReturn(DmoStoreID).anyTimes();
         EasyMock.expect(dataset.getAccessCategory()).andReturn(metadata.getEmdRights().getAccessCategory()).anyTimes();
-        EasyMock.expect(dataset.getDateSubmitted()).andReturn(dateSubmitted).anyTimes();
-        EasyMock.expect(dataset.getDateAvailable()).andReturn(dateAvailable).anyTimes();
         EasyMock.expect(dataset.getPreferredTitle()).andReturn(metadata.getPreferredTitle()).anyTimes();
-        EasyMock.expect(dataset.getDepositor()).andReturn(user).anyTimes();
         EasyMock.expect(dataset.getPersistentIdentifier()).andReturn(pid).anyTimes();
-        EasyMock.expect(dataset.isUnderEmbargo()).andReturn(underEmbargo).anyTimes();
         EasyMock.replay(dataset);
         return dataset;
     }
