@@ -17,6 +17,7 @@ import nl.knaw.dans.easy.business.dataset.DatasetSubmissionImpl;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
+import nl.knaw.dans.easy.domain.dataset.DatasetSubmission;
 import nl.knaw.dans.easy.domain.exceptions.ApplicationException;
 import nl.knaw.dans.easy.domain.exceptions.DataIntegrityException;
 import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
@@ -194,44 +195,26 @@ public class EasyBusinessFacade
     /** Wraps exceptions thrown by Services.getDatasetService().submitDataset */
     private static void submit(final EasyUser user, final Dataset dataset) throws SWORDException, SWORDErrorException
     {
-        // final DatasetSubmissionImpl submission = new DatasetSubmissionImpl(new
-        // FormDefinition("dummy"), dataset, user);
-        final DatasetSubmissionImpl submission = new DatasetSubmissionImpl(getFormDefinition(dataset.getEasyMetadata()), dataset, user);
-        // String storeId = dataset.getStoreId();
-        final IngestReporter reporter = new IngestReporter("submitting " + dataset.getStoreId() + " by " + user);
+        final DatasetSubmission submission = new DatasetSubmissionImpl(getFormDefinition(dataset.getEasyMetadata()), dataset, user);
+        final IngestReporter ingestReporter = new IngestReporter("submitting " + dataset.getStoreId() + " by " + user);
         try
         {
             logger.info("submitting " + dataset.getStoreId() + " " + user.getId());
-            Services.getDatasetService().submitDataset(submission, reporter);
-            if (!reporter.checkOK())
-                throw createSubmitException(dataset, "");
-            if (submission.hasGlobalMessages())
-            {
-                for (final String s : submission.getGlobalErrorMessages())
-                    logger.error(s);
-                for (final String s : submission.getGlobalInfoMessages())
-                    logger.error(s);
-            }
-            if (submission.hasMetadataErrors())
-            {
-                // should have been covered by validateSemantics
-                String message = "";
-                for (final PanelDefinition panelDef : submission.getFirstErrorPage().getPanelDefinitions())
-                {
-                    if (panelDef.getErrorMessages().size() > 0)
-                        message += " " + panelDef.getLabelResourceKey() + " " + panelDef.getErrorMessages();
-                }
-                throw createSubmitException(dataset, message);
-            }
+            Services.getDatasetService().submitDataset(submission, ingestReporter);
+            if (!ingestReporter.catchedExceptions())
+                throw createSubmitException(dataset, "ingest exceptions: " + Arrays.toString(ingestReporter.getExceptionMessages()));
+            if (submission.hasMetadataErrors() || submission.hasGlobalMessages())
+                throw createSubmitException(dataset, gatherSubmissionMessages(submission));
             if (!submission.isMailSend())
-            {
                 logger.warn("no submission mail sent for " + dataset.getStoreId() + " " + user.getId());
-            }
             if (!submission.isCompleted())
             {
+                // With the http-header noOp and with unit tests we use mocked datasets
                 if (!Services.getDatasetService().getClass().getName().startsWith("$Proxy"))
-                    // FIXME condition is workaround for mock problems with JUnit tests
-                    throw createSubmitException(dataset, "");
+                {
+                    // FIXME a mocked dataset does not set the submission conditions, nor sends a mail
+                    throw createSubmitException(dataset, "submission not completed");
+                }
             }
         }
         catch (final ServiceException exception)
@@ -242,6 +225,40 @@ public class EasyBusinessFacade
         {
             throw createSubmitException(dataset, exception);
         }
+    }
+
+    private static String gatherSubmissionMessages(final DatasetSubmission submission)
+    {
+        StringBuffer submissionMessages = new StringBuffer();
+        if (submission.hasGlobalMessages())
+        {
+            if (submission.getGlobalErrorMessages().size() > 0)
+            {
+                submissionMessages.append(" global submission errors: ");
+                submissionMessages.append(Arrays.toString(submission.getGlobalErrorMessages().toArray()));
+            }
+            if (submission.getGlobalInfoMessages().size() > 0)
+            {
+                submissionMessages.append(" global submission info messages: ");
+                submissionMessages.append(Arrays.toString(submission.getGlobalInfoMessages().toArray()));
+            }
+        }
+        if (submission.hasMetadataErrors())
+        {
+            // should have been covered by validateSemantics
+            submissionMessages.append("submission metadata errors: ");
+            for (final PanelDefinition panelDef : submission.getFirstErrorPage().getPanelDefinitions())
+            {
+                if (panelDef.getErrorMessages().size() > 0)
+                {
+                    submissionMessages.append(" ");
+                    submissionMessages.append(panelDef.getLabelResourceKey());
+                    submissionMessages.append(" ");
+                    submissionMessages.append(Arrays.toString(panelDef.getErrorMessages().toArray()));
+                }
+            }
+        }
+        return submissionMessages.toString();
     }
 
     private static SWORDErrorException createSubmitException(final Dataset dataset, String cause)
@@ -273,7 +290,7 @@ public class EasyBusinessFacade
             logger.debug(message);
 
             itemService.addDirectoryContents(user, dataset, dataset.getDmoStoreId(), tempDirectory, fileList, reporter);
-            if (!reporter.checkOK())
+            if (!reporter.catchedExceptions())
                 throw createSubmitException(dataset, "");
         }
         catch (final ServiceException exception)
@@ -320,7 +337,7 @@ public class EasyBusinessFacade
     {
         try
         {
-            final String html = new MailComposer(user,dataset).compose(Context.getDepositTreatment(),true);
+            final String html = new MailComposer(user, dataset).compose(Context.getDepositTreatment(), true);
             logger.debug(html);
             return html;
         }
@@ -346,19 +363,19 @@ public class EasyBusinessFacade
          */
         StringBuffer sb = new StringBuffer("\n\r");
         String format = "<p>{0}</p>\n\r";
-        sb.append(MessageFormat.format(format,  "created dataset: " + dataset.getStoreId()));
-        sb.append(MessageFormat.format(format,  "dataset owner: " + dataset.getOwnerId()));
+        sb.append(MessageFormat.format(format, "created dataset: " + dataset.getStoreId()));
+        sb.append(MessageFormat.format(format, "dataset owner: " + dataset.getOwnerId()));
         sb.append(MessageFormat.format(format, "confirmation and licence mailed to: " + user.getEmail()));
         sb.append(MessageFormat.format(format, dataset.getEasyMetadata().toString("; ").replaceAll("\n", "</p>\n\r<p>")));
         try
         {
             List<String> filenames = Data.getFileStoreAccess().getFilenames(dataset.getDmoStoreId(), true);
-            sb.append(MessageFormat.format(format, "archived file names: "+Arrays.deepToString(filenames.toArray())));
+            sb.append(MessageFormat.format(format, "archived file names: " + Arrays.deepToString(filenames.toArray())));
         }
         catch (StoreAccessException e)
         {
-            sb.append(MessageFormat.format(format, "problem retreiving file names: "+e.getMessage()));
-            logger.error("problem retreiving file names of "+dataset.getStoreId(),e);
+            sb.append(MessageFormat.format(format, "problem retreiving file names: " + e.getMessage()));
+            logger.error("problem retreiving file names of " + dataset.getStoreId(), e);
         }
         return sb.toString();
     }

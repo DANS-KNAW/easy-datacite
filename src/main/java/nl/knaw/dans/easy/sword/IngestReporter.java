@@ -45,9 +45,19 @@ public class IngestReporter extends WorkReporter
         reportedExceptions.add(t);
     }
 
-    public boolean checkOK() throws SWORDException
+    public boolean catchedExceptions() throws SWORDException
     {
         logger.debug(" exceptions: \n" + reportedExceptions.size() + "\n" + super.toString());
         return reportedExceptions.size() == 0;
+    }
+
+    public String[] getExceptionMessages() throws SWORDException
+    {
+        final String[] messages = new String[reportedExceptions.size()];
+        int i=0;
+        for (Throwable e:reportedExceptions){
+            messages[i++] = e.getMessage();
+        }
+        return messages;
     }
 }
