@@ -40,7 +40,7 @@ import org.slf4j.LoggerFactory;
 
 public class EasySwordServer implements SWORDServer
 {
-    private static Logger       log          = LoggerFactory.getLogger(EasySwordServer.class);
+    private static Logger log = LoggerFactory.getLogger(EasySwordServer.class);
 
     /**
      * See {@linkplain http://www.swordapp.org/docs/sword-profile-1.3.html#b.5.5}<br>
@@ -51,15 +51,16 @@ public class EasySwordServer implements SWORDServer
         log.info(MessageFormat.format("SERVICE DOCUMENT user={0}; IP={1}; location={2}; onBehalfOf={3}", sdr.getUsername(), sdr.getIPAddress(),
                 sdr.getLocation(), sdr.getOnBehalfOf()));
 
-        boolean authenticated = true;
+        EasyUser user = null;
         try
         {
             EasyBusinessFacade.getUser(sdr.getUsername(), sdr.getPassword());
         }
         catch (final SWORDAuthenticationException e)
         {
-            authenticated = false;
+            // we are not afraid of empty place holders in treatment
         }
+
         if (sdr.getOnBehalfOf() != null)
         {
             // see also org.purl.sword.server.DummyServer
@@ -74,20 +75,20 @@ public class EasySwordServer implements SWORDServer
 
         final Service service = new Service("1.3", true, true);
         service.setGenerator(wrapGenerator(sdr.getLocation()));
-        service.addWorkspace(createWorkSpace(createCollection(sdr.getLocation(), authenticated)));
+        service.addWorkspace(createWorkSpace(createCollection(sdr.getLocation(), user)));
 
         final ServiceDocument document = new ServiceDocument(service);
         log.debug("returned service document:\n" + document.toString());
         return document;
     }
 
-    private Collection createCollection(final String location, final boolean authorised) throws SWORDErrorException, SWORDException
+    private Collection createCollection(final String location, final EasyUser user) throws SWORDErrorException, SWORDException
     {
         final String locationBase = toLocationBase(location);
         final String easyHomePage = toBaseLocation(toUrl(location));
         final Collection collection = new Collection();
         collection.setCollectionPolicy(Context.getCollectionPolicy());
-        collection.setTreatment(Context.getCollectionTreatment());
+        collection.setTreatment(EasyBusinessFacade.composeCollectionTreatment(user));// TODO fill in e-mail?
         collection.addAccepts("application/zip");
         collection.setMediation(false);
         collection.setTitle(Context.getCollectionTitle());
@@ -102,10 +103,7 @@ public class EasySwordServer implements SWORDServer
         collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/docs/ddm/dans-dataset-md.html", 0f);
         // TODO replace URL with DDMValidator.instance().getSchemaURL("").toString()
 
-        if (authorised)
-            collection.setLocation(locationBase + (locationBase.endsWith("/") ? "" : "/") + "deposit");
-        else
-            collection.setLocation("");
+        collection.setLocation(locationBase + (locationBase.endsWith("/") ? "" : "/") + "deposit");
         return collection;
     }
 
@@ -225,7 +223,7 @@ public class EasySwordServer implements SWORDServer
         swordEntry.setContent(wrapContent(datasetUrl));
 
         // http://validator.swordapp.org doesn't like a complex element
-        swordEntry.setTreatment("<div>" + EasyBusinessFacade.getDepositTreatment(user, dataset) + "</div>");
+        swordEntry.setTreatment("<div>" + EasyBusinessFacade.composeDepositTreatment(user, dataset) + "</div>");
 
         swordEntry.setNoOp(deposit.isNoOp());
         // TODO swordEntry.setRights(rights);

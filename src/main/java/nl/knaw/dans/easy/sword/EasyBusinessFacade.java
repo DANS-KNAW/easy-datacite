@@ -231,7 +231,7 @@ public class EasyBusinessFacade
 
     private static String gatherSubmissionMessages(final DatasetSubmission submission)
     {
-        StringBuffer submissionMessages = new StringBuffer();
+        final StringBuffer submissionMessages = new StringBuffer();
         if (submission.hasGlobalMessages())
         {
             if (submission.getGlobalErrorMessages().size() > 0)
@@ -263,13 +263,13 @@ public class EasyBusinessFacade
         return submissionMessages.toString();
     }
 
-    private static SWORDErrorException createSubmitException(final Dataset dataset, String cause)
+    private static SWORDErrorException createSubmitException(final Dataset dataset, final String cause)
     {
         return new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, "Created dataset (" + dataset.getStoreId() + ") with status draft. "
                 + "Please use the web interface to remove the dataset or to correct the [meta]data and retry submission. \n" + cause);
     }
 
-    private static SWORDErrorException createSubmitException(final Dataset dataset, Throwable cause)
+    private static SWORDErrorException createSubmitException(final Dataset dataset, final Throwable cause)
     {
         logger.error("failed to submit " + dataset.getStoreId(), cause);
         return createSubmitException(dataset, cause.getMessage());
@@ -335,11 +335,31 @@ public class EasyBusinessFacade
         return dataset;
     }
 
-    public static String getDepositTreatment(final EasyUser user, final Dataset dataset) throws SWORDException
+    public static String composeDepositTreatment(final EasyUser user, final Dataset dataset) throws SWORDException
     {
+        final String depositTreatment = Context.getDepositTreatment();
         try
         {
-            final String html = new MailComposer(user, dataset).compose(Context.getDepositTreatment(), true);
+            final String html = new MailComposer(user, dataset).compose(depositTreatment, true);
+            logger.debug(html);
+            return html;
+        }
+        catch (final MailComposerException exception)
+        {
+            throw new SWORDException("could not compose deposit treatment", exception);
+        }
+    }
+
+    public static String composeCollectionTreatment(final EasyUser user) throws SWORDException
+    {
+        final String collectionTreatment = Context.getCollectionTreatment();
+        if (user == null)
+            return collectionTreatment;
+
+        final MailComposer mailComposer = new MailComposer(user);
+        try
+        {
+            final String html = mailComposer.compose(collectionTreatment, true);
             logger.debug(html);
             return html;
         }
@@ -363,18 +383,18 @@ public class EasyBusinessFacade
          * </sword:verboseDescription>
          * </pre>
          */
-        StringBuffer sb = new StringBuffer("\n\r");
-        String format = "<p>{0}</p>\n\r";
+        final StringBuffer sb = new StringBuffer("\n\r");
+        final String format = "<p>{0}</p>\n\r";
         sb.append(MessageFormat.format(format, "created dataset: " + dataset.getStoreId()));
         sb.append(MessageFormat.format(format, "dataset owner: " + dataset.getOwnerId()));
         sb.append(MessageFormat.format(format, "confirmation and licence mailed to: " + user.getEmail()));
         sb.append(MessageFormat.format(format, dataset.getEasyMetadata().toString("; ").replaceAll("\n", "</p>\n\r<p>")));
         try
         {
-            List<String> filenames = Data.getFileStoreAccess().getFilenames(dataset.getDmoStoreId(), true);
+            final List<String> filenames = Data.getFileStoreAccess().getFilenames(dataset.getDmoStoreId(), true);
             sb.append(MessageFormat.format(format, "archived file names: " + Arrays.deepToString(filenames.toArray())));
         }
-        catch (StoreAccessException e)
+        catch (final StoreAccessException e)
         {
             sb.append(MessageFormat.format(format, "problem retreiving file names: " + e.getMessage()));
             logger.error("problem retreiving file names of " + dataset.getStoreId(), e);
@@ -393,7 +413,7 @@ public class EasyBusinessFacade
         ++noOpSumbitCounter;
         final String pid = (noOpSumbitCounter + "xxxxxxxx").replaceAll("(..)(...)(...)", "urn:nbn:nl:ui:$1-$2-$3");
         final String storeId = NO_OP_STORE_ID_DOMAIN + noOpSumbitCounter;
-        DmoStoreId DmoStoreID = new DmoStoreId(storeId);
+        final DmoStoreId DmoStoreID = new DmoStoreId(storeId);
         final Dataset dataset = EasyMock.createMock(Dataset.class);
 
         EasyMock.expect(dataset.getEasyMetadata()).andReturn(metadata).anyTimes();
