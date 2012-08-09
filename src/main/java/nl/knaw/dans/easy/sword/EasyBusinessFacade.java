@@ -169,8 +169,9 @@ public class EasyBusinessFacade
         dataset.setOwnerId(user.getId());
         dataset.getAdministrativeMetadata().setDepositor(user);
 
-        ingestFiles(user, dataset, directory, fileList);
-        submit(user, dataset);
+        final DatasetSubmission submission = new DatasetSubmissionImpl(getFormDefinition(dataset.getEasyMetadata()), dataset, user);
+        ingestFiles(submission, directory, fileList);
+        submit(submission);
 
         return dataset;
     }
@@ -195,37 +196,35 @@ public class EasyBusinessFacade
     }
 
     /** Wraps exceptions thrown by Services.getDatasetService().submitDataset */
-    private static void submit(final EasyUser user, final Dataset dataset) throws SWORDException, SWORDErrorException
+    private static void submit(final DatasetSubmission submission) throws SWORDException, SWORDErrorException
     {
-        final DatasetSubmission submission = new DatasetSubmissionImpl(getFormDefinition(dataset.getEasyMetadata()), dataset, user);
-        final IngestReporter ingestReporter = new IngestReporter("submitting " + dataset.getStoreId() + " by " + user);
+        final Dataset dataset = submission.getDataset();
+        final EasyUser user = submission.getSessionUser();
+        logger.info("submitting " + dataset.getStoreId() + " " + user.getId());
         try
         {
-            logger.info("submitting " + dataset.getStoreId() + " " + user.getId());
-            Services.getDatasetService().submitDataset(submission, ingestReporter);
-            if (!ingestReporter.catchedExceptions())
-                throw createSubmitException(dataset, "ingest exceptions: " + Arrays.toString(ingestReporter.getExceptionMessages()));
-            if (submission.hasMetadataErrors() || submission.hasGlobalMessages())
-                throw createSubmitException(dataset, gatherSubmissionMessages(submission));
-            if (!submission.isMailSend())
-                logger.warn("no submission mail sent for " + dataset.getStoreId() + " " + user.getId());
-            if (!submission.isCompleted())
-            {
-                // For unit tests we use mocked datasets
-                if (!Services.getDatasetService().getClass().getName().startsWith("$Proxy"))
-                {
-                    // FIXME a mocked dataset does not set the submission conditions, nor sends a mail
-                    throw createSubmitException(dataset, "submission not completed");
-                }
-            }
+            Services.getDatasetService().submitDataset(submission);
         }
         catch (final ServiceException exception)
         {
-            throw createSubmitException(dataset, exception);
+            throw createSubmitException(submission, exception);
         }
         catch (final DataIntegrityException exception)
         {
-            throw createSubmitException(dataset, exception);
+            throw createSubmitException(submission, exception);
+        }
+        if (submission.hasMetadataErrors() || submission.hasGlobalMessages())
+            throw createSubmitException(submission, gatherSubmissionMessages(submission));
+        if (!submission.isMailSend())
+            logger.warn("no submission mail sent for " + dataset.getStoreId() + " " + user.getId());
+        if (!submission.isCompleted())
+        {
+            // For unit tests we use mocked datasets
+            if (!Services.getDatasetService().getClass().getName().startsWith("$Proxy"))
+            {
+                // FIXME a mocked dataset does not set the submission conditions, nor sends a mail
+                throw createSubmitException(submission, "submission not completed");
+            }
         }
     }
 
@@ -263,49 +262,69 @@ public class EasyBusinessFacade
         return submissionMessages.toString();
     }
 
-    private static SWORDErrorException createSubmitException(final Dataset dataset, final String cause)
+    private static SWORDErrorException createSubmitException(final DatasetSubmission submission, final String cause)
     {
-        return new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, "Created dataset (" + dataset.getStoreId() + ") with status draft. "
-                + "Please use the web interface to remove the dataset or to correct the [meta]data and retry submission. \n" + cause);
+        if (!submission.isMailSend())
+        {
+            try
+            {
+                Services.getDatasetService().deleteDataset(submission.getSessionUser(), submission.getDataset());
+            }
+            catch (final ServiceException e)
+            {
+                return new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, "Created dataset (" + submission.getDataset().getStoreId() + ") but submission and roll-back failed. "
+                        + "Please use the web interface to remove the dataset. \n" + cause);
+            }
+        }
+        return new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, cause);
     }
 
-    private static SWORDErrorException createSubmitException(final Dataset dataset, final Throwable cause)
+    private static SWORDErrorException createSubmitException(final DatasetSubmission submission, final Throwable cause)
     {
-        logger.error("failed to submit " + dataset.getStoreId(), cause);
-        return createSubmitException(dataset, cause.getMessage());
+        logger.error("failed to submit " + submission.getDataset().getStoreId(), cause);
+        return createSubmitException(submission, cause.getMessage());
     }
 
-    /** Wraps exceptions thrown by Services.getItemService().addDirectoryContents(user, dataset, ...) */
-    private static void ingestFiles(final EasyUser user, final Dataset dataset, final File tempDirectory, final List<File> fileList) throws SWORDException,
+    /** Wraps exceptions thrown by Services.getItemService().addDirectoryContents() */
+    private static void ingestFiles(final DatasetSubmission submission, final File directory, final List<File> fileList) throws SWORDException,
             SWORDErrorException
     {
+        final Dataset dataset = submission.getDataset();
+        final EasyUser user = submission.getSessionUser();
+        final DmoStoreId dmoStoreId = dataset.getDmoStoreId();
+        final ItemService itemService = Services.getItemService();
+        final IngestReporter ingestReporter = new IngestReporter();
+        logIngest(directory, fileList, dmoStoreId);
         try
         {
-            final ItemService itemService = Services.getItemService();
-            final StringBuffer list = new StringBuffer();
-            for (final File file : fileList)
-            {
-                list.append("\n\t" + file);
-            }
-            final String message = "ingesting files from " + tempDirectory + " into " + dataset.getStoreId() + list;
-            final IngestReporter reporter = new IngestReporter(message);
-            logger.debug(message);
-
-            itemService.addDirectoryContents(user, dataset, dataset.getDmoStoreId(), tempDirectory, fileList, reporter);
-            if (!reporter.catchedExceptions())
-                throw createSubmitException(dataset, "");
+            itemService.addDirectoryContents(user, dataset, dmoStoreId, directory, fileList, ingestReporter);
         }
         catch (final ServiceException exception)
         {
             final Throwable cause = exception.getCause();
             if (cause instanceof ApplicationException && cause.getCause() instanceof ObjectNotFoundException)
             {
-                // needed at least for invalid discipline id
-                throw createSubmitException(dataset, cause.getCause());
+                // needed at least for a clear message to the client about invalid discipline id
+                throw createSubmitException(submission, cause.getCause());
             }
             else
-                throw createSubmitException(dataset, exception);
+                throw createSubmitException(submission, exception);
         }
+        if (!ingestReporter.catchedExceptions())
+            throw createSubmitException(submission, "ingest exceptions: " + Arrays.toString(ingestReporter.getExceptionMessages()));
+    }
+
+    private static void logIngest(final File directory, final List<File> fileList, final DmoStoreId dmoStoreId)
+    {
+        /*
+         * ArraysdeepToString would cause a too long line which gets wrapped on a single line in the
+         * eclipse console
+         */
+        final StringBuffer sb = new StringBuffer();
+        for (final File file : fileList)
+            sb.append("\n\t" + file);
+        String string = sb.toString();
+        logger.debug("ingesting files from " + directory + " into " + dmoStoreId + " " + string);
     }
 
     public static String formatAudience(final EasyMetadata metadata) throws SWORDErrorException

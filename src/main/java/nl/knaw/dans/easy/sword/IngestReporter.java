@@ -14,26 +14,24 @@ public class IngestReporter extends WorkReporter
 {
 
     List<Throwable>       reportedExceptions = new ArrayList<Throwable>();
-    private final String  message;
     private static Logger logger             = LoggerFactory.getLogger(IngestReporter.class);
 
-    IngestReporter(final String message)
+    IngestReporter()
     {
-        this.message = message;
     }
 
     @Override
     public boolean onIngest(final DataModelObject dmo)
     {
         super.onIngest(dmo);
-        logger.debug("ingesting " + dmo.getLabel() + " " + dmo.getStoreId() + " " + message);
+        logger.debug("ingesting " + dmo.getLabel() + " " + dmo.getStoreId());
         return false;
     }
 
     @Override
     public boolean onUpdate(final DataModelObject dmo)
     {
-        logger.debug("updating " + dmo.getLabel() + " " + dmo.getStoreId() + " " + message);
+        logger.debug("updating " + dmo.getLabel() + " " + dmo.getStoreId());
         return false;
     }
 
@@ -41,7 +39,7 @@ public class IngestReporter extends WorkReporter
     public void onException(final Throwable t)
     {
         super.onException(t);
-        logger.error("problem with " + message, t);
+        logger.error("ingest problem", t);
         reportedExceptions.add(t);
     }
 
