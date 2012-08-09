@@ -5,8 +5,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipException;
 import java.util.zip.ZipInputStream;
 
@@ -33,15 +36,18 @@ public class Payload
         }
 
         final String note;
-        MDFileName(final String note){
+
+        MDFileName(final String note)
+        {
             this.note = note;
         }
+
         static String fileNames()
         {
             String result = "";
             for (final MDFileName value : values())
             {
-                result += " " + value + ".xml ("+value.note+")";
+                result += " " + value + ".xml (" + value.note + ")";
             }
             return result;
         }
@@ -54,7 +60,7 @@ public class Payload
     private final List<File>    files;
     private final EasyMetadata  easyMetadata;
 
-    private static final Logger logger = LoggerFactory.getLogger(Payload.class);
+    private static final Logger logger  = LoggerFactory.getLogger(Payload.class);
 
     public Payload(final InputStream inputStream) throws SWORDException, SWORDErrorException
     {
@@ -79,27 +85,46 @@ public class Payload
         }
 
         folderHasFiles(metadataFile);
-        assertPathLimits();
+        checkFileConstraints();
         easyMetadata = createEasyMetadata(metadataFile);
     }
 
-    private void assertPathLimits() throws SWORDErrorException
+    private void checkFileConstraints() throws SWORDErrorException
     {
-        // limitation caused by varchar(256) of fileItem and folderItem tables
+        final List<String> messages = new ArrayList<String>();
+        final Map<String, File> map = new HashMap<String, File>();
         final int maxLength = 256 + dataFolder.getPath().length() - "original".length();
-        for (File file:files){
-            if (file.getPath().length()>maxLength)
-                throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "path name exceeds 247 characters: "+file.getPath());
+        for (final File file : files)
+        {
+            final String name = file.getName();
+            final String path = file.getPath();
+            if (path.length() > maxLength)
+            {
+                // limitation caused by varchar(256) of fileItem and folderItem tables
+                messages.add("\npath name exceeds 247 characters:\n" + path);
+            }
+            if (file.isFile())
+            {
+                if (!map.containsKey(name))
+                    map.put(name,file);
+                else
+                {
+                    // prevents problems when adding file meta data
+                    messages.add("\nidentical file names:\n" + path + "\n" + map.get(name).getPath());
+                }
+            }
         }
+        if (messages.size() > 0)
+            throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "file name constraints violated: " +Arrays.deepToString(messages.toArray())+"\n");
     }
 
     private EasyMetadata createEasyMetadata(final File metadataFile) throws SWORDErrorException, SWORDException
     {
         if (metadataFile.getName().startsWith(MDFileName.easyMetadata.name()))
             return EasyMetadataFacade.validate(readMetadata(metadataFile));
-        
+
         // TODO apply cross-walker conversion
-        throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, ("Format not yet implemented: "+metadataFile.getName()));
+        throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, ("Format not yet implemented: " + metadataFile.getName()));
     }
 
     private List<File> unzip(final InputStream inputStream) throws SWORDErrorException
@@ -110,12 +135,12 @@ public class Payload
         }
         catch (final ZipException exception)
         {
-            logger.error("unzip problem",exception);
+            logger.error("unzip problem", exception);
             throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "Failed to unzip deposited file");
         }
         catch (final IOException exception)
         {
-            logger.error("unzip problem",exception);
+            logger.error("unzip problem", exception);
             throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "Failed to unzip deposited file");
         }
     }
@@ -124,9 +149,10 @@ public class Payload
     {
         final File basePath = new File(Context.getUnzip());
         final String prefix = "swunzip";
-        if (!basePath.exists()) {
-            if (! basePath.mkdir())
-                throw new SWORDException("please create location for temporary unzip directories: "+basePath.getAbsolutePath());
+        if (!basePath.exists())
+        {
+            if (!basePath.mkdir())
+                throw new SWORDException("please create location for temporary unzip directories: " + basePath.getAbsolutePath());
         }
         try
         {
@@ -134,7 +160,7 @@ public class Payload
         }
         catch (final IOException exception)
         {
-            throw new SWORDException("Could not create temp dir: "+basePath.getAbsolutePath()+"/"+prefix);
+            throw new SWORDException("Could not create temp dir: " + basePath.getAbsolutePath() + "/" + prefix);
         }
     }
 
@@ -190,7 +216,7 @@ public class Payload
         }
         catch (final IOException exception)
         {
-            throw new SWORDException("Failed to extract the EasyMetadata",exception);
+            throw new SWORDException("Failed to extract the EasyMetadata", exception);
         }
         return readFile;
     }
