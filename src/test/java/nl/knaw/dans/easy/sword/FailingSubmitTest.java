@@ -3,6 +3,7 @@ package nl.knaw.dans.easy.sword;
 import java.io.File;
 import java.io.FileInputStream;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.purl.sword.base.Deposit;
@@ -16,6 +17,10 @@ public class FailingSubmitTest extends SubmitFixture
  @Before
  public void setupMocking() throws Exception {
      MockUtil.mockAll();
+ }
+ @After
+ public void cleaTmp() throws Exception {
+     new File(Context.getUnzip()).delete();
  }
  
  @Test (expected=SWORDErrorException.class)

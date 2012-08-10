@@ -8,6 +8,7 @@ import nl.knaw.dans.common.lang.file.UnzipUtil;
 import nl.knaw.dans.common.lang.util.FileUtil;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -16,7 +17,6 @@ import org.purl.sword.base.SWORDException;
 
 public class EasyBusinessFacadeTest extends Tester
 {
-    final static File basePath = new File("target/tmp");
     static File       tempDirectory;
 
     @Before
@@ -28,8 +28,15 @@ public class EasyBusinessFacadeTest extends Tester
     @BeforeClass
     public static void createTempDir() throws Exception
     {
+        final File basePath = new File("target/tmp");
         basePath.mkdirs();
         tempDirectory = FileUtil.createTempDirectory(basePath, "unzip");
+    }
+
+    @AfterClass
+    public static void clearTempDir() throws Exception
+    {
+        // TODO clear target/tmp/unzip;
     }
 
     private static void executeSubmit(final File zipFile, final File metaDataFile, final Class<? extends Exception> expectedCause) throws Exception

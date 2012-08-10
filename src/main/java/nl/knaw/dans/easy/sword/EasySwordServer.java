@@ -87,12 +87,17 @@ public class EasySwordServer implements SWORDServer
         final String locationBase = toLocationBase(location);
         final String easyHomePage = toBaseLocation(toUrl(location));
         final Collection collection = new Collection();
-        collection.setCollectionPolicy(Context.getCollectionPolicy());
-        collection.setTreatment(EasyBusinessFacade.composeCollectionTreatment(user));// TODO fill in e-mail?
+        
+        // DEMO client does not process HTML
+        collection.setTitle(Context.getCollectionTitle());
+
+        // DEMO client does process HTML
+        collection.setCollectionPolicy("<div>"+Context.getCollectionPolicy()+"</div>");
+        collection.setTreatment("<div>"+EasyBusinessFacade.composeCollectionTreatment(user)+"</div>");
+        collection.setAbstract("<div>"+MessageFormat.format(Context.getCollectionAbstract(), easyHomePage)+"</div>");
+
         collection.addAccepts("application/zip");
         collection.setMediation(false);
-        collection.setTitle(Context.getCollectionTitle());
-        collection.setAbstract(MessageFormat.format(Context.getCollectionAbstract(), easyHomePage));
 
         // qualityValue indicates this is the preferred format
         collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/md/emd/2012/easymetadata.xsd", 1f);
@@ -170,9 +175,17 @@ public class EasySwordServer implements SWORDServer
         final EasyUser user = EasyBusinessFacade.getUser(deposit.getUsername(), deposit.getPassword());
         checkOnBehalfOf(deposit);
 
+        final Dataset dataset;
         final Payload payload = new Payload(deposit.getFile());
-        final EasyMetadata metadata = payload.getEasyMetadata();
-        final Dataset dataset = submit(deposit, user, payload, metadata);
+        try
+        {
+            final EasyMetadata metadata = payload.getEasyMetadata();
+            dataset = submit(deposit, user, payload, metadata);
+        }
+        finally
+        {
+            payload.clearTemp();
+        }
 
         final String datasetUrl = toServer(deposit.getLocation()) + Context.getDatasetPath() + dataset.getStoreId();
         final SWORDEntry swordEntry = wrapSwordEntry(deposit, user, dataset, datasetUrl);
@@ -195,7 +208,6 @@ public class EasySwordServer implements SWORDServer
             dataset = EasyBusinessFacade.mockSubmittedDataset(metadata, user);
         else
             dataset = EasyBusinessFacade.submitNewDataset(user, metadata, payload.getDataFolder(), payload.getFiles());
-        payload.clearTemp();
         return dataset;
     }
 
