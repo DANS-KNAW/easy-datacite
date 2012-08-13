@@ -4,6 +4,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.MessageFormat;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -51,7 +52,7 @@ public class EasySwordServer implements SWORDServer
         log.info(MessageFormat.format("SERVICE DOCUMENT user={0}; IP={1}; location={2}; onBehalfOf={3}", sdr.getUsername(), sdr.getIPAddress(),
                 sdr.getLocation(), sdr.getOnBehalfOf()));
 
-        EasyUser user = null;
+        final EasyUser user = null;
         try
         {
             EasyBusinessFacade.getUser(sdr.getUsername(), sdr.getPassword());
@@ -180,7 +181,9 @@ public class EasySwordServer implements SWORDServer
         try
         {
             final EasyMetadata metadata = payload.getEasyMetadata();
-            dataset = submit(deposit, user, payload, metadata);
+            final File folder = payload.getDataFolder();
+            final List<File> files = payload.getFiles();
+            dataset = EasyBusinessFacade.submitNewDataset(deposit.isNoOp(), user, metadata, folder, files);
         }
         finally
         {
@@ -198,17 +201,6 @@ public class EasySwordServer implements SWORDServer
         // Check this is a collection that takes "on behalf of" deposits, else throw an error
         if (((deposit.getOnBehalfOf() != null) && (!deposit.getOnBehalfOf().equals(""))) && (!deposit.getLocation().contains("deposit?user=")))
             throw new SWORDErrorException(ErrorCodes.MEDIATION_NOT_ALLOWED, "Mediated deposit not allowed to this collection");
-    }
-
-    private static Dataset submit(final Deposit deposit, final EasyUser user, final Payload payload, final EasyMetadata metadata) throws SWORDException,
-            SWORDErrorException
-    {
-        final Dataset dataset;
-        if (deposit.isNoOp())
-            dataset = EasyBusinessFacade.mockSubmittedDataset(metadata, user);
-        else
-            dataset = EasyBusinessFacade.submitNewDataset(user, metadata, payload.getDataFolder(), payload.getFiles());
-        return dataset;
     }
 
     private static SWORDEntry wrapSwordEntry(final Deposit deposit, final EasyUser user, final Dataset dataset, final String datasetUrl) throws SWORDException,

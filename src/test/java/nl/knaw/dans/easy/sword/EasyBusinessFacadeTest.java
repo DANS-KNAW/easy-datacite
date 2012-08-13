@@ -45,7 +45,7 @@ public class EasyBusinessFacadeTest extends Tester
         try
         {
             final EasyMetadata easyMetaData = EasyMetadataFacade.validate(FileUtil.readFile(metaDataFile));
-            EasyBusinessFacade.submitNewDataset(MockUtil.USER, easyMetaData, tempDirectory, fileList);
+            EasyBusinessFacade.submitNewDataset(false, MockUtil.USER, easyMetaData, tempDirectory, fileList);
         }
         catch (final SWORDException se)
         {

@@ -19,6 +19,11 @@ public class SubmitFixture extends EasySwordServerTester
         return new File(INPUT_DIR + string + ".zip").getPath();
     }
 
+    protected static File getFile(String string)
+    {
+        return new File(INPUT_DIR + string );
+    }
+
     protected SwordValidationInfo execute(boolean verbose, boolean noOp, final String zip) throws Exception, SWORDException
     {
         final Deposit deposit = new Deposit();

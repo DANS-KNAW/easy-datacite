@@ -22,6 +22,7 @@
       &lt;p&gt;description; http://purl.org/dc/elements/1.1/; maar een paar bestandjes&lt;/p&gt; 
       &lt;p&gt;created; http://easy.dans.knaw.nl/easy/easymetadata/eas/; 2010&lt;/p&gt; 
       &lt;p&gt;type; http://purl.org/dc/elements/1.1/; Dataset&lt;/p&gt; 
+      &lt;p&gt;identifier; http://purl.org/dc/elements/1.1/; mockedStoreID:1&lt;/p&gt; 
       &lt;p&gt;accessRights; http://purl.org/dc/terms/; OPEN_ACCESS&lt;/p&gt; 
       &lt;p&gt;license; http://purl.org/dc/terms/; accept&lt;/p&gt; 
       &lt;p&gt;audience; http://purl.org/dc/terms/; easy-discipline:2&lt;/p&gt; 

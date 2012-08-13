@@ -1,6 +1,6 @@
 package nl.knaw.dans.easy.sword;
 
-import static org.junit.Assert.assertTrue;
+import static nl.knaw.dans.easy.sword.SubmitFixture.getFile;
 import static org.junit.Assert.fail;
 
 import java.io.File;
@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.BindException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,6 +19,7 @@ import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.AuthScope;
+import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.InputStreamRequestEntity;
 import org.apache.commons.httpclient.methods.PostMethod;
@@ -34,15 +36,15 @@ import org.slf4j.LoggerFactory;
 
 public class IntegrationTester
 {
-    private static final String                      DIR       = new File(SubmitFixture.PROPER_ZIP).getParent();
-    private static final String                      URL       = "http://localhost:" + Start.PORT + "/";
-    private static final UsernamePasswordCredentials DEPOSITOR = new UsernamePasswordCredentials("depositor", "123456");
-    private static final UsernamePasswordCredentials ANONYMOUS = new UsernamePasswordCredentials("anonymous", "password");
-    private static final int                         SECOND    = 1000;
+    private static final File                        VALID_FILE = getFile("data-plus-meta.zip");
+    private static final String                      URL        = "http://localhost:" + Start.PORT + "/";
+    private static final UsernamePasswordCredentials DEPOSITOR  = new UsernamePasswordCredentials("depositor", "123456");
+    private static final UsernamePasswordCredentials ANONYMOUS  = new UsernamePasswordCredentials("anonymous", "password");
+    private static final int                         SECOND     = 1000;
 
     private static Server                            server;
 
-    private static Logger                            log       = LoggerFactory.getLogger(EasySwordServer.class);
+    private static Logger                            log        = LoggerFactory.getLogger(EasySwordServer.class);
 
     static
     {
@@ -105,12 +107,47 @@ public class IntegrationTester
     }
 
     @Test
-    public void serviceDocument() throws Exception
+    public void anonymousServiceDocument() throws Exception
     {
         final GetMethod method = new GetMethod(URL + "servicedocument");
-        execute(method, createClient(ANONYMOUS, null));
-        int scOk = HttpStatus.SC_OK;
-        assertResponseCode(method, scOk);
+        getResponse(method, createClient(ANONYMOUS, null));
+        assertResponseCode(method, HttpStatus.SC_OK);
+    }
+
+    @Test
+    public void athourisedServiceDocument() throws Exception
+    {
+        final GetMethod method = new GetMethod(URL + "servicedocument");
+        getResponse(method, createClient(DEPOSITOR, null));
+        assertResponseCode(method, HttpStatus.SC_OK);
+    }
+
+    @Test
+    public void invalidServicedocumentPath() throws Exception
+    {
+        final GetMethod method = new GetMethod(URL + "xxx");
+        getResponse(method, createClient(DEPOSITOR, null));
+        // TODO Move to JMEter, might be different on EOF12/EOF13
+        assertResponseCode(method, HttpStatus.SC_INTERNAL_SERVER_ERROR);
+    }
+
+    @Test
+    public void invalidDepositPath() throws Exception
+    {
+        final RequestEntity request = createRequest(VALID_FILE);
+        final PostMethod method = new PostMethod(URL + "xxx");
+        method.setRequestEntity(request);
+        getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
+        assertResponseCode(method, HttpStatus.SC_METHOD_NOT_ALLOWED);
+    }
+
+    @Test
+    public void delete() throws Exception
+    {
+        final DeleteMethod method = new DeleteMethod(URL + "deposit");
+        // TODO Move to JMEter, might be different on EOF12/EOF13
+        getResponse(method, createClient(DEPOSITOR, null));
+        assertResponseCode(method, HttpStatus.SC_METHOD_NOT_ALLOWED);
     }
 
     @Test
@@ -118,79 +155,78 @@ public class IntegrationTester
     {
         final GetMethod method = new GetMethod(URL + "servicedocument");
         method.addRequestHeader("X-On-Behalf-Of", DEPOSITOR.getUserName());
-        execute(method, createClient(DEPOSITOR, null));
-        int scOk = HttpStatus.SC_PRECONDITION_FAILED;
-        assertResponseCode(method, scOk);
+        getResponse(method, createClient(DEPOSITOR, null));
+        assertResponseCode(method, HttpStatus.SC_PRECONDITION_FAILED);
     }
 
     @Test
     public void depositProperZip() throws Exception
     {
-        final RequestEntity request = createRequest(new File(SubmitFixture.PROPER_ZIP));
+        final RequestEntity request = createRequest(VALID_FILE);
         final PostMethod method = createPostMethod(request, false, false);
-        doDeposit(method, 15 * SECOND, HttpStatus.SC_ACCEPTED);
+        getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
+        assertResponseCode(method, HttpStatus.SC_ACCEPTED);
     }
 
     @Test
     public void noOpDeposit() throws Exception
     {
-        final RequestEntity request = createRequest(new File(SubmitFixture.PROPER_ZIP));
+        final RequestEntity request = createRequest(VALID_FILE);
         final PostMethod method = createPostMethod(request, true, false);
-        doDeposit(method, 15 * SECOND, HttpStatus.SC_ACCEPTED);
+        getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
+        assertResponseCode(method, HttpStatus.SC_ACCEPTED);
     }
 
     @Test
     public void maxPathLength() throws Throwable
     {
-        final RequestEntity request = createRequest(new File(SubmitFixture.getZip("max-path")));
+        final RequestEntity request = createRequest(getFile("max-path.zip"));
         final PostMethod method = createPostMethod(request, false, false);
-        doDeposit(method, 15 * SECOND, HttpStatus.SC_ACCEPTED);
+        getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
+        assertResponseCode(method, HttpStatus.SC_ACCEPTED);
     }
 
     @Test
     public void mediatedDeposit() throws Exception
     {
-        final RequestEntity request = createRequest(new File(SubmitFixture.PROPER_ZIP));
+        final RequestEntity request = createRequest(VALID_FILE);
         final PostMethod method = createPostMethod(request, false, false);
         method.addRequestHeader("X-On-Behalf-Of", DEPOSITOR.getUserName());
-        doDeposit(method, 15 * SECOND, HttpStatus.SC_PRECONDITION_FAILED);
+        getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
+        assertResponseCode(method, HttpStatus.SC_PRECONDITION_FAILED);
     }
 
     @Test
-    public void draftDeposit() throws Exception
+    public void invalidDisciplineDeposit() throws Exception
     {
-        final RequestEntity request = createRequest(new File(DIR + "/invalidDisciplineId.zip"));
+        final RequestEntity request = createRequest(getFile("invalidDisciplineId.zip"));
         final PostMethod method = createPostMethod(request, false, false);
-        doDeposit(method, 15 * SECOND, HttpStatus.SC_BAD_REQUEST);
+        getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
+        assertResponseCode(method, HttpStatus.SC_BAD_REQUEST);
+        //assertTrue(response.contains("easy-dataset:"));
     }
 
     @Test
     public void depositInvalidZip() throws Exception
     {
-        final RequestEntity request = createRequest(SubmitFixture.META_DATA_FILE);
+        final RequestEntity request = createRequest(getFile("metadata.xml"));
         final PostMethod method = createPostMethod(request, false, false);
-        doDeposit(method, 15 * SECOND, HttpStatus.SC_UNSUPPORTED_MEDIA_TYPE);
+        getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
+        assertResponseCode(method, HttpStatus.SC_UNSUPPORTED_MEDIA_TYPE);
     }
 
-    private static void doDeposit(final PostMethod method, final int timeout, final int expectedStatus) throws Exception
+    private static void assertResponseCode(final HttpMethod method, int expectedResponseCode)
     {
-        execute(method, createClient(DEPOSITOR, timeout));
-        if (method.getStatusCode() == expectedStatus)
-            ;
-        else if (method.getStatusCode() == HttpStatus.SC_UNAUTHORIZED)
-            fail("please register EASY userID: " + DEPOSITOR.getUserName() + " with password: " + DEPOSITOR.getUserName());
-        else
-            fail("Unexpected response code: " + method.getStatusLine().toString());
+        if (method.getStatusCode() == expectedResponseCode)
+            return;
+        if (method.getStatusCode() == HttpStatus.SC_UNAUTHORIZED)
+            fail("please register EASY user to make the tests work. ID:" + DEPOSITOR.getUserName() + " with password: " + DEPOSITOR.getUserName());
+        fail("Unexpected response code: " + method.getStatusLine().toString());
     }
 
-    private static void assertResponseCode(final GetMethod method, int expectedResponseCode)
+    private String getResponse(final HttpMethod method, final HttpClient client) throws IOException, HttpException
     {
-        final String message = "unexpected response code: " + method.getStatusLine().toString();
-        assertTrue(message, method.getStatusCode() == expectedResponseCode);
-    }
-
-    private static void execute(final HttpMethod method, final HttpClient client) throws IOException, HttpException
-    {
+        String responseBody = null;
         try
         {
             client.executeMethod(method);
@@ -202,15 +238,31 @@ public class IntegrationTester
                 ;// already logged
                 break;
             default:
-                // TODO unmarshall responsbody for the href of the root element <sword:error>
-                log.info("\n" + method.getResponseBodyAsString());
+                responseBody = method.getResponseBodyAsString();
+                log.info("\n" + responseBody + "\n\t");
             }
         }
         finally
         {
             method.releaseConnection();
         }
-        log.info(Thread.currentThread().getStackTrace()[3].getMethodName() + ": " + method.getStatusLine());
+        final StringBuffer message = new StringBuffer();
+        message.append("======== " + Thread.currentThread().getStackTrace()[2].getMethodName());
+        message.append("\n");
+        message.append(method.getName() + method.getPath());
+        message.append("\n");
+        message.append("client timeout: " + client.getParams().getSoTimeout());
+        message.append("\n");
+        message.append("client state: " + client.getState());
+        message.append("\n");
+        message.append("host auth state: " + method.getHostAuthState());
+        message.append("\n");
+        message.append(Arrays.deepToString(method.getRequestHeaders()));
+        message.append("\n");
+        message.append(method.getStatusLine());
+        message.append("\n\t");
+        log.info(message.toString());
+        return responseBody;
     }
 
     private static PostMethod createPostMethod(final RequestEntity request, final Boolean noOp, final Boolean verbose)
@@ -233,6 +285,7 @@ public class IntegrationTester
 
     private static RequestEntity createRequest(final File file) throws FileNotFoundException
     {
+        log.info("======== creating request with " + file);
         return new InputStreamRequestEntity(new FileInputStream(file));
     }
 }

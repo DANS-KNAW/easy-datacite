@@ -1,7 +1,5 @@
 package nl.knaw.dans.easy.sword;
 
-import static nl.knaw.dans.easy.sword.EasyMetadataFacade.getFormDefinition;
-
 import java.io.File;
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -16,11 +14,12 @@ import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.business.dataset.DatasetSubmissionImpl;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.StoreAccessException;
+import nl.knaw.dans.easy.domain.dataset.AdministrativeMetadataImpl;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
+import nl.knaw.dans.easy.domain.dataset.DatasetSpecification;
 import nl.knaw.dans.easy.domain.dataset.DatasetSubmission;
-import nl.knaw.dans.easy.domain.exceptions.ApplicationException;
+import nl.knaw.dans.easy.domain.deposit.discipline.DepositDiscipline;
 import nl.knaw.dans.easy.domain.exceptions.DataIntegrityException;
-import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
 import nl.knaw.dans.easy.domain.federation.FederativeUserIdMap;
 import nl.knaw.dans.easy.domain.form.FormDefinition;
 import nl.knaw.dans.easy.domain.form.PanelDefinition;
@@ -31,7 +30,6 @@ import nl.knaw.dans.easy.domain.model.emd.types.BasicString;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.LicenseComposer;
 import nl.knaw.dans.easy.servicelayer.LicenseComposer.LicenseComposerException;
-import nl.knaw.dans.easy.servicelayer.SubmitNotification;
 import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 
@@ -145,21 +143,27 @@ public class EasyBusinessFacade
     /**
      * Submits a new dataset.
      * 
+     * @param noOp
+     *        no changes in the repository
      * @param user
      *        the owner of the new dataset
      * @param metadata
      *        the metadata for the new dataset,
-     * @param directory
+     * @param folder
      *        a directory containing the files for the new dataset
-     * @param fileList
+     * @param files
      *        the list of files in the directory to add to the new dataset
      * @return
      * @throws SWORDException
      * @throws SWORDErrorException
      */
-    public static Dataset submitNewDataset(final EasyUser user, final EasyMetadata metadata, final File directory, final List<File> fileList)
+    public static Dataset submitNewDataset(final boolean noOp, final EasyUser user, final EasyMetadata metadata, final File folder, final List<File> files)
             throws SWORDException, SWORDErrorException
     {
+        final Dataset mockedDataset = validateSubmission(user, metadata);
+        if (noOp)
+            return mockedDataset;
+
         final MetadataFormat mdFormat = metadata.getEmdOther().getEasApplicationSpecific().getMetadataFormat();
         final Dataset dataset = createEmptyDataset(mdFormat);
 
@@ -169,8 +173,8 @@ public class EasyBusinessFacade
         dataset.setOwnerId(user.getId());
         dataset.getAdministrativeMetadata().setDepositor(user);
 
-        final DatasetSubmission submission = new DatasetSubmissionImpl(getFormDefinition(dataset.getEasyMetadata()), dataset, user);
-        ingestFiles(submission, directory, fileList);
+        final DatasetSubmission submission = new DatasetSubmissionImpl(EasyBusinessFacade.getFormDefinition(metadata), dataset, user);
+        ingestFiles(submission, folder, files);
         submit(submission);
 
         return dataset;
@@ -264,24 +268,14 @@ public class EasyBusinessFacade
 
     private static SWORDErrorException createSubmitException(final DatasetSubmission submission, final String cause)
     {
-        if (!submission.isMailSend())
-        {
-            try
-            {
-                Services.getDatasetService().deleteDataset(submission.getSessionUser(), submission.getDataset());
-            }
-            catch (final ServiceException e)
-            {
-                return new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, "Created dataset (" + submission.getDataset().getStoreId() + ") but submission and roll-back failed. "
-                        + "Please use the web interface to remove the dataset. \n" + cause);
-            }
-        }
-        return new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, cause);
+        logger.error("failed to submit " + submission.getDataset().getStoreId(), cause);
+        return new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, "Created dataset (" + submission.getDataset().getStoreId() + ") but submission failed. \n"
+                + cause);
     }
 
     private static SWORDErrorException createSubmitException(final DatasetSubmission submission, final Throwable cause)
     {
-        logger.error("failed to submit " + submission.getDataset().getStoreId(), cause);
+        logger.error("submission failure", cause);
         return createSubmitException(submission, cause.getMessage());
     }
 
@@ -301,14 +295,7 @@ public class EasyBusinessFacade
         }
         catch (final ServiceException exception)
         {
-            final Throwable cause = exception.getCause();
-            if (cause instanceof ApplicationException && cause.getCause() instanceof ObjectNotFoundException)
-            {
-                // needed at least for a clear message to the client about invalid discipline id
-                throw createSubmitException(submission, cause.getCause());
-            }
-            else
-                throw createSubmitException(submission, exception);
+            throw createSubmitException(submission, exception);
         }
         if (!ingestReporter.catchedExceptions())
             throw createSubmitException(submission, "ingest exceptions: " + Arrays.toString(ingestReporter.getExceptionMessages()));
@@ -323,7 +310,7 @@ public class EasyBusinessFacade
         final StringBuffer sb = new StringBuffer();
         for (final File file : fileList)
             sb.append("\n\t" + file);
-        String string = sb.toString();
+        final String string = sb.toString();
         logger.debug("ingesting files from " + directory + " into " + dmoStoreId + " " + string);
     }
 
@@ -434,6 +421,8 @@ public class EasyBusinessFacade
         final String storeId = NO_OP_STORE_ID_DOMAIN + noOpSumbitCounter;
         final DmoStoreId DmoStoreID = new DmoStoreId(storeId);
         final Dataset dataset = EasyMock.createMock(Dataset.class);
+        final AdministrativeMetadataImpl administrativeMetadata = new AdministrativeMetadataImpl();
+        administrativeMetadata.setDepositor(user);
 
         EasyMock.expect(dataset.getEasyMetadata()).andReturn(metadata).anyTimes();
         EasyMock.expect(dataset.getStoreId()).andReturn(storeId).anyTimes();
@@ -443,12 +432,49 @@ public class EasyBusinessFacade
         EasyMock.expect(dataset.getAccessCategory()).andReturn(metadata.getEmdRights().getAccessCategory()).anyTimes();
         EasyMock.expect(dataset.getPreferredTitle()).andReturn(metadata.getPreferredTitle()).anyTimes();
         EasyMock.expect(dataset.getPersistentIdentifier()).andReturn(pid).anyTimes();
+        EasyMock.expect(dataset.getMetadataFormat()).andReturn(metadata.getEmdOther().getEasApplicationSpecific().getMetadataFormat()).anyTimes();
+        EasyMock.expect(dataset.getAdministrativeMetadata()).andReturn(administrativeMetadata).anyTimes();
         EasyMock.replay(dataset);
-
-        final FormDefinition formDefinition = getFormDefinition(dataset.getEasyMetadata());
-        final DatasetSubmissionImpl submission = new DatasetSubmissionImpl(formDefinition, dataset, user);
-        if (!new SubmitNotification(submission).sendMail(false))
-            logger.error(storeId + " Mocked submit notification was no sent to " + user.getId());
         return dataset;
+    }
+
+    /** validates at least the disciplineID */
+    public static Dataset validateSubmission(final EasyUser depositor, final EasyMetadata metadata) throws SWORDErrorException, SWORDException
+    {
+        final Dataset dataset = mockSubmittedDataset(metadata, depositor);
+        try
+        {
+            DatasetSpecification.evaluate(dataset);
+            return dataset;
+        }
+        catch (final DataIntegrityException exception)
+        {
+            logger.error("validation failed", exception);
+            throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, Arrays.deepToString(exception.getErrorMessages().toArray()));
+        }
+        catch (final ServiceException exception)
+        {
+            throw new SWORDException("could not validate metadata", exception);
+        }
+    }
+
+    public static FormDefinition getFormDefinition(final EasyMetadata emd) throws SWORDErrorException
+    {
+        final MetadataFormat mdFormat = emd.getEmdOther().getEasApplicationSpecific().getMetadataFormat();
+        final DepositDiscipline discipline;
+        try
+        {
+            discipline = Services.getDepositService().getDiscipline(mdFormat);
+        }
+        catch (final ServiceException e)
+        {
+            throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, "Cannot get deposit discipline.");
+        }
+        if (discipline == null)
+            throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, "Cannot get deposit discipline.");
+        final FormDefinition formDefinition = discipline.getEmdFormDescriptor().getFormDefinition(DepositDiscipline.EMD_DEPOSITFORM_ARCHIVIST);
+        if (formDefinition == null)
+            throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, ("Cannot get formdefinition for MetadataFormat " + mdFormat.toString()));
+        return formDefinition;
     }
 }

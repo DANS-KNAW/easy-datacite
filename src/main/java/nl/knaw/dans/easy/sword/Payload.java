@@ -7,9 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.zip.ZipException;
 import java.util.zip.ZipInputStream;
 
@@ -92,26 +90,14 @@ public class Payload
     private void checkFileConstraints() throws SWORDErrorException
     {
         final List<String> messages = new ArrayList<String>();
-        final Map<String, File> map = new HashMap<String, File>();
         final int maxLength = 256 + dataFolder.getPath().length() - "original".length();
         for (final File file : files)
         {
-            final String name = file.getName();
             final String path = file.getPath();
             if (path.length() > maxLength)
             {
                 // limitation caused by varchar(256) of fileItem and folderItem tables
                 messages.add("\npath name exceeds 247 characters:\n" + path);
-            }
-            if (file.isFile())
-            {
-                if (!map.containsKey(name))
-                    map.put(name,file);
-                else
-                {
-                    // prevents problems when adding file meta data
-                    messages.add("\nidentical file names:\n" + path + "\n" + map.get(name).getPath());
-                }
             }
         }
         if (messages.size() > 0)
