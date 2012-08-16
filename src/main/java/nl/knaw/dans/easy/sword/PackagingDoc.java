@@ -57,13 +57,14 @@ public class PackagingDoc
         return sb;
     }
 
-    private static StringBuffer generateChoicelistDetails(final Map<String, ChoiceListDefinition> choiceLists, final DepositService depositService) throws ServiceException
+    private static StringBuffer generateChoicelistDetails(final Map<String, ChoiceListDefinition> choiceLists, final DepositService depositService)
+            throws ServiceException
     {
         final StringBuffer sb = new StringBuffer();
         sb.append("<table>\n");
         for (final ChoiceListDefinition clDef : choiceLists.values())
         {
-            sb.append("<tr><td colspan='2'><h2><a name='" + clDef.getId() + "'>" + clDef.getId() + "</a></h2></td></tr>\n");
+            sb.append("<tr><td colspan='2'><h2>values for '<a name='" + clDef.getId() + "'>" + clDef.getId() + "</a>'</h2></td></tr>\n");
             final ChoiceList choiceList = depositService.getChoices(clDef.getId(), null);
             for (final KeyValuePair kvp : choiceList.getChoices())
                 sb.append("<tr><td>" + kvp.getKey() + "</td><td>" + kvp.getValue() + "</td></tr>\n");
@@ -181,19 +182,27 @@ public class PackagingDoc
         for (final DepositDiscipline discipline : depositService.getDisciplines())
         {
             final FormDefinition formDef = discipline.getEmdFormDescriptor().getFormDefinition(DepositDiscipline.EMD_DEPOSITFORM_WIZARD);
-            sb.append("<h2><a name='" + discipline.getDepositDisciplineId() + "'>" + discipline.getDepositDisciplineId() + "</a></h2>\n");
-            sb.append("<ul>\n");
-            for (final FormPage formPage : formDef.getFormPages())
-            {
-                final List<PanelDefinition> panels = formPage.getPanelDefinitions();
-                for (final PanelDefinition panel : panels)
-                {
-                    sb.append("<li>" + panel.getId() + " " + helpInfo(panel) + "</li>\n");
-                    collectChoiceLists(panel, choiceLists);
-                }
-            }
-            sb.append("</ul>\n");
+            sb.append("<h2>fields for discipline '<a name='" + discipline.getDepositDisciplineId() + "'>" + discipline.getDepositDisciplineId() + "</a>'</h2>\n");
+            sb.append(generateFields(choiceLists, formDef.getFormPages()));
         }
+        return sb;
+    }
+
+    private static StringBuffer generateFields(final Map<String, ChoiceListDefinition> choiceLists, final List<FormPage> formPages) throws IOException,
+            ServiceException
+    {
+        final StringBuffer sb = new StringBuffer();
+        sb.append("<ul>\n");
+        for (final FormPage formPage : formPages)
+        {
+            final List<PanelDefinition> panels = formPage.getPanelDefinitions();
+            for (final PanelDefinition panel : panels)
+            {
+                sb.append("<li>" + panel.getId() + " " + helpInfo(panel) + "</li>\n");
+                collectChoiceLists(panel, choiceLists);
+            }
+        }
+        sb.append("</ul>\n");
         return sb;
     }
 
@@ -211,6 +220,7 @@ public class PackagingDoc
                 for (final ChoiceListDefinition cld : sp.getChoiceListDefinitions())
                     s += " <em><a href='#" + cld.getId() + "'>vocabulary</a></em>";
         }
+        s += getShortHelp(panel, s);
         if (panel.getHelpItem() == null)
             return s;
         final File file = new File(EDITABLE_HELP + panel.getHelpItem() + ".template");
@@ -218,6 +228,17 @@ public class PackagingDoc
         final String id = panel.getId();
         return s + "<a href='#' id='" + id + "-show' class='showLink' onclick='showHide(\"" + id + "\");return false;'>Show/hide help</a>"
                 + "<div class='help' id='" + id + "'>" + help + "</div>";
+    }
+
+    private static String getShortHelp(final AbstractInheritableDefinition<?> panel, final String s)
+    {
+        final String key = panel.getShortHelpResourceKey();
+        if (key != null)
+        {
+            //TODO return DepositPage.class.getResource(key); without dependency on the web-ui project
+            return " ";
+        }
+        return "";
     }
 
     private static void collectChoiceLists(final PanelDefinition panel, final Map<String, ChoiceListDefinition> choiceLists) throws ServiceException
