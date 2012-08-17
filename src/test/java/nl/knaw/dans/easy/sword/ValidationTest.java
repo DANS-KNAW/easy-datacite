@@ -14,7 +14,7 @@ import org.junit.runners.Parameterized.Parameters;
 import org.purl.sword.base.SWORDErrorException;
 
 @RunWith(Parameterized.class)
-public class ValidationTest extends Tester
+public class ValidationTest extends Fixture
 {
     private final String metadataFileName;
     private final String messageContent;

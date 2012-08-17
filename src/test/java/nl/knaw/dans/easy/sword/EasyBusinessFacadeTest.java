@@ -15,7 +15,7 @@ import org.junit.Test;
 import org.purl.sword.base.SWORDErrorException;
 import org.purl.sword.base.SWORDException;
 
-public class EasyBusinessFacadeTest extends Tester
+public class EasyBusinessFacadeTest extends Fixture
 {
     static File       tempDirectory;
 

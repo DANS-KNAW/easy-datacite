@@ -11,7 +11,7 @@ import org.junit.BeforeClass;
  * Fixture that performs general applicable mocks.<br>
  * Abstract to prevent execution by the JUnit framework.
  */
-public abstract class Tester
+public abstract class Fixture
 {
     private static Services     services;
     public static final File    META_DATA_FILE = new File("src/test/resources/input/metadata.xml");
