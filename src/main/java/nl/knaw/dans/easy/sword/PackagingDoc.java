@@ -41,6 +41,13 @@ public class PackagingDoc
         System.out.print(generate(depositService).toString());
     }
 
+    private static DepositService setFedoraContext()
+    {
+        final Fedora fedora = new Fedora(FEDORA_URL, FEDORA_USER, FEDORA_PASSWORD);
+        new Data().setEasyStore(new EasyFedoraStore("easy", fedora));
+        return new EasyDepositService();
+    }
+
     private static StringBuffer generate(final DepositService depositService) throws ServiceException, IOException
     {
         final StringBuffer sb = new StringBuffer();
@@ -52,84 +59,21 @@ public class PackagingDoc
         sb.append(generateDisciplinesToc(depositService));
         sb.append(generateChoicelistToc(choiceLists));
         sb.append(disciplineDetails);
-        sb.append(generateChoicelistDetails(choiceLists, depositService));
+        sb.append(generateChoicelists(choiceLists, depositService));
         sb.append("</body>\n");
         return sb;
     }
 
-    private static StringBuffer generateChoicelistDetails(final Map<String, ChoiceListDefinition> choiceLists, final DepositService depositService)
-            throws ServiceException
+    private static StringBuffer parseDisciplines(final Map<String, ChoiceListDefinition> choiceLists, final DepositService depositService)
+            throws ServiceException, IOException
     {
         final StringBuffer sb = new StringBuffer();
-        sb.append("<table>\n");
-        for (final ChoiceListDefinition clDef : choiceLists.values())
-        {
-            sb.append("<tr><td colspan='2'><h2>values for '<a name='" + clDef.getId() + "'>" + clDef.getId() + "</a>'</h2></td></tr>\n");
-            final ChoiceList choiceList = depositService.getChoices(clDef.getId(), null);
-            for (final KeyValuePair kvp : choiceList.getChoices())
-                sb.append("<tr><td>" + kvp.getKey() + "</td><td>" + kvp.getValue() + "</td></tr>\n");
-        }
-        sb.append("</table>\n");
-        return sb;
-    }
-
-    private static StringBuffer generateChoicelistToc(final Map<String, ChoiceListDefinition> choiceLists)
-    {
-        final StringBuffer sb = new StringBuffer();
-        sb.append("<p>Controlled Vocabularies</p><ul>\n");
-        for (final ChoiceListDefinition clDef : choiceLists.values())
-            sb.append("<li><a href='#" + clDef.getId() + "'>" + clDef.getId() + "</a></li>\n");
-        sb.append("</ul>\n");
-        return sb;
-    }
-
-    private static StringBuffer generateIntro()
-    {
-        final StringBuffer sb = new StringBuffer();
-
-        sb.append("<h1>Sword Packaging</h1>\n");
-        sb.append("<p>The zip file for a sword deposit should contain</p>\n");
-        sb.append("<ul>\n");
-        sb.append("  <li>a single file called 'easyMetadata.xml'<BR>\n");
-        sb.append("    Name and format are subject to change. A description of the current format follows below.\n");
-        sb.append("  </li>\n");
-        sb.append("  <li>a single folder called 'data'<BR>\n");
-        sb.append("    The full path name of datafiles should not exceed 252 characters.\n");
-        sb.append("    Desired file formats are documented in the \n");
-        sb.append("    <a href='http://www.dans.knaw.nl/content/data-archief/data-deponeren'>general instructions</a>\n");
-        sb.append("  </li>\n");
-        sb.append("</ul>\n");
-        sb.append("<h1>metadata format</h1>\n");
-        sb.append("<p> <a href='http://eof12.dans.knaw.nl/schemas/md/emd/2012/easymetadata.xsd'>XSD</a>\n");
-        sb.append("and <a href='http://eof12.dans.knaw.nl/schemas/docs/emd/emd.html'>schema documentation</a>\n");
-        sb.append("</p>\n");
-        return sb;
-    }
-
-    private static StringBuffer generateDisciplinesToc(final DepositService depositService) throws ServiceException
-    {
-        final StringBuffer sb = new StringBuffer();
-        sb.append("<p>Disciplines</p>\n");
-        sb.append("<div style='margin-left:2em'>\n");
-        sb.append("  <p>\n");
-        sb.append("    The discipline ID is stored in &lt;eas:metadataformat&gt;\n");
-        sb.append("  <p>\n");
-        sb.append("  </p>\n");
-        sb.append("    Each discipline has its own set of fields that should/may be used.\n");
-        sb.append("  </p>\n");
-        sb.append("  <table style='marging-left:4em'>\n");
-        sb.append("    <tr><td style='background-color: #DDD'>IDs</td><td style='background-color: #DDD' colspan='2'>details</td></tr>\n");
         for (final DepositDiscipline discipline : depositService.getDisciplines())
         {
-            final String id = discipline.getDepositDisciplineId();
             final FormDefinition formDef = discipline.getEmdFormDescriptor().getFormDefinition(DepositDiscipline.EMD_DEPOSITFORM_WIZARD);
-            sb.append("    <tr><td>" + id + "\n");
-            sb.append("    </td><td><a href='" + formDef.getInstructionFile() + "'>instructions</a>\n");
-            sb.append("    </td><td><a href='#" + id + "'>fields</a>\n");
-            sb.append("    </td></tr>\n");
+            sb.append("<h2>discipline '<a name='" + discipline.getDepositDisciplineId() + "'>" + discipline.getDepositDisciplineId() + "</a>'</h2>\n");
+            sb.append(generateElements(choiceLists, formDef.getFormPages()));
         }
-        sb.append("  </table>\n");
-        sb.append("</div>\n");
         return sb;
     }
 
@@ -152,93 +96,119 @@ public class PackagingDoc
         sb.append("<style type='text/css'>\n");
         sb.append("   .help {\n");
         sb.append("      display: none;\n");
+        sb.append("      padding: 4px;\n");
+        sb.append("      margin-top: 4px;\n");
         sb.append("      border: 1px solid #666; }\n");
-        sb.append("   a.showLink, a.hideLink {\n");
-        sb.append("      font-size: 70%;\n");
-        sb.append("      text-decoration: none;\n");
-        sb.append("      color: #36f;\n");
-        sb.append("      padding-left: 8px;\n");
-        sb.append("      background: transparent url(down.gif) no-repeat left; }\n");
-        sb.append("   a.hideLink {\n");
-        sb.append("      background: transparent url(up.gif) no-repeat left; }\n");
-        sb.append("   a.showLink:hover, a.hideLink:hover {\n");
-        sb.append("      border-bottom: 1px dotted #36f; }\n");
+        sb.append("   a.toggleLink { font-size: 70%; text-decoration: none;}\n");
+        sb.append("   a.toggleLink:hover { border: 1px dotted #36f; }\n");
+        sb.append("   th {background-color: #DDD;\n");
+        sb.append("   td {vertical-align: top; }\n");// TODO alignment does not work, at least not
+                                                     // FireFox
         sb.append("</style>\n");
         sb.append("</head>\n");
         return sb;
     }
 
-    private static DepositService setFedoraContext()
-    {
-        final Fedora fedora = new Fedora(FEDORA_URL, FEDORA_USER, FEDORA_PASSWORD);
-        new Data().setEasyStore(new EasyFedoraStore("easy", fedora));
-        return new EasyDepositService();
-    }
-
-    private static StringBuffer parseDisciplines(final Map<String, ChoiceListDefinition> choiceLists, final DepositService depositService)
-            throws ServiceException, IOException
+    private static StringBuffer generateIntro()
     {
         final StringBuffer sb = new StringBuffer();
-        for (final DepositDiscipline discipline : depositService.getDisciplines())
-        {
-            final FormDefinition formDef = discipline.getEmdFormDescriptor().getFormDefinition(DepositDiscipline.EMD_DEPOSITFORM_WIZARD);
-            sb.append("<h2>fields for discipline '<a name='" + discipline.getDepositDisciplineId() + "'>" + discipline.getDepositDisciplineId() + "</a>'</h2>\n");
-            sb.append(generateFields(choiceLists, formDef.getFormPages()));
-        }
+
+        sb.append("<h1>Sword Packaging</h1>\n");
+        sb.append("<p>The zip file for a sword deposit should contain</p>\n");
+        sb.append("<ul>\n");
+        sb.append("  <li>a single file called 'easyMetadata.xml'<BR>\n");
+        sb.append("    Name and format are subject to change. A description of the current format follows below.\n");
+        sb.append("  </li>\n");
+        sb.append("  <li>a single folder called 'data'<BR>\n");
+        sb.append("    The full path name of datafiles should not exceed 252 characters.\n");
+        sb.append("    Desired file formats are documented in the \n");
+        sb.append("    <a href='http://www.dans.knaw.nl/en/content/data-archive/depositing-data'>general instructions</a>\n");
+        sb.append("  </li>\n");
+        sb.append("</ul>\n");
+        sb.append("<h1>metadata format</h1>\n");
+        sb.append("<p>\n");
+        sb.append("  This <a href='http://eof12.dans.knaw.nl/schemas/md/emd/2012/easymetadata.xsd'>XSD</a>\n");
+        sb.append("  can be used to create / validate metadata instances.\n");
+        sb.append("  The <a href='http://eof12.dans.knaw.nl/schemas/docs/emd/emd.html'>schema documentation</a> \n");
+        sb.append("  is a human readable version.\n");
+        sb.append("</p>\n");
+        sb.append("<p>\n");
+        sb.append("  It is important to note that additional constraints apply for the different disciplines.\n");
+        sb.append("  The discipline ID is stored in &lt;eas:metadataformat&gt;, \n");
+        sb.append("  and the constraints per desciplines can be found in the following table.</p>\n");
+        sb.append("</p>\n");
         return sb;
     }
 
-    private static StringBuffer generateFields(final Map<String, ChoiceListDefinition> choiceLists, final List<FormPage> formPages) throws IOException,
+    private static StringBuffer generateDisciplinesToc(final DepositService depositService) throws ServiceException
+    {
+        final StringBuffer sb = new StringBuffer();
+        sb.append("<table style='margin-left:2em'>\n");
+        sb.append("  <tr><th>Discipline ID</td><th colspan='2'>details</td></tr>\n");
+        for (final DepositDiscipline discipline : depositService.getDisciplines())
+        {
+            final String id = discipline.getDepositDisciplineId();
+            final FormDefinition formDef = discipline.getEmdFormDescriptor().getFormDefinition(DepositDiscipline.EMD_DEPOSITFORM_WIZARD);
+            sb.append("  <tr><td>" + id + "\n");
+            sb.append("  </td><td><a href='" + formDef.getInstructionFile() + "'>instructions</a>\n");
+            sb.append("  </td><td><a href='#" + id + "'>elements</a>\n");
+            sb.append("  </td></tr>\n");
+        }
+        sb.append("</table>\n");
+        return sb;
+    }
+
+    private static StringBuffer generateChoicelistToc(final Map<String, ChoiceListDefinition> choiceLists)
+    {
+        final StringBuffer sb = new StringBuffer();
+        sb.append("<p>In addition, some elements require entries from a controlled vocabulary. \n");
+        sb.append("Where applicable the elements descriptions refer to the appropriate one. \n");
+        sb.append("The following list is an overview.</p>\n");
+
+        sb.append("<ul>\n");
+        for (final ChoiceListDefinition clDef : choiceLists.values())
+            sb.append("  <li><a href='#" + clDef.getId() + "'>" + clDef.getId() + "</a></li>\n");
+        sb.append("</ul>\n");
+        return sb;
+    }
+
+    private static StringBuffer generateChoicelists(final Map<String, ChoiceListDefinition> choiceLists, final DepositService depositService)
+            throws ServiceException
+    {
+        final StringBuffer sb = new StringBuffer();
+        sb.append("<table><tr>\n");
+        for (final ChoiceListDefinition clDef : choiceLists.values())
+        {
+            sb.append("<tr><td colspan='2'><h2><a name='" + clDef.getId() + "'>" + clDef.getId() + "</a></h2></td></tr>\n");
+            sb.append("<tr><th>value</th><th>description</th>\n");
+            final ChoiceList choiceList = depositService.getChoices(clDef.getId(), null);
+            for (final KeyValuePair kvp : choiceList.getChoices()){
+                String indent = "";
+                for (int i=0;i<kvp.getIndent();i++)
+                    indent += " . . ";
+                sb.append("<tr><td>" + kvp.getKey() + "</td><td>" + indent + kvp.getValue() + "</td></tr>\n");
+            }
+        }
+        sb.append("</table>\n");
+        return sb;
+    }
+
+    private static StringBuffer generateElements(final Map<String, ChoiceListDefinition> choiceLists, final List<FormPage> formPages) throws IOException,
             ServiceException
     {
         final StringBuffer sb = new StringBuffer();
-        sb.append("<ul>\n");
+        sb.append("<table>\n<tr><th>element</th><th>notes</th></tr>");
         for (final FormPage formPage : formPages)
         {
             final List<PanelDefinition> panels = formPage.getPanelDefinitions();
             for (final PanelDefinition panel : panels)
             {
-                sb.append("<li>" + panel.getId() + " " + helpInfo(panel) + "</li>\n");
+                sb.append("<tr><td>" + panel.getId() + "</td><td>" + helpInfo(panel) + "</td></tr>\n");
                 collectChoiceLists(panel, choiceLists);
             }
         }
-        sb.append("</ul>\n");
+        sb.append("</table>\n");
         return sb;
-    }
-
-    private static String helpInfo(final AbstractInheritableDefinition<?> panel) throws IOException
-    {
-        String s = "";
-        if (panel instanceof StandardPanelDefinition)
-        {
-            final StandardPanelDefinition sp = (StandardPanelDefinition) panel;
-            if (sp.isRequired())
-                s += " <em>[mandatory]</em>";
-            if (sp.isRepeating())
-                s += " <em>[repeating]</em>";
-            if (sp.hasChoicelistDefinition())
-                for (final ChoiceListDefinition cld : sp.getChoiceListDefinitions())
-                    s += " <em><a href='#" + cld.getId() + "'>vocabulary</a></em>";
-        }
-        s += getShortHelp(panel, s);
-        if (panel.getHelpItem() == null)
-            return s;
-        final File file = new File(EDITABLE_HELP + panel.getHelpItem() + ".template");
-        final String help = new String(FileUtil.readFile(file)).replaceAll("<hr />", " ").replaceAll("h2>", "h4>");
-        final String id = panel.getId();
-        return s + "<a href='#' id='" + id + "-show' class='showLink' onclick='showHide(\"" + id + "\");return false;'>Show/hide help</a>"
-                + "<div class='help' id='" + id + "'>" + help + "</div>";
-    }
-
-    private static String getShortHelp(final AbstractInheritableDefinition<?> panel, final String s)
-    {
-        final String key = panel.getShortHelpResourceKey();
-        if (key != null)
-        {
-            //TODO return DepositPage.class.getResource(key); without dependency on the web-ui project
-            return " ";
-        }
-        return "";
     }
 
     private static void collectChoiceLists(final PanelDefinition panel, final Map<String, ChoiceListDefinition> choiceLists) throws ServiceException
@@ -255,5 +225,40 @@ public class PackagingDoc
             for (final ChoiceListDefinition clDef : spDef.getChoiceListDefinitions())
                 choiceLists.put(clDef.getId(), clDef);
         }
+    }
+
+    private static String helpInfo(final AbstractInheritableDefinition<?> panel) throws IOException
+    {
+        String s = "";
+        if (panel instanceof StandardPanelDefinition)
+        {
+            final StandardPanelDefinition sp = (StandardPanelDefinition) panel;
+            if (sp.isRequired())
+                s += " mandatory ";
+            if (sp.isRepeating())
+                s += " repeating ";
+            if (sp.hasChoicelistDefinition())
+                for (final ChoiceListDefinition cld : sp.getChoiceListDefinitions())
+                    s += " <a href='#" + cld.getId() + "'>allowed values</a> ";
+        }
+        s += getShortHelp(panel, s);
+        if (panel.getHelpItem() == null)
+            return s;
+        final File file = new File(EDITABLE_HELP + panel.getHelpItem() + ".template");
+        final String help = new String(FileUtil.readFile(file)).replaceAll("<hr />", " ").replaceAll("h2>", "h4>");
+        final String id = panel.getId();
+        return s + " <a href='#' id='" + id + "-show' class='toggleLink' onclick='showHide(\"" + id + "\");return false;'>Show/hide help</a>"
+                + "<table class='help' id='" + id + "'><tr><td>" + help + "</td></tr></table>";
+    }
+
+    private static String getShortHelp(final AbstractInheritableDefinition<?> panel, final String s)
+    {
+        final String key = panel.getShortHelpResourceKey();
+        if (key != null)
+        {
+            // TODO return DepositPage.class.getResource(key); without dependency on the web-ui layer
+            return " ";
+        }
+        return "";
     }
 }
