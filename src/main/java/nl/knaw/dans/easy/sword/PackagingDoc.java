@@ -109,10 +109,11 @@ public class PackagingDoc
         return sb;
     }
 
-    private static StringBuffer generateIntro()
+    private static StringBuffer generateIntro() throws IOException
     {
         final StringBuffer sb = new StringBuffer();
 
+        sb.append("<p><em>Note that the expandable info blocks are written for the web interface and sometines may be odd in this context.</em></p>\n");
         sb.append("<h1>Sword Packaging</h1>\n");
         sb.append("<p>The zip file for a sword deposit should contain</p>\n");
         sb.append("<ul>\n");
@@ -120,9 +121,15 @@ public class PackagingDoc
         sb.append("    Name and format are subject to change. A description of the current format follows below.\n");
         sb.append("  </li>\n");
         sb.append("  <li>a single folder called 'data'<BR>\n");
-        sb.append("    The full path name of datafiles should not exceed 252 characters.\n");
         sb.append("    Desired file formats are documented in the \n");
         sb.append("    <a href='http://www.dans.knaw.nl/en/content/data-archive/depositing-data'>general instructions</a>\n");
+        sb.append("    <br>\n");
+        sb.append("    The full path name of datafiles should not exceed 252 characters.\n");
+        final String id = "upload";
+        final File file = new File(EDITABLE_HELP + id + ".template");
+        final String help = new String(FileUtil.readFile(file)).replaceAll("<hr />", " ").replaceAll("h2>", "h4>");
+        sb.append(" <a href='#' id='" + id + "-show' class='toggleLink' onclick='showHide(\"" + id + "\");return false;'>more...</a>"
+                + "<div class='help' id='" + id + "'>" + help + "</div>");
         sb.append("  </li>\n");
         sb.append("</ul>\n");
         sb.append("<h1>metadata format</h1>\n");
