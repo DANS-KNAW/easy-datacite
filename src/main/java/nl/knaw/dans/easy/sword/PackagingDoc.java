@@ -72,7 +72,7 @@ public class PackagingDoc
         {
             final FormDefinition formDef = discipline.getEmdFormDescriptor().getFormDefinition(DepositDiscipline.EMD_DEPOSITFORM_WIZARD);
             sb.append("<h2>discipline '<a name='" + discipline.getDepositDisciplineId() + "'>" + discipline.getDepositDisciplineId() + "</a>'</h2>\n");
-            sb.append(generateElements(choiceLists, formDef.getFormPages()));
+            sb.append(generateElements(choiceLists, formDef.getFormPages(),discipline.getDepositDisciplineId()));
         }
         return sb;
     }
@@ -193,17 +193,18 @@ public class PackagingDoc
         return sb;
     }
 
-    private static StringBuffer generateElements(final Map<String, ChoiceListDefinition> choiceLists, final List<FormPage> formPages) throws IOException,
+    private static StringBuffer generateElements(final Map<String, ChoiceListDefinition> choiceLists, final List<FormPage> formPages, String disciplineId) throws IOException,
             ServiceException
     {
         final StringBuffer sb = new StringBuffer();
         sb.append("<table>\n<tr><th>element</th><th>notes</th></tr>");
         for (final FormPage formPage : formPages)
         {
+            sb.append("<tr><td colspan='2'>&nbsp;</td></td></tr>\n");
             final List<PanelDefinition> panels = formPage.getPanelDefinitions();
             for (final PanelDefinition panel : panels)
             {
-                sb.append("<tr><td>" + panel.getId() + "</td><td>" + helpInfo(panel) + "</td></tr>\n");
+                sb.append("<tr><td>" + panel.getId() + "</td><td>" + helpInfo(panel, disciplineId) + "</td></tr>\n");
                 collectChoiceLists(panel, choiceLists);
             }
         }
@@ -227,7 +228,7 @@ public class PackagingDoc
         }
     }
 
-    private static String helpInfo(final AbstractInheritableDefinition<?> panel) throws IOException
+    private static String helpInfo(final AbstractInheritableDefinition<?> panel, String disciplineId) throws IOException
     {
         String s = "";
         if (panel instanceof StandardPanelDefinition)
@@ -246,7 +247,7 @@ public class PackagingDoc
             return s;
         final File file = new File(EDITABLE_HELP + panel.getHelpItem() + ".template");
         final String help = new String(FileUtil.readFile(file)).replaceAll("<hr />", " ").replaceAll("h2>", "h4>");
-        final String id = panel.getId();
+        final String id = disciplineId+"_"+panel.getId();
         return s + " <a href='#' id='" + id + "-show' class='toggleLink' onclick='showHide(\"" + id + "\");return false;'>Show/hide help</a>"
                 + "<table class='help' id='" + id + "'><tr><td>" + help + "</td></tr></table>";
     }
