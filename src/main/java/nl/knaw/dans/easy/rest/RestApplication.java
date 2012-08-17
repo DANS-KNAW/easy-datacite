@@ -7,6 +7,7 @@ import javax.ws.rs.core.Application;
 
 import nl.knaw.dans.easy.rest.resources.AccountResource;
 import nl.knaw.dans.easy.rest.resources.AdvancedSearchResource;
+import nl.knaw.dans.easy.rest.resources.CmdiResource;
 import nl.knaw.dans.easy.rest.resources.DatasetResource;
 import nl.knaw.dans.easy.rest.resources.DisciplineResource;
 import nl.knaw.dans.easy.rest.resources.SearchResource;
@@ -36,6 +37,7 @@ public class RestApplication extends Application {
 		s.add(AdvancedSearchResource.class);
 		s.add(AccountResource.class);
 		s.add(DisciplineResource.class);
+		s.add(CmdiResource.class);
 		return s;
 	}
 

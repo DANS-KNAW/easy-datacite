@@ -23,6 +23,7 @@ import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.xml.XMLSerializationException;
 import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.RequestedItem;
+import nl.knaw.dans.easy.domain.model.AdministrativeMetadata;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.FileItem;
 import nl.knaw.dans.easy.domain.model.FileItemMetadata;
@@ -141,6 +142,32 @@ public class DatasetResource extends AuthenticatedResource {
 			Services.getDatasetService().getDataset(authenticate(),
 					new DmoStoreId(sid));
 			return optionsResponse();
+		} catch (ObjectNotAvailableException e) {
+			return notFound("Resource not available: " + sid);
+		} catch (CommonSecurityException e) {
+			return notAuthorized();
+		} catch (ServiceException e) {
+			return internalServerError(e);
+		}
+	}
+
+	/**
+	 * Returns the date on which the given dataset was modified for the last
+	 * time.
+	 * 
+	 * @param sid
+	 *            Store ID of the dataset.
+	 * @return Last date modified.
+	 */
+	@GET
+	@Path("/{sid}/date-modified")
+	public Response getDateModified(@PathParam("sid") String sid) {
+		try {
+			AdministrativeMetadata amd = Services.getDatasetService()
+					.getDataset(authenticate(), new DmoStoreId(sid))
+					.getAdministrativeMetadata();
+			return simpleResponse(amd.getDateOfLastChangeTo(
+					amd.getAdministrativeState()).toString());
 		} catch (ObjectNotAvailableException e) {
 			return notFound("Resource not available: " + sid);
 		} catch (CommonSecurityException e) {
