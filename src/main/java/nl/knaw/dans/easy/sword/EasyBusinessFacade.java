@@ -421,7 +421,8 @@ public class EasyBusinessFacade
         final String storeId = NO_OP_STORE_ID_DOMAIN + noOpSumbitCounter;
         final DmoStoreId DmoStoreID = new DmoStoreId(storeId);
         final Dataset dataset = EasyMock.createMock(Dataset.class);
-        final AdministrativeMetadataImpl administrativeMetadata = new AdministrativeMetadataImpl();
+        final AdministrativeMetadataImpl administrativeMetadata = new AdministrativeMetadataImpl(){
+            private static final long serialVersionUID = 1L;};
         administrativeMetadata.setDepositor(user);
 
         EasyMock.expect(dataset.getEasyMetadata()).andReturn(metadata).anyTimes();
