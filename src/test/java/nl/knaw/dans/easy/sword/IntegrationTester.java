@@ -26,6 +26,7 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mortbay.jetty.Server;
 import org.purl.sword.base.ErrorCodes;
@@ -168,6 +169,17 @@ public class IntegrationTester
         assertResponseCode(method, HttpStatus.SC_ACCEPTED);
     }
 
+    @Ignore // TODO shouldn't this one fail? check specs.
+    @Test
+    public void depositInconsistentContentType() throws Exception
+    {
+        final RequestEntity request = createRequest(VALID_FILE);
+        final PostMethod method = createPostMethod(request, null, null);
+        method.addRequestHeader("Content-Type", "rqabarbera");
+        getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
+        assertResponseCode(method, HttpStatus.SC_ACCEPTED);
+    }
+
     @Test
     public void noOpDeposit() throws Exception
     {
@@ -187,6 +199,16 @@ public class IntegrationTester
     }
 
     @Test
+    public void nonBoolean() throws Throwable
+    {
+        final RequestEntity request = createRequest(getFile("max-path.zip"));
+        final PostMethod method = createPostMethod(request, null, null);
+        method.addRequestHeader("X-No-Op", "fout");
+        getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
+        assertResponseCode(method, HttpStatus.SC_BAD_REQUEST);
+    }
+
+    @Test
     public void mediatedDeposit() throws Exception
     {
         final RequestEntity request = createRequest(VALID_FILE);
@@ -203,7 +225,7 @@ public class IntegrationTester
         final PostMethod method = createPostMethod(request, false, false);
         getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
         assertResponseCode(method, HttpStatus.SC_BAD_REQUEST);
-        //assertTrue(response.contains("easy-dataset:"));
+        // assertTrue(response.contains("easy-dataset:"));
     }
 
     @Test
@@ -269,8 +291,10 @@ public class IntegrationTester
     {
         final PostMethod method = new PostMethod(URL + "deposit");
         method.setRequestEntity(request);
-        method.addRequestHeader("X-No-Op", noOp.toString());
-        method.addRequestHeader("X-Verbose", verbose.toString());
+        if (noOp != null)
+            method.addRequestHeader("X-No-Op", noOp.toString());
+        if (noOp != null)
+            method.addRequestHeader("X-Verbose", verbose.toString());
         return method;
     }
 
