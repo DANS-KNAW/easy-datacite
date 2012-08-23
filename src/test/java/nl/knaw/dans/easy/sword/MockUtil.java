@@ -39,19 +39,20 @@ import org.joda.time.DateTimeUtils;
 
 public class MockUtil
 {
+    protected static final String PASSWORD = "secret";
 
-    protected static final String       PASSWORD                      = "secret";
+    protected static final String INVALID_USER_ID = "nobody";
+    protected static final String VALID_USER_ID = "somebody";
+    protected static final String ARCHIV_USER_ID = "archivist";
+    public static final String NO_OP_STORE_ID_DOMAIN = "mockedStoreID:";
 
-    protected static final String       INVALID_USER_ID               = "nobody";
-    protected static final String       VALID_USER_ID                 = "somebody";
-    protected static final String       ARCHIV_USER_ID                = "archivist";
-    public static final String          NO_OP_STORE_ID_DOMAIN         = "mockedStoreID:";
+    protected static final EasyUserImpl USER = createSomeBody();
+    protected static final EasyUserImpl ARCHIVIST = createArchivist();
 
-    protected static final EasyUserImpl USER                          = createSomeBody();
-    protected static final EasyUserImpl ARCHIVIST                     = createArchivist();
+    private static final int MAX_NR_OF_VERBOSE_NO_OP_TESTS = 1;
+    private static int countDatasets = 0;
 
-    private static final int            MAX_NR_OF_VERBOSE_NO_OP_TESTS = 1;
-    private static int                  countDatasets                 = 0;
+    private static Services services;
 
     public static void mockAll() throws Exception
     {
@@ -90,7 +91,7 @@ public class MockUtil
             EasyMock.expect(fileStoreAccess.getFilenames(//
                     new DmoStoreId(NO_OP_STORE_ID_DOMAIN + i),//
                     true)//
-            ).andReturn(Arrays.asList(new String[]{"just-a-file-name"})).anyTimes();
+            ).andReturn(Arrays.asList(new String[] {"just-a-file-name"})).anyTimes();
         EasyMock.replay(fileStoreAccess);
     }
 
@@ -98,7 +99,7 @@ public class MockUtil
     public static void mockItemService() throws Exception
     {
         final ItemService itemService = EasyMock.createMock(ItemService.class);
-        new Services().setItemService(itemService);
+        getServices().setItemService(itemService);
 
         itemService.addDirectoryContents(//
                 EasyMock.isA(EasyUserImpl.class), //
@@ -137,12 +138,22 @@ public class MockUtil
         EasyMock.replay(itemService);
     }
 
+    private static Services getServices()
+    {
+        if (services == null)
+            services = new Services();
+        else
+            services.unlock();
+        return services;
+    }
+
     public static void mockDatasetService() throws Exception
     {
-        // no increment of countDatasets as it makes the test results unpredictable
+        // no increment of countDatasets as it makes the test results
+        // unpredictable
         final Dataset dataset = new DatasetImpl("mock:" + (countDatasets), MetadataFormat.SOCIOLOGY);
         final DatasetService datasetService = EasyMock.createMock(DatasetService.class);
-        new Services().setDatasetService(datasetService);
+        getServices().setDatasetService(datasetService);
 
         EasyMock.expect(datasetService.newDataset(EasyMock.isA(MetadataFormat.class))).andReturn(dataset).anyTimes();
         datasetService.submitDataset(EasyMock.isA(DatasetSubmissionImpl.class), EasyMock.isA(WorkListener.class));
@@ -162,6 +173,7 @@ public class MockUtil
     }
 
     private static Data data = new Data();
+
     public static void mockUser() throws Exception
     {
         final EasyUserRepo userRepo = EasyMock.createMock(EasyUserRepo.class);
@@ -169,7 +181,7 @@ public class MockUtil
 
         Data.unlock();
         data.setUserRepo(userRepo);
-        new Services().setUserService(userService);
+        getServices().setUserService(userService);
 
         EasyMock.expect(userRepo.findById(VALID_USER_ID)).andReturn(USER).anyTimes();
 
@@ -198,7 +210,7 @@ public class MockUtil
         final DisciplineContainerImpl discipline = new DisciplineContainerImpl(disciplineId.getId());
         final DisciplineCollectionService disciplineService = EasyMock.createMock(DisciplineCollectionService.class);
         ;
-        new Services().setDisciplineService(disciplineService);
+        getServices().setDisciplineService(disciplineService);
         discipline.setName("Humanities");
 
         EasyMock.expect(disciplineService.getDisciplineById(EasyMock.isA(DmoStoreId.class))).andReturn(discipline).anyTimes();
