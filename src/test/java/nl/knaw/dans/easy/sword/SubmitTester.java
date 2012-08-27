@@ -6,6 +6,7 @@ import static org.purl.sword.base.SwordValidationInfoType.WARNING;
 import nl.knaw.dans.common.lang.mail.Mailer;
 import nl.knaw.dans.easy.data.ext.ExternalServices;
 import nl.knaw.dans.easy.sword.util.MockUtil;
+import nl.knaw.dans.easy.sword.util.SubmitFixture;
 
 import org.junit.Before;
 import org.junit.Ignore;

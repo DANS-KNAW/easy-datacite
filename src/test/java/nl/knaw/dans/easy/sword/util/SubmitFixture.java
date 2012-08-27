@@ -1,11 +1,10 @@
-package nl.knaw.dans.easy.sword;
+package nl.knaw.dans.easy.sword.util;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
 
-import nl.knaw.dans.easy.sword.util.EasySwordServerTester;
-import nl.knaw.dans.easy.sword.util.MockUtil;
+import nl.knaw.dans.easy.sword.EasyBusinessFacade;
 
 import org.purl.sword.base.Deposit;
 import org.purl.sword.base.DepositResponse;
@@ -22,7 +21,7 @@ public class SubmitFixture extends EasySwordServerTester
         return new File(INPUT_DIR + string + ".zip").getPath();
     }
 
-    protected static File getFile(String string)
+    public static File getFile(String string)
     {
         return new File(INPUT_DIR + string );
     }

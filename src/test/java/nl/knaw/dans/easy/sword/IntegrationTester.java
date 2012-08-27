@@ -1,6 +1,5 @@
 package nl.knaw.dans.easy.sword;
 
-import static nl.knaw.dans.easy.sword.SubmitFixture.getFile;
 import static org.junit.Assert.fail;
 
 import java.io.File;
@@ -14,6 +13,7 @@ import java.util.Arrays;
 import javax.servlet.http.HttpServletResponse;
 
 import nl.knaw.dans.easy.sword.jetty.Start;
+import nl.knaw.dans.easy.sword.util.SubmitFixture;
 import nl.knaw.dans.easy.util.EasyHome;
 
 import org.apache.commons.httpclient.HttpClient;
@@ -40,7 +40,7 @@ import org.slf4j.LoggerFactory;
 
 public class IntegrationTester
 {
-    private static final File                        VALID_FILE = getFile("data-plus-meta.zip");
+    private static final File                        VALID_FILE = SubmitFixture.getFile("data-plus-meta.zip");
     private static final String                      URL        = "http://localhost:" + Start.PORT + "/";
     private static final UsernamePasswordCredentials DEPOSITOR  = new UsernamePasswordCredentials("depositor", "123456");
     private static final UsernamePasswordCredentials ANONYMOUS  = new UsernamePasswordCredentials("anonymous", "password");
@@ -198,7 +198,7 @@ public class IntegrationTester
     @Test
     public void maxPathLength() throws Throwable
     {
-        final RequestEntity request = createRequest(getFile("max-path.zip"));
+        final RequestEntity request = createRequest(SubmitFixture.getFile("max-path.zip"));
         final PostMethod method = createPostMethod(request, false, false);
         getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
         assertResponseCode(method, HttpStatus.SC_ACCEPTED);
@@ -207,7 +207,7 @@ public class IntegrationTester
     @Test
     public void nonBoolean() throws Throwable
     {
-        final RequestEntity request = createRequest(getFile("max-path.zip"));
+        final RequestEntity request = createRequest(SubmitFixture.getFile("max-path.zip"));
         final PostMethod method = createPostMethod(request, null, null);
         method.addRequestHeader("X-No-Op", "fout");
         getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
@@ -227,7 +227,7 @@ public class IntegrationTester
     @Test
     public void invalidDisciplineDeposit() throws Exception
     {
-        final RequestEntity request = createRequest(getFile("invalidDisciplineId.zip"));
+        final RequestEntity request = createRequest(SubmitFixture.getFile("invalidDisciplineId.zip"));
         final PostMethod method = createPostMethod(request, false, false);
         getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
         assertResponseCode(method, HttpStatus.SC_BAD_REQUEST);
@@ -237,7 +237,7 @@ public class IntegrationTester
     @Test
     public void depositInvalidZip() throws Exception
     {
-        final RequestEntity request = createRequest(getFile("metadata.xml"));
+        final RequestEntity request = createRequest(SubmitFixture.getFile("metadata.xml"));
         final PostMethod method = createPostMethod(request, false, false);
         getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
         assertResponseCode(method, HttpStatus.SC_UNSUPPORTED_MEDIA_TYPE);
