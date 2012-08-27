@@ -5,7 +5,9 @@ import static org.purl.sword.base.SwordValidationInfoType.INFO;
 import static org.purl.sword.base.SwordValidationInfoType.WARNING;
 import nl.knaw.dans.common.lang.mail.Mailer;
 import nl.knaw.dans.easy.data.ext.ExternalServices;
+import nl.knaw.dans.easy.sword.util.MockUtil;
 
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.purl.sword.base.SwordValidationInfo;
@@ -15,6 +17,11 @@ public class SubmitTester extends SubmitFixture
 // The name should not start or end with test because Maven should not run this test.
 // Why not? The tests require the system property easy.home.
 {
+    @Before
+    public void setupMocking() throws Exception {
+        MockUtil.mockAll();
+    }
+
     @Ignore @Test // TODO test was supposed to touch AbstractNotification.send(...)
     public void submitWithoutMailer() throws Exception
     {
