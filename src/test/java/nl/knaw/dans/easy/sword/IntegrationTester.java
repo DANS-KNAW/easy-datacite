@@ -13,6 +13,8 @@ import java.util.Arrays;
 
 import javax.servlet.http.HttpServletResponse;
 
+import nl.knaw.dans.easy.util.EasyHome;
+
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpMethod;
@@ -81,6 +83,9 @@ public class IntegrationTester
     @BeforeClass
     public static void start() throws Exception
     {
+        if (EasyHome.getValue() == null)
+            throw new Exception("mail notifications require the system property '" + EasyHome.EASY_HOME_KEY + "'");
+        
         server = Start.createServer(Start.PORT, Start.SSL_PORT);
         try
         {
