@@ -23,19 +23,21 @@ import nl.knaw.dans.easy.domain.form.StandardPanelDefinition;
 import nl.knaw.dans.easy.domain.form.SubHeadingDefinition;
 import nl.knaw.dans.easy.fedora.store.EasyFedoraStore;
 import nl.knaw.dans.easy.servicelayer.services.DepositService;
+import nl.knaw.dans.easy.util.EasyHome;
 
 import org.joda.time.DateTime;
 
 public class PackagingDoc
 {
-
-    private static final String FEDORA_URL      = "http://localhost:8080/fedora";
-    private static final String FEDORA_USER     = "fedoraAdmin";
-    private static final String FEDORA_PASSWORD = "fedoraAdmin";
-    private static final String EDITABLE_HELP   = "../../easy/trunk/easy/easy-application/easy-home/editable/help/";
+    private static String fedoraUrl = "http://localhost:8080/fedora";
+    private static String fedoraUser = "fedoraAdmin";
+    private static String fedoraPassword = "fedoraAdmin";
+    private static String easyHome = EasyHome.getValue();
 
     public static void main(final String[] args) throws ServiceException, IOException
     {
+        if (args != null && args.length > 0)
+            fedoraUrl = args[0]; // TODO how to get everything from the proper properties file?
         final DepositService depositService = setFedoraContext();
         // TODO get rid of INFO/DEBUG logging
         System.out.print(generate(depositService).toString());
@@ -43,7 +45,7 @@ public class PackagingDoc
 
     private static DepositService setFedoraContext()
     {
-        final Fedora fedora = new Fedora(FEDORA_URL, FEDORA_USER, FEDORA_PASSWORD);
+        final Fedora fedora = new Fedora(fedoraUrl, fedoraUser, fedoraPassword);
         new Data().setEasyStore(new EasyFedoraStore("easy", fedora));
         return new EasyDepositService();
     }
@@ -72,7 +74,7 @@ public class PackagingDoc
         {
             final FormDefinition formDef = discipline.getEmdFormDescriptor().getFormDefinition(DepositDiscipline.EMD_DEPOSITFORM_WIZARD);
             sb.append("<h2>discipline '<a name='" + discipline.getDepositDisciplineId() + "'>" + discipline.getDepositDisciplineId() + "</a>'</h2>\n");
-            sb.append(generateElements(choiceLists, formDef.getFormPages(),discipline.getDepositDisciplineId()));
+            sb.append(generateElements(choiceLists, formDef.getFormPages(), discipline.getDepositDisciplineId()));
         }
         return sb;
     }
@@ -126,8 +128,7 @@ public class PackagingDoc
         sb.append("    <br>\n");
         sb.append("    The full path name of datafiles should not exceed 252 characters.\n");
         final String id = "upload";
-        final File file = new File(EDITABLE_HELP + id + ".template");
-        final String help = new String(FileUtil.readFile(file)).replaceAll("<hr />", " ").replaceAll("h2>", "h4>");
+        final String help = readHelpFile(id);
         sb.append(" <a href='#' id='" + id + "-show' class='toggleLink' onclick='showHide(\"" + id + "\");return false;'>more...</a>"
                 + "<div class='help' id='" + id + "'>" + help + "</div>");
         sb.append("  </li>\n");
@@ -189,9 +190,10 @@ public class PackagingDoc
             sb.append("<tr><td colspan='2'><h2><a name='" + clDef.getId() + "'>" + clDef.getId() + "</a></h2></td></tr>\n");
             sb.append("<tr><th>value</th><th>description</th>\n");
             final ChoiceList choiceList = depositService.getChoices(clDef.getId(), null);
-            for (final KeyValuePair kvp : choiceList.getChoices()){
+            for (final KeyValuePair kvp : choiceList.getChoices())
+            {
                 String indent = "";
-                for (int i=0;i<kvp.getIndent();i++)
+                for (int i = 0; i < kvp.getIndent(); i++)
                     indent += " . . ";
                 sb.append("<tr><td>" + kvp.getKey() + "</td><td>" + indent + kvp.getValue() + "</td></tr>\n");
             }
@@ -200,8 +202,8 @@ public class PackagingDoc
         return sb;
     }
 
-    private static StringBuffer generateElements(final Map<String, ChoiceListDefinition> choiceLists, final List<FormPage> formPages, String disciplineId) throws IOException,
-            ServiceException
+    private static StringBuffer generateElements(final Map<String, ChoiceListDefinition> choiceLists, final List<FormPage> formPages, final String disciplineId)
+            throws IOException, ServiceException
     {
         final StringBuffer sb = new StringBuffer();
         sb.append("<table>\n<tr><th>element</th><th>notes</th></tr>");
@@ -235,7 +237,7 @@ public class PackagingDoc
         }
     }
 
-    private static String helpInfo(final AbstractInheritableDefinition<?> panel, String disciplineId) throws IOException
+    private static String helpInfo(final AbstractInheritableDefinition<?> panel, final String disciplineId) throws IOException
     {
         String s = "";
         if (panel instanceof StandardPanelDefinition)
@@ -252,11 +254,19 @@ public class PackagingDoc
         s += getShortHelp(panel, s);
         if (panel.getHelpItem() == null)
             return s;
-        final File file = new File(EDITABLE_HELP + panel.getHelpItem() + ".template");
-        final String help = new String(FileUtil.readFile(file)).replaceAll("<hr />", " ").replaceAll("h2>", "h4>");
-        final String id = disciplineId+"_"+panel.getId();
+        final String help = readHelpFile(panel.getHelpItem());
+        final String id = disciplineId + "_" + panel.getId();
         return s + " <a href='#' id='" + id + "-show' class='toggleLink' onclick='showHide(\"" + id + "\");return false;'>Show/hide help</a>"
                 + "<table class='help' id='" + id + "'><tr><td>" + help + "</td></tr></table>";
+    }
+
+    private static String readHelpFile(final String id) throws IOException
+    {
+        if (easyHome == null)
+            throw new IllegalArgumentException("The help files require the system property '" + EasyHome.EASY_HOME_KEY + "'");
+        final String fileName = easyHome + "/editable/help/" + id + ".template";
+        final byte[] bytes = FileUtil.readFile(new File(fileName));
+        return new String(bytes).replaceAll("<hr />", " ").replaceAll("h2>", "h4>");
     }
 
     private static String getShortHelp(final AbstractInheritableDefinition<?> panel, final String s)
@@ -268,5 +278,25 @@ public class PackagingDoc
             return " ";
         }
         return "";
+    }
+
+    public void setEasyHome(String easyHome)
+    {
+        PackagingDoc.easyHome = easyHome;
+    }
+
+    public void setFedoraPassword(String fedoraPassword)
+    {
+        PackagingDoc.fedoraPassword = fedoraPassword;
+    }
+
+    public void setFedoraUser(String fedoraUser)
+    {
+        PackagingDoc.fedoraUser = fedoraUser;
+    }
+
+    public void setFedoraUrl(String fedoraUrl)
+    {
+        PackagingDoc.fedoraUrl = fedoraUrl;
     }
 }
