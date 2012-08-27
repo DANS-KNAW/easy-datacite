@@ -15,12 +15,12 @@ import org.junit.runners.Parameterized.Parameters;
 import org.purl.sword.base.SWORDErrorException;
 
 @RunWith(Parameterized.class)
-public class ValidationTest extends Fixture
+public class TestValidation extends Fixture
 {
     private final String metadataFileName;
     private final String messageContent;
 
-    public ValidationTest(String metadataFileName, final String messageContent)
+    public TestValidation(String metadataFileName, final String messageContent)
     {
         this.metadataFileName = metadataFileName;
         this.messageContent = messageContent;

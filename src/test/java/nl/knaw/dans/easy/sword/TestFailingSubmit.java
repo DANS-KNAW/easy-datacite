@@ -14,7 +14,7 @@ import org.purl.sword.base.SWORDAuthenticationException;
 import org.purl.sword.base.SWORDErrorException;
 import org.purl.sword.base.SwordValidationInfo;
 
-public class FailingSubmitTest extends SubmitFixture
+public class TestFailingSubmit extends SubmitFixture
 //maven should not run this test therefore the name should not start or end with test.
 {
  @Before

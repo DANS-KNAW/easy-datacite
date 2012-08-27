@@ -18,7 +18,7 @@ import org.purl.sword.base.ServiceDocument;
 import org.purl.sword.base.ServiceDocumentRequest;
 import static org.purl.sword.base.SwordValidationInfoType.*;
 
-public class ServiceDocumentTest extends EasySwordServerTester
+public class TestServiceDocument extends EasySwordServerTester
 {
     @BeforeClass
     public static void setupMocking() throws Exception

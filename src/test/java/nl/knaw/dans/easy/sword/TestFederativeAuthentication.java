@@ -6,7 +6,7 @@ import static org.junit.Assert.assertNull;
 import org.junit.Test;
 
 /** TODO rather test the public methods and make the other methods private */
-public class FederativeAuthenticationTest
+public class TestFederativeAuthentication
 {
 
     private static final String ILLEGAL_TRADITIONAL_ID = "...";

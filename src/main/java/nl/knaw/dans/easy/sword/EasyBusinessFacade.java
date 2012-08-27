@@ -408,7 +408,7 @@ public class EasyBusinessFacade
         return sb.toString();
     }
 
-    static void resetNoOpSubmitCounter()
+    public static void resetNoOpSubmitCounter()
     {
         // JUnit test execution order is unstable, a constant value makes results stable
         noOpSumbitCounter = 0;
