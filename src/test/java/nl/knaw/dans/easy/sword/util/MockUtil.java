@@ -1,4 +1,4 @@
-package nl.knaw.dans.easy.sword;
+package nl.knaw.dans.easy.sword.util;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -32,6 +32,7 @@ import nl.knaw.dans.easy.servicelayer.services.DisciplineCollectionService;
 import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.servicelayer.services.UserService;
+import nl.knaw.dans.easy.sword.Context;
 
 import org.easymock.EasyMock;
 import org.joda.time.DateTime;
@@ -39,15 +40,15 @@ import org.joda.time.DateTimeUtils;
 
 public class MockUtil
 {
-    protected static final String PASSWORD = "secret";
+    public static final String PASSWORD = "secret";
 
-    protected static final String INVALID_USER_ID = "nobody";
-    protected static final String VALID_USER_ID = "somebody";
-    protected static final String ARCHIV_USER_ID = "archivist";
+    public static final String INVALID_USER_ID = "nobody";
+    public static final String VALID_USER_ID = "somebody";
+    public static final String ARCHIV_USER_ID = "archivist";
     public static final String NO_OP_STORE_ID_DOMAIN = "mockedStoreID:";
 
-    protected static final EasyUserImpl USER = createSomeBody();
-    protected static final EasyUserImpl ARCHIVIST = createArchivist();
+    public static final EasyUserImpl USER = createSomeBody();
+    public static final EasyUserImpl ARCHIVIST = createArchivist();
 
     private static final int MAX_NR_OF_VERBOSE_NO_OP_TESTS = 1;
     private static int countDatasets = 0;

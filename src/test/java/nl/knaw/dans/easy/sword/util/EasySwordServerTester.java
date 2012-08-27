@@ -1,4 +1,6 @@
-package nl.knaw.dans.easy.sword;
+package nl.knaw.dans.easy.sword.util;
+
+import nl.knaw.dans.easy.sword.EasySwordServer;
 
 import org.junit.BeforeClass;
 import org.purl.sword.base.SwordValidationInfo;

@@ -1,4 +1,4 @@
-package nl.knaw.dans.easy.sword;
+package nl.knaw.dans.easy.sword.jetty;
 
 import nl.knaw.dans.common.lang.test.ClassPathHacker;
 
@@ -10,8 +10,8 @@ import org.mortbay.jetty.webapp.WebAppContext;
 
 public class Start
 {
-    static final int         PORT      = 8083;
-    static final int         SSL_PORT  = 8449;
+    public static final int PORT = 8083;
+    public static final int SSL_PORT = 8449;
     private static final int SLEEPTIME = 5000;
     private static final int EXIT_CODE = 100;
 
@@ -60,7 +60,7 @@ public class Start
         }
     }
 
-    static Server createServer(int port, int sslPort) throws Exception
+    public static Server createServer(int port, int sslPort) throws Exception
     {
         ClassPathHacker.addFile("src/main/resources/");
 

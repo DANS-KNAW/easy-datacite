@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
 
+import nl.knaw.dans.easy.sword.util.EasySwordServerTester;
+import nl.knaw.dans.easy.sword.util.MockUtil;
+
 import org.purl.sword.base.Deposit;
 import org.purl.sword.base.DepositResponse;
 import org.purl.sword.base.SWORDException;

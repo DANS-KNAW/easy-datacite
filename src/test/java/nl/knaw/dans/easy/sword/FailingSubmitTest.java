@@ -3,6 +3,8 @@ package nl.knaw.dans.easy.sword;
 import java.io.File;
 import java.io.FileInputStream;
 
+import nl.knaw.dans.easy.sword.util.MockUtil;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

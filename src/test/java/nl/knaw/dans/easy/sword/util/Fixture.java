@@ -1,4 +1,4 @@
-package nl.knaw.dans.easy.sword;
+package nl.knaw.dans.easy.sword.util;
 
 import java.io.File;
 

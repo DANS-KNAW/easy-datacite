@@ -7,6 +7,8 @@ import nl.knaw.dans.common.lang.file.UnzipListener;
 import nl.knaw.dans.common.lang.file.UnzipUtil;
 import nl.knaw.dans.common.lang.util.FileUtil;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
+import nl.knaw.dans.easy.sword.util.Fixture;
+import nl.knaw.dans.easy.sword.util.MockUtil;
 
 import org.junit.AfterClass;
 import org.junit.Before;

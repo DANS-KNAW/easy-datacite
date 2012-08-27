@@ -1,4 +1,4 @@
-package nl.knaw.dans.easy.sword;
+package nl.knaw.dans.easy.sword.util;
 
 import static nl.knaw.dans.common.lang.util.FileUtil.readFile;
 

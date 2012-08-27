@@ -8,6 +8,8 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.servicelayer.services.FederativeUserService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.easy.sword.util.EasySwordServerTester;
+import nl.knaw.dans.easy.sword.util.MockUtil;
 
 import org.easymock.EasyMock;
 import org.junit.BeforeClass;
