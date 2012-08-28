@@ -11,7 +11,7 @@ import org.junit.Test;
 import org.purl.sword.base.SwordValidationInfo;
 
 /** Integration test for the configuration. */
-public class SubmitResponseCompliancyTester extends SubmitFixture
+public class TestSubmitResponseCompliancy extends SubmitFixture
 {
     @Before
     public void setupMocking() throws Exception {
