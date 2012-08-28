@@ -28,7 +28,9 @@ public class FederativeAuthentication
     public boolean canBeTraditionalAccount()
     {
         // TODO reuse some check from easy-business or whatever
-        return userId.matches("[a-zA-Z0-9]{5,}");
+        // the web GUI requires user names of at least 5 characters,
+        // the default development environment however is configured with a user of only 4 characters
+        return userId.matches("[a-zA-Z0-9]{4,}");
     }
 
     public String getUserId()

@@ -40,15 +40,15 @@ import org.slf4j.LoggerFactory;
 
 public class IntegrationTester
 {
-    private static final File                        VALID_FILE = SubmitFixture.getFile("data-plus-meta.zip");
-    private static final String                      URL        = "http://localhost:" + Start.PORT + "/";
-    private static final UsernamePasswordCredentials DEPOSITOR  = new UsernamePasswordCredentials("user", "dev");
-    private static final UsernamePasswordCredentials ANONYMOUS  = new UsernamePasswordCredentials("anonymous", "password");
-    private static final int                         SECOND     = 1000;
+    private static final File VALID_FILE = SubmitFixture.getFile("data-plus-meta.zip");
+    private static String URL;
+    private static final UsernamePasswordCredentials DEPOSITOR = new UsernamePasswordCredentials("user", "dev");
+    private static final UsernamePasswordCredentials ANONYMOUS = new UsernamePasswordCredentials("anonymous", "password");
+    private static final int SECOND = 1000;
 
-    private static Server                            server;
+    private static Server server;
 
-    private static Logger                            log        = LoggerFactory.getLogger(EasySwordServer.class);
+    private static Logger log = LoggerFactory.getLogger(EasySwordServer.class);
 
     static
     {
@@ -86,11 +86,14 @@ public class IntegrationTester
     {
         if (EasyHome.getValue() == null)
             throw new Exception("mail notifications require the system property '" + EasyHome.EASY_HOME_KEY + "'");
-        
-        server = Start.createServer(Start.PORT, Start.SSL_PORT);
+
+        // zero implies a random port and allows the test to run along with an active server on port 8083
+        server = Start.createServer(0, 0);
         try
         {
             server.start();
+            URL = "http://localhost:" + server.getConnectors()[0].getLocalPort() + "/";
+            log.debug(URL.toString());
         }
         catch (final BindException e)
         {
@@ -175,7 +178,8 @@ public class IntegrationTester
         assertResponseCode(method, HttpStatus.SC_ACCEPTED);
     }
 
-    @Ignore // TODO shouldn't this one fail? check specs.
+    @Ignore
+    // TODO shouldn't this one fail? check specs.
     @Test
     public void depositInconsistentContentType() throws Exception
     {
@@ -248,7 +252,7 @@ public class IntegrationTester
         if (method.getStatusCode() == expectedResponseCode)
             return;
         if (method.getStatusCode() == HttpStatus.SC_UNAUTHORIZED)
-            fail("please register EASY user to make the tests work. ID:" + DEPOSITOR.getUserName() + " with password: " + DEPOSITOR.getUserName());
+            fail("please register EASY user to make the tests work. ID:" + DEPOSITOR.getUserName() + " with password: " + DEPOSITOR.getPassword());
         fail("Unexpected response code: " + method.getStatusLine().toString());
     }
 
