@@ -3,13 +3,10 @@ package nl.knaw.dans.easy.sword;
 
 import static org.purl.sword.base.SwordValidationInfoType.INFO;
 import static org.purl.sword.base.SwordValidationInfoType.WARNING;
-import nl.knaw.dans.common.lang.mail.Mailer;
-import nl.knaw.dans.easy.data.ext.ExternalServices;
 import nl.knaw.dans.easy.sword.util.MockUtil;
 import nl.knaw.dans.easy.sword.util.SubmitFixture;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.purl.sword.base.SwordValidationInfo;
 
@@ -21,17 +18,6 @@ public class SubmitResponseCompliancyTester extends SubmitFixture
     @Before
     public void setupMocking() throws Exception {
         MockUtil.mockAll();
-    }
-
-    @Ignore @Test // TODO test was supposed to touch AbstractNotification.send(...)
-    public void submitWithoutMailer() throws Exception
-    {
-        final Mailer saved = ExternalServices.getMailOffice();
-        new ExternalServices().setMailOffice(null);
-        SwordValidationInfo info = execute(false, false, PROPER_ZIP);
-        // TODO upgrade compliancy level to VALID
-        assertCompliant(WARNING, info);
-        new ExternalServices().setMailOffice(saved);
     }
 
     @Test
