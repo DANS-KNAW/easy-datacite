@@ -33,7 +33,10 @@ public class TestServiceDocument extends EasySwordServerTester
         request.setUsername(MockUtil.VALID_USER_ID);
         request.setPassword(MockUtil.PASSWORD);
         request.setLocation(LOCATION);
-        assertAsExpected(easySwordServer.doServiceDocument(request).toString(), "serviceDocumentWithUser.xml");
+        ServiceDocument serviceDocument = easySwordServer.doServiceDocument(request);
+        assertAsExpected(serviceDocument.toString(), "serviceDocumentWithUser.xml");
+        // TODO upgrade compliancy level to VALID
+        assertCompliant(WARNING, serviceDocument.validate());
     }
 
     @Test
@@ -43,7 +46,10 @@ public class TestServiceDocument extends EasySwordServerTester
         request.setUsername(MockUtil.INVALID_USER_ID);
         request.setPassword(MockUtil.PASSWORD);
         request.setLocation(LOCATION);
-        assertAsExpected(easySwordServer.doServiceDocument(request).toString(), "serviceDocumentWrongUser.xml");
+        ServiceDocument serviceDocument = easySwordServer.doServiceDocument(request);
+        assertAsExpected(serviceDocument.toString(), "serviceDocumentWrongUser.xml");
+        // TODO upgrade compliancy level to VALID
+        assertCompliant(WARNING, serviceDocument.validate());
     }
 
     @Test
@@ -52,7 +58,10 @@ public class TestServiceDocument extends EasySwordServerTester
     {
         final ServiceDocumentRequest request = new ServiceDocumentRequest();
         request.setLocation(LOCATION);
-        assertAsExpected(easySwordServer.doServiceDocument(request).toString(), "serviceDocumentWithoutUser.xml");
+        ServiceDocument serviceDocument = easySwordServer.doServiceDocument(request);
+        assertAsExpected(serviceDocument.toString(), "serviceDocumentWithoutUser.xml");
+        // TODO upgrade compliancy level to VALID
+        assertCompliant(WARNING, serviceDocument.validate());
     }
 
     @Test
