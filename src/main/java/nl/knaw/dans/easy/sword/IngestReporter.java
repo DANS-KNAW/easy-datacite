@@ -46,7 +46,7 @@ public class IngestReporter extends WorkReporter
     public boolean catchedExceptions() throws SWORDException
     {
         logger.debug(" exceptions: \n" + reportedExceptions.size() + "\n" + super.toString());
-        return reportedExceptions.size() == 0;
+        return reportedExceptions.size() != 0;
     }
 
     public String[] getExceptionMessages() throws SWORDException

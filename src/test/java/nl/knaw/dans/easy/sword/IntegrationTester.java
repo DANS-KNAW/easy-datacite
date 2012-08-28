@@ -1,21 +1,24 @@
 package nl.knaw.dans.easy.sword;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.BindException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.servlet.http.HttpServletResponse;
 
-import nl.knaw.dans.easy.servicelayer.services.DepositService;
-import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.common.lang.util.FileUtil;
+import nl.knaw.dans.easy.business.services.EasyDepositService;
+import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
+import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.sword.jetty.Start;
+import nl.knaw.dans.easy.sword.util.MockUtil;
 import nl.knaw.dans.easy.sword.util.SubmitFixture;
 import nl.knaw.dans.easy.util.EasyHome;
 
@@ -37,6 +40,7 @@ import org.junit.Test;
 import org.mortbay.jetty.Server;
 import org.purl.sword.base.ErrorCodes;
 import org.purl.sword.base.SWORDAuthenticationException;
+import org.purl.sword.base.SWORDErrorException;
 import org.purl.sword.base.SWORDException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -92,41 +96,26 @@ public class IntegrationTester
 
         // zero implies a random port and allows the test to run along with an active server on port 8083
         server = Start.createServer(0, 0);
-        try
-        {
-            server.start();
-            URL = "http://localhost:" + server.getConnectors()[0].getLocalPort() + "/";
-            log.debug(URL.toString());
-        }
-        catch (final BindException e)
-        {
-            throw new Exception(URL + " already in use", e);
-        }
-        log.debug("starting server");
-        while (server.isStarting())
-            Thread.sleep(50);
-        log.debug("started server");
+        server.start();
+        URL = "http://localhost:" + server.getConnectors()[0].getLocalPort() + "/";
+        log.debug("started " + URL.toString());
     }
 
     @AfterClass
     public static void stop() throws Exception
     {
-        if (server != null)
-        {
-            server.stop();
-            server.join();
-            log.debug("stopped server");
-        }
+        if (server == null)
+            return;
+        server.stop();
+        server.join();
+        log.debug("stopped " + URL.toString());
     }
 
     @Test
     public void generatePackagingDoc() throws Exception
     {
-
         // relies on the started server for the required fedora context
-        final DepositService service = Services.getDepositService();
-
-        final StringBuffer html = PackagingDoc.generate(service);
+        final StringBuffer html = PackagingDoc.generate(new EasyDepositService());
 
         // just check one of the audiences retrieved from fedora
         assertTrue(html.toString().contains("Glasblazerij"));

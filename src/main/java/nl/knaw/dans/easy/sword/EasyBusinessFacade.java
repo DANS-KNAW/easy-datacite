@@ -295,9 +295,11 @@ public class EasyBusinessFacade
         }
         catch (final ServiceException exception)
         {
+            if (ingestReporter.catchedExceptions())
+                throw createSubmitException(submission, "ingest exceptions: " + Arrays.toString(ingestReporter.getExceptionMessages()));
             throw createSubmitException(submission, exception);
         }
-        if (!ingestReporter.catchedExceptions())
+        if (ingestReporter.catchedExceptions())
             throw createSubmitException(submission, "ingest exceptions: " + Arrays.toString(ingestReporter.getExceptionMessages()));
     }
 
