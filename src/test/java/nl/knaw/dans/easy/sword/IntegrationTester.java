@@ -1,5 +1,6 @@
 package nl.knaw.dans.easy.sword;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.fail;
 
 import java.io.File;
@@ -12,6 +13,8 @@ import java.util.Arrays;
 
 import javax.servlet.http.HttpServletResponse;
 
+import nl.knaw.dans.easy.servicelayer.services.DepositService;
+import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.sword.jetty.Start;
 import nl.knaw.dans.easy.sword.util.SubmitFixture;
 import nl.knaw.dans.easy.util.EasyHome;
@@ -114,6 +117,19 @@ public class IntegrationTester
             server.join();
             log.debug("stopped server");
         }
+    }
+
+    @Test
+    public void generatePackagingDoc() throws Exception
+    {
+
+        // relies on the started server for the required fedora context
+        final DepositService service = Services.getDepositService();
+
+        final StringBuffer html = PackagingDoc.generate(service);
+
+        // just check one of the audiences retrieved from fedora
+        assertTrue(html.toString().contains("Glasblazerij"));
     }
 
     @Test
@@ -247,7 +263,7 @@ public class IntegrationTester
         assertResponseCode(method, HttpStatus.SC_UNSUPPORTED_MEDIA_TYPE);
     }
 
-    private static void assertResponseCode(final HttpMethod method, int expectedResponseCode)
+    private static void assertResponseCode(final HttpMethod method, final int expectedResponseCode)
     {
         if (method.getStatusCode() == expectedResponseCode)
             return;

@@ -4,8 +4,8 @@ import org.purl.sword.base.SWORDException;
 
 public class Context
 {
-    /** Directory were deposits are unzipped. Default value required for unit tests. */
-    private static String unzip               = "target/tmp";
+    /** Directory were deposits are unzipped. */
+    private static String unzip               = null;
 
     private static String workspaceTitle      = null;
     private static String collectionTreatment = null;

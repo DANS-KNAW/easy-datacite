@@ -50,7 +50,7 @@ public class PackagingDoc
         return new EasyDepositService();
     }
 
-    private static StringBuffer generate(final DepositService depositService) throws ServiceException, IOException
+    static StringBuffer generate(final DepositService depositService) throws ServiceException, IOException
     {
         final StringBuffer sb = new StringBuffer();
         final Map<String, ChoiceListDefinition> choiceLists = new HashMap<String, ChoiceListDefinition>();

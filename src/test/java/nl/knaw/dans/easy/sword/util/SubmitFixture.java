@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
 
+import nl.knaw.dans.easy.sword.Context;
 import nl.knaw.dans.easy.sword.EasyBusinessFacade;
 
+import org.junit.BeforeClass;
 import org.purl.sword.base.Deposit;
 import org.purl.sword.base.DepositResponse;
 import org.purl.sword.base.SWORDException;
@@ -16,6 +18,10 @@ public class SubmitFixture extends EasySwordServerTester
     public static final String INPUT_DIR  = "src/test/resources/input/";
     public static final String PROPER_ZIP = new File(INPUT_DIR + "data-plus-meta.zip").getPath();
 
+    @BeforeClass
+    static public void setTemp (){
+        new Context().setUnzip("target/tmp");
+    }
     protected static String getZip(String string)
     {
         return new File(INPUT_DIR + string + ".zip").getPath();
