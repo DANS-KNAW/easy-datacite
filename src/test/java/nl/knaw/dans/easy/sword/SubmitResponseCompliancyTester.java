@@ -12,8 +12,6 @@ import org.purl.sword.base.SwordValidationInfo;
 
 /** Integration test for the configuration. */
 public class SubmitResponseCompliancyTester extends SubmitFixture
-// The name should not start or end with test because Maven should not run this test.
-// Why not? The tests require the system property easy.home.
 {
     @Before
     public void setupMocking() throws Exception {
