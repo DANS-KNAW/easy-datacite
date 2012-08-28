@@ -42,7 +42,7 @@ public class IntegrationTester
 {
     private static final File                        VALID_FILE = SubmitFixture.getFile("data-plus-meta.zip");
     private static final String                      URL        = "http://localhost:" + Start.PORT + "/";
-    private static final UsernamePasswordCredentials DEPOSITOR  = new UsernamePasswordCredentials("depositor", "123456");
+    private static final UsernamePasswordCredentials DEPOSITOR  = new UsernamePasswordCredentials("user", "dev");
     private static final UsernamePasswordCredentials ANONYMOUS  = new UsernamePasswordCredentials("anonymous", "password");
     private static final int                         SECOND     = 1000;
 
