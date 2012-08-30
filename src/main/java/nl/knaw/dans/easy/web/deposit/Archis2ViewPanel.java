@@ -18,6 +18,7 @@ import nl.knaw.dans.easy.web.EasySession;
 import nl.knaw.dans.easy.web.deposit.repeater.AbstractCustomPanel;
 
 import org.apache.wicket.AbortException;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -67,6 +68,9 @@ public class Archis2ViewPanel extends AbstractCustomPanel
     {
 
         private static final long serialVersionUID = -3441453142983333780L;
+        
+        /* the first time we don't want to show the separator as it is actually a prefix */
+        private boolean showSeparator = false;
 
         public ViewPanel()
         {
@@ -83,6 +87,8 @@ public class Archis2ViewPanel extends AbstractCustomPanel
                     String label = item.getModelObject().getValue();
                     String nummer = ArchisCollector.getDigits(label);
                     item.add(new ArchisLink("nummerLink", nummer));
+                    item.add(new WebMarkupContainer("separator").setVisible(showSeparator));
+                    showSeparator = true;
                 }
             };
             add(listView);
