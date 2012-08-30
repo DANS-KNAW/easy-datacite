@@ -11,7 +11,7 @@
    <atom:summary type="text">maar een paar bestandjes</atom:summary>
    <atom:title type="text">Sword deposit test</atom:title>
    <atom:updated>2010</atom:updated>
-   <atom:category>Humanities</atom:category>
+   <atom:category>Humanities, Humanities</atom:category>
    <sword:treatment>&lt;div&gt;Details are sent to some@body.com&lt;/div&gt;</sword:treatment>
    <sword:noOp>false</sword:noOp>
 </atom:entry>

@@ -177,7 +177,7 @@ public class EasySwordServer implements SWORDServer
         checkOnBehalfOf(deposit);
 
         final Dataset dataset;
-        final Payload payload = new Payload(deposit.getFile());
+        final RequestContent payload = new RequestContent(deposit.getFile());
         try
         {
             final EasyMetadata metadata = payload.getEasyMetadata();

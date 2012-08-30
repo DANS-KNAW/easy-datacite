@@ -46,10 +46,10 @@ import org.slf4j.LoggerFactory;
  */
 public class EasyBusinessFacade
 {
-    private static int         noOpSumbitCounter     = 0;
+    private static int noOpSumbitCounter = 0;
     public static final String NO_OP_STORE_ID_DOMAIN = "mockedStoreID:";
 
-    private static Logger      logger                = LoggerFactory.getLogger(EasyBusinessFacade.class);
+    private static Logger logger = LoggerFactory.getLogger(EasyBusinessFacade.class);
 
     /**
      * Gets an authenticated user.
@@ -165,15 +165,19 @@ public class EasyBusinessFacade
             return mockedDataset;
 
         final MetadataFormat mdFormat = metadata.getEmdOther().getEasApplicationSpecific().getMetadataFormat();
+        final FormDefinition formDefinition = getFormDefinition(metadata);
+        enhanceWithDefaults(metadata);
+
+        // detect as much as possible errors before irreversible creation of the dataset
+        // from now on, treat any error as a bad request to return the ID of the created draft dataset
+
         final Dataset dataset = createEmptyDataset(mdFormat);
+        final DatasetSubmission submission = new DatasetSubmissionImpl(formDefinition, dataset, user);
 
-        enhanceWithDefaults(metadata, dataset);
         ((DatasetImpl) dataset).setEasyMetadata(metadata);
-
         dataset.setOwnerId(user.getId());
         dataset.getAdministrativeMetadata().setDepositor(user);
 
-        final DatasetSubmission submission = new DatasetSubmissionImpl(EasyBusinessFacade.getFormDefinition(metadata), dataset, user);
         ingestFiles(submission, folder, files);
         submit(submission);
 
@@ -185,13 +189,11 @@ public class EasyBusinessFacade
      * 
      * @param metadata
      *        the custom metadata
-     * @param dataset
-     *        containing default metadata for a specific format
      * @return the custom metadata
      */
-    private static EasyMetadata enhanceWithDefaults(final EasyMetadata metadata, final Dataset dataset)
+    private static EasyMetadata enhanceWithDefaults(final EasyMetadata metadata)
     {
-        final List<BasicString> audienceList = dataset.getEasyMetadata().getEmdAudience().getTermsAudience();
+        final List<BasicString> audienceList = metadata.getEmdAudience().getTermsAudience();
         if (!audienceList.isEmpty())
         {
             metadata.getEmdAudience().getTermsAudience().add(audienceList.get(0));
@@ -423,8 +425,10 @@ public class EasyBusinessFacade
         final String storeId = NO_OP_STORE_ID_DOMAIN + noOpSumbitCounter;
         final DmoStoreId DmoStoreID = new DmoStoreId(storeId);
         final Dataset dataset = EasyMock.createMock(Dataset.class);
-        final AdministrativeMetadataImpl administrativeMetadata = new AdministrativeMetadataImpl(){
-            private static final long serialVersionUID = 1L;};
+        final AdministrativeMetadataImpl administrativeMetadata = new AdministrativeMetadataImpl()
+        {
+            private static final long serialVersionUID = 1L;
+        };
         administrativeMetadata.setDepositor(user);
 
         EasyMock.expect(dataset.getEasyMetadata()).andReturn(metadata).anyTimes();
@@ -461,9 +465,11 @@ public class EasyBusinessFacade
         }
     }
 
-    public static FormDefinition getFormDefinition(final EasyMetadata emd) throws SWORDErrorException
+    public static FormDefinition getFormDefinition(final EasyMetadata emd) throws SWORDErrorException, SWORDException
     {
         final MetadataFormat mdFormat = emd.getEmdOther().getEasApplicationSpecific().getMetadataFormat();
+        if (mdFormat == null)
+            throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, "meta data format not specified.");
         final DepositDiscipline discipline;
         try
         {
@@ -471,7 +477,7 @@ public class EasyBusinessFacade
         }
         catch (final ServiceException e)
         {
-            throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, "Cannot get deposit discipline.");
+            throw new SWORDException("Cannot get deposit discipline.", e);
         }
         if (discipline == null)
             throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, "Cannot get deposit discipline.");

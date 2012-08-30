@@ -21,7 +21,7 @@ import org.purl.sword.base.SWORDException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Payload
+public class RequestContent
 {
     enum MDFileName
     {
@@ -58,9 +58,9 @@ public class Payload
     private final List<File>    files;
     private final EasyMetadata  easyMetadata;
 
-    private static final Logger logger  = LoggerFactory.getLogger(Payload.class);
+    private static final Logger logger  = LoggerFactory.getLogger(RequestContent.class);
 
-    public Payload(final InputStream inputStream) throws SWORDException, SWORDErrorException
+    public RequestContent(final InputStream inputStream) throws SWORDException, SWORDErrorException
     {
         final File metadataFile;
         tempDir = createTempDir();

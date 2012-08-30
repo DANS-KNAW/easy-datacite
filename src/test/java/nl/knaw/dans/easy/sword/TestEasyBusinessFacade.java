@@ -3,10 +3,14 @@ package nl.knaw.dans.easy.sword;
 import java.io.File;
 import java.util.List;
 
+import nl.knaw.dans.common.jibx.JiBXObjectFactory;
 import nl.knaw.dans.common.lang.file.UnzipListener;
 import nl.knaw.dans.common.lang.file.UnzipUtil;
 import nl.knaw.dans.common.lang.util.FileUtil;
+import nl.knaw.dans.easy.domain.form.FormDefinition;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
+import nl.knaw.dans.easy.domain.model.emd.EasyMetadataImpl;
+import nl.knaw.dans.easy.domain.model.emd.Term;
 import nl.knaw.dans.easy.sword.util.Fixture;
 import nl.knaw.dans.easy.sword.util.MockUtil;
 
@@ -72,6 +76,19 @@ public class TestEasyBusinessFacade extends Fixture
         final File zipFile = new File("src/test/resources/input/invalidMetadata.zip");
         final File metaDataFile = new File(tempDirectory + "/easyMetadata.xml");
         executeSubmit(zipFile, metaDataFile, SWORDErrorException.class);
+    }
+
+
+    @Test (expected=SWORDErrorException.class)
+    public void getIllegalFormDefinition() throws Throwable
+    {
+        final File file = new File("src/test/resources/input/metadata.xml");
+        final byte[] bytes = FileUtil.readFile(file);
+        final EasyMetadata emd = (EasyMetadata) JiBXObjectFactory.unmarshal(EasyMetadataImpl.class, bytes);
+        emd.getEmdAudience().removeAllDisciplines();
+        emd.getEmdOther().getEasApplicationSpecific().setMetadataFormat(null);
+        FormDefinition formDefinition = EasyBusinessFacade.getFormDefinition(emd);
+        formDefinition.getHelpFile();
     }
 
     private static UnzipListener createUnzipListener()
