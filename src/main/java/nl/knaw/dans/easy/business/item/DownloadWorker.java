@@ -48,6 +48,7 @@ public class DownloadWorker
     public static final int MEGA_BYTE = 1024*1024;
     public static final int MAX_DOWNLOAD_SIZE = Data.getDownloadLimit() * MEGA_BYTE;
     public static final int MAX_NUMBER_OF_FILES = Data.getMaxNumberOfFiles();
+    public static final File ZIP_FILE_DIR = Data.getZipFileDir();
     
     private static final FileStoreAccess FILE_STORE_ACCESS = Data.getFileStoreAccess();
     private static final String METADATA_PATH                  = "meta/";
@@ -179,7 +180,7 @@ public class DownloadWorker
         if (descriptiveFileMetadata != null)
             zipItems.add(new ZipItem(METADATA_PATH + DESCRIPTIVE_METADATA_FILE_NAME, descriptiveFileMetadata.toURI().toURL()));
 
-        final File zipFile = File.createTempFile("easy", ".zip");
+        final File zipFile = File.createTempFile("easy", ".zip", ZIP_FILE_DIR);
         ZipUtil.zipFiles(zipFile, zipItems);
         return zipFile;
     }

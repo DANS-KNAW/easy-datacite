@@ -1,5 +1,7 @@
 package nl.knaw.dans.easy.data;
 
+import java.io.File;
+
 import nl.knaw.dans.common.lang.search.SearchEngine;
 import nl.knaw.dans.easy.data.collections.DmoCollectionsAccess;
 import nl.knaw.dans.easy.data.federation.FederativeUserRepo;
@@ -44,6 +46,7 @@ public class Data
     
     private static int             downloadLimit; // max. size of download in Mb
     private static int			   maxNumberOfFiles;
+    private static File	           zipFileDir;
 
     private static boolean         locked;
     private static Logger          logger              = LoggerFactory.getLogger(Data.class);
@@ -220,6 +223,15 @@ public class Data
         
         logger.info("Max number of files is set to " + Data.maxNumberOfFiles);
     }
+    
+    public void setZipFileDir(File dir) {
+    	Data.zipFileDir = dir;
+    }
+
+    public static File getZipFileDir() {
+    	return zipFileDir;
+    }
+    
     
     // more DAP getters
 
