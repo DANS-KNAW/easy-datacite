@@ -36,7 +36,7 @@ public class EmdRelationChoiceListTest
         for (final String emdKey : emdListKeys)
         {
             // so far this happens to pass, but should all relation instances allow all types of relations??
-            assertTrue("This keys is not found:" + emdKey, emdKey.trim().length() > 0 && choiceListKeys.contains(emdKey));
+            assertTrue("This keys is not found:" + emdKey, emdKey.trim().length() == 0 || choiceListKeys.contains(emdKey));
         }
     }
 }
