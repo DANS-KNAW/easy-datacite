@@ -37,35 +37,33 @@ import org.apache.wicket.Page;
  */
 public enum PageBookmark implements AliasInterface<Page>
 {
-    register(RegistrationPage.class, "register", false), //
-    registrationValidation(RegistrationValidationPage.class, "validate", false), //
-    login(LoginPage.class, "login", false), //
-    changePassword(ChangePasswordPage.class, "cp", false), //
-    home(HomePage.class, "home", false), //
-    browse(BrowsePage.class, "browse", false), //
-    error(ErrorPage.class, "error", false), //
-    advancedSearch(AdvSearchPage.class, "advancedsearch", false), //
-    myDataset(MyDatasetsSearchResultPage.class, "mydatasets", false), //
-    datasetView(DatasetViewPage.class, "datasets", false), //
-    permissionReply(PermissionReplyPrePage.class, "pmreply", false), //
-    permissionRequest(PermissionRequestPage.class, "pmrequest", false), //
-    deposit(DepositIntroPage.class, "deposit", false), //
-    myRequests(MyRequestsSearchResultPage.class, "myRequest", false), //
-    migration(MigrationRedirectPage.class, "dms", false), //
-    userDetailsPage(UserDetailsPage.class, "users", false), //
-    helpPage(HelpPage.class, "help", false);
+    register(RegistrationPage.class, "register"), //
+    registrationValidation(RegistrationValidationPage.class, "validate"), //
+    login(LoginPage.class, "login"), //
+    changePassword(ChangePasswordPage.class, "cp"), //
+    home(HomePage.class, "home"), //
+    browse(BrowsePage.class, "browse"), //
+    error(ErrorPage.class, "error"), //
+    advancedSearch(AdvSearchPage.class, "advancedsearch"), //
+    myDataset(MyDatasetsSearchResultPage.class, "mydatasets"), //
+    datasetView(DatasetViewPage.class, "datasets"), //
+    permissionReply(PermissionReplyPrePage.class, "pmreply"), //
+    permissionRequest(PermissionRequestPage.class, "pmrequest"), //
+    deposit(DepositIntroPage.class, "deposit"), //
+    myRequests(MyRequestsSearchResultPage.class, "myRequest"), //
+    migration(MigrationRedirectPage.class, "dms"), //
+    userDetailsPage(UserDetailsPage.class, "users"), //
+    helpPage(HelpPage.class, "help");
     
 
     private static ALiasDelegate<Page> delegate = new ALiasDelegate<Page>(PageBookmark.values());
     private final String bookmarkedName;
     private final Class<? extends Page> bookmarkedClass;
-    private final boolean isDevelopmentOnly;
 
-    private PageBookmark(final Class<? extends Page> bookmarkedClass, final String bookmarkedName, final boolean isDevelopmentOnly)
+    private PageBookmark(final Class<? extends Page> bookmarkedClass, final String bookmarkedName)
     {
         this.bookmarkedName = bookmarkedName;
         this.bookmarkedClass = bookmarkedClass;
-        this.isDevelopmentOnly = isDevelopmentOnly;
     }
 
     public static PageBookmark valueOf(final Class<? extends Page> bookmarkedClass)
@@ -88,10 +86,5 @@ public enum PageBookmark implements AliasInterface<Page>
     public String getAlias()
     {
         return bookmarkedName;
-    }
-
-    public boolean isDevelopmentOnly()
-    {
-        return isDevelopmentOnly;
     }
 }

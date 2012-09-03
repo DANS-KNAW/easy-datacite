@@ -77,22 +77,16 @@ public class DelegatedBookmarkTest
     @Test
     public void allTheRest() throws Exception
     {
-        boolean weStillUseDevelopmentOnly = false;
         for (final PageBookmark value : PageBookmark.values())
         {
             assertThat (value,sameInstance(PageBookmark.valueOfAlias(value.getAlias())));
             assertThat (value,sameInstance(PageBookmark.valueOf(value.getAliasClass())));
-            weStillUseDevelopmentOnly = weStillUseDevelopmentOnly || value.isDevelopmentOnly();
         }
         for (final ResourceBookmark value : ResourceBookmark.values())
         {
             assertThat (value,sameInstance(ResourceBookmark.valueOfAlias(value.getAlias())));
             assertThat (value,sameInstance(ResourceBookmark.valueOf(value.getAliasClass())));
             ResourceBookmark.getResourceReferenceOf(value.getAliasClass());
-        }
-        if (!weStillUseDevelopmentOnly)
-        {
-            throw new Exception("clean code: remove the method isDevelopmentOnly and the corresponding constructor argument");
         }
     }
 }

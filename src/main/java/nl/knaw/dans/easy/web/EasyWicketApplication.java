@@ -129,7 +129,7 @@ public class EasyWicketApplication extends CommonWicketApplication
 
         for (final PageBookmark value : PageBookmark.values())
         {
-            if (isInDevelopmentMode() || !value.isDevelopmentOnly())
+            if (isInDevelopmentMode())
             {
                 mountBookmarkablePage("/" + value.getAlias(), value.getAliasClass());
             }
