@@ -8,7 +8,6 @@ import nl.knaw.dans.easy.web.authn.LoginPage;
 import nl.knaw.dans.easy.web.authn.RegistrationPage;
 import nl.knaw.dans.easy.web.authn.RegistrationValidationPage;
 import nl.knaw.dans.easy.web.deposit.DepositIntroPage;
-import nl.knaw.dans.easy.web.doc.EmdDocPage;
 import nl.knaw.dans.easy.web.doc.HelpPage;
 import nl.knaw.dans.easy.web.migration.MigrationRedirectPage;
 import nl.knaw.dans.easy.web.permission.PermissionReplyPrePage;
@@ -56,7 +55,6 @@ public enum PageBookmark implements AliasInterface<Page>
     migration(MigrationRedirectPage.class, "dms", false), //
     testUpload(TestUploadPage.class, "testUploadPage", true), //
     userDetailsPage(UserDetailsPage.class, "users", false), //
-    emdDocPage(EmdDocPage.class, "metadataformat", false), //
     helpPage(HelpPage.class, "help", false);
     
 
