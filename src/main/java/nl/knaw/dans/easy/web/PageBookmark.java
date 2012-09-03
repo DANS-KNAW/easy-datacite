@@ -17,7 +17,6 @@ import nl.knaw.dans.easy.web.search.pages.BrowsePage;
 import nl.knaw.dans.easy.web.search.pages.MyDatasetsSearchResultPage;
 import nl.knaw.dans.easy.web.search.pages.MyRequestsSearchResultPage;
 import nl.knaw.dans.easy.web.view.dataset.DatasetViewPage;
-import nl.knaw.dans.easy.web.wicket.test.TestUploadPage;
 
 import org.apache.wicket.Page;
 
@@ -53,7 +52,6 @@ public enum PageBookmark implements AliasInterface<Page>
     deposit(DepositIntroPage.class, "deposit", false), //
     myRequests(MyRequestsSearchResultPage.class, "myRequest", false), //
     migration(MigrationRedirectPage.class, "dms", false), //
-    testUpload(TestUploadPage.class, "testUploadPage", true), //
     userDetailsPage(UserDetailsPage.class, "users", false), //
     helpPage(HelpPage.class, "help", false);
     
