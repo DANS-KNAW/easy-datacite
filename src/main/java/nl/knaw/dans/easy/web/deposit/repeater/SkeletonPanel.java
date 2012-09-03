@@ -1,6 +1,7 @@
 package nl.knaw.dans.easy.web.deposit.repeater;
 
 import nl.knaw.dans.easy.domain.form.StandardPanelDefinition;
+import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import nl.knaw.dans.easy.web.template.AbstractEasyPanel;
 import nl.knaw.dans.easy.web.template.emd.atomic.*;
 
@@ -18,7 +19,6 @@ public abstract class SkeletonPanel extends AbstractEasyPanel
     private String            labelResourceKey;
     private String            shortHelpResourceKey;
     private String            helpItem;
-    private String            helpFile;
     private boolean           required;
 
     private boolean           initiated;
@@ -30,7 +30,7 @@ public abstract class SkeletonPanel extends AbstractEasyPanel
         super(id);
     }
 
-    public SkeletonPanel(final String id, final IModel model)
+    public SkeletonPanel(final String id, final IModel<EasyMetadata> model)
     {
         super(id, model);
     }
@@ -46,73 +46,7 @@ public abstract class SkeletonPanel extends AbstractEasyPanel
         this.labelResourceKey = definition.getLabelResourceKey();
         this.shortHelpResourceKey = definition.getShortHelpResourceKey();
         this.helpItem = definition.getHelpItem();
-        this.helpFile = definition.getHelpFile();
         this.required = definition.isRequired();
-    }
-
-    /**
-     * Get the labelResourceKey.
-     *
-     * @return labelResourceKey
-     */
-    public String getLabelResourceKey()
-    {
-        return labelResourceKey;
-    }
-
-    /**
-     * Provide the labelResourceKey for this RepeaterPanel.
-     *
-     * @param labelResourceKey
-     *        resource key
-     */
-    public void setLabelResourceKey(final String labelResourceKey)
-    {
-        this.labelResourceKey = labelResourceKey;
-    }
-
-    /**
-     * @return the shortHelpResourceKey
-     */
-    public String getShortHelpResourceKey()
-    {
-        return shortHelpResourceKey;
-    }
-
-    /**
-     * @param shortHelpResourceKey
-     *        the shortHelpResourceKey to set
-     */
-    public void setShortHelpResourceKey(final String shortHelpResourceKey)
-    {
-        this.shortHelpResourceKey = shortHelpResourceKey;
-    }
-
-    /**
-     * @return the helpFile
-     */
-    public String getHelpFile()
-    {
-        return helpFile;
-    }
-
-    /**
-     * @param helpFile
-     *        the helpFile to set
-     */
-    public void setHelpFile(final String helpFile)
-    {
-        this.helpFile = helpFile;
-    }
-
-    /**
-     * Get the helpItem.
-     *
-     * @return helpItem
-     */
-    public String getHelpItem()
-    {
-        return helpItem;
     }
 
     /**
@@ -191,7 +125,28 @@ public abstract class SkeletonPanel extends AbstractEasyPanel
 
     protected void init()
     {
-        add(new FeedbackPanel("panelFeedback", new IFeedbackMessageFilter()
+        add(createFeedbackPanel());
+        add(createSimpleLabel(labelResourceKey, helpItem));
+        add(createShortHelp(shortHelpResourceKey));
+    }
+
+    private Label createShortHelp(String shortHelpResourceKey)
+    {
+        final Label label = new Label("shortHelp", new ResourceModel(shortHelpResourceKey, ""));
+        label.setEscapeModelStrings(false);
+        return label;
+    }
+
+    private SimpleLabelPanel createSimpleLabel(String labelResourceKey, String helpItem)
+    {
+        SimpleLabelPanel simpleLabelPanel = new SimpleLabelPanel("label", labelResourceKey, helpItem, isRequired());
+        simpleLabelPanel.setPopUpButtonIsVisible(isInEditMode());
+        return simpleLabelPanel;
+    }
+
+    private FeedbackPanel createFeedbackPanel()
+    {
+        return new FeedbackPanel("panelFeedback", new IFeedbackMessageFilter()
         {
 
             private static final long serialVersionUID = 6414413128618876823L;
@@ -210,14 +165,6 @@ public abstract class SkeletonPanel extends AbstractEasyPanel
                 }
             }
 
-        }));
-        
-        SimpleLabelPanel simpleLabelPanel = new SimpleLabelPanel("label", getLabelResourceKey(), getHelpItem(), isRequired());
-        simpleLabelPanel.setPopUpButtonIsVisible(isInEditMode());
-        add(simpleLabelPanel);
-         
-        final Label label = new Label("shortHelp", new ResourceModel(getShortHelpResourceKey(), ""));
-        label.setEscapeModelStrings(false);
-        add(label);
+        });
     }
 }
