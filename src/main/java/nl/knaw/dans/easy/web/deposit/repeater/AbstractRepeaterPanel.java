@@ -286,6 +286,15 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
      */
     protected abstract Panel getRepeatingComponentPanel(final ListItem<T> item);
     
+    @Override
+    protected void onBeforeRender() {
+        super.onBeforeRender();
+        
+        // actions required after a user hits refresh
+        if (!isInEditMode() && listItems.isEmpty())
+            this.getParent().setVisible(false); //if no data, don't display.
+    }
+    
     protected void init()
     {
         getListItems(); // make sure variable <listItems> is initialized 
@@ -301,12 +310,6 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
     	{
     		super.setHelpItem(null);      //don't display help sign.
     		super.setRequired(false);     //don't display * sign.
-    		if( listItems.isEmpty())
-            {
-    		    Component parent = this.getParent(); // Surrounding MarkupConainer.
-    		    parent.setVisible(false); //if no data, don't display.
-            	
-            }
     	}
         super.init(); // skeletonPanel
 

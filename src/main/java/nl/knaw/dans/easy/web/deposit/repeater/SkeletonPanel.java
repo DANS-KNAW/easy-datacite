@@ -16,15 +16,15 @@ public abstract class SkeletonPanel extends AbstractEasyPanel
 
     private static final long serialVersionUID = -8285574501580736346L;
 
-    private String            labelResourceKey;
-    private String            shortHelpResourceKey;
-    private String            helpItem;
-    private boolean           required;
+    private String labelResourceKey;
+    private String shortHelpResourceKey;
+    private String helpItem;
+    private boolean required;
 
-    private boolean           initiated;
+    private boolean initiated;
 
-    private boolean 		  inEditMode;
-    
+    private boolean inEditMode;
+
     public SkeletonPanel(final String id)
     {
         super(id);
@@ -37,12 +37,16 @@ public abstract class SkeletonPanel extends AbstractEasyPanel
 
     /**
      * Set the fields of this SkeletonPanel in accordance with the given definition.
-     *
+     * 
      * @param definition
      *        definition to set
      */
     public void setDefinition(final StandardPanelDefinition definition)
     {
+        if (isInitiated())
+        {
+            throw new IllegalStateException("Cannot set representation state after rendering.");
+        }
         this.labelResourceKey = definition.getLabelResourceKey();
         this.shortHelpResourceKey = definition.getShortHelpResourceKey();
         this.helpItem = definition.getHelpItem();
@@ -51,52 +55,56 @@ public abstract class SkeletonPanel extends AbstractEasyPanel
 
     /**
      * Provide the helpItem for this RepeaterPanel.
-     *
+     * 
      * @param helpItem
      */
     public void setHelpItem(final String helptem)
     {
+        if (isInitiated())
+        {
+            throw new IllegalStateException("Cannot set representation state after rendering.");
+        }
         this.helpItem = helptem;
     }
 
     /**
-     * Are the components on this RepeaterPanel required; the effect is only visual.
-     *
-     * @return <code>true</code> if required, <code>false</code> otherwise
-     */
-    public boolean isRequired()
-    {
-        return required;
-    }
-
-    /**
      * Set whether the components on this RepeaterPanel are required; the effect is only visual.
-     *
+     * 
      * @param required
      *        <code>true</code> if required, <code>false</code> otherwise
      */
     public void setRequired(final boolean required)
     {
+        if (isInitiated())
+        {
+            throw new IllegalStateException("Cannot set representation state after rendering.");
+        }
         this.required = required;
     }
 
-    public boolean isInEditMode() {
-		return inEditMode;
-	}
+    public boolean isInEditMode()
+    {
+        return inEditMode;
+    }
 
-	public void setInEditMode(boolean editMode) {
-		this.inEditMode = editMode;
-	}
+    public void setInEditMode(final boolean editMode)
+    {
+        // TODO fix violation by RecursivePanel in case of refresh of any deposit panel
+        // if (isInitiated())
+        // {
+        // throw new IllegalStateException("Cannot set representation state after rendering.");
+        // }
+        this.inEditMode = editMode;
+    }
 
-	public boolean takesErrorMessages()
+    public boolean takesErrorMessages()
     {
         return isInEditMode();
     }
 
-
     /**
      * Is this SkeletonPanel initiated (rendered) yet?
-     *
+     * 
      * @return <code>true</code> if initiated, <code>false</code> otherwise
      */
     protected boolean isInitiated()
@@ -126,45 +134,38 @@ public abstract class SkeletonPanel extends AbstractEasyPanel
     protected void init()
     {
         add(createFeedbackPanel());
-        add(createSimpleLabel(labelResourceKey, helpItem));
-        add(createShortHelp(shortHelpResourceKey));
+        add(createSimpleLabel());
+        add(createShortHelp());
     }
 
-    private Label createShortHelp(String shortHelpResourceKey)
+    private Label createShortHelp()
     {
         final Label label = new Label("shortHelp", new ResourceModel(shortHelpResourceKey, ""));
         label.setEscapeModelStrings(false);
         return label;
     }
 
-    private SimpleLabelPanel createSimpleLabel(String labelResourceKey, String helpItem)
+    private SimpleLabelPanel createSimpleLabel()
     {
-        SimpleLabelPanel simpleLabelPanel = new SimpleLabelPanel("label", labelResourceKey, helpItem, isRequired());
-        simpleLabelPanel.setPopUpButtonIsVisible(isInEditMode());
-        return simpleLabelPanel;
+        final SimpleLabelPanel panel = new SimpleLabelPanel("label", labelResourceKey, helpItem, required);
+        panel.setPopUpButtonIsVisible(isInEditMode());
+        return panel;
     }
 
     private FeedbackPanel createFeedbackPanel()
     {
         return new FeedbackPanel("panelFeedback", new IFeedbackMessageFilter()
         {
-
             private static final long serialVersionUID = 6414413128618876823L;
 
-            public boolean accept(FeedbackMessage message)
+            public boolean accept(final FeedbackMessage message)
             {
-            	if (message.getReporter() == null)
-            		return false;
-                if (SkeletonPanel.this.getPath().endsWith(message.getReporter().getPath()))
-                {
-                    return true;
-                }
-                else
-                {
+                if (message.getReporter() == null)
                     return false;
-                }
+                final String reporterPath = message.getReporter().getPath();
+                final String skeletonPath = SkeletonPanel.this.getPath();
+                return skeletonPath.endsWith(reporterPath);
             }
-
         });
     }
 }
