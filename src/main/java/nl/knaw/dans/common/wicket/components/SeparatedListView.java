@@ -9,9 +9,9 @@ import org.apache.wicket.markup.html.list.ListView;
 
 /**
  * <p>
- * Where {@link ListView<T>} rather works with a TABLE, UL or OL, this repeater uses a separator. The
- * first occurrence of the separator is not rendered. Though the repeater is not restricted to links, a
- * typical example would be:
+ * Where {@link ListView<T>} rather works with a TABLE, UL or OL, this repeater uses a prefix as
+ * separator. The first occurrence of the prefix is not rendered. Though the repeater is not restricted
+ * to links, a typical example would be:
  * </p>
  * HTML
  * 
