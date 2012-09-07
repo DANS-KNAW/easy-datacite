@@ -32,16 +32,37 @@
 		<easymock.version>3.1</easymock.version>
 		<jetty.version>6.1.21</jetty.version>
 		<nl.knaw.dans.platform.language.version>def-1.0-SNAPSHOT</nl.knaw.dans.platform.language.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+	
+	<profiles>
+		<profile>
+			<id>maven.filter.values</id>
+			<activation>
+				<file>
+					<exists>${user.home}/.m2/maven-filter-values.properties</exists>
+				</file>
+			</activation>
+			<build>
+				<filters>
+					<filter>${user.home}/.m2/maven-filter-values.properties</filter>
+				</filters>
+			</build>
+		</profile>
+		<profile>
+			<id>pom.specified.values</id>
+			<activation>
+				<file>
+					<missing>${user.home}/.m2/maven-filter-values.properties</missing>
+				</file>
+			</activation>
+			<properties>
+				<evm.host.address>127.0.0.1</evm.host.address>
+			</properties>
+		</profile>
+	</profiles>	
 
 	<dependencies>
-	<!-- 
-		<dependency>
-			<groupId>nl.knaw.dans.platform.language</groupId>
-			<artifactId>def</artifactId>
-			<version>${nl.knaw.dans.platform.language.version}</version>
-		</dependency>
-	 -->
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>easy-fedora</artifactId>
@@ -94,6 +115,13 @@
 		<finalName>easy-sword</finalName>
 		
 		<sourceDirectory>src/main/java</sourceDirectory>
+		<resources>
+			<resource>
+				<filtering>true</filtering>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
+
 		<testSourceDirectory>src/test/java</testSourceDirectory>
 		<testResources>
 			<testResource>
@@ -144,15 +172,6 @@
 					</archive>
 				</configuration>
 			</plugin>
-			
-			<!-- plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-				<configuration>
-					<enableRulesSummary>false</enableRulesSummary>
-				</configuration>
-			</plugin-->
-			
 		</plugins>
 	</build>
 	
