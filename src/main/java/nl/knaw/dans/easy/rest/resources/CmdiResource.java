@@ -30,7 +30,7 @@ import org.joda.time.DateTime;
 @Path("/cmdi")
 public class CmdiResource extends AuthenticatedResource {
 
-	public static final String CMDI_MEDIA_TYPE = "text/xml+cmdi";
+	public static final String CMDI_MEDIA_TYPE = "application/x-cmdi+xml";
 
 	/**
 	 * Resource to retrieve the latest modification date of CMDI metadata in EASY.
