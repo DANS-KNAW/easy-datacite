@@ -625,12 +625,29 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
         return itemVOs;
     }
 
+    public List<FileItemVO> getDatasetFiles(final DmoStoreId dmoStoreId) throws StoreAccessException
+    {
+        if (!dmoStoreId.isInNamespace(Dataset.NAMESPACE))
+            throw new IllegalArgumentException(dmoStoreId + " is not in the namespace " + Dataset.NAMESPACE);
+        try
+        {
+            final Session session = sessionFactory.openSession();
+            return collectDatasetFiles(session, dmoStoreId);
+        }
+        catch (final HibernateException e)
+        {
+            throw new StoreAccessException(e);
+        }
+        finally
+        {
+            sessionFactory.closeSession();
+        }
+    }
+
     @SuppressWarnings("unchecked")
     private void collectDatasetChildren(List<ItemVO> itemVOs, Session session, DmoStoreId datasetId)
     {
-        List<FileItemVO> files = session.createQuery(SELECT_DATASET_FILEITEMS)
-            .setParameter("datasetSid", datasetId.getStoreId())
-            .list();
+        List<FileItemVO> files = collectDatasetFiles(session, datasetId);
         itemVOs.addAll(files);
         
         List<FolderItemVO> folders = session.createQuery(SELECT_DATASET_FOLDERITEMS)
@@ -640,6 +657,13 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
     }
 
     @SuppressWarnings("unchecked")
+    private List<FileItemVO> collectDatasetFiles(Session session, DmoStoreId datasetId)
+    {
+        return (List<FileItemVO>) session.createQuery(SELECT_DATASET_FILEITEMS)
+            .setParameter("datasetSid", datasetId.getStoreId())
+            .list();
+    }
+
     public boolean hasChildItems(DmoStoreId parentSid) throws StoreAccessException
     {
         LOGGER.debug("Determining if folder " + parentSid + " has child items.");
@@ -651,6 +675,7 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
             Query query = session.createQuery(HASCHILDFILE_QUERY);
             query.setParameter("parentSid", parentSid.getStoreId());
             query.setFetchSize(1);
+            @SuppressWarnings("rawtypes")
             List l = query.list();
             if (l.size() > 0)
                 return true;
