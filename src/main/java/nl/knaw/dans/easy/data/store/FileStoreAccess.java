@@ -119,6 +119,8 @@ public interface FileStoreAccess {
      */
     Map<String, String> getAllFiles(DmoStoreId datasetStoreId) throws StoreAccessException;
 
+    List<FileItemVO> getDatasetFiles(DmoStoreId dmoStoreId) throws StoreAccessException;
+
     FileItemVO findFileByPath(DmoStoreId datasetSid, String relativePath) throws StoreAccessException;
     
     FolderItemVO findFolderByPath(DmoStoreId datasetSid, String relativePath) throws StoreAccessException;

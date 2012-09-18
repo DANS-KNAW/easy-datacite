@@ -386,8 +386,13 @@ public class DummyFileStoreAccess implements FileStoreAccess
     @Override
     public String getDatasetId(DmoStoreId storeId) throws StoreException
     {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("This is a dummy, dummy.");
+    }
+
+    @Override
+    public List<FileItemVO> getDatasetFiles(DmoStoreId dmoStoreId) throws StoreAccessException
+    {
+        throw new UnsupportedOperationException("This is a dummy, dummy.");
     }
 
 
