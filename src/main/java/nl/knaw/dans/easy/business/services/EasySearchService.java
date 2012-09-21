@@ -1,5 +1,6 @@
 package nl.knaw.dans.easy.business.services;
 
+import java.util.List;
 import java.util.Locale;
 
 import nl.knaw.dans.common.lang.CacheException;
@@ -12,11 +13,13 @@ import nl.knaw.dans.common.lang.search.SearchResult;
 import nl.knaw.dans.common.lang.search.exceptions.SearchBeanFactoryException;
 import nl.knaw.dans.common.lang.search.exceptions.SearchEngineException;
 import nl.knaw.dans.common.lang.search.simple.SimpleField;
+import nl.knaw.dans.common.lang.search.simple.SimpleSearchHit;
 import nl.knaw.dans.common.lang.search.simple.SimpleSearchQuery;
 import nl.knaw.dans.common.lang.search.simple.SimpleSearchRequest;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.search.EasyDatasetSB;
+import nl.knaw.dans.easy.domain.model.PermissionRequestSearchInfo;
 import nl.knaw.dans.easy.domain.model.WorkflowData;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.search.RecursiveListCache;
@@ -50,18 +53,32 @@ public class EasySearchService extends AbstractEasyService implements SearchServ
 		return doSearch(request);
 	}
 	
-	public SearchResult<? extends DatasetSB> searchMyRequests(SearchRequest request, EasyUser requester) throws ServiceException
-	{
-	    addFilterByRequesterId(request, requester.getId());
-		addFilterByStates(request, 
-				new DatasetState[] { 
-					DatasetState.PUBLISHED,
-					DatasetState.MAINTENANCE
-				}
-		); 
-	    
-	    return doSearch(request);
-	}
+    public SearchResult<? extends DatasetSB> searchMyRequests(SearchRequest request, EasyUser requester) throws ServiceException
+    {
+        final String requesterId = requester.getId();
+        addFilterByRequesterId(request, requesterId);
+        addFilterByStates(request, new DatasetState[] {DatasetState.PUBLISHED, DatasetState.MAINTENANCE});
+
+        final SearchResult<? extends DatasetSB> searchResult = doSearch(request);
+        try
+        {
+            // dirty solution for ticket 544: user "abc" sees also requests of user "abc123"
+            final List<?> hits = searchResult.getHits();
+            for (final Object hit : hits)
+            {
+                boolean found = false;
+                final EasyDatasetSB dataset = ((SimpleSearchHit<EasyDatasetSB>) hit).getData();
+                for (final PermissionRequestSearchInfo permissionRequest : dataset.getPermissionStatusList())
+                    found = false || requesterId.equals(permissionRequest.getRequesterId());
+                if (!found)
+                    hits.remove(hit);
+            }
+        }
+        catch (final ClassCastException e)
+        {
+        }
+        return searchResult;
+    }
 
     public SearchResult<? extends DatasetSB> searchMyWork(
 			SearchRequest request, EasyUser user) throws ServiceException
