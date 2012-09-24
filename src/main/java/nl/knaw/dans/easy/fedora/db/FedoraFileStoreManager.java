@@ -28,9 +28,9 @@ public class FedoraFileStoreManager
     public void onIngestFileItem(FileItem fileItem) throws StoreAccessException
 	{
 		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
 		try
         {
-            Transaction tx = session.beginTransaction();
             tx.begin();
             FileItemVO fivo = new FileItemVO(fileItem);
             session.save(fivo);
@@ -42,6 +42,8 @@ public class FedoraFileStoreManager
         }
         finally
         {
+            if (tx.isActive())
+                tx.rollback();
             sessionFactory.closeSession();
         }
 	}
@@ -50,9 +52,9 @@ public class FedoraFileStoreManager
     {
         FileItemVO fivo;
         Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
         try
         {
-            Transaction tx = session.beginTransaction();
             tx.begin();
             fivo = (FileItemVO) session.get(FileItemVO.class, fileItem.getStoreId());
             fivo.updateTo(fileItem);
@@ -65,6 +67,8 @@ public class FedoraFileStoreManager
         }
         finally
         {
+            if (tx.isActive())
+                tx.rollback();
             sessionFactory.closeSession();
         }
         return fivo;
@@ -73,9 +77,9 @@ public class FedoraFileStoreManager
     public void onPurgeFileItem(FileItem fileItem) throws StoreAccessException
     {
         Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
         try
         {
-            Transaction tx = session.beginTransaction();
             tx.begin();
             FileItemVO fivo = (FileItemVO) session.get(FileItemVO.class, fileItem.getStoreId());
             session.delete(fivo);
@@ -87,6 +91,8 @@ public class FedoraFileStoreManager
         }
         finally
         {
+            if (tx.isActive())
+                tx.rollback();
             sessionFactory.closeSession();
         }
     }
@@ -94,9 +100,9 @@ public class FedoraFileStoreManager
     public void onIngestFolderItem(FolderItem folderItem) throws StoreAccessException
     {
         Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
         try
         {
-            Transaction tx = session.beginTransaction();
             tx.begin();
             FolderItemVO fovo = new FolderItemVO(folderItem);
             session.save(fovo);
@@ -108,6 +114,8 @@ public class FedoraFileStoreManager
         }
         finally
         {
+            if (tx.isActive())
+                tx.rollback();
             sessionFactory.closeSession();
         }
     }
@@ -116,9 +124,9 @@ public class FedoraFileStoreManager
     {
         Session session = sessionFactory.openSession();
         FolderItemVO fovo;
+        Transaction tx = session.beginTransaction();
         try
         {
-            Transaction tx = session.beginTransaction();
             tx.begin();
             fovo = (FolderItemVO) session.get(FolderItemVO.class, folderItem.getStoreId());
             fovo.updateTo(folderItem);
@@ -131,6 +139,8 @@ public class FedoraFileStoreManager
         }
         finally
         {
+            if (tx.isActive())
+                tx.rollback();
             sessionFactory.closeSession();
         }
         return fovo;
@@ -139,9 +149,9 @@ public class FedoraFileStoreManager
     public void onPurgeFolderItem(FolderItem folderItem) throws StoreAccessException
     {
         Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
         try
         {
-            Transaction tx = session.beginTransaction();
             tx.begin();
             FolderItemVO fovo = (FolderItemVO) session.get(FolderItemVO.class, folderItem.getStoreId());
             session.delete(fovo);
@@ -153,6 +163,8 @@ public class FedoraFileStoreManager
         }
         finally
         {
+            if (tx.isActive())
+                tx.rollback();
             sessionFactory.closeSession();
         }
     }
