@@ -86,6 +86,18 @@ public class TestFailingSubmit extends SubmitFixture
      execute(false, true, getZip("max-path-exceeded"));
  }
 
+ @Test (expected=SWORDErrorException.class)
+ public void negativeEmbargo() throws Throwable
+ {
+     execute(false, true, getZip("negative-embargo"));
+ }
+
+ @Test (expected=SWORDErrorException.class)
+ public void longEmbargo() throws Throwable
+ {
+     execute(false, true, getZip("long-embargo"));
+ }
+
  @Test (expected=SWORDAuthenticationException.class)
  public void unknowUser() throws Throwable
  {
