@@ -16,6 +16,7 @@ public class CommonValidators
         VALIDATORS = new ArrayList<Validator>();
         VALIDATORS.add(new RightsValidator(EmdScheme.COMMON_DCTERMS_ACCESSRIGHTS.getId()));
         VALIDATORS.add(new RelationsValidator(EmdScheme.COMMON_DCTERMS_RELATION.getId()));
+        VALIDATORS.add(new EmbargoValidator());
     }
 
     /**
