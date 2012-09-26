@@ -12,7 +12,7 @@
 	<name>Easy</name>
 	<artifactId>easy-webui</artifactId>
 	<packaging>war</packaging>
-	<version>2.5-beta-1</version>
+	<version>2.5-beta-2</version>
 	<description>Easy Web Application</description>
 	
 	<profiles>
@@ -191,6 +191,7 @@
 				<directory>src/main/resources</directory>
 				<includes>
 					<include>conf/dataset/**/*.*</include>
+					<include>log4j.xml</include>
 				</includes>
 			</resource>
 			<resource>
