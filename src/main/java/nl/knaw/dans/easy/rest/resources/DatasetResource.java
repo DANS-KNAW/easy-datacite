@@ -359,7 +359,7 @@ public class DatasetResource extends AuthenticatedResource {
 	}
 
 	/**
-	 * Returns the contents of the given folder.
+	 * Returns the contents of the given folder (storeId).
 	 * 
 	 * @param sid
 	 *            Store ID of the dataset.
@@ -368,7 +368,7 @@ public class DatasetResource extends AuthenticatedResource {
 	 * @return An response containing the contents of the given folder.
 	 */
 	@GET
-	@Path("/{sid}/filetree/{folderSid}")
+	@Path("/{sid}/filetree/" + FOLDER_SID_PREFIX + "{folderSid:[0-9]*}")
 	public Response getFolderSubTree(@PathParam("sid") String sid,
 			@PathParam("folderSid") String folderSid) {
 		try {
@@ -376,7 +376,40 @@ public class DatasetResource extends AuthenticatedResource {
 			Dataset d = Services.getDatasetService().getDataset(user,
 					new DmoStoreId(sid));
 			List<ItemVO> items = Services.getItemService().getFilesAndFolders(
-					user, d, new DmoStoreId(folderSid), -1, -1, null, null);
+					user, d, new DmoStoreId(FOLDER_SID_PREFIX + folderSid), -1,
+					-1, null, null);
+			return responseXmlOrJson(ItemConverter.convert(items));
+		} catch (ObjectNotAvailableException e) {
+			return notFound();
+		} catch (CommonSecurityException e) {
+			return notAuthorized();
+		} catch (ServiceException e) {
+			return internalServerError(e);
+		}
+	}
+
+	/**
+	 * Returns the contents of the given folder (path).
+	 * 
+	 * @param sid
+	 *            Store ID of the dataset.
+	 * @param path
+	 *            Path of the folder.
+	 * @return An response containing the contents of the given folder.
+	 */
+	@GET
+	@Path("/{sid}/filetree/{path:[a-zA-Z0-9/\\.-]*}")
+	public Response getFolderSubTreeWithPath(@PathParam("sid") String sid,
+			@PathParam("path") String path) {
+		try {
+			EasyUser user = authenticate();
+			Dataset d = Services.getDatasetService().getDataset(user,
+					new DmoStoreId(sid));
+			FolderItem folder = Services.getItemService().getFolderItemByPath(
+					user, d, path);
+			List<ItemVO> items = Services.getItemService().getFilesAndFolders(
+					user, d, new DmoStoreId(folder.getStoreId()), -1, -1, null,
+					null);
 			return responseXmlOrJson(ItemConverter.convert(items));
 		} catch (ObjectNotAvailableException e) {
 			return notFound();
