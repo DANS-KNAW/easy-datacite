@@ -17,8 +17,6 @@ import nl.knaw.dans.common.lang.repo.DataModelObject;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.exception.ObjectDeserializationException;
 import nl.knaw.dans.common.lang.repo.relations.RelsConstants;
-import nl.knaw.dans.common.lang.reposearch.RepoSearchListener;
-import nl.knaw.dans.common.lang.search.SearchEngine;
 import nl.knaw.dans.common.lang.xml.XMLDeserializationException;
 import nl.knaw.dans.easy.data.store.EasyStore;
 import nl.knaw.dans.easy.domain.dataset.DatasetFactory;
@@ -32,14 +30,12 @@ import nl.knaw.dans.easy.domain.exceptions.ApplicationException;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainerFactory;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadataImpl;
-import nl.knaw.dans.easy.fedora.db.FileStoreSyncListener;
 
+import fedora.server.types.gen.MIMETypedStream;
 import org.joda.time.DateTime;
 import org.jrdf.graph.Node;
 import org.trippi.TrippiException;
 import org.trippi.TupleIterator;
-
-import fedora.server.types.gen.MIMETypedStream;
 
 public class EasyFedoraStore extends FedoraDmoStore implements EasyStore
 {

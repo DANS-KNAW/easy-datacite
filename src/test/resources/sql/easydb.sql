@@ -96,6 +96,15 @@ CREATE INDEX easy_files_visible_to
   ON easy_files
   USING btree
   (visible_to);
+  
+-- Index: easy_files_path
+
+-- DROP INDEX easy_files_path;
+
+CREATE INDEX easy_files_path
+  ON easy_files
+  USING btree
+  (path);
  
 -- Table: easy_folders
 
@@ -121,6 +130,15 @@ CREATE INDEX easy_folders_name
   ON easy_folders
   USING btree
   (name);
+  
+-- Index: easy_folders_path
+
+-- DROP INDEX easy_folders_path;
+
+CREATE INDEX easy_folders_path
+  ON easy_folders
+  USING btree
+  (path);
 
 -- Index: easy_folders_pid
 
