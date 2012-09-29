@@ -60,7 +60,7 @@ public class SubmissionDispatcherFactory
 
         if (Style.WEB.equals(style))
         {
-            processors.add(new MetadataValidator());
+            processors.add(new WebDepositFormMetadataValidator());
             processors.add(new MetadataPidGenerator());
             processors.add(new MetadataLicenseGenerator());
             threadedProcessors.add(new DatasetIngester(true));
@@ -68,7 +68,7 @@ public class SubmissionDispatcherFactory
         }
         else if (Style.SWORD_INGEST.equals(style))
         {
-            processors.add(new MetadataValidator());
+            processors.add(new WebDepositFormMetadataValidator());
             processors.add(new MetadataPidGenerator());
             processors.add(new MetadataLicenseGenerator());
             processors.add(new DatasetIngester(true));

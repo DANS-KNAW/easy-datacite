@@ -470,7 +470,7 @@ public class EasyMetadataImplTest extends AbstractJibxTest<EasyMetadataImpl>
         Assert.assertEquals("VERLAG", emd2.getEmdPublisher().getDcPublisher().get(0).getScheme());
 
         Assert.assertEquals("dc contributor", emd2.getEmdContributor().getDcContributor().get(0).getValue());
-        Assert.assertEquals("Herr Doctor Isigrim, I von", emd2.getEmdContributor().getEasContributor().get(0).toString());
+        Assert.assertEquals("Isigrim, Herr Doctor I von", emd2.getEmdContributor().getEasContributor().get(0).toString());
 
         BasicDate bd = emd2.getEmdDate().getDcDate().get(0);
         Assert.assertEquals("maart '97", bd.getValue());

@@ -22,7 +22,7 @@ public class AuthorTest
     public void testToString()
     {
         Author author = new Author("prof. dr. ir.", "HBAM", "van den", "Berg");
-        Assert.assertEquals("prof. dr. ir. Berg, HBAM van den", author.toString());
+        Assert.assertEquals("Berg, prof. dr. ir. HBAM van den", author.toString());
         author.setTitle("");
         Assert.assertEquals("Berg, HBAM van den", author.toString());
         author.setTitle(" ");

@@ -36,6 +36,10 @@ public class EasyHome implements HomeDirectory
             {
                 value = System.getProperty(EASY_HOME_KEY);
             }
+            else if (System.getenv("EASY_HOME") != null)
+            {
+                value = System.getenv("EASY_HOME");
+            }
             else
             {
                 logger.warn("CAUTION: no system property was found for the easy home directory!"

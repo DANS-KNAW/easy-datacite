@@ -12,6 +12,7 @@
 			usage="optional" />
 		<value ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="prefix" field="prefix" usage="optional" />
 		<value ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="surname" field="surname" usage="optional" />
+		<value ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="organization" field="organization" usage="optional" />
 
 		<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="entityId" usage="optional">
 			<value style="attribute" ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="identification-system"

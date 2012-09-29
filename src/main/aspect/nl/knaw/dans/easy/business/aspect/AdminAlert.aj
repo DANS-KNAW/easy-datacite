@@ -41,7 +41,15 @@ public aspect AdminAlert
         else
         {
             String msg = "ServiceException thrown by \n" + AspectUtil.printJoinPoint(thisJoinPoint);
-            ExternalServices.getAdminMailer().sendExceptionMail(msg, e);
+            try
+            {
+                ExternalServices.getAdminMailer().sendExceptionMail(msg, e);
+            }
+            catch (Exception mailException)
+            {
+                // shit happens
+                logger.warn("Could not send admin mail: ", mailException);
+            }
         }
         throw e;
     }

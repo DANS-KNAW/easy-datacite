@@ -12,7 +12,6 @@ import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.UnitOfWork;
 import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
 import nl.knaw.dans.common.lang.repo.exception.UnitOfWorkInterruptException;
-import nl.knaw.dans.common.lang.repo.relations.RelsConstants;
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.data.Data;

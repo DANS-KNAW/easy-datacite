@@ -342,6 +342,38 @@
 			<termName>available</termName>
 		</termPanel>
 		
+		<!-- new as of 2012-09-19 -->
+		<termPanel>
+			<properties>
+				<id>eas.creator</id>
+				<labelResourceKey>label.eas.creator</labelResourceKey>
+				<shortHelpResourceKey>shortHelp.eas.creator</shortHelpResourceKey>
+				<helpItem>EasCreator</helpItem>
+			</properties>
+			<modelClass>AuthorListWrapper</modelClass>
+			<panelClass>AuthorPanel</panelClass>
+			<required>true</required>
+			<repeating>true</repeating>
+			<namespacePrefix>eas</namespacePrefix>
+			<termName>creator</termName>
+		</termPanel>
+		
+		<!-- new as of 2012-09-19 -->
+		<termPanel>
+			<properties>
+				<id>eas.contributor</id>
+				<labelResourceKey>label.eas.contributor</labelResourceKey>
+				<shortHelpResourceKey>shortHelp.eas.contributor</shortHelpResourceKey>
+				<helpItem>EasContributor</helpItem>
+			</properties>
+			<modelClass>AuthorListWrapper</modelClass>
+			<panelClass>AuthorPanel</panelClass>
+			<required>false</required>
+			<repeating>true</repeating>
+			<namespacePrefix>eas</namespacePrefix>
+			<termName>contributor</termName>
+		</termPanel>
+		
 		<termPanel>
             <properties>
                 <id>eas.date</id>
@@ -474,7 +506,7 @@
                 <labelResourceKey>label.suppliedMetadata</labelResourceKey>
             </properties>
             <panels>
-            	<ref-panelId>dc.creator</ref-panelId>
+            	<ref-panelId>eas.creator</ref-panelId>
                 <ref-panelId>dc.title</ref-panelId>
                 <ref-panelId>dc.description</ref-panelId>
                 <ref-panelId>eas.created</ref-panelId>
@@ -482,7 +514,7 @@
                 <ref-panelId>dcterms.accessrights</ref-panelId>
         		<ref-panelId>eas.available</ref-panelId>
                 <ref-panelId>dcterms.audience</ref-panelId>
-                <ref-panelId>dc.contributor</ref-panelId>
+                <ref-panelId>eas.contributor</ref-panelId>
             	<ref-panelId>dc.subject</ref-panelId>
             	<ref-panelId>dcterms.spatial</ref-panelId>
             	<ref-panelId>dcterms.temporal</ref-panelId>
@@ -514,7 +546,7 @@
                     </properties>
                     <cssContainerClassName>depositForm</cssContainerClassName>
                     <panels>
-                    	<ref-panelId>dc.creator</ref-panelId>
+                    	<ref-panelId>eas.creator</ref-panelId>
                         <ref-panelId>dc.title</ref-panelId>
                         <ref-panelId>dc.description</ref-panelId>
                         <ref-panelId>dates</ref-panelId>
@@ -530,7 +562,7 @@
                     </properties>
                     <cssContainerClassName>depositForm</cssContainerClassName>
                     <panels>
-                    	<ref-panelId>dc.contributor</ref-panelId>
+                    	<ref-panelId>eas.contributor</ref-panelId>
                     	<ref-panelId>dc.subject</ref-panelId>
                     	<ref-panelId>dcterms.spatial</ref-panelId>
                     	<ref-panelId>dcterms.temporal</ref-panelId>
@@ -580,6 +612,7 @@
                     <cssContainerClassName>depositForm</cssContainerClassName>
                     <panels>
                     	<ref-panelId>dc.creator</ref-panelId>
+                    	<ref-panelId>eas.creator</ref-panelId>
                         <ref-panelId>dc.title</ref-panelId>
                         <ref-panelId>dc.description</ref-panelId>
                         <ref-panelId>eas.created</ref-panelId>
@@ -588,6 +621,7 @@
                 		<ref-panelId>eas.available</ref-panelId>
                         <ref-panelId>dcterms.audience</ref-panelId>
                         <ref-panelId>dc.contributor</ref-panelId>
+                        <ref-panelId>eas.contributor</ref-panelId>
                     	<ref-panelId>dc.subject</ref-panelId>
                     	<ref-panelId>dcterms.spatial</ref-panelId>
                     	<ref-panelId>dcterms.temporal</ref-panelId>
@@ -618,6 +652,7 @@
                     <cssContainerClassName>descriptionTab</cssContainerClassName>
                     <panels>
                         <ref-panelId>dc.creator</ref-panelId>
+                        <ref-panelId>eas.creator</ref-panelId>
                         <ref-panelId>dc.title</ref-panelId>
                         <ref-panelId>dc.description</ref-panelId>
                         <ref-panelId>eas.created</ref-panelId>
@@ -626,6 +661,7 @@
                 		<ref-panelId>eas.available</ref-panelId>
                         <ref-panelId>dcterms.audience</ref-panelId>
                         <ref-panelId>dc.contributor</ref-panelId>
+                        <ref-panelId>eas.contributor</ref-panelId>
                         <ref-panelId>dc.subject</ref-panelId>
                         <ref-panelId>dcterms.spatial</ref-panelId>
                         <ref-panelId>dcterms.temporal</ref-panelId>

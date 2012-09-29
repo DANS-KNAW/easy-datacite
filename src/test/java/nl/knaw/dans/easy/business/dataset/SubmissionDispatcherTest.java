@@ -38,7 +38,7 @@ public class SubmissionDispatcherTest extends TestHelper
     {   // FIXME sometimes the test fails: race condition?
         SubmissionDispatcher dispatcher = new SubmissionDispatcher();
         List<SubmissionProcessor> processors = new ArrayList<SubmissionProcessor>();
-        processors.add(new MetadataValidator());
+        processors.add(new WebDepositFormMetadataValidator());
         dispatcher.setProcessors(processors);
         
         MetadataFormat[] formats = MetadataFormat.values();

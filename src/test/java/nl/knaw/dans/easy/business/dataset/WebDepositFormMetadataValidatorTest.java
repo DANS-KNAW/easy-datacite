@@ -1,5 +1,7 @@
 package nl.knaw.dans.easy.business.dataset;
 
+import static org.junit.Assert.*;
+
 import java.util.List;
 
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
@@ -19,11 +21,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 
-public class MetadataValidatorTest extends TestHelper
+public class WebDepositFormMetadataValidatorTest extends TestHelper
 {
     
     private static EasyDepositService SERVICE;
-    
+     
     @BeforeClass
     public static void beforeClass() throws ServiceException
     {
@@ -32,15 +34,24 @@ public class MetadataValidatorTest extends TestHelper
     }
     
     @Test
-    public void testValidation() throws ServiceException
+    public void testValidation() throws Exception
     {
-        MetadataFormat format = MetadataFormat.ARCHAEOLOGY;
+        for (MetadataFormat format : MetadataFormat.values())
+        {
+            System.out.println(format.toString());
+            DatasetSubmissionImpl submission = testValidation(format);
+            assertFalse(submission.isMetadataValid());
+        }
+    }
+    
+    private DatasetSubmissionImpl testValidation(MetadataFormat format) throws ServiceException
+    {
         DepositDiscipline discipline = SERVICE.getDiscipline(format);
         FormDefinition definition = discipline.getEmdFormDescriptor().getFormDefinition(DepositDiscipline.EMD_DEPOSITFORM_WIZARD);
         Dataset dataset = new DatasetImpl("dummy-dataset:1", format);
         
         DatasetSubmissionImpl submission = new DatasetSubmissionImpl(definition, dataset, null);
-        MetadataValidator validator = new MetadataValidator();
+        WebDepositFormMetadataValidator validator = new WebDepositFormMetadataValidator();
         validator.process(submission);
         
         for (FormPage formPage : definition.getFormPages())
@@ -49,7 +60,7 @@ public class MetadataValidatorTest extends TestHelper
             List<PanelDefinition> panelDefinitions = formPage.getPanelDefinitions();
             iteratePanels(panelDefinitions);
         }
-        
+        return submission;
     }
 
     private void iteratePanels(List<PanelDefinition> panelDefinitions)

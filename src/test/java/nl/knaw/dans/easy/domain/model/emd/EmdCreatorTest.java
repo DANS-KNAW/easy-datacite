@@ -30,10 +30,10 @@ public class EmdCreatorTest
         Assert.assertEquals("Frank ZappafooBob Dylanfoo", emdc.toString("foo"));
 
         emdc.getEasCreator().add(new Author("Dr.", "PHD", "van", "Vliet"));
-        Assert.assertEquals("Frank ZappafooBob DylanfoofooDr. Vliet, PHD van", emdc.toString("foo"));
-        Assert.assertEquals("Frank Zappa; Bob Dylan; ; Dr. Vliet, PHD van", emdc.toString("; "));
+        Assert.assertEquals("Frank ZappafooBob DylanfoofooVliet, Dr. PHD van", emdc.toString("foo"));
+        Assert.assertEquals("Frank Zappa; Bob Dylan; ; Vliet, Dr. PHD van", emdc.toString("; "));
 
-        Assert.assertEquals("Frank Zappa;Bob Dylan;;Dr. Vliet, PHD van", emdc.toString());
+        Assert.assertEquals("Frank Zappa;Bob Dylan;;Vliet, Dr. PHD van", emdc.toString());
     }
 
     @Test

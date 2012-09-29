@@ -2,6 +2,9 @@ package nl.knaw.dans.easy.business.dataset;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.easy.domain.form.FormDefinition;
 import nl.knaw.dans.easy.domain.form.FormPage;
@@ -13,7 +16,15 @@ import nl.knaw.dans.easy.domain.model.emd.Term;
 import nl.knaw.dans.easy.domain.model.emd.types.MetadataItem;
 import nl.knaw.dans.easy.domain.model.emd.types.Spatial;
 
-public class MetadataValidator implements SubmissionProcessor
+/**
+ * SubmissionProcessor that validates metadata and reports in a web-ui-specific manner.
+ * If you want to do metadata validating and report in another medium-specific manner
+ * (xml-specific for instance) than write your own.
+ * 
+ * @author henkb
+ *
+ */
+public class WebDepositFormMetadataValidator implements SubmissionProcessor
 {
     
     public static final String MSG_REQUIRED = "deposit.field_required";
@@ -21,6 +32,9 @@ public class MetadataValidator implements SubmissionProcessor
     
     // To complete the form model, alongside a TermPanel, a ContainerPanel should be implemented. As for now we do not validate containers.
     private static final String CONTAINERPANEL_NOT_IMPLEMENTED = "containerPanel not implemented";
+    
+    private static final Logger logger = LoggerFactory.getLogger(WebDepositFormMetadataValidator.class);
+    
 
     private boolean metadataIsValid =true;
     
@@ -101,6 +115,7 @@ public class MetadataValidator implements SubmissionProcessor
             if(items.isEmpty())
             {
                 metadataIsValid = false;
+                logger.debug("Empty item on required field " + tpDef.getId());
                 tpDef.addErrorMessage(MSG_REQUIRED);
             }
         }
@@ -124,6 +139,7 @@ public class MetadataValidator implements SubmissionProcessor
                     if (!item.isComplete())
                     {
                         metadataIsValid = false;
+                        logger.debug("Incomplete item on field " + tpDef.getId());
                         tpDef.addItemErrorMessage(pointCounter, MSG_INCOMPLETE);
                     }
                 }
@@ -133,6 +149,7 @@ public class MetadataValidator implements SubmissionProcessor
                     if (!item.isComplete())
                     {
                         metadataIsValid = false;
+                        logger.debug("Incomplete item on field " + tpDef.getId());
                         tpDef.addItemErrorMessage(boxCounter, MSG_INCOMPLETE);
                     }
                 }
@@ -141,6 +158,7 @@ public class MetadataValidator implements SubmissionProcessor
             else if (!item.isComplete())
             {
                 metadataIsValid = false;
+                logger.debug("Incomplete item on field " + tpDef.getId());
                 tpDef.addItemErrorMessage(index, MSG_INCOMPLETE);
             }
         }
