@@ -63,7 +63,7 @@ public class SimpleLabelPanel extends AbstractAtomicPanel
 
     private void init()
     {
-        this.add(new Label("label", new ResourceModel(label, getString(DEFAULT_RESOURCE_VALUE))));
+        this.add(new Label("label", new ResourceModel(label, getString(DEFAULT_RESOURCE_VALUE))).setEscapeModelStrings(false));
         this.add(new Label("requiredMark","*").setVisible(required)); 
         HelpPopup popup = new HelpPopup("popup", anchorName, new HelpFileReader(anchorName).read());
         popup.setVisible(popUpButtonIsVisible);

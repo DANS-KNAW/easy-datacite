@@ -295,6 +295,7 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
             this.getParent().setVisible(false); //if no data, don't display.
     }
     
+    @SuppressWarnings("rawtypes")
     protected void init()
     {
         getListItems(); // make sure variable <listItems> is initialized 
@@ -326,12 +327,14 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
             }
         };
 
+        @SuppressWarnings("unchecked")
         final ListView listView = new ListView("listView", listItems) 
         {
 
 			private static final long serialVersionUID = -1211775601610374234L;
 
-			@Override
+			
+            @Override
 			protected void populateItem(final ListItem item) 
 			{
 				item.add(new EasyComponentFeedbackPanel("itemFeedback", item));
@@ -339,7 +342,8 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
 
 				// call on subclasses to contribute their repeating component(s)
 				// on a panel.
-				item.add(getRepeatingComponentPanel(item));
+				Panel repeatingComponentPanel = getRepeatingComponentPanel(item);
+				item.add(repeatingComponentPanel);
 				
 				//create a holder of buttons minus and plus
 				//display it when in edit mode.

@@ -16,6 +16,7 @@ import nl.knaw.dans.easy.domain.model.emd.Term;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.deposit.repeasy.Archis2ListWrapper;
+import nl.knaw.dans.easy.web.deposit.repeasy.AuthorListWrapper;
 import nl.knaw.dans.easy.web.deposit.repeasy.BasicDateListWrapper;
 import nl.knaw.dans.easy.web.deposit.repeasy.BasicRemarkListWrapper;
 import nl.knaw.dans.easy.web.deposit.repeasy.BasicStringListWrapper;
@@ -142,6 +143,12 @@ public class EmdModelFactory implements IModelFactory
     {
         Archis2ListWrapper a2lw = new Archis2ListWrapper(getEasyMetadata());
         return new Model<Archis2ListWrapper>(a2lw);
+    }
+    
+    public IModel<AuthorListWrapper> createAuthorListWrapperModel(StandardPanelDefinition definition)
+    {
+        AuthorListWrapper alw = new AuthorListWrapper(getEasyMetadataList(definition));
+        return new Model(alw);
     }
     
     @SuppressWarnings({"unchecked", "rawtypes"})

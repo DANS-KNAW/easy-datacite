@@ -133,6 +133,39 @@ table.widget_deposit {
 	table-layout: fixed;
 	width: 100%;
 }
+
+.listPanelRight {
+	float: right;
+	width: 100%;
+}
+
+.repeating0 {
+	
+}
+
+.repeating1 {
+	border-top: 1px solid #ddd;
+	padding-top: 0.8em;
+}
+
+table.list {
+	table-layout: fixed;
+	width: 100%;
+}
+
+td.listValueCell {
+	padding-left: 10px;
+	padding-top: 0.2em;
+	padding-bottom: 0.2em;
+	width: 67%;
+}
+td.listKeyCell {
+	padding-top: 0.2em;
+	padding-bottom: 0.2em;
+	width: 33%;
+	font-style: italic;
+}
+
 .w_table_cell {
 	text-align: left;
 	vertical-align: top;

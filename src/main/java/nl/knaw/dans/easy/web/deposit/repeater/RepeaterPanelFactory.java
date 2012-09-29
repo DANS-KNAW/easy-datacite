@@ -115,6 +115,13 @@ public class RepeaterPanelFactory implements IPanelFactory
         textFieldPanel.setDefinition(spDef);
         return textFieldPanel;
     }
+    
+    public Panel createAuthorPanel(StandardPanelDefinition spDef, IModel model)
+    {
+        AuthorPanel authorPanel = new AuthorPanel(getPanelWicketId(), model);
+        authorPanel.setDefinition(spDef);
+        return authorPanel;
+    }
 
     public Panel createRadioGroupPanel(StandardPanelDefinition spDef, IModel model) throws ServiceException
     {

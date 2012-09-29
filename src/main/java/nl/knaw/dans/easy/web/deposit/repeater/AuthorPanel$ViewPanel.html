@@ -1,0 +1,48 @@
+<html xmlns:wicket>
+<wicket:panel>
+	<div class="listPanelRight">
+	<wicket:enclosure>
+	<!-- next element gets class 'repeating0' (if first in list) or 'repeating1' -->
+	<div wicket:id="item-demarcation"></div>
+	</wicket:enclosure>
+	<table class="list">
+	<wicket:enclosure>
+	<tr>
+	<td class="listKeyCell"><wicket:message key="key.author.title">Title</wicket:message></td>
+	<td class="listValueCell"><span wicket:id="titleLabel"></span></td>
+	</tr>
+	</wicket:enclosure>
+	<wicket:enclosure>
+	<tr>
+	<td class="listKeyCell"><wicket:message key="key.author.initials">Initials</wicket:message></td>
+	<td class="listValueCell"><span wicket:id="initialsLabel"></span></td>
+	</tr>
+	</wicket:enclosure>
+	<wicket:enclosure>
+	<tr>
+	<td class="listKeyCell"><wicket:message key="key.author.insertions">Insertions</wicket:message></td>
+	<td class="listValueCell"><span wicket:id="insertionsLabel"></span></td>
+	</tr>
+	</wicket:enclosure>
+	<wicket:enclosure>
+	<tr>
+	<td class="listKeyCell"><wicket:message key="key.author.surname">Surname</wicket:message></td>
+	<td class="listValueCell"><span wicket:id="surnameLabel"></span></td>
+	</tr>
+	</wicket:enclosure>
+	<wicket:enclosure>
+	<tr>
+	<td class="listKeyCell"><wicket:message key="key.author.dai">DAI</wicket:message></td>
+	<td class="listValueCell"><span wicket:id="idLabel"></span></td>
+	</tr>
+	</wicket:enclosure>
+	<wicket:enclosure>
+	<tr>
+	<td class="listKeyCell"><wicket:message key="key.author.organization">Organization</wicket:message></td>
+	<td class="listValueCell"><span wicket:id="organizationLabel"></span></td>
+	</tr>
+	</wicket:enclosure>
+	</table>
+	</div>
+</wicket:panel>
+</html>

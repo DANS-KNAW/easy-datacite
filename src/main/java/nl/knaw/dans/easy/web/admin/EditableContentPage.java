@@ -121,7 +121,8 @@ public class EditableContentPage extends AbstractEasyNavPage {
         addLink("refineHelp", "/editable/help/Refine.template");        
 		
 		// LINKS TO DEPOSIT HELP TEXTS
-		addLink("Creator", "/editable/help/Creator.template");
+		addLink("CreatorDC", "/editable/help/Creator.template");
+		addLink("CreatorEAS", "/editable/help/EasCreator.template");
 		addLink("Title", "/editable/help/Title.template");
 		addLink("Description", "/editable/help/Description.template");
 		addLink("DateCreated", "/editable/help/DateCreated.template");
@@ -130,7 +131,8 @@ public class EditableContentPage extends AbstractEasyNavPage {
 		addLink("Upload", "/editable/help/Upload.template");
 		addLink("Audience", "/editable/help/Audience.template");
 		
-		addLink("Contributor", "/editable/help/Contributor.template");
+		addLink("ContributorDC", "/editable/help/Contributor.template");
+		addLink("ContributorEAS", "/editable/help/EasContributor.template");
 		addLink("Subject", "/editable/help/Subject.template");
 		addLink("Spatial", "/editable/help/Spatial.template");
 		addLink("Temporal", "/editable/help/Temporal.template");

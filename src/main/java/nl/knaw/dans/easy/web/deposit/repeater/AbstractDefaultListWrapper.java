@@ -34,7 +34,7 @@ public abstract class AbstractDefaultListWrapper<T extends Object, S extends Obj
     {
         this.wrappedList = wrappedList;
     }
-    
+
     public AbstractDefaultListWrapper(List<S> wrappedList, String schemeName, String schemeId)
     {
         this.wrappedList = wrappedList;
@@ -45,7 +45,7 @@ public abstract class AbstractDefaultListWrapper<T extends Object, S extends Obj
     /**
      * Returns <code>null</code>. Default implementation in case we don't need a ChoiceRenderer.
      */
-    public ChoiceRenderer getChoiceRenderer()
+    public ChoiceRenderer<?> getChoiceRenderer()
     {
         return null;
     }

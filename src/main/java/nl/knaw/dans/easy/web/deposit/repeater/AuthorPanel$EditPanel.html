@@ -1,0 +1,36 @@
+<html xmlns:wicket>
+<wicket:panel>
+	<div class="listPanelRight">
+	<wicket:enclosure>
+	<!-- next element gets class 'repeating0' (if first in list) or 'repeating1' -->
+	<div wicket:id="item-demarcation"></div>
+	</wicket:enclosure>
+	<table class="list">
+	<tr>
+	<td class="listKeyCell"><wicket:message key="key.author.title">Title</wicket:message></td>
+	<td class="listValueCell"><input type="text" class="form_text w_medium" wicket:id="titleField" /></td>
+	</tr>
+	<tr>
+	<td class="listKeyCell"><wicket:message key="key.author.initials">Initials</wicket:message></td>
+	<td class="listValueCell"><input type="text" class="form_text w_medium" wicket:id="initialsField" /></td>
+	</tr>
+	<tr>
+	<td class="listKeyCell"><wicket:message key="key.author.insertions">Insertions</wicket:message></td>
+	<td class="listValueCell"><input type="text" class="form_text w_medium" wicket:id="insertionsField" /></td>
+	</tr>
+	<tr>
+	<td class="listKeyCell"><wicket:message key="key.author.surname">Surname</wicket:message></td>
+	<td class="listValueCell"><input type="text" class="form_text w_medium" wicket:id="surnameField" /></td>
+	</tr>
+	<tr>
+	<td class="listKeyCell"><wicket:message key="key.author.dai">DAI</wicket:message></td>
+	<td class="listValueCell"><input type="text" class="form_text w_medium" wicket:id="idField" /></td>
+	</tr>
+	<tr>
+	<td class="listKeyCell"><wicket:message key="key.author.organization">Organization</wicket:message></td>
+	<td class="listValueCell"><input type="text" class="form_text w_medium" wicket:id="organizationField" /></td>
+	</tr>
+	</table>
+	</div>
+</wicket:panel>
+</html>

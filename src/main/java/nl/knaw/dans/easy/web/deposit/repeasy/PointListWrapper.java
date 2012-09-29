@@ -67,7 +67,7 @@ public class PointListWrapper extends AbstractDefaultListWrapper<PointListWrappe
     }
     
     @Override
-    public ChoiceRenderer getChoiceRenderer()
+    public ChoiceRenderer<?> getChoiceRenderer()
     {
         return new KvpChoiceRenderer();
     }
