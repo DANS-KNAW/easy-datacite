@@ -539,9 +539,10 @@
      <str name="echoParams">none</str>
      <float name="tie">0.1</float>
      <str name="qf">
-     dc_title^1.1 dc_description^1 dc_creator^1 dc_subject^1 dc_publisher^0.8 dc_contributor^0.85 
+     dc_title^1.1 dc_description^1 dc_creator^1 dc_subject^1 dc_publisher^0.8 dc_contributor^0.85
      dc_coverage^0.5 dc_format^0.5 dc_identifier^0.5 dc_language^0.2 dc_relation^0.5 dc_rights^0.5
-     dc_source^0.5 dc_type^0.5
+     dc_source^0.5 dc_type^0.5 archaeology_dcterms_temporal^0.2
+     dai_creator^0.5 dai_contributor^0.4
      </str>
      <str name="q.alt">*:*</str>   
      <!--
