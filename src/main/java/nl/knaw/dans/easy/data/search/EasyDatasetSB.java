@@ -67,6 +67,14 @@ public class EasyDatasetSB extends DatasetSB
 	@SearchField(name = ARCHAEOLOGY_DCTERMS_TEMPORAL)
 	private List<String> archaeologyDctermsTemporal;
 	
+	public static final String DAI_CREATOR = "dai_creator";
+	@SearchField(name = DAI_CREATOR)
+	public List<String> daiCreators;
+	
+	public static final String DAI_CONTRIBUTOR = "dai_contributor";
+	@SearchField(name = DAI_CONTRIBUTOR)
+	public List<String> daiContributors;
+	
 	public static final String DEPOSITOR_ID_FIELD = "amd_depositor_id";
 	//TODO: should be required=true!
 	@SearchField(name = DEPOSITOR_ID_FIELD)
@@ -250,5 +258,25 @@ public class EasyDatasetSB extends DatasetSB
     public void setArchaeologyDctermsTemporal(List<String> archaeologyDctermsTemporal)
     {
         this.archaeologyDctermsTemporal = archaeologyDctermsTemporal;
+    }
+
+    public List<String> getDaiCreators()
+    {
+        return daiCreators;
+    }
+
+    public void setDaiCreators(List<String> daiCreators)
+    {
+        this.daiCreators = daiCreators;
+    }
+
+    public List<String> getDaiContributors()
+    {
+        return daiContributors;
+    }
+
+    public void setDaiContributors(List<String> daiContributors)
+    {
+        this.daiContributors = daiContributors;
     }
 }

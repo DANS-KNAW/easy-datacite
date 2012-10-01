@@ -276,4 +276,9 @@ public class Author implements MetadataItem
                 || StringUtils.isNotBlank(title);
     }
 
+    public boolean hasDigitalAuthorId()
+    {
+        return EmdConstants.SCHEME_DAI.equals(scheme) && StringUtils.isNotBlank(entityId);
+    }
+
 }

@@ -85,4 +85,17 @@ public class EmdContributor extends AbstractEmdContainer
         this.easContributor = easContributor;
     }
 
+    public List<String> getDigitalAuthorIds()
+    {
+        List<String> dais = new ArrayList<String>();
+        for (Author author : easContributor)
+        {
+            if (author.hasDigitalAuthorId())
+            {
+                dais.add(author.getEntityId());
+            }
+        }
+        return dais;
+    }
+
 }
