@@ -35,30 +35,30 @@ public class TestValidation extends Fixture
     @Parameters
     public static Collection<String[]> createParameters() throws Exception
     {
-        final List<String[]> constructortSignatureInstances = new ArrayList<String[]>();
+        final List<String[]> constructorSignatureInstances = new ArrayList<String[]>();
         
-        constructortSignatureInstances.add(new String[] {"invalidAccessRights.xml", " is not a valid key in the list "});
+        constructorSignatureInstances.add(new String[] {"invalidAccessRights.xml", " is not a valid key in the list "});
 
         // no longer causes a draft dataset after refactoring nl.knaw.dans.easy.business.dataset.MetadataValidator
-        constructortSignatureInstances.add(new String[] {"missingMetadata.xml", "[deposit.field_required]"});
+        constructorSignatureInstances.add(new String[] {"missingMetadata.xml", "Missing required field dc.creator"});
         
         // used to cause a draft dataset because the notification message could not be created
-        constructortSignatureInstances.add(new String[] {"disciplineWithWhiteSpace.xml", null});
+        constructorSignatureInstances.add(new String[] {"disciplineWithWhiteSpace.xml", null});
 
         // in this example a schema id is added manually after download of the xml from a test dataset
-        constructortSignatureInstances.add(new String[] {"SpatialPoint.xml", null});
+        constructorSignatureInstances.add(new String[] {"SpatialPoint.xml", null});
         
         // just as downloaded from a test dataset
-        constructortSignatureInstances.add(new String[] {"SpatialPointWithoutSchemaId.xml", "Expected is 'archaeology.eas.spatial'"});
+        constructorSignatureInstances.add(new String[] {"SpatialPointWithoutSchemaId.xml", "Expected is 'archaeology.eas.spatial'"});
         
         // TODO make error message mores specific, needs architectural solution see also EBIU workaround
-        constructortSignatureInstances.add(new String[] {"SpatialPointWithoutX.xml", "invalid"});
-        constructortSignatureInstances.add(new String[] {"SpatialPointWithoutY.xml", "invalid"});
+        constructorSignatureInstances.add(new String[] {"SpatialPointWithoutX.xml", "invalid"});
+        constructorSignatureInstances.add(new String[] {"SpatialPointWithoutY.xml", "invalid"});
 
-        constructortSignatureInstances.add(new String[] {"InvalidDiscipline.xml", "Value 'nonsense' is not facet-valid"});
-        constructortSignatureInstances.add(new String[] {"SaxError.xml", "must be terminated by the matching end-tag"});
+        constructorSignatureInstances.add(new String[] {"InvalidDiscipline.xml", "Value 'nonsense' is not facet-valid"});
+        constructorSignatureInstances.add(new String[] {"SaxError.xml", "must be terminated by the matching end-tag"});
 
-        return constructortSignatureInstances;
+        return constructorSignatureInstances;
     }
 
     @Test

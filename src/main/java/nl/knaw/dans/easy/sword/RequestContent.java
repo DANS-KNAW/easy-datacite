@@ -53,12 +53,12 @@ public class RequestContent
 
     private static final String MESSAGE = "Expecting a folder with files and a file with one of the names:" + MDFileName.fileNames();
 
-    private final File          tempDir;
-    private final File          dataFolder;
-    private final List<File>    files;
-    private final EasyMetadata  easyMetadata;
+    private final File tempDir;
+    private final File dataFolder;
+    private final List<File> files;
+    private final EasyMetadata easyMetadata;
 
-    private static final Logger logger  = LoggerFactory.getLogger(RequestContent.class);
+    private static final Logger logger = LoggerFactory.getLogger(RequestContent.class);
 
     public RequestContent(final InputStream inputStream) throws SWORDException, SWORDErrorException
     {
@@ -101,7 +101,7 @@ public class RequestContent
             }
         }
         if (messages.size() > 0)
-            throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "file name constraints violated: " +Arrays.deepToString(messages.toArray())+"\n");
+            throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "file name constraints violated: " + Arrays.deepToString(messages.toArray()) + "\n");
     }
 
     private EasyMetadata createEasyMetadata(final File metadataFile) throws SWORDErrorException, SWORDException

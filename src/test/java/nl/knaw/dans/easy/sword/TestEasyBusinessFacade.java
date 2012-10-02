@@ -10,7 +10,6 @@ import nl.knaw.dans.common.lang.util.FileUtil;
 import nl.knaw.dans.easy.domain.form.FormDefinition;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadataImpl;
-import nl.knaw.dans.easy.domain.model.emd.Term;
 import nl.knaw.dans.easy.sword.util.Fixture;
 import nl.knaw.dans.easy.sword.util.MockUtil;
 

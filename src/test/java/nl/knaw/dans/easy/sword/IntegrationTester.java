@@ -8,17 +8,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.servlet.http.HttpServletResponse;
 
-import nl.knaw.dans.common.lang.util.FileUtil;
 import nl.knaw.dans.easy.business.services.EasyDepositService;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.sword.jetty.Start;
-import nl.knaw.dans.easy.sword.util.MockUtil;
 import nl.knaw.dans.easy.sword.util.SubmitFixture;
 import nl.knaw.dans.easy.util.EasyHome;
 
@@ -40,7 +35,6 @@ import org.junit.Test;
 import org.mortbay.jetty.Server;
 import org.purl.sword.base.ErrorCodes;
 import org.purl.sword.base.SWORDAuthenticationException;
-import org.purl.sword.base.SWORDErrorException;
 import org.purl.sword.base.SWORDException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -209,7 +203,7 @@ public class IntegrationTester
     {
         final RequestEntity request = createRequest(SubmitFixture.getFile("max-path.zip"));
         final PostMethod method = createPostMethod(request, false, false);
-        getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
+        getResponse(method, createClient(DEPOSITOR, (150 * SECOND)));
         assertResponseCode(method, HttpStatus.SC_ACCEPTED);
     }
 

@@ -1,9 +1,9 @@
 package nl.knaw.dans.easy.sword;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import nl.knaw.dans.common.jibx.JiBXObjectFactory;
 import nl.knaw.dans.common.lang.xml.SchemaCreationException;
@@ -11,14 +11,17 @@ import nl.knaw.dans.common.lang.xml.ValidatorException;
 import nl.knaw.dans.common.lang.xml.XMLDeserializationException;
 import nl.knaw.dans.common.lang.xml.XMLErrorHandler;
 import nl.knaw.dans.common.lang.xml.XMLErrorHandler.Reporter;
-import nl.knaw.dans.easy.business.dataset.MetadataValidator;
 import nl.knaw.dans.easy.domain.emd.validation.FormatValidator;
 import nl.knaw.dans.easy.domain.form.FormDefinition;
 import nl.knaw.dans.easy.domain.form.FormPage;
 import nl.knaw.dans.easy.domain.form.PanelDefinition;
+import nl.knaw.dans.easy.domain.form.SubHeadingDefinition;
+import nl.knaw.dans.easy.domain.form.TermPanelDefinition;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadataImpl;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadataValidator;
+import nl.knaw.dans.easy.domain.model.emd.Term;
+import nl.knaw.dans.easy.domain.model.emd.types.MetadataItem;
 
 import org.purl.sword.base.ErrorCodes;
 import org.purl.sword.base.SWORDErrorException;
@@ -27,7 +30,7 @@ import org.xml.sax.SAXException;
 
 public class EasyMetadataFacade
 {
-    private static final String DEFAULT_EMD_VERSION = EasyMetadataValidator.VERSION_0_1;
+    private static final String DEFAULT_SYNTAX_VERSION = EasyMetadataValidator.VERSION_0_1;
 
     /** Just a wrapper for exceptions. */
     private static EasyMetadata unmarshallEasyMetaData(final byte[] data) throws SWORDErrorException
@@ -60,17 +63,56 @@ public class EasyMetadataFacade
         return unmarshalled;
     }
 
-    /** Just a wrapper for exceptions. */
+    /** Just a wrapper for exceptions. To be replaced by implicit validation by the crosswalker. */
     private static void validateMandatoryFields(final EasyMetadata metadata) throws SWORDErrorException, SWORDException
     {
         final FormDefinition formDefinition = EasyBusinessFacade.getFormDefinition(metadata);
-        if (!new MetadataValidator().validate(formDefinition, metadata))
-            throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, ("invalid meta data\n" + extractValidationMessages(formDefinition)));
+        final List<String> messages = new ArrayList<String>();
+        for (final FormPage formPage : formDefinition.getFormPages())
+            validatePanels(metadata, formPage.getPanelDefinitions(), messages);
+        if (!messages.isEmpty())
+        {
+            final String message = "invalid meta data\n" + Arrays.toString(messages.toArray());
+            throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, message);
+        }
+    }
+
+    private static void validatePanels(final EasyMetadata emd, final List<PanelDefinition> panelDefinitions, final List<String> messages)
+    {
+        // equivalent of nl.knaw.dans.easy.tools.batch.EasyMetadataCheck.iteratePanels()
+        for (final PanelDefinition pDef : panelDefinitions)
+        {
+            if (pDef instanceof TermPanelDefinition)
+                validateSinglePanel(emd, (TermPanelDefinition) pDef, messages);
+            if (pDef instanceof SubHeadingDefinition)
+            {
+                final SubHeadingDefinition shDef = (SubHeadingDefinition) pDef;
+                validatePanels(emd, shDef.getPanelDefinitions(), messages);
+            }
+        }
+    }
+
+    private static void validateSinglePanel(final EasyMetadata emd, final TermPanelDefinition tpDef, final List<String> messages)
+    {
+        final Term term = new Term(tpDef.getTermName(), tpDef.getNamespacePrefix());
+        final List<MetadataItem> items = emd.getTerm(term);
+
+        // in 2012-09 a mandatory eas.creator was added, we stick to old behavior
+        final boolean required = tpDef.isRequired() && !tpDef.getId().equals("eas.creator");
+        if (required && items.isEmpty())
+            messages.add("Missing required field " + tpDef.getId());
+        for (int index = 0; index < items.size(); index++)
+        {
+            final MetadataItem item = items.get(index);
+            if (!item.isComplete())
+                messages.add("Incomplete value " + tpDef.getId() + " index=" + index);
+        }
     }
 
     /** Just a wrapper for exceptions. */
     private static void validateControlledVocabulairies(final EasyMetadata metadata) throws SWORDErrorException, SWORDException
     {
+        // equivalent of nl.knaw.dans.easy.tools.batch.EasyMetadataCheck.validateSemantics()
         final EasySwordValidationReporter validationReporter = new EasySwordValidationReporter();
         FormatValidator.instance().validate(metadata, validationReporter);
         if (!validationReporter.isMetadataValid())
@@ -83,7 +125,7 @@ public class EasyMetadataFacade
         final XMLErrorHandler handler = new XMLErrorHandler(Reporter.off);
         try
         {
-            EasyMetadataValidator.instance().validate(handler, new String(data, "UTF-8"), DEFAULT_EMD_VERSION);
+            EasyMetadataValidator.instance().validate(handler, new String(data, "UTF-8"), DEFAULT_SYNTAX_VERSION);
         }
         catch (final ValidatorException exception)
         {
@@ -103,22 +145,5 @@ public class EasyMetadataFacade
         }
         if (!handler.passed())
             throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, "Invalid EASY metadata: \n" + handler.getMessages());
-    }
-
-    private static String extractValidationMessages(final FormDefinition formDefinition)
-    {
-        String msg = "";
-        for (final FormPage formPage : formDefinition.getFormPages())
-            for (final PanelDefinition pDef : formPage.getPanelDefinitions())
-            {
-                final String prefix = " " + formPage.getLabelResourceKey() + "." + pDef.getLabelResourceKey();
-                if (pDef.getErrorMessages().size() > 0)
-                    msg += prefix + " " + Arrays.deepToString(pDef.getErrorMessages().toArray());
-                final Map<Integer, List<String>> messages = pDef.getItemErrorMessages();
-                for (final int i : messages.keySet())
-                    if (messages.get(i).size() > 0)
-                        msg += prefix + "." + i + messages.get(i);
-            }
-        return msg;
     }
 }
