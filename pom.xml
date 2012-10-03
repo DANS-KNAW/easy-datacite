@@ -9,10 +9,10 @@
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<name>Easy Test Tools</name>
+	<name>Easy Business Mocking</name>
 	<artifactId>easy-business-mocking</artifactId>
 	<packaging>jar</packaging>
-	<description>test tools for easy interface layer</description>
+	<description>Mocking facilities for the Easy Business library.  For use in unit tests.</description>
 
 	<licenses>
 		<license>
