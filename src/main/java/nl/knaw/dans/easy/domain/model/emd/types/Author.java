@@ -2,6 +2,8 @@ package nl.knaw.dans.easy.domain.model.emd.types;
 
 import java.net.URI;
 
+import nl.knaw.dans.common.lang.id.DAI;
+
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -20,7 +22,7 @@ public class Author implements MetadataItem
     /**
      * The default identification system. {@value}
      */
-    public static final String DEFAULT_SCHEME = EmdConstants.SCHEME_DAI;
+    public static final String DEFAULT_SCHEME = EmdConstants.SCHEME_DAI;    
 
     /**
      *
@@ -225,7 +227,7 @@ public class Author implements MetadataItem
     }
 
     /**
-     * Set the entity id of this author. If the identification system was not yet set, it is set to
+     * Set the entity id of this author. If the scheme was not yet set, it is set to
      * "DAI".
      * 
      * @param entityId
@@ -278,7 +280,19 @@ public class Author implements MetadataItem
 
     public boolean hasDigitalAuthorId()
     {
-        return EmdConstants.SCHEME_DAI.equals(scheme) && StringUtils.isNotBlank(entityId);
+        return EmdConstants.SCHEME_DAI.equals(scheme) && DAI.isValid(entityId);
+    }
+    
+    public DAI getDigitalAuthorId()
+    {
+        if (!hasDigitalAuthorId())
+        {
+            return null;
+        }
+        else
+        {
+            return new DAI(entityId);
+        }
     }
 
 }
