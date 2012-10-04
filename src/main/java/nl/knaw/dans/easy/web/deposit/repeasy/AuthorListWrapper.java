@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import nl.knaw.dans.common.lang.id.DAI;
 import nl.knaw.dans.easy.domain.model.emd.types.Author;
 import nl.knaw.dans.easy.web.deposit.repeater.AbstractDefaultListWrapper;
 import nl.knaw.dans.easy.web.deposit.repeater.AbstractEasyModel;
@@ -76,6 +77,8 @@ public class AuthorListWrapper extends AbstractDefaultListWrapper<AuthorListWrap
         private String surname;
         private String title;
         private String organization;
+        
+        private Author object;
 
         protected AuthorModel()
         {
@@ -84,12 +87,18 @@ public class AuthorListWrapper extends AbstractDefaultListWrapper<AuthorListWrap
 
         public AuthorModel(Author author)
         {
+            this.object = author;
             this.entityId = author.getEntityId();
             this.initials = author.getInitials();
             this.prefix = author.getPrefix();
             this.surname = author.getSurname();
             this.title = author.getTitle();
             this.organization = author.getOrganization();
+        }
+        
+        public Author getObject()
+        {
+            return object;
         }
 
         protected Author getAuthor()
@@ -103,9 +112,9 @@ public class AuthorListWrapper extends AbstractDefaultListWrapper<AuthorListWrap
             author.setOrganization(organization);
             author.setEntityId(entityId);
             
-            if (!StringUtils.isBlank(entityId) && !Pattern.matches("\\d{8}[A-Z0-9]", entityId))
+            if (StringUtils.isNotBlank(entityId) && !DAI.isValid(entityId))
             {
-                addErrorMessage("The digital author id '" + entityId + "' does not conply to the DAI-format (8 digits + capital or digit).");
+                addErrorMessage("The Digital Author Id '" + entityId + "' is not valid. (" + DAI.explain(entityId) + ")");
             }
             if (hasPersonalEntries() && (StringUtils.isBlank(initials) || StringUtils.isBlank(surname)))
             {
@@ -113,6 +122,8 @@ public class AuthorListWrapper extends AbstractDefaultListWrapper<AuthorListWrap
             }
             return author;
         }
+        
+        
 
         public String getEntityId()
         {

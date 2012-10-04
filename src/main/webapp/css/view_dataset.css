@@ -163,22 +163,3 @@ div.tabpanel div.tab-row li.selected{
 	width: 50%;
 }
 
-table.list {
-	table-layout: fixed;
-	width: 100%;
-}
-
-td.listValueCell {
-	padding-left: 10px;
-	padding-top: 0.2em;
-	padding-bottom: 0.2em;
-	width: 80%;
-	line-height: 14px!important;
-}
-td.listKeyCell {
-	padding-top: 0.2em;
-	padding-bottom: 0.2em;
-	width: 20%;
-	line-height: 14px!important;
-	font-style: italic;
-}

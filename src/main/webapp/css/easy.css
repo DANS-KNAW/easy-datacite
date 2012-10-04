@@ -89,7 +89,7 @@ a.action {
 }
 	
 a.action:hover{
-	color: #156083;
+	color: #3C987E;
 }
 
 a:visited {
@@ -98,6 +98,10 @@ a:visited {
 
 a.imgLink {
 	text-decoration: none;
+}
+
+span.uri {
+	color: #156083;
 }
 
 p, ul, ol, dl, pre, fieldset, blockquote  {
