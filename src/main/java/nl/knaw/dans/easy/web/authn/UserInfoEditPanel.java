@@ -19,6 +19,7 @@ import nl.knaw.dans.easy.web.template.AbstractEasyStatelessForm;
 import nl.knaw.dans.easy.web.template.AbstractEasyStatelessPanel;
 import nl.knaw.dans.easy.web.wicket.KvpChoiceRenderer;
 import nl.knaw.dans.easy.web.wicket.SwitchPanel;
+import nl.knaw.dans.easy.web.wicketutil.DAIValidator;
 
 import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.markup.html.basic.Label;
@@ -104,6 +105,7 @@ public class UserInfoEditPanel extends AbstractEasyStatelessPanel implements Eas
     {
         private static final long serialVersionUID = 6429049682947798419L;
 
+        @SuppressWarnings({"unchecked", "serial", "rawtypes"})
         public UserInfoForm(final String wicketId, final EasyUser user)
         {
             super(wicketId, new CompoundPropertyModel(user));
@@ -151,7 +153,12 @@ public class UserInfoEditPanel extends AbstractEasyStatelessPanel implements Eas
             telephone.add(TelephoneNumberValidator.instance());
             addWithComponentFeedback(telephone, new ResourceModel("user.telephone"));
 
-            addWithComponentFeedback(new TextField<String>(ApplicationUser.DAI).add(new PatternValidator(Pattern.compile("\\d{8}[A-Z0-9]"))), new ResourceModel(
+            addWithComponentFeedback(new TextField<String>(ApplicationUser.DAI)
+                    {
+                        protected boolean shouldTrimInput() {
+                            return true;
+                        };
+                    }.add(DAIValidator.instance()), new ResourceModel(
                     RegistrationPage.USER_DAI));
 
             // inform by email newsletter selection (Yes/No radio buttons)

@@ -61,7 +61,18 @@ public class AuthorPanel extends AbstractRepeaterPanel<AuthorModel>
             add(insertionsField);
             final TextField surnameField = new TextField("surnameField", new PropertyModel(item.getDefaultModelObject(), "surname"));
             add(surnameField);
-            final TextField idField = new TextField("idField", new PropertyModel(item.getDefaultModelObject(), "entityId"));
+            final TextField idField = new TextField("idField", new PropertyModel(item.getDefaultModelObject(), "entityId"))
+            {
+
+                private static final long serialVersionUID = 1L;
+                
+                @Override
+                protected boolean shouldTrimInput()
+                {
+                    return true;
+                }
+                
+            };
             add(idField);
             final TextField organizationField = new TextField("organizationField", new PropertyModel(item.getDefaultModelObject(), "organization"));
             add(organizationField);
