@@ -10,6 +10,8 @@ import nl.knaw.dans.easy.web.deposit.repeater.AbstractListWrapper;
 import nl.knaw.dans.easy.web.wicket.KvpChoiceRenderer;
 
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
+import org.joda.time.DateTime;
+import org.joda.time.IllegalFieldValueException;
 
 public class SingleISODateWrapper extends AbstractListWrapper<SingleISODateWrapper.DateModel> 
 {
@@ -115,7 +117,7 @@ public class SingleISODateWrapper extends AbstractListWrapper<SingleISODateWrapp
 
         public IsoDate getIsoDate()
         {
-        	IsoDate isoDate;
+        	final IsoDate isoDate;
             if (value == null)
             {
             	isoDate = null;
@@ -123,9 +125,27 @@ public class SingleISODateWrapper extends AbstractListWrapper<SingleISODateWrapp
             else
             {
                 isoDate = convertToDateTime(value);
-                
+                if (dateSchemeType.toLowerCase().contains("available"))
+                {
+                    final DateTime now = new DateTime();
+                    isWithin(now.plusDays(1), now.plusYears(2));
+                }
             }
             return isoDate;
+        }
+
+        private void isWithin(final DateTime min, final DateTime max)
+        {
+            try
+            {
+                final DateTime actual = new DateTime(value);
+                if (actual.isBefore(min) || actual.isAfter(max))
+                    addErrorMessage("minimun value: " + min.toString("YYYY-mm-dd") + " maximum value: " + max.toString("YYYY-mm-dd"));
+            }
+            catch (IllegalFieldValueException exception)
+            {
+                addErrorMessage(exception.getMessage());
+            }
         }
 		
         public void setScheme(KeyValuePair schemeKVP)

@@ -77,7 +77,7 @@ public abstract class AbstractEasyModel implements Serializable
         }
         catch (InvalidDateStringException e)
         {
-            addErrorMessage("'" + value + "' is not a valid ISO8601 date.");
+            addErrorMessage(e.getMessage());
         }
         return isoDate;
     }
