@@ -68,7 +68,6 @@ public class SubmissionDispatcherFactory
         }
         else if (Style.SWORD_INGEST.equals(style))
         {
-            processors.add(new WebDepositFormMetadataValidator());
             processors.add(new MetadataPidGenerator());
             processors.add(new MetadataLicenseGenerator());
             processors.add(new DatasetIngester(true));
