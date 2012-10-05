@@ -19,7 +19,7 @@
 		if ("" == relationUrlValue) {
 			easyAlert("No url specified.");
 		} else if (!isValidURL(relationUrlValue)) {
-			easyAlert("No valid url specified.");
+			easyAlert("No valid url specified.<br/><span style='font-size:70%'>Did you encode argument values? For example urn:nbn:nl:ui:13-twcj-i0 should be urn%3Anbn%3Anl%3Aui%3A13-twcj-i0<span>");
 		} else {
 			if (relationUrlValue.substring(0, 7) == "http://") {
 				newWind = window
@@ -107,11 +107,13 @@
 
 		document.body.appendChild(dialog);
 
-		dialog.innerHTML = "<div class=\"dialog_header\" style=\"width: 100%\"><span>"
+		dialog.innerHTML = "<div class='dialog_header' style='width: 100%'><span>"
 				+ alert_title
-				+ "</span></div><div class=\"dialog_content\" style=\"width: 100%;\"><p>"
+				+ "</span></div><div class='dialog_content' style='width: 100%;'><p>"
 				+ alert_text
-				+ "</p><center><a href=\"#\" class=\"button\" style=\"display: inline;\" title=\"Ok\" onclick=\"closeDialog(true);\"><img src=\"http://easy.dans.knaw.nl/style/pix/icon_ok.gif\" alt=\"Ok\" align=\"absmiddle\" border=\"0\" height=\"15\" width=\"20\">OK</a></center></div>";
+				+ "</p><center><a href='#' class='button' style='display: inline;' title='Ok' onclick='closeDialog(true);'>"
+				+ "<img src='http://easy.dans.knaw.nl/style/pix/icon_ok.gif' alt='Ok' align='absmiddle' border='0' height='15' width='20'>"
+				+ "</a></center></div>";
 
 		var topval = ((clicks.offsetHeight - dialog.offsetHeight) / 2) + "px";
 		var leftval =  ((clicks.offsetWidth - dialog.offsetWidth) / 2) + "px";
