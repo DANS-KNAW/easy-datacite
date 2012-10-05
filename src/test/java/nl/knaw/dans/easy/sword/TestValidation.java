@@ -8,6 +8,7 @@ import java.util.List;
 import nl.knaw.dans.common.lang.util.FileUtil;
 import nl.knaw.dans.easy.sword.util.Fixture;
 
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
