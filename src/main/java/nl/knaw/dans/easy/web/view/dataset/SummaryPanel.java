@@ -1,5 +1,7 @@
 package nl.knaw.dans.easy.web.view.dataset;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 import nl.knaw.dans.easy.domain.model.Dataset;
@@ -75,6 +77,7 @@ public class SummaryPanel extends AbstractEasyPanel
         init();
     }
 
+    @SuppressWarnings("unchecked")
     private void init()
     {
         add(new Label(CREATOR, getCreators()));
@@ -89,7 +92,15 @@ public class SummaryPanel extends AbstractEasyPanel
             private static final long serialVersionUID = -475314441520496889L;
             
             public String getURL (){
-                return EmdConstants.BRI_RESOLVER + "?identifier=" +  persistentIdentifier;
+                try
+                {
+                    return EmdConstants.BRI_RESOLVER + "?identifier=" +  URLEncoder.encode(persistentIdentifier,"UTF-8");
+                }
+                catch (UnsupportedEncodingException e)
+                {
+                    // happens either never or always
+                    return EmdConstants.BRI_RESOLVER + "?identifier=" +  persistentIdentifier;
+                }
             }
 
             @Override
