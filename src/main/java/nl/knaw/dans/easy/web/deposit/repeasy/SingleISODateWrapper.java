@@ -77,8 +77,8 @@ public class SingleISODateWrapper extends AbstractListWrapper<SingleISODateWrapp
 	
 	public static class DateModel extends AbstractEasyModel implements QualifiedModel
     {
-
         private static final long serialVersionUID = 3841830259279016843L;
+        private static final String DATE_FORMAT = "YYYY-MM-dd";
         
         private String 			dateSchemeType;
         private String     		value;
@@ -127,8 +127,8 @@ public class SingleISODateWrapper extends AbstractListWrapper<SingleISODateWrapp
                 isoDate = convertToDateTime(value);
                 if (dateSchemeType.toLowerCase().contains("available"))
                 {
-                    final DateTime now = new DateTime();
-                    isWithin(now.plusDays(1), now.plusYears(2));
+                    final DateTime startOfToday = new DateTime(new DateTime().toString(DATE_FORMAT));
+                    isWithin(startOfToday, startOfToday.plusYears(2));
                 }
             }
             return isoDate;
@@ -140,7 +140,9 @@ public class SingleISODateWrapper extends AbstractListWrapper<SingleISODateWrapp
             {
                 final DateTime actual = new DateTime(value);
                 if (actual.isBefore(min) || actual.isAfter(max))
-                    addErrorMessage("minimun value: " + min.toString("YYYY-mm-dd") + " maximum value: " + max.toString("YYYY-mm-dd"));
+                {
+                    addErrorMessage("minimun value: " + min.toString(DATE_FORMAT) + " maximum value: " + max.toString(DATE_FORMAT));
+                }
             }
             catch (IllegalFieldValueException exception)
             {
