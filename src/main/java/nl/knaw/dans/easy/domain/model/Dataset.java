@@ -88,6 +88,8 @@ public interface Dataset extends DatasetItemContainer
 
     String getPersistentIdentifier();
 
+    String getEncodedPersistentIdentifier();
+
     void setLicenseContent(byte[] content);
 
     IsoDate getDateSubmitted();

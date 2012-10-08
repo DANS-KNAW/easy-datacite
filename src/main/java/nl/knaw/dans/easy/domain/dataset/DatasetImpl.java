@@ -6,6 +6,8 @@ import static nl.knaw.dans.common.lang.dataset.AccessCategory.OPEN_ACCESS;
 import static nl.knaw.dans.common.lang.dataset.AccessCategory.REQUEST_PERMISSION;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -723,6 +725,25 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
     }
 
     public String getPersistentIdentifier()
+    {
+        return getPid();
+    }
+
+    @Override
+    public String getEncodedPersistentIdentifier()
+    {
+        try
+        {
+            return URLEncoder.encode(getPid(),"UTF-8");
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            // happens either never or always
+            return getPid();
+        }
+    }
+
+    private String getPid()
     {
         BasicIdentifier biPid = getEasyMetadata().getEmdIdentifier().getIdentifier(EmdConstants.SCHEME_PID);
         return biPid == null ? null : biPid.getValue();
