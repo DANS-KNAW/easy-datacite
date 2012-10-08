@@ -66,6 +66,8 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
     private DatasetWorkDispatcher datasetWorkDispatcher;
 
     private final DisciplineCollection  disciplineCollection;
+    
+    private static final String LANGUAGE_LITERATURE_DISCIPLINE_ID = "easy-discipline:14";
 
     public EasyDatasetService()
     {
@@ -165,6 +167,14 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
             easyMetadata.getEmdAudience().getTermsAudience().add(archAudience);
             
             easyMetadata.getEmdRights().setAccessCategory(AccessCategory.OPEN_ACCESS, EmdScheme.ARCHAEOLOGY_DCTERMS_ACCESSRIGHTS.getId());
+        } 
+        else if (mdFormat.equals(MetadataFormat.LANGUAGE_LITERATURE))
+        {
+           final BasicString langlitAudience = new BasicString();
+           langlitAudience.setSchemeId(ChoiceListGetter.CHOICELIST_CUSTOM_PREFIX
+                   + ChoiceListGetter.CHOICELIST_DISCIPLINES_POSTFIX);
+           langlitAudience.setValue(LANGUAGE_LITERATURE_DISCIPLINE_ID);
+           easyMetadata.getEmdAudience().getTermsAudience().add(langlitAudience);
         }
         else // set default metadata settings
         {

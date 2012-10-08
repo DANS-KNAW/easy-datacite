@@ -11,7 +11,8 @@ public class ApplicationSpecific implements Serializable
         SOCIOLOGY,
         HISTORY,
         ARCHAEOLOGY,
-        LIFESCIENCE
+        LIFESCIENCE,
+        LANGUAGE_LITERATURE
     }
 
     /**

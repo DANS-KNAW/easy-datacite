@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="">This dataset does not contain CLARIN metadata, i.e., no CMDI files.</entry>
+    <entry key="application/x-cmdi+xml">This dataset contains CLARIN metadata, i.e., CMDI file(s).</entry>
+</properties> 
