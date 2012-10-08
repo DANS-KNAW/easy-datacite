@@ -21,6 +21,7 @@ import nl.knaw.dans.easy.web.deposit.repeasy.BasicDateListWrapper;
 import nl.knaw.dans.easy.web.deposit.repeasy.BasicRemarkListWrapper;
 import nl.knaw.dans.easy.web.deposit.repeasy.BasicStringListWrapper;
 import nl.knaw.dans.easy.web.deposit.repeasy.BoxListWrapper;
+import nl.knaw.dans.easy.web.deposit.repeasy.CMDIFormatChoiceWrapper;
 import nl.knaw.dans.easy.web.deposit.repeasy.IdentifierListWrapper;
 import nl.knaw.dans.easy.web.deposit.repeasy.IsoDateListWrapper;
 import nl.knaw.dans.easy.web.deposit.repeasy.LicenseWrapper;
@@ -144,7 +145,14 @@ public class EmdModelFactory implements IModelFactory
         Archis2ListWrapper a2lw = new Archis2ListWrapper(getEasyMetadata());
         return new Model<Archis2ListWrapper>(a2lw);
     }
+
+    public IModel<CMDIFormatChoiceWrapper> createCMDIFormatChoiceWrapperModel(StandardPanelDefinition definition)
+    {
+        CMDIFormatChoiceWrapper cmdi = new CMDIFormatChoiceWrapper(getEasyMetadata());
+        return new Model<CMDIFormatChoiceWrapper>(cmdi);
+    }
     
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public IModel<AuthorListWrapper> createAuthorListWrapperModel(StandardPanelDefinition definition)
     {
         AuthorListWrapper alw = new AuthorListWrapper(getEasyMetadataList(definition));
