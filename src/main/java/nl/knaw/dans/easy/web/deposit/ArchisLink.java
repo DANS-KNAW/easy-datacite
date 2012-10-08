@@ -8,6 +8,7 @@ import java.util.Arrays;
 import javax.servlet.http.HttpServletResponse;
 
 import nl.knaw.dans.easy.domain.deposit.discipline.ArchisCollector;
+import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.Group;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.web.EasySession;
@@ -33,16 +34,12 @@ class ArchisLink extends Link<String>
         super(id);
         this.number = number;
         add(new Label(labelWicketId, number));
+        setEnabled(loggedOnAsArcheologistOrArchivistOrAdmin());
     }
 
     @Override
     public void onClick()
     {
-        if (!loggedOnAsArcheologistOrArchivistOrAdmin())
-        {
-            return;
-        }
-
         final WebResponse response = (WebResponse) getResponse();
         response.setAttachmentHeader(number + ".pdf");
         response.setContentType("application/pdf");
@@ -67,9 +64,15 @@ class ArchisLink extends Link<String>
 
     private boolean loggedOnAsArcheologistOrArchivistOrAdmin()
     {
-        return !EasySession.getSessionUser().isAnonymous()// @formatter:off
-                && (EasySession.getSessionUser().isMemberOfGroup(Arrays.asList(Group.ID_ARCHEOLOGY)) || EasySession.getSessionUser().hasRole(Role.ADMIN) || EasySession
-                        .getSessionUser().hasRole(Role.ARCHIVIST));
-        // @formatter:on
+        final EasyUser user = EasySession.getSessionUser();
+        if (user.isAnonymous())
+            return false;
+        if (user.hasRole(Role.ARCHIVIST))
+            return true;
+        if (user.hasRole(Role.ADMIN))
+            return true;
+        if (user.isMemberOfGroup(Arrays.asList(Group.ID_ARCHEOLOGY)))
+            return true;
+        return false;
     }
 }
