@@ -123,13 +123,15 @@ public class DatasetWorker extends AbstractWorker
     protected void unPublishDataset(Dataset dataset) throws ServiceException, DataIntegrityException
     {
         unPublishAsOAIItem(dataset);
-        changeStatus(dataset, DatasetState.SUBMITTED);
+        dataset.getRelations().removeDAIRelations();
+        storeInState(dataset, DatasetState.SUBMITTED);
     }
     
     protected void maintainDataset(Dataset dataset) throws ServiceException, DataIntegrityException
     {
         unPublishAsOAIItem(dataset);
-        changeStatus(dataset, DatasetState.MAINTENANCE);
+        dataset.getRelations().removeDAIRelations();
+        storeInState(dataset, DatasetState.MAINTENANCE);
     }
     
     protected void republishDataset(Dataset dataset, boolean mustIncludeLicense) throws ServiceException, DataIntegrityException
@@ -144,7 +146,8 @@ public class DatasetWorker extends AbstractWorker
         }
         
         publishAsOAIItem(dataset);
-        changeStatus(dataset, DatasetState.PUBLISHED);
+        dataset.getRelations().addDAIRelations();
+        storeInState(dataset, DatasetState.PUBLISHED);
 
         // prevent repeated update attempt if followed by unpublish or whatever in the same session
         dataset.setLicenseContent(null); 
@@ -154,7 +157,7 @@ public class DatasetWorker extends AbstractWorker
     {
         unPublishAsOAIItem(dataset);
         dataset.setState(RepositoryState.Deleted.code);
-        changeStatus(dataset, DatasetState.DELETED); 
+        storeInState(dataset, DatasetState.DELETED); 
     }
     
     protected void restoreDataset(Dataset dataset) throws ServiceException, DataIntegrityException
@@ -165,7 +168,7 @@ public class DatasetWorker extends AbstractWorker
             changeTo = DatasetState.SUBMITTED;
         }
         dataset.setState(RepositoryState.Inactive.code);
-        changeStatus(dataset, changeTo);
+        storeInState(dataset, changeTo);
     }
 
     public static void publishAsOAIItem(Dataset dataset) throws ServiceException
@@ -224,14 +227,14 @@ public class DatasetWorker extends AbstractWorker
         dataset.setState(RepositoryState.Inactive.code);
     }
 
-    protected void changeStatus(Dataset dataset, DatasetState changeTo) throws ServiceException, DataIntegrityException
+    protected void storeInState(Dataset dataset, DatasetState newState) throws ServiceException, DataIntegrityException
     {
         DatasetSpecification.evaluate(dataset);
         DatasetState previousState = dataset.getAdministrativeState();       
         try
         {
             getUnitOfWork().attach(dataset);
-            dataset.getAdministrativeMetadata().setAdministrativeState(changeTo);
+            dataset.getAdministrativeMetadata().setAdministrativeState(newState);
             getUnitOfWork().commit();
         }
         catch (UnitOfWorkInterruptException e)

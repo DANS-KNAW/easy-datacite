@@ -97,5 +97,18 @@ public class EmdContributor extends AbstractEmdContainer
         }
         return dais;
     }
+    
+    public List<Author> getDAIAuthors()
+    {
+        List<Author> daiAuthors = new ArrayList<Author>();
+        for (Author author : easContributor)
+        {
+            if (author.hasDigitalAuthorId())
+            {
+                daiAuthors.add(author);
+            }
+        }
+        return daiAuthors;
+    }
 
 }

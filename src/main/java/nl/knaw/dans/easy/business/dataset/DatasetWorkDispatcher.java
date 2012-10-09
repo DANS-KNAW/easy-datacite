@@ -116,7 +116,7 @@ public class DatasetWorkDispatcher
     public void unsubmitDataset(EasyUser sessionUser, Dataset dataset, boolean mustNotifyDepositor) throws ServiceException, DataIntegrityException
     {
         DatasetWorker worker = new DatasetWorker(sessionUser);
-        worker.changeStatus(dataset, DatasetState.DRAFT);
+        worker.storeInState(dataset, DatasetState.DRAFT);
         if (mustNotifyDepositor)
         {
             new UnsubmitNotification(dataset).sendMail();

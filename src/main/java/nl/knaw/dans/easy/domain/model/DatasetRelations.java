@@ -1,5 +1,6 @@
 package nl.knaw.dans.easy.domain.model;
 
+import java.net.URI;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -12,6 +13,7 @@ import nl.knaw.dans.common.lang.repo.relations.DansOntologyNamespace;
 import nl.knaw.dans.common.lang.repo.relations.Relation;
 import nl.knaw.dans.common.lang.repo.relations.RelsConstants;
 import nl.knaw.dans.easy.domain.collections.ECollection;
+import nl.knaw.dans.easy.domain.model.emd.types.Author;
 import nl.knaw.dans.i.dmo.collections.DmoCollection;
 
 public class DatasetRelations extends DmoContainerItemRelations<Dataset>
@@ -27,6 +29,7 @@ public class DatasetRelations extends DmoContainerItemRelations<Dataset>
         this.dataset = dataset;
     }
 
+    // OAI-identifier and OAI-sets
     public void addOAIIdentifier()
     {
         String oaiId = Constants.OAI_IDENTIFIER_PREFIX + dataset.getStoreId();
@@ -112,6 +115,7 @@ public class DatasetRelations extends DmoContainerItemRelations<Dataset>
         return memberships.contains(setStoreId);
     }
     
+    // Collections
     public void addCollectionMembership(DmoStoreId dmoStoreId)
     {
         if (!ECollection.isECollection(dmoStoreId))
@@ -198,7 +202,47 @@ public class DatasetRelations extends DmoContainerItemRelations<Dataset>
         Set<DmoStoreId> memberships = getCollectionMemberships(collectionStoreId.getNamespace());
         return memberships.contains(collectionStoreId);
     }
-
+    
+    // Digital Author Ids
+    /**
+     * Adds relations {@link DansOntologyNamespace#HAS_CREATOR_DAI} 
+     * and {@link DansOntologyNamespace#HAS_CONTRIBUTOR_DAI} to the relations of the subject dataset.
+     * Relations can be queried, f.i. with sparql:
+     * <pre>
+     * select ?dataset ?daiCreator from <#ri> where {?dataset <http://dans.knaw.nl/ontologies/relations#hasCreatorDAI> ?daiCreator . }
+     * select ?dataset ?daiContributor from <#ri> where {?dataset <http://dans.knaw.nl/ontologies/relations#hasContributorDAI> ?daiContributor . }
+     * </pre>
+     * 
+     */
+    public void addDAIRelations()
+    {
+        List<Author> creators = dataset.getEasyMetadata().getEmdCreator().getDAIAuthors();
+        for (Author author : creators)
+        {
+            URI object = author.getDigitalAuthorId().getURI();
+            addRelation(RelsConstants.DANS_NS.HAS_CREATOR_DAI, object);
+        }
+        List<Author> contributors = dataset.getEasyMetadata().getEmdContributor().getDAIAuthors();
+        for (Author author : contributors)
+        {
+            URI object = author.getDigitalAuthorId().getURI();
+            addRelation(RelsConstants.DANS_NS.HAS_CONTRIBUTOR_DAI, object);
+        }
+    }
+    
+    /**
+     * Removes relations {@link DansOntologyNamespace#HAS_CREATOR_DAI} 
+     * and {@link DansOntologyNamespace#HAS_CONTRIBUTOR_DAI} from the relations of the subject dataset.
+     */
+    public void removeDAIRelations()
+    {
+        removeRelation(RelsConstants.DANS_NS.HAS_CREATOR_DAI, null);
+        removeRelation(RelsConstants.DANS_NS.HAS_CONTRIBUTOR_DAI, null);
+    }
+    
+    
+    
+    // Identifiers
     public void setPersistentIdentifier(String pid)
     {
         addRelation(RelsConstants.DANS_NS.HAS_PID, pid, RelsConstants.RDF_LITERAL);
