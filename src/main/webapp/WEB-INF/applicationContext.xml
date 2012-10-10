@@ -42,7 +42,10 @@
 	
 	<bean name="migrationService" class="nl.knaw.dans.easy.business.services.EasyMigrationService" />
 
-	<bean name="federativeUserService" class="nl.knaw.dans.easy.business.services.EasyFederativeUserService" />
+	<bean name="federativeUserService" class="nl.knaw.dans.easy.business.services.EasyFederativeUserService">
+	    <property name="federationLoginEnabled" value="${easy.federationLogin.enabled}" />
+		<property name="federationUrl" value="${easy.federationLogin.federationUrl}" />
+	</bean>
 	
 	<bean name="collectionService" class="nl.knaw.dans.easy.business.services.EasyCollectionService" />
 	
