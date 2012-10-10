@@ -16,11 +16,12 @@ import nl.knaw.dans.easy.domain.federation.FederativeUserIdMap;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.user.EasyUserAnonymous;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
+import nl.knaw.dans.easy.servicelayer.services.FederativeUserService;
 import nl.knaw.dans.easy.util.TestHelper;
 
 public class EasyFederativeUserServiceTest extends TestHelper
 {
-    private EasyFederativeUserService federativeUserService = new EasyFederativeUserService();
+    private FederativeUserService federativeUserService = new EasyFederativeUserService();
     private Data data = new Data();
 
     final String FAKE_FEDID = "some.fake.federatedUserId";

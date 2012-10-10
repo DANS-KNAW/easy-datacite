@@ -1,5 +1,7 @@
 package nl.knaw.dans.easy.servicelayer.services;
 
+import java.net.URL;
+
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
@@ -15,4 +17,8 @@ public interface FederativeUserService
 
     // TODO support adding a federative user, given an EasyUser object and a federative user id
     void addFedUserToEasyUserIdCoupling(String fedUserId, String easyUserId) throws ServiceException;
+    
+    boolean isFederationLoginEnabled();    
+
+	URL getFederationUrl();
 }

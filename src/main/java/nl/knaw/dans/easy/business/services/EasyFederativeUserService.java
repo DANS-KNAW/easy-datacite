@@ -1,5 +1,7 @@
 package nl.knaw.dans.easy.business.services;
 
+import java.net.URL;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +18,8 @@ import nl.knaw.dans.easy.servicelayer.services.FederativeUserService;
 public class EasyFederativeUserService extends AbstractEasyService implements FederativeUserService
 {
     private static Logger       logger              = LoggerFactory.getLogger(EasyFederativeUserService.class);
+    private URL federationUrl;
+    private boolean federationLoginEnabled;
 
     @Override
     public EasyUser getUserById(EasyUser sessionUser, String fedUserId) throws ObjectNotAvailableException, ServiceException
@@ -101,4 +105,21 @@ public class EasyFederativeUserService extends AbstractEasyService implements Fe
         }
     }
 
+	@Override
+	public URL getFederationUrl() {
+		return federationUrl;
+	}
+
+	public void setFederationUrl(URL federationUrl) {
+		this.federationUrl = federationUrl;
+	}
+	
+	public void setFederationLoginEnabled(boolean enabled) {
+		federationLoginEnabled = enabled;
+	}
+
+	@Override
+	public boolean isFederationLoginEnabled() {
+		return federationLoginEnabled;
+	}
 }
