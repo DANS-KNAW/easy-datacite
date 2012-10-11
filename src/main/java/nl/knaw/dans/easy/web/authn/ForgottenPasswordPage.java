@@ -1,8 +1,8 @@
 package nl.knaw.dans.easy.web.authn;
 
-import org.apache.wicket.protocol.https.RequireHttps;
-
 import nl.knaw.dans.easy.web.main.AbstractEasyNavPage;
+
+import org.apache.wicket.protocol.https.RequireHttps;
 
 @RequireHttps
 public class ForgottenPasswordPage extends AbstractEasyNavPage

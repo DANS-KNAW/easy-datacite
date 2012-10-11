@@ -4,15 +4,20 @@ import nl.knaw.dans.easy.domain.authn.UsernamePasswordAuthentication;
 import nl.knaw.dans.easy.web.template.AbstractEasyStatelessPanel;
 
 import org.apache.wicket.markup.html.link.PageLink;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
-public class LoginPanel extends AbstractEasyStatelessPanel
+public class LoginPanelRegular extends AbstractEasyStatelessPanel
 {
-
-    /**
+	private static Logger       logger                  = LoggerFactory.getLogger(LoginPanelRegular.class);	
+	
+	
+	   /**
      * Component wicket id.
      */
-    public static final String  REGISTRATION       = "registration";
+    public static final String FORGOTTEN_PASSWORD = "forgottenPassword"; // NOPMD: name is not too long.
+    
 
     /**
      * Login form wicket id.
@@ -39,7 +44,7 @@ public class LoginPanel extends AbstractEasyStatelessPanel
      * 
      * @param wicketId The wicket id for this component.
      */
-    public LoginPanel(final String wicketId, final UsernamePasswordAuthentication authentication)
+    public LoginPanelRegular(final String wicketId, final UsernamePasswordAuthentication authentication)
     {
         super(wicketId);
         init(authentication);
@@ -51,15 +56,13 @@ public class LoginPanel extends AbstractEasyStatelessPanel
     private void init(final UsernamePasswordAuthentication authentication)
     {
         addLoginForm(authentication);
-        addRegisterLink();
+  
+        addForgottenPasswordLink();
     }
     
-    /**
-     * Add link to register.
-     */
-    private void addRegisterLink()
+    private void addForgottenPasswordLink()
     {
-        add(new PageLink(REGISTRATION, RegistrationPage.class)
+        add(new PageLink(FORGOTTEN_PASSWORD, ForgottenPasswordPage.class)
         {
             /**
              * Serial version uid.
@@ -74,7 +77,8 @@ public class LoginPanel extends AbstractEasyStatelessPanel
             @Override
             public boolean isVisible()
             {
-                return !isAuthenticated();
+                // Only show when not logged in.
+                return getSessionUser().isAnonymous();
             }
 
             /**
@@ -83,12 +87,16 @@ public class LoginPanel extends AbstractEasyStatelessPanel
              * @return true
              */
             @Override
-            public boolean getStatelessHint() // NOPMD: wicket method.
+            public boolean getStatelessHint() // NOPMD: wicket method
             {
                 return true;
             }
         });
     }
+    
+    
+    
+  
 
     /**
      * Add default LoginForm.

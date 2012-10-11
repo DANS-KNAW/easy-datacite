@@ -19,7 +19,6 @@ import org.apache.wicket.markup.html.form.HiddenField;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.SubmitLink;
-import org.apache.wicket.markup.html.link.PageLink;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.ResourceModel;
 import org.slf4j.Logger;
@@ -27,10 +26,7 @@ import org.slf4j.LoggerFactory;
 
 public final class LoginForm extends AbstractEasyStatelessForm implements EasyResources
 {
-    /**
-     * Component wicket id.
-     */
-    public static final String FORGOTTEN_PASSWORD = "forgottenPassword"; // NOPMD: name is not too long.
+ 
 
     /**
      * Constant for wicket id.
@@ -59,56 +55,15 @@ public final class LoginForm extends AbstractEasyStatelessForm implements EasyRe
     public LoginForm(final String wicketId, final UsernamePasswordAuthentication authentication)
     {
         super(wicketId, new CompoundPropertyModel(authentication));
-
         addCommonFeedbackPanel();
-
         add(new HiddenField(Messenger.PROP_TOKEN));
-
         RequiredTextField useridTextField = new RequiredTextField(Authentication.PROP_USER_ID);
         useridTextField.add(new FocusOnLoadBehavior());
         addWithComponentFeedback(useridTextField, new ResourceModel(USER_USER_ID));
-
         PasswordTextField passwordTextField = new PasswordTextField(Authentication.PROP_CREDENTIALS);
         passwordTextField.setRequired(true);
         addWithComponentFeedback(passwordTextField, new ResourceModel(USER_PASSWORD));
-
         add(new SubmitLink(WI_LOGIN));
-
-        addForgottenPasswordLink();
-    }
-
-    private void addForgottenPasswordLink()
-    {
-        add(new PageLink(FORGOTTEN_PASSWORD, ForgottenPasswordPage.class)
-        {
-            /**
-             * Serial version uid.
-             */
-            private static final long serialVersionUID = 1L;
-
-            /**
-             * Check if visible.
-             * 
-             * @return true if visible
-             */
-            @Override
-            public boolean isVisible()
-            {
-                // Only show when not logged in.
-                return getSessionUser().isAnonymous();
-            }
-
-            /**
-             * Always stateless.
-             * 
-             * @return true
-             */
-            @Override
-            public boolean getStatelessHint() // NOPMD: wicket method
-            {
-                return true;
-            }
-        });
     }
 
     @Override

@@ -1,24 +1,9 @@
 package nl.knaw.dans.easy.web.authn;
 
-import java.util.Enumeration;
-
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.wicket.RestartResponseAtInterceptPageException;
-import org.apache.wicket.Session;
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.link.BookmarkablePageLink;
-import org.apache.wicket.markup.html.link.ExternalLink;
-import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.link.PageLink;
-import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.protocol.https.RequireHttps;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
-import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.domain.authn.Authentication;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.services.Services;
@@ -28,6 +13,15 @@ import nl.knaw.dans.easy.web.common.ApplicationUser;
 import nl.knaw.dans.easy.web.main.AbstractEasyNavPage;
 import nl.knaw.dans.easy.web.statistics.StatisticsEvent;
 import nl.knaw.dans.easy.web.statistics.StatisticsLogger;
+
+import org.apache.wicket.RestartResponseAtInterceptPageException;
+import org.apache.wicket.Session;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.protocol.https.RequireHttps;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RequireHttps
 public class FederativeAuthenticationResultPage extends AbstractEasyNavPage

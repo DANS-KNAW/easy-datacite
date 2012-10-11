@@ -1,55 +1,44 @@
 package nl.knaw.dans.easy.web.authn;
 
-import java.util.Map;
 import java.util.regex.Pattern;
-
-import org.apache.wicket.Session;
-import org.apache.wicket.markup.html.form.CheckBox;
-import org.apache.wicket.markup.html.form.DropDownChoice;
-import org.apache.wicket.markup.html.form.FormComponent;
-import org.apache.wicket.markup.html.form.PasswordTextField;
-import org.apache.wicket.markup.html.form.Radio;
-import org.apache.wicket.markup.html.form.RadioGroup;
-import org.apache.wicket.markup.html.form.RequiredTextField;
-import org.apache.wicket.markup.html.form.SubmitLink;
-import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.form.validation.EqualPasswordInputValidator;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
-import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.model.ResourceModel;
-import org.apache.wicket.protocol.https.RequireHttps;
-import org.apache.wicket.validation.validator.EmailAddressValidator;
-import org.apache.wicket.validation.validator.PatternValidator;
-import org.apache.wicket.validation.validator.StringValidator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
-import nl.knaw.dans.common.wicket.util.LettersAndDigitsValidator;
 import nl.knaw.dans.easy.domain.authn.Authentication;
 import nl.knaw.dans.easy.domain.authn.FederativeUserRegistration;
-import nl.knaw.dans.easy.domain.authn.Registration;
 import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.EasyWicketApplication;
 import nl.knaw.dans.easy.web.HomePage;
 import nl.knaw.dans.easy.web.InfoPage;
-import nl.knaw.dans.easy.web.authn.FederativeToEasyUserAccountCouplingPage.CouplingForm;
-import nl.knaw.dans.easy.web.authn.RegistrationForm.AcceptConditions;
 import nl.knaw.dans.easy.web.common.ApplicationUser;
 import nl.knaw.dans.easy.web.common.DisciplineUtils;
-import nl.knaw.dans.easy.web.common.UserProperties;
 import nl.knaw.dans.easy.web.editabletexts.EasyEditablePanel;
 import nl.knaw.dans.easy.web.main.AbstractEasyNavPage;
 import nl.knaw.dans.easy.web.statistics.StatisticsEvent;
 import nl.knaw.dans.easy.web.statistics.StatisticsLogger;
 import nl.knaw.dans.easy.web.template.AbstractEasyStatelessForm;
 import nl.knaw.dans.easy.web.wicket.KvpChoiceRenderer;
-import nl.knaw.dans.easy.web.wicketutil.PasswordPolicyValidator;
+
+import org.apache.wicket.Session;
+import org.apache.wicket.markup.html.form.CheckBox;
+import org.apache.wicket.markup.html.form.DropDownChoice;
+import org.apache.wicket.markup.html.form.FormComponent;
+import org.apache.wicket.markup.html.form.Radio;
+import org.apache.wicket.markup.html.form.RadioGroup;
+import org.apache.wicket.markup.html.form.RequiredTextField;
+import org.apache.wicket.markup.html.form.SubmitLink;
+import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.Model;
+import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.model.ResourceModel;
+import org.apache.wicket.protocol.https.RequireHttps;
+import org.apache.wicket.validation.validator.EmailAddressValidator;
+import org.apache.wicket.validation.validator.PatternValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /*
  * For this user the authentication is done by the Federation and NOT in EASY, 

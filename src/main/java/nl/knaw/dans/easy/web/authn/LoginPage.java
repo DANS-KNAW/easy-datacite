@@ -1,8 +1,5 @@
 package nl.knaw.dans.easy.web.authn;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.domain.authn.UsernamePasswordAuthentication;
@@ -10,8 +7,7 @@ import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasyResources;
 
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.RequestCycle;
-import org.apache.wicket.markup.html.link.ExternalLink;
+import org.apache.wicket.markup.html.link.PageLink;
 import org.apache.wicket.protocol.https.RequireHttps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,95 +16,83 @@ import org.slf4j.LoggerFactory;
  * Page for logging into the application.
  */
 @RequireHttps
-public class LoginPage extends AbstractAuthenticationPage
-{
-    private static Logger       logger                  = LoggerFactory.getLogger(LoginPage.class);
+public class LoginPage extends AbstractAuthenticationPage {
+    private static Logger logger = LoggerFactory.getLogger(LoginPage.class);
 
-    /**
-     * LoginPanel wicket id.
-     */
-    static final String       LOGIN_PANEL_BIG  = "loginPanelBig";
+    static final String LOGIN_PANEL_REGULAR = "loginPanelRegular";
+    static final String LOGIN_PANEL_FEDERATION = "loginPanelFederation";
+    public static final String REGISTRATION = "registration";
 
     /**
      * Serial version UID.
      */
     private static final long serialVersionUID = 8501036308620025067L;
-    
+
     /**
      * Initialize the same for every constructor.
      */
-    private void init()
-    {
-        setStatelessHint(true);
-        
-		ExternalLink federationLink = new ExternalLink("federationLink", getFederationURLString(),
-					"Login") {
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				protected boolean getStatelessHint() {
-					return true;
-				}
-			};
-		add(federationLink);
-		federationLink.setVisible(Services.getFederativeUserService().isFederationLoginEnabled());
-			
-        UsernamePasswordAuthentication authentication;
-		try
-		{
-			authentication = Services.getUserService().newUsernamePasswordAuthentication();
-		}
-		catch (ServiceException e)
-		{
-            final String message = errorMessage(EasyResources.INTERNAL_ERROR);
-            logger.error(message, e);
-	        throw new InternalWebError();
-		}
-        this.add(new LoginPanel(LOGIN_PANEL_BIG, authentication));
+    private void init() {
+	setStatelessHint(true);
+	UsernamePasswordAuthentication authentication;
+	try {
+	    authentication = Services.getUserService()
+		    .newUsernamePasswordAuthentication();
+	} catch (ServiceException e) {
+	    final String message = errorMessage(EasyResources.INTERNAL_ERROR);
+	    logger.error(message, e);
+	    throw new InternalWebError();
+	}
+	add(new LoginPanelRegular(LOGIN_PANEL_REGULAR, authentication));
+	add(new LoginPanelFederation(LOGIN_PANEL_FEDERATION)
+		.setVisible(Services.getFederativeUserService()
+			.isFederationLoginEnabled()));
+	addRegisterLink();
     }
 
-    // construct the link for the Federative Athentication
-    private String getFederationURLString()
-    {
-      String linkURLString = "";
-      
-      try
-      {
-          // get URL for FederativeAuthenticationResultPage
-          String relStr = RequestCycle.get().urlFor(FederativeAuthenticationResultPage.class, new PageParameters()).toString();
-          String returnURLString = org.apache.wicket.protocol.http.RequestUtils.toAbsolutePath(relStr);
-          logger.debug("return URL: " + returnURLString);
-
-          returnURLString = URLEncoder.encode(returnURLString, "UTF-8");
-          
-          // add the easy return page url as parameter to 
-          // the Shibboleth url
-          String federationURLString = Services.getFederativeUserService().getFederationUrl().toString() + "?target=";
-          linkURLString = federationURLString + returnURLString;
-          logger.debug("link URL: " + linkURLString);
-      }
-      catch (UnsupportedEncodingException e)
-      {
-          logger.error("Could not construct Federative login link", e);
-      }
-      
-
-      return linkURLString;
-    }
-    
     /**
      * Default constructor.
      */
-    public LoginPage()
-    {
-        super();
-        init();
+    public LoginPage() {
+	super();
+	init();
     }
-    
-    public LoginPage(PageParameters parameters)
-    {
-        super(parameters);
-        init();
+
+    public LoginPage(PageParameters parameters) {
+	super(parameters);
+	init();
+    }
+
+    /**
+     * Add link to register.
+     */
+    private void addRegisterLink() {
+	add(new PageLink(REGISTRATION, RegistrationPage.class) {
+	    /**
+	     * Serial version uid.
+	     */
+	    private static final long serialVersionUID = 1L;
+
+	    /**
+	     * Check if visible.
+	     * 
+	     * @return true if visible
+	     */
+	    @Override
+	    public boolean isVisible() {
+		return !isAuthenticated();
+	    }
+
+	    /**
+	     * Always stateless.
+	     * 
+	     * @return true
+	     */
+	    @Override
+	    public boolean getStatelessHint() // NOPMD: wicket method.
+	    {
+		return true;
+	    }
+	});
     }
 
 }

@@ -1,13 +1,21 @@
 <wicket:extend>
-<h1><wicket:message key="login.header">--[Login]--</wicket:message></h1>
+	<h1>
+		<wicket:message key="login.header">--[Login]--</wicket:message>
+	</h1>
+	<div id="loginForm">
 
-<wicket:enclosure>
-<div>
-Use your Surf federation account to 
-<a wicket:id="federationLink" href="#">[login link]</a><br/>
-Or login using your EASY account below
-</div>
-</wicket:enclosure>
+		<h2>Please log in using your...</h2>
+		<div class="login-wrapper login">
+			<div wicket:id="loginPanelFederation">LoginPanel Federation</div>
+			<div wicket:id="loginPanelRegular">LoginPanel Regular</div>
 
-<div wicket:id="loginPanelBig">LoginPanel</div>
+		</div>
+
+		<h2>No EASY account yet?</h2>
+		<p>
+			Please <a href="#" wicket:id="registration">register</a> to be able
+			to use the full functionality of EASY (e.g. deposit research data).
+		</p>
+	</div>
+
 </wicket:extend>
