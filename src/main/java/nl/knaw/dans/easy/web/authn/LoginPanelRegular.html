@@ -3,7 +3,6 @@
 	<META HTTP-EQUIV="expires" CONTENT="0" />
 </wicket:head>
 <wicket:panel>
-	<div class="login-right">
 		<form wicket:id="loginForm">
 			<h3>EASY account</h3>
 
@@ -12,16 +11,15 @@
 			<input type="hidden" name="token" wicket:id="token" />
 
 			<div class="login">
-				<div class="login-text">
+				<div class="credential-or-information">
 					<wicket:enclosure>
 						<span class="feedback"><span
 							wicket:id="userId-componentFeedback"> componentFeedback</span></span>
 					</wicket:enclosure>
 
-					<div class="login_margin_bottom login_margin_top">
+					<div>
 						<label for="userId"><wicket:message key="user.userId">userId</wicket:message></label>
-						<input id="userId" wicket:id="userId" type="text"
-							class="standard login_align_right" />
+						<input id="userId" wicket:id="userId" type="text" class="standard" />
 					</div>
 
 					<wicket:enclosure>
@@ -30,14 +28,14 @@
 								componentFeedback</span></span>
 					</wicket:enclosure>
 
-					<div class="login_margin_bottom">
+					<div>
 						<label for="password"><wicket:message key="user.password">password</wicket:message></label>
 						<input id="password" wicket:id="credentials" type="password"
-							class="standard login_align_right" />
+							class="standard" />
 					</div>
 				</div>
 
-				<div class="login_button">
+				<div>
 					<a href="#" wicket:id="login" class="button">Log in</a>
 					<!-- next line enables IE compatible form submit using the enter key -->
 					<div style="border: 0; width: 0; height: 0; overflow: hidden;">
@@ -52,6 +50,5 @@
 			<a href="#" wicket:id="forgottenPassword"><wicket:message
 					key="link.forgottenpassword">Forgotten password</wicket:message></a>
 		</p>
-	</div>
 </wicket:panel>
 </html>
