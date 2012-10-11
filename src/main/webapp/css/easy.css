@@ -1672,53 +1672,48 @@ div.popupDialog {
 }
 */
 
-#loginForm .clear {
+#login-page .clear {
     clear: both;
 }
-#loginForm .login-wrapper {
-    width: 700px;
+#login-page #login-options {
+    width: 800px;
     height: 200px;
     padding: 1em;
-    border: 1px solid #d0d0d0;
     margin-bottom: 2em;
 }
-#loginForm #loginPanelFederation {
+#login-page #option-federation-and-splitter-wrapper {
     display: block;
     width: 52%;
     float: left;
 }
 
-#loginForm #loginPanelFederation .login-left {
+#login-page #option-federation-and-splitter-wrapper #option-federation {
 	float: left;
 	width: 88%;
 }
 
-#loginForm #loginPanelRegular {
+#login-page #option-regular {
     display: block;
-    width: 44%;
+    width: 47%;
     float: left;
 }
-#loginForm .link {
+#login-page .link {
     background: url('../images/link.png') 50% 50% no-repeat;
     width: 32px;
     float: left;
 }
-#loginForm #vertical-split {
+#login-page #vertical-split {
     background: url('../images/login.png') 50% 50% no-repeat;
     width: 32px;
     height: 200px;
     float: right;
 }
 
-#loginForm .login-wrapper p {
-    margin-left: 0em;
-}
-
-#loginForm #no-account {
+#login-page #no-account {
 	clear: both;
 }
 
-#loginForm .login-text {
+#login-page .credential-or-information {
 	height: 7em;
 }
 
@@ -1733,16 +1728,17 @@ div.popupDialog {
 	line-height: 2.8em;
 }
 
-#bodyContent #loginPanelFederation p {
+#bodyContent #option-federation-and-splitter-wrapper p {
+	/* Overriding #bodyContent div p */
 	line-height: 2.8em;
 }
 
-#loginForm h2 {
+#login-page h2 {
 	font-size: 2em;
 	line-height: 2em;
 }
 
-#loginForm h3 {
+#login-page h3 {
 	font-size: 1.5em;
 	line-height: 1.5em;
 }
