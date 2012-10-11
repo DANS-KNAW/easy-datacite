@@ -41,29 +41,29 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /*
- * For this user the authentication is done by the Federation and NOT in EASY, 
- * so for registration with EASY we don't need a username and password. 
+ * For this user the authentication is done by the Federation and NOT in EASY, so for registration with
+ * EASY we don't need a username and password.
  */
 @RequireHttps
 public class FederativeUserRegistrationPage extends AbstractEasyNavPage
 {
-    private static Logger       logger                  = LoggerFactory.getLogger(FederativeUserRegistrationPage.class);
+    private static Logger logger = LoggerFactory.getLogger(FederativeUserRegistrationPage.class);
 
     private ApplicationUser appUser = null;
-    
+
     public FederativeUserRegistrationPage(final ApplicationUser appUser)
     {
         super();
         this.appUser = appUser;
-//        init();
+        // init();
     }
 
     private void init()
     {
-        add( new FederativeUserRegistrationForm("registrationForm", appUser));//new ApplicationUser()));
+        add(new FederativeUserRegistrationForm("registrationForm", appUser));// new ApplicationUser()));
     }
-    
-    public class FederativeUserRegistrationForm extends AbstractEasyStatelessForm  implements EasyResources
+
+    public class FederativeUserRegistrationForm extends AbstractEasyStatelessForm implements EasyResources
     {
         private final SubmitLink registerLink = new SubmitLink("register");
 
@@ -72,12 +72,11 @@ public class FederativeUserRegistrationPage extends AbstractEasyNavPage
             super(wicketId, new CompoundPropertyModel<ApplicationUser>(appUser));
 
             addCommonFeedbackPanel();
-            
+
             // NOTE No username and password needed for a federative user
-// But we need a username for the user repo(LDAP), just use the ePPN
-// does an ePPN always validate as easy username, anyway it should be unique!
-            
-            
+            // But we need a username for the user repo(LDAP), just use the ePPN
+            // does an ePPN always validate as easy username, anyway it should be unique!
+
             // Add field title
             addWithComponentFeedback(new TextField<String>(ApplicationUser.TITLE), new ResourceModel(RegistrationPage.USER_TITLE));
 
@@ -104,8 +103,8 @@ public class FederativeUserRegistrationPage extends AbstractEasyNavPage
             add(new DropDownChoice<KeyValuePair>(ApplicationUser.DISCIPLINE3, new PropertyModel<KeyValuePair>(appUser, ApplicationUser.DISCIPLINE3),
                     DisciplineUtils.getDisciplinesChoiceList().getChoices(), new KvpChoiceRenderer()));
 
-            addWithComponentFeedback(new TextField<String>(ApplicationUser.DAI).add(new PatternValidator(Pattern.compile("\\d{8}[A-Z0-9]"))), new ResourceModel(
-                    RegistrationPage.USER_DAI));
+            addWithComponentFeedback(new TextField<String>(ApplicationUser.DAI).add(new PatternValidator(Pattern.compile("\\d{8}[A-Z0-9]"))),
+                    new ResourceModel(RegistrationPage.USER_DAI));
             addWithComponentFeedback(new TextField<String>(ApplicationUser.ORGANIZATION), new ResourceModel(RegistrationPage.USER_ORGANIZATION));
             addWithComponentFeedback(new TextField<String>(ApplicationUser.DEPARTMENT), new ResourceModel(RegistrationPage.USER_DEPARTMENT));
             addWithComponentFeedback(new RequiredTextField<String>(ApplicationUser.ADDRESS), new ResourceModel(RegistrationPage.USER_ADDRESS));
@@ -187,7 +186,8 @@ public class FederativeUserRegistrationPage extends AbstractEasyNavPage
             // Ehhhhh, register and couple this federative user, using a service...
             // fedId is same as userId!!!!
             String federativeUserId = appUser.getUserId();
-            //Services.getFederativeUserService().addFedUserToEasyUserIdCoupling(federativeUserId, appUser.getUserId());
+            // Services.getFederativeUserService().addFedUserToEasyUserIdCoupling(federativeUserId,
+            // appUser.getUserId());
             // register this special user
             FederativeUserRegistration registration = new FederativeUserRegistration(federativeUserId, appUser.getBusinessUser());
             try
@@ -200,13 +200,14 @@ public class FederativeUserRegistrationPage extends AbstractEasyNavPage
                 logger.error(message, e);
                 throw new InternalWebError();
             }
-            
+
             if (registration.isCompleted())
             {
                 // Only login if we made a coupling
                 // NOTE maybe use a FederatedAthentication class
                 // have it set the userId make it in an correct state and put it in the session
-                Authentication authentication = new Authentication() {
+                Authentication authentication = new Authentication()
+                {
                     private static final long serialVersionUID = 1L;
                 };
                 authentication.setState(Authentication.State.Authenticated);
@@ -215,11 +216,10 @@ public class FederativeUserRegistrationPage extends AbstractEasyNavPage
                 logger.info("Session (" + (Session.exists() ? Session.get().getId() : "null") + ") of user (" + EasyWicketApplication.getUserIpAddress()
                         + ") authenticated.");
                 infoMessage(USER_WELCOME, authentication.getUser().getDisplayName());
-                //authn.federative_registration_complete
+                // authn.federative_registration_complete
                 disableForm(new String[] {});
-                //infoMessage(RegistrationPage.REGISTRATION_COMPLETE, appUser.getEmail());
-                
-                
+                // infoMessage(RegistrationPage.REGISTRATION_COMPLETE, appUser.getEmail());
+
                 // logging for statistics
                 StatisticsLogger.getInstance().logEvent(StatisticsEvent.USER_LOGIN);
 
@@ -237,7 +237,7 @@ public class FederativeUserRegistrationPage extends AbstractEasyNavPage
                 // NOW WHAT?
             }
             logger.debug("End onSubmit: " + registration.toString());
-            
+
         }
 
     }

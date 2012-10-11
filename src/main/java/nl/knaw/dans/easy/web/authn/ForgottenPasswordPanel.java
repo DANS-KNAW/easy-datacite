@@ -30,71 +30,71 @@ import org.slf4j.LoggerFactory;
 public class ForgottenPasswordPanel extends AbstractEasyStatelessPanel implements EasyResources
 {
     private static final String WI_FORGOTTEN_PASSWORD_FORM = "forgottenPasswordForm";
-    
-    private static final String WI_RANDOM_TOKEN   = "token";
-    private static final String LABEL_USERID      = "user.userId";
-    private static final String LABEL_EMAIL       = "user.email";
-    
-    private static final String USERID            = "userId";
-    private static final String EMAIL             = "email";    
-    
-    private static final String INFO_PAGE				 = "forgottenPassword.infoPage";
+
+    private static final String WI_RANDOM_TOKEN = "token";
+    private static final String LABEL_USERID = "user.userId";
+    private static final String LABEL_EMAIL = "user.email";
+
+    private static final String USERID = "userId";
+    private static final String EMAIL = "email";
+
+    private static final String INFO_PAGE = "forgottenPassword.infoPage";
 
     /**
      * 
      */
     private static final long serialVersionUID = -2112347315861906706L;
-    
+
     private static Logger logger = LoggerFactory.getLogger(ForgottenPasswordPanel.class);
 
     public ForgottenPasswordPanel(String wicketId)
     {
         super(wicketId);
-        ForgottenPasswordMessenger messenger = new ForgottenPasswordMessenger();      
-        
+        ForgottenPasswordMessenger messenger = new ForgottenPasswordMessenger();
+
         add(new ForgottenPasswordForm(WI_FORGOTTEN_PASSWORD_FORM, messenger));
     }
-    
+
     private class ForgottenPasswordForm extends AbstractEasyStatelessForm
     {
         private static final long serialVersionUID = -1516859515594272714L;
-        
-        private final String      randomString;
+
+        private final String randomString;
 
         public ForgottenPasswordForm(String wicketId, ForgottenPasswordMessenger messenger)
         {
             super(wicketId, new CompoundPropertyModel(messenger));
             this.randomString = messenger.getMailToken();
             addCommonFeedbackPanel();
-           
+
             // TODO set token on ForgottenPasswordService
-            
+
             add(new HiddenField(WI_RANDOM_TOKEN, new Model(messenger.getRandomString())));
-            
+
             // userId
             FormComponent userId = new TextField(USERID);
             addWithComponentFeedback(userId, new ResourceModel(LABEL_USERID));
-            
+
             // email
             FormComponent email = new TextField(EMAIL);
             email.add(EmailAddressValidator.getInstance());
             addWithComponentFeedback(email, new ResourceModel(LABEL_EMAIL));
-            
+
             RequireOneValidator requireOne = new RequireOneValidator(userId, email);
             add(requireOne);
-            
+
             add(new SubmitLink(REQUEST_BUTTON));
-            
+
             Link cancelButton = new Link(CANCEL_BUTTON)
             {
 
                 private static final long serialVersionUID = -1205869652104297953L;
-                
+
                 @Override
                 public void onClick()
                 {
                     setResponsePage(HomePage.class);
-                }                
+                }
             };
             add(cancelButton);
         }
@@ -102,16 +102,16 @@ public class ForgottenPasswordPanel extends AbstractEasyStatelessPanel implement
         @Override
         protected void onSubmit()
         {
-        	handleRequestButtonClicked();
+            handleRequestButtonClicked();
         }
-        
-       private void handleRequestButtonClicked()
+
+        private void handleRequestButtonClicked()
         {
             // Check for a valid token
             if (randomString == null)
             {
-            	errorMessage(EasyResources.FORM_INVALID_PARAMETERS);
-            	logger.warn(getString("password form is submitted without a valid token"));
+                errorMessage(EasyResources.FORM_INVALID_PARAMETERS);
+                logger.warn(getString("password form is submitted without a valid token"));
                 return;
             }
             final ForgottenPasswordMessenger messenger = (ForgottenPasswordMessenger) getModelObject();
@@ -121,7 +121,7 @@ public class ForgottenPasswordPanel extends AbstractEasyStatelessPanel implement
                 logger.warn("password form is submitted with an invalid token. Expected: " + this.randomString + ", got " + messenger.getMailToken());
                 return; // NOPMD
             }
-            
+
             // for updating with url, we need extra data
             Map<String, String> paras = new HashMap<String, String>();
             paras.put(ChangePasswordPage.PM_REQUEST_TIME, messenger.getRequestTimeAsString());
@@ -129,36 +129,36 @@ public class ForgottenPasswordPanel extends AbstractEasyStatelessPanel implement
             messenger.setUserIdParamKey(ChangePasswordPage.PM_USER_ID);
             final String updateURL = createPageURL(ChangePasswordPage.class, paras);
             messenger.setUpdateURL(updateURL);
-            // 
-            
+            //
+
             try
-			{
-				Services.getUserService().handleForgottenPasswordRequest(messenger);
-			}
-			catch (ServiceException e)
-			{
-	            final String message = errorMessage(EasyResources.INTERNAL_ERROR);
-	            logger.error(message, e);
-		        throw new InternalWebError();
-			}
-            
+            {
+                Services.getUserService().handleForgottenPasswordRequest(messenger);
+            }
+            catch (ServiceException e)
+            {
+                final String message = errorMessage(EasyResources.INTERNAL_ERROR);
+                logger.error(message, e);
+                throw new InternalWebError();
+            }
+
             if (messenger.isCompleted())
             {
                 for (EasyUser user : messenger.getUsers())
                 {
                     info(getString(messenger.getStateKey(), new Model(user)));
                 }
-                this.disableForm(new String[]{});
+                this.disableForm(new String[] {});
                 final String title = getString(INFO_PAGE);
                 setResponsePage(new InfoPage(title));
             }
             else
             {
-            	final String message = errorMessage("state." + messenger.getState());
+                final String message = errorMessage("state." + messenger.getState());
                 logger.warn(message);
             }
         }
-        
+
     }
 
 }

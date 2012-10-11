@@ -16,7 +16,8 @@ import org.slf4j.LoggerFactory;
  * Page for logging into the application.
  */
 @RequireHttps
-public class LoginPage extends AbstractAuthenticationPage {
+public class LoginPage extends AbstractAuthenticationPage
+{
     private static Logger logger = LoggerFactory.getLogger(LoginPage.class);
 
     static final String LOGIN_PANEL_REGULAR = "loginPanelRegular";
@@ -31,68 +32,74 @@ public class LoginPage extends AbstractAuthenticationPage {
     /**
      * Initialize the same for every constructor.
      */
-    private void init() {
-	setStatelessHint(true);
-	UsernamePasswordAuthentication authentication;
-	try {
-	    authentication = Services.getUserService()
-		    .newUsernamePasswordAuthentication();
-	} catch (ServiceException e) {
-	    final String message = errorMessage(EasyResources.INTERNAL_ERROR);
-	    logger.error(message, e);
-	    throw new InternalWebError();
-	}
-	add(new LoginPanelRegular(LOGIN_PANEL_REGULAR, authentication));
-	add(new LoginPanelFederation(LOGIN_PANEL_FEDERATION)
-		.setVisible(Services.getFederativeUserService()
-			.isFederationLoginEnabled()));
-	addRegisterLink();
+    private void init()
+    {
+        setStatelessHint(true);
+        UsernamePasswordAuthentication authentication;
+        try
+        {
+            authentication = Services.getUserService().newUsernamePasswordAuthentication();
+        }
+        catch (ServiceException e)
+        {
+            final String message = errorMessage(EasyResources.INTERNAL_ERROR);
+            logger.error(message, e);
+            throw new InternalWebError();
+        }
+        add(new LoginPanelRegular(LOGIN_PANEL_REGULAR, authentication));
+        add(new LoginPanelFederation(LOGIN_PANEL_FEDERATION).setVisible(Services.getFederativeUserService().isFederationLoginEnabled()));
+        addRegisterLink();
     }
 
     /**
      * Default constructor.
      */
-    public LoginPage() {
-	super();
-	init();
+    public LoginPage()
+    {
+        super();
+        init();
     }
 
-    public LoginPage(PageParameters parameters) {
-	super(parameters);
-	init();
+    public LoginPage(PageParameters parameters)
+    {
+        super(parameters);
+        init();
     }
 
     /**
      * Add link to register.
      */
-    private void addRegisterLink() {
-	add(new PageLink(REGISTRATION, RegistrationPage.class) {
-	    /**
-	     * Serial version uid.
-	     */
-	    private static final long serialVersionUID = 1L;
+    private void addRegisterLink()
+    {
+        add(new PageLink(REGISTRATION, RegistrationPage.class)
+        {
+            /**
+             * Serial version uid.
+             */
+            private static final long serialVersionUID = 1L;
 
-	    /**
-	     * Check if visible.
-	     * 
-	     * @return true if visible
-	     */
-	    @Override
-	    public boolean isVisible() {
-		return !isAuthenticated();
-	    }
+            /**
+             * Check if visible.
+             * 
+             * @return true if visible
+             */
+            @Override
+            public boolean isVisible()
+            {
+                return !isAuthenticated();
+            }
 
-	    /**
-	     * Always stateless.
-	     * 
-	     * @return true
-	     */
-	    @Override
-	    public boolean getStatelessHint() // NOPMD: wicket method.
-	    {
-		return true;
-	    }
-	});
+            /**
+             * Always stateless.
+             * 
+             * @return true
+             */
+            @Override
+            public boolean getStatelessHint() // NOPMD: wicket method.
+            {
+                return true;
+            }
+        });
     }
 
 }

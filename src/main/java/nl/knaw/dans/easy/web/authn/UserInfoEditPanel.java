@@ -75,7 +75,7 @@ public class UserInfoEditPanel extends AbstractEasyStatelessPanel implements Eas
         {
             throw new RestartResponseException(new ErrorPage());
         }
-        
+
         // check if user has a password, federative users might not have it.
         try
         {
@@ -87,7 +87,7 @@ public class UserInfoEditPanel extends AbstractEasyStatelessPanel implements Eas
             logger.error(message, e);
             throw new InternalWebError();
         }
-        
+
         constructPanel(user);
     }
 
@@ -151,12 +151,12 @@ public class UserInfoEditPanel extends AbstractEasyStatelessPanel implements Eas
             addWithComponentFeedback(telephone, new ResourceModel("user.telephone"));
 
             addWithComponentFeedback(new TextField<String>(ApplicationUser.DAI)
-                    {
-                        protected boolean shouldTrimInput() {
-                            return true;
-                        };
-                    }.add(DAIValidator.instance()), new ResourceModel(
-                    RegistrationPage.USER_DAI));
+            {
+                protected boolean shouldTrimInput()
+                {
+                    return true;
+                };
+            }.add(DAIValidator.instance()), new ResourceModel(RegistrationPage.USER_DAI));
 
             // inform by email newsletter selection (Yes/No radio buttons)
             RadioGroup informByEmailSelection = new RadioGroup(UserProperties.OPTS_FOR_NEWSLETTER);

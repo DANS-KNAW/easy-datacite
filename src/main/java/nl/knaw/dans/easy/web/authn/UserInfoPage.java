@@ -21,38 +21,39 @@ public class UserInfoPage extends AbstractEasyNavPage
     /**
      * The key for parameter 'userId'.
      */
-    public static final String  PM_USERID            = "userId";
+    public static final String PM_USERID = "userId";
 
     /**
      * The key for parameter 'inEditMode'.
      */
-    public static final String  PM_IN_EDIT_MODE      = "inEditMode";
+    public static final String PM_IN_EDIT_MODE = "inEditMode";
 
     /**
      * The key for parameter 'enableModeSwitch'.
      */
-    public static final String  PM_ENABLE_MODESWITCH = "enableModeSwitch";
+    public static final String PM_ENABLE_MODESWITCH = "enableModeSwitch";
 
-    private static final String WI_USER_INFO_PANEL   = "userInfoPanel";
+    private static final String WI_USER_INFO_PANEL = "userInfoPanel";
 
-    private static final String WI_PAGE_HEADER       = "page.header";
+    private static final String WI_PAGE_HEADER = "page.header";
 
-    private static final String WR_FIRSTLOGIN        = "firstLogin";
+    private static final String WR_FIRSTLOGIN = "firstLogin";
 
     // Used when client views her own info.
-    private static final String RI_PERSONAL_POSTFIX  = "personal.title.postfix";
+    private static final String RI_PERSONAL_POSTFIX = "personal.title.postfix";
 
     // Used when displayed user is not on the session user.
-    private static final String RI_USER_POSTFIX      = "user.title.postfix";
+    private static final String RI_USER_POSTFIX = "user.title.postfix";
 
-    private final String        displayedUserId;
+    private final String displayedUserId;
 
     private final boolean isFirstLogin;
 
-    private static Logger       logger               = LoggerFactory.getLogger(UserInfoPage.class);
+    private static Logger logger = LoggerFactory.getLogger(UserInfoPage.class);
 
     /**
-     * No-argument constructor for displaying information on the current user, switch to edit-mode is enabled.
+     * No-argument constructor for displaying information on the current user, switch to edit-mode is
+     * enabled.
      */
     public UserInfoPage()
     {
@@ -65,8 +66,8 @@ public class UserInfoPage extends AbstractEasyNavPage
      * @param inEditMode
      *        start in edit-mode (<code>true</code>) or in display-mode (<code>false</code>)
      * @param enableModeSwitch
-     *        enable switching between edit-mode and display-mode: <code>true</code> for allowing the switch,
-     *        <code>false</code> otherwise
+     *        enable switching between edit-mode and display-mode: <code>true</code> for allowing the
+     *        switch, <code>false</code> otherwise
      */
     public UserInfoPage(boolean inEditMode, boolean enableModeSwitch)
     {
@@ -74,8 +75,7 @@ public class UserInfoPage extends AbstractEasyNavPage
         EasyUser currentUser = getSessionUser();
         if (currentUser == null)
         {
-            logger.error(this.getClass().getName()
-                    + " called without the user being logged in. Redirecting to HomePage.");
+            logger.error(this.getClass().getName() + " called without the user being logged in. Redirecting to HomePage.");
             throw new RestartResponseException(HomePage.class);
         }
         else
@@ -114,8 +114,8 @@ public class UserInfoPage extends AbstractEasyNavPage
      * @param inEditMode
      *        start in edit-mode (<code>true</code>) or in display-mode (<code>false</code>)
      * @param enableModeSwitch
-     *        enable switching between edit-mode and display-mode: <code>true</code> for allowing the switch,
-     *        <code>false</code> otherwise
+     *        enable switching between edit-mode and display-mode: <code>true</code> for allowing the
+     *        switch, <code>false</code> otherwise
      */
     public UserInfoPage(String userId, boolean inEditMode, boolean enableModeSwitch)
     {
@@ -158,7 +158,7 @@ public class UserInfoPage extends AbstractEasyNavPage
                 return isFirstLogin;
             }
         });
-        
+
         add(new SwitchPanel(WI_USER_INFO_PANEL, inEditMode)
         {
 
@@ -176,7 +176,6 @@ public class UserInfoPage extends AbstractEasyNavPage
                 return new UserInfoEditPanel(this, displayedUserId, enableModeSwitch);
             }
 
-            
         });
     }
 

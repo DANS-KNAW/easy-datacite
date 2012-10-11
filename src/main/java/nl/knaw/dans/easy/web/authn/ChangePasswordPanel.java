@@ -30,55 +30,50 @@ import org.slf4j.LoggerFactory;
 public class ChangePasswordPanel extends AbstractEasyStatelessPanel implements EasyResources
 {
     private static final String WI_CHANGE_PASSWORD_FORM = "changePasswordForm";
+    private static final String WI_RANDOM_TOKEN = "token";
+    private static final String WI_USER_ID = "user.userId";
+    private static final String LABEL_OLD_PASSWORD = "label.oldPassword";
+    private static final String LABEL_NEW_PASSWORD = "label.newPassword";
+    private static final String LABEL_CONFIRM_PASSWORD = "label.confirmPassword";
+    private static final String OLD_PASSWORD = "oldPassword";
+    private static final String NEW_PASSWORD = "newPassword";
+    private static final String CONFIRM_PASSWORD = "confirmPassword";
+    private static final String INFO_PAGE = "changePassword.infoPage";
+    private static Logger logger = LoggerFactory.getLogger(ChangePasswordPanel.class);
+    private static final long serialVersionUID = 6320109414610346669L;
 
-    private static final String WI_RANDOM_TOKEN         = "token";
-    private static final String WI_USER_ID         		= "user.userId";
-    private static final String LABEL_OLD_PASSWORD      = "label.oldPassword";
-    private static final String LABEL_NEW_PASSWORD      = "label.newPassword";
-    private static final String LABEL_CONFIRM_PASSWORD  = "label.confirmPassword";
-
-    private static final String OLD_PASSWORD            = "oldPassword";
-    private static final String NEW_PASSWORD            = "newPassword";
-    private static final String CONFIRM_PASSWORD        = "confirmPassword";
-
-    private static final String INFO_PAGE				 = "changePassword.infoPage";
-
-    private static Logger       logger                  = LoggerFactory.getLogger(ChangePasswordPanel.class);
-
-    private static final long   serialVersionUID        = 6320109414610346669L;
-
-	private ChangePasswordForm	changePasswordForm;
+    private ChangePasswordForm changePasswordForm;
 
     public ChangePasswordPanel(String wicketId, ChangePasswordMessenger messenger)
     {
         super(wicketId);
-        
+
         add(new Label(WI_USER_ID, new StringResourceModel("label.userId", new Model<ChangePasswordMessenger>(messenger))));
-        
+
         changePasswordForm = new ChangePasswordForm(WI_CHANGE_PASSWORD_FORM, messenger);
-		add(changePasswordForm);
+        add(changePasswordForm);
 
         addCommonFeedbackPanel(new ExcludeMessageFilter(changePasswordForm));
     }
 
     private class ChangePasswordForm extends AbstractEasyStatelessForm
     {
-		private static final long serialVersionUID = 6204591036947047986L;
+        private static final long serialVersionUID = 6204591036947047986L;
 
         /**
          * RandomString used as token against XSS attacks.
          */
-        private final String      randomString;
+        private final String randomString;
 
         public ChangePasswordForm(String wicketId, ChangePasswordMessenger messenger)
         {
             super(wicketId, new CompoundPropertyModel<ChangePasswordMessenger>(messenger));
-            
+
             this.randomString = SecurityUtil.getRandomString();
             messenger.setToken(this.randomString);
 
             add(new HiddenField<String>(WI_RANDOM_TOKEN, new Model<String>(this.randomString)));
-            
+
             // old password
             FormComponent<String> oldPassword = new PasswordTextField(OLD_PASSWORD).setRequired(true);
             addWithComponentFeedback(oldPassword, new ResourceModel(LABEL_OLD_PASSWORD));
@@ -98,7 +93,8 @@ public class ChangePasswordPanel extends AbstractEasyStatelessPanel implements E
 
             if (!messenger.isMailContext()) // no oldPassword on mail form variant
             {
-                // Validator for unequal passwords. checks if old and new password are by incident identical.
+                // Validator for unequal passwords. checks if old and new password are by incident
+                // identical.
                 add(new UnEqualInputValidator(oldPassword, password));
             }
 
@@ -122,16 +118,16 @@ public class ChangePasswordPanel extends AbstractEasyStatelessPanel implements E
         @Override
         protected void onSubmit()
         {
-        	handleUpdateButtonClicked();
+            handleUpdateButtonClicked();
         }
 
-       private void handleUpdateButtonClicked()
+        private void handleUpdateButtonClicked()
         {
             // Check for a valid token
             if (randomString == null)
             {
                 errorMessage(EasyResources.FORM_INVALID_PARAMETERS);
-            	logger.warn("password form is submitted without a valid token");
+                logger.warn("password form is submitted without a valid token");
                 return;
             }
 
@@ -147,24 +143,24 @@ public class ChangePasswordPanel extends AbstractEasyStatelessPanel implements E
             {
                 Services.getUserService().changePassword(messenger);
             }
-            catch(ServiceException e)
+            catch (ServiceException e)
             {
                 final String message = errorMessage(EasyResources.INTERNAL_ERROR);
                 logger.error(message, e);
-    	        throw new InternalWebError();
+                throw new InternalWebError();
             }
             if (messenger.isCompleted())
             {
                 disableForm(new String[] {});
                 final String message = infoMessage(EasyResources.PASSWORD_SUCCESFULLY_CHANGED);
-            	logger.info(message);
+                logger.info(message);
                 final String title = getString(INFO_PAGE);
                 setResponsePage(new InfoPage(title));
             }
             else
             {
-            	final String message = errorMessage("state." + messenger.getState());
-            	logger.warn(message);
+                final String message = errorMessage("state." + messenger.getState());
+                logger.warn(message);
                 return;
             }
         }

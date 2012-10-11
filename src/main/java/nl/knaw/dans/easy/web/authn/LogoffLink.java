@@ -25,7 +25,7 @@ public class LogoffLink extends Link
         logger.debug("Logoutlink is clicked");
         StatisticsLogger.getInstance().logEvent(StatisticsEvent.USER_LOGOUT);
         EasySession.get().setLoggedOff();
-        setRedirect(true);        
+        setRedirect(true);
         setResponsePage(Application.get().getHomePage());
     }
 
@@ -34,7 +34,7 @@ public class LogoffLink extends Link
     {
         return isUserLoggedOn();
     }
-    
+
     private static boolean isUserLoggedOn()
     {
         return !EasySession.get().getUser().isAnonymous();

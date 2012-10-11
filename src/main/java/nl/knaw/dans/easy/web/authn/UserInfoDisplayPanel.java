@@ -25,14 +25,14 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
 {
     private static final String WR_CHANGE_PASSWORD_LINK = "changePasswordLink";
 
-    private static final long   serialVersionUID = 2646103426056079L;
+    private static final long serialVersionUID = 2646103426056079L;
 
-    private static Logger       logger            = LoggerFactory.getLogger(UserInfoDisplayPanel.class);
+    private static Logger logger = LoggerFactory.getLogger(UserInfoDisplayPanel.class);
 
     private final SwitchPanel parent;
-    private final boolean       enableModeSwitch;
+    private final boolean enableModeSwitch;
     private boolean hasPassword = false;
-    
+
     public UserInfoDisplayPanel(final SwitchPanel parent, final String userId, final boolean enableModeSwitch)
     {
         super(SwitchPanel.SWITCH_PANEL_WI);
@@ -50,8 +50,8 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
         }
         catch (ServiceException e)
         {
-        	final String message = errorMessage(EasyResources.USER_NOT_FOUND, userId);
-        	logger.error(message);
+            final String message = errorMessage(EasyResources.USER_NOT_FOUND, userId);
+            logger.error(message);
             throw new RestartResponseException(new ErrorPage());
         }
 
@@ -59,7 +59,7 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
         {
             throw new RestartResponseException(new ErrorPage());
         }
-        
+
         // check if user has a password, federative users might not have it.
         try
         {
@@ -71,7 +71,7 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
             logger.error(message, e);
             throw new InternalWebError();
         }
-        
+
         constructPanel(user);
     }
 
@@ -80,7 +80,7 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
         super.setDefaultModel(new CompoundPropertyModel(user));
 
         addCommonFeedbackPanel();
-        
+
         Label userIdLabel = new Label(UserProperties.USER_ID);
         add(userIdLabel);
         add(new Label(UserProperties.DISPLAYNAME));
@@ -101,14 +101,11 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
         add(new Label(UserProperties.EMAIL));
         add(new Label(UserProperties.TELEPHONE));
         add(new Label(UserProperties.DAI));
-        
-		// Have different message depending on boolean; yes or no!
-		add(new Label(UserProperties.OPTS_FOR_NEWSLETTER,
-		        new StringResourceModel("userinfo.optsForNewsletter.${optsForNewsletter}", this, new Model(user))));
-        add(new Label(UserProperties.LOG_MY_ACTIONS,
-                new StringResourceModel("userinfo.logMyActions.${logMyActions}", this, new Model(user))));
-		
-       
+
+        // Have different message depending on boolean; yes or no!
+        add(new Label(UserProperties.OPTS_FOR_NEWSLETTER, new StringResourceModel("userinfo.optsForNewsletter.${optsForNewsletter}", this, new Model(user))));
+        add(new Label(UserProperties.LOG_MY_ACTIONS, new StringResourceModel("userinfo.logMyActions.${logMyActions}", this, new Model(user))));
+
         Link modeSwitch = new Link(EDIT_LINK)
         {
 
@@ -123,7 +120,7 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
         };
         modeSwitch.setVisible(enableModeSwitch);
         add(modeSwitch);
-        
+
         Link changePasswordLink = new Link(WR_CHANGE_PASSWORD_LINK)
         {
 
@@ -133,22 +130,22 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
             public void onClick()
             {
                 setResponsePage(ChangePasswordPage.class);
-            }          
+            }
         };
         add(changePasswordLink);
-        
+
         // hide information from user without a password (federative only user)
-        if(!hasPassword)
+        if (!hasPassword)
         {
             changePasswordLink.setVisible(false);
             userIdLabel.setVisible(false);
         }
     }
-    
+
     private String getDisciplineString(String id)
     {
         KeyValuePair result = DisciplineUtils.getDisciplineItemById(id);
-        
+
         return result == null ? "" : result.getValue();
     }
 

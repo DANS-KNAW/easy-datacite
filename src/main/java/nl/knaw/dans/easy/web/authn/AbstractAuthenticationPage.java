@@ -15,35 +15,35 @@ import org.slf4j.LoggerFactory;
 public class AbstractAuthenticationPage extends AbstractEasyNavPage
 {
     private static Logger LOGGER = LoggerFactory.getLogger(AbstractAuthenticationPage.class);
-    
+
     public AbstractAuthenticationPage()
     {
         super();
     }
-    
+
     public AbstractAuthenticationPage(final PageParameters paras)
     {
         super(paras);
     }
-    
+
     public AbstractAuthenticationPage(final IPageMap pageMap, final PageParameters paras)
     {
         super(pageMap, paras);
     }
-    
+
     public boolean signIn(Authentication authentication)
     {
         boolean signedIn;
         try
-		{
-			Services.getUserService().authenticate(authentication);
-		}
-		catch (ServiceException e)
-		{
-        	final String message = errorMessage(EasyResources.INTERNAL_ERROR);
-        	LOGGER.error(message);
+        {
+            Services.getUserService().authenticate(authentication);
+        }
+        catch (ServiceException e)
+        {
+            final String message = errorMessage(EasyResources.INTERNAL_ERROR);
+            LOGGER.error(message);
             throw new InternalWebError();
-		}
+        }
         if (authentication.isCompleted())
         {
             signedIn = true;
@@ -55,5 +55,4 @@ public class AbstractAuthenticationPage extends AbstractEasyNavPage
         }
         return signedIn;
     }
-    
 }

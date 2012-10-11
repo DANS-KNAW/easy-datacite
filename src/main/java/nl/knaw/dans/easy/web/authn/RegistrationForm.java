@@ -48,7 +48,7 @@ public class RegistrationForm extends AbstractEasyStatelessForm<ApplicationUser>
     private static final Logger logger = LoggerFactory.getLogger(RegistrationPage.class);
     private static final String INFO_PAGE = "registrationpage.header";
     private static final String WI_REGISTER = "register";
-    
+
     private final SubmitLink registerLink = new SubmitLink(WI_REGISTER);
 
     private String paramUserId;
@@ -114,16 +114,16 @@ public class RegistrationForm extends AbstractEasyStatelessForm<ApplicationUser>
                 DisciplineUtils.getDisciplinesChoiceList().getChoices(), new KvpChoiceRenderer()));
 
         addWithComponentFeedback(new TextField<String>(ApplicationUser.DAI)
-                {
+        {
 
-                    private static final long serialVersionUID = 1L;
-                    
-                    protected boolean shouldTrimInput() {
-                        return true;
-                    };
-                    
-                }.add(DAIValidator.instance()), new ResourceModel(
-                RegistrationPage.USER_DAI));
+            private static final long serialVersionUID = 1L;
+
+            protected boolean shouldTrimInput()
+            {
+                return true;
+            };
+
+        }.add(DAIValidator.instance()), new ResourceModel(RegistrationPage.USER_DAI));
         addWithComponentFeedback(new TextField<String>(ApplicationUser.ORGANIZATION), new ResourceModel(RegistrationPage.USER_ORGANIZATION));
         addWithComponentFeedback(new TextField<String>(ApplicationUser.DEPARTMENT), new ResourceModel(RegistrationPage.USER_DEPARTMENT));
         addWithComponentFeedback(new RequiredTextField<String>(ApplicationUser.ADDRESS), new ResourceModel(RegistrationPage.USER_ADDRESS));

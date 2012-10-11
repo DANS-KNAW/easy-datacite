@@ -26,7 +26,6 @@ import org.slf4j.LoggerFactory;
 
 public final class LoginForm extends AbstractEasyStatelessForm implements EasyResources
 {
- 
 
     /**
      * Constant for wicket id.
@@ -42,7 +41,6 @@ public final class LoginForm extends AbstractEasyStatelessForm implements EasyRe
      * Serial version UID.
      */
     private static final long serialVersionUID = -3701737275804449456L;
-
 
     /**
      * Constructor with wicketId and UsernamePasswordAuthentication.
@@ -126,7 +124,7 @@ public final class LoginForm extends AbstractEasyStatelessForm implements EasyRe
         else
         {
             UserLocking.addTry(authentication.getUserId());
-            
+
             logger.info("Failed authentication for: " + authentication);
             for (String stateKey : authentication.getAccumulatedStateKeys())
             {
