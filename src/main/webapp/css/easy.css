@@ -1574,7 +1574,6 @@ div.popupDialog {
 	position: relative;
 	margin-top: 20px;
 	padding: 10px;
-	border: 1px solid #CDCDCD;
 	width: 35em;
 }
 
@@ -1586,7 +1585,7 @@ div.popupDialog {
 	margin-top: 2em;	
 }
 
-#login .login_button {
+#login .login_button, .login-wrapper .login_butto n{
 	margin-top: 2.2em;
 	margin-bottom: 2em;
 }
@@ -1699,3 +1698,36 @@ div.popupDialog {
 	vertical-align: text-bottom !important;
 }
 */
+
+#loginForm .clear {
+    clear: both;
+}
+#loginForm .login-wrapper {
+    padding: 1em 0em;
+    width: 800px;
+}
+#loginForm .login-left {
+    display: block;
+    width: 43%;
+    float: left;
+    padding: 0 3%;
+}
+#loginForm .login-right {
+    display: block;
+    width: 44%;
+    float: left;
+    padding: 0 3%;
+}
+#loginForm .link {
+    background: url('../images/link.png') 50% 50% no-repeat;
+}
+#loginForm .login {
+    background: url('../images/login.png') 50% 50% no-repeat;
+}
+
+#loginForm p {
+    margin-left: 1em;
+}
+#loginForm .login-wrapper p {
+    margin-left: 0em;
+}
