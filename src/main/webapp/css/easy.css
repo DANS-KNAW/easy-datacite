@@ -50,7 +50,7 @@ h1 {
 
 h2 {
 	font-family: Verdana, Geneva, sans-serif!important;
-	font-size: 1.125em!important; /* 18px / 112,5% / 14pt - was 160%; */
+	font-size: 1.125em; /* 18px / 112,5% / 14pt - was 160%; */
 	font-weight: bold;
 	color: #555;
 	line-height: 30px;
@@ -58,7 +58,7 @@ h2 {
 
 h3 {
 	font-family: Verdana, Geneva, sans-serif!important;
-	font-size: 1em!important;
+	font-size: 1em;
 	display: inline;
 	color:#787878;
 	font-weight: bold;
@@ -1569,33 +1569,6 @@ div.popupDialog {
     width: 35em;	
 }
 
-/* MB 30-06-2011 - toegevoegd tbv het login-kader op de login-pagina. */
-#login {
-	position: relative;
-	margin-top: 20px;
-	padding: 10px;
-	width: 35em;
-}
-
-#login .login_margin_bottom {
-	margin-bottom: 1em; 	
-}
-
-#login .login_margin_top {
-	margin-top: 2em;	
-}
-
-#login .login_button, .login-wrapper .login_butto n{
-	margin-top: 2.2em;
-	margin-bottom: 2em;
-}
-
-#login .login_align_right {
-	position: absolute;
-	right: 33%;
-	margin-top: -0.2em;	
-}
-
 .setStatusPanelLabelWidth {
 	width: 5%;	
 }
@@ -1703,31 +1676,73 @@ div.popupDialog {
     clear: both;
 }
 #loginForm .login-wrapper {
-    padding: 1em 0em;
-    width: 800px;
+    width: 700px;
+    height: 200px;
+    padding: 1em;
+    border: 1px solid #d0d0d0;
+    margin-bottom: 2em;
 }
-#loginForm .login-left {
+#loginForm #loginPanelFederation {
     display: block;
-    width: 43%;
+    width: 52%;
     float: left;
-    padding: 0 3%;
 }
-#loginForm .login-right {
+
+#loginForm #loginPanelFederation .login-left {
+	float: left;
+	width: 88%;
+}
+
+#loginForm #loginPanelRegular {
     display: block;
     width: 44%;
     float: left;
-    padding: 0 3%;
 }
 #loginForm .link {
     background: url('../images/link.png') 50% 50% no-repeat;
+    width: 32px;
+    float: left;
 }
-#loginForm .login {
+#loginForm #vertical-split {
     background: url('../images/login.png') 50% 50% no-repeat;
+    width: 32px;
+    height: 200px;
+    float: right;
 }
 
-#loginForm p {
-    margin-left: 1em;
-}
 #loginForm .login-wrapper p {
     margin-left: 0em;
+}
+
+#loginForm #no-account {
+	clear: both;
+}
+
+#loginForm .login-text {
+	height: 7em;
+}
+
+.login label {
+	width: 7em;
+	display: inline-block;	
+	font-size: 110%;	
+}
+
+.login {
+	margin-top: 2em;
+	line-height: 2.8em;
+}
+
+#bodyContent #loginPanelFederation p {
+	line-height: 2.8em;
+}
+
+#loginForm h2 {
+	font-size: 2em;
+	line-height: 2em;
+}
+
+#loginForm h3 {
+	font-size: 1.5em;
+	line-height: 1.5em;
 }

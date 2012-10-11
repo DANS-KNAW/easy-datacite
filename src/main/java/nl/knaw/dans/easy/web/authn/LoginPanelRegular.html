@@ -11,32 +11,30 @@
 				class="feedback">Messages</div>
 			<input type="hidden" name="token" wicket:id="token" />
 
-			<div id="login">
-				<p>
-					<wicket:message key="label.intro">[Intro message]</wicket:message>
-				</p>
+			<div class="login">
+				<div class="login-text">
+					<wicket:enclosure>
+						<span class="feedback"><span
+							wicket:id="userId-componentFeedback"> componentFeedback</span></span>
+					</wicket:enclosure>
 
-				<wicket:enclosure>
-					<span class="feedback"><span
-						wicket:id="userId-componentFeedback"> componentFeedback</span></span>
-				</wicket:enclosure>
+					<div class="login_margin_bottom login_margin_top">
+						<label for="userId"><wicket:message key="user.userId">userId</wicket:message></label>
+						<input id="userId" wicket:id="userId" type="text"
+							class="standard login_align_right" />
+					</div>
 
-				<div class="login_margin_bottom login_margin_top">
-					<label for="userId"><wicket:message key="user.userId">userId</wicket:message></label>
-					<input id="userId" wicket:id="userId" type="text"
-						class="standard login_align_right" />
-				</div>
+					<wicket:enclosure>
+						<span class="feedback"><span
+							wicket:id="credentials-componentFeedback">
+								componentFeedback</span></span>
+					</wicket:enclosure>
 
-				<wicket:enclosure>
-					<span class="feedback"><span
-						wicket:id="credentials-componentFeedback">
-							componentFeedback</span></span>
-				</wicket:enclosure>
-
-				<div class="login_margin_bottom">
-					<label for="password"><wicket:message key="user.password">password</wicket:message></label>
-					<input id="password" wicket:id="credentials" type="password"
-						class="standard login_align_right" />
+					<div class="login_margin_bottom">
+						<label for="password"><wicket:message key="user.password">password</wicket:message></label>
+						<input id="password" wicket:id="credentials" type="password"
+							class="standard login_align_right" />
+					</div>
 				</div>
 
 				<div class="login_button">
@@ -55,6 +53,5 @@
 					key="link.forgottenpassword">Forgotten password</wicket:message></a>
 		</p>
 	</div>
-	<div class="clear"></div>
 </wicket:panel>
 </html>

@@ -5,17 +5,18 @@
 	<div id="loginForm">
 
 		<h2>Please log in using your...</h2>
-		<div class="login-wrapper login">
-			<div wicket:id="loginPanelFederation">LoginPanel Federation</div>
-			<div wicket:id="loginPanelRegular">LoginPanel Regular</div>
-
+		<div class="login-wrapper">
+			<div id="loginPanelFederation" wicket:id="loginPanelFederation">LoginPanel Federation</div>
+			<div id="loginPanelRegular" wicket:id="loginPanelRegular">LoginPanel Regular</div>
 		</div>
 
-		<h2>No EASY account yet?</h2>
-		<p>
-			Please <a href="#" wicket:id="registration">register</a> to be able
-			to use the full functionality of EASY (e.g. deposit research data).
-		</p>
+		<div id="no-account">
+			<h2>No EASY account yet?</h2>
+			<p>
+				Please <a href="#" wicket:id="registration">register</a> to be able
+				to use the full functionality of EASY (e.g. deposit research data).
+			</p>
+		</div>
 	</div>
 
 </wicket:extend>
