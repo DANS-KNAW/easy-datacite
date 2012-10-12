@@ -160,6 +160,17 @@ public abstract class AbstractEmdContainer implements EmdContainer
         }
         return empty;
     }
+    
+    @Override
+    public int size()
+    {
+        int size = 0;
+        for (Term term : getTerms())
+        {
+            size += getTermWithNamespace(term).size();
+        }
+        return size;
+    }
 
     private void appendItems(final String separator, final StringBuilder builder, final List<?> list)
     {

@@ -82,6 +82,10 @@
 				<labelResourceKey>label.dc.contributor</labelResourceKey>
 				<shortHelpResourceKey></shortHelpResourceKey>
 				<helpItem>Contributor</helpItem>
+				<property>
+					<name>hideWhenEmpty</name>
+					<value>true</value>
+				</property>
 			</properties>
 			<modelClass>BasicStringListWrapper</modelClass>
 			<panelClass>TextFieldPanel</panelClass>
@@ -97,10 +101,14 @@
 				<labelResourceKey>label.dc.creator</labelResourceKey>
 				<shortHelpResourceKey></shortHelpResourceKey>
 				<helpItem>Creator</helpItem>
+				<property>
+					<name>hideWhenEmpty</name>
+					<value>true</value>
+				</property>
 			</properties>
 			<modelClass>BasicStringListWrapper</modelClass>
 			<panelClass>TextFieldPanel</panelClass>
-			<required>true</required>
+			<required>false</required>
 			<repeating>true</repeating>
 			<namespacePrefix>dc</namespacePrefix>
 			<termName>creator</termName>			
@@ -745,6 +753,8 @@
             	<ref-panelId>dc.title</ref-panelId>
                 <ref-panelId>dcterms.alternative</ref-panelId>
                 <ref-panelId>eas.creator</ref-panelId>
+                <ref-panelId>dc.creator</ref-panelId>
+                <ref-panelId>dc.contributor</ref-panelId>
                 <ref-panelId>eas.contributor</ref-panelId>
                 <ref-panelId>eas.created</ref-panelId>
                 <ref-panelId>dcterms.rightsHolder</ref-panelId>
@@ -795,7 +805,9 @@
                     	<ref-panelId>archis2.edit</ref-panelId>
                         <ref-panelId>dc.title</ref-panelId>
                         <ref-panelId>dcterms.alternative</ref-panelId>
+                        <ref-panelId>dc.creator</ref-panelId>
                         <ref-panelId>eas.creator</ref-panelId>
+                        <ref-panelId>dc.creator</ref-panelId>
                         <ref-panelId>eas.contributor</ref-panelId>
                         <ref-panelId>eas.created</ref-panelId>
                         <ref-panelId>dcterms.rightsHolder</ref-panelId>

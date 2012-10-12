@@ -72,6 +72,7 @@ public class DatasetWorkDispatcher
             
             // single property dc.creator cannot be converted to multiple properties of eas,creator. remove dc.creator
             clonedEmd.getEmdCreator().getDcCreator().clear();
+            clonedEmd.getEmdContributor().getDcContributor().clear();
 
             clonedDataset = (DatasetImpl) AbstractDmoFactory.newDmo(Dataset.NAMESPACE);
             clonedDataset.setEasyMetadata(clonedEmd);

@@ -61,6 +61,12 @@ public interface EmdContainer extends Serializable
      * @return <code>true</code> if this container is empty, <code>false</code> otherwise
      */
     boolean isEmpty();
+    
+    /**
+     * Returns the number of items in this EmdContainer. Null-items are counted.
+     * @return the number of items
+     */
+    int size();
 
     /**
      * Get a string-representation of this container. Items are separated with the

@@ -37,6 +37,10 @@
 				<labelResourceKey>label.dc.contributor</labelResourceKey>
 				<shortHelpResourceKey>shortHelp.dc.contributor</shortHelpResourceKey>
 				<helpItem>Contributor</helpItem>
+				<property>
+					<name>hideWhenEmpty</name>
+					<value>true</value>
+				</property>
 			</properties>
 			<modelClass>BasicStringListWrapper</modelClass>
 			<panelClass>TextFieldPanel</panelClass>
@@ -52,10 +56,14 @@
 				<labelResourceKey>label.dc.creator</labelResourceKey>
 				<shortHelpResourceKey>shortHelp.dc.creator</shortHelpResourceKey>
 				<helpItem>Creator</helpItem>
+				<property>
+					<name>hideWhenEmpty</name>
+					<value>true</value>
+				</property>
 			</properties>
 			<modelClass>BasicStringListWrapper</modelClass>
 			<panelClass>TextFieldPanel</panelClass>
-			<required>true</required>
+			<required>false</required>
 			<repeating>true</repeating>
 			<namespacePrefix>dc</namespacePrefix>
 			<termName>creator</termName>			
@@ -603,6 +611,7 @@
                 <labelResourceKey>label.suppliedMetadata</labelResourceKey>
             </properties>
             <panels>
+            	<ref-panelId>dc.creator</ref-panelId>
             	<ref-panelId>eas.creator</ref-panelId>
                 <ref-panelId>dc.title</ref-panelId>
                 <ref-panelId>dc.description</ref-panelId>
@@ -612,6 +621,7 @@
         		<ref-panelId>eas.available</ref-panelId>
                 <ref-panelId>dcterms.audience</ref-panelId>
                 <ref-panelId>dc.publisher</ref-panelId>
+                <ref-panelId>dc.contributor</ref-panelId>
                 <ref-panelId>eas.contributor</ref-panelId>
                 <!-- ref-panelId>dc.subject.bac</ref-panelId-->                
             	<ref-panelId>dc.subject</ref-panelId>
@@ -647,6 +657,7 @@
                     </properties>
                     <cssContainerClassName>depositForm</cssContainerClassName>
                     <panels>
+                    	<ref-panelId>dc.creator</ref-panelId>
                     	<ref-panelId>eas.creator</ref-panelId>
                         <ref-panelId>dc.title</ref-panelId>
                         <ref-panelId>dc.description</ref-panelId>
@@ -664,6 +675,7 @@
                     </properties>
                     <cssContainerClassName>depositForm</cssContainerClassName>
                     <panels>
+                    	<ref-panelId>dc.contributor</ref-panelId>
                     	<ref-panelId>eas.contributor</ref-panelId>
                     	<ref-panelId>dc.subject</ref-panelId>
                     	<ref-panelId>coverage.spatial</ref-panelId>
