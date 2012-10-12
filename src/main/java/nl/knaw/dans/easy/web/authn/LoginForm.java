@@ -24,7 +24,7 @@ import org.apache.wicket.model.ResourceModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class LoginForm extends AbstractEasyStatelessForm implements EasyResources
+public class LoginForm extends AbstractEasyStatelessForm implements EasyResources
 {
 
     /**
@@ -84,13 +84,13 @@ public final class LoginForm extends AbstractEasyStatelessForm implements EasyRe
 
         if (signIn(authentication))
         {
+            handleSuccessfulLogin();
+            
             logger.info("Session (" + (Session.exists() ? Session.get().getId() : "null") + ") of user (" + EasyWicketApplication.getUserIpAddress()
                     + ") authenticated.");
-            infoMessage(USER_WELCOME, authentication.getUser().getDisplayName());
-
-            // logging for statistics
             StatisticsLogger.getInstance().logEvent(StatisticsEvent.USER_LOGIN);
 
+            // TODO: Is this stale code?            
             // do we need an upate on user info?
             if (authentication.getUser().isUserInfoUpdateRequired())
             {
@@ -134,6 +134,10 @@ public final class LoginForm extends AbstractEasyStatelessForm implements EasyRe
             setResponsePage(this.getPage());
         }
     }
+    
+    protected void handleSuccessfulLogin() {
+        
+    }
 
     /**
      * Sign the user in for the application.
@@ -150,14 +154,13 @@ public final class LoginForm extends AbstractEasyStatelessForm implements EasyRe
         return signedIn;
     }
 
-    /**
-     * Only visible when not logged in.
-     * 
-     * @return false if logged in.
-     */
     @Override
     public boolean isVisible()
     {
-        return !((AbstractEasyNavPage) getPage()).isAuthenticated();
+        return !isLoggedIn();
+    }
+    
+    private boolean isLoggedIn() {
+        return ((AbstractEasyNavPage) getPage()).isAuthenticated();
     }
 }

@@ -49,7 +49,7 @@ public class LoginPage extends AbstractAuthenticationPage
             throw new InternalWebError();
         }
         add(new LoginPanelFederation(LOGIN_PANEL_FEDERATION).setVisible(Services.getFederativeUserService().isFederationLoginEnabled()));
-        add(new LoginPanelRegular(LOGIN_PANEL_REGULAR, authentication));
+        add(new LoginPanelRegular(LOGIN_PANEL_REGULAR, new LoginForm("loginForm", authentication)));
         addRegisterLink();
     }
 

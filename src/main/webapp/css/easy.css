@@ -1697,10 +1697,11 @@ div.popupDialog {
     width: 47%;
     float: left;
 }
-#login-page .link {
+#login-page #link {
     background: url('../images/link.png') 50% 50% no-repeat;
     width: 32px;
-    float: left;
+    height: 200px;
+    float: right;
 }
 #login-page #vertical-split {
     background: url('../images/login.png') 50% 50% no-repeat;
@@ -1717,11 +1718,12 @@ div.popupDialog {
 	height: 7em;
 }
 
-.login label {
+.login label, .login td {
 	width: 7em;
 	display: inline-block;	
 	font-size: 110%;	
 }
+
 
 .login {
 	margin-top: 2em;

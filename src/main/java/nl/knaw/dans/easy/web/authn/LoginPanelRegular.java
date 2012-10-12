@@ -42,19 +42,10 @@ public class LoginPanelRegular extends AbstractEasyStatelessPanel
      * @param wicketId
      *        The wicket id for this component.
      */
-    public LoginPanelRegular(final String wicketId, final UsernamePasswordAuthentication authentication)
+    public LoginPanelRegular(final String wicketId, LoginForm loginForm)
     {
         super(wicketId);
-        init(authentication);
-    }
-
-    /**
-     * Initialize the same for every constructor.
-     */
-    private void init(final UsernamePasswordAuthentication authentication)
-    {
-        addLoginForm(authentication);
-
+        add(loginForm);
         addForgottenPasswordLink();
     }
 
@@ -90,13 +81,5 @@ public class LoginPanelRegular extends AbstractEasyStatelessPanel
                 return true;
             }
         });
-    }
-
-    /**
-     * Add default LoginForm.
-     */
-    private void addLoginForm(final UsernamePasswordAuthentication authentication)
-    {
-        add(new LoginForm(LOGIN_FORM, authentication));
     }
 }
