@@ -21,4 +21,14 @@ public interface FederativeUserService
     boolean isFederationLoginEnabled();    
 
 	URL getFederationUrl();
+
+    public abstract String getPopertyNameOrganization();
+
+    public abstract String getPropertyNameSurname();
+
+    public abstract String getPropertyNameFirstName();
+
+    public abstract String getPropertyNameEmail();
+
+    public abstract String getPropertyNameUserId();
 }

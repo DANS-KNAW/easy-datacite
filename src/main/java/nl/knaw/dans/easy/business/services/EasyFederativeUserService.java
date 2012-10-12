@@ -20,6 +20,11 @@ public class EasyFederativeUserService extends AbstractEasyService implements Fe
     private static Logger       logger              = LoggerFactory.getLogger(EasyFederativeUserService.class);
     private URL federationUrl;
     private boolean federationLoginEnabled;
+    private String propertyNameUserId;
+    private String propertyNameEmail;
+    private String propertyNameFirstName;
+    private String propertyNameSurname;
+    private String popertyNameOrganization;
 
     @Override
     public EasyUser getUserById(EasyUser sessionUser, String fedUserId) throws ObjectNotAvailableException, ServiceException
@@ -122,4 +127,59 @@ public class EasyFederativeUserService extends AbstractEasyService implements Fe
 	public boolean isFederationLoginEnabled() {
 		return federationLoginEnabled;
 	}
+
+    @Override
+    public String getPropertyNameUserId()
+    {
+        return propertyNameUserId;
+    }
+
+    public void setPropertyNameUserId(String propertyNameUserId)
+    {
+        this.propertyNameUserId = propertyNameUserId;
+    }
+
+    @Override
+    public String getPropertyNameEmail()
+    {
+        return propertyNameEmail;
+    }
+
+    public void setPropertyNameEmail(String propertyNameEmail)
+    {
+        this.propertyNameEmail = propertyNameEmail;
+    }
+
+    @Override
+    public String getPropertyNameFirstName()
+    {
+        return propertyNameFirstName;
+    }
+
+    public void setPropertyNameFirstName(String propertyNameFirstName)
+    {
+        this.propertyNameFirstName = propertyNameFirstName;
+    }
+
+    @Override
+    public String getPropertyNameSurname()
+    {
+        return propertyNameSurname;
+    }
+
+    public void setPropertyNameSurname(String propertyNameSurname)
+    {
+        this.propertyNameSurname = propertyNameSurname;
+    }
+
+    @Override
+    public String getPopertyNameOrganization()
+    {
+        return popertyNameOrganization;
+    }
+
+    public void setPopertyNameOrganization(String popertyNameOrganization)
+    {
+        this.popertyNameOrganization = popertyNameOrganization;
+    }
 }
