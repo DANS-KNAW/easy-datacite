@@ -31,12 +31,12 @@ public class FederationToEasyAccountLinkingPage extends AbstractAuthenticationPa
             throw new InternalWebError();
         }
         add(new LoginPanelRegular("loginPanelRegular", new LoginAndLinkForm("loginForm", authentication, appUser.getUserId(), appUser.getOrganization())));
-        addRegisterLink();
+        addRegisterLink(appUser);
     }
 
-    private void addRegisterLink()
+    private void addRegisterLink(ApplicationUser appUser)
     {
-        add(new PageLink("registration", RegistrationPage.class)
+        add(new PageLink("registration", new RegistrationPage(appUser.getUserId(), appUser.getOrganization()))
         {
             /**
              * Serial version uid.

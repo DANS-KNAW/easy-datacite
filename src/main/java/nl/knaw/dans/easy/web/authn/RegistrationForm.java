@@ -55,15 +55,20 @@ public class RegistrationForm extends AbstractEasyStatelessForm<ApplicationUser>
     private String paramDateTime;
     private String paramToken;
 
+    private String federationUserId;
+    private String institute;
+    private String easyUserId;
+
     public RegistrationForm(final String wicketId)
     {
-        this(wicketId, new ApplicationUser());
+        this(wicketId, new ApplicationUser(), null, null);
     }
 
-    public RegistrationForm(final String wicketId, final ApplicationUser appUser)
+    public RegistrationForm(final String wicketId, final ApplicationUser appUser, final String federationUserId, String institute)
     {
         super(wicketId, new CompoundPropertyModel<ApplicationUser>(appUser));
-
+        this.federationUserId = federationUserId;
+        this.institute = institute;
         addCommonFeedbackPanel();
 
         RequiredTextField<String> userIdTextField = new RequiredTextField<String>(ApplicationUser.USER_ID);
@@ -230,6 +235,14 @@ public class RegistrationForm extends AbstractEasyStatelessForm<ApplicationUser>
         {
             disableForm(new String[] {});
             infoMessage(RegistrationPage.REGISTRATION_COMPLETE, appUser.getEmail());
+
+            if (federationUserId != null)
+            {
+                easyUserId = registration.getUserId();
+                createLinkBetweenCurrentEasyUserAndFederationUser();
+                infoMessage("register-and-link.link-created", federationUserId, institute, easyUserId);
+            }
+
             // logging for statistics
             StatisticsLogger.getInstance().logEvent(StatisticsEvent.USER_REGISTRATION);
             setResponsePage(new InfoPage(getString(RegistrationForm.INFO_PAGE)));
@@ -243,6 +256,19 @@ public class RegistrationForm extends AbstractEasyStatelessForm<ApplicationUser>
             }
         }
         RegistrationForm.logger.debug("End onSubmit: " + registration.toString());
+    }
+
+    private void createLinkBetweenCurrentEasyUserAndFederationUser()
+    {
+        try
+        {
+            Services.getFederativeUserService().addFedUserToEasyUserIdCoupling(federationUserId, easyUserId);
+        }
+        catch (ServiceException e)
+        {
+            final String message = warningMessage("register-and-link.link-not-created");
+            logger.warn(message, e);
+        }
     }
 
     /**
