@@ -12,7 +12,7 @@
 	<name>Easy</name>
 	<artifactId>easy-webui</artifactId>
 	<packaging>war</packaging>
-	<version>2.5-beta-2</version>
+	<version>2.5-beta-3</version>
 	<description>Easy Web Application</description>
 	
 	<profiles>

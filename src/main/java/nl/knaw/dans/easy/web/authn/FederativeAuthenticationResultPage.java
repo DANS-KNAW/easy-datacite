@@ -60,16 +60,9 @@ public class FederativeAuthenticationResultPage extends AbstractEasyNavPage
             HttpServletRequest request = getWebRequestCycle().getWebRequest().getHttpServletRequest();
             // If we have an Federative Id, get the easy user and add to the session
             String retievedFederativeUserId = FederativeUserInfoExtractor.extractFederativeUserId(request);
-            
-            // FIXME: Temporary! For debugging!
-            retievedFederativeUserId = "fed-user";
             if (retievedFederativeUserId != null)
             {
                 appUser = FederativeUserInfoExtractor.extractFederativeUser(request);
-                // FIXME: Temporary! For debugging!
-                appUser.setUserId("fed-user");
-                appUser.setOrganization("DANS");
-                
                 try
                 {
                     EasyUser easyUser = Services.getFederativeUserService().getUserById(getSessionUser(), retievedFederativeUserId);

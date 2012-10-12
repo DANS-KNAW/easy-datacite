@@ -45,6 +45,11 @@
 	<bean name="federativeUserService" class="nl.knaw.dans.easy.business.services.EasyFederativeUserService">
 	    <property name="federationLoginEnabled" value="${easy.federationLogin.enabled}" />
 		<property name="federationUrl" value="${easy.federationLogin.federationUrl}" />
+		<property name="propertyNameUserId" value="${easy.federationLogin.propertyMapping.userId}" />
+		<property name="propertyNameEmail" value="${easy.federationLogin.propertyMapping.email}" />
+		<property name="propertyNameFirstName" value="${easy.federationLogin.propertyMapping.firstName}" />
+		<property name="propertyNameSurname" value="${easy.federationLogin.propertyMapping.surname}" />
+		<property name="popertyNameOrganization" value="${easy.federationLogin.propertyMapping.organization}" />
 	</bean>
 	
 	<bean name="collectionService" class="nl.knaw.dans.easy.business.services.EasyCollectionService" />

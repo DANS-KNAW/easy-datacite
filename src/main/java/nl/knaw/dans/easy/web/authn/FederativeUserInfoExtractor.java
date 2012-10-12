@@ -4,15 +4,16 @@ import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
 
+import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.common.ApplicationUser;
 
 public class FederativeUserInfoExtractor
 {
-    static final String FEDUSER_ATTRIBUTE_NAME_EDUPERSONPN = "Shib-eduPersonPN";
-    static final String FEDUSER_ATTRIBUTE_NAME_HOMEORG = "Shib-HomeOrg";
-    static final String FEDUSER_ATTRIBUTE_NAME_EMAIL = "Shib-email";
-    static final String FEDUSER_ATTRIBUTE_NAME_GIVENNAME = "Shib-givenName";
-    static final String FEDUSER_ATTRIBUTE_NAME_SURNAME = "Shib-surName";
+    static final String FEDUSER_ATTRIBUTE_NAME_UID = Services.getFederativeUserService().getPropertyNameUserId();
+    static final String FEDUSER_ATTRIBUTE_NAME_HOMEORG = Services.getFederativeUserService().getPopertyNameOrganization();
+    static final String FEDUSER_ATTRIBUTE_NAME_EMAIL = Services.getFederativeUserService().getPropertyNameEmail();
+    static final String FEDUSER_ATTRIBUTE_NAME_GIVENNAME = Services.getFederativeUserService().getPropertyNameFirstName();
+    static final String FEDUSER_ATTRIBUTE_NAME_SURNAME = Services.getFederativeUserService().getPropertyNameSurname();
 
     // Notes
     // request.getAttributeNames(); will not return the Shibboleth variables
@@ -31,9 +32,7 @@ public class FederativeUserInfoExtractor
     public static String extractFederativeUserId(HttpServletRequest request)
     {
         String fedUserId = null;
-
-        fedUserId = (String) request.getAttribute(FEDUSER_ATTRIBUTE_NAME_EDUPERSONPN);
-
+        fedUserId = (String) request.getAttribute(FEDUSER_ATTRIBUTE_NAME_UID);
         return fedUserId;
     }
 
