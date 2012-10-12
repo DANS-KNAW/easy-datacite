@@ -112,14 +112,14 @@ public class RepeaterPanelFactory implements IPanelFactory
     public Panel createTextFieldPanel(StandardPanelDefinition spDef, IModel model)
     {
         TextFieldPanel<String> textFieldPanel = new TextFieldPanel<String>(getPanelWicketId(), model);
-        textFieldPanel.setDefinition(spDef);
+        textFieldPanel.setPanelDefinition(spDef);
         return textFieldPanel;
     }
     
     public Panel createAuthorPanel(StandardPanelDefinition spDef, IModel model)
     {
         AuthorPanel authorPanel = new AuthorPanel(getPanelWicketId(), model);
-        authorPanel.setDefinition(spDef);
+        authorPanel.setPanelDefinition(spDef);
         return authorPanel;
     }
 
@@ -128,14 +128,14 @@ public class RepeaterPanelFactory implements IPanelFactory
     	ChoiceListDefinition choiceDef = spDef.getChoiceListDefinitions().get(0);
     	ChoiceList choiceList  = modelFactory.getChoiceList(choiceDef.getId(), getLocale());
         RadioChoicePanel radioGroupPanel = new RadioChoicePanel(getPanelWicketId(), model, choiceList);
-        radioGroupPanel.setDefinition(spDef);
+        radioGroupPanel.setPanelDefinition(spDef);
         return radioGroupPanel;
     }
 
     public Panel createTextAreaPanel(StandardPanelDefinition spDef, IModel model)
     {
     	TextAreaPanel<String> textAreaPanel = new TextAreaPanel<String>(getPanelWicketId(), model);
-    	textAreaPanel.setDefinition(spDef);
+    	textAreaPanel.setPanelDefinition(spDef);
         return textAreaPanel;
     }
 
@@ -145,7 +145,7 @@ public class RepeaterPanelFactory implements IPanelFactory
     	ChoiceList choiceList  = modelFactory.getChoiceList(choiceDef.getId(), getLocale());
         IsoDatePanel datePanel = new IsoDatePanel(getPanelWicketId(), model, choiceList);
         datePanel.setDropdownVisible(true);
-        datePanel.setDefinition(spDef);
+        datePanel.setPanelDefinition(spDef);
         return datePanel;
     }
     
@@ -155,7 +155,7 @@ public class RepeaterPanelFactory implements IPanelFactory
         ChoiceList choiceList  = modelFactory.getChoiceList(choiceDef.getId(), getLocale());
         BasicDatePanel basicDatePanel = new BasicDatePanel(getPanelWicketId(), model, choiceList);
         basicDatePanel.setDropdownVisible(true);
-        basicDatePanel.setDefinition(spDef);
+        basicDatePanel.setPanelDefinition(spDef);
         return basicDatePanel;
     }
 
@@ -166,7 +166,7 @@ public class RepeaterPanelFactory implements IPanelFactory
         IsoDatePanel datePanel = new IsoDatePanel(getPanelWicketId(), model, choiceList);
         datePanel.setDefaultKey(EmdDate.AVAILABLE);
         datePanel.setDropdownVisible(false);
-        datePanel.setDefinition(spDef);
+        datePanel.setPanelDefinition(spDef);
         return datePanel;
     }
 
@@ -177,7 +177,7 @@ public class RepeaterPanelFactory implements IPanelFactory
         IsoDatePanel datePanel = new IsoDatePanel(getPanelWicketId(), model, choiceList);
         datePanel.setDefaultKey(EmdDate.CREATED);
         datePanel.setDropdownVisible(false);
-        datePanel.setDefinition(spDef);
+        datePanel.setPanelDefinition(spDef);
         return datePanel;
     }
     
@@ -188,7 +188,7 @@ public class RepeaterPanelFactory implements IPanelFactory
         BasicDatePanel datePanel = new BasicDatePanel(getPanelWicketId(), model, choiceList);
         datePanel.setDefaultKey(EmdDate.CREATED);
         datePanel.setDropdownVisible(false);
-        datePanel.setDefinition(spDef);
+        datePanel.setPanelDefinition(spDef);
         return datePanel;
     }
 
@@ -197,7 +197,7 @@ public class RepeaterPanelFactory implements IPanelFactory
         ChoiceListDefinition choiceDef = spDef.getChoiceListDefinitions().get(0);
         ChoiceList choiceList  = modelFactory.getChoiceList(choiceDef.getId(), getLocale());
         DropDownChoicePanel dropDownChoicePanel = new DropDownChoicePanel(getPanelWicketId(), model, choiceList);
-        dropDownChoicePanel.setDefinition(spDef);
+        dropDownChoicePanel.setPanelDefinition(spDef);
         return dropDownChoicePanel;
     }
 
@@ -206,7 +206,7 @@ public class RepeaterPanelFactory implements IPanelFactory
         ChoiceListDefinition choiceDef = spDef.getChoiceListDefinitions().get(0);
         ChoiceList choiceList  = modelFactory.getChoiceList(choiceDef.getId(), getLocale());
         PointPanel pointPanel = new PointPanel(getPanelWicketId(), model, choiceList);
-        pointPanel.setDefinition(spDef);
+        pointPanel.setPanelDefinition(spDef);
         return pointPanel;
     }
 
@@ -215,7 +215,7 @@ public class RepeaterPanelFactory implements IPanelFactory
     	ChoiceListDefinition choiceDef = spDef.getChoiceListDefinitions().get(0);
     	ChoiceList choiceList  = modelFactory.getChoiceList(choiceDef.getId(), getLocale());
         BoxPanel boxPanel = new BoxPanel(getPanelWicketId(), model, choiceList);
-        boxPanel.setDefinition(spDef);
+        boxPanel.setPanelDefinition(spDef);
 
         return boxPanel;
     }
@@ -225,7 +225,7 @@ public class RepeaterPanelFactory implements IPanelFactory
     	ChoiceListDefinition choiceDef = spDef.getChoiceListDefinitions().get(0);
     	ChoiceList choiceList  = modelFactory.getChoiceList(choiceDef.getId(), getLocale());
         IdentifierPanel identifierPanel = new IdentifierPanel(getPanelWicketId(), model, choiceList);
-        identifierPanel.setDefinition(spDef);
+        identifierPanel.setPanelDefinition(spDef);
         return identifierPanel;
     }
 
@@ -233,7 +233,7 @@ public class RepeaterPanelFactory implements IPanelFactory
     {
     	List<KeyValuePair> kvpList = new ArrayList<KeyValuePair>();
         IdentifierPanel identifierPanel = new IdentifierPanel(getPanelWicketId(), model, new ChoiceList(kvpList));
-        identifierPanel.setDefinition(spDef);
+        identifierPanel.setPanelDefinition(spDef);
         identifierPanel.setDropdownVisible(false);
         return identifierPanel;
     }
@@ -244,7 +244,7 @@ public class RepeaterPanelFactory implements IPanelFactory
         ChoiceList choiceList  = modelFactory.getChoiceList(choiceDef.getId(), getLocale());
         RelationPanel relationPanel = new RelationPanel(getPanelWicketId(), model, choiceList);
         relationPanel.setUseRelationType(true);
-        relationPanel.setDefinition(spDef);
+        relationPanel.setPanelDefinition(spDef);
         return relationPanel;
     }
 
@@ -254,7 +254,7 @@ public class RepeaterPanelFactory implements IPanelFactory
         ChoiceList choiceList  = modelFactory.getChoiceList(choiceDef.getId(), getLocale());
         RelationPanel relationPanel = new RelationPanel(getPanelWicketId(), model, choiceList);
         relationPanel.setUseRelationType(false);
-        relationPanel.setDefinition(spDef);
+        relationPanel.setPanelDefinition(spDef);
         return relationPanel;
     }
 }

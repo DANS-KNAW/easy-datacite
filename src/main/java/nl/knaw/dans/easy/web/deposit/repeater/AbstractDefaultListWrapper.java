@@ -57,6 +57,12 @@ public abstract class AbstractDefaultListWrapper<T extends Object, S extends Obj
     {
         return null;
     }
+    
+    @Override
+    public int size()
+    {
+        return wrappedList.size();
+    }
 
     /**
      * Get the wrapped list.

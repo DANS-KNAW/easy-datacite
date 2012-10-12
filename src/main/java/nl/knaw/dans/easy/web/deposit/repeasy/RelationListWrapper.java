@@ -59,6 +59,12 @@ public class RelationListWrapper extends AbstractListWrapper<RelationListWrapper
 		}
 		return listItems;
 	}
+	
+	@Override
+	public int size()
+	{
+	    return getInitialItems().size();
+	}
 
 	public int synchronize(List<RelationModel> listItems)
 	{

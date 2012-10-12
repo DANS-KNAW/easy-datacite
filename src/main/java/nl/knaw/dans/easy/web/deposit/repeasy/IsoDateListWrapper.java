@@ -51,6 +51,12 @@ public class IsoDateListWrapper extends AbstractListWrapper<IsoDateListWrapper.I
         }
         return listItems;
     }
+    
+    @Override
+    public int size()
+    {
+        return getInitialItems().size();
+    }
 
     public int synchronize(List<IsoDateModel> listItems)
     {

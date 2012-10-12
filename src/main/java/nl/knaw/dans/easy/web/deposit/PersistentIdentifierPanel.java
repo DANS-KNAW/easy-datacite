@@ -49,14 +49,21 @@ public class PersistentIdentifierPanel extends AbstractCustomPanel
         {
             super(CUSTOM_PANEL_ID);
             ExternalLink link;
-            try
+            if (pid != null)
             {
-                link = new ExternalLink("pid", PI_URL + URLEncoder.encode(pid,"UTF-8"), pid);
+                try
+                {
+                    link = new ExternalLink("pid", PI_URL + URLEncoder.encode(pid,"UTF-8"), pid);
+                }
+                catch (UnsupportedEncodingException e)
+                {
+                    // happens either never or always
+                    link = new ExternalLink("pid", PI_URL + pid, pid);
+                }
             }
-            catch (UnsupportedEncodingException e)
+            else
             {
-                // happens either never or always
-                link = new ExternalLink("pid", PI_URL + pid, pid);
+                link = new ExternalLink("pid", "#");
             }
             add(link);
             setVisible(pid != null);

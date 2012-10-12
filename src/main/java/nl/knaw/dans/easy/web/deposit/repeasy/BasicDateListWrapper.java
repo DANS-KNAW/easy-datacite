@@ -50,6 +50,12 @@ public class BasicDateListWrapper extends AbstractListWrapper<BasicDateListWrapp
         }
         return listItems;
     }
+    
+    @Override
+    public int size()
+    {
+        return getInitialItems().size();
+    }
 
     public int synchronize(List<BasicDateModel> listItems)
     {

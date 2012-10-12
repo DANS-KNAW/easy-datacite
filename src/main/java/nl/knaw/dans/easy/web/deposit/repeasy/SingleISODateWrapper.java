@@ -47,6 +47,12 @@ public class SingleISODateWrapper extends AbstractListWrapper<SingleISODateWrapp
 
 		return listItems;
 	}
+	
+	@Override
+	public int size()
+	{
+	    return isoDateList.size();
+	}
 
 	public int synchronize(List<DateModel> listItems) 
 	{

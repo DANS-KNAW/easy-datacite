@@ -35,6 +35,12 @@ public class SingleBasicDateWrapper extends AbstractListWrapper<SingleBasicDateW
 
         return listItems;
     }
+    
+    @Override
+    public int size()
+    {
+        return basicDateList.size();
+    }
 
     @Override
     public int synchronize(List<DateModel> listItems)

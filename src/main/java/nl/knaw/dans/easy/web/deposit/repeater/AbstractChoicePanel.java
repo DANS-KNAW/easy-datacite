@@ -46,9 +46,9 @@ public abstract class AbstractChoicePanel<T extends Object> extends AbstractRepe
     }
     
     @Override
-    public void setDefinition(StandardPanelDefinition definition)
+    public void setPanelDefinition(StandardPanelDefinition definition)
     {
-        super.setDefinition(definition);
+        super.setPanelDefinition(definition);
         if (!definition.getChoiceListDefinitions().isEmpty())
         {
         	this.nullValid = definition.getChoiceListDefinitions().get(0).isNullValid();

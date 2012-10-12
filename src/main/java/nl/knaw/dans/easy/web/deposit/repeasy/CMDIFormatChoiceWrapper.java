@@ -89,6 +89,17 @@ public class CMDIFormatChoiceWrapper extends AbstractListWrapper<KeyValuePair>
     }
     
     @Override
+    public int size()
+    {
+        int size = 0;
+        for (BasicString bs : getDcFormat())
+        {
+            size += (CMDI_MIME.equals(bs) ? 1 : 0);
+        }
+        return size;
+    }
+    
+    @Override
     public ChoiceRenderer getChoiceRenderer()
     {
         return new KvpChoiceRenderer();

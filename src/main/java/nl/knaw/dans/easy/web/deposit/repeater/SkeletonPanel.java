@@ -24,6 +24,8 @@ public abstract class SkeletonPanel extends AbstractEasyPanel
     private boolean initiated;
 
     private boolean inEditMode;
+    
+    private StandardPanelDefinition panelDefinition;
 
     public SkeletonPanel(final String id)
     {
@@ -41,16 +43,22 @@ public abstract class SkeletonPanel extends AbstractEasyPanel
      * @param definition
      *        definition to set
      */
-    public void setDefinition(final StandardPanelDefinition definition)
+    public void setPanelDefinition(final StandardPanelDefinition definition)
     {
         if (isInitiated())
         {
             throw new IllegalStateException("Cannot set representation state after rendering.");
         }
+        this.panelDefinition = definition;
         this.labelResourceKey = definition.getLabelResourceKey();
         this.shortHelpResourceKey = definition.getShortHelpResourceKey();
         this.helpItem = definition.getHelpItem();
         this.required = definition.isRequired();
+    }
+
+    public StandardPanelDefinition getPanelDefinition()
+    {
+        return panelDefinition;
     }
 
     /**

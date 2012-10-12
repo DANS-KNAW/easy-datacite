@@ -36,6 +36,12 @@ public class Archis2ListWrapper extends AbstractListWrapper<Archis2ListWrapper.A
         }
         return items;
     }
+    
+    @Override
+    public int size()
+    {
+        return getInitialItems().size();
+    }
 
     @Override
     public int synchronize(List<ArchisItemModel> listItems)

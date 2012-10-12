@@ -48,6 +48,7 @@ public class TextFieldPanel<T extends Object> extends AbstractRepeaterPanel<T>
         
         private static final long serialVersionUID = -1064600333931796440L;
 
+        @SuppressWarnings({"rawtypes", "unchecked"})
         RepeatingEditModePanel(final ListItem item)
         {
             super(REPEATING_PANEL_ID);

@@ -27,42 +27,42 @@ public class EmdPanelFactory extends RepeaterPanelFactory
     public Panel createArchis2EditPanel(StandardPanelDefinition spDef, IModel<Archis2ListWrapper> model)
     {
         Archis2EditPanel panel = new Archis2EditPanel(getPanelWicketId(), model);
-        panel.setDefinition(spDef);
+        panel.setPanelDefinition(spDef);
         return panel;
     }
     
     public Panel createArchis2ViewPanel(StandardPanelDefinition spDef, IModel<EasyMetadata> model)
     {
         Archis2ViewPanel panel = new Archis2ViewPanel(getPanelWicketId(), model);
-        panel.setDefinition(spDef);
+        panel.setPanelDefinition(spDef);
         return panel;
     }
     
     public Panel createUploadPanel(StandardPanelDefinition spDef, IModel<?> model)
     {
         UploadPanel panel = new UploadPanel(getPanelWicketId(), datasetModel);
-        panel.setDefinition(spDef);
+        panel.setPanelDefinition(spDef);
         return panel;
     }
     
     public Panel createLicensePanel(StandardPanelDefinition spDef, IModel<EasyMetadata> model)
     {
         LicensePanel panel = new LicensePanel(getPanelWicketId(), model);
-        panel.setDefinition(spDef);
+        panel.setPanelDefinition(spDef);
         return panel;
     }
     
     public Panel createPersistentIdentifierPanel(StandardPanelDefinition spDef, IModel<EasyMetadata> model)
     {
         PersistentIdentifierPanel panel = new PersistentIdentifierPanel(getPanelWicketId(), model);
-        panel.setDefinition(spDef);
+        panel.setPanelDefinition(spDef);
         return panel;
     }
 
     public Panel createRelationViewPanel(StandardPanelDefinition spDef, IModel<EasyMetadata> model)
     {
         RelationViewPanel panel = new RelationViewPanel(getPanelWicketId(), model);
-        panel.setDefinition(spDef);
+        panel.setPanelDefinition(spDef);
         return panel;
     }
 

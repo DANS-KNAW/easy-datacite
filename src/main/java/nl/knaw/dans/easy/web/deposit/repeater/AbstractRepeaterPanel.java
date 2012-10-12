@@ -58,6 +58,8 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
      * @see #getRepeatingComponentPanel(ListItem)
      */
     public static final String        REPEATING_PANEL_ID = "repeatingPanel";
+    
+    public static final String PROP_NAME_HIDE_WHEN_EMPTY = "hideWhenEmpty";
 
     private static final long         serialVersionUID   = -4194940323146017009L;
     private static Logger             logger             = LoggerFactory.getLogger(AbstractRepeaterPanel.class);
@@ -126,10 +128,23 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
     /**
      * {@inheritDoc}
      */
-    public void setDefinition(final StandardPanelDefinition definition)
+    public void setPanelDefinition(final StandardPanelDefinition definition)
     {
-        super.setDefinition(definition);
+        super.setPanelDefinition(definition);
         this.repeating = definition.isRepeating();
+    }
+    
+    @Override
+    public boolean isVisible()
+    {
+        StandardPanelDefinition panelDefinition = getPanelDefinition();
+        if (panelDefinition != null
+                && "true".equalsIgnoreCase(panelDefinition.getCustomProperty(PROP_NAME_HIDE_WHEN_EMPTY))
+                && getListWrapper().size() == 0)
+        {
+            return false;
+        }
+        return super.isVisible();
     }
 
     /**
@@ -170,7 +185,7 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
      */
     public int synchronize()
     {
-        if(isInEditMode())
+        if(isInEditMode() && listItems != null)
         {
             return listWrapper.synchronize(listItems);
         }
