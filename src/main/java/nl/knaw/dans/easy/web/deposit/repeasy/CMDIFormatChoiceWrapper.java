@@ -99,6 +99,7 @@ public class CMDIFormatChoiceWrapper extends AbstractListWrapper<KeyValuePair>
         return size;
     }
     
+    @SuppressWarnings("rawtypes")
     @Override
     public ChoiceRenderer getChoiceRenderer()
     {
