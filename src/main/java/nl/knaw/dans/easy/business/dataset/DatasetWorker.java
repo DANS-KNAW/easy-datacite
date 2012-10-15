@@ -26,6 +26,7 @@ import nl.knaw.dans.easy.domain.model.Constants;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.DatasetRelations;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer;
+import nl.knaw.dans.easy.domain.model.emd.types.BasicString;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.worker.AbstractWorker;
 import nl.knaw.dans.easy.servicelayer.LicenseComposer;
@@ -39,6 +40,9 @@ public class DatasetWorker extends AbstractWorker
 {
     
     private static final Logger logger = LoggerFactory.getLogger(DatasetWorker.class);
+    
+    public static final DmoStoreId CLARIN_COLLECTION_STORE_ID = DmoStoreId.newDmoStoreId("easy-collection:5");
+    private static final BasicString CMDI_MIME = new BasicString("application/x-cmdi+xml");
     
     protected DatasetWorker(EasyUser sessionUser)
     {
@@ -145,6 +149,7 @@ public class DatasetWorker extends AbstractWorker
             DatasetWorker.createLicense(dataset);
         }
         
+        addClarinCollection(dataset);
         publishAsOAIItem(dataset);
         dataset.getRelations().addDAIRelations();
         storeInState(dataset, DatasetState.PUBLISHED);
@@ -152,7 +157,7 @@ public class DatasetWorker extends AbstractWorker
         // prevent repeated update attempt if followed by unpublish or whatever in the same session
         dataset.setLicenseContent(null); 
     }
-    
+
     protected void deleteDataset(Dataset dataset) throws ServiceException, DataIntegrityException
     {
         unPublishAsOAIItem(dataset);
@@ -169,6 +174,24 @@ public class DatasetWorker extends AbstractWorker
         }
         dataset.setState(RepositoryState.Inactive.code);
         storeInState(dataset, changeTo);
+    }
+    
+    private void addClarinCollection(Dataset dataset)
+    {
+        DatasetRelations relations = dataset.getRelations();
+        boolean hasCmdi = dataset.getEasyMetadata().getEmdFormat().getDcFormat().contains(CMDI_MIME);
+        if(hasCmdi)
+        {
+            if(!relations.isCollectionMember(CLARIN_COLLECTION_STORE_ID))
+            {
+                relations.addCollectionMembership(CLARIN_COLLECTION_STORE_ID);
+            }
+        } else {
+            if(relations.isCollectionMember(CLARIN_COLLECTION_STORE_ID))
+            {
+                relations.removeCollectionMembership(CLARIN_COLLECTION_STORE_ID);
+            }
+        }
     }
 
     public static void publishAsOAIItem(Dataset dataset) throws ServiceException
@@ -301,5 +324,4 @@ public class DatasetWorker extends AbstractWorker
         dataset.setLicenseContent(outputStream.toByteArray());
         return true;
     }
-
 }
