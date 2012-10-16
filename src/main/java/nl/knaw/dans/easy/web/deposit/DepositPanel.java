@@ -421,6 +421,11 @@ public class DepositPanel extends AbstractDatasetModelPanel
         protected void onSubmit()
         {
             logger.debug("onSubmit of form " + this.getClass() + " currentPage=" + currentPage.getLabelResourceKey());
+            
+            // Important. Find submittingButton before synchronize. The button may become
+            // invisible in the hierarchy after synchronization.
+            IFormSubmittingComponent submittingButton = findSubmittingButton();
+            
             errors = 0;
             submission.clearAllMessages();
             // synchronize sourceLbusiness objects on listItems from RepeaterPanels.
@@ -435,7 +440,7 @@ public class DepositPanel extends AbstractDatasetModelPanel
 
             });
 
-            IFormSubmittingComponent submittingButton = findSubmittingButton();
+            
             // logger.debug("submittingButton=" + submittingButton);
             if (submittingButton != null && isNavigationOrSubmitButton((Component) submittingButton)) // do not save with clicks on plus-/minus buttons
             {

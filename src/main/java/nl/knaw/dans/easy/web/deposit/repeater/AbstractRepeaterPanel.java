@@ -70,6 +70,7 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
     
 	private Map<Integer, Set<String>> itemErrorMap;
     private Map<Integer, Set<String>> itemInfoMap;
+    private boolean plusOrMinusLinkClicked;
 
     /**
      * Construct a new RepeaterPanel. The given <code>model</code> has a ListWrapper&lt;T> as object.
@@ -134,12 +135,14 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
         this.repeating = definition.isRepeating();
     }
     
+    
     @Override
     public boolean isVisible()
     {
         StandardPanelDefinition panelDefinition = getPanelDefinition();
         if (panelDefinition != null
                 && "true".equalsIgnoreCase(panelDefinition.getCustomProperty(PROP_NAME_HIDE_WHEN_EMPTY))
+                && !plusOrMinusLinkClicked
                 && getListWrapper().size() == 0)
         {
             return false;
@@ -310,6 +313,7 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
             this.getParent().setVisible(false); //if no data, don't display.
     }
     
+    
     @SuppressWarnings("rawtypes")
     protected void init()
     {
@@ -377,6 +381,7 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
 							logger
 									.debug("onSubmit minusLink. removedItemIndex="
 											+ item.getIndex());
+							plusOrMinusLinkClicked = true;
 							handleMinusButtonClicked(item, target, form);
 							target.addComponent(listViewContainer);
 						}
@@ -395,6 +400,7 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
 						protected void onSubmit(final AjaxRequestTarget target,
 								final Form form) {
 							logger.debug("onSubmit plusLink");
+							plusOrMinusLinkClicked = true;
 							handlePlusButtonClicked(target, form);
 							logger.debug("addComponent");
 							target.addComponent(listViewContainer);
