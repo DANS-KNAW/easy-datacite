@@ -807,7 +807,7 @@
                         <ref-panelId>dcterms.alternative</ref-panelId>
                         <ref-panelId>dc.creator</ref-panelId>
                         <ref-panelId>eas.creator</ref-panelId>
-                        <ref-panelId>dc.creator</ref-panelId>
+                        <ref-panelId>dc.contributor</ref-panelId>
                         <ref-panelId>eas.contributor</ref-panelId>
                         <ref-panelId>eas.created</ref-panelId>
                         <ref-panelId>dcterms.rightsHolder</ref-panelId>
