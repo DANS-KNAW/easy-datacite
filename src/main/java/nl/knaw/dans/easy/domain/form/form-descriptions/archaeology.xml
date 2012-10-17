@@ -37,7 +37,7 @@
             <properties>
                 <id>upload</id>
                 <labelResourceKey>label.upload</labelResourceKey>
-                <shortHelpResourceKey></shortHelpResourceKey>
+                <shortHelpResourceKey>shortHelp.upload.dataset</shortHelpResourceKey>
                 <helpItem>Upload</helpItem>
             </properties>
             <modelClass>EasyMetadata</modelClass>
@@ -80,7 +80,7 @@
 			<properties>
 				<id>dc.contributor</id>
 				<labelResourceKey>label.dc.contributor</labelResourceKey>
-				<shortHelpResourceKey></shortHelpResourceKey>
+				<shortHelpResourceKey>shortHelp.dc.contributor</shortHelpResourceKey>
 				<helpItem>Contributor</helpItem>
 				<property>
 					<name>hideWhenEmpty</name>
@@ -99,7 +99,7 @@
 			<properties>
 				<id>dc.creator</id>
 				<labelResourceKey>label.dc.creator</labelResourceKey>
-				<shortHelpResourceKey></shortHelpResourceKey>
+				<shortHelpResourceKey>shortHelp.dc.creator</shortHelpResourceKey>
 				<helpItem>Creator</helpItem>
 				<property>
 					<name>hideWhenEmpty</name>
@@ -314,7 +314,7 @@
 			<properties>
 				<id>dc.title</id>
 				<labelResourceKey>label.dc.title</labelResourceKey>
-				<shortHelpResourceKey></shortHelpResourceKey>
+				<shortHelpResourceKey>shortHelp.dc.title</shortHelpResourceKey>
 				<helpItem>Title</helpItem>
 			</properties>
 			<modelClass>BasicStringListWrapper</modelClass>
