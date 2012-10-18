@@ -312,7 +312,6 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
             this.getParent().setVisible(false); //if no data, don't display.
     }
     
-    
     @SuppressWarnings("rawtypes")
     protected void init()
     {
