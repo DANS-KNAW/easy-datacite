@@ -43,10 +43,8 @@ public class EasyWicketApplication extends CommonWicketApplication
     public static final String WICKET_APPLICATION_ALIAS = "easy";
 
     public static final String DOWNLOAD_FILE_URL = "downloadfile";
-    
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EasyWicketApplication.class);
-    
 
     /**
      * Initialize the application.
@@ -123,19 +121,15 @@ public class EasyWicketApplication extends CommonWicketApplication
             }
         }
 
-        
         ContextRelativeResource jumpoffMarkupCss = new ContextRelativeResource("css/jumpoff-markupo.css");
         getSharedResources().add(DansTinyMCESettings.JUMPOFF_MARKUP_CSS, jumpoffMarkupCss);
 
         for (final PageBookmark value : PageBookmark.values())
         {
-            if (isInDevelopmentMode())
-            {
-                mountBookmarkablePage("/" + value.getAlias(), value.getAliasClass());
-            }
+            mountBookmarkablePage("/" + value.getAlias(), value.getAliasClass());
         }
     }
-    
+
     private void mountRestService()
     {
         mount(new BookmarkablePageRequestTargetUrlCodingStrategy("rest", RESTstartPage.class, null)
@@ -213,34 +207,6 @@ public class EasyWicketApplication extends CommonWicketApplication
 
         super.sessionDestroyed(sessionId);
     }
-    
-
-//    /**
-//     * Use the jamon aware webrequest cycle from wicketstuff wicket-contrib-jamon. Jamon takes care of
-//     * monitoring and statistics.
-//     * 
-//     * @return jamon aware webrequestcycleprocessor
-//     */
-//    @Override
-//    protected IRequestCycleProcessor newRequestCycleProcessor()
-//    {
-//        return new JamonAwareWebRequestCycleProcessor();
-//    }
-
-//    /**
-//     * Use the monitoring webrequestcycle.
-//     * 
-//     * @param request
-//     *        current
-//     * @param response
-//     *        current
-//     * @return jamon monitored webrequestcycle
-//     */
-//    @Override
-//    public RequestCycle newRequestCycle(final Request request, final Response response)
-//    {
-//        return new JamonMonitoredWebRequestCycle(this, (WebRequest) request, response);
-//    }
 
     /**
      * This method override is necessary for the EasyUpload component to work.
@@ -250,7 +216,6 @@ public class EasyWicketApplication extends CommonWicketApplication
     {
         return new EasyUploadWebRequest(servletRequest);
     }
-    
 
     @Override
     protected void onDestroy()
