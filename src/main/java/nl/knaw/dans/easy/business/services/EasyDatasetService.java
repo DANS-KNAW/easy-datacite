@@ -47,6 +47,7 @@ import nl.knaw.dans.easy.servicelayer.services.DatasetService;
 import nl.knaw.dans.easy.util.MemoryLane;
 
 import org.joda.time.DateTime;
+import org.joda.time.ReadableInstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -482,7 +483,9 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
 	{
 		public int compare(final UnitMetadata arg0, final UnitMetadata arg1)
 		{
-			return - arg0.getCreationDate().compareTo(arg1.getCreationDate());
+		    ReadableInstant ri0 = arg0.getCreationDate();
+		    ReadableInstant ri1 = arg1.getCreationDate();
+			return - ri0.compareTo(ri1);
 		}
 	}
 
