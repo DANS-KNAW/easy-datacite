@@ -36,6 +36,7 @@
   </emd:audience>
   <emd:other>
     <eas:application-specific>
+      <!-- intentional error in close tag ! -->
       <eas:metadataformat>OTHER<eas:metadataformat>
     </eas:application-specific>
     <eas:etc></eas:etc>

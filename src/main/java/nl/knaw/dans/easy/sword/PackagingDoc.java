@@ -26,9 +26,13 @@ import nl.knaw.dans.easy.servicelayer.services.DepositService;
 import nl.knaw.dans.easy.util.EasyHome;
 
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PackagingDoc
 {
+    private static final Logger logger = LoggerFactory.getLogger(PackagingDoc.class); 
+
     private static String fedoraUrl = "http://localhost:8080/fedora";
     private static String fedoraUser = "fedoraAdmin";
     private static String fedoraPassword = "fedoraAdmin";
@@ -103,7 +107,7 @@ public class PackagingDoc
         sb.append("      border: 1px solid #666; }\n");
         sb.append("   a.toggleLink { font-size: 70%; text-decoration: none;}\n");
         sb.append("   a.toggleLink:hover { border: 1px dotted #36f; }\n");
-        sb.append("   th {background-color: #DDD;\n");
+        sb.append("   th {background-color: #DDD;}\n");
         sb.append("   td {vertical-align: top; }\n");// TODO alignment does not work, at least not
                                                      // FireFox
         sb.append("</style>\n");
@@ -213,14 +217,13 @@ public class PackagingDoc
             final List<PanelDefinition> panels = formPage.getPanelDefinitions();
             for (final PanelDefinition panel : panels)
             {
-                sb.append("<tr><td>" + panel.getId() + "</td><td>" + helpInfo(panel, disciplineId) + "</td></tr>\n");
+                sb.append("<tr><td><p>" + panel.getId() + "</p></td><td>" + helpInfo(panel, disciplineId) + "</td></tr>\n");
                 collectChoiceLists(panel, choiceLists);
             }
         }
         sb.append("</table>\n");
         return sb;
     }
-
     private static void collectChoiceLists(final PanelDefinition panel, final Map<String, ChoiceListDefinition> choiceLists) throws ServiceException
     {
         if (panel instanceof SubHeadingDefinition)
@@ -234,6 +237,8 @@ public class PackagingDoc
             final StandardPanelDefinition spDef = (StandardPanelDefinition) panel;
             for (final ChoiceListDefinition clDef : spDef.getChoiceListDefinitions())
                 choiceLists.put(clDef.getId(), clDef);
+        }else {
+            logger.warn(panel.getClass().getName());
         }
     }
 
