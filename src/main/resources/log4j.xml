@@ -74,7 +74,7 @@
 	</category>
 
 	<logger name="nl.knaw.dans">
-  		<level value="debug"/>
+  		<level value="info"/>
 	</logger>
 	
 	<logger name="nl.knaw.dans.easy.business.aspect.ServiceProfiling" additivity="false">
