@@ -2,7 +2,6 @@ package nl.knaw.dans.easy.rest.resources;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +22,7 @@ import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.xml.XMLSerializationException;
 import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.RequestedItem;
+import nl.knaw.dans.easy.domain.download.FileContentWrapper;
 import nl.knaw.dans.easy.domain.model.AdministrativeMetadata;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.FileItem;
@@ -459,13 +459,13 @@ public class DatasetResource extends AuthenticatedResource {
 			EasyUser user = authenticate();
 			Dataset d = Services.getDatasetService().getDataset(user,
 					new DmoStoreId(sid));
-			FileItem file = Services.getItemService().getFileItem(user, d,
-					new DmoStoreId(thumbnailSid));
-			if (ThumbnailUtil.isThumbnail(user, d, file)) {
-				URL url = Services.getItemService().getFileContentURL(user, d,
-						file);
-				byte[] bytes = UrlConverter.toByteArray(url, file.getSize());
-				return Response.ok(bytes, file.getMimeType()).build();
+			FileContentWrapper fcw = Services.getItemService().getContent(user,
+					d, new DmoStoreId(thumbnailSid));
+			if (ThumbnailUtil.isThumbnail(user, d, fcw.getFileItemVO())) {
+				byte[] bytes = UrlConverter.toByteArray(fcw.getURL(), fcw
+						.getFileItemVO().getSize());
+				return Response.ok(bytes, fcw.getFileItemVO().getMimetype())
+						.build();
 			} else {
 				return notAuthorized();
 			}
@@ -541,11 +541,10 @@ public class DatasetResource extends AuthenticatedResource {
 				try {
 					FileItem fileItem = Services.getItemService()
 							.getFileItemByPath(user, d, path);
-					URL url = Services.getItemService().getFileContentURL(user,
-							d, fileItem);
-					byte[] bytes = UrlConverter.toByteArray(url,
+					FileContentWrapper fcw = Services.getItemService()
+							.getContent(user, d, fileItem.getDmoStoreId());
+					byte[] bytes = UrlConverter.toByteArray(fcw.getURL(),
 							fileItem.getSize());
-
 					return Response.ok(bytes, fileItem.getMimeType()).build();
 				} catch (ObjectNotAvailableException ex) {
 					return notFound("Resource not available: " + path);
@@ -587,14 +586,14 @@ public class DatasetResource extends AuthenticatedResource {
 			EasyUser user = authenticate();
 			Dataset d = Services.getDatasetService().getDataset(user,
 					new DmoStoreId(sid));
+			final FileContentWrapper fcw = Services.getItemService()
+					.getContent(user, d,
+							new DmoStoreId(FILE_SID_PREFIX + fileSid));
+			byte[] bytes = UrlConverter.toByteArray(fcw.getURL(), fcw
+					.getFileItemVO().getSize());
 
-			FileItem fileItem = Services.getItemService().getFileItem(user, d,
-					new DmoStoreId(FILE_SID_PREFIX + fileSid));
-			URL url = Services.getItemService().getFileContentURL(user, d,
-					fileItem);
-			byte[] bytes = UrlConverter.toByteArray(url, fileItem.getSize());
-
-			return Response.ok(bytes, fileItem.getMimeType()).build();
+			return Response.ok(bytes, fcw.getFileItemVO().getMimetype())
+					.build();
 		} catch (CommonSecurityException e) {
 			return notAuthorized();
 		} catch (ServiceException e) {

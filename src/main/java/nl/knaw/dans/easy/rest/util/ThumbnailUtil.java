@@ -10,7 +10,6 @@ import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 import nl.knaw.dans.easy.domain.model.Dataset;
-import nl.knaw.dans.easy.domain.model.FileItem;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 
@@ -40,10 +39,10 @@ public class ThumbnailUtil extends SimpleXmlWriter {
 	 * @throws ServiceException
 	 *             Thrown if something goes wrong internally.
 	 */
-	public static boolean isThumbnail(EasyUser user, Dataset d, FileItem file)
+	public static boolean isThumbnail(EasyUser user, Dataset d, FileItemVO file)
 			throws ServiceException {
 		Collection<DmoStoreId> itemIds = new ArrayList<DmoStoreId>();
-		itemIds.add(file.getFileItemMetadata().getParentDmoStoreId());
+		itemIds.add(new DmoStoreId(file.getParentSid()));
 		List<ItemVO> items = Services.getItemService().getFilesAndFolders(user,
 				d, itemIds);
 		return items.size() == 1 ? items.get(0).getName().equals(THUMBNAILS)

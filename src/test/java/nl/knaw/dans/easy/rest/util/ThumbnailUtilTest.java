@@ -17,7 +17,6 @@ import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
-import nl.knaw.dans.easy.domain.dataset.FileItemImpl;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.ItemOrder;
@@ -60,9 +59,10 @@ public class ThumbnailUtilTest {
 						isA(Dataset.class), isA(Collection.class))).thenReturn(
 				new ArrayList<ItemVO>());
 
+		FileItemVO f = new FileItemVO();
+		f.setParentSid("easy-folder:13");
 		boolean result = ThumbnailUtil.isThumbnail(new EasyUserImpl(),
-				new DatasetImpl("easy-dataset:1"), new FileItemImpl(
-						"easy-file:1"));
+				new DatasetImpl("easy-dataset:1"), f);
 
 		assertFalse(result);
 	}
@@ -79,9 +79,10 @@ public class ThumbnailUtilTest {
 						isA(Dataset.class), isA(Collection.class))).thenReturn(
 				items);
 
+		FileItemVO f = new FileItemVO();
+		f.setParentSid("easy-folder:13");
 		boolean result = ThumbnailUtil.isThumbnail(new EasyUserImpl(),
-				new DatasetImpl("easy-dataset:1"), new FileItemImpl(
-						"easy-file:1"));
+				new DatasetImpl("easy-dataset:1"), f);
 
 		assertTrue(result);
 	}
