@@ -9,7 +9,7 @@ import nl.knaw.dans.common.ldap.ds.Constants;
 
 public class OpenLdapServerBuilder extends LdapServerBuilder
 {
-    
+
     private String providerUrl;
     private String securityPrincipal;
 
@@ -17,7 +17,7 @@ public class OpenLdapServerBuilder extends LdapServerBuilder
     {
         super();
     }
-    
+
     public OpenLdapServerBuilder(String providerUrl, String securityPrincipal, String securityCredentials) throws NamingException
     {
         super();
@@ -49,7 +49,7 @@ public class OpenLdapServerBuilder extends LdapServerBuilder
         }
         return securityPrincipal;
     }
-    
+
     @Override
     public void buildSchemas() throws NamingException, IOException
     {
@@ -62,16 +62,15 @@ public class OpenLdapServerBuilder extends LdapServerBuilder
         }
         System.out.println("Schemas are in " + schemaDir.getAbsolutePath());
     }
-    
+
     public static void main(String[] args) throws NamingException, IOException
     {
         String providerUrl = args.length > 0 ? args[0] : null;
         String securityPrincipal = args.length > 1 ? args[1] : null;
         String securityCredentials = args.length > 2 ? args[2] : null;
-        
+
         OpenLdapServerBuilder builder = new OpenLdapServerBuilder(providerUrl, securityPrincipal, securityCredentials);
         builder.buildServer();
     }
-    
 
 }

@@ -19,7 +19,6 @@ import nl.knaw.dans.common.lang.test.Tester;
 import nl.knaw.dans.common.lang.user.User;
 import nl.knaw.dans.common.lang.user.UserImpl;
 import nl.knaw.dans.common.lang.util.Base64Coder;
-import nl.knaw.dans.common.ldap.repo.DansUserRepo;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -52,15 +51,16 @@ public class DansUserRepoOnlineTest extends AbstractRepoOnlineTest
     public void add_update_delete() throws RepositoryException
     {
         User jan = new UserImpl();
-        jan.setId("acc_jan");   // uid
-        jan.setSurname("Janssen");     // sn
+        jan.setId("acc_jan"); // uid
+        jan.setSurname("Janssen"); // sn
 
         jan.setFirstname("Jantje");
         jan.setEmail("jan.jansen@bar.com");
         jan.setCity("Knollendam");
 
         // remove player
-        if (repo.exists(jan.getId())) repo.delete(jan);
+        if (repo.exists(jan.getId()))
+            repo.delete(jan);
 
         String uid = repo.add(jan);
 
@@ -95,7 +95,8 @@ public class DansUserRepoOnlineTest extends AbstractRepoOnlineTest
         zyxwvuts.setSurname("Six");
 
         // remove player
-        if (repo.exists(zyxwvuts.getId())) repo.delete(zyxwvuts);
+        if (repo.exists(zyxwvuts.getId()))
+            repo.delete(zyxwvuts);
 
         repo.add(zyxwvuts);
 
@@ -141,7 +142,8 @@ public class DansUserRepoOnlineTest extends AbstractRepoOnlineTest
         piet.setEmail("piet.pietersen@nowhere.com");
 
         // remove player
-        if (repo.exists(piet.getId())) repo.delete(piet);
+        if (repo.exists(piet.getId()))
+            repo.delete(piet);
 
         repo.add(piet);
 
@@ -165,8 +167,10 @@ public class DansUserRepoOnlineTest extends AbstractRepoOnlineTest
         klaas.setSurname("Pieterbuuren");
 
         // remove players
-        if (repo.exists(piet.getId())) repo.delete(piet);
-        if (repo.exists(klaas.getId())) repo.delete(klaas);
+        if (repo.exists(piet.getId()))
+            repo.delete(piet);
+        if (repo.exists(klaas.getId()))
+            repo.delete(klaas);
 
         repo.add(piet);
         repo.add(klaas);
@@ -205,12 +209,14 @@ public class DansUserRepoOnlineTest extends AbstractRepoOnlineTest
         klaas.setPassword("geheim");
 
         // remove players
-        if (repo.exists(piet.getId())) repo.delete(piet);
-        if (repo.exists(klaas.getId())) repo.delete(klaas);
+        if (repo.exists(piet.getId()))
+            repo.delete(piet);
+        if (repo.exists(klaas.getId()))
+            repo.delete(klaas);
 
         repo.add(piet);
         repo.add(klaas);
-        
+
         User pietR = repo.findById("piet");
         assertNull(pietR.getLastLoginDate());
         User klaasR = repo.findById("klaas");
@@ -218,15 +224,15 @@ public class DansUserRepoOnlineTest extends AbstractRepoOnlineTest
 
         getLdapClient().setUpdatingLastLogin(true);
         assertTrue(repo.authenticate("piet", "geheim"));
-        
+
         getLdapClient().setUpdatingLastLogin(false);
         assertTrue(repo.authenticate("klaas", "geheim"));
-        
+
         pietR = repo.findById("piet");
         assertNotNull(pietR.getLastLoginDate());
         klaasR = repo.findById("klaas");
         assertNull(klaasR.getLastLoginDate());
-        
+
         assertFalse(repo.authenticate("klaas", null));
         assertFalse(repo.authenticate("klaas", ""));
 
@@ -242,7 +248,6 @@ public class DansUserRepoOnlineTest extends AbstractRepoOnlineTest
         assertFalse(repo.authenticate("", ""));
         assertFalse(repo.authenticate("", "geheim"));
 
-
         // cleanup
         //repo.delete(piet);
         //repo.delete(klaas);
@@ -257,7 +262,8 @@ public class DansUserRepoOnlineTest extends AbstractRepoOnlineTest
         test.setPassword("geheim");
 
         // remove players
-        if (repo.exists(test.getId())) repo.delete(test);
+        if (repo.exists(test.getId()))
+            repo.delete(test);
 
         repo.add(test);
 
@@ -290,20 +296,20 @@ public class DansUserRepoOnlineTest extends AbstractRepoOnlineTest
             repo.delete(test);
 
         repo.add(test);
-        
+
         assertFalse(repo.isPasswordStored(test.getId()));
         repo.delete(test);
-        
+
         // Now set the password
         test.setPassword("geheim");
         repo.add(test);
-        
+
         assertTrue(repo.isPasswordStored(test.getId()));
-        
+
         // cleanup
         repo.delete(test);
     }
-    
+
     @Test
     public void findAll() throws RepositoryException
     {
@@ -317,7 +323,8 @@ public class DansUserRepoOnlineTest extends AbstractRepoOnlineTest
         User easy = createAUser();
 
         // remove players
-        if (repo.exists(easy.getId())) repo.delete(easy);
+        if (repo.exists(easy.getId()))
+            repo.delete(easy);
 
         repo.add(easy);
 
@@ -344,7 +351,8 @@ public class DansUserRepoOnlineTest extends AbstractRepoOnlineTest
     }
 
     @Test
-    public void testSetEncryptedPassword() throws RepositoryException, NoSuchAlgorithmException {
+    public void testSetEncryptedPassword() throws RepositoryException, NoSuchAlgorithmException
+    {
 
         User user = new UserImpl();
         user.setTitle("dr.");
@@ -357,7 +365,8 @@ public class DansUserRepoOnlineTest extends AbstractRepoOnlineTest
         user.setSHAEncryptedPassword(encryptedPassword);
 
         // remove players
-        if (repo.exists(user.getId())) repo.delete(user);
+        if (repo.exists(user.getId()))
+            repo.delete(user);
 
         repo.add(user);
 
@@ -365,14 +374,15 @@ public class DansUserRepoOnlineTest extends AbstractRepoOnlineTest
         assertTrue(repo.authenticate(user2.getId(), "secret"));
 
         // remove players
-        if (repo.exists(user.getId())) repo.delete(user);
+        if (repo.exists(user.getId()))
+            repo.delete(user);
     }
-
 
     /**
      *
      */
-    private User createAUser() {
+    private User createAUser()
+    {
 
         User user = new UserImpl();
         user.setTitle("dr.");

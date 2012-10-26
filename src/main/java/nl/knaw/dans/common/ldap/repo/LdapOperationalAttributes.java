@@ -7,7 +7,7 @@ import org.joda.time.DateTime;
 
 public class LdapOperationalAttributes implements OperationalAttributes
 {
-    
+
     private static DateTimeTranslator TRANSLATOR = new DateTimeTranslator();
 
     private DateTime createTimestamp;

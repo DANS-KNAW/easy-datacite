@@ -55,9 +55,9 @@ public class LdapMapper<T>
      * The encryption algorithm used for marshaling {@link LdapAttribute}-annotated fields and methods which have
      * {@link LdapAttribute#oneWayEncrypted()} set to <code>true</code>.
      */
-    public static final String ENCRYPTION_ALGORITHM     = "SHA";
+    public static final String ENCRYPTION_ALGORITHM = "SHA";
 
-    public static final String USERPASSWORD             = "userPassword";
+    public static final String USERPASSWORD = "userPassword";
 
     /**
      * The implementing class of the mapped type T.
@@ -67,35 +67,35 @@ public class LdapMapper<T>
     /**
      * List with annotated fields of the implementing class.
      */
-    private List<Field>        annotatedFields;
+    private List<Field> annotatedFields;
 
     /**
      * List with annotated getter-methods of the implementing class.
      */
-    private List<Method>       annotatedGetMethods;
+    private List<Method> annotatedGetMethods;
 
     /**
      * List with annotated setter-methods of the implementing class.
      */
-    private List<Method>       annotatedSetMethods;
+    private List<Method> annotatedSetMethods;
 
     /**
      * A set with the string-notation of ldap object classes.
      */
-    private Set<String>        objectClasses;
+    private Set<String> objectClasses;
 
     /**
      * Synchronization object used while populating the lists with annotated getter-methods and annotated
      * setter-methods.
      */
-    private Object             syncPopulateMethodsLists = new Object();
-    
+    private Object syncPopulateMethodsLists = new Object();
+
     private Map<Class, LdapAttributeValueTranslator> valueTranslatorMap = new HashMap<Class, LdapAttributeValueTranslator>();
 
     /**
      * Logger for this class.
      */
-    private static Logger      logger                   = LoggerFactory.getLogger(LdapMapper.class);
+    private static Logger logger = LoggerFactory.getLogger(LdapMapper.class);
 
     /**
      * Construct a new LdapMapper for the type T and mapped implementing class <code>clazz</code>. Fields and/or methods
@@ -144,8 +144,7 @@ public class LdapMapper<T>
     }
 
     // from the annotated object fields to LDAP attributes
-    private void loadAttributesFromFields(T instance, Attributes attrs, boolean forUpdate)
-            throws MissingAttributeException, LdapMappingException
+    private void loadAttributesFromFields(T instance, Attributes attrs, boolean forUpdate) throws MissingAttributeException, LdapMappingException
     {
         for (Field field : getAnnotatedFields())
         {
@@ -162,8 +161,8 @@ public class LdapMapper<T>
                 {
                     field.setAccessible(true);
                     Object value = field.get(instance);
-                    
-					LdapAttributeValueTranslator valueTranslator = getValueTranslator(valueTranslatorClass);
+
+                    LdapAttributeValueTranslator valueTranslator = getValueTranslator(valueTranslatorClass);
 
                     if (required)
                     {
@@ -182,14 +181,13 @@ public class LdapMapper<T>
                 catch (InstantiationException e)
                 {
                     throw new LdapMappingException(e);
-				}
+                }
             }
         }
 
     }
 
-    private synchronized LdapAttributeValueTranslator getValueTranslator(Class valueTranslatorClass) throws InstantiationException,
-            IllegalAccessException
+    private synchronized LdapAttributeValueTranslator getValueTranslator(Class valueTranslatorClass) throws InstantiationException, IllegalAccessException
     {
         LdapAttributeValueTranslator valueTranslator = valueTranslatorMap.get(valueTranslatorClass);
         if (valueTranslator == null)
@@ -201,8 +199,7 @@ public class LdapMapper<T>
     }
 
     // from the annotated object methods to LDAP attributes
-    private void loadAttributesFromMethods(T instance, Attributes attrs, boolean forUpdate)
-            throws MissingAttributeException, LdapMappingException
+    private void loadAttributesFromMethods(T instance, Attributes attrs, boolean forUpdate) throws MissingAttributeException, LdapMappingException
     {
         for (Method method : getAnnotatedGetMetods())
         {
@@ -219,9 +216,9 @@ public class LdapMapper<T>
                 {
                     method.setAccessible(true);
                     Object value = method.invoke(instance);
-					LdapAttributeValueTranslator valueTranslator = getValueTranslator(valueTranslatorClass);
+                    LdapAttributeValueTranslator valueTranslator = getValueTranslator(valueTranslatorClass);
 
-					if (required)
+                    if (required)
                     {
                         checkRequired(value, attrID, instance.getClass() + "." + method.getName());
                     }
@@ -241,8 +238,8 @@ public class LdapMapper<T>
                 }
                 catch (InstantiationException e)
                 {
-                	throw new LdapMappingException(e);
-				}
+                    throw new LdapMappingException(e);
+                }
             }
         }
 
@@ -270,8 +267,8 @@ public class LdapMapper<T>
         }
     }
 
-    private void loadAttribute(Attributes attrs, String attrID, Object value, boolean oneWayEncrypted,
-            boolean forUpdate, String encrypted, LdapAttributeValueTranslator translator) throws LdapMappingException
+    private void loadAttribute(Attributes attrs, String attrID, Object value, boolean oneWayEncrypted, boolean forUpdate, String encrypted,
+            LdapAttributeValueTranslator translator) throws LdapMappingException
     {
         if (value instanceof Collection)
         {
@@ -291,12 +288,12 @@ public class LdapMapper<T>
         }
     }
 
-    private void loadSingleAttribute(Attributes attrs, String attrID, Object value, boolean oneWayEncrypted,
-            boolean forUpdate, String encrypted, LdapAttributeValueTranslator translator) throws LdapMappingException
+    private void loadSingleAttribute(Attributes attrs, String attrID, Object value, boolean oneWayEncrypted, boolean forUpdate, String encrypted,
+            LdapAttributeValueTranslator translator) throws LdapMappingException
     {
         if (value != null)
         {
-        	value = translator.toLdap(value);
+            value = translator.toLdap(value);
 
             if (oneWayEncrypted)
             {
@@ -436,8 +433,8 @@ public class LdapMapper<T>
                             value = getSingleValue(type, o);
                             if (value != null)
                             {
-            					LdapAttributeValueTranslator valueTranslator = getValueTranslator(valueTranslatorClass);
-            					value = valueTranslator.fromLdap(value);
+                                LdapAttributeValueTranslator valueTranslator = getValueTranslator(valueTranslatorClass);
+                                value = valueTranslator.fromLdap(value);
 
                                 method.invoke(instance, value);
                             }
@@ -475,7 +472,7 @@ public class LdapMapper<T>
                     final String msg = "Could not instantiate attribute value translator: ";
                     logger.error(msg, e);
                     throw new LdapMappingException(msg, e);
-				}
+                }
             }
         }
 
@@ -505,8 +502,8 @@ public class LdapMapper<T>
                         value = getSingleValue(type, attr.get());
                         if (value != null)
                         {
-        					LdapAttributeValueTranslator valueTranslator = getValueTranslator(valueTranslatorClass);
-        					value = valueTranslator.fromLdap(value);
+                            LdapAttributeValueTranslator valueTranslator = getValueTranslator(valueTranslatorClass);
+                            value = valueTranslator.fromLdap(value);
 
                             field.setAccessible(true);
                             field.set(instance, value);
@@ -532,11 +529,13 @@ public class LdapMapper<T>
                     final String msg = "Expected " + type + " but was " + value;
                     logger.error(msg);
                     throw new LdapMappingException(msg, e);
-                } catch (InstantiationException e) {
+                }
+                catch (InstantiationException e)
+                {
                     final String msg = "Could not instantiate attribute value translator: ";
                     logger.error(msg, e);
                     throw new LdapMappingException(msg, e);
-				}
+                }
             }
         }
     }

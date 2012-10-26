@@ -20,29 +20,29 @@ import nl.knaw.dans.common.ldap.ds.Constants;
 public abstract class LdapServerBuilder
 {
 
-    public static final String EASY_CONTEXT               = "ou=easy," + Constants.DANS_CONTEXT;
-    public static final String EASY_GROUPS_CONTEXT        = "ou=groups," + EASY_CONTEXT;
-    public static final String EASY_USERS_CONTEXT         = "ou=users," + EASY_CONTEXT;
-    public static final String EASY_MIGRATION_CONTEXT     = "ou=migration," + EASY_CONTEXT;
-    public static final String EASY_FEDERATION_CONTEXT     = "ou=federation," + EASY_CONTEXT;
+    public static final String EASY_CONTEXT = "ou=easy," + Constants.DANS_CONTEXT;
+    public static final String EASY_GROUPS_CONTEXT = "ou=groups," + EASY_CONTEXT;
+    public static final String EASY_USERS_CONTEXT = "ou=users," + EASY_CONTEXT;
+    public static final String EASY_MIGRATION_CONTEXT = "ou=migration," + EASY_CONTEXT;
+    public static final String EASY_FEDERATION_CONTEXT = "ou=federation," + EASY_CONTEXT;
 
-    public static final String DCCD_CONTEXT               = "ou=dccd," + Constants.DANS_CONTEXT;
+    public static final String DCCD_CONTEXT = "ou=dccd," + Constants.DANS_CONTEXT;
     public static final String DCCD_ORGANISATIONS_CONTEXT = "ou=organisations," + DCCD_CONTEXT;
-    public static final String DCCD_USERS_CONTEXT         = "ou=users," + DCCD_CONTEXT;
-    
+    public static final String DCCD_USERS_CONTEXT = "ou=users," + DCCD_CONTEXT;
+
     private DirContext ctx;
     private DirContext rootContext;
     private String securityCredentials;
-    
+
     public LdapServerBuilder() throws NamingException
     {
-       
+
     }
 
     public abstract String getProviderUrl();
-    
+
     public abstract String getSecurityPrincipal();
-    
+
     public String getSecurityCredentials()
     {
         if (securityCredentials == null)
@@ -56,7 +56,7 @@ public abstract class LdapServerBuilder
     {
         this.securityCredentials = securityCredentials;
     }
-    
+
     protected Hashtable<String, String> getEnvironment()
     {
         Hashtable<String, String> env = new Hashtable<String, String>();
@@ -86,7 +86,7 @@ public abstract class LdapServerBuilder
         }
         return rootContext;
     }
-    
+
     public List<AbstractSchema> getSchemas()
     {
         List<AbstractSchema> schemas = new ArrayList<AbstractSchema>();
@@ -95,31 +95,31 @@ public abstract class LdapServerBuilder
         schemas.add(new DCCDSchema());
         return schemas;
     }
-    
+
     public void buildServer() throws NamingException, IOException
     {
         buildContexts();
         buildSchemas();
     }
-    
+
     public void buildSchemas() throws NamingException, IOException
     {
         List<AbstractSchema> schemas = getSchemas();
         System.out.println("Count schemas = " + schemas.size());
-        
+
         // create attributeTypes
         for (AbstractSchema schema : schemas)
         {
             buildAttributeTypes(schema);
         }
-        
+
         // destroy objectClasses
         int count = schemas.size() - 1;
         for (int i = count; i >= 0; i--)
         {
             destroyObjectClasses(schemas.get(i));
         }
-        
+
         // create objectClasses
         for (AbstractSchema schema : schemas)
         {
@@ -140,7 +140,7 @@ public abstract class LdapServerBuilder
             }
         }
     }
-    
+
     protected void destroyObjectClasses(AbstractSchema schema) throws NamingException
     {
         System.out.println("DESTROYING objectClasses " + schema.getSchemaName() + " SCHEMA");
@@ -154,7 +154,7 @@ public abstract class LdapServerBuilder
             }
         }
     }
-    
+
     protected void buildObjectClasses(AbstractSchema schema) throws NamingException
     {
         System.out.println("BUILDING objectClasses " + schema.getSchemaName() + " SCHEMA");
@@ -167,18 +167,18 @@ public abstract class LdapServerBuilder
             }
         }
     }
-    
+
     public void buildContexts() throws NamingException
     {
         buildDansContexts();
         buildEasyContexts();
         buildDccdContexts();
     }
-    
+
     protected void buildDansContexts() throws NamingException
     {
         System.out.println("BUILDING DANS CONTEXTS");
-        
+
         String dn = Constants.DANS_CONTEXT;
         if (!isContextBound(dn))
         {
@@ -225,7 +225,7 @@ public abstract class LdapServerBuilder
 
             buildContext(dn, attrs);
         }
-        
+
         dn = Constants.TEST_MIGRATION_CONTEXT;
         if (!isContextBound(dn))
         {
@@ -254,15 +254,15 @@ public abstract class LdapServerBuilder
             attrs.put("ou", Constants.ouFEDERATION);
 
             buildContext(dn, attrs);
-        }        
+        }
 
         System.out.println("END BUILDING DANS CONTEXTS");
     }
-    
+
     protected void buildEasyContexts() throws NamingException
     {
         System.out.println("BUILDING EASY CONTEXT");
-        
+
         String dn = EASY_CONTEXT;
         if (!isContextBound(dn))
         {
@@ -307,7 +307,7 @@ public abstract class LdapServerBuilder
 
             buildContext(dn, attrs);
         }
-        
+
         dn = EASY_MIGRATION_CONTEXT;
         if (!isContextBound(dn))
         {
@@ -322,7 +322,7 @@ public abstract class LdapServerBuilder
 
             buildContext(dn, attrs);
         }
-        
+
         dn = EASY_FEDERATION_CONTEXT;
         if (!isContextBound(dn))
         {
@@ -337,10 +337,10 @@ public abstract class LdapServerBuilder
 
             buildContext(dn, attrs);
         }
-        
+
         System.out.println("END BUILDING EASY CONTEXTS");
     }
-    
+
     protected void buildDccdContexts() throws NamingException
     {
         System.out.println("BUILDING DCCD CONTEXTS");
@@ -392,7 +392,7 @@ public abstract class LdapServerBuilder
 
         System.out.println("END BUILDING DCCD CONTEXTS");
     }
-    
+
     protected boolean isContextBound(String context) throws NamingException
     {
         boolean hasContext = false;
@@ -408,19 +408,19 @@ public abstract class LdapServerBuilder
         }
         return hasContext;
     }
-    
+
     protected void buildContext(String name, Attributes attrs) throws NamingException
     {
         getDirContext().createSubcontext(name, attrs);
         System.out.println("Added subContext: " + name);
     }
-    
+
     protected void createSchema(String name, Attributes attrs) throws NamingException
     {
         getRootContext().createSubcontext(name, attrs);
         System.out.println("Added schema: " + name);
     }
-    
+
     protected boolean isSchemaBound(String name) throws NamingException
     {
         boolean hasName = false;

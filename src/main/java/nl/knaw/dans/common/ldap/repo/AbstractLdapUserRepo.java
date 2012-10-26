@@ -27,9 +27,9 @@ import org.slf4j.LoggerFactory;
 public abstract class AbstractLdapUserRepo<T extends User> extends AbstractGenericRepo<T> implements UserRepo<T>
 {
 
-    public static final String RDN    = "uid";
+    public static final String RDN = "uid";
 
-    private static Logger      logger = LoggerFactory.getLogger(AbstractLdapUserRepo.class);
+    private static Logger logger = LoggerFactory.getLogger(AbstractLdapUserRepo.class);
 
     /**
      * Construct a new LdapUserRepo.
@@ -62,7 +62,7 @@ public abstract class AbstractLdapUserRepo<T extends User> extends AbstractGener
         {
             authenticated = getClient().authenticate(userpass, getContext(), filter, getObjectClassesArray());
             logger.debug("User '" + uid + "' is authenticated=" + authenticated);
-            
+
         }
         catch (NamingException e)
         {
@@ -108,10 +108,10 @@ public abstract class AbstractLdapUserRepo<T extends User> extends AbstractGener
         {
             throw new RepositoryException(e);
         }
-        
+
         return passwordStored;
     }
-    
+
     public List<T> find(T example)
     {
         throw new UnsupportedOperationException();

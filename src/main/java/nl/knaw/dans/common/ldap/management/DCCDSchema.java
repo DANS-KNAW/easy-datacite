@@ -10,17 +10,17 @@ import javax.naming.directory.BasicAttributes;
 
 public class DCCDSchema extends AbstractSchema
 {
-    
+
     public static final String SCHEMA_NAME = "dccd";
-    
+
     private final List<Attributes> attributeTypes;
     private final List<Attributes> objectClasses;
-    
+
     public DCCDSchema()
     {
         // attributetypes
         attributeTypes = new ArrayList<Attributes>();
-        
+
         Attributes attrs = new BasicAttributes(true);
         attrs.put("NUMERICOID", "1.3.6.1.4.1.33188.2.1.4");
         attrs.put("NAME", "dccdRoles");
@@ -28,7 +28,7 @@ public class DCCDSchema extends AbstractSchema
         attrs.put("EQUALITY", "caseIgnoreMatch");
         attrs.put("SYNTAX", "1.3.6.1.4.1.1466.115.121.1.15"); // DirectoryString
         attributeTypes.add(attrs);
-        
+
         attrs = new BasicAttributes(true);
         attrs.put("NUMERICOID", "1.3.6.1.4.1.33188.2.1.5");
         attrs.put("NAME", "dccdDAI");
@@ -37,10 +37,10 @@ public class DCCDSchema extends AbstractSchema
         attrs.put("SYNTAX", "1.3.6.1.4.1.1466.115.121.1.15"); // DirectoryString
         attrs.put("SINGLE-VALUE", "TRUE");
         attributeTypes.add(attrs);
-        
+
         // objectClasses
         objectClasses = new ArrayList<Attributes>();
-        
+
         attrs = new BasicAttributes(true);
         attrs.put("NUMERICOID", "1.3.6.1.4.1.33188.2.2.1");
         attrs.put("NAME", "dccdUser");
@@ -55,7 +55,7 @@ public class DCCDSchema extends AbstractSchema
         may.add("dccdDAI");
         attrs.put(may);
         objectClasses.add(attrs);
-        
+
         attrs = new BasicAttributes(true);
         attrs.put("NUMERICOID", "1.3.6.1.4.1.33188.2.2.2");
         attrs.put("NAME", "dccdUserOrganisation");

@@ -16,9 +16,6 @@ import nl.knaw.dans.common.lang.ldap.DateTimeTranslator;
 import nl.knaw.dans.common.lang.test.Tester;
 import nl.knaw.dans.common.ldap.ds.AbstractOnlineTest;
 import nl.knaw.dans.common.ldap.ds.LdapClient;
-import nl.knaw.dans.common.ldap.repo.LdapMapper;
-import nl.knaw.dans.common.ldap.repo.LdapMappingException;
-import nl.knaw.dans.common.ldap.repo.MissingAttributeException;
 
 import org.joda.time.DateTime;
 import org.junit.BeforeClass;
@@ -51,7 +48,7 @@ public class LdapMapperOnlineTest extends AbstractOnlineTest
         {
             //
         }
-        
+
         LdapMapper<TestClass> mapper = new LdapMapper<TestClass>(TestClass.class);
         TestClass tc = new TestClass();
         tc.uid = uid;
@@ -92,16 +89,21 @@ public class LdapMapperOnlineTest extends AbstractOnlineTest
         client.deleteEntry(rdn, contextPath);
     }
 
-
     @LdapObject(objectClasses = {"dansUser", "inetOrgPerson", "organizationalPerson", "person"})
     private static class TestClass
     {
-        @LdapAttribute(id = "uid") String uid;
-        @LdapAttribute(id = "cn") String cn;
-        @LdapAttribute(id = "sn") String sn;
-        @LdapAttribute(id = "dansAcceptConditionsOfUse") boolean accept;
-        @LdapAttribute(id = "telephoneNumber") String telephone;
-        @LdapAttribute(id = "dansLastLogin", valueTranslator = DateTimeTranslator.class) DateTime lastLogin;
+        @LdapAttribute(id = "uid")
+        String uid;
+        @LdapAttribute(id = "cn")
+        String cn;
+        @LdapAttribute(id = "sn")
+        String sn;
+        @LdapAttribute(id = "dansAcceptConditionsOfUse")
+        boolean accept;
+        @LdapAttribute(id = "telephoneNumber")
+        String telephone;
+        @LdapAttribute(id = "dansLastLogin", valueTranslator = DateTimeTranslator.class)
+        DateTime lastLogin;
 
         public TestClass()
         {
@@ -109,6 +111,5 @@ public class LdapMapperOnlineTest extends AbstractOnlineTest
         }
 
     }
-
 
 }

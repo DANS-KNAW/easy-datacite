@@ -10,7 +10,6 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 
-import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
@@ -21,16 +20,13 @@ import nl.knaw.dans.common.lang.annotations.ldap.LdapAttributeValueTranslator;
 import nl.knaw.dans.common.lang.annotations.ldap.LdapObject;
 import nl.knaw.dans.common.lang.user.Person;
 import nl.knaw.dans.common.lang.user.PersonVO;
-import nl.knaw.dans.common.ldap.repo.LdapMapper;
-import nl.knaw.dans.common.ldap.repo.LdapMappingException;
-import nl.knaw.dans.common.ldap.repo.MissingAttributeException;
 
 import org.junit.Test;
 
 @SuppressWarnings("unused")
 public class LdapMapperTest
 {
-    
+
     @Test
     public void mapPerson() throws MissingAttributeException, LdapMappingException, NamingException
     {
@@ -50,18 +46,18 @@ public class LdapMapperTest
         sophie.setSurname("Wever");
         sophie.setTelephone("020 1234567");
         sophie.setTitle("Prof. Dr.");
-        
+
         Attributes attrs = mapper.marshal(sophie, false);
         // size: 14 + objectclass + cn + displayName
         assertEquals(17, attrs.size());
-        
-//        NamingEnumeration<? extends Attribute> nenum = attrs.getAll();
-//        while (nenum.hasMoreElements())
-//        {
-//            Attribute attr = nenum.next();
-//            System.err.println(attr.getID() + " " + attr.get());
-//        }
-        
+
+        //        NamingEnumeration<? extends Attribute> nenum = attrs.getAll();
+        //        while (nenum.hasMoreElements())
+        //        {
+        //            Attribute attr = nenum.next();
+        //            System.err.println(attr.getID() + " " + attr.get());
+        //        }
+
         Person sophie2 = mapper.unmarshal(attrs);
         assertEquals("Sophie", sophie2.getFirstname());
     }
@@ -103,7 +99,7 @@ public class LdapMapperTest
     {
         LdapMapper<Clazz> mapper = new LdapMapper<Clazz>(Clazz.class);
         LinkedHashSet<String> objectClasses = (LinkedHashSet<String>) mapper.getObjectClasses();
-        String[] check = { "inetOrgPerson", "organizationalPerson", "person", "foo", "bar", "top"};
+        String[] check = {"inetOrgPerson", "organizationalPerson", "person", "foo", "bar", "top"};
         assertEquals(check.length, objectClasses.size());
         Iterator<String> iter = objectClasses.iterator();
         for (int i = 0; i < check.length; i++)
@@ -148,12 +144,12 @@ public class LdapMapperTest
         Attributes attrs = mapper.marshal(objectMappedToLdap, false);
         // - Field
         Attribute attrField = attrs.get("translateField");
-        String mappedFieldValue = (String)attrField.get();
+        String mappedFieldValue = (String) attrField.get();
 
         assertEquals("mapthisfieldT", mappedFieldValue);
         // - Method
         Attribute attrMethod = attrs.get("translateMethod");
-        String mappedMethodValue = (String)attrMethod.get();
+        String mappedMethodValue = (String) attrMethod.get();
 
         assertEquals("mapthismethodT", mappedMethodValue);
 
@@ -172,19 +168,30 @@ public class LdapMapperTest
     @LdapObject(objectClasses = {"foo", "bar"})
     private static class SuperClazz
     {
-        @LdapAttribute(id = "title", required = true) private String title;
+        @LdapAttribute(id = "title", required = true)
+        private String title;
         private String notAnnotated;
-        @LdapAttribute(id = "object") private Object object;
+        @LdapAttribute(id = "object")
+        private Object object;
         private int calculated;
-        @LdapAttribute(id = "justInt") private int justAnInt;
-        @LdapAttribute(id = "justBoolean") private boolean justABoolean;
-        @LdapAttribute(id = "justByte") private byte justAByte;
-        @LdapAttribute(id = "justChar") private char justAChar;
-        @LdapAttribute(id = "justShort") private short justAShort;
-        @LdapAttribute(id = "justLong") private long justALong;
-        @LdapAttribute(id = "justFloat") private float justAFloat;
-        @LdapAttribute(id = "justDouble") private double justADouble;
-        @LdapAttribute(id = "userpass", oneWayEncrypted = true) private String password;
+        @LdapAttribute(id = "justInt")
+        private int justAnInt;
+        @LdapAttribute(id = "justBoolean")
+        private boolean justABoolean;
+        @LdapAttribute(id = "justByte")
+        private byte justAByte;
+        @LdapAttribute(id = "justChar")
+        private char justAChar;
+        @LdapAttribute(id = "justShort")
+        private short justAShort;
+        @LdapAttribute(id = "justLong")
+        private long justALong;
+        @LdapAttribute(id = "justFloat")
+        private float justAFloat;
+        @LdapAttribute(id = "justDouble")
+        private double justADouble;
+        @LdapAttribute(id = "userpass", oneWayEncrypted = true)
+        private String password;
         private String requiredString;
 
         public String getTitle()
@@ -314,7 +321,7 @@ public class LdapMapperTest
             return password;
         }
 
-		public void setPassword(String password)
+        public void setPassword(String password)
         {
             this.password = password;
         }
@@ -335,7 +342,8 @@ public class LdapMapperTest
     @LdapObject(objectClasses = {"inetOrgPerson", "organizationalPerson", "person"})
     private static class Clazz extends SuperClazz
     {
-        @LdapAttribute(id = "integer") private Integer integer;
+        @LdapAttribute(id = "integer")
+        private Integer integer;
         private String notMapped;
         private boolean reversedBoolean;
 
@@ -380,52 +388,59 @@ public class LdapMapperTest
 
     // Implementation for testing mapping with translation
     @LdapObject(objectClasses = {"foo", "bar"})
-    private static class ObjectWithTranslationMapping {
-    	@LdapAttribute(id = "translateField", valueTranslator=AppendXTranslator.class)
-    	public String stringInField;
+    private static class ObjectWithTranslationMapping
+    {
+        @LdapAttribute(id = "translateField", valueTranslator = AppendXTranslator.class)
+        public String stringInField;
 
-    	private String stringFromMethod;
+        private String stringFromMethod;
 
-    	@LdapAttribute(id = "translateMethod", valueTranslator=AppendXTranslator.class)
-		public String getStringFromMethod() {
-			return stringFromMethod;
-		}
+        @LdapAttribute(id = "translateMethod", valueTranslator = AppendXTranslator.class)
+        public String getStringFromMethod()
+        {
+            return stringFromMethod;
+        }
 
-       	@LdapAttribute(id = "translateMethod", valueTranslator=AppendXTranslator.class)
-		public void setStringFromMethod(String stringFromMethod) {
-			this.stringFromMethod = stringFromMethod;
-		}
+        @LdapAttribute(id = "translateMethod", valueTranslator = AppendXTranslator.class)
+        public void setStringFromMethod(String stringFromMethod)
+        {
+            this.stringFromMethod = stringFromMethod;
+        }
 
-       	// the mapper needs this constructor
-		public ObjectWithTranslationMapping() {
-			super();
-		}
+        // the mapper needs this constructor
+        public ObjectWithTranslationMapping()
+        {
+            super();
+        }
     }
 
     // Appends an 'F' on fromLdap and 'T' on toLdap,
     // for checking that both mappings actually take place
-    public static class AppendXTranslator implements LdapAttributeValueTranslator<Object> {
-		public Object fromLdap(Object value) {
-			if (value instanceof String)
-	        {
-				return (String)value + "F";
-	        }
-			else
-			{
-				return value;
-			}
-		}
+    public static class AppendXTranslator implements LdapAttributeValueTranslator<Object>
+    {
+        public Object fromLdap(Object value)
+        {
+            if (value instanceof String)
+            {
+                return (String) value + "F";
+            }
+            else
+            {
+                return value;
+            }
+        }
 
-		public Object toLdap(Object value) {
-			if (value instanceof String)
-	        {
-				return (String)value + "T";
-	        }
-			else
-			{
-				return value;
-			}
-		}
+        public Object toLdap(Object value)
+        {
+            if (value instanceof String)
+            {
+                return (String) value + "T";
+            }
+            else
+            {
+                return value;
+            }
+        }
     }
 
 }

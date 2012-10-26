@@ -8,7 +8,7 @@ import nl.knaw.dans.common.ldap.ds.Constants;
 
 public class ApacheDSServerBuilder extends LdapServerBuilder
 {
-    
+
     private String providerUrl;
     private String securityPrincipal;
 
@@ -16,7 +16,7 @@ public class ApacheDSServerBuilder extends LdapServerBuilder
     {
         super();
     }
-    
+
     public ApacheDSServerBuilder(String providerUrl, String securityPrincipal, String securityCredentials) throws NamingException
     {
         super();

@@ -23,10 +23,10 @@ public class ExportOpenLdap
         print(attrs);
 
     }
-    
+
     /* 
     
-attributetype ( 1.3.6.1.4.1.18060.0.4.1.2.21 
+    attributetype ( 1.3.6.1.4.1.18060.0.4.1.2.21 
     NAME 'fullyQualifiedJavaClassName' 
     DESC 'The fully qualified name for a (Java) class' 
     EQUALITY caseExactIA5Match 
@@ -42,28 +42,21 @@ attributetype ( 1.3.6.1.4.1.18060.0.4.1.2.21
 
     private static void print(Attributes attrs) throws NamingException
     {
-        StringBuilder sb = new StringBuilder()
-        .append("\n")
-        .append("attributetype ( ")
-        .append(attrs.get("NUMERICOID").get())
-        .append("\n\t")
-        
-        .append("NAME '" + attrs.get("NAME").get() + "'")
-        .append("\n\t")
-        
-        .append("DESC '" + attrs.get("DESC").get() + "'")
-        .append("\n\t")
-        
-        .append("EQUALITY " + attrs.get("EQUALITY").get())
-        .append("\n\t")
-        
+        StringBuilder sb = new StringBuilder().append("\n").append("attributetype ( ").append(attrs.get("NUMERICOID").get()).append("\n\t")
+
+        .append("NAME '" + attrs.get("NAME").get() + "'").append("\n\t")
+
+        .append("DESC '" + attrs.get("DESC").get() + "'").append("\n\t")
+
+        .append("EQUALITY " + attrs.get("EQUALITY").get()).append("\n\t")
+
         .append("SYNTAX " + attrs.get("SYNTAX").get());
         if ("TRUE".equals(attrs.get("SINGLE-VALUE").get()))
         {
             sb.append("\n\t");
             sb.append("SINGLE-VALUE");
         }
-        
+
         sb.append(")\n");
         System.err.println(sb.toString());
     }

@@ -1,6 +1,6 @@
 package nl.knaw.dans.common.ldap.repo;
 
-//import nl.knaw.dans.easy.domain.exceptions.DataAccessException;
+// import nl.knaw.dans.easy.domain.exceptions.DataAccessException;
 import nl.knaw.dans.common.lang.RepositoryException;
 
 /**

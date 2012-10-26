@@ -35,15 +35,15 @@ import org.slf4j.LoggerFactory;
 public class LdapClient
 {
 
-    private static final DateTimeTranslator DT_TRANSLATOR     = new DateTimeTranslator();
+    private static final DateTimeTranslator DT_TRANSLATOR = new DateTimeTranslator();
 
     /**
      * Logger for logging.
      */
-    private static final Logger             logger            = LoggerFactory.getLogger(LdapClient.class);
+    private static final Logger logger = LoggerFactory.getLogger(LdapClient.class);
 
-    private DirContextSupplier              dirContextSupplier;
-    private boolean                         updatingLastLogin = true;
+    private DirContextSupplier dirContextSupplier;
+    private boolean updatingLastLogin = true;
 
     public LdapClient()
     {
@@ -149,8 +149,7 @@ public class LdapClient
      * @throws NamingException
      *         for all exceptions
      */
-    public Attributes getAttributes(String rdn, String subContext, String[] attrIds) throws NameNotFoundException,
-            NamingException
+    public Attributes getAttributes(String rdn, String subContext, String[] attrIds) throws NameNotFoundException, NamingException
     {
         DirContext ctx = dirContextSupplier.getDirContext();
         Attributes attrs = null;
@@ -214,8 +213,7 @@ public class LdapClient
      * @throws NamingException
      *         for all exceptions
      */
-    public void addEntry(String rdn, String subContext, Attributes attrs) throws NameAlreadyBoundException,
-            NamingException
+    public void addEntry(String rdn, String subContext, Attributes attrs) throws NameAlreadyBoundException, NamingException
     {
         DirContext ctx = dirContextSupplier.getDirContext();
         try
@@ -298,8 +296,7 @@ public class LdapClient
      * @throws NamingException
      *         for exceptions
      */
-    public boolean authenticate(String password, String subContext, String filter, String... objectClasses)
-            throws NamingException
+    public boolean authenticate(String password, String subContext, String filter, String... objectClasses) throws NamingException
     {
         boolean authenticated = false;
         NamingEnumeration<SearchResult> result = search(subContext, filter);
@@ -377,14 +374,12 @@ public class LdapClient
         return search(dirContextSupplier.getDirContext(), subContext, filter);
     }
 
-    public NamingEnumeration<SearchResult> search(DirContext ctx, String subContext, String filter)
-            throws NamingException
+    public NamingEnumeration<SearchResult> search(DirContext ctx, String subContext, String filter) throws NamingException
     {
         return search(ctx, subContext, filter, SearchControls.SUBTREE_SCOPE);
     }
 
-    public NamingEnumeration<SearchResult> search(DirContext ctx, String subContext, String filter, int scope)
-            throws NamingException
+    public NamingEnumeration<SearchResult> search(DirContext ctx, String subContext, String filter, int scope) throws NamingException
     {
         NamingEnumeration<SearchResult> resultEnum;
         try
@@ -402,14 +397,12 @@ public class LdapClient
         return resultEnum;
     }
 
-    public NamingEnumeration<SearchResult> search(String subContext, String filter, SearchControls ctls)
-            throws NamingException
+    public NamingEnumeration<SearchResult> search(String subContext, String filter, SearchControls ctls) throws NamingException
     {
         return search(dirContextSupplier.getDirContext(), subContext, filter, ctls);
     }
 
-    public NamingEnumeration<SearchResult> search(DirContext ctx, String subContext, String filter, SearchControls ctls)
-            throws NamingException
+    public NamingEnumeration<SearchResult> search(DirContext ctx, String subContext, String filter, SearchControls ctls) throws NamingException
     {
         NamingEnumeration<SearchResult> resultEnum;
         try

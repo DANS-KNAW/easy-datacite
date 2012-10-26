@@ -1,20 +1,19 @@
 package nl.knaw.dans.common.ldap.ds;
 
+import nl.knaw.dans.common.lang.test.Tester;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.knaw.dans.common.lang.test.Tester;
-
 public class AbstractOnlineTest
 {
-    
+
     private static StandAloneDS SUPPLIER;
-    
+
     private static LdapClient LDAP_CLIENT;
-    
+
     private static final Logger logger = LoggerFactory.getLogger(AbstractOnlineTest.class);
-    
-    
+
     public static DirContextSupplier getDirContextSupplier()
     {
         if (SUPPLIER == null)
@@ -28,7 +27,7 @@ public class AbstractOnlineTest
         }
         return SUPPLIER;
     }
-    
+
     public static LdapClient getLdapClient()
     {
         if (LDAP_CLIENT == null)

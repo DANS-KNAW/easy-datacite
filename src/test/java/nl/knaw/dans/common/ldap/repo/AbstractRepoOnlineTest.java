@@ -6,14 +6,14 @@ import nl.knaw.dans.common.ldap.ds.LdapClient;
 
 public abstract class AbstractRepoOnlineTest
 {
-    
+
     private static LdapClient CLIENT;
-    
+
     protected AbstractRepoOnlineTest()
     {
-        
+
     }
-    
+
     protected static LdapClient getLdapClient()
     {
         if (CLIENT == null)
@@ -24,8 +24,5 @@ public abstract class AbstractRepoOnlineTest
         }
         return CLIENT;
     }
-    
-    
-    
 
 }

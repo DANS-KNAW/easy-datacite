@@ -12,14 +12,14 @@ public class EasySchema extends AbstractSchema
 {
 
     public static final String SCHEMA_NAME = "easy";
-    
+
     private final List<Attributes> attributeTypes;
     private final List<Attributes> objectClasses;
-    
+
     public EasySchema()
     {
         attributeTypes = new ArrayList<Attributes>();
-        
+
         Attributes attrs = new BasicAttributes(true);
         attrs.put("NUMERICOID", "1.3.6.1.4.1.33188.1.1.3");
         attrs.put("NAME", "easyAcceptConditionsOfUse");
@@ -28,7 +28,7 @@ public class EasySchema extends AbstractSchema
         attrs.put("SYNTAX", "1.3.6.1.4.1.1466.115.121.1.7"); // Boolean syntax
         attrs.put("SINGLE-VALUE", "TRUE");
         attributeTypes.add(attrs);
-        
+
         attrs = new BasicAttributes(true);
         attrs.put("NUMERICOID", "1.3.6.1.4.1.33188.1.1.4");
         attrs.put("NAME", "easyRoles");
@@ -36,7 +36,7 @@ public class EasySchema extends AbstractSchema
         attrs.put("EQUALITY", "caseIgnoreMatch");
         attrs.put("SYNTAX", "1.3.6.1.4.1.1466.115.121.1.15"); // DirectoryString
         attributeTypes.add(attrs);
-        
+
         attrs = new BasicAttributes(true);
         attrs.put("NUMERICOID", "1.3.6.1.4.1.33188.1.1.5");
         attrs.put("NAME", "easyGroups");
@@ -44,7 +44,7 @@ public class EasySchema extends AbstractSchema
         attrs.put("EQUALITY", "caseIgnoreMatch");
         attrs.put("SYNTAX", "1.3.6.1.4.1.1466.115.121.1.15"); // DirectoryString
         attributeTypes.add(attrs);
-        
+
         attrs = new BasicAttributes(true);
         attrs.put("NUMERICOID", "1.3.6.1.4.1.33188.1.1.6");
         attrs.put("NAME", "easyFunction");
@@ -52,7 +52,7 @@ public class EasySchema extends AbstractSchema
         attrs.put("EQUALITY", "caseIgnoreMatch");
         attrs.put("SYNTAX", "1.3.6.1.4.1.1466.115.121.1.15"); // DirectoryString
         attributeTypes.add(attrs);
-        
+
         attrs = new BasicAttributes(true);
         attrs.put("NUMERICOID", "1.3.6.1.4.1.33188.1.1.14");
         attrs.put("NAME", "easyDiscipline1");
@@ -60,7 +60,7 @@ public class EasySchema extends AbstractSchema
         attrs.put("EQUALITY", "caseIgnoreMatch");
         attrs.put("SYNTAX", "1.3.6.1.4.1.1466.115.121.1.15"); // DirectoryString
         attributeTypes.add(attrs);
-        
+
         attrs = new BasicAttributes(true);
         attrs.put("NUMERICOID", "1.3.6.1.4.1.33188.1.1.15");
         attrs.put("NAME", "easyDiscipline2");
@@ -76,7 +76,7 @@ public class EasySchema extends AbstractSchema
         attrs.put("EQUALITY", "caseIgnoreMatch");
         attrs.put("SYNTAX", "1.3.6.1.4.1.1466.115.121.1.15"); // DirectoryString
         attributeTypes.add(attrs);
-        
+
         attrs = new BasicAttributes(true);
         attrs.put("NUMERICOID", "1.3.6.1.4.1.33188.1.1.17");
         attrs.put("NAME", "easyHasConfirmedGeneralConditions");
@@ -101,7 +101,7 @@ public class EasySchema extends AbstractSchema
         attrs.put("EQUALITY", "caseIgnoreMatch");
         attrs.put("SYNTAX", "1.3.6.1.4.1.1466.115.121.1.15"); // DirectoryString
         attributeTypes.add(attrs);
-        
+
         attrs = new BasicAttributes(true);
         attrs.put("NUMERICOID", "1.3.6.1.4.1.33188.1.1.10");
         attrs.put("NAME", "easyOrganizationCity");
@@ -117,15 +117,15 @@ public class EasySchema extends AbstractSchema
         attrs.put("EQUALITY", "caseIgnoreMatch");
         attrs.put("SYNTAX", "1.3.6.1.4.1.1466.115.121.1.15"); // DirectoryString
         attributeTypes.add(attrs);
-        
+
         attrs = new BasicAttributes(true);
         attrs.put("NUMERICOID", "1.3.6.1.4.1.33188.1.1.12");
         attrs.put("NAME", "easyOrganizationTelephone");
         attrs.put("DESC", "Telephone number of an easyUser at the organization he is affiliated with");
         attrs.put("EQUALITY", "caseIgnoreMatch");
         attrs.put("SYNTAX", "1.3.6.1.4.1.1466.115.121.1.15"); // DirectoryString
-        attributeTypes.add(attrs);        
-        
+        attributeTypes.add(attrs);
+
         attrs = new BasicAttributes(true);
         attrs.put("NUMERICOID", "1.3.6.1.4.1.33188.1.1.13");
         attrs.put("NAME", "easyLogMyActions");
@@ -137,7 +137,7 @@ public class EasySchema extends AbstractSchema
 
         // objectClasses
         objectClasses = new ArrayList<Attributes>();
-        
+
         attrs = new BasicAttributes(true);
         attrs.put("NUMERICOID", "1.3.6.1.4.1.33188.1.2.1");
         attrs.put("NAME", "easyUser");
@@ -154,7 +154,7 @@ public class EasySchema extends AbstractSchema
         may.add("easyFunction");
         may.add("easyDiscipline1");
         may.add("easyDiscipline2");
-        may.add("easyDiscipline3");        
+        may.add("easyDiscipline3");
         may.add("easyDai");
         may.add("easyOrganizationAddress");
         may.add("easyOrganizationCity");
@@ -162,10 +162,10 @@ public class EasySchema extends AbstractSchema
         may.add("easyOrganizationTelephone");
         may.add("easyLogMyActions");
         may.add("easyHasConfirmedGeneralConditions");
-        
+
         attrs.put(may);
         objectClasses.add(attrs);
-        
+
         attrs = new BasicAttributes(true);
         attrs.put("NUMERICOID", "1.3.6.1.4.1.33188.1.2.2");
         attrs.put("NAME", "easyGroup");
@@ -180,7 +180,7 @@ public class EasySchema extends AbstractSchema
         attrs.put(may);
         objectClasses.add(attrs);
     }
-    
+
     @Override
     public String getSchemaName()
     {

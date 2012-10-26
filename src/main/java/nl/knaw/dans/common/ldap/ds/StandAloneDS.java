@@ -16,7 +16,7 @@ public class StandAloneDS implements DirContextSupplier
     /**
      * Logger for logging.
      */
-    private static final Logger              logger               = LoggerFactory.getLogger(StandAloneDS.class);
+    private static final Logger logger = LoggerFactory.getLogger(StandAloneDS.class);
 
     private String providerURL;
     private String securityPrincipal;
@@ -70,13 +70,11 @@ public class StandAloneDS implements DirContextSupplier
         this.securityCredentials = securityCredentials;
     }
 
-    
     public DirContext getDirContext() throws NamingException
     {
         // InitialDirContext is not thread safe.
         return new InitialDirContext(getEnvironment());
     }
-
 
     private Hashtable<String, String> getEnvironment()
     {

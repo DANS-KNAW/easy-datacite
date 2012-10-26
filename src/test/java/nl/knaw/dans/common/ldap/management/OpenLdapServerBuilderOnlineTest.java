@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 public class OpenLdapServerBuilderOnlineTest
 {
     private static final Logger logger = LoggerFactory.getLogger(OpenLdapServerBuilderOnlineTest.class);
-    
+
     @Ignore("Not a test")
     @Test
     public void buildServer() throws Exception
@@ -20,7 +20,7 @@ public class OpenLdapServerBuilderOnlineTest
         String providerUrl = Tester.getString("ldap." + inUse + ".providerURL");
         String securityPrincipal = Tester.getString("ldap." + inUse + ".securityPrincipal");
         String securityCredentials = Tester.getString("ldap." + inUse + ".securityCredentials");
-        
+
         OpenLdapServerBuilder builder = new OpenLdapServerBuilder(providerUrl, securityPrincipal, securityCredentials);
         builder.buildServer();
     }

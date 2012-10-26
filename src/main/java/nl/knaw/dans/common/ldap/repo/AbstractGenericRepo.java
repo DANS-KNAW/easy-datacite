@@ -36,22 +36,22 @@ import org.slf4j.LoggerFactory;
 public abstract class AbstractGenericRepo<T extends RepoEntry> implements GenericRepo<T>
 {
 
-    private static final Logger logger              = LoggerFactory.getLogger(AbstractGenericRepo.class);
+    private static final Logger logger = LoggerFactory.getLogger(AbstractGenericRepo.class);
 
     private static final String CREATE_TIMESTAMP_ID = "createTimestamp";
 
     private static final String MODIFY_TIMESTAMP_ID = "modifyTimestamp";
 
-    private final LdapClient    client;
+    private final LdapClient client;
 
-    private final String        context;
+    private final String context;
 
-    private final String        rdn;
+    private final String rdn;
 
-    private final String        objectClassName;
-    
+    private final String objectClassName;
+
     private final LdapMapper<T> ldapMapper;
-    
+
     private String[] objectClassNamesArray;
 
     public AbstractGenericRepo(LdapClient client, String context, String rdn, LdapMapper<T> ldapMapper)
@@ -123,12 +123,12 @@ public abstract class AbstractGenericRepo<T extends RepoEntry> implements Generi
     {
         return getLdapMapper().getObjectClasses();
     }
-    
+
     public String[] getObjectClassesArray()
     {
         if (objectClassNamesArray == null)
         {
-            objectClassNamesArray = getObjectClasses().toArray(new String[]{});
+            objectClassNamesArray = getObjectClasses().toArray(new String[] {});
         }
         return objectClassNamesArray;
     }
@@ -288,7 +288,7 @@ public abstract class AbstractGenericRepo<T extends RepoEntry> implements Generi
         }
         return entries;
     }
-    
+
     public List<String> findAllEntries(int maxCount) throws RepositoryException
     {
         List<String> ids = new ArrayList<String>();
@@ -297,7 +297,7 @@ public abstract class AbstractGenericRepo<T extends RepoEntry> implements Generi
         ctls.setSearchScope(SearchControls.ONELEVEL_SCOPE);
         ctls.setCountLimit(maxCount);
         ctls.setReturningAttributes(new String[] {getRdn()});
-        
+
         try
         {
             NamingEnumeration<SearchResult> resultEnum = getClient().search(getContext(), filter, ctls);
@@ -327,8 +327,7 @@ public abstract class AbstractGenericRepo<T extends RepoEntry> implements Generi
         LdapOperationalAttributes opa = new LdapOperationalAttributes();
         try
         {
-            Attributes attrs = client.getAttributes(getRdn(id), context, new String[] {CREATE_TIMESTAMP_ID,
-                    MODIFY_TIMESTAMP_ID});
+            Attributes attrs = client.getAttributes(getRdn(id), context, new String[] {CREATE_TIMESTAMP_ID, MODIFY_TIMESTAMP_ID});
             if (attrs.size() > 0)
             {
                 opa.setCreateTime((String) attrs.get(CREATE_TIMESTAMP_ID).get());
@@ -368,7 +367,7 @@ public abstract class AbstractGenericRepo<T extends RepoEntry> implements Generi
     {
         return rdn + "=" + id;
     }
-    
+
     protected String getRdn()
     {
         return rdn;
