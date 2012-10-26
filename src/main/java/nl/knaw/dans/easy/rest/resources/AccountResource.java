@@ -25,50 +25,61 @@ import nl.knaw.dans.easy.servicelayer.services.Services;
  * @author Roshan Timal
  */
 @Path("account")
-public class AccountResource extends AuthenticatedResource {
+public class AccountResource extends AuthenticatedResource
+{
 
-	/**
-	 * Returns a response that contains the account information of the
-	 * authenticated user.
-	 * 
-	 * @return A response containing account information.
-	 */
-	@GET
-	public Response getAccount() {
-		try {
-			return responseXmlOrJson(UserConverter.convert(authenticate()));
-		} catch (AnonymousUserException e) {
-			return simpleResponse("Authorization failed.");
-		} catch (ServiceException e) {
-			return internalServerError(e);
-		}
-	}
+    /**
+     * Returns a response that contains the account information of the
+     * authenticated user.
+     * 
+     * @return A response containing account information.
+     */
+    @GET
+    public Response getAccount()
+    {
+        try
+        {
+            return responseXmlOrJson(UserConverter.convert(authenticate()));
+        }
+        catch (AnonymousUserException e)
+        {
+            return simpleResponse("Authorization failed.");
+        }
+        catch (ServiceException e)
+        {
+            return internalServerError(e);
+        }
+    }
 
-	/**
-	 * Returns all (published) datasets that are deposited by the user.
-	 * 
-	 * @return A list of search hits containing all published datasets that are
-	 *         deposited by the user.
-	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@GET
-	@Path("/datasets")
-	public Response getDatasets() {
-		try {
-			EasyUser user = authenticate();
-			SearchRequest request = new SimpleSearchRequest();
-			FieldSet fs = new SimpleFieldSet();
-			fs.add(new SimpleField("amd_depositor_id", user.getId()));
-			request.setFilterQueries(fs);
-			SearchResult<? extends DatasetSB> result = Services
-					.getSearchService().searchPublished(request, user);
-			return responseXmlOrJson(SearchHitConverter.convert(result
-					.getHits()));
-		} catch (AnonymousUserException e) {
-			return notAuthorized();
-		} catch (ServiceException e) {
-			return internalServerError(e);
-		}
-	}
+    /**
+     * Returns all (published) datasets that are deposited by the user.
+     * 
+     * @return A list of search hits containing all published datasets that are
+     *         deposited by the user.
+     */
+    @SuppressWarnings( {"rawtypes", "unchecked"})
+    @GET
+    @Path("/datasets")
+    public Response getDatasets()
+    {
+        try
+        {
+            EasyUser user = authenticate();
+            SearchRequest request = new SimpleSearchRequest();
+            FieldSet fs = new SimpleFieldSet();
+            fs.add(new SimpleField("amd_depositor_id", user.getId()));
+            request.setFilterQueries(fs);
+            SearchResult<? extends DatasetSB> result = Services.getSearchService().searchPublished(request, user);
+            return responseXmlOrJson(SearchHitConverter.convert(result.getHits()));
+        }
+        catch (AnonymousUserException e)
+        {
+            return notAuthorized();
+        }
+        catch (ServiceException e)
+        {
+            return internalServerError(e);
+        }
+    }
 
 }

@@ -45,294 +45,249 @@ import org.junit.Test;
 import com.sun.jersey.api.client.ClientResponse;
 
 @SuppressWarnings("unchecked")
-public class DatasetSpecificDataTest extends RestTest {
-	private DatasetService datasetServiceMock;
-	private ItemService itemServiceMock;
+public class DatasetSpecificDataTest extends RestTest
+{
+    private DatasetService datasetServiceMock;
+    private ItemService itemServiceMock;
 
-	@Before
-	public void setUp() {
-		Services services = new Services();
+    @Before
+    public void setUp()
+    {
+        Services services = new Services();
 
-		datasetServiceMock = mock(DatasetService.class);
-		itemServiceMock = mock(ItemService.class);
+        datasetServiceMock = mock(DatasetService.class);
+        itemServiceMock = mock(ItemService.class);
 
-		services.setDatasetService(datasetServiceMock);
-		services.setItemService(itemServiceMock);
-	}
+        services.setDatasetService(datasetServiceMock);
+        services.setItemService(itemServiceMock);
+    }
 
-	private void setUpServiceMethods() throws ServiceException {
-		ArrayList<ItemVO> items = new ArrayList<ItemVO>();
-		FileItemVO file = new FileItemVO();
-		file.setSid("easy-file:1");
-		items.add(file);
-		FolderItemVO folder = new FolderItemVO();
-		folder.setSid("easy-folder:1");
-		items.add(folder);
+    private void setUpServiceMethods() throws ServiceException
+    {
+        ArrayList<ItemVO> items = new ArrayList<ItemVO>();
+        FileItemVO file = new FileItemVO();
+        file.setSid("easy-file:1");
+        items.add(file);
+        FolderItemVO folder = new FolderItemVO();
+        folder.setSid("easy-folder:1");
+        items.add(folder);
 
-		when(
-				datasetServiceMock.getDataset(isA(EasyUser.class),
-						isA(DmoStoreId.class))).thenReturn(
-				new DatasetImpl("easy-dataset:1"));
+        when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenReturn(new DatasetImpl("easy-dataset:1"));
 
-		when(
-				itemServiceMock.getFilesAndFolders(isA(EasyUser.class),
-						isA(Dataset.class), isA(DmoStoreId.class),
-						isA(Integer.class), isA(Integer.class),
-						(ItemOrder) isNull(), (ItemFilters) isNull()))
-				.thenReturn(items);
+        when(
+                itemServiceMock.getFilesAndFolders(isA(EasyUser.class), isA(Dataset.class), isA(DmoStoreId.class), isA(Integer.class), isA(Integer.class),
+                        (ItemOrder) isNull(), (ItemFilters) isNull())).thenReturn(items);
 
-		when(
-				itemServiceMock.getZippedContent(isA(EasyUser.class),
-						isA(Dataset.class), isA(Collection.class))).thenReturn(
-				new ZipFileContentWrapper());
+        when(itemServiceMock.getZippedContent(isA(EasyUser.class), isA(Dataset.class), isA(Collection.class))).thenReturn(new ZipFileContentWrapper());
 
-	}
+    }
 
-	@Test
-	public void getSpecificDataWithPathToFolder() throws ServiceException {
-		setUpServiceMethods();
-		setUpGetFolderItemByPath();
+    @Test
+    public void getSpecificDataWithPathToFolder() throws ServiceException
+    {
+        setUpServiceMethods();
+        setUpGetFolderItemByPath();
 
-		ClientResponse response = resource().path(
-				"dataset/easy-dataset:1/data/root/folder").get(
-				ClientResponse.class);
+        ClientResponse response = resource().path("dataset/easy-dataset:1/data/root/folder").get(ClientResponse.class);
 
-		assertEquals(200, response.getStatus());
-	}
+        assertEquals(200, response.getStatus());
+    }
 
-	private void setUpGetFolderItemByPath() throws ServiceException {
-		FolderItemImpl folder = new FolderItemImpl("easy-folder:2");
-		when(
-				itemServiceMock.getFolderItemByPath(isA(EasyUser.class),
-						isA(Dataset.class), isA(String.class))).thenReturn(
-				folder);
-	}
+    private void setUpGetFolderItemByPath() throws ServiceException
+    {
+        FolderItemImpl folder = new FolderItemImpl("easy-folder:2");
+        when(itemServiceMock.getFolderItemByPath(isA(EasyUser.class), isA(Dataset.class), isA(String.class))).thenReturn(folder);
+    }
 
-	// TODO: un-ignore this after mocking the right methods!
-	@Ignore
-	@Test
-	public void getSpecificDataWithPathToFile() throws ServiceException,
-			MalformedURLException {
-		setUpServiceMethods();
-		setUpGetFolderItemByPathException();
-		setUpGetFileItemByPath();
+    // TODO: un-ignore this after mocking the right methods!
+    @Ignore
+    @Test
+    public void getSpecificDataWithPathToFile() throws ServiceException, MalformedURLException
+    {
+        setUpServiceMethods();
+        setUpGetFolderItemByPathException();
+        setUpGetFileItemByPath();
 
-		ClientResponse response = resource().path(
-				"dataset/easy-dataset:1/data/root/file.txt").get(
-				ClientResponse.class);
+        ClientResponse response = resource().path("dataset/easy-dataset:1/data/root/file.txt").get(ClientResponse.class);
 
-		assertEquals(200, response.getStatus());
-	}
+        assertEquals(200, response.getStatus());
+    }
 
-	private void setUpGetFolderItemByPathException() throws ServiceException {
-		when(
-				itemServiceMock.getFolderItemByPath(isA(EasyUser.class),
-						isA(Dataset.class), isA(String.class))).thenThrow(
-				ServiceException.class);
-	}
+    private void setUpGetFolderItemByPathException() throws ServiceException
+    {
+        when(itemServiceMock.getFolderItemByPath(isA(EasyUser.class), isA(Dataset.class), isA(String.class))).thenThrow(ServiceException.class);
+    }
 
-	private void setUpGetFileItemByPath() throws ServiceException,
-			MalformedURLException {
-		FileItemImpl file = new FileItemImpl("easy-file:1");
-		file.setMimeType(MediaType.TEXT_PLAIN);
-		file.setSize(4);
-		when(
-				itemServiceMock.getFileItemByPath(isA(EasyUser.class),
-						isA(Dataset.class), isA(String.class)))
-				.thenReturn(file);
+    private void setUpGetFileItemByPath() throws ServiceException, MalformedURLException
+    {
+        FileItemImpl file = new FileItemImpl("easy-file:1");
+        file.setMimeType(MediaType.TEXT_PLAIN);
+        file.setSize(4);
+        when(itemServiceMock.getFileItemByPath(isA(EasyUser.class), isA(Dataset.class), isA(String.class))).thenReturn(file);
 
-		URL url = setUpUrlMock();
+        URL url = setUpUrlMock();
 
-		when(
-				itemServiceMock.getFileContentURL(isA(EasyUser.class),
-						isA(Dataset.class), isA(FileItem.class))).thenReturn(
-				url);
-	}
+        when(itemServiceMock.getFileContentURL(isA(EasyUser.class), isA(Dataset.class), isA(FileItem.class))).thenReturn(url);
+    }
 
-	private URL setUpUrlMock() throws MalformedURLException {
-		return new URL(new URL("http://www.gnu.org"), "spec",
-				new URLStreamHandler() {
-					@Override
-					protected URLConnection openConnection(URL u)
-							throws IOException {
-						return new URLConnection(u) {
+    private URL setUpUrlMock() throws MalformedURLException
+    {
+        return new URL(new URL("http://www.gnu.org"), "spec", new URLStreamHandler()
+        {
+            @Override
+            protected URLConnection openConnection(URL u) throws IOException
+            {
+                return new URLConnection(u)
+                {
 
-							@Override
-							public void connect() throws IOException {
-								// do nothing
-							}
-							
-							@Override
-							public InputStream getInputStream() {
-								return new ByteArrayInputStream(
-										"test".getBytes());
-							}
-						};
-					}
-				});
-	}
+                    @Override
+                    public void connect() throws IOException
+                    {
+                        // do nothing
+                    }
 
-	@Test
-	public void getSpecificDataWithPathNotAuthorized() throws ServiceException {
-		setException(CommonSecurityException.class);
+                    @Override
+                    public InputStream getInputStream()
+                    {
+                        return new ByteArrayInputStream("test".getBytes());
+                    }
+                };
+            }
+        });
+    }
 
-		ClientResponse response = resource().path(
-				"dataset/easy-dataset:1/data/root/folder").get(
-				ClientResponse.class);
+    @Test
+    public void getSpecificDataWithPathNotAuthorized() throws ServiceException
+    {
+        setException(CommonSecurityException.class);
 
-		assertEquals(401, response.getStatus());
-	}
+        ClientResponse response = resource().path("dataset/easy-dataset:1/data/root/folder").get(ClientResponse.class);
 
-	private void setException(Class<? extends Throwable> t)
-			throws ServiceException {
-		when(
-				datasetServiceMock.getDataset(isA(EasyUser.class),
-						isA(DmoStoreId.class))).thenThrow(t);
+        assertEquals(401, response.getStatus());
+    }
 
-	}
+    private void setException(Class<? extends Throwable> t) throws ServiceException
+    {
+        when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenThrow(t);
 
-	@Test
-	public void getSpecificDataWithPathInternalServerError()
-			throws ServiceException {
-		setException(ServiceException.class);
+    }
 
-		ClientResponse response = resource().path(
-				"dataset/easy-dataset:1/data/root/folder").get(
-				ClientResponse.class);
+    @Test
+    public void getSpecificDataWithPathInternalServerError() throws ServiceException
+    {
+        setException(ServiceException.class);
 
-		assertEquals(500, response.getStatus());
-	}
+        ClientResponse response = resource().path("dataset/easy-dataset:1/data/root/folder").get(ClientResponse.class);
 
-	@Test
-	public void getSpecificDataWithPathNotAvailable() throws ServiceException {
-		setUpServiceMethods();
-		setUpGetFolderItemByPathException();
-		when(
-				itemServiceMock.getFileItemByPath(isA(EasyUser.class),
-						isA(Dataset.class), isA(String.class))).thenThrow(
-				ObjectNotAvailableException.class);
+        assertEquals(500, response.getStatus());
+    }
 
-		ClientResponse response = resource().path(
-				"dataset/easy-dataset:1/data/root/folder").get(
-				ClientResponse.class);
+    @Test
+    public void getSpecificDataWithPathNotAvailable() throws ServiceException
+    {
+        setUpServiceMethods();
+        setUpGetFolderItemByPathException();
+        when(itemServiceMock.getFileItemByPath(isA(EasyUser.class), isA(Dataset.class), isA(String.class))).thenThrow(ObjectNotAvailableException.class);
 
-		assertEquals(404, response.getStatus());
-	}
+        ClientResponse response = resource().path("dataset/easy-dataset:1/data/root/folder").get(ClientResponse.class);
 
-	@Test
-	public void getSpecificDataWithPathIOProblem() throws ServiceException {
-		setUpServiceMethods();
-		setUpGetFolderItemByPathException();
-		when(
-				itemServiceMock.getFileItemByPath(isA(EasyUser.class),
-						isA(Dataset.class), isA(String.class))).thenThrow(
-				IOException.class);
+        assertEquals(404, response.getStatus());
+    }
 
-		ClientResponse response = resource().path(
-				"dataset/easy-dataset:1/data/root/folder").get(
-				ClientResponse.class);
+    @Test
+    public void getSpecificDataWithPathIOProblem() throws ServiceException
+    {
+        setUpServiceMethods();
+        setUpGetFolderItemByPathException();
+        when(itemServiceMock.getFileItemByPath(isA(EasyUser.class), isA(Dataset.class), isA(String.class))).thenThrow(IOException.class);
 
-		assertEquals(500, response.getStatus());
-	}
+        ClientResponse response = resource().path("dataset/easy-dataset:1/data/root/folder").get(ClientResponse.class);
 
-	// TODO: un-ignore this after mocking the right methods!
-	@Ignore
-	@Test
-	public void getSpecificFileWithId() throws ServiceException,
-			MalformedURLException {
-		setUpServiceMethods();
-		setUpGetFileItem();
+        assertEquals(500, response.getStatus());
+    }
 
-		ClientResponse response = resource().path(
-				"dataset/easy-dataset:1/data/easy-file:1").get(
-				ClientResponse.class);
+    // TODO: un-ignore this after mocking the right methods!
+    @Ignore
+    @Test
+    public void getSpecificFileWithId() throws ServiceException, MalformedURLException
+    {
+        setUpServiceMethods();
+        setUpGetFileItem();
 
-		assertEquals(200, response.getStatus());
-	}
+        ClientResponse response = resource().path("dataset/easy-dataset:1/data/easy-file:1").get(ClientResponse.class);
 
-	private void setUpGetFileItem() throws ServiceException,
-			MalformedURLException {
-		FileItemImpl file = new FileItemImpl("easy-file:1");
-		file.setMimeType(MediaType.TEXT_PLAIN);
-		file.setSize(4);
+        assertEquals(200, response.getStatus());
+    }
 
-		when(
-				itemServiceMock.getFileItem(isA(EasyUser.class),
-						isA(Dataset.class), isA(DmoStoreId.class))).thenReturn(
-				file);
+    private void setUpGetFileItem() throws ServiceException, MalformedURLException
+    {
+        FileItemImpl file = new FileItemImpl("easy-file:1");
+        file.setMimeType(MediaType.TEXT_PLAIN);
+        file.setSize(4);
 
-		when(
-				itemServiceMock.getFileContentURL(isA(EasyUser.class),
-						isA(Dataset.class), isA(FileItem.class))).thenReturn(
-				setUpUrlMock());
-	}
+        when(itemServiceMock.getFileItem(isA(EasyUser.class), isA(Dataset.class), isA(DmoStoreId.class))).thenReturn(file);
 
-	@Test
-	public void getSpecificFileWithIdNotAuthorized() throws ServiceException {
-		setException(CommonSecurityException.class);
+        when(itemServiceMock.getFileContentURL(isA(EasyUser.class), isA(Dataset.class), isA(FileItem.class))).thenReturn(setUpUrlMock());
+    }
 
-		ClientResponse response = resource().path(
-				"dataset/easy-dataset:1/data/easy-file:1").get(
-				ClientResponse.class);
+    @Test
+    public void getSpecificFileWithIdNotAuthorized() throws ServiceException
+    {
+        setException(CommonSecurityException.class);
 
-		assertEquals(401, response.getStatus());
-	}
+        ClientResponse response = resource().path("dataset/easy-dataset:1/data/easy-file:1").get(ClientResponse.class);
 
-	@Test
-	public void getSpecificFileWithIdInternalServerError()
-			throws ServiceException {
-		setException(ServiceException.class);
+        assertEquals(401, response.getStatus());
+    }
 
-		ClientResponse response = resource().path(
-				"dataset/easy-dataset:1/data/easy-file:1").get(
-				ClientResponse.class);
+    @Test
+    public void getSpecificFileWithIdInternalServerError() throws ServiceException
+    {
+        setException(ServiceException.class);
 
-		assertEquals(500, response.getStatus());
-	}
+        ClientResponse response = resource().path("dataset/easy-dataset:1/data/easy-file:1").get(ClientResponse.class);
 
-	@Test
-	public void getSpecificFileWithIdIOProblem() throws ServiceException {
-		setException(IOException.class);
+        assertEquals(500, response.getStatus());
+    }
 
-		ClientResponse response = resource().path(
-				"dataset/easy-dataset:1/data/easy-file:1").get(
-				ClientResponse.class);
+    @Test
+    public void getSpecificFileWithIdIOProblem() throws ServiceException
+    {
+        setException(IOException.class);
 
-		assertEquals(500, response.getStatus());
-	}
+        ClientResponse response = resource().path("dataset/easy-dataset:1/data/easy-file:1").get(ClientResponse.class);
 
-	@Test
-	public void getSpecificFolderWithId() throws ServiceException {
-		setUpServiceMethods();
+        assertEquals(500, response.getStatus());
+    }
 
-		ClientResponse response = resource().path(
-				"dataset/easy-dataset:1/data/easy-folder:1").get(
-				ClientResponse.class);
+    @Test
+    public void getSpecificFolderWithId() throws ServiceException
+    {
+        setUpServiceMethods();
 
-		assertEquals(200, response.getStatus());
-	}
+        ClientResponse response = resource().path("dataset/easy-dataset:1/data/easy-folder:1").get(ClientResponse.class);
 
-	@Test
-	public void getSpecificFolderWithIdNotAuthorized() throws ServiceException {
-		setException(CommonSecurityException.class);
+        assertEquals(200, response.getStatus());
+    }
 
-		ClientResponse response = resource().path(
-				"dataset/easy-dataset:1/data/easy-folder:1").get(
-				ClientResponse.class);
+    @Test
+    public void getSpecificFolderWithIdNotAuthorized() throws ServiceException
+    {
+        setException(CommonSecurityException.class);
 
-		assertEquals(401, response.getStatus());
-	}
+        ClientResponse response = resource().path("dataset/easy-dataset:1/data/easy-folder:1").get(ClientResponse.class);
 
-	@Test
-	public void getSpecificFolderWithIdInternalServerError()
-			throws ServiceException {
-		setException(ServiceException.class);
+        assertEquals(401, response.getStatus());
+    }
 
-		ClientResponse response = resource().path(
-				"dataset/easy-dataset:1/data/easy-folder:1").get(
-				ClientResponse.class);
+    @Test
+    public void getSpecificFolderWithIdInternalServerError() throws ServiceException
+    {
+        setException(ServiceException.class);
 
-		assertEquals(500, response.getStatus());
-	}
+        ClientResponse response = resource().path("dataset/easy-dataset:1/data/easy-folder:1").get(ClientResponse.class);
+
+        assertEquals(500, response.getStatus());
+    }
 
 }

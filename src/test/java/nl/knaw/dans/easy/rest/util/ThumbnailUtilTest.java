@@ -33,108 +33,97 @@ import org.junit.Before;
 import org.junit.Test;
 
 @SuppressWarnings("unchecked")
-public class ThumbnailUtilTest {
-	private ItemService itemServiceMock;
-	private DatasetService datasetServiceMock;
+public class ThumbnailUtilTest
+{
+    private ItemService itemServiceMock;
+    private DatasetService datasetServiceMock;
 
-	@Before
-	public void setUp() {
-		itemServiceMock = mock(ItemService.class);
-		datasetServiceMock = mock(DatasetService.class);
+    @Before
+    public void setUp()
+    {
+        itemServiceMock = mock(ItemService.class);
+        datasetServiceMock = mock(DatasetService.class);
 
-		Services services = new Services();
-		services.setItemService(itemServiceMock);
-		services.setDatasetService(datasetServiceMock);
-	}
+        Services services = new Services();
+        services.setItemService(itemServiceMock);
+        services.setDatasetService(datasetServiceMock);
+    }
 
-	@Test(expected = AssertionError.class)
-	public void notInstantiable() {
-		new ThumbnailUtil();
-	}
+    @Test(expected = AssertionError.class)
+    public void notInstantiable()
+    {
+        new ThumbnailUtil();
+    }
 
-	@Test
-	public void isThumbnailFalse() throws ServiceException {
-		when(
-				itemServiceMock.getFilesAndFolders(isA(EasyUser.class),
-						isA(Dataset.class), isA(Collection.class))).thenReturn(
-				new ArrayList<ItemVO>());
+    @Test
+    public void isThumbnailFalse() throws ServiceException
+    {
+        when(itemServiceMock.getFilesAndFolders(isA(EasyUser.class), isA(Dataset.class), isA(Collection.class))).thenReturn(new ArrayList<ItemVO>());
 
-		FileItemVO f = new FileItemVO();
-		f.setParentSid("easy-folder:13");
-		boolean result = ThumbnailUtil.isThumbnail(new EasyUserImpl(),
-				new DatasetImpl("easy-dataset:1"), f);
+        FileItemVO f = new FileItemVO();
+        f.setParentSid("easy-folder:13");
+        boolean result = ThumbnailUtil.isThumbnail(new EasyUserImpl(), new DatasetImpl("easy-dataset:1"), f);
 
-		assertFalse(result);
-	}
+        assertFalse(result);
+    }
 
-	@Test
-	public void isThumbnailTrue() throws ServiceException {
-		ArrayList<ItemVO> items = new ArrayList<ItemVO>();
-		FolderItemVO folder = new FolderItemVO();
-		folder.setName(ThumbnailUtil.THUMBNAILS);
-		items.add(folder);
+    @Test
+    public void isThumbnailTrue() throws ServiceException
+    {
+        ArrayList<ItemVO> items = new ArrayList<ItemVO>();
+        FolderItemVO folder = new FolderItemVO();
+        folder.setName(ThumbnailUtil.THUMBNAILS);
+        items.add(folder);
 
-		when(
-				itemServiceMock.getFilesAndFolders(isA(EasyUser.class),
-						isA(Dataset.class), isA(Collection.class))).thenReturn(
-				items);
+        when(itemServiceMock.getFilesAndFolders(isA(EasyUser.class), isA(Dataset.class), isA(Collection.class))).thenReturn(items);
 
-		FileItemVO f = new FileItemVO();
-		f.setParentSid("easy-folder:13");
-		boolean result = ThumbnailUtil.isThumbnail(new EasyUserImpl(),
-				new DatasetImpl("easy-dataset:1"), f);
+        FileItemVO f = new FileItemVO();
+        f.setParentSid("easy-folder:13");
+        boolean result = ThumbnailUtil.isThumbnail(new EasyUserImpl(), new DatasetImpl("easy-dataset:1"), f);
 
-		assertTrue(result);
-	}
+        assertTrue(result);
+    }
 
-	@Test
-	public void getThumbnailsEmpty() throws ObjectNotAvailableException,
-			CommonSecurityException, ServiceException {
-		setUpMocks(new ArrayList<ItemVO>());
+    @Test
+    public void getThumbnailsEmpty() throws ObjectNotAvailableException, CommonSecurityException, ServiceException
+    {
+        setUpMocks(new ArrayList<ItemVO>());
 
-		String xml = ThumbnailUtil.getThumbnailIdsXml(new EasyUserImpl(),
-				"easy-dataset:1");
-		assertEquals("<thumbnails></thumbnails>", xml);
-	}
+        String xml = ThumbnailUtil.getThumbnailIdsXml(new EasyUserImpl(), "easy-dataset:1");
+        assertEquals("<thumbnails></thumbnails>", xml);
+    }
 
-	private void setUpMocks(List<ItemVO> returnList)
-			throws ObjectNotAvailableException, CommonSecurityException,
-			ServiceException {
-		when(
-				datasetServiceMock.getDataset(isA(EasyUser.class),
-						isA(DmoStoreId.class))).thenReturn(
-				new DatasetImpl("easy-dataset:1"));
+    private void setUpMocks(List<ItemVO> returnList) throws ObjectNotAvailableException, CommonSecurityException, ServiceException
+    {
+        when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenReturn(new DatasetImpl("easy-dataset:1"));
 
-		when(
-				itemServiceMock.getFilesAndFolders(isA(EasyUser.class),
-						isA(Dataset.class), isA(DmoStoreId.class),
-						isA(Integer.class), isA(Integer.class),
-						(ItemOrder) isNull(), (ItemFilters) isNull()))
-				.thenReturn(returnList);
-	}
+        when(
+                itemServiceMock.getFilesAndFolders(isA(EasyUser.class), isA(Dataset.class), isA(DmoStoreId.class), isA(Integer.class), isA(Integer.class),
+                        (ItemOrder) isNull(), (ItemFilters) isNull())).thenReturn(returnList);
+    }
 
-	@Test
-	public void getThumbnails() throws ObjectNotAvailableException,
-			CommonSecurityException, ServiceException {
-		setUpMocks(setUpReturnList());
+    @Test
+    public void getThumbnails() throws ObjectNotAvailableException, CommonSecurityException, ServiceException
+    {
+        setUpMocks(setUpReturnList());
 
-		String xml = ThumbnailUtil.getThumbnailIdsXml(new EasyUserImpl(),
-				"easy-dataset:1");
+        String xml = ThumbnailUtil.getThumbnailIdsXml(new EasyUserImpl(), "easy-dataset:1");
 
-		assertEquals("<thumbnails><sid>easy-file:1</sid></thumbnails>", xml);
-	}
+        assertEquals("<thumbnails><sid>easy-file:1</sid></thumbnails>", xml);
+    }
 
-	private ArrayList<ItemVO> setUpReturnList() {
-		ArrayList<ItemVO> returnList = new ArrayList<ItemVO>();
-		FolderItemVO folder = new FolderItemVO();
-		folder.setName("thumbnails");
-		folder.setSid("easy-folder:1");
-		returnList.add(folder);
-		FileItemVO file = new FileItemVO();
-		file.setName("file");
-		file.setSid("easy-file:1");
-		returnList.add(file);
-		return returnList;
-	}
+    private ArrayList<ItemVO> setUpReturnList()
+    {
+        ArrayList<ItemVO> returnList = new ArrayList<ItemVO>();
+        FolderItemVO folder = new FolderItemVO();
+        folder.setName("thumbnails");
+        folder.setSid("easy-folder:1");
+        returnList.add(folder);
+        FileItemVO file = new FileItemVO();
+        file.setName("file");
+        file.setSid("easy-file:1");
+        returnList.add(file);
+        return returnList;
+    }
 
 }

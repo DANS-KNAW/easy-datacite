@@ -20,71 +20,73 @@ import de.odysseus.staxon.json.JsonXMLOutputFactory;
  * @author Georgi Khomeriki
  * @author Roshan Timal
  */
-public class XmlToJsonConverter {
+public class XmlToJsonConverter
+{
 
-	/**
-	 * Throw an AssertionError if this class or one of it's subclasses is ever
-	 * instantiated.
-	 */
-	protected XmlToJsonConverter() {
-		throw new AssertionError("Instantiating utility class...");
-	}
+    /**
+     * Throw an AssertionError if this class or one of it's subclasses is ever
+     * instantiated.
+     */
+    protected XmlToJsonConverter()
+    {
+        throw new AssertionError("Instantiating utility class...");
+    }
 
-	/**
-	 * Converts a byte array containing XML to JSON.
-	 * 
-	 * @param xml
-	 *            The byte array containing XML.
-	 * @return String containing JSON representation of the given XML.
-	 * @throws IOException
-	 *             Thrown if reading input as InputStream goes wrong.
-	 * @throws XMLStreamException
-	 *             Thrown if XML parsing goes wrong.
-	 */
-	public static String convert(byte[] xml) throws IOException,
-			XMLStreamException {
-		return convert(new String(xml));
-	}
+    /**
+     * Converts a byte array containing XML to JSON.
+     * 
+     * @param xml
+     *            The byte array containing XML.
+     * @return String containing JSON representation of the given XML.
+     * @throws IOException
+     *             Thrown if reading input as InputStream goes wrong.
+     * @throws XMLStreamException
+     *             Thrown if XML parsing goes wrong.
+     */
+    public static String convert(byte[] xml) throws IOException, XMLStreamException
+    {
+        return convert(new String(xml));
+    }
 
-	/**
-	 * Converts a String containing XML to JSON.
-	 * 
-	 * @param xml
-	 *            The XML containing String.
-	 * @return String containing JSON representation of the given XML.
-	 * @throws IOException
-	 *             Thrown if reading input as InputStream goes wrong.
-	 * @throws XMLStreamException
-	 *             Thrown if XML parsing goes wrong.
-	 */
-	public static String convert(String xml) throws IOException,
-			XMLStreamException {
-		String json = "";
+    /**
+     * Converts a String containing XML to JSON.
+     * 
+     * @param xml
+     *            The XML containing String.
+     * @return String containing JSON representation of the given XML.
+     * @throws IOException
+     *             Thrown if reading input as InputStream goes wrong.
+     * @throws XMLStreamException
+     *             Thrown if XML parsing goes wrong.
+     */
+    public static String convert(String xml) throws IOException, XMLStreamException
+    {
+        String json = "";
 
-		InputStream input = new ByteArrayInputStream(xml.getBytes());
-		ByteArrayOutputStream output = new ByteArrayOutputStream();
+        InputStream input = new ByteArrayInputStream(xml.getBytes());
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
 
-		JsonXMLConfig config = new JsonXMLConfigBuilder().autoArray(true)
-				.prettyPrint(true).build();
-		try {
-			XMLEventReader reader = XMLInputFactory.newInstance()
-					.createXMLEventReader(input);
+        JsonXMLConfig config = new JsonXMLConfigBuilder().autoArray(true).prettyPrint(true).build();
+        try
+        {
+            XMLEventReader reader = XMLInputFactory.newInstance().createXMLEventReader(input);
 
-			XMLEventWriter writer = new JsonXMLOutputFactory(config)
-					.createXMLEventWriter(output);
+            XMLEventWriter writer = new JsonXMLOutputFactory(config).createXMLEventWriter(output);
 
-			writer.add(reader);
+            writer.add(reader);
 
-			reader.close();
-			writer.close();
+            reader.close();
+            writer.close();
 
-			json = new String(output.toByteArray());
-		} finally {
-			output.close();
-			input.close();
-		}
+            json = new String(output.toByteArray());
+        }
+        finally
+        {
+            output.close();
+            input.close();
+        }
 
-		return json;
-	}
+        return json;
+    }
 
 }

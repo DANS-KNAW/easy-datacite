@@ -23,101 +23,138 @@ import nl.knaw.dans.easy.servicelayer.services.Services;
  * @author Roshan Timal
  */
 @Path("disciplines")
-public class DisciplineResource extends Resource {
+public class DisciplineResource extends Resource
+{
 
-	/**
-	 * Returns a complete list of all disciplines.
-	 * 
-	 * @return A response containing the complete list of disciplines.
-	 */
-	@GET
-	public Response getDisciplines() {
-		try {
-			return responseXmlOrJson(DisciplineConverter
-					.getDisciplineList(Integer.MAX_VALUE));
-		} catch (ObjectNotFoundException e) {
-			return notFound();
-		} catch (DomainException e) {
-			return internalServerError(e);
-		} catch (ServiceException e) {
-			return internalServerError(e);
-		} catch (RepositoryException e) {
-			return internalServerError(e);
-		}
-	}
+    /**
+     * Returns a complete list of all disciplines.
+     * 
+     * @return A response containing the complete list of disciplines.
+     */
+    @GET
+    public Response getDisciplines()
+    {
+        try
+        {
+            return responseXmlOrJson(DisciplineConverter.getDisciplineList(Integer.MAX_VALUE));
+        }
+        catch (ObjectNotFoundException e)
+        {
+            return notFound();
+        }
+        catch (DomainException e)
+        {
+            return internalServerError(e);
+        }
+        catch (ServiceException e)
+        {
+            return internalServerError(e);
+        }
+        catch (RepositoryException e)
+        {
+            return internalServerError(e);
+        }
+    }
 
-	/**
-	 * Returns a list that contains the root disciplines.
-	 * 
-	 * @return A response containing the list of root disciplines.
-	 */
-	@GET
-	@Path("/roots")
-	public Response getRootDisciplines() {
-		try {
-			return responseXmlOrJson(DisciplineConverter.getDisciplineList(0));
-		} catch (ObjectNotFoundException e) {
-			return notFound();
-		} catch (DomainException e) {
-			return internalServerError(e);
-		} catch (ServiceException e) {
-			return internalServerError(e);
-		} catch (RepositoryException e) {
-			return internalServerError(e);
-		}
-	}
+    /**
+     * Returns a list that contains the root disciplines.
+     * 
+     * @return A response containing the list of root disciplines.
+     */
+    @GET
+    @Path("/roots")
+    public Response getRootDisciplines()
+    {
+        try
+        {
+            return responseXmlOrJson(DisciplineConverter.getDisciplineList(0));
+        }
+        catch (ObjectNotFoundException e)
+        {
+            return notFound();
+        }
+        catch (DomainException e)
+        {
+            return internalServerError(e);
+        }
+        catch (ServiceException e)
+        {
+            return internalServerError(e);
+        }
+        catch (RepositoryException e)
+        {
+            return internalServerError(e);
+        }
+    }
 
-	/**
-	 * Get a specific discipline by sid.
-	 * 
-	 * @param sid
-	 *            Store ID of the discipline.
-	 * @return A response containing the data about the given discipline.
-	 */
-	@GET
-	@Path("/{sid}")
-	public Response getDisciplineBySid(@PathParam("sid") String sid) {
-		try {
-			DisciplineContainer discipline = Services.getDisciplineService()
-					.getDisciplineById(new DmoStoreId(sid));
-			return responseXmlOrJson(DisciplineConverter.getDiscipline(discipline,
-					0));
-		} catch (ObjectNotFoundException e) {
-			return notFound();
-		} catch (ServiceException e) {
-			return internalServerError(e);
-		} catch (DomainException e) {
-			return internalServerError(e);
-		} catch (RepositoryException e) {
-			return internalServerError(e);
-		}
-	}
+    /**
+     * Get a specific discipline by sid.
+     * 
+     * @param sid
+     *            Store ID of the discipline.
+     * @return A response containing the data about the given discipline.
+     */
+    @GET
+    @Path("/{sid}")
+    public Response getDisciplineBySid(@PathParam("sid")
+    String sid)
+    {
+        try
+        {
+            DisciplineContainer discipline = Services.getDisciplineService().getDisciplineById(new DmoStoreId(sid));
+            return responseXmlOrJson(DisciplineConverter.getDiscipline(discipline, 0));
+        }
+        catch (ObjectNotFoundException e)
+        {
+            return notFound();
+        }
+        catch (ServiceException e)
+        {
+            return internalServerError(e);
+        }
+        catch (DomainException e)
+        {
+            return internalServerError(e);
+        }
+        catch (RepositoryException e)
+        {
+            return internalServerError(e);
+        }
+    }
 
-	/**
-	 * Returns a list of subdisciplines of the given discipline.
-	 * 
-	 * @param sid
-	 *            Store ID of the parent discipline.
-	 * @return A response containing a list of subdisciplines.
-	 */
-	@GET
-	@Path("/{sid}/subdisciplines")
-	public Response getSubDisciplines(@PathParam("sid") String sid) {
-		try {
-			List<DisciplineContainer> disciplines = Services
-					.getDisciplineService()
-					.getDisciplineById(new DmoStoreId(sid)).getSubDisciplines();
-			return responseXmlOrJson(DisciplineConverter.getDisciplineList(
-					disciplines, 0));
-		} catch (ObjectNotFoundException e) {
-			return notFound();
-		} catch (ServiceException e) {
-			return internalServerError(e);
-		} catch (DomainException e) {
-			return internalServerError(e);
-		} catch (RepositoryException e) {
-			return internalServerError(e);
-		}
-	}
+    /**
+     * Returns a list of subdisciplines of the given discipline.
+     * 
+     * @param sid
+     *            Store ID of the parent discipline.
+     * @return A response containing a list of subdisciplines.
+     */
+    @GET
+    @Path("/{sid}/subdisciplines")
+    public Response getSubDisciplines(@PathParam("sid")
+    String sid)
+    {
+        try
+        {
+            List<DisciplineContainer> disciplines = Services.getDisciplineService().getDisciplineById(new DmoStoreId(sid)).getSubDisciplines();
+            return responseXmlOrJson(DisciplineConverter.getDisciplineList(disciplines, 0));
+        }
+        catch (ObjectNotFoundException e)
+        {
+            return notFound();
+        }
+        catch (ServiceException e)
+        {
+            return internalServerError(e);
+        }
+        catch (DomainException e)
+        {
+            return internalServerError(e);
+        }
+        catch (RepositoryException e)
+        {
+            return internalServerError(e);
+        }
+    }
 
 }

@@ -42,223 +42,212 @@ import org.junit.Test;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
-public class ThumbnailsResourceTest extends RestTest {
-	private ItemService itemServiceMock;
-	private DatasetService datasetServiceMock;
+public class ThumbnailsResourceTest extends RestTest
+{
+    private ItemService itemServiceMock;
+    private DatasetService datasetServiceMock;
 
-	@Before
-	public void setUp() throws ServiceException {
-		itemServiceMock = mock(ItemService.class);
-		datasetServiceMock = mock(DatasetService.class);
+    @Before
+    public void setUp() throws ServiceException
+    {
+        itemServiceMock = mock(ItemService.class);
+        datasetServiceMock = mock(DatasetService.class);
 
-		Services services = new Services();
-		services.setItemService(itemServiceMock);
-		services.setDatasetService(datasetServiceMock);
+        Services services = new Services();
+        services.setItemService(itemServiceMock);
+        services.setDatasetService(datasetServiceMock);
 
-		setUpMocks();
-	}
+        setUpMocks();
+    }
 
-	private void setUpMocks() throws ServiceException {
-		when(
-				datasetServiceMock.getDataset(isA(EasyUser.class),
-						isA(DmoStoreId.class))).thenReturn(
-				new DatasetImpl("easy-dataset:1"));
+    private void setUpMocks() throws ServiceException
+    {
+        when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenReturn(new DatasetImpl("easy-dataset:1"));
 
-		when(
-				itemServiceMock.getFilesAndFolders(isA(EasyUser.class),
-						isA(Dataset.class), isA(DmoStoreId.class),
-						isA(Integer.class), isA(Integer.class),
-						(ItemOrder) isNull(), (ItemFilters) isNull()))
-				.thenReturn(new ArrayList<ItemVO>());
-	}
+        when(
+                itemServiceMock.getFilesAndFolders(isA(EasyUser.class), isA(Dataset.class), isA(DmoStoreId.class), isA(Integer.class), isA(Integer.class),
+                        (ItemOrder) isNull(), (ItemFilters) isNull())).thenReturn(new ArrayList<ItemVO>());
+    }
 
-	@Test
-	public void getThumbnailIds() {
-		WebResource resource = resource().path(
-				"dataset/easy-dataset:1/thumbnails");
-		ClientResponse response = resource.get(ClientResponse.class);
-		String entity = response.getEntity(String.class);
+    @Test
+    public void getThumbnailIds()
+    {
+        WebResource resource = resource().path("dataset/easy-dataset:1/thumbnails");
+        ClientResponse response = resource.get(ClientResponse.class);
+        String entity = response.getEntity(String.class);
 
-		assertEquals(200, response.getStatus());
-		assertEquals("<thumbnails></thumbnails>", entity);
-	}
+        assertEquals(200, response.getStatus());
+        assertEquals("<thumbnails></thumbnails>", entity);
+    }
 
-	@Test
-	public void getThumbsnailIdsNotFound() throws ServiceException {
-		setUpException(ObjectNotAvailableException.class);
+    @Test
+    public void getThumbsnailIdsNotFound() throws ServiceException
+    {
+        setUpException(ObjectNotAvailableException.class);
 
-		WebResource resource = resource().path(
-				"dataset/easy-dataset:1/thumbnails");
-		ClientResponse response = resource.get(ClientResponse.class);
+        WebResource resource = resource().path("dataset/easy-dataset:1/thumbnails");
+        ClientResponse response = resource.get(ClientResponse.class);
 
-		assertEquals(404, response.getStatus());
-	}
+        assertEquals(404, response.getStatus());
+    }
 
-	@SuppressWarnings("unchecked")
-	private void setUpException(Class<? extends Throwable> t)
-			throws ObjectNotAvailableException, CommonSecurityException,
-			ServiceException {
-		when(
-				datasetServiceMock.getDataset(isA(EasyUser.class),
-						isA(DmoStoreId.class))).thenThrow(t);
-	}
+    @SuppressWarnings("unchecked")
+    private void setUpException(Class<? extends Throwable> t) throws ObjectNotAvailableException, CommonSecurityException, ServiceException
+    {
+        when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenThrow(t);
+    }
 
-	@Test
-	public void getThumbsnailIdsNotAuthorized() throws ServiceException {
-		setUpException(CommonSecurityException.class);
+    @Test
+    public void getThumbsnailIdsNotAuthorized() throws ServiceException
+    {
+        setUpException(CommonSecurityException.class);
 
-		WebResource resource = resource().path(
-				"dataset/easy-dataset:1/thumbnails");
-		ClientResponse response = resource.get(ClientResponse.class);
+        WebResource resource = resource().path("dataset/easy-dataset:1/thumbnails");
+        ClientResponse response = resource.get(ClientResponse.class);
 
-		assertEquals(401, response.getStatus());
-	}
+        assertEquals(401, response.getStatus());
+    }
 
-	@Test
-	public void getThumbsnailIdsInternalServerError() throws ServiceException {
-		setUpException(ServiceException.class);
+    @Test
+    public void getThumbsnailIdsInternalServerError() throws ServiceException
+    {
+        setUpException(ServiceException.class);
 
-		WebResource resource = resource().path(
-				"dataset/easy-dataset:1/thumbnails");
-		ClientResponse response = resource.get(ClientResponse.class);
+        WebResource resource = resource().path("dataset/easy-dataset:1/thumbnails");
+        ClientResponse response = resource.get(ClientResponse.class);
 
-		assertEquals(500, response.getStatus());
-	}
-	
-	// TODO: un-ignore this after mocking the right methods!
-	@Ignore
-	@Test
-	public void getThumbnail() throws ServiceException, MalformedURLException {
-		setUpGetFileItem();
-		setUpGetFilesAndFolders();
+        assertEquals(500, response.getStatus());
+    }
 
-		WebResource resource = resource().path(
-				"dataset/easy-dataset:1/thumbnails/easy-file:1");
-		ClientResponse response = resource.get(ClientResponse.class);
+    // TODO: un-ignore this after mocking the right methods!
+    @Ignore
+    @Test
+    public void getThumbnail() throws ServiceException, MalformedURLException
+    {
+        setUpGetFileItem();
+        setUpGetFilesAndFolders();
 
-		assertEquals(200, response.getStatus());
-	}
+        WebResource resource = resource().path("dataset/easy-dataset:1/thumbnails/easy-file:1");
+        ClientResponse response = resource.get(ClientResponse.class);
 
-	private void setUpGetFileItem() throws ServiceException,
-			MalformedURLException {
-		FileItem file = mock(FileItem.class);
-		when(file.getMimeType()).thenReturn(MediaType.TEXT_PLAIN);
-		when(file.getSize()).thenReturn(4l);
-		FileItemMetadataImpl fimi = new FileItemMetadataImpl(new DmoStoreId(
-				"easy-file:1")) {
-			private static final long serialVersionUID = 1L;
+        assertEquals(200, response.getStatus());
+    }
 
-			@Override
-			public long getSize() {
-				return 4l;
-			}
-		};
-		when(file.getFileItemMetadata()).thenReturn(fimi);
+    private void setUpGetFileItem() throws ServiceException, MalformedURLException
+    {
+        FileItem file = mock(FileItem.class);
+        when(file.getMimeType()).thenReturn(MediaType.TEXT_PLAIN);
+        when(file.getSize()).thenReturn(4l);
+        FileItemMetadataImpl fimi = new FileItemMetadataImpl(new DmoStoreId("easy-file:1"))
+        {
+            private static final long serialVersionUID = 1L;
 
-		when(
-				itemServiceMock.getFileItem(isA(EasyUser.class),
-						isA(Dataset.class), isA(DmoStoreId.class))).thenReturn(
-				file);
+            @Override
+            public long getSize()
+            {
+                return 4l;
+            }
+        };
+        when(file.getFileItemMetadata()).thenReturn(fimi);
 
-		URL url = setUpUrlMock();
+        when(itemServiceMock.getFileItem(isA(EasyUser.class), isA(Dataset.class), isA(DmoStoreId.class))).thenReturn(file);
 
-		when(
-				itemServiceMock.getFileContentURL(isA(EasyUser.class),
-						isA(Dataset.class), isA(FileItem.class))).thenReturn(
-				url);
-	}
+        URL url = setUpUrlMock();
 
-	@SuppressWarnings("unchecked")
-	private void setUpGetFilesAndFolders() throws ServiceException {
-		ArrayList<ItemVO> list = new ArrayList<ItemVO>();
-		FolderItemVO folder = new FolderItemVO();
-		folder.setName("thumbnails");
-		list.add(folder);
-		when(
-				itemServiceMock.getFilesAndFolders(isA(EasyUser.class),
-						isA(Dataset.class), isA(Collection.class))).thenReturn(
-				list);
-	}
+        when(itemServiceMock.getFileContentURL(isA(EasyUser.class), isA(Dataset.class), isA(FileItem.class))).thenReturn(url);
+    }
 
-	private URL setUpUrlMock() throws MalformedURLException {
-		return new URL(new URL("http://www.gnu.org"), "spec",
-				new URLStreamHandler() {
-					@Override
-					protected URLConnection openConnection(URL u)
-							throws IOException {
-						return new URLConnection(u) {
+    @SuppressWarnings("unchecked")
+    private void setUpGetFilesAndFolders() throws ServiceException
+    {
+        ArrayList<ItemVO> list = new ArrayList<ItemVO>();
+        FolderItemVO folder = new FolderItemVO();
+        folder.setName("thumbnails");
+        list.add(folder);
+        when(itemServiceMock.getFilesAndFolders(isA(EasyUser.class), isA(Dataset.class), isA(Collection.class))).thenReturn(list);
+    }
 
-							@Override
-							public void connect() throws IOException {
-								// do nothing
-							}
+    private URL setUpUrlMock() throws MalformedURLException
+    {
+        return new URL(new URL("http://www.gnu.org"), "spec", new URLStreamHandler()
+        {
+            @Override
+            protected URLConnection openConnection(URL u) throws IOException
+            {
+                return new URLConnection(u)
+                {
 
-							@Override
-							public InputStream getInputStream() {
-								return new ByteArrayInputStream(
-										"test".getBytes());
-							}
-						};
-					}
-				});
-	}
+                    @Override
+                    public void connect() throws IOException
+                    {
+                        // do nothing
+                    }
 
-	// TODO: un-ignore this after mocking the right methods!
-	@Ignore
-	@Test
-	public void getThumbnailThatsNotAThumbnail() throws ServiceException,
-			IOException {
-		setUpGetFileItem();
+                    @Override
+                    public InputStream getInputStream()
+                    {
+                        return new ByteArrayInputStream("test".getBytes());
+                    }
+                };
+            }
+        });
+    }
 
-		WebResource resource = resource().path(
-				"dataset/easy-dataset:1/thumbnails/easy-file:1");
-		ClientResponse response = resource.get(ClientResponse.class);
+    // TODO: un-ignore this after mocking the right methods!
+    @Ignore
+    @Test
+    public void getThumbnailThatsNotAThumbnail() throws ServiceException, IOException
+    {
+        setUpGetFileItem();
 
-		assertEquals(401, response.getStatus());
-	}
+        WebResource resource = resource().path("dataset/easy-dataset:1/thumbnails/easy-file:1");
+        ClientResponse response = resource.get(ClientResponse.class);
 
-	@Test
-	public void getThumbnailNotFound() throws ServiceException {
-		setUpException(ObjectNotAvailableException.class);
+        assertEquals(401, response.getStatus());
+    }
 
-		WebResource resource = resource().path(
-				"dataset/easy-dataset:1/thumbnails/easy-file:1");
-		ClientResponse response = resource.get(ClientResponse.class);
+    @Test
+    public void getThumbnailNotFound() throws ServiceException
+    {
+        setUpException(ObjectNotAvailableException.class);
 
-		assertEquals(404, response.getStatus());
-	}
+        WebResource resource = resource().path("dataset/easy-dataset:1/thumbnails/easy-file:1");
+        ClientResponse response = resource.get(ClientResponse.class);
 
-	@Test
-	public void getThumbnailNotAuthorized() throws ServiceException {
-		setUpException(CommonSecurityException.class);
+        assertEquals(404, response.getStatus());
+    }
 
-		WebResource resource = resource().path(
-				"dataset/easy-dataset:1/thumbnails/easy-file:1");
-		ClientResponse response = resource.get(ClientResponse.class);
+    @Test
+    public void getThumbnailNotAuthorized() throws ServiceException
+    {
+        setUpException(CommonSecurityException.class);
 
-		assertEquals(401, response.getStatus());
-	}
+        WebResource resource = resource().path("dataset/easy-dataset:1/thumbnails/easy-file:1");
+        ClientResponse response = resource.get(ClientResponse.class);
 
-	@Test
-	public void getThumbnailInternalServerError() throws ServiceException {
-		setUpException(ServiceException.class);
+        assertEquals(401, response.getStatus());
+    }
 
-		WebResource resource = resource().path(
-				"dataset/easy-dataset:1/thumbnails/easy-file:1");
-		ClientResponse response = resource.get(ClientResponse.class);
+    @Test
+    public void getThumbnailInternalServerError() throws ServiceException
+    {
+        setUpException(ServiceException.class);
 
-		assertEquals(500, response.getStatus());
-	}
-	
-	@Test
-	public void getThumbnailIOException() throws ServiceException {
-		setUpException(IOException.class);
+        WebResource resource = resource().path("dataset/easy-dataset:1/thumbnails/easy-file:1");
+        ClientResponse response = resource.get(ClientResponse.class);
 
-		WebResource resource = resource().path(
-				"dataset/easy-dataset:1/thumbnails/easy-file:1");
-		ClientResponse response = resource.get(ClientResponse.class);
+        assertEquals(500, response.getStatus());
+    }
 
-		assertEquals(500, response.getStatus());
-	}
+    @Test
+    public void getThumbnailIOException() throws ServiceException
+    {
+        setUpException(IOException.class);
+
+        WebResource resource = resource().path("dataset/easy-dataset:1/thumbnails/easy-file:1");
+        ClientResponse response = resource.get(ClientResponse.class);
+
+        assertEquals(500, response.getStatus());
+    }
 
 }

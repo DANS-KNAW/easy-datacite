@@ -36,116 +36,104 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
 @SuppressWarnings("unchecked")
-public class DatasetCompleteDataTest extends RestTest {
-	private DatasetService datasetServiceMock;
-	private ItemService itemServiceMock;
+public class DatasetCompleteDataTest extends RestTest
+{
+    private DatasetService datasetServiceMock;
+    private ItemService itemServiceMock;
 
-	@Before
-	public void setUp() {
-		Services services = new Services();
+    @Before
+    public void setUp()
+    {
+        Services services = new Services();
 
-		datasetServiceMock = mock(DatasetService.class);
-		itemServiceMock = mock(ItemService.class);
+        datasetServiceMock = mock(DatasetService.class);
+        itemServiceMock = mock(ItemService.class);
 
-		services.setDatasetService(datasetServiceMock);
-		services.setItemService(itemServiceMock);
-	}
+        services.setDatasetService(datasetServiceMock);
+        services.setItemService(itemServiceMock);
+    }
 
-	private void setUpServiceMethods() throws ServiceException {
-		ArrayList<ItemVO> items = new ArrayList<ItemVO>();
-		FileItemVO file = new FileItemVO();
-		file.setSid("easy-file:1");
-		items.add(file);
-		FolderItemVO folder = new FolderItemVO();
-		folder.setSid("easy-folder:1");
-		items.add(folder);
+    private void setUpServiceMethods() throws ServiceException
+    {
+        ArrayList<ItemVO> items = new ArrayList<ItemVO>();
+        FileItemVO file = new FileItemVO();
+        file.setSid("easy-file:1");
+        items.add(file);
+        FolderItemVO folder = new FolderItemVO();
+        folder.setSid("easy-folder:1");
+        items.add(folder);
 
-		when(
-				datasetServiceMock.getDataset(isA(EasyUser.class),
-						isA(DmoStoreId.class))).thenReturn(
-				new DatasetImpl("easy-dataset:1"));
+        when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenReturn(new DatasetImpl("easy-dataset:1"));
 
-		when(
-				itemServiceMock.getFilesAndFolders(isA(EasyUser.class),
-						isA(Dataset.class), isA(DmoStoreId.class),
-						isA(Integer.class), isA(Integer.class),
-						(ItemOrder) isNull(), (ItemFilters) isNull()))
-				.thenReturn(items);
+        when(
+                itemServiceMock.getFilesAndFolders(isA(EasyUser.class), isA(Dataset.class), isA(DmoStoreId.class), isA(Integer.class), isA(Integer.class),
+                        (ItemOrder) isNull(), (ItemFilters) isNull())).thenReturn(items);
 
-		when(
-				itemServiceMock.getZippedContent(isA(EasyUser.class),
-						isA(Dataset.class), isA(Collection.class))).thenReturn(
-				new ZipFileContentWrapper());
+        when(itemServiceMock.getZippedContent(isA(EasyUser.class), isA(Dataset.class), isA(Collection.class))).thenReturn(new ZipFileContentWrapper());
 
-	}
+    }
 
-	@Test
-	public void getCompleteData() throws ServiceException {
-		setUpServiceMethods();
+    @Test
+    public void getCompleteData() throws ServiceException
+    {
+        setUpServiceMethods();
 
-		WebResource webResource = resource()
-				.path("dataset/easy-dataset:1/data");
+        WebResource webResource = resource().path("dataset/easy-dataset:1/data");
 
-		webResource.get(File.class);
+        webResource.get(File.class);
 
-		verify(datasetServiceMock, times(1)).getDataset(isA(EasyUser.class),
-				isA(DmoStoreId.class));
+        verify(datasetServiceMock, times(1)).getDataset(isA(EasyUser.class), isA(DmoStoreId.class));
 
-		verify(itemServiceMock, times(1)).getFilesAndFolders(
-				isA(EasyUser.class), isA(Dataset.class), isA(DmoStoreId.class),
-				isA(Integer.class), isA(Integer.class), (ItemOrder) isNull(),
-				(ItemFilters) isNull());
+        verify(itemServiceMock, times(1)).getFilesAndFolders(isA(EasyUser.class), isA(Dataset.class), isA(DmoStoreId.class), isA(Integer.class),
+                isA(Integer.class), (ItemOrder) isNull(), (ItemFilters) isNull());
 
-		verify(itemServiceMock, times(1)).getZippedContent(isA(EasyUser.class),
-				isA(Dataset.class), isA(Collection.class));
-	}
+        verify(itemServiceMock, times(1)).getZippedContent(isA(EasyUser.class), isA(Dataset.class), isA(Collection.class));
+    }
 
-	@Test
-	public void getCompleteDataObjectNotAvailable() throws ServiceException {
-		setException(ObjectNotAvailableException.class);
+    @Test
+    public void getCompleteDataObjectNotAvailable() throws ServiceException
+    {
+        setException(ObjectNotAvailableException.class);
 
-		ClientResponse response = resource()
-				.path("dataset/easy-dataset:1/data").get(ClientResponse.class);
+        ClientResponse response = resource().path("dataset/easy-dataset:1/data").get(ClientResponse.class);
 
-		assertEquals(404, response.getStatus());
-	}
+        assertEquals(404, response.getStatus());
+    }
 
-	private void setException(Class<? extends Throwable> t)
-			throws ServiceException {
-		when(
-				datasetServiceMock.getDataset(isA(EasyUser.class),
-						isA(DmoStoreId.class))).thenThrow(t);
+    private void setException(Class<? extends Throwable> t) throws ServiceException
+    {
+        when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenThrow(t);
 
-	}
+    }
 
-	@Test
-	public void getCompleteDataNotAuthorized() throws ServiceException {
-		setException(CommonSecurityException.class);
+    @Test
+    public void getCompleteDataNotAuthorized() throws ServiceException
+    {
+        setException(CommonSecurityException.class);
 
-		ClientResponse response = resource()
-				.path("dataset/easy-dataset:1/data").get(ClientResponse.class);
+        ClientResponse response = resource().path("dataset/easy-dataset:1/data").get(ClientResponse.class);
 
-		assertEquals(401, response.getStatus());
-	}
+        assertEquals(401, response.getStatus());
+    }
 
-	@Test
-	public void getCompleteDataIllegalArgument() throws ServiceException {
-		setException(IllegalArgumentException.class);
+    @Test
+    public void getCompleteDataIllegalArgument() throws ServiceException
+    {
+        setException(IllegalArgumentException.class);
 
-		ClientResponse response = resource()
-				.path("dataset/easy-dataset:1/data").get(ClientResponse.class);
+        ClientResponse response = resource().path("dataset/easy-dataset:1/data").get(ClientResponse.class);
 
-		assertEquals(404, response.getStatus());
-	}
+        assertEquals(404, response.getStatus());
+    }
 
-	@Test
-	public void getCompleteDataInternalServerError() throws ServiceException {
-		setException(ServiceException.class);
+    @Test
+    public void getCompleteDataInternalServerError() throws ServiceException
+    {
+        setException(ServiceException.class);
 
-		ClientResponse response = resource()
-				.path("dataset/easy-dataset:1/data").get(ClientResponse.class);
+        ClientResponse response = resource().path("dataset/easy-dataset:1/data").get(ClientResponse.class);
 
-		assertEquals(500, response.getStatus());
-	}
-	
+        assertEquals(500, response.getStatus());
+    }
+
 }

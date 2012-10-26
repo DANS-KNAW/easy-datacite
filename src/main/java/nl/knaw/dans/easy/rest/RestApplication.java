@@ -21,24 +21,26 @@ import nl.knaw.dans.easy.rest.resources.TestResource;
  * @author Georgi Khomeriki
  * @author Roshan Timal
  */
-public class RestApplication extends Application {
+public class RestApplication extends Application
+{
 
-	/**
-	 * Returns the Resource classes that will be used to map the REST service.
-	 * 
-	 * @return A Set containing the Resource classes.
-	 */
-	@Override
-	public Set<Class<?>> getClasses() {
-		Set<Class<?>> s = new HashSet<Class<?>>();
-		s.add(TestResource.class);
-		s.add(DatasetResource.class);
-		s.add(SearchResource.class);
-		s.add(AdvancedSearchResource.class);
-		s.add(AccountResource.class);
-		s.add(DisciplineResource.class);
-		s.add(CmdiResource.class);
-		return s;
-	}
+    /**
+     * Returns the Resource classes that will be used to map the REST service.
+     * 
+     * @return A Set containing the Resource classes.
+     */
+    @Override
+    public Set<Class<?>> getClasses()
+    {
+        Set<Class<?>> s = new HashSet<Class<?>>();
+        s.add(TestResource.class);
+        s.add(DatasetResource.class);
+        s.add(SearchResource.class);
+        s.add(AdvancedSearchResource.class);
+        s.add(AccountResource.class);
+        s.add(DisciplineResource.class);
+        s.add(CmdiResource.class);
+        return s;
+    }
 
 }

@@ -11,35 +11,39 @@ import java.net.URL;
  * @author Georgi Khomeriki
  * @author Roshan Timal
  */
-public class UrlConverter {
+public class UrlConverter
+{
 
-	/**
-	 * Throw an AssertionError if this class is instantiated.
-	 */
-	protected UrlConverter() {
-		throw new AssertionError("Instantiating utility class...");
-	}
+    /**
+     * Throw an AssertionError if this class is instantiated.
+     */
+    protected UrlConverter()
+    {
+        throw new AssertionError("Instantiating utility class...");
+    }
 
-	/**
-	 * Given an URL and size (in bytes) this method will return the byte array.
-	 * 
-	 * @param url
-	 *            The URL that points to a file.
-	 * @param size
-	 *            The size of the file (in bytes).
-	 * @return An byte array that represents the file.
-	 * @throws IOException
-	 *             If something goes wrong while parsing the URL.
-	 */
-	public static byte[] toByteArray(URL url, long size) throws IOException {
-		InputStream input = url.openStream();
-		ByteArrayOutputStream output = new ByteArrayOutputStream();
-		byte[] buffer = new byte[Integer.parseInt("" + size)];
-		int bytesRead;
-		while ((bytesRead = input.read(buffer)) != -1) {
-			output.write(buffer, 0, bytesRead);
-		}
-		return output.toByteArray();
-	}
+    /**
+     * Given an URL and size (in bytes) this method will return the byte array.
+     * 
+     * @param url
+     *            The URL that points to a file.
+     * @param size
+     *            The size of the file (in bytes).
+     * @return An byte array that represents the file.
+     * @throws IOException
+     *             If something goes wrong while parsing the URL.
+     */
+    public static byte[] toByteArray(URL url, long size) throws IOException
+    {
+        InputStream input = url.openStream();
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        byte[] buffer = new byte[Integer.parseInt("" + size)];
+        int bytesRead;
+        while ((bytesRead = input.read(buffer)) != -1)
+        {
+            output.write(buffer, 0, bytesRead);
+        }
+        return output.toByteArray();
+    }
 
 }

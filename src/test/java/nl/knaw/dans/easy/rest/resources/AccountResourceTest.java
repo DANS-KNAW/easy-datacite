@@ -23,129 +23,130 @@ import org.mockito.Mockito;
 
 import com.sun.jersey.api.client.ClientResponse;
 
-public class AccountResourceTest extends RestTest {
+public class AccountResourceTest extends RestTest
+{
 
-	private final EasyUser user = Mockito.mock(EasyUser.class);
+    private final EasyUser user = Mockito.mock(EasyUser.class);
 
-	private Services services;
+    private Services services;
 
-	@Before
-	public void setUp() {
-		services = new Services();
-	}
+    @Before
+    public void setUp()
+    {
+        services = new Services();
+    }
 
-	@Test
-	public void getAccount() throws ServiceException {
-		setUpUserService();
+    @Test
+    public void getAccount() throws ServiceException
+    {
+        setUpUserService();
 
-		ClientResponse response = resource().path("account")
-				.header("Authorization", "Basic dXNlcm5hbWU6cGFzc3dvcmQ=")
-				.get(ClientResponse.class);
+        ClientResponse response = resource().path("account").header("Authorization", "Basic dXNlcm5hbWU6cGFzc3dvcmQ=").get(ClientResponse.class);
 
-		assertEquals(200, response.getStatus());
-		verify(user, times(1)).getCommonName();
-	}
+        assertEquals(200, response.getStatus());
+        verify(user, times(1)).getCommonName();
+    }
 
-	private void setUpUserService() {
-		UserService userService = new EasyUserService() {
-			@Override
-			public void authenticate(Authentication authentication)
-					throws ServiceException {
-				authentication.setUser(user);
-			}
-		};
-		services.setUserService(userService);
-	}
+    private void setUpUserService()
+    {
+        UserService userService = new EasyUserService()
+        {
+            @Override
+            public void authenticate(Authentication authentication) throws ServiceException
+            {
+                authentication.setUser(user);
+            }
+        };
+        services.setUserService(userService);
+    }
 
-	@Test
-	public void getAnonymousAccount() throws ServiceException {
-		setUpUserService();
+    @Test
+    public void getAnonymousAccount() throws ServiceException
+    {
+        setUpUserService();
 
-		ClientResponse response = resource().path("account").get(
-				ClientResponse.class);
+        ClientResponse response = resource().path("account").get(ClientResponse.class);
 
-		assertEquals(200, response.getStatus());
-		verify(user, times(0)).getCommonName();
-	}
+        assertEquals(200, response.getStatus());
+        verify(user, times(0)).getCommonName();
+    }
 
-	@Test
-	public void getUserServiceException() {
-		setUpUserServiceException();
+    @Test
+    public void getUserServiceException()
+    {
+        setUpUserServiceException();
 
-		ClientResponse response = resource().path("account")
-				.header("Authorization", "Basic dXNlcm5hbWU6cGFzc3dvcmQ=")
-				.get(ClientResponse.class);
+        ClientResponse response = resource().path("account").header("Authorization", "Basic dXNlcm5hbWU6cGFzc3dvcmQ=").get(ClientResponse.class);
 
-		assertEquals(500, response.getStatus());
-		verify(user, times(0)).getCommonName();
-	}
+        assertEquals(500, response.getStatus());
+        verify(user, times(0)).getCommonName();
+    }
 
-	private void setUpUserServiceException() {
-		UserService userService = new EasyUserService() {
-			@Override
-			public void authenticate(Authentication authentication)
-					throws ServiceException {
-				throw (new ServiceException("WTF"));
-			}
-		};
-		services.setUserService(userService);
-	}
+    private void setUpUserServiceException()
+    {
+        UserService userService = new EasyUserService()
+        {
+            @Override
+            public void authenticate(Authentication authentication) throws ServiceException
+            {
+                throw (new ServiceException("WTF"));
+            }
+        };
+        services.setUserService(userService);
+    }
 
-	@Test
-	public void getDatasets() throws ServiceException {
-		setUpUserService();
-		when(user.getId()).thenReturn("easy-user:1");
-		setUpSearchService();
+    @Test
+    public void getDatasets() throws ServiceException
+    {
+        setUpUserService();
+        when(user.getId()).thenReturn("easy-user:1");
+        setUpSearchService();
 
-		ClientResponse response = resource().path("account/datasets")
-				.header("Authorization", "Basic dXNlcm5hbWU6cGFzc3dvcmQ=")
-				.get(ClientResponse.class);
+        ClientResponse response = resource().path("account/datasets").header("Authorization", "Basic dXNlcm5hbWU6cGFzc3dvcmQ=").get(ClientResponse.class);
 
-		assertEquals(200, response.getStatus());
-		assertEquals("<hits></hits>", response.getEntity(String.class));
-	}
+        assertEquals(200, response.getStatus());
+        assertEquals("<hits></hits>", response.getEntity(String.class));
+    }
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private void setUpSearchService() throws ServiceException {
-		SearchService searchServiceMock = mock(SearchService.class);
-		when(
-				searchServiceMock.searchPublished(isA(SearchRequest.class),
-						isA(EasyUser.class))).thenReturn(
-				new EmptySearchResult());
-		services.setSearchService(searchServiceMock);
-	}
+    @SuppressWarnings( {"rawtypes", "unchecked"})
+    private void setUpSearchService() throws ServiceException
+    {
+        SearchService searchServiceMock = mock(SearchService.class);
+        when(searchServiceMock.searchPublished(isA(SearchRequest.class), isA(EasyUser.class))).thenReturn(new EmptySearchResult());
+        services.setSearchService(searchServiceMock);
+    }
 
-	@Test
-	public void getDatasetsNotAuthorized() {
-		setUpAnonymousUserException();
-		
-		ClientResponse response = resource().path("account/datasets")
-				.header("Authorization", "Basic dXNlcm5hbWU6cGFzc3dvcmQ=")
-				.get(ClientResponse.class);
+    @Test
+    public void getDatasetsNotAuthorized()
+    {
+        setUpAnonymousUserException();
 
-		assertEquals(401, response.getStatus());
-	}
+        ClientResponse response = resource().path("account/datasets").header("Authorization", "Basic dXNlcm5hbWU6cGFzc3dvcmQ=").get(ClientResponse.class);
 
-	private void setUpAnonymousUserException() {
-		UserService userService = new EasyUserService() {
-			@Override
-			public void authenticate(Authentication authentication)
-					throws ServiceException {
-				throw (new AnonymousUserException());
-			}
-		};
-		services.setUserService(userService);
-	}
-	
-	@Test
-	public void getDatasetsServiceException() {
-		setUpUserServiceException();
-		
-		ClientResponse response = resource().path("account/datasets")
-				.header("Authorization", "Basic dXNlcm5hbWU6cGFzc3dvcmQ=")
-				.get(ClientResponse.class);
+        assertEquals(401, response.getStatus());
+    }
 
-		assertEquals(500, response.getStatus());
-	}
+    private void setUpAnonymousUserException()
+    {
+        UserService userService = new EasyUserService()
+        {
+            @Override
+            public void authenticate(Authentication authentication) throws ServiceException
+            {
+                throw (new AnonymousUserException());
+            }
+        };
+        services.setUserService(userService);
+    }
+
+    @Test
+    public void getDatasetsServiceException()
+    {
+        setUpUserServiceException();
+
+        ClientResponse response = resource().path("account/datasets").header("Authorization", "Basic dXNlcm5hbWU6cGFzc3dvcmQ=").get(ClientResponse.class);
+
+        assertEquals(500, response.getStatus());
+    }
 
 }

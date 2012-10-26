@@ -19,41 +19,45 @@ import org.mockito.Mockito;
 
 import com.sun.jersey.api.client.WebResource;
 
-@SuppressWarnings({"unchecked", "rawtypes"})
-public class SearchResourceTest extends RestTest {
-	private SearchService searchServiceMock;
-	private SearchResult searchResultMock;
-	
-	@Before
-	public void setUp() {
-		Services services = new Services();
-		
-		searchServiceMock = Mockito.mock(SearchService.class);
-		services.setSearchService(searchServiceMock);
-		
-		searchResultMock = Mockito.mock(SearchResult.class);
-		when(searchResultMock.getHits()).thenReturn(new ArrayList());
-	}
-	
-	@Test
-	public void search() throws ServiceException {
-		when(searchServiceMock.searchPublished(isA(SearchRequest.class), isA(EasyUser.class))).thenReturn(searchResultMock);
-		
-		WebResource webResource = resource().path("search");
-		
-		String responseBody = webResource.get(String.class);
-		
-		assertEquals(200, webResource.head().getStatus());
-		assertEquals("<hits></hits>", responseBody);
-	}
-	
-	@Test
-	public void searchInternalServerError() throws ServiceException {
-		when(searchServiceMock.searchPublished(isA(SearchRequest.class), isA(EasyUser.class))).thenThrow(ServiceException.class);
-		
-		WebResource webResource = resource().path("search");
-		
-		assertEquals(500, webResource.head().getStatus());
-	}
-	
+@SuppressWarnings( {"unchecked", "rawtypes"})
+public class SearchResourceTest extends RestTest
+{
+    private SearchService searchServiceMock;
+    private SearchResult searchResultMock;
+
+    @Before
+    public void setUp()
+    {
+        Services services = new Services();
+
+        searchServiceMock = Mockito.mock(SearchService.class);
+        services.setSearchService(searchServiceMock);
+
+        searchResultMock = Mockito.mock(SearchResult.class);
+        when(searchResultMock.getHits()).thenReturn(new ArrayList());
+    }
+
+    @Test
+    public void search() throws ServiceException
+    {
+        when(searchServiceMock.searchPublished(isA(SearchRequest.class), isA(EasyUser.class))).thenReturn(searchResultMock);
+
+        WebResource webResource = resource().path("search");
+
+        String responseBody = webResource.get(String.class);
+
+        assertEquals(200, webResource.head().getStatus());
+        assertEquals("<hits></hits>", responseBody);
+    }
+
+    @Test
+    public void searchInternalServerError() throws ServiceException
+    {
+        when(searchServiceMock.searchPublished(isA(SearchRequest.class), isA(EasyUser.class))).thenThrow(ServiceException.class);
+
+        WebResource webResource = resource().path("search");
+
+        assertEquals(500, webResource.head().getStatus());
+    }
+
 }

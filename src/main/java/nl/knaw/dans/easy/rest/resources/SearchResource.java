@@ -20,35 +20,42 @@ import nl.knaw.dans.easy.servicelayer.services.Services;
  * @author Roshan Timal
  */
 @Path("search")
-public class SearchResource extends AuthenticatedResource {
+public class SearchResource extends AuthenticatedResource
+{
 
-	/**
-	 * Executes a simple search on the metadata using the query parameter 'q' as
-	 * input for the search term.
-	 * 
-	 * @param searchTerm
-	 *            Search term taken from the query parameter 'q'
-	 * @param offset
-	 *            Offset index of result list.
-	 * @param limit
-	 *            Max number of hits to be returned.
-	 * @return Response containing the hits to the search query.
-	 */
-	@GET
-	public Response search(
-			@DefaultValue("") @QueryParam(value = "q") String searchTerm,
-			@DefaultValue("0") @QueryParam(value = "offset") int offset,
-			@DefaultValue("10") @QueryParam(value = "limit") int limit) {
-		try {
-			SimpleSearchRequest request = new SimpleSearchRequest(searchTerm);
-			request.setOffset(offset);
-			request.setLimit(limit);
-			List<?> hits = Services.getSearchService()
-					.searchPublished(request, authenticate()).getHits();
-			return responseXmlOrJson(SearchHitConverter.convert(hits));
-		} catch (ServiceException e) {
-			return internalServerError(e);
-		}
-	}
+    /**
+     * Executes a simple search on the metadata using the query parameter 'q' as
+     * input for the search term.
+     * 
+     * @param searchTerm
+     *            Search term taken from the query parameter 'q'
+     * @param offset
+     *            Offset index of result list.
+     * @param limit
+     *            Max number of hits to be returned.
+     * @return Response containing the hits to the search query.
+     */
+    @GET
+    public Response search(@DefaultValue("")
+    @QueryParam(value = "q")
+    String searchTerm, @DefaultValue("0")
+    @QueryParam(value = "offset")
+    int offset, @DefaultValue("10")
+    @QueryParam(value = "limit")
+    int limit)
+    {
+        try
+        {
+            SimpleSearchRequest request = new SimpleSearchRequest(searchTerm);
+            request.setOffset(offset);
+            request.setLimit(limit);
+            List<?> hits = Services.getSearchService().searchPublished(request, authenticate()).getHits();
+            return responseXmlOrJson(SearchHitConverter.convert(hits));
+        }
+        catch (ServiceException e)
+        {
+            return internalServerError(e);
+        }
+    }
 
 }

@@ -16,35 +16,43 @@ import nl.knaw.dans.easy.domain.exceptions.AnonymousUserException;
  * @author Roshan Timal
  */
 @Path("/hello")
-public class TestResource extends AuthenticatedResource {
+public class TestResource extends AuthenticatedResource
+{
 
-	/**
-	 * The 'hello, world' method.
-	 * 
-	 * @return A simple response containing 'hello, world' in the body.
-	 */
-	@GET
-	@Path("/world")
-	@Produces(MediaType.TEXT_PLAIN)
-	public Response hello() {
-		return simpleResponse("hello, world");
-	}
+    /**
+     * The 'hello, world' method.
+     * 
+     * @return A simple response containing 'hello, world' in the body.
+     */
+    @GET
+    @Path("/world")
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response hello()
+    {
+        return simpleResponse("hello, world");
+    }
 
-	/**
-	 * The 'hello, <user>' method.
-	 * 
-	 * @return A simple response containing 'hello, <user>' in the body.
-	 */
-	@GET
-	@Produces(MediaType.TEXT_PLAIN)
-	public Response helloUser() {
-		try {
-			return simpleResponse("hello, " + authenticate().getFirstname());
-		} catch (AnonymousUserException e) {
-			return simpleResponse("hello, anonymous");
-		} catch (ServiceException e) {
-			return internalServerError(e);
-		}
-	}
+    /**
+     * The 'hello, <user>' method.
+     * 
+     * @return A simple response containing 'hello, <user>' in the body.
+     */
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response helloUser()
+    {
+        try
+        {
+            return simpleResponse("hello, " + authenticate().getFirstname());
+        }
+        catch (AnonymousUserException e)
+        {
+            return simpleResponse("hello, anonymous");
+        }
+        catch (ServiceException e)
+        {
+            return internalServerError(e);
+        }
+    }
 
 }
