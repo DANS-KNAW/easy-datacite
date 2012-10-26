@@ -328,7 +328,7 @@ public class EasyUserRepoOnlineTest extends AbstractOnlineTest
         // cleanup
         repo.delete(test);
     }
-    
+
     @Test
     public void isPasswordStored() throws RepositoryException
     {
@@ -342,20 +342,20 @@ public class EasyUserRepoOnlineTest extends AbstractOnlineTest
             repo.delete(test);
 
         repo.add(test);
-        
+
         assertFalse(repo.isPasswordStored(test.getId()));
         repo.delete(test);
-        
+
         // Now set the password
         test.setPassword("geheim");
         repo.add(test);
-        
+
         assertTrue(repo.isPasswordStored(test.getId()));
-        
+
         // cleanup
         repo.delete(test);
     }
-    
+
     @Test
     public void findAll() throws RepositoryException
     {

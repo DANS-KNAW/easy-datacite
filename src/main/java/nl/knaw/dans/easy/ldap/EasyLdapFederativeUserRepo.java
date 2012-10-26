@@ -16,13 +16,11 @@ import nl.knaw.dans.easy.data.federation.FederativeUserRepo;
 import nl.knaw.dans.easy.domain.federation.FederativeUserIdMap;
 import nl.knaw.dans.easy.domain.migration.IdMap;
 
-
 public class EasyLdapFederativeUserRepo extends AbstractGenericRepo<FederativeUserIdMap> implements FederativeUserRepo
 {
     public static final String RDN = "fedUserId";
-    
+
     private static final Logger logger = LoggerFactory.getLogger(EasyLdapFederativeUserRepo.class);
-    
 
     public EasyLdapFederativeUserRepo(LdapClient client, String context)
     {

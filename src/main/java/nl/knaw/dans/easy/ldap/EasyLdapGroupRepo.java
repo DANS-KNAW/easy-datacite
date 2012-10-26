@@ -21,7 +21,7 @@ import nl.knaw.dans.easy.domain.user.GroupImpl;
 public class EasyLdapGroupRepo extends AbstractGenericRepo<Group> implements GroupRepo
 {
 
-    public static final String  RDN          = "ou";
+    public static final String RDN = "ou";
 
     /**
      * Construct a new LdapGroupRepo.
@@ -41,6 +41,5 @@ public class EasyLdapGroupRepo extends AbstractGenericRepo<Group> implements Gro
     {
         return getLdapMapper().unmarshal(new GroupImpl(), attrs);
     }
-    
-    
+
 }

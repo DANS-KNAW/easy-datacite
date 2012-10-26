@@ -18,7 +18,7 @@ import org.junit.Test;
 public class EasyLdapFederativeUserRepoOnlineTest extends AbstractOnlineTest
 {
     private static EasyLdapFederativeUserRepo repo;
-    
+
     final String FAKE_FEDID = "some.fake.federatedUserId";
     final String FAKE_FEDID2 = FAKE_FEDID + ".2";
     final String FAKE_DANSID = "some.fake.dansUserId";
@@ -34,11 +34,11 @@ public class EasyLdapFederativeUserRepoOnlineTest extends AbstractOnlineTest
     public void add_update_delete() throws Exception
     {
         FederativeUserIdMap idm1 = new FederativeUserIdMap(FAKE_FEDID, FAKE_DANSID);
-        
+
         // Add
         String id = insertIdMap(idm1);
         assertEquals(FAKE_FEDID, id);
-        
+
         // Update
         FederativeUserIdMap idm2 = repo.findById(id);
         assertEquals(FAKE_FEDID, idm2.getId());
@@ -48,19 +48,19 @@ public class EasyLdapFederativeUserRepoOnlineTest extends AbstractOnlineTest
         FederativeUserIdMap idm4 = repo.findById(id);
         assertEquals(FAKE_FEDID, idm4.getId());
         assertEquals(FAKE_DANSID_UPDATED, idm4.getDansUserId());
-        
+
         // Delete
         repo.delete(id);
         assertFalse(repo.exists(id));
     }
-    
+
     @Test
     public void findByDansUserIdNonExisting() throws Exception
     {
         List<FederativeUserIdMap> idMaps = repo.findByDansUserId("this.dansUserId.does.not.exist.in.the.federativeUserMap");
         assertTrue(idMaps.isEmpty());
     }
-    
+
     @Test
     public void findByDansUserId() throws Exception
     {
@@ -72,7 +72,7 @@ public class EasyLdapFederativeUserRepoOnlineTest extends AbstractOnlineTest
         FederativeUserIdMap idm2 = new FederativeUserIdMap(FAKE_FEDID2, FAKE_DANSID);
         String id2 = insertIdMap(idm2);
         assertEquals(FAKE_FEDID2, id2);
-        
+
         // Find them
         List<FederativeUserIdMap> idMaps = repo.findByDansUserId(FAKE_DANSID);
         assertEquals(2, idMaps.size());
@@ -87,14 +87,14 @@ public class EasyLdapFederativeUserRepoOnlineTest extends AbstractOnlineTest
         ids.add(idMaps.get(1).getId());
         assertTrue(ids.contains(id1));
         assertTrue(ids.contains(id2));
-        
+
         // Delete
         repo.delete(id1);
         assertFalse(repo.exists(id1));
         repo.delete(id2);
         assertFalse(repo.exists(id2));
     }
-    
+
     private String insertIdMap(FederativeUserIdMap idm) throws RepositoryException, ObjectExistsException
     {
         // remove map if it already exists

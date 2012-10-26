@@ -20,9 +20,8 @@ public class EasyLdapMigrationRepo extends AbstractGenericRepo<IdMap> implements
 {
 
     public static final String RDN = "dansStoreId";
-    
+
     private static final Logger logger = LoggerFactory.getLogger(EasyLdapMigrationRepo.class);
-    
 
     public EasyLdapMigrationRepo(LdapClient client, String context)
     {
@@ -70,7 +69,7 @@ public class EasyLdapMigrationRepo extends AbstractGenericRepo<IdMap> implements
     {
         return getMostRecent(findByPersistentIdentifier(persistentIdentifier));
     }
-    
+
     private IdMap getMostRecent(List<IdMap> idMaps)
     {
         IdMap idMap = null;
@@ -85,6 +84,5 @@ public class EasyLdapMigrationRepo extends AbstractGenericRepo<IdMap> implements
         }
         return idMap;
     }
-    
 
 }

@@ -25,8 +25,7 @@ import org.slf4j.LoggerFactory;
 public class EasyLdapUserRepo extends AbstractLdapUserRepo<EasyUser> implements EasyUserRepo
 {
 
-    private static Logger      logger       = LoggerFactory.getLogger(EasyLdapUserRepo.class);
-
+    private static Logger logger = LoggerFactory.getLogger(EasyLdapUserRepo.class);
 
     /**
      * Construct a new EasyLdapUserRepo.

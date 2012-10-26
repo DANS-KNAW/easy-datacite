@@ -25,11 +25,11 @@ import org.slf4j.LoggerFactory;
 public class EasyGroupRepoOnlineTest extends AbstractOnlineTest
 {
 
-    private static final Logger  logger  = LoggerFactory.getLogger(EasyGroupRepoOnlineTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(EasyGroupRepoOnlineTest.class);
 
     private static EasyLdapGroupRepo repo;
 
-    private boolean              verbose = Tester.isVerbose();
+    private boolean verbose = Tester.isVerbose();
 
     @BeforeClass
     public static void beforeClass()
@@ -97,10 +97,10 @@ public class EasyGroupRepoOnlineTest extends AbstractOnlineTest
         OperationalAttributes opa = repo.getOperationalAttributes("test2");
 
         assertNotNull(opa.getCreateTimestamp());
-        
+
         // goes for apacheds
         //assertNull(opa.getModifyTimestamp());
-        
+
         // goes for openldap
         //assertNotNull(opa.getModifyTimestamp());
 
@@ -126,7 +126,7 @@ public class EasyGroupRepoOnlineTest extends AbstractOnlineTest
                 logger.debug(group.getId());
             }
     }
-    
+
     @Test
     public void findList() throws RepositoryException
     {
@@ -142,14 +142,14 @@ public class EasyGroupRepoOnlineTest extends AbstractOnlineTest
             repo.add(group);
             ids.add(group.getId());
         }
-        
+
         List<String> idsToRemove = new ArrayList<String>(ids);
-        
+
         ids.remove("testGroup3");
         ids.remove("testGroup5");
-        
+
         List<Group> foundGroups = repo.findById(ids);
-        
+
         assertEquals(8, foundGroups.size());
         Group group0 = foundGroups.get(0);
         assertEquals("description 0", group0.getDescription());
@@ -157,7 +157,7 @@ public class EasyGroupRepoOnlineTest extends AbstractOnlineTest
         Group group7 = foundGroups.get(7);
         assertEquals("description 9", group7.getDescription());
         assertEquals("testGroup9", group7.getId());
-        
+
         for (String id : idsToRemove)
         {
             repo.delete(id);
