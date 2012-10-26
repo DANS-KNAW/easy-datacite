@@ -13,8 +13,8 @@ import org.slf4j.LoggerFactory;
 public class IngestReporter extends WorkReporter
 {
 
-    List<Throwable>       reportedExceptions = new ArrayList<Throwable>();
-    private static Logger logger             = LoggerFactory.getLogger(IngestReporter.class);
+    List<Throwable> reportedExceptions = new ArrayList<Throwable>();
+    private static Logger logger = LoggerFactory.getLogger(IngestReporter.class);
 
     IngestReporter()
     {
@@ -52,8 +52,9 @@ public class IngestReporter extends WorkReporter
     public String[] getExceptionMessages() throws SWORDException
     {
         final String[] messages = new String[reportedExceptions.size()];
-        int i=0;
-        for (Throwable e:reportedExceptions){
+        int i = 0;
+        for (Throwable e : reportedExceptions)
+        {
             messages[i++] = e.getMessage();
         }
         return messages;

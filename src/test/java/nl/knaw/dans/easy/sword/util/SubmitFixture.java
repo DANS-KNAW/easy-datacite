@@ -15,13 +15,15 @@ import org.purl.sword.base.SwordValidationInfo;
 
 public class SubmitFixture extends EasySwordServerTester
 {
-    public static final String INPUT_DIR  = "src/test/resources/input/";
+    public static final String INPUT_DIR = "src/test/resources/input/";
     public static final String PROPER_ZIP = new File(INPUT_DIR + "data-plus-meta.zip").getPath();
 
     @BeforeClass
-    static public void setTemp (){
+    static public void setTemp()
+    {
         new Context().setUnzip("target/tmp");
     }
+
     protected static String getZip(String string)
     {
         return new File(INPUT_DIR + string + ".zip").getPath();
@@ -29,7 +31,7 @@ public class SubmitFixture extends EasySwordServerTester
 
     public static File getFile(String string)
     {
-        return new File(INPUT_DIR + string );
+        return new File(INPUT_DIR + string);
     }
 
     protected SwordValidationInfo execute(boolean verbose, boolean noOp, final String zip) throws Exception, SWORDException
@@ -49,7 +51,7 @@ public class SubmitFixture extends EasySwordServerTester
     {
         EasyBusinessFacade.resetNoOpSubmitCounter();
         final String regexp = "-- CreationDate: .*--"; // iText generates creation date as comment,
-                                                       // ignore that
+        // ignore that
         DepositResponse depositResponse = easySwordServer.doDeposit(deposit);
         final String actualResults = depositResponse.toString().replaceAll(regexp, "");
         assertAsExpected(actualResults, "deposit_" + deposit.isVerbose() + deposit.isNoOp() + zip + ".xml");

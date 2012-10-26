@@ -1,6 +1,5 @@
 package nl.knaw.dans.easy.sword;
 
-
 import static org.purl.sword.base.SwordValidationInfoType.INFO;
 import static org.purl.sword.base.SwordValidationInfoType.WARNING;
 import nl.knaw.dans.easy.sword.util.MockUtil;
@@ -14,7 +13,8 @@ import org.purl.sword.base.SwordValidationInfo;
 public class TestSubmitResponseCompliancy extends SubmitFixture
 {
     @Before
-    public void setupMocking() throws Exception {
+    public void setupMocking() throws Exception
+    {
         MockUtil.mockAll();
     }
 
@@ -42,7 +42,7 @@ public class TestSubmitResponseCompliancy extends SubmitFixture
         assertCompliant(INFO, info);
     }
 
-    @Test 
+    @Test
     public void spatialMetadata() throws Throwable
     {
         SwordValidationInfo info = execute(false, true, getZip("data-plus-spatial-metadata"));
@@ -50,7 +50,7 @@ public class TestSubmitResponseCompliancy extends SubmitFixture
         assertCompliant(INFO, info);
     }
 
-    @Test 
+    @Test
     public void whiteSpace() throws Throwable
     {
         SwordValidationInfo info = execute(false, true, getZip("disciplineWithWhiteSpace"));

@@ -13,12 +13,12 @@ import nl.knaw.dans.easy.domain.emd.validation.base.ValidationReporter;
 public class EasySwordValidationReporter implements ValidationReporter
 {
 
-    private static Logger          logger         = LoggerFactory.getLogger(EasySwordValidationReporter.class);
+    private static Logger logger = LoggerFactory.getLogger(EasySwordValidationReporter.class);
 
-    private boolean                valid          = true;
-    private List<ValidationReport> infoReports    = new ArrayList<ValidationReport>();
+    private boolean valid = true;
+    private List<ValidationReport> infoReports = new ArrayList<ValidationReport>();
     private List<ValidationReport> warningReports = new ArrayList<ValidationReport>();
-    private List<ValidationReport> errorReports   = new ArrayList<ValidationReport>();
+    private List<ValidationReport> errorReports = new ArrayList<ValidationReport>();
 
     @Override
     public void setMetadataValid(boolean valid)

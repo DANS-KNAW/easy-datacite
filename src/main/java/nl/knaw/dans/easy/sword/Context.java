@@ -5,15 +5,15 @@ import org.purl.sword.base.SWORDException;
 public class Context
 {
     /** Directory were deposits are unzipped. */
-    private static String unzip               = null;
+    private static String unzip = null;
 
-    private static String workspaceTitle      = null;
+    private static String workspaceTitle = null;
     private static String collectionTreatment = null;
-    private static String collectionPolicy    = null;
-    private static String collectionTitle     = null;
-    private static String collectionAbstract  = null;
-    private static String depositTreatment     = null;
-    private static String datasetPath     = null;
+    private static String collectionPolicy = null;
+    private static String collectionTitle = null;
+    private static String collectionAbstract = null;
+    private static String depositTreatment = null;
+    private static String datasetPath = null;
 
     public void setUnzip(String unzip)
     {
@@ -87,12 +87,11 @@ public class Context
         return collectionAbstract;
     }
 
-
     public void setdepositTreatment(String depositTreatment)
     {
         Context.depositTreatment = depositTreatment;
     }
-    
+
     public static String getDepositTreatment() throws SWORDException
     {
         if (depositTreatment == null)

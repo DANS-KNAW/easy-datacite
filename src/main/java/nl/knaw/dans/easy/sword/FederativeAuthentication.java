@@ -15,9 +15,9 @@ public class FederativeAuthentication
     private final String password;
 
     /** TODO This secret key should not be in the code but read from an external file! */
-    static final String  FEDERATIVE_LOGIN_SECRET = "d49bcb3d-ffb6-4748-aef4-8ca6319f3afb";
+    static final String FEDERATIVE_LOGIN_SECRET = "d49bcb3d-ffb6-4748-aef4-8ca6319f3afb";
 
-    static Logger        log                     = LoggerFactory.getLogger(FederativeAuthentication.class);
+    static Logger log = LoggerFactory.getLogger(FederativeAuthentication.class);
 
     public FederativeAuthentication(final String userId, final String password)
     {
@@ -36,7 +36,7 @@ public class FederativeAuthentication
     public String getUserId()
     {
         final int HASH_LENGTH = 40; // This depends on hash algorithm and
-                                    // conversion to string
+        // conversion to string
         String fedUserId = null;
 
         // get last bytes containing the hash

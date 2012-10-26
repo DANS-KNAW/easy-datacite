@@ -22,7 +22,7 @@ import org.purl.sword.base.SWORDException;
 
 public class TestEasyBusinessFacade extends Fixture
 {
-    static File       tempDirectory;
+    static File tempDirectory;
 
     @Before
     public void setupMocking() throws Exception
@@ -56,11 +56,11 @@ public class TestEasyBusinessFacade extends Fixture
         {
             if (expectedCause == null)
                 throw se;
-            if (se.getCause()==null||!(se.getCause().getClass().equals(expectedCause)))
+            if (se.getCause() == null || !(se.getCause().getClass().equals(expectedCause)))
                 throw se;
         }
         if (expectedCause != null)
-            throw new Exception("got no exception but expected "+expectedCause.getName());
+            throw new Exception("got no exception but expected " + expectedCause.getName());
     }
 
     @Test
@@ -69,7 +69,7 @@ public class TestEasyBusinessFacade extends Fixture
         executeSubmit(ZIP_FILE, META_DATA_FILE, null);
     }
 
-    @Test (expected=SWORDErrorException.class)
+    @Test(expected = SWORDErrorException.class)
     public void invalidMetadataByMM() throws Throwable
     {
         final File zipFile = new File("src/test/resources/input/invalidMetadata.zip");
@@ -77,8 +77,7 @@ public class TestEasyBusinessFacade extends Fixture
         executeSubmit(zipFile, metaDataFile, SWORDErrorException.class);
     }
 
-
-    @Test (expected=SWORDErrorException.class)
+    @Test(expected = SWORDErrorException.class)
     public void getIllegalFormDefinition() throws Throwable
     {
         final File file = new File("src/test/resources/input/metadata.xml");

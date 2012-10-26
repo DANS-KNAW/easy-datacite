@@ -37,23 +37,23 @@ public class TestValidation extends Fixture
     public static Collection<String[]> createParameters() throws Exception
     {
         final List<String[]> constructorSignatureInstances = new ArrayList<String[]>();
-        
+
         constructorSignatureInstances.add(new String[] {"invalidAccessRights.xml", " is not a valid key in the list "});
 
         // no longer causes a draft dataset after refactoring nl.knaw.dans.easy.business.dataset.MetadataValidator
         // TODO no complaint about neither dc.creator nor eas.creator being specified, but wait for the external XML
         constructorSignatureInstances.add(new String[] {"missingMetadata.xml", "Missing required field dc.title"});
-        
+
         // used to cause a draft dataset because the notification message could not be created
         constructorSignatureInstances.add(new String[] {"disciplineWithWhiteSpace.xml", null});
 
         // in this example a schema id is added manually after download of the xml from a test dataset
         // TODO will fail after 2014-10-18
         constructorSignatureInstances.add(new String[] {"SpatialPoint.xml", null});
-        
+
         // just as downloaded from a test dataset
         constructorSignatureInstances.add(new String[] {"SpatialPointWithoutSchemaId.xml", "Expected is 'archaeology.eas.spatial'"});
-        
+
         // TODO make error message mores specific, needs architectural solution see also EBIU workaround
         constructorSignatureInstances.add(new String[] {"SpatialPointWithoutX.xml", "invalid"});
         constructorSignatureInstances.add(new String[] {"SpatialPointWithoutY.xml", "invalid"});
@@ -79,9 +79,9 @@ public class TestValidation extends Fixture
         catch (final SWORDErrorException se)
         {
             if (messageContent == null)
-                throw new Exception("\n" + metadataFileName + " no error expected but got " + se.toString(),se);
+                throw new Exception("\n" + metadataFileName + " no error expected but got " + se.toString(), se);
             if (!se.getMessage().contains(messageContent))
-                throw new Exception("\n" + metadataFileName + " expected a message containing " + messageContent + "\nbut got " + se.getMessage(),se);
+                throw new Exception("\n" + metadataFileName + " expected a message containing " + messageContent + "\nbut got " + se.getMessage(), se);
             return;
         }
         catch (final Exception se)
@@ -89,7 +89,7 @@ public class TestValidation extends Fixture
             if (messageContent == null)
                 throw new Exception("\n" + metadataFileName + " no error expected but got " + se.toString());
             throw new Exception("\n" + metadataFileName + " expected " + SWORDErrorException.class.getName() + " with a message containing: " + messageContent
-                    + "\nbut got " + se.toString(),se);
+                    + "\nbut got " + se.toString(), se);
         }
         if (messageContent != null)
             throw new Exception("\n" + metadataFileName + " expected " + SWORDErrorException.class.getName() + " with a message containing: " + messageContent

@@ -11,10 +11,10 @@ import java.io.UnsupportedEncodingException;
 
 public class OutputUtil
 {
-    private static final String           DIR_EXPECTED    = "src/test/resources/expected/";
-    private static final String           FORMAT_ACTUAL   = DIR_EXPECTED + "%s/%s";
-    private static final String           FORMAT_EXPECTED = DIR_EXPECTED + "%s/.svn/text-base/%s.svn-base";
-    private static final String           LINE_SEPARATOR  = System.getProperty("line.separator", "");
+    private static final String DIR_EXPECTED = "src/test/resources/expected/";
+    private static final String FORMAT_ACTUAL = DIR_EXPECTED + "%s/%s";
+    private static final String FORMAT_EXPECTED = DIR_EXPECTED + "%s/.svn/text-base/%s.svn-base";
+    private static final String LINE_SEPARATOR = System.getProperty("line.separator", "");
     private final Class<? extends Object> testerClass;
 
     /**
@@ -57,7 +57,7 @@ public class OutputUtil
                     + " Visually verify the generated result. Commit and the test will succeed next time.");
         return localizeLineTerminators(new String(readFile(file)));
     }
-    
+
     private String errorIntro(final String baseFileName)
     {
         return createFileName(FORMAT_ACTUAL, baseFileName) + LINE_SEPARATOR;
