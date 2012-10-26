@@ -1,9 +1,19 @@
 package nl.knaw.dans.commons.pid;
 
-import java.sql.*;
+import static nl.knaw.dans.commons.pid.PidTableProperties.DANS_PREFIX;
+import static nl.knaw.dans.commons.pid.PidTableProperties.TABLE_NAME;
+import static nl.knaw.dans.commons.pid.PidTableProperties.URN_PREFIX;
+import static nl.knaw.dans.commons.pid.PidTableProperties.VALUE_COLUMN_NAME;
+import static nl.knaw.dans.commons.pid.PidTableProperties.WHERE_CLAUSE;
 
-import org.slf4j.*;
-import static nl.knaw.dans.commons.pid.PidTableProperties.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PidGenerator
 {
@@ -24,7 +34,7 @@ public class PidGenerator
             super(explanation, cause);
             logger.error(explanation, cause);
         }
-        
+
         private PidException(String explanation)
         {
             super(explanation);
@@ -66,7 +76,7 @@ public class PidGenerator
         }
         catch (ClassNotFoundException exception)
         {
-            throw new PidException("pom file of pid generator might need a dependency to support database driver " + connection.getDriverClass(),exception);
+            throw new PidException("pom file of pid generator might need a dependency to support database driver " + connection.getDriverClass(), exception);
         }
 
         try
@@ -75,7 +85,7 @@ public class PidGenerator
         }
         catch (SQLException exception)
         {
-            throw new PidException("could not connect to database of pid generator",exception);
+            throw new PidException("could not connect to database of pid generator", exception);
         }
     }
 
@@ -133,7 +143,8 @@ public class PidGenerator
     void updateId(final long id) throws SQLException
     {
         logger.info(String.format("PidGenerator - next (%s , %s)", id, PidConverter.encode(id)));
-        if (connection == null) throw new NullPointerException("no connection with the persisten identifier database");
+        if (connection == null)
+            throw new NullPointerException("no connection with the persisten identifier database");
         final Statement stat = connection.createStatement();
         final String statement = "UPDATE " + TABLE_NAME + " SET " + VALUE_COLUMN_NAME + " = " + id;
         stat.execute(statement + whereClause);
@@ -143,14 +154,14 @@ public class PidGenerator
 
     long fetchId() throws SQLException
     {
-        if (connection == null) throw new NullPointerException("no connection with the persisten identifier database");
+        if (connection == null)
+            throw new NullPointerException("no connection with the persisten identifier database");
         Statement stat = null;
         ResultSet resultSet = null;
         long id;
         try
         {
-            stat = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-                            ResultSet.CONCUR_READ_ONLY);
+            stat = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             final String statement = "SELECT " + VALUE_COLUMN_NAME + " FROM " + TABLE_NAME + whereClause;
             resultSet = stat.executeQuery(statement);
             boolean canMove = resultSet.next();
@@ -165,7 +176,7 @@ public class PidGenerator
             if (stat != null)
                 stat.close();
             if (resultSet != null)
-                resultSet.close();          
+                resultSet.close();
         }
 
         logger.info(String.format("PidGenerator - last (%s = %s)", id, PidConverter.encode(id)));
@@ -179,7 +190,7 @@ public class PidGenerator
         logger.info("PidGenerator - next (" + identifier + " = " + encoded + ")");
         return encoded;
     }
-    
+
     public void close()
     {
         logger.info("Closing " + this.getClass().getSimpleName());
@@ -200,6 +211,6 @@ public class PidGenerator
         {
             logger.error("Unable to close connection: ", e);
         }
-        
+
     }
 }

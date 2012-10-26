@@ -1,26 +1,31 @@
 package nl.knaw.dans.commons.pid;
 
-import static org.hamcrest.core.IsEqual.*;
-import static org.junit.Assert.*;
+import static nl.knaw.dans.commons.pid.PidTableProperties.DANS_PREFIX;
+import static nl.knaw.dans.commons.pid.PidTableProperties.URN_PREFIX;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertThat;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
 
 import nl.knaw.dans.common.lang.test.Tester;
 
-import org.junit.*;
-import org.slf4j.*;
-import static nl.knaw.dans.commons.pid.PidTableProperties.*;
-
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PidGeneratorOnlineTest
 {
     private static final Logger logger = LoggerFactory.getLogger(PidGenerator.class);
 
-    private static final String PREFIX = URN_PREFIX+DANS_PREFIX;
+    private static final String PREFIX = URN_PREFIX + DANS_PREFIX;
 
     private static Connection connection;
     private static PidGenerator defaultGenerator;
-    
+
     private static long originalValue;
 
     @BeforeClass
@@ -68,11 +73,11 @@ public class PidGeneratorOnlineTest
         assertThat(actualResult, equalTo(value));
     }
 
-    @Test (expected = PidGenerator.PidException.class)
+    @Test(expected = PidGenerator.PidException.class)
     public void readError() throws Exception
     {
         final String invalidPrefix = "blabla";
-        final PidGenerator linmpingGenerator = new PidGenerator(connection,invalidPrefix);
+        final PidGenerator linmpingGenerator = new PidGenerator(connection, invalidPrefix);
         final String actual = linmpingGenerator.getNextPersistentIdentifierUrn();
         assertThat(actual, equalTo(""));
     }
@@ -87,9 +92,10 @@ public class PidGeneratorOnlineTest
 
         final long actualPid = defaultGenerator.fetchId();//.fromUrn(actualUrn);        
         assertThat(actualPid, equalTo(230659027L));
-        
+
         final String pidStrWithoutSeparator = "3tbtn7";
-        final String pidStr = pidStrWithoutSeparator.substring(0, PidConverter.SEPARATOR_POSITION) + PidConverter.SEPARATOR + pidStrWithoutSeparator.substring(PidConverter.SEPARATOR_POSITION);
+        final String pidStr = pidStrWithoutSeparator.substring(0, PidConverter.SEPARATOR_POSITION) + PidConverter.SEPARATOR
+                + pidStrWithoutSeparator.substring(PidConverter.SEPARATOR_POSITION);
         assertThat(actualUrn, equalTo(PREFIX + pidStr));
     }
 

@@ -1,19 +1,19 @@
 package nl.knaw.dans.commons.pid;
 
-import static org.hamcrest.core.IsEqual.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertThat;
 
 import java.util.HashSet;
 
-import org.junit.*;
+import org.junit.Ignore;
+import org.junit.Test;
 
 public class PidCalculatorTest
 {
     @Test
     public void length()
     {
-        assertThat(Long.toString(PidCaculator.MODULO, PidConverter.RADIX).length(),
-                equalTo(PidConverter.ID_LENGTH));
+        assertThat(Long.toString(PidCaculator.MODULO, PidConverter.RADIX).length(), equalTo(PidConverter.ID_LENGTH));
     }
 
     @Test
@@ -22,16 +22,15 @@ public class PidCalculatorTest
     {
         long seed = 0;
         long count = 0;
-        while ((++count) < PidCaculator.MODULO
-                && Long.toString(seed, PidConverter.RADIX).length() <= PidConverter.ID_LENGTH)
+        while ((++count) < PidCaculator.MODULO && Long.toString(seed, PidConverter.RADIX).length() <= PidConverter.ID_LENGTH)
         {
             seed = PidCaculator.getNext(seed);
             if (seed == 0)
                 break;
             if (count % 5000000 == 0)
             {
-                long l = PidCaculator.MODULO-count;
-                System.out.println(l+" "+PidCaculator.MODULO+" "+count+" "+seed);
+                long l = PidCaculator.MODULO - count;
+                System.out.println(l + " " + PidCaculator.MODULO + " " + count + " " + seed);
             }
         }
         assertThat(count, equalTo(PidCaculator.MODULO));
@@ -44,8 +43,7 @@ public class PidCalculatorTest
         final int max = 1449066;
         final HashSet<Long> ids = new HashSet<Long>();
         long seed = 0;
-        while (!ids.contains(seed) && ids.size() < max
-                && Long.toString(seed, PidConverter.RADIX).length() <= PidConverter.ID_LENGTH)
+        while (!ids.contains(seed) && ids.size() < max && Long.toString(seed, PidConverter.RADIX).length() <= PidConverter.ID_LENGTH)
         {
             ids.add(seed);
             seed = PidCaculator.getNext(seed);
