@@ -137,6 +137,7 @@ public class FileHelper
         expect(fileItemVO.getVisibleTo()).andReturn(expected).anyTimes();
         return this;
     }
+
     public String getPath()
     {
         return path;

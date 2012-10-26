@@ -34,7 +34,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
  * </dl>
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({Data.class, Services.class})
+@PrepareForTest( {Data.class, Services.class})
 public class BusinessMocker
 {
     private List<Dataset> mockedDatasets;
