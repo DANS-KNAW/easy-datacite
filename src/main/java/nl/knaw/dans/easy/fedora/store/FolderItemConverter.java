@@ -17,18 +17,18 @@ import org.slf4j.LoggerFactory;
 
 public class FolderItemConverter extends AbstractDobConverter<FolderItemImpl>
 {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(FolderItemConverter.class);
 
     public FolderItemConverter()
     {
         super(FolderItem.NAMESPACE);
     }
-    
+
     @Override
     public void deserialize(DigitalObject digitalObject, FolderItemImpl folderItem) throws ObjectDeserializationException
     {
-    	super.deserialize(digitalObject, folderItem);
+        super.deserialize(digitalObject, folderItem);
 
         try
         {
@@ -36,8 +36,7 @@ public class FolderItemConverter extends AbstractDobConverter<FolderItemImpl>
             if (fmdVersion != null)
             {
                 Element element = fmdVersion.getXmlContentElement();
-                ItemContainerMetadataImpl fmd = (ItemContainerMetadataImpl) JiBXObjectFactory.unmarshal(
-                        ItemContainerMetadataImpl.class, element);
+                ItemContainerMetadataImpl fmd = (ItemContainerMetadataImpl) JiBXObjectFactory.unmarshal(ItemContainerMetadataImpl.class, element);
                 fmd.setTimestamp(fmdVersion.getTimestamp());
                 fmd.setDirty(false);
                 folderItem.setItemContainerMetadata(fmd);

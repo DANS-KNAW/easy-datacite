@@ -19,19 +19,18 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
-
 public class FedoraFileStoreAccessOnlineTest extends AbstractOnlineTest
 {
-    
+
     private static FedoraFileStoreAccess fsAccess;
-    
+
     @BeforeClass
     public static void beforeClass() throws StoreAccessException
     {
-    	DbUtil.setLocalConfig(getDbLocalConfig());
+        DbUtil.setLocalConfig(getDbLocalConfig());
         fsAccess = new FedoraFileStoreAccess();
     }
-    
+
     @Ignore("Local variables")
     @Test
     public void findById() throws StoreAccessException
@@ -40,21 +39,22 @@ public class FedoraFileStoreAccessOnlineTest extends AbstractOnlineTest
         FileItemVO fivo = fsAccess.findFileById(new DmoStoreId(fileId));
         assertEquals(fileId, fivo.getSid());
     }
-    
+
     @Ignore("Local variables")
     @Test
     public void findByIdList() throws StoreAccessException
     {
-        List<DmoStoreId> sids = Arrays.asList(new DmoStoreId[] {new DmoStoreId("easy-file:207"), new DmoStoreId("easy-file:2173"), new DmoStoreId("easy-file:3695")});
-        
+        List<DmoStoreId> sids = Arrays.asList(new DmoStoreId[] {new DmoStoreId("easy-file:207"), new DmoStoreId("easy-file:2173"),
+                new DmoStoreId("easy-file:3695")});
+
         List<FileItemVO> fivos = fsAccess.findFilesById(sids);
         assertEquals(2, fivos.size());
         assertEquals("easy-file:2173", fivos.get(0).getSid());
         assertEquals("easy-file:3695", fivos.get(1).getSid());
     }
-    
+
     @Ignore("Local variables")
-    @Test 
+    @Test
     public void findFileByPath() throws Exception
     {
         String datasetId = "easy-dataset:10";
@@ -63,7 +63,7 @@ public class FedoraFileStoreAccessOnlineTest extends AbstractOnlineTest
         assertEquals(relativePath, fivo.getPath());
         assertEquals(datasetId, fivo.getDatasetSid());
     }
-    
+
     @Ignore("Local variables")
     @Test
     public void findFolderByPath() throws Exception
@@ -73,21 +73,21 @@ public class FedoraFileStoreAccessOnlineTest extends AbstractOnlineTest
         FolderItemVO fovo = fsAccess.findFolderByPath(new DmoStoreId(datasetId), relativePath);
         assertEquals(relativePath, fovo.getPath());
         assertEquals(datasetId, fovo.getDatasetSid());
-        
+
         relativePath = "original/prc";
         fovo = fsAccess.findFolderByPath(new DmoStoreId(datasetId), relativePath);
         assertEquals(relativePath + "/", fovo.getPath());
         assertEquals(datasetId, fovo.getDatasetSid());
     }
-    
+
     @Test(expected = IllegalArgumentException.class)
     public void findByIdEmptyList() throws StoreAccessException
     {
         List<DmoStoreId> sids = Arrays.asList(new DmoStoreId[] {});
-        
+
         fsAccess.findFilesById(sids);
     }
-    
+
     @Ignore("Local variables")
     @Test
     public void canItFindDatasetChildren() throws StoreAccessException
@@ -97,14 +97,14 @@ public class FedoraFileStoreAccessOnlineTest extends AbstractOnlineTest
         {
             System.out.println(kid.getName());
         }
-        
+
         List<FileItemVO> kids = fsAccess.getFiles(new DmoStoreId("easy-dataset:1"), -1, -1, null, null);
         for (ItemVO kid : kids)
         {
             System.out.println(kid.getName());
         }
     }
-    
+
     @Ignore("Local variables")
     @Test
     public void getFileNames() throws StoreAccessException
@@ -115,21 +115,21 @@ public class FedoraFileStoreAccessOnlineTest extends AbstractOnlineTest
             System.err.println(s);
         }
     }
-    
+
     @Test
     public void getDatasetId() throws Exception
     {
         String datasetId = fsAccess.getDatasetId(new DmoStoreId("easy-folder:1"));
         System.err.println(datasetId);
     }
-    
+
     @Test
     public void getDatasetIdWithNoneExistingItemId() throws Exception
     {
         String datasetId = fsAccess.getDatasetId(new DmoStoreId("easy-folder:0"));
         assertNull(datasetId);
     }
-    
+
     @Test(expected = StoreException.class)
     public void getDatasetIdWithWrongParameter() throws Exception
     {

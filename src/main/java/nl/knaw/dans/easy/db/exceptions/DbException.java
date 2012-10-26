@@ -13,19 +13,23 @@ import org.hibernate.HibernateException;
  * @author lobo
  *
  */
-public class DbException extends HibernateException {
-	private static final long serialVersionUID = -2243461894207732251L;
+public class DbException extends HibernateException
+{
+    private static final long serialVersionUID = -2243461894207732251L;
 
-	public DbException(String message) {
-		super(message);
-	}
+    public DbException(String message)
+    {
+        super(message);
+    }
 
-	public DbException(Throwable cause) {
-		super(cause);
-	}
+    public DbException(Throwable cause)
+    {
+        super(cause);
+    }
 
-	public DbException(String message, Throwable cause) {
-		super(message, cause);
-	}
+    public DbException(String message, Throwable cause)
+    {
+        super(message, cause);
+    }
 
 }

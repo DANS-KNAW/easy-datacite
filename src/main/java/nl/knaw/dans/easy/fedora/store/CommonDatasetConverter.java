@@ -15,37 +15,36 @@ import org.dom4j.Element;
 
 public class CommonDatasetConverter extends AbstractDobConverter<CommonDataset>
 {
-	public CommonDatasetConverter()
-	{
-		super(new DmoNamespace("dccd"));
-	}
-	
-	@Override
-	public void deserialize(DigitalObject digitalObject, CommonDataset dmo)
-			throws ObjectDeserializationException
-	{
-		super.deserialize(digitalObject, dmo);
+    public CommonDatasetConverter()
+    {
+        super(new DmoNamespace("dccd"));
+    }
 
-		try
-		{
-	        DatastreamVersion dcVersion = digitalObject.getLatestVersion(DublinCoreMetadata.UNIT_ID);
-	        if (dcVersion != null)
-	        {
-	            Element element = dcVersion.getXmlContentElement();
-	            DublinCoreMetadata dc = (DublinCoreMetadata) JiBXObjectFactory.unmarshal(JiBXDublinCoreMetadata.class, element);
-	            dc.setTimestamp(dcVersion.getTimestamp());
-	            dc.setDirty(false);
-	            dmo.setDublinCoreMetadata(dc);
-	        }
-	        else
-	        {
-	            throw new XMLDeserializationException("No dublin core found on retrieved digital object. sid=" + digitalObject.getSid());
-	        }
-		}
+    @Override
+    public void deserialize(DigitalObject digitalObject, CommonDataset dmo) throws ObjectDeserializationException
+    {
+        super.deserialize(digitalObject, dmo);
+
+        try
+        {
+            DatastreamVersion dcVersion = digitalObject.getLatestVersion(DublinCoreMetadata.UNIT_ID);
+            if (dcVersion != null)
+            {
+                Element element = dcVersion.getXmlContentElement();
+                DublinCoreMetadata dc = (DublinCoreMetadata) JiBXObjectFactory.unmarshal(JiBXDublinCoreMetadata.class, element);
+                dc.setTimestamp(dcVersion.getTimestamp());
+                dc.setDirty(false);
+                dmo.setDublinCoreMetadata(dc);
+            }
+            else
+            {
+                throw new XMLDeserializationException("No dublin core found on retrieved digital object. sid=" + digitalObject.getSid());
+            }
+        }
         catch (XMLDeserializationException e)
         {
             throw new ObjectDeserializationException(e);
         }
-	}
+    }
 
 }

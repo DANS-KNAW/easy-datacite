@@ -42,71 +42,64 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-//import nl.knaw.dans.easy.db.DbUtil;
+
+// import nl.knaw.dans.easy.db.DbUtil;
 
 /**
  * @author lobo
  */
 public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileStoreAccess
 {
-    private static final Logger       LOGGER               = LoggerFactory.getLogger(FedoraFileStoreAccess.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FedoraFileStoreAccess.class);
 
-    private ThreadLocalSessionFactory sessionFactory       = ThreadLocalSessionFactory.instance();
+    private ThreadLocalSessionFactory sessionFactory = ThreadLocalSessionFactory.instance();
 
-    private static final String       FILENAME_QUERY       = "SELECT name FROM " + FileItemVO.class.getName()
-                                                                   + " WHERE parentSid=:parentSid";
-    
-    private static final String       FOLDERNAME_QUERY     = "SELECT name, sid FROM " + FolderItemVO.class.getName()
-                                                                   + " WHERE parentSid=:parentSid";
-    
-    private static final String       ALL_FILES_QUERY      = "SELECT name, sid FROM " + FileItemVO.class.getName()
-        + " WHERE datasetSid=:datasetSid";
+    private static final String FILENAME_QUERY = "SELECT name FROM " + FileItemVO.class.getName() + " WHERE parentSid=:parentSid";
 
-    private static final String       HASCHILDFILE_QUERY   = "SELECT sid FROM " + FileItemVO.class.getName()
-                                                                   + " WHERE parentSid=:parentSid";               // LIMIT
+    private static final String FOLDERNAME_QUERY = "SELECT name, sid FROM " + FolderItemVO.class.getName() + " WHERE parentSid=:parentSid";
+
+    private static final String ALL_FILES_QUERY = "SELECT name, sid FROM " + FileItemVO.class.getName() + " WHERE datasetSid=:datasetSid";
+
+    private static final String HASCHILDFILE_QUERY = "SELECT sid FROM " + FileItemVO.class.getName() + " WHERE parentSid=:parentSid"; // LIMIT
     // 1
 
-    private static final String       HASCHILDFOLDER_QUERY = "SELECT sid FROM " + FolderItemVO.class.getName()
-                                                                   + " WHERE parentSid=:parentSid";               // LIMIT
+    private static final String HASCHILDFOLDER_QUERY = "SELECT sid FROM " + FolderItemVO.class.getName() + " WHERE parentSid=:parentSid"; // LIMIT
     // 1
-    
-    private static final String       SELECT_DATASET_FILEITEMS = "SELECT fivo FROM " + FileItemVO.class.getName() //
-        + " AS fivo"//
-        + " WHERE datasetSid=:datasetSid"; //
-    
-    private static final String       SELECT_DATASET_FOLDERITEMS = "SELECT fovo FROM " + FolderItemVO.class.getName() //
-        + " AS fovo"//
-        + " WHERE datasetSid=:datasetSid"; //
-    
+
+    private static final String SELECT_DATASET_FILEITEMS = "SELECT fivo FROM " + FileItemVO.class.getName() //
+            + " AS fivo"//
+            + " WHERE datasetSid=:datasetSid"; //
+
+    private static final String SELECT_DATASET_FOLDERITEMS = "SELECT fovo FROM " + FolderItemVO.class.getName() //
+            + " AS fovo"//
+            + " WHERE datasetSid=:datasetSid"; //
+
     private static final String FILE_PATH_QUERY = "SELECT fivo FROM " + FileItemVO.class.getName() //
-        + " AS fivo" //
-        + " WHERE datasetSid=:datasetSid AND path=:path";
-    
-    private static final String FOLDER_PATH_QUERY = "SELECT fovo FROM " + FolderItemVO.class.getName() //
-        + " AS fovo" //
-        + " WHERE datasetSid=:datasetSid AND (path=:path OR path=:path2)";
-    
-    private static final String DATASET_ID_OF_FOLDER_QUERY = "SELECT datasetSid AS datasetId FROM "
-        + FolderItemVO.class.getName() //
-        + " WHERE pid=:itemId";
-    
-    private static final String DATASET_ID_OF_FILE_QUERY = "SELECT datasetSid AS datasetId FROM "
-        + FileItemVO.class.getName() //
-        + " WHERE pid=:itemId";
+            + " AS fivo" //
+            + " WHERE datasetSid=:datasetSid AND path=:path";
 
-    private static final String       NAME_FILE_ITEM       = FileItemVO.class.getName();
-    private static final String       NAME_FOLDER_ITEM     = FolderItemVO.class.getName();
+    private static final String FOLDER_PATH_QUERY = "SELECT fovo FROM " + FolderItemVO.class.getName() //
+            + " AS fovo" //
+            + " WHERE datasetSid=:datasetSid AND (path=:path OR path=:path2)";
+
+    private static final String DATASET_ID_OF_FOLDER_QUERY = "SELECT datasetSid AS datasetId FROM " + FolderItemVO.class.getName() //
+            + " WHERE pid=:itemId";
+
+    private static final String DATASET_ID_OF_FILE_QUERY = "SELECT datasetSid AS datasetId FROM " + FileItemVO.class.getName() //
+            + " WHERE pid=:itemId";
+
+    private static final String NAME_FILE_ITEM = FileItemVO.class.getName();
+    private static final String NAME_FOLDER_ITEM = FolderItemVO.class.getName();
 
     @SuppressWarnings("rawtypes")
-    static private Class[]            implementedFilters   = {CreatorRoleFieldFilter.class, VisibleToFieldFilter.class,
-            AccessibleToFieldFilter.class                  };
+    static private Class[] implementedFilters = {CreatorRoleFieldFilter.class, VisibleToFieldFilter.class, AccessibleToFieldFilter.class};
 
     public FedoraFileStoreAccess() throws StoreAccessException
     {
-    	if (!DbUtil.hasLocalConfig())
-    	{
-    		throw new StoreAccessException("No local configuration set on " + DbUtil.class.getName());
-    	}
+        if (!DbUtil.hasLocalConfig())
+        {
+            throw new StoreAccessException("No local configuration set on " + DbUtil.class.getName());
+        }
     }
 
     private String getInfoMsg(DmoStoreId parentSid, Integer limit, Integer offset, ItemOrder order, ItemFilters filters)
@@ -117,8 +110,7 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
         result += " ";
         result += limit >= 0 ? "offset = " + limit : "no offset";
         result += " ";
-        result += order != null ? "order = " + order.getField().propertyName + " "
-                + (order.isAscending() ? "ascending" : "descending") : "no ordering";
+        result += order != null ? "order = " + order.getField().propertyName + " " + (order.isAscending() ? "ascending" : "descending") : "no ordering";
         result += " ";
         if (filters != null)
         {
@@ -143,9 +135,8 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
         try
         {
 
-            List<FileItemVO> items = session.createQuery(
-                    "select fivo from " + NAME_FILE_ITEM + " as fivo where fivo.sid = :sid").setParameter("sid", dmoStoreId.getStoreId())
-                    .setFetchSize(1).list();
+            List<FileItemVO> items = session.createQuery("select fivo from " + NAME_FILE_ITEM + " as fivo where fivo.sid = :sid").setParameter("sid",
+                    dmoStoreId.getStoreId()).setFetchSize(1).list();
             if (items.size() > 0)
             {
                 fivo = items.get(0);
@@ -164,7 +155,7 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
         }
         return fivo;
     }
-    
+
     @SuppressWarnings("unchecked")
     public FileItemVO findFileByPath(DmoStoreId datasetSid, String relativePath) throws StoreAccessException
     {
@@ -172,18 +163,18 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
         {
             throw new IllegalArgumentException("Not a valid relative path: " + relativePath);
         }
-        
+
         FileItemVO fivo = null;
         Session session = sessionFactory.openSession();
-        
+
         Transaction tx = session.beginTransaction();
         try
         {
             List<FileItemVO> items = session.createQuery(FILE_PATH_QUERY) //
-                .setParameter("datasetSid", datasetSid.getStoreId()) //
-                .setParameter("path", relativePath) //
-                .setFetchSize(1) //
-                .list();
+                    .setParameter("datasetSid", datasetSid.getStoreId()) //
+                    .setParameter("path", relativePath) //
+                    .setFetchSize(1) //
+                    .list();
             if (items.size() > 0)
             {
                 fivo = items.get(0);
@@ -202,7 +193,7 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
         }
         return fivo;
     }
-    
+
     @SuppressWarnings("unchecked")
     public FolderItemVO findFolderByPath(DmoStoreId datasetSid, String relativePath) throws StoreAccessException
     {
@@ -210,19 +201,19 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
         {
             throw new IllegalArgumentException("Not a valid relative path: " + relativePath);
         }
-        
+
         FolderItemVO fovo = null;
-        String path = relativePath.endsWith("/") ? relativePath.substring(0, relativePath.length() -1) : relativePath + "/";
+        String path = relativePath.endsWith("/") ? relativePath.substring(0, relativePath.length() - 1) : relativePath + "/";
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
         try
         {
             List<FolderItemVO> items = session.createQuery(FOLDER_PATH_QUERY) //
-                .setParameter("datasetSid", datasetSid.getStoreId()) //
-                .setParameter("path", relativePath) //
-                .setParameter("path2", path) //
-                .setFetchSize(1) //
-                .list();
+                    .setParameter("datasetSid", datasetSid.getStoreId()) //
+                    .setParameter("path", relativePath) //
+                    .setParameter("path2", path) //
+                    .setFetchSize(1) //
+                    .list();
             if (items.size() > 0)
             {
                 fovo = items.get(0);
@@ -251,9 +242,8 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
         try
         {
 
-            List<FolderItemVO> items = session.createQuery(
-                    "select fovo from " + NAME_FOLDER_ITEM + " as fovo where fovo.sid = :sid").setParameter("sid", dmoStoreId.getStoreId())
-                    .setFetchSize(1).list();
+            List<FolderItemVO> items = session.createQuery("select fovo from " + NAME_FOLDER_ITEM + " as fovo where fovo.sid = :sid").setParameter("sid",
+                    dmoStoreId.getStoreId()).setFetchSize(1).list();
             if (items.size() > 0)
             {
                 fovo = items.get(0);
@@ -339,14 +329,13 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
         return items;
     }
 
-    public List<ItemVO> getFilesAndFolders(DmoStoreId parentSid, Integer limit, Integer offset, ItemOrder order,
-            ItemFilters filters) throws StoreAccessException
+    public List<ItemVO> getFilesAndFolders(DmoStoreId parentSid, Integer limit, Integer offset, ItemOrder order, ItemFilters filters)
+            throws StoreAccessException
     {
         if (limit > 0 || offset > 0 || order != null)
             throw new StoreAccessException("filter and order not implemented yet.");
 
-        LOGGER.debug("Getting files and folders from the Fedora database for "
-                + getInfoMsg(parentSid, limit, offset, order, filters));
+        LOGGER.debug("Getting files and folders from the Fedora database for " + getInfoMsg(parentSid, limit, offset, order, filters));
 
         try
         {
@@ -383,14 +372,12 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
     }
 
     @SuppressWarnings("unchecked")
-    public List<FileItemVO> getFiles(DmoStoreId parentSid, Integer limit, Integer offset, ItemOrder order,
-            ItemFilters filters) throws StoreAccessException
+    public List<FileItemVO> getFiles(DmoStoreId parentSid, Integer limit, Integer offset, ItemOrder order, ItemFilters filters) throws StoreAccessException
     {
         if (limit > 0 || offset > 0 || order != null)
             throw new StoreAccessException("filter and order not implemented yet.");
 
-        LOGGER.debug("Getting files from the Fedora database for "
-                + getInfoMsg(parentSid, limit, offset, order, filters));
+        LOGGER.debug("Getting files from the Fedora database for " + getInfoMsg(parentSid, limit, offset, order, filters));
 
         try
         {
@@ -426,14 +413,12 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
     }
 
     @SuppressWarnings("unchecked")
-    public List<FolderItemVO> getFolders(DmoStoreId parentSid, Integer limit, Integer offset, ItemOrder order,
-            ItemFilters filters) throws StoreAccessException
+    public List<FolderItemVO> getFolders(DmoStoreId parentSid, Integer limit, Integer offset, ItemOrder order, ItemFilters filters) throws StoreAccessException
     {
         if (limit > 0 || offset > 0 || order != null)
             throw new StoreAccessException("paging and order not implemented yet.");
 
-        LOGGER.debug("Getting folders from the Fedora database for "
-                + getInfoMsg(parentSid, limit, offset, order, filters));
+        LOGGER.debug("Getting folders from the Fedora database for " + getInfoMsg(parentSid, limit, offset, order, filters));
 
         try
         {
@@ -461,7 +446,7 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
             sessionFactory.closeSession();
         }
     }
-    
+
     @Override
     public String getDatasetId(DmoStoreId storeId) throws StoreException
     {
@@ -478,7 +463,7 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
         {
             throw new StoreException("storeId with unqueriable namespace: " + storeId);
         }
-        
+
         Session session = sessionFactory.openSession();
         try
         {
@@ -490,8 +475,7 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
         }
     }
 
-    private int getChildCount(DmoStoreId parentSid, Integer limit, Integer offset, ItemOrder order, ItemFilters filters)
-            throws StoreAccessException
+    private int getChildCount(DmoStoreId parentSid, Integer limit, Integer offset, ItemOrder order, ItemFilters filters) throws StoreAccessException
     {
         LOGGER.debug("Getting childcount for folder " + parentSid + ".");
 
@@ -499,14 +483,13 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
                 + getChildCount(parentSid, FolderItemVO.class, limit, offset, order, filters);
     }
 
-    private int getChildCount(DmoStoreId parentSid, Class<? extends ItemVO> clazz, Integer limit, Integer offset,
-            ItemOrder order, ItemFilters filters) throws StoreAccessException
+    private int getChildCount(DmoStoreId parentSid, Class<? extends ItemVO> clazz, Integer limit, Integer offset, ItemOrder order, ItemFilters filters)
+            throws StoreAccessException
     {
         Session session = sessionFactory.openSession();
         try
         {
-            Criteria select = session.createCriteria(clazz).setProjection(
-                    Projections.projectionList().add(Projections.count("sid")));
+            Criteria select = session.createCriteria(clazz).setProjection(Projections.projectionList().add(Projections.count("sid")));
             addFiltersOrderingPaging(select, clazz, parentSid.getStoreId(), -1, -1, null, filters);
             Object result = select.uniqueResult();
             if (result instanceof Integer)
@@ -587,7 +570,7 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
     }
 
     @SuppressWarnings("unchecked")
-    public Map<String,String> getAllFiles(final DmoStoreId datasetStoreId) throws StoreAccessException
+    public Map<String, String> getAllFiles(final DmoStoreId datasetStoreId) throws StoreAccessException
     {
         LOGGER.debug("Getting files for dataset " + datasetStoreId + ".");
 
@@ -598,8 +581,9 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
             query.setParameter("datasetSid", datasetStoreId.getStoreId());
             List<Object[]> files = query.list();
 
-            Map<String,String> result = new HashMap<String,String>();
-            for (Object[] file: files){
+            Map<String, String> result = new HashMap<String, String>();
+            for (Object[] file : files)
+            {
                 result.put(file[1].toString(), file[0].toString());
             }
             return result;
@@ -613,7 +597,7 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
             sessionFactory.closeSession();
         }
     }
-    
+
     public List<ItemVO> getItemAndAllChildren(DmoStoreId dmoStoreId) throws StoreAccessException
     {
         List<ItemVO> itemVOs = new ArrayList<ItemVO>();
@@ -660,19 +644,15 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
     {
         List<FileItemVO> files = collectDatasetFiles(session, datasetId);
         itemVOs.addAll(files);
-        
-        List<FolderItemVO> folders = session.createQuery(SELECT_DATASET_FOLDERITEMS)
-            .setParameter("datasetSid", datasetId.getStoreId())
-            .list();
+
+        List<FolderItemVO> folders = session.createQuery(SELECT_DATASET_FOLDERITEMS).setParameter("datasetSid", datasetId.getStoreId()).list();
         itemVOs.addAll(folders);
     }
 
     @SuppressWarnings("unchecked")
     private List<FileItemVO> collectDatasetFiles(Session session, DmoStoreId datasetId)
     {
-        return (List<FileItemVO>) session.createQuery(SELECT_DATASET_FILEITEMS)
-            .setParameter("datasetSid", datasetId.getStoreId())
-            .list();
+        return (List<FileItemVO>) session.createQuery(SELECT_DATASET_FILEITEMS).setParameter("datasetSid", datasetId.getStoreId()).list();
     }
 
     public boolean hasChildItems(DmoStoreId parentSid) throws StoreAccessException
@@ -709,8 +689,8 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
         }
     }
 
-    private Criteria createGetCriteria(Session session, Class<? extends ItemVO> clazz, String parentSid, Integer limit,
-            Integer offset, ItemOrder order, ItemFilters filters) throws StoreAccessException
+    private Criteria createGetCriteria(Session session, Class<? extends ItemVO> clazz, String parentSid, Integer limit, Integer offset, ItemOrder order,
+            ItemFilters filters) throws StoreAccessException
     {
         Criteria select = session.createCriteria(clazz);
         select.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
@@ -729,8 +709,8 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
         return false;
     }
 
-    private void addFiltersOrderingPaging(Criteria select, Class<? extends ItemVO> clazz, String parentSid,
-            Integer limit, Integer offset, ItemOrder order, ItemFilters filters) throws StoreAccessException
+    private void addFiltersOrderingPaging(Criteria select, Class<? extends ItemVO> clazz, String parentSid, Integer limit, Integer offset, ItemOrder order,
+            ItemFilters filters) throws StoreAccessException
     {
         select.add(Restrictions.eq("parentSid", parentSid));
 
@@ -759,8 +739,7 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
         }
     }
 
-    private void addFieldFilter(Criteria select, Class<? extends ItemVO> clazz, ItemFieldFilter<?> filter)
-            throws StoreAccessException
+    private void addFieldFilter(Criteria select, Class<? extends ItemVO> clazz, ItemFieldFilter<?> filter) throws StoreAccessException
     {
         if (filter == null)
             return;
@@ -782,5 +761,5 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
             result.add(Restrictions.eq(propertyName, values.next()));
         return result;
     }
-    
+
 }

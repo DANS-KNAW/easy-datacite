@@ -34,30 +34,25 @@ import org.junit.Test;
 
 public class FedoraFileStoreManagerOnlineTest
 {
-    
+
     private static FedoraFileStoreManager fsManager;
     private static FedoraFileStoreAccess fsAccess;
     private static int fileItemIdCount = 1;
     private static int folderItemIdCount = 1;
-    
-    
+
     @BeforeClass
     public static void beforeClass() throws StoreAccessException
     {
         // using properties from src/test/resources/test.properties
-        DbLocalConfig localConfig = new DbLocalConfig(
-                Tester.getString("filestore.test.db.username"), 
-                Tester.getString("filestore.test.db.password"), 
-                Tester.getString("filestore.test.db.connectionUrl"), 
-                Tester.getString("filestore.test.db.hbnDriverClass"), 
-                Tester.getString("filestore.test.db.hbnDialect"));
+        DbLocalConfig localConfig = new DbLocalConfig(Tester.getString("filestore.test.db.username"), Tester.getString("filestore.test.db.password"), Tester
+                .getString("filestore.test.db.connectionUrl"), Tester.getString("filestore.test.db.hbnDriverClass"), Tester
+                .getString("filestore.test.db.hbnDialect"));
         DbUtil.setLocalConfig(localConfig);
-        
+
         fsManager = new FedoraFileStoreManager();
         fsAccess = new FedoraFileStoreAccess();
     }
-    
-    
+
     @Test
     @Ignore("Cannot be run in batch test, because this test uses the test db.")
     public void ingestUpdatePurgeFileItem() throws Exception
@@ -65,16 +60,16 @@ public class FedoraFileStoreManagerOnlineTest
         FileItem fileItem = createFileItem();
         fsManager.onIngestFileItem(fileItem);
         verifyPersistence(fileItem);
-        
+
         fileItem.setLabel("new_file_name.docx");
         fileItem.getFileItemMetadata().setPath("new/filepath");
         fsManager.onUpdateFileItem(fileItem);
         verifyPersistence(fileItem);
-        
+
         fsManager.onPurgeFileItem(fileItem);
         assertNull(fsAccess.findFileById(fileItem.getDmoStoreId()));
     }
-    
+
     @Test
     @Ignore("Cannot be run in batch test, because this test uses the test db.")
     public void ingestUpdatPurgeFolderItem() throws Exception
@@ -82,13 +77,13 @@ public class FedoraFileStoreManagerOnlineTest
         FolderItem folderItem = createFolderItem();
         fsManager.onIngestFolderItem(folderItem);
         verifyPersistence(folderItem);
-        
+
         FileItem fileItem = createFileItem();
         fileItem.setVisibleTo(VisibleTo.RESTRICTED_REQUEST);
         folderItem.addFileOrFolder(fileItem);
         fsManager.onUpdateFolderItem(folderItem);
         verifyPersistence(folderItem);
-        
+
         fsManager.onPurgeFolderItem(folderItem);
         assertNull(fsAccess.findFolderById(folderItem.getDmoStoreId()));
     }
@@ -100,28 +95,28 @@ public class FedoraFileStoreManagerOnlineTest
         assertTrue(new FileItemVO(fileItem).equals(fivo));
         assertEquals(new FileItemVO(fileItem), fivo);
     }
-    
+
     private void verifyPersistence(FolderItem folderItem) throws StoreAccessException
     {
         FolderItemVO fovo = fsAccess.findFolderById(folderItem.getDmoStoreId());
         assertNotNull(fovo);
-        
+
         FolderItemVO original = new FolderItemVO(folderItem);
-        
+
         assertEquals(original.getSid(), fovo.getSid());
         assertEquals(original.getParentSid(), fovo.getParentSid());
         assertEquals(original.getDatasetSid(), fovo.getDatasetSid());
         assertEquals(original.getName(), fovo.getName());
-        assertEquals(original.getPath(), fovo.getPath()); 
-        
+        assertEquals(original.getPath(), fovo.getPath());
+
         Set<FolderItemAccessibleTo> origAccess = original.getAccessibleToList();
         Set<FolderItemAccessibleTo> fovoAccess = fovo.getAccessibleToList();
         assertEquals(origAccess.size(), fovoAccess.size());
-        
+
         Set<FolderItemVisibleTo> origVis = original.getVisibleToList();
         Set<FolderItemVisibleTo> fovoVis = fovo.getVisibleToList();
         assertEquals(origVis.size(), fovoVis.size());
-        
+
         Set<FolderItemCreatorRole> origCreatorRoles = original.getCreatorRoles();
         Set<FolderItemCreatorRole> fovoCreatorRoles = fovo.getCreatorRoles();
         assertEquals(origCreatorRoles.size(), fovoCreatorRoles.size());
@@ -135,14 +130,14 @@ public class FedoraFileStoreManagerOnlineTest
         fileItem.setDatasetId(new DmoStoreId("easy-dataset:2000"));
         fileItem.setLabel("file_nr" + id + ".txt");
         fileItem.setFile(new File("src/test/resources/test.properties"));
-        
+
         fileItem.getFileItemMetadata().setPath("foo/bar/bla");
         fileItem.setCreatorRole(CreatorRole.DEPOSITOR);
         fileItem.setVisibleTo(VisibleTo.KNOWN);
         fileItem.setAccessibleTo(AccessibleTo.RESTRICTED_GROUP);
         return fileItem;
     }
-    
+
     private FolderItem createFolderItem() throws IOException, DomainException
     {
         // DatasetItemContainerMetadata extends DatasetItemMetadata. yaba!
@@ -154,14 +149,13 @@ public class FedoraFileStoreManagerOnlineTest
         // a path set as "path" will return from db as "path/"
         folderItem.getDatasetItemContainerMetadata().setPath("bla/bar/foo/");
         folderItem.addFileOrFolder(createFileItem());
-        
+
         FileItem fileItem2 = createFileItem();
         fileItem2.setVisibleTo(VisibleTo.ANONYMOUS);
         folderItem.addFileOrFolder(fileItem2);
-        
+
         folderItem.addFileOrFolder(createFileItem());
         return folderItem;
     }
-    
 
 }

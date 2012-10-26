@@ -13,30 +13,28 @@ import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-
 public class DisciplineContainerOnlineTest extends AbstractOnlineTest
 {
-    
+
     @BeforeClass
-    public static void beforeClass() throws RepositoryException,
-            MalformedURLException
+    public static void beforeClass() throws RepositoryException, MalformedURLException
     {
         //ClassPathHacker.addFile("../easy-webui/src/main/resources");
         setUpData();
         //store = Data.getEasyStore();
-        
+
     }
-    
+
     @Test
     public void rootTest() throws Exception
     {
         DmoStoreId discRootId = new DmoStoreId(DisciplineCollectionImpl.EASY_DISCIPLINE_ROOT);
         EasyStore store = Data.getEasyStore();
-        
+
         DisciplineContainer root = (DisciplineContainer) store.retrieve(discRootId);
         StringBuilder sb = new StringBuilder();
         print(root, 0, sb);
-        
+
         System.out.println(sb.toString());
     }
 
@@ -47,9 +45,7 @@ public class DisciplineContainerOnlineTest extends AbstractOnlineTest
         {
             sb.append(" ");
         }
-        sb.append(dc.getStoreId()
-                + " " + dc.getDisciplineMetadata().getOICode()
-                + " " + dc.getName());
+        sb.append(dc.getStoreId() + " " + dc.getDisciplineMetadata().getOICode() + " " + dc.getName());
         for (DisciplineContainer dcKid : dc.getSubDisciplines())
         {
             print(dcKid, indent + 4, sb);

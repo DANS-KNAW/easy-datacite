@@ -40,34 +40,33 @@ import org.trippi.TupleIterator;
 public class EasyFedoraStore extends FedoraDmoStore implements EasyStore
 {
 
-    private static final long      serialVersionUID = 1288905408847378535L;
-    
+    private static final long serialVersionUID = 1288905408847378535L;
 
     public EasyFedoraStore(String name, final Fedora fedora)
     {
         super(name, fedora);
-        
+
         AbstractDmoFactory.register(new DatasetFactory());
         addConverter(new DatasetConverter());
-        
+
         AbstractDmoFactory.register(new FileItemFactory());
         addConverter(new FileItemConverter());
-        
+
         AbstractDmoFactory.register(new FolderItemFactory());
         addConverter(new FolderItemConverter());
-        
+
         AbstractDmoFactory.register(new DisciplineContainerFactory());
         addConverter(new DisciplineContainerConverter());
-        
+
         AbstractDmoFactory.register(new DownloadHistoryFactory());
-        addConverter(new DownloadHistoryConverter());        
+        addConverter(new DownloadHistoryConverter());
     }
-    
+
     public URL getFileURL(DmoStoreId dmoStoreId)
     {
         return getStreamURL(dmoStoreId, EasyFile.UNIT_ID);
     }
-    
+
     @Override
     public URL getStreamURL(DmoStoreId dmoStoreId, String streamId)
     {
@@ -169,7 +168,7 @@ public class EasyFedoraStore extends FedoraDmoStore implements EasyStore
             throw new ObjectDeserializationException(e);
         }
     }
-    
+
     protected static String createDownloadHistoryQuery(String dmoObjectRef, String period)
     {
         return new StringBuilder("select ?s from <#ri> where {?s <")//

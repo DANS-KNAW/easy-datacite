@@ -19,16 +19,16 @@ public class DisciplineContainerConverter extends AbstractDobConverter<Disciplin
 {
     private static final Logger logger = LoggerFactory.getLogger(DisciplineContainerConverter.class);
 
-	public DisciplineContainerConverter()
-	{
-		super(DisciplineContainer.NAMESPACE);
-	}
+    public DisciplineContainerConverter()
+    {
+        super(DisciplineContainer.NAMESPACE);
+    }
 
     @Override
     public void deserialize(DigitalObject digitalObject, DisciplineContainer dmo) throws ObjectDeserializationException
     {
-    	super.deserialize(digitalObject, dmo);
-    	DisciplineContainerImpl discipline = (DisciplineContainerImpl) dmo; 
+        super.deserialize(digitalObject, dmo);
+        DisciplineContainerImpl discipline = (DisciplineContainerImpl) dmo;
 
         try
         {
@@ -36,8 +36,7 @@ public class DisciplineContainerConverter extends AbstractDobConverter<Disciplin
             if (dmdVersion != null)
             {
                 Element element = dmdVersion.getXmlContentElement();
-                DisciplineMetadataImpl dmd = (DisciplineMetadataImpl) JiBXObjectFactory.unmarshal(DisciplineMetadataImpl.class,
-                        element);
+                DisciplineMetadataImpl dmd = (DisciplineMetadataImpl) JiBXObjectFactory.unmarshal(DisciplineMetadataImpl.class, element);
                 dmd.setTimestamp(dmdVersion.getTimestamp());
                 dmd.setDirty(false);
                 discipline.setDisciplineMetadata(dmd);
@@ -52,5 +51,5 @@ public class DisciplineContainerConverter extends AbstractDobConverter<Disciplin
             throw new ObjectDeserializationException(e);
         }
     }
-	
+
 }

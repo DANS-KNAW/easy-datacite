@@ -57,7 +57,7 @@ public class DatasetConverter extends AbstractDobConverter<DatasetImpl>
 
         return super.serialize(dataset);
     }
-    
+
     @Override
     public void prepareForUpdate(DatasetImpl dataset) throws ObjectSerializationException
     {
@@ -104,24 +104,21 @@ public class DatasetConverter extends AbstractDobConverter<DatasetImpl>
             if (amdVersion != null)
             {
                 Element element = amdVersion.getXmlContentElement();
-                AdministrativeMetadata amd = (AdministrativeMetadata) JiBXObjectFactory.unmarshal(
-                        AdministrativeMetadataImpl.class, element);
+                AdministrativeMetadata amd = (AdministrativeMetadata) JiBXObjectFactory.unmarshal(AdministrativeMetadataImpl.class, element);
                 amd.setTimestamp(amdVersion.getTimestamp());
                 amd.setDirty(false);
                 dataset.setAdministrativeMetadata(amd);
             }
             else
             {
-                logger.warn("No administrative metadata found on retrieved digital object. sid="
-                        + digitalObject.getSid());
+                logger.warn("No administrative metadata found on retrieved digital object. sid=" + digitalObject.getSid());
             }
 
             DatastreamVersion icmdVersion = digitalObject.getLatestVersion(DatasetItemContainerMetadata.UNIT_ID);
             if (icmdVersion != null)
             {
                 Element element = icmdVersion.getXmlContentElement();
-                ItemContainerMetadataImpl icmd = (ItemContainerMetadataImpl) JiBXObjectFactory.unmarshal(
-                        ItemContainerMetadataImpl.class, element);
+                ItemContainerMetadataImpl icmd = (ItemContainerMetadataImpl) JiBXObjectFactory.unmarshal(ItemContainerMetadataImpl.class, element);
                 icmd.setDirty(false);
                 icmd.setTimestamp(icmdVersion.getTimestamp());
                 dataset.setItemContainerMetadata(icmd);
@@ -131,8 +128,7 @@ public class DatasetConverter extends AbstractDobConverter<DatasetImpl>
             if (pslVersion != null)
             {
                 Element element = pslVersion.getXmlContentElement();
-                PermissionSequenceList psl = (PermissionSequenceListImpl) JiBXObjectFactory.unmarshal(
-                        PermissionSequenceListImpl.class, element);
+                PermissionSequenceList psl = (PermissionSequenceListImpl) JiBXObjectFactory.unmarshal(PermissionSequenceListImpl.class, element);
                 psl.setDirty(false);
                 psl.setTimestamp(pslVersion.getTimestamp());
                 dataset.setPermissionSequenceList(psl);

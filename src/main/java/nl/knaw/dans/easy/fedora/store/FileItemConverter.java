@@ -18,18 +18,18 @@ import org.slf4j.LoggerFactory;
 
 public class FileItemConverter extends AbstractDobConverter<FileItemImpl>
 {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(FileItemConverter.class);
 
     public FileItemConverter()
     {
         super(FileItem.NAMESPACE);
     }
-    
+
     @Override
     public void deserialize(DigitalObject digitalObject, FileItemImpl fileItem) throws ObjectDeserializationException
     {
-    	super.deserialize(digitalObject, fileItem);
+        super.deserialize(digitalObject, fileItem);
 
         try
         {
@@ -37,8 +37,7 @@ public class FileItemConverter extends AbstractDobConverter<FileItemImpl>
             if (fmdVersion != null)
             {
                 Element element = fmdVersion.getXmlContentElement();
-                FileItemMetadataImpl fmd = (FileItemMetadataImpl) JiBXObjectFactory.unmarshal(FileItemMetadataImpl.class,
-                        element);
+                FileItemMetadataImpl fmd = (FileItemMetadataImpl) JiBXObjectFactory.unmarshal(FileItemMetadataImpl.class, element);
                 fmd.setTimestamp(fmdVersion.getTimestamp());
                 fmd.setDirty(false);
                 fileItem.setFileItemMetadata(fmd);
@@ -47,7 +46,7 @@ public class FileItemConverter extends AbstractDobConverter<FileItemImpl>
             {
                 logger.warn("No fileItemMetadata found on retrieved digital object. sid=" + digitalObject.getSid());
             }
-            
+
             DatastreamVersion dmdVersion = digitalObject.getLatestVersion(DescriptiveMetadata.UNIT_ID);
             if (dmdVersion != null)
             {

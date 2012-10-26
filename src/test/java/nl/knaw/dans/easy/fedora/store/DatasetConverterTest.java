@@ -19,25 +19,24 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 public class DatasetConverterTest
 {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(DatasetConverterTest.class);
 
     private DatasetConverter datasetConverter = new DatasetConverter();
-    
+
     private boolean verbose = Tester.isVerbose();
-    
+
     @Test
     public void testConversion() throws XMLSerializationException, RepositoryException, DomainException, ObjectNotFoundException
     {
-    	DatasetImpl dataset = new DatasetImpl("easy-dataset:123");
+        DatasetImpl dataset = new DatasetImpl("easy-dataset:123");
         dataset.getAdministrativeMetadata().setDepositorId("kees4");
         dataset.getEasyMetadata().getEmdTitle().getDcTitle().add(new BasicString("Test Dataset"));
-        
+
         dataset.addFileOrFolder(new FileItemImpl("dummy-file:123"));
-        
+
         DigitalObject dob = datasetConverter.serialize(dataset);
         if (verbose)
             logger.debug("\n" + dob.asXMLString(4) + "\n");
@@ -46,19 +45,19 @@ public class DatasetConverterTest
         datasetConverter.deserialize(dob, dataset2);
         logger.debug(dataset2.getClass().getName());
         assertEquals(dataset.getStoreId(), dataset2.getStoreId());
-        
+
         AdministrativeMetadata amdConverted = dataset2.getAdministrativeMetadata();
         assertFalse(amdConverted.isDirty());
         assertEquals(dataset.getAdministrativeMetadata().asXMLString(), amdConverted.asXMLString());
-        
+
         EasyMetadata emdConverted = dataset2.getEasyMetadata();
         assertFalse(emdConverted.isDirty());
         assertEquals(dataset.getEasyMetadata().asXMLString(), emdConverted.asXMLString());
-        
+
         DatasetItemContainerMetadata icmd = dataset2.getDatasetItemContainerMetadata();
         assertFalse(icmd.isDirty());
         assertEquals(dataset.getDatasetItemContainerMetadata().asXMLString(), icmd.asXMLString());
-        
+
         if (verbose)
             logger.debug("\n" + datasetConverter.serialize(dataset2).asXMLString(4) + "\n");
     }

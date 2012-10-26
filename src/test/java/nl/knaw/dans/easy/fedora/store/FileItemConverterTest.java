@@ -19,33 +19,32 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 public class FileItemConverterTest
 {
     private static final Logger logger = LoggerFactory.getLogger(FileItemConverterTest.class);
-    
-    private boolean             verbose = Tester.isVerbose();
+
+    private boolean verbose = Tester.isVerbose();
     private FileItemConverter converter = new FileItemConverter();
-    
+
     @Test
-    public void testConversion() throws IOException, ResourceNotFoundException, ObjectSerializationException, XMLSerializationException, ObjectDeserializationException
+    public void testConversion() throws IOException, ResourceNotFoundException, ObjectSerializationException, XMLSerializationException,
+            ObjectDeserializationException
     {
         FileItemImpl fi = new FileItemImpl("easy-file:1");
         fi.setFile(Tester.getFile("test-files/FileItemConverter/kubler.doc"));
         fi.setAccessibleTo(AccessibleTo.RESTRICTED_GROUP);
         fi.getBinaryUnits().get(0).setLocation("foo:location");
-        
+
         DigitalObject dob = converter.serialize(fi);
         if (verbose)
             logger.debug("\n" + dob.asXMLString(4) + "\n");
-        
+
         FileItemImpl fi2 = new FileItemImpl("easy-file:1");
         converter.deserialize(dob, fi2);
         FileItemMetadata convertedFim = fi2.getFileItemMetadata();
-        
+
         assertFalse(convertedFim.isDirty());
         assertEquals(fi.getFileItemMetadata().asXMLString(), convertedFim.asXMLString());
     }
-    
 
 }

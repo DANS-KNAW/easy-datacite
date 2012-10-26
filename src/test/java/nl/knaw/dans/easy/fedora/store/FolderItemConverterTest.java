@@ -12,39 +12,36 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 public class FolderItemConverterTest
 {
-    
-private static final Logger logger = LoggerFactory.getLogger(FolderItemConverterTest.class);
-    
-    private boolean             verbose = Tester.isVerbose();
+
+    private static final Logger logger = LoggerFactory.getLogger(FolderItemConverterTest.class);
+
+    private boolean verbose = Tester.isVerbose();
     private FolderItemConverter converter = new FolderItemConverter();
-    
+
     @Test
     public void testConverter() throws XMLSerializationException, Exception
     {
-    	
+
         FolderItemImpl fo1 = new FolderItemImpl("easy-folder:1");
         FileItemImpl fi1 = new FileItemImpl("easy-file:1");
         FolderItemImpl fo2 = new FolderItemImpl("easy-folder:2");
         FileItemImpl fi2 = new FileItemImpl("easy-file:2");
         fi1.setCreatorRole(CreatorRole.ARCHIVIST);
         fi2.setCreatorRole(CreatorRole.DEPOSITOR);
-        
-        
+
         fo1.addFileOrFolder(fi1);
         fo2.addFileOrFolder(fi2);
         fo1.addFileOrFolder(fo2);
-        
+
         DigitalObject dob = converter.serialize(fo1);
         if (verbose)
             logger.debug("\n" + dob.asXMLString(4) + "\n");
-        
+
         FolderItemImpl reconverted = new FolderItemImpl("easy-folder:1");
         converter.deserialize(dob, reconverted);
         assertEquals(fo1.getDatasetItemContainerMetadata().asXMLString(), reconverted.getDatasetItemContainerMetadata().asXMLString());
     }
-
 
 }

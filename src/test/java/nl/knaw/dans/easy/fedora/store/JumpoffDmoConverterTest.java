@@ -16,15 +16,15 @@ import org.slf4j.LoggerFactory;
 
 public class JumpoffDmoConverterTest
 {
-    
-    private boolean             verbose = Tester.isVerbose();
+
+    private boolean verbose = Tester.isVerbose();
     private JumpoffDmoConverter converter = new JumpoffDmoConverter(null);
-    private String html =  "<div align=\"center\" id=\"thePlayer\"></div>\n"
-        + "<!--\\\\\n"
-        + "   This is comment\n"
-        + "\\\\-->\n"
-        + "<script src=\"/mediaplayer/swfobject.js\" type=\"text/javascript\"></script><script type=\"text/javascript\">var swf = new SWFObject('/mediaplayer/player.swf','player','512','288','9'); swf.addParam('allowfullscreen','true'); swf.addParam('allowscriptaccess','always'); swf.addParam('wmode','opaque'); swf.addVariable('config','/mediaplayer/player-config.xml'); swf.addVariable('file','GV_GAR_bombardement_01.mp4'); swf.write('thePlayer');</script>";
-   
+    private String html = "<div align=\"center\" id=\"thePlayer\"></div>\n"
+            + "<!--\\\\\n"
+            + "   This is comment\n"
+            + "\\\\-->\n"
+            + "<script src=\"/mediaplayer/swfobject.js\" type=\"text/javascript\"></script><script type=\"text/javascript\">var swf = new SWFObject('/mediaplayer/player.swf','player','512','288','9'); swf.addParam('allowfullscreen','true'); swf.addParam('allowscriptaccess','always'); swf.addParam('wmode','opaque'); swf.addVariable('config','/mediaplayer/player-config.xml'); swf.addVariable('file','GV_GAR_bombardement_01.mp4'); swf.write('thePlayer');</script>";
+
     private static final Logger logger = LoggerFactory.getLogger(JumpoffDmoConverterTest.class);
 
     @BeforeClass
@@ -32,7 +32,7 @@ public class JumpoffDmoConverterTest
     {
         new BeanFactory(new JiBXBeanFactoryDelegator());
     }
-    
+
     @Test
     public void convertWithFileContent() throws Exception
     {
@@ -40,20 +40,20 @@ public class JumpoffDmoConverterTest
         MarkupUnit markup = joDmo.getHtmlMarkup();
         markup.setHtml(html);
         markup.setLocation("foo:bar");
-        
+
         DigitalObject dob = converter.serialize(joDmo);
-        
+
         if (verbose)
             logger.debug("\n" + dob.asXMLString(4) + "\n");
-            
+
         String xml = dob.asXMLString();
         assertTrue(xml.contains("foxml:datastreamVersion ID=\"HTML_MU.0\""));
-        
+
         JumpoffDmo rJoDmo = new JumpoffDmo();
         converter.deserialize(dob, rJoDmo);
         //rJoDmo.g
     }
-    
+
     @Test
     public void convertWithBinaryContent() throws Exception
     {
@@ -61,12 +61,12 @@ public class JumpoffDmoConverterTest
         MarkupUnit markup = joDmo.getHtmlMarkup();
         markup.setHtml(html);
         markup.setLocation("foo:bar");
-        
+
         DigitalObject dob = converter.serialize(joDmo);
-        
+
         if (verbose)
             logger.debug("\n" + dob.asXMLString(4) + "\n");
-        
+
         JumpoffDmo rJoDmo = new JumpoffDmo();
         converter.deserialize(dob, rJoDmo);
         MarkupUnit rMarkup = rJoDmo.getHtmlMarkup();

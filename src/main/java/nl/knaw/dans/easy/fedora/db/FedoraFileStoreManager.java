@@ -26,10 +26,10 @@ public class FedoraFileStoreManager
     }
 
     public void onIngestFileItem(FileItem fileItem) throws StoreAccessException
-	{
-		Session session = sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
-		try
+    {
+        Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+        try
         {
             tx.begin();
             FileItemVO fivo = new FileItemVO(fileItem);
@@ -46,7 +46,7 @@ public class FedoraFileStoreManager
                 tx.rollback();
             sessionFactory.closeSession();
         }
-	}
+    }
 
     public FileItemVO onUpdateFileItem(FileItem fileItem) throws StoreAccessException
     {
