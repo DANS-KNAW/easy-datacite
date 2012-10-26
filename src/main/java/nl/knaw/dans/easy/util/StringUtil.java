@@ -34,14 +34,8 @@ public final class StringUtil
         {
             if (filter == null || ste.getClassName().startsWith(filter))
             {
-                sb.append("\n\t")
-                .append("at ")
-                .append(ste.getClassName())
-                .append(" (")
-                .append(ste.getFileName())
-                .append(":")
-                .append(ste.getLineNumber())
-                .append(")");
+                sb.append("\n\t").append("at ").append(ste.getClassName()).append(" (").append(ste.getFileName()).append(":").append(ste.getLineNumber())
+                        .append(")");
             }
 
         }

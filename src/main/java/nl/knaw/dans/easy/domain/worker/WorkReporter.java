@@ -11,19 +11,19 @@ import nl.knaw.dans.easy.domain.model.FolderItem;
 
 public class WorkReporter extends DefaultWorkListener
 {
-    
+
     private List<String> ingestedObjectIds = new ArrayList<String>();
     private List<String> updatedObjectIds = new ArrayList<String>();
     private List<String> purgedObjectIds = new ArrayList<String>();
     private List<String> retrievedObjectIds = new ArrayList<String>();
     private List<String> updatedMetadataUnitIds = new ArrayList<String>();
-    
+
     private int ingestedDatasetCount;
     private int updatedDatasetCount;
-    
+
     private int ingestedFolderItemCount;
     private int updatedFolderItemCount;
-    
+
     private int ingestedFileItemCount;
     private int updatedFileItemCount;
 
@@ -44,17 +44,17 @@ public class WorkReporter extends DefaultWorkListener
         ingestedFolderItemCount++;
         ingestedObjectIds.add(folderItem.getStoreId());
     }
-    
+
     @Override
     public void afterIngest(DataModelObject dmo)
     {
-    	super.afterIngest(dmo);
-    	if (dmo instanceof Dataset)
-    		afterIngestDataset((Dataset) dmo);
-    	else if (dmo instanceof FileItem)
-    		afterIngestFile((FileItem) dmo);
-    	else if (dmo instanceof FolderItem)
-    		afterIngestFolder((FolderItem) dmo);
+        super.afterIngest(dmo);
+        if (dmo instanceof Dataset)
+            afterIngestDataset((Dataset) dmo);
+        else if (dmo instanceof FileItem)
+            afterIngestFile((FileItem) dmo);
+        else if (dmo instanceof FolderItem)
+            afterIngestFolder((FolderItem) dmo);
     }
 
     public void afterUpdateDataset(Dataset dataset)
@@ -74,32 +74,32 @@ public class WorkReporter extends DefaultWorkListener
         updatedFolderItemCount++;
         updatedObjectIds.add(folderItem.getStoreId());
     }
-    
-	@Override
-	public void afterUpdate(DataModelObject dmo)
-	{
-		super.afterUpdate(dmo);
-    	if (dmo instanceof Dataset)
-    		afterUpdateDataset((Dataset) dmo);
-    	else if (dmo instanceof FileItem)
-    		afterUpdateFile((FileItem) dmo);
-    	else if (dmo instanceof FolderItem)
-    		afterUpdateFolder((FolderItem) dmo);
-	}
-    
-	@Override
-	public void afterPurge(DataModelObject dmo)
-	{
-		super.afterPurge(dmo);
+
+    @Override
+    public void afterUpdate(DataModelObject dmo)
+    {
+        super.afterUpdate(dmo);
+        if (dmo instanceof Dataset)
+            afterUpdateDataset((Dataset) dmo);
+        else if (dmo instanceof FileItem)
+            afterUpdateFile((FileItem) dmo);
+        else if (dmo instanceof FolderItem)
+            afterUpdateFolder((FolderItem) dmo);
+    }
+
+    @Override
+    public void afterPurge(DataModelObject dmo)
+    {
+        super.afterPurge(dmo);
         purgedObjectIds.add(dmo.getStoreId());
-	}
-	    
+    }
+
     @Override
     public void afterUpdateMetadataUnit(DataModelObject dmo, MetadataUnit mdUnit)
     {
         updatedMetadataUnitIds.add(dmo.getStoreId() + "/" + mdUnit.getUnitId());
     }
-    
+
     @Override
     public void afterRetrieveObject(DataModelObject dmo)
     {
@@ -115,7 +115,7 @@ public class WorkReporter extends DefaultWorkListener
     {
         return updatedObjectIds;
     }
-    
+
     public List<String> getUpdatedMetadataUnitIds()
     {
         return updatedMetadataUnitIds;
@@ -160,70 +160,48 @@ public class WorkReporter extends DefaultWorkListener
     {
         return updatedFileItemCount;
     }
-    
+
     public int getPurgedObjectCount()
     {
         return purgedObjectIds.size();
     }
-    
+
     public int getUpdatedMetadataUnitCount()
     {
         return updatedMetadataUnitIds.size();
     }
-    
+
     public int getRetrievedObjectCount()
     {
         return retrievedObjectIds.size();
     }
-    
+
     public int getIngestedObjectCount()
     {
         return ingestedObjectIds.size();
     }
-    
+
     public int getUpdatedObjectCount()
     {
         return updatedObjectIds.size();
     }
-    
+
     public int getTotalActionCount()
     {
-        return getIngestedObjectCount() 
-            + getRetrievedObjectCount() 
-            + getUpdatedObjectCount() 
-            + getPurgedObjectCount() 
-            + getUpdatedMetadataUnitCount();
+        return getIngestedObjectCount() + getRetrievedObjectCount() + getUpdatedObjectCount() + getPurgedObjectCount() + getUpdatedMetadataUnitCount();
     }
-    
+
     @Override
     public String toString()
     {
         StringBuilder sb = new StringBuilder();
-        sb.append(super.toString())
-        .append("\n")
-        .append("ingestedDatasetCount=")
-        .append(ingestedDatasetCount)
-        .append(" ingestedFolderItemCount=")
-        .append(ingestedFolderItemCount)
-        .append(" ingestedFileItemCount=")
-        .append(ingestedFileItemCount)
-        .append("\n")
-        .append("updatedDatasetCount=")
-        .append(updatedDatasetCount)
-        .append(" updatedFolderItemCount=")
-        .append(updatedFolderItemCount)
-        .append(" updatedFileItemCount=")
-        .append(updatedFileItemCount)
-        .append(" updatedMetadataUnitCount=")
-        .append(getUpdatedMetadataUnitCount())
-        .append("\n")
-        .append("retrievedObjectCount=")
-        .append(getRetrievedObjectCount())
-        .append(" purgedObjectCount=")
-        .append(getPurgedObjectCount())
-        .append("\nTotalActionCount=")
-        .append(getTotalActionCount());
+        sb.append(super.toString()).append("\n").append("ingestedDatasetCount=").append(ingestedDatasetCount).append(" ingestedFolderItemCount=").append(
+                ingestedFolderItemCount).append(" ingestedFileItemCount=").append(ingestedFileItemCount).append("\n").append("updatedDatasetCount=").append(
+                updatedDatasetCount).append(" updatedFolderItemCount=").append(updatedFolderItemCount).append(" updatedFileItemCount=").append(
+                updatedFileItemCount).append(" updatedMetadataUnitCount=").append(getUpdatedMetadataUnitCount()).append("\n").append("retrievedObjectCount=")
+                .append(getRetrievedObjectCount()).append(" purgedObjectCount=").append(getPurgedObjectCount()).append("\nTotalActionCount=").append(
+                        getTotalActionCount());
         return sb.toString();
     }
-    
+
 }

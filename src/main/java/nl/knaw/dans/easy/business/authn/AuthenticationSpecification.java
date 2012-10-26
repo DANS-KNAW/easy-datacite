@@ -33,8 +33,7 @@ public class AuthenticationSpecification
      */
     public static boolean isSatisfiedBy(UsernamePasswordAuthentication authentication)
     {
-        boolean satisfied = hasSufficientData(authentication) && isAuthenticated(authentication)
-                && userIsInQualifiedState(authentication);
+        boolean satisfied = hasSufficientData(authentication) && isAuthenticated(authentication) && userIsInQualifiedState(authentication);
         return satisfied;
     }
 
@@ -102,7 +101,6 @@ public class AuthenticationSpecification
         return isInQualifiedState;
     }
 
-    
     private static boolean checkUserStateForUsernamePassword(final EasyUser user)
     {
         return EasyUser.State.ACTIVE.equals(user.getState()) || EasyUser.State.CONFIRMED_REGISTRATION.equals(user.getState());

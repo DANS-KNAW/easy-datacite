@@ -19,30 +19,30 @@ public class PermissionSequenceImplTest
 {
 
     private static final Logger logger = LoggerFactory.getLogger(PermissionSequenceImplTest.class);
-    
+
     private boolean verbose = Tester.isVerbose();
-    
+
     @Test
     public void testMarshalAndUnmarshalRequest() throws XMLException
     {
         PermissionSequence sequence = getRequestSequence("karel1");
-        
+
         if (verbose)
             logger.debug("\n" + sequence.asXMLString(4));
-        
+
         byte[] xml = sequence.asObjectXML();
         PermissionSequence sequence2 = (PermissionSequence) JiBXObjectFactory.unmarshal(PermissionSequenceImpl.class, xml);
         assertEquals(sequence.asXMLString(), sequence2.asXMLString());
     }
-    
+
     @Test
     public void testMarshalAndUnmarshalReply() throws XMLException
     {
         PermissionSequence sequence = getReplySequence("Alphons2");
-        
+
         if (verbose)
             logger.debug("\n" + sequence.asXMLString(4));
-        
+
         byte[] xml = sequence.asObjectXML();
         PermissionSequence sequence2 = (PermissionSequence) JiBXObjectFactory.unmarshal(PermissionSequenceImpl.class, xml);
         assertEquals(sequence.asXMLString(), sequence2.asXMLString());
@@ -59,7 +59,7 @@ public class PermissionSequenceImplTest
         sequence.updateRequest(request);
         return sequence;
     }
-    
+
     public static PermissionSequence getReplySequence(String requesterId)
     {
         PermissionSequenceImpl sequence = getRequestSequence(requesterId);
@@ -69,7 +69,7 @@ public class PermissionSequenceImplTest
         sequence.updateReply(reply);
         return sequence;
     }
-    
+
     @Test
     public void testDirty()
     {

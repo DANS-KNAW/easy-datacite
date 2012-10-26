@@ -14,13 +14,13 @@ public class Relation implements MetadataItem
 
     private static final long serialVersionUID = 2727329285153906751L;
 
-    private boolean         emphasis;
+    private boolean emphasis;
 
-    private BasicString     subjectTitle;
+    private BasicString subjectTitle;
 
     private BasicIdentifier subjectIdentifier;
 
-    private URI             subjectLink;
+    private URI subjectLink;
 
     /**
      * Constructor.
@@ -171,16 +171,15 @@ public class Relation implements MetadataItem
     @Override
     public String toString()
     {
-        return (subjectTitle == null ? "" : "title=" + subjectTitle)
-            + (subjectTitle != null && subjectLink != null ? " " : "")
-            + (subjectLink == null ? "" : "URI=" + subjectLink);
+        return (subjectTitle == null ? "" : "title=" + subjectTitle) + (subjectTitle != null && subjectLink != null ? " " : "")
+                + (subjectLink == null ? "" : "URI=" + subjectLink);
     }
-    
+
     public boolean isComplete()
     {
         return true;
     }
-    
+
     @Override
     public String getSchemeId()
     {

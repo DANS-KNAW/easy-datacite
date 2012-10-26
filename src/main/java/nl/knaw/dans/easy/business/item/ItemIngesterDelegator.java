@@ -4,9 +4,9 @@ import nl.knaw.dans.easy.domain.model.FileItem;
 
 public interface ItemIngesterDelegator
 {
-    
+
     void setFileRights(FileItem fileItem);
-    
+
     void addAdditionalMetadata(FileItem fileItem);
 
 }

@@ -20,8 +20,7 @@ public class EmdTitle extends AbstractEmdContainer
     /**
      * Terms contained.
      */
-    static final Term[]       TERMS            = {
-            new Term(Term.Name.TITLE, Term.Namespace.DC, BasicString.class),
+    static final Term[] TERMS = {new Term(Term.Name.TITLE, Term.Namespace.DC, BasicString.class),
             new Term(Term.Name.ALTERNATIVE, Term.Namespace.DCTERMS, BasicString.class)};
 
     /**
@@ -29,7 +28,7 @@ public class EmdTitle extends AbstractEmdContainer
      */
     private static final long serialVersionUID = -6635380459648443255L;
 
-    private List<BasicString> dcTitle          = new ArrayList<BasicString>();
+    private List<BasicString> dcTitle = new ArrayList<BasicString>();
     private List<BasicString> termsAlternative = new ArrayList<BasicString>();
 
     /**

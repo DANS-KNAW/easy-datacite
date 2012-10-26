@@ -12,7 +12,7 @@ public final class IsSelfCheck extends AbstractCheck
     {
         return "[SessionUser is user under edit]";
     }
-    
+
     public boolean evaluate(ContextParameters ctxParameters)
     {
         boolean conditionMet;
@@ -43,12 +43,12 @@ public final class IsSelfCheck extends AbstractCheck
         }
         return underEditId;
     }
-    
+
     @Override
     protected String explain(ContextParameters ctxParameters)
     {
         StringBuilder sb = super.startExplain(ctxParameters);
-        
+
         EasyUser sessionUser = ctxParameters.getSessionUser();
         String underEditId = getUnderEditId(ctxParameters);
         if (sessionUser == null)
@@ -75,7 +75,7 @@ public final class IsSelfCheck extends AbstractCheck
         sb.append(evaluate(ctxParameters));
         return sb.toString();
     }
-    
+
     @Override
     public boolean getHints(ContextParameters ctxParameters, List<Object> hints)
     {

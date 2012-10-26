@@ -10,9 +10,9 @@ import nl.knaw.dans.easy.domain.dataset.item.RequestedItem;
 
 public class ItemCollector extends ProgressSubject implements CollectorDecorator<List<? extends ItemVO>>
 {
-    
+
     private final List<RequestedItem> requestedItems;
-    
+
     public ItemCollector(List<RequestedItem> requestedItems)
     {
         this.requestedItems = requestedItems;
@@ -21,7 +21,7 @@ public class ItemCollector extends ProgressSubject implements CollectorDecorator
     @Override
     public List<? extends ItemVO> collect() throws CollectorException
     {
-        
+
         return null;
     }
 

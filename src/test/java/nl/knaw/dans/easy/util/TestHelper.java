@@ -9,7 +9,6 @@ import org.junit.BeforeClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 public abstract class TestHelper
 {
 
@@ -27,16 +26,15 @@ public abstract class TestHelper
      */
     private static Logger currentLogger;
 
-    private static Class< ? > currentClass;
+    private static Class<?> currentClass;
 
     private static final String LINE = "-----------------------------------------------------------------";
     private static final String NO_CURRENT_CLASS = "  ==! NO CURRENT CLASS SET ON TESTHELPER !==";
 
-
-    private static final String         BUNDLE_NAME     = "test";
+    private static final String BUNDLE_NAME = "test";
 
     private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
-    
+
     @BeforeClass
     public static void beforeTestClass()
     {
@@ -45,11 +43,11 @@ public abstract class TestHelper
     }
 
     public TestHelper()
-	{
-    	TestHelper.currentClass = this.getClass();
-	}
-    
-    public static void before(Class< ? > test)
+    {
+        TestHelper.currentClass = this.getClass();
+    }
+
+    public static void before(Class<?> test)
     {
         currentClass = test;
         LOGGER.debug(LINE);
@@ -60,14 +58,14 @@ public abstract class TestHelper
     @AfterClass
     public static void testHelperAfter()
     {
-    	if (getCurrentClass() != null)
-    	{
-	        LOGGER.debug(LINE);
-	        LOGGER.debug("  end of " + getCurrentClass().getName() + " messages");
-	        LOGGER.debug(LINE);
-	        currentClass = null;
-	        currentLogger = null;
-    	}
+        if (getCurrentClass() != null)
+        {
+            LOGGER.debug(LINE);
+            LOGGER.debug("  end of " + getCurrentClass().getName() + " messages");
+            LOGGER.debug(LINE);
+            currentClass = null;
+            currentLogger = null;
+        }
     }
 
     public static String getString(String key)
@@ -82,7 +80,7 @@ public abstract class TestHelper
         }
     }
 
-    public static String getInputFolderName(Class< ? > clazz)
+    public static String getInputFolderName(Class<?> clazz)
     {
         String path = INPUT_FOLDER + clazz.getName().replaceAll("\\.", "/") + "-files/";
         File file = new File(path);
@@ -90,7 +88,7 @@ public abstract class TestHelper
         return path;
     }
 
-    public static String getOutPutFolderName(Class< ? > clazz)
+    public static String getOutPutFolderName(Class<?> clazz)
     {
         String path = OUTPUT_FOLDER + clazz.getName().replaceAll("\\.", "/") + "/";
         File file = new File(path);
@@ -126,12 +124,12 @@ public abstract class TestHelper
     {
         return new File(getInputFolderName() + filename);
     }
-   
+
     public static File getFile(Class<?> clazz, String filename)
     {
         return new File(getInputFolderName(clazz) + filename);
     }
-    
+
     public void startOfTest(String name)
     {
         log().debug(LINE);
@@ -139,7 +137,7 @@ public abstract class TestHelper
         log().debug(LINE);
     }
 
-    private static Class< ? > getCurrentClass()
+    private static Class<?> getCurrentClass()
     {
         if (currentClass == null)
         {
@@ -152,6 +150,5 @@ public abstract class TestHelper
         }
 
     }
-
 
 }

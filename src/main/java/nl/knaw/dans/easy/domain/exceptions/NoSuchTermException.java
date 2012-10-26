@@ -1,6 +1,5 @@
 package nl.knaw.dans.easy.domain.exceptions;
 
-
 /**
  * Indicates that a Term does not exist.
  *

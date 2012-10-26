@@ -172,7 +172,7 @@ public class ItemWorker extends AbstractWorker
     private void update(DataModelObject dmo, UpdateInfo updateInfo, ItemFilters itemFilters) throws StoreAccessException, ObjectNotInStoreException,
             RepositoryException, UnitOfWorkInterruptException
     {
-        if (dmo instanceof DatasetItemContainer) 
+        if (dmo instanceof DatasetItemContainer)
         {
             updateItemContainer((DatasetItemContainer) dmo, updateInfo, itemFilters);
         }

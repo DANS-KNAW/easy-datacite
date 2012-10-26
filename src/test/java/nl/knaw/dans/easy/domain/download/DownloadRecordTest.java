@@ -10,24 +10,23 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 public class DownloadRecordTest
 {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(DownloadRecordTest.class);
-    
+
     private boolean verbose = Tester.isVerbose();
-    
+
     @Test
     public void testMarshalAndUnmarshal() throws XMLException
     {
         DownloadRecord record = createRecord();
-        
+
         if (verbose)
             logger.debug("\n" + record.asXMLString(4) + "\n");
-        
+
         byte[] objectXML = record.asObjectXML();
-        
+
         DownloadRecord record2 = (DownloadRecord) JiBXObjectFactory.unmarshal(DownloadRecord.class, objectXML);
         assertEquals(record.asXMLString(), record2.asXMLString());
     }

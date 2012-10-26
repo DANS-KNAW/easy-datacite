@@ -7,7 +7,7 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 
 public class JumpoffAuditRecord extends AbstractAuditRecord<JumpoffDmo>
 {
-    
+
     private final String tracedObjectId;
 
     public JumpoffAuditRecord(EasyUser sessionUser, JumpoffDmo tracedObject, JoinPoint joinPoint)
@@ -15,7 +15,7 @@ public class JumpoffAuditRecord extends AbstractAuditRecord<JumpoffDmo>
         super(sessionUser, tracedObject, joinPoint);
         tracedObjectId = tracedObject.getStoreId();
     }
-    
+
     public JumpoffAuditRecord(EasyUser sessionUser, DmoStoreId tracedObjectId, JoinPoint joinPoint)
     {
         super(sessionUser, null, joinPoint);
@@ -27,7 +27,7 @@ public class JumpoffAuditRecord extends AbstractAuditRecord<JumpoffDmo>
     {
         return tracedObjectId;
     }
-    
+
     public String getTracedType()
     {
         return JumpoffDmo.class.getSimpleName();

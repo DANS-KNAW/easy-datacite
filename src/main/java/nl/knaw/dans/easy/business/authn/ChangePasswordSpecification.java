@@ -9,12 +9,12 @@ import org.slf4j.LoggerFactory;
 
 public class ChangePasswordSpecification
 {
-    
+
     private static Logger logger = LoggerFactory.getLogger(ChangePasswordSpecification.class);
-    
+
     private ChangePasswordSpecification()
     {
-        
+
     }
 
     public static boolean isSatisFiedBy(ChangePasswordMessenger messenger)
@@ -37,8 +37,7 @@ public class ChangePasswordSpecification
     private static boolean checkAuthentication(ChangePasswordMessenger messenger)
     {
         boolean authenticated = false;
-        UsernamePasswordAuthentication authentication = 
-            new UsernamePasswordAuthentication(messenger.getUserId(), messenger.getOldPassword());
+        UsernamePasswordAuthentication authentication = new UsernamePasswordAuthentication(messenger.getUserId(), messenger.getOldPassword());
         if (AuthenticationSpecification.isSatisfiedBy(authentication))
         {
             authenticated = true;

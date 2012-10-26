@@ -18,17 +18,14 @@ public class EmdPublisher extends AbstractEmdContainer
     /**
      * Terms contained.
      */
-    static final Term[] TERMS =
-    {
-        new Term(Term.Name.PUBLISHER, Term.Namespace.DC, BasicString.class)
-    };
+    static final Term[] TERMS = {new Term(Term.Name.PUBLISHER, Term.Namespace.DC, BasicString.class)};
 
     /**
      *
      */
     private static final long serialVersionUID = 9127949937115669653L;
 
-    private List<BasicString> dcPublisher      = new ArrayList<BasicString>();
+    private List<BasicString> dcPublisher = new ArrayList<BasicString>();
 
     /**
      * {@inheritDoc}

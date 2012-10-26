@@ -8,7 +8,7 @@ import org.junit.Test;
 
 public class FormDescriptorValidatorTest
 {
-    
+
     @Test
     public void getURL() throws Exception
     {

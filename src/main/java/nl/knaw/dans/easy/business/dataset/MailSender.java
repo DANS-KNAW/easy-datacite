@@ -5,7 +5,7 @@ import nl.knaw.dans.easy.servicelayer.SubmitNotification;
 
 public final class MailSender implements SubmissionProcessor
 {
-    public static final String       MSG_MAIL_ERROR     = "deposit.mail_error";
+    public static final String MSG_MAIL_ERROR = "deposit.mail_error";
 
     public boolean continueAfterFailure()
     {

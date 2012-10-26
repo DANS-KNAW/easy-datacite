@@ -7,6 +7,6 @@ import nl.knaw.dans.common.lang.search.exceptions.SearchBeanFactoryException;
 import nl.knaw.dans.common.lang.search.exceptions.SearchEngineException;
 
 public interface DatasetSearch
-{	
-	public SearchResult<? extends DatasetSB> search(SearchRequest request) throws SearchEngineException, SearchBeanFactoryException; 
+{
+    public SearchResult<? extends DatasetSB> search(SearchRequest request) throws SearchEngineException, SearchBeanFactoryException;
 }

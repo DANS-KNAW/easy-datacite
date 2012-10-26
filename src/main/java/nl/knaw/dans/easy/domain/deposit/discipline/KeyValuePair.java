@@ -6,7 +6,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 
 public class KeyValuePair implements Serializable
 {
-    
+
     public static final String PROP_VALUE = "value";
     public static final String PROP_KEY = "key";
 
@@ -14,12 +14,12 @@ public class KeyValuePair implements Serializable
     private String key;
     private String value;
     private int indent = 0;
-    
+
     public KeyValuePair()
     {
-        
+
     }
-    
+
     public KeyValuePair(String key, String value)
     {
         this.key = key;
@@ -45,43 +45,43 @@ public class KeyValuePair implements Serializable
     {
         this.value = value;
     }
-    
+
     @Override
     public String toString()
     {
         return this.getClass().getName() + " key=" + key + " value=" + value;
     }
 
-	public void setIndent(int indent)
-	{
-		this.indent = indent;
-	}
+    public void setIndent(int indent)
+    {
+        this.indent = indent;
+    }
 
-	public int getIndent()
-	{
-		return indent;
-	}
-	
-	@Override
-	public boolean equals(Object obj)
-	{
-	    boolean eq = false;
-	    if (obj == null)
-	    {
-	        eq = false;
-	    }
-	    else if (obj instanceof KeyValuePair)
-	    {
-	        KeyValuePair kvp = (KeyValuePair) obj;
-	        eq = new EqualsBuilder().append(this.key, kvp.key).isEquals();
-	    }
-	    return eq;
-	}
-	
-	@Override
-	public int hashCode()
-	{
-	    return key == null ? 0 : key.hashCode();
-	}
+    public int getIndent()
+    {
+        return indent;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        boolean eq = false;
+        if (obj == null)
+        {
+            eq = false;
+        }
+        else if (obj instanceof KeyValuePair)
+        {
+            KeyValuePair kvp = (KeyValuePair) obj;
+            eq = new EqualsBuilder().append(this.key, kvp.key).isEquals();
+        }
+        return eq;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return key == null ? 0 : key.hashCode();
+    }
 
 }

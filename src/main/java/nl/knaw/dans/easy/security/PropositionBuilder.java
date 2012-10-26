@@ -7,10 +7,10 @@ public final class PropositionBuilder
 {
 
     private static final String SMALL_OR = " or ";
-    
-    private static final String OR       = " OR ";
 
-    private static final String AND      = " AND ";
+    private static final String OR = " OR ";
+
+    private static final String AND = " AND ";
 
     private PropositionBuilder()
     {
@@ -27,17 +27,17 @@ public final class PropositionBuilder
         return createProposition(prefix, list, SMALL_OR);
     }
 
-    public static String buildOrProposition(SecurityOfficer...officers)
+    public static String buildOrProposition(SecurityOfficer... officers)
     {
         return createProposition(OR, officers);
     }
 
-    public static String buildAndProposition(SecurityOfficer...officers)
+    public static String buildAndProposition(SecurityOfficer... officers)
     {
         return createProposition(AND, officers);
     }
-    
-    protected static String createProposition(String operatorString, SecurityOfficer...officers)
+
+    protected static String createProposition(String operatorString, SecurityOfficer... officers)
     {
         StringBuilder sb = new StringBuilder("(");
         int i;

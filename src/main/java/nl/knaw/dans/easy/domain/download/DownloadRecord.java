@@ -8,21 +8,21 @@ public class DownloadRecord extends AbstractJiBXObject<DownloadRecord>
 {
 
     private static final long serialVersionUID = -1530198797467785477L;
-    
+
     private String datasetId;
     private String fileItemId;
     private String path;
     private String mimeType;
     private long size;
-        
+
     private String downloaderId;
     private DateTime downloadTime;
-    
+
     public DownloadRecord()
     {
-        
+
     }
-    
+
     public DownloadRecord(String fileItemId)
     {
         this.fileItemId = fileItemId;
@@ -97,7 +97,5 @@ public class DownloadRecord extends AbstractJiBXObject<DownloadRecord>
     {
         this.downloadTime = downloadTime;
     }
-    
-    
 
 }

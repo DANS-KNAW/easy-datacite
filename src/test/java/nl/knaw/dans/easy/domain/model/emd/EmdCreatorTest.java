@@ -39,7 +39,7 @@ public class EmdCreatorTest
     @Test
     public void testIsEmpty()
     {
-        List< ? > list = new LinkedList<Object>();
+        List<?> list = new LinkedList<Object>();
         Assert.assertTrue(list.isEmpty());
         Assert.assertTrue(list.add(null));
         Assert.assertFalse(list.isEmpty());

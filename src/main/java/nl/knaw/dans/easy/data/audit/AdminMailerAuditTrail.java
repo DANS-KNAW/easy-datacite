@@ -14,9 +14,7 @@ public class AdminMailerAuditTrail implements AuditTrail
     public void store(AuditRecord<?> auditRecord)
     {
         String name = auditRecord.getSessionUser() == null ? "unknown" : auditRecord.getSessionUser().getDisplayName();
-        ExternalServices.getAdminMailer().sendInfoMail(
-                "Data mutation by " + name + "\n\n"
-                + auditRecord.getRecord());
+        ExternalServices.getAdminMailer().sendInfoMail("Data mutation by " + name + "\n\n" + auditRecord.getRecord());
     }
 
     @Override

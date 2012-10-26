@@ -28,46 +28,46 @@ import org.junit.Test;
 
 public class EasyCollectionServiceTest extends EasyMock
 {
-    
+
     private static CollectionService service;
     private static DmoCollectionsAccess access;
     private Map<DmoNamespace, DmoCollection> testCollections = new HashMap<DmoNamespace, DmoCollection>();
-    
+
     private boolean verbose = false;
-    
+
     @BeforeClass
     public static void beforeClass()
     {
         access = createMock(DmoCollectionsAccess.class);
-        
+
         Data.unlock();
         Data data = new Data();
         data.setCollectionAccess(access);
-        
+
         service = new EasyCollectionService();
-        
+
     }
-    
+
     @Before
     public void beforeTest()
     {
         testCollections.clear();
         reset(access);
     }
-    
+
     @Test
     public void testSecuredOperationIds() throws Exception
     {
         SecuredOperationUtil.checkSecurityIds(EasyCollectionService.class);
     }
-    
+
     @Test(expected = CommonSecurityException.class)
     public void testSecurityOnUpdateCollectionMembershipsNoUser() throws Exception
     {
         new Security(new CodedAuthz());
         service.updateCollectionMemberships(null, null, null);
     }
-    
+
     @SuppressWarnings("serial")
     @Test(expected = NullPointerException.class)
     public void testSecurityOnUpdateCollectionMemberships() throws Exception
@@ -80,22 +80,23 @@ public class EasyCollectionServiceTest extends EasyMock
             {
                 return true;
             }
-            
+
             @Override
             public boolean isActive()
             {
                 return true;
             }
-            
+
         }, null, null);
     }
-    
+
     @Test
     public void getCollectionEntries() throws Exception
     {
-        int wide = 2; int deep = 2;
+        int wide = 2;
+        int deep = 2;
         expectGetRoot(ECollection.EasyCollection, wide, deep);
-        
+
         replay(access);
         List<ECollectionEntry> entries = service.getCollectionEntries(ECollection.EasyCollection);
         if (verbose)
@@ -109,7 +110,7 @@ public class EasyCollectionServiceTest extends EasyMock
         assertEquals(MockCollectionCreator.calculateItems(wide, deep) - 1, entries.size());
         verify(access);
     }
-    
+
     @Test
     public void getCollectionEntryMap() throws Exception
     {
@@ -118,7 +119,7 @@ public class EasyCollectionServiceTest extends EasyMock
         {
             expectGetRoot(iter.next(), 2, 3);
         }
-        
+
         replay(access);
         Map<ECollection, List<ECollectionEntry>> entryMap = service.getCollectionEntries();
         assertEquals(ECollection.values().length, entryMap.size());
@@ -140,5 +141,5 @@ public class EasyCollectionServiceTest extends EasyMock
         }
         return root;
     }
-    
+
 }

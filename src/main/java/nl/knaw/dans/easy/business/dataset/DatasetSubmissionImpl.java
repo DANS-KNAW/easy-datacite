@@ -12,20 +12,19 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 public class DatasetSubmissionImpl implements DatasetSubmission
 {
 
-    private static final long    serialVersionUID    = 8588377037969121311L;
+    private static final long serialVersionUID = 8588377037969121311L;
 
     private final FormDefinition formDefinition;
-    private final Dataset        dataset;
-    private final EasyUser           sessionUser;
+    private final Dataset dataset;
+    private final EasyUser sessionUser;
 
+    private List<String> globalErrorMessages = new ArrayList<String>();
+    private List<String> globalInfoMessages = new ArrayList<String>();
 
-    private List<String>         globalErrorMessages = new ArrayList<String>();
-    private List<String>         globalInfoMessages  = new ArrayList<String>();
-
-    private boolean              metadataValid;
-    private boolean              submitted;
-    private boolean              mailSend;
-    private boolean              completed;
+    private boolean metadataValid;
+    private boolean submitted;
+    private boolean mailSend;
+    private boolean completed;
 
     public DatasetSubmissionImpl(FormDefinition formDefinition, Dataset dataset, EasyUser sessionUser)
     {
@@ -49,7 +48,7 @@ public class DatasetSubmissionImpl implements DatasetSubmission
         this.globalInfoMessages.addAll(submission.globalInfoMessages);
         this.metadataValid = submission.metadataValid;
         this.submitted = submission.submitted;
-        this.mailSend  = submission.mailSend;
+        this.mailSend = submission.mailSend;
         this.completed = submission.completed;
     }
 
@@ -244,8 +243,9 @@ public class DatasetSubmissionImpl implements DatasetSubmission
 
         return sb.toString();
     }
-    
-    public String getPersistentIdentifier() {
+
+    public String getPersistentIdentifier()
+    {
         return getDataset().getPersistentIdentifier();
     }
 }

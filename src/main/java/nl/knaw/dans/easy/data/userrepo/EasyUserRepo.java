@@ -16,6 +16,5 @@ public interface EasyUserRepo extends UserRepo<EasyUser>
 {
 
     List<EasyUser> findByRole(Role role) throws RepositoryException;
-    
 
 }

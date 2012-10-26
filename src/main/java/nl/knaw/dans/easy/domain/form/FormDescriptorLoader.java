@@ -18,19 +18,11 @@ public class FormDescriptorLoader
     public static final String FORM_DESCRIPTIONS_FULL_PATH = "easy-business/discipline/emd/form-description/";
     public static final String FORM_DESCRIPTIONS = "form-descriptions/";
 
-    public static final String[] LOCATIONS =
-    {
-        FORM_DESCRIPTIONS + "archaeology.xml",
-        FORM_DESCRIPTIONS + "history.xml",
-        FORM_DESCRIPTIONS + "sociology.xml",
-        FORM_DESCRIPTIONS + "lifescience.xml",
-        FORM_DESCRIPTIONS + "language_literature.xml",
-        FORM_DESCRIPTIONS + "unspecified.xml",
-    };
-    
+    public static final String[] LOCATIONS = {FORM_DESCRIPTIONS + "archaeology.xml", FORM_DESCRIPTIONS + "history.xml", FORM_DESCRIPTIONS + "sociology.xml",
+            FORM_DESCRIPTIONS + "lifescience.xml", FORM_DESCRIPTIONS + "language_literature.xml", FORM_DESCRIPTIONS + "unspecified.xml",};
+
     private static final Logger logger = LoggerFactory.getLogger(FormDescriptorLoader.class);
-    
-    
+
     public static void loadFormDescriptors(Map<String, FormDescriptor> formDescriptorMap) throws ResourceNotFoundException
     {
         List<FormDescriptor> formDescriptorList;
@@ -58,7 +50,7 @@ public class FormDescriptorLoader
 
         logger.info("Loaded " + formDescriptorMap.size() + " FormDescriptors");
     }
-    
+
     private static List<FormDescriptor> loadDescriptors() throws IOException, ResourceNotFoundException
     {
         List<FormDescriptor> formDescriptorList = new ArrayList<FormDescriptor>();

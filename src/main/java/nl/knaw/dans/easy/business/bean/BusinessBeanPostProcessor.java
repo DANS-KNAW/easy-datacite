@@ -14,9 +14,9 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 
 public class BusinessBeanPostProcessor implements BeanPostProcessor
 {
-    
-    private static Logger       logger              = LoggerFactory.getLogger(BusinessBeanPostProcessor.class);
-    
+
+    private static Logger logger = LoggerFactory.getLogger(BusinessBeanPostProcessor.class);
+
     public Object postProcessBeforeInitialization(Object bean, String beanname) throws BeansException
     {
         return bean;
@@ -26,20 +26,20 @@ public class BusinessBeanPostProcessor implements BeanPostProcessor
     {
         if (bean instanceof Services)
         {
-            ((Services)bean).lock();
+            ((Services) bean).lock();
             logger.debug("Process after initialization: locked Services");
         }
         if (bean instanceof Data)
         {
-            ((Data)bean).lock();
+            ((Data) bean).lock();
             logger.debug("Process after initialization: locked Data");
-            
-             GroupCreator.createGroups();
-             MigrationArchivistCreator.createMigrationArchivist();
+
+            GroupCreator.createGroups();
+            MigrationArchivistCreator.createMigrationArchivist();
         }
         if (bean instanceof Security)
         {
-            ((Security)bean).lock();
+            ((Security) bean).lock();
             logger.debug("Process after initialization: locked Security");
         }
         if (bean instanceof ExternalServices)
@@ -59,7 +59,7 @@ public class BusinessBeanPostProcessor implements BeanPostProcessor
             {
                 throw new FatalBeanException("Cannot properly instantiate " + service.getServiceTypeName() + ": ", e);
             }
-            
+
         }
         return bean;
     }

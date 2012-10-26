@@ -14,21 +14,21 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 public class ContextParameters implements Serializable
 {
 
-    private static final long           serialVersionUID = -6253904234826916147L;
+    private static final long serialVersionUID = -6253904234826916147L;
 
-    private static final int            STARTCHAR        = 65;
+    private static final int STARTCHAR = 65;
 
-    private EasyUser                    sessionUser;
-    private Dataset                     dataset;
-    private FileItem                    fileItem;
-    private EasyUser                    userUnderEdit;
-    private Object                      result;
+    private EasyUser sessionUser;
+    private Dataset dataset;
+    private FileItem fileItem;
+    private EasyUser userUnderEdit;
+    private Object result;
 
-    private int                         ch;
+    private int ch;
 
     private Map<Class<?>, List<Object>> parameterMap;
 
-    private Map<Object, Character>      characterMap;
+    private Map<Object, Character> characterMap;
 
     /**
      * Construct new ContextParameters. The second -optional- parameter of this constructor takes an

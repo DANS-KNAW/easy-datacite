@@ -19,10 +19,7 @@ public class EmdIdentifier extends AbstractEmdContainer
     /**
      * Terms contained.
      */
-    static final Term[] TERMS =
-    {
-        new Term(Term.Name.IDENTIFIER, Term.Namespace.DC, BasicIdentifier.class)
-    };
+    static final Term[] TERMS = {new Term(Term.Name.IDENTIFIER, Term.Namespace.DC, BasicIdentifier.class)};
 
     /**
      *
@@ -61,7 +58,7 @@ public class EmdIdentifier extends AbstractEmdContainer
     {
         this.dcIdentifier = dcIdentifier;
     }
-    
+
     public void add(BasicIdentifier bi)
     {
         dcIdentifier.add(bi);
@@ -80,7 +77,7 @@ public class EmdIdentifier extends AbstractEmdContainer
         }
         return bi;
     }
-    
+
     public List<BasicIdentifier> getAllIdentfiers(String scheme)
     {
         List<BasicIdentifier> biList = new ArrayList<BasicIdentifier>();
@@ -93,7 +90,7 @@ public class EmdIdentifier extends AbstractEmdContainer
         }
         return biList;
     }
-    
+
     public void removeIdentifier(String scheme)
     {
         BasicIdentifier bi = getIdentifier(scheme);
@@ -102,7 +99,7 @@ public class EmdIdentifier extends AbstractEmdContainer
             dcIdentifier.remove(bi);
         }
     }
-    
+
     public List<BasicIdentifier> removeAllIdentifiers(String scheme)
     {
         List<BasicIdentifier> biList = getAllIdentfiers(scheme);
@@ -112,20 +109,20 @@ public class EmdIdentifier extends AbstractEmdContainer
         }
         return biList;
     }
-    
+
     public void setDatasetId(String datasetId)
     {
         removeAllIdentifiers(EmdConstants.SCHEME_DMO_ID);
         BasicIdentifier bi = new BasicIdentifier(datasetId);
         bi.setScheme(EmdConstants.SCHEME_DMO_ID);
         dcIdentifier.add(bi);
-        
-//        removeIdentifier(EmdConstants.SCHEME_OAI_ITEM_ID);
-//        BasicIdentifier bioai = new BasicIdentifier(Constants.OAI_IDENTIFIER_PREFIX + datasetId);
-//        bioai.setScheme(EmdConstants.SCHEME_OAI_ITEM_ID);
-//        dcIdentifier.add(bioai);
+
+        //        removeIdentifier(EmdConstants.SCHEME_OAI_ITEM_ID);
+        //        BasicIdentifier bioai = new BasicIdentifier(Constants.OAI_IDENTIFIER_PREFIX + datasetId);
+        //        bioai.setScheme(EmdConstants.SCHEME_OAI_ITEM_ID);
+        //        dcIdentifier.add(bioai);
     }
-    
+
     public String getDatasetId()
     {
         String datasetId = null;
@@ -136,7 +133,7 @@ public class EmdIdentifier extends AbstractEmdContainer
         }
         return datasetId;
     }
-    
+
     public String getAipId()
     {
         String aipId = null;
@@ -147,7 +144,7 @@ public class EmdIdentifier extends AbstractEmdContainer
         }
         return aipId;
     }
-    
+
     public String getPersistentIdentifier()
     {
         String pid = null;
@@ -158,7 +155,7 @@ public class EmdIdentifier extends AbstractEmdContainer
         }
         return pid;
     }
-    
+
     public String getArchisOnderzoeksMeldingsNummer()
     {
         String pid = null;

@@ -9,7 +9,6 @@ import nl.knaw.dans.common.lang.util.StateUtil;
 
 import org.junit.Test;
 
-
 public class AccessCategoryTest
 {
 
@@ -23,7 +22,7 @@ public class AccessCategoryTest
             assertEquals(i, AccessCategory.UTIL.getBitMask(categories));
         }
     }
-    
+
     @Test
     public void inaccessible()
     {
@@ -32,7 +31,7 @@ public class AccessCategoryTest
             //System.out.println(ac + " " + AccessCategory.isAccessible(ac));
         }
     }
-    
+
     @Test
     public void stateUtil()
     {

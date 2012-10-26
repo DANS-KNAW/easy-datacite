@@ -21,20 +21,20 @@ import org.slf4j.LoggerFactory;
 
 public class PasswordService extends AbstractTokenList
 {
-    public static final String               NEW_PASS_TEXT           = EasyHome.getValue() + "/mail/templates/authn/NewPasswordMail.txt";
-    public static final String               NEW_PASS_HTML           = EasyHome.getValue() + "/mail/templates/authn/NewPasswordMail.html";
-    public static final String               NEW_PASS_SUBJECT        = "DANS EASY: new password for Easy";
+    public static final String NEW_PASS_TEXT = EasyHome.getValue() + "/mail/templates/authn/NewPasswordMail.txt";
+    public static final String NEW_PASS_HTML = EasyHome.getValue() + "/mail/templates/authn/NewPasswordMail.html";
+    public static final String NEW_PASS_SUBJECT = "DANS EASY: new password for Easy";
 
-    public static final String               UPDATE_PASS_TEXT        = EasyHome.getValue() + "/mail/templates/authn/UpdatePasswordMail.txt";
-    public static final String               UPDATE_PASS_HTML        = EasyHome.getValue() + "/mail/templates/authn/UpdatePasswordMail.html";
-    public static final String               UPDATE_PASS_SUBJECT = "DANS EASY: instructions on changing your password";
+    public static final String UPDATE_PASS_TEXT = EasyHome.getValue() + "/mail/templates/authn/UpdatePasswordMail.txt";
+    public static final String UPDATE_PASS_HTML = EasyHome.getValue() + "/mail/templates/authn/UpdatePasswordMail.html";
+    public static final String UPDATE_PASS_SUBJECT = "DANS EASY: instructions on changing your password";
 
-    private static Logger                    logger                  = LoggerFactory.getLogger(PasswordService.class);
+    private static Logger logger = LoggerFactory.getLogger(PasswordService.class);
 
     /**
      * Store all tokens for update password requests.
      */
-    private static final Map<String, String> TOKEN_MAP               = new HashMap<String, String>();
+    private static final Map<String, String> TOKEN_MAP = new HashMap<String, String>();
 
     public PasswordService()
     {
@@ -47,11 +47,9 @@ public class PasswordService extends AbstractTokenList
         return TOKEN_MAP;
     }
 
-    public ForgottenPasswordMailAuthentication newAuthentication(final String userId, final String returnedTime,
-            final String returnedToken)
+    public ForgottenPasswordMailAuthentication newAuthentication(final String userId, final String returnedTime, final String returnedToken)
     {
-        ForgottenPasswordMailAuthentication fpmAuthn = new ForgottenPasswordMailAuthentication(userId, returnedTime,
-                returnedToken);
+        ForgottenPasswordMailAuthentication fpmAuthn = new ForgottenPasswordMailAuthentication(userId, returnedTime, returnedToken);
         return fpmAuthn;
     }
 
@@ -129,7 +127,7 @@ public class PasswordService extends AbstractTokenList
         for (EasyUser user : messenger.getUsers())
         {
             putTokenInTokenList(user.getId(), requestTime, mailToken);
-            new UpdatePasswordMessage(user,messenger).send();
+            new UpdatePasswordMessage(user, messenger).send();
             logger.debug("Update password link send to " + user.getEmail());
         }
 
@@ -159,12 +157,12 @@ public class PasswordService extends AbstractTokenList
             removeTokenFromList(messenger.getUserId());
         }
     }
-    
+
     // double parameters for MutatesData.aj. 1. actor, 2. subject
     @MutatesUser
     private void update(EasyUser sessionUser, EasyUser user) throws RepositoryException
     {
         Data.getUserRepo().update(user);
     }
-    
+
 }

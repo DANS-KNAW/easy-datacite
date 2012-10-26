@@ -52,9 +52,9 @@ public interface CollectionService extends EasyService
      */
     @SecuredOperation
     void updateCollectionMemberships(EasyUser sessionUser, Dataset dataset, Map<ECollection, List<ECollectionEntry>> entryMap) throws ServiceException;
-    
+
     RecursiveList getRecursiveList(ECollection eColl) throws ServiceException;
-    
+
     RecursiveList getRecursiveList(DmoNamespace namespace) throws ServiceException;
 
 }

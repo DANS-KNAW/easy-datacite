@@ -20,10 +20,11 @@ public abstract class DatasetNotification extends AbstractNotification
 
     private static DatasetUrlComposer urlComposer;
 
-    public static void setDatasetUrlComposer(final DatasetUrlComposer urlComposer){
+    public static void setDatasetUrlComposer(final DatasetUrlComposer urlComposer)
+    {
         DatasetNotification.urlComposer = urlComposer;
     }
-    
+
     public String getDatasetUrl()
     {
         if (urlComposer == null)
@@ -52,13 +53,12 @@ public abstract class DatasetNotification extends AbstractNotification
         return urlComposer.getMyDatasetsUrl(dataset.getStoreId());
     }
 
-    
-    private final Dataset  dataset;
-    
+    private final Dataset dataset;
+
     /**
      * Lazy initialization to recognize a license attached for a previous send not wanted for the new send.
      */
-    private Attachement    license = null;
+    private Attachement license = null;
 
     /**
      * @param dataset

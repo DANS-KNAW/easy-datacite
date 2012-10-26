@@ -7,11 +7,11 @@ import nl.knaw.dans.easy.domain.model.Dataset;
 public final class PublishNotification extends DatasetNotification implements Serializable
 {
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 
-	public PublishNotification(final Dataset dataset)
+    public PublishNotification(final Dataset dataset)
     {
         super(dataset);
     }

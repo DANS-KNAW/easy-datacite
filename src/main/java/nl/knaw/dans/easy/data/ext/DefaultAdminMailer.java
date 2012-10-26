@@ -7,15 +7,14 @@ import nl.knaw.dans.common.lang.mail.AdminMailer;
 
 public class DefaultAdminMailer extends AdminMailer
 {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(DefaultAdminMailer.class);
-    
 
     public DefaultAdminMailer()
     {
         super(null, "Easy");
     }
-    
+
     @Override
     protected boolean send(String subject, String text)
     {

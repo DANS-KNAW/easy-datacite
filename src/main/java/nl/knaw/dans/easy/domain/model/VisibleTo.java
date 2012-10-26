@@ -8,8 +8,8 @@ import nl.knaw.dans.common.lang.dataset.AccessCategory;
  *
  */
 //TODO unify this enum to key-abstraction AccessCategory
-public enum VisibleTo {
-
+public enum VisibleTo
+{
 
     ANONYMOUS,
 
@@ -20,7 +20,7 @@ public enum VisibleTo {
     RESTRICTED_GROUP,
 
     NONE;
-    
+
     public static VisibleTo translate(AccessCategory accessCategory)
     {
         VisibleTo vt = null;
@@ -40,14 +40,13 @@ public enum VisibleTo {
         {
             vt = RESTRICTED_REQUEST;
         }
-        else if (AccessCategory.ACCESS_ELSEWHERE.equals(accessCategory)
-                || AccessCategory.NO_ACCESS.equals(accessCategory))
+        else if (AccessCategory.ACCESS_ELSEWHERE.equals(accessCategory) || AccessCategory.NO_ACCESS.equals(accessCategory))
         {
             vt = NONE;
         }
         return vt;
     }
-    
+
     public static AccessCategory translate(VisibleTo visibleTo)
     {
         AccessCategory ac = AccessCategory.NO_ACCESS;

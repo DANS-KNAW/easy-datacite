@@ -8,19 +8,19 @@ import org.joda.time.DateTime;
 
 public class Remark extends AbstractJiBXObject<Remark>
 {
-    
+
     private static final long serialVersionUID = 1L;
-    
+
     private String text;
     private String remarkerId;
     private EasyUser remarker;
     private DateTime remarkDate;
-    
+
     public Remark()
     {
-        
+
     }
-    
+
     public Remark(String text, String remarkerId)
     {
         this.text = text;
@@ -32,7 +32,7 @@ public class Remark extends AbstractJiBXObject<Remark>
     {
         return text;
     }
-    
+
     public void setText(String text)
     {
         this.text = text;
@@ -43,7 +43,7 @@ public class Remark extends AbstractJiBXObject<Remark>
     {
         return remarkerId;
     }
-    
+
     public void setRemarkerId(String remarkerId)
     {
         this.remarkerId = remarkerId;
@@ -57,7 +57,7 @@ public class Remark extends AbstractJiBXObject<Remark>
     {
         return remarkDate;
     }
-    
+
     public EasyUser getRemarker() //throws UnknownIdentifierException, DataLayerInAccessableException
     {
         if (remarker == null && remarkerId != null)
@@ -66,13 +66,13 @@ public class Remark extends AbstractJiBXObject<Remark>
         }
         return remarker;
     }
-    
+
     public void setRemarker(EasyUser remarker)
     {
         this.remarker = remarker;
         setRemarkerId(remarker == null ? null : remarker.getId());
     }
-    
+
     public Remark clone()
     {
         Remark clone = new Remark();

@@ -18,48 +18,47 @@ import nl.knaw.dans.easy.domain.model.emd.types.Relation;
  */
 public class EmdRelation extends AbstractEmdContainer
 {
-    
+
     private static List<String> QUALIFIER_LIST;
-    
+
     /**
-    *
-    */
-   private static final long     serialVersionUID = 2575109351833151169L;
-   
-   private List<BasicIdentifier> dcRelation;
-   private List<BasicIdentifier> termsConformsTo;
-   private List<BasicIdentifier> termsIsVersionOf;
-   private List<BasicIdentifier> termsHasVersion;
-   private List<BasicIdentifier> termsIsReplacedBy;
-   private List<BasicIdentifier> termsReplaces;
-   private List<BasicIdentifier> termsIsRequiredBy;
-   private List<BasicIdentifier> termsRequires;
-   private List<BasicIdentifier> termsIsPartOf;
-   private List<BasicIdentifier> termsHasPart;
-   private List<BasicIdentifier> termsIsReferencedBy;
-   private List<BasicIdentifier> termsReferences;
-   private List<BasicIdentifier> termsIsFormatOf;
-   private List<BasicIdentifier> termsHasFormat;
-   private List<Relation>        easRelation;
-   private List<Relation>        easConformsTo;
-   private List<Relation>        easIsVersionOf;
-   private List<Relation>        easHasVersion;
-   private List<Relation>        easIsReplacedBy;
-   private List<Relation>        easReplaces;
-   private List<Relation>        easIsRequiredBy;
-   private List<Relation>        easRequires;
-   private List<Relation>        easIsPartOf;
-   private List<Relation>        easHasPart;
-   private List<Relation>        easIsReferencedBy;
-   private List<Relation>        easReferences;
-   private List<Relation>        easIsFormatOf;
-   private List<Relation>        easHasFormat;
+     *
+     */
+    private static final long serialVersionUID = 2575109351833151169L;
+
+    private List<BasicIdentifier> dcRelation;
+    private List<BasicIdentifier> termsConformsTo;
+    private List<BasicIdentifier> termsIsVersionOf;
+    private List<BasicIdentifier> termsHasVersion;
+    private List<BasicIdentifier> termsIsReplacedBy;
+    private List<BasicIdentifier> termsReplaces;
+    private List<BasicIdentifier> termsIsRequiredBy;
+    private List<BasicIdentifier> termsRequires;
+    private List<BasicIdentifier> termsIsPartOf;
+    private List<BasicIdentifier> termsHasPart;
+    private List<BasicIdentifier> termsIsReferencedBy;
+    private List<BasicIdentifier> termsReferences;
+    private List<BasicIdentifier> termsIsFormatOf;
+    private List<BasicIdentifier> termsHasFormat;
+    private List<Relation> easRelation;
+    private List<Relation> easConformsTo;
+    private List<Relation> easIsVersionOf;
+    private List<Relation> easHasVersion;
+    private List<Relation> easIsReplacedBy;
+    private List<Relation> easReplaces;
+    private List<Relation> easIsRequiredBy;
+    private List<Relation> easRequires;
+    private List<Relation> easIsPartOf;
+    private List<Relation> easHasPart;
+    private List<Relation> easIsReferencedBy;
+    private List<Relation> easReferences;
+    private List<Relation> easIsFormatOf;
+    private List<Relation> easHasFormat;
 
     /**
      * Terms contained.
      */
-    static final Term[]    TERMS            = {
-            new Term(Term.Name.RELATION, Term.Namespace.DC, BasicIdentifier.class),
+    static final Term[] TERMS = {new Term(Term.Name.RELATION, Term.Namespace.DC, BasicIdentifier.class),
             new Term(Term.Name.CONFORMS_TO, Term.Namespace.DCTERMS, BasicIdentifier.class),
             new Term(Term.Name.IS_VERSION_OF, Term.Namespace.DCTERMS, BasicIdentifier.class),
             new Term(Term.Name.HAS_VERSION, Term.Namespace.DCTERMS, BasicIdentifier.class),
@@ -74,22 +73,14 @@ public class EmdRelation extends AbstractEmdContainer
             new Term(Term.Name.IS_FORMAT_OF, Term.Namespace.DCTERMS, BasicIdentifier.class),
             new Term(Term.Name.HAS_FORMAT, Term.Namespace.DCTERMS, BasicIdentifier.class),
 
-            new Term(Term.Name.RELATION, Term.Namespace.EAS, Relation.class),
-            new Term(Term.Name.CONFORMS_TO, Term.Namespace.EAS, Relation.class),
-            new Term(Term.Name.IS_VERSION_OF, Term.Namespace.EAS, Relation.class),
-            new Term(Term.Name.HAS_VERSION, Term.Namespace.EAS, Relation.class),
-            new Term(Term.Name.IS_REPLACED_BY, Term.Namespace.EAS, Relation.class),
-            new Term(Term.Name.REPLACES, Term.Namespace.EAS, Relation.class),
-            new Term(Term.Name.IS_REQUIRED_BY, Term.Namespace.EAS, Relation.class),
-            new Term(Term.Name.REQUIRES, Term.Namespace.EAS, Relation.class),
-            new Term(Term.Name.IS_PART_OF, Term.Namespace.EAS, Relation.class),
-            new Term(Term.Name.HAS_PART, Term.Namespace.EAS, Relation.class),
-            new Term(Term.Name.IS_REFERENCED_BY, Term.Namespace.EAS, Relation.class),
-            new Term(Term.Name.REFERENCES, Term.Namespace.EAS, Relation.class),
-            new Term(Term.Name.IS_FORMAT_OF, Term.Namespace.EAS, Relation.class),
-            new Term(Term.Name.HAS_FORMAT, Term.Namespace.EAS, Relation.class)
-    											};
-    
+            new Term(Term.Name.RELATION, Term.Namespace.EAS, Relation.class), new Term(Term.Name.CONFORMS_TO, Term.Namespace.EAS, Relation.class),
+            new Term(Term.Name.IS_VERSION_OF, Term.Namespace.EAS, Relation.class), new Term(Term.Name.HAS_VERSION, Term.Namespace.EAS, Relation.class),
+            new Term(Term.Name.IS_REPLACED_BY, Term.Namespace.EAS, Relation.class), new Term(Term.Name.REPLACES, Term.Namespace.EAS, Relation.class),
+            new Term(Term.Name.IS_REQUIRED_BY, Term.Namespace.EAS, Relation.class), new Term(Term.Name.REQUIRES, Term.Namespace.EAS, Relation.class),
+            new Term(Term.Name.IS_PART_OF, Term.Namespace.EAS, Relation.class), new Term(Term.Name.HAS_PART, Term.Namespace.EAS, Relation.class),
+            new Term(Term.Name.IS_REFERENCED_BY, Term.Namespace.EAS, Relation.class), new Term(Term.Name.REFERENCES, Term.Namespace.EAS, Relation.class),
+            new Term(Term.Name.IS_FORMAT_OF, Term.Namespace.EAS, Relation.class), new Term(Term.Name.HAS_FORMAT, Term.Namespace.EAS, Relation.class)};
+
     public static final String RELATION = "";
     public static final String CONFORMS_TO = "conformsTo";
     public static final String HAS_FORMAT = "hasFormat";
@@ -104,7 +95,7 @@ public class EmdRelation extends AbstractEmdContainer
     public static final String IS_REPLACED_BY = "isReplacedBy";
     public static final String IS_REQUIRED_BY = "isRequiredBy";
     public static final String IS_VERSION_OF = "isVersionOf";
-    
+
     public static List<String> getQualifierList()
     {
         if (QUALIFIER_LIST == null)
@@ -127,54 +118,52 @@ public class EmdRelation extends AbstractEmdContainer
         }
         return Collections.unmodifiableList(QUALIFIER_LIST);
     }
-    
-    
+
     public Map<String, List<Relation>> getRelationMap()
     {
-    	Map<String, List<Relation>> map = new HashMap<String, List<Relation>>();
-    	map.put(RELATION, this.getEasRelation());
-    	map.put(CONFORMS_TO, this.getEasConformsTo());
-    	map.put(HAS_FORMAT, this.getEasHasFormat());
-    	map.put(HAS_PART, this.getEasHasPart());
-    	map.put(REFERENCES, this.getEasReferences());
-    	map.put(REPLACES, this.getEasReplaces());
-    	map.put(REQUIRES, this.getEasRequires());
-    	map.put(HAS_VERSION, this.getEasHasVersion());
-    	map.put(IS_FORMAT_OF, this.getEasIsFormatOf());
-    	map.put(IS_PART_OF, this.getEasIsPartOf());
-    	map.put(IS_REFERENCED_BY, this.getEasIsReferencedBy());
-    	map.put(IS_REPLACED_BY, this.getEasIsReplacedBy());
-    	map.put(IS_REQUIRED_BY, this.getEasIsRequiredBy());
-    	map.put(IS_VERSION_OF, this.getEasIsVersionOf());
-    	
-    	return map;
-    }
-    
-    public Map<String, List<BasicIdentifier>> getBasicIdentifierMap()
-    {
-    	Map<String, List<BasicIdentifier>> map = new HashMap<String, List<BasicIdentifier>>();
-    	map.put(RELATION, this.getDcRelation());
-    	map.put(CONFORMS_TO, this.getTermsConformsTo());
-    	map.put(HAS_FORMAT, this.getTermsHasFormat());
-    	map.put(HAS_PART, this.getTermsHasPart());
-    	map.put(REFERENCES, this.getTermsReferences());
-    	map.put(REPLACES, this.getTermsReplaces());
-    	map.put(REQUIRES, this.getTermsRequires());
-    	map.put(HAS_VERSION, this.getTermsHasVersion());
-    	map.put(IS_FORMAT_OF, this.getTermsIsFormatOf());
-    	map.put(IS_PART_OF, this.getTermsIsPartOf());
-    	map.put(IS_REFERENCED_BY, this.getTermsIsReferencedBy());
-    	map.put(IS_REPLACED_BY, this.getTermsIsReplacedBy());
-    	map.put(IS_REQUIRED_BY, this.getTermsIsRequiredBy());
-    	map.put(IS_VERSION_OF, this.getTermsIsVersionOf());
-    	
-    	return map;
+        Map<String, List<Relation>> map = new HashMap<String, List<Relation>>();
+        map.put(RELATION, this.getEasRelation());
+        map.put(CONFORMS_TO, this.getEasConformsTo());
+        map.put(HAS_FORMAT, this.getEasHasFormat());
+        map.put(HAS_PART, this.getEasHasPart());
+        map.put(REFERENCES, this.getEasReferences());
+        map.put(REPLACES, this.getEasReplaces());
+        map.put(REQUIRES, this.getEasRequires());
+        map.put(HAS_VERSION, this.getEasHasVersion());
+        map.put(IS_FORMAT_OF, this.getEasIsFormatOf());
+        map.put(IS_PART_OF, this.getEasIsPartOf());
+        map.put(IS_REFERENCED_BY, this.getEasIsReferencedBy());
+        map.put(IS_REPLACED_BY, this.getEasIsReplacedBy());
+        map.put(IS_REQUIRED_BY, this.getEasIsRequiredBy());
+        map.put(IS_VERSION_OF, this.getEasIsVersionOf());
+
+        return map;
     }
 
-    public static final String[] LIST_KEYS = {RELATION, CONFORMS_TO, HAS_FORMAT, HAS_PART, REFERENCES, REPLACES, REQUIRES
-    										, HAS_VERSION, IS_FORMAT_OF, IS_PART_OF, IS_REFERENCED_BY, IS_REPLACED_BY, IS_REQUIRED_BY, IS_VERSION_OF
-    										};
-    
+    public Map<String, List<BasicIdentifier>> getBasicIdentifierMap()
+    {
+        Map<String, List<BasicIdentifier>> map = new HashMap<String, List<BasicIdentifier>>();
+        map.put(RELATION, this.getDcRelation());
+        map.put(CONFORMS_TO, this.getTermsConformsTo());
+        map.put(HAS_FORMAT, this.getTermsHasFormat());
+        map.put(HAS_PART, this.getTermsHasPart());
+        map.put(REFERENCES, this.getTermsReferences());
+        map.put(REPLACES, this.getTermsReplaces());
+        map.put(REQUIRES, this.getTermsRequires());
+        map.put(HAS_VERSION, this.getTermsHasVersion());
+        map.put(IS_FORMAT_OF, this.getTermsIsFormatOf());
+        map.put(IS_PART_OF, this.getTermsIsPartOf());
+        map.put(IS_REFERENCED_BY, this.getTermsIsReferencedBy());
+        map.put(IS_REPLACED_BY, this.getTermsIsReplacedBy());
+        map.put(IS_REQUIRED_BY, this.getTermsIsRequiredBy());
+        map.put(IS_VERSION_OF, this.getTermsIsVersionOf());
+
+        return map;
+    }
+
+    public static final String[] LIST_KEYS = {RELATION, CONFORMS_TO, HAS_FORMAT, HAS_PART, REFERENCES, REPLACES, REQUIRES, HAS_VERSION, IS_FORMAT_OF,
+            IS_PART_OF, IS_REFERENCED_BY, IS_REPLACED_BY, IS_REQUIRED_BY, IS_VERSION_OF};
+
     /**
      * {@inheritDoc}
      */

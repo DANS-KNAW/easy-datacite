@@ -5,42 +5,38 @@ import nl.knaw.dans.easy.util.Messenger;
 
 public class ChangePasswordMessenger extends Messenger<ChangePasswordMessenger.State>
 {
-    
+
     public enum State
     {
-        NotChanged,
-        InsufficientData,
-        NotAuthenticated,
-        SystemError,
-        PasswordChanged
+        NotChanged, InsufficientData, NotAuthenticated, SystemError, PasswordChanged
     }
 
     private static final long serialVersionUID = -4626315934144818803L;
-    
+
     private final EasyUser user;
-    
+
     private String oldPassword;
-    
+
     private String newPassword;
-    
+
     private String confirmPassword;
-    
+
     private String token;
-    
+
     private final boolean mailContext;
-    
+
     public ChangePasswordMessenger(EasyUser user, boolean mailContext)
     {
         super(ChangePasswordMessenger.State.class);
         this.user = user;
         this.mailContext = mailContext;
     }
-    
+
     public EasyUser getUser()
     {
         return user;
     }
-    
+
     public String getUserId()
     {
         return user.getId();
@@ -95,22 +91,22 @@ public class ChangePasswordMessenger extends Messenger<ChangePasswordMessenger.S
     {
         super.setState(state);
     }
-    
+
     public void setState(final State state, final Throwable e)
     {
         super.setState(state, e);
     }
-    
+
     public String getDisplayName()
     {
         return user.getDisplayName();
-    }    
-    
+    }
+
     @Override
     public String toString()
     {
-        return  this.getClass().getSimpleName() + " [mailContext=" + mailContext + " state=" + getState() + " user="
-            + (user == null ? "null" : user.toString()) + "] " + getExceptionsAsString();
+        return this.getClass().getSimpleName() + " [mailContext=" + mailContext + " state=" + getState() + " user=" + (user == null ? "null" : user.toString())
+                + "] " + getExceptionsAsString();
     }
 
 }

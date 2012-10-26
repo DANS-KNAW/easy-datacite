@@ -8,17 +8,17 @@ import nl.knaw.dans.easy.domain.exceptions.DomainException;
 
 public interface DisciplineContainer extends DmoRecursiveItem
 {
-	String CONTENT_MODEL = "easy-model:edm1-discipline";
+    String CONTENT_MODEL = "easy-model:edm1-discipline";
 
-	DmoNamespace NAMESPACE = new DmoNamespace("easy-discipline");
+    DmoNamespace NAMESPACE = new DmoNamespace("easy-discipline");
 
-	String getName();
-	
-	void setName(String name); 
-	
-	List<DisciplineContainer> getSubDisciplines() throws DomainException;
-	
-	DisciplineMetadata getDisciplineMetadata();
-	
-	void setDisciplineMetadata(DisciplineMetadata dmd);
+    String getName();
+
+    void setName(String name);
+
+    List<DisciplineContainer> getSubDisciplines() throws DomainException;
+
+    DisciplineMetadata getDisciplineMetadata();
+
+    void setDisciplineMetadata(DisciplineMetadata dmd);
 }

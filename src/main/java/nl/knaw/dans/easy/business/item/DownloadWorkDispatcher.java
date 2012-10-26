@@ -13,20 +13,18 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 
 public class DownloadWorkDispatcher
 {
-    
-    public FileContentWrapper prepareFileContent(EasyUser sessionUser, Dataset dataset, DmoStoreId fileItemId)
-        throws CommonSecurityException, ServiceException
+
+    public FileContentWrapper prepareFileContent(EasyUser sessionUser, Dataset dataset, DmoStoreId fileItemId) throws CommonSecurityException, ServiceException
     {
         DownloadWorker worker = new DownloadWorker();
         return worker.getFileContent(sessionUser, dataset, fileItemId);
     }
-    
-    public ZipFileContentWrapper prepareZippedContent(EasyUser sessionUser, Dataset dataset,
-            Collection<RequestedItem> requestedItems) throws CommonSecurityException, ServiceException
+
+    public ZipFileContentWrapper prepareZippedContent(EasyUser sessionUser, Dataset dataset, Collection<RequestedItem> requestedItems)
+            throws CommonSecurityException, ServiceException
     {
         DownloadWorker worker = new DownloadWorker();
         return worker.getZippedContent(sessionUser, dataset, requestedItems);
     }
-            
 
 }

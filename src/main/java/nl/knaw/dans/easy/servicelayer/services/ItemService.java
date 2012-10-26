@@ -96,8 +96,8 @@ public interface ItemService extends EasyService
      * @throws ServiceException
      *         wrapper for exceptions
      */
-    void addDirectoryContents(EasyUser sessionUser, Dataset dataset, DmoStoreId parentId, File rootFile, List<File> filesToIngest, WorkListener... workListeners)
-            throws ServiceException;
+    void addDirectoryContents(EasyUser sessionUser, Dataset dataset, DmoStoreId parentId, File rootFile, List<File> filesToIngest,
+            WorkListener... workListeners) throws ServiceException;
 
     // used by easyTools batch ingest
     void addDirectoryContents(EasyUser sessionUser, Dataset dataset, DmoStoreId parentId, File rootFile, ItemIngesterDelegator delegator,
@@ -231,8 +231,8 @@ public interface ItemService extends EasyService
      * @return
      * @throws ServiceAccessException
      */
-    List<ItemVO> getFilesAndFolders(EasyUser sessionUser, Dataset dataset, DmoStoreId parentSid, Integer limit, Integer offset, ItemOrder order, ItemFilters filters)
-            throws ServiceException;
+    List<ItemVO> getFilesAndFolders(EasyUser sessionUser, Dataset dataset, DmoStoreId parentSid, Integer limit, Integer offset, ItemOrder order,
+            ItemFilters filters) throws ServiceException;
 
     List<ItemVO> getFilesAndFolders(EasyUser sessionUser, Dataset dataset, Collection<DmoStoreId> itemIds) throws ServiceException;
 

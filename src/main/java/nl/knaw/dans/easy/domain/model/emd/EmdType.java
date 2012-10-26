@@ -18,14 +18,11 @@ public class EmdType extends AbstractEmdContainer
     /**
      * Terms contained.
      */
-    static final Term[] TERMS =
-    {
-        new Term(Term.Name.TYPE, Term.Namespace.DC, BasicString.class)
-    };
+    static final Term[] TERMS = {new Term(Term.Name.TYPE, Term.Namespace.DC, BasicString.class)};
 
     private static final long serialVersionUID = -9078955732564236681L;
 
-    private List<BasicString> dcType           = new ArrayList<BasicString>();
+    private List<BasicString> dcType = new ArrayList<BasicString>();
 
     /**
      * {@inheritDoc}
@@ -57,12 +54,12 @@ public class EmdType extends AbstractEmdContainer
     {
         this.dcType = dcType;
     }
-    
+
     public boolean contains(BasicString bs)
     {
         boolean found = false;
         Iterator<BasicString> iter = dcType.iterator();
-        while (iter.hasNext() && ! found)
+        while (iter.hasNext() && !found)
         {
             found = iter.next().shallowEquals(bs);
         }

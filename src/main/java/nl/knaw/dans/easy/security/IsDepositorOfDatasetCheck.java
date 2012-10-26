@@ -8,16 +8,16 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 
 public final class IsDepositorOfDatasetCheck extends AbstractCheck
 {
-    
+
     public String getProposition()
     {
         return "[SessionUser is depositor of dataset]";
     }
-    
+
     public boolean evaluate(ContextParameters ctxParameters)
     {
         boolean conditionMet = false;
-        
+
         EasyUser sessionUser = ctxParameters.getSessionUser();
         Dataset dataset = ctxParameters.getDataset();
         if (dataset != null && sessionUser != null && sessionUser.isActive())
@@ -26,15 +26,15 @@ public final class IsDepositorOfDatasetCheck extends AbstractCheck
         }
         return conditionMet;
     }
-    
+
     @Override
     protected String explain(ContextParameters ctxParameters)
     {
         StringBuilder sb = super.startExplain(ctxParameters);
-        
+
         EasyUser sessionUser = ctxParameters.getSessionUser();
         Dataset dataset = ctxParameters.getDataset();
-        
+
         if (sessionUser == null)
         {
             sb.append("\n\tsessionUser = null");
@@ -51,7 +51,7 @@ public final class IsDepositorOfDatasetCheck extends AbstractCheck
         {
             sb.append("\n\tsessionUser userId = " + sessionUser.getId());
         }
-        
+
         if (dataset == null)
         {
             sb.append(", dataset = null");
@@ -60,19 +60,19 @@ public final class IsDepositorOfDatasetCheck extends AbstractCheck
         {
             sb.append(", dataset depositorId = " + dataset.getOwnerId());
         }
-        
+
         sb.append("\n\tcondition met = ");
         sb.append(evaluate(ctxParameters));
         return sb.toString();
     }
-    
+
     @Override
     public boolean getHints(ContextParameters ctxParameters, List<Object> hints)
     {
         boolean conditionMet = false;
         EasyUser sessionUser = ctxParameters.getSessionUser();
         Dataset dataset = ctxParameters.getDataset();
-        
+
         if (sessionUser == null)
         {
             hints.add(CommonSecurityException.HINT_SESSION_USER_NULL);

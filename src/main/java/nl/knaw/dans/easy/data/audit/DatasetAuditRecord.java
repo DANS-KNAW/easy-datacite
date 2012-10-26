@@ -7,7 +7,7 @@ import org.aspectj.lang.JoinPoint;
 
 public class DatasetAuditRecord extends AbstractAuditRecord<Dataset>
 {
-    
+
     public DatasetAuditRecord(EasyUser sessionUser, Dataset dataset, JoinPoint joinPoint)
     {
         super(sessionUser, dataset, joinPoint);
@@ -18,6 +18,5 @@ public class DatasetAuditRecord extends AbstractAuditRecord<Dataset>
     {
         return getTracedObject().getStoreId();
     }
-
 
 }

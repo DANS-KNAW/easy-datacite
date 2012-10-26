@@ -30,28 +30,23 @@ public class ItemFilters
     private static final String SEPARATOR = "[^a-zA-Z_]+";
     private static final String FILTER_SEPARATOR = "[^a-zA-Z_]+";
 
-    private static final List<Role> POWER_USERS =
-            Arrays.asList(new Role[] { Role.ARCHIVIST, Role.ADMIN });
-    
+    private static final List<Role> POWER_USERS = Arrays.asList(new Role[] {Role.ARCHIVIST, Role.ADMIN});
+
     public static final ItemFilters FILTERS_FOR_ANONYMUS = new ItemFilters().add(VisibleTo.ANONYMOUS);
-    
-    public static final ItemFilters FILTERS_FOR_KNOWN =
-            new ItemFilters().add(VisibleTo.ANONYMOUS, VisibleTo.KNOWN);
-    
-    public static final ItemFilters FILTERS_FOR_GRANTED_PERMISSION =
-        new ItemFilters().add(VisibleTo.ANONYMOUS, VisibleTo.KNOWN, VisibleTo.RESTRICTED_REQUEST);
-    
-    public static final ItemFilters FILTERS_FOR_GROUP_MEMBERS =
-        new ItemFilters().add(VisibleTo.ANONYMOUS, VisibleTo.KNOWN, VisibleTo.RESTRICTED_GROUP);
-    
-    public static final ItemFilters FILTERS_FOR_DEPOSITOR =
-        null;
+
+    public static final ItemFilters FILTERS_FOR_KNOWN = new ItemFilters().add(VisibleTo.ANONYMOUS, VisibleTo.KNOWN);
+
+    public static final ItemFilters FILTERS_FOR_GRANTED_PERMISSION = new ItemFilters().add(VisibleTo.ANONYMOUS, VisibleTo.KNOWN, VisibleTo.RESTRICTED_REQUEST);
+
+    public static final ItemFilters FILTERS_FOR_GROUP_MEMBERS = new ItemFilters().add(VisibleTo.ANONYMOUS, VisibleTo.KNOWN, VisibleTo.RESTRICTED_GROUP);
+
+    public static final ItemFilters FILTERS_FOR_DEPOSITOR = null;
 
     private CreatorRoleFieldFilter creatorRoleFilter = null;
     private VisibleToFieldFilter visibleToFilter = null;
     private AccessibleToFieldFilter accessibleToFilter = null;
 
-	public ItemFilters()
+    public ItemFilters()
     {
 
     }
@@ -112,15 +107,15 @@ public class ItemFilters
     }
 
     public AccessibleToFieldFilter getAccessibleToFilter()
-	{
-		return accessibleToFilter;
-	}
+    {
+        return accessibleToFilter;
+    }
 
-	public void setAccessibleToFilter(AccessibleToFieldFilter accessibleToFilter)
-	{
-		this.accessibleToFilter = accessibleToFilter;
-	}
-    
+    public void setAccessibleToFilter(AccessibleToFieldFilter accessibleToFilter)
+    {
+        this.accessibleToFilter = accessibleToFilter;
+    }
+
     public void setCreatorRoleFilter(CreatorRoleFieldFilter creatorRoleFilter)
     {
         this.creatorRoleFilter = creatorRoleFilter;
@@ -139,7 +134,7 @@ public class ItemFilters
      */
     public List<ItemFilter> getFilters()
     {
-        return Arrays.asList(new ItemFilter[] { creatorRoleFilter, visibleToFilter, accessibleToFilter });
+        return Arrays.asList(new ItemFilter[] {creatorRoleFilter, visibleToFilter, accessibleToFilter});
     }
 
     public List<? extends ItemVO> apply(final List<? extends ItemVO> itemList) throws DomainException
@@ -183,11 +178,11 @@ public class ItemFilters
      * @param dataset the examined data set or null
      * @return this filter enhanced with business rules
      */
-    public static ItemFilters get(EasyUser sessionUser, Dataset dataset,ItemFilters filters)
+    public static ItemFilters get(EasyUser sessionUser, Dataset dataset, ItemFilters filters)
     {
-//        boolean isPublished = dataset != null && // TODO ???
-//                //AdministrativeState.valueOf(dataset.getState()) == AdministrativeState.PUBLISHED;
-//                AdministrativeState.PUBLISHED.equals(dataset.getAdministrativeState());
+        //        boolean isPublished = dataset != null && // TODO ???
+        //                //AdministrativeState.valueOf(dataset.getState()) == AdministrativeState.PUBLISHED;
+        //                AdministrativeState.PUBLISHED.equals(dataset.getAdministrativeState());
         if (sessionUser == null || sessionUser.isAnonymous())
             return FILTERS_FOR_ANONYMUS;
         if (isPowerUser(sessionUser.getRoles()))
@@ -208,10 +203,10 @@ public class ItemFilters
         return !intersection.isEmpty();
     }
 
-	public void clear()
-	{
-		setCreatorRoleFilter(null);
-		setAccessibleToFilter(null);
-		setVisibleToFilter(null);	
-	}
+    public void clear()
+    {
+        setCreatorRoleFilter(null);
+        setAccessibleToFilter(null);
+        setVisibleToFilter(null);
+    }
 }

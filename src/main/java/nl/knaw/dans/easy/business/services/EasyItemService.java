@@ -62,11 +62,11 @@ import org.xml.sax.SAXException;
 public class EasyItemService extends AbstractEasyService implements ItemService
 {
 
-    private static final Logger    logger = LoggerFactory.getLogger(EasyItemService.class);
+    private static final Logger logger = LoggerFactory.getLogger(EasyItemService.class);
 
-    private ItemWorkDispatcher     itemWorDispatcher;
+    private ItemWorkDispatcher itemWorDispatcher;
     private DownloadWorkDispatcher downloadWorkDispatcher;
-    
+
     @Override
     public FileItem getFileItem(EasyUser sessionUser, Dataset dataset, DmoStoreId fileItemId) throws ObjectNotAvailableException, CommonSecurityException,
             ServiceException
@@ -74,7 +74,7 @@ public class EasyItemService extends AbstractEasyService implements ItemService
         FileItem fileItem = getItemWorkDispatcher().getFileItem(sessionUser, dataset, fileItemId);
         return fileItem;
     }
-    
+
     @Override
     public FileItem getFileItemByPath(EasyUser sessionUser, Dataset dataset, String path) throws ObjectNotAvailableException, CommonSecurityException,
             ServiceException
@@ -90,53 +90,53 @@ public class EasyItemService extends AbstractEasyService implements ItemService
         FolderItem folderItem = getItemWorkDispatcher().getFolderItemByPath(sessionUser, dataset, path);
         return folderItem;
     }
-    
+
     @Override
     public FileItemDescription getFileItemDescription(EasyUser sessionUser, Dataset dataset, DmoStoreId fileItemId) throws ObjectNotAvailableException,
             CommonSecurityException, ServiceException
     {
-    	FileItem fileItem = getFileItem(dataset, fileItemId);
+        FileItem fileItem = getFileItem(dataset, fileItemId);
         return getItemWorkDispatcher().getFileItemDescription(sessionUser, dataset, fileItem);
     }
-    
+
     @Override
     public URL getFileContentURL(EasyUser sessionUser, Dataset dataset, FileItem fileItem) throws ObjectNotAvailableException, CommonSecurityException,
             ServiceException
     {
         return getItemWorkDispatcher().getFileContentURL(sessionUser, dataset, fileItem);
     }
-    
+
     @Override
-    public URL getDescriptiveMetadataURL(EasyUser sessionUser, Dataset dataset, DmoStoreId fileItemId) throws ObjectNotAvailableException, CommonSecurityException,
-            ServiceException
+    public URL getDescriptiveMetadataURL(EasyUser sessionUser, Dataset dataset, DmoStoreId fileItemId) throws ObjectNotAvailableException,
+            CommonSecurityException, ServiceException
     {
         return getItemWorkDispatcher().getDescriptiveMetadataURL(sessionUser, dataset, fileItemId);
     }
 
     // used by web-ui
     @Override
-    public void addDirectoryContents(EasyUser sessionUser, Dataset dataset, DmoStoreId parentId, File rootFile, List<File> filesToIngest, WorkListener...workListeners)
-            throws ServiceException
+    public void addDirectoryContents(EasyUser sessionUser, Dataset dataset, DmoStoreId parentId, File rootFile, List<File> filesToIngest,
+            WorkListener... workListeners) throws ServiceException
     {
         FileFilter ingestFilter = new ItemIngester.ListFilter(filesToIngest);
         addDirectoryContents(sessionUser, dataset, parentId, rootFile, ingestFilter, null, workListeners);
     }
-    
+
     // used by repo tools, batch ingest
     @Override
-    public void addDirectoryContents(EasyUser sessionUser, Dataset dataset, DmoStoreId parentId, File rootFile, 
-            ItemIngesterDelegator delegator, WorkListener... workListeners) throws ServiceException
+    public void addDirectoryContents(EasyUser sessionUser, Dataset dataset, DmoStoreId parentId, File rootFile, ItemIngesterDelegator delegator,
+            WorkListener... workListeners) throws ServiceException
     {
         FileFilter ingestFilter = new ItemIngester.IngestFilter();
         addDirectoryContents(sessionUser, dataset, parentId, rootFile, ingestFilter, delegator, workListeners);
     }
 
     @MutatesDataset
-    private void addDirectoryContents(EasyUser sessionUser, Dataset dataset, DmoStoreId parentId, File rootFile, 
-            FileFilter ingestFilter, ItemIngesterDelegator delegator, WorkListener...workListeners) throws ServiceException
+    private void addDirectoryContents(EasyUser sessionUser, Dataset dataset, DmoStoreId parentId, File rootFile, FileFilter ingestFilter,
+            ItemIngesterDelegator delegator, WorkListener... workListeners) throws ServiceException
     {
         UnitOfWork uow = new EasyUnitOfWork(sessionUser);
-        
+
         try
         {
             uow.attach(dataset); // most important: dataset and parentContainer may be the same object
@@ -149,8 +149,7 @@ public class EasyItemService extends AbstractEasyService implements ItemService
             {
                 parentContainer = (DatasetItemContainer) uow.retrieveObject(parentId);
             }
-            getItemWorkDispatcher().addDirectoryContents(sessionUser, dataset, parentContainer, 
-                    rootFile, ingestFilter, uow, delegator, workListeners);
+            getItemWorkDispatcher().addDirectoryContents(sessionUser, dataset, parentContainer, rootFile, ingestFilter, uow, delegator, workListeners);
         }
         catch (final ObjectNotInStoreException e)
         {
@@ -174,29 +173,31 @@ public class EasyItemService extends AbstractEasyService implements ItemService
      * {@inheritDoc}
      */
     @MutatesDataset
-    public void updateObjects(EasyUser sessionUser, Dataset dataset, List<DmoStoreId> sidList, UpdateInfo updateInfo,
-            ItemFilters itemFilters, WorkListener... workListeners) throws ServiceException
+    public void updateObjects(EasyUser sessionUser, Dataset dataset, List<DmoStoreId> sidList, UpdateInfo updateInfo, ItemFilters itemFilters,
+            WorkListener... workListeners) throws ServiceException
     {
         if (sidList.isEmpty())
         {
             return;
         }
-        
+
         UnitOfWork uow = new EasyUnitOfWork(sessionUser);
-        
+
         try
         {
-        	uow.attach(dataset);
+            uow.attach(dataset);
             getItemWorkDispatcher().updateObjects(sessionUser, dataset, sidList, updateInfo, itemFilters, uow, workListeners);
-        } catch (RepositoryException e) {
-			logger.error("Something went wrong trying to update objects.", e);
-		}
+        }
+        catch (RepositoryException e)
+        {
+            logger.error("Something went wrong trying to update objects.", e);
+        }
         finally
         {
             uow.close();
         }
     }
-    
+
     @Override
     public void updateFileItemMetadata(EasyUser sessionUser, Dataset dataset, File file, AdditionalMetadataUpdateStrategy strategy,
             WorkListener... workListeners) throws ServiceException
@@ -222,7 +223,7 @@ public class EasyItemService extends AbstractEasyService implements ItemService
         {
             throw new ServiceException(e);
         }
-        
+
         try
         {
             ResourceMetadataList rmdList = (ResourceMetadataList) JiBXObjectFactory.unmarshal(ResourceMetadataList.class, file);
@@ -232,15 +233,15 @@ public class EasyItemService extends AbstractEasyService implements ItemService
         {
             throw new ServiceException(e);
         }
-        
+
     }
-    
+
     @Override
-    public void updateFileItemMetadata(EasyUser sessionUser, Dataset dataset, ResourceMetadataList resourceMetadataList, AdditionalMetadataUpdateStrategy strategy,
-            WorkListener... workListeners) throws ServiceException
+    public void updateFileItemMetadata(EasyUser sessionUser, Dataset dataset, ResourceMetadataList resourceMetadataList,
+            AdditionalMetadataUpdateStrategy strategy, WorkListener... workListeners) throws ServiceException
     {
         getItemWorkDispatcher().updateFileItemMetadata(sessionUser, dataset, resourceMetadataList, strategy, workListeners);
-        
+
     }
 
     // old fashioned additional metadata 
@@ -267,7 +268,7 @@ public class EasyItemService extends AbstractEasyService implements ItemService
             uow.close();
         }
     }
-    
+
     public List<String> getFilenames(final DmoStoreId parentSid, final boolean recursive) throws ServiceException
     {
         try
@@ -280,20 +281,20 @@ public class EasyItemService extends AbstractEasyService implements ItemService
         }
     }
 
-    public List<ItemVO> getFilesAndFolders(EasyUser sessionUser, Dataset dataset, final DmoStoreId parentSid, final Integer limit, final Integer offset, final ItemOrder order, final ItemFilters filters)
-            throws ServiceException
+    public List<ItemVO> getFilesAndFolders(EasyUser sessionUser, Dataset dataset, final DmoStoreId parentSid, final Integer limit, final Integer offset,
+            final ItemOrder order, final ItemFilters filters) throws ServiceException
     {
         List<ItemVO> itemList;
         try
         {
-            
+
             itemList = Data.getFileStoreAccess().getFilesAndFolders(parentSid, limit, offset, order, filters);
         }
         catch (final StoreAccessException e)
         {
             throw new ServiceException(e);
         }
-        
+
         setAuthzStrategy(sessionUser, dataset, itemList);
         return itemList;
     }
@@ -310,8 +311,8 @@ public class EasyItemService extends AbstractEasyService implements ItemService
         }
     }
 
-    public List<FileItemVO> getFiles(EasyUser sessionUser, Dataset dataset, final DmoStoreId parentSid, final Integer limit, final Integer offset, final ItemOrder order, final ItemFilters filters)
-            throws ServiceException
+    public List<FileItemVO> getFiles(EasyUser sessionUser, Dataset dataset, final DmoStoreId parentSid, final Integer limit, final Integer offset,
+            final ItemOrder order, final ItemFilters filters) throws ServiceException
     {
         List<FileItemVO> fileItemList;
         try
@@ -326,8 +327,8 @@ public class EasyItemService extends AbstractEasyService implements ItemService
         return fileItemList;
     }
 
-    public List<FolderItemVO> getFolders(EasyUser sessionUser, Dataset dataset, final DmoStoreId parentSid, final Integer limit, final Integer offset, final ItemOrder order, final ItemFilters filters)
-            throws ServiceException
+    public List<FolderItemVO> getFolders(EasyUser sessionUser, Dataset dataset, final DmoStoreId parentSid, final Integer limit, final Integer offset,
+            final ItemOrder order, final ItemFilters filters) throws ServiceException
     {
         List<FolderItemVO> folderItemList;
         try
@@ -338,7 +339,7 @@ public class EasyItemService extends AbstractEasyService implements ItemService
         {
             throw new ServiceException(e);
         }
-        
+
         setAuthzStrategy(sessionUser, dataset, folderItemList);
         return folderItemList;
     }
@@ -354,11 +355,11 @@ public class EasyItemService extends AbstractEasyService implements ItemService
         {
             throw new ServiceException(e);
         }
-        
+
         setAuthzStrategy(sessionUser, dataset, itemList);
         return itemList;
     }
-    
+
     @Override
     public Collection<FileItemVO> getFileItemsRecursively(EasyUser sessionUser, Dataset dataset, Collection<FileItemVO> items, ItemFilters filter,
             DmoStoreId... storeIds) throws ServiceException
@@ -366,8 +367,9 @@ public class EasyItemService extends AbstractEasyService implements ItemService
         AuthzStrategyProvider provider = new AuthzStrategyProvider(sessionUser, dataset);
         return getFileItemsRecursively(provider, items, filter, storeIds);
     }
-    
-    private Collection<FileItemVO> getFileItemsRecursively(AuthzStrategyProvider provider, final Collection<FileItemVO> items, final ItemFilters filter, final DmoStoreId... storeIds) throws ServiceException
+
+    private Collection<FileItemVO> getFileItemsRecursively(AuthzStrategyProvider provider, final Collection<FileItemVO> items, final ItemFilters filter,
+            final DmoStoreId... storeIds) throws ServiceException
     {
         try
         {
@@ -419,7 +421,8 @@ public class EasyItemService extends AbstractEasyService implements ItemService
     /**
      * {@inheritDoc}
      */
-    public ZipFileContentWrapper getZippedContent(EasyUser sessionUser, final Dataset dataset, final Collection<RequestedItem> requestedItems) throws ServiceException
+    public ZipFileContentWrapper getZippedContent(EasyUser sessionUser, final Dataset dataset, final Collection<RequestedItem> requestedItems)
+            throws ServiceException
     {
         final ZipFileContentWrapper zipFileContentWrapper = getDownloadWorkDispatcher().prepareZippedContent(sessionUser, dataset, requestedItems);
         if (logger.isDebugEnabled())
@@ -446,7 +449,7 @@ public class EasyItemService extends AbstractEasyService implements ItemService
         }
         return downloadWorkDispatcher;
     }
-    
+
     private void setAuthzStrategy(EasyUser sessionUser, Dataset dataset, List<? extends ItemVO> itemList)
     {
         AuthzStrategyProvider provider = new AuthzStrategyProvider(sessionUser, dataset);
@@ -456,7 +459,7 @@ public class EasyItemService extends AbstractEasyService implements ItemService
             ((AbstractItemVO) itemVO).setAuthzStrategy(strategy);
         }
     }
-    
+
     private FileItem getFileItem(Dataset dataset, DmoStoreId fileItemId) throws ObjectNotAvailableException, ServiceException
     {
         FileItem fileItem;
@@ -466,7 +469,7 @@ public class EasyItemService extends AbstractEasyService implements ItemService
             if (!fileItem.getFileItemMetadata().getDatasetDmoStoreId().equals(dataset.getDmoStoreId()))
             {
                 throw new ObjectNotAvailableException("FileItem '" + fileItemId + "' does not belong to dataset '" + dataset.getStoreId() + "'");
-            }                    
+            }
         }
         catch (ObjectNotInStoreException e)
         {
@@ -479,11 +482,11 @@ public class EasyItemService extends AbstractEasyService implements ItemService
         return fileItem;
     }
 
-	@Override
-	public void registerDownload(EasyUser sessionUser, Dataset dataset, List<? extends ItemVO> downloads) {
-		DownloadRegistration registration = new DownloadRegistration(sessionUser, dataset, downloads);
-    	registration.registerDownloads();
-	}
-
+    @Override
+    public void registerDownload(EasyUser sessionUser, Dataset dataset, List<? extends ItemVO> downloads)
+    {
+        DownloadRegistration registration = new DownloadRegistration(sessionUser, dataset, downloads);
+        registration.registerDownloads();
+    }
 
 }

@@ -14,42 +14,42 @@ import nl.knaw.dans.easy.xml.AdditionalMetadata;
 public interface FileItem extends DatasetItem, CommonFileItem
 {
     DmoNamespace NAMESPACE = new DmoNamespace("easy-file");
-    
-	void setFile(File file) throws IOException;
-    
+
+    void setFile(File file) throws IOException;
+
     File getFile();
-    
+
     FileItemMetadata getFileItemMetadata();
-    
+
     AdditionalMetadata getAdditionalMetadata();
-    
+
     void setAdditionalMetadata(AdditionalMetadata additionalMetadata);
-    
+
     CreatorRole getCreatorRole();
-    
+
     void setCreatorRole(CreatorRole creatorRole);
-    
+
     boolean isCreatedByArchivist();
-    
+
     boolean isCreatedByDepositor();
-    
+
     VisibleTo getVisibleTo();
-    
+
     AccessibleTo getAccessibleTo();
-    
+
     void setVisibleTo(VisibleTo visibleTo);
-    
+
     void setAccessibleTo(AccessibleTo accessibleTo);
-    
+
     boolean isAccessibleFor(int userProfile);
-    
+
     AccessCategory getReadAccessCategory();
-    
+
     AccessCategory getViewAccessCategory();
-    
-    void setDescriptiveMetadata (Element content);
-    
+
+    void setDescriptiveMetadata(Element content);
+
     boolean hasDescriptiveMetadata();
-    
+
     DescriptiveMetadata getDescriptiveMetadata();
 }

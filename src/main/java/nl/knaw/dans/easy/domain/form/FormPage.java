@@ -11,8 +11,8 @@ public class FormPage extends AbstractInheritableDefinition<FormPage>
     protected boolean editable = true;
 
     private String cssContainerClassName;
-	private List<String>      panelIds         = new ArrayList<String>();
-	private List<PanelDefinition> panelDefinitions;
+    private List<String> panelIds = new ArrayList<String>();
+    private List<PanelDefinition> panelDefinitions;
 
     protected FormPage()
     {
@@ -24,14 +24,16 @@ public class FormPage extends AbstractInheritableDefinition<FormPage>
         super(id);
     }
 
-    public boolean isEditable() {
-		return editable;
-	}
+    public boolean isEditable()
+    {
+        return editable;
+    }
 
-	public void setEditable(boolean editable) {
-		this.editable = editable;
-	}
-	
+    public void setEditable(boolean editable)
+    {
+        this.editable = editable;
+    }
+
     public String getCssContainerClassName()
     {
         return cssContainerClassName;
@@ -66,7 +68,7 @@ public class FormPage extends AbstractInheritableDefinition<FormPage>
         }
         return panelDefinitions;
     }
-    
+
     public List<TermPanelDefinition> getTermPanelDefinitions()
     {
         List<TermPanelDefinition> list = new ArrayList<TermPanelDefinition>();
@@ -79,7 +81,7 @@ public class FormPage extends AbstractInheritableDefinition<FormPage>
         }
         return list;
     }
-    
+
     public boolean hasErrors()
     {
         boolean hasErrors = false;
@@ -93,7 +95,7 @@ public class FormPage extends AbstractInheritableDefinition<FormPage>
         }
         return hasErrors;
     }
-    
+
     public void clearErrorMessages()
     {
         for (PanelDefinition pDef : getPanelDefinitions())

@@ -19,17 +19,16 @@ public class EmdCreator extends AbstractEmdContainer
     /**
      * Terms contained.
      */
-    static final Term[] TERMS            = {
-        new Term(Term.Name.CREATOR, Term.Namespace.DC, BasicString.class),
-        new Term(Term.Name.CREATOR, Term.Namespace.EAS, Author.class)};
+    static final Term[] TERMS = {new Term(Term.Name.CREATOR, Term.Namespace.DC, BasicString.class),
+            new Term(Term.Name.CREATOR, Term.Namespace.EAS, Author.class)};
 
     /**
      *
      */
-    private static final long  serialVersionUID = 709621311103768603L;
+    private static final long serialVersionUID = 709621311103768603L;
 
-    private List<BasicString>  dcCreator        = new ArrayList<BasicString>();
-    private List<Author>       easCreator       = new ArrayList<Author>();
+    private List<BasicString> dcCreator = new ArrayList<BasicString>();
+    private List<Author> easCreator = new ArrayList<Author>();
 
     /**
      * {@inheritDoc}
@@ -84,7 +83,7 @@ public class EmdCreator extends AbstractEmdContainer
     {
         this.easCreator = easCreator;
     }
-    
+
     public List<String> getDigitalAuthorIds()
     {
         List<String> dais = new ArrayList<String>();
@@ -97,7 +96,7 @@ public class EmdCreator extends AbstractEmdContainer
         }
         return dais;
     }
-    
+
     public List<Author> getDAIAuthors()
     {
         List<Author> daiAuthors = new ArrayList<Author>();

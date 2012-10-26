@@ -4,7 +4,6 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.regex.Pattern;
 
-
 /**
  * Represents a string that can be localized with a language token. Methods in this class intermediate between the java
  * representation of a locale and the xml lang attribute.
@@ -17,19 +16,19 @@ public abstract class LanguageTokenizedString extends SimpleElementImpl<String>
     /**
      * Pattern to check the validity of the language token. {@value}
      */
-    public static final String LANGUAGE_TOKEN   = "([a-zA-Z]{2,3}|[il]-[a-zA-Z]+|[xX]-[a-zA-Z]{1,8})(-[a-zA-Z]{2,8})*";
-
+    public static final String LANGUAGE_TOKEN = "([a-zA-Z]{2,3}|[il]-[a-zA-Z]+|[xX]-[a-zA-Z]{1,8})(-[a-zA-Z]{2,8})*";
 
     /**
      * Serial version id.
      */
-    private static final long  serialVersionUID = -5033270791432895464L;
+    private static final long serialVersionUID = -5033270791432895464L;
 
     // ecco: CHECKSTYLE: OFF
     /**
      * Holds the language token.
      */
-    protected String             language; // keep modifier protected, JiBX must see it from sub classes
+    protected String language; // keep modifier protected, JiBX must see it from sub classes
+
     // ecco: CHECKSTYLE: ON
 
     /**
@@ -67,7 +66,7 @@ public abstract class LanguageTokenizedString extends SimpleElementImpl<String>
     public static synchronized String getLanguageToken(final Locale locale) throws InvalidLanguageTokenException
     {
         String lang = locale.getLanguage();
-        String country = locale.getCountry();  
+        String country = locale.getCountry();
 
         if (lang.length() != 2)
         {
@@ -81,7 +80,7 @@ public abstract class LanguageTokenizedString extends SimpleElementImpl<String>
 
         try
         {
-            lang = locale.getISO3Language();  
+            lang = locale.getISO3Language();
         }
         catch (final MissingResourceException e)
         {
@@ -217,8 +216,9 @@ public abstract class LanguageTokenizedString extends SimpleElementImpl<String>
      *
      * @return the value, or <code>null</code>
      */
-    @Override // needed for JiBX when using generic classes
-    public String getValue() 
+    @Override
+    // needed for JiBX when using generic classes
+    public String getValue()
     {
         return super.getValue();
     }
@@ -229,8 +229,9 @@ public abstract class LanguageTokenizedString extends SimpleElementImpl<String>
      * @param value
      *        the value, or <code>null</code>
      */
-    @Override // needed for JiBX when using generic classes
-    public void setValue(final String value) 
+    @Override
+    // needed for JiBX when using generic classes
+    public void setValue(final String value)
     {
         super.setValue(value);
     }

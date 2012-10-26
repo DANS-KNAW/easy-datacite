@@ -24,12 +24,12 @@ public abstract class AbstractCheck implements SecurityOfficer
     {
         return evaluate(ctxParameters);
     }
-    
+
     public String explainEnableAllowed(ContextParameters ctxParameters)
     {
         return explain(ctxParameters);
     }
-    
+
     public String explainComponentVisible(ContextParameters ctxParameters)
     {
         return explain(ctxParameters);
@@ -44,9 +44,9 @@ public abstract class AbstractCheck implements SecurityOfficer
      *         otherwise
      */
     public abstract boolean evaluate(ContextParameters ctxParameters);
-    
+
     protected abstract String explain(ContextParameters ctxParameters);
-    
+
     protected StringBuilder startExplain(ContextParameters ctxParameters)
     {
         StringBuilder sb = new StringBuilder("\n" + ctxParameters.nextChar(this) + " = check ");
@@ -56,7 +56,7 @@ public abstract class AbstractCheck implements SecurityOfficer
         sb.append(")");
         return sb;
     }
-    
+
     public boolean getHints(ContextParameters ctxParameters, List<Object> hints)
     {
         boolean conditionMet = evaluate(ctxParameters);
@@ -66,6 +66,5 @@ public abstract class AbstractCheck implements SecurityOfficer
         }
         return conditionMet;
     }
-    
 
 }

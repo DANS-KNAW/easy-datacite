@@ -31,13 +31,13 @@ import nl.knaw.dans.easy.util.TestHelper;
 import org.easymock.EasyMock;
 import org.junit.BeforeClass;
 import org.junit.Test;
- 
+
 public class EasySearchServiceTest extends TestHelper
 {
-    private static DatasetSearch 		datasetSearch;
-    private static EasySearchService 	service;
-	private static EasyUserImpl normalUser;
-	private static EasyUserImpl superUser;
+    private static DatasetSearch datasetSearch;
+    private static EasySearchService service;
+    private static EasyUserImpl normalUser;
+    private static EasyUserImpl superUser;
 
     @BeforeClass
     public static void beforeClass()
@@ -60,8 +60,8 @@ public class EasySearchServiceTest extends TestHelper
         arch.add(Role.ARCHIVIST);
         superUser.setRoles(arch);
     }
-    
-	@Test
+
+    @Test
     @SuppressWarnings("unchecked")
     public void searchPublishedTest() throws ServiceException, SearchEngineException, SearchBeanFactoryException
     {
@@ -69,21 +69,17 @@ public class EasySearchServiceTest extends TestHelper
         FieldSet expected = new SimpleFieldSet();
 
         EasyMock.reset(datasetSearch);
-        expected.add(
-        		new SimpleField(DatasetSB.DS_STATE_FIELD, 
-        				"("+ DatasetState.PUBLISHED.toString() +" OR "+ DatasetState.MAINTENANCE.toString() +")" 
-        			)
-        	);
+        expected.add(new SimpleField(DatasetSB.DS_STATE_FIELD, "(" + DatasetState.PUBLISHED.toString() + " OR " + DatasetState.MAINTENANCE.toString() + ")"));
         EasyMock.expect(datasetSearch.search(request)).andReturn(new SimpleSearchResult());
-        
+
         EasyMock.replay(datasetSearch);
         service.searchPublished(request, normalUser);
         EasyMock.verify(datasetSearch);
-        
+
         compareFieldQueries(expected, request.getFilterQueries());
     }
 
-	@Test
+    @Test
     @SuppressWarnings("unchecked")
     public void searchWorkTest() throws ServiceException, SearchEngineException, SearchBeanFactoryException
     {
@@ -92,17 +88,13 @@ public class EasySearchServiceTest extends TestHelper
 
         EasyMock.reset(datasetSearch);
         EasyMock.expect(datasetSearch.search(request)).andReturn(new SimpleSearchResult());
-        expected.add(
-        		new SimpleField(DatasetSB.DS_STATE_FIELD, 
-        				"("+ DatasetState.SUBMITTED.toString() +" OR "+ DatasetState.MAINTENANCE.toString() +")" 
-        			)
-        	);
-        
+        expected.add(new SimpleField(DatasetSB.DS_STATE_FIELD, "(" + DatasetState.SUBMITTED.toString() + " OR " + DatasetState.MAINTENANCE.toString() + ")"));
+
         // our work
         EasyMock.replay(datasetSearch);
         service.searchOurWork(request, superUser);
         EasyMock.verify(datasetSearch);
-        
+
         compareFieldQueries(expected, request.getFilterQueries());
 
         // all work
@@ -114,25 +106,25 @@ public class EasySearchServiceTest extends TestHelper
         EasyMock.replay(datasetSearch);
         service.searchAllWork(request, superUser);
         EasyMock.verify(datasetSearch);
-        
+
         compareFieldQueries(expected, request.getFilterQueries());
 
         // my work
         request = new SimpleSearchRequest("test");
         SimpleField assigneeId = new SimpleField(EasyDatasetSB.ASSIGNEE_ID_FIELD, superUser.getId());
         expected.add(assigneeId);
-        
+
         EasyMock.reset(datasetSearch);
         EasyMock.expect(datasetSearch.search(request)).andReturn(new SimpleSearchResult());
 
         EasyMock.replay(datasetSearch);
         service.searchMyWork(request, superUser);
         EasyMock.verify(datasetSearch);
-        
+
         compareFieldQueries(expected, request.getFilterQueries());
     }
 
-	@Test
+    @Test
     @SuppressWarnings("unchecked")
     public void searchTrashcanTest() throws ServiceException, SearchEngineException, SearchBeanFactoryException
     {
@@ -141,20 +133,16 @@ public class EasySearchServiceTest extends TestHelper
 
         EasyMock.reset(datasetSearch);
         EasyMock.expect(datasetSearch.search(request)).andReturn(new SimpleSearchResult());
-        expected.add(
-        		new SimpleField(DatasetSB.DS_STATE_FIELD, 
-        				DatasetState.DELETED 
-        			)
-        	);
-        
+        expected.add(new SimpleField(DatasetSB.DS_STATE_FIELD, DatasetState.DELETED));
+
         EasyMock.replay(datasetSearch);
         service.searchTrashcan(request, superUser);
         EasyMock.verify(datasetSearch);
-        
+
         compareFieldQueries(expected, request.getFilterQueries());
     }
 
-	@Test
+    @Test
     @SuppressWarnings("unchecked")
     public void searchMyDatasetsTest() throws ServiceException, SearchEngineException, SearchBeanFactoryException
     {
@@ -163,26 +151,18 @@ public class EasySearchServiceTest extends TestHelper
 
         EasyMock.reset(datasetSearch);
         EasyMock.expect(datasetSearch.search(request)).andReturn(new SimpleSearchResult());
-        expected.add(
-            		new SimpleField(DatasetSB.DS_STATE_FIELD, 
-            				"("+ DatasetState.DRAFT.toString() +" OR "+ DatasetState.SUBMITTED.toString() +" OR "+ 
-            				DatasetState.PUBLISHED.toString() +" OR "+ DatasetState.MAINTENANCE.toString() +")"
-            			)
-        	);
-        expected.add(
-        		new SimpleField(EasyDatasetSB.DEPOSITOR_ID_FIELD,
-        				superUser.getId()
-        			)
-        	);
-        
+        expected.add(new SimpleField(DatasetSB.DS_STATE_FIELD, "(" + DatasetState.DRAFT.toString() + " OR " + DatasetState.SUBMITTED.toString() + " OR "
+                + DatasetState.PUBLISHED.toString() + " OR " + DatasetState.MAINTENANCE.toString() + ")"));
+        expected.add(new SimpleField(EasyDatasetSB.DEPOSITOR_ID_FIELD, superUser.getId()));
+
         EasyMock.replay(datasetSearch);
         service.searchMyDataset(request, superUser);
         EasyMock.verify(datasetSearch);
-        
+
         compareFieldQueries(expected, request.getFilterQueries());
     }
 
-	@Test
+    @Test
     @SuppressWarnings("unchecked")
     public void searchMyDatasetsStateSubsetTest() throws ServiceException, SearchEngineException, SearchBeanFactoryException
     {
@@ -192,63 +172,48 @@ public class EasySearchServiceTest extends TestHelper
         // try subset
         EasyMock.reset(datasetSearch);
         EasyMock.expect(datasetSearch.search(request)).andReturn(new SimpleSearchResult());
-        SimpleField states = new SimpleField(DatasetSB.DS_STATE_FIELD, 
-				DatasetState.DRAFT
-			);
-		expected.add(states);
-		expected.add(new SimpleField(EasyDatasetSB.DEPOSITOR_ID_FIELD,
-				superUser.getId()
-			));
+        SimpleField states = new SimpleField(DatasetSB.DS_STATE_FIELD, DatasetState.DRAFT);
+        expected.add(states);
+        expected.add(new SimpleField(EasyDatasetSB.DEPOSITOR_ID_FIELD, superUser.getId()));
 
-		request.addFilterQuery(new SimpleField(states));
-        
+        request.addFilterQuery(new SimpleField(states));
+
         EasyMock.replay(datasetSearch);
         service.searchMyDataset(request, superUser);
         EasyMock.verify(datasetSearch);
-        
+
         compareFieldQueries(expected, request.getFilterQueries());
 
     }
 
-	@Test
+    @Test
     @SuppressWarnings("unchecked")
     public void searchMyDatasetsStateInvalidSubsetTest() throws ServiceException, SearchEngineException, SearchBeanFactoryException
     {
-		// prepare
+        // prepare
         SearchRequest request = new SimpleSearchRequest("test");
         EasyMock.reset(datasetSearch);
         EasyMock.expect(datasetSearch.search(request)).andReturn(new SimpleSearchResult());
-        
-        SimpleField states = new SimpleField(DatasetSB.DS_STATE_FIELD, 
-				DatasetState.DELETED
-			);
+
+        SimpleField states = new SimpleField(DatasetSB.DS_STATE_FIELD, DatasetState.DELETED);
 
         request.addFilterQuery(new SimpleField(states));
 
         FieldSet expected = new SimpleFieldSet();
-        expected.add(
-        		new SimpleField(DatasetSB.DS_STATE_FIELD, 
-        				"("+ DatasetState.DRAFT.toString() +" OR "+ DatasetState.SUBMITTED.toString() +" OR "+ 
-        				DatasetState.PUBLISHED.toString() +" OR "+ DatasetState.MAINTENANCE.toString() +")"
-        			)
-    	);
-        expected.add(
-        		new SimpleField<String>(
-        				EasyDatasetSB.DEPOSITOR_ID_FIELD, 
-        				normalUser.getId()
-        			) 
-        	);
-        
+        expected.add(new SimpleField(DatasetSB.DS_STATE_FIELD, "(" + DatasetState.DRAFT.toString() + " OR " + DatasetState.SUBMITTED.toString() + " OR "
+                + DatasetState.PUBLISHED.toString() + " OR " + DatasetState.MAINTENANCE.toString() + ")"));
+        expected.add(new SimpleField<String>(EasyDatasetSB.DEPOSITOR_ID_FIELD, normalUser.getId()));
+
         // do test
         EasyMock.replay(datasetSearch);
         service.searchMyDataset(request, normalUser);
         EasyMock.verify(datasetSearch);
-        
+
         // test results
         compareFieldQueries(expected, request.getFilterQueries());
     }
-	
-	@Test
+
+    @Test
     @SuppressWarnings("unchecked")
     public void searchMyRequestsTest() throws ServiceException, SearchEngineException, SearchBeanFactoryException
     {
@@ -257,37 +222,28 @@ public class EasySearchServiceTest extends TestHelper
 
         EasyMock.reset(datasetSearch);
         EasyMock.expect(datasetSearch.search(request)).andReturn(new SimpleSearchResult());
-        expected.add(
-        		new SimpleField(DatasetSB.DS_STATE_FIELD, 
-        				"("+ DatasetState.PUBLISHED.toString() +" OR "+ DatasetState.MAINTENANCE.toString() +")" 
-        			)
-        	);
-        expected.add(
-        		new SimpleField(EasyDatasetSB.PERMISSION_STATUS_FIELD,
-        				superUser.getId()
-        			)
-        	);
-        
+        expected.add(new SimpleField(DatasetSB.DS_STATE_FIELD, "(" + DatasetState.PUBLISHED.toString() + " OR " + DatasetState.MAINTENANCE.toString() + ")"));
+        expected.add(new SimpleField(EasyDatasetSB.PERMISSION_STATUS_FIELD, superUser.getId()));
+
         EasyMock.replay(datasetSearch);
         service.searchMyRequests(request, superUser);
         EasyMock.verify(datasetSearch);
-        
+
         compareFieldQueries(expected, request.getFilterQueries());
     }
 
-	/**
-	 * compares if the expected fields are in filterQueries. filterQueries should have the expected fields
-	 * but may have more filter queries.
-	 */
-	private void compareFieldQueries(FieldSet<?> expected,
-			FieldSet<?> filterQueries)
-	{
-		for (Field<?> exField : expected)
-		{
-			Field<?> inField = filterQueries.getByFieldName(exField.getName());
-			assertTrue("Expected field "+ exField.toString() +" was not found.", inField != null);
-			assertEquals(exField.getValue().toString(), inField.getValue().toString());
-		}
-	}
+    /**
+     * compares if the expected fields are in filterQueries. filterQueries should have the expected fields
+     * but may have more filter queries.
+     */
+    private void compareFieldQueries(FieldSet<?> expected, FieldSet<?> filterQueries)
+    {
+        for (Field<?> exField : expected)
+        {
+            Field<?> inField = filterQueries.getByFieldName(exField.getName());
+            assertTrue("Expected field " + exField.toString() + " was not found.", inField != null);
+            assertEquals(exField.getValue().toString(), inField.getValue().toString());
+        }
+    }
 
 }

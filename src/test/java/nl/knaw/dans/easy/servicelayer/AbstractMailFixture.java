@@ -23,10 +23,11 @@ public abstract class AbstractMailFixture
     protected boolean verbose = Tester.isVerbose();
     protected boolean online = "true".equals(Tester.getString("mail.onlinetest"));
 
-    protected static boolean online() {
+    protected static boolean online()
+    {
         return "true".equals(Tester.getString("mail.onlinetest"));
     }
-    
+
     @BeforeClass
     public static void beforeClass() throws Exception
     {

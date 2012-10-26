@@ -123,7 +123,7 @@ public class LicenseComposer
 
     private final boolean generateSample;
 
-    public static final int ESTIMATED_PDF_SIZE = 70*1024;
+    public static final int ESTIMATED_PDF_SIZE = 70 * 1024;
 
     /**
      * @param depositor
@@ -132,8 +132,7 @@ public class LicenseComposer
      * @throws LicenseComposerException
      * @throws MalformedURLException 
      */
-    public LicenseComposer(final EasyUser depositor, final Dataset dataset,
-            final boolean generateSample) throws LicenseComposerException
+    public LicenseComposer(final EasyUser depositor, final Dataset dataset, final boolean generateSample) throws LicenseComposerException
     {
         this.dataset = dataset;
         this.generateSample = generateSample;
@@ -169,7 +168,7 @@ public class LicenseComposer
         }
         catch (final MalformedURLException e)
         {
-            throw new LicenseComposerException(uri + " " + e.getMessage(),e);
+            throw new LicenseComposerException(uri + " " + e.getMessage(), e);
         }
     }
 
@@ -179,8 +178,7 @@ public class LicenseComposer
         try
         {
             final PdfWriter writer = PdfWriter.getInstance(document, outputStream);
-            writer.setPageEvent(new PdfPageLayouter(document, snippets.get(SnippetKey.version),
-                    headerImage));
+            writer.setPageEvent(new PdfPageLayouter(document, snippets.get(SnippetKey.version), headerImage));
             createContent(document);
         }
         catch (final DocumentException exception)
@@ -207,8 +205,7 @@ public class LicenseComposer
         }
     }
 
-    private void createContent(final Document document) throws LicenseComposerException,
-            DocumentException
+    private void createContent(final Document document) throws LicenseComposerException, DocumentException
     {
 
         document.open();
@@ -226,8 +223,7 @@ public class LicenseComposer
         document.close();
     }
 
-    private void foramtUploadedFileNames(final Document document) throws DocumentException,
-            LicenseComposerException
+    private void foramtUploadedFileNames(final Document document) throws DocumentException, LicenseComposerException
     {
         final List<String> fileNames = getDatasetFileNames(dataset.getDmoStoreId());
         if (fileNames == null || fileNames.size() == 0)
@@ -257,10 +253,10 @@ public class LicenseComposer
         }
         table.getDefaultCell();
         table.setPadding(3);
-//        table.getDefaultCell().setMinimumHeight(22);
-//        table.setSpacingBefore(4);
-//        table.setWidthPercentage(100f);
-//        table.setSplitRows(false);
+        //        table.getDefaultCell().setMinimumHeight(22);
+        //        table.setSpacingBefore(4);
+        //        table.setWidthPercentage(100f);
+        //        table.setSplitRows(false);
         final EasyMetadata easyMetadata = dataset.getEasyMetadata();
         for (final Term term : easyMetadata.getTerms())
         {
@@ -276,15 +272,15 @@ public class LicenseComposer
                 {
                     throw new LicenseComposerException(e);
                 }
-                
+
                 String string = "";
-                
+
                 // write exceptions to just putting the hard emd values
                 // in the licence here
                 if (term.getName().equals(Term.Name.AUDIENCE))
                 {
-                	string = formatAudience(easyMetadata);
-                	try
+                    string = formatAudience(easyMetadata);
+                    try
                     {
                         table.addCell(string);
                     }
@@ -296,9 +292,9 @@ public class LicenseComposer
                 else if (term.getName().equals(Term.Name.ACCESSRIGHTS))
                 {
                     final MetadataItem item = items.get(0); // was non empty!
-                    
+
                     string = formatAccesRights(item);
-                    
+
                     try
                     {
                         table.addCell(string);
@@ -310,7 +306,7 @@ public class LicenseComposer
                 }
                 else
                 {
-                	// generic approach for metadata items
+                    // generic approach for metadata items
                     string = Arrays.deepToString(items.toArray());
                     try
                     {
@@ -329,13 +325,13 @@ public class LicenseComposer
     protected String formatAccesRights(final MetadataItem item)
     {
         String accesRights = "";
-        
+
         //AccessCategory cat = AccessCategory.valueOf(item.toString());
         final String categoryString = item.toString();
-        
+
         // TODO use properties file for mapping these metadata values
-        
-        if(categoryString.equals("ANONYMOUS_ACCESS"))
+
+        if (categoryString.equals("ANONYMOUS_ACCESS"))
         {
             accesRights = "Anonymous";
         }
@@ -364,10 +360,10 @@ public class LicenseComposer
             logger.warn("No available mapping; using acces category value directly");
             accesRights = categoryString;
         }
-        
+
         return accesRights;
     }
-    
+
     public static String formatAudience(final EasyMetadata easyMetadata) throws LicenseComposerException
     {
         final DisciplineCollectionService disciplineService = Services.getDisciplineService();
@@ -394,8 +390,7 @@ public class LicenseComposer
         return string.substring(2);
     }
 
-    private String compose(final SnippetKey snippet)
-            throws LicenseComposerException
+    private String compose(final SnippetKey snippet) throws LicenseComposerException
     {
         try
         {
@@ -404,14 +399,12 @@ public class LicenseComposer
         }
         catch (final MailComposerException exception)
         {
-            throw new LicenseComposerException("can not compose "+snippet +"; "+exception.getMessage(),
-                    exception);
+            throw new LicenseComposerException("can not compose " + snippet + "; " + exception.getMessage(), exception);
         }
     }
 
     @SuppressWarnings("unchecked")
-    protected void copyHtml(final Document document, final String snippet)
-            throws LicenseComposerException
+    protected void copyHtml(final Document document, final String snippet) throws LicenseComposerException
     {
         final StringReader reader = new StringReader(snippet);
         try
@@ -463,13 +456,11 @@ public class LicenseComposer
         }
         catch (final IOException exception)
         {
-            throw new LicenseComposerException("can not read license snippet: " + fileName,
-                    exception);
+            throw new LicenseComposerException("can not read license snippet: " + fileName, exception);
         }
         catch (final ResourceNotFoundException exception)
         {
-            throw new LicenseComposerException("can not find license snippet: " + fileName,
-                    exception);
+            throw new LicenseComposerException("can not find license snippet: " + fileName, exception);
         }
     }
 

@@ -9,7 +9,7 @@ import org.springframework.beans.FatalBeanException;
 
 public class GroupCreator
 {
-    
+
     protected static void createGroups()
     {
         Group archeology = new GroupImpl(Group.ID_ARCHEOLOGY);
@@ -20,7 +20,7 @@ public class GroupCreator
             {
                 Data.getGroupRepo().add(archeology);
             }
-            
+
             if (!Data.getGroupRepo().exists(history.getId()))
             {
                 Data.getGroupRepo().add(history);

@@ -25,7 +25,7 @@ public class MetadataLicenseGenerator implements SubmissionProcessor
         final EasyUser depositor = submission.getSessionUser();
         String datasetId = submission.getDatasetId();
         return createLicense(dataset, depositor, datasetId);
-        
+
     }
 
     private static boolean createLicense(final Dataset dataset, final EasyUser depositor, String datasetId)

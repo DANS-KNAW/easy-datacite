@@ -11,17 +11,16 @@ import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 
 public class HistoryFormatValidator implements Validator
 {
-    
+
     private static HistoryFormatValidator INSTANCE;
-    
-    private static List<Validator> VALIDATORS 
-        = Collections.synchronizedList(new ArrayList<Validator>());
-    
+
+    private static List<Validator> VALIDATORS = Collections.synchronizedList(new ArrayList<Validator>());
+
     private HistoryFormatValidator()
     {
         VALIDATORS.addAll(CommonValidators.getList());
     }
-    
+
     public static HistoryFormatValidator instance()
     {
         synchronized (VALIDATORS)

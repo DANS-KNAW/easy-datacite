@@ -8,7 +8,6 @@ import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.domain.collections.ECollection;
 import nl.knaw.dans.i.dmo.collections.DmoCollection;
 
-
 public class ECollectionEntry implements Serializable
 {
 
@@ -19,10 +18,10 @@ public class ECollectionEntry implements Serializable
     private final String shortName;
     private final boolean oaiSetEnabled;
     private final int level;
-    
+
     private boolean member;
     private boolean publishedAsOAISet;
-    
+
     public ECollectionEntry(DmoCollection collection, int level)
     {
         if (!ECollection.isECollection(collection))
@@ -73,42 +72,42 @@ public class ECollectionEntry implements Serializable
     {
         return shortName;
     }
-    
+
     public String getLevelName()
     {
-        return StringUtils.repeat("-", level -1) + shortName;
+        return StringUtils.repeat("-", level - 1) + shortName;
     }
 
     public boolean isOaiSetEnabled()
     {
         return oaiSetEnabled;
     }
-    
+
     public int getLevel()
     {
         return level;
     }
-   
+
     @Override
     public String toString()
     {
         return new StringBuilder(this.getClass().getSimpleName()) //
-            .append(" [") //
-            .append(collectionId) //
-            .append("] ") //
-            .append(label) //
-            .append(" [levelName=") //
-            .append(getLevelName()) //
-            .append("] [level=") //
-            .append(level) //
-            .append("] [isOAISetEnabled=") //
-            .append(oaiSetEnabled) //
-            .append("] [isMember=") //
-            .append(member) //
-            .append("] [isPublishedAsOAISet=") //
-            .append(publishedAsOAISet) //
-            .append("]") //
-            .toString();
+                .append(" [") //
+                .append(collectionId) //
+                .append("] ") //
+                .append(label) //
+                .append(" [levelName=") //
+                .append(getLevelName()) //
+                .append("] [level=") //
+                .append(level) //
+                .append("] [isOAISetEnabled=") //
+                .append(oaiSetEnabled) //
+                .append("] [isMember=") //
+                .append(member) //
+                .append("] [isPublishedAsOAISet=") //
+                .append(publishedAsOAISet) //
+                .append("]") //
+                .toString();
     }
 
 }

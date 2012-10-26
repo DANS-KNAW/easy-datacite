@@ -13,11 +13,11 @@ import org.junit.Test;
 
 public class VisibleToArchivistEnableToAdminRuleTest
 {
-    
+
     private static SecurityOfficer rule;
     private static EasyUser user;
     private static ContextParameters ctx;
-    
+
     @BeforeClass
     public static void beforeClass()
     {
@@ -25,14 +25,14 @@ public class VisibleToArchivistEnableToAdminRuleTest
         user = EasyMock.createMock(EasyUser.class);
         ctx = new ContextParameters(user);
     }
-    
+
     @Test
     public void testProposition()
     {
         String proposition = "Split answer: ComponentVisisble <== [SessionUser has role ARCHIVIST or ADMIN] EnableAllowed <== [SessionUser has role ADMIN]";
         assertEquals(proposition, rule.getProposition());
     }
-    
+
     @Test
     public void testUser()
     {
@@ -41,13 +41,13 @@ public class VisibleToArchivistEnableToAdminRuleTest
         EasyMock.expect(user.hasRole(Role.ARCHIVIST, Role.ADMIN)).andReturn(false).times(1);
         EasyMock.expect(user.hasRole(Role.ADMIN)).andReturn(false).times(1);
         EasyMock.expect(user.isAnonymous()).andReturn(false).anyTimes();
-        
+
         EasyMock.replay(user);
         assertFalse(rule.isComponentVisible(ctx));
         assertFalse(rule.isEnableAllowed(ctx));
-        EasyMock.verify(user); 
+        EasyMock.verify(user);
     }
-    
+
     @Test
     public void testArchivist()
     {
@@ -56,13 +56,13 @@ public class VisibleToArchivistEnableToAdminRuleTest
         EasyMock.expect(user.hasRole(Role.ARCHIVIST, Role.ADMIN)).andReturn(true).times(1);
         EasyMock.expect(user.hasRole(Role.ADMIN)).andReturn(false).times(1);
         EasyMock.expect(user.isAnonymous()).andReturn(false).anyTimes();
-        
+
         EasyMock.replay(user);
         assertTrue(rule.isComponentVisible(ctx));
         assertFalse(rule.isEnableAllowed(ctx));
-        EasyMock.verify(user); 
+        EasyMock.verify(user);
     }
-    
+
     @Test
     public void testAdmin()
     {
@@ -71,13 +71,13 @@ public class VisibleToArchivistEnableToAdminRuleTest
         EasyMock.expect(user.hasRole(Role.ARCHIVIST, Role.ADMIN)).andReturn(true).times(1);
         EasyMock.expect(user.hasRole(Role.ADMIN)).andReturn(true).times(1);
         EasyMock.expect(user.isAnonymous()).andReturn(false).anyTimes();
-        
+
         EasyMock.replay(user);
         assertTrue(rule.isComponentVisible(ctx));
         assertTrue(rule.isEnableAllowed(ctx));
-        EasyMock.verify(user); 
+        EasyMock.verify(user);
     }
-    
+
     @Test
     public void testNull()
     {
@@ -85,6 +85,5 @@ public class VisibleToArchivistEnableToAdminRuleTest
         assertFalse(rule.isEnableAllowed(ctxParameters));
         assertFalse(rule.isComponentVisible(ctxParameters));
     }
-    
 
 }

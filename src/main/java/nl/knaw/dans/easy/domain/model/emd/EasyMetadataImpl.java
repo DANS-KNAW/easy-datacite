@@ -35,7 +35,7 @@ public class EasyMetadataImpl extends AbstractTimestampedJiBXObject<EasyMetadata
      * The version - when newly instantiated. The actual version of an instance as read from an xml-stream might be
      * obtained by {@link #getVersion()}.
      */
-    public static final String            EMD_VERSION      = "0.1";
+    public static final String EMD_VERSION = "0.1";
 
     // ecco: CHECKSTYLE: OFF
     private static Map<Term, MDContainer> TERMS_MAP;
@@ -46,28 +46,28 @@ public class EasyMetadataImpl extends AbstractTimestampedJiBXObject<EasyMetadata
     /**
      *
      */
-    private static final long             serialVersionUID = 6714642886170846806L;
-    
+    private static final long serialVersionUID = 6714642886170846806L;
+
     private boolean versionable;
 
-    private String                        version;
-    private EmdTitle                      emdTitle;
-    private EmdCreator                    emdCreator;
-    private EmdSubject                    emdSubject;
-    private EmdDescription                emdDescription;
-    private EmdPublisher                  emdPublisher;
-    private EmdContributor                emdContributor;
-    private EmdDate                       emdDate;
-    private EmdType                       emdType;
-    private EmdFormat                     emdFormat;
-    private EmdIdentifier                 emdIdentifier;
-    private EmdSource                     emdSource;
-    private EmdLanguage                   emdLanguage;
-    private EmdRelation                   emdRelation;
-    private EmdCoverage                   emdCoverage;
-    private EmdRights                     emdRights;
-    private EmdAudience                   emdAudience;
-    private EmdOther                      emdOther;
+    private String version;
+    private EmdTitle emdTitle;
+    private EmdCreator emdCreator;
+    private EmdSubject emdSubject;
+    private EmdDescription emdDescription;
+    private EmdPublisher emdPublisher;
+    private EmdContributor emdContributor;
+    private EmdDate emdDate;
+    private EmdType emdType;
+    private EmdFormat emdFormat;
+    private EmdIdentifier emdIdentifier;
+    private EmdSource emdSource;
+    private EmdLanguage emdLanguage;
+    private EmdRelation emdRelation;
+    private EmdCoverage emdCoverage;
+    private EmdRights emdRights;
+    private EmdAudience emdAudience;
+    private EmdOther emdOther;
 
     /**
      * JiBX constructor.
@@ -85,7 +85,7 @@ public class EasyMetadataImpl extends AbstractTimestampedJiBXObject<EasyMetadata
     public EasyMetadataImpl(MetadataFormat metadataFormat)
     {
         super();
-        getEmdOther().getEasApplicationSpecific().setMetadataFormat(metadataFormat);        
+        getEmdOther().getEasApplicationSpecific().setMetadataFormat(metadataFormat);
     }
 
     /**
@@ -99,12 +99,12 @@ public class EasyMetadataImpl extends AbstractTimestampedJiBXObject<EasyMetadata
         }
         return version;
     }
-    
+
     public String getUnitFormat()
     {
         return UNIT_FORMAT;
     }
-    
+
     public URI getUnitFormatURI()
     {
         return UNIT_FORMAT_URI;
@@ -128,7 +128,7 @@ public class EasyMetadataImpl extends AbstractTimestampedJiBXObject<EasyMetadata
     public void setVersionable(boolean versionable)
     {
         this.versionable = versionable;
-    } 
+    }
 
     /**
      * {@inheritDoc}
@@ -177,8 +177,7 @@ public class EasyMetadataImpl extends AbstractTimestampedJiBXObject<EasyMetadata
             try
             {
                 final Field classField = EasyMetadataImpl.class.getDeclaredField("emd" + mdContainer.name());
-                final Class<? extends EmdContainer> containerType = (Class<? extends EmdContainer>) classField
-                        .getType();
+                final Class<? extends EmdContainer> containerType = (Class<? extends EmdContainer>) classField.getType();
                 final Field termsField = containerType.getDeclaredField("TERMS");
                 final Term[] terms = (Term[]) termsField.get(containerType.newInstance());
                 for (Term term : terms)
@@ -413,8 +412,7 @@ public class EasyMetadataImpl extends AbstractTimestampedJiBXObject<EasyMetadata
             mdContainer = getTermNameMDContainerMap().get(term); // then look for term.name
             if (mdContainer == null)
             {
-                throw new NoSuchTermException("Requested term does not exist: "
-                        + (term == null ? "null" : term.toString()));
+                throw new NoSuchTermException("Requested term does not exist: " + (term == null ? "null" : term.toString()));
             }
         }
         return getContainerByMethod(mdContainer);
@@ -499,7 +497,7 @@ public class EasyMetadataImpl extends AbstractTimestampedJiBXObject<EasyMetadata
         }
         return emdDescription;
     }
-    
+
     /**
      * {@inheritDoc}
      */

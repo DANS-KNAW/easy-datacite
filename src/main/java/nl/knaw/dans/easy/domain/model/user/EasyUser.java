@@ -40,44 +40,44 @@ public interface EasyUser extends User
     boolean hasRole(Role... roles);
 
     CreatorRole getCreatorRole();
-    
-    Set <Group> getGroups();
-    
+
+    Set<Group> getGroups();
+
     void joinGroup(Group group);
-    
+
     boolean leaveGroup(Group group);
-    
-    boolean isMemberOf(Group...groups);
-    
+
+    boolean isMemberOf(Group... groups);
+
     boolean isMemberOfGroup(Collection<String> groupIds);
-    
+
     Set<String> getGroupIds();
-    
+
     void addGroupId(String groupId);
-    
+
     void synchronizeOn(EasyUser otherUser);
-    
+
     boolean isLogMyActions();
-    
+
     void setLogMyActions(boolean logMyActions);
-    
+
     void setDiscipline1(String discipline1);
-    
+
     String getDiscipline1();
-    
-    void setDiscipline2(String discipline2);    
-    
+
+    void setDiscipline2(String discipline2);
+
     String getDiscipline2();
-    
-    void setDiscipline3(String discipline3);    
-    
+
+    void setDiscipline3(String discipline3);
+
     String getDiscipline3();
-    
+
     String getDai();
-    
+
     void setDai(String dai);
-    
+
     boolean hasAcceptedGeneralConditions();
-    
+
     void setAcceptedGeneralConditions(boolean accepted);
 }

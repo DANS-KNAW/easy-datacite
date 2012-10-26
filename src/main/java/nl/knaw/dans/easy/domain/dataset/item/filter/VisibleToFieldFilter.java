@@ -12,10 +12,10 @@ import nl.knaw.dans.easy.domain.model.VisibleTo;
 
 public class VisibleToFieldFilter extends AbstractItemFieldFilter<VisibleTo>
 {
-    public VisibleToFieldFilter (VisibleTo... desiredValues) {
+    public VisibleToFieldFilter(VisibleTo... desiredValues)
+    {
         addDesiredValues(desiredValues);
     }
-
 
     public ItemFilterField getFilterField()
     {
@@ -26,7 +26,7 @@ public class VisibleToFieldFilter extends AbstractItemFieldFilter<VisibleTo>
     {
         final Set<VisibleTo> filterValues = getDesiredValues();
         if (filterValues.size() == 0)
-        	throw new NoFilterValuesSelectedException();
+            throw new NoFilterValuesSelectedException();
 
         if (item instanceof FileItemVO)
         {

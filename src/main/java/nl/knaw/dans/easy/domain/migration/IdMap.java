@@ -12,29 +12,29 @@ public class IdMap implements RepoEntry
 {
 
     private static final long serialVersionUID = 1804205773574794833L;
-    
+
     @LdapAttribute(id = "dansStoreId")
     private String storeId;
-    
+
     @LdapAttribute(id = "dansPreviousId")
     private String aipId;
-    
+
     @LdapAttribute(id = "dansPid")
     private String persistentIdentifier;
-    
+
     @LdapAttribute(id = "dansMigrationDate", valueTranslator = DateTimeTranslator.class)
     private DateTime migrationDate;
-    
+
     public IdMap()
     {
-        
+
     }
-    
+
     public IdMap(String storeId, String aipId, String persistentIdentifier)
     {
         this(storeId, aipId, persistentIdentifier, new DateTime());
     }
-    
+
     public IdMap(String storeId, String aipId, String persistentIdentifier, DateTime migrationDate)
     {
         this.storeId = storeId;

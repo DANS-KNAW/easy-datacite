@@ -13,37 +13,36 @@ import org.slf4j.LoggerFactory;
 
 public class DisciplineMetadataImplTest
 {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(DisciplineMetadataImplTest.class);
-    
+
     private boolean verbose = Tester.isVerbose();
-    
+
     @Test
     public void serializeDeserializeEmpty() throws XMLException
     {
         DisciplineMetadata dmd = new DisciplineMetadataImpl();
-        
+
         DisciplineMetadata dmd2 = (DisciplineMetadata) JiBXObjectFactory.unmarshal(DisciplineMetadataImpl.class, dmd.asObjectXML());
         assertEquals(dmd.asXMLString(), dmd2.asXMLString());
-        
+
         if (verbose)
             logger.debug("\n" + dmd.asXMLString(4) + "\n");
     }
-    
-     
+
     @Test
     public void serializeDeserializeFull() throws XMLException
     {
         DisciplineMetadataImpl dmd = new DisciplineMetadataImpl();
-        
+
         dmd.setOrder(55);
         dmd.setOICode("BN4434");
-        
+
         DisciplineMetadata dmd2 = (DisciplineMetadata) JiBXObjectFactory.unmarshal(DisciplineMetadataImpl.class, dmd.asObjectXML());
         assertEquals(dmd.asXMLString(), dmd2.asXMLString());
-        
+
         //if (verbose)
-            logger.debug("\n" + dmd2.asXMLString(4) + "\n");
+        logger.debug("\n" + dmd2.asXMLString(4) + "\n");
     }
-    
+
 }

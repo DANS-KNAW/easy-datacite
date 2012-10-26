@@ -1,4 +1,5 @@
 package nl.knaw.dans.easy.servicelayer;
+
 import java.net.URL;
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class DummyEasyStore implements EasyStore
     public void addEventListener(DmoStoreEventListener storeEventListener)
     {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
@@ -59,26 +60,26 @@ public class DummyEasyStore implements EasyStore
         return false;
     }
 
-//    @Override
-//    public DataModelObject createDmo(Class<? extends DataModelObject> clazz) throws RepositoryException
-//    {
-//        // TODO Auto-generated method stub
-//        return null;
-//    }
+    //    @Override
+    //    public DataModelObject createDmo(Class<? extends DataModelObject> clazz) throws RepositoryException
+    //    {
+    //        // TODO Auto-generated method stub
+    //        return null;
+    //    }
 
-//    @Override
-//    public DmoContext getContext()
-//    {
-//        // TODO Auto-generated method stub
-//        return null;
-//    }
+    //    @Override
+    //    public DmoContext getContext()
+    //    {
+    //        // TODO Auto-generated method stub
+    //        return null;
+    //    }
 
-//    @Override
-//    public DmoFactory getDmoFactory()
-//    {
-//        // TODO Auto-generated method stub
-//        return null;
-//    }
+    //    @Override
+    //    public DmoFactory getDmoFactory()
+    //    {
+    //        // TODO Auto-generated method stub
+    //        return null;
+    //    }
 
     @Override
     public URL getFileURL(DmoStoreId storeId, DsUnitId unitId)
@@ -189,28 +190,28 @@ public class DummyEasyStore implements EasyStore
     public void setConcurrencyGuard(DmoUpdateConcurrencyGuard concurrencyGuard)
     {
         // TODO Auto-generated method stub
-        
+
     }
 
-//    @Override
-//    public void setContext(DmoContext namespaceRegistry)
-//    {
-//        // TODO Auto-generated method stub
-//        
-//    }
+    //    @Override
+    //    public void setContext(DmoContext namespaceRegistry)
+    //    {
+    //        // TODO Auto-generated method stub
+    //        
+    //    }
 
-//    @Override
-//    public void setDmoFactory(DmoFactory factory)
-//    {
-//        // TODO Auto-generated method stub
-//        
-//    }
+    //    @Override
+    //    public void setDmoFactory(DmoFactory factory)
+    //    {
+    //        // TODO Auto-generated method stub
+    //        
+    //    }
 
     @Override
     public void setEventListeners(List<DmoStoreEventListener> storeEventListeners)
     {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
@@ -234,26 +235,26 @@ public class DummyEasyStore implements EasyStore
         return null;
     }
 
-	@Override
-	public boolean isUpdateable(DataModelObject dmo, String changeOwner) throws RepositoryException
-	{
-		return false;
-	}
+    @Override
+    public boolean isUpdateable(DataModelObject dmo, String changeOwner) throws RepositoryException
+    {
+        return false;
+    }
 
-	@Override
-	public DateTime update(DataModelObject dmo, boolean skipDirtyChecking, String logMessage, String changer) throws ConcurrentUpdateException,
-			RepositoryException
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public DateTime update(DataModelObject dmo, boolean skipDirtyChecking, String logMessage, String changer) throws ConcurrentUpdateException,
+            RepositoryException
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public boolean isUpdateable(DataModelObject dmo) throws RepositoryException
-	{
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    public boolean isUpdateable(DataModelObject dmo) throws RepositoryException
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
     @Override
     public JumpoffDmo findJumpoffDmoFor(DataModelObject dmo) throws RepositoryException
@@ -287,9 +288,8 @@ public class DummyEasyStore implements EasyStore
     public void addOrUpdateBinaryUnit(DmoStoreId storeId, BinaryUnit binaryUnit, String logMessage) throws RepositoryException
     {
         // TODO Auto-generated method stub
-        
-    }
 
+    }
 
     @Override
     public List<DmoStoreId> findSubordinates(DmoStoreId storeId) throws RepositoryException
@@ -323,7 +323,7 @@ public class DummyEasyStore implements EasyStore
     public void addOrUpdateMetadataUnit(DmoStoreId storeId, MetadataUnit metadataUnit, String logMessage) throws RepositoryException
     {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override

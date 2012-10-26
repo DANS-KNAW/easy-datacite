@@ -47,9 +47,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
-
 // ecco: CHECKSTYLE: OFF
-
 
 public class EasyMetadataImplTest extends AbstractJibxTest<EasyMetadataImpl>
 {
@@ -77,9 +75,7 @@ public class EasyMetadataImplTest extends AbstractJibxTest<EasyMetadataImpl>
             EmdContainer emdContainer = emd.getContainer(mdContainer, false);
             for (Term term : emdContainer.getTerms())
             {
-                System.out.println("\t" + term.getNamespace().prefix
-                        + ":" + term.getName().termName
-                        + " ({@link " + term.getType().getName() + "})");
+                System.out.println("\t" + term.getNamespace().prefix + ":" + term.getName().termName + " ({@link " + term.getType().getName() + "})");
             }
 
         }
@@ -108,7 +104,8 @@ public class EasyMetadataImplTest extends AbstractJibxTest<EasyMetadataImpl>
     }
 
     @Test
-    public void testMarshalAndUnmarshal2() throws IOException, JiBXException, InvalidLanguageTokenException, URISyntaxException, XMLException, SAXException, SchemaCreationException
+    public void testMarshalAndUnmarshal2() throws IOException, JiBXException, InvalidLanguageTokenException, URISyntaxException, XMLException, SAXException,
+            SchemaCreationException
     {
         EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
         populate(emd);
@@ -176,7 +173,7 @@ public class EasyMetadataImplTest extends AbstractJibxTest<EasyMetadataImpl>
         Spatial spatial = new Spatial();
         emd.getEmdCoverage().getEasSpatial().add(spatial);
         marshal(emd, "_nullSpatial");
-        
+
         Spatial spatial2 = new Spatial();
         Point point = new Point(null, null, null);
         spatial2.setPoint(point);
@@ -253,10 +250,10 @@ public class EasyMetadataImplTest extends AbstractJibxTest<EasyMetadataImpl>
     {
         EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
         Map<Term, MDContainer> map = emd.getTermsMap();
-//        for (Term term : map.keySet())
-//        {
-//            System.out.println(term.getName() + " " + map.get(term));
-//        }
+        //        for (Term term : map.keySet())
+        //        {
+        //            System.out.println(term.getName() + " " + map.get(term));
+        //        }
         Assert.assertEquals(74, map.size());
 
         Term term = new Term(Term.Name.TITLE, Term.Namespace.DC);
@@ -299,26 +296,26 @@ public class EasyMetadataImplTest extends AbstractJibxTest<EasyMetadataImpl>
         DublinCoreMetadata dc = emd.getDublinCoreMetadata();
         for (PropertyName name : PropertyName.values())
         {
-                List<String> values = dc.get(name);
-                Assert.assertTrue(values.isEmpty());
+            List<String> values = dc.get(name);
+            Assert.assertTrue(values.isEmpty());
         }
 
         EmdHelper.populate(3, (EasyMetadataImpl) emd);
         dc = emd.getDublinCoreMetadata();
         for (PropertyName name : PropertyName.values())
         {
-                List<String> values = dc.get(name);
-                Assert.assertFalse(values.isEmpty());
-                //System.out.println(mdContainer.toString());
-//                for (String value : values)
-//                {                   
-//                    System.out.println("\t" + value);
-//                }
+            List<String> values = dc.get(name);
+            Assert.assertFalse(values.isEmpty());
+            //System.out.println(mdContainer.toString());
+            //                for (String value : values)
+            //                {                   
+            //                    System.out.println("\t" + value);
+            //                }
         }
-        
+
         System.out.println(dc.asXMLString(4));
     }
-    
+
     @Test
     public void applicationSpecific() throws XMLException, SAXException, IOException, JiBXException, SchemaCreationException
     {
@@ -326,14 +323,14 @@ public class EasyMetadataImplTest extends AbstractJibxTest<EasyMetadataImpl>
         Assert.assertEquals(MetadataFormat.UNSPECIFIED, emd.getEmdOther().getEasApplicationSpecific().getMetadataFormat());
         emd.getEmdOther().getEasApplicationSpecific().setMetadataFormat(MetadataFormat.ARCHAEOLOGY);
         Assert.assertTrue(EasyMetadataValidator.instance().validate(emd).passed());
-        
+
         String filename = marshal(emd);
         EasyMetadata emd2 = unmarshal(filename);
-        
+
         Assert.assertTrue(EasyMetadataValidator.instance().validate(emd2).passed());
         Assert.assertEquals(MetadataFormat.ARCHAEOLOGY, emd2.getEmdOther().getEasApplicationSpecific().getMetadataFormat());
     }
-    
+
     @Test
     public void visitChildrenNonEmpty()
     {
@@ -341,15 +338,16 @@ public class EasyMetadataImplTest extends AbstractJibxTest<EasyMetadataImpl>
         Object object = emd.visitChildren(false, new EmdVisitor()
         {
             private int count;
+
             public Object container(EmdContainer container)
             {
                 return count++;
             }
-            
+
         });
         Assert.assertNull(object);
     }
-    
+
     @Test
     public void visitChildrenEvenEmpty()
     {
@@ -357,17 +355,18 @@ public class EasyMetadataImplTest extends AbstractJibxTest<EasyMetadataImpl>
         Object object = emd.visitChildren(true, new EmdVisitor()
         {
             private int count;
+
             public Object container(EmdContainer container)
             {
                 //System.out.println(container.getClass());
                 return count++;
             }
-            
+
         });
-        int count = (Integer)object;
+        int count = (Integer) object;
         Assert.assertFalse(count == 0);
     }
-    
+
     @Test
     public void testDirty()
     {
@@ -379,10 +378,10 @@ public class EasyMetadataImplTest extends AbstractJibxTest<EasyMetadataImpl>
         assertTrue(emd.isDirty());
         emd.getEmdAudience().getTermsAudience();
         assertTrue(emd.isDirty());
-        
+
         emd.setDirty(false);
         assertFalse(emd.isDirty());
-        
+
         emd.getEmdAudience().getTermsAudience().add(new BasicString(""));
         assertTrue(emd.isDirty());
         //System.err.println(emd.toString("|"));
@@ -394,7 +393,7 @@ public class EasyMetadataImplTest extends AbstractJibxTest<EasyMetadataImpl>
         emd.getEmdAudience().getTermsAudience().add(new BasicString("a"));
         assertTrue(emd.isDirty());
     }
-    
+
     @Test
     public void dcTermsCreated() throws Exception
     {
@@ -403,14 +402,14 @@ public class EasyMetadataImplTest extends AbstractJibxTest<EasyMetadataImpl>
         emd.getEmdDate().getTermsCreated().add(bd);
         bd = new BasicDate("2011-07-14");
         emd.getEmdDate().getTermsCreated().add(bd);
-        
+
         // gives
         //         <dcterms:created>bla bla</dcterms:created>
         //         <dcterms:created eas:scheme="W3CDTF">2011-07-14</dcterms:created>
-        
+
         //System.out.println(emd.asXMLString(4));
     }
-    
+
     @Ignore("Performance test.")
     @Test
     public void testDirtyPerformance() throws URISyntaxException
@@ -421,19 +420,19 @@ public class EasyMetadataImplTest extends AbstractJibxTest<EasyMetadataImpl>
         long start = System.currentTimeMillis();
         for (int i = 0; i < count; i++)
         {
-            ((EasyMetadataImpl) emd).setDirty(false);    // 0.40 ms. at populate 1, 0.96 ms. at populate 10 -- toString("|")
+            ((EasyMetadataImpl) emd).setDirty(false); // 0.40 ms. at populate 1, 0.96 ms. at populate 10 -- toString("|")
         }
         long end = System.currentTimeMillis();
         System.err.println(end - start);
-        
+
         start = System.currentTimeMillis();
         for (int i = 0; i < count; i++)
         {
-            emd.isDirty();          // 0.41 ms. at populate 1, 1.00 ms. at populate 10 -- toString("|")
+            emd.isDirty(); // 0.41 ms. at populate 1, 1.00 ms. at populate 10 -- toString("|")
         }
         end = System.currentTimeMillis();
         System.err.println(end - start);
-        
+
         start = System.currentTimeMillis();
         for (int i = 0; i < count; i++)
         {
@@ -441,7 +440,7 @@ public class EasyMetadataImplTest extends AbstractJibxTest<EasyMetadataImpl>
         }
         end = System.currentTimeMillis();
         System.err.println(end - start);
-        
+
         // a simple call to a boolean setter is about 40000 to 100000 times faster than a call to emd.setDirty(false)
         // with string comparison.
     }
@@ -507,13 +506,13 @@ public class EasyMetadataImplTest extends AbstractJibxTest<EasyMetadataImpl>
 
         Assert.assertEquals("Amsterdam", emd2.getEmdCoverage().getEasSpatial().get(0).getPlace().getValue());
         Assert.assertEquals("scheme=foo x=1.2 y=2.30", emd2.getEmdCoverage().getEasSpatial().get(0).getPoint().toString());
-        
+
         Assert.assertEquals("incomplete", emd2.getEmdCoverage().getEasSpatial().get(1).getPlace().getValue());
         Assert.assertEquals("scheme=foo x=null y=2.30", emd2.getEmdCoverage().getEasSpatial().get(1).getPoint().toString());
 
         Assert.assertEquals("DANS", emd2.getEmdRights().getTermsLicense().get(0).getScheme());
         Assert.assertEquals("more blah", emd2.getEmdRights().getTermsRightsHolder().get(0).getValue());
-        
+
         Assert.assertEquals("foo audience", emd2.getEmdAudience().getTermsAudience().get(0).getValue());
 
         Assert.assertEquals("henk van den berg", emd2.getEmdOther().getEasRemarks().get(0).getAuthor());
@@ -595,8 +594,5 @@ public class EasyMetadataImplTest extends AbstractJibxTest<EasyMetadataImpl>
         remark.setAuthor("henk van den berg");
         emd.getEmdOther().getEasRemarks().add(remark);
     }
-
-
-
 
 }

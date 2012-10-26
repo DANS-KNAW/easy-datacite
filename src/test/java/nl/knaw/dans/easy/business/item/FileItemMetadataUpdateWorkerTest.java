@@ -26,13 +26,13 @@ import org.junit.Test;
 
 public class FileItemMetadataUpdateWorkerTest
 {
-    
+
     private static final String ADDITIONAL_CONTENT_ID = "addi";
     private static UnitOfWork MOCK_UOW;
     private static Dataset MOCK_DATASET;
     private static FileStoreAccess MOCK_FSACCES;
     private static FileItem MOCK_FILE_ITEM;
-    
+
     @BeforeClass
     public static void beforeClass()
     {
@@ -42,25 +42,20 @@ public class FileItemMetadataUpdateWorkerTest
         MOCK_FILE_ITEM = EasyMock.createMock(FileItem.class);
         new Data().setFileStoreAccess(MOCK_FSACCES);
     }
-    
+
     @Test
     public void workUpdateMetadata() throws Exception
     {
         AdditionalMetadataUpdateStrategy strategy = new ElementnameUpdateStrategy(ADDITIONAL_CONTENT_ID);
         FileItemMetadataUpdateWorker worker = new FileItemMetadataUpdateWorker(MOCK_UOW, strategy);
         String path = "the/path/to/file.txt";
-        ResourceMetadataList rmdl = createResourceMetadataList(
-                AccessCategory.ANONYMOUS_ACCESS, 
-                AccessCategory.GROUP_ACCESS, path, 
-                new String[]{"element0", "value 0"},
-                new String[]{"element1", "value 1"},
-                new String[]{"element2", "value 2"},
-                new String[]{"element3", "value 3"});
-        
+        ResourceMetadataList rmdl = createResourceMetadataList(AccessCategory.ANONYMOUS_ACCESS, AccessCategory.GROUP_ACCESS, path, new String[] {"element0",
+                "value 0"}, new String[] {"element1", "value 1"}, new String[] {"element2", "value 2"}, new String[] {"element3", "value 3"});
+
         FileItemVO fileItemVO = new FileItemVO();
         fileItemVO.setSid("easy:fileItemId");
         AdditionalMetadata originalAmd = new AdditionalMetadata();
-        
+
         DmoStoreId datasetId = new DmoStoreId("easy:dataset");
         DmoStoreId fileItemId = new DmoStoreId("easy:fileItemId");
         EasyMock.reset(MOCK_UOW, MOCK_DATASET, MOCK_FSACCES, MOCK_FILE_ITEM);
@@ -74,20 +69,19 @@ public class FileItemMetadataUpdateWorkerTest
         EasyMock.expect(MOCK_FILE_ITEM.getAdditionalMetadata()).andReturn(originalAmd);
         MOCK_UOW.commit();
         MOCK_UOW.close();
-        
+
         EasyMock.replay(MOCK_UOW, MOCK_DATASET, MOCK_FSACCES, MOCK_FILE_ITEM);
-        
+
         worker.workUpdateMetadata(MOCK_DATASET, rmdl);
-        
+
         EasyMock.verify(MOCK_UOW, MOCK_DATASET, MOCK_FSACCES, MOCK_FILE_ITEM);
-        
+
         AdditionalContent content = originalAmd.getAdditionalContent(ADDITIONAL_CONTENT_ID);
         assertNotNull(content);
-        
+
     }
-    
-    protected ResourceMetadataList createResourceMetadataList(
-            AccessCategory discover, AccessCategory read, String path, String[]... values)
+
+    protected ResourceMetadataList createResourceMetadataList(AccessCategory discover, AccessCategory read, String path, String[]... values)
     {
         ResourceMetadataList rmdl = new ResourceMetadataList();
         ResourceMetadata rmd = new ResourceMetadata(path);
@@ -97,19 +91,19 @@ public class FileItemMetadataUpdateWorkerTest
         rmdl.addResourceMetadata(rmd);
         return rmdl;
     }
-    
+
     protected AdditionalMetadata createAMD(String[]... values)
     {
         AdditionalMetadata amd = new AdditionalMetadata();
         Element content = new DefaultElement("myContent");
-        
+
         for (int i = 0; i < values.length; i++)
         {
             Element e = new DefaultElement(values[i][0]);
             e.setText(values[i][1]);
             content.add(e);
         }
-        
+
         AdditionalContent ac = new AdditionalContent(ADDITIONAL_CONTENT_ID, "this is content", content);
         amd.addAdditionalContent(ac);
         return amd;

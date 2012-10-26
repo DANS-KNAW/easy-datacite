@@ -13,7 +13,7 @@ public interface DatasetSubmission extends Serializable
     void clearAllMessages();
 
     boolean isCompleted();
-    
+
     boolean isMailSend();
 
     Dataset getDataset();

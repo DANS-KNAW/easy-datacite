@@ -8,8 +8,7 @@ public interface PermissionConversation
 {
     public enum Type
     {
-        REQUEST,
-        REPLY
+        REQUEST, REPLY
     }
 
     State getState();
@@ -25,5 +24,3 @@ public interface PermissionConversation
     Type getType();
 
 }
-
-

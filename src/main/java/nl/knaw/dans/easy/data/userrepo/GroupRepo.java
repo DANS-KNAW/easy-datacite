@@ -5,7 +5,5 @@ import nl.knaw.dans.easy.domain.model.user.Group;
 
 public interface GroupRepo extends GenericRepo<Group>
 {
-    
-    
 
 }

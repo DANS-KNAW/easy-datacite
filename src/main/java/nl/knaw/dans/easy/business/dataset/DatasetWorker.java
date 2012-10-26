@@ -38,17 +38,17 @@ import org.slf4j.LoggerFactory;
 
 public class DatasetWorker extends AbstractWorker
 {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(DatasetWorker.class);
-    
+
     public static final DmoStoreId CLARIN_COLLECTION_STORE_ID = DmoStoreId.newDmoStoreId("easy-collection:5");
     private static final BasicString CMDI_MIME = new BasicString("application/x-cmdi+xml");
-    
+
     protected DatasetWorker(EasyUser sessionUser)
     {
         super(sessionUser);
     }
-    
+
     protected DatasetWorker(UnitOfWork uow)
     {
         super(uow);
@@ -58,7 +58,7 @@ public class DatasetWorker extends AbstractWorker
     {
         try
         {
-        	return Data.getEasyStore().retrieve(dmoStoreId);
+            return Data.getEasyStore().retrieve(dmoStoreId);
         }
         catch (ObjectNotInStoreException e)
         {
@@ -69,7 +69,7 @@ public class DatasetWorker extends AbstractWorker
             throw new ServiceException(e);
         }
     }
-    
+
     protected byte[] getObjectXml(DmoStoreId dmoStoreId) throws ServiceException
     {
         try
@@ -85,7 +85,7 @@ public class DatasetWorker extends AbstractWorker
             throw new ServiceException(e);
         }
     }
-    
+
     protected void workSave(Dataset dataset) throws ServiceException, DataIntegrityException
     {
         DatasetSpecification.evaluate(dataset);
@@ -98,7 +98,7 @@ public class DatasetWorker extends AbstractWorker
         catch (UnitOfWorkInterruptException e)
         {
             dataset.getAdministrativeMetadata().setAdministrativeState(previousState);
-          //rollBack(e.getMessage());
+            //rollBack(e.getMessage());
             throw new UnsupportedOperationException("Rollback not implemented");
         }
         catch (RepositoryException e)
@@ -111,14 +111,14 @@ public class DatasetWorker extends AbstractWorker
             getUnitOfWork().close();
         }
     }
-    
+
     protected void workSubmit(DatasetSubmission submission) throws ServiceException, DataIntegrityException
     {
         DatasetSpecification.evaluate(submission.getDataset());
         SubmissionDispatcher dispatcher = SubmissionDispatcherFactory.newSubmissionDispatcher();
         dispatcher.process((DatasetSubmissionImpl) submission);
     }
-    
+
     protected void publishDataset(Dataset dataset, boolean mustIncludeLicense) throws ServiceException, DataIntegrityException
     {
         publish(dataset, mustIncludeLicense);
@@ -130,41 +130,42 @@ public class DatasetWorker extends AbstractWorker
         dataset.getRelations().removeDAIRelations();
         storeInState(dataset, DatasetState.SUBMITTED);
     }
-    
+
     protected void maintainDataset(Dataset dataset) throws ServiceException, DataIntegrityException
     {
         unPublishAsOAIItem(dataset);
         dataset.getRelations().removeDAIRelations();
         storeInState(dataset, DatasetState.MAINTENANCE);
     }
-    
+
     protected void republishDataset(Dataset dataset, boolean mustIncludeLicense) throws ServiceException, DataIntegrityException
     {
         publish(dataset, mustIncludeLicense);
     }
-    
+
     private void publish(Dataset dataset, boolean mustIncludeLicense) throws ServiceException, DataIntegrityException
     {
-        if (mustIncludeLicense){
+        if (mustIncludeLicense)
+        {
             DatasetWorker.createLicense(dataset);
         }
-        
+
         addClarinCollection(dataset);
         publishAsOAIItem(dataset);
         dataset.getRelations().addDAIRelations();
         storeInState(dataset, DatasetState.PUBLISHED);
 
         // prevent repeated update attempt if followed by unpublish or whatever in the same session
-        dataset.setLicenseContent(null); 
+        dataset.setLicenseContent(null);
     }
 
     protected void deleteDataset(Dataset dataset) throws ServiceException, DataIntegrityException
     {
         unPublishAsOAIItem(dataset);
         dataset.setState(RepositoryState.Deleted.code);
-        storeInState(dataset, DatasetState.DELETED); 
+        storeInState(dataset, DatasetState.DELETED);
     }
-    
+
     protected void restoreDataset(Dataset dataset) throws ServiceException, DataIntegrityException
     {
         DatasetState changeTo = DatasetState.DRAFT;
@@ -175,19 +176,21 @@ public class DatasetWorker extends AbstractWorker
         dataset.setState(RepositoryState.Inactive.code);
         storeInState(dataset, changeTo);
     }
-    
+
     private void addClarinCollection(Dataset dataset)
     {
         DatasetRelations relations = dataset.getRelations();
         boolean hasCmdi = dataset.getEasyMetadata().getEmdFormat().getDcFormat().contains(CMDI_MIME);
-        if(hasCmdi)
+        if (hasCmdi)
         {
-            if(!relations.isCollectionMember(CLARIN_COLLECTION_STORE_ID))
+            if (!relations.isCollectionMember(CLARIN_COLLECTION_STORE_ID))
             {
                 relations.addCollectionMembership(CLARIN_COLLECTION_STORE_ID);
             }
-        } else {
-            if(relations.isCollectionMember(CLARIN_COLLECTION_STORE_ID))
+        }
+        else
+        {
+            if (relations.isCollectionMember(CLARIN_COLLECTION_STORE_ID))
             {
                 relations.removeCollectionMembership(CLARIN_COLLECTION_STORE_ID);
             }
@@ -198,7 +201,7 @@ public class DatasetWorker extends AbstractWorker
     {
         DatasetRelations relations = (DatasetRelations) dataset.getRelations();
         relations.addOAIIdentifier();
-        
+
         try
         {
             // discipline sets
@@ -206,13 +209,13 @@ public class DatasetWorker extends AbstractWorker
             {
                 relations.addOAISetMembership(dc.getDmoStoreId());
             }
-            
+
             // driver set
             if (AccessCategory.isOpenAccess(dataset.getAccessCategory()) && !dataset.isUnderEmbargo())
             {
                 relations.addOAISetMembership(Constants.OAI_DRIVER_SET_DMO_ID);
             }
-            
+
             // dmoCollections
             Iterator<ECollection> iter = ECollection.iterator();
             while (iter.hasNext())
@@ -238,10 +241,10 @@ public class DatasetWorker extends AbstractWorker
         {
             throw new ServiceException(e);
         }
-        
+
         dataset.setState(RepositoryState.Active.code);
     }
-    
+
     public static void unPublishAsOAIItem(Dataset dataset) throws ServiceException
     {
         DatasetRelations relations = (DatasetRelations) dataset.getRelations();
@@ -253,7 +256,7 @@ public class DatasetWorker extends AbstractWorker
     protected void storeInState(Dataset dataset, DatasetState newState) throws ServiceException, DataIntegrityException
     {
         DatasetSpecification.evaluate(dataset);
-        DatasetState previousState = dataset.getAdministrativeState();       
+        DatasetState previousState = dataset.getAdministrativeState();
         try
         {
             getUnitOfWork().attach(dataset);
@@ -279,9 +282,9 @@ public class DatasetWorker extends AbstractWorker
         finally
         {
             getUnitOfWork().close();
-        }       
+        }
     }
-    
+
     protected void changeDepositor(Dataset dataset, EasyUser newDepositor) throws ServiceException, DataIntegrityException
     {
         DatasetSpecification.evaluate(dataset);
@@ -294,7 +297,7 @@ public class DatasetWorker extends AbstractWorker
         }
         catch (UnitOfWorkInterruptException e)
         {
-          //rollBack(e.getMessage());
+            //rollBack(e.getMessage());
             throw new UnsupportedOperationException("Rollback not implemented");
         }
         catch (RepositoryException e)
@@ -306,7 +309,7 @@ public class DatasetWorker extends AbstractWorker
         finally
         {
             getUnitOfWork().close();
-        }       
+        }
     }
 
     static boolean createLicense(final Dataset dataset) throws ServiceException
@@ -318,9 +321,9 @@ public class DatasetWorker extends AbstractWorker
         }
         catch (final LicenseComposerException exception)
         {
-            throw new ServiceException(exception.getMessage(),exception);
+            throw new ServiceException(exception.getMessage(), exception);
         }
-    
+
         dataset.setLicenseContent(outputStream.toByteArray());
         return true;
     }

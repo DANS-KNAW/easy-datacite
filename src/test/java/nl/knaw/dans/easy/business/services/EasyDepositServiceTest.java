@@ -47,10 +47,10 @@ public class EasyDepositServiceTest extends TestHelper
         // element is empty: <shortHelpResourceKey></shortHelpResourceKey>
         // assertEquals("", dcCreator.getShortHelpResourceKey());
 
-//        ChoiceListDefinition clDef = dcCreator.getChoiceListDefinition("listId");
-//        assertSame(dcCreator, clDef.getParent());
-//        // element is not there: inherit from parent.
-//        assertEquals("", clDef.getShortHelpResourceKey());
+        //        ChoiceListDefinition clDef = dcCreator.getChoiceListDefinition("listId");
+        //        assertSame(dcCreator, clDef.getParent());
+        //        // element is not there: inherit from parent.
+        //        assertEquals("", clDef.getShortHelpResourceKey());
 
         // test MetadataFormat
         assertEquals(ApplicationSpecific.MetadataFormat.SOCIOLOGY, discipline.getMetadataFormat());

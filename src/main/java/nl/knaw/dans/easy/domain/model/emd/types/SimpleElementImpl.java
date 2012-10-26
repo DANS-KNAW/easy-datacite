@@ -1,6 +1,5 @@
 package nl.knaw.dans.easy.domain.model.emd.types;
 
-
 /**
  * Basic implementation of the {@link SimpleElement}.
  * @author ecco
@@ -20,11 +19,12 @@ public abstract class SimpleElementImpl<T> implements SimpleElement<T>, Metadata
      * The wrapped type.
      */
     protected T value;
-    
+
     /**
      * The id of a list of choices used in a value or attribute.
      */
     protected String schemeId;
+
     // ecco: CHECKSTYLE: ON
 
     /**
@@ -42,7 +42,7 @@ public abstract class SimpleElementImpl<T> implements SimpleElement<T>, Metadata
     {
         this.value = value;
     }
-    
+
     /**
      * @return the schemeId
      */

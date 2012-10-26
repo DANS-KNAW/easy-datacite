@@ -44,13 +44,13 @@ import org.junit.Test;
 public class NotificationTest extends AbstractMailFixture
 {
 
-    private static final String       PID             = "urn:nbn:nl:ui:13-xyz-123";
-    private static final String       STORE_ID        = "easyId-1";
-    private static final String       REQUEST_LINK    = "http://localhost:8080/view/request";
+    private static final String PID = "urn:nbn:nl:ui:13-xyz-123";
+    private static final String STORE_ID = "easyId-1";
+    private static final String REQUEST_LINK = "http://localhost:8080/view/request";
 
-    private static Dataset            dataset;
-    private static EasyUser           depositor;
-    private static EasyUser           otherUser;
+    private static Dataset dataset;
+    private static EasyUser depositor;
+    private static EasyUser otherUser;
     private static PermissionSequence permissionSequence;
 
     @BeforeClass
@@ -74,7 +74,7 @@ public class NotificationTest extends AbstractMailFixture
     {
         AbstractMailFixture.beforeClass();
         System.setProperty("easy.home", "../easy-home");
-        
+
         permissionSequence = EasyMock.createMock(PermissionSequence.class);
         dataset = EasyMock.createMock(Dataset.class);
         depositor = EasyMock.createMock(EasyUser.class);

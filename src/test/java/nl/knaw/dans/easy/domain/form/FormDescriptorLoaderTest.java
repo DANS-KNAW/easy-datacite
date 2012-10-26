@@ -17,17 +17,16 @@ import org.xml.sax.SAXException;
 
 public class FormDescriptorLoaderTest
 {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(FormDescriptorLoaderTest.class);
-    
-    
+
     @Test
     public void testLoadFormDescriptors() throws ServiceException, ResourceNotFoundException, XMLException, SAXException, SchemaCreationException
     {
         Map<String, FormDescriptor> formDescriptorMap = new HashMap<String, FormDescriptor>();
         FormDescriptorLoader.loadFormDescriptors(formDescriptorMap);
         assertEquals(6, formDescriptorMap.size());
-         
+
         for (String name : formDescriptorMap.keySet())
         {
             FormDescriptor formDescriptor = formDescriptorMap.get(name);
@@ -42,12 +41,11 @@ public class FormDescriptorLoaderTest
         {
             if (!tpd.getId().equals(tpd.getNamespacePrefix() + "." + tpd.getTermName()))
             {
-                logger.warn("Id not correct " + formDescriptor.getId() + " " + tpd.getId() + ": "
-                        + tpd.getNamespacePrefix() + "." + tpd.getTermName());
+                logger.warn("Id not correct " + formDescriptor.getId() + " " + tpd.getId() + ": " + tpd.getNamespacePrefix() + "." + tpd.getTermName());
             }
-            
+
         }
-        
+
     }
 
 }

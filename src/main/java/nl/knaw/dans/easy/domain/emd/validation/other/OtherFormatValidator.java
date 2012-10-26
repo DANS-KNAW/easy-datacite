@@ -14,7 +14,7 @@ public class OtherFormatValidator implements Validator
 
     private static OtherFormatValidator INSTANCE;
 
-    private static List<Validator>      VALIDATORS = Collections.synchronizedList(new ArrayList<Validator>());
+    private static List<Validator> VALIDATORS = Collections.synchronizedList(new ArrayList<Validator>());
 
     private OtherFormatValidator()
     {

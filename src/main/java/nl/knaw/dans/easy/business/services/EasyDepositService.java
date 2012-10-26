@@ -31,10 +31,9 @@ public class EasyDepositService extends AbstractEasyService implements DepositSe
 
     //public static final String                CONF_LOCATION     = "easy-business/discipline/emd/form-description";
 
-    private static Logger                     logger            = LoggerFactory.getLogger(EasyDepositService.class);
+    private static Logger logger = LoggerFactory.getLogger(EasyDepositService.class);
 
-    private final Map<String, FormDescriptor> formDescriptorMap = Collections
-                                                                        .synchronizedMap(new LinkedHashMap<String, FormDescriptor>());
+    private final Map<String, FormDescriptor> formDescriptorMap = Collections.synchronizedMap(new LinkedHashMap<String, FormDescriptor>());
 
     public String getServiceDescription()
     {
@@ -54,7 +53,7 @@ public class EasyDepositService extends AbstractEasyService implements DepositSe
 
     public DepositDiscipline getDiscipline(MetadataFormat emd_format) throws ServiceException
     {
-        return getDiscipline( emd_format.toString().toLowerCase() );
+        return getDiscipline(emd_format.toString().toLowerCase());
     }
 
     public List<DepositDiscipline> getDisciplines() throws ServiceException
@@ -69,21 +68,21 @@ public class EasyDepositService extends AbstractEasyService implements DepositSe
         }
         return disciplines;
     }
-    
+
     public ChoiceList getChoices(String listId, Locale locale) throws ServiceException
     {
         ChoiceList choiceList = null;
         try
         {
-        	choiceList = ChoiceListGetter.getInstance().getChoiceList(listId, locale);
+            choiceList = ChoiceListGetter.getInstance().getChoiceList(listId, locale);
         }
         catch (Exception e)
         {
             throw new ServiceException(e);
-        } 
+        }
         return choiceList;
     }
-    
+
     public byte[] getChoicesAsByteArray(String listId, Locale locale) throws ServiceException
     {
         byte[] bytes = null;
@@ -101,7 +100,7 @@ public class EasyDepositService extends AbstractEasyService implements DepositSe
         }
         return bytes;
     }
-    
+
     public void getArchisInfo(BasicIdentifier archisIdentifier, EasyMetadata easyMetadata) throws ServiceException
     {
         ArchisCollector collector = new ArchisCollector(easyMetadata);
@@ -133,7 +132,7 @@ public class EasyDepositService extends AbstractEasyService implements DepositSe
         }
         return formDescriptorMap;
     }
-    
+
     protected void loadFormDescriptors() throws ServiceException
     {
         try
@@ -145,7 +144,7 @@ public class EasyDepositService extends AbstractEasyService implements DepositSe
             throw new ServiceException(e);
         }
     }
-    
+
     protected void loadMap() throws ResourceNotFoundException
     {
         synchronized (formDescriptorMap)
@@ -157,8 +156,7 @@ public class EasyDepositService extends AbstractEasyService implements DepositSe
                 if (!descriptor.containsFormDefinition(DepositDiscipline.EMD_DEPOSITFORM_WIZARD))
                 {
                     invalidDescriptors.add(descriptor.getId());
-                    logger.warn("FormDescriptor:" + descriptor.getId()
-                            + " does not contain a deposit form definition");
+                    logger.warn("FormDescriptor:" + descriptor.getId() + " does not contain a deposit form definition");
                 }
             }
             for (String descriptorId : invalidDescriptors)
@@ -167,6 +165,5 @@ public class EasyDepositService extends AbstractEasyService implements DepositSe
             }
         }
     }
-
 
 }

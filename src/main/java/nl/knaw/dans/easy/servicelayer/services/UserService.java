@@ -30,11 +30,11 @@ public interface UserService
 {
     UsernamePasswordAuthentication newUsernamePasswordAuthentication() throws ServiceException;
 
-    RegistrationMailAuthentication newRegistrationMailAuthentication(final String userId, final String returnedTime,
-            final String returnedToken) throws ServiceException;
+    RegistrationMailAuthentication newRegistrationMailAuthentication(final String userId, final String returnedTime, final String returnedToken)
+            throws ServiceException;
 
-    ForgottenPasswordMailAuthentication newForgottenPasswordMailAuthentication(final String userId,
-            final String returnedTime, final String returnedToken) throws ServiceException;
+    ForgottenPasswordMailAuthentication newForgottenPasswordMailAuthentication(final String userId, final String returnedTime, final String returnedToken)
+            throws ServiceException;
 
     void authenticate(Authentication authentication) throws ServiceException;
 
@@ -43,9 +43,9 @@ public interface UserService
     EasyUser getUserById(EasyUser sessionUser, String uid) throws ObjectNotAvailableException, ServiceException;
 
     List<EasyUser> getUserByEmail(String email) throws ServiceException;
-    
+
     List<EasyUser> getUsersByRole(Role role) throws ServiceException;
-    
+
     Map<String, String> getByCommonNameStub(String stub, long maxCount) throws ServiceException;
 
     EasyUser update(EasyUser updater, EasyUser user) throws ServiceException;
@@ -71,19 +71,19 @@ public interface UserService
      * @throws ServiceException
      */
     boolean isUserWithStoredPassword(final EasyUser user) throws ServiceException;
-    
+
     void changePassword(ChangePasswordMessenger messenger) throws ServiceException;
 
     void handleForgottenPasswordRequest(ForgottenPasswordMessenger messenger) throws ServiceException;
 
     List<EasyUser> getAllUsers() throws ServiceException;
-    
+
     List<Group> getAllGroups() throws ServiceException;
-    
+
     List<String> getAllGroupIds() throws ServiceException;
-    
+
     OperationalAttributes getOperationalAttributes(EasyUser user) throws ServiceException;
-    
+
     OperationalAttributes getOperationalAttributes(Group group) throws ServiceException;
 
 }

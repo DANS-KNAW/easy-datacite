@@ -10,13 +10,13 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 public interface PermissionSequenceList extends MetadataUnitXMLBean
 {
 
-    String UNIT_ID         = "PRSQL";
+    String UNIT_ID = "PRSQL";
 
-    String UNIT_LABEL      = "Permission request sequences for this dataset";
+    String UNIT_LABEL = "Permission request sequences for this dataset";
 
-    String UNIT_FORMAT     = "http://easy.dans.knaw.nl/easy/permission-sequences/";
+    String UNIT_FORMAT = "http://easy.dans.knaw.nl/easy/permission-sequences/";
 
-    URI    UNIT_FORMAT_URI = URI.create(UNIT_FORMAT);
+    URI UNIT_FORMAT_URI = URI.create(UNIT_FORMAT);
 
     /**
      * Get a list of permission sequences for the dataset this PermissionSequenceList belongs to.
@@ -32,7 +32,7 @@ public interface PermissionSequenceList extends MetadataUnitXMLBean
      * @param state the state of the permission sequences to be returned
      * @return a list of permission sequences of State state
      */
-	List<PermissionSequence> getPermissionSequences(State state);
+    List<PermissionSequence> getPermissionSequences(State state);
 
     /**
      * Get the PermissionSequence for the given requester.
@@ -43,7 +43,7 @@ public interface PermissionSequenceList extends MetadataUnitXMLBean
      * @see #hasSequenceFor(EasyUser)
      */
     PermissionSequence getSequenceFor(EasyUser requester);
-    
+
     PermissionSequence getSequenceFor(String requesterId);
 
     /**
@@ -54,17 +54,15 @@ public interface PermissionSequenceList extends MetadataUnitXMLBean
      * @return <code>true</code> if there is a PermissionSequence, <code>false</code> otherwise
      */
     boolean hasSequenceFor(EasyUser requester);
-    
-    boolean hasSequences();
-    
-    boolean isGrantedTo(EasyUser user);
-    
-    List<PermissionRequestSearchInfo> getSearchInfoList();
-    
-    PermissionRequestModel getPermissionRequest(EasyUser requester);
-    
-    PermissionReplyModel getPermissionReply(String requesterId);
 
-    
+    boolean hasSequences();
+
+    boolean isGrantedTo(EasyUser user);
+
+    List<PermissionRequestSearchInfo> getSearchInfoList();
+
+    PermissionRequestModel getPermissionRequest(EasyUser requester);
+
+    PermissionReplyModel getPermissionReply(String requesterId);
 
 }

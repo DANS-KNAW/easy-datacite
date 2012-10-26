@@ -11,12 +11,11 @@ import org.slf4j.LoggerFactory;
 public class SubmissionDispatcher
 {
 
-    private static final Logger       logger             = LoggerFactory.getLogger(SubmissionDispatcher.class);
+    private static final Logger logger = LoggerFactory.getLogger(SubmissionDispatcher.class);
 
-    private List<SubmissionProcessor> processors         = new ArrayList<SubmissionProcessor>();
+    private List<SubmissionProcessor> processors = new ArrayList<SubmissionProcessor>();
     private List<SubmissionProcessor> threadedProcessors = new ArrayList<SubmissionProcessor>();
-    
-    
+
     protected SubmissionDispatcher()
     {
     }
@@ -75,32 +74,30 @@ public class SubmissionDispatcher
 
         public void run()
         {
-        	try
-        	{
-	        	boolean allStepsCompleted = true;
-	            for (SubmissionProcessor processor : threadedProcessors)
-	            {
-	                if (allStepsCompleted || processor.continueAfterFailure())
-	                {
-	                    allStepsCompleted &= processor.process(submission);
-	                }
-	            }
-	            logger.debug(submission.getState());
-	            if (!allStepsCompleted)
-	            {
-	                handleSubmissionFailure(new RuntimeException(
-	                        "Not all steps completed in threaded handling. "
-	                        + "thread=" + Thread.currentThread().getId()));
-	            }
-	            logger.debug("Ending dataset submission in thread " + Thread.currentThread().getId());
-        	}
-        	catch (Exception e)
-        	{
-        	    handleSubmissionFailure(e);
-        	}
-        	finally
-        	{
-        	}
+            try
+            {
+                boolean allStepsCompleted = true;
+                for (SubmissionProcessor processor : threadedProcessors)
+                {
+                    if (allStepsCompleted || processor.continueAfterFailure())
+                    {
+                        allStepsCompleted &= processor.process(submission);
+                    }
+                }
+                logger.debug(submission.getState());
+                if (!allStepsCompleted)
+                {
+                    handleSubmissionFailure(new RuntimeException("Not all steps completed in threaded handling. " + "thread=" + Thread.currentThread().getId()));
+                }
+                logger.debug("Ending dataset submission in thread " + Thread.currentThread().getId());
+            }
+            catch (Exception e)
+            {
+                handleSubmissionFailure(e);
+            }
+            finally
+            {
+            }
         }
 
         private void handleSubmissionFailure(Exception e)

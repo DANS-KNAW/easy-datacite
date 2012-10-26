@@ -21,11 +21,11 @@ public interface ItemVO extends Cloneable
     String getDatasetSid();
 
     void setDatasetSid(String datasetSid);
-    
+
     void setPath(String path);
-       
+
     String getPath();
-    
+
     /**
      * Is this Item accessible for a user with the given profile.
      * 
@@ -38,8 +38,8 @@ public interface ItemVO extends Cloneable
     boolean belongsTo(Dataset dataset);
 
     Object clone() throws CloneNotSupportedException;
-    
+
     AuthzStrategy getAuthzStrategy();
-    
+
     String getAutzStrategyName();
 }

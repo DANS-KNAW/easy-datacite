@@ -21,7 +21,7 @@ import org.joda.time.DateTime;
 public interface Dataset extends DatasetItemContainer
 {
     AccessCategory DEFAULT_ACCESS_CATEGORY = AccessCategory.OPEN_ACCESS;
-    
+
     String NAME_SPACE_VALUE = "easy-dataset";
 
     DmoNamespace NAMESPACE = new DmoNamespace(NAME_SPACE_VALUE);
@@ -29,7 +29,7 @@ public interface Dataset extends DatasetItemContainer
     EasyMetadata getEasyMetadata();
 
     AdministrativeMetadata getAdministrativeMetadata();
-    
+
     DatasetRelations getRelations();
 
     DatasetState getAdministrativeState();
@@ -41,7 +41,6 @@ public interface Dataset extends DatasetItemContainer
     boolean hasDepositor(EasyUser user);
 
     boolean hasDepositor(String userId);
-    
 
     EasyUser getDepositor();
 

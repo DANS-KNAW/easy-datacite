@@ -11,13 +11,13 @@ public class FederativeUserIdMap implements RepoEntry
 
     @LdapAttribute(id = "fedUserId")
     private String fedUserId;
-    
+
     @LdapAttribute(id = "dansUserId")
     private String dansUserId;
 
     public FederativeUserIdMap()
     {
-       // needed for unmarshalling
+        // needed for unmarshalling
     }
 
     public FederativeUserIdMap(String fedUserId, String dansUserId)

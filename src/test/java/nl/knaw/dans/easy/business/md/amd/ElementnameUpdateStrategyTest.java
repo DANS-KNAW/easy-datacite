@@ -17,53 +17,48 @@ import org.slf4j.LoggerFactory;
 
 public class ElementnameUpdateStrategyTest
 {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(ElementnameUpdateStrategyTest.class);
-    
+
     boolean verbose = false;
-    
+
     @Test
     public void update() throws Exception
     {
-        final AdditionalMetadata originalAmd = createAMD(
-                new String[]{"element0", "old value 0"},
-                new String[]{"element1", "old value 1"},
-                new String[]{"element2", "old value 2"},
-                new String[]{"element3", "old value 3"});
-        
+        final AdditionalMetadata originalAmd = createAMD(new String[] {"element0", "old value 0"}, new String[] {"element1", "old value 1"}, new String[] {
+                "element2", "old value 2"}, new String[] {"element3", "old value 3"});
+
         if (verbose)
             print(originalAmd);
-        
-        AdditionalMetadata newAmd = createAMD(
-                new String[]{"element1", "new value 1"},
-                new String[]{"element3", "old value 3"},
-                new String[]{"newElement", "i'm new"});
+
+        AdditionalMetadata newAmd = createAMD(new String[] {"element1", "new value 1"}, new String[] {"element3", "old value 3"}, new String[] {"newElement",
+                "i'm new"});
 
         if (verbose)
             print(newAmd);
-        
+
         ElementnameUpdateStrategy strategy = new ElementnameUpdateStrategy("myId");
         AdditionalMetadataOwner owner = new AdditionalMetadataOwner()
         {
-            
+
             @Override
             public void setAdditionalMetadata(AdditionalMetadata addmd)
             {
                 fail("Setter-call not expected.");
             }
-            
+
             @Override
             public AdditionalMetadata getAdditionalMetadata()
             {
                 return originalAmd;
             }
         };
-        
+
         strategy.update(owner, newAmd);
-        
+
         if (verbose)
             print(originalAmd);
-        
+
         Element content = originalAmd.getAdditionalContent("myId").getContent();
         assertEquals(5, content.elements().size());
         assertEquals("old value 0", content.element("element0").getText());
@@ -72,19 +67,19 @@ public class ElementnameUpdateStrategyTest
         assertEquals("old value 3", content.element("element3").getText());
         assertEquals("i'm new", content.element("newElement").getText());
     }
-    
+
     protected AdditionalMetadata createAMD(String[]... values)
     {
         AdditionalMetadata amd = new AdditionalMetadata();
         Element content = new DefaultElement("myContent");
-        
+
         for (int i = 0; i < values.length; i++)
         {
             Element e = new DefaultElement(values[i][0]);
             e.setText(values[i][1]);
             content.add(e);
         }
-        
+
         AdditionalContent ac = new AdditionalContent("myId", "this is content", content);
         amd.addAdditionalContent(ac);
         return amd;

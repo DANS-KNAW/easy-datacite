@@ -3,13 +3,11 @@ package nl.knaw.dans.easy.domain.exceptions;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 public class DataIntegrityException extends DomainException
 {
 
     private static final long serialVersionUID = 4632587095875268367L;
-    
+
     private List<String> errorMessages = new ArrayList<String>();
 
     public DataIntegrityException(String message)
@@ -37,7 +35,7 @@ public class DataIntegrityException extends DomainException
     {
         return errorMessages;
     }
-    
+
     public String printErrorMessages()
     {
         StringBuilder sb = new StringBuilder();
@@ -49,6 +47,5 @@ public class DataIntegrityException extends DomainException
         }
         return sb.toString();
     }
-    
 
 }

@@ -51,11 +51,11 @@ public interface DepositService extends EasyService
      *         wrapper for exceptions
      */
     List<DepositDiscipline> getDisciplines() throws ServiceException;
-    
+
     ChoiceList getChoices(String listId, Locale locale) throws ServiceException;
-    
+
     byte[] getChoicesAsByteArray(String listId, Locale locale) throws ServiceException;
-    
+
     void getArchisInfo(BasicIdentifier archisIdentifier, EasyMetadata easyMetadata) throws ServiceException;
-    
+
 }

@@ -17,22 +17,22 @@ import org.jibx.runtime.JiBXException;
 public abstract class AbstractInheritableDefinition<T> extends AbstractJiBXObject<T>
 {
 
-    private static final long                serialVersionUID    = -3247134648110523055L;
+    private static final long serialVersionUID = -3247134648110523055L;
 
-//    private static final Logger              logger              = LoggerFactory
-//                                                                         .getLogger(AbstractInheritableDefinition.class);
+    //    private static final Logger              logger              = LoggerFactory
+    //                                                                         .getLogger(AbstractInheritableDefinition.class);
 
-    private String                           id;
+    private String id;
     private AbstractInheritableDefinition<?> parent;
-    private final Map<String, String>        customPropertiesMap = new HashMap<String, String>();
+    private final Map<String, String> customPropertiesMap = new HashMap<String, String>();
     // JiBX
-    private List<CustomProperty>             customProperties;
-    private String                           labelResourceKey;
-    private String                           shortHelpResourceKey;
-    private String                           helpItem;
-    private String                           helpFile;
-    private String                           instructionFile;
-    private String                           licenseFile;
+    private List<CustomProperty> customProperties;
+    private String labelResourceKey;
+    private String shortHelpResourceKey;
+    private String helpItem;
+    private String helpFile;
+    private String instructionFile;
+    private String licenseFile;
 
     /**
      * Constructor used by JiBX.
@@ -348,8 +348,8 @@ public abstract class AbstractInheritableDefinition<T> extends AbstractJiBXObjec
     // JiBX
     protected void postAbstractJiBXProcess() throws JiBXException
     {
-//        logger.debug("Postprocessing (abstract) " + this.getClass().getSimpleName() + ":" + getId()
-//                + " after JiBX deserialization.");
+        //        logger.debug("Postprocessing (abstract) " + this.getClass().getSimpleName() + ":" + getId()
+        //                + " after JiBX deserialization.");
 
         mapCustomProperties();
     }

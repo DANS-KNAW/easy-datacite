@@ -20,47 +20,46 @@ public class PermissionSequenceImpl extends AbstractTimestampedJiBXObject<Permis
 {
 
     private static final long serialVersionUID = 1826412349612885182L;
-    
+
     private final String requesterId;
     private EasyUser requester;
     private State state;
-    
+
     private DateTime lastRequestDate;
     private DateTime lastReplyDate;
     private String requestTitle;
     private String requestTheme;
     private String replyText;
-    
+
     private boolean acceptConditionsOfUse;
-    
+
     private DateTime stateLastModified;
-    
+
     private List<PermissionConversation> backLog = new ArrayList<PermissionConversation>();
 
-    
     @SuppressWarnings("unused")
     private PermissionSequenceImpl()
     {
         requesterId = null;
     }
-    
+
     public PermissionSequenceImpl(EasyUser requester)
     {
         this.requesterId = requester.getId();
         this.requester = requester;
     }
-    
+
     /** only use for migration **/
     public PermissionSequenceImpl(String requesterId)
     {
         this.requesterId = requesterId;
     }
-    
+
     public State getState()
     {
         return state;
     }
-    
+
     public void setState(State state)
     {
         if (evaluateDirty(this.state, state))
@@ -69,27 +68,27 @@ public class PermissionSequenceImpl extends AbstractTimestampedJiBXObject<Permis
         }
         this.state = state;
     }
-    
+
     public DateTime getLastStateChange()
     {
         return stateLastModified;
     }
-    
+
     public boolean isAcceptingConditionsOfUse()
     {
         return acceptConditionsOfUse;
     }
-    
+
     public void setAcceptingConditionsOfUse(boolean acceptingConditionsOfUse)
     {
         this.acceptConditionsOfUse = acceptingConditionsOfUse;
     }
-    
+
     public String getRequesterId()
     {
         return requesterId;
     }
-    
+
     public EasyUser getRequester()
     {
         if (requester == null && requesterId != null)
@@ -97,8 +96,8 @@ public class PermissionSequenceImpl extends AbstractTimestampedJiBXObject<Permis
             requester = RepoAccess.getDelegator().getUser(requesterId);
         }
         return requester;
-    }  
-    
+    }
+
     public String getRequestTitle()
     {
         return requestTitle;
@@ -107,7 +106,7 @@ public class PermissionSequenceImpl extends AbstractTimestampedJiBXObject<Permis
     public void setRequestTitle(String requestTitle)
     {
         this.requestTitle = requestTitle;
-        
+
     }
 
     public String getRequestTheme()
@@ -139,21 +138,21 @@ public class PermissionSequenceImpl extends AbstractTimestampedJiBXObject<Permis
     {
         return lastReplyDate;
     }
-    
+
     public boolean isGranted()
     {
         return State.Granted.equals(state);
     }
-    
+
     public PermissionRequestSearchInfo getSearchInfo()
     {
-    	PermissionRequestSearchInfo result = new PermissionRequestSearchInfo();
-    	result.setRequesterId(requesterId);
-    	result.setState(state);
-    	result.setStateLastModified(stateLastModified);
-    	return result;
+        PermissionRequestSearchInfo result = new PermissionRequestSearchInfo();
+        result.setRequesterId(requesterId);
+        result.setState(state);
+        result.setStateLastModified(stateLastModified);
+        return result;
     }
-   
+
     public PermissionRequestModel getRequestModel()
     {
         PermissionRequestModel request = new PermissionRequestModel();
@@ -162,7 +161,7 @@ public class PermissionSequenceImpl extends AbstractTimestampedJiBXObject<Permis
         request.setRequestTitle(requestTitle);
         return request;
     }
-    
+
     public PermissionReplyModel getReplyModel()
     {
         PermissionReplyModel reply = new PermissionReplyModel(requesterId);
@@ -170,7 +169,7 @@ public class PermissionSequenceImpl extends AbstractTimestampedJiBXObject<Permis
         reply.setState(state);
         return reply;
     }
-    
+
     public void updateRequest(PermissionRequestModel request)
     {
         logCurrentRequest();
@@ -186,7 +185,7 @@ public class PermissionSequenceImpl extends AbstractTimestampedJiBXObject<Permis
     {
         if (!requesterId.equals(reply.getRequesterId()))
         {
-            throw new IllegalArgumentException("The reply model with requesterId " + reply.getRequesterId() 
+            throw new IllegalArgumentException("The reply model with requesterId " + reply.getRequesterId()
                     + " does not belong to the sequence with requesterId " + requesterId);
         }
         logCurrentReply();
@@ -199,7 +198,7 @@ public class PermissionSequenceImpl extends AbstractTimestampedJiBXObject<Permis
     {
         return backLog;
     }
-    
+
     private void logCurrentRequest()
     {
         if (lastRequestDate != null)
@@ -212,7 +211,7 @@ public class PermissionSequenceImpl extends AbstractTimestampedJiBXObject<Permis
             backLog.add(conversation);
         }
     }
-    
+
     private void logCurrentReply()
     {
         if (lastReplyDate != null)
@@ -230,21 +229,11 @@ public class PermissionSequenceImpl extends AbstractTimestampedJiBXObject<Permis
      */
     public int hashCode()
     {
-        return new HashCodeBuilder(-1670986549, 382131205)
-            .appendSuper(super.hashCode())
-            .append(this.stateLastModified)
-            .append(this.requestTheme)
-            .append(this.lastReplyDate)
-            .append(this.backLog)
-            .append(this.requesterId)
-            .append(this.lastRequestDate)
-            .append(this.acceptConditionsOfUse)
-            .append(this.state)
-            .append(this.replyText)
-            .append(this.requestTitle)
-            .toHashCode();
+        return new HashCodeBuilder(-1670986549, 382131205).appendSuper(super.hashCode()).append(this.stateLastModified).append(this.requestTheme).append(
+                this.lastReplyDate).append(this.backLog).append(this.requesterId).append(this.lastRequestDate).append(this.acceptConditionsOfUse).append(
+                this.state).append(this.replyText).append(this.requestTitle).toHashCode();
     }
-    
+
     // only use for Migration!!
     // TODO remove method after migration.
     public void stripDates()
@@ -256,7 +245,5 @@ public class PermissionSequenceImpl extends AbstractTimestampedJiBXObject<Permis
             ((PermissionConversationImpl) pc).setDate(null);
         }
     }
-    
-    
-    
+
 }

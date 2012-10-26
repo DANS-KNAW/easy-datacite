@@ -24,13 +24,12 @@ public class WorkflowStepTest extends AbstractJibxTest<WorkflowStep>
         ClassPathHacker.addFile("../easy-webui/src/main/resources");
         before(WorkflowStepTest.class);
     }
-    
+
     public WorkflowStepTest()
     {
         super(WorkflowStep.class);
     }
 
-    
     @Test
     public void getRequiredSteps()
     {
@@ -47,14 +46,14 @@ public class WorkflowStepTest extends AbstractJibxTest<WorkflowStep>
         WorkflowStep root = WorkflowFactory.newDatasetWorkflow();
         assertFalse(root.areRequiredStepsCompleted());
         assertFalse(root.isCompleted());
-        
+
         for (WorkflowStep requiredStep : root.getRequiredSteps())
         {
             requiredStep.setCompleted(true);
         }
         assertTrue(root.areRequiredStepsCompleted());
         assertFalse(root.isCompleted());
-        
+
         root.setCompleted(true);
         assertTrue(root.isCompleted());
 
@@ -62,30 +61,30 @@ public class WorkflowStepTest extends AbstractJibxTest<WorkflowStep>
         assertFalse(root.areRequiredStepsCompleted());
         assertFalse(root.isCompleted());
     }
-    
+
     @Test
     public void testCompletionTime() throws IOException, JiBXException, XMLSerializationException
     {
         WorkflowStep root = WorkflowFactory.newDatasetWorkflow();
         assertNull(root.getCompletionTimeRequiredSteps());
         assertNull(root.getCompletionTimeAllSteps());
-        
+
         root = unmarshal(getFile("someRequiredCompleted.xml").getPath());
         assertNull(root.getCompletionTimeRequiredSteps());
         assertNull(root.getCompletionTimeAllSteps());
-        
+
         root = unmarshal(getFile("allRequiredCompleted.xml").getPath());
         assertNotNull(root.getCompletionTimeRequiredSteps());
         assertEquals("2010-08-26T11:55:06.676+02:00", root.getCompletionTimeRequiredSteps().toString());
         assertNull(root.getCompletionTimeAllSteps());
-        
+
         root = unmarshal(getFile("allCompleted.xml").getPath());
         assertNotNull(root.getCompletionTimeRequiredSteps());
         assertEquals("2009-10-26T12:15:34.287+01:00", root.getCompletionTimeRequiredSteps().toString());
         assertNotNull(root.getCompletionTimeAllSteps());
         assertEquals("2009-10-26T12:15:34.287+01:00", root.getCompletionTimeAllSteps().toString());
-        
+
         //System.err.println(root.asXMLString(4));
     }
-    
+
 }

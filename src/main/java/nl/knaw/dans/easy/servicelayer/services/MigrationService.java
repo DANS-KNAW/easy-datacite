@@ -5,7 +5,7 @@ import nl.knaw.dans.easy.domain.migration.IdMap;
 
 public interface MigrationService extends EasyService
 {
-    
+
     IdMap getMostRecentByAipId(String aipId) throws ServiceException;
 
 }

@@ -19,17 +19,16 @@ public class EmdContributor extends AbstractEmdContainer
     /**
      * Terms contained.
      */
-    static final Term[] TERMS            = {
-            new Term(Term.Name.CONTRIBUTOR, Term.Namespace.DC, BasicString.class),
+    static final Term[] TERMS = {new Term(Term.Name.CONTRIBUTOR, Term.Namespace.DC, BasicString.class),
             new Term(Term.Name.CONTRIBUTOR, Term.Namespace.EAS, Author.class)};
 
     /**
      *
      */
-    private static final long  serialVersionUID = 7285039294774059387L;
+    private static final long serialVersionUID = 7285039294774059387L;
 
-    private List<BasicString>  dcContributor    = new ArrayList<BasicString>();
-    private List<Author>       easContributor   = new ArrayList<Author>();
+    private List<BasicString> dcContributor = new ArrayList<BasicString>();
+    private List<Author> easContributor = new ArrayList<Author>();
 
     /**
      * {@inheritDoc}
@@ -97,7 +96,7 @@ public class EmdContributor extends AbstractEmdContainer
         }
         return dais;
     }
-    
+
     public List<Author> getDAIAuthors()
     {
         List<Author> daiAuthors = new ArrayList<Author>();

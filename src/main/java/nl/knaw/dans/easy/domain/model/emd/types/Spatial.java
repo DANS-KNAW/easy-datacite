@@ -15,11 +15,11 @@ public class Spatial implements MetadataItem
      */
     private static final long serialVersionUID = -4528874991943187028L;
 
-    private BasicString       place;
+    private BasicString place;
 
-    private Point             point;
+    private Point point;
 
-    private Box               box;
+    private Box box;
 
     /**
      * Constructor.
@@ -139,7 +139,7 @@ public class Spatial implements MetadataItem
             this.box = box;
         }
     }
-    
+
     @Override
     public String getSchemeId()
     {
@@ -181,7 +181,7 @@ public class Spatial implements MetadataItem
         }
         return builder.toString();
     }
-    
+
     public boolean isComplete()
     {
         boolean complete = true;
@@ -207,8 +207,8 @@ public class Spatial implements MetadataItem
         private static final long serialVersionUID = 1359989050701264576L;
 
         // ecco: CHECKSTYLE: OFF
-        protected String          scheme;
-        
+        protected String scheme;
+
         protected String schemeId;
 
         // ecco: CHECKSTYLE: ON
@@ -253,7 +253,6 @@ public class Spatial implements MetadataItem
         {
             this.scheme = scheme;
         }
-        
 
         public String getSchemeId()
         {
@@ -287,9 +286,9 @@ public class Spatial implements MetadataItem
 
         private static final long serialVersionUID = -3188779181045736655L;
 
-        private String            x;
+        private String x;
 
-        private String            y;
+        private String y;
 
         /**
          * Constructor.
@@ -367,7 +366,7 @@ public class Spatial implements MetadataItem
         {
             return super.toString() + " x=" + x + " y=" + y;
         }
-        
+
         public boolean isComplete()
         {
             return getScheme() != null && getX() != null && getY() != null;
@@ -385,13 +384,13 @@ public class Spatial implements MetadataItem
 
         private static final long serialVersionUID = -9058631387866597183L;
 
-        private String            north;
+        private String north;
 
-        private String            east;
+        private String east;
 
-        private String            south;
+        private String south;
 
-        private String            west;
+        private String west;
 
         /**
          * Constructor.
@@ -517,7 +516,7 @@ public class Spatial implements MetadataItem
         {
             return super.toString() + " north=" + north + " east=" + east + " south=" + south + " west=" + west;
         }
-        
+
         public boolean isComplete()
         {
             return getScheme() != null && getNorth() != null && getEast() != null && getSouth() != null && getWest() != null;

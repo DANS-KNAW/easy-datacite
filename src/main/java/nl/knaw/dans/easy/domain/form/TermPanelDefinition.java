@@ -1,19 +1,18 @@
 package nl.knaw.dans.easy.domain.form;
 
-
 public class TermPanelDefinition extends StandardPanelDefinition
 {
-    
+
     private static final long serialVersionUID = 2570576641854058858L;
-    
+
     private String namespacePrefix;
     private String termName;
-    
+
     protected TermPanelDefinition()
     {
         super();
     }
-    
+
     public TermPanelDefinition(String panelId, String namespacePrefix, String termName)
     {
         super(panelId);
@@ -40,7 +39,7 @@ public class TermPanelDefinition extends StandardPanelDefinition
     {
         this.termName = termName;
     }
-    
+
     protected synchronized TermPanelDefinition clone()
     {
         TermPanelDefinition clone = new TermPanelDefinition(getId(), namespacePrefix, termName);

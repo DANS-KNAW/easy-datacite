@@ -13,25 +13,25 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 public class ZipperFactory
 {
     private Map<String, Integer> weightMap;
-    
+
     public Zipper createZipper(EasyUser sessionUser, Dataset dataset, List<RequestedItem> requestedItems, ZipOutputStream zipOut)
     {
         int totalWeight = 0;
         ItemCollector itemCollector = new ItemCollector(requestedItems);
         itemCollector.setWeight(getWeight(ItemCollector.class.getName()));
         totalWeight += itemCollector.getWeight();
-        
+
         DownloadFilterAdapter downloadFilter = new DownloadFilterAdapter(itemCollector, sessionUser, dataset);
         downloadFilter.setWeight(getWeight(DownloadFilterAdapter.class.getName()));
         totalWeight += downloadFilter.getWeight();
-        
+
         ContentCollector contentCollector = new ContentCollector(downloadFilter, zipOut);
         contentCollector.setWeight(getWeight(ContentCollector.class.getName()));
         totalWeight += contentCollector.getWeight();
-        
+
         return null;
     }
-    
+
     private int getWeight(String subjectId)
     {
         Integer weight = getWeightMap().get(subjectId);
@@ -44,12 +44,12 @@ public class ZipperFactory
             return weight.intValue();
         }
     }
-    
+
     public void setWeightMap(Map<String, Integer> weightMap)
     {
         this.weightMap = weightMap;
     }
-    
+
     private Map<String, Integer> getWeightMap()
     {
         if (weightMap == null)

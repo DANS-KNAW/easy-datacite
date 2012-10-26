@@ -2,7 +2,6 @@ package nl.knaw.dans.easy.domain.model.emd;
 
 import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
 
-
 public final class EasyMetadataFactory
 {
     private EasyMetadataFactory()
@@ -10,7 +9,7 @@ public final class EasyMetadataFactory
         // never instantiate.
     }
 
-    public static Class< ? extends EasyMetadata> getEasyMetadataClass()
+    public static Class<? extends EasyMetadata> getEasyMetadataClass()
     {
         return EasyMetadataImpl.class;
     }

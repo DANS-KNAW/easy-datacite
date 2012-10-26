@@ -23,7 +23,7 @@ public class Messenger<T extends Enum<T>> implements Serializable
      * 
      * @see #getStateKey()
      */
-    public static final String             STATE_KEY_PREFIX  = "state.";
+    public static final String STATE_KEY_PREFIX = "state.";
 
     /**
      * Property name: {@value} .
@@ -31,23 +31,23 @@ public class Messenger<T extends Enum<T>> implements Serializable
      * @see #setToken(String)
      * @see #getToken()
      */
-    public static final String             PROP_TOKEN        = "token";
+    public static final String PROP_TOKEN = "token";
 
-    private static final long              serialVersionUID  = -8567872685462175167L;
+    private static final long serialVersionUID = -8567872685462175167L;
 
     private final Class<? extends Enum<T>> stateType;
 
-    private final LinkedHashSet<T>         accumulatedStates = new LinkedHashSet<T>();
+    private final LinkedHashSet<T> accumulatedStates = new LinkedHashSet<T>();
 
-    private final DateTime                 requestTime;
+    private final DateTime requestTime;
 
-    private final String                   randomString;
+    private final String randomString;
 
-    private final List<Throwable>          exceptions        = new ArrayList<Throwable>();
+    private final List<Throwable> exceptions = new ArrayList<Throwable>();
 
-    private T                              state;
+    private T state;
 
-    private String                         token;
+    private String token;
 
     /**
      * Constructs a new Messenger with it's state set to the first enumConstant of stateType. Also the (final) request
@@ -347,8 +347,7 @@ public class Messenger<T extends Enum<T>> implements Serializable
      */
     public String createMailToken(String id)
     {
-        return Integer.valueOf(SecurityUtil.generateHashCode(id, getRequestTimeAsString(), getRandomString()))
-                .toString();
+        return Integer.valueOf(SecurityUtil.generateHashCode(id, getRequestTimeAsString(), getRandomString())).toString();
     }
 
 }

@@ -27,13 +27,7 @@ public class Registration extends Messenger<Registration.State>
         /**
          * Rejected because data is invalid, inappropriate, insufficient or indecent: not registered.
          */
-        InvalidData,
-        UserIdCannotBeBlank,
-        InitialsCannotBeBlank,
-        FirstnameCannotBeBlank,
-        SurnameCannotBeBlank,
-        PasswordCannotBeBlank,
-        EmailCannotBeBlank,
+        InvalidData, UserIdCannotBeBlank, InitialsCannotBeBlank, FirstnameCannotBeBlank, SurnameCannotBeBlank, PasswordCannotBeBlank, EmailCannotBeBlank,
         /**
          * Rejected because the userId already exists: not registered.
          */
@@ -51,10 +45,10 @@ public class Registration extends Messenger<Registration.State>
          */
         Registered
     }
-    
-    private final EasyUser        user;
-    private final String      mailToken;
-    
+
+    private final EasyUser user;
+    private final String mailToken;
+
     private String validationUrl;
 
     public Registration(final EasyUser user)
@@ -69,9 +63,9 @@ public class Registration extends Messenger<Registration.State>
     {
         super.setState(state);
     }
-    
+
     @Override
-	public void setState(State state, Throwable e)
+    public void setState(State state, Throwable e)
     {
         super.setState(state, e);
     }
@@ -80,12 +74,12 @@ public class Registration extends Messenger<Registration.State>
     {
         return user;
     }
-    
+
     public String getUserId()
     {
         return user.getId();
     }
-    
+
     public String getMailToken()
     {
         return mailToken;
@@ -100,12 +94,11 @@ public class Registration extends Messenger<Registration.State>
     {
         this.validationUrl = validationUrl;
     }
-    
+
     @Override
     public String toString()
     {
-        return  super.toString() + " [state=" + getState() + " user="
-                + (user == null ? "null" : user.toString()) + "] " + getExceptionsAsString();
+        return super.toString() + " [state=" + getState() + " user=" + (user == null ? "null" : user.toString()) + "] " + getExceptionsAsString();
     }
-    
+
 }

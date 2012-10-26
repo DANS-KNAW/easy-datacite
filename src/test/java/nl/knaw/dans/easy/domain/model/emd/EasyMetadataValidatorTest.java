@@ -27,7 +27,6 @@ import org.xml.sax.SAXException;
 
 // ecco: CHECKSTYLE: OFF
 
-
 public class EasyMetadataValidatorTest extends TestHelper
 {
 
@@ -103,8 +102,8 @@ public class EasyMetadataValidatorTest extends TestHelper
         String xmlString = "<emd:easymetadata xmlns:emd=\"http://easy.dans.knaw.nl/easy/easymetadata/\"/>";
         XMLErrorHandler result = EasyMetadataValidator.instance().validate(xmlString, EasyMetadataValidator.VERSION_0_1);
         Assert.assertFalse(result.passed());
-//        Assert.assertEquals("cvc-complex-type.4: Attribute 'version' must appear on element 'emd:easymetadata'.",
-//                result.getErrors().get(0).getMessage());
+        //        Assert.assertEquals("cvc-complex-type.4: Attribute 'version' must appear on element 'emd:easymetadata'.",
+        //                result.getErrors().get(0).getMessage());
 
         xmlString = "<emd:easymetadata xmlns:emd=\"http://easy.dans.knaw.nl/easy/easymetadata/\" emd:version=\"0.1\"/>";
         result = EasyMetadataValidator.instance().validate(xmlString, EasyMetadataValidator.VERSION_0_1);
@@ -125,23 +124,23 @@ public class EasyMetadataValidatorTest extends TestHelper
     {
         EasyMetadataValidator.instance().getSchema("foo");
     }
-    
+
     @Test
     public void validateVesaXml() throws Exception
     {
         File file = new File("src/test/resources/xml-validator/vesa.xml");
         XMLErrorHandler handler = EasyMetadataValidator.instance().validate(file, EasyMetadataValidator.VERSION_0_1);
         assertTrue(handler.passed());
-        
+
         EasyMetadata emd = (EasyMetadata) JiBXObjectFactory.unmarshal(EasyMetadataImpl.class, file);
         String audience = emd.getEmdAudience().getDisciplines().get(0).getValue();
         new DmoStoreId(audience);
-        
+
         assertEquals(AccessCategory.OPEN_ACCESS, emd.getEmdRights().getAccessCategory());
-        
+
         String uri = emd.getEmdSource().getDcSource().get(0).getValue();
         new URI(uri.trim());
-        
+
     }
 
 }

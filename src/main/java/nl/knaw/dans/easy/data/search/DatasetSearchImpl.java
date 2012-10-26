@@ -10,21 +10,20 @@ import nl.knaw.dans.common.lang.search.exceptions.SearchEngineException;
 
 public class DatasetSearchImpl implements DatasetSearch
 {
-	private SearchEngine searchEngine;
+    private SearchEngine searchEngine;
 
-	public DatasetSearchImpl(SearchEngine searchEngine)
-	{
-		this.searchEngine = searchEngine;
-		this.searchEngine.setSearchBeanFactory(new EasySearchBeanFactory());
-	}
+    public DatasetSearchImpl(SearchEngine searchEngine)
+    {
+        this.searchEngine = searchEngine;
+        this.searchEngine.setSearchBeanFactory(new EasySearchBeanFactory());
+    }
 
-	@SuppressWarnings("unchecked")
-	public SearchResult<? extends DatasetSB> search(SearchRequest request)
-			throws SearchEngineException, SearchBeanFactoryException
-	{
-		request.setIndex(new DatasetsIndex());
-		request.addFilterBean(DatasetSB.class);
-		return (SearchResult<? extends DatasetSB>) searchEngine.searchBeans(request);
-	}
+    @SuppressWarnings("unchecked")
+    public SearchResult<? extends DatasetSB> search(SearchRequest request) throws SearchEngineException, SearchBeanFactoryException
+    {
+        request.setIndex(new DatasetsIndex());
+        request.addFilterBean(DatasetSB.class);
+        return (SearchResult<? extends DatasetSB>) searchEngine.searchBeans(request);
+    }
 
 }

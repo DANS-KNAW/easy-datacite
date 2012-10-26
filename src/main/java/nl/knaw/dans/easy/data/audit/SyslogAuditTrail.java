@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 public class SyslogAuditTrail implements AuditTrail
 {
     private static final Logger logger = LoggerFactory.getLogger(SyslogAuditTrail.class);
-    
 
     @Override
     public void store(AuditRecord<?> auditRecord)
@@ -20,7 +19,7 @@ public class SyslogAuditTrail implements AuditTrail
         // nothing to close
 
     }
-    
+
     protected void test(String message)
     {
         logger.info(message);

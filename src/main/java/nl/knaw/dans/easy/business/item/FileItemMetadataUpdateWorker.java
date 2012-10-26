@@ -30,9 +30,9 @@ import nl.knaw.dans.easy.xml.ResourceMetadataList;
 
 public class FileItemMetadataUpdateWorker extends ItemWorker
 {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(FileItemMetadataUpdateWorker.class);
-    
+
     private final AdditionalMetadataUpdateStrategy updateStrategy;
 
     public FileItemMetadataUpdateWorker(EasyUser sessionUser, AdditionalMetadataUpdateStrategy updateStrategy)
@@ -40,13 +40,13 @@ public class FileItemMetadataUpdateWorker extends ItemWorker
         super(sessionUser);
         this.updateStrategy = updateStrategy;
     }
-    
+
     public FileItemMetadataUpdateWorker(UnitOfWork uow, AdditionalMetadataUpdateStrategy updateStrategy)
     {
         super(uow);
         this.updateStrategy = updateStrategy;
     }
-    
+
     protected void workUpdateMetadata(Dataset dataset, ResourceMetadataList rmdl) throws ServiceException
     {
         UnitOfWork uow = getUnitOfWork();
@@ -59,8 +59,7 @@ public class FileItemMetadataUpdateWorker extends ItemWorker
                 String fileItemId = getFileItemId(dataset, rmd);
                 if (fileItemId == null)
                 {
-                    String msg = "Object not found. datasetId=" + dataset.getStoreId() 
-                        + " fileItemId=" + rmd.getSid() + " path=" + rmd.getPath();
+                    String msg = "Object not found. datasetId=" + dataset.getStoreId() + " fileItemId=" + rmd.getSid() + " path=" + rmd.getPath();
                     logger.error(msg);
                     informListeners(new ObjectNotAvailableException(msg));
                 }
@@ -99,31 +98,31 @@ public class FileItemMetadataUpdateWorker extends ItemWorker
             informListeners(e);
             return;
         }
-        
+
         setDiscoverRights(rmd, fileItem);
         setReadRights(rmd, fileItem);
-        
+
         updateAdditionalMetadata(rmd, fileItem);
     }
-    
+
     private void updateAdditionalMetadata(ResourceMetadata rmd, final FileItem fileItem)
     {
         AdditionalMetadataOwner owner = new AdditionalMetadataOwner()
         {
-            
+
             @Override
             public void setAdditionalMetadata(AdditionalMetadata addmd)
             {
                 fileItem.setAdditionalMetadata(addmd);
             }
-            
+
             @Override
             public AdditionalMetadata getAdditionalMetadata()
             {
                 return fileItem.getAdditionalMetadata();
             }
         };
-        
+
         try
         {
             updateStrategy.update(owner, rmd.getAdditionalMetadata());
@@ -143,7 +142,7 @@ public class FileItemMetadataUpdateWorker extends ItemWorker
             fileItem.setVisibleTo(VisibleTo.translate(discoverCat));
         }
     }
-    
+
     private void setReadRights(ResourceMetadata rmd, FileItem fileItem)
     {
         AccessCategory readCat = rmd.getCategoryRead();

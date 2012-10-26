@@ -47,7 +47,7 @@ public abstract class ChoiceListValidator implements Validator
 
     private final String listId;
     private final String xPathStub;
-    private ChoiceList   choiceList;
+    private ChoiceList choiceList;
 
     public ChoiceListValidator(final String listId, final String xPathStub)
     {

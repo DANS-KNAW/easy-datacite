@@ -17,10 +17,10 @@ public interface FederativeUserService
 
     // TODO support adding a federative user, given an EasyUser object and a federative user id
     void addFedUserToEasyUserIdCoupling(String fedUserId, String easyUserId) throws ServiceException;
-    
-    boolean isFederationLoginEnabled();    
 
-	URL getFederationUrl();
+    boolean isFederationLoginEnabled();
+
+    URL getFederationUrl();
 
     public abstract String getPopertyNameOrganization();
 

@@ -25,29 +25,29 @@ public class EasyUserImpl extends UserImpl implements EasyUser
      * Serial version UID.
      */
     private static final long serialVersionUID = 2895529338320356222L;
-    
+
     @LdapAttribute(id = "easyLogMyActions")
     private boolean logMyActions = true;
 
     private Set<Role> roles = new HashSet<Role>();
-    
+
     private Set<String> groupIds = new HashSet<String>();
-    
+
     @LdapAttribute(id = "easyDai")
     private String dai;
-    
+
     @LdapAttribute(id = "easyDiscipline1")
     private String discipline1;
-    
+
     @LdapAttribute(id = "easyDiscipline2")
     private String discipline2;
-    
+
     @LdapAttribute(id = "easyDiscipline3")
     private String discipline3;
-    
+
     @LdapAttribute(id = "easyHasConfirmedGeneralConditions")
     private boolean acceptedGeneralConditions;
-    
+
     private CreatorRole creatorRole;
 
     /**
@@ -76,7 +76,7 @@ public class EasyUserImpl extends UserImpl implements EasyUser
         super(userId, email);
     }
 
-    public EasyUserImpl(final Role...roles )
+    public EasyUserImpl(final Role... roles)
     {
         for (Role role : roles)
         {
@@ -89,7 +89,7 @@ public class EasyUserImpl extends UserImpl implements EasyUser
     {
         return roles;
     }
-    
+
     /**
      * Used by wicket.
      * @param roles
@@ -98,7 +98,7 @@ public class EasyUserImpl extends UserImpl implements EasyUser
     {
         this.roles = roles;
     }
-    
+
     @LdapAttribute(id = "easyRoles")
     public void addRole(Role role)
     {
@@ -122,22 +122,22 @@ public class EasyUserImpl extends UserImpl implements EasyUser
         }
         return hasRole;
     }
-    
+
     public Set<Group> getGroups()
     {
         return new LinkedHashSet<Group>(RepoAccess.getDelegator().getGroups(this));
     }
-    
+
     public void joinGroup(Group group)
     {
         groupIds.add(group.getId());
     }
-    
+
     public boolean leaveGroup(Group group)
     {
         return removeGroupId(group.getId());
     }
-    
+
     public boolean isMemberOf(Group... groups)
     {
         boolean isMemberOf = false;
@@ -150,7 +150,7 @@ public class EasyUserImpl extends UserImpl implements EasyUser
         }
         return isMemberOf;
     }
-    
+
     public boolean isMemberOfGroup(Collection<String> groupIds)
     {
         boolean isMemberOf = false;
@@ -161,13 +161,13 @@ public class EasyUserImpl extends UserImpl implements EasyUser
         }
         return isMemberOf;
     }
-    
+
     @LdapAttribute(id = "easyGroups")
     public Set<String> getGroupIds()
     {
         return groupIds;
     }
-    
+
     /**
      * Used by wicket.
      * @param groupIds
@@ -176,18 +176,18 @@ public class EasyUserImpl extends UserImpl implements EasyUser
     {
         this.groupIds = groupIds;
     }
-    
+
     @LdapAttribute(id = "easyGroups")
     public void addGroupId(String groupId)
     {
         groupIds.add(groupId);
     }
-    
+
     public boolean removeGroupId(String groupId)
     {
         return groupIds.remove(groupId);
     }
-    
+
     public CreatorRole getCreatorRole()
     {
         if (creatorRole == null)
@@ -208,12 +208,11 @@ public class EasyUserImpl extends UserImpl implements EasyUser
     {
         return StringUtil.commaSeparatedList(roles);
     }
-    
+
     public String getDisplayGroups()
     {
         return StringUtil.commaSeparatedList(groupIds);
     }
-
 
     public void synchronizeOn(EasyUser otherUser)
     {
@@ -258,7 +257,7 @@ public class EasyUserImpl extends UserImpl implements EasyUser
         }
         return equal;
     }
-    
+
     public boolean groupsAreEqual(EasyUserImpl otherUser)
     {
         boolean equal = groupIds.size() == otherUser.groupIds.size();
@@ -283,10 +282,10 @@ public class EasyUserImpl extends UserImpl implements EasyUser
         return super.hashCode();
     }
 
-	public boolean isAnonymous()
-	{
-		return false;
-	}
+    public boolean isAnonymous()
+    {
+        return false;
+    }
 
     @Override
     public boolean isLogMyActions()
@@ -299,7 +298,6 @@ public class EasyUserImpl extends UserImpl implements EasyUser
     {
         this.logMyActions = logMyActions;
     }
-
 
     @Override
     public String getDai()
@@ -350,14 +348,15 @@ public class EasyUserImpl extends UserImpl implements EasyUser
     }
 
     @Override
-	public boolean hasAcceptedGeneralConditions() {
-		return acceptedGeneralConditions;
-	}
+    public boolean hasAcceptedGeneralConditions()
+    {
+        return acceptedGeneralConditions;
+    }
 
     @Override
-	public void setAcceptedGeneralConditions(boolean acceptedGeneralConditions) {
-		this.acceptedGeneralConditions = acceptedGeneralConditions;
-	}
-    
-    
+    public void setAcceptedGeneralConditions(boolean acceptedGeneralConditions)
+    {
+        this.acceptedGeneralConditions = acceptedGeneralConditions;
+    }
+
 }

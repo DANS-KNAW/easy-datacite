@@ -47,7 +47,7 @@ public class TermTest
     {
         new Term("foo");
     }
-    
+
     @Test
     public void getContainer()
     {
@@ -58,7 +58,7 @@ public class TermTest
         EmdContainer container = emd.getContainer(mdContainer, false);
         assertEquals(EmdTitle.class, container.getClass());
     }
-    
+
     @SuppressWarnings("unchecked")
     @Test
     public void getMetadataListByTerm()
@@ -70,7 +70,7 @@ public class TermTest
         titles.add(bs);
         assertEquals("foo", emd.getEmdTitle().getDcTitle().get(0).getValue());
     }
-    
+
     @Test
     public void getMethodName()
     {

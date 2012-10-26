@@ -61,21 +61,21 @@ import org.joda.time.DateTime;
 
 public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, HasSearchBeans
 {
-    private static final long         serialVersionUID = -343629864711069451L;
+    private static final long serialVersionUID = -343629864711069451L;
 
-    private AdministrativeMetadata    administrativeMetadata;
+    private AdministrativeMetadata administrativeMetadata;
 
-    private EasyMetadata              easyMetadata;
+    private EasyMetadata easyMetadata;
 
-    private PermissionSequenceList    permissionSequenceList;
+    private PermissionSequenceList permissionSequenceList;
 
     private ItemContainerMetadataImpl itemContainerMetadata;
 
-    private Set<Group>                groups;
+    private Set<Group> groups;
 
-    private LicenseUnit               licenseUnit;
+    private LicenseUnit licenseUnit;
 
-    private AdditionalLicenseUnit     additionalLicenseUnit;
+    private AdditionalLicenseUnit additionalLicenseUnit;
 
     public DatasetImpl(String storeId)
     {
@@ -243,7 +243,7 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
     {
         return getChildAccessibility().contains(AccessCategory.GROUP_ACCESS);
     }
-    
+
     /*
      * Return values
      *  0 = dataset is not published
@@ -258,24 +258,24 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
         List<AccessCategory> categories = new ArrayList<AccessCategory>();
         if (DatasetState.PUBLISHED.equals(getAdministrativeState()))
         {
-            categories.add(AccessCategory.ANONYMOUS_ACCESS);            // 1 published dataset
+            categories.add(AccessCategory.ANONYMOUS_ACCESS); // 1 published dataset
             if (user != null && user.isActive() && !user.isAnonymous())
             {
-                categories.add(AccessCategory.OPEN_ACCESS);             // 2 known users
+                categories.add(AccessCategory.OPEN_ACCESS); // 2 known users
                 if (user.isMemberOfGroup(getGroupIds()))
                 {
-                    categories.add(AccessCategory.GROUP_ACCESS);        // 4 member of group
+                    categories.add(AccessCategory.GROUP_ACCESS); // 4 member of group
                 }
                 if (isPermissionGrantedTo(user))
                 {
-                    categories.add(AccessCategory.REQUEST_PERMISSION);  // 8 granted permission
+                    categories.add(AccessCategory.REQUEST_PERMISSION); // 8 granted permission
                 }
             }
         }
 
         return AccessCategory.UTIL.getBitMask(categories);
     }
-    
+
     public Set<String> getGroupIds()
     {
         return getAdministrativeMetadata().getGroupIds();
@@ -560,20 +560,20 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
         {
             searchBean.setDateDraftSaved(this.getLastModified());
         }
-        
+
         // set archaeology-specific fields
         searchBean.setArchaeologyDcSubject(emd.getEmdSubject().getArchaeologyDcSubjectValues());
         searchBean.setArchaeologyDctermsTemporal(emd.getEmdCoverage().getArchaeologyTermsTemporalValues());
-        
+
         // set DAI's of creators and contributors
         searchBean.setDaiCreators(emd.getEmdCreator().getDigitalAuthorIds());
         searchBean.setDaiContributors(emd.getEmdContributor().getDigitalAuthorIds());
-        
+
         // set collections
         List<String> collectionMemberships = new ArrayList<String>();
         collectionMemberships.addAll(DmoStoreId.asStrings(getRelations().getCollectionMemberships(ECollection.EasyCollection.namespace)));
         searchBean.setCollections(collectionMemberships);
-        
+
         return new ArrayList<Object>(1)
         {
             {
@@ -654,11 +654,11 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
     {
         List<DisciplineContainer> allDisciplines = getParentDisciplines();
         //
-//        StringBuilder sb = new StringBuilder("allDisciplines\n");
-//        for (DisciplineContainer dc : allDisciplines)
-//        {
-//            sb.append(dc.getStoreId() + " " + dc.getName() + "\n");
-//        }
+        //        StringBuilder sb = new StringBuilder("allDisciplines\n");
+        //        for (DisciplineContainer dc : allDisciplines)
+        //        {
+        //            sb.append(dc.getStoreId() + " " + dc.getName() + "\n");
+        //        }
 
         List<DisciplineContainer> leafDisciplines = new ArrayList<DisciplineContainer>();
 
@@ -701,7 +701,7 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
     {
         return new DatasetRelations(this);
     }
-    
+
     // Awaiting generics in relations, which is awaiting clearing discipline multi-inheritance obstacles.
     @Override
     public DatasetRelations getRelations()
@@ -734,7 +734,7 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
     {
         try
         {
-            return URLEncoder.encode(getPid(),"UTF-8");
+            return URLEncoder.encode(getPid(), "UTF-8");
         }
         catch (UnsupportedEncodingException e)
         {
@@ -748,7 +748,7 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
         BasicIdentifier biPid = getEasyMetadata().getEmdIdentifier().getIdentifier(EmdConstants.SCHEME_PID);
         return biPid == null ? null : biPid.getValue();
     }
-    
+
     @Override
     public String getAutzStrategyName()
     {

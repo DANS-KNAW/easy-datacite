@@ -20,16 +20,16 @@ import org.slf4j.LoggerFactory;
 
 public class DeleteDatasetRuleTest
 {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(DeleteDatasetRuleTest.class);
-    
+
     private static SecurityOfficer rule;
     private static Dataset dataset;
     private static EasyUser user;
     private static ContextParameters ctx;
-    
+
     private boolean verbose = Tester.isVerbose();
-    
+
     @BeforeClass
     public static void beforeClass()
     {
@@ -38,15 +38,15 @@ public class DeleteDatasetRuleTest
         user = EasyMock.createMock(EasyUser.class);
         ctx = new ContextParameters(user, dataset);
     }
-    
+
     @Test
     public void testProposition()
     {
         String proposition = "(([SessionUser is depositor of dataset] AND [Dataset state is DRAFT]) OR ([SessionUser has role ARCHIVIST] AND [Dataset state is DRAFT or SUBMITTED or PUBLISHED or MAINTENANCE]))";
-        
+
         assertEquals(proposition, rule.getProposition());
     }
-    
+
     /*
      * Because of efficient equation have to test following table:
      * 
@@ -70,13 +70,13 @@ public class DeleteDatasetRuleTest
         EasyMock.expect(dataset.hasDepositor(user)).andReturn(false).times(2);
         EasyMock.expect(user.hasRole(Role.ARCHIVIST)).andReturn(false).times(2);
         EasyMock.expect(user.isAnonymous()).andReturn(false).anyTimes();
-        
+
         EasyMock.replay(dataset, user);
         assertFalse(rule.isEnableAllowed(ctx));
         assertFalse(rule.isComponentVisible(ctx));
-        EasyMock.verify(dataset, user); 
+        EasyMock.verify(dataset, user);
     }
-    
+
     @Test
     public void test100x()
     {
@@ -86,13 +86,13 @@ public class DeleteDatasetRuleTest
         EasyMock.expect(dataset.getAdministrativeState()).andReturn(DatasetState.PUBLISHED).times(2);
         EasyMock.expect(user.hasRole(Role.ARCHIVIST)).andReturn(false).times(2);
         EasyMock.expect(user.isAnonymous()).andReturn(false).anyTimes();
-        
+
         EasyMock.replay(dataset, user);
         assertFalse(rule.isEnableAllowed(ctx));
         assertFalse(rule.isComponentVisible(ctx));
-        EasyMock.verify(dataset, user); 
+        EasyMock.verify(dataset, user);
     }
-    
+
     @Test
     public void test11xx()
     {
@@ -100,47 +100,47 @@ public class DeleteDatasetRuleTest
         EasyMock.expect(user.isActive()).andReturn(true).times(2);
         EasyMock.expect(dataset.hasDepositor(user)).andReturn(true).times(2);
         EasyMock.expect(dataset.getAdministrativeState()).andReturn(DatasetState.DRAFT).times(2);
-        
+
         EasyMock.replay(dataset, user);
         assertTrue(rule.isEnableAllowed(ctx));
         assertTrue(rule.isComponentVisible(ctx));
-        EasyMock.verify(dataset, user); 
+        EasyMock.verify(dataset, user);
     }
-    
+
     @Test
     public void test0x10()
     {
         EasyMock.reset(dataset, user);
         EasyMock.expect(user.isActive()).andReturn(true).times(4);
         EasyMock.expect(dataset.hasDepositor(user)).andReturn(false).times(2);
-        
+
         EasyMock.expect(user.hasRole(Role.ARCHIVIST)).andReturn(true).times(2);
         EasyMock.expect(user.isAnonymous()).andReturn(false).anyTimes();
         EasyMock.expect(dataset.getAdministrativeState()).andReturn(DatasetState.MAINTENANCE).times(8);
-        
+
         EasyMock.replay(dataset, user);
         assertTrue(rule.isEnableAllowed(ctx));
         assertTrue(rule.isComponentVisible(ctx));
-        EasyMock.verify(dataset, user); 
+        EasyMock.verify(dataset, user);
     }
-    
+
     @Test
     public void test0x11()
     {
         EasyMock.reset(dataset, user);
         EasyMock.expect(user.isActive()).andReturn(true).times(4);
         EasyMock.expect(dataset.hasDepositor(user)).andReturn(false).times(2);
-        
+
         EasyMock.expect(user.hasRole(Role.ARCHIVIST)).andReturn(true).times(2);
         EasyMock.expect(user.isAnonymous()).andReturn(false).anyTimes();
         EasyMock.expect(dataset.getAdministrativeState()).andReturn(DatasetState.SUBMITTED).times(4);
-        
+
         EasyMock.replay(dataset, user);
         assertTrue(rule.isEnableAllowed(ctx));
         assertTrue(rule.isComponentVisible(ctx));
-        EasyMock.verify(dataset, user); 
+        EasyMock.verify(dataset, user);
     }
-    
+
     @Test
     public void testNull()
     {
@@ -149,7 +149,7 @@ public class DeleteDatasetRuleTest
         assertFalse(rule.isEnableAllowed(ctxParameters));
         assertFalse(rule.isComponentVisible(ctxParameters));
     }
-    
+
     @Test
     public void testExplain()
     {

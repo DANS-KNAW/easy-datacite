@@ -8,11 +8,11 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 public class OldDepositorNotification extends DatasetNotification implements Serializable
 {
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	private final EasyUser newDepositor;
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
+    private final EasyUser newDepositor;
     private final EasyUser oldDepositor;
 
     public OldDepositorNotification(final Dataset dataset, final EasyUser oldDepositor, final EasyUser newDepositor)
@@ -22,14 +22,16 @@ public class OldDepositorNotification extends DatasetNotification implements Ser
         this.newDepositor = newDepositor;
     }
 
-    public String getOldDisplayName() {
+    public String getOldDisplayName()
+    {
         return oldDepositor.getDisplayName();
     }
 
-    public String getNewDisplayName() {
+    public String getNewDisplayName()
+    {
         return newDepositor.getDisplayName();
     }
-    
+
     String getTemplateLocation()
     {
         return "deposit/oldDepositorNotification";

@@ -13,7 +13,7 @@ public class FolderItemFactory extends AbstractDmoFactory<FolderItem>
     {
         return createDmo(nextSid());
     }
-    
+
     @Override
     public FolderItem createDmo(String storeId)
     {

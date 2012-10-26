@@ -11,13 +11,13 @@ public class EasyFileItemVOAuthzStrategy extends AbstractDatasetAutzStrategy
     private FileItemVO fileItemVO;
     private int viewProfile = NOT_EVALUATED;
     private int readProfile = NOT_EVALUATED;
-    
+
     protected EasyFileItemVOAuthzStrategy()
     {
-        
+
     }
-    
-    protected EasyFileItemVOAuthzStrategy(User user, Object target, Object...contextObjects)
+
+    protected EasyFileItemVOAuthzStrategy(User user, Object target, Object... contextObjects)
     {
         super(user, contextObjects);
         if (target instanceof FileItemVO)
@@ -26,7 +26,7 @@ public class EasyFileItemVOAuthzStrategy extends AbstractDatasetAutzStrategy
         }
         checkAttributes();
     }
-    
+
     protected EasyFileItemVOAuthzStrategy(Object target)
     {
         if (target instanceof FileItemVO)
@@ -34,16 +34,17 @@ public class EasyFileItemVOAuthzStrategy extends AbstractDatasetAutzStrategy
             fileItemVO = (FileItemVO) target;
         }
     }
-    
+
     protected void checkAttributes()
     {
         super.checkAttributes();
-        if (fileItemVO == null) throw new IllegalArgumentException("Insufficient parameters: no fileItemVO");
+        if (fileItemVO == null)
+            throw new IllegalArgumentException("Insufficient parameters: no fileItemVO");
         if (!getDataset().getStoreId().equals(fileItemVO.getDatasetSid()))
             throw new IllegalArgumentException("FileItem is not part of given dataset");
-        
-//        if (!AUTHZ_STRATEGY_NAME.equals(fileItem.getAutzStrategyName()))
-//            throw new IllegalArgumentException("AuthzStrategyName of fileItem is not " + AUTHZ_STRATEGY_NAME);
+
+        //        if (!AUTHZ_STRATEGY_NAME.equals(fileItem.getAutzStrategyName()))
+        //            throw new IllegalArgumentException("AuthzStrategyName of fileItem is not " + AUTHZ_STRATEGY_NAME);
     }
 
     @Override
@@ -65,7 +66,7 @@ public class EasyFileItemVOAuthzStrategy extends AbstractDatasetAutzStrategy
         }
         return readProfile;
     }
-    
+
     @Override
     public boolean canUnitBeDiscovered(String unitId)
     {
@@ -78,7 +79,7 @@ public class EasyFileItemVOAuthzStrategy extends AbstractDatasetAutzStrategy
             throw new UnsupportedOperationException("Method not implemented for unitId " + unitId);
         }
     }
-    
+
     @Override
     public boolean canUnitBeRead(String unitId)
     {
@@ -91,25 +92,25 @@ public class EasyFileItemVOAuthzStrategy extends AbstractDatasetAutzStrategy
             throw new UnsupportedOperationException("Method not implemented for unitId " + unitId);
         }
     }
-    
+
     @Override
     protected boolean canAllBeRead()
     {
         return canUnitBeRead(null);
     }
-    
+
     @Override
     public TriState canChildrenBeDiscovered()
     {
         return TriState.NONE;
     }
-    
+
     @Override
     public TriState canChildrenBeRead()
     {
         return TriState.NONE;
     }
-    
+
     @Override
     public EasyFileItemVOAuthzStrategy newStrategy(User user, Object target, Object... contextObjects)
     {
@@ -121,7 +122,7 @@ public class EasyFileItemVOAuthzStrategy extends AbstractDatasetAutzStrategy
     {
         EasyFileItemVOAuthzStrategy sameStrategy = new EasyFileItemVOAuthzStrategy(target);
         super.clone(sameStrategy);
-        
+
         sameStrategy.checkAttributes();
         return sameStrategy;
     }

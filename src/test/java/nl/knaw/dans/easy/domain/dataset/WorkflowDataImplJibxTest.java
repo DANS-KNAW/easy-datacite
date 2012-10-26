@@ -19,7 +19,6 @@ import org.junit.Test;
 
 public class WorkflowDataImplJibxTest extends AbstractJibxTest<WorkflowDataImpl>
 {
-    
 
     @BeforeClass
     public static void testStartInformation()
@@ -27,59 +26,59 @@ public class WorkflowDataImplJibxTest extends AbstractJibxTest<WorkflowDataImpl>
         before(WorkflowDataImplJibxTest.class);
         ClassPathHacker.addFile("../easy-webui/src/main/resources");
     }
-    
+
     public WorkflowDataImplJibxTest()
     {
         super(WorkflowDataImpl.class);
     }
-    
+
     @Test
     public void testMarshalUnMarshalEmpty() throws JiBXException, IOException, XMLSerializationException
     {
         WorkflowDataImpl wfd = new WorkflowDataImpl();
-        
+
         //log().debug("\n" + wfd.asXMLString(4));
-        
+
         String filename = marshal(wfd, "_empty");
         WorkflowDataImpl wfd2 = unmarshal(filename);
         assertEquals(wfd.asXMLString(), wfd2.asXMLString());
     }
-    
+
     @Test
     public void testMarshalUnMarshal() throws IOException, JiBXException, XMLSerializationException
     {
         WorkflowDataImpl wfd = new WorkflowDataImpl();
         wfd.setAssigneeId("willem");
-        
+
         //log().debug("\n" + wfd.asXMLString(4));
-        
+
         String filename = marshal(wfd, "_full");
         WorkflowDataImpl wfd2 = unmarshal(filename);
-        assertEquals(wfd.asXMLString(), wfd2.asXMLString());       
+        assertEquals(wfd.asXMLString(), wfd2.asXMLString());
     }
-    
+
     @Test
     public void testWorkflowStep() throws JiBXException, IOException, XMLSerializationException
     {
         WorkflowDataImpl wfd = new WorkflowDataImpl();
         wfd.getWorkflow();
-        
+
         log().debug("\n" + wfd.asXMLString(4));
-        
+
         String filename = marshal(wfd, "_withWorkflow");
         WorkflowDataImpl wfd2 = unmarshal(filename);
         assertEquals(wfd.asXMLString(), wfd2.asXMLString());
     }
-    
+
     @Test
     public void testWorkflowDataFull() throws Exception
     {
         WorkflowDataImpl wfd = new WorkflowDataImpl();
         fillSteps(wfd.getWorkflow().getSteps());
         log().debug("\n" + wfd.asXMLString(4));
-        
+
     }
-    
+
     private void fillSteps(List<WorkflowStep> steps)
     {
         for (WorkflowStep step : steps)

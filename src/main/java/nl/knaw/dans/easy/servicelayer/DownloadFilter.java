@@ -21,16 +21,16 @@ public class DownloadFilter implements ItemFilter
 
     private static final AbstractCheck isDepositorCheck = new IsDepositorOfDatasetCheck();
     private static final AbstractCheck isArchivistCheck = new HasRoleCheck(Role.ARCHIVIST, Role.ADMIN);
-    
+
     private final Dataset dataset;
     private final EasyUser sessionUser;
-    
+
     public DownloadFilter(EasyUser sessionUser, Dataset dataset)
     {
         this.dataset = dataset;
         this.sessionUser = sessionUser;
     }
-    
+
     public List<? extends ItemVO> apply(List<? extends ItemVO> itemList) throws DomainException
     {
         int userProfile = getUserProfile();
@@ -59,12 +59,11 @@ public class DownloadFilter implements ItemFilter
         }
         return userProfile;
     }
-    
+
     public String explain()
     {
         StringBuilder sb = new StringBuilder();
-        sb.append("User profile = ")
-        .append(Arrays.deepToString(AccessCategory.UTIL.getStates(getUserProfile()).toArray()));
+        sb.append("User profile = ").append(Arrays.deepToString(AccessCategory.UTIL.getStates(getUserProfile()).toArray()));
         return sb.toString();
     }
 

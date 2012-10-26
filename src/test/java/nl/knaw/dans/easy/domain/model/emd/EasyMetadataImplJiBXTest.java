@@ -28,29 +28,29 @@ import org.xml.sax.SAXException;
 
 public class EasyMetadataImplJiBXTest
 {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(EasyMetadataImplJiBXTest.class);
     @SuppressWarnings("unused")
-	private boolean verbose = Tester.isVerbose();
-    
+    private boolean verbose = Tester.isVerbose();
+
     @Test
     public void testEtc() throws XMLException, SAXException, SchemaCreationException
     {
         EasyMetadata emd = new EasyMetadataImpl();
         EmdOther emdOther = emd.getEmdOther();
-        
+
         List<PropertyList> etc = emdOther.getPropertyListCollection();
         PropertyList propList = new PropertyList();
         etc.add(propList);
         propList.setComment("Conversion from EasyI-matadata to EasyII-metadata");
         propList.addProperty("date", new DateTime().toString());
         propList.addProperty("aipId", "abcde12345");
-        
+
         logger.debug("\n" + emd.asXMLString(4));
-        
+
         assertTrue(EasyMetadataValidator.instance().validate(emd).passed());
     }
-    
+
     @Test
     public void testIdentifier() throws Exception
     {
@@ -59,31 +59,31 @@ public class EasyMetadataImplJiBXTest
         bi.setScheme(EmdConstants.SCHEME_ARCHIS_ONDERZOEK_M_NR);
         bi.setIdentificationSystem(URI.create("http://foo.com"));
         emd.getEmdIdentifier().add(bi);
-        
+
         //System.out.println(emd.asXMLString(4));
         byte[] bytes = emd.asObjectXML();
-        
+
         EasyMetadata emd2 = (EasyMetadata) JiBXObjectFactory.unmarshal(EasyMetadataImpl.class, bytes);
         //System.out.println(emd2.asXMLString(4));
         BasicIdentifier bi2 = emd2.getEmdIdentifier().getIdentifier(EmdConstants.SCHEME_ARCHIS_ONDERZOEK_M_NR);
         assertEquals("123", bi2.getValue());
         assertEquals(URI.create("http://foo.com"), bi2.getIdentificationSystem());
     }
-    
+
     @Test
     public void testSerialization() throws Exception
     {
         BasicIdentifier bi = new BasicIdentifier("123");
         bi.setScheme(EmdConstants.SCHEME_ARCHIS_ONDERZOEK_M_NR);
         bi.setIdentificationSystem(URI.create("http://foo.com"));
-        
+
         serialize(bi, "target/basicIdentifier.so");
-        
+
         BasicIdentifier bi2 = (BasicIdentifier) deserialize("target/basicIdentifier.so");
         assertEquals(URI.create("http://foo.com"), bi2.getIdentificationSystem());
-        
+
     }
-    
+
     private void serialize(Serializable so, String filename) throws IOException
     {
         FileOutputStream fos = null;
@@ -93,7 +93,7 @@ public class EasyMetadataImplJiBXTest
         out.writeObject(so);
         out.close();
     }
-    
+
     private Object deserialize(String filename) throws IOException, ClassNotFoundException
     {
         FileInputStream fis = new FileInputStream(filename);

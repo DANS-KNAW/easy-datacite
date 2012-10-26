@@ -23,16 +23,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class DatasetIngester implements SubmissionProcessor
-{   
+{
     private static final Logger logger = LoggerFactory.getLogger(DatasetIngester.class);
-    
+
     private boolean updateFileRights;
-    
+
     public DatasetIngester(boolean updateFileRights)
     {
         this.updateFileRights = updateFileRights;
     }
-    
+
     public boolean continueAfterFailure()
     {
         return false;
@@ -46,7 +46,7 @@ public class DatasetIngester implements SubmissionProcessor
         try
         {
             uow.attach(dataset);
-            
+
             // submission date is already set while generating the license.
             dataset.getAdministrativeMetadata().setAdministrativeState(DatasetState.SUBMITTED);
             AccessCategory accessCategory = dataset.getAccessCategory();
@@ -62,7 +62,7 @@ public class DatasetIngester implements SubmissionProcessor
                 dataset.removeGroup(new GroupImpl(Group.ID_ARCHEOLOGY));
             }
             //  End provisional implementation of assigning groups
-            
+
             if (updateFileRights)
             {
                 VisibleTo vt = VisibleTo.ANONYMOUS; // all files are visible, unless an archivist decides differently.
@@ -74,9 +74,9 @@ public class DatasetIngester implements SubmissionProcessor
                 ItemWorkerProxy proxy = new ItemWorkerProxy(uow);
                 proxy.updateObjects(dataset, sids, updateInfo, null);
             }
-            
+
             uow.commit();
-            submission.setSubmitted(true); 
+            submission.setSubmitted(true);
         }
         catch (Exception e)
         {
@@ -89,17 +89,16 @@ public class DatasetIngester implements SubmissionProcessor
         }
         return submission.isSubmitted();
     }
-    
+
     private static class ItemWorkerProxy extends ItemWorker
     {
-        
+
         protected ItemWorkerProxy(UnitOfWork uow)
         {
             super(uow);
         }
-        
-        protected void updateObjects(Dataset dataset, List<DmoStoreId> sids, UpdateInfo updateInfo,
-                ItemFilters itemFilters) throws ServiceException
+
+        protected void updateObjects(Dataset dataset, List<DmoStoreId> sids, UpdateInfo updateInfo, ItemFilters itemFilters) throws ServiceException
         {
             super.workUpdateObjects(dataset, sids, updateInfo, itemFilters);
         }

@@ -18,17 +18,14 @@ public class EmdSubject extends AbstractEmdContainer
     /**
      * Terms contained.
      */
-    static final Term[] TERMS =
-    {
-        new Term(Term.Name.SUBJECT, Term.Namespace.DC, BasicString.class)
-    };
+    static final Term[] TERMS = {new Term(Term.Name.SUBJECT, Term.Namespace.DC, BasicString.class)};
 
     /**
      *
      */
     private static final long serialVersionUID = -282675459550767423L;
 
-    private List<BasicString> dcSubject        = new ArrayList<BasicString>();
+    private List<BasicString> dcSubject = new ArrayList<BasicString>();
 
     /**
      * {@inheritDoc}
@@ -60,7 +57,7 @@ public class EmdSubject extends AbstractEmdContainer
     {
         this.dcSubject = dcSubject;
     }
-    
+
     public List<String> getDcSubjectValues(String schemeId)
     {
         List<String> dcSubjectValues = new ArrayList<String>();
@@ -73,7 +70,7 @@ public class EmdSubject extends AbstractEmdContainer
         }
         return dcSubjectValues;
     }
-    
+
     public List<String> getArchaeologyDcSubjectValues()
     {
         return getDcSubjectValues(EmdScheme.ARCHAEOLOGY_DC_SUBJECT.getId());

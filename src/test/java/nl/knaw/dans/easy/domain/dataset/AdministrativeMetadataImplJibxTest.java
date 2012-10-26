@@ -23,9 +23,9 @@ import org.slf4j.LoggerFactory;
 public class AdministrativeMetadataImplJibxTest extends AbstractJibxTest<AdministrativeMetadataImpl>
 {
 
-    private static final Logger logger  = LoggerFactory.getLogger(AdministrativeMetadataImplJibxTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(AdministrativeMetadataImplJibxTest.class);
 
-    private boolean             verbose = Tester.isVerbose();
+    private boolean verbose = Tester.isVerbose();
 
     @BeforeClass
     public static void testStartInformation()
@@ -67,19 +67,19 @@ public class AdministrativeMetadataImplJibxTest extends AbstractJibxTest<Adminis
         amd.addGroupId("xyz");
         amd.addGroupId("abc");
         amd.addGroupId("abc");
-        
+
         amd.setTimestamp(new DateTime());
-        amd.setVersionable(true); 
-        
+        amd.setVersionable(true);
+
         amd.getWorkflowData().setAssigneeId("elsa");
         Remark remark = new Remark("This is the text of the remark", "idOfRemarker");
         amd.getWorkflowData().getWorkflow().addRemark(remark);
-        
+
         List<WorkflowStep> steps = amd.getWorkflowData().getWorkflow().getSteps();
         fillSteps(steps);
 
         //if (verbose)
-            logger.debug("\n" + amd.asXMLString(4));
+        logger.debug("\n" + amd.asXMLString(4));
 
         String filename = marshal(amd, "_full");
         logger.debug("filename=" + filename);

@@ -17,11 +17,11 @@ import org.jibx.runtime.JiBXException;
 public abstract class AbstractJibxTest<T> extends TestHelper
 {
 
-    private static final int    INDENT = 4;
-    private static final String TEMP   = "src/test/resources/output/jibx/";
+    private static final int INDENT = 4;
+    private static final String TEMP = "src/test/resources/output/jibx/";
 
-    private Class<T>            type;
-    private IBindingFactory     bindingFactory;
+    private Class<T> type;
+    private IBindingFactory bindingFactory;
 
     public AbstractJibxTest(Class<T> type)
     {

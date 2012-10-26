@@ -27,87 +27,87 @@ import nl.knaw.dans.easy.security.SecurityOfficer;
 public abstract class AbstractDatasetAutzStrategy implements AuthzStrategy
 {
     private static final long serialVersionUID = -2767729708349822038L;
- 
-    public static final String     	SM_YES            	= "dataset.authzstrategy.sm.yes";
-    public static final String     	SM_LOGIN          	= "dataset.authzstrategy.sm.login";
-    public static final String     	SM_JOIN_GROUP     	= "dataset.authzstrategy.sm.joinGroup";
-    public static final String     	SM_ASK_PERMISSION 	= "dataset.authzstrategy.sm.askPermission";
-    public static final String     	SM_INACCESSIBLE   	= "dataset.authzstrategy.sm.inaccessible";
-    public static final String     	SM_EMBARGO        	= "dataset.authzstrategy.sm.embargo";
-    public static final String     	SM_UNKNOWN        	= "dataset.authzstrategy.sm.unknown";
-    
-    public static final String		MSG_LOGIN					= "explorer.message.login";
-    public static final String		MSG_EMBARGO					= "explorer.message.embargo";
-    public static final String		MSG_PERMISSION				= "explorer.message.permission";
-    public static final String		MSG_PERMISSION_SUBMITTED	= "explorer.message.permission.submitted";
-    public static final String		MSG_PERMISSION_RETURNED		= "explorer.message.permission.returned";
-    public static final String		MSG_PERMISSION_DENIED		= "explorer.message.permission.denied";
-    public static final String		MSG_PERMISSION_GRANTED		= "explorer.message.permission.granted";
-    public static final String		MSG_PERMISSION_BUTTON		= "explorer.message.permission.button";
-    public static final String		MSG_PERMISSION_EMBARGO		= "explorer.message.permission.embargo";
-    public static final String		MSG_PERMISSION_LOGIN		= "explorer.message.permission.login";
-    public static final String		MSG_GROUP					= "explorer.message.group";
-    public static final String		MSG_OTHER					= "explorer.message.other";
-    public static final String		MSG_NO_FILES				= "explorer.message.noFiles";
-    public static final String		MSG_DEPOSITOR				= "explorer.message.depositor";
-    public static final String		MSG_DEPOSITOR_DRAFT			= "explorer.message.depositor.draft";
-    
-    protected static final int     NOT_EVALUATED     = -1;
-    protected static final int     NOT_ALLOWED       = 0;
-    protected static final int     ALLOWED           = 1;
-    
+
+    public static final String SM_YES = "dataset.authzstrategy.sm.yes";
+    public static final String SM_LOGIN = "dataset.authzstrategy.sm.login";
+    public static final String SM_JOIN_GROUP = "dataset.authzstrategy.sm.joinGroup";
+    public static final String SM_ASK_PERMISSION = "dataset.authzstrategy.sm.askPermission";
+    public static final String SM_INACCESSIBLE = "dataset.authzstrategy.sm.inaccessible";
+    public static final String SM_EMBARGO = "dataset.authzstrategy.sm.embargo";
+    public static final String SM_UNKNOWN = "dataset.authzstrategy.sm.unknown";
+
+    public static final String MSG_LOGIN = "explorer.message.login";
+    public static final String MSG_EMBARGO = "explorer.message.embargo";
+    public static final String MSG_PERMISSION = "explorer.message.permission";
+    public static final String MSG_PERMISSION_SUBMITTED = "explorer.message.permission.submitted";
+    public static final String MSG_PERMISSION_RETURNED = "explorer.message.permission.returned";
+    public static final String MSG_PERMISSION_DENIED = "explorer.message.permission.denied";
+    public static final String MSG_PERMISSION_GRANTED = "explorer.message.permission.granted";
+    public static final String MSG_PERMISSION_BUTTON = "explorer.message.permission.button";
+    public static final String MSG_PERMISSION_EMBARGO = "explorer.message.permission.embargo";
+    public static final String MSG_PERMISSION_LOGIN = "explorer.message.permission.login";
+    public static final String MSG_GROUP = "explorer.message.group";
+    public static final String MSG_OTHER = "explorer.message.other";
+    public static final String MSG_NO_FILES = "explorer.message.noFiles";
+    public static final String MSG_DEPOSITOR = "explorer.message.depositor";
+    public static final String MSG_DEPOSITOR_DRAFT = "explorer.message.depositor.draft";
+
+    protected static final int NOT_EVALUATED = -1;
+    protected static final int NOT_ALLOWED = 0;
+    protected static final int ALLOWED = 1;
+
     private static SecurityOfficer RULE_FOR_DISCOVERY;
     private static SecurityOfficer RULE_FOR_READING;
-    
+
     protected static SecurityOfficer getRuleForDiscovery()
     {
         if (RULE_FOR_DISCOVERY == null)
         {
             SecurityOfficer depositorCanSee = new And(new IsDepositorOfDatasetCheck(), //
-                new DatasetStateCheck(DatasetState.DRAFT, DatasetState.SUBMITTED, DatasetState.PUBLISHED, DatasetState.MAINTENANCE));
-            
+                    new DatasetStateCheck(DatasetState.DRAFT, DatasetState.SUBMITTED, DatasetState.PUBLISHED, DatasetState.MAINTENANCE));
+
             RULE_FOR_DISCOVERY = new Or(new DatasetStateCheck(DatasetState.PUBLISHED), //
                     depositorCanSee, //
                     new HasRoleCheck(Role.ARCHIVIST, Role.ADMIN));
         }
         return RULE_FOR_DISCOVERY;
     }
-    
+
     protected static SecurityOfficer getRuleForReading()
     {
         if (RULE_FOR_READING == null)
         {
             SecurityOfficer depositorCanRead = new And(new IsDepositorOfDatasetCheck(), //
-                new DatasetStateCheck(DatasetState.SUBMITTED, DatasetState.PUBLISHED, DatasetState.MAINTENANCE));
-            
+                    new DatasetStateCheck(DatasetState.SUBMITTED, DatasetState.PUBLISHED, DatasetState.MAINTENANCE));
+
             SecurityOfficer publishedAndNotUnderEmbargo = new And( //
                     new DatasetStateCheck(DatasetState.PUBLISHED), //
                     new EmbargoFreeCheck());
-            
+
             RULE_FOR_READING = new Or(publishedAndNotUnderEmbargo, //
                     depositorCanRead, //
                     new HasRoleCheck(Role.ARCHIVIST, Role.ADMIN));
         }
         return RULE_FOR_READING;
     }
-    
+
     private EasyUser easyUser;
     private Dataset dataset;
-    
+
     private ContextParameters ctxParameters;
     private int discoverRuleEvaluation = NOT_EVALUATED;
     private int readRuleEvaluation = NOT_EVALUATED;
     private int userProfile = NOT_EVALUATED;
-    
+
     private TriState discoverable;
     private TriState readable;
-    
+
     protected AbstractDatasetAutzStrategy()
     {
-        
+
     }
-    
-    protected AbstractDatasetAutzStrategy(User user, Object...contextObjects)
+
+    protected AbstractDatasetAutzStrategy(User user, Object... contextObjects)
     {
         if (user instanceof EasyUser)
         {
@@ -121,11 +121,13 @@ public abstract class AbstractDatasetAutzStrategy implements AuthzStrategy
             }
         }
     }
-    
+
     protected void checkAttributes()
     {
-        if (easyUser == null) throw new IllegalArgumentException("Insufficient parameters: no easyUser");
-        if (dataset == null) throw new IllegalArgumentException("Insufficient parameters: no dataset");
+        if (easyUser == null)
+            throw new IllegalArgumentException("Insufficient parameters: no easyUser");
+        if (dataset == null)
+            throw new IllegalArgumentException("Insufficient parameters: no dataset");
     }
 
     public EasyUser getEasyUser()
@@ -137,12 +139,12 @@ public abstract class AbstractDatasetAutzStrategy implements AuthzStrategy
     {
         return dataset;
     }
-    
+
     protected void clone(AbstractDatasetAutzStrategy sameStrategy)
     {
         sameStrategy.dataset = dataset;
         sameStrategy.easyUser = easyUser;
-        
+
         sameStrategy.discoverRuleEvaluation = getDiscoverRuleEvaluation();
         sameStrategy.readRuleEvaluation = getReadRuleEvaluation();
         sameStrategy.ctxParameters = getContextParameters();
@@ -157,7 +159,7 @@ public abstract class AbstractDatasetAutzStrategy implements AuthzStrategy
         }
         return ctxParameters;
     }
-    
+
     protected int getDiscoverRuleEvaluation()
     {
         if (discoverRuleEvaluation == NOT_EVALUATED)
@@ -175,7 +177,7 @@ public abstract class AbstractDatasetAutzStrategy implements AuthzStrategy
         }
         return readRuleEvaluation;
     }
-    
+
     /**
      * UserProfile addapted on key-abstraction {@link AccessCategory}:
      * <ul>
@@ -202,7 +204,8 @@ public abstract class AbstractDatasetAutzStrategy implements AuthzStrategy
             {
                 userProfile = AccessCategory.MASK_ALL; // ALL
             }
-            else // known user
+            else
+            // known user
             {
                 userProfile = AccessCategory.MASK_KNOWN; // FREELY_AVAILABLE + ANONYMOUS_ACCESS + OPEN_ACCESS
                 if (dataset.isGroupAccessGrantedTo(easyUser))
@@ -213,7 +216,7 @@ public abstract class AbstractDatasetAutzStrategy implements AuthzStrategy
                 {
                     userProfile |= AccessCategory.SINGLE_REQUEST_PERMISSION; // + REQUEST_PERMISSION
                 }
-            } 
+            }
 
             // block not-active users
             if (!easyUser.isActive())
@@ -222,154 +225,180 @@ public abstract class AbstractDatasetAutzStrategy implements AuthzStrategy
             }
         }
         return userProfile;
-    } 
-    
+    }
+
     protected abstract int getResourceDiscoveryProfile();
-    
+
     protected abstract int getResourceReadProfile();
-    
+
     protected abstract boolean canAllBeRead();
-    
+
     @Override
     public TriState canChildrenBeDiscovered()
     {
         if (discoverable == null)
         {
-            discoverable = getDiscoverRuleEvaluation() == NOT_ALLOWED ? TriState.NONE
-                    : andProfiles(getUserProfile(), getResourceDiscoveryProfile());
+            discoverable = getDiscoverRuleEvaluation() == NOT_ALLOWED ? TriState.NONE : andProfiles(getUserProfile(), getResourceDiscoveryProfile());
         }
         return discoverable;
     }
-    
+
     @Override
     public String explainCanChildrenBeDiscovered()
     {
         StringBuilder explanation = new StringBuilder();
         explanation.append(getRuleForDiscovery().explainEnableAllowed(getContextParameters())) //
-            .append("\n") //
-            .append("UserProfile=") //
-            .append(getUserProfile()) //
-            .append(" ResourceProfile=") //
-            .append(getResourceDiscoveryProfile()) //
-            .append("\nCan be discovered=") //
-            .append(canChildrenBeDiscovered().toString());
+                .append("\n") //
+                .append("UserProfile=") //
+                .append(getUserProfile()) //
+                .append(" ResourceProfile=") //
+                .append(getResourceDiscoveryProfile()) //
+                .append("\nCan be discovered=") //
+                .append(canChildrenBeDiscovered().toString());
         return explanation.toString();
     }
-    
+
     @Override
     public TriState canChildrenBeRead()
     {
         if (readable == null)
         {
-            readable = getReadRuleEvaluation() == NOT_ALLOWED ? TriState.NONE
-                    : andProfiles(getUserProfile(), getResourceReadProfile());
+            readable = getReadRuleEvaluation() == NOT_ALLOWED ? TriState.NONE : andProfiles(getUserProfile(), getResourceReadProfile());
         }
         return readable;
     }
-    
+
     @Override
     public boolean canBeDiscovered()
     {
         return getDiscoverRuleEvaluation() == ALLOWED;
     }
-    
+
     @Override
     public boolean canBeRead()
     {
         return getReadRuleEvaluation() == ALLOWED;
     }
-    
+
     @Override
     public List<AuthzMessage> getReadMessages()
     {
         List<AuthzMessage> messages = new ArrayList<AuthzMessage>();
-        
-        if(easyUser.hasRole(Role.ARCHIVIST)) {
-        	return messages;
+
+        if (easyUser.hasRole(Role.ARCHIVIST))
+        {
+            return messages;
         }
-        
-        if(dataset.hasDepositor(easyUser)) {
-        	if(dataset.getAdministrativeState().equals(DatasetState.DRAFT)) {
-        		// Note: you are able to view all files, because you are the depositor of this dataset. 
-        		// You are however not allowed to access any file, to prevent abuse of this system for file storage.
-        		messages.add(new AuthzMessage(MSG_DEPOSITOR_DRAFT));
-        	} else {
-	        	// Note: you are able to view/access all files, because you are the depositor of this dataset.
-	        	messages.add(new AuthzMessage(MSG_DEPOSITOR));
-        	}
-        	return messages;
+
+        if (dataset.hasDepositor(easyUser))
+        {
+            if (dataset.getAdministrativeState().equals(DatasetState.DRAFT))
+            {
+                // Note: you are able to view all files, because you are the depositor of this dataset. 
+                // You are however not allowed to access any file, to prevent abuse of this system for file storage.
+                messages.add(new AuthzMessage(MSG_DEPOSITOR_DRAFT));
+            }
+            else
+            {
+                // Note: you are able to view/access all files, because you are the depositor of this dataset.
+                messages.add(new AuthzMessage(MSG_DEPOSITOR));
+            }
+            return messages;
         }
-        
-        if(!dataset.hasVisibleItems(easyUser)) {
-        	// No visible files.
-        	messages.add(new AuthzMessage(MSG_NO_FILES));
+
+        if (!dataset.hasVisibleItems(easyUser))
+        {
+            // No visible files.
+            messages.add(new AuthzMessage(MSG_NO_FILES));
         }
-        
-        if(easyUser.isAnonymous()) {
-        	// You need to log in to be able to view/access (some of) the files. [Log In]
-        	messages.add(new AuthzMessage(MSG_LOGIN));
+
+        if (easyUser.isAnonymous())
+        {
+            // You need to log in to be able to view/access (some of) the files. [Log In]
+            messages.add(new AuthzMessage(MSG_LOGIN));
         }
-        
-        if(dataset.isUnderEmbargo()) {
-        	// The files of this dataset will be accessible from DD-MM-YYYY.
-        	messages.add(new AuthzMessage(MSG_EMBARGO));
-		}
-        
-        if(dataset.hasPermissionRestrictedItems()) {
-        	// You need to have special permission to be able to access (some of) the files. 
-        	messages.add(new AuthzMessage(MSG_PERMISSION));
-        	
-        	try {
-	        	State permissionState = dataset.getPermissionSequenceList().getPermissionReply(easyUser.getId()).getState();
-	        	if(permissionState.equals(State.Submitted)) {
-	        		// Permission status: submitted <status date> [View request]
-	        		messages.add(new AuthzMessage(MSG_PERMISSION_SUBMITTED));
-	        	} else if(permissionState.equals(State.Returned)) {
-	        		// Permission status: returned <status date> [Review request]
-	        		messages.add(new AuthzMessage(MSG_PERMISSION_RETURNED));
-	        	} else if(permissionState.equals(State.Granted)) {
-	        		// Permission status: granted <status date> [View request]
-	        		messages.add(new AuthzMessage(MSG_PERMISSION_GRANTED));
-	        	} else if(permissionState.equals(State.Denied)) {
-	        		// Permission status: denied <status date> [View request]
-	        		messages.add(new AuthzMessage(MSG_PERMISSION_DENIED));
-	        	}
-        	} catch(IllegalArgumentException e) {
-        		if(!dataset.isUnderEmbargo()) {
-        			// [Request permission]
-        			messages.add(new AuthzMessage(MSG_PERMISSION_BUTTON));
-        		} else {
-        			// Request permission after the date the files become accessible.
-        			messages.add(new AuthzMessage(MSG_PERMISSION_EMBARGO));
-        		}
-        	} catch(AnonymousUserException e) {
-        		if(dataset.isUnderEmbargo()) {
-        			// Request permission after the date the files become accessible.
-        			messages.add(new AuthzMessage(MSG_PERMISSION_EMBARGO));
-        		} else {
-        			// You can request permission after logging in.
-        			messages.add(new AuthzMessage(MSG_PERMISSION_LOGIN));
-        		}
-        	}
-        	
+
+        if (dataset.isUnderEmbargo())
+        {
+            // The files of this dataset will be accessible from DD-MM-YYYY.
+            messages.add(new AuthzMessage(MSG_EMBARGO));
         }
-        
-        if(dataset.hasGroupRestrictedItems() && !easyUser.isMemberOf(new GroupImpl(Group.ID_ARCHEOLOGY))) {
-        	// You need to be a '<group>' group member to be able to access (some of) the files. 
-    		// Please contact <group e-mail address>.
-        	messages.add(new AuthzMessage(MSG_GROUP));
+
+        if (dataset.hasPermissionRestrictedItems())
+        {
+            // You need to have special permission to be able to access (some of) the files. 
+            messages.add(new AuthzMessage(MSG_PERMISSION));
+
+            try
+            {
+                State permissionState = dataset.getPermissionSequenceList().getPermissionReply(easyUser.getId()).getState();
+                if (permissionState.equals(State.Submitted))
+                {
+                    // Permission status: submitted <status date> [View request]
+                    messages.add(new AuthzMessage(MSG_PERMISSION_SUBMITTED));
+                }
+                else if (permissionState.equals(State.Returned))
+                {
+                    // Permission status: returned <status date> [Review request]
+                    messages.add(new AuthzMessage(MSG_PERMISSION_RETURNED));
+                }
+                else if (permissionState.equals(State.Granted))
+                {
+                    // Permission status: granted <status date> [View request]
+                    messages.add(new AuthzMessage(MSG_PERMISSION_GRANTED));
+                }
+                else if (permissionState.equals(State.Denied))
+                {
+                    // Permission status: denied <status date> [View request]
+                    messages.add(new AuthzMessage(MSG_PERMISSION_DENIED));
+                }
+            }
+            catch (IllegalArgumentException e)
+            {
+                if (!dataset.isUnderEmbargo())
+                {
+                    // [Request permission]
+                    messages.add(new AuthzMessage(MSG_PERMISSION_BUTTON));
+                }
+                else
+                {
+                    // Request permission after the date the files become accessible.
+                    messages.add(new AuthzMessage(MSG_PERMISSION_EMBARGO));
+                }
+            }
+            catch (AnonymousUserException e)
+            {
+                if (dataset.isUnderEmbargo())
+                {
+                    // Request permission after the date the files become accessible.
+                    messages.add(new AuthzMessage(MSG_PERMISSION_EMBARGO));
+                }
+                else
+                {
+                    // You can request permission after logging in.
+                    messages.add(new AuthzMessage(MSG_PERMISSION_LOGIN));
+                }
+            }
+
         }
-        
-        if(dataset.getAccessCategory().equals(AccessCategory.NO_ACCESS) ||
-        		dataset.getAccessCategory().equals(AccessCategory.ACCESS_ELSEWHERE)) {
-        	// Note: (some of) the files are not available via Easy. They may be accessible elsewhere 
-        	// (please refer to the 'relation' field in the description) or accessible in another way(please contact info@…)
-        	messages.add(new AuthzMessage(MSG_OTHER));
+
+        if (dataset.hasGroupRestrictedItems() && !easyUser.isMemberOf(new GroupImpl(Group.ID_ARCHEOLOGY)))
+        {
+            // You need to be a '<group>' group member to be able to access (some of) the files. 
+            // Please contact <group e-mail address>.
+            messages.add(new AuthzMessage(MSG_GROUP));
         }
-        
+
+        if (dataset.getAccessCategory().equals(AccessCategory.NO_ACCESS) || dataset.getAccessCategory().equals(AccessCategory.ACCESS_ELSEWHERE))
+        {
+            // Note: (some of) the files are not available via Easy. They may be accessible elsewhere 
+            // (please refer to the 'relation' field in the description) or accessible in another way(please contact info@…)
+            messages.add(new AuthzMessage(MSG_OTHER));
+        }
+
         return messages;
     }
-    
+
     @Override
     public AuthzMessage getSingleReadMessage()
     {
@@ -377,7 +406,7 @@ public abstract class AbstractDatasetAutzStrategy implements AuthzStrategy
         {
             return new AuthzMessage(SM_YES);
         }
-        else if(easyUser.isAnonymous() && hasOpenAccess())
+        else if (easyUser.isAnonymous() && hasOpenAccess())
         {
             return new AuthzMessage(SM_LOGIN);
         }
@@ -399,22 +428,22 @@ public abstract class AbstractDatasetAutzStrategy implements AuthzStrategy
         }
         return new AuthzMessage(SM_UNKNOWN);
     }
-    
+
     private boolean hasOpenAccess()
     {
         return (AccessCategory.SINGLE_OPEN_ACCESS & getResourceReadProfile()) > 0;
     }
-    
+
     private boolean hasGroupAccess()
     {
         return (AccessCategory.SINGLE_GROUP_ACCESS & getResourceReadProfile()) > 0;
     }
-    
+
     private boolean hasPermissionAccess()
     {
         return (AccessCategory.SINGLE_REQUEST_PERMISSION & getResourceReadProfile()) > 0;
     }
-    
+
     private boolean isInAccessible()
     {
         return (AccessCategory.MASK_INACCESSIBLE & getResourceReadProfile()) > 0;
@@ -430,14 +459,11 @@ public abstract class AbstractDatasetAutzStrategy implements AuthzStrategy
         }
         return state;
     }
-    
+
     protected static boolean profileMatches(int profile, int resourceProfile)
     {
         int andResult = profile & resourceProfile;
         return andResult == resourceProfile;
     }
-    
-    
-    
 
 }

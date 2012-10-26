@@ -14,7 +14,6 @@ public class StoreAccessException extends RepositoryException
 {
     private static final long serialVersionUID = 2014301566495934433L;
 
-
     public StoreAccessException()
     {
         super();

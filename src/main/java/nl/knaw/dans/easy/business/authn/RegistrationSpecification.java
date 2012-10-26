@@ -13,13 +13,13 @@ import org.slf4j.LoggerFactory;
 
 public final class RegistrationSpecification
 {
-    
+
     private static Logger logger = LoggerFactory.getLogger(RegistrationSpecification.class);
-    
+
     protected RegistrationSpecification()
     {
     }
-    
+
     public static boolean isSatisfiedBy(Registration registration)
     {
         boolean satisfied = hasSufficientData(registration) && hasUniqueID(registration) && hasAllowedUserID(registration);
@@ -55,10 +55,10 @@ public final class RegistrationSpecification
             sufficientData = false;
             registration.setState(State.EmailCannotBeBlank);
         }
-        
+
         return sufficientData;
     }
-    
+
     protected static boolean hasUniqueID(Registration registration)
     {
         boolean hasUniqueId = false;
@@ -81,19 +81,19 @@ public final class RegistrationSpecification
         }
         return hasUniqueId;
     }
-    
+
     protected static boolean hasAllowedUserID(Registration registration)
     {
-    	// users cannot have a permissionsequence state as a user id. A user with that
-    	// id would be able to see all permission requests of that state through the way
-    	// the searchengine is used. A user with that id would also disrupt the system
-    	// if he or she would request permission for a dataset.
-    	// see EasyDatasetSB.permissionStatusList
-    	for (PermissionSequence.State state : PermissionSequence.State.values())
-    	{
-    		if (registration.getUserId().equalsIgnoreCase(state.toString()))
-    			return false;
-    	}
-    	return true;
+        // users cannot have a permissionsequence state as a user id. A user with that
+        // id would be able to see all permission requests of that state through the way
+        // the searchengine is used. A user with that id would also disrupt the system
+        // if he or she would request permission for a dataset.
+        // see EasyDatasetSB.permissionStatusList
+        for (PermissionSequence.State state : PermissionSequence.State.values())
+        {
+            if (registration.getUserId().equalsIgnoreCase(state.toString()))
+                return false;
+        }
+        return true;
     }
 }

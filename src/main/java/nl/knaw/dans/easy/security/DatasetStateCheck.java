@@ -11,15 +11,15 @@ import nl.knaw.dans.easy.domain.model.Dataset;
 
 public final class DatasetStateCheck extends AbstractCheck
 {
-        
+
     private final List<DatasetState> allowedStates;
-    
-    public DatasetStateCheck(DatasetState...states)
+
+    public DatasetStateCheck(DatasetState... states)
     {
         super();
         allowedStates = Collections.synchronizedList(Arrays.asList(states));
     }
-    
+
     public String getProposition()
     {
         synchronized (allowedStates)
@@ -28,7 +28,6 @@ public final class DatasetStateCheck extends AbstractCheck
         }
     }
 
-    
     public boolean evaluate(ContextParameters ctxParameters)
     {
         boolean conditionMet = false;
@@ -42,16 +41,16 @@ public final class DatasetStateCheck extends AbstractCheck
                 {
                     conditionMet = iter.next().equals(dataset.getAdministrativeState());
                 }
-            } 
-            
+            }
+
         }
         return conditionMet;
     }
-    
+
     protected String explain(ContextParameters ctxParameters)
     {
         StringBuilder sb = super.startExplain(ctxParameters);
-        
+
         Dataset dataset = ctxParameters.getDataset();
         if (dataset == null)
         {
@@ -65,7 +64,7 @@ public final class DatasetStateCheck extends AbstractCheck
         sb.append(evaluate(ctxParameters));
         return sb.toString();
     }
-    
+
     @Override
     public boolean getHints(ContextParameters ctxParameters, List<Object> hints)
     {

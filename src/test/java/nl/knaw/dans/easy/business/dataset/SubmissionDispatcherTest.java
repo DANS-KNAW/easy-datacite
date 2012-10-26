@@ -1,6 +1,5 @@
 package nl.knaw.dans.easy.business.dataset;
 
-
 import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
@@ -22,9 +21,9 @@ import org.junit.Test;
 
 public class SubmissionDispatcherTest extends TestHelper
 {
-    
+
     private static EasyDepositService SERVICE;
-    
+
     @BeforeClass
     public static void beforeClass() throws ServiceException
     {
@@ -32,26 +31,25 @@ public class SubmissionDispatcherTest extends TestHelper
         SERVICE = new EasyDepositService();
         SERVICE.doBeanPostProcessing();
     }
-    
+
     @Test
     public void testMetadataValidator() throws ServiceException
-    {   // FIXME sometimes the test fails: race condition?
+    { // FIXME sometimes the test fails: race condition?
         SubmissionDispatcher dispatcher = new SubmissionDispatcher();
         List<SubmissionProcessor> processors = new ArrayList<SubmissionProcessor>();
         processors.add(new WebDepositFormMetadataValidator());
         dispatcher.setProcessors(processors);
-        
+
         MetadataFormat[] formats = MetadataFormat.values();
-        
+
         for (MetadataFormat format : formats)
         {
             DepositDiscipline discipline = SERVICE.getDiscipline(format);
             FormDefinition definition = discipline.getEmdFormDescriptor().getFormDefinition(DepositDiscipline.EMD_DEPOSITFORM_WIZARD);
             Dataset dataset = new DatasetImpl("dummy-dataset:1", format);
-            
+
             DatasetSubmissionImpl submission = new DatasetSubmissionImpl(definition, dataset, null);
-            
-            
+
             try
             {
                 dispatcher.process(submission);
@@ -62,7 +60,7 @@ public class SubmissionDispatcherTest extends TestHelper
             }
             assertNotNull(submission.getFirstErrorPage());
         }
-        
+
     }
 
 }

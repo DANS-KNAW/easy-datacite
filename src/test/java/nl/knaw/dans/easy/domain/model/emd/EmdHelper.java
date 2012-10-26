@@ -24,7 +24,6 @@ import org.slf4j.LoggerFactory;
 
 // ecco: CHECKSTYLE: OFF
 
-
 public class EmdHelper
 {
     /**
@@ -42,12 +41,11 @@ public class EmdHelper
             // LOGGER.debug("populating " + mdContainer.toString() + " [term count=" + emdContainer.getTerms().size() + "] (" + emdContainer.getClass().getName() + ")");
             for (Term term : emdContainer.getTerms())
             {
-                List< ? > list = emdContainer.get(term);
+                List<?> list = emdContainer.get(term);
                 fill(list, term, repeatFill);
             }
         }
     }
-
 
     public static void fill(List list, Term term, int... times) throws URISyntaxException
     {

@@ -12,13 +12,11 @@ import org.junit.Test;
 
 public class PropositionBuilderTest
 {
-    
+
     @Test
     public void creatProposition()
     {
-        String prop = PropositionBuilder.createProposition(" OR ",
-                new DatasetStateCheck(DatasetState.DELETED),
-                new DmoNamespaceCheck(Dataset.NAMESPACE),
+        String prop = PropositionBuilder.createProposition(" OR ", new DatasetStateCheck(DatasetState.DELETED), new DmoNamespaceCheck(Dataset.NAMESPACE),
                 new EmbargoFreeCheck());
         assertEquals("([Dataset state is DELETED] OR [storeId is within namespace easy-dataset] OR [Dataset is not under embargo at current date])", prop);
     }

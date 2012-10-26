@@ -14,21 +14,21 @@ import org.joda.time.DateTime;
 public class WorkflowStep extends AbstractJiBXObject<WorkflowStep>
 {
 
-    private static final long  serialVersionUID = 353239544598848090L;
+    private static final long serialVersionUID = 353239544598848090L;
 
-    private boolean            template;
-    private String             id;
-    private boolean            required;
-    private boolean            completed;
-    private String             doneById;
-    private DateTime           completionTime;
-    private double             timeSpent;
-    private boolean            timeSpentWritable;
-    private List<Remark>       remarks          = new ArrayList<Remark>();
-    private List<WorkflowStep> steps            = new ArrayList<WorkflowStep>();
-    private WorkflowStep       parent;
-    private EasyUser               whoDidIt;
-    private boolean            dirty;
+    private boolean template;
+    private String id;
+    private boolean required;
+    private boolean completed;
+    private String doneById;
+    private DateTime completionTime;
+    private double timeSpent;
+    private boolean timeSpentWritable;
+    private List<Remark> remarks = new ArrayList<Remark>();
+    private List<WorkflowStep> steps = new ArrayList<WorkflowStep>();
+    private WorkflowStep parent;
+    private EasyUser whoDidIt;
+    private boolean dirty;
 
     protected WorkflowStep()
     {
@@ -161,7 +161,7 @@ public class WorkflowStep extends AbstractJiBXObject<WorkflowStep>
         }
         setDirty(true);
     }
-    
+
     // Temporary method. Use only for migration!
     public void setRequiredCompleted(String doneById, DateTime timeCompleted)
     {
@@ -177,7 +177,7 @@ public class WorkflowStep extends AbstractJiBXObject<WorkflowStep>
         }
         setDirty(true);
     }
-    
+
     // Temporary method. Use only for migration!
     public void setCompleted(String doneById, DateTime timeCompleted)
     {
@@ -391,7 +391,7 @@ public class WorkflowStep extends AbstractJiBXObject<WorkflowStep>
             step.collectRequiredSteps(requiredSteps);
         }
     }
-    
+
     public WorkflowStep getStep(String id)
     {
         WorkflowStep step = null;
@@ -410,7 +410,7 @@ public class WorkflowStep extends AbstractJiBXObject<WorkflowStep>
         }
         return step;
     }
-    
+
     public void copyValues(WorkflowStep wfs)
     {
         this.completed = wfs.completed;

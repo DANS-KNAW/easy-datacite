@@ -14,27 +14,27 @@ import org.dom4j.Element;
 
 public class WorkflowDataImpl extends AbstractTimestampedJiBXObject<WorkflowData> implements WorkflowData
 {
-    
+
     /**
      * The version - when newly instantiated. The actual version of an instance as read from an xml-stream might be
      * obtained by {@link #getVersion()}.
      */
-    public static final String            VERSION      = "0.1";
-    
+    public static final String VERSION = "0.1";
+
     private static final long serialVersionUID = -4946639050379250401L;
-    
+
     private String version;
     private String assigneeId = NOT_ASSIGNED;
     private EasyUser assignee;
     private WorkflowStep workflow;
-    
+
     private boolean dirty;
 
     protected WorkflowDataImpl()
     {
-        
+
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -55,7 +55,7 @@ public class WorkflowDataImpl extends AbstractTimestampedJiBXObject<WorkflowData
             assignee = null;
             this.assigneeId = assigneeIdToSet;
         }
-        
+
     }
 
     public String getAssigneeId()
@@ -77,7 +77,7 @@ public class WorkflowDataImpl extends AbstractTimestampedJiBXObject<WorkflowData
         this.assignee = assignee;
         setAssigneeId(assignee == null ? null : assignee.getId());
     }
-    
+
     public WorkflowStep getWorkflow()
     {
         if (workflow == null)
@@ -86,30 +86,30 @@ public class WorkflowDataImpl extends AbstractTimestampedJiBXObject<WorkflowData
         }
         return workflow;
     }
-    
+
     public void setWorkflow(WorkflowStep root)
     {
         this.workflow = root;
     }
-    
+
     protected Element getWorkflowElement() throws XMLSerializationException
     {
         return workflow == null ? null : workflow.asElement();
     }
-    
+
     protected void setWorkflowElement(Element workflowElement) throws XMLDeserializationException
     {
         if (workflowElement != null)
         {
-            workflow = (WorkflowStep) JiBXObjectFactory.unmarshal(WorkflowStep.class, workflowElement);          
+            workflow = (WorkflowStep) JiBXObjectFactory.unmarshal(WorkflowStep.class, workflowElement);
         }
     }
-    
+
     public boolean isDirty()
     {
         return dirty || (workflow != null && getWorkflow().isDirty());
     }
-    
+
     public void setDirty(boolean dirty)
     {
         this.dirty = dirty;
@@ -118,7 +118,7 @@ public class WorkflowDataImpl extends AbstractTimestampedJiBXObject<WorkflowData
             getWorkflow().setDirty(dirty);
         }
     }
-    
+
     protected boolean evaluateDirty(Object obj1, Object obj2)
     {
         boolean dirty = false;
@@ -130,10 +130,9 @@ public class WorkflowDataImpl extends AbstractTimestampedJiBXObject<WorkflowData
         {
             dirty = !obj2.equals(obj1);
         }
-        if (dirty) setDirty(true);
+        if (dirty)
+            setDirty(true);
         return dirty;
     }
 
-    
-    
 }

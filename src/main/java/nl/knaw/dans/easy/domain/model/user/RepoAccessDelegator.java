@@ -16,7 +16,7 @@ public interface RepoAccessDelegator
 {
 
     EasyUser getUser(String userId);
-    
+
     List<Group> getGroups(Collection<String> groupIds);
 
     List<Group> getGroups(EasyUser user);

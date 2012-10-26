@@ -16,13 +16,13 @@ public class ZipFileContentWrapper implements Serializable, DownloadInfo
 {
 
     private static final long serialVersionUID = -3671147015443361517L;
-    
+
     private static final Logger logger = LoggerFactory.getLogger(ZipFileContentWrapper.class);
-    
+
     private File zipFile;
-    
+
     private List<? extends ItemVO> downloadedItemVOs = new ArrayList<ItemVO>();
-    
+
     private String filename;
 
     public File getZipFile()
@@ -44,7 +44,7 @@ public class ZipFileContentWrapper implements Serializable, DownloadInfo
     {
         this.filename = filename;
     }
-    
+
     public List<? extends ItemVO> getDownloadedItemVOs()
     {
         return downloadedItemVOs;
@@ -75,12 +75,12 @@ public class ZipFileContentWrapper implements Serializable, DownloadInfo
     public List<String> getFileNames()
     {
         List<String> result = new LinkedList<String>();
-        
-        for(ItemVO item: downloadedItemVOs)
+
+        for (ItemVO item : downloadedItemVOs)
         {
             result.add(item.getPath());
         }
-        
+
         return result;
     }
 

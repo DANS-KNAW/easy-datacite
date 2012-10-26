@@ -18,51 +18,51 @@ import org.slf4j.LoggerFactory;
 public class CodedAuthz extends AbstractEasyService implements Authz
 {
 
-    public static final String           NO_SIGNATURE_OFFICER_PROPOSITION = "NO SECURITYOFFICER SET FOR THIS SIGNATURE! ADJUST SIGNATURE IN CODEDAUTHZ.JAVA!";
+    public static final String NO_SIGNATURE_OFFICER_PROPOSITION = "NO SECURITYOFFICER SET FOR THIS SIGNATURE! ADJUST SIGNATURE IN CODEDAUTHZ.JAVA!";
 
-    private static final Logger          logger                           = LoggerFactory.getLogger(CodedAuthz.class);
+    private static final Logger logger = LoggerFactory.getLogger(CodedAuthz.class);
 
     private Map<String, SecurityOfficer> rules;
 
-    private Object                       syncRules                        = new Object();
+    private Object syncRules = new Object();
 
-    private SecurityOfficer              enableToLoggedInUserRule;
-    private SecurityOfficer              enableToNormalUserRule;
-    private SecurityOfficer              enableToArchivistRule;
-    private SecurityOfficer              enableToAdminRule;
-    private SecurityOfficer              enableToArchivistOrAdminRule;
-    private SecurityOfficer              enableToDepositorOfDatasetRule;
-    private SecurityOfficer              enableToDepositorOrArchivistRule;
-    private SecurityOfficer              enableToDepositorOrArchivistIfDraftRule;
-    private SecurityOfficer              enableToDepositorOrArchivistOrAdminRule;
-    private SecurityOfficer              visibleToArchivistEnableToAdminRule;
-    private SecurityOfficer              visibleToDepositorEnableToArchivistRule;
-    private SecurityOfficer              permissionRequestRequiredRule;
-    private SecurityOfficer              editProtectedUserAttributesRule;
+    private SecurityOfficer enableToLoggedInUserRule;
+    private SecurityOfficer enableToNormalUserRule;
+    private SecurityOfficer enableToArchivistRule;
+    private SecurityOfficer enableToAdminRule;
+    private SecurityOfficer enableToArchivistOrAdminRule;
+    private SecurityOfficer enableToDepositorOfDatasetRule;
+    private SecurityOfficer enableToDepositorOrArchivistRule;
+    private SecurityOfficer enableToDepositorOrArchivistIfDraftRule;
+    private SecurityOfficer enableToDepositorOrArchivistOrAdminRule;
+    private SecurityOfficer visibleToArchivistEnableToAdminRule;
+    private SecurityOfficer visibleToDepositorEnableToArchivistRule;
+    private SecurityOfficer permissionRequestRequiredRule;
+    private SecurityOfficer editProtectedUserAttributesRule;
 
-    private SecurityOfficer              viewDatasetRule;
-    private SecurityOfficer              submitDatasetRule;
-    private SecurityOfficer              unsubmitDatasetRule;
-    private SecurityOfficer              publishDatasetRule;
-    private SecurityOfficer              unpublishDatasetRule;
-    private SecurityOfficer              maintainDatasetRule;
-    private SecurityOfficer              republishDatasetRule;
-    private SecurityOfficer              deleteDatasetRule;
-    private SecurityOfficer              restoreDatasetRule;
-    private SecurityOfficer              purgeDatasetRule;
+    private SecurityOfficer viewDatasetRule;
+    private SecurityOfficer submitDatasetRule;
+    private SecurityOfficer unsubmitDatasetRule;
+    private SecurityOfficer publishDatasetRule;
+    private SecurityOfficer unpublishDatasetRule;
+    private SecurityOfficer maintainDatasetRule;
+    private SecurityOfficer republishDatasetRule;
+    private SecurityOfficer deleteDatasetRule;
+    private SecurityOfficer restoreDatasetRule;
+    private SecurityOfficer purgeDatasetRule;
 
-    private SecurityOfficer              updateItemRule;
-    private SecurityOfficer              downloadRule;
-    private SecurityOfficer              fileItemDescriptionAccessRule;
-    private SecurityOfficer              fileItemContentsAccessRule;
-    private SecurityOfficer              freelyAvailableContentRule;
+    private SecurityOfficer updateItemRule;
+    private SecurityOfficer downloadRule;
+    private SecurityOfficer fileItemDescriptionAccessRule;
+    private SecurityOfficer fileItemContentsAccessRule;
+    private SecurityOfficer freelyAvailableContentRule;
 
-    private SecurityOfficer              jumpoffDmoNameSpaceRule;
-    
-    private SecurityOfficer              userByIdRule;
+    private SecurityOfficer jumpoffDmoNameSpaceRule;
 
-    private SecurityOfficer              noSecurityOfficer;
-    private SecurityOfficer              dummyOfficer;
+    private SecurityOfficer userByIdRule;
+
+    private SecurityOfficer noSecurityOfficer;
+    private SecurityOfficer dummyOfficer;
 
     @Override
     public String getServiceDescription()
@@ -210,7 +210,9 @@ public class CodedAuthz extends AbstractEasyService implements Authz
             rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel:statusPanel:republish", getRepublishDatasetRule());
 
             // PublicationProgresPanel
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel:statusPanel:pubProgressPanel", getEnableToDepositorOrArchivistRule());
+            rules
+                    .put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel:statusPanel:pubProgressPanel",
+                            getEnableToDepositorOrArchivistRule());
             rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel:statusPanel:pubProgressPanel:assignToForm",
                     getEnableToArchivistRule());
 
@@ -219,16 +221,17 @@ public class CodedAuthz extends AbstractEasyService implements Authz
             rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:addButton", getEnableToArchivistOrAdminRule());
             rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:editButton", getEnableToArchivistOrAdminRule());
             rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:deleteButton", getEnableToArchivistOrAdminRule());
-            
+
             rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:viewEditJumpoffPanel:editForm",
                     getEnableToArchivistOrAdminRule());
             rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:viewEditJumpoffPanel:editForm",
                     getEnableToArchivistOrAdminRule());
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:viewEditJumpoffPanel:jumpoffMetadataPanel", getEnableToArchivistOrAdminRule());
+            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:viewEditJumpoffPanel:jumpoffMetadataPanel",
+                    getEnableToArchivistOrAdminRule());
 
             // Description tab
             rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:editLink", getEnableToArchivistRule());
-            
+
             // Metadata download buttons are visible to all users now
             // rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:downloadPanel", getEnableToArchivistOrAdminRule());
 
@@ -240,32 +243,38 @@ public class CodedAuthz extends AbstractEasyService implements Authz
             // WorkDispatchers
             // ===============
             // ItemWorkDispatcher
-            rules.put(
-                    "void nl.knaw.dans.easy.business.item.ItemWorkDispatcher.addDirectoryContents(EasyUser, Dataset, DatasetItemContainer, File, FileFilter, UnitOfWork, ItemIngesterDelegator, WorkListener[])",
-                    getEnableToDepositorOrArchivistIfDraftRule());
-            
-            rules.put(
-                    "void nl.knaw.dans.easy.business.item.ItemWorkDispatcher.updateObjects(EasyUser, Dataset, List, UpdateInfo, ItemFilters, UnitOfWork, WorkListener[])",
-                    getUpdateItemRule());
-            rules.put("void nl.knaw.dans.easy.business.item.ItemWorkDispatcher.updateFileItemMetadata(EasyUser, Dataset, ResourceMetadataList, AdditionalMetadataUpdateStrategy, WorkListener[])",
-                    getEnableToArchivistRule());
-            
+            rules
+                    .put(
+                            "void nl.knaw.dans.easy.business.item.ItemWorkDispatcher.addDirectoryContents(EasyUser, Dataset, DatasetItemContainer, File, FileFilter, UnitOfWork, ItemIngesterDelegator, WorkListener[])",
+                            getEnableToDepositorOrArchivistIfDraftRule());
+
+            rules
+                    .put(
+                            "void nl.knaw.dans.easy.business.item.ItemWorkDispatcher.updateObjects(EasyUser, Dataset, List, UpdateInfo, ItemFilters, UnitOfWork, WorkListener[])",
+                            getUpdateItemRule());
+            rules
+                    .put(
+                            "void nl.knaw.dans.easy.business.item.ItemWorkDispatcher.updateFileItemMetadata(EasyUser, Dataset, ResourceMetadataList, AdditionalMetadataUpdateStrategy, WorkListener[])",
+                            getEnableToArchivistRule());
+
             rules.put("void nl.knaw.dans.easy.business.item.ItemWorkDispatcher.saveDescriptiveMetadata(EasyUser, UnitOfWork, Dataset, Map, WorkListener[])",
                     getEnableToArchivistRule()); // TODO but not if published or deleted?
-            rules.put("FileItemDescription nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFileItemDescription(EasyUser, Dataset, FileItem)", getFileItemDescriptionAccessRule());
-            
-            rules.put("FileItem nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFileItem(EasyUser, Dataset, DmoStoreId)", getFileItemContentsAccessRule());
+            rules.put("FileItemDescription nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFileItemDescription(EasyUser, Dataset, FileItem)",
+                    getFileItemDescriptionAccessRule());
+
+            rules
+                    .put("FileItem nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFileItem(EasyUser, Dataset, DmoStoreId)",
+                            getFileItemContentsAccessRule());
             rules.put("FileItem nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFileItemByPath(EasyUser, Dataset, String)", getNoSecurityOfficer());
-            
+
             rules.put("FolderItem nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFolderItem(EasyUser, Dataset, DmoStoreId)", getNoSecurityOfficer());
             rules.put("FolderItem nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFolderItemByPath(EasyUser, Dataset, String)", getNoSecurityOfficer());
-            
+
             rules.put("URL nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFileContentURL(EasyUser, Dataset, FileItem)", getFreelyAvailableContentRule());
-            
-            
+
             // Not that strong, because FileItem is represented by id, due to mishap in FileItemVO design.
             rules.put("URL nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getDescriptiveMetadataURL(EasyUser, Dataset, DmoStoreId)", getViewDatasetRule());
-            
+
             // DownloadWorkDispatcher
             rules.put("FileContentWrapper nl.knaw.dans.easy.business.item.DownloadWorkDispatcher.prepareFileContent(EasyUser, Dataset, DmoStoreId)",
                     getDownloadRule());
@@ -273,8 +282,10 @@ public class CodedAuthz extends AbstractEasyService implements Authz
                     getDownloadRule());
 
             // DatasetWorkDispatcher
-            rules.put("DataModelObject nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.getDataModelObject(EasyUser, DmoStoreId)", getViewDatasetRule()); 
-                                                                                                                                                             
+            rules
+                    .put("DataModelObject nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.getDataModelObject(EasyUser, DmoStoreId)",
+                            getViewDatasetRule());
+
             rules.put("byte[] nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.getObjectXml(EasyUser, Dataset)",
                     getEnableToDepositorOrArchivistOrAdminRule());
             rules.put("Dataset nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.cloneDataset(EasyUser, Dataset)", getEnableToLoggedInUserRule());
@@ -297,14 +308,16 @@ public class CodedAuthz extends AbstractEasyService implements Authz
             rules.put("void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.restoreDataset(EasyUser, Dataset)", getEnableToAdminRule());
             rules.put("void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.purgeDataset(EasyUser, Dataset, WorkListener[])", getPurgeDatasetRule());
 
-            rules.put(
-                    "void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.savePermissionRequest(EasyUser, Dataset, PermissionRequestModel, WorkListener[])",
-                    getEnableToLoggedInUserRule());
-            rules.put(
-                    "void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.savePermissionReply(EasyUser, Dataset, PermissionReplyModel, WorkListener[])",
-                    getEnableToDepositorOfDatasetRule());
+            rules
+                    .put(
+                            "void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.savePermissionRequest(EasyUser, Dataset, PermissionRequestModel, WorkListener[])",
+                            getEnableToLoggedInUserRule());
+            rules
+                    .put(
+                            "void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.savePermissionReply(EasyUser, Dataset, PermissionReplyModel, WorkListener[])",
+                            getEnableToDepositorOfDatasetRule());
             rules.put("DownloadHistory nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.getDownloadHistoryFor(EasyUser, Dataset, DateTime)",
-            		getEnableToLoggedInUserRule());
+                    getEnableToLoggedInUserRule());
             rules.put("URL nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.getUnitMetadataURL(EasyUser, Dataset, UnitMetadata)",
                     getEnableToArchivistOrAdminRule());
 
@@ -315,20 +328,19 @@ public class CodedAuthz extends AbstractEasyService implements Authz
                     getEnableToArchivistOrAdminRule());
             rules.put("void nl.knaw.dans.easy.business.jumpoff.JumpoffWorkDispatcher.deleteUnit(EasyUser, DmoStoreId, DsUnitId, String)",
                     getEnableToArchivistOrAdminRule());
-            rules.put("void nl.knaw.dans.easy.business.jumpoff.JumpoffWorkDispatcher.toggleEditorMode(EasyUser, JumpoffDmo)",
-                    getEnableToArchivistOrAdminRule());
+            rules
+                    .put("void nl.knaw.dans.easy.business.jumpoff.JumpoffWorkDispatcher.toggleEditorMode(EasyUser, JumpoffDmo)",
+                            getEnableToArchivistOrAdminRule());
             rules.put("List nl.knaw.dans.easy.business.jumpoff.JumpoffWorkDispatcher.retrieveUnitMetadata(EasyUser, DmoStoreId, DsUnitId)",
                     getJumpoffDmoNameSpaceRule());
             rules.put("URL nl.knaw.dans.easy.business.jumpoff.JumpoffWorkDispatcher.retrieveURL(DmoStoreId, DsUnitId)", getJumpoffDmoNameSpaceRule());
 
             // EasyUserService
             // used to be getUserByIdRule() but changed to loggedInUser for activity log panel
-            rules.put("EasyUser nl.knaw.dans.easy.business.services.EasyUserService.getUserById(EasyUser, String)", 
-            		getEnableToLoggedInUserRule());
-            
+            rules.put("EasyUser nl.knaw.dans.easy.business.services.EasyUserService.getUserById(EasyUser, String)", getEnableToLoggedInUserRule());
+
             // new! operations annotated with @SecuredOperation
-            rules.put("nl.knaw.dans.easy.servicelayer.services.CollectionService.updateCollectionMemberships", 
-                    getEnableToArchivistOrAdminRule());
+            rules.put("nl.knaw.dans.easy.servicelayer.services.CollectionService.updateCollectionMemberships", getEnableToArchivistOrAdminRule());
         }
         return rules;
     }
@@ -720,12 +732,12 @@ public class CodedAuthz extends AbstractEasyService implements Authz
         }
         return downloadRule;
     }
-    
+
     protected SecurityOfficer getFileItemDescriptionAccessRule()
     {
         if (fileItemDescriptionAccessRule == null)
         {
-            fileItemDescriptionAccessRule = new Or(  //
+            fileItemDescriptionAccessRule = new Or( //
                     new DatasetStateCheck(DatasetState.PUBLISHED), //
                     new HasRoleCheck(Role.ARCHIVIST, Role.ADMIN), //
                     new IsDepositorOfFileItemCheck());
@@ -856,14 +868,12 @@ public class CodedAuthz extends AbstractEasyService implements Authz
         }
         return jumpoffDmoNameSpaceRule;
     }
-    
+
     protected SecurityOfficer getUserByIdRule()
     {
         if (userByIdRule == null)
         {
-            userByIdRule = new Or(
-                    new HasRoleCheck(Role.ARCHIVIST, Role.ADMIN),
-                    new IsSelfCheck());
+            userByIdRule = new Or(new HasRoleCheck(Role.ARCHIVIST, Role.ADMIN), new IsSelfCheck());
         }
         return userByIdRule;
     }

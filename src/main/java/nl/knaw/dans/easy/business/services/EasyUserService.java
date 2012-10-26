@@ -34,11 +34,11 @@ import org.slf4j.LoggerFactory;
 public class EasyUserService extends AbstractEasyService implements UserService
 {
 
-    private static Logger       logger              = LoggerFactory.getLogger(EasyUserService.class);
+    private static Logger logger = LoggerFactory.getLogger(EasyUserService.class);
 
-    private LoginService        loginService        = new LoginService();
+    private LoginService loginService = new LoginService();
 
-    private PasswordService     passwordService;
+    private PasswordService passwordService;
 
     private RegistrationService registrationService = new RegistrationService();
 
@@ -51,20 +51,18 @@ public class EasyUserService extends AbstractEasyService implements UserService
         return loginService.newAuthentication();
     }
 
-    public RegistrationMailAuthentication newRegistrationMailAuthentication(
-            final String userId, final String returnedTime, final String returnedToken)
-    	throws ServiceException
+    public RegistrationMailAuthentication newRegistrationMailAuthentication(final String userId, final String returnedTime, final String returnedToken)
+            throws ServiceException
     {
         return registrationService.newAuthentication(userId, returnedTime, returnedToken);
     }
 
-    public ForgottenPasswordMailAuthentication newForgottenPasswordMailAuthentication(
-            final String userId, final String returnedTime, final String returnedToken)
-    	throws ServiceException
+    public ForgottenPasswordMailAuthentication newForgottenPasswordMailAuthentication(final String userId, final String returnedTime, final String returnedToken)
+            throws ServiceException
     {
         return getPasswordService().newAuthentication(userId, returnedTime, returnedToken);
     }
-    
+
     public void authenticate(Authentication authentication) throws ServiceException
     {
         if (authentication instanceof UsernamePasswordAuthentication)
@@ -89,13 +87,13 @@ public class EasyUserService extends AbstractEasyService implements UserService
             throw new IllegalArgumentException(msg);
         }
     }
-    
+
     private void logAuthentication(Authentication authentication)
     {
         if (authentication.isCompleted())
         {
             if (logger.isDebugEnabled())
-            logger.debug("Authentication successful: " + authentication.toString());
+                logger.debug("Authentication successful: " + authentication.toString());
         }
         else
         {
@@ -143,7 +141,7 @@ public class EasyUserService extends AbstractEasyService implements UserService
         }
         return users;
     }
-    
+
     public List<EasyUser> getUsersByRole(Role role) throws ServiceException
     {
         List<EasyUser> users = null;
@@ -173,7 +171,7 @@ public class EasyUserService extends AbstractEasyService implements UserService
         }
         return users;
     }
-    
+
     public List<Group> getAllGroups() throws ServiceException
     {
         List<Group> groups = null;
@@ -188,7 +186,7 @@ public class EasyUserService extends AbstractEasyService implements UserService
         }
         return groups;
     }
-    
+
     public List<String> getAllGroupIds() throws ServiceException
     {
         List<String> groupIds = new ArrayList<String>();
@@ -198,7 +196,7 @@ public class EasyUserService extends AbstractEasyService implements UserService
         }
         return groupIds;
     }
-    
+
     public Map<String, String> getByCommonNameStub(String stub, long maxCount) throws ServiceException
     {
         Map<String, String> idNameMap = null;
@@ -221,7 +219,7 @@ public class EasyUserService extends AbstractEasyService implements UserService
 
         // set state of user: active after first login and update personal info
         boolean updaterEqualsUser = sessionUser.equals(user) && EasyUser.State.CONFIRMED_REGISTRATION.equals(user.getState());
-		if (updaterEqualsUser)
+        if (updaterEqualsUser)
         {
             user.setState(EasyUser.State.ACTIVE);
         }
@@ -236,23 +234,22 @@ public class EasyUserService extends AbstractEasyService implements UserService
         }
         finally
         {
-        	if (updaterEqualsUser)
-        	{
-        		sessionUser.setState(user.getState());
-        	}
+            if (updaterEqualsUser)
+            {
+                sessionUser.setState(user.getState());
+            }
         }
-        
-        
+
         return user;
     }
 
-    public Registration handleRegistrationRequest(final Registration registration)  throws ServiceException
+    public Registration handleRegistrationRequest(final Registration registration) throws ServiceException
     {
         registrationService.handleRegistrationRequest(registration);
         logger.debug("Handled registration: " + registration.toString());
         return registration;
     }
-    
+
     public FederativeUserRegistration handleRegistrationRequest(FederativeUserRegistration registration) throws ServiceException
     {
         registrationService.handleRegistrationRequest(registration);
@@ -271,17 +268,17 @@ public class EasyUserService extends AbstractEasyService implements UserService
         {
             throw new ServiceException(e);
         }
-        
+
         return hasPassword;
     }
-    
-    public void changePassword(final ChangePasswordMessenger messenger)  throws ServiceException
+
+    public void changePassword(final ChangePasswordMessenger messenger) throws ServiceException
     {
         // delegate to specialized service.
         getPasswordService().changePassword(messenger);
     }
 
-    public void handleForgottenPasswordRequest(final ForgottenPasswordMessenger messenger)  throws ServiceException
+    public void handleForgottenPasswordRequest(final ForgottenPasswordMessenger messenger) throws ServiceException
     {
         // delegate to specialized service.
         // We can send a new password by mail:
@@ -290,8 +287,8 @@ public class EasyUserService extends AbstractEasyService implements UserService
         // Or do it in the fancy way by sending a link to a page where the user can type in a new password:
         getPasswordService().sendUpdatePasswordLink(messenger);
     }
-    
-    public OperationalAttributes getOperationalAttributes(EasyUser user)  throws ServiceException
+
+    public OperationalAttributes getOperationalAttributes(EasyUser user) throws ServiceException
     {
         try
         {
@@ -302,8 +299,8 @@ public class EasyUserService extends AbstractEasyService implements UserService
             throw new ApplicationException(e);
         }
     }
-    
-    public OperationalAttributes getOperationalAttributes(Group group)  throws ServiceException
+
+    public OperationalAttributes getOperationalAttributes(Group group) throws ServiceException
     {
         try
         {
@@ -314,17 +311,17 @@ public class EasyUserService extends AbstractEasyService implements UserService
             throw new ApplicationException(e);
         }
     }
-    
+
     LoginService getLoginService()
     {
         return loginService;
     }
-    
+
     RegistrationService getRegistrationService()
     {
         return registrationService;
     }
-    
+
     PasswordService getPasswordService()
     {
         if (passwordService == null)
@@ -333,7 +330,5 @@ public class EasyUserService extends AbstractEasyService implements UserService
         }
         return passwordService;
     }
-
-
 
 }

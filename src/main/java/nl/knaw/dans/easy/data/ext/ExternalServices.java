@@ -12,20 +12,19 @@ public class ExternalServices
 
     private static final Logger logger = LoggerFactory.getLogger(ExternalServices.class);
 
-    private static Mailer       MAIL_OFFICE;
-    private static AdminMailer  ADMIN_MAILER;
+    private static Mailer MAIL_OFFICE;
+    private static AdminMailer ADMIN_MAILER;
     private static PidGenerator METADATA_PID_GENERATOR;
 
-    private static boolean      LOCKED;
-    private static final String ILLEGAL_METHOD_CALL = "Illegal method call: Constructor and setter methods in the "
-                                                            + ExternalServices.class.getName()
-                                                            + " class should not be called.";
+    private static boolean LOCKED;
+    private static final String ILLEGAL_METHOD_CALL = "Illegal method call: Constructor and setter methods in the " + ExternalServices.class.getName()
+            + " class should not be called.";
 
     public static Mailer getMailOffice()
     {
         return MAIL_OFFICE;
     }
-    
+
     public static AdminMailer getAdminMailer()
     {
         if (ADMIN_MAILER == null)
@@ -73,7 +72,7 @@ public class ExternalServices
         MAIL_OFFICE = mailer;
         logger.debug("Injected dependency mailer: " + mailer);
     }
-    
+
     public void setAdminMailer(AdminMailer adminMailer)
     {
         checkLock();
@@ -89,7 +88,7 @@ public class ExternalServices
         METADATA_PID_GENERATOR = generator;
         logger.debug("Injected dependency persistent identifier generator: " + generator);
     }
-    
+
     public void close()
     {
         logger.info("Closing " + this.getClass().getSimpleName());

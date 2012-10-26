@@ -1,6 +1,5 @@
 package nl.knaw.dans.easy.domain.exceptions;
 
-
 /**
  * Indicates that an object is referenced by an id that is not unique.
  * 

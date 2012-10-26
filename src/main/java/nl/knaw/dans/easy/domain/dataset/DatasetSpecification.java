@@ -26,13 +26,13 @@ import org.slf4j.LoggerFactory;
  */
 public class DatasetSpecification
 {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(DatasetSpecification.class);
-    
+
     public static void evaluate(Dataset dataset) throws ServiceException, DataIntegrityException
-    {        
+    {
         List<String> errorMessages = new ArrayList<String>();
-        
+
         String part = " (easyMetadata)";
         MetadataFormat mdFormat = dataset.getMetadataFormat();
         if (mdFormat == null)
@@ -41,7 +41,7 @@ public class DatasetSpecification
             logger.warn(msg);
             errorMessages.add(msg);
         }
-        
+
         part = " (administrative metadata)";
         String depositorId = dataset.getAdministrativeMetadata().getDepositorId();
         if (depositorId == null)
@@ -50,14 +50,14 @@ public class DatasetSpecification
             logger.warn(msg);
             errorMessages.add(msg);
         }
-        
+
         if (!userExists(depositorId))
         {
             String msg = "depositorId '" + depositorId + "' does not exist." + part;
             logger.warn(msg);
             errorMessages.add(msg);
         }
-        
+
         Set<String> groupIds = dataset.getAdministrativeMetadata().getGroupIds();
         for (String groupId : groupIds)
         {
@@ -68,7 +68,7 @@ public class DatasetSpecification
                 errorMessages.add(msg);
             }
         }
-        
+
         part = " (workflow data)";
         WorkflowData workflowData = dataset.getAdministrativeMetadata().getWorkflowData();
         String assigneeId = workflowData.getAssigneeId();
@@ -78,12 +78,12 @@ public class DatasetSpecification
             logger.warn(msg);
             errorMessages.add(msg);
         }
-        
+
         checkWorkflowSteps(errorMessages, workflowData.getWorkflow());
-        
+
         EasyMetadata easyMetadata = dataset.getEasyMetadata();
         easyMetadata.getEmdIdentifier().setDatasetId(dataset.getStoreId());
-        
+
         if (!errorMessages.isEmpty())
         {
             String msg0 = "Invalid dataset. datasetId=" + dataset.getStoreId();
@@ -91,9 +91,9 @@ public class DatasetSpecification
             throw new DataIntegrityException(msg0, errorMessages);
         }
     }
-    
+
     public static void completeEasyMetadata(EasyMetadata easyMetadata)
-    {  
+    {
         completeDcType(easyMetadata);
     }
 
@@ -107,7 +107,7 @@ public class DatasetSpecification
             easyMetadata.getEmdType().getDcType().add(type);
         }
     }
-    
+
     private static void checkWorkflowSteps(List<String> errorMessages, WorkflowStep step) throws ServiceException, DataIntegrityException
     {
         String doneById = step.getDoneById();
@@ -127,13 +127,13 @@ public class DatasetSpecification
                 errorMessages.add(msg);
             }
         }
-        
+
         for (WorkflowStep kidStep : step.getSteps())
         {
             checkWorkflowSteps(errorMessages, kidStep);
         }
     }
-    
+
     private static boolean userExists(String username) throws ServiceException
     {
         boolean exists = false;
@@ -147,7 +147,7 @@ public class DatasetSpecification
         }
         return exists;
     }
-    
+
     private static boolean groupExists(String groupId) throws ServiceException
     {
         boolean exists = false;
@@ -161,6 +161,5 @@ public class DatasetSpecification
         }
         return exists;
     }
-    
- 
+
 }

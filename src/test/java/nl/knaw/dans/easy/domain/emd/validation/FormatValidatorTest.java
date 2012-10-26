@@ -25,47 +25,46 @@ import org.slf4j.LoggerFactory;
 public class FormatValidatorTest
 {
     private static final Logger logger = LoggerFactory.getLogger(FormatValidatorTest.class);
-    
+
     private boolean verbose = Tester.isVerbose();
-    
-    
+
     @Test
     public void testFormatRecognition()
     {
         EasyMetadata emd = new EasyMetadataImpl(null);
         TestValidationReporter reporter = new TestValidationReporter();
-        
+
         FormatValidator.instance().validate(emd, reporter);
-        
+
         assertFalse(reporter.isMetadataValid());
         assertEquals(0, reporter.infoReports.size());
         assertEquals(0, reporter.warningReports.size());
         assertEquals(1, reporter.errorReports.size());
-        
+
         if (verbose)
             reporter.printReports();
     }
-    
+
     @Test
     public void testFormatArchaeologyWithInvalidSpatial()
     {
         EasyMetadata emd = new EasyMetadataImpl(MetadataFormat.ARCHAEOLOGY);
         Spatial spatial = new Spatial("Amsterdam", new Point("RD", "1", "2"));
         emd.getEmdCoverage().getEasSpatial().add(spatial);
-        
+
         TestValidationReporter reporter = new TestValidationReporter();
-        
+
         FormatValidator.instance().validate(emd, reporter);
-        
+
         assertFalse(reporter.isMetadataValid());
         assertEquals(0, reporter.infoReports.size());
         assertEquals(0, reporter.warningReports.size());
         assertEquals(1, reporter.errorReports.size());
-        
+
         if (verbose)
             reporter.printReports();
     }
-    
+
     @Test
     @Ignore
     public void testFormatArchaeologyWithInvalidSpatial2()
@@ -75,20 +74,20 @@ public class FormatValidatorTest
         point.setSchemeId(EasSpatialValidator.LIST_ID);
         Spatial spatial = new Spatial("Amsterdam", point);
         emd.getEmdCoverage().getEasSpatial().add(spatial);
-        
+
         TestValidationReporter reporter = new TestValidationReporter();
-        
+
         FormatValidator.instance().validate(emd, reporter);
-        
+
         assertFalse(reporter.isMetadataValid());
         assertEquals(0, reporter.infoReports.size());
         assertEquals(0, reporter.warningReports.size());
         assertEquals(1, reporter.errorReports.size());
-        
+
         if (verbose)
             reporter.printReports();
     }
-    
+
     @Test
     @Ignore
     public void testFormatArchaeologyWithInvalidSpatial3()
@@ -98,24 +97,23 @@ public class FormatValidatorTest
         point.setSchemeId(EasSpatialValidator.LIST_ID);
         Spatial spatial = new Spatial("Amsterdam", point);
         emd.getEmdCoverage().getEasSpatial().add(spatial);
-        
+
         TestValidationReporter reporter = new TestValidationReporter();
-        
+
         FormatValidator.instance().validate(emd, reporter);
-        
+
         assertFalse(reporter.isMetadataValid());
         assertEquals(0, reporter.infoReports.size());
         assertEquals(0, reporter.warningReports.size());
         assertEquals(1, reporter.errorReports.size());
-        
+
         if (verbose)
             reporter.printReports();
     }
-    
-    
+
     private static class TestValidationReporter implements ValidationReporter
     {
-        
+
         private boolean valid = true;
         private List<ValidationReport> infoReports = new ArrayList<ValidationReport>();
         private List<ValidationReport> warningReports = new ArrayList<ValidationReport>();
@@ -126,7 +124,7 @@ public class FormatValidatorTest
         {
             this.valid &= valid;
         }
-        
+
         public boolean isMetadataValid()
         {
             return valid;
@@ -149,7 +147,7 @@ public class FormatValidatorTest
         {
             errorReports.add(validationReport);
         }
-        
+
         public void printReports()
         {
             logger.debug(infoReports.size() + " info reports");
@@ -157,20 +155,20 @@ public class FormatValidatorTest
             {
                 logger.debug(report.toString());
             }
-            
+
             logger.debug(warningReports.size() + " warning reports");
             for (ValidationReport report : warningReports)
             {
                 logger.debug(report.toString());
             }
-            
+
             logger.debug(errorReports.size() + " error reports");
             for (ValidationReport report : errorReports)
             {
                 logger.debug(report.toString());
             }
         }
-        
+
     }
 
 }

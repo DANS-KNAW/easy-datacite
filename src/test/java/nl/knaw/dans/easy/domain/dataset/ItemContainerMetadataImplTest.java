@@ -25,17 +25,17 @@ import org.slf4j.LoggerFactory;
 public class ItemContainerMetadataImplTest
 {
 
-    private static final Logger logger  = LoggerFactory.getLogger(ItemContainerMetadataImplTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(ItemContainerMetadataImplTest.class);
 
-    private boolean             verbose = Tester.isVerbose();
-  
+    private boolean verbose = Tester.isVerbose();
+
     @Test
     public void serializeDeserializeFull() throws XMLException
     {
         DmoStoreId folderItemId = new DmoStoreId("foo:123");
         DmoStoreId datasetId = new DmoStoreId("dataset:123");
-        
-    	ItemContainerMetadataImpl icmd = new ItemContainerMetadataImpl(folderItemId);
+
+        ItemContainerMetadataImpl icmd = new ItemContainerMetadataImpl(folderItemId);
         icmd.setDatasetDmoStoreId(datasetId);
 
         icmd.setName("Testing item container metadata");
@@ -44,8 +44,7 @@ public class ItemContainerMetadataImplTest
         if (verbose)
             logger.debug("\n" + icmd.asXMLString(4) + "\n");
 
-        DatasetItemContainerMetadata icmd2 = (DatasetItemContainerMetadata) JiBXObjectFactory.unmarshal(
-                ItemContainerMetadataImpl.class, icmd.asObjectXML());
+        DatasetItemContainerMetadata icmd2 = (DatasetItemContainerMetadata) JiBXObjectFactory.unmarshal(ItemContainerMetadataImpl.class, icmd.asObjectXML());
         assertEquals(icmd.asXMLString(), icmd2.asXMLString());
 
         if (verbose)
@@ -63,7 +62,7 @@ public class ItemContainerMetadataImplTest
         assertEquals(0, icmd.getCreatorRoleFileCount(CreatorRole.ARCHIVIST));
         assertEquals(0, icmd.getCreatorRoleFileCount(CreatorRole.DEPOSITOR));
         assertEquals(0, icmd.getCreatorRoles().size());
-        
+
         icmd.setName("folder1");
         assertEquals("folder1", icmd.getPath());
 
@@ -114,29 +113,28 @@ public class ItemContainerMetadataImplTest
         // - datasetId:java.lang.String
         // versionable:boolean --> leave it for the time being
 
-		//DummyUnitOfWork dmoUow = new DummyUnitOfWork();
+        //DummyUnitOfWork dmoUow = new DummyUnitOfWork();
 
-		
         FolderItemImpl folder = new FolderItemImpl("foo:123");
-        
+
         //dmoUow.attach(folder);
-        
+
         DatasetItemContainerMetadata icmd = folder.getDatasetItemContainerMetadata();
         assertTrue(icmd.isDirty());
-        
+
         ((AbstractItemMetadataImpl<DatasetItemContainerMetadata>) icmd).setName("bar");
         assertTrue(icmd.isDirty());
         icmd.setDirty(false);
         assertFalse(icmd.isDirty());
-        
+
         icmd.setParentDmoStoreId(new DmoStoreId("foo:122"));
         assertTrue(icmd.isDirty());
         icmd.setDirty(false);
-        
+
         icmd.setDatasetDmoStoreId(new DmoStoreId("foo:121"));
         assertTrue(icmd.isDirty());
         icmd.setDirty(false);
-        
+
         FileItemImpl fi = new FileItemImpl("file:1");
         folder.addFileOrFolder(fi);
         assertTrue(icmd.isDirty());
@@ -144,15 +142,15 @@ public class ItemContainerMetadataImplTest
         assertTrue(fi.getFileItemMetadata().isDirty());
         icmd.setDirty(false);
         assertFalse(icmd.isDirty());
-        
+
         fi.setAccessibleTo(AccessibleTo.ANONYMOUS);
         assertTrue(icmd.isDirty());
         icmd.setDirty(false);
-        
+
         fi.setCreatorRole(CreatorRole.ARCHIVIST);
         assertTrue(icmd.isDirty());
         icmd.setDirty(false);
-        
+
         fi.setVisibleTo(VisibleTo.KNOWN);
         assertTrue(icmd.isDirty());
         icmd.setDirty(false);

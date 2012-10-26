@@ -7,31 +7,33 @@ public class SubHeadingDefinition extends PanelDefinition
 {
 
     private static final long serialVersionUID = -3542376584462566739L;
-    
+
     // keep modifier protected, JiBX needs it.
     protected boolean editable = true;
 
-	private List<String> panelIds = new ArrayList<String>();
-	private List<PanelDefinition> panelDefinitions;
-    
+    private List<String> panelIds = new ArrayList<String>();
+    private List<PanelDefinition> panelDefinitions;
+
     protected SubHeadingDefinition()
     {
         super();
     }
-    
+
     public SubHeadingDefinition(String panelId)
     {
         super(panelId);
     }
 
-    public boolean isEditable() {
-		return editable;
-	}
+    public boolean isEditable()
+    {
+        return editable;
+    }
 
-	public void setEditable(boolean editable) {
-		this.editable = editable;
-	} 
-	
+    public void setEditable(boolean editable)
+    {
+        this.editable = editable;
+    }
+
     public List<String> getPanelIds()
     {
         return panelIds;
@@ -41,7 +43,7 @@ public class SubHeadingDefinition extends PanelDefinition
     {
         this.panelIds = panelIds;
     }
-    
+
     /**
      * Get the PanelDefinitions for this SubHeadingDefinition with their parent set to this SubHeadingDefinition.
      * 
@@ -61,7 +63,7 @@ public class SubHeadingDefinition extends PanelDefinition
         }
         return panelDefinitions;
     }
-    
+
     @Override
     public boolean hasErrors()
     {
@@ -76,7 +78,7 @@ public class SubHeadingDefinition extends PanelDefinition
         }
         return hasErrors;
     }
-    
+
     @Override
     public void clearErrorMessages()
     {
@@ -85,7 +87,7 @@ public class SubHeadingDefinition extends PanelDefinition
             pDef.clearErrorMessages();
         }
     }
-    
+
     protected synchronized SubHeadingDefinition clone()
     {
         SubHeadingDefinition clone = new SubHeadingDefinition(getId());

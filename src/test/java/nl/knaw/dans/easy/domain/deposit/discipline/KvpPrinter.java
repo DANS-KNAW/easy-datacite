@@ -4,7 +4,7 @@ import java.util.List;
 
 public class KvpPrinter
 {
-    
+
     /**
      * <pre>
      * <xs:enumeration value="PALEO">
@@ -23,7 +23,7 @@ public class KvpPrinter
         {
             sb.append("<xs:enumeration value=\"" + kvp.getKey() + "\">\n");
             sb.append("\t<xs:annotation>\n");
-            sb.append("\t\t<xs:documentation xml:lang=\"nl\">\n\t\t\t" + kvp.getValue()+ "\n\t\t</xs:documentation>\n");
+            sb.append("\t\t<xs:documentation xml:lang=\"nl\">\n\t\t\t" + kvp.getValue() + "\n\t\t</xs:documentation>\n");
             sb.append("\t</xs:annotation>\n");
             sb.append("</xs:enumeration>\n");
         }

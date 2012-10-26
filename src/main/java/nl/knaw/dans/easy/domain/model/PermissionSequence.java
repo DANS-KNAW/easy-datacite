@@ -35,14 +35,14 @@ public interface PermissionSequence extends Serializable, XMLBean
     DateTime getLastRequestDate();
 
     DateTime getLastReplyDate();
-    
+
     PermissionRequestModel getRequestModel();
 
     PermissionReplyModel getReplyModel();
-    
+
     boolean isGranted();
-    
+
     List<PermissionConversation> getBackLog();
-    
+
     PermissionRequestSearchInfo getSearchInfo();
 }

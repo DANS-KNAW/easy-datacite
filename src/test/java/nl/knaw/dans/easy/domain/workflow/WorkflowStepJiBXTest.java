@@ -15,11 +15,9 @@ import org.jibx.runtime.JiBXException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-
 public class WorkflowStepJiBXTest extends AbstractJibxTest<WorkflowStep>
 {
-    
-    
+
     @BeforeClass
     public static void testStartInformation()
     {
@@ -31,45 +29,45 @@ public class WorkflowStepJiBXTest extends AbstractJibxTest<WorkflowStep>
     {
         super(WorkflowStep.class);
     }
-    
+
     @Test
     public void testEmpty() throws IOException, JiBXException, XMLSerializationException
     {
         WorkflowStep wfs = new WorkflowStep("x");
         //log().debug("\n" + wfs.asXMLString(4));
         String filename = marshal(wfs, "_empty");
-        
+
         WorkflowStep wfs2 = unmarshal(filename);
         assertEquals(wfs.asXMLString(), wfs2.asXMLString());
     }
-    
+
     @Test
     public void testFull() throws JiBXException, IOException, XMLSerializationException
     {
         WorkflowStep wfs = new WorkflowStep("dasa_10000");
         wfs.setDoneById("piet");
-        
+
         wfs.addRemark(new Remark("Wat een trash!", "jan"));
         wfs.addRemark(new Remark("Let op je woorden, Jan!", "marietje"));
-        
+
         WorkflowStep subA = new WorkflowStep("dasa_11000");
         wfs.addStep(subA);
-        
+
         WorkflowStep subB = new WorkflowStep("dasa_11100");
         subA.addStep(subB);
-        
+
         subA.setCompleted(true);
-        
+
         //log().debug("\n" + wfs.asXMLString(4));
         String filename = marshal(wfs, "_full");
-        
+
         WorkflowStep wfs2 = unmarshal(filename);
         assertEquals(wfs.asXMLString(), wfs2.asXMLString());
-        
+
         subA = wfs2.getSteps().get(0);
         assertNotNull(subA.getParent());
     }
-    
+
     @Test
     public void read() throws IOException, JiBXException
     {
@@ -78,7 +76,7 @@ public class WorkflowStepJiBXTest extends AbstractJibxTest<WorkflowStep>
         assertEquals("dasa_10000", wfs.getId());
         assertTrue(wfs.isRequired());
     }
-    
+
     @Test
     public void testFull2() throws Exception
     {
@@ -89,7 +87,7 @@ public class WorkflowStepJiBXTest extends AbstractJibxTest<WorkflowStep>
         if (wfs.isTimeSpentWritable())
             wfs.setTimeSpent(3.54D);
         fillSteps(wfs.getSteps());
-        
+
         System.err.println("\n" + wfs.asXMLString(4));
     }
 

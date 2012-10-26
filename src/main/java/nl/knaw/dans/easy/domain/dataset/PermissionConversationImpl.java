@@ -10,22 +10,22 @@ public class PermissionConversationImpl extends AbstractTimestampedJiBXObject<Pe
 {
 
     private static final long serialVersionUID = -6945866936979010472L;
-    
+
     private final Type type;
-    
+
     private State state;
-    
+
     private DateTime date;
     private String requestTitle;
     private String requestTheme;
     private String replyText;
-    
+
     @SuppressWarnings("unused")
     private PermissionConversationImpl()
     {
         this.type = null;
     }
-    
+
     public PermissionConversationImpl(Type type)
     {
         this.type = type;

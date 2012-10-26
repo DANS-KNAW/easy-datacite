@@ -8,15 +8,10 @@ import nl.knaw.dans.easy.util.Messenger;
 
 public class ForgottenPasswordMessenger extends Messenger<ForgottenPasswordMessenger.State>
 {
-    
+
     public enum State
     {
-        NothingSend,
-        InsufficientData,
-        UserNotFound,
-        NoQualifiedUsers,
-        MailError,
-        SystemError,
+        NothingSend, InsufficientData, UserNotFound, NoQualifiedUsers, MailError, SystemError,
         /**
          * End state if a new password was send successfully by mail.
          */
@@ -27,28 +22,26 @@ public class ForgottenPasswordMessenger extends Messenger<ForgottenPasswordMesse
         UpdateURLSend
     }
 
-    
     private static final long serialVersionUID = 7949580373425981106L;
-    
+
     private String userId;
-    
+
     private final String mailToken;
-    
+
     private String email;
-    
+
     private String updateURL;
-    
+
     private String userIdParamKey;
-    
+
     private List<EasyUser> users = new ArrayList<EasyUser>();
-    
-    
+
     public ForgottenPasswordMessenger()
     {
         super(ForgottenPasswordMessenger.State.class);
         mailToken = super.createMailToken(userId);
     }
-    
+
     public ForgottenPasswordMessenger(String userId, String email)
     {
         super(ForgottenPasswordMessenger.State.class);
@@ -56,7 +49,7 @@ public class ForgottenPasswordMessenger extends Messenger<ForgottenPasswordMesse
         this.email = email;
         mailToken = super.createMailToken(userId);
     }
-    
+
     @Override
     public boolean isCompleted()
     {
@@ -97,10 +90,10 @@ public class ForgottenPasswordMessenger extends Messenger<ForgottenPasswordMesse
     {
         this.updateURL = updateURL;
     }
-    
+
     public void setUserIdParamKey(String userIdParamKey)
     {
-        this.userIdParamKey = userIdParamKey;        
+        this.userIdParamKey = userIdParamKey;
     }
 
     public String getUserIdParamKey()
@@ -122,10 +115,10 @@ public class ForgottenPasswordMessenger extends Messenger<ForgottenPasswordMesse
     {
         super.setState(state);
     }
-    
+
     public void setState(State state, Throwable e)
     {
         super.setState(state, e);
     }
-    
+
 }

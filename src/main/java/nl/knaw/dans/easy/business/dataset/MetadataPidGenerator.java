@@ -26,7 +26,7 @@ public class MetadataPidGenerator implements SubmissionProcessor
         String pid = submission.getDataset().getPersistentIdentifier();
         if (pid == null)
         {
-            processed = generatePid(submission);            
+            processed = generatePid(submission);
         }
         else
         {
@@ -46,7 +46,7 @@ public class MetadataPidGenerator implements SubmissionProcessor
             id.setIdentificationSystem(URI.create(EmdConstants.BRI_RESOLVER));
             id.setScheme(EmdConstants.SCHEME_PID);
             submission.getDataset().getEasyMetadata().getEmdIdentifier().getDcIdentifier().add(id);
-            ((DatasetRelations)submission.getDataset().getRelations()).setPersistentIdentifier(pid);
+            ((DatasetRelations) submission.getDataset().getRelations()).setPersistentIdentifier(pid);
             logger.debug("Generated new Pid. pid=" + pid);
         }
         // TODO: catch all prevents normal error handling for all callers. 

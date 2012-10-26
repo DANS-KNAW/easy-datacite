@@ -2,9 +2,9 @@ package nl.knaw.dans.easy.domain.exceptions;
 
 public class NoFilterValuesSelectedException extends DomainException
 {
-	private static final long serialVersionUID = -7823376924464392254L;
+    private static final long serialVersionUID = -7823376924464392254L;
 
-	public NoFilterValuesSelectedException()
+    public NoFilterValuesSelectedException()
     {
     }
 

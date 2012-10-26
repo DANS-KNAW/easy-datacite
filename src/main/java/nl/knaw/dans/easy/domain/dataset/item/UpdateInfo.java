@@ -7,7 +7,6 @@ import java.util.List;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
 
-
 public class UpdateInfo implements Serializable
 {
     /**
@@ -20,26 +19,22 @@ public class UpdateInfo implements Serializable
      */
     public enum Action
     {
-        UPDATE_VISIBILITY,
-        UPDATE_ACCESSIBILITY,
-        RENAME,
-        DELETE
-        
+        UPDATE_VISIBILITY, UPDATE_ACCESSIBILITY, RENAME, DELETE
+
     }
-    
+
     private static final long serialVersionUID = 6403363641645381493L;
-    
+
     private VisibleTo visibleTo;
     private AccessibleTo accessibleTo;
     private String name;
     private boolean deleted;
-    
-    
+
     public UpdateInfo()
     {
-        
+
     }
-    
+
     public UpdateInfo(VisibleTo visibleTo, AccessibleTo accessibleTo, String name, boolean delete)
     {
         this.visibleTo = visibleTo;
@@ -47,7 +42,7 @@ public class UpdateInfo implements Serializable
         this.name = name;
         this.deleted = delete;
     }
-    
+
     public boolean hasVisibleToUpdate()
     {
         return visibleTo != null;
@@ -62,7 +57,7 @@ public class UpdateInfo implements Serializable
     {
         this.visibleTo = visibleTo;
     }
-    
+
     public boolean hasAccessibleToUpdate()
     {
         return accessibleTo != null;
@@ -72,12 +67,12 @@ public class UpdateInfo implements Serializable
     {
         return accessibleTo;
     }
-    
+
     public void updateAccessibleTo(AccessibleTo accessibleTo)
     {
         this.accessibleTo = accessibleTo;
     }
-    
+
     public boolean hasNameUpdate()
     {
         return name != null;
@@ -102,12 +97,12 @@ public class UpdateInfo implements Serializable
     {
         this.deleted = delete;
     }
-    
+
     public boolean hasPropagatingUpdates()
     {
         return hasAccessibleToUpdate() || hasVisibleToUpdate() || isRegisteredDeleted();
     }
-    
+
     public List<Action> getActions()
     {
         List<Action> actions = new ArrayList<Action>();
@@ -129,7 +124,7 @@ public class UpdateInfo implements Serializable
         }
         return actions;
     }
-    
+
     public String getAction()
     {
         StringBuilder sb = new StringBuilder();

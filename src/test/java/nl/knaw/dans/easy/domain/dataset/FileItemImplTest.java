@@ -48,7 +48,7 @@ public class FileItemImplTest
         assertTrue(fi.isDirty());
         fi.setDirty(false);
     }
-    
+
     @Test
     public void setFile() throws ResourceNotFoundException, IOException
     {
@@ -60,44 +60,43 @@ public class FileItemImplTest
         assertEquals("application/vnd.ms-word", fi.getMimeType());
         assertEquals(111104, fi.getSize());
     }
-    
+
     @Test
     public void isAccessibleFor()
     {
         FileItem fi = new FileItemImpl("dummy-file:1");
         fi.setAccessibleTo(AccessibleTo.ANONYMOUS);
-        
+
         List<AccessCategory> categories = new ArrayList<AccessCategory>();
-        
+
         int profile = AccessCategory.UTIL.getBitMask(categories);
         if (verbose)
             System.err.println(profile);
         assertFalse(fi.isAccessibleFor(profile));
-        
+
         categories.add(AccessCategory.ANONYMOUS_ACCESS);
         profile = AccessCategory.UTIL.getBitMask(categories);
         if (verbose)
             System.err.println(profile);
         assertTrue(fi.isAccessibleFor(profile));
-        
-        
+
         fi.setAccessibleTo(null);
         assertFalse(fi.isAccessibleFor(profile));
     }
-    
+
     @Test
     public void accessCategory()
     {
         List<AccessCategory> categories = new ArrayList<AccessCategory>();
         System.err.println(AccessCategory.UTIL.getBitMask(categories) + " " + categories);
-        
+
         categories.add(AccessCategory.ANONYMOUS_ACCESS);
         System.err.println(AccessCategory.UTIL.getBitMask(categories) + " " + categories);
-        
+
         categories.add(AccessCategory.OPEN_ACCESS);
         System.err.println(AccessCategory.UTIL.getBitMask(categories) + " " + categories);
     }
-    
+
     @Test
     public void getAccessProfile()
     {

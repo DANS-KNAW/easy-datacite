@@ -16,28 +16,28 @@ import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 
 public class ItemContainerMetadataImpl extends AbstractItemMetadataImpl<DatasetItemContainerMetadata> implements DatasetItemContainerMetadata
 {
- 
+
     /**
      * The version - when newly instantiated. The actual version of an instance as read from an xml-stream might be
      * obtained by {@link #getVersion()}.
      */
-    public static final String VERSION           = "0.1";
+    public static final String VERSION = "0.1";
 
-    private static final long  serialVersionUID  = -396869998619454854L;
+    private static final long serialVersionUID = -396869998619454854L;
 
-    private int                totalFileCount;
-    private int                childFileCount;
+    private int totalFileCount;
+    private int childFileCount;
 
-    private int                totalFolderCount;
-    private int                childFolderCount;
+    private int totalFolderCount;
+    private int childFolderCount;
 
-    private int[]              creatorRoleArray  = new int[CreatorRole.values().length];
+    private int[] creatorRoleArray = new int[CreatorRole.values().length];
 
-    private int[]              visibleToArray    = new int[VisibleTo.values().length];
+    private int[] visibleToArray = new int[VisibleTo.values().length];
 
-    private int[]              accessibleToArray = new int[AccessibleTo.values().length];
+    private int[] accessibleToArray = new int[AccessibleTo.values().length];
 
-    private String             version;
+    private String version;
 
     protected ItemContainerMetadataImpl()
     {
@@ -102,7 +102,7 @@ public class ItemContainerMetadataImpl extends AbstractItemMetadataImpl<DatasetI
         }
         return accessibleToList;
     }
-    
+
     @Override
     public List<AccessCategory> getChildVisibility()
     {
@@ -113,7 +113,7 @@ public class ItemContainerMetadataImpl extends AbstractItemMetadataImpl<DatasetI
         }
         return visibilityCategories;
     }
-    
+
     @Override
     public List<AccessCategory> getChildAccessibility()
     {
@@ -161,88 +161,91 @@ public class ItemContainerMetadataImpl extends AbstractItemMetadataImpl<DatasetI
     {
         return accessibleToArray[accessibleTo.ordinal()];
     }
-    
+
     public void addDescendant(DatasetItem item)
     {
-    	addRemoveItem(item, true, true);
+        addRemoveItem(item, true, true);
     }
-    
+
     public void onChildAdded(DatasetItem item)
     {
-    	addRemoveItem(item, false, true);
+        addRemoveItem(item, false, true);
     }
-    
+
     public void onChildRemoved(DatasetItem item)
     {
-    	addRemoveItem(item , false, false);
+        addRemoveItem(item, false, false);
     }
 
     public void onDescendantRemoved(DatasetItem item)
     {
-    	addRemoveItem(item , true, false);
+        addRemoveItem(item, true, false);
     }
-    
+
     protected void addRemoveItem(DatasetItem item, boolean descendant, boolean add)
     {
-    	int count = add ? 1 : -1;
-    	
-    	try
-    	{
-	    	if (item instanceof FileItem)
-	    	{
-		    	FileItem fileItem = (FileItem) item;
-	
-		    	if (!descendant) // direct child
-		        {
-		            childFileCount += count;
-		        }
-		        totalFileCount += count;
-		        
-		        if (fileItem.getCreatorRole() != null)
-		        	creatorRoleArray[fileItem.getCreatorRole().ordinal()]	= Math.max(0, creatorRoleArray[fileItem.getCreatorRole().ordinal()] + count);
-		        if (fileItem.getVisibleTo() != null)
-		        	visibleToArray[fileItem.getVisibleTo().ordinal()] 		= Math.max(0, visibleToArray[fileItem.getVisibleTo().ordinal()] + count);
-		        if (fileItem.getAccessibleTo() != null)
-		        	accessibleToArray[fileItem.getAccessibleTo().ordinal()]	= Math.max(0, accessibleToArray[fileItem.getAccessibleTo().ordinal()] + count);
-	    	}
-	    	else if (item instanceof FolderItem)
-	    	{
-		    	FolderItem folderItem = (FolderItem) item;
-	
-		        if (!descendant) // direct child
-		        {
-		            childFolderCount += count;
-		        }
-		        totalFolderCount	+= count;
-		        
-		        
-		        totalFileCount		+= (folderItem.getTotalFileCount()		* count);
-		        totalFolderCount	+= (folderItem.getTotalFolderCount()	* count);
-		        for (int i = 0; i < creatorRoleArray.length; i++)
-		        {
-		            creatorRoleArray[i] = Math.max(0, creatorRoleArray[i] + (folderItem.getCreatorRoleFileCount(CreatorRole.values()[i]) * count));
-		        }
-	
-		        for (int i = 0; i < visibleToArray.length; i++)
-		        {
-		            visibleToArray[i] = Math.max(0, visibleToArray[i] + (folderItem.getVisibleToFileCount(VisibleTo.values()[i]) * count));
-		        }
-	
-		        for (int i = 0; i < accessibleToArray.length; i++)
-		        {
-		            accessibleToArray[i] = Math.max(0, accessibleToArray[i] + (folderItem.getAccessibleToFileCount(AccessibleTo.values()[i]) * count));
-		        }
-	    	}
-    	}
-    	finally
-    	{
-            if (childFileCount < 0) 	childFileCount = 0;
-	        if (totalFileCount < 0) 	totalFileCount = 0;
-            if (childFolderCount < 0) 	childFolderCount = 0;
-            if (totalFolderCount < 0) 	totalFolderCount = 0;
+        int count = add ? 1 : -1;
 
-    		setDirty(true);
-    	}
+        try
+        {
+            if (item instanceof FileItem)
+            {
+                FileItem fileItem = (FileItem) item;
+
+                if (!descendant) // direct child
+                {
+                    childFileCount += count;
+                }
+                totalFileCount += count;
+
+                if (fileItem.getCreatorRole() != null)
+                    creatorRoleArray[fileItem.getCreatorRole().ordinal()] = Math.max(0, creatorRoleArray[fileItem.getCreatorRole().ordinal()] + count);
+                if (fileItem.getVisibleTo() != null)
+                    visibleToArray[fileItem.getVisibleTo().ordinal()] = Math.max(0, visibleToArray[fileItem.getVisibleTo().ordinal()] + count);
+                if (fileItem.getAccessibleTo() != null)
+                    accessibleToArray[fileItem.getAccessibleTo().ordinal()] = Math.max(0, accessibleToArray[fileItem.getAccessibleTo().ordinal()] + count);
+            }
+            else if (item instanceof FolderItem)
+            {
+                FolderItem folderItem = (FolderItem) item;
+
+                if (!descendant) // direct child
+                {
+                    childFolderCount += count;
+                }
+                totalFolderCount += count;
+
+                totalFileCount += (folderItem.getTotalFileCount() * count);
+                totalFolderCount += (folderItem.getTotalFolderCount() * count);
+                for (int i = 0; i < creatorRoleArray.length; i++)
+                {
+                    creatorRoleArray[i] = Math.max(0, creatorRoleArray[i] + (folderItem.getCreatorRoleFileCount(CreatorRole.values()[i]) * count));
+                }
+
+                for (int i = 0; i < visibleToArray.length; i++)
+                {
+                    visibleToArray[i] = Math.max(0, visibleToArray[i] + (folderItem.getVisibleToFileCount(VisibleTo.values()[i]) * count));
+                }
+
+                for (int i = 0; i < accessibleToArray.length; i++)
+                {
+                    accessibleToArray[i] = Math.max(0, accessibleToArray[i] + (folderItem.getAccessibleToFileCount(AccessibleTo.values()[i]) * count));
+                }
+            }
+        }
+        finally
+        {
+            if (childFileCount < 0)
+                childFileCount = 0;
+            if (totalFileCount < 0)
+                totalFileCount = 0;
+            if (childFolderCount < 0)
+                childFolderCount = 0;
+            if (totalFolderCount < 0)
+                totalFolderCount = 0;
+
+            setDirty(true);
+        }
     }
 
     protected void onChildStateChange(CreatorRole oldCreatorRole, CreatorRole newCreatorRole)
@@ -303,5 +306,5 @@ public class ItemContainerMetadataImpl extends AbstractItemMetadataImpl<DatasetI
     {
         return UNIT_LABEL;
     }
-    
+
 }

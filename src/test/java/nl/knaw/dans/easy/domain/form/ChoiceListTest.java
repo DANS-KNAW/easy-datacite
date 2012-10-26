@@ -48,8 +48,9 @@ public class ChoiceListTest
             for (ChoiceListDefinition clDef : spDef.getChoiceListDefinitions())
             {
                 if (clDef.getId().equals("custom.disciplines"))
-                    logger.debug("SKIPPING CHOICELIST: " + clDef.getId()+" it needs Data.getEasyStore()");
-                else {
+                    logger.debug("SKIPPING CHOICELIST: " + clDef.getId() + " it needs Data.getEasyStore()");
+                else
+                {
                     logger.debug("TESTING CHOICELIST: " + clDef.getId());
                     ChoiceList choiceList = depositService.getChoices(clDef.getId(), null);
                     List<KeyValuePair> kvp = choiceList.getChoices();

@@ -25,49 +25,46 @@ public class EmdRights extends AbstractEmdContainer
     /**
      * Terms contained.
      */
-    static final Term[] TERMS =
-    {
-        new Term(Term.Name.RIGHTS, Term.Namespace.DC, BasicString.class),
-        new Term(Term.Name.ACCESSRIGHTS, Term.Namespace.DCTERMS, BasicString.class),
-        new Term(Term.Name.LICENSE, Term.Namespace.DCTERMS, BasicString.class),
-        new Term(Term.Name.RIGHTSHOLDER, Term.Namespace.DCTERMS, BasicString.class)
-    };
+    static final Term[] TERMS = {new Term(Term.Name.RIGHTS, Term.Namespace.DC, BasicString.class),
+            new Term(Term.Name.ACCESSRIGHTS, Term.Namespace.DCTERMS, BasicString.class),
+            new Term(Term.Name.LICENSE, Term.Namespace.DCTERMS, BasicString.class), new Term(Term.Name.RIGHTSHOLDER, Term.Namespace.DCTERMS, BasicString.class)};
 
     public static final String RIGHTS = "";
     public static final String ACCESS_RIGHTS = "accessRights";
     public static final String LICENSE = "license";
-    
+
     public static final String LICENSE_ACCEPT = "accept";
     public static final String SCHEME_LICENSE_ACCEPT_E2V1 = "Easy2 version 1";
     // used for migration corrections
     public static final String SCHEME_LICENSE_ACCEPT_E1V1 = "Easy version 1";
-    
+
     //TODO: JUnit Test, if this key exist in accessrights.xml
     //public static final String OTHER_ACCESS_KEY = "ar_noAccess";
-    
+
     /**
      *
      */
-    private static final long serialVersionUID  = 494785477616915696L;
-    
+    private static final long serialVersionUID = 494785477616915696L;
+
     private static final Logger logger = LoggerFactory.getLogger(EmdRights.class);
 
-    private List<BasicString> dcRights          = new ArrayList<BasicString>();
+    private List<BasicString> dcRights = new ArrayList<BasicString>();
     private List<BasicString> termsAccessRights = new ArrayList<BasicString>();
-    private List<BasicString> termsLicense      = new ArrayList<BasicString>();
+    private List<BasicString> termsLicense = new ArrayList<BasicString>();
     private List<BasicString> termsRightsHolder = new ArrayList<BasicString>();
-    
+
     public Map<String, List<BasicString>> getRights()
     {
-    	Map<String, List<BasicString>> map = new HashMap<String, List<BasicString>>();
-    	map.put(RIGHTS, this.getDcRights());
-    	map.put(ACCESS_RIGHTS, this.getTermsAccessRights());
-    	map.put(LICENSE, this.getTermsLicense());
-    	
-    	return map;
+        Map<String, List<BasicString>> map = new HashMap<String, List<BasicString>>();
+        map.put(RIGHTS, this.getDcRights());
+        map.put(ACCESS_RIGHTS, this.getTermsAccessRights());
+        map.put(LICENSE, this.getTermsLicense());
+
+        return map;
     }
 
-    public static final String[] LIST_KEYS = {RIGHTS, ACCESS_RIGHTS, LICENSE}; 
+    public static final String[] LIST_KEYS = {RIGHTS, ACCESS_RIGHTS, LICENSE};
+
     /**
      * {@inheritDoc}
      */
@@ -148,7 +145,7 @@ public class EmdRights extends AbstractEmdContainer
     {
         this.termsLicense = termsLicense;
     }
-    
+
     // not very strong. 
     // migrated datasets have the form
     // <dcterms:license eas:scheme="EASY version 1">accept</dcterms:license>
@@ -168,13 +165,13 @@ public class EmdRights extends AbstractEmdContainer
         }
         return accepted;
     }
-    
+
     // Attention! this method is not yet (2011-08-03) used in the web-ui.
     public void setAcceptedLicense(boolean accepted)
     {
         setAcceptedLicense(accepted, SCHEME_LICENSE_ACCEPT_E2V1);
     }
-    
+
     // Attention! only use for migration correction
     public void setAcceptedLicense(boolean accepted, String scheme)
     {
@@ -189,7 +186,7 @@ public class EmdRights extends AbstractEmdContainer
             removeAcceptedLicense();
         }
     }
-    
+
     private boolean removeAcceptedLicense()
     {
         BasicString accept = null;
@@ -207,17 +204,17 @@ public class EmdRights extends AbstractEmdContainer
         }
         return accept != null;
     }
-    
+
     public List<BasicString> getTermsRightsHolder()
     {
-		return termsRightsHolder;
-	}
+        return termsRightsHolder;
+    }
 
-	public void setTermsRightsHolder(final List<BasicString> termsRightsHolder)
+    public void setTermsRightsHolder(final List<BasicString> termsRightsHolder)
     {
         this.termsRightsHolder = termsRightsHolder;
     }
-    
+
     public AccessCategory getAccessCategory()
     {
         AccessCategory accessCat = null;
@@ -234,12 +231,12 @@ public class EmdRights extends AbstractEmdContainer
         }
         return accessCat;
     }
-    
+
     public void setAccessCategory(AccessCategory accessCat)
     {
         setAccessCategory(accessCat, EmdScheme.COMMON_DCTERMS_ACCESSRIGHTS.getId());
     }
-    
+
     public void setAccessCategory(AccessCategory accessCat, String schemeId)
     {
         termsAccessRights.clear();

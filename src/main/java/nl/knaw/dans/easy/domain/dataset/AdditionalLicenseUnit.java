@@ -9,16 +9,16 @@ import nl.knaw.dans.easy.domain.exceptions.ApplicationException;
 public class AdditionalLicenseUnit extends AbstractBinaryUnit
 {
 
-	public static final String	UNIT_LABEL			= "additional_license.pdf";
+    public static final String UNIT_LABEL = "additional_license.pdf";
 
-	public static final String	UNIT_ID				= "ADDITIONAL_LICENSE";
+    public static final String UNIT_ID = "ADDITIONAL_LICENSE";
 
-	private static final long	serialVersionUID	= 7132858587281181036L;
+    private static final long serialVersionUID = 7132858587281181036L;
 
-	public AdditionalLicenseUnit(File file)
-	{
-	    super(UnitControlGroup.ManagedContent);
-	    try
+    public AdditionalLicenseUnit(File file)
+    {
+        super(UnitControlGroup.ManagedContent);
+        try
         {
             setFile(file);
         }
@@ -26,17 +26,17 @@ public class AdditionalLicenseUnit extends AbstractBinaryUnit
         {
             throw new ApplicationException(e);
         }
-	}
+    }
 
-	@Override
-	public boolean isVersionable()
-	{
-		return true;
-	}
+    @Override
+    public boolean isVersionable()
+    {
+        return true;
+    }
 
-	public String getUnitId()
-	{
-		return UNIT_ID;
-	}
+    public String getUnitId()
+    {
+        return UNIT_ID;
+    }
 
 }

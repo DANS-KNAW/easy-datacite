@@ -19,22 +19,18 @@ import org.slf4j.LoggerFactory;
 
 public class DownloadList extends AbstractTimestampedJiBXObject<DownloadList> implements MetadataUnit
 {
-    
+
     public static final String UNIT_ID = "DLHL";
-    
+
     public static final String UNIT_LABEL = "A list of downloads";
-    
+
     public static final String UNIT_FORMAT = "http://easy.dans.knaw.nl/easy/download-list/";
-    
+
     public static final URI UNIT_FORMAT_URI = URI.create(UNIT_FORMAT);
-    
+
     public enum Level
     {
-        FILE_ITEM,
-        DATASET,
-        COLLECTION,
-        STORE,
-        GLOBAL
+        FILE_ITEM, DATASET, COLLECTION, STORE, GLOBAL
     }
 
     public static final int TYPE_ALL = 0;
@@ -43,36 +39,39 @@ public class DownloadList extends AbstractTimestampedJiBXObject<DownloadList> im
     public static final int TYPE_WEEK = 3;
 
     private static final long serialVersionUID = -319269942867841432L;
-    
+
     private static final Logger logger = LoggerFactory.getLogger(DownloadList.class);
-    
+
     private final int listType;
     private final Level level;
     private final DateTime startDate;
-    
-    @SuppressWarnings("unused") private final int year;
-    @SuppressWarnings("unused") private final int month;
-    @SuppressWarnings("unused") private final int week;
-    
+
+    @SuppressWarnings("unused")
+    private final int year;
+    @SuppressWarnings("unused")
+    private final int month;
+    @SuppressWarnings("unused")
+    private final int week;
+
     private int downloadCount;
     private long totalBytes;
     private List<DownloadRecord> records = new ArrayList<DownloadRecord>();
-    
+
     public DownloadList()
     {
         this(0, null);
     }
-    
+
     public DownloadList(int listType)
     {
         this(listType, null);
     }
-    
+
     public DownloadList(int listType, Level level)
     {
         this(listType, level, new DateTime());
     }
-    
+
     public DownloadList(int listType, Level level, DateTime startDate)
     {
         this.listType = listType;
@@ -82,7 +81,7 @@ public class DownloadList extends AbstractTimestampedJiBXObject<DownloadList> im
         month = getMonth();
         week = getWeek();
     }
-    
+
     public int getListType()
     {
         return listType;
@@ -97,7 +96,7 @@ public class DownloadList extends AbstractTimestampedJiBXObject<DownloadList> im
     {
         return level;
     }
-    
+
     public int getDownloadCount()
     {
         return downloadCount;
@@ -107,7 +106,7 @@ public class DownloadList extends AbstractTimestampedJiBXObject<DownloadList> im
     {
         return totalBytes;
     }
-    
+
     public int getYear()
     {
         int y;
@@ -131,7 +130,7 @@ public class DownloadList extends AbstractTimestampedJiBXObject<DownloadList> im
         }
         return y;
     }
-    
+
     public int getMonth()
     {
         int m;
@@ -155,7 +154,7 @@ public class DownloadList extends AbstractTimestampedJiBXObject<DownloadList> im
         }
         return m;
     }
-    
+
     public int getWeek()
     {
         int w;
@@ -179,12 +178,12 @@ public class DownloadList extends AbstractTimestampedJiBXObject<DownloadList> im
         }
         return w;
     }
-    
+
     public String printPeriod()
     {
         return printPeriod(listType, startDate);
     }
-    
+
     public static String printPeriod(int listType, DateTime startDate)
     {
         String period;
@@ -208,7 +207,7 @@ public class DownloadList extends AbstractTimestampedJiBXObject<DownloadList> im
         }
         return period;
     }
-    
+
     public boolean accepts(DateTime downloadTime)
     {
         boolean belongsTo;
@@ -237,7 +236,7 @@ public class DownloadList extends AbstractTimestampedJiBXObject<DownloadList> im
     {
         return Collections.unmodifiableList(records);
     }
-    
+
     public Map<DateTime, List<DownloadRecord>> getDownloadsByTime()
     {
         Map<DateTime, List<DownloadRecord>> downloads = new LinkedHashMap<DateTime, List<DownloadRecord>>();
@@ -253,7 +252,7 @@ public class DownloadList extends AbstractTimestampedJiBXObject<DownloadList> im
         }
         return downloads;
     }
-    
+
     public Map<String, List<DownloadRecord>> getDownloadsByUser()
     {
         Map<String, List<DownloadRecord>> downloads = new LinkedHashMap<String, List<DownloadRecord>>();
@@ -269,12 +268,11 @@ public class DownloadList extends AbstractTimestampedJiBXObject<DownloadList> im
         }
         return downloads;
     }
-    
-    
+
     public void addDownload(List<? extends ItemVO> downloadedItemVOs, User user, DateTime downloadTime)
     {
         checkDownloadTime(downloadTime);
-        
+
         downloadCount++;
         for (ItemVO itemVO : downloadedItemVOs)
         {
@@ -284,11 +282,11 @@ public class DownloadList extends AbstractTimestampedJiBXObject<DownloadList> im
             }
         }
     }
-    
+
     public void addDownload(FileItemVO downloadedFileItemVO, User user, DateTime downloadTime)
     {
         checkDownloadTime(downloadTime);
-        
+
         downloadCount++;
         createRecord(downloadedFileItemVO, user, downloadTime);
     }
@@ -297,8 +295,7 @@ public class DownloadList extends AbstractTimestampedJiBXObject<DownloadList> im
     {
         if (!accepts(downloadTime))
         {
-            throw new IllegalArgumentException("Download does not belong to this list."
-                    + " List period: " + printPeriod() + ", downloadTime: " + downloadTime);
+            throw new IllegalArgumentException("Download does not belong to this list." + " List period: " + printPeriod() + ", downloadTime: " + downloadTime);
         }
     }
 
@@ -318,7 +315,7 @@ public class DownloadList extends AbstractTimestampedJiBXObject<DownloadList> im
             addDownloadAtOtherLevel(fileItemVO, user, downloadTime);
         }
     }
-    
+
     protected boolean add(DownloadRecord record)
     {
         return records.add(record);
@@ -329,13 +326,13 @@ public class DownloadList extends AbstractTimestampedJiBXObject<DownloadList> im
         DownloadRecord record = new DownloadRecord();
         addRecord(user, downloadTime, record);
     }
-    
+
     private void addDownloadAtDatasetLevel(FileItemVO fileItemVO, User user, DateTime downloadTime)
     {
         DownloadRecord record = new DownloadRecord();
         addRecord(fileItemVO, user, downloadTime, record);
     }
-    
+
     private void addDownloadAtOtherLevel(FileItemVO fileItemVO, User user, DateTime downloadTime)
     {
         DownloadRecord record = new DownloadRecord();
@@ -359,7 +356,7 @@ public class DownloadList extends AbstractTimestampedJiBXObject<DownloadList> im
         record.setSize(fileItemVO.getSize());
         addRecord(user, downloadTime, record);
     }
-    
+
     private void addRecord(User user, DateTime downloadTime, DownloadRecord record)
     {
         record.setDownloaderId(user == null || user.isAnonymous() ? null : user.getId());

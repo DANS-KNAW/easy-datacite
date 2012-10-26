@@ -16,7 +16,7 @@ public class BasicRemark extends BasicString
      */
     private static final long serialVersionUID = 4387943467496611507L;
 
-    private String            author;
+    private String author;
 
     /**
      * Constructor.

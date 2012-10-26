@@ -134,7 +134,7 @@ public abstract class AbstractEmdContainer implements EmdContainer
                 list.addAll(getTermWithNamespace(new Term(termName, namespace)));
             }
             // ecco: CHECKSTYLE: OFF
-            catch (final NoSuchTermException e) 
+            catch (final NoSuchTermException e)
             {
                 // Do nothing
             }
@@ -160,7 +160,7 @@ public abstract class AbstractEmdContainer implements EmdContainer
         }
         return empty;
     }
-    
+
     @Override
     public int size()
     {

@@ -17,10 +17,7 @@ import com.lowagie.text.pdf.PdfWriter;
  */
 public class TinyTable
 {
-    private static final String HTML =
-            "<table>" + "<tr><td>a</td><td colspan='2'>b</td></tr>"
-                    + "<tr><td>X</td><td colspan='2'>Y</td></tr>" 
-                    + "</table>";
+    private static final String HTML = "<table>" + "<tr><td>a</td><td colspan='2'>b</td></tr>" + "<tr><td>X</td><td colspan='2'>Y</td></tr>" + "</table>";
 
     public static void main(final String[] args)
     {
@@ -29,8 +26,7 @@ public class TinyTable
             final Document document = new Document();
             PdfWriter.getInstance(document, new FileOutputStream("target/TestOutputTinyTable.pdf"));
             document.open();
-            final ArrayList<Element> elements =
-                    HTMLWorker.parseToList(new StringReader(HTML), createStyles());
+            final ArrayList<Element> elements = HTMLWorker.parseToList(new StringReader(HTML), createStyles());
             for (final Element element : elements)
                 document.add(element);
             document.close();

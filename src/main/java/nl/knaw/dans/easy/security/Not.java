@@ -46,35 +46,19 @@ public class Not implements SecurityOfficer
     {
         return !a.isEnableAllowed(ctxParameters);
     }
-    
+
     public String explainEnableAllowed(ContextParameters ctxParameters)
     {
-        return new StringBuilder()
-        .append(a.explainEnableAllowed(ctxParameters))
-        .append("\n")
-        .append(ctxParameters.nextChar(this))
-        .append(" = !") 
-        .append(ctxParameters.charFor(a))
-        .append(" --> ")
-        .append(isEnableAllowed(ctxParameters))
-        .append("\n")
-        .toString();
+        return new StringBuilder().append(a.explainEnableAllowed(ctxParameters)).append("\n").append(ctxParameters.nextChar(this)).append(" = !").append(
+                ctxParameters.charFor(a)).append(" --> ").append(isEnableAllowed(ctxParameters)).append("\n").toString();
     }
-    
+
     public String explainComponentVisible(ContextParameters ctxParameters)
     {
-        return new StringBuilder()
-        .append(a.explainComponentVisible(ctxParameters))
-        .append("\n")
-        .append(ctxParameters.nextChar(this))
-        .append(" = !") 
-        .append(ctxParameters.charFor(a))
-        .append(" --> ")
-        .append(isComponentVisible(ctxParameters))
-        .append("\n")
-        .toString();
+        return new StringBuilder().append(a.explainComponentVisible(ctxParameters)).append("\n").append(ctxParameters.nextChar(this)).append(" = !").append(
+                ctxParameters.charFor(a)).append(" --> ").append(isComponentVisible(ctxParameters)).append("\n").toString();
     }
-    
+
     public boolean getHints(ContextParameters ctxParameters, List<Object> hints)
     {
         return !a.getHints(ctxParameters, hints);

@@ -8,12 +8,12 @@ import nl.knaw.dans.easy.domain.model.PermissionSequence;
 
 public class ReplyNotification extends DatasetNotification implements Serializable
 {
-	private static final long serialVersionUID = 1L;
-	
-	private static final String        TEMPLATE_LOCATION = "permission/%sReplyNotification";
+    private static final long serialVersionUID = 1L;
+
+    private static final String TEMPLATE_LOCATION = "permission/%sReplyNotification";
     private final PermissionReplyModel replyModel;
-    private final PermissionSequence   sequence;
-    private final String               templateLocation;
+    private final PermissionSequence sequence;
+    private final String templateLocation;
 
     public ReplyNotification(final Dataset dataset, final PermissionSequence sequence, final PermissionReplyModel replyModel)
     {
@@ -33,7 +33,7 @@ public class ReplyNotification extends DatasetNotification implements Serializab
     {
         return sequence.getRequester().getDisplayName();
     }
-    
+
     public String getDepositorName()
     {
         return getDataset().getDepositor().getDisplayName();

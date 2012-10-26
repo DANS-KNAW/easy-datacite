@@ -12,11 +12,11 @@ public class LicenseUnit extends AbstractBinaryUnit
     public static final String UNIT_LABEL = "license.pdf";
 
     public static final String UNIT_ID = "DATASET_LICENSE";
-    
+
     public static final String MIME_TYPE = "application/pdf";
-    
+
     private static final long serialVersionUID = 7132858587281181036L;
-    
+
     public LicenseUnit(byte[] licenseContent)
     {
         super(UnitControlGroup.ManagedContent);
@@ -29,7 +29,7 @@ public class LicenseUnit extends AbstractBinaryUnit
             throw new ApplicationException(e);
         }
     }
-    
+
     public LicenseUnit(File file)
     {
         super(UnitControlGroup.ManagedContent);
@@ -42,11 +42,11 @@ public class LicenseUnit extends AbstractBinaryUnit
             throw new ApplicationException(e);
         }
     }
-    
+
     @Override
     public boolean isVersionable()
     {
-    	return true;
+        return true;
     }
 
     public String getUnitId()

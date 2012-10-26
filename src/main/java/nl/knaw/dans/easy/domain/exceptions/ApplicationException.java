@@ -1,6 +1,5 @@
 package nl.knaw.dans.easy.domain.exceptions;
 
-
 public class ApplicationException extends RuntimeException
 {
 

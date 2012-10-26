@@ -10,7 +10,8 @@ public class EmbargoValidator implements Validator
     public void validate(final EasyMetadata emd, final ValidationReporter reporter)
     {
         final DateTime available = emd.getEmdDate().getDateAvailable();
-        if (available == null) return;
+        if (available == null)
+            return;
         String message = null;
         if (available.isBeforeNow())
         {

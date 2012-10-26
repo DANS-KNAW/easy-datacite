@@ -18,7 +18,7 @@ public class EnableToLoggedInUserRuleTest
     private static SecurityOfficer rule;
     private static EasyUser user;
     private static ContextParameters ctx;
-    
+
     @BeforeClass
     public static void beforeClass()
     {
@@ -26,14 +26,14 @@ public class EnableToLoggedInUserRuleTest
         user = EasyMock.createMock(EasyUser.class);
         ctx = new ContextParameters(user);
     }
-    
+
     @Test
     public void testProposition()
     {
         String proposition = "[SessionUser has role USER or ARCHIVIST or ADMIN]";
         assertEquals(proposition, rule.getProposition());
     }
-    
+
     @Test
     public void test000()
     {
@@ -41,13 +41,13 @@ public class EnableToLoggedInUserRuleTest
         EasyMock.expect(user.isActive()).andReturn(true).times(2);
         EasyMock.expect(user.hasRole(Role.USER, Role.ARCHIVIST, Role.ADMIN)).andReturn(false).times(2);
         EasyMock.expect(user.isAnonymous()).andReturn(false).anyTimes();
-        
+
         EasyMock.replay(user);
         assertFalse(rule.isEnableAllowed(ctx));
         assertFalse(rule.isComponentVisible(ctx));
         EasyMock.verify(user);
     }
-    
+
     @Test
     public void test001()
     {
@@ -55,13 +55,13 @@ public class EnableToLoggedInUserRuleTest
         EasyMock.expect(user.isActive()).andReturn(true).times(2);
         EasyMock.expect(user.hasRole(Role.USER, Role.ARCHIVIST, Role.ADMIN)).andReturn(true).times(2);
         EasyMock.expect(user.isAnonymous()).andReturn(false).anyTimes();
-        
+
         EasyMock.replay(user);
         assertTrue(rule.isEnableAllowed(ctx));
         assertTrue(rule.isComponentVisible(ctx));
         EasyMock.verify(user);
     }
-    
+
     @Test
     public void test1xx()
     {
@@ -69,13 +69,13 @@ public class EnableToLoggedInUserRuleTest
         EasyMock.expect(user.isActive()).andReturn(true).times(2);
         EasyMock.expect(user.hasRole(Role.USER, Role.ARCHIVIST, Role.ADMIN)).andReturn(true).times(2);
         EasyMock.expect(user.isAnonymous()).andReturn(false).anyTimes();
-        
+
         EasyMock.replay(user);
         assertTrue(rule.isEnableAllowed(ctx));
         assertTrue(rule.isComponentVisible(ctx));
         EasyMock.verify(user);
     }
-    
+
     @Test
     public void testNull()
     {

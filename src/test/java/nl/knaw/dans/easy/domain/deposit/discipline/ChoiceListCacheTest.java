@@ -25,24 +25,24 @@ public class ChoiceListCacheTest extends TestHelper
         before(ChoiceListCacheTest.class);
     }
 
-//    @Test
-//    public void getProperties() throws IOException, ResourceNotFoundException
-//    {
-//        Properties props = ChoiceListCache.getInstance().getProperties("archaeology.eas.spatial");
-//        // props.list(System.out);
-//        assertEquals(3, props.size());
-//        assertEquals("lengte/breedte (graden)", props.getProperty("degrees"));
-//    }
-//    
-//    @Test
-//    public void getLocaleProperties() throws IOException, ResourceNotFoundException
-//    {
-//        Locale locale = Locale.US;
-//        Properties props = ChoiceListCache.getInstance().getProperties("archaeology.eas.spatial", locale);
-//        //props.list(System.out);
-//        assertEquals(3, props.size());
-//        assertEquals("longitude/latitude (degrees)", props.getProperty("degrees"));
-//    }
+    //    @Test
+    //    public void getProperties() throws IOException, ResourceNotFoundException
+    //    {
+    //        Properties props = ChoiceListCache.getInstance().getProperties("archaeology.eas.spatial");
+    //        // props.list(System.out);
+    //        assertEquals(3, props.size());
+    //        assertEquals("lengte/breedte (graden)", props.getProperty("degrees"));
+    //    }
+    //    
+    //    @Test
+    //    public void getLocaleProperties() throws IOException, ResourceNotFoundException
+    //    {
+    //        Locale locale = Locale.US;
+    //        Properties props = ChoiceListCache.getInstance().getProperties("archaeology.eas.spatial", locale);
+    //        //props.list(System.out);
+    //        assertEquals(3, props.size());
+    //        assertEquals("longitude/latitude (degrees)", props.getProperty("degrees"));
+    //    }
 
     // Will not work when you are offline because of
     // <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
@@ -55,7 +55,7 @@ public class ChoiceListCacheTest extends TestHelper
         assertEquals(3, list.getChoices().size());
         assertEquals("lengte/breedte (graden)", list.getChoices().get(1).getValue());
     }
-    
+
     // Will not work when you are offline because of
     // <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
     @Ignore

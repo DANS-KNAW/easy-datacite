@@ -18,13 +18,13 @@ import nl.knaw.dans.easy.domain.model.emd.types.MetadataItem;
  */
 public interface EasyMetadata extends MetadataUnitXMLBean
 {
-    
+
     String UNIT_ID = "EMD";
-    
+
     String UNIT_LABEL = "Descriptive metadata for this dataset";
-    
+
     String UNIT_FORMAT = "http://easy.dans.knaw.nl/easy/easymetadata/";
-    
+
     URI UNIT_FORMAT_URI = URI.create(UNIT_FORMAT);
 
     /**
@@ -136,7 +136,7 @@ public interface EasyMetadata extends MetadataUnitXMLBean
      *         if the term does not exist
      */
     String toString(String separator, Term.Name termName) throws NoSuchTermException;
-    
+
     String getPreferredTitle();
 
     /**
@@ -211,7 +211,7 @@ public interface EasyMetadata extends MetadataUnitXMLBean
      * @return the EmdContributor container, never <code>null</code>
      */
     EmdContributor getEmdContributor();
-    
+
     /**
      * Get the EmdDate container, never <code>null</code>.
      * 

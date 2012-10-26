@@ -23,8 +23,8 @@ public class BasicString extends LanguageTokenizedString
     /**
      * The name of the scheme. (If the value is from a scheme, dependent on a scheme etc.)
      */
-    protected String          scheme;
-    
+    protected String scheme;
+
     // ecco: CHECKSTYLE: ON
 
     /**
@@ -134,7 +134,6 @@ public class BasicString extends LanguageTokenizedString
     {
         this.scheme = scheme;
     }
-    
 
     @Override
     public boolean equals(Object obj)
@@ -151,17 +150,14 @@ public class BasicString extends LanguageTokenizedString
                 if (obj.getClass().equals(this.getClass()))
                 {
                     final BasicString other = (BasicString) obj;
-                    equals = new EqualsBuilder()
-                        .append(this.value, other.value)
-                        .append(this.scheme, other.scheme)
-                        .append(this.schemeId, other.schemeId)
-                        .append(this.language, other.language).isEquals();
+                    equals = new EqualsBuilder().append(this.value, other.value).append(this.scheme, other.scheme).append(this.schemeId, other.schemeId)
+                            .append(this.language, other.language).isEquals();
                 }
             }
         }
         return equals;
     }
-    
+
     public boolean shallowEquals(Object obj)
     {
         boolean shequals = false;
@@ -176,25 +172,18 @@ public class BasicString extends LanguageTokenizedString
                 if (obj.getClass().equals(this.getClass()))
                 {
                     final BasicString other = (BasicString) obj;
-                    shequals = new EqualsBuilder()
-                        .append(this.value, other.value)
-                        .append(this.scheme, other.scheme)
-                        .append(this.schemeId, other.schemeId)
-                        .isEquals();
+                    shequals = new EqualsBuilder().append(this.value, other.value).append(this.scheme, other.scheme).append(this.schemeId, other.schemeId)
+                            .isEquals();
                 }
             }
         }
         return shequals;
     }
-    
+
     @Override
     public int hashCode()
     {
-        return new HashCodeBuilder(23, 29)
-            .append(value)
-            .append(scheme)
-            .append(schemeId)
-            .append(language).toHashCode();
+        return new HashCodeBuilder(23, 29).append(value).append(scheme).append(schemeId).append(language).toHashCode();
     }
 
     public boolean isComplete()

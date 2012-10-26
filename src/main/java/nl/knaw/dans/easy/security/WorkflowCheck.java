@@ -5,12 +5,12 @@ import nl.knaw.dans.easy.domain.model.Dataset;
 public class WorkflowCheck extends AbstractCheck
 {
     private final boolean allSteps;
-    
+
     public WorkflowCheck()
     {
         this(false);
     }
-    
+
     public WorkflowCheck(boolean allSteps)
     {
         this.allSteps = allSteps;
@@ -32,13 +32,13 @@ public class WorkflowCheck extends AbstractCheck
     {
         return "[" + (allSteps ? "All steps" : "Required steps") + " of workflow are completed]";
     }
-    
+
     @Override
     protected String explain(ContextParameters ctxParameters)
     {
         boolean conditionMet = false;
         StringBuilder sb = super.startExplain(ctxParameters);
-        
+
         Dataset dataset = ctxParameters.getDataset();
         if (dataset == null)
         {

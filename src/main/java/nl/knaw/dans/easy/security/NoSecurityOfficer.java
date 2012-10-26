@@ -13,9 +13,8 @@ import org.slf4j.LoggerFactory;
  */
 public class NoSecurityOfficer extends AbstractCheck
 {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(NoSecurityOfficer.class);
-    
 
     public NoSecurityOfficer()
     {
@@ -43,7 +42,7 @@ public class NoSecurityOfficer extends AbstractCheck
     {
         return "[NoSecurityOfficer implements no security]";
     }
-    
+
     @Override
     public boolean getHints(ContextParameters ctxParameters, List<Object> hints)
     {

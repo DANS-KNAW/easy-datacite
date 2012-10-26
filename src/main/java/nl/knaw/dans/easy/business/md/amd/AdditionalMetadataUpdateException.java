@@ -7,7 +7,7 @@ public class AdditionalMetadataUpdateException extends Exception
 
     public AdditionalMetadataUpdateException()
     {
-        
+
     }
 
     public AdditionalMetadataUpdateException(String msg)

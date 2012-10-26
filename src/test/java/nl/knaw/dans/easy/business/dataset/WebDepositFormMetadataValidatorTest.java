@@ -20,19 +20,18 @@ import nl.knaw.dans.easy.util.TestHelper;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-
 public class WebDepositFormMetadataValidatorTest extends TestHelper
 {
-    
+
     private static EasyDepositService SERVICE;
-     
+
     @BeforeClass
     public static void beforeClass() throws ServiceException
     {
         SERVICE = new EasyDepositService();
         SERVICE.doBeanPostProcessing();
     }
-    
+
     @Test
     public void testValidation() throws Exception
     {
@@ -43,17 +42,17 @@ public class WebDepositFormMetadataValidatorTest extends TestHelper
             assertFalse(submission.isMetadataValid());
         }
     }
-    
+
     private DatasetSubmissionImpl testValidation(MetadataFormat format) throws ServiceException
     {
         DepositDiscipline discipline = SERVICE.getDiscipline(format);
         FormDefinition definition = discipline.getEmdFormDescriptor().getFormDefinition(DepositDiscipline.EMD_DEPOSITFORM_WIZARD);
         Dataset dataset = new DatasetImpl("dummy-dataset:1", format);
-        
+
         DatasetSubmissionImpl submission = new DatasetSubmissionImpl(definition, dataset, null);
         WebDepositFormMetadataValidator validator = new WebDepositFormMetadataValidator();
         validator.process(submission);
-        
+
         for (FormPage formPage : definition.getFormPages())
         {
             System.out.println(formPage.getId());
@@ -83,7 +82,7 @@ public class WebDepositFormMetadataValidatorTest extends TestHelper
                 iteratePanels(pDefs);
             }
         }
-        
+
     }
 
 }

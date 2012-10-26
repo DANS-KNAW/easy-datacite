@@ -17,18 +17,18 @@ import nl.knaw.dans.common.lang.ResourceNotFoundException;
 public abstract class AbstractListCache<V> extends AbstractCache<String, V>
 {
     public static final String EXTENSION = "xml";
-    
+
     private static final Logger logger = LoggerFactory.getLogger(AbstractListCache.class);
-    
+
     protected AbstractListCache()
     {
         super();
     }
 
     protected abstract String getBaseFolder();
-    
+
     protected abstract V getObjectForCache(String key, Locale locale) throws IOException, CacheException;
-    
+
     /**
      * Get the list for the given id and the default Locale.
      * 
@@ -58,7 +58,6 @@ public abstract class AbstractListCache<V> extends AbstractCache<String, V>
     {
         return super.getCachedObject(listId, locale);
     }
-    
 
     /**
      * Use {@link ResourceLocator}-algorithm to find the resource with list of the given id and Locale.
@@ -77,9 +76,8 @@ public abstract class AbstractListCache<V> extends AbstractCache<String, V>
         URL url = ResourceLocator.getURL(path, locale, EXTENSION);
         if (url == null)
         {
-            throw new ResourceNotFoundException("A resource with id '" + listId + "' was not found."
-                    + "\nEither the file '" + path + "." + EXTENSION + "' is missing"
-                    + "\nor the id '" + listId + "' is wrong.");
+            throw new ResourceNotFoundException("A resource with id '" + listId + "' was not found." + "\nEither the file '" + path + "." + EXTENSION
+                    + "' is missing" + "\nor the id '" + listId + "' is wrong.");
         }
         return url;
     }
@@ -141,10 +139,10 @@ public abstract class AbstractListCache<V> extends AbstractCache<String, V>
                 inStream.close();
             }
         }
-        
+
         return baos.toByteArray();
     }
-    
+
     @Override
     protected V getObject(String key, Locale locale) throws CacheException
     {

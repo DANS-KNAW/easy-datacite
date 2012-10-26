@@ -13,10 +13,10 @@ import nl.knaw.dans.easy.servicelayer.DownloadFilter;
 
 public class DownloadFilterAdapter extends ProgressSubject implements Collector<List<? extends ItemVO>>
 {
-    
+
     private final Collector<List<? extends ItemVO>> collector;
     private final DownloadFilter downloadFilter;
-    
+
     public DownloadFilterAdapter(Collector<List<? extends ItemVO>> collector, EasyUser sessionUser, Dataset dataset)
     {
         this.collector = collector;
@@ -27,7 +27,7 @@ public class DownloadFilterAdapter extends ProgressSubject implements Collector<
     public List<? extends ItemVO> collect() throws CollectorException
     {
         List<? extends ItemVO> originalList = collector.collect();
-        
+
         onStartProcess();
         List<? extends ItemVO> filteredList;
         try

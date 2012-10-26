@@ -47,8 +47,4 @@ public class DataTest extends TestHelper
         data.unlock();
     }
 
-
-
-
-
 }

@@ -6,24 +6,24 @@ import nl.knaw.dans.common.lang.repo.MetadataUnitXMLBean;
 
 public interface DisciplineMetadata extends MetadataUnitXMLBean
 {
-	String UNIT_ID = "DMD";
-    
+    String UNIT_ID = "DMD";
+
     String UNIT_LABEL = "Discipline metadata";
-    
+
     String UNIT_FORMAT = "http://easy.dans.knaw.nl/easy/disciplinemetadata/";
-    
+
     URI UNIT_FORMAT_URI = URI.create(UNIT_FORMAT);
-	
-	void setOICode(String oICode);
 
-	String getOICode();
+    void setOICode(String oICode);
 
-	void setOrder(int order);
+    String getOICode();
 
-	int getOrder();
+    void setOrder(int order);
 
-	void setEasy1BranchID(String easy1BranchID);
+    int getOrder();
 
-	String getEasy1BranchID();
+    void setEasy1BranchID(String easy1BranchID);
+
+    String getEasy1BranchID();
 
 }

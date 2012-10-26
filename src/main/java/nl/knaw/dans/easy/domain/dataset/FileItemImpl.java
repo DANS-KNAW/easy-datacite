@@ -28,19 +28,19 @@ import org.dom4j.Element;
 public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem
 {
 
-    private static final long                serialVersionUID = -1213485923457997519L;
-    
+    private static final long serialVersionUID = -1213485923457997519L;
+
     private EasyFile easyFile;
     private FileItemMetadataImpl fileItemMetadata;
     private DescriptiveMetadata descriptiveMetadata;
-    
-	private DublinCoreMetadata dc;
-        
+
+    private DublinCoreMetadata dc;
+
     public FileItemImpl(String storeId)
     {
         super(storeId);
     }
-    
+
     public DmoNamespace getDmoNamespace()
     {
         return NAMESPACE;
@@ -57,7 +57,7 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem
         }
         return label;
     }
-    
+
     public void setLabel(String label)
     {
         //evaluateDirty(label, getLabel());
@@ -69,7 +69,7 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem
     {
         return getFileItemMetadata().getMimeType();
     }
-    
+
     public void setMimeType(String mimeType)
     {
         getFileItemMetadataImpl().setMimeType(mimeType);
@@ -79,7 +79,7 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem
     {
         return getFileItemMetadata().getSize();
     }
-    
+
     public void setSize(long size)
     {
         getFileItemMetadataImpl().setSize(size);
@@ -118,7 +118,7 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem
     {
         if (dc == null)
         {
-        	dc = new JiBXDublinCoreMetadata();
+            dc = new JiBXDublinCoreMetadata();
         }
         List<String> label = new ArrayList<String>(1);
         label.add(getLabel());
@@ -130,29 +130,29 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem
 
         return dc;
     }
-    
+
     public DatasetItemMetadata getDatasetItemMetadata()
     {
         return getFileItemMetadataImpl();
     }
-    
+
     public FileItemMetadata getFileItemMetadata()
     {
         return getFileItemMetadataImpl();
     }
-    
+
     @Override
     public AdditionalMetadata getAdditionalMetadata()
     {
         return getFileItemMetadata().getAdditionalMetadata();
     }
-    
+
     @Override
     public void setAdditionalMetadata(AdditionalMetadata additionalMetadata)
     {
         getFileItemMetadata().setAdditionalMetadata(additionalMetadata);
     }
-    
+
     private FileItemMetadataImpl getFileItemMetadataImpl()
     {
         if (fileItemMetadata == null)
@@ -162,7 +162,7 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem
         fileItemMetadata.setDmoStoreId(getDmoStoreId());
         return fileItemMetadata;
     }
-    
+
     /**
      * DO NOT USE. Needed for deserialization in Store.
      * @param fileItemMetadata FileItemMetadataImpl
@@ -173,7 +173,7 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem
         setLabel(fileItemMetadata.getName());
         setDirty(false);
     }
-    
+
     @Override
     public List<BinaryUnit> getBinaryUnits()
     {
@@ -184,17 +184,17 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem
         }
         return binaryUnits;
     }
-    
+
     public List<MetadataUnit> getMetadataUnits()
     {
         List<MetadataUnit> metadataUnits = super.getMetadataUnits();
-        
+
         metadataUnits.add(getDublinCoreMetadata());
         metadataUnits.add(getFileItemMetadata());
         if (hasDescriptiveMetadata())
         {
             metadataUnits.add(getDescriptiveMetadata());
-        }     
+        }
         return metadataUnits;
     }
 
@@ -202,12 +202,12 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem
     {
         return true;
     }
-        
+
     public CreatorRole getCreatorRole()
     {
         return getFileItemMetadata().getCreatorRole();
     }
-    
+
     public void setCreatorRole(CreatorRole creatorRole)
     {
         CreatorRole previous = getFileItemMetadata().getCreatorRole();
@@ -221,23 +221,23 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem
             }
         }
     }
-    
+
     public boolean isCreatedByArchivist()
     {
         return CreatorRole.ARCHIVIST.equals(getFileItemMetadata().getCreatorRole());
     }
-    
+
     @Override
     public boolean isCreatedByDepositor()
     {
         return CreatorRole.DEPOSITOR.equals(getFileItemMetadata().getCreatorRole());
     }
-    
+
     public VisibleTo getVisibleTo()
     {
         return getFileItemMetadata().getVisibleTo();
     }
-    
+
     public void setVisibleTo(VisibleTo visibleTo)
     {
         VisibleTo previous = getFileItemMetadata().getVisibleTo();
@@ -251,12 +251,12 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem
             }
         }
     }
-    
+
     public AccessibleTo getAccessibleTo()
     {
         return getFileItemMetadata().getAccessibleTo();
     }
-    
+
     public void setAccessibleTo(AccessibleTo accessibleTo)
     {
         AccessibleTo previous = getFileItemMetadata().getAccessibleTo();
@@ -268,21 +268,21 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem
             {
                 parent.onDescendantStateChange(previous, accessibleTo);
             }
-        }      
+        }
     }
-    
+
     public boolean isAccessibleFor(int userProfile)
     {
         int mask = AccessCategory.UTIL.getBitMask(getReadAccessCategory());
         return ((mask & userProfile) > 0);
     }
-    
+
     public int getAccessProfile(int userProfile)
     {
         int mask = AccessCategory.UTIL.getBitMask(getReadAccessCategory());
         return mask & userProfile;
     }
-    
+
     /**
      * Hack needed because there is no unification of key abstractions in the DANS software development process. 
      * @return the AccessCategory of the file item in respect to this 'AccessibleTo'.
@@ -291,37 +291,37 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem
     {
         return AccessibleTo.translate(getAccessibleTo());
     }
-    
+
     @Override
     public AccessCategory getViewAccessCategory()
     {
         return VisibleTo.translate(getVisibleTo());
     }
-    
-	@Override
-	public Set<String> getContentModels()
-	{
-		 Set<String> contentModels = super.getContentModels();
-		 contentModels.add(Constants.CM_FILE_ITEM_1);
-		 return contentModels;
-	}
+
+    @Override
+    public Set<String> getContentModels()
+    {
+        Set<String> contentModels = super.getContentModels();
+        contentModels.add(Constants.CM_FILE_ITEM_1);
+        return contentModels;
+    }
 
     @Override
     public void setDescriptiveMetadata(Element content)
     {
         descriptiveMetadata = new DescriptiveMetadataImpl(content);
     }
-    
+
     public boolean hasDescriptiveMetadata()
     {
         return descriptiveMetadata != null;
     }
-    
+
     public DescriptiveMetadata getDescriptiveMetadata()
     {
         return descriptiveMetadata;
     }
-    
+
     @Override
     public String getAutzStrategyName()
     {

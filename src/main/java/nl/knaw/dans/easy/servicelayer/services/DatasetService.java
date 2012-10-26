@@ -31,11 +31,10 @@ import org.joda.time.DateTime;
  */
 public interface DatasetService extends EasyService
 {
-    
+
     //Method not used and no security with this signature possible
-	CommonDataset getCommonDataset(DmoStoreId dmoStoreId) throws ServiceException;
-	
-	
+    CommonDataset getCommonDataset(DmoStoreId dmoStoreId) throws ServiceException;
+
     /**
      * Creates a new dataset object. Call this to create one.
      * 
@@ -46,7 +45,7 @@ public interface DatasetService extends EasyService
      *         wrapper for exceptions
      */
     Dataset newDataset(ApplicationSpecific.MetadataFormat mdFormat) throws ServiceException;
-    
+
     Dataset newDataset(EasyMetadata emd, AdministrativeMetadata amd) throws ServiceException;
 
     /**
@@ -76,12 +75,13 @@ public interface DatasetService extends EasyService
      * @throws ServiceException
      *         wrapper for exceptions
      */
-    DataModelObject getDataModelObject(EasyUser sessionUser, DmoStoreId dmoStoreId) throws ObjectNotAvailableException, CommonSecurityException, ServiceException;
+    DataModelObject getDataModelObject(EasyUser sessionUser, DmoStoreId dmoStoreId) throws ObjectNotAvailableException, CommonSecurityException,
+            ServiceException;
 
     byte[] getObjectXml(EasyUser sessionUser, Dataset dataset) throws ObjectNotAvailableException, CommonSecurityException, ServiceException;
-    
+
     boolean exists(DmoStoreId dmoStoreId) throws ServiceException;
-    
+
     /**
      * Clone a dataset in such a way that it is fit for reuse.
      * 
@@ -123,8 +123,7 @@ public interface DatasetService extends EasyService
      * @throws ServiceException
      *         wrapper for exceptions
      */
-    void saveAdministrativeMetadata(EasyUser sessionUser, Dataset dataset, WorkListener... workListeners)
-            throws ServiceException, DataIntegrityException;
+    void saveAdministrativeMetadata(EasyUser sessionUser, Dataset dataset, WorkListener... workListeners) throws ServiceException, DataIntegrityException;
 
     /**
      * Submit the dataset wrapped in <code>submission</code>.
@@ -166,8 +165,8 @@ public interface DatasetService extends EasyService
      * @throws ServiceException
      *         wrapper for exceptions
      */
-    void publishDataset(EasyUser sessionUser, Dataset dataset, boolean mustNotifyDepositor, boolean mustIncludeLicense)
-            throws ServiceException, DataIntegrityException;
+    void publishDataset(EasyUser sessionUser, Dataset dataset, boolean mustNotifyDepositor, boolean mustIncludeLicense) throws ServiceException,
+            DataIntegrityException;
 
     /**
      * Change administrative state of given dataset to SUBMITTED.
@@ -211,8 +210,8 @@ public interface DatasetService extends EasyService
      * @throws ServiceException
      *         wrapper for exceptions
      */
-    void republishDataset(EasyUser sessionUser, Dataset dataset, boolean mustNotifyDepositor, boolean mustIncludeLicense)
-            throws ServiceException, DataIntegrityException;
+    void republishDataset(EasyUser sessionUser, Dataset dataset, boolean mustNotifyDepositor, boolean mustIncludeLicense) throws ServiceException,
+            DataIntegrityException;
 
     /**
      * Delete the given dataset.
@@ -254,8 +253,8 @@ public interface DatasetService extends EasyService
      * @throws ServiceException
      *         wrapper for exceptions
      */
-    void changeDepositor(EasyUser sessionUser, Dataset dataset, EasyUser newDepositor, boolean mustNotifyDepositor,
-            boolean mustNotifyNewDepositor) throws ServiceException, DataIntegrityException;
+    void changeDepositor(EasyUser sessionUser, Dataset dataset, EasyUser newDepositor, boolean mustNotifyDepositor, boolean mustNotifyNewDepositor)
+            throws ServiceException, DataIntegrityException;
 
     /**
      * Save a request for permission. If the request is valid, an email is send to the depositor of the dataset.
@@ -273,8 +272,8 @@ public interface DatasetService extends EasyService
      * @throws ServiceException
      *         wrapper for exceptions
      */
-    void savePermissionRequest(EasyUser sessionUser, Dataset dataset, PermissionRequestModel requestModel,
-            WorkListener... workListeners) throws ServiceException, DataIntegrityException;
+    void savePermissionRequest(EasyUser sessionUser, Dataset dataset, PermissionRequestModel requestModel, WorkListener... workListeners)
+            throws ServiceException, DataIntegrityException;
 
     /**
      * Save a reply on a request for permission. If the reply is valid, an email is send to the requester of permission.
@@ -292,8 +291,8 @@ public interface DatasetService extends EasyService
      * @throws ServiceException
      *         wrapper for exceptions
      */
-    void savePermissionReply(EasyUser sessionUser, Dataset dataset, PermissionReplyModel replyModel,
-            WorkListener... workListeners) throws ServiceException, DataIntegrityException;
+    void savePermissionReply(EasyUser sessionUser, Dataset dataset, PermissionReplyModel replyModel, WorkListener... workListeners) throws ServiceException,
+            DataIntegrityException;
 
     /**
      * Obtain a read-only instance of DownloadHistory for the given dataset and the period indicated by date.
@@ -310,34 +309,32 @@ public interface DatasetService extends EasyService
      */
     DownloadHistory getDownloadHistoryFor(EasyUser sessionUser, Dataset dataset, DateTime date) throws ServiceException;
 
-	List<UnitMetadata> getAdditionalLicenseVersions(final Dataset object) throws ServiceException;
-	
-	UnitMetadata getAdditionalLicense(Dataset dataset) throws ServiceException;
+    List<UnitMetadata> getAdditionalLicenseVersions(final Dataset object) throws ServiceException;
 
-	List<UnitMetadata> getLicenseVersions(final Dataset object) throws ServiceException;
+    UnitMetadata getAdditionalLicense(Dataset dataset) throws ServiceException;
 
-	void saveAdditionalLicense(EasyUser sessionUser, Dataset dataset, final WorkListener... workListeners) throws ServiceException, DataIntegrityException;
-	
-	URL getUnitMetadataURL(EasyUser sessionUser, Dataset dataset, UnitMetadata unitMetadata) throws ServiceException, CommonSecurityException;
+    List<UnitMetadata> getLicenseVersions(final Dataset object) throws ServiceException;
 
+    void saveAdditionalLicense(EasyUser sessionUser, Dataset dataset, final WorkListener... workListeners) throws ServiceException, DataIntegrityException;
 
-	URL getAdditionalLicenseURL(Dataset dataset) throws ServiceException;
+    URL getUnitMetadataURL(EasyUser sessionUser, Dataset dataset, UnitMetadata unitMetadata) throws ServiceException, CommonSecurityException;
 
+    URL getAdditionalLicenseURL(Dataset dataset) throws ServiceException;
 
-	//    /**
-//     * Obtain a list of read-only instances of DownloadHistory for the given dataset and time interval.
-//     * 
-//     * @param sessionUser
-//     *        the user that initiates this action
-//     * @param dataset
-//     *        the dataset for which download history is to be obtained
-//     * @param interval
-//     *        the time interval for which download history is to be obtained
-//     * @return a list of read-only instances of DownloadHistory
-//     * @throws ServiceException
-//     *         wrapper for exceptions
-//     */
-//    List<DownloadHistory> getDownloadHistoryFor(Dataset dataset, ReadableInterval interval)
-//            throws ServiceException;
+    //    /**
+    //     * Obtain a list of read-only instances of DownloadHistory for the given dataset and time interval.
+    //     * 
+    //     * @param sessionUser
+    //     *        the user that initiates this action
+    //     * @param dataset
+    //     *        the dataset for which download history is to be obtained
+    //     * @param interval
+    //     *        the time interval for which download history is to be obtained
+    //     * @return a list of read-only instances of DownloadHistory
+    //     * @throws ServiceException
+    //     *         wrapper for exceptions
+    //     */
+    //    List<DownloadHistory> getDownloadHistoryFor(Dataset dataset, ReadableInterval interval)
+    //            throws ServiceException;
 
 }

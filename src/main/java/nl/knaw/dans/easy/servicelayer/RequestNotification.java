@@ -9,12 +9,12 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 public class RequestNotification extends DatasetNotification implements Serializable
 {
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	private final PermissionRequestModel request;
-    private final EasyUser               requester;
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
+    private final PermissionRequestModel request;
+    private final EasyUser requester;
 
     public RequestNotification(Dataset dataset, EasyUser requester, PermissionRequestModel request)
     {

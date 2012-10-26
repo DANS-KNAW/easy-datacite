@@ -19,7 +19,7 @@ import org.dom4j.tree.DefaultElement;
 public class ElementnameUpdateStrategy implements AdditionalMetadataUpdateStrategy
 {
     private final String additionalId;
-    
+
     public ElementnameUpdateStrategy(String additionalId)
     {
         this.additionalId = additionalId;
@@ -33,7 +33,7 @@ public class ElementnameUpdateStrategy implements AdditionalMetadataUpdateStrate
         {
             return; // nothing to add or replace
         }
-        
+
         AdditionalMetadata originalAddMd = owner.getAdditionalMetadata();
         AdditionalContent oldAdditionalContent = originalAddMd.getAdditionalContent(additionalId);
         if (oldAdditionalContent == null)
@@ -51,13 +51,13 @@ public class ElementnameUpdateStrategy implements AdditionalMetadataUpdateStrate
     {
         Element oldContent = oldAdditionalContent.getContent();
         Element newContent = newAdditionalContent.getContent();
-        
+
         Iterator<Element> iter = newContent.elementIterator();
         while (iter.hasNext())
         {
             Element newElement = iter.next();
             String elementName = newElement.getName();
-            
+
             Element oldElement = oldContent.element(elementName);
             if (oldElement == null)
             {

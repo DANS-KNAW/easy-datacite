@@ -12,10 +12,10 @@ import nl.knaw.dans.easy.domain.model.AccessibleTo;
 
 public class AccessibleToFieldFilter extends AbstractItemFieldFilter<AccessibleTo>
 {
-    public AccessibleToFieldFilter (AccessibleTo... desiredValues) {
+    public AccessibleToFieldFilter(AccessibleTo... desiredValues)
+    {
         addDesiredValues(desiredValues);
     }
-
 
     public ItemFilterField getFilterField()
     {
@@ -35,24 +35,24 @@ public class AccessibleToFieldFilter extends AbstractItemFieldFilter<AccessibleT
             return !filterValues.contains(fileItem.getAccessibleTo());
         }
         // TODO
-//        else
-//        {
-//            final FolderItemVO folderItem = (FolderItemVO) item;
-//            for (final FolderItemAccessibleTo AccessibleTo : folderItem.getAccessibleToList())
-//            {
-//                if (filterValues.contains(AccessibleTo.getAccessibleTo()))
-//                    return false;
-//            }
-//        }
+    //        else
+    //        {
+    //            final FolderItemVO folderItem = (FolderItemVO) item;
+    //            for (final FolderItemAccessibleTo AccessibleTo : folderItem.getAccessibleToList())
+    //            {
+    //                if (filterValues.contains(AccessibleTo.getAccessibleTo()))
+    //                    return false;
+    //            }
+    //        }
         return true;
 
     } */
-    
+
     public boolean filterOut(ItemVO item) throws DomainException
     {
         final Set<AccessibleTo> filterValues = getDesiredValues();
         if (filterValues.size() == 0)
-        	throw new NoFilterValuesSelectedException();
+            throw new NoFilterValuesSelectedException();
 
         if (item instanceof FileItemVO)
         {

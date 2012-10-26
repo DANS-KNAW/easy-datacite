@@ -13,7 +13,7 @@ public class FileItemFactory extends AbstractDmoFactory<FileItem>
     {
         return createDmo(nextSid());
     }
-    
+
     @Override
     public FileItem createDmo(String storeId)
     {

@@ -30,7 +30,7 @@ public class EmbargoFreeCheck extends AbstractCheck
     protected String explain(ContextParameters ctxParameters)
     {
         StringBuilder sb = super.startExplain(ctxParameters);
-        
+
         Dataset dataset = ctxParameters.getDataset();
         if (dataset == null)
         {
@@ -49,7 +49,7 @@ public class EmbargoFreeCheck extends AbstractCheck
     {
         return "[Dataset is not under embargo at current date]";
     }
-    
+
     @Override
     public boolean getHints(ContextParameters ctxParameters, List<Object> hints)
     {

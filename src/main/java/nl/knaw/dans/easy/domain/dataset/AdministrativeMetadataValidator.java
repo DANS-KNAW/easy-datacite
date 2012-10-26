@@ -9,29 +9,29 @@ import nl.knaw.dans.easy.domain.model.AdministrativeMetadata;
 
 public class AdministrativeMetadataValidator extends AbstractXMLBeanValidator<AdministrativeMetadata>
 {
-    
+
     /**
      * The version token for version {@value}.
      */
-    public static final String               VERSION_0_1          = "0.1";
-    
+    public static final String VERSION_0_1 = "0.1";
+
     public static final String SCHEMA_FOLDER = "xsd-files";
 
     public static final String SCHEMA_FILENAME = "amd.xsd";
-    
+
     private static final AdministrativeMetadataValidator instance = new AdministrativeMetadataValidator();
-    
+
     // singleton
     private AdministrativeMetadataValidator()
     {
-        
+
     }
 
     public static AdministrativeMetadataValidator instance()
     {
         return instance;
     }
-    
+
     @Override
     public URL getSchemaURL(String version) throws SchemaCreationException
     {

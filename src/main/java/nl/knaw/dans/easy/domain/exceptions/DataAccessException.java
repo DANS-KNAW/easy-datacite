@@ -2,7 +2,6 @@ package nl.knaw.dans.easy.domain.exceptions;
 
 import nl.knaw.dans.common.lang.RepositoryException;
 
-
 /**
  * General Exception that signals an exception in accessing data from a repository.
  * @author ecco Feb 2, 2009

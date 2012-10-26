@@ -6,9 +6,9 @@ import org.slf4j.LoggerFactory;
 public class Security
 {
 
-    private static final Logger logger         = LoggerFactory.getLogger(Security.class);
-    private static boolean      locked;
-    private static Authz        AUTHZ;
+    private static final Logger logger = LoggerFactory.getLogger(Security.class);
+    private static boolean locked;
+    private static Authz AUTHZ;
 
     /**
      * DO NOT USE - called by the application context. The class we are going to proxy using CGLib has to provide a

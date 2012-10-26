@@ -62,13 +62,13 @@ public class DatasetImplTest
         assertTrue(dataset.isDirty());
         dataset.setDirty(false);
     }
-    
+
     @Test(expected = IllegalArgumentException.class)
     public void accessCategory()
     {
         AccessCategory.valueOf("bla");
     }
-    
+
     @Test
     public void getAccessCategory()
     {
@@ -76,12 +76,12 @@ public class DatasetImplTest
         AccessCategory ac = dataset.getAccessCategory();
         assertNotNull(ac);
         assertEquals(AccessCategory.OPEN_ACCESS, ac);
-        
+
         dataset.getEasyMetadata().getEmdRights().setAccessCategory(AccessCategory.REQUEST_PERMISSION);
         ac = dataset.getAccessCategory();
         assertEquals(AccessCategory.REQUEST_PERMISSION, ac);
     }
-    
+
     @Test
     public void getAccessProfileForUser()
     {
@@ -89,40 +89,40 @@ public class DatasetImplTest
         Dataset dataset = new DatasetImpl("dummy-dataset:1");
         dataset.addGroup(history);
         EasyUser jan = new EasyUserImpl("jan");
-        
+
         assertEquals(0, dataset.getAccessProfileFor(jan));
-        
+
         dataset.getAdministrativeMetadata().setAdministrativeState(DatasetState.MAINTENANCE);
         assertEquals(0, dataset.getAccessProfileFor(jan));
-        
+
         dataset.getAdministrativeMetadata().setAdministrativeState(DatasetState.PUBLISHED);
         assertEquals(1, dataset.getAccessProfileFor(jan));
-        
+
         jan.setState(State.ACTIVE);
         assertEquals(3, dataset.getAccessProfileFor(jan));
-        
+
         jan.joinGroup(history);
         assertEquals(7, dataset.getAccessProfileFor(jan));
-        
+
         PermissionSequenceImpl sequence = new PermissionSequenceImpl(jan);
         sequence.setState(nl.knaw.dans.easy.domain.model.PermissionSequence.State.Granted);
         ((PermissionSequenceListImpl) dataset.getPermissionSequenceList()).addSequence(sequence);
         assertEquals(15, dataset.getAccessProfileFor(jan));
-        
+
         jan.leaveGroup(history);
         assertEquals(11, dataset.getAccessProfileFor(jan));
-        
+
         sequence.setState(nl.knaw.dans.easy.domain.model.PermissionSequence.State.Submitted);
         assertEquals(3, dataset.getAccessProfileFor(jan));
     }
-    
+
     @Test
     public void getMetadataFormat()
     {
         Dataset dataset = new DatasetImpl("dummy-dataset:1");
         assertEquals(MetadataFormat.UNSPECIFIED, dataset.getMetadataFormat());
     }
-    
+
     @Test
     public void getLabel()
     {
@@ -130,14 +130,14 @@ public class DatasetImplTest
         EasyMetadata emd = dataset.getEasyMetadata();
         emd.getEmdTitle().getDcTitle().add(new BasicString("Title should be propagated to label of dataset"));
         assertEquals("Title should be propagated to label of dataset", dataset.getLabel());
-        
+
         dataset = new DatasetImpl("dummy-dataset:2");
         assertEquals("[no title]", dataset.getLabel());
         emd = dataset.getEasyMetadata();
         emd.getEmdTitle().getDcTitle().add(new BasicString("Title should be propagated to label of dataset"));
         assertEquals("Title should be propagated to label of dataset", dataset.getLabel());
     }
-    
+
     @SuppressWarnings("unchecked")
     @Test
     public void addRelationsButOnlyOneOfAKind() throws Exception
@@ -145,78 +145,77 @@ public class DatasetImplTest
         DmoCollectionsAccess dmoCollectionAccess = EasyMock.createMock(DmoCollectionsAccess.class);
         Data.unlock();
         new Data().setCollectionAccess(dmoCollectionAccess);
-        
+
         Dataset dataset = new DatasetImpl("dummy:2");
         DatasetRelations relations = (DatasetRelations) dataset.getRelations();
         assertEquals(0, relations.size());
-        
+
         relations.addOAIIdentifier();
         assertEquals(1, relations.size());
-        
+
         relations.addOAIIdentifier();
         assertEquals(1, relations.size());
-        
-        EasyMock.expect(dmoCollectionAccess.filterOAIEndNodes(EasyMock.isA(Set.class)))
-            .andReturn(new HashSet<DmoStoreId>()).anyTimes();
+
+        EasyMock.expect(dmoCollectionAccess.filterOAIEndNodes(EasyMock.isA(Set.class))).andReturn(new HashSet<DmoStoreId>()).anyTimes();
         EasyMock.replay(dmoCollectionAccess);
-        
+
         relations.addOAISetMembership(new DmoStoreId("foo:bar"));
         if (verbose)
             printRelations(relations);
         assertEquals(2, relations.size());
-        
+
         relations.addOAISetMembership(new DmoStoreId("foo:bar"));
         assertEquals(2, relations.size());
-        
+
         EasyMock.verify(dmoCollectionAccess);
     }
-    
+
     private void printRelations(Relations relations)
     {
         for (Relation relation : relations.getRelation(null, null))
         {
             System.out.println(relation);
         }
-        
+
     }
 
     @Test
     public void getLeafDisciplines() throws Exception
-    {  
+    {
         // Disasters happen if you ignore LOW COUPLING, HIGH COHESION, TESTABILITY!
         DisciplineContainer root = new DisciplineContainerImplStub("root");
         DisciplineContainer d1 = new DisciplineContainerImplStub("easy-discipline:1");
         DisciplineContainer d1_1 = new DisciplineContainerImplStub("easy-discipline:1_1");
         DisciplineContainer d1_1_1 = new DisciplineContainerImplStub("easy-discipline:1_1_1");
         DisciplineContainer d1_2 = new DisciplineContainerImplStub("easy-discipline:1_2");
-        
+
         DisciplineContainer d2 = new DisciplineContainerImplStub("easy-discipline:2");
         DisciplineContainer d2_1 = new DisciplineContainerImplStub("easy-discipline:2_1");
         DisciplineContainer d2_1_1 = new DisciplineContainerImplStub("easy-discipline:2_1_1");
         DisciplineContainer d2_2 = new DisciplineContainerImplStub("easy-discipline:2_2");
         DisciplineContainer d2_2_1 = new DisciplineContainerImplStub("easy-discipline:2_2_1");
-        
+
         root.addChild(d1);
         d1.addChild(d1_1);
         d1_1.addChild(d1_1_1);
         d1.addChild(d1_2);
-        
+
         root.addChild(d2);
         d2.addChild(d2_1);
         d2_1.addChild(d2_1_1);
         d2.addChild(d2_2);
         d2_2.addChild(d2_2_1);
-        
+
         List<DisciplineContainer> disciplines = new ArrayList<DisciplineContainer>();
         disciplines.add(d1);
         disciplines.add(d1_1);
         disciplines.add(d1_1_1);
         disciplines.add(d1_2);
-        
+
         disciplines.add(d2_2_1);
-        
+
         Dataset dataset = new DatasetImplProxy("foo:test", disciplines);
-        
+
         // Phew! Now we can test a simple method
         List<DisciplineContainer> leafDisciplines = dataset.getLeafDisciplines();
         assertEquals(3, leafDisciplines.size());
@@ -224,23 +223,23 @@ public class DatasetImplTest
         assertTrue(leafDisciplines.contains(d1_2));
         assertTrue(leafDisciplines.contains(d2_2_1));
     }
-    
+
     class DisciplineContainerImplStub extends DisciplineContainerImpl
     {
-        
+
         private List<DisciplineContainer> subDisciplines = new ArrayList<DisciplineContainer>();
 
         public DisciplineContainerImplStub(String storeId)
         {
             super(storeId);
         }
-        
+
         @Override
         public void addChild(DmoContainerItem item) throws RepositoryException
         {
             subDisciplines.add((DisciplineContainer) item);
         }
-        
+
         @Override
         public List<DisciplineContainer> getSubDisciplines() throws DomainException
         {
@@ -248,12 +247,12 @@ public class DatasetImplTest
         }
 
         private static final long serialVersionUID = 1L;
-        
+
     }
-    
+
     class DatasetImplProxy extends DatasetImpl
     {
-        
+
         private final List<DisciplineContainer> disciplines;
 
         public DatasetImplProxy(String storeId, List<DisciplineContainer> disciplines)
@@ -261,7 +260,7 @@ public class DatasetImplTest
             super(storeId);
             this.disciplines = disciplines;
         }
-        
+
         @Override
         public List<DisciplineContainer> getParentDisciplines() throws ObjectNotFoundException, DomainException
         {
@@ -269,7 +268,7 @@ public class DatasetImplTest
         }
 
         private static final long serialVersionUID = 1L;
-        
+
     }
 
 }

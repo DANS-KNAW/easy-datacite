@@ -13,7 +13,7 @@ public class DatasetAccesRightsCheck extends AbstractCheck
 {
     private final List<AccessCategory> allowedRights;
 
-    public DatasetAccesRightsCheck(AccessCategory...states)
+    public DatasetAccesRightsCheck(AccessCategory... states)
     {
         super();
         allowedRights = Collections.synchronizedList(Arrays.asList(states));
@@ -25,8 +25,7 @@ public class DatasetAccesRightsCheck extends AbstractCheck
         {
             return PropositionBuilder.buildOrProposition("Dataset accessCategory is", allowedRights);
         }
-    } 
-
+    }
 
     public boolean evaluate(ContextParameters ctxParameters)
     {
@@ -63,7 +62,7 @@ public class DatasetAccesRightsCheck extends AbstractCheck
         sb.append(evaluate(ctxParameters));
         return sb.toString();
     }
-    
+
     @Override
     public boolean getHints(ContextParameters ctxParameters, List<Object> hints)
     {

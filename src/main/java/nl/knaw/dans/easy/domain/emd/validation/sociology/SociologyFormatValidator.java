@@ -14,7 +14,7 @@ public class SociologyFormatValidator implements Validator
 
     private static SociologyFormatValidator INSTANCE;
 
-    private static List<Validator>          VALIDATORS = Collections.synchronizedList(new ArrayList<Validator>());
+    private static List<Validator> VALIDATORS = Collections.synchronizedList(new ArrayList<Validator>());
 
     private SociologyFormatValidator()
     {

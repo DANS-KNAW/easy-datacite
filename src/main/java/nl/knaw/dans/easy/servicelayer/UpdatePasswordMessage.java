@@ -13,14 +13,14 @@ public class UpdatePasswordMessage extends AbstractNotification implements Seria
     public UpdatePasswordMessage(final EasyUser receiver, final ForgottenPasswordMessenger messenger)
     {
         super(receiver);
-        url = messenger.getUpdateURL() +"/"+ messenger.getUserIdParamKey() + "/" + receiver.getId() + "/";
+        url = messenger.getUpdateURL() + "/" + messenger.getUserIdParamKey() + "/" + receiver.getId() + "/";
     }
 
     public String getURL()
     {
         return url;
     }
-    
+
     String getTemplateLocation()
     {
         return "authn/UpdatePasswordMail";

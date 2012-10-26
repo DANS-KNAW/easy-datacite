@@ -5,24 +5,23 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
-
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class FileBasedAuditTrail implements AuditTrail
 {
-    
+
     public static final long MAX_LENGTH = 5000000;
-    
+
     private static final Logger logger = LoggerFactory.getLogger(FileBasedAuditTrail.class);
-    
+
     private final String auditFilename;
     private final File auditDirectory;
-    
+
     private RandomAccessFile raf;
     private String currentFileName;
-    
+
     public FileBasedAuditTrail(String location) throws IOException
     {
         File auditFile = new File(location);
@@ -45,9 +44,9 @@ public class FileBasedAuditTrail implements AuditTrail
         {
             logger.error("Could not write audit record: ", e);
         }
-        
+
     }
-    
+
     private RandomAccessFile getRaf() throws IOException
     {
         if (raf == null)
@@ -89,7 +88,7 @@ public class FileBasedAuditTrail implements AuditTrail
         {
             logger.info("Nothing to close: no audit file was open.");
         }
-        
+
     }
 
 }

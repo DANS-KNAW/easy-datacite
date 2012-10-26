@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 public class ChoiceListTest
 {
     private static final Logger logger = LoggerFactory.getLogger(ChoiceListTest.class);
-    
+
     private boolean verbose = Tester.isVerbose();
 
     @Test
@@ -34,7 +34,7 @@ public class ChoiceListTest
         ChoiceList choiceList2 = (ChoiceList) JiBXObjectFactory.unmarshal(ChoiceList.class, choiceList.asObjectXML());
         assertEquals(choiceList.asXMLString(), choiceList2.asXMLString());
     }
-    
+
     @Test
     public void serializeDeserializeFull() throws XMLException
     {
@@ -49,7 +49,7 @@ public class ChoiceListTest
         ChoiceList choiceList2 = (ChoiceList) JiBXObjectFactory.unmarshal(ChoiceList.class, choiceList.asObjectXML());
         assertEquals(choiceList.asXMLString(), choiceList2.asXMLString());
     }
-    
+
     // Will not work when you are offline because of
     // <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
     @Ignore

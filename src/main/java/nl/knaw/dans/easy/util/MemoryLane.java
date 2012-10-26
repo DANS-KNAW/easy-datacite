@@ -7,7 +7,7 @@ public class MemoryLane
 {
 
     private static final Logger logger = LoggerFactory.getLogger(MemoryLane.class);
-    
+
     public static void main(String[] args)
     {
 

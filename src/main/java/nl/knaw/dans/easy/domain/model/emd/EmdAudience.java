@@ -19,16 +19,13 @@ public class EmdAudience extends AbstractEmdContainer
     /**
      * Terms contained.
      */
-    static final Term[] TERMS =
-    {
-        new Term(Term.Name.AUDIENCE, Term.Namespace.DCTERMS, BasicString.class)
-    };
+    static final Term[] TERMS = {new Term(Term.Name.AUDIENCE, Term.Namespace.DCTERMS, BasicString.class)};
     /**
      *
      */
     private static final long serialVersionUID = -7542030124818102201L;
 
-    private List<BasicString> termsAudience    = new ArrayList<BasicString>();
+    private List<BasicString> termsAudience = new ArrayList<BasicString>();
 
     /**
      * {@inheritDoc}
@@ -60,7 +57,7 @@ public class EmdAudience extends AbstractEmdContainer
     {
         this.termsAudience = termsAudience;
     }
-    
+
     public List<BasicString> getDisciplines()
     {
         List<BasicString> disciplines = new ArrayList<BasicString>();
@@ -73,7 +70,7 @@ public class EmdAudience extends AbstractEmdContainer
         }
         return disciplines;
     }
-    
+
     public List<BasicString> removeAllDisciplines()
     {
         List<BasicString> disciplines = getDisciplines();
@@ -83,7 +80,7 @@ public class EmdAudience extends AbstractEmdContainer
         }
         return disciplines;
     }
-    
+
     public boolean containsDiscipline(String disciplineId)
     {
         boolean contains = false;

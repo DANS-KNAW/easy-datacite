@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 public final class RepoAccess
 {
 
-    private static final Logger        logger = LoggerFactory.getLogger(RepoAccess.class);
+    private static final Logger logger = LoggerFactory.getLogger(RepoAccess.class);
 
     private static RepoAccessDelegator DELEGATOR;
 

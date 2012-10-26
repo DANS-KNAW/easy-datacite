@@ -11,36 +11,35 @@ import nl.knaw.dans.easy.xml.AdditionalMetadata;
 
 public class FileItemMetadataImpl extends AbstractItemMetadataImpl<FileItemMetadata> implements FileItemMetadata
 {
-    
+
     /**
      * The version - when newly instantiated. The actual version of an instance as read from an xml-stream might be
      * obtained by {@link #getVersion()}.
      */
-    public static final String            VERSION      = "0.1";
-
+    public static final String VERSION = "0.1";
 
     private static final long serialVersionUID = -6117686733532197916L;
-    
+
     private String version;
-    
+
     private CreatorRole creatorRole;
     private VisibleTo visibleTo;
     private AccessibleTo accessibleTo;
     private String mimeType = MIMETYPE_UNDEFINED;
     private long size;
-    
+
     private AdditionalMetadata additionalMetadata;
-    
+
     protected FileItemMetadataImpl()
     {
         super();
     }
-    
+
     public FileItemMetadataImpl(DmoStoreId sid)
     {
         super(sid);
     }
-    
+
     public String getVersion()
     {
         if (version == null)
@@ -94,7 +93,7 @@ public class FileItemMetadataImpl extends AbstractItemMetadataImpl<FileItemMetad
         }
         return mimeType;
     }
-    
+
     protected void setMimeType(String mimeType)
     {
         evaluateDirty(mimeType, this.mimeType);
@@ -105,7 +104,7 @@ public class FileItemMetadataImpl extends AbstractItemMetadataImpl<FileItemMetad
     {
         return size;
     }
-    
+
     protected void setSize(long size)
     {
         evaluateDirty(size, this.size);

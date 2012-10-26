@@ -5,17 +5,17 @@ import java.util.Collections;
 import java.util.List;
 
 public class FormDefinition extends AbstractInheritableDefinition<FormDefinition>
-{   
-    
+{
+
     private static final long serialVersionUID = -8118471606287942806L;
-    
+
     private List<FormPage> formPages = Collections.synchronizedList(new ArrayList<FormPage>());
-    
+
     protected FormDefinition()
     {
         super();
     }
-    
+
     public FormDefinition(String formDefinitionId)
     {
         super(formDefinitionId);
@@ -31,7 +31,7 @@ public class FormDefinition extends AbstractInheritableDefinition<FormDefinition
         formPage.setParent(this);
         formPages.add(formPage);
     }
-    
+
     public FormPage getFormPage(String formPageId)
     {
         FormPage fp = null;
@@ -45,7 +45,7 @@ public class FormDefinition extends AbstractInheritableDefinition<FormDefinition
         }
         return fp;
     }
-    
+
     protected FormDefinition clone()
     {
         FormDefinition clone = new FormDefinition(getId());

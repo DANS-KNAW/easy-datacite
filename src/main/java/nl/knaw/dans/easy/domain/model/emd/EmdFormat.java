@@ -18,23 +18,19 @@ public class EmdFormat extends AbstractEmdContainer
     /**
      * Terms contained.
      */
-    static final Term[] TERMS =
-    {
-        new Term(Term.Name.FORMAT, Term.Namespace.DC, BasicString.class),
-        new Term(Term.Name.EXTENT, Term.Namespace.DCTERMS, BasicString.class),
-        new Term(Term.Name.MEDIUM, Term.Namespace.DCTERMS, BasicString.class)
-    };
+    static final Term[] TERMS = {new Term(Term.Name.FORMAT, Term.Namespace.DC, BasicString.class),
+            new Term(Term.Name.EXTENT, Term.Namespace.DCTERMS, BasicString.class), new Term(Term.Name.MEDIUM, Term.Namespace.DCTERMS, BasicString.class)};
 
     /**
      *
      */
-    private static final long  serialVersionUID  = 2241428118907275164L;
+    private static final long serialVersionUID = 2241428118907275164L;
 
-    private List<BasicString>  dcFormat          = new ArrayList<BasicString>();
+    private List<BasicString> dcFormat = new ArrayList<BasicString>();
 
-    private List<BasicString>  termsExtent       = new ArrayList<BasicString>();
+    private List<BasicString> termsExtent = new ArrayList<BasicString>();
 
-    private List<BasicString>  termsMedium       = new ArrayList<BasicString>();
+    private List<BasicString> termsMedium = new ArrayList<BasicString>();
 
     /**
      * {@inheritDoc}

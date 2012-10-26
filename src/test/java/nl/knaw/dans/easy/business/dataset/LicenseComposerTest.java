@@ -40,7 +40,7 @@ public class LicenseComposerTest extends TestHelper
     private static EasyUser depositor;
     private static EasyMetadataImpl metadata;
     private static FileStoreAccess fileStoreAccess;
-	private static DisciplineContainerImpl	discipline;
+    private static DisciplineContainerImpl discipline;
 
     @BeforeClass
     public static void beforeClass() throws Exception
@@ -52,7 +52,7 @@ public class LicenseComposerTest extends TestHelper
         fileStoreAccess = EasyMock.createMock(FileStoreAccess.class);
         dataset = EasyMock.createMock(Dataset.class);
         depositor = EasyMock.createMock(EasyUser.class);
-        metadata = (EasyMetadataImpl) JiBXObjectFactory.unmarshal(EasyMetadataImpl.class, metadataResource);       
+        metadata = (EasyMetadataImpl) JiBXObjectFactory.unmarshal(EasyMetadataImpl.class, metadataResource);
 
         new Data().setFileStoreAccess(fileStoreAccess);
     }
@@ -62,12 +62,13 @@ public class LicenseComposerTest extends TestHelper
     {
         final boolean isUnderEmbargo = false;
         final boolean generateSample = true;
-                
-        for (final AccessCategory accessCategory :AccessCategory.values()) {            
+
+        for (final AccessCategory accessCategory : AccessCategory.values())
+        {
             prepare(isUnderEmbargo);
             EasyMock.expect(dataset.getAccessCategory()).andReturn(accessCategory).times(1);
-            
-            execute(generateSample, PDF_OUTPUT+"-sample-"+accessCategory+".pdf");
+
+            execute(generateSample, PDF_OUTPUT + "-sample-" + accessCategory + ".pdf");
         }
     }
 
@@ -75,19 +76,20 @@ public class LicenseComposerTest extends TestHelper
     public void testSubmitted() throws Exception
     {
         // sample==false requires dateSubmitted
-        final boolean generateSample = false; 
+        final boolean generateSample = false;
         final boolean isUnderEmbargo = true;
         prepare(isUnderEmbargo);
-        
+
         EasyMock.expect(dataset.getDateAvailable()).andReturn(new DateTime("2011-04-14")).times(1);
         EasyMock.expect(dataset.getDateSubmitted()).andReturn(new IsoDate("2010-04-15")).times(1);
         EasyMock.expect(dataset.getAccessCategory()).andReturn(AccessCategory.GROUP_ACCESS).times(1);
-        
-        execute(generateSample, PDF_OUTPUT+"-submitted.pdf");
+
+        execute(generateSample, PDF_OUTPUT + "-submitted.pdf");
     }
 
-    private void execute(final boolean generateSample, final String fileName) throws Exception {
-        
+    private void execute(final boolean generateSample, final String fileName) throws Exception
+    {
+
         clearFile(fileName);
         LicenseComposer licenseComposer = new LicenseComposer(depositor, dataset, generateSample);
 
@@ -99,7 +101,8 @@ public class LicenseComposerTest extends TestHelper
         assertTrue(new File(fileName).exists());
     }
 
-    private void clearFile(final String fileName) {
+    private void clearFile(final String fileName)
+    {
         final File file = new File(fileName);
         file.delete();
         assertTrue(!file.exists());
@@ -107,12 +110,12 @@ public class LicenseComposerTest extends TestHelper
 
     private void prepare(final boolean isUnderEmbargo) throws Exception
     {
-    	final DmoStoreId sid = new DmoStoreId("easy-dataset:123");
-        final String[] fileNames ={"folder1/fileA.txt","folder1/fileB.txt","folder2/fileX.txt","folder2/fileY.txt"};
+        final DmoStoreId sid = new DmoStoreId("easy-dataset:123");
+        final String[] fileNames = {"folder1/fileA.txt", "folder1/fileB.txt", "folder2/fileX.txt", "folder2/fileY.txt"};
 
         EasyMock.reset(dataset, depositor, fileStoreAccess);
         EasyMock.expect(fileStoreAccess.getFilenames(sid, true)).andReturn(Arrays.asList(fileNames)).times(1);
-        
+
         EasyMock.expect(depositor.getDisplayName()).andReturn("Jan Klaasen").times(1);
         EasyMock.expect(depositor.getOrganization()).andReturn("Leger van de Prins").times(1);
         EasyMock.expect(depositor.getAddress()).andReturn("Trompetdreef 1").times(1);
@@ -129,13 +132,12 @@ public class LicenseComposerTest extends TestHelper
 
         final DmoStoreId disciplineId = new DmoStoreId("easy-discipline:2");
         final DisciplineContainerImpl discipline = new DisciplineContainerImpl("easy-discipline:2");
-        final DisciplineCollectionService disciplineService= EasyMock.createMock(DisciplineCollectionService.class);;
+        final DisciplineCollectionService disciplineService = EasyMock.createMock(DisciplineCollectionService.class);
+        ;
         new Services().setDisciplineService(disciplineService);
         discipline.setName("Humanities");
 
-        EasyMock.expect(
-                disciplineService.getDisciplineById(disciplineId)
-        ).andReturn(discipline).anyTimes();
+        EasyMock.expect(disciplineService.getDisciplineById(disciplineId)).andReturn(discipline).anyTimes();
         EasyMock.replay(disciplineService);
     }
 }

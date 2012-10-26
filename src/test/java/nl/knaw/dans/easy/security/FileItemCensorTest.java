@@ -32,15 +32,15 @@ public class FileItemCensorTest
 
         Dataset dataset = new DatasetImpl("dummy-dataset:1");
         dataset.getAdministrativeMetadata().setAdministrativeState(DatasetState.PUBLISHED);
-        
+
         EasyUser sessionUser = null;
-        
+
         DownloadFilter filter = new DownloadFilter(sessionUser, dataset);
         List<? extends ItemVO> filteredItems = filter.apply(items);
         // dataset.storeId and fivo.datasetId are not equal
         assertEquals(0, filteredItems.size());
     }
-    
+
     @Test
     public void censor2() throws DomainException
     {
@@ -54,12 +54,12 @@ public class FileItemCensorTest
         dataset.getAdministrativeMetadata().setAdministrativeState(DatasetState.PUBLISHED);
 
         EasyUser sessionUser = null;
-        
+
         DownloadFilter filter = new DownloadFilter(sessionUser, dataset);
         List<? extends ItemVO> filteredItems = filter.apply(items);
         assertEquals(1, filteredItems.size());
     }
-    
+
     @Test
     public void censor3() throws DomainException
     {
@@ -73,13 +73,13 @@ public class FileItemCensorTest
         dataset.getAdministrativeMetadata().setAdministrativeState(DatasetState.PUBLISHED);
 
         EasyUser sessionUser = null;
-        
+
         DownloadFilter filter = new DownloadFilter(sessionUser, dataset);
         List<? extends ItemVO> filteredItems = filter.apply(items);
 
         assertEquals(0, filteredItems.size());
     }
-    
+
     @Test
     public void censor4() throws DomainException
     {
@@ -91,7 +91,7 @@ public class FileItemCensorTest
 
         Dataset dataset = new DatasetImpl("pipo");
         dataset.getAdministrativeMetadata().setAdministrativeState(DatasetState.PUBLISHED);
-        
+
         EasyUser sessionUser = new EasyUserImpl();
 
         DownloadFilter filter = new DownloadFilter(sessionUser, dataset);
@@ -99,7 +99,7 @@ public class FileItemCensorTest
 
         assertEquals(1, filteredItems.size());
     }
-    
+
     @Test
     public void censor5() throws DomainException
     {
@@ -111,7 +111,7 @@ public class FileItemCensorTest
 
         Dataset dataset = new DatasetImpl("pipo");
         dataset.getAdministrativeMetadata().setAdministrativeState(DatasetState.PUBLISHED);
-        
+
         EasyUser sessionUser = new EasyUserImpl();
 
         DownloadFilter filter = new DownloadFilter(sessionUser, dataset);
@@ -119,7 +119,7 @@ public class FileItemCensorTest
 
         assertEquals(0, filteredItems.size());
     }
-    
+
     @Test
     public void censor6() throws DomainException
     {
@@ -131,7 +131,7 @@ public class FileItemCensorTest
 
         Dataset dataset = new DatasetImpl("pipo");
         dataset.getAdministrativeMetadata().setAdministrativeState(DatasetState.PUBLISHED);
-        
+
         EasyUser sessionUser = new EasyUserImpl();
         sessionUser.setState(State.ACTIVE);
 

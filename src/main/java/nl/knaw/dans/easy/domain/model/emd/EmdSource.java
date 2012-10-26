@@ -18,17 +18,14 @@ public class EmdSource extends AbstractEmdContainer
     /**
      * Terms contained.
      */
-    static final Term[] TERMS =
-    {
-        new Term(Term.Name.SOURCE, Term.Namespace.DC, BasicIdentifier.class)
-    };
+    static final Term[] TERMS = {new Term(Term.Name.SOURCE, Term.Namespace.DC, BasicIdentifier.class)};
 
     /**
      *
      */
-    private static final long     serialVersionUID = -8406539731481024935L;
+    private static final long serialVersionUID = -8406539731481024935L;
 
-    private List<BasicIdentifier> dcSource         = new ArrayList<BasicIdentifier>();
+    private List<BasicIdentifier> dcSource = new ArrayList<BasicIdentifier>();
 
     /**
      * {@inheritDoc}

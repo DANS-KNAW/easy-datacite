@@ -44,22 +44,22 @@ import org.slf4j.LoggerFactory;
 
 public class DownloadWorker
 {
-    
-    public static final int MEGA_BYTE = 1024*1024;
+
+    public static final int MEGA_BYTE = 1024 * 1024;
     public static final int MAX_DOWNLOAD_SIZE = Data.getDownloadLimit() * MEGA_BYTE;
     public static final int MAX_NUMBER_OF_FILES = Data.getMaxNumberOfFiles();
     public static final File ZIP_FILE_DIR = Data.getZipFileDir();
-    
+
     private static final FileStoreAccess FILE_STORE_ACCESS = Data.getFileStoreAccess();
-    private static final String METADATA_PATH                  = "meta/";
-    static final String         DESCRIPTIVE_METADATA_FILE_NAME = "file_metadata.xml";
+    private static final String METADATA_PATH = "meta/";
+    static final String DESCRIPTIVE_METADATA_FILE_NAME = "file_metadata.xml";
 
     // TODO eliminate duplicate file for the wicket link, note that we needed to switch of filtering resources in the pom file
-    static final String         GENERAL_CONDITIONS_FILE_NAME   = "general_conditions_DANS.pdf";
+    static final String GENERAL_CONDITIONS_FILE_NAME = "general_conditions_DANS.pdf";
 
-    private static final int    MAX_FILENAME_LENGTH            = 25;
+    private static final int MAX_FILENAME_LENGTH = 25;
 
-    private static final Logger logger                         = LoggerFactory.getLogger(DownloadWorker.class);
+    private static final Logger logger = LoggerFactory.getLogger(DownloadWorker.class);
 
     protected DownloadWorker()
     {
@@ -81,7 +81,7 @@ public class DownloadWorker
                 if (fileItemVO.getSize() > MAX_DOWNLOAD_SIZE)
                 {
                     // TODO make special exception
-                    throw new FileSizeException(fileItemVO.getSize()/MEGA_BYTE, MAX_DOWNLOAD_SIZE/MEGA_BYTE);
+                    throw new FileSizeException(fileItemVO.getSize() / MEGA_BYTE, MAX_DOWNLOAD_SIZE / MEGA_BYTE);
                 }
 
                 fileContentWrapper.setFileItemVO(fileItemVO);
@@ -158,11 +158,12 @@ public class DownloadWorker
             return url;
         }
     }
-    
-    protected File createZipFile(final List<? extends ItemVO> items, final URL additionalLicenseUrl) throws IOException, ZipFileLengthException, RepositoryException, TooManyFilesException
+
+    protected File createZipFile(final List<? extends ItemVO> items, final URL additionalLicenseUrl) throws IOException, ZipFileLengthException,
+            RepositoryException, TooManyFilesException
     {
         final List<ZipItem> zipItems = toZipItems(items);
-        
+
         final URL generalConditionsUrl = DownloadWorker.class.getResource(GENERAL_CONDITIONS_FILE_NAME);
         if (generalConditionsUrl != null)
         {
@@ -172,7 +173,7 @@ public class DownloadWorker
         {
             logger.error("\n!\n!\n!\n!\n!No " + GENERAL_CONDITIONS_FILE_NAME + " found!\n!\n!\n!\n!\n!");
         }
-        
+
         if (additionalLicenseUrl != null)
             zipItems.add(new ZipItem(METADATA_PATH + AdditionalLicenseUnit.UNIT_LABEL, additionalLicenseUrl));
 
@@ -188,17 +189,18 @@ public class DownloadWorker
     // Note: could determine total size of files before trying to zip them 
     private List<ZipItem> toZipItems(final List<? extends ItemVO> items) throws ZipFileLengthException, TooManyFilesException
     {
-    	if(items.size() > MAX_NUMBER_OF_FILES) {
-    		throw new TooManyFilesException(items.size(), MAX_NUMBER_OF_FILES);
-    	}
+        if (items.size() > MAX_NUMBER_OF_FILES)
+        {
+            throw new TooManyFilesException(items.size(), MAX_NUMBER_OF_FILES);
+        }
         final List<ZipItem> zipItems = new ArrayList<ZipItem>();
 
         int totalSize = calculateTotalSizeUnzipped(items);
         logger.debug("total size unzipped " + totalSize);
-        
+
         if (totalSize > MAX_DOWNLOAD_SIZE)
         {
-            throw new ZipFileLengthException(totalSize/MEGA_BYTE, MAX_DOWNLOAD_SIZE/MEGA_BYTE);
+            throw new ZipFileLengthException(totalSize / MEGA_BYTE, MAX_DOWNLOAD_SIZE / MEGA_BYTE);
         }
         else
         {
@@ -223,7 +225,7 @@ public class DownloadWorker
                 }
             }
         }
-        
+
         return zipItems;
     }
 
@@ -239,7 +241,7 @@ public class DownloadWorker
         }
         return totalSize;
     }
-    
+
     /**
      * Creates an XML file with descriptive metadata of downloaded files.
      * 
@@ -267,7 +269,7 @@ public class DownloadWorker
                     hasMetaData = true;
                     collectMetadata(metaOutputStream, item);
                 }
-                
+
                 // NB: the left part of the expression is our primary objective, so keep it on the left!
                 //hasMetaData = collectMetadata(metaOutputStream, item) || hasMetaData;
             }
@@ -316,10 +318,13 @@ public class DownloadWorker
             if (requestItem.isFile())
             {
                 leaves.add(new DmoStoreId(requestItem.getStoreId()));
-            } else if (requestItem.filesOnly()) {
+            }
+            else if (requestItem.filesOnly())
+            {
                 itemVOs.addAll(FILE_STORE_ACCESS.getFiles(new DmoStoreId(requestItem.getStoreId()), -1, -1, null, null));
-                
-            } else
+
+            }
+            else
             {
                 recursiveGet(itemVOs, new DmoStoreId(requestItem.getStoreId()));
             }

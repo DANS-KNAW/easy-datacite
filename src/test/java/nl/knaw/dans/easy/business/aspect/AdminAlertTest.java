@@ -26,46 +26,45 @@ import org.junit.Test;
 
 public class AdminAlertTest
 {
-    
+
     private static EasyStore store;
     private static FooMailer mailer;
     private static EasyUserRepo userRepo;
-    
+
     @BeforeClass
     public static void beforeClass()
     {
         store = EasyMock.createMock(EasyStore.class);
         Data data = new Data();
         data.setEasyStore(store);
-        
+
         userRepo = EasyMock.createMock(EasyUserRepo.class);
         data.setUserRepo(userRepo);
-        
+
         mailer = new FooMailer();
         ExternalServices extServices = new ExternalServices();
         extServices.setAdminMailer(mailer);
-        
+
         new Security(new CodedAuthz());
     }
-    
+
     @Test
     public void serviceExceptionCatcher() throws Exception
     {
         EasyUser sessionUser = new EasyUserImpl("ben");
         sessionUser.setState(State.ACTIVE);
-        
+
         DatasetService ds = new EasyDatasetService();
-        
+
         Dataset dataset = new DatasetImpl("foo");
         dataset.getAdministrativeMetadata().setAdministrativeState(DatasetState.DRAFT);
         dataset.getAdministrativeMetadata().setDepositorId("ben");
-        
+
         EasyMock.reset(store, userRepo);
         EasyMock.expect(userRepo.exists("ben")).andReturn(true);
-        EasyMock.expect(store.ingest(EasyMock.isA(Dataset.class), EasyMock.isA(String.class)))
-            .andThrow(new RepositoryException("foo&bar")).anyTimes();
+        EasyMock.expect(store.ingest(EasyMock.isA(Dataset.class), EasyMock.isA(String.class))).andThrow(new RepositoryException("foo&bar")).anyTimes();
         EasyMock.replay(store, userRepo);
-        
+
         try
         {
             ds.saveEasyMetadata(sessionUser, dataset);
@@ -74,24 +73,24 @@ public class AdminAlertTest
         {
             // expected
         }
-        
+
         EasyMock.verify(store, userRepo);
         checkMail("ServiceException");
     }
-    
+
     private void checkMail(String check)
     {
         if (Tester.isVerbose())
             System.out.println("\n--------- subject --------\n" + mailer.subject);
-        
+
         if (Tester.isVerbose())
             System.out.println("\n+++++++++ message ++++++++\n" + mailer.text + "\n");
-        
+
         assertTrue(mailer.text.contains(check));
     }
-    
+
     static class FooMailer extends AdminMailer
-    { 
+    {
         String subject;
         String text;
         boolean fail;
@@ -100,7 +99,7 @@ public class AdminAlertTest
         {
             super(null, "Easy");
         }
-        
+
         @Override
         protected boolean send(String subject, String text)
         {

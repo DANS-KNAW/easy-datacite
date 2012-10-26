@@ -34,23 +34,23 @@ import org.slf4j.LoggerFactory;
  */
 public class Data
 {
-    private static EasyUserRepo    userRepo;
-    private static GroupRepo       groupRepo;
-    private static MigrationRepo   migrationRepo;
+    private static EasyUserRepo userRepo;
+    private static GroupRepo groupRepo;
+    private static MigrationRepo migrationRepo;
     private static FederativeUserRepo federativeUserRepo;
-    private static EasyStore       easyStore;
+    private static EasyStore easyStore;
     private static FileStoreAccess fileStoreAccess;
-    private static DatasetSearch   datasetSearch;
-    private static SearchEngine    searchEngine;
+    private static DatasetSearch datasetSearch;
+    private static SearchEngine searchEngine;
     private static DmoCollectionsAccess dmoCollectionAccess;
-    
-    private static int             downloadLimit; // max. size of download in Mb
-    private static int			   maxNumberOfFiles;
-    private static File	           zipFileDir;
 
-    private static boolean         locked;
-    private static Logger          logger              = LoggerFactory.getLogger(Data.class);
-    private static final String    ILLEGAL_METHOD_CALL = "Illegal method call: Setter methods in the Data class should not be called.";
+    private static int downloadLimit; // max. size of download in Mb
+    private static int maxNumberOfFiles;
+    private static File zipFileDir;
+
+    private static boolean locked;
+    private static Logger logger = LoggerFactory.getLogger(Data.class);
+    private static final String ILLEGAL_METHOD_CALL = "Illegal method call: Setter methods in the Data class should not be called.";
 
     /**
      * Constructs new Data - called by the application context. Sets a {@link RepoAccessDelegatorImpl} on
@@ -163,7 +163,7 @@ public class Data
         }
         return datasetSearch;
     }
-    
+
     public static SearchEngine getSearchEngine()
     {
         if (searchEngine == null)
@@ -172,7 +172,7 @@ public class Data
         }
         return searchEngine;
     }
-    
+
     public static DmoCollectionsAccess getCollectionAccess()
     {
         if (dmoCollectionAccess == null)
@@ -191,7 +191,7 @@ public class Data
     // when easy is deployed on the server
     public void setDownloadLimit(String downloadLimit)
     {
-        try 
+        try
         {
             Data.downloadLimit = Integer.parseInt(downloadLimit);
         }
@@ -200,10 +200,10 @@ public class Data
             logger.error("not a valid number: " + downloadLimit);
             throw e;
         }
-        
+
         logger.info("Download limit is set to " + Data.downloadLimit + " MB");
     }
-    
+
     public static int getMaxNumberOfFiles()
     {
         return maxNumberOfFiles;
@@ -211,7 +211,7 @@ public class Data
 
     public void setMaxNumberOfFiles(String maxNumberOfFiles)
     {
-        try 
+        try
         {
             Data.maxNumberOfFiles = Integer.parseInt(maxNumberOfFiles);
         }
@@ -220,19 +220,20 @@ public class Data
             logger.error("not a valid number: " + maxNumberOfFiles);
             throw e;
         }
-        
+
         logger.info("Max number of files is set to " + Data.maxNumberOfFiles);
     }
-    
-    public void setZipFileDir(File dir) {
-    	Data.zipFileDir = dir;
+
+    public void setZipFileDir(File dir)
+    {
+        Data.zipFileDir = dir;
     }
 
-    public static File getZipFileDir() {
-    	return zipFileDir;
+    public static File getZipFileDir()
+    {
+        return zipFileDir;
     }
-    
-    
+
     // more DAP getters
 
     /**
@@ -271,7 +272,7 @@ public class Data
         Data.federativeUserRepo = federativeUserRepo;
         logger.debug("Injected dependency federativeUserRepo: " + federativeUserRepo);
     }
-    
+
     public void setEasyStore(final EasyStore easyStore)
     {
         checkLock();
@@ -292,21 +293,21 @@ public class Data
         Data.datasetSearch = datasetSearch;
         logger.debug("Injected dependency datasetSearch: " + datasetSearch);
     }
-    
+
     public void setSearchEngine(final SearchEngine searchEngine) throws IllegalStateException
     {
         checkLock();
         Data.searchEngine = searchEngine;
         logger.debug("Injected dependency searchEngine: " + searchEngine);
     }
-    
+
     public void setCollectionAccess(final DmoCollectionsAccess dmoCollectionAccess)
     {
         checkLock();
         Data.dmoCollectionAccess = dmoCollectionAccess;
         logger.debug("Injected dependency easyCollections: " + dmoCollectionAccess);
     }
-    
+
     private void checkLock()
     {
         if (locked)
@@ -315,7 +316,5 @@ public class Data
             throw new IllegalStateException(ILLEGAL_METHOD_CALL);
         }
     }
-
-
 
 }

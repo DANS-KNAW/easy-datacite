@@ -37,7 +37,7 @@ public interface EasyStore extends DmoStore
             this.code = code;
         }
     }
-    
+
     EasyMetadata getEasyMetaData(DmoStoreId dmoStoreId, DateTime asOfDateTime) throws RepositoryException;
 
     DownloadHistory findDownloadHistoryFor(DataModelObject objectDmo, String period) throws RepositoryException;
@@ -45,9 +45,9 @@ public interface EasyStore extends DmoStore
     DownloadHistory findDownloadHistoryFor(DmoStoreId dmoStoreId, String period) throws RepositoryException;
 
     List<DownloadHistory> findDownloadHistoryFor(DataModelObject dmo) throws RepositoryException;
-    
+
     URL getFileURL(DmoStoreId dmoStoreId);
-    
+
     URL getDescriptiveMetadataURL(DmoStoreId dmoStoreId);
 
     URL getStreamURL(DmoStoreId dmoStoreId, String streamId);

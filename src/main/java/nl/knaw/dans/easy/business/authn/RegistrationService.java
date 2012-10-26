@@ -22,14 +22,12 @@ import org.slf4j.LoggerFactory;
 
 public class RegistrationService extends AbstractTokenList
 {
-    private static Logger                    logger    = LoggerFactory.getLogger(RegistrationService.class);
+    private static Logger logger = LoggerFactory.getLogger(RegistrationService.class);
 
     /**
      * Store all tokens for registration requests.
      */
     private static final Map<String, String> TOKEN_MAP = new HashMap<String, String>();
-
-    
 
     public RegistrationService()
     {
@@ -54,8 +52,8 @@ public class RegistrationService extends AbstractTokenList
         final String requestTime = authentication.getReturnedTime();
         final String requestToken = authentication.getReturnedToken();
         boolean authenticated = checkToken(userId, requestTime, requestToken)
-            // gets the user
-            && AuthenticationSpecification.userIsInQualifiedState(authentication);
+        // gets the user
+                && AuthenticationSpecification.userIsInQualifiedState(authentication);
 
         if (authenticated)
         {
@@ -96,7 +94,7 @@ public class RegistrationService extends AbstractTokenList
         }
 
         handleRegistration(registration);
-        
+
         if (registration.isCompleted())
         {
             logger.debug("Registered: " + registration.toString());
@@ -106,17 +104,17 @@ public class RegistrationService extends AbstractTokenList
             logger.error("Registration process unsuccessful: " + registration.toString());
             rollBackRegistration(registration);
         }
-        
+
         return registration;
     }
-    
+
     private FederativeUserRegistration handleRegistration(FederativeUserRegistration registration)
     {
         // NOTE Activate User
         registration.getUser().setState(EasyUser.State.ACTIVE);
         // whipe any password jsut to be sure?
         registration.getUser().setPassword(null);
-        
+
         // put new user in UserRepo
         EasyUser user = registration.getUser();
         try
@@ -130,7 +128,6 @@ public class RegistrationService extends AbstractTokenList
             return registration;
         }
 
-        
         // make coupling with federative User ID?
         try
         {
@@ -162,7 +159,7 @@ public class RegistrationService extends AbstractTokenList
             logger.error("Rollback of user registration unsuccessful: " + e);
         }
     }
-    
+
     public Registration handleRegistrationRequest(Registration registration)
     {
         if (!RegistrationSpecification.isSatisfiedBy(registration))
@@ -215,7 +212,7 @@ public class RegistrationService extends AbstractTokenList
             registration.setState(Registration.State.SystemError, e);
             return registration;
         }
-        
+
         try
         {
             new RegistrationConfirmation(registration).send();
@@ -268,8 +265,7 @@ public class RegistrationService extends AbstractTokenList
                 EasyUser user = Data.getUserRepo().findById(userId);
                 if (EasyUser.State.ACTIVE.equals(user.getState()) || user.getState() == null)
                 {
-                    logger.warn("Activating a user that is not in state " + EasyUser.State.REGISTERED + ". Actual state="
-                            + user.getState());
+                    logger.warn("Activating a user that is not in state " + EasyUser.State.REGISTERED + ". Actual state=" + user.getState());
                 }
                 if (EasyUser.State.BLOCKED.equals(user.getState()))
                 {
@@ -295,21 +291,21 @@ public class RegistrationService extends AbstractTokenList
         logger.debug("Validation of registration of user " + userId + " completed. Valid registration=" + valid);
         return valid;
     }
-    
+
     // double parameters for MutatesData.aj. 1. actor, 2. subject
     @MutatesUser
     private void update(EasyUser sessionUser, EasyUser user) throws RepositoryException
     {
         Data.getUserRepo().update(user);
     }
-    
+
     // double parameters for MutatesData.aj. 1. actor, 2. subject
     @MutatesUser
     private void add(EasyUser sessionUser, EasyUser user) throws ObjectExistsException, RepositoryException
     {
         Data.getUserRepo().add(user);
     }
-    
+
     // double parameters for MutatesData.aj. 1. actor, 2. subject
     @MutatesUser
     private void delete(EasyUser sessionUser, EasyUser user) throws RepositoryException

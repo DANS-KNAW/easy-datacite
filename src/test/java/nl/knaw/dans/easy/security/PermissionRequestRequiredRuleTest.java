@@ -23,13 +23,13 @@ public class PermissionRequestRequiredRuleTest
     {
         check(datasetWithOpenAccess(), mockUser(), false);
     }
-    
+
     @Test
     public void noPermissionRequired2()
     {
         check(datasetWithOpenAccess(), mockArchivist(), false);
     }
-    
+
     @Test
     public void noPermissionRequired3()
     {
@@ -52,7 +52,7 @@ public class PermissionRequestRequiredRuleTest
         check(dataset, mockArchivist(), false);
         EasyMock.verify(dataset);
     }
-    
+
     @Ignore
     @Test
     public void admin()

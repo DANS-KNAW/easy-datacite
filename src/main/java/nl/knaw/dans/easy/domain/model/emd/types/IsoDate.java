@@ -54,6 +54,7 @@ public class IsoDate extends SimpleElementImpl<DateTime>
          * The pattern of this format.
          */
         public final String pattern;
+
         // ecco: CHECKSTYLE: ON
 
         /**
@@ -71,16 +72,16 @@ public class IsoDate extends SimpleElementImpl<DateTime>
     /**
      * The default format.
      */
-    public static final Format         DEFAULT_FORMAT   = Format.DAY;
+    public static final Format DEFAULT_FORMAT = Format.DAY;
 
     /**
      *
      */
-    private static final long          serialVersionUID = 6221080192319225316L;
+    private static final long serialVersionUID = 6221080192319225316L;
 
-    private final EmdConstants.DateScheme scheme           = EmdConstants.DateScheme.W3CDTF;
+    private final EmdConstants.DateScheme scheme = EmdConstants.DateScheme.W3CDTF;
 
-    private Format                     format           = DEFAULT_FORMAT;
+    private Format format = DEFAULT_FORMAT;
 
     /**
      * Creates a {@link DateTime} from a string.
@@ -264,7 +265,7 @@ public class IsoDate extends SimpleElementImpl<DateTime>
      */
     @Override
     // needed for JiBX when using generic classes
-    public DateTime getValue() 
+    public DateTime getValue()
     {
         return super.getValue();
     }
@@ -274,7 +275,7 @@ public class IsoDate extends SimpleElementImpl<DateTime>
      */
     @Override
     // needed for JiBX when using generic classes
-    public void setValue(final DateTime value) 
+    public void setValue(final DateTime value)
     {
         super.setValue(value);
     }

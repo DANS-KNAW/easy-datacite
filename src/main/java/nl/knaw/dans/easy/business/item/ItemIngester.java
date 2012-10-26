@@ -40,24 +40,24 @@ import org.slf4j.LoggerFactory;
  */
 public class ItemIngester extends AbstractWorker
 {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(ItemIngester.class);
 
-    public static final String[]     SKIPPED_FILENAMES      = {"Thumbs.db", "__MACOSX", ".DS_Store"};
+    public static final String[] SKIPPED_FILENAMES = {"Thumbs.db", "__MACOSX", ".DS_Store"};
 
     public static final List<String> SKIPPED_FILENAMES_LIST = Arrays.asList(SKIPPED_FILENAMES);
-    
+
     public static final String DEPOSITOR_FOLDER_NAME = "original";
-    
+
     private final ItemIngesterDelegator delegator;
 
-    private final Dataset            dataset;
+    private final Dataset dataset;
 
-    private final EasyUser           sessionUser;
+    private final EasyUser sessionUser;
 
-    private final CreatorRole        creatorRole;
+    private final CreatorRole creatorRole;
 
-    private FileFilter               ingestFilter;
+    private FileFilter ingestFilter;
 
     /**
      * @param dataset
@@ -65,7 +65,7 @@ public class ItemIngester extends AbstractWorker
      * @param sessionUser
      *        the user that initiates the ingest
      */
-    protected ItemIngester(Dataset dataset, EasyUser sessionUser,ItemIngesterDelegator delegator)
+    protected ItemIngester(Dataset dataset, EasyUser sessionUser, ItemIngesterDelegator delegator)
     {
         this(new EasyUnitOfWork(sessionUser), dataset, sessionUser, delegator);
     }
@@ -85,7 +85,7 @@ public class ItemIngester extends AbstractWorker
             this.delegator = delegator;
         }
     }
-    
+
     /*
      * used by tools-easy-import
      */
@@ -94,8 +94,7 @@ public class ItemIngester extends AbstractWorker
         workAddDirectoryContents(parentContainer, rootFile, new IngestFilter());
     }
 
-    protected void workAddDirectoryContents(DatasetItemContainer parentContainer, File rootFile, FileFilter ingestFilter)
-            throws ServiceException
+    protected void workAddDirectoryContents(DatasetItemContainer parentContainer, File rootFile, FileFilter ingestFilter) throws ServiceException
     {
         this.ingestFilter = ingestFilter;
         try
@@ -104,9 +103,9 @@ public class ItemIngester extends AbstractWorker
             getUnitOfWork().attach(parentContainer);
             if (logger.isDebugEnabled())
             {
-                logger.debug("Ingesting for " + dataset.getStoreId() + " in parentContainer " + parentContainer.getStoreId()
-                        + ". rootFile=" + rootFile.getName() + " ingestFilter=" + ingestFilter);
-                
+                logger.debug("Ingesting for " + dataset.getStoreId() + " in parentContainer " + parentContainer.getStoreId() + ". rootFile="
+                        + rootFile.getName() + " ingestFilter=" + ingestFilter);
+
             }
 
             if (!rootFile.isDirectory())
@@ -115,7 +114,7 @@ public class ItemIngester extends AbstractWorker
             }
 
             Map<String, String> members = collectMembers(parentContainer.getDmoStoreId());
-            
+
             // Files and folders submitted by depositor go into folder 'original'.
             if (parentContainer instanceof Dataset && CreatorRole.DEPOSITOR.equals(creatorRole))
             {
@@ -124,7 +123,7 @@ public class ItemIngester extends AbstractWorker
                 {
                     FolderItem original = (FolderItem) AbstractDmoFactory.newDmo(FolderItem.NAMESPACE);
                     getUnitOfWork().attach(original);
-                    
+
                     original.setLabel(DEPOSITOR_FOLDER_NAME);
                     original.setOwnerId(sessionUser.getId());
                     original.setDatasetId(dataset.getDmoStoreId());
@@ -139,7 +138,7 @@ public class ItemIngester extends AbstractWorker
                 members = collectMembers(parentContainer.getDmoStoreId());
             }
             // End files and folders submitted by depositor go into folder 'original'.
-            
+
             for (File file : rootFile.listFiles(ingestFilter))
             {
                 addFile(parentContainer, file, members);
@@ -158,10 +157,11 @@ public class ItemIngester extends AbstractWorker
         catch (IOException e)
         {
             throw new ServiceException("Exception while processing files: ", e);
-        } catch (DomainException e)
-		{
+        }
+        catch (DomainException e)
+        {
             throw new ServiceException("Exception while processing files: ", e);
-		}
+        }
         finally
         {
             getUnitOfWork().close();
@@ -169,8 +169,8 @@ public class ItemIngester extends AbstractWorker
     }
 
     // Base entrance for the process. Decides whether to ingest or update an item.
-    private void addFile(DatasetItemContainer parentContainer, File file, Map<String, String> members)
-            throws RepositoryException, IOException, UnitOfWorkInterruptException, DomainException
+    private void addFile(DatasetItemContainer parentContainer, File file, Map<String, String> members) throws RepositoryException, IOException,
+            UnitOfWorkInterruptException, DomainException
     {
         String storeId = members.get(file.getName());
         if (storeId == null)
@@ -184,31 +184,31 @@ public class ItemIngester extends AbstractWorker
     }
 
     // ingest FileItems and FolderITems
-    private void ingestFile(DatasetItemContainer parentContainer, File file) throws RepositoryException, IOException,
-            UnitOfWorkInterruptException, DomainException
+    private void ingestFile(DatasetItemContainer parentContainer, File file) throws RepositoryException, IOException, UnitOfWorkInterruptException,
+            DomainException
     {
         if (file.isDirectory())
         {
             FolderItem kidFolder = (FolderItem) AbstractDmoFactory.newDmo(FolderItem.NAMESPACE);
             getUnitOfWork().attach(kidFolder);
-            
+
             kidFolder.setLabel(file.getName());
             kidFolder.setOwnerId(sessionUser.getId());
             kidFolder.setDatasetId(dataset.getDmoStoreId());
             // set parent before iterating kids. see DatasetItem setParent/ getPath
             kidFolder.setParent(parentContainer);
-            
+
             for (File kid : file.listFiles(ingestFilter))
             {
                 ingestFile(kidFolder, kid);
             }
-            
+
         }
         else
         {
             FileItem kidFile = (FileItem) AbstractDmoFactory.newDmo(FileItem.NAMESPACE);
             getUnitOfWork().attach(kidFile);
-            
+
             kidFile.setFile(file);
             kidFile.setCreatorRole(creatorRole);
             kidFile.setDatasetId(dataset.getDmoStoreId());
@@ -217,7 +217,7 @@ public class ItemIngester extends AbstractWorker
             kidFile.setParent(parentContainer);
             setFileRights(kidFile);
             addAdditionalMetadata(kidFile);
-            
+
             getUnitOfWork().saveAndDetach(kidFile);
         }
     }
@@ -226,15 +226,14 @@ public class ItemIngester extends AbstractWorker
     {
         delegator.setFileRights(fileItem);
     }
-    
+
     protected void addAdditionalMetadata(FileItem fileItem)
     {
         delegator.addAdditionalMetadata(fileItem);
     }
 
     // update FileItems and FolderItems
-    private void updateFile(DmoStoreId storeId, File file) throws RepositoryException, IOException,
-            UnitOfWorkInterruptException, DomainException
+    private void updateFile(DmoStoreId storeId, File file) throws RepositoryException, IOException, UnitOfWorkInterruptException, DomainException
     {
         if (file.isDirectory())
         {
@@ -261,7 +260,7 @@ public class ItemIngester extends AbstractWorker
             currentFile.setOwnerId(sessionUser.getId());
             setFileRights(currentFile);
             addAdditionalMetadata(currentFile);
-            
+
             getUnitOfWork().saveAndDetach(currentFile);
         }
     }
@@ -290,8 +289,7 @@ public class ItemIngester extends AbstractWorker
 
         public boolean accept(File file)
         {
-            boolean accept = filesToIngest.contains(file) 
-                    && !SKIPPED_FILENAMES_LIST.contains(file.getName());
+            boolean accept = filesToIngest.contains(file) && !SKIPPED_FILENAMES_LIST.contains(file.getName());
 
             return accept;
         }
@@ -309,14 +307,14 @@ public class ItemIngester extends AbstractWorker
         }
 
     }
-    
+
     public static class DefaultDelegator implements ItemIngesterDelegator
     {
-        
+
         // TODO refactor enum VisibleTo to AccessCategory;
         private final VisibleTo visibleToOnIngest;
         private final AccessibleTo accesibleTonIngest;
-        
+
         public DefaultDelegator(Dataset dataset)
         {
             AccessCategory accessCategory = dataset.getAccessCategory();
@@ -335,18 +333,18 @@ public class ItemIngester extends AbstractWorker
         {
             fileItem.setVisibleTo(visibleToOnIngest);
         }
-        
+
         protected void setReadRights(FileItem fileItem)
         {
             fileItem.setAccessibleTo(accesibleTonIngest);
         }
-        
+
         @Override
         public void addAdditionalMetadata(FileItem fileItem)
         {
             // no additional metadata in default behavior.
         }
-        
+
     }
 
 }

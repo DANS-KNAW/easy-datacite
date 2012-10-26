@@ -11,7 +11,7 @@ import org.springframework.beans.FatalBeanException;
 
 public class MigrationArchivistCreator
 {
-    
+
     protected static void createMigrationArchivist()
     {
         try

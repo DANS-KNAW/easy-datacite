@@ -10,9 +10,9 @@ public abstract class AbstractTokenList
 {
     private static final String TOKEN_SEPARATOR = ">";
 
-    private static Logger       logger          = LoggerFactory.getLogger(AbstractTokenList.class);
+    private static Logger logger = LoggerFactory.getLogger(AbstractTokenList.class);
 
-    private Object              syncObject      = new Object();
+    private Object syncObject = new Object();
 
     public abstract Map<String, String> getTokenMap();
 
@@ -34,8 +34,7 @@ public abstract class AbstractTokenList
             final String tokenString = userId + TOKEN_SEPARATOR + requestTime + TOKEN_SEPARATOR + requestToken;
             tokenMap.put(userId, tokenString);
             // TODO store userId and token on persistent medium
-            logger.debug(this.getClass().getSimpleName() + ": Added token " + tokenString
-                    + ". Pending request count=" + tokenMap.size());
+            logger.debug(this.getClass().getSimpleName() + ": Added token " + tokenString + ". Pending request count=" + tokenMap.size());
         }
     }
 
@@ -48,13 +47,11 @@ public abstract class AbstractTokenList
             if (removed != null)
             {
                 // TODO remove userId and token from persistent medium
-                logger.debug(this.getClass().getSimpleName() + ": Removed token for userId '" + userId
-                    + "'. Pending request count=" + tokenMap.size());
+                logger.debug(this.getClass().getSimpleName() + ": Removed token for userId '" + userId + "'. Pending request count=" + tokenMap.size());
             }
             else
             {
-                logger.debug(this.getClass().getSimpleName() + ": Token for userId '" + userId + "' not found"
-                        + ". Pending request count=" + tokenMap.size());
+                logger.debug(this.getClass().getSimpleName() + ": Token for userId '" + userId + "' not found" + ". Pending request count=" + tokenMap.size());
             }
         }
     }
@@ -77,8 +74,7 @@ public abstract class AbstractTokenList
         boolean validToken = false;
         if (StringUtils.isEmpty(userId) || StringUtils.isEmpty(requestTime) || StringUtils.isEmpty(requestToken))
         {
-            logger.error(this.getClass().getSimpleName() + ": checkToken is called with invalid parameters: "
-                    + checkTokenString);
+            logger.error(this.getClass().getSimpleName() + ": checkToken is called with invalid parameters: " + checkTokenString);
             return false;
         }
         synchronized (syncObject)
@@ -100,7 +96,7 @@ public abstract class AbstractTokenList
         }
         return validToken;
     }
-    
+
     public int pendingRequests()
     {
         int pendingRequests = 0;
@@ -110,7 +106,7 @@ public abstract class AbstractTokenList
         }
         return pendingRequests;
     }
-    
+
     public void reset()
     {
         synchronized (syncObject)

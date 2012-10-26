@@ -22,9 +22,9 @@ public interface EasyService
      * @return a short description of this service
      */
     String getServiceDescription();
-    
+
     /**
      * Do any processing needed after bean instantiation.
      */
-    void doBeanPostProcessing() throws ServiceException;    
+    void doBeanPostProcessing() throws ServiceException;
 }

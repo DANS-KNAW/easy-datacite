@@ -11,10 +11,10 @@ import java.util.Locale;
  */
 public class BasicIdentifier extends BasicString
 {
-    
+
     private static final long serialVersionUID = 3064530380288101430L;
 
-    private URI               identificationSystem;                   
+    private URI identificationSystem;
 
     /**
      * Constructs a BasicIdentifier.
@@ -23,8 +23,7 @@ public class BasicIdentifier extends BasicString
     {
         super();
     }
-    
-    
+
     /**
      * Save constructor of a BasicIdentifier.
      *
@@ -118,7 +117,7 @@ public class BasicIdentifier extends BasicString
      * @param identificationSystem
      *        the formal identification system
      */
-    public void setIdentificationSystem(final URI identificationSystem) 
+    public void setIdentificationSystem(final URI identificationSystem)
     {
         this.identificationSystem = identificationSystem;
     }

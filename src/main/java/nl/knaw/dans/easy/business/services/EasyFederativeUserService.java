@@ -17,7 +17,7 @@ import nl.knaw.dans.easy.servicelayer.services.FederativeUserService;
 
 public class EasyFederativeUserService extends AbstractEasyService implements FederativeUserService
 {
-    private static Logger       logger              = LoggerFactory.getLogger(EasyFederativeUserService.class);
+    private static Logger logger = LoggerFactory.getLogger(EasyFederativeUserService.class);
     private URL federationUrl;
     private boolean federationLoginEnabled;
     private String propertyNameUserId;
@@ -31,7 +31,7 @@ public class EasyFederativeUserService extends AbstractEasyService implements Fe
     {
         EasyUser user = null;
         String uid = "";
-        
+
         // Find uid from mapping for federated user
         try
         {
@@ -49,7 +49,7 @@ public class EasyFederativeUserService extends AbstractEasyService implements Fe
             logger.debug("Could not get user with fedUserId '" + fedUserId + "' :", e);
             throw new ServiceException("Could not get user with fedUserId '" + fedUserId + "' :", e);
         }
-        
+
         // get associated EasyUser with that uid
         // NOTE maybe use EasyUserService for that
         // But if we want to handle thing a bit different...
@@ -70,7 +70,7 @@ public class EasyFederativeUserService extends AbstractEasyService implements Fe
             logger.debug("Could not get user with id '" + uid + "' :", e);
             throw new ServiceException("Could not get user with id '" + uid + "' :", e);
         }
-        
+
         return user;
     }
 
@@ -82,8 +82,8 @@ public class EasyFederativeUserService extends AbstractEasyService implements Fe
         {
             if (Data.getFederativeUserRepo().exists(fedUserId))
             {
-                    Data.getFederativeUserRepo().delete(fedUserId);
-                    logger.debug("Removed coupling for federated user Id: " + fedUserId + ", but should replace it with easy Id: " + easyUserId);
+                Data.getFederativeUserRepo().delete(fedUserId);
+                logger.debug("Removed coupling for federated user Id: " + fedUserId + ", but should replace it with easy Id: " + easyUserId);
             }
         }
         catch (RepositoryException e1)
@@ -91,7 +91,7 @@ public class EasyFederativeUserService extends AbstractEasyService implements Fe
             logger.debug("Could not add coupling for federated user Id '" + fedUserId + "' :", e1);
             throw new ServiceException("Could not add coupling for federated user Id '" + fedUserId + "' :", e1);
         }
-        
+
         FederativeUserIdMap idMap = new FederativeUserIdMap(fedUserId, easyUserId);
         try
         {
@@ -110,23 +110,27 @@ public class EasyFederativeUserService extends AbstractEasyService implements Fe
         }
     }
 
-	@Override
-	public URL getFederationUrl() {
-		return federationUrl;
-	}
+    @Override
+    public URL getFederationUrl()
+    {
+        return federationUrl;
+    }
 
-	public void setFederationUrl(URL federationUrl) {
-		this.federationUrl = federationUrl;
-	}
-	
-	public void setFederationLoginEnabled(boolean enabled) {
-		federationLoginEnabled = enabled;
-	}
+    public void setFederationUrl(URL federationUrl)
+    {
+        this.federationUrl = federationUrl;
+    }
 
-	@Override
-	public boolean isFederationLoginEnabled() {
-		return federationLoginEnabled;
-	}
+    public void setFederationLoginEnabled(boolean enabled)
+    {
+        federationLoginEnabled = enabled;
+    }
+
+    @Override
+    public boolean isFederationLoginEnabled()
+    {
+        return federationLoginEnabled;
+    }
 
     @Override
     public String getPropertyNameUserId()

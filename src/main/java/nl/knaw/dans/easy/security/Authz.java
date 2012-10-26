@@ -16,9 +16,9 @@ public interface Authz
      *         default SecurityOfficer that denies all implications
      */
     SecurityOfficer getSecurityOfficer(String item);
-    
+
     boolean isProtectedPage(String pageName);
-    
+
     boolean hasSecurityOfficer(String item);
 
 }

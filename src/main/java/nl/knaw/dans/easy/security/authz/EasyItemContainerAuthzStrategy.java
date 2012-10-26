@@ -11,16 +11,16 @@ public class EasyItemContainerAuthzStrategy extends AbstractDatasetAutzStrategy
     private static final long serialVersionUID = -3903342896601185096L;
 
     private DatasetItemContainer itemContainer;
-    
+
     private int viewProfile = NOT_EVALUATED;
     private int readProfile = NOT_EVALUATED;
-    
+
     protected EasyItemContainerAuthzStrategy()
     {
-        
+
     }
-    
-    protected EasyItemContainerAuthzStrategy(User user, Object target, Object...contextObjects)
+
+    protected EasyItemContainerAuthzStrategy(User user, Object target, Object... contextObjects)
     {
         super(user, contextObjects);
         if (target instanceof DatasetItemContainer)
@@ -29,7 +29,7 @@ public class EasyItemContainerAuthzStrategy extends AbstractDatasetAutzStrategy
         }
         checkAttributes();
     }
-    
+
     protected EasyItemContainerAuthzStrategy(Object target)
     {
         if (target instanceof DatasetItemContainer)
@@ -37,15 +37,15 @@ public class EasyItemContainerAuthzStrategy extends AbstractDatasetAutzStrategy
             itemContainer = (DatasetItemContainer) target;
         }
     }
-    
+
     @Override
     protected void checkAttributes()
     {
         super.checkAttributes();
-        if (itemContainer == null) throw new IllegalArgumentException("Insufficient parameters: no itemContainer");
+        if (itemContainer == null)
+            throw new IllegalArgumentException("Insufficient parameters: no itemContainer");
         DmoStoreId datasetId = getDataset().getDmoStoreId();
-        if (!(datasetId.equals(itemContainer.getDatasetItemContainerMetadata().getDatasetDmoStoreId())
-              || datasetId.equals(itemContainer.getDmoStoreId())))
+        if (!(datasetId.equals(itemContainer.getDatasetItemContainerMetadata().getDatasetDmoStoreId()) || datasetId.equals(itemContainer.getDmoStoreId())))
             throw new IllegalArgumentException("ItemContainer is not given dataset, nor part of given dataset");
     }
 
@@ -68,25 +68,25 @@ public class EasyItemContainerAuthzStrategy extends AbstractDatasetAutzStrategy
         }
         return readProfile;
     }
-    
+
     @Override
     public boolean canUnitBeDiscovered(String unitId)
     {
         throw new UnsupportedOperationException("Method not implemented");
     }
-    
+
     @Override
     public boolean canUnitBeRead(String unitId)
     {
         throw new UnsupportedOperationException("Method not implemented");
     }
-    
+
     @Override
     protected boolean canAllBeRead()
     {
         return TriState.ALL.equals(canChildrenBeRead());
     }
-    
+
     @Override
     public EasyItemContainerAuthzStrategy newStrategy(User user, Object target, Object... contextObjects)
     {
@@ -98,7 +98,7 @@ public class EasyItemContainerAuthzStrategy extends AbstractDatasetAutzStrategy
     {
         EasyItemContainerAuthzStrategy sameStrategy = new EasyItemContainerAuthzStrategy(target);
         super.clone(sameStrategy);
-        
+
         sameStrategy.checkAttributes();
         return sameStrategy;
     }

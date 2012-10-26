@@ -19,12 +19,12 @@ public final class SecurityUtil
     /**
      * Hashing algorithm used.
      */
-    private static final String HASHING_ALGORITHM              = "SHA1";
+    private static final String HASHING_ALGORITHM = "SHA1";
 
     /**
      * Length of the generated random string.
      */
-    public static final int     GENERATED_RANDOM_STRING_LENGTH = 20;
+    public static final int GENERATED_RANDOM_STRING_LENGTH = 20;
 
     /**
      * Default constructor.

@@ -19,11 +19,11 @@ public class EasyMailComposer extends MailComposer
     public static final String LOCATION_HTML_HEADER = EasyHome.getValue() + "/mail/templates/default/header.html";
     public static final String LOCATION_HTML_FOOTER = EasyHome.getValue() + "/mail/templates/default/footer.html";
 
-    private static String      TEXT_HEADER;
-    private static String      TEXT_FOOTER;
+    private static String TEXT_HEADER;
+    private static String TEXT_FOOTER;
 
-    private static String      HTML_HEADER;
-    private static String      HTML_FOOTER;
+    private static String HTML_HEADER;
+    private static String HTML_FOOTER;
 
     public static String getTextHeader()
     {
@@ -112,7 +112,7 @@ public class EasyMailComposer extends MailComposer
     {
         return getTextHeader() + getMessageBody(templateLocation, false) + getTextFooter();
     }
-    
+
     public String composeHtml(String templateLocation) throws MailComposerException
     {
         return getHtmlHeader() + getMessageBody(templateLocation, true) + getHtmlFooter();

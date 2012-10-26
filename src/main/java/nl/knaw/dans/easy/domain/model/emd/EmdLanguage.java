@@ -18,17 +18,14 @@ public class EmdLanguage extends AbstractEmdContainer
     /**
      * Terms contained.
      */
-    static final Term[] TERMS =
-    {
-        new Term(Term.Name.LANGUAGE, Term.Namespace.DC, BasicString.class)
-    };
+    static final Term[] TERMS = {new Term(Term.Name.LANGUAGE, Term.Namespace.DC, BasicString.class)};
 
     /**
      *
      */
     private static final long serialVersionUID = 3744331175394016441L;
 
-    private List<BasicString> dcLanguage       = new ArrayList<BasicString>();
+    private List<BasicString> dcLanguage = new ArrayList<BasicString>();
 
     /**
      * {@inheritDoc}

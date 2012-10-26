@@ -1,6 +1,7 @@
 package nl.knaw.dans.easy.security;
 
 import nl.knaw.dans.easy.domain.model.Dataset;
+
 public class HasPermissionRestrictedItemsCheck extends AbstractCheck
 {
 
@@ -14,7 +15,7 @@ public class HasPermissionRestrictedItemsCheck extends AbstractCheck
         boolean conditionMet = false;
 
         Dataset dataset = ctxParameters.getDataset();
-        if (dataset != null )
+        if (dataset != null)
         {
             conditionMet = dataset.hasPermissionRestrictedItems();
         }
@@ -34,7 +35,7 @@ public class HasPermissionRestrictedItemsCheck extends AbstractCheck
         }
         else
         {
-            sb.append(", dataset "+dataset.getStoreId()+" hasPermissionRestrictedItems = " + dataset.hasPermissionRestrictedItems());
+            sb.append(", dataset " + dataset.getStoreId() + " hasPermissionRestrictedItems = " + dataset.hasPermissionRestrictedItems());
         }
 
         sb.append("\n\tcondition met = ");

@@ -18,7 +18,7 @@ public final class BasicDate extends LanguageTokenizedString
     /**
      * Serial version id.
      */
-    private static final long    serialVersionUID = -5096088175356626732L;
+    private static final long serialVersionUID = -5096088175356626732L;
 
     /**
      * Holds the scheme.
@@ -28,7 +28,7 @@ public final class BasicDate extends LanguageTokenizedString
     /**
      * Holds the DateTime.
      */
-    private transient DateTime   dateTime;
+    private transient DateTime dateTime;
 
     /**
      * Constructs a BasicDate.
@@ -101,7 +101,8 @@ public final class BasicDate extends LanguageTokenizedString
      * @see #setValue(String)
      * @see #setLanguage(String)
      */
-    public BasicDate(final String value, final String language, final EmdConstants.DateScheme scheme) throws InvalidLanguageTokenException, IllegalStateException
+    public BasicDate(final String value, final String language, final EmdConstants.DateScheme scheme) throws InvalidLanguageTokenException,
+            IllegalStateException
     {
         super(value, language);
         setScheme(scheme);
@@ -147,7 +148,7 @@ public final class BasicDate extends LanguageTokenizedString
 
     private void setDateTimeAndScheme()
     {
-        dateTime = null; 
+        dateTime = null;
         if (getValue() != null)
         {
             try
@@ -163,7 +164,7 @@ public final class BasicDate extends LanguageTokenizedString
             {
                 if (EmdConstants.DateScheme.W3CDTF.equals(scheme))
                 {
-                    scheme = null; 
+                    scheme = null;
                 }
             }
             // ecco: CHECKSTYLE: ON
@@ -178,7 +179,7 @@ public final class BasicDate extends LanguageTokenizedString
      */
     public DateTime getDateTime()
     {
-        return dateTime; 
+        return dateTime;
     }
 
     /**

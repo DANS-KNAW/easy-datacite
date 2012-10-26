@@ -12,14 +12,14 @@ public class DownloadHistory extends AbstractDataModelObject
 {
 
     public static final int LIST_TYPE_DATASET = DownloadList.TYPE_MONTH;
-    
+
     private static final long serialVersionUID = -3007955623753515227L;
-    
+
     public static final DmoNamespace NAMESPACE = new DmoNamespace("easy-dlh");
-    
+
     private String objectId;
     private DownloadList downloadList;
-    
+
     public DownloadHistory(String storeId)
     {
         super(storeId);
@@ -41,7 +41,7 @@ public class DownloadHistory extends AbstractDataModelObject
     {
         return isRegisteredDeleted();
     }
-    
+
     @Override
     public List<MetadataUnit> getMetadataUnits()
     {
@@ -49,7 +49,7 @@ public class DownloadHistory extends AbstractDataModelObject
         mdUnits.add(getDownloadList());
         return mdUnits;
     }
-    
+
     @Override
     protected Relations newRelationsObject()
     {
@@ -62,7 +62,7 @@ public class DownloadHistory extends AbstractDataModelObject
             return new DownloadHistoryRelations(this, objectId);
         }
     }
-    
+
     public String getObjectId()
     {
         if (objectId == null)
@@ -89,6 +89,5 @@ public class DownloadHistory extends AbstractDataModelObject
     {
         this.downloadList = downloadList;
     }
-    
 
 }

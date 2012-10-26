@@ -31,23 +31,23 @@ import org.slf4j.LoggerFactory;
 public class ArchisCollector
 {
 
-    public static final String ARCHIS_URI_STRING    = "http://archis2.archis.nl";
-    
+    public static final String ARCHIS_URI_STRING = "http://archis2.archis.nl";
+
     public static final URI ARCHIS_URI = URI.create(ARCHIS_URI_STRING);
-    
+
     public static final String ARCHIS_PDF = "http://archis2.archis.nl/reports/rwservlet?server=rep_owwnlms016&destype=cache&desformat=pdf&userid=DANS/EDNA2593@archis2p&report=OMG_OZK_uitgebreid.rep&p_ids=";
 
     public static final String BASE_URL = "http://archis2.archis.nl/reports/rwservlet?server=rep_owwnlms016&destype=cache&desformat=xml&userid=DANS/EDNA2593@archis2p&report=OZKMELD_stand.rep&p_ids=";
 
     public static final String SPATIAL_POINT_SCHEME = "RD";
 
-    private static Logger      logger               = LoggerFactory.getLogger(ArchisCollector.class);
+    private static Logger logger = LoggerFactory.getLogger(ArchisCollector.class);
 
     private final EasyMetadata easyMetadata;
 
     private String currentX;
-    private String             currentPlace;
-    
+    private String currentPlace;
+
     private BasicIdentifier currentIdentifier;
 
     public ArchisCollector(EasyMetadata easyMetadata)
@@ -143,8 +143,7 @@ public class ArchisCollector
     {
         // logger.debug("element.name=" + element.getName() + " element.value=" + element.getTextNormalize());
         String value = element.getTextNormalize();
-        if (StringUtils.isBlank(value) || "Onbekend".equalsIgnoreCase(value)
-                || "Niet van toepassing".equalsIgnoreCase(value))
+        if (StringUtils.isBlank(value) || "Onbekend".equalsIgnoreCase(value) || "Niet van toepassing".equalsIgnoreCase(value))
         {
             return;
         }
@@ -272,14 +271,14 @@ public class ArchisCollector
     @SuppressWarnings("unused")
     private void addX_COORD(String value)
     {
-//        try
-//        {
-//            currentX = Double.valueOf(value);
-//        }
-//        catch (NumberFormatException e)
-//        {
-//            logger.warn("Unexpected number format for Double: " + value);
-//        }
+        //        try
+        //        {
+        //            currentX = Double.valueOf(value);
+        //        }
+        //        catch (NumberFormatException e)
+        //        {
+        //            logger.warn("Unexpected number format for Double: " + value);
+        //        }
         currentX = value;
     }
 
@@ -293,14 +292,13 @@ public class ArchisCollector
             {
                 //Double yPoint = Double.valueOf(value);
                 String yPoint = value;
-                easyMetadata.getEmdCoverage().getEasSpatial().add(
-                        new Spatial(currentPlace, new Spatial.Point(SPATIAL_POINT_SCHEME, currentX, yPoint)));
+                easyMetadata.getEmdCoverage().getEasSpatial().add(new Spatial(currentPlace, new Spatial.Point(SPATIAL_POINT_SCHEME, currentX, yPoint)));
             }
         }
-//        catch (NumberFormatException e)
-//        {
-//            logger.warn("Unexpected number format for Double: " + value);
-//        }
+        //        catch (NumberFormatException e)
+        //        {
+        //            logger.warn("Unexpected number format for Double: " + value);
+        //        }
         finally
         {
             currentX = null;
@@ -308,7 +306,7 @@ public class ArchisCollector
         }
 
     }
-    
+
     public static String getDigits(String s)
     {
         StringBuilder sb = new StringBuilder();

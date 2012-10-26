@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 public class DefaultAuditTrail implements AuditTrail
 {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(DefaultAuditTrail.class);
 
     @Override
@@ -17,7 +17,7 @@ public class DefaultAuditTrail implements AuditTrail
     @Override
     public void close()
     {
-        
+
     }
 
 }

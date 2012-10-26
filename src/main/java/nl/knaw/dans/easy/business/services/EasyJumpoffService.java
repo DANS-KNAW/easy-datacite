@@ -18,11 +18,10 @@ import org.slf4j.LoggerFactory;
 
 public class EasyJumpoffService extends AbstractEasyService implements JumpoffService
 {
-    
+
     private JumpoffWorkDispatcher workDispatcher;
-    
+
     private static final Logger logger = LoggerFactory.getLogger(EasyJumpoffService.class);
-    
 
     @Override
     public void deleteMetadataUnit(EasyUser sessionUser, DmoStoreId storeId, DsUnitId unitId) throws ServiceException
@@ -48,29 +47,27 @@ public class EasyJumpoffService extends AbstractEasyService implements JumpoffSe
         getDispatcher().saveJumpoffDmo(sessionUser, jumpoffDmo, containerDmo);
         if (logger.isDebugEnabled())
         {
-            logger.debug("User '" + getUserId(sessionUser) + "' saved JumpoffDmo of dataset "
-                    + getStoreId(containerDmo) + " as " + jumpoffDmo.getStoreId());
+            logger.debug("User '" + getUserId(sessionUser) + "' saved JumpoffDmo of dataset " + getStoreId(containerDmo) + " as " + jumpoffDmo.getStoreId());
         }
     }
-    
-    public List<UnitMetadata> getUnitMetadata(EasyUser sessionUser,JumpoffDmo jumpoffDmo) throws ServiceException
+
+    public List<UnitMetadata> getUnitMetadata(EasyUser sessionUser, JumpoffDmo jumpoffDmo) throws ServiceException
     {
         return getDispatcher().getUnitMetadata(sessionUser, jumpoffDmo);
     }
-    
+
     public List<UnitMetadata> getUnitMetadata(EasyUser sessionUser, DmoStoreId storeId, DsUnitId unitId) throws ServiceException
     {
         return getDispatcher().retrieveUnitMetadata(sessionUser, storeId, unitId);
     }
-    
+
     @Override
-    public void deleteJumpoff(EasyUser sessionUser,DataModelObject containerDmo, JumpoffDmo jumpoffDmo) throws ServiceException
+    public void deleteJumpoff(EasyUser sessionUser, DataModelObject containerDmo, JumpoffDmo jumpoffDmo) throws ServiceException
     {
         getDispatcher().deleteJumpoff(sessionUser, jumpoffDmo, containerDmo, "purged by " + getUserId(sessionUser));
         if (logger.isDebugEnabled())
         {
-            logger.debug("User '" + getUserId(sessionUser) + "' purged JumpoffDmo of dataset "
-                    + getStoreId(containerDmo) + " as " + jumpoffDmo.getStoreId());
+            logger.debug("User '" + getUserId(sessionUser) + "' purged JumpoffDmo of dataset " + getStoreId(containerDmo) + " as " + jumpoffDmo.getStoreId());
         }
     }
 
@@ -80,11 +77,10 @@ public class EasyJumpoffService extends AbstractEasyService implements JumpoffSe
         getDispatcher().toggleEditorMode(sessionUser, jumpoffDmo);
         if (logger.isDebugEnabled())
         {
-            logger.debug("User '" + getUserId(sessionUser) + "' toggled version of "
-                     + jumpoffDmo.getStoreId());
+            logger.debug("User '" + getUserId(sessionUser) + "' toggled version of " + jumpoffDmo.getStoreId());
         }
     }
-    
+
     private JumpoffWorkDispatcher getDispatcher()
     {
         if (workDispatcher == null)

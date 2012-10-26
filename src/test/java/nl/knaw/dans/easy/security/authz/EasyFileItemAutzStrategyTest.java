@@ -11,14 +11,14 @@ import org.junit.Test;
 
 public class EasyFileItemAutzStrategyTest
 {
-    
-    @Test (expected = IllegalArgumentException.class)
+
+    @Test(expected = IllegalArgumentException.class)
     public void constructor1()
     {
         EasyFileItemAuthzStrategy strategy = new EasyFileItemAuthzStrategy();
         strategy.checkAttributes();
     }
-    
+
     @Test
     public void timeTest()
     {
@@ -26,7 +26,7 @@ public class EasyFileItemAutzStrategyTest
         Dataset dataset = new DatasetImpl("foo:dataset");
         FileItem fileItem = new FileItemImpl("foo:fileItem");
         fileItem.setDatasetId(dataset.getDmoStoreId());
-        
+
         EasyFileItemAuthzStrategy strategy = new EasyFileItemAuthzStrategy(user, fileItem, dataset);
         long start = System.currentTimeMillis();
         for (int i = 0; i < 10000; i++)

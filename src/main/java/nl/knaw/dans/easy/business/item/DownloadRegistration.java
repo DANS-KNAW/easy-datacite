@@ -1,6 +1,5 @@
 package nl.knaw.dans.easy.business.item;
 
-
 import java.util.List;
 
 import nl.knaw.dans.common.lang.IdMutexProvider;
@@ -19,15 +18,14 @@ import org.slf4j.LoggerFactory;
 
 public class DownloadRegistration
 {
-    
+
     private static final IdMutexProvider MUTEX_PROVIDER = new IdMutexProvider();
     private static final Logger logger = LoggerFactory.getLogger(DownloadRegistration.class);
-    
+
     private final EasyUser sessionUser;
     private final Dataset dataset;
     private final List<? extends ItemVO> downloadedItemVOs;
     private final DateTime downloadTime;
-    
 
     public DownloadRegistration(EasyUser sessionUser, Dataset dataset, List<? extends ItemVO> downloadedItemVOs)
     {
@@ -36,13 +34,13 @@ public class DownloadRegistration
         this.dataset = dataset;
         this.downloadedItemVOs = downloadedItemVOs;
     }
-    
+
     public void registerDownloads()
     {
         new Thread(new LevelDatasetRegistrator()).start();
         // other levelRegistrators: level file, level store
     }
-    
+
     private class LevelDatasetRegistrator implements Runnable
     {
         public void run()
@@ -64,7 +62,8 @@ public class DownloadRegistration
                     else
                     {
                         dlh.getDownloadList().addDownload(downloadedItemVOs, sessionUser, downloadTime);
-                        DateTime updateTime = Data.getEasyStore().update(dlh, false, "Update with " + downloadedItemVOs.size() + " records.", sessionUser.getId());
+                        DateTime updateTime = Data.getEasyStore().update(dlh, false, "Update with " + downloadedItemVOs.size() + " records.",
+                                sessionUser.getId());
                         logger.debug("Updated download history for " + dataset.getStoreId() + " at " + updateTime);
                     }
                 }
@@ -73,12 +72,9 @@ public class DownloadRegistration
                     logger.error("Unable to register download history", e);
                 }
             }
-            
+
         }
-        
+
     }
-    
-    
-    
 
 }

@@ -18,23 +18,20 @@ public class EmdDescription extends AbstractEmdContainer
     /**
      * Terms contained.
      */
-    static final Term[] TERMS =
-    {
-        new Term(Term.Name.DESCRIPTION, Term.Namespace.DC, BasicString.class),
-        new Term(Term.Name.TABLEOFCONTENTS, Term.Namespace.DCTERMS, BasicString.class),
-        new Term(Term.Name.ABSTRACT, Term.Namespace.DCTERMS, BasicString.class)
-    };
+    static final Term[] TERMS = {new Term(Term.Name.DESCRIPTION, Term.Namespace.DC, BasicString.class),
+            new Term(Term.Name.TABLEOFCONTENTS, Term.Namespace.DCTERMS, BasicString.class),
+            new Term(Term.Name.ABSTRACT, Term.Namespace.DCTERMS, BasicString.class)};
 
     /**
      *
      */
-    private static final long serialVersionUID     = -31861178057564841L;
+    private static final long serialVersionUID = -31861178057564841L;
 
-    private List<BasicString> dcDescription        = new ArrayList<BasicString>();
+    private List<BasicString> dcDescription = new ArrayList<BasicString>();
 
     private List<BasicString> termsTableOfContents = new ArrayList<BasicString>();
 
-    private List<BasicString> termsAbstract        = new ArrayList<BasicString>();
+    private List<BasicString> termsAbstract = new ArrayList<BasicString>();
 
     /**
      * {@inheritDoc}

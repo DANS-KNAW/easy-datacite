@@ -22,7 +22,7 @@ public class Author implements MetadataItem
     /**
      * The default identification system. {@value}
      */
-    public static final String DEFAULT_SCHEME = EmdConstants.SCHEME_DAI;    
+    public static final String DEFAULT_SCHEME = EmdConstants.SCHEME_DAI;
 
     /**
      *
@@ -73,10 +73,8 @@ public class Author implements MetadataItem
      */
     public String toString()
     {
-        return (surname == null || "".equals(surname) ? "" : surname + ", ") 
-                + (title == null || "".equals(title) ? "" : title + " ")
-                + (initials == null || "".equals(initials) ? "" : initials) 
-                + (prefix == null || "".equals(prefix) ? "" : " " + prefix)
+        return (surname == null || "".equals(surname) ? "" : surname + ", ") + (title == null || "".equals(title) ? "" : title + " ")
+                + (initials == null || "".equals(initials) ? "" : initials) + (prefix == null || "".equals(prefix) ? "" : " " + prefix)
                 + (organization == null ? "" : hasPersonalEntries() ? " (" + organization + ")" : organization);
     }
 
@@ -258,8 +256,7 @@ public class Author implements MetadataItem
 
     public boolean isComplete()
     {
-        return (hasPersonalEntries() && StringUtils.isNotBlank(surname) && StringUtils.isNotBlank(initials))
-                || StringUtils.isNotBlank(organization);
+        return (hasPersonalEntries() && StringUtils.isNotBlank(surname) && StringUtils.isNotBlank(initials)) || StringUtils.isNotBlank(organization);
     }
 
     @Override
@@ -268,13 +265,10 @@ public class Author implements MetadataItem
         // we have no schemeId
         return null;
     }
-    
+
     private boolean hasPersonalEntries()
     {
-        return StringUtils.isNotBlank(entityId)
-                || StringUtils.isNotBlank(initials)
-                || StringUtils.isNotBlank(prefix)
-                || StringUtils.isNotBlank(surname)
+        return StringUtils.isNotBlank(entityId) || StringUtils.isNotBlank(initials) || StringUtils.isNotBlank(prefix) || StringUtils.isNotBlank(surname)
                 || StringUtils.isNotBlank(title);
     }
 
@@ -282,7 +276,7 @@ public class Author implements MetadataItem
     {
         return EmdConstants.SCHEME_DAI.equals(scheme) && DAI.isValid(entityId);
     }
-    
+
     public DAI getDigitalAuthorId()
     {
         if (!hasDigitalAuthorId())

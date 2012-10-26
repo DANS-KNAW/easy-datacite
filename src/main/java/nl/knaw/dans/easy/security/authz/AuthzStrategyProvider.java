@@ -28,21 +28,20 @@ import nl.knaw.dans.common.lang.user.User;
  */
 public class AuthzStrategyProvider
 {
-    
+
     private static Map<String, AuthzStrategy> STRATEGIES;
-    
+
     private final User user;
     private final Object[] contextObjects;
-    
+
     private Map<String, AuthzStrategy> loadedStrategies = new HashMap<String, AuthzStrategy>();
-    
-    
-    public AuthzStrategyProvider(User user, Object...contextObjects)
+
+    public AuthzStrategyProvider(User user, Object... contextObjects)
     {
         this.user = user;
         this.contextObjects = contextObjects;
     }
-    
+
     public AuthzStrategy getAuthzStrategy(String name, Object target)
     {
         AuthzStrategy strategy = loadedStrategies.get(name);
@@ -53,8 +52,8 @@ public class AuthzStrategyProvider
         }
         return strategy.sameStrategy(target);
     }
-    
-    public static AuthzStrategy newAuthzStrategy(String name, User user, Object target, Object...contextObjects)
+
+    public static AuthzStrategy newAuthzStrategy(String name, User user, Object target, Object... contextObjects)
     {
         AuthzStrategy aStrategy = getStrategies().get(name);
         if (aStrategy == null)
@@ -79,7 +78,7 @@ public class AuthzStrategyProvider
         }
         return STRATEGIES;
     }
-    
+
     private static void addToStrategies(AuthzStrategy strategy)
     {
         STRATEGIES.put(strategy.getClass().getName(), strategy);

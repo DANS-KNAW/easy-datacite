@@ -22,7 +22,7 @@ public class TermPanelDefinitionTest
         tpDef.setRepeating(true);
         tpDef.setRequired(true);
         tpDef.setShortHelpResourceKey("shortHelpResourceKey");
-        
+
         TermPanelDefinition clone = tpDef.clone();
         //System.out.println(clone.asXMLString(4));
         assertEquals(tpDef.asXMLString(), clone.asXMLString());

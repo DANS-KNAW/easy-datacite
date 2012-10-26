@@ -27,7 +27,7 @@ import org.junit.Test;
 public class AdministrativeMetadataImplTest
 {
     private static EasyUserRepo userRepo;
-    private boolean         verbose = Tester.isVerbose();
+    private boolean verbose = Tester.isVerbose();
 
     @BeforeClass
     public static void beforeClass()
@@ -92,7 +92,7 @@ public class AdministrativeMetadataImplTest
         }
         EasyMock.verify(userRepo);
     }
-    
+
     @Test
     public void dirtyChecking() // if hash-dirty-checking is implemented correctly this test can be removed
     {
@@ -120,9 +120,9 @@ public class AdministrativeMetadataImplTest
         amd.setDepositorId("janK");
         assertTrue(amd.isDirty());
         amd.setDirty(false);
-        
+
         if (verbose)
-            Tester.printClassAndFieldHierarchy(WorkflowDataImpl.class);       
+            Tester.printClassAndFieldHierarchy(WorkflowDataImpl.class);
         // fields affected by dirty checking:
         // assigneeId:java.lang.String
         // workflow:nl.knaw.dans.easy.domain.workflow.WorkflowStep
@@ -133,7 +133,7 @@ public class AdministrativeMetadataImplTest
         assertTrue(amd.isDirty());
         amd.setDirty(false);
         //assertFalse(amd.isDirty());
-        
+
         if (verbose)
             Tester.printClassAndFieldHierarchy(WorkflowStep.class);
         // fields affected by dirty checking
@@ -141,22 +141,22 @@ public class AdministrativeMetadataImplTest
         // doneById:java.lang.String
         // timeSpent:double
         // remarks:java.util.List
-        
+
         WorkflowStep wfStep = wfd.getWorkflow();
         wfStep.setCompleted(true);
         assertTrue(amd.isDirty());
         amd.setDirty(false);
         //assertFalse(amd.isDirty());
-        
+
         wfStep.setDoneById("KeesK");
         assertTrue(amd.isDirty());
         amd.setDirty(false);
-        
+
         WorkflowStep wfStepLevel2 = wfStep.getSteps().get(0);
         wfStepLevel2.setTimeSpent(1.0D);
         assertTrue(amd.isDirty());
         amd.setDirty(false);
-        
+
         wfStep.addRemark(new Remark("Hoi", "myId"));
         assertTrue(amd.isDirty());
         amd.setDirty(false);
@@ -182,7 +182,7 @@ public class AdministrativeMetadataImplTest
         DateTime resetStateChange = amd.getLastStateChange();
         assertTrue(nullStateChange.equals(resetStateChange));
     }
-    
+
     @Test
     public void testStateChangeDate()
     {
@@ -197,7 +197,7 @@ public class AdministrativeMetadataImplTest
         assertTrue(amd.getDateOfFirstChangeTo(DatasetState.SUBMITTED) != null);
         assertEquals(DatasetState.DRAFT, amd.getStateChangeDates().get(0).getFromState());
         assertEquals(DatasetState.SUBMITTED, amd.getStateChangeDates().get(0).getToState());
-    	
+
         // state change ignored
         amd.setAdministrativeState(DatasetState.SUBMITTED);
         assertEquals(1, amd.getStateChangeDates().size());
@@ -208,22 +208,22 @@ public class AdministrativeMetadataImplTest
         assertTrue(amd.getDateOfFirstChangeTo(DatasetState.PUBLISHED) != null);
         assertEquals(DatasetState.SUBMITTED, amd.getStateChangeDates().get(1).getFromState());
         assertEquals(DatasetState.PUBLISHED, amd.getStateChangeDates().get(1).getToState());
-        
+
         amd.setAdministrativeState(DatasetState.MAINTENANCE);
         assertEquals(3, amd.getStateChangeDates().size());
         assertTrue(amd.getDateOfFirstChangeTo(DatasetState.MAINTENANCE) != null);
         assertEquals(DatasetState.PUBLISHED, amd.getStateChangeDates().get(2).getFromState());
         assertEquals(DatasetState.MAINTENANCE, amd.getStateChangeDates().get(2).getToState());
-        
+
         // small sleep so times are not the same
         pause(50);
-        
+
         amd.setAdministrativeState(DatasetState.PUBLISHED);
         assertEquals(4, amd.getStateChangeDates().size());
         assertTrue(amd.getDateOfFirstChangeTo(DatasetState.PUBLISHED) != null);
         assertEquals(DatasetState.MAINTENANCE, amd.getStateChangeDates().get(3).getFromState());
         assertEquals(DatasetState.PUBLISHED, amd.getStateChangeDates().get(3).getToState());
-        
+
         DateTime first = amd.getDateOfFirstChangeTo(DatasetState.PUBLISHED);
         DateTime last = amd.getDateOfLastChangeTo(DatasetState.PUBLISHED);
         assertTrue(first.isBefore(last));

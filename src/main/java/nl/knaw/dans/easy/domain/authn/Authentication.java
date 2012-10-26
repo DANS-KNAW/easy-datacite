@@ -8,7 +8,7 @@ import nl.knaw.dans.easy.util.Messenger;
  *
  * @author ecco Feb 18, 2009
  */
-public class Authentication extends Messenger<Authentication.State> 
+public class Authentication extends Messenger<Authentication.State>
 {
     /**
      * State of the authentication.
@@ -55,17 +55,17 @@ public class Authentication extends Messenger<Authentication.State>
          */
         Authenticated
     }
-    
+
     public static final String PROP_USER_ID = "userId";
-    
+
     public static final String PROP_CREDENTIALS = "credentials";
 
     private static final long serialVersionUID = -967149522733767123L;
 
     private String userId;
     private String credentials;
-    private EasyUser         user;
-    
+    private EasyUser user;
+
     protected Authentication()
     {
         super(Authentication.State.class);
@@ -82,27 +82,27 @@ public class Authentication extends Messenger<Authentication.State>
     {
         return userId;
     }
-    
+
     public void setUserId(final String userId)
     {
         this.userId = userId;
     }
-    
+
     public String getCredentials()
     {
         return credentials;
     }
-    
+
     public void setCredentials(final String credentials)
     {
         this.credentials = credentials;
     }
-    
+
     public void setState(final State state)
     {
         super.setState(state);
     }
-    
+
     public void setState(final State state, final Throwable e)
     {
         super.setState(state, e);
@@ -112,7 +112,7 @@ public class Authentication extends Messenger<Authentication.State>
     {
         boolean valid = true;
         valid &= this.userId.equals(userId);
-        valid &= this.credentials.equals(credentials);        
+        valid &= this.credentials.equals(credentials);
         return valid;
     }
 
@@ -120,19 +120,17 @@ public class Authentication extends Messenger<Authentication.State>
     {
         return user;
     }
-    
+
     public void setUser(final EasyUser user)
     {
         this.user = user;
     }
 
-
     @Override
     public String toString()
     {
-        return  super.toString() + " [state=" + getState() + " userId=" + userId + " user="
-                + (user == null ? "null" : user.toString()) + "] " + getExceptionsAsString();
+        return super.toString() + " [state=" + getState() + " userId=" + userId + " user=" + (user == null ? "null" : user.toString()) + "] "
+                + getExceptionsAsString();
     }
-    
 
 }

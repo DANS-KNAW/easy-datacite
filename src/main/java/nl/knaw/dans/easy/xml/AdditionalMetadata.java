@@ -12,10 +12,10 @@ public class AdditionalMetadata extends AbstractJiBXObject<AdditionalMetadata>
 {
 
     private static final long serialVersionUID = 2731810508223291282L;
-    
+
     private PropertyList propertyList;
     private Map<String, AdditionalContent> additionalContentMap = new LinkedHashMap<String, AdditionalContent>();
-    
+
     public PropertyList getPropertryList()
     {
         if (propertyList == null)
@@ -29,12 +29,12 @@ public class AdditionalMetadata extends AbstractJiBXObject<AdditionalMetadata>
     {
         this.propertyList = propertyList;
     }
-    
+
     public AdditionalContent getAdditionalContent(String id)
     {
         return additionalContentMap.get(id);
     }
-    
+
     public void addAdditionalContent(AdditionalContent addContent)
     {
         String id = addContent.getId();
@@ -44,7 +44,7 @@ public class AdditionalMetadata extends AbstractJiBXObject<AdditionalMetadata>
         }
         additionalContentMap.put(id, addContent);
     }
-    
+
     public void setAdditionalContentList(List<AdditionalContent> addContentList)
     {
         for (AdditionalContent addContent : addContentList)
@@ -52,7 +52,7 @@ public class AdditionalMetadata extends AbstractJiBXObject<AdditionalMetadata>
             addAdditionalContent(addContent);
         }
     }
-    
+
     public List<AdditionalContent> getAdditionalContentlist()
     {
         return new ArrayList<AdditionalContent>(additionalContentMap.values());

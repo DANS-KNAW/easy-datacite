@@ -12,7 +12,7 @@ public class PermissionRequestModel implements Serializable
 
     private String requestTitle;
     private String requestTheme;
-    
+
     private String requestLink;
     private String permissionsTabLink;
 

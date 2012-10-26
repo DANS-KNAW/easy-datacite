@@ -80,8 +80,7 @@ public class DatasetRelationUpdater
         a.removeAll(oaiMemberships);
         b.removeAll(originalOaiMemberships);
 
-        if (DatasetState.PUBLISHED.equals(dataset.getAdministrativeMetadata().getAdministrativeState())
-                && !dataset.isUnderEmbargo())
+        if (DatasetState.PUBLISHED.equals(dataset.getAdministrativeMetadata().getAdministrativeState()) && !dataset.isUnderEmbargo())
         {
             dataset.getRelations().removeOAISetMembership(a);
             dataset.getRelations().addOAISetMembership(b);

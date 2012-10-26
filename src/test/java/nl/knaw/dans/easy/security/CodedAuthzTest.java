@@ -14,8 +14,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 public class CodedAuthzTest
-{   
-    
+{
+
     @Test
     public void testGetSecurityOfficer()
     {
@@ -25,17 +25,17 @@ public class CodedAuthzTest
         assertFalse(na.isEnableAllowed(null));
         assertEquals(CodedAuthz.NO_SIGNATURE_OFFICER_PROPOSITION, na.getProposition());
     }
-    
+
     @Test
     public void testGetItem()
     {
         String item = "nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel:statusPanel:republish";
         Authz authz = new CodedAuthz();
         assertTrue(authz.hasSecurityOfficer(item));
-        assertEquals("([SessionUser has role ARCHIVIST] AND [Dataset state is MAINTENANCE] AND [Required steps of workflow are completed])", 
-                authz.getSecurityOfficer(item).getProposition());
+        assertEquals("([SessionUser has role ARCHIVIST] AND [Dataset state is MAINTENANCE] AND [Required steps of workflow are completed])", authz
+                .getSecurityOfficer(item).getProposition());
     }
-    
+
     @Ignore("Lists the rules. This is not a test.")
     @Test
     public void listRules() throws IOException
@@ -49,7 +49,7 @@ public class CodedAuthzTest
         {
             file.delete();
         }
-        
+
         CodedAuthz authz = new CodedAuthz();
         RandomAccessFile ram = new RandomAccessFile(filename, "rw");
         ram.writeBytes("Rules;" + new DateTime().toString("yyyy-MM-dd HH:mm") + "\n");

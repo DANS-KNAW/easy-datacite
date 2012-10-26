@@ -17,34 +17,33 @@ import nl.knaw.dans.easy.domain.model.user.RepoAccess;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.DateTime;
 
-public class AdministrativeMetadataImpl extends AbstractTimestampedJiBXObject<AdministrativeMetadata> implements
-        AdministrativeMetadata
+public class AdministrativeMetadataImpl extends AbstractTimestampedJiBXObject<AdministrativeMetadata> implements AdministrativeMetadata
 {
 
     /**
      * The version - when newly instantiated. The actual version of an instance as read from an xml-stream might be
      * obtained by {@link #getVersion()}.
      */
-    public static final String  VERSION             = "0.1";
+    public static final String VERSION = "0.1";
 
-    private static final long   serialVersionUID    = -4016139778061431329L;
+    private static final long serialVersionUID = -4016139778061431329L;
 
-    private boolean             versionable;
+    private boolean versionable;
 
-    private String              version;
+    private String version;
     private DatasetState administrativeState = DatasetState.DRAFT;
     private DatasetState previousState;
-    
-    private transient DateTime  lastStateChange     = new DateTime();
-    private transient DateTime  previousStateChange;
 
-    private String              depositorId;
-    private EasyUser                depositor;
-    
+    private transient DateTime lastStateChange = new DateTime();
+    private transient DateTime previousStateChange;
+
+    private String depositorId;
+    private EasyUser depositor;
+
     private Set<String> groupIds = new HashSet<String>();
 
-    private WorkflowData        workflowData;
-    
+    private WorkflowData workflowData;
+
     private List<StateChangeDate> stateChangeDates = new ArrayList<StateChangeDate>();
 
     public AdministrativeMetadataImpl()
@@ -131,32 +130,32 @@ public class AdministrativeMetadataImpl extends AbstractTimestampedJiBXObject<Ad
 
     public void setAdministrativeState(DatasetState administrativeState)
     {
-    	if (!evaluateDirty(this.administrativeState, administrativeState))
-    		return;
+        if (!evaluateDirty(this.administrativeState, administrativeState))
+            return;
 
-    	if (administrativeState.equals(previousState))
+        if (administrativeState.equals(previousState))
         {
             //TODO: remove this. It has become redundant since all state changes are saved
-        	// in stateChangeDates
+            // in stateChangeDates
             lastStateChange = previousStateChange;
-        	previousState = this.administrativeState;
+            previousState = this.administrativeState;
         }
         else
         {
             //TODO: remove this. It has become redundant since all state changes are saved
-        	// in stateChangeDates
-        	previousState = this.administrativeState;
+            // in stateChangeDates
+            previousState = this.administrativeState;
             previousStateChange = lastStateChange;
             lastStateChange = new DateTime();
         }
 
-    	// store change date
+        // store change date
         StateChangeDate stateChangeDate = new StateChangeDate(previousState, administrativeState, new DateTime());
         stateChangeDates.add(stateChangeDate);
 
         this.administrativeState = administrativeState;
     }
-    
+
     public DatasetState getPreviousAdministrativeState()
     {
         return previousState;
@@ -166,7 +165,7 @@ public class AdministrativeMetadataImpl extends AbstractTimestampedJiBXObject<Ad
     {
         return lastStateChange;
     }
-    
+
     // only for migration!!
     public void setLastStateChanged(DateTime lastChange)
     {
@@ -182,12 +181,12 @@ public class AdministrativeMetadataImpl extends AbstractTimestampedJiBXObject<Ad
     {
         return groupIds;
     }
-    
+
     public boolean addGroupId(String groupId)
     {
         return groupIds.add(groupId);
     }
-    
+
     public boolean removeGroupId(String groupId)
     {
         return groupIds.remove(groupId);
@@ -209,53 +208,44 @@ public class AdministrativeMetadataImpl extends AbstractTimestampedJiBXObject<Ad
         super.setDirty(dirty);
     }
 
-	public List<StateChangeDate> getStateChangeDates()
-	{
-		return stateChangeDates;
-	}
-	
-	public void setStateChangeDates(List<StateChangeDate> stateChangeDates)
-	{
-		this.stateChangeDates = stateChangeDates;
-	}
+    public List<StateChangeDate> getStateChangeDates()
+    {
+        return stateChangeDates;
+    }
 
-	public DateTime getDateOfFirstChangeTo(DatasetState state)
-	{
-		DateTime result = null;
-		for (StateChangeDate stateChangeDate : stateChangeDates)
-		{
-			if (stateChangeDate.getToState().equals(state) &&
-					(result == null || result.isAfter(stateChangeDate.getChangeDate())))
-				result = stateChangeDate.getChangeDate();
-		}
-		return result;
-	}
+    public void setStateChangeDates(List<StateChangeDate> stateChangeDates)
+    {
+        this.stateChangeDates = stateChangeDates;
+    }
 
-	public DateTime getDateOfLastChangeTo(DatasetState state)
-	{
-		DateTime result = null;
-		for (StateChangeDate stateChangeDate : stateChangeDates)
-		{
-			if (stateChangeDate.getToState().equals(state) &&
-					(result == null || result.isBefore(stateChangeDate.getChangeDate())))
-				result = stateChangeDate.getChangeDate();
-		}
-		return result;
-	}
-	
+    public DateTime getDateOfFirstChangeTo(DatasetState state)
+    {
+        DateTime result = null;
+        for (StateChangeDate stateChangeDate : stateChangeDates)
+        {
+            if (stateChangeDate.getToState().equals(state) && (result == null || result.isAfter(stateChangeDate.getChangeDate())))
+                result = stateChangeDate.getChangeDate();
+        }
+        return result;
+    }
+
+    public DateTime getDateOfLastChangeTo(DatasetState state)
+    {
+        DateTime result = null;
+        for (StateChangeDate stateChangeDate : stateChangeDates)
+        {
+            if (stateChangeDate.getToState().equals(state) && (result == null || result.isBefore(stateChangeDate.getChangeDate())))
+                result = stateChangeDate.getChangeDate();
+        }
+        return result;
+    }
+
     /**
      * @see java.lang.Object#hashCode()
      */
     public int hashCode()
     {
-        return new HashCodeBuilder(-284466127, 1724715273)
-            .appendSuper(super.hashCode())
-            .append(this.administrativeState)
-            .append(this.versionable)
-            .append(this.depositorId)
-            .append(this.groupIds)
-            .append(this.workflowData)
-            .append(this.stateChangeDates)
-            .toHashCode();
+        return new HashCodeBuilder(-284466127, 1724715273).appendSuper(super.hashCode()).append(this.administrativeState).append(this.versionable).append(
+                this.depositorId).append(this.groupIds).append(this.workflowData).append(this.stateChangeDates).toHashCode();
     }
 }

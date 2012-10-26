@@ -17,12 +17,11 @@ import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataForm
 
 public class FormatValidator implements Validator
 {
-    
+
     private static FormatValidator INSTANCE;
-    
-    private static Map<MetadataFormat, Validator> VALIDATOR_MAP
-        = Collections.synchronizedMap(new HashMap<MetadataFormat, Validator>());
-    
+
+    private static Map<MetadataFormat, Validator> VALIDATOR_MAP = Collections.synchronizedMap(new HashMap<MetadataFormat, Validator>());
+
     private FormatValidator()
     {
         VALIDATOR_MAP.put(MetadataFormat.ARCHAEOLOGY, ArchaeologyFormatValidator.instance());
@@ -30,7 +29,7 @@ public class FormatValidator implements Validator
         VALIDATOR_MAP.put(MetadataFormat.SOCIOLOGY, SociologyFormatValidator.instance());
         VALIDATOR_MAP.put(MetadataFormat.UNSPECIFIED, OtherFormatValidator.instance());
     }
-    
+
     public static FormatValidator instance()
     {
         synchronized (VALIDATOR_MAP)
@@ -68,8 +67,5 @@ public class FormatValidator implements Validator
         ValidationReport report = new ValidationReport("MetadataFormat is null.", this);
         reporter.addError(report);
     }
-    
-    
-    
 
 }

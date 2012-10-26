@@ -1,6 +1,5 @@
 package nl.knaw.dans.easy.business.dataset;
 
-
 public interface SubmissionProcessor
 {
 

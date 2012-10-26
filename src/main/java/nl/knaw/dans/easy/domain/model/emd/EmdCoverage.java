@@ -20,13 +20,9 @@ public class EmdCoverage extends AbstractEmdContainer
     /**
      * Terms contained.
      */
-    static final Term[] TERMS =
-    {
-        new Term(Term.Name.COVERAGE, Term.Namespace.DC, BasicString.class),
-        new Term(Term.Name.SPATIAL, Term.Namespace.DCTERMS, BasicString.class),
-        new Term(Term.Name.TEMPORAL, Term.Namespace.DCTERMS, BasicString.class),
-        new Term(Term.Name.SPATIAL, Term.Namespace.EAS, Spatial.class)
-    };
+    static final Term[] TERMS = {new Term(Term.Name.COVERAGE, Term.Namespace.DC, BasicString.class),
+            new Term(Term.Name.SPATIAL, Term.Namespace.DCTERMS, BasicString.class), new Term(Term.Name.TEMPORAL, Term.Namespace.DCTERMS, BasicString.class),
+            new Term(Term.Name.SPATIAL, Term.Namespace.EAS, Spatial.class)};
 
     /**
      *
@@ -40,7 +36,6 @@ public class EmdCoverage extends AbstractEmdContainer
     private List<BasicString> termsTemporal = new ArrayList<BasicString>();
 
     private List<Spatial> easSpatial = new ArrayList<Spatial>();
-
 
     /**
      * {@inheritDoc}
@@ -118,7 +113,7 @@ public class EmdCoverage extends AbstractEmdContainer
     {
         this.termsTemporal = termsTemporal;
     }
-    
+
     public List<String> getTermsTemporalValues(String schemeId)
     {
         List<String> termsTemporalValues = new ArrayList<String>();
@@ -131,7 +126,7 @@ public class EmdCoverage extends AbstractEmdContainer
         }
         return termsTemporalValues;
     }
-    
+
     public List<String> getArchaeologyTermsTemporalValues()
     {
         return getTermsTemporalValues(EmdScheme.ARCHAEOLOGY_DCTERMS_TEMPORAL.getId());
@@ -159,7 +154,5 @@ public class EmdCoverage extends AbstractEmdContainer
     {
         this.easSpatial = easSpatial;
     }
-
-
 
 }

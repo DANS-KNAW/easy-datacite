@@ -6,32 +6,32 @@ import nl.knaw.dans.easy.domain.worker.AbstractWorker;
 
 public class DummyWorker extends AbstractWorker
 {
-    
+
     public DummyWorker(UnitOfWork uow)
     {
         super(uow);
     }
-    
+
     protected void workFoo() throws ServiceException
     {
-        
+
     }
-    
+
     protected void workAndThrowExceoption() throws Exception
     {
         throw new Exception();
     }
-    
+
     protected void workWithoutExceptions()
     {
-        
+
     }
-    
+
     protected void workAndThrowRuntimeException()
     {
         throw new RuntimeException();
     }
-    
+
     protected void workNotBecauseCanceled()
     {
         throw new RuntimeException("I'm not working because I'm supposed to be canceled.");

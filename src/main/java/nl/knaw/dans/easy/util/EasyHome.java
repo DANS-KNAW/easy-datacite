@@ -42,9 +42,8 @@ public class EasyHome implements HomeDirectory
             }
             else
             {
-                logger.warn("CAUTION: no system property was found for the easy home directory!"
-                        + "\n\tPlease specify the system property '" + EASY_HOME_KEY + "'"
-                        + "\nStacktrace:" + getStacktrace());
+                logger.warn("CAUTION: no system property was found for the easy home directory!" + "\n\tPlease specify the system property '" + EASY_HOME_KEY
+                        + "'" + "\nStacktrace:" + getStacktrace());
             }
         }
         return value;
@@ -54,7 +53,7 @@ public class EasyHome implements HomeDirectory
     {
         value = v;
     }
-    
+
     public static File getLocation() throws FileNotFoundException
     {
         File file = new File(getValue());
@@ -76,7 +75,7 @@ public class EasyHome implements HomeDirectory
     {
         return new File(getValue());
     }
-    
+
     private static String getStacktrace()
     {
         StringBuilder sb = new StringBuilder();
@@ -85,15 +84,8 @@ public class EasyHome implements HomeDirectory
             String className = ste.getClassName();
             if (!className.equals(Thread.class.getName()) && !className.equals(EasyHome.class.getName()))
             {
-                sb.append("\n\tat ")
-                .append(ste.getClassName())
-                .append(".")
-                .append(ste.getMethodName())
-                .append(" (")
-                .append(ste.getFileName())
-                .append(":")
-                .append(ste.getLineNumber())
-                .append(")");
+                sb.append("\n\tat ").append(ste.getClassName()).append(".").append(ste.getMethodName()).append(" (").append(ste.getFileName()).append(":")
+                        .append(ste.getLineNumber()).append(")");
             }
         }
         return sb.toString();

@@ -25,18 +25,18 @@ import org.slf4j.LoggerFactory;
 public abstract class AbstractNotification
 {
 
-    static final Logger             logger                 = LoggerFactory.getLogger(AbstractNotification.class);
+    static final Logger logger = LoggerFactory.getLogger(AbstractNotification.class);
 
-    public static final String      TEMPLATE_BASE_LOCATION = EasyHome.getValue() + "/mail/templates/";
-    public static final String      SUBJECT_PROPERTIES     = TEMPLATE_BASE_LOCATION + "subject.properties";
-    private static final String     SUBJECT_ERROR          = "could not load notification subjects";
-    private static final Properties SUBJECT_TEMPLATES      = loadSubjectTemplates();
+    public static final String TEMPLATE_BASE_LOCATION = EasyHome.getValue() + "/mail/templates/";
+    public static final String SUBJECT_PROPERTIES = TEMPLATE_BASE_LOCATION + "subject.properties";
+    private static final String SUBJECT_ERROR = "could not load notification subjects";
+    private static final Properties SUBJECT_TEMPLATES = loadSubjectTemplates();
 
-    private final List<Attachement> attachements           = new ArrayList<Attachement>();
+    private final List<Attachement> attachements = new ArrayList<Attachement>();
 
-    private final EasyMailComposer  composer;
+    private final EasyMailComposer composer;
 
-    private final EasyUser          receiver;
+    private final EasyUser receiver;
 
     /** only for testing purposes */
     final Object[] placeholderSuppliers;
@@ -108,7 +108,7 @@ public abstract class AbstractNotification
     final public void send() throws ServiceException
     {
         final Mailer mailOffice = ExternalServices.getMailOffice();
-        if (mailOffice==null)
+        if (mailOffice == null)
             throw new ServiceException(new NullPointerException("no mail office available"));
         try
         {
@@ -197,12 +197,12 @@ public abstract class AbstractNotification
     private ServiceException wrapSubjectException(final MailComposerException e) throws ServiceException
     {
         final File file = new File(SUBJECT_PROPERTIES);
-        return new ServiceException(e.getMessage() + "\ntemplate: " + file.getAbsolutePath()+"/"+file.getName() + "(" + getPropertiesEntry() + ")", e);
+        return new ServiceException(e.getMessage() + "\ntemplate: " + file.getAbsolutePath() + "/" + file.getName() + "(" + getPropertiesEntry() + ")", e);
     }
 
     private ServiceException wrapBodyException(final String templateLocation, final MailComposerException e)
     {
         final File file = new File(templateLocation);
-        return new ServiceException(e.getMessage() + "\ntemplate: " + file.getAbsolutePath()+"/"+file.getName(), e);
+        return new ServiceException(e.getMessage() + "\ntemplate: " + file.getAbsolutePath() + "/" + file.getName(), e);
     }
 }

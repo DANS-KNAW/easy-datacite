@@ -2,10 +2,8 @@ package nl.knaw.dans.easy.domain.emd.validation.base;
 
 public enum EmdXPath
 {
-    SPATIAL_COVERAGE ("/emd:easymetadata/emd:coverage/eas:spatial/"),
-    RIGHTS ("/emd:easymetadata/emd:rights/dcterms:accessRights/"),
-    RELATION("/emd:easymetadata/emd:relation/dcterms:relation/"),
-    EMBARGO("/emd:easymetadata/emd:date/dcterms:available/");
+    SPATIAL_COVERAGE("/emd:easymetadata/emd:coverage/eas:spatial/"), RIGHTS("/emd:easymetadata/emd:rights/dcterms:accessRights/"), RELATION(
+            "/emd:easymetadata/emd:relation/dcterms:relation/"), EMBARGO("/emd:easymetadata/emd:date/dcterms:available/");
     /**
      * TODO add validators for the unchecked xml files
      * 

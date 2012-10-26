@@ -8,11 +8,11 @@ import nl.knaw.dans.easy.domain.dataset.item.UpdateInfo.Action;
 
 public class UpdateActionCheck extends AbstractCheck
 {
-    
+
     private final List<Action> allowedActions;
     private final String proposition;
-    
-    public UpdateActionCheck(Action...allowedActions)
+
+    public UpdateActionCheck(Action... allowedActions)
     {
         super();
         this.allowedActions = Arrays.asList(allowedActions);
@@ -42,8 +42,7 @@ public class UpdateActionCheck extends AbstractCheck
         }
         else
         {
-            sb.append("\n\tplanned update action(s): ")
-                .append(updateInfo.getActions());
+            sb.append("\n\tplanned update action(s): ").append(updateInfo.getActions());
         }
         sb.append("\n\tcondition met = ");
         sb.append(evaluate(ctxParameters));
@@ -54,6 +53,5 @@ public class UpdateActionCheck extends AbstractCheck
     {
         return proposition;
     }
-    
 
 }

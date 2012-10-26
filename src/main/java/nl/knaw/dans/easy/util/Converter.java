@@ -21,7 +21,7 @@ public final class Converter
     /**
      * Time zone to use for the application.
      */
-    public static final DateTimeZone      EASY_TIME_ZONE       = DateTimeZone.getDefault();
+    public static final DateTimeZone EASY_TIME_ZONE = DateTimeZone.getDefault();
 
     /**
      * joda.time does not know how to parse a date like "2006-05-01T00:00:00+02:00" (it is missing millisecond
@@ -29,13 +29,12 @@ public final class Converter
      * 
      * @see #deSerializeDateTime(String)
      */
-    public static final Pattern           INVALID_DATE_PATTERN = Pattern
-                                                                       .compile("[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\+[0-9]{2}:[0-9]{2}");
+    public static final Pattern INVALID_DATE_PATTERN = Pattern.compile("[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\+[0-9]{2}:[0-9]{2}");
 
     /**
      * Formatter for ISO8601 date format as used in the XML.
      */
-    public static final DateTimeFormatter DATE_FORMATTER       = ISODateTimeFormat.dateTime().withZone(EASY_TIME_ZONE);
+    public static final DateTimeFormatter DATE_FORMATTER = ISODateTimeFormat.dateTime().withZone(EASY_TIME_ZONE);
 
     // utility class.
     private Converter()
@@ -79,12 +78,12 @@ public final class Converter
             }
             else
             { */
-                dateTimeZone = DATE_FORMATTER.parseDateTime(dateString);
+            dateTimeZone = DATE_FORMATTER.parseDateTime(dateString);
             /* } */
         }
         return dateTimeZone;
     }
-    
+
     public static synchronized String normalizeDateTime(String dateString)
     {
         return serializeDateTime(deSerializeDateTime(dateString));

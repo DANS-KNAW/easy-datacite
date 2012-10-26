@@ -19,11 +19,11 @@ import org.slf4j.LoggerFactory;
 
 public class DmoCollectionsAccessImpl implements DmoCollectionsAccess
 {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(DmoCollectionsAccessImpl.class);
-    
+
     private final DmoCollections dmoCollections;
-    
+
     public DmoCollectionsAccessImpl(DmoCollections dmoCollections)
     {
         this.dmoCollections = dmoCollections;
@@ -34,7 +34,7 @@ public class DmoCollectionsAccessImpl implements DmoCollectionsAccess
         }
         logger.info("Completed initialization.");
     }
-    
+
     /* (non-Javadoc)
      * @see nl.knaw.dans.easy.data.collections.EasyCollections#createRoot(nl.knaw.dans.easy.domain.model.user.EasyUser, java.lang.String)
      */
@@ -68,7 +68,7 @@ public class DmoCollectionsAccessImpl implements DmoCollectionsAccess
         DmoCollection collection = manager.getCollection(dmoStoreId);
         return collection;
     }
-    
+
     /* (non-Javadoc)
      * @see nl.knaw.dans.easy.data.collections.EasyCollections#saveCollection(nl.knaw.dans.easy.domain.model.user.EasyUser, nl.knaw.dans.i.dmo.collections.DmoCollection)
      */
@@ -79,7 +79,6 @@ public class DmoCollectionsAccessImpl implements DmoCollectionsAccess
         CollectionManager manager = dmoCollections.newManager(getOwnerId(sessionUser));
         manager.update(collection);
     }
-
 
     /* (non-Javadoc)
      * @see nl.knaw.dans.easy.data.collections.EasyCollections#createCollection(nl.knaw.dans.easy.domain.model.user.EasyUser, nl.knaw.dans.i.dmo.collections.DmoCollection, java.lang.String, java.lang.String)
@@ -136,27 +135,27 @@ public class DmoCollectionsAccessImpl implements DmoCollectionsAccess
         CollectionManager manager = dmoCollections.newManager(getOwnerId(sessionUser));
         manager.unpublishAsOAISet(collection);
     }
-    
+
     @Override
     public RecursiveList getRecursiveList(ECollection eColl) throws CollectionsException
     {
         return getRecursiveList(eColl.namespace);
     }
-    
+
     @Override
     public RecursiveList getRecursiveList(DmoNamespace namespace) throws CollectionsException
     {
         CollectionManager manager = dmoCollections.newManager(null);
         return manager.getRecursiveList(namespace);
     }
-    
+
     @Override
     public Set<DmoStoreId> filterOAIEndNodes(Set<DmoStoreId> memberIds) throws CollectionsException
     {
         Set<DmoStoreId> filteredIds = dmoCollections.filterOAIEndNodes(memberIds);
         return filteredIds;
     }
-    
+
     // hack to get a collection tree into all Fedora repositories that are used.
     // !!WARNING!!
     // Causes deadlock at full server restart:
@@ -164,41 +163,41 @@ public class DmoCollectionsAccessImpl implements DmoCollectionsAccess
     //      this method never returns
     //      Tomcat keeps waiting....
     //      ... and Fedora never starts.
-//    public void initializeCollections() throws CollectionsException, ValidatorException, XMLSerializationException
-//    {
-//        CollectionManager manager = dmoCollections.newManager("migration");
-//        Iterator<ECollection> collIter = ECollection.iterator();
-//        while (collIter.hasNext())
-//        {
-//            ECollection eColl = collIter.next();
-//            if (!manager.exists(eColl.namespace))
-//            {
-//                URL templateUrl = eColl.getTemplateURL();
-//                if (templateUrl != null)
-//                {
-//                    XMLErrorHandler handler = dmoCollections.validateXml(templateUrl);
-//                    if (handler.passed())
-//                    {
-//                        logger.info("Ingesting collection template for " + eColl.namespace.getValue());
-//                        manager.createRoot(templateUrl, false);
-//                    }
-//                    else
-//                    {
-//                        throw new CollectionsException("Invallid xml in template for " + eColl.namespace.getValue() + handler.getMessages());
-//                    }
-//                    
-//                }
-//            }
-//            
-//        }
-//    }
-    
+    //    public void initializeCollections() throws CollectionsException, ValidatorException, XMLSerializationException
+    //    {
+    //        CollectionManager manager = dmoCollections.newManager("migration");
+    //        Iterator<ECollection> collIter = ECollection.iterator();
+    //        while (collIter.hasNext())
+    //        {
+    //            ECollection eColl = collIter.next();
+    //            if (!manager.exists(eColl.namespace))
+    //            {
+    //                URL templateUrl = eColl.getTemplateURL();
+    //                if (templateUrl != null)
+    //                {
+    //                    XMLErrorHandler handler = dmoCollections.validateXml(templateUrl);
+    //                    if (handler.passed())
+    //                    {
+    //                        logger.info("Ingesting collection template for " + eColl.namespace.getValue());
+    //                        manager.createRoot(templateUrl, false);
+    //                    }
+    //                    else
+    //                    {
+    //                        throw new CollectionsException("Invallid xml in template for " + eColl.namespace.getValue() + handler.getMessages());
+    //                    }
+    //                    
+    //                }
+    //            }
+    //            
+    //        }
+    //    }
+
     private String getOwnerId(EasyUser sessionUser)
     {
         String ownerId = sessionUser.isAnonymous() ? null : sessionUser.getId();
         return ownerId;
     }
-    
+
     private void assertECollection(DmoStoreId dmoStoreId) throws CollectionsException
     {
         if (!ECollection.isECollection(dmoStoreId))
@@ -206,7 +205,7 @@ public class DmoCollectionsAccessImpl implements DmoCollectionsAccess
             throw new CollectionsException("Not an ECollection: " + dmoStoreId);
         }
     }
-    
+
     private void assertECollection(DataModelObject dmo) throws CollectionsException
     {
         if (!ECollection.isECollection(dmo))

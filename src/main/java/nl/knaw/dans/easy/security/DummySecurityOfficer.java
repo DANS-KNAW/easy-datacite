@@ -22,10 +22,8 @@ public class DummySecurityOfficer extends AbstractCheck
 
     public boolean evaluate(ContextParameters ctxParameters)
     {
-        logger.warn("\n\t***************************************" 
-                  + "\n\t*  Still using DummySecurityOfficer!  *"
-                  + "\n\t***************************************" 
-                  + printStackTrace());
+        logger.warn("\n\t***************************************" + "\n\t*  Still using DummySecurityOfficer!  *"
+                + "\n\t***************************************" + printStackTrace());
         return true;
     }
 
@@ -39,22 +37,15 @@ public class DummySecurityOfficer extends AbstractCheck
         StringBuilder sb = new StringBuilder();
         for (StackTraceElement ste : Thread.currentThread().getStackTrace())
         {
-            if (ste.getClassName().startsWith("nl.knaw")
-                    && !ste.getClassName().startsWith("nl.knaw.dans.easy.business.security"))
+            if (ste.getClassName().startsWith("nl.knaw") && !ste.getClassName().startsWith("nl.knaw.dans.easy.business.security"))
             {
-                sb.append("\n\t")
-                .append("at ")
-                .append(ste.getClassName())
-                .append(" (")
-                .append(ste.getFileName())
-                .append(":")
-                .append(ste.getLineNumber())
-                .append(")");
+                sb.append("\n\t").append("at ").append(ste.getClassName()).append(" (").append(ste.getFileName()).append(":").append(ste.getLineNumber())
+                        .append(")");
             }
         }
         return sb.toString();
     }
-    
+
     @Override
     public boolean getHints(ContextParameters ctxParameters, List<Object> hints)
     {

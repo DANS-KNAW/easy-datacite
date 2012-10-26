@@ -16,9 +16,9 @@ import org.slf4j.LoggerFactory;
 
 public class RepoAccessDelegatorImpl implements RepoAccessDelegator
 {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(RepoAccessDelegatorImpl.class);
-    
+
     public RepoAccessDelegatorImpl()
     {
         logger.debug("Constructed " + this.getClass().getName());
@@ -28,7 +28,7 @@ public class RepoAccessDelegatorImpl implements RepoAccessDelegator
     {
         return getGroups(user.getGroupIds());
     }
-    
+
     public List<Group> getGroups(Collection<String> groupIds)
     {
         try
@@ -57,7 +57,7 @@ public class RepoAccessDelegatorImpl implements RepoAccessDelegator
         {
             logger.error("Could not instantiate the User with userId '" + userId + "': ", e);
             throw new ApplicationException(e);
-        } 
+        }
     }
 
 }

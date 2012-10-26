@@ -36,12 +36,12 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ItemIngester.class, Data.class})
+@PrepareForTest( {ItemIngester.class, Data.class})
 public class ItemIngesterTest
 {
     private Dataset datasetMock;
     private EasyUser userMock;
-//    private ItemIngesterDelegator ingesterDelegatorMock;
+    //    private ItemIngesterDelegator ingesterDelegatorMock;
     private File rootFileMock;
     private DatasetItemContainer parentContainerMock;
     private EasyUnitOfWork unitOfWorkMock;
@@ -54,7 +54,7 @@ public class ItemIngesterTest
     {
         datasetMock = PowerMock.createMock(Dataset.class);
         userMock = PowerMock.createMock(EasyUser.class);
-//        ingesterDelegatorMock = PowerMock.createMock(ItemIngesterDelegator.class);
+        //        ingesterDelegatorMock = PowerMock.createMock(ItemIngesterDelegator.class);
         rootFileMock = PowerMock.createMock(File.class);
         parentContainerMock = PowerMock.createMock(DatasetItemContainer.class);
         unitOfWorkMock = PowerMock.createMock(EasyUnitOfWork.class);
@@ -64,7 +64,7 @@ public class ItemIngesterTest
         expect(Data.getFileStoreAccess()).andReturn(fileStoreAccessMock).anyTimes();
         fileMock = PowerMock.createMock(File.class);
         fileItemMock = PowerMock.createMock(FileItem.class);
-        
+
         AbstractDmoFactory.register(FileItem.NAMESPACE, new AbstractDmoFactory<FileItem>()
         {
             @Override
@@ -108,13 +108,13 @@ public class ItemIngesterTest
     {
         expectCreatorRole(CreatorRole.DEPOSITOR);
     }
-    
+
     private void datasetHasStoreId(String id)
     {
         expect(datasetMock.getStoreId()).andReturn(id).anyTimes();
         expect(datasetMock.getDmoStoreId()).andReturn(new DmoStoreId(id)).anyTimes();
     }
-    
+
     private void datasetHasAccessCategory(AccessCategory category)
     {
         expect(datasetMock.getAccessCategory()).andReturn(category).anyTimes();
@@ -138,7 +138,7 @@ public class ItemIngesterTest
         rootFileIsDirectory();
         noFilesAndFoldersUnderParentContainer();
         noFilesUnderRootFolder();
-        
+
         replayAll();
 
         ItemIngester ii = new ItemIngester(datasetMock, userMock, null);
@@ -200,11 +200,10 @@ public class ItemIngesterTest
         rootFileIsDirectory();
         noFilesAndFoldersUnderParentContainer();
         oneFileUnderRootFolder();
-        
 
         // Set up expectations
         //expect(unitOfWorkMock.createObject(FileItemImpl.class)).andReturn(fileItemMock);
-        
+
         fileItemMock.setFile(fileMock);
         fileItemMock.setCreatorRole(CreatorRole.DEPOSITOR);
         fileItemMock.setDatasetId(new DmoStoreId("easy-dataset:1"));
@@ -213,7 +212,7 @@ public class ItemIngesterTest
         fileItemMock.setVisibleTo(VisibleTo.ANONYMOUS);
         fileItemMock.setAccessibleTo(AccessibleTo.KNOWN);
         EasyMock.expect(unitOfWorkMock.saveAndDetach(fileItemMock)).andReturn(fileItemMock);
-        
+
         replayAll();
 
         ItemIngester ii = new ItemIngester(datasetMock, userMock, null);

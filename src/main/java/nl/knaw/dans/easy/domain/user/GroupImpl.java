@@ -12,24 +12,24 @@ public class GroupImpl implements Group
 {
 
     private static final long serialVersionUID = 1012313686311702776L;
-    
+
     @LdapAttribute(id = "ou", required = true)
     private String groupId;
-    
+
     @LdapAttribute(id = "description")
     private String description;
-    
+
     @LdapAttribute(id = "dansState")
     private State state = State.ACTIVE;
-    
+
     /**
      * NOT PART OF PUBLIC API - only used for deserialization.
      */
     public GroupImpl()
     {
-        
+
     }
-    
+
     public GroupImpl(String groupId)
     {
         this.groupId = groupId;
@@ -39,7 +39,7 @@ public class GroupImpl implements Group
     {
         return groupId;
     }
-    
+
     public State getState()
     {
         return state;
@@ -59,7 +59,7 @@ public class GroupImpl implements Group
     {
         this.description = description;
     }
-    
+
     /**
      * Test if object is equal.
      *
@@ -82,18 +82,15 @@ public class GroupImpl implements Group
                 if (obj.getClass() == this.getClass())
                 {
                     final GroupImpl otherGroup = (GroupImpl) obj;
-                    equals = new EqualsBuilder()
-                        .append(this.groupId, otherGroup.groupId)
-                        .append(this.state, otherGroup.state)
-                        .append(this.description, otherGroup.description)
-                        .isEquals();
+                    equals = new EqualsBuilder().append(this.groupId, otherGroup.groupId).append(this.state, otherGroup.state).append(this.description,
+                            otherGroup.description).isEquals();
                 }
             }
         }
 
         return equals;
     }
-    
+
     /**
      * Return hashCode.
      *
@@ -102,12 +99,9 @@ public class GroupImpl implements Group
     @Override
     public int hashCode()
     {
-        return new HashCodeBuilder(1, 3)
-            .append(this.groupId)
-            .append(this.state)
-            .toHashCode();
+        return new HashCodeBuilder(1, 3).append(this.groupId).append(this.state).toHashCode();
     }
-    
+
     @Override
     public String toString()
     {

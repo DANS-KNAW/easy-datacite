@@ -27,12 +27,7 @@ public class FederativeUserRegistration extends Messenger<FederativeUserRegistra
         /**
          * Rejected because data is invalid, inappropriate, insufficient or indecent: not registered.
          */
-        InvalidData,
-        UserIdCannotBeBlank,
-        InitialsCannotBeBlank,
-        FirstnameCannotBeBlank,
-        SurnameCannotBeBlank,
-        EmailCannotBeBlank,
+        InvalidData, UserIdCannotBeBlank, InitialsCannotBeBlank, FirstnameCannotBeBlank, SurnameCannotBeBlank, EmailCannotBeBlank,
         /**
          * Rejected because the userId already exists: not registered.
          */
@@ -46,8 +41,8 @@ public class FederativeUserRegistration extends Messenger<FederativeUserRegistra
          */
         Registered
     }
-    
-    private final EasyUser        user;
+
+    private final EasyUser user;
 
     public FederativeUserRegistration(final String federativeUserId, final EasyUser user)
     {
@@ -57,7 +52,6 @@ public class FederativeUserRegistration extends Messenger<FederativeUserRegistra
         this.user.addRole(Role.USER);
     }
 
-    
     public String getFederativeUserId()
     {
         return federativeUserId;
@@ -67,9 +61,9 @@ public class FederativeUserRegistration extends Messenger<FederativeUserRegistra
     {
         super.setState(state);
     }
-    
+
     @Override
-	public void setState(State state, Throwable e)
+    public void setState(State state, Throwable e)
     {
         super.setState(state, e);
     }
@@ -78,17 +72,16 @@ public class FederativeUserRegistration extends Messenger<FederativeUserRegistra
     {
         return user;
     }
-    
+
     public String getUserId()
     {
         return user.getId();
     }
-    
+
     @Override
     public String toString()
     {
-        return  super.toString() + " [state=" + getState() + " user="
-                + (user == null ? "null" : user.toString()) + "] " + getExceptionsAsString();
+        return super.toString() + " [state=" + getState() + " user=" + (user == null ? "null" : user.toString()) + "] " + getExceptionsAsString();
     }
-    
+
 }

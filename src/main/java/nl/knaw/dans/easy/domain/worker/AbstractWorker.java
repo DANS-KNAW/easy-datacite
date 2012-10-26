@@ -42,12 +42,12 @@ public abstract class AbstractWorker
         getUnitOfWork().removeListener(listener);
         return listeners.remove(listener);
     }
-    
+
     public List<WorkListener> getListeners()
     {
         return listeners;
     }
-    
+
     public void informListeners(Throwable t)
     {
         for (WorkListener listener : getListeners())

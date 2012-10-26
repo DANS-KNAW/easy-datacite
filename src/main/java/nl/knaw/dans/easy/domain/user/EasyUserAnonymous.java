@@ -422,15 +422,15 @@ public class EasyUserAnonymous implements EasyUser
         throw new AnonymousUserException("Method not supported.");
     }
 
-	@Override
-	public boolean hasAcceptedGeneralConditions() 
-	{
-		return false;
-	}
+    @Override
+    public boolean hasAcceptedGeneralConditions()
+    {
+        return false;
+    }
 
-	@Override
-	public void setAcceptedGeneralConditions(boolean accepted) 
-	{
-		throw new AnonymousUserException("Method not supported.");
-	}
+    @Override
+    public void setAcceptedGeneralConditions(boolean accepted)
+    {
+        throw new AnonymousUserException("Method not supported.");
+    }
 }

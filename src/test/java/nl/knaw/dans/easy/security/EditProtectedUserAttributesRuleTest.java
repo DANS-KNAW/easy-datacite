@@ -15,13 +15,12 @@ import org.junit.Test;
 
 public class EditProtectedUserAttributesRuleTest
 {
-    
-    
+
     private static SecurityOfficer rule;
     private static EasyUser sessionUser;
     private static EasyUser userUnderEdit;
     private static ContextParameters ctx;
-    
+
     @BeforeClass
     public static void beforeClass()
     {
@@ -30,14 +29,14 @@ public class EditProtectedUserAttributesRuleTest
         userUnderEdit = EasyMock.createMock(EasyUser.class);
         ctx = new ContextParameters(sessionUser, userUnderEdit);
     }
-    
+
     @Test
     public void testProposition()
     {
         String proposition = "Split answer: ComponentVisisble <== [SessionUser has role ARCHIVIST or ADMIN] EnableAllowed <== ([SessionUser has role ADMIN] AND NOT([SessionUser is user under edit]))";
         assertEquals(proposition, rule.getProposition());
     }
-    
+
     @Test
     public void testUser()
     {
@@ -49,13 +48,13 @@ public class EditProtectedUserAttributesRuleTest
         EasyMock.expect(sessionUser.hasRole(Role.ADMIN)).andReturn(false).times(1);
         // not anonymous
         EasyMock.expect(sessionUser.isAnonymous()).andReturn(false).anyTimes();
-        
+
         EasyMock.replay(sessionUser, userUnderEdit);
         assertFalse(rule.isComponentVisible(ctx));
         assertFalse(rule.isEnableAllowed(ctx));
-        EasyMock.verify(sessionUser, userUnderEdit); 
+        EasyMock.verify(sessionUser, userUnderEdit);
     }
-    
+
     @Test
     public void testArchivist()
     {
@@ -67,13 +66,13 @@ public class EditProtectedUserAttributesRuleTest
         EasyMock.expect(sessionUser.hasRole(Role.ADMIN)).andReturn(false).times(1);
         // not anonymous
         EasyMock.expect(sessionUser.isAnonymous()).andReturn(false).anyTimes();
-        
+
         EasyMock.replay(sessionUser, userUnderEdit);
         assertTrue(rule.isComponentVisible(ctx));
         assertFalse(rule.isEnableAllowed(ctx));
-        EasyMock.verify(sessionUser, userUnderEdit); 
+        EasyMock.verify(sessionUser, userUnderEdit);
     }
-    
+
     @Test
     public void testAdminNotSelf()
     {
@@ -83,17 +82,17 @@ public class EditProtectedUserAttributesRuleTest
         EasyMock.expect(sessionUser.hasRole(Role.ARCHIVIST, Role.ADMIN)).andReturn(true).times(1);
         // enabled
         EasyMock.expect(sessionUser.hasRole(Role.ADMIN)).andReturn(true).times(1);
-        
+
         EasyMock.expect(sessionUser.isAnonymous()).andReturn(false).anyTimes();
         EasyMock.expect(sessionUser.getId()).andReturn("aleph").times(1);
         EasyMock.expect(userUnderEdit.getId()).andReturn("beth").times(1);
-        
+
         EasyMock.replay(sessionUser, userUnderEdit);
         assertTrue(rule.isComponentVisible(ctx));
         assertTrue(rule.isEnableAllowed(ctx));
-        EasyMock.verify(sessionUser, userUnderEdit); 
+        EasyMock.verify(sessionUser, userUnderEdit);
     }
-    
+
     @Test
     public void testAdminButSelf()
     {
@@ -106,13 +105,13 @@ public class EditProtectedUserAttributesRuleTest
         EasyMock.expect(sessionUser.isAnonymous()).andReturn(false).anyTimes();
         EasyMock.expect(sessionUser.getId()).andReturn("aleph").times(1);
         EasyMock.expect(userUnderEdit.getId()).andReturn("aleph").times(1);
-        
+
         EasyMock.replay(sessionUser, userUnderEdit);
         assertTrue(rule.isComponentVisible(ctx));
         assertFalse(rule.isEnableAllowed(ctx));
-        EasyMock.verify(sessionUser, userUnderEdit); 
+        EasyMock.verify(sessionUser, userUnderEdit);
     }
-    
+
     @Test
     public void testNull()
     {
@@ -121,6 +120,5 @@ public class EditProtectedUserAttributesRuleTest
         assertFalse(rule.isEnableAllowed(ctxParameters));
         assertFalse(rule.isComponentVisible(ctxParameters));
     }
-    
 
 }

@@ -53,35 +53,19 @@ public class SplitAnswer implements SecurityOfficer
     {
         return enablingOfficer.isEnableAllowed(ctxParameters);
     }
-    
+
     public String explainEnableAllowed(ContextParameters ctxParameters)
     {
-        return new StringBuilder()
-        .append(enablingOfficer.explainEnableAllowed(ctxParameters))
-        .append("\n") 
-        .append(ctxParameters.nextChar(this))
-        .append(" = ")
-        .append(ctxParameters.charFor(enablingOfficer))
-        .append(" --> ")
-        .append(isEnableAllowed(ctxParameters))
-        .append("\n") 
-        .toString();
+        return new StringBuilder().append(enablingOfficer.explainEnableAllowed(ctxParameters)).append("\n").append(ctxParameters.nextChar(this)).append(" = ")
+                .append(ctxParameters.charFor(enablingOfficer)).append(" --> ").append(isEnableAllowed(ctxParameters)).append("\n").toString();
     }
-    
+
     public String explainComponentVisible(ContextParameters ctxParameters)
     {
-        return new StringBuilder()
-        .append(visibilityOfficer.explainComponentVisible(ctxParameters))
-        .append("\n") 
-        .append(ctxParameters.nextChar(this))
-        .append(" = ")
-        .append(ctxParameters.charFor(visibilityOfficer))
-        .append(" --> ")
-        .append(isComponentVisible(ctxParameters))
-        .append("\n") 
-        .toString();
+        return new StringBuilder().append(visibilityOfficer.explainComponentVisible(ctxParameters)).append("\n").append(ctxParameters.nextChar(this)).append(
+                " = ").append(ctxParameters.charFor(visibilityOfficer)).append(" --> ").append(isComponentVisible(ctxParameters)).append("\n").toString();
     }
-    
+
     public boolean getHints(ContextParameters ctxParameters, List<Object> hints)
     {
         return enablingOfficer.getHints(ctxParameters, hints);

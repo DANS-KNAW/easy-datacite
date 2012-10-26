@@ -15,14 +15,14 @@ public class ResourceMetadata extends AbstractJiBXObject<ResourceMetadata>
     private AccessCategory categoryRead;
     private AccessCategory categoryWrite;
     private AccessCategory categoryDelete;
-    
+
     private AdditionalMetadata additionalMetadata;
-    
+
     public ResourceMetadata()
     {
-        
-    } 
-    
+
+    }
+
     public ResourceMetadata(String identifier)
     {
         identifier = identifier.trim();
@@ -35,12 +35,12 @@ public class ResourceMetadata extends AbstractJiBXObject<ResourceMetadata>
             this.path = identifier;
         }
     }
-    
+
     public String getIdentifier()
     {
         return sid == null ? path : sid;
     }
-    
+
     public void setPath(String path)
     {
         this.path = path == null ? null : path.trim();
@@ -50,7 +50,7 @@ public class ResourceMetadata extends AbstractJiBXObject<ResourceMetadata>
     {
         return path;
     }
-    
+
     public void setSid(String sid)
     {
         this.sid = sid == null ? null : sid.trim();
@@ -71,7 +71,6 @@ public class ResourceMetadata extends AbstractJiBXObject<ResourceMetadata>
         this.categoryDiscover = categoryDiscover;
     }
 
-
     public AccessCategory getCategoryRead()
     {
         return categoryRead;
@@ -82,12 +81,10 @@ public class ResourceMetadata extends AbstractJiBXObject<ResourceMetadata>
         this.categoryRead = categoryRead;
     }
 
-
     public AccessCategory getCategoryWrite()
     {
         return categoryWrite;
     }
-
 
     public void setCategoryWrite(AccessCategory categoryWrite)
     {
@@ -103,7 +100,7 @@ public class ResourceMetadata extends AbstractJiBXObject<ResourceMetadata>
     {
         this.categoryDelete = categoryDelete;
     }
-    
+
     public boolean hasAdditionalMetadata()
     {
         return additionalMetadata != null;
@@ -123,5 +120,4 @@ public class ResourceMetadata extends AbstractJiBXObject<ResourceMetadata>
         this.additionalMetadata = additionalMetadata;
     }
 
-    
 }

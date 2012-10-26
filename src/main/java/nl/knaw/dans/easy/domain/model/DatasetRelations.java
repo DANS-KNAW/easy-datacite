@@ -21,7 +21,7 @@ public class DatasetRelations extends DmoContainerItemRelations<Dataset>
 
     private static final long serialVersionUID = 4284528908966717267L;
 
-    private final Dataset     dataset;
+    private final Dataset dataset;
 
     public DatasetRelations(Dataset dataset)
     {
@@ -52,7 +52,7 @@ public class DatasetRelations extends DmoContainerItemRelations<Dataset>
         String object = RelsConstants.getObjectURI(dmoStoreId.getStoreId());
         addRelation(RelsConstants.DANS_NS.IS_MEMBER_OF_OAI_SET, object);
     }
-    
+
     public void addOAISetMembership(List<DmoStoreId> storeIds)
     {
         for (DmoStoreId dmoStoreId : storeIds)
@@ -65,13 +65,13 @@ public class DatasetRelations extends DmoContainerItemRelations<Dataset>
     {
         removeRelation(RelsConstants.DANS_NS.IS_MEMBER_OF_OAI_SET, null);
     }
-    
+
     public void removeOAISetMembership(DmoStoreId dmoStoreId)
     {
         String object = RelsConstants.getObjectURI(dmoStoreId.getStoreId());
         removeRelation(RelsConstants.DANS_NS.IS_MEMBER_OF_OAI_SET, object);
     }
-    
+
     public void removeOAISetMembership(List<DmoStoreId> storeIds)
     {
         for (DmoStoreId dmoStoreId : storeIds)
@@ -79,7 +79,7 @@ public class DatasetRelations extends DmoContainerItemRelations<Dataset>
             removeOAISetMembership(dmoStoreId);
         }
     }
-    
+
     /**
      * Get objectIds that are targeted with predicate {@link DansOntologyNamespace#IS_MEMBER_OF_OAI_SET}
      * from this relations dataset.
@@ -108,13 +108,13 @@ public class DatasetRelations extends DmoContainerItemRelations<Dataset>
         }
         return memberships;
     }
-    
+
     public boolean isOAISetMember(DmoStoreId setStoreId)
     {
         Set<DmoStoreId> memberships = getOAISetMemberships(setStoreId.getNamespace());
         return memberships.contains(setStoreId);
     }
-    
+
     // Collections
     public void addCollectionMembership(DmoStoreId dmoStoreId)
     {
@@ -133,7 +133,7 @@ public class DatasetRelations extends DmoContainerItemRelations<Dataset>
     {
         addCollectionMembership(dmoCollection.getDmoStoreId());
     }
-    
+
     public void addCollectionMembership(List<DmoStoreId> storeIds)
     {
         for (DmoStoreId dmoStoreId : storeIds)
@@ -141,7 +141,7 @@ public class DatasetRelations extends DmoContainerItemRelations<Dataset>
             addCollectionMembership(dmoStoreId);
         }
     }
-    
+
     public void removeCollectionMembership(DmoStoreId dmoStoreId)
     {
         if (!ECollection.isECollection(dmoStoreId))
@@ -154,7 +154,7 @@ public class DatasetRelations extends DmoContainerItemRelations<Dataset>
             removeRelation(RelsConstants.DANS_NS.IS_COLLECTION_MEMBER, object);
         }
     }
-    
+
     public void removeCollectionMembership(List<DmoStoreId> storeIds)
     {
         for (DmoStoreId dmoStoreId : storeIds)
@@ -196,13 +196,13 @@ public class DatasetRelations extends DmoContainerItemRelations<Dataset>
         }
         return memberships;
     }
-    
+
     public boolean isCollectionMember(DmoStoreId collectionStoreId)
     {
         Set<DmoStoreId> memberships = getCollectionMemberships(collectionStoreId.getNamespace());
         return memberships.contains(collectionStoreId);
     }
-    
+
     // Digital Author Ids
     /**
      * Adds relations {@link DansOntologyNamespace#HAS_CREATOR_DAI} 
@@ -229,7 +229,7 @@ public class DatasetRelations extends DmoContainerItemRelations<Dataset>
             addRelation(RelsConstants.DANS_NS.HAS_CONTRIBUTOR_DAI, object);
         }
     }
-    
+
     /**
      * Removes relations {@link DansOntologyNamespace#HAS_CREATOR_DAI} 
      * and {@link DansOntologyNamespace#HAS_CONTRIBUTOR_DAI} from the relations of the subject dataset.
@@ -239,9 +239,7 @@ public class DatasetRelations extends DmoContainerItemRelations<Dataset>
         removeRelation(RelsConstants.DANS_NS.HAS_CREATOR_DAI, null);
         removeRelation(RelsConstants.DANS_NS.HAS_CONTRIBUTOR_DAI, null);
     }
-    
-    
-    
+
     // Identifiers
     public void setPersistentIdentifier(String pid)
     {

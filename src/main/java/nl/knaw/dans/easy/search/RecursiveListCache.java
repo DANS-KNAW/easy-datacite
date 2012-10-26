@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 
 public class RecursiveListCache extends AbstractListCache<RecursiveList>
 {
-    
+
     public static final String BASE_FOLDER = "easy-business/search/recursivelist/";
 
     public static final String LID_EASY_COLLECTIONS = "dmo-collections.easy-collections";
@@ -25,16 +25,16 @@ public class RecursiveListCache extends AbstractListCache<RecursiveList>
     public static final String LID_ARCHAEOLOGY_DC_SUBJECT = "archaeology.dc.subject";
 
     public static final String LID_ARCHAEOLOGY_DCTERMS_TEMPORAL = "archaeology.dcterms.temporal";
-    
+
     private static final Logger logger = LoggerFactory.getLogger(RecursiveListCache.class);
-    
+
     private static RecursiveListCache INSTANCE = new RecursiveListCache();
-    
+
     private RecursiveListCache()
     {
         super();
     }
-    
+
     public static RecursiveListCache getInstance()
     {
         return INSTANCE;

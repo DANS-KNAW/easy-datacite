@@ -3,12 +3,11 @@ package nl.knaw.dans.easy.domain.form;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class StandardPanelDefinition extends PanelDefinition
 {
 
     private static final long serialVersionUID = 6081545214101852051L;
-    
+
     // keep modifier protected, JiBX needs it.
     protected String modelClass;
     // keep modifier protected, JiBX needs it.
@@ -19,19 +18,19 @@ public class StandardPanelDefinition extends PanelDefinition
     protected boolean repeating;
     // keep modifier protected, JiBX needs it.
     protected String validatorClassName;
-    
+
     protected List<ChoiceListDefinition> choiceListDefinitions = new ArrayList<ChoiceListDefinition>();
-    
+
     protected StandardPanelDefinition()
     {
         super();
     }
-    
+
     public StandardPanelDefinition(String id)
     {
         super(id);
     }
-    
+
     public String getPanelClass()
     {
         return panelClass;
@@ -67,7 +66,7 @@ public class StandardPanelDefinition extends PanelDefinition
     {
         this.required = required;
     }
-    
+
     public boolean isRepeating()
     {
         return repeating;
@@ -93,7 +92,7 @@ public class StandardPanelDefinition extends PanelDefinition
         clDef.setParent(this);
         choiceListDefinitions.add(clDef);
     }
-    
+
     public ChoiceListDefinition getChoiceListDefinition(String listId)
     {
         ChoiceListDefinition clDef = null;
@@ -107,7 +106,7 @@ public class StandardPanelDefinition extends PanelDefinition
         }
         return clDef;
     }
-    
+
     public boolean hasChoicelistDefinition()
     {
         return choiceListDefinitions.size() > 0;
@@ -128,7 +127,7 @@ public class StandardPanelDefinition extends PanelDefinition
         clone.required = required;
         clone.repeating = repeating;
         clone.validatorClassName = validatorClassName;
-        
+
         for (ChoiceListDefinition clDef : choiceListDefinitions)
         {
             clone.addChoiceListDefinition(clDef.clone());

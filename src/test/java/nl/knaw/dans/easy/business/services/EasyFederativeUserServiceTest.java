@@ -42,11 +42,11 @@ public class EasyFederativeUserServiceTest extends TestHelper
 
         EasyMock.replay(userRepo);
         EasyMock.replay(federativeUserRepo);
-        
+
         EasyUserAnonymous sessionUser = new EasyUserAnonymous();
         // There is a mapping, so we want the EasyUser object.
         EasyUser userById = federativeUserService.getUserById(sessionUser, FAKE_FEDID);
-        
+
         assertEquals(easyUser, userById);
         EasyMock.verify(userRepo);
         EasyMock.verify(federativeUserRepo);
@@ -60,7 +60,7 @@ public class EasyFederativeUserServiceTest extends TestHelper
         EasyMock.expect(federativeUserRepo.findById(FAKE_FEDID)).andThrow(new ObjectNotInStoreException("not in store"));
 
         EasyMock.replay(federativeUserRepo);
-        
+
         EasyUserAnonymous sessionUser = new EasyUserAnonymous();
         // When there is no mapping for the federative user we want an exception
         federativeUserService.getUserById(sessionUser, FAKE_FEDID);

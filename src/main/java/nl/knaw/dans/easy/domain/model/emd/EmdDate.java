@@ -20,57 +20,48 @@ import org.joda.time.DateTime;
  */
 public class EmdDate extends AbstractEmdContainer
 {
-    
-    private static final long  serialVersionUID = -3009080247290017998L;
-    
-    private static List<String> QUALIFIER_LIST;
-    
-    private List<BasicDate>    dcDate;
-    private List<BasicDate>    termsCreated;
-    private List<BasicDate>    termsValid;
-    private List<BasicDate>    termsAvailable;
-    private List<BasicDate>    termsIssued;
-    private List<BasicDate>    termsModified;
-    private List<BasicDate>    termsDateAccepted;
-    private List<BasicDate>    termsDateCopyrighted;
-    private List<BasicDate>    termsDateSubmitted;
 
-    private List<IsoDate>      easDate;
-    private List<IsoDate>      easCreated;
-    private List<IsoDate>      easValid;
-    private List<IsoDate>      easAvailable;
-    private List<IsoDate>      easIssued;
-    private List<IsoDate>      easModified;
-    private List<IsoDate>      easDateAccepted;
-    private List<IsoDate>      easDateCopyrighted;
-    private List<IsoDate>      easDateSubmitted;
+    private static final long serialVersionUID = -3009080247290017998L;
+
+    private static List<String> QUALIFIER_LIST;
+
+    private List<BasicDate> dcDate;
+    private List<BasicDate> termsCreated;
+    private List<BasicDate> termsValid;
+    private List<BasicDate> termsAvailable;
+    private List<BasicDate> termsIssued;
+    private List<BasicDate> termsModified;
+    private List<BasicDate> termsDateAccepted;
+    private List<BasicDate> termsDateCopyrighted;
+    private List<BasicDate> termsDateSubmitted;
+
+    private List<IsoDate> easDate;
+    private List<IsoDate> easCreated;
+    private List<IsoDate> easValid;
+    private List<IsoDate> easAvailable;
+    private List<IsoDate> easIssued;
+    private List<IsoDate> easModified;
+    private List<IsoDate> easDateAccepted;
+    private List<IsoDate> easDateCopyrighted;
+    private List<IsoDate> easDateSubmitted;
 
     /**
      * Terms contained.
      */
-    static final Term[] TERMS            = {
-            new Term(Term.Name.DATE, Term.Namespace.DC, BasicDate.class),
-            
-            new Term(Term.Name.CREATED, Term.Namespace.DCTERMS, BasicDate.class),
-            new Term(Term.Name.VALID, Term.Namespace.DCTERMS, BasicDate.class),
-            new Term(Term.Name.AVAILABLE, Term.Namespace.DCTERMS, BasicDate.class),
-            new Term(Term.Name.ISSUED, Term.Namespace.DCTERMS, BasicDate.class),
-            new Term(Term.Name.MODIFIED, Term.Namespace.DCTERMS, BasicDate.class),
-            new Term(Term.Name.DATE_ACCEPTED, Term.Namespace.DCTERMS, BasicDate.class),
+    static final Term[] TERMS = {new Term(Term.Name.DATE, Term.Namespace.DC, BasicDate.class),
+
+    new Term(Term.Name.CREATED, Term.Namespace.DCTERMS, BasicDate.class), new Term(Term.Name.VALID, Term.Namespace.DCTERMS, BasicDate.class),
+            new Term(Term.Name.AVAILABLE, Term.Namespace.DCTERMS, BasicDate.class), new Term(Term.Name.ISSUED, Term.Namespace.DCTERMS, BasicDate.class),
+            new Term(Term.Name.MODIFIED, Term.Namespace.DCTERMS, BasicDate.class), new Term(Term.Name.DATE_ACCEPTED, Term.Namespace.DCTERMS, BasicDate.class),
             new Term(Term.Name.DATE_COPYRIGHTED, Term.Namespace.DCTERMS, BasicDate.class),
             new Term(Term.Name.DATE_SUBMITTED, Term.Namespace.DCTERMS, BasicDate.class),
-            
-            new Term(Term.Name.DATE, Term.Namespace.EAS, IsoDate.class),
-            new Term(Term.Name.CREATED, Term.Namespace.EAS, IsoDate.class),
-            new Term(Term.Name.VALID, Term.Namespace.EAS, IsoDate.class),
-            new Term(Term.Name.AVAILABLE, Term.Namespace.EAS, IsoDate.class),
-            new Term(Term.Name.ISSUED, Term.Namespace.EAS, IsoDate.class),
-            new Term(Term.Name.MODIFIED, Term.Namespace.EAS, IsoDate.class),
-            new Term(Term.Name.DATE_ACCEPTED, Term.Namespace.EAS, IsoDate.class),
-            new Term(Term.Name.DATE_COPYRIGHTED, Term.Namespace.EAS, IsoDate.class),
-            new Term(Term.Name.DATE_SUBMITTED, Term.Namespace.EAS, IsoDate.class)
-    };
-    
+
+            new Term(Term.Name.DATE, Term.Namespace.EAS, IsoDate.class), new Term(Term.Name.CREATED, Term.Namespace.EAS, IsoDate.class),
+            new Term(Term.Name.VALID, Term.Namespace.EAS, IsoDate.class), new Term(Term.Name.AVAILABLE, Term.Namespace.EAS, IsoDate.class),
+            new Term(Term.Name.ISSUED, Term.Namespace.EAS, IsoDate.class), new Term(Term.Name.MODIFIED, Term.Namespace.EAS, IsoDate.class),
+            new Term(Term.Name.DATE_ACCEPTED, Term.Namespace.EAS, IsoDate.class), new Term(Term.Name.DATE_COPYRIGHTED, Term.Namespace.EAS, IsoDate.class),
+            new Term(Term.Name.DATE_SUBMITTED, Term.Namespace.EAS, IsoDate.class)};
+
     public static final String DATE = "";
     public static final String CREATED = "created";
     public static final String VALID = "valid";
@@ -80,7 +71,7 @@ public class EmdDate extends AbstractEmdContainer
     public static final String DATE_ACCEPTED = "dateAccepted";
     public static final String DATE_COPYRIGHTED = "dateCopyrighted";
     public static final String DATE_SUBMITTED = "dateSubmitted";
-    
+
     public static List<String> getQualifierList()
     {
         if (QUALIFIER_LIST == null)
@@ -99,23 +90,21 @@ public class EmdDate extends AbstractEmdContainer
         return Collections.unmodifiableList(QUALIFIER_LIST);
     }
 
-    
-    
     public Map<String, List<IsoDate>> getIsoDateMap()
     {
         // application critic date types (created, available, submitted) are set separately
         // and cannot be in drop down gui widgets.
-    	Map<String, List<IsoDate>> map = new HashMap<String, List<IsoDate>>();
-    	map.put(DATE, this.getEasDate());
-    	map.put(VALID, this.getEasValid());
-    	map.put(ISSUED, this.getEasIssued());
-    	map.put(MODIFIED, this.getEasModified());
-    	map.put(DATE_ACCEPTED, this.getEasDateAccepted());
-    	map.put(DATE_COPYRIGHTED, this.getEasDateCopyrighted());
-    	
-    	return map;
+        Map<String, List<IsoDate>> map = new HashMap<String, List<IsoDate>>();
+        map.put(DATE, this.getEasDate());
+        map.put(VALID, this.getEasValid());
+        map.put(ISSUED, this.getEasIssued());
+        map.put(MODIFIED, this.getEasModified());
+        map.put(DATE_ACCEPTED, this.getEasDateAccepted());
+        map.put(DATE_COPYRIGHTED, this.getEasDateCopyrighted());
+
+        return map;
     }
-    
+
     public Map<String, List<IsoDate>> getAllIsoDates()
     {
         Map<String, List<IsoDate>> map = new HashMap<String, List<IsoDate>>();
@@ -128,26 +117,26 @@ public class EmdDate extends AbstractEmdContainer
         map.put(DATE_ACCEPTED, this.getEasDateAccepted());
         map.put(DATE_COPYRIGHTED, this.getEasDateCopyrighted());
         map.put(DATE_SUBMITTED, getEasDateSubmitted());
-        
+
         return map;
     }
-    
+
     public Map<String, List<BasicDate>> getBasicDateMap()
     {
         // application critic date types (created, available, submitted) are set separately
         // and cannot be in drop down gui widgets.
         // above all: Basic Dates are Strings and cannot be used in date calculations.
-    	Map<String, List<BasicDate>> map = new HashMap<String, List<BasicDate>>();
-    	map.put(DATE, this.getDcDate());
-    	map.put(VALID, this.getTermsValid());
-    	map.put(ISSUED, this.getTermsIssued());
-    	map.put(MODIFIED, this.getTermsModified());
-    	map.put(DATE_ACCEPTED, this.getTermsDateAccepted());
-    	map.put(DATE_COPYRIGHTED, this.getTermsDateCopyrighted());
-    	
-    	return map;
+        Map<String, List<BasicDate>> map = new HashMap<String, List<BasicDate>>();
+        map.put(DATE, this.getDcDate());
+        map.put(VALID, this.getTermsValid());
+        map.put(ISSUED, this.getTermsIssued());
+        map.put(MODIFIED, this.getTermsModified());
+        map.put(DATE_ACCEPTED, this.getTermsDateAccepted());
+        map.put(DATE_COPYRIGHTED, this.getTermsDateCopyrighted());
+
+        return map;
     }
-    
+
     public Map<String, List<BasicDate>> getAllBasicDates()
     {
         Map<String, List<BasicDate>> map = new HashMap<String, List<BasicDate>>();
@@ -160,13 +149,13 @@ public class EmdDate extends AbstractEmdContainer
         map.put(DATE_ACCEPTED, this.getTermsDateAccepted());
         map.put(DATE_COPYRIGHTED, this.getTermsDateCopyrighted());
         map.put(DATE_SUBMITTED, this.getTermsDateSubmitted());
-        
+
         return map;
     }
 
-//    public static final String[] LIST_KEYS = {DATE, CREATED, VALID, AVAILABLE, ISSUED, MODIFIED, DATE_ACCEPTED
-//		, DATE_COPYRIGHTED, DATE_SUBMITTED };
-    
+    //    public static final String[] LIST_KEYS = {DATE, CREATED, VALID, AVAILABLE, ISSUED, MODIFIED, DATE_ACCEPTED
+    //		, DATE_COPYRIGHTED, DATE_SUBMITTED };
+
     /**
      * {@inheritDoc}
      */
@@ -174,47 +163,46 @@ public class EmdDate extends AbstractEmdContainer
     {
         return Arrays.asList(TERMS);
     }
-    
+
     public DateTime getDateCreated()
     {
         DateTime dt = null;
-        if (easCreated!= null && easCreated.size() > 0)
+        if (easCreated != null && easCreated.size() > 0)
         {
             dt = easCreated.get(0).getValue();
         }
         return dt;
     }
-    
+
     public String getFormattedDateCreated()
     {
         String fdt = null;
-        if (easCreated!= null && easCreated.size() > 0)
+        if (easCreated != null && easCreated.size() > 0)
         {
             fdt = easCreated.get(0).toString();
         }
         return fdt;
     }
-    
+
     public DateTime getDateAvailable()
     {
         DateTime dt = null;
-        if (easAvailable!= null && easAvailable.size() > 0)
+        if (easAvailable != null && easAvailable.size() > 0)
         {
             dt = easAvailable.get(0).getValue();
         }
         return dt;
     }
-    
+
     public String getFormattedDateAvailable()
     {
         String fdt = null;
-        if (easAvailable!= null && easAvailable.size() > 0)
+        if (easAvailable != null && easAvailable.size() > 0)
         {
             fdt = easAvailable.get(0).toString();
         }
         return fdt;
     }
-    
 
     /**
      * Get a list of resource properties known as 'date' in the "http://purl.org/dc/elements/1.1/" name space.

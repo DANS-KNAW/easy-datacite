@@ -11,7 +11,7 @@ import org.junit.Test;
 
 public class FolderItemVOTest
 {
-    
+
     @Test
     public void setAccessibleToes()
     {
@@ -20,7 +20,7 @@ public class FolderItemVOTest
         List<AccessibleTo> accessibleToes = new ArrayList<AccessibleTo>();
         accessibleToes.add(AccessibleTo.RESTRICTED_GROUP);
         accessibleToes.add(AccessibleTo.RESTRICTED_GROUP);
-        
+
         fovo.setAccessibleToes(accessibleToes);
         assertEquals(1, fovo.getAccessibleToList().size());
     }

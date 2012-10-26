@@ -30,12 +30,11 @@ public class PermissionWorker extends AbstractWorker
     {
         super(uow);
     }
-    
-    
+
     protected void saveRequest(Dataset dataset, EasyUser requester, PermissionRequestModel requestModel) throws ServiceException
     {
         validateRequest(requestModel);
-        
+
         PermissionSequenceListImpl sequenceList = (PermissionSequenceListImpl) dataset.getPermissionSequenceList();
         PermissionSequenceImpl sequence = (PermissionSequenceImpl) sequenceList.getSequenceFor(requester);
         if (sequence == null)
@@ -46,20 +45,20 @@ public class PermissionWorker extends AbstractWorker
         sequence.updateRequest(requestModel);
 
         saveSequenceList(dataset);
-        
+
         new RequestNotification(dataset, requester, requestModel).send();
     }
-    
+
     protected void saveReply(Dataset dataset, EasyUser depositor, PermissionReplyModel replyModel) throws ServiceException
     {
         validateReply(replyModel);
-        
+
         PermissionSequenceList sequenceList = dataset.getPermissionSequenceList();
         PermissionSequenceImpl sequence = (PermissionSequenceImpl) sequenceList.getSequenceFor(replyModel.getRequesterId());
         sequence.updateReply(replyModel);
-        
+
         saveSequenceList(dataset);
-        
+
         new ReplyNotification(dataset, sequence, replyModel).send();
     }
 
@@ -79,13 +78,13 @@ public class PermissionWorker extends AbstractWorker
         boolean valid = !StringUtils.isBlank(requestModel.getRequestTheme());
         valid &= !StringUtils.isBlank(requestModel.getRequestTitle());
         valid &= requestModel.isAcceptingConditionsOfUse();
-        
+
         if (!valid)
         {
             throw new ServiceException("Insufficient data for PermissionRequest");
         }
     }
-    
+
     private void saveSequenceList(Dataset dataset) throws ServiceException
     {
         try
@@ -95,7 +94,7 @@ public class PermissionWorker extends AbstractWorker
         }
         catch (UnitOfWorkInterruptException e)
         {
-          //rollBack(e.getMessage());
+            //rollBack(e.getMessage());
             throw new UnsupportedOperationException("Rollback not implemented");
         }
         catch (RepositoryException e)
@@ -106,6 +105,6 @@ public class PermissionWorker extends AbstractWorker
         {
             getUnitOfWork().close();
         }
-        
+
     }
 }

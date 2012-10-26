@@ -17,16 +17,15 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.DateTime;
 
-public class PermissionSequenceListImpl extends AbstractTimestampedJiBXObject<PermissionSequenceList> implements
-        PermissionSequenceList
+public class PermissionSequenceListImpl extends AbstractTimestampedJiBXObject<PermissionSequenceList> implements PermissionSequenceList
 {
 
-    private static final long        serialVersionUID = -8323917591473986L;
+    private static final long serialVersionUID = -8323917591473986L;
 
-    private boolean                  versionable;
+    private boolean versionable;
 
     private Map<String, PermissionSequence> sequencesMap = new LinkedHashMap<String, PermissionSequence>();
-    
+
     public PermissionSequenceListImpl()
     {
 
@@ -61,17 +60,17 @@ public class PermissionSequenceListImpl extends AbstractTimestampedJiBXObject<Pe
     {
         this.versionable = versionable;
     }
-    
+
     public boolean hasSequenceFor(EasyUser requester)
     {
         return getSequenceFor(requester) != null;
     }
-    
+
     public PermissionSequence getSequenceFor(EasyUser requester)
     {
         return sequencesMap.get(requester.getId());
     }
-    
+
     public PermissionSequence getSequenceFor(String requesterId)
     {
         return sequencesMap.get(requesterId);
@@ -81,7 +80,7 @@ public class PermissionSequenceListImpl extends AbstractTimestampedJiBXObject<Pe
     {
         return new ArrayList<PermissionSequence>(sequencesMap.values());
     }
-    
+
     public DateTime getLastRequestDate()
     {
         DateTime lrd = null;
@@ -94,14 +93,14 @@ public class PermissionSequenceListImpl extends AbstractTimestampedJiBXObject<Pe
         }
         return lrd;
     }
-    
+
     public List<PermissionSequence> getPermissionSequences(PermissionSequence.State state)
     {
         ArrayList<PermissionSequence> result = new ArrayList<PermissionSequence>();
         for (PermissionSequence permSeq : sequencesMap.values())
         {
-        	if (permSeq.getState().equals(state))
-        		result.add(permSeq);
+            if (permSeq.getState().equals(state))
+                result.add(permSeq);
         }
         return result;
     }
@@ -114,7 +113,7 @@ public class PermissionSequenceListImpl extends AbstractTimestampedJiBXObject<Pe
             sequencesMap.put(sequence.getRequesterId(), sequence);
         }
     }
-    
+
     public void addSequence(PermissionSequence sequence)
     {
         sequencesMap.put(sequence.getRequesterId(), sequence);
@@ -124,12 +123,12 @@ public class PermissionSequenceListImpl extends AbstractTimestampedJiBXObject<Pe
     {
         return sequencesMap.remove(user.getId());
     }
-    
+
     public boolean hasSequences()
     {
         return !sequencesMap.isEmpty();
     }
-    
+
     public PermissionRequestModel getPermissionRequest(EasyUser requester)
     {
         PermissionRequestModel request;
@@ -144,7 +143,7 @@ public class PermissionSequenceListImpl extends AbstractTimestampedJiBXObject<Pe
         }
         return request;
     }
-    
+
     public PermissionReplyModel getPermissionReply(String requesterId) throws IllegalArgumentException
     {
         PermissionReplyModel reply;
@@ -159,13 +158,13 @@ public class PermissionSequenceListImpl extends AbstractTimestampedJiBXObject<Pe
         }
         return reply;
     }
-    
+
     public boolean isGrantedTo(EasyUser user)
     {
         PermissionSequence sequence = getSequenceFor(user);
         return sequence != null && sequence.isGranted();
     }
-    
+
     public List<PermissionRequestSearchInfo> getSearchInfoList()
     {
         List<PermissionRequestSearchInfo> sbFieldList = new ArrayList<PermissionRequestSearchInfo>();
@@ -181,14 +180,9 @@ public class PermissionSequenceListImpl extends AbstractTimestampedJiBXObject<Pe
      */
     public int hashCode()
     {
-        return new HashCodeBuilder(-1641521, -517070753)
-            .appendSuper(super.hashCode())
-            .append(this.sequencesMap)
-            .append(this.versionable)
-            .toHashCode();
+        return new HashCodeBuilder(-1641521, -517070753).appendSuper(super.hashCode()).append(this.sequencesMap).append(this.versionable).toHashCode();
     }
 
     // methods for conversion
-    
 
 }

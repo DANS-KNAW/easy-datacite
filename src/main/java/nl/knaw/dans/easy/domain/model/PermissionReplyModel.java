@@ -12,14 +12,14 @@ public class PermissionReplyModel implements Serializable
     public static final String STATE = "state";
 
     public static final String EXPLANATION = "explanation";
-    
+
     private final String requesterId;
     private String explanation;
     private State state;
-    
+
     private String requestLink;
     private String datasetLink;
-    
+
     public PermissionReplyModel(String requesterId)
     {
         this.requesterId = requesterId;

@@ -41,36 +41,37 @@ public class ItemWorkDispatcher
     }
 
     public void addDirectoryContents(EasyUser sessionUser, Dataset dataset, DatasetItemContainer parentContainer, File rootFile, FileFilter fileFilter,
-            UnitOfWork uow, ItemIngesterDelegator delegator, WorkListener...workListeners) throws ServiceException
+            UnitOfWork uow, ItemIngesterDelegator delegator, WorkListener... workListeners) throws ServiceException
     {
         ItemIngester ingester = new ItemIngester(uow, dataset, sessionUser, delegator);
         ingester.addWorkListeners(workListeners);
         ingester.workAddDirectoryContents(parentContainer, rootFile, fileFilter);
     }
-    
-    public void updateObjects(EasyUser sessionUser, Dataset dataset, List<DmoStoreId> dmoStoreIds, UpdateInfo updateInfo, ItemFilters itemFilters, UnitOfWork uow, WorkListener...workListeners)
-        throws ServiceException
+
+    public void updateObjects(EasyUser sessionUser, Dataset dataset, List<DmoStoreId> dmoStoreIds, UpdateInfo updateInfo, ItemFilters itemFilters,
+            UnitOfWork uow, WorkListener... workListeners) throws ServiceException
     {
         ItemWorker worker = new ItemWorker(uow);
         worker.addWorkListeners(workListeners);
         worker.workUpdateObjects(dataset, dmoStoreIds, updateInfo, itemFilters);
-    }   
-    
-    public void updateFileItemMetadata(EasyUser sessionUser, Dataset dataset, ResourceMetadataList resourceMetadataList, AdditionalMetadataUpdateStrategy strategy,
-            WorkListener... workListeners) throws ServiceException
+    }
+
+    public void updateFileItemMetadata(EasyUser sessionUser, Dataset dataset, ResourceMetadataList resourceMetadataList,
+            AdditionalMetadataUpdateStrategy strategy, WorkListener... workListeners) throws ServiceException
     {
         FileItemMetadataUpdateWorker worker = new FileItemMetadataUpdateWorker(sessionUser, strategy);
         worker.addWorkListeners(workListeners);
         worker.workUpdateMetadata(dataset, resourceMetadataList);
     }
 
-    public void saveDescriptiveMetadata(EasyUser sessionUser, final UnitOfWork uow, final Dataset dataset, final Map<String, Element> descriptiveMetadataMap, WorkListener...workListeners) throws ServiceException
+    public void saveDescriptiveMetadata(EasyUser sessionUser, final UnitOfWork uow, final Dataset dataset, final Map<String, Element> descriptiveMetadataMap,
+            WorkListener... workListeners) throws ServiceException
     {
         DescriptiveMetadataWorker worker = new DescriptiveMetadataWorker(uow);
         worker.addWorkListeners(workListeners);
         worker.saveDescriptiveMetadata(dataset, descriptiveMetadataMap);
     }
-    
+
     public FileItem getFileItem(EasyUser sessionUser, Dataset dataset, DmoStoreId fileItemId) throws ServiceException
     {
         FileItem fileItem = getFileItem(dataset, fileItemId);
@@ -79,14 +80,14 @@ public class ItemWorkDispatcher
         fileItem.setAuthzStrategy(strategy);
         return fileItem;
     }
-    
+
     public FolderItem getFolderItem(EasyUser sessionUser, Dataset dataset, DmoStoreId folderItemId) throws ServiceException
     {
         FolderItem folderItem = getFolderItem(dataset, folderItemId);
-        
+
         return folderItem;
     }
-    
+
     public FileItem getFileItemByPath(EasyUser sessionUser, Dataset dataset, String path) throws ObjectNotAvailableException, ServiceException
     {
         FileItemVO fileItemVO;
@@ -123,12 +124,11 @@ public class ItemWorkDispatcher
         return getFolderItem(sessionUser, dataset, new DmoStoreId(folderItemVO.getSid()));
     }
 
-    
     public FileItemDescription getFileItemDescription(EasyUser sessionUser, Dataset dataset, FileItem fileItem) throws ServiceException
     {
         return new FileItemDescription(fileItem.getFileItemMetadata(), fileItem.getDescriptiveMetadata());
     }
-    
+
     public URL getFileContentURL(EasyUser sessionUser, Dataset dataset, FileItem fileItem) throws ServiceException
     {
         URL url = Data.getEasyStore().getFileURL(fileItem.getDmoStoreId());
@@ -140,7 +140,7 @@ public class ItemWorkDispatcher
         URL url = Data.getEasyStore().getDescriptiveMetadataURL(fileItemId);
         return url;
     }
-    
+
     private FileItem getFileItem(Dataset dataset, DmoStoreId fileItemId) throws ObjectNotAvailableException, ServiceException
     {
         FileItem fileItem;
@@ -150,7 +150,7 @@ public class ItemWorkDispatcher
             if (!fileItem.getFileItemMetadata().getDatasetDmoStoreId().equals(dataset.getDmoStoreId()))
             {
                 throw new ObjectNotAvailableException("FileItem '" + fileItemId + "' does not belong to dataset '" + dataset.getStoreId() + "'");
-            }                    
+            }
         }
         catch (ObjectNotInStoreException e)
         {
@@ -162,7 +162,7 @@ public class ItemWorkDispatcher
         }
         return fileItem;
     }
-    
+
     private FolderItem getFolderItem(Dataset dataset, DmoStoreId folderItemId) throws ObjectNotAvailableException, ServiceException
     {
         FolderItem folderItem;
@@ -172,7 +172,7 @@ public class ItemWorkDispatcher
             if (!folderItem.getDatasetId().equals(dataset.getDmoStoreId()))
             {
                 throw new ObjectNotAvailableException("FolderItem '" + folderItemId + "' does not belong to dataset '" + dataset.getStoreId() + "'");
-            }                    
+            }
         }
         catch (ObjectNotInStoreException e)
         {
@@ -184,7 +184,5 @@ public class ItemWorkDispatcher
         }
         return folderItem;
     }
-
-
 
 }

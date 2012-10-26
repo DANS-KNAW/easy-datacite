@@ -10,7 +10,7 @@ import nl.knaw.dans.easy.domain.workflow.WorkflowStep;
 
 public interface WorkflowData extends Serializable, MinimalXMLBean
 {
-    
+
     public static final String NOT_ASSIGNED = "NOT_ASSIGNED";
 
     void setAssigneeId(String assigneeId);
@@ -20,10 +20,10 @@ public interface WorkflowData extends Serializable, MinimalXMLBean
     EasyUser getAssignee() throws ObjectNotInStoreException, RepositoryException;
 
     void setAssignee(EasyUser assignee);
-    
+
     WorkflowStep getWorkflow();
 
     boolean isDirty();
-    
+
     void setDirty(boolean dirty);
 }

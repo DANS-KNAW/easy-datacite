@@ -9,41 +9,41 @@ public abstract class PanelDefinition extends AbstractInheritableDefinition<Pane
 {
 
     private static final long serialVersionUID = -2273513243070254539L;
-    
+
     private List<String> errorMessages = new ArrayList<String>();
     private Map<Integer, List<String>> itemErrorMessages = new LinkedHashMap<Integer, List<String>>();
-    
+
     protected PanelDefinition()
     {
         super();
     }
-    
+
     protected PanelDefinition(String id)
     {
         super(id);
     }
-    
+
     public boolean hasErrors()
     {
         return !errorMessages.isEmpty() || !itemErrorMessages.isEmpty();
     }
-    
+
     public void clearErrorMessages()
     {
         errorMessages.clear();
         itemErrorMessages.clear();
     }
-    
+
     public void addErrorMessage(String msgKey)
     {
         errorMessages.add(msgKey);
     }
-    
+
     public List<String> getErrorMessages()
     {
         return errorMessages;
     }
-    
+
     public void addItemErrorMessage(int index, String msgKey)
     {
         List<String> indexedMessages = itemErrorMessages.get(index);
@@ -54,7 +54,7 @@ public abstract class PanelDefinition extends AbstractInheritableDefinition<Pane
         }
         indexedMessages.add(msgKey);
     }
-    
+
     public Map<Integer, List<String>> getItemErrorMessages()
     {
         return itemErrorMessages;

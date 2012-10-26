@@ -20,20 +20,20 @@ import nl.knaw.dans.easy.domain.model.DatasetItemContainer;
 public abstract class AbstractDatasetItemImpl extends AbstractDmoContainerItem implements DatasetItem, DmoContainerItem
 {
     private static final long serialVersionUID = -7007411478967909724L;
-        
+
     public AbstractDatasetItemImpl(String storeId)
     {
         super(storeId);
         getDatasetItemMetadata().setDmoStoreId(new DmoStoreId(storeId));
     }
 
-	public Set<DmoCollection> getCollections()
-	{
-		HashSet<DmoCollection> c = new HashSet<DmoCollection>();
-		c.add( DatasetItemCollection.getInstance() );
-		return c;
-	}
-    
+    public Set<DmoCollection> getCollections()
+    {
+        HashSet<DmoCollection> c = new HashSet<DmoCollection>();
+        c.add(DatasetItemCollection.getInstance());
+        return c;
+    }
+
     public DmoStoreId getDatasetId()
     {
         return getDatasetItemMetadata().getDatasetDmoStoreId();
@@ -46,26 +46,27 @@ public abstract class AbstractDatasetItemImpl extends AbstractDmoContainerItem i
         DmoContainerItemRelations relations = (DmoContainerItemRelations) getRelations();
         relations.setSubordinateTo(datasetId);
     }
-    
+
     public String getPath()
     {
         String path = getDatasetItemMetadata().getPath();
         return path == null ? getLabel() : path;
     }
 
-	public void setParent(DatasetItemContainer parent) throws DomainException
-	{
-		try
-		{
-			super.setParent((DmoContainer) parent);
-	    
-			onParentChanged(parent);
+    public void setParent(DatasetItemContainer parent) throws DomainException
+    {
+        try
+        {
+            super.setParent((DmoContainer) parent);
 
-		} catch (RepositoryException e)
-		{
-			throw new DomainException(e);
-		}
-	}
+            onParentChanged(parent);
+
+        }
+        catch (RepositoryException e)
+        {
+            throw new DomainException(e);
+        }
+    }
 
     public void onParentChanged(DatasetItemContainer parent) throws NoUnitOfWorkAttachedException, RepositoryException
     {
@@ -77,48 +78,47 @@ public abstract class AbstractDatasetItemImpl extends AbstractDmoContainerItem i
         getDatasetItemMetadata().setParentDmoStoreId(parent.getDmoStoreId());
         parent.onChildAdded(this);
     }
-    
+
     @Override
     public boolean isDescendantOf(DmoStoreId dmoStoreId)
     {
-        return dmoStoreId != null 
-            && (dmoStoreId.equals(getDatasetItemMetadata().getDatasetDmoStoreId())
-            || dmoStoreId.equals(getDatasetItemMetadata().getParentDmoStoreId()));
+        return dmoStoreId != null
+                && (dmoStoreId.equals(getDatasetItemMetadata().getDatasetDmoStoreId()) || dmoStoreId.equals(getDatasetItemMetadata().getParentDmoStoreId()));
     }
-    
+
     @Override
     public boolean isDescendantOf(DataModelObject dmo)
     {
         return dmo != null && isDescendantOf(dmo.getDmoStoreId());
     }
-    
+
     @Override
     public void registerDeleted()
     {
-    	boolean wasRegisterDeleted = isRegisteredDeleted();
-    	super.registerDeleted();
-    	
-    	if (!wasRegisterDeleted)
-    	{
-	    	DatasetItemContainer parent = (DatasetItemContainer) getParent();
-	    	if (parent != null)
-	    	{
-	    		parent.onChildRemoved(this);
-	    	}
-    	}
+        boolean wasRegisterDeleted = isRegisteredDeleted();
+        super.registerDeleted();
+
+        if (!wasRegisterDeleted)
+        {
+            DatasetItemContainer parent = (DatasetItemContainer) getParent();
+            if (parent != null)
+            {
+                parent.onChildRemoved(this);
+            }
+        }
     }
-    
-    	
-	@Override
-	public DmoContainer getParent()
-	{
-		try
-		{
-			return super.getParent();
-		} catch (RepositoryException e)
-		{
-			throw new DomainRuntimeException(e);
-		}
-	}
+
+    @Override
+    public DmoContainer getParent()
+    {
+        try
+        {
+            return super.getParent();
+        }
+        catch (RepositoryException e)
+        {
+            throw new DomainRuntimeException(e);
+        }
+    }
 
 }

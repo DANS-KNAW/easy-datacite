@@ -82,9 +82,8 @@ public class DummyFileStoreAccess implements FileStoreAccess
         addFolder("0", "0", "0", "0");
     }
 
-    public void addFile(final String sid, final String datasetSid, final CreatorRole creatorRole,
-            final VisibleTo visibleTo, final AccessibleTo accessibleTo, final String name,
-            final String mimetype, final int size, String path)
+    public void addFile(final String sid, final String datasetSid, final CreatorRole creatorRole, final VisibleTo visibleTo, final AccessibleTo accessibleTo,
+            final String name, final String mimetype, final int size, String path)
     {
         final FileItemVO file = new FileItemVO();
         file.setSid(sid);
@@ -99,8 +98,7 @@ public class DummyFileStoreAccess implements FileStoreAccess
         items.put(sid, file);
     }
 
-    public void addFolder(final String folderSid, final String parentSid, final String datasetSid, String path,
-            final String... contentSids)
+    public void addFolder(final String folderSid, final String parentSid, final String datasetSid, String path, final String... contentSids)
     {
         final List<ItemVO> composition = new ArrayList<ItemVO>();
         final String name = folderSid.replace(":", "");
@@ -123,8 +121,7 @@ public class DummyFileStoreAccess implements FileStoreAccess
             accessibleTos.add(new FolderItemAccessibleTo(folderSid, AccessibleTo.KNOWN));
             accessibleTos.add(new FolderItemAccessibleTo(folderSid, AccessibleTo.ANONYMOUS));
             accessibleTos.add(new FolderItemAccessibleTo(folderSid, AccessibleTo.RESTRICTED_GROUP));
-            accessibleTos
-                    .add(new FolderItemAccessibleTo(folderSid, AccessibleTo.RESTRICTED_REQUEST));
+            accessibleTos.add(new FolderItemAccessibleTo(folderSid, AccessibleTo.RESTRICTED_REQUEST));
         }
         else
         {
@@ -137,19 +134,15 @@ public class DummyFileStoreAccess implements FileStoreAccess
                     final FolderItemVO subFolder = (FolderItemVO) item;
                     for (final FolderItemCreatorRole creatorRole : subFolder.getCreatorRoles())
                     {
-                        folderCreators.add(new FolderItemCreatorRole(folderSid, creatorRole
-                                .getCreatorRole()));
+                        folderCreators.add(new FolderItemCreatorRole(folderSid, creatorRole.getCreatorRole()));
                     }
                     for (final FolderItemVisibleTo visibleTo : subFolder.getVisibleToList())
                     {
-                        visibleTos
-                                .add(new FolderItemVisibleTo(folderSid, visibleTo.getVisibleTo()));
+                        visibleTos.add(new FolderItemVisibleTo(folderSid, visibleTo.getVisibleTo()));
                     }
-                    for (final FolderItemAccessibleTo accessibleTo : subFolder
-                            .getAccessibleToList())
+                    for (final FolderItemAccessibleTo accessibleTo : subFolder.getAccessibleToList())
                     {
-                        accessibleTos.add(new FolderItemAccessibleTo(folderSid, accessibleTo
-                                .getAccessibleTo()));
+                        accessibleTos.add(new FolderItemAccessibleTo(folderSid, accessibleTo.getAccessibleTo()));
                     }
                 }
                 else if (item instanceof FileItemVO)
@@ -158,8 +151,7 @@ public class DummyFileStoreAccess implements FileStoreAccess
                     final CreatorRole createrRole = file.getCreatorRole();
                     folderCreators.add(new FolderItemCreatorRole(folderSid, createrRole));
                     visibleTos.add(new FolderItemVisibleTo(folderSid, file.getVisibleTo()));
-                    accessibleTos
-                            .add(new FolderItemAccessibleTo(folderSid, file.getAccessibleTo()));
+                    accessibleTos.add(new FolderItemAccessibleTo(folderSid, file.getAccessibleTo()));
                 }
                 item.setParentSid(folderSid);
                 childCount++;
@@ -180,8 +172,7 @@ public class DummyFileStoreAccess implements FileStoreAccess
     }
 
     public List<ItemVO> getFilesAndFolders(final DmoStoreId parentSid, final Integer limit,//
-            final Integer offset, final ItemOrder order, final ItemFilters filters)
-            throws StoreAccessException
+            final Integer offset, final ItemOrder order, final ItemFilters filters) throws StoreAccessException
     {
         if (limit > 0 || offset > 0 || order != null)
             throw new StoreAccessException("order and pages not implemented yet.");
@@ -225,14 +216,12 @@ public class DummyFileStoreAccess implements FileStoreAccess
         return result;
     }
 
-    public List<String> getFilenames(final DmoStoreId parentSid, final boolean recursive)
-            throws StoreAccessException
+    public List<String> getFilenames(final DmoStoreId parentSid, final boolean recursive) throws StoreAccessException
     {
         return getFilenames(parentSid, recursive, "");
     }
 
-    private List<String> getFilenames(final DmoStoreId parentSid, final boolean recursive,
-            final String prefix) throws StoreAccessException
+    private List<String> getFilenames(final DmoStoreId parentSid, final boolean recursive, final String prefix) throws StoreAccessException
     {
         final List<String> result = new ArrayList<String>();
 
@@ -248,8 +237,7 @@ public class DummyFileStoreAccess implements FileStoreAccess
             if (compositions.get(folder.getSid()).size() > 0)
             {
 
-                result.addAll(getFilenames(new DmoStoreId(folder.getSid()), recursive, prefix + folder.getName()
-                        + "\\"));
+                result.addAll(getFilenames(new DmoStoreId(folder.getSid()), recursive, prefix + folder.getName() + "\\"));
             }
             else
                 result.add(prefix + folder.getName() + "\\");
@@ -264,8 +252,7 @@ public class DummyFileStoreAccess implements FileStoreAccess
         return ((folder).getChildItemCount() > 0);
     }
 
-    public List<FileItemVO> getFiles(final DmoStoreId parentSid, final Integer limit,
-            final Integer offset, final ItemOrder order, final ItemFilters filters)
+    public List<FileItemVO> getFiles(final DmoStoreId parentSid, final Integer limit, final Integer offset, final ItemOrder order, final ItemFilters filters)
             throws StoreAccessException
     {
         final List<FileItemVO> result = new ArrayList<FileItemVO>();
@@ -284,16 +271,14 @@ public class DummyFileStoreAccess implements FileStoreAccess
      * Returns cloned objects, so that the internal composition cannot get changed by external
      * parties.
      */
-    public List<FolderItemVO> getFolders(final DmoStoreId parentSid, final Integer limit,
-            final Integer offset, final ItemOrder order, final ItemFilters filters)
+    public List<FolderItemVO> getFolders(final DmoStoreId parentSid, final Integer limit, final Integer offset, final ItemOrder order, final ItemFilters filters)
             throws StoreAccessException
     {
         if (limit > 0 || offset > 0 || order != null)
             throw new StoreAccessException("order and pages not implemented yet.");
 
         final List<FolderItemVO> result = new ArrayList<FolderItemVO>();
-        final List<ItemVO> filesAndFolders =
-                getFilesAndFolders(parentSid, limit, offset, order, filters);
+        final List<ItemVO> filesAndFolders = getFilesAndFolders(parentSid, limit, offset, order, filters);
         if (filesAndFolders == null)
             return result;
         for (final ItemVO item : filesAndFolders)
@@ -306,8 +291,7 @@ public class DummyFileStoreAccess implements FileStoreAccess
         return result;
     }
 
-    public List<FileItemVO> getFiles(final DmoStoreId parentSid, final Integer limit,
-            final Integer offset, final ItemOrder order, final ItemFilters filter,
+    public List<FileItemVO> getFiles(final DmoStoreId parentSid, final Integer limit, final Integer offset, final ItemOrder order, final ItemFilters filter,
             final EasyUser sessionUser) throws ServiceException
     {
         try
@@ -325,8 +309,7 @@ public class DummyFileStoreAccess implements FileStoreAccess
         throw new RuntimeException("method not implemented");
     }
 
-    public File getZipFile(final File zipFilePath, final String zipFilename,
-            final List<Map<String, String>> content) throws StoreAccessException
+    public File getZipFile(final File zipFilePath, final String zipFilename, final List<Map<String, String>> content) throws StoreAccessException
     {
         throw new RuntimeException("method not implemented");
     }
@@ -394,6 +377,5 @@ public class DummyFileStoreAccess implements FileStoreAccess
     {
         throw new UnsupportedOperationException("This is a dummy, dummy.");
     }
-
 
 }

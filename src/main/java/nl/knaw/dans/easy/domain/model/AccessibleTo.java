@@ -8,7 +8,8 @@ import nl.knaw.dans.common.lang.dataset.AccessCategory;
  *
  */
 //TODO unify this enum to key abstraction AccessCategory
-public enum AccessibleTo {
+public enum AccessibleTo
+{
 
     ANONYMOUS,
 
@@ -19,7 +20,7 @@ public enum AccessibleTo {
     RESTRICTED_GROUP,
 
     NONE;
-    
+
     public static AccessibleTo translate(AccessCategory accessCategory)
     {
         AccessibleTo at = null;
@@ -45,7 +46,7 @@ public enum AccessibleTo {
         }
         return at;
     }
-    
+
     public static AccessCategory translate(AccessibleTo accessibleTo)
     {
         AccessCategory ac = AccessCategory.NO_ACCESS;

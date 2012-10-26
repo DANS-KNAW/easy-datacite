@@ -15,7 +15,7 @@ public class Services
     private static DisciplineCollectionService disciplineService;
     private static CollectionService collectionService;
     private static JumpoffService jumpoffService;
-    
+
     private static boolean LOCKED;
     private static Logger logger = LoggerFactory.getLogger(Services.class);
     private static final String ILLEGAL_METHOD_CALL = "Illegal method call: Setter methods in the Services class should not be called.";
@@ -49,7 +49,7 @@ public class Services
         LOCKED = false;
         logger.debug(this + " has been unlocked.");
     }
-        
+
     public static DepositService getDepositService()
     {
         return depositService;
@@ -59,17 +59,17 @@ public class Services
     {
         return datasetService;
     }
-    
+
     public static ItemService getItemService()
     {
         return itemService;
     }
-    
+
     public static UserService getUserService()
     {
         return userService;
     }
-    
+
     public static MigrationService getMigrationService()
     {
         return migrationService;
@@ -80,25 +80,25 @@ public class Services
         return federativeUserService;
     }
 
-	public static SearchService getSearchService()
-	{
-		return searchService;
-	}
-    
-	public static DisciplineCollectionService getDisciplineService()
-	{
-		return disciplineService;
-	}
-	
-	public static CollectionService getCollectionService()
-	{
-	    return collectionService;
-	}
-	
-	public static JumpoffService getJumpoffService()
-	{
-	    return jumpoffService;
-	}
+    public static SearchService getSearchService()
+    {
+        return searchService;
+    }
+
+    public static DisciplineCollectionService getDisciplineService()
+    {
+        return disciplineService;
+    }
+
+    public static CollectionService getCollectionService()
+    {
+        return collectionService;
+    }
+
+    public static JumpoffService getJumpoffService()
+    {
+        return jumpoffService;
+    }
 
     public void setDepositService(DepositService depositService) throws IllegalStateException
     {
@@ -113,7 +113,7 @@ public class Services
         Services.datasetService = datasetService;
         logger.debug("Injected dependency datasetService: " + datasetService);
     }
-    
+
     public void setItemService(ItemService itemService) throws IllegalStateException
     {
         checkLock();
@@ -127,7 +127,7 @@ public class Services
         Services.userService = userService;
         logger.debug("Injected dependency userService: " + userService);
     }
-    
+
     public void setMigrationService(MigrationService migrationService) throws IllegalStateException
     {
         checkLock();
@@ -142,32 +142,32 @@ public class Services
         logger.debug("Injected dependency federativeUserService: " + federativeUserService);
     }
 
-	public void setDisciplineService(DisciplineCollectionService disciplineService)
-	{
+    public void setDisciplineService(DisciplineCollectionService disciplineService)
+    {
         checkLock();
-		Services.disciplineService = disciplineService;
+        Services.disciplineService = disciplineService;
         logger.debug("Injected dependency disciplineCollectionService: " + disciplineService);
-	}
-	
-	public void setCollectionService(CollectionService collectionService)
-	{
-	    checkLock();
-	    Services.collectionService = collectionService;
-	    logger.debug("injected dependency collectionService: " + collectionService);
-	}
-	
-	public void setJumpoffService(JumpoffService jumpoffService)
-	{
-	    checkLock();
-	    Services.jumpoffService = jumpoffService;
-	    logger.debug("Injected dependency jumpoffService: " + jumpoffService);
-	}
+    }
+
+    public void setCollectionService(CollectionService collectionService)
+    {
+        checkLock();
+        Services.collectionService = collectionService;
+        logger.debug("injected dependency collectionService: " + collectionService);
+    }
+
+    public void setJumpoffService(JumpoffService jumpoffService)
+    {
+        checkLock();
+        Services.jumpoffService = jumpoffService;
+        logger.debug("Injected dependency jumpoffService: " + jumpoffService);
+    }
 
     public void setSearchService(SearchService searchService)
-	{
-		Services.searchService = searchService;
-	}
-    
+    {
+        Services.searchService = searchService;
+    }
+
     private void checkLock()
     {
         if (LOCKED)

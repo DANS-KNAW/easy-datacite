@@ -62,7 +62,7 @@ public class BasicDateTest
         bad.setScheme(DateScheme.W3CDTF);
     }
 
-   @Test
+    @Test
     public void testIllegalState3()
     {
         BasicDate bad = new BasicDate("2008", new Locale("en", "US"), DateScheme.W3CDTF);

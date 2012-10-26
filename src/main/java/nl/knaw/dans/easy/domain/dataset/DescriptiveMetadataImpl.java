@@ -14,14 +14,14 @@ import org.dom4j.Element;
 public class DescriptiveMetadataImpl extends AbstractTimestampedObject implements DescriptiveMetadata
 {
     private static final long serialVersionUID = 1575512236385029937L;
-    
+
     private final Element content;
-    
+
     public DescriptiveMetadataImpl(final Element content)
     {
         this.content = content;
     }
-    
+
     @Override
     public String getUnitFormat()
     {
@@ -70,7 +70,7 @@ public class DescriptiveMetadataImpl extends AbstractTimestampedObject implement
     {
         return content;
     }
-    
+
     @Override
     public List<KeyValuePair> getProperties()
     {

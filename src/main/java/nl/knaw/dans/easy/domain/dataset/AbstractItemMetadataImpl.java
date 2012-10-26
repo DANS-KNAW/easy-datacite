@@ -10,47 +10,47 @@ public abstract class AbstractItemMetadataImpl<T extends DatasetItemMetadata> ex
 {
 
     private static final long serialVersionUID = -8632210202402645510L;
-    
+
     private DmoStoreId dmoStoreId;
     private String name;
     private String path;
     private DmoStoreId parentDmoStoreId;
     private DmoStoreId datasetDmoStoreId;
-    
+
     private boolean versionable;
-    
+
     protected AbstractItemMetadataImpl()
     {
-        
+
     }
-    
+
     public AbstractItemMetadataImpl(DmoStoreId dmoStoreId)
     {
         this.dmoStoreId = dmoStoreId;
     }
-    
+
     public DmoStoreId getDmoStoreId()
     {
         return dmoStoreId;
     }
-    
+
     public void setDmoStoreId(DmoStoreId sid)
     {
         evaluateDirty(sid, this.dmoStoreId);
         this.dmoStoreId = sid;
     }
-    
+
     public DmoStoreId getParentDmoStoreId()
     {
         return parentDmoStoreId;
     }
-    
+
     public void setParentDmoStoreId(DmoStoreId parentSid)
     {
         evaluateDirty(parentSid, this.parentDmoStoreId);
         this.parentDmoStoreId = parentSid;
     }
-    
+
     public String getPath()
     {
         return path;
@@ -76,12 +76,13 @@ public abstract class AbstractItemMetadataImpl<T extends DatasetItemMetadata> ex
     {
         return name;
     }
-    
+
     protected void setName(String name)
     {
         evaluateDirty(name, this.name);
         this.name = name;
-        if (path == null) path = name;
+        if (path == null)
+            path = name;
     }
 
     public boolean isVersionable()
@@ -93,40 +94,40 @@ public abstract class AbstractItemMetadataImpl<T extends DatasetItemMetadata> ex
     {
         this.versionable = versionable;
     }
-    
+
     // methods for JiBX-serialization
     protected void setSid(String sid)
     {
         if (!StringUtils.isBlank(sid))
             dmoStoreId = new DmoStoreId(sid);
     }
-    
+
     // methods for JiBX-serialization
     protected String getSid()
     {
         return dmoStoreId == null ? "" : dmoStoreId.getStoreId();
     }
-    
+
     // methods for JiBX-serialization
     protected void setParentSid(String parentSid)
     {
         if (!StringUtils.isBlank(parentSid))
             this.parentDmoStoreId = new DmoStoreId(parentSid);
     }
-    
+
     // methods for JiBX-serialization
     protected String getParentSid()
     {
         return parentDmoStoreId == null ? null : parentDmoStoreId.getStoreId();
     }
-    
+
     // methods for JiBX-serialization
     protected void setDatasetSid(String datasetSid)
     {
         if (!StringUtils.isBlank(datasetSid))
             this.datasetDmoStoreId = new DmoStoreId(datasetSid);
     }
-    
+
     // methods for JiBX-serialization
     protected String getDatasetSid()
     {

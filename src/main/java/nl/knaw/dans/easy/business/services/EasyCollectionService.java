@@ -25,9 +25,8 @@ import nl.knaw.dans.i.security.annotations.SecuredOperation;
 
 public class EasyCollectionService extends AbstractEasyService implements CollectionService
 {
-    
-    private DatasetRelationUpdater datasetRelationUpdater;
 
+    private DatasetRelationUpdater datasetRelationUpdater;
 
     public EasyCollectionService()
     {
@@ -177,7 +176,7 @@ public class EasyCollectionService extends AbstractEasyService implements Collec
             collectEntries(entries, kid, level);
         }
     }
-    
+
     @Override
     public Map<ECollection, List<ECollectionEntry>> getCollectionEntries(Dataset dataset) throws ServiceException
     {
@@ -195,7 +194,7 @@ public class EasyCollectionService extends AbstractEasyService implements Collec
         }
         return entryMap;
     }
-    
+
     @SecuredOperation(id = "nl.knaw.dans.easy.servicelayer.services.CollectionService.updateCollectionMemberships")
     @Override
     public void updateCollectionMemberships(EasyUser sessionUser, Dataset dataset, Map<ECollection, List<ECollectionEntry>> entryMap) throws ServiceException
@@ -211,7 +210,7 @@ public class EasyCollectionService extends AbstractEasyService implements Collec
             throw new ServiceException(e);
         }
     }
-    
+
     @Override
     public RecursiveList getRecursiveList(ECollection eColl) throws ServiceException
     {
@@ -226,7 +225,7 @@ public class EasyCollectionService extends AbstractEasyService implements Collec
         }
         return recursiveList;
     }
-    
+
     @Override
     public RecursiveList getRecursiveList(DmoNamespace namespace) throws ServiceException
     {
@@ -241,7 +240,7 @@ public class EasyCollectionService extends AbstractEasyService implements Collec
         }
         return recursiveList;
     }
-    
+
     private DatasetRelationUpdater getDatasetRelationUpdater()
     {
         if (datasetRelationUpdater == null)

@@ -13,10 +13,10 @@ import org.slf4j.LoggerFactory;
 public class WorkflowFactoryTest
 {
 
-    private static final Logger logger  = LoggerFactory.getLogger(WorkflowFactoryTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(WorkflowFactoryTest.class);
 
-    private boolean             verbose = Tester.isVerbose();
-    
+    private boolean verbose = Tester.isVerbose();
+
     @BeforeClass
     public static void beforeClass() throws ServiceException
     {
@@ -36,7 +36,7 @@ public class WorkflowFactoryTest
         if (verbose)
             logger.debug("\n" + root.asXMLString(4) + "\n");
     }
-    
+
     @Test
     public void printLeafIds()
     {
@@ -51,7 +51,7 @@ public class WorkflowFactoryTest
     {
         if (step.isLeaf() && verbose)
         {
-        	logger.debug("Leaf WorkflowStep encountered: " + step.getId());
+            logger.debug("Leaf WorkflowStep encountered: " + step.getId());
         }
         else
         {
@@ -60,7 +60,7 @@ public class WorkflowFactoryTest
                 printLeafId(kid);
             }
         }
-        
+
     }
 
 }

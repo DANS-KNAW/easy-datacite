@@ -12,7 +12,7 @@ public class DisciplineContainerFactory extends AbstractDmoFactory<DisciplineCon
     {
         return createDmo(nextSid());
     }
-    
+
     @Override
     public DisciplineContainer createDmo(String storeId)
     {

@@ -8,7 +8,7 @@ import org.junit.Test;
 
 public class SyslogAuditTrailTest
 {
-    
+
     @Test
     public void testSyslogOnCentos5()
     {
@@ -30,7 +30,7 @@ public class SyslogAuditTrailTest
         syslog.test("5. Run this test");
         syslog.test("6. Verify that this message is in /var/log/easy-audit.log");
         syslog.test("------------------- END OF TEST -------------------------");
-        
+
         try
         {
             OS.execAndWait("cat /var/log/easy-audit.log", System.out, System.err);

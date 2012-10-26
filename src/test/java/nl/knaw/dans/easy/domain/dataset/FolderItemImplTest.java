@@ -21,7 +21,7 @@ public class FolderItemImplTest
         // label:java.lang.String
         // ownerId:java.lang.String
         // state:java.lang.String
-        
+
         FolderItemImpl fi = new FolderItemImpl("dummy-folder:1");
         assertTrue(fi.isDirty());
 

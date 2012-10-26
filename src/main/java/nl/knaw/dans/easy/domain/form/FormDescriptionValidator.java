@@ -20,16 +20,15 @@ public class FormDescriptionValidator extends AbstractXMLBeanValidator<FormDescr
     /**
      * The version token for version {@value} .
      */
-    public static final String               VERSION_0_1     = "0.1";
+    public static final String VERSION_0_1 = "0.1";
 
-    public static final String               SCHEMA_FOLDER   = "xsd-files";
+    public static final String SCHEMA_FOLDER = "xsd-files";
 
-    public static final String               SCHEMA_FILENAME = "form.xsd";
+    public static final String SCHEMA_FILENAME = "form.xsd";
 
     private static final FormDescriptionValidator instance = new FormDescriptionValidator();
-    
+
     private static final Logger logger = LoggerFactory.getLogger(FormDescriptionValidator.class);
-    
 
     // singleton
     private FormDescriptionValidator()

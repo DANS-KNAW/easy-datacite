@@ -10,23 +10,23 @@ public final class SubmitNotification extends DatasetNotification implements Ser
     private static final long serialVersionUID = 1L;
 
     private AccessCategory access;
-	
-	public SubmitNotification(DatasetSubmissionImpl submission)
+
+    public SubmitNotification(DatasetSubmissionImpl submission)
     {
-	    super(submission.getDataset(), submission);
-	    access = submission.getDataset().getAccessCategory();
+        super(submission.getDataset(), submission);
+        access = submission.getDataset().getAccessCategory();
     }
 
     String getTemplateLocation()
     {
         // Send other email when 'other access' is selected for the dataset
-        if(AccessCategory.NO_ACCESS.equals(access))
+        if (AccessCategory.NO_ACCESS.equals(access))
         {
             return "deposit/depositConfirmationOtherAccess";
         }
         else
         {
             return "deposit/depositConfirmation";
-        } 
+        }
     }
 }

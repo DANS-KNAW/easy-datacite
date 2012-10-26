@@ -26,18 +26,17 @@ import nl.knaw.dans.easy.domain.model.emd.types.Spatial;
  */
 public class WebDepositFormMetadataValidator implements SubmissionProcessor
 {
-    
+
     public static final String MSG_REQUIRED = "deposit.field_required";
     public static final String MSG_INCOMPLETE = "deposit.field_incomplete";
-    
+
     // To complete the form model, alongside a TermPanel, a ContainerPanel should be implemented. As for now we do not validate containers.
     private static final String CONTAINERPANEL_NOT_IMPLEMENTED = "containerPanel not implemented";
-    
-    private static final Logger logger = LoggerFactory.getLogger(WebDepositFormMetadataValidator.class);
-    
 
-    private boolean metadataIsValid =true;
-    
+    private static final Logger logger = LoggerFactory.getLogger(WebDepositFormMetadataValidator.class);
+
+    private boolean metadataIsValid = true;
+
     public boolean continueAfterFailure()
     {
         return true;
@@ -47,12 +46,12 @@ public class WebDepositFormMetadataValidator implements SubmissionProcessor
     {
         final FormDefinition definition = submission.getFormDefinition();
         final EasyMetadata easyMetadata = submission.getDataset().getEasyMetadata();
-        
+
         iterateFormPages(definition, easyMetadata);
         submission.setMetadataValid(metadataIsValid);
         return metadataIsValid;
     }
-    
+
     public boolean validate(final FormDefinition formDefinition, final EasyMetadata easyMetadata)
     {
         iterateFormPages(formDefinition, easyMetadata);
@@ -92,16 +91,16 @@ public class WebDepositFormMetadataValidator implements SubmissionProcessor
             final Term term = new Term(tpDef.getTermName(), tpDef.getNamespacePrefix());
             final List<MetadataItem> items = emd.getTerm(term);
             if (tpDef.getTermName().equals(Term.Name.LICENSE.termName))
-        	{
-        		if (AccessCategory.NO_ACCESS.equals(emd.getEmdRights().getAccessCategory())) 
-        		{
-        			tpDef.setRequired(false);
-        		}
-        		else
-        		{
-        			tpDef.setRequired(true);
-        		}
-        	}
+            {
+                if (AccessCategory.NO_ACCESS.equals(emd.getEmdRights().getAccessCategory()))
+                {
+                    tpDef.setRequired(false);
+                }
+                else
+                {
+                    tpDef.setRequired(true);
+                }
+            }
             checkRequired(tpDef, items);
             checkComplete(tpDef, items);
         }
@@ -112,7 +111,7 @@ public class WebDepositFormMetadataValidator implements SubmissionProcessor
         // required fields
         if (tpDef.isRequired())
         {
-            if(items.isEmpty())
+            if (items.isEmpty())
             {
                 metadataIsValid = false;
                 logger.debug("Empty item on required field " + tpDef.getId());
@@ -120,14 +119,14 @@ public class WebDepositFormMetadataValidator implements SubmissionProcessor
             }
         }
     }
-    
+
     private void checkComplete(final TermPanelDefinition tpDef, final List<MetadataItem> items)
     {
         // everything complete?
-        
+
         int pointCounter = -1;
         int boxCounter = -1;
-        for (int index = 0; index < items.size(); index ++)
+        for (int index = 0; index < items.size(); index++)
         {
             final MetadataItem item = items.get(index);
             if (item instanceof Spatial)
@@ -153,7 +152,7 @@ public class WebDepositFormMetadataValidator implements SubmissionProcessor
                         tpDef.addItemErrorMessage(boxCounter, MSG_INCOMPLETE);
                     }
                 }
-                
+
             }
             else if (!item.isComplete())
             {

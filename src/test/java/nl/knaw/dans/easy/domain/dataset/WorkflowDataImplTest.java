@@ -46,7 +46,7 @@ public class WorkflowDataImplTest
             assertEquals(willem, assignee2);
         }
         EasyMock.verify(userRepo);
-          
+
         EasyMock.reset(userRepo);
         EasyMock.expect(userRepo.findById("jan")).andReturn(jan).times(1);
         EasyMock.replay(userRepo);
@@ -81,6 +81,5 @@ public class WorkflowDataImplTest
         }
         EasyMock.verify(userRepo);
     }
-    
 
 }

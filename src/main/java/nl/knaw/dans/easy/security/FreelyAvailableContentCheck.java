@@ -15,13 +15,12 @@ import org.slf4j.LoggerFactory;
 
 public class FreelyAvailableContentCheck extends AbstractCheck
 {
-    
+
     private static final String LIST_LOCATION = "specs/free-content.txt";
-    
+
     private static List<String> FREE_CONTENT_LIST;
-    
+
     private static final Logger logger = LoggerFactory.getLogger(FreelyAvailableContentCheck.class);
-    
 
     @Override
     public String getProposition()
@@ -45,18 +44,18 @@ public class FreelyAvailableContentCheck extends AbstractCheck
     protected String explain(ContextParameters ctxParameters)
     {
         StringBuilder sb = super.startExplain(ctxParameters);
-        
+
         FileItem fileItem = ctxParameters.getFileItem();
         if (fileItem == null)
         {
             sb.append("\n\tfileItem = null");
         }
-        
+
         sb.append("\n\tcondition met = ");
         sb.append(evaluate(ctxParameters));
         return sb.toString();
     }
-    
+
     private boolean isFreelyAvailableContent(String fileItemId)
     {
         boolean available = false;
@@ -72,7 +71,7 @@ public class FreelyAvailableContentCheck extends AbstractCheck
         }
         return available;
     }
-    
+
     private static synchronized List<String> getFreeContentList() throws IOException
     {
         if (FREE_CONTENT_LIST == null)
@@ -88,7 +87,7 @@ public class FreelyAvailableContentCheck extends AbstractCheck
         RandomAccessFile raf = null;
         try
         {
-            
+
             File file = new File(EasyHome.getLocation(), LIST_LOCATION);
             raf = new RandomAccessFile(file, "r");
             String line;
@@ -96,7 +95,7 @@ public class FreelyAvailableContentCheck extends AbstractCheck
             {
                 list.add(line);
             }
-            
+
         }
         finally
         {

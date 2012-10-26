@@ -17,41 +17,29 @@ import org.junit.Test;
 
 public class OrTest
 {
-    
+
     @Test()
     public void arrayConstructorOne()
     {
         SecurityOfficer or = new Or(new DatasetStateCheck(DatasetState.DELETED));
         assertEquals("([Dataset state is DELETED])", or.getProposition());
     }
-    
+
     @Test
     public void arrayConstructor()
     {
-        SecurityOfficer or = new Or(
-                new DatasetStateCheck(DatasetState.DELETED),
-                new DmoNamespaceCheck(Dataset.NAMESPACE));
+        SecurityOfficer or = new Or(new DatasetStateCheck(DatasetState.DELETED), new DmoNamespaceCheck(Dataset.NAMESPACE));
         assertTrue(or.getProposition().contains("[Dataset state is DELETED] OR [storeId is within namespace easy-dataset]"));
-        
-        or = new Or(
-                new DatasetStateCheck(DatasetState.DELETED),
-                new DmoNamespaceCheck(Dataset.NAMESPACE),
-                new EmbargoFreeCheck());
+
+        or = new Or(new DatasetStateCheck(DatasetState.DELETED), new DmoNamespaceCheck(Dataset.NAMESPACE), new EmbargoFreeCheck());
         assertTrue(or.getProposition().contains("[Dataset state is DELETED] OR [storeId is within namespace easy-dataset]"));
-        
-        or = new Or(
-                new DatasetStateCheck(DatasetState.DELETED),
-                new DmoNamespaceCheck(Dataset.NAMESPACE),
-                new EmbargoFreeCheck(),
+
+        or = new Or(new DatasetStateCheck(DatasetState.DELETED), new DmoNamespaceCheck(Dataset.NAMESPACE), new EmbargoFreeCheck(),
                 new FileItemContentsAccessCheck());
         assertTrue(or.getProposition().contains("[Dataset state is DELETED] OR [storeId is within namespace easy-dataset]"));
-        
-        or = new Or(
-                new DatasetStateCheck(DatasetState.DELETED),
-                new DmoNamespaceCheck(Dataset.NAMESPACE),
-                new EmbargoFreeCheck(),
-                new FileItemContentsAccessCheck(),
-                new HasRoleCheck(Role.ADMIN));
+
+        or = new Or(new DatasetStateCheck(DatasetState.DELETED), new DmoNamespaceCheck(Dataset.NAMESPACE), new EmbargoFreeCheck(),
+                new FileItemContentsAccessCheck(), new HasRoleCheck(Role.ADMIN));
         assertTrue(or.getProposition().contains("[Dataset state is DELETED] OR [storeId is within namespace easy-dataset]"));
     }
 

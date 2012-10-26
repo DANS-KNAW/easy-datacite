@@ -11,7 +11,7 @@ public class Or implements SecurityOfficer
 {
 
     private final SecurityOfficer[] officers;
-    
+
     /**
      * Constructs a new disjunction SecurityOfficer with the given officers as operands.
      * <p/>
@@ -56,7 +56,7 @@ public class Or implements SecurityOfficer
         }
         return allowed;
     }
-    
+
     public String explainEnableAllowed(ContextParameters ctxParameters)
     {
         StringBuilder sb = new StringBuilder();
@@ -64,23 +64,17 @@ public class Or implements SecurityOfficer
         {
             sb.append(officer.explainEnableAllowed(ctxParameters));
         }
-        sb.append("\n") 
-            .append(ctxParameters.nextChar(this))
-            .append(" = ");
+        sb.append("\n").append(ctxParameters.nextChar(this)).append(" = ");
         int i;
         for (i = 0; i < officers.length - 1; i++)
         {
-            sb.append(ctxParameters.charFor(officers[i]))
-                .append(" OR "); 
+            sb.append(ctxParameters.charFor(officers[i])).append(" OR ");
         }
-        sb.append(ctxParameters.charFor(officers[i]))
-            .append(" --> ")
-            .append(isEnableAllowed(ctxParameters))
-            .append("\n");
-        
+        sb.append(ctxParameters.charFor(officers[i])).append(" --> ").append(isEnableAllowed(ctxParameters)).append("\n");
+
         return sb.toString();
     }
-    
+
     public String explainComponentVisible(ContextParameters ctxParameters)
     {
         StringBuilder sb = new StringBuilder();
@@ -88,23 +82,17 @@ public class Or implements SecurityOfficer
         {
             sb.append(officer.explainComponentVisible(ctxParameters));
         }
-        sb.append("\n") 
-            .append(ctxParameters.nextChar(this))
-            .append(" = ");
+        sb.append("\n").append(ctxParameters.nextChar(this)).append(" = ");
         int i;
         for (i = 0; i < officers.length - 1; i++)
         {
-            sb.append(ctxParameters.charFor(officers[i]))
-                .append(" OR "); 
+            sb.append(ctxParameters.charFor(officers[i])).append(" OR ");
         }
-        sb.append(ctxParameters.charFor(officers[i]))
-            .append(" --> ")
-            .append(isComponentVisible(ctxParameters))
-            .append("\n");
-        
+        sb.append(ctxParameters.charFor(officers[i])).append(" --> ").append(isComponentVisible(ctxParameters)).append("\n");
+
         return sb.toString();
     }
-    
+
     public boolean getHints(ContextParameters ctxParameters, List<Object> hints)
     {
         boolean foundHint = false;

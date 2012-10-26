@@ -46,7 +46,7 @@ public class ConverterTest extends TestHelper
 
     @Test
     public void testDeserializeDateTime()
-    {        
+    {
         String dateString = "2008-08-05T13:17:24.898+02:00";
         DateTime dateTime = Converter.deSerializeDateTime(dateString);
         String returned = Converter.serializeDateTime(dateTime);
@@ -70,8 +70,7 @@ public class ConverterTest extends TestHelper
         String dateString = "2006-05-01T00:00:00+02:00";
         Converter.deSerializeDateTime(dateString);
     }
-    
-    
+
     @Test
     public void testNullDates()
     {
@@ -92,5 +91,3 @@ public class ConverterTest extends TestHelper
     }
 
 }
-
-

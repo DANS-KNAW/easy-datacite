@@ -12,7 +12,7 @@ import nl.knaw.dans.easy.servicelayer.services.EasyService;
  */
 public abstract class AbstractEasyService implements EasyService
 {
-	/**
+    /**
      * {@inheritDoc} 
      */
     public String getServiceTypeName()
@@ -30,12 +30,12 @@ public abstract class AbstractEasyService implements EasyService
     {
         return "This is an abstract service. Implementers of this abstract class should override the method 'getServiceDescription:String'.";
     }
-    
+
     protected static String getUserId(EasyUser user)
     {
         return user.isAnonymous() ? "[unknown user]" : user.getId();
     }
-    
+
     /**
      * Convenience method
      */
@@ -43,8 +43,7 @@ public abstract class AbstractEasyService implements EasyService
     {
         return dmo == null ? "[null]" : dmo.getStoreId();
     }
-    
-    
+
     @Override
     public void doBeanPostProcessing() throws ServiceException
     {

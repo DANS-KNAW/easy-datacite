@@ -11,13 +11,13 @@ public class EasyItemContainerVOAuthzStrategy extends AbstractDatasetAutzStrateg
     private FolderItemVO folderItemVO;
     private int discoveryProfile = NOT_EVALUATED;
     private int readProfile = NOT_EVALUATED;
-    
+
     protected EasyItemContainerVOAuthzStrategy()
     {
-        
+
     }
-    
-    protected EasyItemContainerVOAuthzStrategy(User user, Object target, Object...contextObjects)
+
+    protected EasyItemContainerVOAuthzStrategy(User user, Object target, Object... contextObjects)
     {
         super(user, contextObjects);
         if (target instanceof FolderItemVO)
@@ -26,7 +26,7 @@ public class EasyItemContainerVOAuthzStrategy extends AbstractDatasetAutzStrateg
         }
         checkAttributes();
     }
-    
+
     protected EasyItemContainerVOAuthzStrategy(Object target)
     {
         if (target instanceof FolderItemVO)
@@ -34,18 +34,17 @@ public class EasyItemContainerVOAuthzStrategy extends AbstractDatasetAutzStrateg
             folderItemVO = (FolderItemVO) target;
         }
     }
-    
+
     @Override
     protected void checkAttributes()
     {
         super.checkAttributes();
-        if (folderItemVO == null) throw new IllegalArgumentException("Insufficient parameters: no folderItemVO");
+        if (folderItemVO == null)
+            throw new IllegalArgumentException("Insufficient parameters: no folderItemVO");
         String datasetId = getDataset().getStoreId();
-        if (!(datasetId.equals(folderItemVO.getDatasetSid())
-              || datasetId.equals(folderItemVO.getSid())))
+        if (!(datasetId.equals(folderItemVO.getDatasetSid()) || datasetId.equals(folderItemVO.getSid())))
             throw new IllegalArgumentException("FolderItemVO is not given dataset, nor part of given dataset");
     }
-
 
     @Override
     protected int getResourceDiscoveryProfile()
@@ -66,25 +65,25 @@ public class EasyItemContainerVOAuthzStrategy extends AbstractDatasetAutzStrateg
         }
         return readProfile;
     }
-    
+
     @Override
     public boolean canUnitBeDiscovered(String unitId)
     {
         throw new UnsupportedOperationException("Method not implemented");
     }
-    
+
     @Override
     public boolean canUnitBeRead(String unitId)
     {
         throw new UnsupportedOperationException("Method not implemented");
     }
-    
+
     @Override
     protected boolean canAllBeRead()
     {
         return TriState.ALL.equals(canChildrenBeRead());
     }
-    
+
     @Override
     public EasyItemContainerVOAuthzStrategy newStrategy(User user, Object target, Object... contextObjects)
     {
@@ -96,7 +95,7 @@ public class EasyItemContainerVOAuthzStrategy extends AbstractDatasetAutzStrateg
     {
         EasyItemContainerVOAuthzStrategy sameStrategy = new EasyItemContainerVOAuthzStrategy(target);
         super.clone(sameStrategy);
-        
+
         sameStrategy.checkAttributes();
         return sameStrategy;
     }

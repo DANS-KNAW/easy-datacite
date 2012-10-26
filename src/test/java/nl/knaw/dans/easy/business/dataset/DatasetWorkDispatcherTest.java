@@ -43,8 +43,8 @@ public class DatasetWorkDispatcherTest
     private String createSignature(Method method)
     {
         StringBuilder sb = new StringBuilder();
-        sb.append(method.getReturnType().getSimpleName()).append(" ").append(method.getDeclaringClass().getName()).append(".").append(method.getName())
-                .append("(");
+        sb.append(method.getReturnType().getSimpleName()).append(" ").append(method.getDeclaringClass().getName()).append(".").append(method.getName()).append(
+                "(");
         Class[] params = method.getParameterTypes();
         for (int i = 0; i < params.length; i++)
         {

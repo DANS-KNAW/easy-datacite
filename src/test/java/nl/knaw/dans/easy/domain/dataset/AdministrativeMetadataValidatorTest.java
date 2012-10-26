@@ -19,17 +19,17 @@ import org.slf4j.LoggerFactory;
 
 public class AdministrativeMetadataValidatorTest
 {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(AdministrativeMetadataValidatorTest.class);
-    
+
     private static final boolean verbose = Tester.isVerbose();
-    
+
     @BeforeClass
     public static void beforeClass()
     {
         ClassPathHacker.addFile("../easy-webui/src/main/resources");
     }
-    
+
     @Test
     public void testMarshalUnMarshal() throws Exception
     {
@@ -45,20 +45,20 @@ public class AdministrativeMetadataValidatorTest
         amd.addGroupId("xyz");
         amd.addGroupId("abc");
         amd.addGroupId("abc");
-        
+
         amd.setTimestamp(new DateTime());
-        amd.setVersionable(true); 
-        
+        amd.setVersionable(true);
+
         amd.getWorkflowData().setAssigneeId("elsa");
         Remark remark = new Remark("This is the text of the remark", "idOfRemarker");
         amd.getWorkflowData().getWorkflow().addRemark(remark);
-        
+
         List<WorkflowStep> steps = amd.getWorkflowData().getWorkflow().getSteps();
         fillSteps(steps);
 
         if (verbose)
             logger.debug("\n" + amd.asXMLString(4));
-        
+
         XMLErrorHandler handler = AdministrativeMetadataValidator.instance().validate(amd);
         assertTrue(handler.passed());
     }
@@ -75,6 +75,5 @@ public class AdministrativeMetadataValidatorTest
             fillSteps(step.getSteps());
         }
     }
-
 
 }

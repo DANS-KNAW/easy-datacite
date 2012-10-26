@@ -8,21 +8,21 @@ public class AdditionalContent extends AbstractJiBXObject<AdditionalContent>
 {
 
     private static final long serialVersionUID = -2201150097479313915L;
-    
+
     private String id;
     private String label;
     private Element content;
-    
+
     public AdditionalContent()
     {
         this(null, null, null);
     }
-    
+
     public AdditionalContent(String id, Element content)
     {
         this(id, null, content);
     }
-    
+
     public AdditionalContent(String id, String label, Element content)
     {
         this.id = id;

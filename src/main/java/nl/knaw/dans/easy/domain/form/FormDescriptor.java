@@ -13,33 +13,28 @@ import org.slf4j.LoggerFactory;
 public class FormDescriptor extends AbstractInheritableDefinition<FormDescriptor>
 {
 
-    public static final String                         CURRENT_VERSION   = "0.1";
+    public static final String CURRENT_VERSION = "0.1";
 
-    private static final long                          serialVersionUID  = -8504692470376524874L;
+    private static final long serialVersionUID = -8504692470376524874L;
 
-    private static final Logger                        logger            = LoggerFactory
-                                                                                 .getLogger(FormDescriptor.class);
+    private static final Logger logger = LoggerFactory.getLogger(FormDescriptor.class);
 
-    private String                                     version           = CURRENT_VERSION;
-    private String                                     ordinal;
+    private String version = CURRENT_VERSION;
+    private String ordinal;
 
-    private final Map<String, StandardPanelDefinition> standardPanelMap  = Collections
-                                                                                 .synchronizedMap(new HashMap<String, StandardPanelDefinition>());
-    private final Map<String, TermPanelDefinition>     termPanelMap      = Collections
-                                                                                 .synchronizedMap(new HashMap<String, TermPanelDefinition>());
-    private final Map<String, SubHeadingDefinition>    subHeadingMap     = Collections
-                                                                                 .synchronizedMap(new HashMap<String, SubHeadingDefinition>());
-    private final Map<String, FormDefinition>          formDefinitionMap = Collections
-                                                                                 .synchronizedMap(new HashMap<String, FormDefinition>());
+    private final Map<String, StandardPanelDefinition> standardPanelMap = Collections.synchronizedMap(new HashMap<String, StandardPanelDefinition>());
+    private final Map<String, TermPanelDefinition> termPanelMap = Collections.synchronizedMap(new HashMap<String, TermPanelDefinition>());
+    private final Map<String, SubHeadingDefinition> subHeadingMap = Collections.synchronizedMap(new HashMap<String, SubHeadingDefinition>());
+    private final Map<String, FormDefinition> formDefinitionMap = Collections.synchronizedMap(new HashMap<String, FormDefinition>());
 
     // JiBX
-    private List<StandardPanelDefinition>              standardPanelDefinitions;
+    private List<StandardPanelDefinition> standardPanelDefinitions;
     // JiBX
-    private List<TermPanelDefinition>                  termPanelDefinitions;
+    private List<TermPanelDefinition> termPanelDefinitions;
     // JiBX
-    private List<SubHeadingDefinition>                 subHeadingDefinitions;
+    private List<SubHeadingDefinition> subHeadingDefinitions;
     // JiBX
-    private List<FormDefinition>                       formDefinitions;
+    private List<FormDefinition> formDefinitions;
 
     // JiBX
     protected FormDescriptor()
@@ -123,7 +118,7 @@ public class FormDescriptor extends AbstractInheritableDefinition<FormDescriptor
         synchronized (standardPanelMap)
         {
             for (final StandardPanelDefinition spDef : standardPanelMap.values())
-            {   
+            {
                 clone.addPanelDefinition(spDef.clone());
             }
         }
@@ -234,8 +229,7 @@ public class FormDescriptor extends AbstractInheritableDefinition<FormDescriptor
     // JiBX
     protected void postJiBXProcess() throws JiBXException
     {
-        logger.debug("Postprocessing " + this.getClass().getSimpleName() + ":" + getId()
-                + " after JiBX deserialization.");
+        logger.debug("Postprocessing " + this.getClass().getSimpleName() + ":" + getId() + " after JiBX deserialization.");
         final StringBuilder errorCollector = new StringBuilder();
 
         mapStandardPanelDefinitions();
@@ -291,9 +285,8 @@ public class FormDescriptor extends AbstractInheritableDefinition<FormDescriptor
                     if (panel == null)
                     {
                         validDefinition = false;
-                        final String msg = "Missing PanelDefinition: '" + panelId + "'"
-                                + "\n\tThis means that you referenced '" + panelId + "' from subHeading:" + def.getId()
-                                + ", but did not define the child panel '" + panelId + "' in edd:panelDefinitions.";
+                        final String msg = "Missing PanelDefinition: '" + panelId + "'" + "\n\tThis means that you referenced '" + panelId
+                                + "' from subHeading:" + def.getId() + ", but did not define the child panel '" + panelId + "' in edd:panelDefinitions.";
                         errorCollector.append("\n" + msg);
                     }
                 }
@@ -333,10 +326,9 @@ public class FormDescriptor extends AbstractInheritableDefinition<FormDescriptor
                 if (pDef == null)
                 {
                     allPagesValid = false;
-                    final String msg = "Missing PanelDefinition: '" + panelId + "'"
-                            + "\n\tThis means that you referenced '" + panelId + "' from FormPage:" + page.getId()
-                            + " in formDefinition: " + formDefinition.getId() + ", but did not define the panel:"
-                            + panelId + " in edd:panelDefinitions.";
+                    final String msg = "Missing PanelDefinition: '" + panelId + "'" + "\n\tThis means that you referenced '" + panelId + "' from FormPage:"
+                            + page.getId() + " in formDefinition: " + formDefinition.getId() + ", but did not define the panel:" + panelId
+                            + " in edd:panelDefinitions.";
                     errorCollector.append("\n" + msg);
                 }
             }

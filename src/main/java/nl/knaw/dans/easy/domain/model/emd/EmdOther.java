@@ -20,10 +20,8 @@ public class EmdOther extends AbstractEmdContainer
     /**
      * Terms contained.
      */
-    static final Term[] TERMS =
-    {
-        new Term(Term.Name.REMARKS, Term.Namespace.EAS, BasicRemark.class)//,
-        //new Term(Term.Name.APPLICATION_SPECIFIC, Term.Namespace.EAS, ApplicationSpecific.class)
+    static final Term[] TERMS = {new Term(Term.Name.REMARKS, Term.Namespace.EAS, BasicRemark.class)//,
+    //new Term(Term.Name.APPLICATION_SPECIFIC, Term.Namespace.EAS, ApplicationSpecific.class)
     };
 
     /**
@@ -31,10 +29,10 @@ public class EmdOther extends AbstractEmdContainer
      */
     private static final long serialVersionUID = 4267417466375324407L;
 
-    private List<BasicRemark> easRemarks          = new ArrayList<BasicRemark>();
-    
+    private List<BasicRemark> easRemarks = new ArrayList<BasicRemark>();
+
     private ApplicationSpecific easApplicationSpecific = new ApplicationSpecific();
-    
+
     private List<PropertyList> propertyListCollection = new ArrayList<PropertyList>();
 
     /**

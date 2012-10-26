@@ -13,8 +13,6 @@ import nl.knaw.dans.i.dmo.collections.exceptions.CollectionsException;
 public interface DmoCollectionsAccess
 {
 
-    
-
     DmoCollection createRoot(EasyUser sessionUser, ECollection eColl) throws CollectionsException;
 
     DmoCollection getRoot(ECollection eColl) throws CollectionsException;
@@ -32,11 +30,11 @@ public interface DmoCollectionsAccess
     void publishAsOAISet(EasyUser sessionUser, DmoCollection collection) throws CollectionsException;
 
     void unpublishAsOAISet(EasyUser sessionUser, DmoCollection collection) throws CollectionsException;
-    
+
     Set<DmoStoreId> filterOAIEndNodes(Set<DmoStoreId> memberIds) throws CollectionsException;
-    
+
     RecursiveList getRecursiveList(ECollection eColl) throws CollectionsException;
-    
+
     RecursiveList getRecursiveList(DmoNamespace namespace) throws CollectionsException;
 
 }

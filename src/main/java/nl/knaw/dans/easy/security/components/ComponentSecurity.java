@@ -12,7 +12,7 @@ import nl.knaw.dans.i.security.annotations.SecuredOperationUtil;
 
 public class ComponentSecurity
 {
-    
+
     public List<SecurityAgent> getDmoCollectionsAgents()
     {
         List<SecurityAgent> agents = new ArrayList<SecurityAgent>();

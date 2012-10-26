@@ -63,13 +63,13 @@ public class DatasetWorkDispatcher
             clonedEmd.getEmdIdentifier().removeIdentifier(EmdConstants.SCHEME_OAI_ITEM_ID);
             clonedEmd.getEmdIdentifier().removeIdentifier(EmdConstants.SCHEME_DMO_ID);
             clonedEmd.getEmdIdentifier().removeIdentifier(EmdConstants.SCHEME_AIP_ID);
-            
+
             clonedEmd.getEmdRights().getTermsLicense().clear();
             clonedEmd.getEmdDate().getEasDateSubmitted().clear();
-            
+
             // property lists contain (a sort of) audit trail on the cloned dataset. remove them.
             clonedEmd.getEmdOther().getPropertyListCollection().clear();
-            
+
             // single property dc.creator cannot be converted to multiple properties of eas,creator. remove dc.creator
             clonedEmd.getEmdCreator().getDcCreator().clear();
             clonedEmd.getEmdContributor().getDcContributor().clear();
@@ -98,7 +98,8 @@ public class DatasetWorkDispatcher
     }
 
     @MutatesDataset
-    public void saveAdministrativeMetadata(EasyUser sessionUser, Dataset dataset, WorkListener... workListeners) throws ServiceException, DataIntegrityException
+    public void saveAdministrativeMetadata(EasyUser sessionUser, Dataset dataset, WorkListener... workListeners) throws ServiceException,
+            DataIntegrityException
     {
         DatasetWorker worker = new DatasetWorker(sessionUser);
         worker.addWorkListeners(workListeners);
@@ -106,7 +107,8 @@ public class DatasetWorkDispatcher
     }
 
     @MutatesDataset
-    public void submitDataset(EasyUser sessionUser, Dataset dataset, DatasetSubmission submission, WorkListener... workListeners) throws ServiceException, DataIntegrityException
+    public void submitDataset(EasyUser sessionUser, Dataset dataset, DatasetSubmission submission, WorkListener... workListeners) throws ServiceException,
+            DataIntegrityException
     {
         DatasetWorker worker = new DatasetWorker(sessionUser);
         worker.addWorkListeners(workListeners);
@@ -125,7 +127,8 @@ public class DatasetWorkDispatcher
     }
 
     @MutatesDataset
-    public void publishDataset(EasyUser sessionUser, Dataset dataset, boolean mustNotifyDepositor, boolean mustIncludeLicense) throws ServiceException, DataIntegrityException
+    public void publishDataset(EasyUser sessionUser, Dataset dataset, boolean mustNotifyDepositor, boolean mustIncludeLicense) throws ServiceException,
+            DataIntegrityException
     {
         DatasetWorker worker = new DatasetWorker(sessionUser);
         worker.publishDataset(dataset, mustIncludeLicense);
@@ -136,7 +139,8 @@ public class DatasetWorkDispatcher
     }
 
     @MutatesDataset
-    public void republishDataset(EasyUser sessionUser, Dataset dataset, boolean mustNotifyDepositor, boolean mustIncludeLicense) throws ServiceException, DataIntegrityException
+    public void republishDataset(EasyUser sessionUser, Dataset dataset, boolean mustNotifyDepositor, boolean mustIncludeLicense) throws ServiceException,
+            DataIntegrityException
     {
         DatasetWorker worker = new DatasetWorker(sessionUser);
         worker.republishDataset(dataset, mustIncludeLicense);

@@ -10,10 +10,7 @@ public class MessengerTest
 
     public enum TestState
     {
-        START,
-        MIDDLE,
-        A_BIT_FURTHER,
-        END
+        START, MIDDLE, A_BIT_FURTHER, END
     }
 
     public enum EmptyState

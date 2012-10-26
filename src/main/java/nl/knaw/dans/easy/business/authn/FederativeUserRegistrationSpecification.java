@@ -12,18 +12,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /*
- * Almost identical to the RegistrationSpecification, but using FederativeUserRegistration
- * And password can be blank, actually it should be!
+ * Almost identical to the RegistrationSpecification, but using FederativeUserRegistration And password
+ * can be blank, actually it should be!
  */
 public final class FederativeUserRegistrationSpecification
 {
-    
+
     private static Logger logger = LoggerFactory.getLogger(FederativeUserRegistrationSpecification.class);
-    
+
     protected FederativeUserRegistrationSpecification()
     {
     }
-    
+
     public static boolean isSatisfiedBy(FederativeUserRegistration registration)
     {
         boolean satisfied = hasSufficientData(registration) && hasUniqueID(registration) && hasAllowedUserID(registration);
@@ -54,12 +54,12 @@ public final class FederativeUserRegistrationSpecification
             sufficientData = false;
             registration.setState(State.EmailCannotBeBlank);
         }
-        
+
         // Note that the password can be blank
 
         return sufficientData;
     }
-    
+
     protected static boolean hasUniqueID(FederativeUserRegistration registration)
     {
         boolean hasUniqueId = false;
@@ -82,19 +82,19 @@ public final class FederativeUserRegistrationSpecification
         }
         return hasUniqueId;
     }
-    
+
     protected static boolean hasAllowedUserID(FederativeUserRegistration registration)
     {
-    	// users cannot have a permissionsequence state as a user id. A user with that
-    	// id would be able to see all permission requests of that state through the way
-    	// the searchengine is used. A user with that id would also disrupt the system
-    	// if he or she would request permission for a dataset.
-    	// see EasyDatasetSB.permissionStatusList
-    	for (PermissionSequence.State state : PermissionSequence.State.values())
-    	{
-    		if (registration.getUserId().equalsIgnoreCase(state.toString()))
-    			return false;
-    	}
-    	return true;
+        // users cannot have a permissionsequence state as a user id. A user with that
+        // id would be able to see all permission requests of that state through the way
+        // the searchengine is used. A user with that id would also disrupt the system
+        // if he or she would request permission for a dataset.
+        // see EasyDatasetSB.permissionStatusList
+        for (PermissionSequence.State state : PermissionSequence.State.values())
+        {
+            if (registration.getUserId().equalsIgnoreCase(state.toString()))
+                return false;
+        }
+        return true;
     }
 }

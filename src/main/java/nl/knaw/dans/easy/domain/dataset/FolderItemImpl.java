@@ -27,13 +27,13 @@ import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 
 public class FolderItemImpl extends AbstractDatasetItemImpl implements FolderItem, DmoContainer
 {
-    private static final long         serialVersionUID = 2687520091667217809L;
+    private static final long serialVersionUID = 2687520091667217809L;
 
     private ItemContainerMetadataImpl itemContainerMetadata;
 
-    private ContainerPlaceHolder      container        = new ContainerPlaceHolder(this);
+    private ContainerPlaceHolder container = new ContainerPlaceHolder(this);
 
-    private DublinCoreMetadata        dc;
+    private DublinCoreMetadata dc;
 
     public FolderItemImpl(String storeId)
     {
@@ -286,7 +286,7 @@ public class FolderItemImpl extends AbstractDatasetItemImpl implements FolderIte
     class ContainerPlaceHolder extends AbstractDmoContainer
     {
         private static final long serialVersionUID = 134823904823L;
-        private FolderItemImpl    container;
+        private FolderItemImpl container;
 
         public ContainerPlaceHolder(FolderItemImpl folderItemImpl)
         {

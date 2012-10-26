@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 public class DummyAuthz implements Authz
 {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(DummyAuthz.class);
 
     public SecurityOfficer getSecurityOfficer(String item)
