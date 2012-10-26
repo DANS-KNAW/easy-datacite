@@ -17,23 +17,25 @@ public class BasicDatePanel extends AbstractChoicePanel<BasicDateModel>
 {
 
     private static final long serialVersionUID = -2169562395545469665L;
-    
-    private boolean                  dropdownVisible;
-    private String                   defaultKey;
-    
+
+    private boolean dropdownVisible;
+    private String defaultKey;
+
     public BasicDatePanel(final String wicketId, final IModel model, final ChoiceList choiceList)
     {
         super(wicketId, model, choiceList);
     }
 
-    public void setDropdownVisible(boolean dropdownVisible) {
+    public void setDropdownVisible(boolean dropdownVisible)
+    {
         this.dropdownVisible = dropdownVisible;
     }
 
-    public void setDefaultKey(String defaultKey) {
+    public void setDefaultKey(String defaultKey)
+    {
         this.defaultKey = defaultKey;
     }
-    
+
     @Override
     protected Panel getRepeatingComponentPanel(final ListItem item)
     {
@@ -46,38 +48,37 @@ public class BasicDatePanel extends AbstractChoicePanel<BasicDateModel>
             return new RepeatingViewModePanel(item);
         }
     }
-    
+
     class RepeatingEditModePanel extends Panel
     {
 
         private static final long serialVersionUID = -4387702534243040428L;
-        
+
         public RepeatingEditModePanel(final ListItem item)
         {
             super(REPEATING_PANEL_ID);
-            
-            final DropDownChoice dropDownChoice = new DropDownChoice("schemeChoice", new PropertyModel(item
-                    .getModelObject(), "scheme"), getChoiceList().getChoices(), getRenderer());
+
+            final DropDownChoice dropDownChoice = new DropDownChoice("schemeChoice", new PropertyModel(item.getModelObject(), "scheme"), getChoiceList()
+                    .getChoices(), getRenderer());
             dropDownChoice.setNullValid(isNullValid());
             if (defaultKey != null && !defaultKey.equals(""))
             {
-                dropDownChoice.setModelValue(new String[]{defaultKey});
+                dropDownChoice.setModelValue(new String[] {defaultKey});
             }
             dropDownChoice.setVisible(dropdownVisible);
-            
-            final TextField dateField = new TextField("valueField", new PropertyModel(item.getModelObject(),
-                "value"));
-            
+
+            final TextField dateField = new TextField("valueField", new PropertyModel(item.getModelObject(), "value"));
+
             add(dateField);
             add(dropDownChoice);
-            
+
         }
-        
+
     }
-    
+
     class RepeatingViewModePanel extends Panel
     {
-        
+
         private static final long serialVersionUID = -1064600333931796440L;
 
         public RepeatingViewModePanel(final ListItem item)
@@ -86,14 +87,14 @@ public class BasicDatePanel extends AbstractChoicePanel<BasicDateModel>
             QualifiedModel qModel = (QualifiedModel) item.getDefaultModelObject();
             String qualifierKey = qModel.getQualifier();
             String qualifier = getChoiceList().getValue(qualifierKey);
-            
+
             Label labelscheme = new Label("datescheme", qualifier);
-            Label labelvalue = new Label("datevalue", new PropertyModel(item.getModel(),"value"));
+            Label labelvalue = new Label("datevalue", new PropertyModel(item.getModel(), "value"));
             labelscheme.setVisible(StringUtils.isNotBlank(qualifierKey));
             add(labelscheme);
             add(labelvalue);
         }
-        
+
     }
 
 }

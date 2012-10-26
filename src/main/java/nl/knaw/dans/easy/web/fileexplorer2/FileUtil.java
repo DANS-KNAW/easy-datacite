@@ -11,11 +11,12 @@ import org.apache.wicket.WicketRuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class FileUtil {
-	private static final Logger logger = LoggerFactory.getLogger(FileUtil.class);
-	
-	// gets additional license from DatasetService
-	public static UnitMetaDataResource getAdditionalLicenseResource(DatasetModel datasetModel)
+public class FileUtil
+{
+    private static final Logger logger = LoggerFactory.getLogger(FileUtil.class);
+
+    // gets additional license from DatasetService
+    public static UnitMetaDataResource getAdditionalLicenseResource(DatasetModel datasetModel)
     {
         UnitMetadata additionalLicense = null;
         try

@@ -10,7 +10,7 @@ public class DatasetStatistics extends StatisticsModel<Dataset>
     {
         super(dataset);
     }
-    
+
     @Override
     public HashMap<String, String> getLogValues()
     {

@@ -22,11 +22,11 @@ public class RESTfilesPage extends RESTcascadePage
 {
     public static final String NAME = "files";
     public static final String RESOURCE_KEY = "rest.datasets.files";
-    
+
     public static final String PM_FILE_ITEM = "fileItem";
-    
+
     private static Map<String, PageDescription> CHILDREN;
-    
+
     private static final int LEVEL = 4;
 
     public RESTfilesPage(PageParameters parameters)
@@ -40,7 +40,7 @@ public class RESTfilesPage extends RESTcascadePage
         if (CHILDREN == null)
         {
             CHILDREN = new LinkedHashMap<String, PageDescription>();
-            
+
             String name = RESTfilesContentPage.NAME;
             String resourceKey = RESTfilesContentPage.RESOURCE_KEY;
             PageDescription description = new PageDescription(name, resourceKey, RESTfilesContentPage.class);
@@ -67,13 +67,13 @@ public class RESTfilesPage extends RESTcascadePage
     {
         return LEVEL;
     }
-    
+
     @Override
     protected void contributeParameters(PageParameters parameters)
     {
         parameters.put(PM_FILE_ITEM, getFileItem());
     }
-    
+
     protected FileItem getFileItem()
     {
         FileItem fileItem;
@@ -96,7 +96,7 @@ public class RESTfilesPage extends RESTcascadePage
         }
         return fileItem;
     }
-    
+
     protected String getFileItemId()
     {
         String storeId;

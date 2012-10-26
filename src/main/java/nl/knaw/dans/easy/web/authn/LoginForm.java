@@ -85,7 +85,7 @@ public class LoginForm extends AbstractEasyStatelessForm implements EasyResource
         if (signIn(authentication))
         {
             handleSuccessfulLogin();
-            
+
             logger.info("Session (" + (Session.exists() ? Session.get().getId() : "null") + ") of user (" + EasyWicketApplication.getUserIpAddress()
                     + ") authenticated.");
             StatisticsLogger.getInstance().logEvent(StatisticsEvent.USER_LOGIN);
@@ -134,9 +134,10 @@ public class LoginForm extends AbstractEasyStatelessForm implements EasyResource
             setResponsePage(this.getPage());
         }
     }
-    
-    protected void handleSuccessfulLogin() {
-        
+
+    protected void handleSuccessfulLogin()
+    {
+
     }
 
     /**
@@ -159,8 +160,9 @@ public class LoginForm extends AbstractEasyStatelessForm implements EasyResource
     {
         return !isLoggedIn();
     }
-    
-    private boolean isLoggedIn() {
+
+    private boolean isLoggedIn()
+    {
         return ((AbstractEasyNavPage) getPage()).isAuthenticated();
     }
 }

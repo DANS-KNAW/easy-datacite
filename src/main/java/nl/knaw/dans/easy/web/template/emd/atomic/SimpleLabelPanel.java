@@ -38,7 +38,7 @@ public class SimpleLabelPanel extends AbstractAtomicPanel
         this.label = label;
         this.anchorName = anchorName;
         this.required = required;
-    }   
+    }
 
     public boolean isPopUpButtonIsVisible()
     {
@@ -64,9 +64,9 @@ public class SimpleLabelPanel extends AbstractAtomicPanel
     private void init()
     {
         this.add(new Label("label", new ResourceModel(label, getString(DEFAULT_RESOURCE_VALUE))).setEscapeModelStrings(false));
-        this.add(new Label("requiredMark","*").setVisible(required)); 
+        this.add(new Label("requiredMark", "*").setVisible(required));
         HelpPopup popup = new HelpPopup("popup", anchorName, new HelpFileReader(anchorName).read());
         popup.setVisible(popUpButtonIsVisible);
-        this.add(popup);        
+        this.add(popup);
     }
 }

@@ -16,7 +16,6 @@ import org.apache.wicket.util.resource.IResourceStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 public abstract class AbstractDownloadHandler implements IResourceStream
 {
 
@@ -29,14 +28,13 @@ public abstract class AbstractDownloadHandler implements IResourceStream
         return null;
     }
 
-
     public void setLocale(Locale locale)
     {
         logger.warn("Unexpected call to setLocale()");
     }
-    
+
     public abstract void setHeaders(WebResponse response);
-    
+
     protected File getMockFile()
     {
         File mockFile = null;
@@ -50,7 +48,7 @@ public abstract class AbstractDownloadHandler implements IResourceStream
         }
         return mockFile;
     }
-    
+
     protected URL getMockURL()
     {
         URL url = ResourceLocator.getURL("misc/insufficientRights.html");

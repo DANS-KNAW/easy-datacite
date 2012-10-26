@@ -16,11 +16,11 @@ import org.apache.wicket.markup.html.form.ChoiceRenderer;
 
 public class BasicDateListWrapper extends AbstractListWrapper<BasicDateListWrapper.BasicDateModel>
 {
-    
+
     private static final long serialVersionUID = 2640551572293247405L;
-    
-    private Map<String, List<BasicDate>> listMap          = new HashMap<String, List<BasicDate>>();
-    
+
+    private Map<String, List<BasicDate>> listMap = new HashMap<String, List<BasicDate>>();
+
     public BasicDateListWrapper(EmdDate emdDate)
     {
         listMap = emdDate.getBasicDateMap();
@@ -50,7 +50,7 @@ public class BasicDateListWrapper extends AbstractListWrapper<BasicDateListWrapp
         }
         return listItems;
     }
-    
+
     @Override
     public int size()
     {
@@ -59,7 +59,7 @@ public class BasicDateListWrapper extends AbstractListWrapper<BasicDateListWrapp
 
     public int synchronize(List<BasicDateModel> listItems)
     {
-     // clear previous entries
+        // clear previous entries
         for (String dateSchemeType : listMap.keySet())
         {
             listMap.get(dateSchemeType).clear();
@@ -86,20 +86,20 @@ public class BasicDateListWrapper extends AbstractListWrapper<BasicDateListWrapp
         }
         return errors;
     }
-    
+
     public static class BasicDateModel extends AbstractEasyModel implements QualifiedModel
     {
 
         private static final long serialVersionUID = 5937997441499000891L;
-        
-        private String            dateSchemeType;
-        private String            value;
-        
+
+        private String dateSchemeType;
+        private String value;
+
         protected BasicDateModel()
         {
-            
+
         }
-        
+
         public BasicDateModel(BasicDate basicDate, String dateSchemeType)
         {
             if (basicDate == null)
@@ -116,22 +116,22 @@ public class BasicDateListWrapper extends AbstractListWrapper<BasicDateListWrapp
             }
             this.value = basicDate.toString();
         }
-        
+
         public BasicDate getBasicDate()
         {
             return value == null ? null : new BasicDate(value);
         }
-        
+
         public String getValue()
         {
             return value;
         }
-        
+
         public void setValue(String value)
         {
             this.value = value;
         }
-        
+
         public void setScheme(KeyValuePair schemeKVP)
         {
             dateSchemeType = schemeKVP == null ? null : schemeKVP.getKey();
@@ -141,14 +141,14 @@ public class BasicDateListWrapper extends AbstractListWrapper<BasicDateListWrapp
         {
             return new KeyValuePair(dateSchemeType, null);
         }
-        
+
         // Quick fix (Do not try this at home!)
         @Override
         public String getQualifier()
         {
             return dateSchemeType;
         }
-        
+
     }
 
 }

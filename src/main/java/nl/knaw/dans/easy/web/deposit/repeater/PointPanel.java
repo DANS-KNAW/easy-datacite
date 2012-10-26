@@ -14,7 +14,7 @@ import org.apache.wicket.model.PropertyModel;
 public class PointPanel extends AbstractChoicePanel<PointModel>
 {
 
-    private static final long        serialVersionUID = -822413494904086019L;
+    private static final long serialVersionUID = -822413494904086019L;
 
     /**
      * Constructor that takes a model with a ListWrapper&lt;PointModel> as model object.
@@ -30,23 +30,24 @@ public class PointPanel extends AbstractChoicePanel<PointModel>
     {
         super(wicketId, model, choiceList);
     }
+
     public PointPanel(final String wicketId, final ListWrapper<PointModel> listWrapper, final ChoiceList choiceList)
     {
         super(wicketId, listWrapper, choiceList);
     }
+
     @Override
     protected Panel getRepeatingComponentPanel(final ListItem item)
     {
-    	if (isInEditMode())
-    	{
-    		return new RepeatingEditModePanel(item);
-    	}
-    	else
-    	{
-    		return new RepeatingViewModePanel(item);
-    	}
+        if (isInEditMode())
+        {
+            return new RepeatingEditModePanel(item);
+        }
+        else
+        {
+            return new RepeatingViewModePanel(item);
+        }
     }
-
 
     class RepeatingEditModePanel extends Panel
     {
@@ -57,8 +58,8 @@ public class PointPanel extends AbstractChoicePanel<PointModel>
         {
             super(REPEATING_PANEL_ID);
             //add(new FeedbackPanel(REPEATING_PANEL_ID + ".feedback"));
-            final DropDownChoice schemeChoice = new DropDownChoice("schemeChoice", new PropertyModel(item.getDefaultModelObject(),
-            "scheme"), getChoiceList().getChoices(), getRenderer());
+            final DropDownChoice schemeChoice = new DropDownChoice("schemeChoice", new PropertyModel(item.getDefaultModelObject(), "scheme"), getChoiceList()
+                    .getChoices(), getRenderer());
             schemeChoice.setNullValid(isNullValid());
 
             final TextField xField = new TextField("xField", new PropertyModel(item.getDefaultModelObject(), "x"));
@@ -80,12 +81,12 @@ public class PointPanel extends AbstractChoicePanel<PointModel>
         RepeatingViewModePanel(final ListItem item)
         {
             super(REPEATING_PANEL_ID);
-            String s = (String)new PropertyModel(item.getDefaultModel(), "schemeToken").getObject();
-            String x = (String)new PropertyModel(item.getDefaultModel(), "x").getObject();
-            String y = (String)new PropertyModel(item.getDefaultModel(), "y").getObject();
+            String s = (String) new PropertyModel(item.getDefaultModel(), "schemeToken").getObject();
+            String x = (String) new PropertyModel(item.getDefaultModel(), "x").getObject();
+            String y = (String) new PropertyModel(item.getDefaultModel(), "y").getObject();
             Label sLabel = new Label("sLabel", getChoiceList().getValue(s));
-        	Label xLabel = new Label("xLabel", "X: " + String.valueOf(x));//Put "X" label in here not in html, otherwise it will displays if x is empty
-    		Label yLabel = new Label("yLabel", "Y: " + String.valueOf(y));//Put "Y" label in here not in html, otherwise it will displays if y is empty
+            Label xLabel = new Label("xLabel", "X: " + String.valueOf(x));//Put "X" label in here not in html, otherwise it will displays if x is empty
+            Label yLabel = new Label("yLabel", "Y: " + String.valueOf(y));//Put "Y" label in here not in html, otherwise it will displays if y is empty
             add(sLabel);
             add(xLabel.setVisible(x != null));
             add(yLabel.setVisible(y != null));

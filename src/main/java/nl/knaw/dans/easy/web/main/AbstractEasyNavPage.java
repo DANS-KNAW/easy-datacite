@@ -50,34 +50,34 @@ import org.slf4j.LoggerFactory;
 public abstract class AbstractEasyNavPage extends AbstractEasyPage
 {
 
-    private static final long   serialVersionUID       = -5373290220504946463L;
-    private static final Logger logger                 = LoggerFactory.getLogger(AbstractEasyNavPage.class);
+    private static final long serialVersionUID = -5373290220504946463L;
+    private static final Logger logger = LoggerFactory.getLogger(AbstractEasyNavPage.class);
 
-    private static final String EASY_LOGO_LINK         = "easyLogoLink";
-    private static final String MANAGEMENT_BAR_PANEL   = "managementBarPanel";
-    private static final String EASY_VERSION           = "easyVersion";
-    private static final String LANGUAGE_SWITCH_EN     = "en";
-    private static final String LANGUAGE_SWITCH_NL     = "nl";
-    private static final String LOGIN                  = "login";
-    private static final String REGISTER               = "register";
-    private static final String DEPOSIT                = "navDeposit";
-    private static final String LOGOFF                 = "logoff";
-    private static final String SETTINGS               = "myPersonalInfoLink";
-    private static final String DISPLAY_NAME           = "displayName";
-    private static final String MY_DATASETS            = "myDatasets";
-    private static final String MY_REQUESTS            = "myRequests";
-    private static final String SEARCH_PANEL           = "navSearchPanel";
-    private static final String HOME_PAGE              = "homePage";
-    private static final String BROWSE_PAGE            = "browsePage";
-    private static final String ADVANCED_SEARCH_PAGE   = "advancedSearchPage";
+    private static final String EASY_LOGO_LINK = "easyLogoLink";
+    private static final String MANAGEMENT_BAR_PANEL = "managementBarPanel";
+    private static final String EASY_VERSION = "easyVersion";
+    private static final String LANGUAGE_SWITCH_EN = "en";
+    private static final String LANGUAGE_SWITCH_NL = "nl";
+    private static final String LOGIN = "login";
+    private static final String REGISTER = "register";
+    private static final String DEPOSIT = "navDeposit";
+    private static final String LOGOFF = "logoff";
+    private static final String SETTINGS = "myPersonalInfoLink";
+    private static final String DISPLAY_NAME = "displayName";
+    private static final String MY_DATASETS = "myDatasets";
+    private static final String MY_REQUESTS = "myRequests";
+    private static final String SEARCH_PANEL = "navSearchPanel";
+    private static final String HOME_PAGE = "homePage";
+    private static final String BROWSE_PAGE = "browsePage";
+    private static final String ADVANCED_SEARCH_PAGE = "advancedSearchPage";
 
     private static final int MAX_NAME_LENGTH = 30;
 
     // keep results, otherwise we have a search request for every isVisible call
-    private int                 numDatasets            = 0;
-    private boolean             isNumDatasetsRetrieved = false;
-    private int                 numRequests            = 0;
-    private boolean             isNumRequestsRetrieved = false;
+    private int numDatasets = 0;
+    private boolean isNumDatasetsRetrieved = false;
+    private int numRequests = 0;
+    private boolean isNumRequestsRetrieved = false;
 
     /**
      * Default constructor.
@@ -182,9 +182,9 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage
             @Override
             public void onClick()
             {
-              // Enable redirection to this page which is viewed before login
-              ((EasySession) getSession()).setRedirectPage(LoginPage.class, getPage());
-              setResponsePage(LoginPage.class);
+                // Enable redirection to this page which is viewed before login
+                ((EasySession) getSession()).setRedirectPage(LoginPage.class, getPage());
+                setResponsePage(LoginPage.class);
             }
 
         });
@@ -244,9 +244,9 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage
             if (isDisplayNameToLong())
             {
                 // add 'tooltip'
-                displayNameLabel.add(new AttributeModifier("title", true, new PropertyModel(this, "fullDisplayNameLabelString"))); 
+                displayNameLabel.add(new AttributeModifier("title", true, new PropertyModel(this, "fullDisplayNameLabelString")));
             }
-            
+
             // settings link
             add(new Link(SETTINGS)
             {
@@ -274,7 +274,6 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage
         add(new BookmarkablePageLink<HomePage>(HOME_PAGE, HomePage.class));
         add(new BookmarkablePageLink<BrowsePage>(BROWSE_PAGE, BrowsePage.class));
         add(new BookmarkablePageLink<AdvSearchPage>(ADVANCED_SEARCH_PAGE, AdvSearchPage.class));
-        
 
         // management bar
         ManagementBarPanel mgmBar = new ManagementBarPanel(MANAGEMENT_BAR_PANEL);
@@ -385,15 +384,15 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage
 
         return result;
     }
-    
+
     public String getFullDisplayNameLabelString()
     {
         final EasyUser user = getSessionUser();
-        
+
         // user display name
         String displayName = user.getDisplayName();
         displayName = displayName.trim();
-        
+
         // Add roles 
         displayName += getDisplayRolesLabelString(user);
 
@@ -404,7 +403,7 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage
     public String getDisplayNameLabelString()
     {
         final EasyUser user = getSessionUser();
-        
+
         // user display name
         String displayName = user.getDisplayName();
         // Truncate user name part to a maximum length 
@@ -413,19 +412,19 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage
         displayName = displayName.trim();
         if (displayName.length() > MAX_NAME_LENGTH)
         {
-            displayName = displayName.substring(0, MAX_NAME_LENGTH-truncationIndicator.length()) + truncationIndicator;
+            displayName = displayName.substring(0, MAX_NAME_LENGTH - truncationIndicator.length()) + truncationIndicator;
         }
-        
+
         // Add roles 
         displayName += getDisplayRolesLabelString(user);
 
         return displayName;
     }
-    
+
     private String getDisplayRolesLabelString(final EasyUser user)
     {
         String displayRoles = "";
-        
+
         Set<Role> roles = new HashSet<Role>(user.getRoles());
         roles.remove(Role.USER);
         if (roles.size() > 0)
@@ -440,14 +439,14 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage
             }
             displayRoles += ")";
         }
-     
-        return displayRoles;    
+
+        return displayRoles;
     }
-    
+
     private boolean isDisplayNameToLong()
     {
         final EasyUser user = getSessionUser();
-        
+
         // user display name
         String displayName = user.getDisplayName();
         // Truncate user name part to a maximum length 

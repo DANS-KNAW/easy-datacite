@@ -37,11 +37,11 @@ public class MyDatasetsSearchResultPage extends AbstractSearchResultPage
         super(searchModel);
         init();
     }
-    
+
     private void init()
     {
         setSorting(getSearchModel().getRequestBuilder());
-        add(new EasyEditablePanel("editablePanel", MY_DATASETS_SEARCH_RESULTS));        
+        add(new EasyEditablePanel("editablePanel", MY_DATASETS_SEARCH_RESULTS));
     }
 
     @Override

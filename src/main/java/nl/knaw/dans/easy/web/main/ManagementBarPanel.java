@@ -24,16 +24,15 @@ import nl.knaw.dans.easy.web.wicket.SecureEasyPageLink;
  */
 public class ManagementBarPanel extends AbstractEasyStatelessPanel
 {
-    private static final long  serialVersionUID   = -4344141494726647837L;
-    private static final Logger logger            = LoggerFactory.getLogger(ManagementBarPanel.class);
+    private static final long serialVersionUID = -4344141494726647837L;
+    private static final Logger logger = LoggerFactory.getLogger(ManagementBarPanel.class);
 
-    public static final String MY_WORK				= "myWork";
-    public static final String ALL_WORK				= "allWork";
-    public static final String OUR_WORK				= "ourWork";
-    public static final String TRASH_CAN			= "trashCan";
-    public static final String USER_INFO			= "userInfo";
-    public static final String EDITABLE_CONTENT		= "editableContent";
-
+    public static final String MY_WORK = "myWork";
+    public static final String ALL_WORK = "allWork";
+    public static final String OUR_WORK = "ourWork";
+    public static final String TRASH_CAN = "trashCan";
+    public static final String USER_INFO = "userInfo";
+    public static final String EDITABLE_CONTENT = "editableContent";
 
     public ManagementBarPanel(final String wicketId)
     {
@@ -51,20 +50,20 @@ public class ManagementBarPanel extends AbstractEasyStatelessPanel
         SecureEasyPageLink trashCanLink = new SecureEasyPageLink(TRASH_CAN, TrashCanSearchResultPage.class);
         trashCanLink.add(new Label("numberOfItemsInTrashcan", new PropertyModel(this, "numberOfItemsInTrashcan")));
         add(trashCanLink);
-        
+
         add(new SecureEasyPageLink(USER_INFO, UsersOverviewPage.class));
         add(new SecureEasyPageLink(EDITABLE_CONTENT, EditableContentPage.class));
     }
-    
+
     // Note: the following members are much alike, maybe we can refactor this
-    
+
     public int getNumberOfItemsInAllWork()
     {
         try
         {
             int numberOfItems = Services.getSearchService().getNumberOfItemsInAllWork(getSessionUser());
             logger.debug("The number of items in 'all work': " + numberOfItems);
-            
+
             return numberOfItems;
         }
         catch (ServiceException e)
@@ -72,7 +71,7 @@ public class ManagementBarPanel extends AbstractEasyStatelessPanel
             logger.error("Could not retrieve the number of items in 'all work'.", e);
             throw new InternalWebError();
         }
-    }    
+    }
 
     public int getNumberOfItemsInOurWork()
     {
@@ -80,7 +79,7 @@ public class ManagementBarPanel extends AbstractEasyStatelessPanel
         {
             int numberOfItems = Services.getSearchService().getNumberOfItemsInOurWork(getSessionUser());
             logger.debug("The number of items in 'our work': " + numberOfItems);
-            
+
             return numberOfItems;
         }
         catch (ServiceException e)
@@ -89,14 +88,14 @@ public class ManagementBarPanel extends AbstractEasyStatelessPanel
             throw new InternalWebError();
         }
     }
-    
+
     public int getNumberOfItemsInMyWork()
     {
         try
         {
             int numberOfItems = Services.getSearchService().getNumberOfItemsInMyWork(getSessionUser());
             logger.debug("The number of items in 'my work': " + numberOfItems);
-            
+
             return numberOfItems;
         }
         catch (ServiceException e)
@@ -105,14 +104,14 @@ public class ManagementBarPanel extends AbstractEasyStatelessPanel
             throw new InternalWebError();
         }
     }
-    
+
     public int getNumberOfItemsInTrashcan()
     {
         try
         {
             int numberOfItems = Services.getSearchService().getNumberOfItemsInTrashcan(getSessionUser());
             logger.debug("The number of items in 'trashcan': " + numberOfItems);
-            
+
             return numberOfItems;
         }
         catch (ServiceException e)
@@ -121,6 +120,5 @@ public class ManagementBarPanel extends AbstractEasyStatelessPanel
             throw new InternalWebError();
         }
     }
-    
 
 }

@@ -23,22 +23,21 @@ public class PermissionReplyViewPanel extends AbstractEasyPanel
 {
     private static final long serialVersionUID = 7165279397951054593L;
 
-    private static final String STATUS_RESOURCE_KEY      = "permission.reply.status";
+    private static final String STATUS_RESOURCE_KEY = "permission.reply.status";
     private static final String EXPLANATION_RESOURCE_KEY = "permission.reply.explanation";
 
-    private static final String DATE_TIME_FORMAT         = "DateAndTimeFormat";
+    private static final String DATE_TIME_FORMAT = "DateAndTimeFormat";
 
-    private static final String BACK_WID               = "back";
-    private static final String EXPLANATION_WID          = "explanation";
-    private static final String STATUS_WID               = "status";
+    private static final String BACK_WID = "back";
+    private static final String EXPLANATION_WID = "explanation";
+    private static final String STATUS_WID = "status";
 
     private static final String GRANTED = PermissionSequence.State.Granted.toString();
-    
+
     protected final AbstractEasyPage fromPage;
     private final PermissionReplyModel prmReply;
 
-    public PermissionReplyViewPanel(String wicketId,  final AbstractEasyPage fromPage,
-            final DatasetModel datasetModel, final PermissionSequence sequence)
+    public PermissionReplyViewPanel(String wicketId, final AbstractEasyPage fromPage, final DatasetModel datasetModel, final PermissionSequence sequence)
     {
         super(wicketId, datasetModel);
         this.fromPage = fromPage;
@@ -52,7 +51,7 @@ public class PermissionReplyViewPanel extends AbstractEasyPanel
 
         final PropertyModel statusModel = new PropertyModel(prmReply, "state");
         final IModel explanationModel = new PropertyModel(prmReply, "explanation");
-        add(new Label("status", statusModel));        
+        add(new Label("status", statusModel));
         add(new MultiLineLabel("explanation", explanationModel));
 
         add(new Link(BACK_WID)
@@ -66,7 +65,7 @@ public class PermissionReplyViewPanel extends AbstractEasyPanel
             }
         });
     }
-    
+
     // TODO put the personal info on a separate Panel
     private void addPersonalInfo(final EasyUser requester)
     {
@@ -79,9 +78,9 @@ public class PermissionReplyViewPanel extends AbstractEasyPanel
         add(new Label("telephone", requester.getTelephone()));
         add(new Label("discipline1", requester.getDiscipline1()));
         add(new Label("discipline2", requester.getDiscipline2()));
-        add(new Label("discipline3", requester.getDiscipline3()));        
-        add(new Label("dai", requester.getDai()));        
-        
+        add(new Label("discipline3", requester.getDiscipline3()));
+        add(new Label("dai", requester.getDai()));
+
         add(new Label("organization", requester.getOrganization()));
         add(new Label("department", requester.getDepartment()));
         add(new Label("address", requester.getAddress()));
@@ -108,6 +107,6 @@ public class PermissionReplyViewPanel extends AbstractEasyPanel
 
     protected Dataset getDataset()
     {
-        return (Dataset) getModel().getObject(); 
+        return (Dataset) getModel().getObject();
     }
 }

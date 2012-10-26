@@ -18,36 +18,35 @@ import org.slf4j.LoggerFactory;
 
 public class UserSelector extends AutoCompleteTextField
 {
-	private static final long serialVersionUID = 3797498659017039856L;
-	private static final Logger LOGGER = LoggerFactory.getLogger(SelectUserPanel.class);
+    private static final long serialVersionUID = 3797498659017039856L;
+    private static final Logger LOGGER = LoggerFactory.getLogger(SelectUserPanel.class);
 
-	
-	public UserSelector(String wicketId)
-	{
-		this(wicketId, new IdModel());		
-	}
+    public UserSelector(String wicketId)
+    {
+        this(wicketId, new IdModel());
+    }
 
-	public UserSelector(String wicketId, IModel model)
-	{
-		super(wicketId, model, new AbstractAutoCompleteTextRenderer()
+    public UserSelector(String wicketId, IModel model)
+    {
+        super(wicketId, model, new AbstractAutoCompleteTextRenderer()
         {
 
             private static final long serialVersionUID = -3654758614039672040L;
 
             @SuppressWarnings("unchecked")
-			@Override
+            @Override
             protected String getTextValue(Object obj)
             {
                 Map.Entry<String, String> entry = (Entry<String, String>) obj;
                 String value = entry.getValue().replaceAll(":", "");
                 String id = entry.getKey();
-                return  value + " : " + id;
+                return value + " : " + id;
             }
-        });		
-	}
-	
+        });
+    }
+
     @SuppressWarnings("unchecked")
-	@Override
+    @Override
     protected Iterator getChoices(String text)
     {
         Iterator iterator = null;
@@ -63,6 +62,6 @@ public class UserSelector extends AutoCompleteTextField
             throw new InternalWebError();
         }
         return iterator;
-    } 
-	
+    }
+
 }

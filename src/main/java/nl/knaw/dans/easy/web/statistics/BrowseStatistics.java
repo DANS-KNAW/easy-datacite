@@ -15,7 +15,7 @@ public class BrowseStatistics extends StatisticsModel<SearchModel>
     public HashMap<String, String> getLogValues()
     {
         HashMap<String, String> res = new HashMap<String, String>();
-        
+
         return res;
     }
 

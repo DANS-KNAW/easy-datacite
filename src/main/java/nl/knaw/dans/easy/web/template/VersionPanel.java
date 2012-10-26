@@ -12,25 +12,25 @@ import org.slf4j.LoggerFactory;
 
 public class VersionPanel extends Panel
 {
-    
+
     private static final String UNKNOWN = "unknown";
 
     public static final String VERSION_FILE = "version.properties";
-    
+
     private static final long serialVersionUID = -8906326042896861618L;
     private static Logger logger = LoggerFactory.getLogger(VersionPanel.class);
     private static Properties versionProps;
     private static String version;
     private static String buildNumber;
     private static String buildDate;
-    
+
     private boolean initiated;
 
     public VersionPanel(String id)
     {
         super(id);
     }
-    
+
     @Override
     protected void onBeforeRender()
     {
@@ -41,14 +41,14 @@ public class VersionPanel extends Panel
         }
         super.onBeforeRender();
     }
-    
+
     private void init()
     {
         add(new Label("version", getVersion()));
         add(new Label("buildNumber", getBuildNumber()));
         add(new Label("buildDate", getBuildDate()));
     }
-    
+
     public static String getVersion()
     {
         if (version == null)
@@ -61,7 +61,7 @@ public class VersionPanel extends Panel
         }
         return version;
     }
-    
+
     public static String getBuildNumber()
     {
         if (buildNumber == null)
@@ -74,7 +74,7 @@ public class VersionPanel extends Panel
         }
         return buildNumber;
     }
-    
+
     public static String getBuildDate()
     {
         if (buildDate == null)
@@ -101,7 +101,7 @@ public class VersionPanel extends Panel
         }
         return buildDate;
     }
-    
+
     public static Properties getVersionProps()
     {
         if (versionProps == null)

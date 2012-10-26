@@ -25,100 +25,118 @@ import org.apache.wicket.model.StringResourceModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ModalFileDetails extends Panel{
-	private static final long serialVersionUID = 1L;
-	
-	private static final Logger logger = LoggerFactory.getLogger(ModalFileDetails.class);
-	
-	public ModalFileDetails(final ModalWindow window, final List<TreeItem> items, final DatasetModel dataset){
-    	super(window.getContentId());
-    	
-    	Label message = new Label("message", new ResourceModel("details.message"));
-    	message.setVisible(items.size() <= 0);
-    	add(message);
-    	
-    	buildList(items, dataset);
-    	
-    	add(new IndicatingAjaxLink<Void>("close"){
-			private static final long serialVersionUID = 1L;
+public class ModalFileDetails extends Panel
+{
+    private static final long serialVersionUID = 1L;
 
-			@Override
-			public void onClick(AjaxRequestTarget target) {
-				window.close(target);
-			}
-			
-		});
+    private static final Logger logger = LoggerFactory.getLogger(ModalFileDetails.class);
+
+    public ModalFileDetails(final ModalWindow window, final List<TreeItem> items, final DatasetModel dataset)
+    {
+        super(window.getContentId());
+
+        Label message = new Label("message", new ResourceModel("details.message"));
+        message.setVisible(items.size() <= 0);
+        add(message);
+
+        buildList(items, dataset);
+
+        add(new IndicatingAjaxLink<Void>("close")
+        {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void onClick(AjaxRequestTarget target)
+            {
+                window.close(target);
+            }
+
+        });
     }
-	
-	private void buildList(final List<TreeItem> items, final DatasetModel dataset) {
-		add(new ListView<TreeItem>("outerList", items) {
-			private static final long serialVersionUID = 1L;
 
-			@Override
-			protected void populateItem(ListItem<TreeItem> item) {
-				TreeItem treeItem = (TreeItem)item.getDefaultModelObject();
-				List<KeyValuePair> metadata = getFileItemMetaData(treeItem, dataset); 
-				
-				item.add(new Label("filename", treeItem.getName()));
-				
-				item.add(new ListView<KeyValuePair>("innerList", metadata)
-		        {
-		            private static final long serialVersionUID = 1L;
+    private void buildList(final List<TreeItem> items, final DatasetModel dataset)
+    {
+        add(new ListView<TreeItem>("outerList", items)
+        {
+            private static final long serialVersionUID = 1L;
 
-		            @Override
-		            protected void populateItem(final ListItem<KeyValuePair> item)
-		            {
-		                final KeyValuePair kvp = (KeyValuePair) item.getDefaultModelObject();
-		                item.add(new Label("key", kvp.getKey()));
-		                item.add(new Label("value", kvp.getValue()));
-		            }
-		        });
+            @Override
+            protected void populateItem(ListItem<TreeItem> item)
+            {
+                TreeItem treeItem = (TreeItem) item.getDefaultModelObject();
+                List<KeyValuePair> metadata = getFileItemMetaData(treeItem, dataset);
 
-			}
-    	});
-	}
-    
+                item.add(new Label("filename", treeItem.getName()));
+
+                item.add(new ListView<KeyValuePair>("innerList", metadata)
+                {
+                    private static final long serialVersionUID = 1L;
+
+                    @Override
+                    protected void populateItem(final ListItem<KeyValuePair> item)
+                    {
+                        final KeyValuePair kvp = (KeyValuePair) item.getDefaultModelObject();
+                        item.add(new Label("key", kvp.getKey()));
+                        item.add(new Label("value", kvp.getValue()));
+                    }
+                });
+
+            }
+        });
+    }
+
     private List<KeyValuePair> getFileItemMetaData(TreeItem item, DatasetModel dataset)
     {
         try
         {
-        	FileItemDescription description = Services.getItemService().getFileItemDescription(EasySession.getSessionUser(), dataset.getObject(), new DmoStoreId(item.getId()));
-        	if(EasySession.getSessionUser().hasRole(Role.ARCHIVIST) || dataset.getObject().hasDepositor(EasySession.getSessionUser())) {
-        		// metadata for Arch/Depo
-        		List<KeyValuePair> metadata = description.getMetadataForArchDepo();
-        		for(KeyValuePair kvp: metadata) {
-        			if(kvp.getKey().toLowerCase().equals("creator")) {
-        				kvp.setValue(new StringResourceModel("Creator."+kvp.getValue(), this, null).getString());
-        			}
-        			if(kvp.getKey().toLowerCase().equals("visible to")) {
-        				kvp.setValue(new StringResourceModel("Rights."+kvp.getValue(), this, null).getString());
-        			}
-        			if(kvp.getKey().toLowerCase().equals("accessible to")) {
-        				kvp.setValue(new StringResourceModel("Rights."+kvp.getValue(), this, null).getString());
-        			}
-        		}
-        		return metadata;
-        	} else {
-        		// metadata for all other users
-        		List<KeyValuePair> metadata = description.getMetadataForAnonKnown();
-        		AuthzStrategy strategy = item.getItemVO().getAuthzStrategy();
-        		
-        		for(KeyValuePair kvp: metadata) {
-        			if(kvp.getKey().toLowerCase().equals("creator")) {
-        				kvp.setValue(new StringResourceModel("Creator."+kvp.getValue(), this, null).getString());
-        			}
-        			if(kvp.getKey().toLowerCase().equals("accessible")) {
-        				kvp.setValue(new StringResourceModel(strategy.getSingleReadMessage().getMessageCode(), this, null).getString());
-        			}
-        		}
-        		return metadata;
-        	}
+            FileItemDescription description = Services.getItemService().getFileItemDescription(EasySession.getSessionUser(), dataset.getObject(),
+                    new DmoStoreId(item.getId()));
+            if (EasySession.getSessionUser().hasRole(Role.ARCHIVIST) || dataset.getObject().hasDepositor(EasySession.getSessionUser()))
+            {
+                // metadata for Arch/Depo
+                List<KeyValuePair> metadata = description.getMetadataForArchDepo();
+                for (KeyValuePair kvp : metadata)
+                {
+                    if (kvp.getKey().toLowerCase().equals("creator"))
+                    {
+                        kvp.setValue(new StringResourceModel("Creator." + kvp.getValue(), this, null).getString());
+                    }
+                    if (kvp.getKey().toLowerCase().equals("visible to"))
+                    {
+                        kvp.setValue(new StringResourceModel("Rights." + kvp.getValue(), this, null).getString());
+                    }
+                    if (kvp.getKey().toLowerCase().equals("accessible to"))
+                    {
+                        kvp.setValue(new StringResourceModel("Rights." + kvp.getValue(), this, null).getString());
+                    }
+                }
+                return metadata;
+            }
+            else
+            {
+                // metadata for all other users
+                List<KeyValuePair> metadata = description.getMetadataForAnonKnown();
+                AuthzStrategy strategy = item.getItemVO().getAuthzStrategy();
+
+                for (KeyValuePair kvp : metadata)
+                {
+                    if (kvp.getKey().toLowerCase().equals("creator"))
+                    {
+                        kvp.setValue(new StringResourceModel("Creator." + kvp.getValue(), this, null).getString());
+                    }
+                    if (kvp.getKey().toLowerCase().equals("accessible"))
+                    {
+                        kvp.setValue(new StringResourceModel(strategy.getSingleReadMessage().getMessageCode(), this, null).getString());
+                    }
+                }
+                return metadata;
+            }
         }
         catch (ServiceException e)
         {
-           	logger.error("Problem getting the metadata for sid: " + item.getId(), e);
+            logger.error("Problem getting the metadata for sid: " + item.getId(), e);
         }
         return new ArrayList<KeyValuePair>();
     }
-    
+
 }

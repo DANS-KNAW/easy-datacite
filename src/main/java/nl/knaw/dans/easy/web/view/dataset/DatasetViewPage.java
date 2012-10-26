@@ -71,64 +71,64 @@ public class DatasetViewPage extends AbstractEasyNavPage
     /**
      * Resource id.
      */
-    public static final String  RI_TAB_DESCRIPTION     = "tab.description";
+    public static final String RI_TAB_DESCRIPTION = "tab.description";
 
     /**
      * Resource id.
      */
-    public static final String  RI_TAB_OVERVIEW        = "tab.overview";
+    public static final String RI_TAB_OVERVIEW = "tab.overview";
 
     /**
      * Resource id.
      */
-    public static final String  RI_TAB_FILEEXPLORER    = "tab.fileexplorer";
+    public static final String RI_TAB_FILEEXPLORER = "tab.fileexplorer";
 
     /**
      * Resource id.
      */
-    public static final String  RI_TAB_ADMINISTRATION  = "tab.administration";
+    public static final String RI_TAB_ADMINISTRATION = "tab.administration";
 
     /**
      * Resource id.
      */
-    public static final String  RI_TAB_PERMISSIONS     = "tab.permissions";
-    
+    public static final String RI_TAB_PERMISSIONS = "tab.permissions";
+
     /**
      * Resource id.
      */
-    public static final String  RI_TAB_ACTIVITY_LOG     = "tab.activitylog";
-    
+    public static final String RI_TAB_ACTIVITY_LOG = "tab.activitylog";
+
     public static final String RI_TAB_RELATIONS = "tab.relations";
 
     /**
      * Wicket id.
      */
-    public static final String  WI_VIEW_TABS           = "tabs";
+    public static final String WI_VIEW_TABS = "tabs";
 
-    public static final String  PM_DATASET_ID			= "id";
-    public static final String  PM_VIEW_MODE			= "vm";
-    public static final String  PM_TAB_INDEX			= "tab";
-    public static final String  PM_REDIRECT_TO_LOGIN	= "rd";
+    public static final String PM_DATASET_ID = "id";
+    public static final String PM_VIEW_MODE = "vm";
+    public static final String PM_TAB_INDEX = "tab";
+    public static final String PM_REDIRECT_TO_LOGIN = "rd";
 
-    private static final Logger logger                 = LoggerFactory.getLogger(DatasetViewPage.class);
+    private static final Logger logger = LoggerFactory.getLogger(DatasetViewPage.class);
 
-    private final Mode          mode;
+    private final Mode mode;
 
-    private boolean             initiated;
+    private boolean initiated;
 
-    private int                 tabIndex;
+    private int tabIndex;
 
-    private ContextParameters   contextParameters;
+    private ContextParameters contextParameters;
 
-	private DatasetModel	datasetModel;
-	
-	private boolean mustLogin;
-	
+    private DatasetModel datasetModel;
+
+    private boolean mustLogin;
+
     public static String urlFor(Dataset dataset, int tabIndex, boolean mustLogin, Component component)
     {
         return urlFor(dataset.getStoreId(), tabIndex, mustLogin, component);
     }
-    
+
     public static String urlFor(String datasetId, int tabIndex, boolean mustLogin, Component component)
     {
         PageParameters parameters = urlParametersFor(datasetId, tabIndex, mustLogin);
@@ -163,18 +163,18 @@ public class DatasetViewPage extends AbstractEasyNavPage
         }
         catch (Exception e)
         {
-        	errorMessage(EasyResources.INSUFFICIENT_PARAMETERS);
+            errorMessage(EasyResources.INSUFFICIENT_PARAMETERS);
             logger.error("Unable to read page parameters: ", e);
             throw new InternalWebError();
         }
-        
+
         if (datasetId == null)
         {
             errorMessage(EasyResources.INSUFFICIENT_PARAMETERS);
             logger.error("Unable to initialize this page. datasetId is null.");
             throw new InternalWebError();
         }
-        
+
         datasetModel = getDatasetModel(datasetId);
 
         // maybe link from user that got permission for the dataset or depositor visiting permissions tab
@@ -189,7 +189,7 @@ public class DatasetViewPage extends AbstractEasyNavPage
         datasetModel = getDatasetModel(datasetId);
         this.mode = mode == null ? Mode.VIEW : mode;
     }
-    
+
     public DatasetViewPage(Dataset dataset, Mode mode)
     {
         datasetModel = new DatasetModel(dataset);
@@ -198,10 +198,10 @@ public class DatasetViewPage extends AbstractEasyNavPage
 
     public DatasetViewPage(final DatasetModel datasetModel, Mode mode)
     {
-    	this.datasetModel = datasetModel;
+        this.datasetModel = datasetModel;
         this.mode = mode == null ? Mode.VIEW : mode;
     }
-    
+
     private DatasetModel getDatasetModel(String storeId)
     {
         DatasetModel dm;
@@ -240,7 +240,7 @@ public class DatasetViewPage extends AbstractEasyNavPage
         }
         return dm;
     }
-    
+
     protected Dataset getDataset()
     {
         return datasetModel.getObject();
@@ -281,17 +281,17 @@ public class DatasetViewPage extends AbstractEasyNavPage
         }
         if (datasetModel.isInvalidated())
         {
-        	refresh();
+            refresh();
         }
-        
+
         super.onBeforeRender();
     }
-    
+
     public void init()
     {
         addCommonFeedbackPanel();
 
-    	add(new Label("title", getDataset().getPreferredTitle()));
+        add(new Label("title", getDataset().getPreferredTitle()));
 
         Link backToListLink = new Link("backToList")
         {
@@ -310,15 +310,15 @@ public class DatasetViewPage extends AbstractEasyNavPage
                     setResponsePage(page);
                 }
             }
-            
+
             @Override
             public boolean isVisible()
             {
-            	return DatasetViewPage.this.getEasySession().hasRedirectPage(DatasetViewPage.class);
+                return DatasetViewPage.this.getEasySession().hasRedirectPage(DatasetViewPage.class);
             }
         };
         add(backToListLink);
-        
+
         Link selectLink = new Link("selectLink")
         {
 
@@ -330,7 +330,7 @@ public class DatasetViewPage extends AbstractEasyNavPage
                 logger.debug("Select link clicked.");
                 // TODO what else should happen here? Inform the session? Redirect to ...
             }
- 
+
         };
         selectLink.setVisible(Mode.SELECT.equals(getMode()));
         add(selectLink);
@@ -347,114 +347,113 @@ public class DatasetViewPage extends AbstractEasyNavPage
         tabs.add(getAdministrationTab());
         tabs.add(getPermissionsTab());
         tabs.add(getActivityLogTab());
-//        tabs.add(getRelationsTab());
+        //        tabs.add(getRelationsTab());
         TabbedPanel tabbedPanel = new TabbedPanel(WI_VIEW_TABS, tabs)
         {
 
             private static final long serialVersionUID = 5796914238322673704L;
-            
+
             // this results in urls like /datasets/id/easy-dataset:22/tab/5
             @Override
             protected WebMarkupContainer newLink(String linkId, int index)
             {
-                BookmarkablePageLink<String> link = 
-                    new BookmarkablePageLink<String>(linkId, DatasetViewPage.class, 
-                            DatasetViewPage.urlParametersFor(getDataset().getStoreId(), index, mustLogin()));
+                BookmarkablePageLink<String> link = new BookmarkablePageLink<String>(linkId, DatasetViewPage.class, DatasetViewPage.urlParametersFor(
+                        getDataset().getStoreId(), index, mustLogin()));
                 return link;
             }
         };
         add(tabbedPanel);
-        
+
         if (tabIndex >= 0 && tabIndex < tabbedPanel.getTabs().size())
         {
             logger.debug("Setting selected tab. tabIndex=" + tabIndex);
             tabbedPanel.setSelectedTab(tabIndex);
         }
-        
+
         // logging for statistics
         StatisticsLogger.getInstance().logEvent(StatisticsEvent.DATASET_VIEWED, new DatasetStatistics(getDataset()), new DisciplineStatistics(getDataset()));
     }
 
-	private SimpleTab getActivityLogTab()
-	{
-		return new SimpleTab(new ResourceModel(RI_TAB_ACTIVITY_LOG))
-		{
-		    private static final long serialVersionUID = 4264378003403493028L;
+    private SimpleTab getActivityLogTab()
+    {
+        return new SimpleTab(new ResourceModel(RI_TAB_ACTIVITY_LOG))
+        {
+            private static final long serialVersionUID = 4264378003403493028L;
 
-		    @Override
-		    public Panel getPanel(String panelId)
-		    {
-		        return new ActivityLogPanel(panelId, getDataset());
-		    }
-		    
-		    @Override
-		    public boolean isVisible()
-		    {
-		    	return !getSessionUser().isAnonymous();
-		    }
-		};
-	}
+            @Override
+            public Panel getPanel(String panelId)
+            {
+                return new ActivityLogPanel(panelId, getDataset());
+            }
 
-	private SimpleTab getAdministrationTab()
-	{
-		return new SimpleTab(new ResourceModel(RI_TAB_ADMINISTRATION))
-		{
-		    private static final long serialVersionUID = 6695260253761809149L;
+            @Override
+            public boolean isVisible()
+            {
+                return !getSessionUser().isAnonymous();
+            }
+        };
+    }
 
-		    @Override
-		    public Panel getPanel(String panelId)
-		    {
-		        return new AdministrationPanel(panelId, datasetModel);
-		    }
-		    
-		    @Override
-		    public boolean isVisible()
-		    {
-		    	return getSessionUser().hasRole(Role.ARCHIVIST);
-		    }
+    private SimpleTab getAdministrationTab()
+    {
+        return new SimpleTab(new ResourceModel(RI_TAB_ADMINISTRATION))
+        {
+            private static final long serialVersionUID = 6695260253761809149L;
 
-		};
-	}
+            @Override
+            public Panel getPanel(String panelId)
+            {
+                return new AdministrationPanel(panelId, datasetModel);
+            }
 
-	private SimpleTab getDataFilesTab()
-	{
-		StringResourceModel titleModel = new StringResourceModel(
-				RI_TAB_FILEEXPLORER,
-				null,
-				new Object[] { new Model<String>()
-				{
-					private static final long	serialVersionUID	= -7961575318107788527L;
+            @Override
+            public boolean isVisible()
+            {
+                return getSessionUser().hasRole(Role.ARCHIVIST);
+            }
 
-					/**
-					 * A model is used, because these values might change
-					 * when the dataset changes.
-					 */
-					@Override
-					public String getObject() 
-					{
-						// NOTE: GK: move this logic to business layer 
-						//		 i.e. add a method getVisibleFileCount(EasyUser user)
-						EasyUser user = EasySession.getSessionUser();
-						int count = 0;
-						if(user.isAnonymous()) {
-							count = getDataset().getVisibleToFileCount(VisibleTo.ANONYMOUS);
-						} else if(user.hasRole(Role.ARCHIVIST) || getDataset().hasDepositor(user)) {
-							count = getDataset().getTotalFileCount();
-						} else {
-							count = getDataset().getVisibleToFileCount(VisibleTo.ANONYMOUS) +
-									getDataset().getVisibleToFileCount(VisibleTo.KNOWN);
-							
-							if(getDataset().hasPermissionRestrictedItems() && getDataset().isPermissionGrantedTo(user))
-								count += getDataset().getVisibleToFileCount(VisibleTo.RESTRICTED_REQUEST);
-							
-							if(getDataset().hasGroupRestrictedItems() && getDataset().isGroupAccessGrantedTo(user))
-								count += getDataset().getVisibleToFileCount(VisibleTo.RESTRICTED_GROUP);
-						}
-						return "" + count;
-					}
-				} }
-			);
-		return new SimpleTab(titleModel)
+        };
+    }
+
+    private SimpleTab getDataFilesTab()
+    {
+        StringResourceModel titleModel = new StringResourceModel(RI_TAB_FILEEXPLORER, null, new Object[] {new Model<String>()
+        {
+            private static final long serialVersionUID = -7961575318107788527L;
+
+            /**
+             * A model is used, because these values might change
+             * when the dataset changes.
+             */
+            @Override
+            public String getObject()
+            {
+                // NOTE: GK: move this logic to business layer 
+                //		 i.e. add a method getVisibleFileCount(EasyUser user)
+                EasyUser user = EasySession.getSessionUser();
+                int count = 0;
+                if (user.isAnonymous())
+                {
+                    count = getDataset().getVisibleToFileCount(VisibleTo.ANONYMOUS);
+                }
+                else if (user.hasRole(Role.ARCHIVIST) || getDataset().hasDepositor(user))
+                {
+                    count = getDataset().getTotalFileCount();
+                }
+                else
+                {
+                    count = getDataset().getVisibleToFileCount(VisibleTo.ANONYMOUS) + getDataset().getVisibleToFileCount(VisibleTo.KNOWN);
+
+                    if (getDataset().hasPermissionRestrictedItems() && getDataset().isPermissionGrantedTo(user))
+                        count += getDataset().getVisibleToFileCount(VisibleTo.RESTRICTED_REQUEST);
+
+                    if (getDataset().hasGroupRestrictedItems() && getDataset().isGroupAccessGrantedTo(user))
+                        count += getDataset().getVisibleToFileCount(VisibleTo.RESTRICTED_GROUP);
+                }
+                return "" + count;
+            }
+        }});
+        return new SimpleTab(titleModel)
         {
             private static final long serialVersionUID = -1312420240988923158L;
 
@@ -465,11 +464,11 @@ public class DatasetViewPage extends AbstractEasyNavPage
             }
 
         };
-	}
+    }
 
-	private SimpleTab getDescriptionTab()
-	{
-		return new SimpleTab(new ResourceModel(RI_TAB_DESCRIPTION))
+    private SimpleTab getDescriptionTab()
+    {
+        return new SimpleTab(new ResourceModel(RI_TAB_DESCRIPTION))
         {
 
             private static final long serialVersionUID = -1312420240988923158L;
@@ -481,11 +480,11 @@ public class DatasetViewPage extends AbstractEasyNavPage
             }
 
         };
-	}
+    }
 
-	private SimpleTab getOverviewTab()
-	{
-		return new SimpleTab(new ResourceModel(RI_TAB_OVERVIEW))
+    private SimpleTab getOverviewTab()
+    {
+        return new SimpleTab(new ResourceModel(RI_TAB_OVERVIEW))
         {
 
             private static final long serialVersionUID = 236015675731297661L;
@@ -497,12 +496,12 @@ public class DatasetViewPage extends AbstractEasyNavPage
             }
 
         };
-	}
-	
-	private SimpleTab getRelationsTab()
-	{
-	    return new SimpleTab(new ResourceModel(RI_TAB_RELATIONS))
-	    {
+    }
+
+    private SimpleTab getRelationsTab()
+    {
+        return new SimpleTab(new ResourceModel(RI_TAB_RELATIONS))
+        {
 
             private static final long serialVersionUID = 991745080592548879L;
 
@@ -511,41 +510,37 @@ public class DatasetViewPage extends AbstractEasyNavPage
             {
                 return new RelationsPanel(panelId, datasetModel);
             }
-            
+
             @Override
             public boolean isVisible()
             {
                 return true;
             }
-	        
-	    };
-	}
-	
-	@SuppressWarnings("serial")
-	private SimpleTab getPermissionsTab()
-	{
-        final StringResourceModel titleModel = new StringResourceModel(
-        		RI_TAB_PERMISSIONS, 
-        		null, 
-        		new Object[] { 
-					/**
-					 * Models are used, because these values might change
-					 * when the dataset changes.
-					 */
-        			new Model<String>() {
-        				public String getObject() 
-        				{
-        					return getDataset().getPermissionSequenceList().getPermissionSequences(State.Submitted).size() +"";
-        				};
-        			},
-        			new Model<String>() {
-        				public String getObject() 
-        				{
-        					return getDataset().getPermissionSequenceList().getPermissionSequences().size() +"";
-        				};
-        			},
-        		}
-        	);
+
+        };
+    }
+
+    @SuppressWarnings("serial")
+    private SimpleTab getPermissionsTab()
+    {
+        final StringResourceModel titleModel = new StringResourceModel(RI_TAB_PERMISSIONS, null, new Object[] {
+        /**
+         * Models are used, because these values might change
+         * when the dataset changes.
+         */
+        new Model<String>()
+        {
+            public String getObject()
+            {
+                return getDataset().getPermissionSequenceList().getPermissionSequences(State.Submitted).size() + "";
+            };
+        }, new Model<String>()
+        {
+            public String getObject()
+            {
+                return getDataset().getPermissionSequenceList().getPermissionSequences().size() + "";
+            };
+        },});
         final SimpleTab tab = new SimpleTab(titleModel)
         {
             private static final long serialVersionUID = -5421636926598790323L;
@@ -553,22 +548,20 @@ public class DatasetViewPage extends AbstractEasyNavPage
             @Override
             public Panel getPanel(String panelId)
             {
-                return new DatasetPermissionsTab(panelId, datasetModel, getSessionUser(),
-                        (AbstractEasyPage) getPage());
+                return new DatasetPermissionsTab(panelId, datasetModel, getSessionUser(), (AbstractEasyPage) getPage());
             }
-            
+
             @Override
             public boolean isVisible()
             {
-            	return DatasetPermissionsTab.required(getSessionUser(), getDataset());
+                return DatasetPermissionsTab.required(getSessionUser(), getDataset());
             }
 
         };
         return tab;
-	}
+    }
 
-
-	@Override
+    @Override
     public String getPageTitlePostfix()
     {
         String datasetTitle = getDataset().getPreferredTitle();

@@ -39,25 +39,25 @@ import org.joda.time.DateTime;
 
 class PermissionReplyForm extends PermissionForm
 {
-    private static final long   serialVersionUID         = 6204591036947047986L;
+    private static final long serialVersionUID = 6204591036947047986L;
 
-    private static final String STATUS_RESOURCE_KEY      = "permission.reply.status";
+    private static final String STATUS_RESOURCE_KEY = "permission.reply.status";
     private static final String EXPLANATION_RESOURCE_KEY = "permission.reply.explanation";
 
-    private static final String DATE_TIME_FORMAT         = "DateAndTimeFormat";
+    private static final String DATE_TIME_FORMAT = "DateAndTimeFormat";
 
-    private static final String SUBMIT_WID               = "submit";
-    private static final String CANCEL_WID               = "cancel";
-    private static final String EXPLANATION_WID          = "explanation";
-    private static final String STATUS_WID               = "status";
+    private static final String SUBMIT_WID = "submit";
+    private static final String CANCEL_WID = "cancel";
+    private static final String EXPLANATION_WID = "explanation";
+    private static final String STATUS_WID = "status";
 
     private static final String GRANTED = PermissionSequence.State.Granted.toString();
 
     public static class ChoiceItem implements Serializable
     {
-        private static final long        serialVersionUID = 1L;
+        private static final long serialVersionUID = 1L;
         private PermissionSequence.State key;
-        private String                   value;
+        private String value;
 
         ChoiceItem(final PermissionSequence.State state)
         {
@@ -90,8 +90,8 @@ class PermissionReplyForm extends PermissionForm
     // Arrays.asList(new ChoiceItem(PermissionSequence.State.Returned), new ChoiceItem(
     // PermissionSequence.State.Denied), new ChoiceItem(
     // PermissionSequence.State.Granted));
-    private final static List<State>   STATE_CHOICES = Arrays.asList(PermissionSequence.State.Returned, PermissionSequence.State.Denied,
-                                                             PermissionSequence.State.Granted);
+    private final static List<State> STATE_CHOICES = Arrays.asList(PermissionSequence.State.Returned, PermissionSequence.State.Denied,
+            PermissionSequence.State.Granted);
 
     private final PermissionReplyModel prmReply;
 
@@ -121,9 +121,9 @@ class PermissionReplyForm extends PermissionForm
         add(new Label("telephone", requester.getTelephone()));
         add(new Label("discipline1", requester.getDiscipline1()));
         add(new Label("discipline2", requester.getDiscipline2()));
-        add(new Label("discipline3", requester.getDiscipline3()));        
-        add(new Label("dai", requester.getDai()));        
-        
+        add(new Label("discipline3", requester.getDiscipline3()));
+        add(new Label("dai", requester.getDai()));
+
         add(new Label("organization", requester.getOrganization()));
         add(new Label("department", requester.getDepartment()));
         add(new Label("address", requester.getAddress()));
@@ -152,7 +152,8 @@ class PermissionReplyForm extends PermissionForm
 
         final IModel explanationLabelModel = new ResourceModel(EXPLANATION_RESOURCE_KEY + ".label");
         final IModel explanationModel = new PropertyModel(prmReply, "explanation");
-        if (editMode) {
+        if (editMode)
+        {
             prmReply.setExplanation("");
             prmReply.setState(null);
         }
@@ -165,20 +166,22 @@ class PermissionReplyForm extends PermissionForm
 
         addFormComponent(choice, statusLabelModel).setEnabled(editMode);
         addFormComponent(explanation, explanationLabelModel);
-        
+
         add(new Validator(choice, explanation));
     }
 
     private class Validator extends AbstractFormValidator
     {
         private static final long serialVersionUID = 2001927122670938692L;
-        final FormComponent choice; final FormComponent explanation;
+        final FormComponent choice;
+        final FormComponent explanation;
+
         public Validator(final FormComponent choice, final FormComponent explanation)
         {
             this.choice = choice;
             this.explanation = explanation;
         }
-        
+
         @Override
         public void validate(Form<?> form)
         {
@@ -190,10 +193,10 @@ class PermissionReplyForm extends PermissionForm
                 {
                     error(explanation);
                 }
-                */
+                 */
             }
         }
-        
+
         @Override
         public FormComponent<?>[] getDependentFormComponents()
         {
@@ -201,7 +204,7 @@ class PermissionReplyForm extends PermissionForm
             return components;
         }
     }
-    
+
     private void addButtons(final boolean editMode)
     {
         addComponent(new SubmitLink(SUBMIT_WID)).setVisible(editMode);

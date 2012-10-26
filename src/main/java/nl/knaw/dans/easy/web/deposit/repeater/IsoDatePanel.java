@@ -21,13 +21,13 @@ import org.apache.wicket.model.PropertyModel;
 public class IsoDatePanel extends AbstractChoicePanel<IsoDateModel>
 {
 
-    private static final long        serialVersionUID = -822413494904086019L;
+    private static final long serialVersionUID = -822413494904086019L;
     // private static Logger logger = LoggerFactory.getLogger(RelationPanel.class);
 
-    private boolean					 dropdownVisible;
-    private String 					 defaultKey;
+    private boolean dropdownVisible;
+    private String defaultKey;
 
-	/**
+    /**
      * Constructor that takes a model with a ListWrapper&lt;RelationWrapper> as model object.
      * 
      * @param wicketId
@@ -42,29 +42,29 @@ public class IsoDatePanel extends AbstractChoicePanel<IsoDateModel>
         super(wicketId, model, choiceList);
     }
 
+    public void setDropdownVisible(boolean dropdownVisible)
+    {
+        this.dropdownVisible = dropdownVisible;
+    }
 
-    
-    public void setDropdownVisible(boolean dropdownVisible) {
-		this.dropdownVisible = dropdownVisible;
-	}
+    public void setDefaultKey(String defaultKey)
+    {
+        this.defaultKey = defaultKey;
+    }
 
-    public void setDefaultKey(String defaultKey) {
-		this.defaultKey = defaultKey;
-	}
-    
     @Override
     protected Panel getRepeatingComponentPanel(final ListItem item)
     {
-    	if (isInEditMode())
-    	{
-    		return new RepeatingEditModePanel(item);
-    	}
-    	else
-    	{
-    		return new RepeatingViewModePanel(item);
-    	}
+        if (isInEditMode())
+        {
+            return new RepeatingEditModePanel(item);
+        }
+        else
+        {
+            return new RepeatingViewModePanel(item);
+        }
     }
-    
+
     class RepeatingEditModePanel extends Panel
     {
 
@@ -73,39 +73,39 @@ public class IsoDatePanel extends AbstractChoicePanel<IsoDateModel>
         public RepeatingEditModePanel(final ListItem item)
         {
             super(REPEATING_PANEL_ID);
-            
-            final DropDownChoice dropDownChoice = new DropDownChoice("schemeChoice", new PropertyModel(item
-                    .getModelObject(), "scheme"), getChoiceList().getChoices(), getRenderer());
-        	dropDownChoice.setNullValid(isNullValid());
+
+            final DropDownChoice dropDownChoice = new DropDownChoice("schemeChoice", new PropertyModel(item.getModelObject(), "scheme"), getChoiceList()
+                    .getChoices(), getRenderer());
+            dropDownChoice.setNullValid(isNullValid());
             if (defaultKey != null && !defaultKey.equals(""))
             {
-            	dropDownChoice.setModelValue(new String[]{defaultKey});
+                dropDownChoice.setModelValue(new String[] {defaultKey});
             }
             dropDownChoice.setVisible(dropdownVisible);
-            
-            final TextField dateField = new TextField("valueField", new PropertyModel(item.getModelObject(),
-                    "value"));
-                        
-            DatePicker datePicker = new DatePicker(){
-                /**
-    			 *
-    			 */
-    			private static final long serialVersionUID = 6435372550472817746L;
 
-    			@Override
+            final TextField dateField = new TextField("valueField", new PropertyModel(item.getModelObject(), "value"));
+
+            DatePicker datePicker = new DatePicker()
+            {
+                /**
+                 *
+                 */
+                private static final long serialVersionUID = 6435372550472817746L;
+
+                @Override
                 protected void configure(Map arg0)
                 {
                     arg0.put("title", "DANS");
                     super.configure(arg0);
                 }
-    			
+
                 @Override
                 protected String getDatePattern()
                 {
                     // wicket 1.4 bug!
                     return "yyyy-MM-dd"; // or "dd/MM/yyyy". the stupid thing always sets a short year format: yy.
                 }
-                
+
                 /*
                  * (non-Javadoc)
                  * @see org.apache.wicket.extensions.yui.calendar.DatePicker#getIconUrl()
@@ -113,11 +113,10 @@ public class IsoDatePanel extends AbstractChoicePanel<IsoDateModel>
                  */
                 @Override
                 protected CharSequence getIconUrl()
-            	{
-            		return "images/icon1.gif";
-            	}
-                
-                
+                {
+                    return "images/icon1.gif";
+                }
+
             };
             dateField.add(datePicker);
             add(dateField);
@@ -126,9 +125,9 @@ public class IsoDatePanel extends AbstractChoicePanel<IsoDateModel>
 
     }
 
-	class RepeatingViewModePanel extends Panel
+    class RepeatingViewModePanel extends Panel
     {
-        
+
         private static final long serialVersionUID = -1064600333931796440L;
 
         public RepeatingViewModePanel(final ListItem item)
@@ -137,13 +136,13 @@ public class IsoDatePanel extends AbstractChoicePanel<IsoDateModel>
             QualifiedModel qModel = (QualifiedModel) item.getDefaultModelObject();
             String qualifierKey = qModel.getQualifier();
             String qualifier = getChoiceList().getValue(qualifierKey);
-            
+
             Label labelscheme = new Label("datescheme", qualifier);
-            Label labelvalue = new Label("datevalue", new PropertyModel(item.getModel(),"value"));
+            Label labelvalue = new Label("datevalue", new PropertyModel(item.getModel(), "value"));
             labelscheme.setVisible(StringUtils.isNotBlank(qualifierKey));
             add(labelscheme);
             add(labelvalue);
         }
-        
+
     }
 }

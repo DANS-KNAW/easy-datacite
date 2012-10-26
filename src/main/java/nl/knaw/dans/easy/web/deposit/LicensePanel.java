@@ -20,10 +20,10 @@ public class LicensePanel extends AbstractCustomPanel
     //private static final Logger logger = LoggerFactory.getLogger(LicensePanel.class);
 
     private static final long serialVersionUID = -8835422851027831656L;
- 
+
     public static final String EDITABLE_LICENSE_PANEL_TEMPLATE = "/editable/LicensePanel.template";
     public static final String EDITABLE_LICENSE_PANEL_OTHER_ACCESS_TEMPLATE = "/editable/LicensePanelOtherAccess.template";
-    
+
     private final EasyMetadata easyMetadata;
 
     public LicensePanel(String id, IModel<EasyMetadata> model)
@@ -37,13 +37,13 @@ public class LicensePanel extends AbstractCustomPanel
     {
         return new CustomPanel();
     }
-    
+
     @Override
     public boolean takesErrorMessages()
     {
         return true;
     }
-    
+
     class CustomPanel extends Panel
     {
 
@@ -56,13 +56,15 @@ public class LicensePanel extends AbstractCustomPanel
             add(new AcceptLicense("acceptLicense").setVisible(!AccessCategory.NO_ACCESS.equals(easyMetadata.getEmdRights().getAccessCategory())));
             //add(new ResourceLink<LicenseResource>("licenseLink", new LicenseResource()));
         }
-        
+
         private String getLicenceMessage()
         {
-            if(AccessCategory.NO_ACCESS.equals(easyMetadata.getEmdRights().getAccessCategory()))
+            if (AccessCategory.NO_ACCESS.equals(easyMetadata.getEmdRights().getAccessCategory()))
             {
                 return EDITABLE_LICENSE_PANEL_OTHER_ACCESS_TEMPLATE;
-            } else {
+            }
+            else
+            {
                 return EDITABLE_LICENSE_PANEL_TEMPLATE;
             }
         }
@@ -101,11 +103,11 @@ public class LicensePanel extends AbstractCustomPanel
                 final String message = errorMessage(EasyResources.LICENSE_DATASET);
                 logger.error(message + " " + storeId, exception);
             }
-//            catch (MalformedURLException exception)
-//            {
-//                final String message = errorMessage(EasyResources.LICENSE_COMPOSER);
-//                logger.error(message + " " + storeId, exception);
-//            }
+    //            catch (MalformedURLException exception)
+    //            {
+    //                final String message = errorMessage(EasyResources.LICENSE_COMPOSER);
+    //                logger.error(message + " " + storeId, exception);
+    //            }
             return new AbstractResourceStream()
             {
                 private static final long serialVersionUID = 1L;
@@ -136,7 +138,7 @@ public class LicensePanel extends AbstractCustomPanel
             setDefaultModel(new PropertyModel<Input>(new Input(), "accept"));
         }
     }
-    
+
     private class Input implements IClusterable
     {
         private static final long serialVersionUID = -667029584818294155L;
@@ -147,7 +149,7 @@ public class LicensePanel extends AbstractCustomPanel
         {
             return new Boolean(!termsLicense.isEmpty());
         }
-        
+
         @SuppressWarnings("unused")
         public void setAccept(Boolean accept)
         {

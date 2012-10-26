@@ -18,9 +18,9 @@ import org.apache.wicket.markup.html.form.ChoiceRenderer;
 public class IsoDateListWrapper extends AbstractListWrapper<IsoDateListWrapper.IsoDateModel>
 {
 
-    private static final long          serialVersionUID = -7329761811695091371L;
+    private static final long serialVersionUID = -7329761811695091371L;
 
-    private Map<String, List<IsoDate>> listMap          = new HashMap<String, List<IsoDate>>();
+    private Map<String, List<IsoDate>> listMap = new HashMap<String, List<IsoDate>>();
 
     public IsoDateListWrapper(EmdDate emdDate)
     {
@@ -51,7 +51,7 @@ public class IsoDateListWrapper extends AbstractListWrapper<IsoDateListWrapper.I
         }
         return listItems;
     }
-    
+
     @Override
     public int size()
     {
@@ -94,10 +94,9 @@ public class IsoDateListWrapper extends AbstractListWrapper<IsoDateListWrapper.I
 
         private static final long serialVersionUID = 3841830259279016843L;
 
-        private String            dateSchemeType;
+        private String dateSchemeType;
         private IsoDate isoDate;
 
-        
         public IsoDateModel(IsoDate isoDate, String dateSchemeType)
         {
             if (isoDate == null)
@@ -123,7 +122,7 @@ public class IsoDateListWrapper extends AbstractListWrapper<IsoDateListWrapper.I
         {
             return isoDate;
         }
-        
+
         public String getValue()
         {
             if (isoDate == null)
@@ -135,7 +134,7 @@ public class IsoDateListWrapper extends AbstractListWrapper<IsoDateListWrapper.I
                 return isoDate.toString();
             }
         }
-        
+
         public void setValue(String value)
         {
             // wicket 1.4 DatePicker bug workaround
@@ -166,7 +165,7 @@ public class IsoDateListWrapper extends AbstractListWrapper<IsoDateListWrapper.I
         {
             return new KeyValuePair(dateSchemeType, null);
         }
-        
+
         // Quick fix (Do not try this at home!)
         @Override
         public String getQualifier()

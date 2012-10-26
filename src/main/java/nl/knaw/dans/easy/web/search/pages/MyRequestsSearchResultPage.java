@@ -17,50 +17,49 @@ import org.apache.wicket.model.ResourceModel;
 public class MyRequestsSearchResultPage extends AbstractSearchResultPage
 {
     public static final String MY_REQUESTS_SEARCH_RESULTS = "/editable/MyRequestsSearchResult.template";
-    
+
     public MyRequestsSearchResultPage()
-	{
+    {
         super(true);
         init();
-	}    
-    
+    }
+
     public MyRequestsSearchResultPage(SearchModel searchModel)
-	{
+    {
         super(searchModel);
         init();
-	}
-    
+    }
+
     private void init()
     {
         setSorting(getSearchModel().getRequestBuilder());
-        add(new EasyEditablePanel("editablePanel", MY_REQUESTS_SEARCH_RESULTS));        
+        add(new EasyEditablePanel("editablePanel", MY_REQUESTS_SEARCH_RESULTS));
     }
 
-	@Override
+    @Override
     protected SearchResult<? extends DatasetSB> doSearch(SearchRequest request) throws ServiceException
     {
         return Services.getSearchService().searchMyRequests(request, getSessionUser());
     }
 
     @Override
-	protected IModel<String> getInitialCriteriumText()
-	{
-		return new ResourceModel("myrequests.defaultbreadcrumbtext");
-	}
+    protected IModel<String> getInitialCriteriumText()
+    {
+        return new ResourceModel("myrequests.defaultbreadcrumbtext");
+    }
 
-    
-	@Override
-	protected IModel<String> getSearchCriteriumText(final String searchText)
-	{
-		return new AbstractReadOnlyModel<String>()
-		{
-			private static final long	serialVersionUID	= 3254972701101566016L;
+    @Override
+    protected IModel<String> getSearchCriteriumText(final String searchText)
+    {
+        return new AbstractReadOnlyModel<String>()
+        {
+            private static final long serialVersionUID = 3254972701101566016L;
 
-			@Override
-			public String getObject()
-			{
-				return CriteriumLabel.createFilterText(getString("myrequests.searchbreadcrumbtext"), searchText);
-			}
-		};
-	}    
+            @Override
+            public String getObject()
+            {
+                return CriteriumLabel.createFilterText(getString("myrequests.searchbreadcrumbtext"), searchText);
+            }
+        };
+    }
 }

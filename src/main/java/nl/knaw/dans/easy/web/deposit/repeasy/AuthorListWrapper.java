@@ -77,7 +77,7 @@ public class AuthorListWrapper extends AbstractDefaultListWrapper<AuthorListWrap
         private String surname;
         private String title;
         private String organization;
-        
+
         private Author object;
 
         protected AuthorModel()
@@ -95,7 +95,7 @@ public class AuthorListWrapper extends AbstractDefaultListWrapper<AuthorListWrap
             this.title = author.getTitle();
             this.organization = author.getOrganization();
         }
-        
+
         public Author getObject()
         {
             return object;
@@ -111,7 +111,7 @@ public class AuthorListWrapper extends AbstractDefaultListWrapper<AuthorListWrap
             author = new Author(title, initials, prefix, surname);
             author.setOrganization(organization);
             author.setEntityId(entityId);
-            
+
             if (StringUtils.isNotBlank(entityId) && !DAI.isValid(entityId))
             {
                 addErrorMessage("The Digital Author Id '" + entityId + "' is not valid. (" + DAI.explain(entityId) + ")");
@@ -122,8 +122,6 @@ public class AuthorListWrapper extends AbstractDefaultListWrapper<AuthorListWrap
             }
             return author;
         }
-        
-        
 
         public String getEntityId()
         {
@@ -174,7 +172,7 @@ public class AuthorListWrapper extends AbstractDefaultListWrapper<AuthorListWrap
         {
             this.title = title;
         }
-        
+
         public String getOrganization()
         {
             return organization;
@@ -187,20 +185,13 @@ public class AuthorListWrapper extends AbstractDefaultListWrapper<AuthorListWrap
 
         private boolean isBlank()
         {
-            return StringUtils.isBlank(entityId)
-                    && StringUtils.isBlank(initials)
-                    && StringUtils.isBlank(prefix)
-                    && StringUtils.isBlank(surname)
-                    && StringUtils.isBlank(title)
-                    && StringUtils.isBlank(organization);
+            return StringUtils.isBlank(entityId) && StringUtils.isBlank(initials) && StringUtils.isBlank(prefix) && StringUtils.isBlank(surname)
+                    && StringUtils.isBlank(title) && StringUtils.isBlank(organization);
         }
-        
+
         public boolean hasPersonalEntries()
         {
-            return StringUtils.isNotBlank(entityId)
-                    || StringUtils.isNotBlank(initials)
-                    || StringUtils.isNotBlank(prefix)
-                    || StringUtils.isNotBlank(surname)
+            return StringUtils.isNotBlank(entityId) || StringUtils.isNotBlank(initials) || StringUtils.isNotBlank(prefix) || StringUtils.isNotBlank(surname)
                     || StringUtils.isNotBlank(title);
         }
 

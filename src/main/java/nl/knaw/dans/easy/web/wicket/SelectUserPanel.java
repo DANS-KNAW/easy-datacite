@@ -21,21 +21,20 @@ import org.slf4j.LoggerFactory;
 public class SelectUserPanel extends AbstractEasyPanel
 {
     private static final long serialVersionUID = 5428378223455873788L;
-    
-	private static final Logger logger = LoggerFactory.getLogger(AdministrationPanel.class);
-    
+
+    private static final Logger logger = LoggerFactory.getLogger(AdministrationPanel.class);
+
     private final IdModel model;
-    
+
     private IModel labelModel;
     private boolean initiated;
-    
-    
+
     public SelectUserPanel(String wicketId)
     {
         super(wicketId);
         model = new IdModel();
     }
-    
+
     public IModel getLabelModel()
     {
         return labelModel;
@@ -50,7 +49,7 @@ public class SelectUserPanel extends AbstractEasyPanel
     {
         return model.getSelectedId();
     }
-    
+
     public EasyUser getSelectedUser()
     {
         String userId = getSelectedId();
@@ -80,7 +79,7 @@ public class SelectUserPanel extends AbstractEasyPanel
         }
         return user;
     }
-    
+
     @Override
     protected void onBeforeRender()
     {
@@ -93,7 +92,7 @@ public class SelectUserPanel extends AbstractEasyPanel
     }
 
     private void init()
-    {               
+    {
         add(new FeedbackPanel("supFeedback", new IFeedbackMessageFilter()
         {
             private static final long serialVersionUID = 3253987728694803331L;
@@ -102,13 +101,13 @@ public class SelectUserPanel extends AbstractEasyPanel
             {
                 return message.getReporter().getId().equals(SelectUserPanel.this.getId());
             }
-            
+
         }));
-        
+
         add(new Label("supLabel", labelModel == null ? new ResourceModel("sup.label") : labelModel));
-        
+
         add(new UserSelector("autoCompleteTextField", model));
-        
+
     }
-    
+
 }

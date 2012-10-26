@@ -25,8 +25,16 @@ class ClientRequestParameters
 
     // update
     static final String SIDS_TO_UPDATE = "dataToUpdate";
-    static enum UpdateParameters {newAccessibleTo, newVisibleTo, newName, delete};
-    static enum FilterParameters {accessibleToFilter, visibleToFilter, creatorFilter};
+
+    static enum UpdateParameters
+    {
+        newAccessibleTo, newVisibleTo, newName, delete
+    };
+
+    static enum FilterParameters
+    {
+        accessibleToFilter, visibleToFilter, creatorFilter
+    };
 
     // fetch
     static final String WANTED_SID = "sid";
@@ -58,7 +66,7 @@ class ClientRequestParameters
         }
         catch (MalformedURLException e)
         {
-            logger.error("Referer in HttpServletRequest header",e);
+            logger.error("Referer in HttpServletRequest header", e);
         }
         this.parameterMap = webRequest.getHttpServletRequest().getParameterMap();
     }
@@ -84,20 +92,21 @@ class ClientRequestParameters
         return get(SIDS_TO_UPDATE);
     }
 
-    boolean deleteRequested() {
+    boolean deleteRequested()
+    {
         return null != getOptional(UpdateParameters.delete.name());
     }
 
     VisibleTo getNewVisibleToValue()
     {
         String value = getOptional(UpdateParameters.newVisibleTo.name());
-        return value== null ? null : VisibleTo.valueOf(value);
+        return value == null ? null : VisibleTo.valueOf(value);
     }
 
     public AccessibleTo getNewAccessibleToValue()
     {
         String value = getOptional(UpdateParameters.newAccessibleTo.name());
-        return value== null ? null : AccessibleTo.valueOf(value);
+        return value == null ? null : AccessibleTo.valueOf(value);
     }
 
     public String getNewName()
@@ -131,20 +140,21 @@ class ClientRequestParameters
     private String get(String key)
     {
         if (!parameterMap.containsKey(key))
-            throw new IllegealRequestArgument("Missing argument "+key);
+            throw new IllegealRequestArgument("Missing argument " + key);
         if (parameterMap.get(key).length != 1)
-            throw new IllegealRequestArgument("Duplicate argument "+key);
+            throw new IllegealRequestArgument("Duplicate argument " + key);
         return parameterMap.get(key)[0];
     }
 
-    static class IllegealRequestArgument extends IllegalArgumentException {
+    static class IllegealRequestArgument extends IllegalArgumentException
+    {
 
         /**
-		 *
-		 */
-		private static final long serialVersionUID = 1333745082690101989L;
+         *
+         */
+        private static final long serialVersionUID = 1333745082690101989L;
 
-		public IllegealRequestArgument(String string)
+        public IllegealRequestArgument(String string)
         {
             super(string);
         }

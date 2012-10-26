@@ -10,13 +10,13 @@ public abstract class StatisticsModel<T>
     {
         this.obj = obj;
     }
-    
+
     public T getObject()
     {
         return obj;
     }
-    
+
     abstract public String getName();
-    
+
     abstract public HashMap<String, String> getLogValues();
 }

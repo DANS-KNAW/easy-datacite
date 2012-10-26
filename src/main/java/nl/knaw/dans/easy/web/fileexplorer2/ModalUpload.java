@@ -15,31 +15,35 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
 
-public abstract class ModalUpload extends Panel {
-	private static final long serialVersionUID = 1L;
+public abstract class ModalUpload extends Panel
+{
+    private static final long serialVersionUID = 1L;
 
-	public ModalUpload(final ModalWindow window, final DatasetModel dataset, final ITreeItem folder) {
-		super(window.getContentId());
-		
-		add(new Label("folder", "'"+folder.getName()+"'"));
-		
-		add(buildUploadPanel(dataset, folder.getId()));
-		
-		add(new IndicatingAjaxLink<Void>("close"){
-			private static final long serialVersionUID = 1L;
+    public ModalUpload(final ModalWindow window, final DatasetModel dataset, final ITreeItem folder)
+    {
+        super(window.getContentId());
 
-			@Override
-			public void onClick(AjaxRequestTarget target) {
-				onCustomCloseButtonClick(target);
-				window.close(target);
-			}
-			
-		});
-	}
-	
-	abstract protected void onCustomCloseButtonClick(AjaxRequestTarget target);
-	
-	private WebMarkupContainer buildUploadPanel(final DatasetModel model, final String folderSid)
+        add(new Label("folder", "'" + folder.getName() + "'"));
+
+        add(buildUploadPanel(dataset, folder.getId()));
+
+        add(new IndicatingAjaxLink<Void>("close")
+        {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void onClick(AjaxRequestTarget target)
+            {
+                onCustomCloseButtonClick(target);
+                window.close(target);
+            }
+
+        });
+    }
+
+    abstract protected void onCustomCloseButtonClick(AjaxRequestTarget target);
+
+    private WebMarkupContainer buildUploadPanel(final DatasetModel model, final String folderSid)
     {
         final WebMarkupContainer uploadPanelContainer = new WebMarkupContainer("uploadPanel");
 
@@ -56,8 +60,8 @@ public abstract class ModalUpload extends Panel {
 
                 if (rtn instanceof IngestPostProcess)
                 {
-                	((IngestPostProcess) rtn).setParentSid(folderSid);
-                	((IngestPostProcess) rtn).setModel(model);
+                    ((IngestPostProcess) rtn).setParentSid(folderSid);
+                    ((IngestPostProcess) rtn).setModel(model);
                 }
 
                 return rtn;

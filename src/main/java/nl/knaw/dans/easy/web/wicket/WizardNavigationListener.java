@@ -7,6 +7,6 @@ import nl.knaw.dans.easy.domain.form.FormPage;
 public interface WizardNavigationListener extends Serializable
 {
 
-    void onPageClick(FormPage requestedFormPage);  
+    void onPageClick(FormPage requestedFormPage);
 
 }

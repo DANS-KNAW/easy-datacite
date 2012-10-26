@@ -14,14 +14,14 @@ import nl.knaw.dans.easy.search.RecursiveListCache;
 
 public class ArchaeologyCriteriumListener implements CriteriumListener
 {
-    
+
     public static final String TRIGGER_NAME = EasyDatasetSB.AUDIENCE_FIELD;
     public static final String TRIGGER_VALUE = "easy-discipline:2"; // i.e. archaeology
 
     private static final long serialVersionUID = 2884656653601564370L;
-    
+
     private static ArchaeologyCriteriumListener INSTANCE;
-    
+
     public static ArchaeologyCriteriumListener instance()
     {
         if (INSTANCE == null)
@@ -30,12 +30,12 @@ public class ArchaeologyCriteriumListener implements CriteriumListener
         }
         return INSTANCE;
     }
-    
+
     private ArchaeologyCriteriumListener()
     {
-        
+
     }
-    
+
     @Override
     public void addFacets(List<FacetConfig> refineFacets, SearchRequestBuilder builder)
     {
@@ -53,7 +53,7 @@ public class ArchaeologyCriteriumListener implements CriteriumListener
     {
         if (isTrigger(searchCriterium))
         {
-           searchRequestBuilder.getFacets().addAll(0, getArchaeologyFacets());
+            searchRequestBuilder.getFacets().addAll(0, getArchaeologyFacets());
         }
     }
 
@@ -65,12 +65,12 @@ public class ArchaeologyCriteriumListener implements CriteriumListener
             removeArchaeologyFacets(searchRequestBuilder);
         }
     }
-    
+
     private List<FacetConfig> getArchaeologyFacets()
     {
         FacetConfig facetConfig;
         ArrayList<FacetConfig> refineFacets = new ArrayList<FacetConfig>();
-        
+
         facetConfig = new FacetConfig(EasyDatasetSB.ARCHAEOLOGY_DCTERMS_TEMPORAL);
         facetConfig.setFacetNameTranslator(new FieldNameResourceTranslator());
         facetConfig.setFacetValueTranslator(new RecursiveListTranslator(RecursiveListCache.LID_ARCHAEOLOGY_DCTERMS_TEMPORAL));
@@ -85,7 +85,7 @@ public class ArchaeologyCriteriumListener implements CriteriumListener
 
         return refineFacets;
     }
-    
+
     private void removeArchaeologyFacets(SearchRequestBuilder searchRequestBuilder)
     {
         List<FacetConfig> facetsToRemove = new ArrayList<FacetConfig>();
@@ -101,8 +101,7 @@ public class ArchaeologyCriteriumListener implements CriteriumListener
 
     private boolean isArchaeologyFacet(String facetName)
     {
-        return EasyDatasetSB.ARCHAEOLOGY_DC_SUBJECT.equals(facetName)
-            || EasyDatasetSB.ARCHAEOLOGY_DCTERMS_TEMPORAL.equals(facetName);
+        return EasyDatasetSB.ARCHAEOLOGY_DC_SUBJECT.equals(facetName) || EasyDatasetSB.ARCHAEOLOGY_DCTERMS_TEMPORAL.equals(facetName);
     }
 
     private boolean isTrigger(SearchCriterium searchCriterium)
@@ -113,7 +112,7 @@ public class ArchaeologyCriteriumListener implements CriteriumListener
             FacetCriterium facetCriterium = (FacetCriterium) searchCriterium;
             String facetName = facetCriterium.getFacetName();
             Object value = facetCriterium.getFacetValue().getValue();
-            isTrigger = TRIGGER_NAME.equals(facetName) && TRIGGER_VALUE.equals(value);        
+            isTrigger = TRIGGER_NAME.equals(facetName) && TRIGGER_VALUE.equals(value);
         }
         return isTrigger;
     }

@@ -12,7 +12,7 @@ public class CollectionPanel extends Panel
     public CollectionPanel(String id, DatasetModel model)
     {
         super(id, model);
-        
+
     }
 
 }

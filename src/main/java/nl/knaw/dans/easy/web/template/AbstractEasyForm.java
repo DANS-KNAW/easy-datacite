@@ -22,9 +22,8 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractEasyForm<T> extends CommonForm<T>
 {
-    private static final long   serialVersionUID         = 3422879786964201174L;
-    private static final Logger LOGGER                   = LoggerFactory.getLogger(AbstractEasyForm.class);
-
+    private static final long serialVersionUID = 3422879786964201174L;
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractEasyForm.class);
 
     public AbstractEasyForm(final String wicketId, final IModel<T> model)
     {
@@ -53,7 +52,6 @@ public abstract class AbstractEasyForm<T> extends CommonForm<T>
         return ((EasySession) getSession()).getUser();
     }
 
-
     /**
      * Create the url to the specified page.
      *
@@ -77,6 +75,5 @@ public abstract class AbstractEasyForm<T> extends CommonForm<T>
         LOGGER.debug("URL: " + pageUrl);
         return pageUrl;
     }
-
 
 }

@@ -26,8 +26,8 @@ public enum ResourceBookmark implements AliasInterface<Resource>
     contentExport(DmoContentExport.class, "content"), //
     depositLicense(DepositLicensePreview.class, DepositLicensePreview.RESOURCE_NAME); //
 
-    private static ALiasDelegate<Resource>  delegate = new ALiasDelegate<Resource>(ResourceBookmark.values());
-    private final String                    bookmarkedName;
+    private static ALiasDelegate<Resource> delegate = new ALiasDelegate<Resource>(ResourceBookmark.values());
+    private final String bookmarkedName;
     private final Class<? extends Resource> bookmarkedClass;
 
     private ResourceBookmark(final Class<? extends Resource> bookmarkedClass, final String bookmarkedName)

@@ -13,14 +13,13 @@ import org.apache.wicket.model.IModel;
 public abstract class AbstractChoicePanel<T extends Object> extends AbstractRepeaterPanel<T>
 {
 
-    private static final long    serialVersionUID = -3621013693080590601L;
+    private static final long serialVersionUID = -3621013693080590601L;
 
-    private final ChoiceList 		choiceList;
-    private final ChoiceRenderer 	renderer;
-    private boolean              	nullValid = true;
-    
+    private final ChoiceList choiceList;
+    private final ChoiceRenderer renderer;
+    private boolean nullValid = true;
 
-	/**
+    /**
      * Constructor that takes a model with a ListWrapper&lt;T> as model object.
      * 
      * @param wicketId
@@ -30,8 +29,8 @@ public abstract class AbstractChoicePanel<T extends Object> extends AbstractRepe
      * @param choices2
      *        a list of choices
      */
-	
-	public AbstractChoicePanel(final String wicketId, final IModel model, final ChoiceList choiceList)
+
+    public AbstractChoicePanel(final String wicketId, final IModel model, final ChoiceList choiceList)
     {
         super(wicketId, model);
         this.choiceList = choiceList;
@@ -44,14 +43,14 @@ public abstract class AbstractChoicePanel<T extends Object> extends AbstractRepe
         this.choiceList = choiceList;
         renderer = getListWrapper().getChoiceRenderer();
     }
-    
+
     @Override
     public void setPanelDefinition(StandardPanelDefinition definition)
     {
         super.setPanelDefinition(definition);
         if (!definition.getChoiceListDefinitions().isEmpty())
         {
-        	this.nullValid = definition.getChoiceListDefinitions().get(0).isNullValid();
+            this.nullValid = definition.getChoiceListDefinitions().get(0).isNullValid();
         }
     }
 
@@ -69,7 +68,7 @@ public abstract class AbstractChoicePanel<T extends Object> extends AbstractRepe
     {
         return choiceList;
     }
-    
+
     public List<KeyValuePair> getChoices()
     {
         List<KeyValuePair> list = new ArrayList<KeyValuePair>(choiceList.getChoices());
@@ -80,5 +79,5 @@ public abstract class AbstractChoicePanel<T extends Object> extends AbstractRepe
     {
         return renderer;
     }
-  
+
 }

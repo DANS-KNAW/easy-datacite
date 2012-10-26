@@ -7,15 +7,14 @@ import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.template.AbstractEasyPage;
 import nl.knaw.dans.easy.web.template.AbstractEasyPanel;
 
-//Note maybe a AbstractDatasetModelPanel is better?
+// Note maybe a AbstractDatasetModelPanel is better?
 //
 public class PermissionRequestEditPanel extends AbstractEasyPanel
 {
     private static final long serialVersionUID = 4065214891614131014L;
     private static final Logger logger = LoggerFactory.getLogger(PermissionRequestEditPanel.class);
-    
-    public PermissionRequestEditPanel(String wicketId,  final AbstractEasyPage fromPage,
-            final DatasetModel datasetModel)
+
+    public PermissionRequestEditPanel(String wicketId, final AbstractEasyPage fromPage, final DatasetModel datasetModel)
     {
         super(wicketId, datasetModel);
 

@@ -19,15 +19,15 @@ import org.slf4j.LoggerFactory;
 public class JiBXWebResource extends WebResource
 {
 
-    public static final int     INDENT           = 4;
-    public static final String  CONTENT_TYPE     = "text/xml";
-    public static final String  EXTENSION        = ".xml";
+    public static final int INDENT = 4;
+    public static final String CONTENT_TYPE = "text/xml";
+    public static final String EXTENSION = ".xml";
 
-    private static final long   serialVersionUID = 1649064461407113842L;
-    private static final Logger logger           = LoggerFactory.getLogger(JiBXWebResource.class);
+    private static final long serialVersionUID = 1649064461407113842L;
+    private static final Logger logger = LoggerFactory.getLogger(JiBXWebResource.class);
 
     private final XMLBean xmlBean;
-    private final String        title;
+    private final String title;
 
     /**
      * Constructor.

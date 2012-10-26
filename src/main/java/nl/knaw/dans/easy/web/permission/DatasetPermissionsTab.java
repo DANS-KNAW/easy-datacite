@@ -43,16 +43,15 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.joda.time.DateTime;
 
-
 /**
  * Tab for a depositor with an overview of permission requests on his/her data set.
  *
  */
 public class DatasetPermissionsTab extends AbstractDatasetModelPanel
 {
-    private static final String 	PERMISSION_DATASET	 = "permission.dataset";
-    private static final String 	NR_REQUESTS			 = "permission.nr_requests";
-    private static final String 	DATE_TIME_FORMAT	 = "DateAndTimeFormat";
+    private static final String PERMISSION_DATASET = "permission.dataset";
+    private static final String NR_REQUESTS = "permission.nr_requests";
+    private static final String DATE_TIME_FORMAT = "DateAndTimeFormat";
 
     private static final String LINK_WID = "link";
     private static final String SUMMARY_WID = "summary";
@@ -62,7 +61,7 @@ public class DatasetPermissionsTab extends AbstractDatasetModelPanel
     // GK: note: couldn't find a function to disable paging therefor the Integer.MAX_VALUE as a workaround
     // PBoon: use 50 for now
     public static int MAX_REQUESTS_IN_LIST = 50;
-    
+
     public static boolean required(final EasyUser user, final Dataset dataset)
     {
         if (dataset == null || user == null || !user.isActive() || user.isAnonymous())
@@ -70,18 +69,16 @@ public class DatasetPermissionsTab extends AbstractDatasetModelPanel
         return (dataset.hasDepositor(user) || user.hasRole(Role.ARCHIVIST)) && dataset.hasPermissionRestrictedItems();
     }
 
-    public DatasetPermissionsTab(final String panelId, final DatasetModel datasetModel, final EasyUser user,
-            final AbstractEasyPage currentPage)
+    public DatasetPermissionsTab(final String panelId, final DatasetModel datasetModel, final EasyUser user, final AbstractEasyPage currentPage)
     {
         super(panelId, datasetModel);
-        
+
         add(CSSPackageResource.getHeaderContribution(ExplorerTheme.class, "style.css"));
-        
-        final List<PermissionSequence> requests =
-                datasetModel.getObject().getPermissionSequenceList().getPermissionSequences();
+
+        final List<PermissionSequence> requests = datasetModel.getObject().getPermissionSequenceList().getPermissionSequences();
 
         //add(new Label(SUMMARY_WID, getSummary(requests)));
-        
+
         /* TODO remove ListView and related code
         add(new HeaderPanel("header", requests.size()>0));
         add(new ListView("requests", requests)
@@ -96,27 +93,34 @@ public class DatasetPermissionsTab extends AbstractDatasetModelPanel
                 item.add(new RequestPanel("request", model, datasetModel, currentPage));
             }
         });
-        */
-        
+         */
+
         // Use DataTable instead of ListView to support sorting and paging
         ISortableDataProvider<PermissionSequence> dataProvider = new RequestDataTableProvider(requests);
-        
+
         List<IColumn<PermissionSequence>> columns = new ArrayList<IColumn<PermissionSequence>>();
-        columns.add(new ClickablePropertyColumn<PermissionSequence>(new StringResourceModel("requester.displayName", this, null), "requester.displayName", "requester.displayName") {
-                    @Override
-                    protected void onClick(IModel<PermissionSequence> clicked) {
-                       //info("You clicked: " + clicked.getObject().getRequester().getDisplayName());
-                        // The dataset is not in de contextparameters, add it because the authorization needs it.
-                        getEasySession().setContextParameters(new ContextParameters(EasySession.getSessionUser(), datasetModel.getObject()));
-                        PermissionReplyPage permissionReplyPage = new PermissionReplyPage(datasetModel, currentPage, clicked.getObject());
-                        setResponsePage(permissionReplyPage);
-                    }
-            });
-        columns.add(new PropertyColumn<PermissionSequence>(new StringResourceModel("requester.organization", this, null),"requester.organization", "requester.organization"));
-        columns.add(new PropertyColumn<PermissionSequence>(new StringResourceModel("requester.department", this, null),"requester.department", "requester.department"));
-        columns.add(new PropertyColumn<PermissionSequence>(new StringResourceModel("state", this, null),"state", "state"));
-        columns.add(new PropertyColumn<PermissionSequence>(new StringResourceModel("lastStateChange", this, null),"lastStateChange", "lastStateChange") {
+        columns.add(new ClickablePropertyColumn<PermissionSequence>(new StringResourceModel("requester.displayName", this, null), "requester.displayName",
+                "requester.displayName")
+        {
+            @Override
+            protected void onClick(IModel<PermissionSequence> clicked)
+            {
+                //info("You clicked: " + clicked.getObject().getRequester().getDisplayName());
+                // The dataset is not in de contextparameters, add it because the authorization needs it.
+                getEasySession().setContextParameters(new ContextParameters(EasySession.getSessionUser(), datasetModel.getObject()));
+                PermissionReplyPage permissionReplyPage = new PermissionReplyPage(datasetModel, currentPage, clicked.getObject());
+                setResponsePage(permissionReplyPage);
+            }
+        });
+        columns.add(new PropertyColumn<PermissionSequence>(new StringResourceModel("requester.organization", this, null), "requester.organization",
+                "requester.organization"));
+        columns.add(new PropertyColumn<PermissionSequence>(new StringResourceModel("requester.department", this, null), "requester.department",
+                "requester.department"));
+        columns.add(new PropertyColumn<PermissionSequence>(new StringResourceModel("state", this, null), "state", "state"));
+        columns.add(new PropertyColumn<PermissionSequence>(new StringResourceModel("lastStateChange", this, null), "lastStateChange", "lastStateChange")
+        {
             private static final long serialVersionUID = 1L;
+
             @Override
             public void populateItem(Item<ICellPopulator<PermissionSequence>> item, String componentId, IModel<PermissionSequence> rowModel)
             {
@@ -124,7 +128,7 @@ public class DatasetPermissionsTab extends AbstractDatasetModelPanel
                 item.add(new DateTimeLabel(componentId, getString(DATE_TIME_FORMAT), new Model(sequence.getLastStateChange())));
             }
         });
-        
+
         DefaultDataTable table = new DefaultDataTable("requestTable", columns, dataProvider, MAX_REQUESTS_IN_LIST);
         add(table);
     }
@@ -156,8 +160,7 @@ public class DatasetPermissionsTab extends AbstractDatasetModelPanel
     {
         private static final long serialVersionUID = 7544583798689556606L;
 
-        public RequestPanel(final String wicketId, final IModel model, final DatasetModel datasetModel,
-                final AbstractEasyPage currentPage)
+        public RequestPanel(final String wicketId, final IModel model, final DatasetModel datasetModel, final AbstractEasyPage currentPage)
         {
             super(wicketId, model);
 
@@ -169,8 +172,8 @@ public class DatasetPermissionsTab extends AbstractDatasetModelPanel
 
                 public Page getPage()
                 {
-                	// The dataset is not in de contextparameters, add it because the authorization needs it.
-                	getEasySession().setContextParameters(new ContextParameters(EasySession.getSessionUser(), datasetModel.getObject()));
+                    // The dataset is not in de contextparameters, add it because the authorization needs it.
+                    getEasySession().setContextParameters(new ContextParameters(EasySession.getSessionUser(), datasetModel.getObject()));
                     return new PermissionReplyPage(datasetModel, currentPage, request);
                 }
 

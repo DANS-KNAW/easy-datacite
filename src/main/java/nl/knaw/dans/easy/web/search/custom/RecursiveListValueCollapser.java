@@ -21,10 +21,10 @@ public class RecursiveListValueCollapser implements FacetValueCollapser<String>
 
     private static final long serialVersionUID = -2972737430430819895L;
     private static final Logger logger = LoggerFactory.getLogger(RecursiveListValueCollapser.class);
-    
+
     private final String recursiveListId;
     private boolean showZeroCountFacets;
-    
+
     public RecursiveListValueCollapser(String recursiveListId, boolean showZeroCountFacets)
     {
         this.recursiveListId = recursiveListId;
@@ -45,7 +45,7 @@ public class RecursiveListValueCollapser implements FacetValueCollapser<String>
             logger.error("Unable to collapse facet values: ", e);
             throw new InternalWebError();
         }
-        
+
         RecursiveNode recursiveNode;
         if (selectedValue == null)
         {
@@ -55,8 +55,7 @@ public class RecursiveListValueCollapser implements FacetValueCollapser<String>
         {
             recursiveNode = recursiveList.get(selectedValue.getValue());
         }
-        
-        
+
         for (RecursiveEntry entry : recursiveNode.getChildren())
         {
             CollapsedFacetValue<String> collapsed = new CollapsedFacetValue<String>();
@@ -76,6 +75,5 @@ public class RecursiveListValueCollapser implements FacetValueCollapser<String>
         }
         return collapsedValues;
     }
-
 
 }

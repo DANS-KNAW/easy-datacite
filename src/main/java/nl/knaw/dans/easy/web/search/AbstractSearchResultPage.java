@@ -77,9 +77,9 @@ public abstract class AbstractSearchResultPage extends AbstractSearchPage
      * ------------------- CLASS INTERNALS -------------------
      *-------------------------------------------------------*/
 
-    private static final Logger LOGGER             = LoggerFactory.getLogger(AbstractSearchResultPage.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractSearchResultPage.class);
 
-    private static final long   serialVersionUID   = 8501036308620025068L;
+    private static final long serialVersionUID = 8501036308620025068L;
 
     private static final String SEARCHRESULT_PANEL = "searchResultPanel";
 
@@ -184,7 +184,7 @@ public abstract class AbstractSearchResultPage extends AbstractSearchPage
         facetConfig.setFacetValueTranslator(new DisciplineTranslator());
         facetConfig.setFacetValueCollapser(new DisciplineFacetValueCollapser(true));
         refineFacets.add(facetConfig);
-        
+
         facetConfig = new FacetConfig(EasyDatasetSB.EASY_COLLECTIONS_FIELD);
         facetConfig.setOrder(FacetConfig.Order.BY_ALPHABET);
         facetConfig.setShowParentFacet(true);

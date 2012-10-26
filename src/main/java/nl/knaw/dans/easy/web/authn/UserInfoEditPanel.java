@@ -102,7 +102,7 @@ public class UserInfoEditPanel extends AbstractEasyStatelessPanel implements Eas
     {
         private static final long serialVersionUID = 6429049682947798419L;
 
-        @SuppressWarnings({"unchecked", "serial", "rawtypes"})
+        @SuppressWarnings( {"unchecked", "serial", "rawtypes"})
         public UserInfoForm(final String wicketId, final EasyUser user)
         {
             super(wicketId, new CompoundPropertyModel(user));

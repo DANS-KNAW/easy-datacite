@@ -18,9 +18,9 @@ public class RecursiveListTranslator implements Translator<String>
 
     private static final long serialVersionUID = 3535819881331764331L;
     private static final Logger logger = LoggerFactory.getLogger(RecursiveListTranslator.class);
-    
+
     private final String listId;
-    
+
     public RecursiveListTranslator(String listId)
     {
         this.listId = listId;
@@ -48,7 +48,7 @@ public class RecursiveListTranslator implements Translator<String>
         {
             logger.error("Could not get recursive list: ", e);
         }
-        
+
         return new Model<String>(translation);
     }
 

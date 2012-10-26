@@ -10,12 +10,12 @@ public class DownloadZipStatistics extends StatisticsModel<ZipFileContentWrapper
     {
         super(file);
     }
-    
+
     @Override
     public HashMap<String, String> getLogValues()
     {
         HashMap<String, String> res = new HashMap<String, String>();
-        res.put("NUM_FILES", ""+getObject().getDownloadedItemVOs().size());
+        res.put("NUM_FILES", "" + getObject().getDownloadedItemVOs().size());
         return res;
     }
 

@@ -9,8 +9,7 @@ public class PermissionReplyEditPanel extends AbstractEasyPanel
 {
     private static final long serialVersionUID = 7165279397951054593L;
 
-    public PermissionReplyEditPanel(String wicketId,  final AbstractEasyPage fromPage,
-            final DatasetModel datasetModel, final PermissionSequence sequence)
+    public PermissionReplyEditPanel(String wicketId, final AbstractEasyPage fromPage, final DatasetModel datasetModel, final PermissionSequence sequence)
     {
         super(wicketId, datasetModel);
 

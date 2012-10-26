@@ -22,10 +22,10 @@ public class WorkflowProgressPanel extends Panel
 {
 
     private static final long serialVersionUID = -3742642574965755484L;
-    
+
     private final WorkflowStep workflowStep;
     private final int countRequired;
-    
+
     private boolean initiated;
 
     public WorkflowProgressPanel(String id, WorkflowStep workflowStep)
@@ -35,7 +35,7 @@ public class WorkflowProgressPanel extends Panel
         countRequired = workflowStep.countRequiredSteps();
         setOutputMarkupId(true);
     }
-    
+
     @Override
     protected void onBeforeRender()
     {
@@ -48,7 +48,7 @@ public class WorkflowProgressPanel extends Panel
     }
 
     private void init()
-    {        
+    {
         RefreshingView refreshingImgs = new RefreshingView("refreshingImgs")
         {
 
@@ -81,7 +81,7 @@ public class WorkflowProgressPanel extends Panel
                 item.add(on);
                 item.add(off);
             }
-            
+
         };
         add(refreshingImgs);
     }

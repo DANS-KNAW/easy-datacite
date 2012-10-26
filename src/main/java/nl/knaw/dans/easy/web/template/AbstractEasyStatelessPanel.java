@@ -3,7 +3,6 @@
  */
 package nl.knaw.dans.easy.web.template;
 
-
 import org.apache.wicket.model.IModel;
 
 /**

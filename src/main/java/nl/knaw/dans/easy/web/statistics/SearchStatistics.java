@@ -19,7 +19,7 @@ public class SearchStatistics extends StatisticsModel<SearchRequest>
         res.put("QUERY", getObject().getQuery().getQueryString());
         return res;
     }
-    
+
     @Override
     public String getName()
     {

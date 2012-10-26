@@ -17,7 +17,7 @@ public class HomePage extends AbstractEasyNavPage
         super();
         addCommonFeedbackPanel();
         add(new EasyEditablePanel("editablePanel", EDITABLE_HOMEPAGE_TEMPLATE));
-        
+
         // logging for statistics
         StatisticsLogger.getInstance().logEvent(StatisticsEvent.START_PAGE_VISIT);
     }

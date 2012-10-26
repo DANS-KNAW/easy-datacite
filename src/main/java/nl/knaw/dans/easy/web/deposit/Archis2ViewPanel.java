@@ -54,7 +54,7 @@ public class Archis2ViewPanel extends AbstractCustomPanel
         {
             super(CUSTOM_PANEL_ID);
             final List<BasicIdentifier> identfiers = easyMetadata.getEmdIdentifier().getAllIdentfiers(EmdConstants.SCHEME_ARCHIS_ONDERZOEK_M_NR);
-            add(new SeparatedListView("list","separator", createArchisLinks(identfiers)));
+            add(new SeparatedListView("list", "separator", createArchisLinks(identfiers)));
             setVisible(!identfiers.isEmpty());
         }
 
@@ -64,7 +64,7 @@ public class Archis2ViewPanel extends AbstractCustomPanel
             for (final BasicIdentifier basicId : identfiers)
             {
                 final String digits = ArchisCollector.getDigits(basicId.getValue());
-                links.add(new ArchisLink("link", "label",digits));
+                links.add(new ArchisLink("link", "label", digits));
             }
             return links;
         }

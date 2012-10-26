@@ -31,26 +31,26 @@ import org.slf4j.LoggerFactory;
  */
 public class MigrationRedirectPage extends AbstractEasyPage
 {
-    
+
     public static final String PM_COMMAND = "command";
     public static final String PM_AIP_ID = "aipId";
     public static final String PM_SEARCH_QUERY = "query";
-    
+
     public static final String URL_PERSISTENT_IDENTIFIER = "http://www.persistent-identifier.nl/?identifier=";
-    
+
     public static final String URL_HOME = "/home";
     public static final String URL_LOGIN = "/login";
     public static final String URL_DATASET_VIEW = "/view/datasetId/";
     public static final String URL_PUBLIC_SEARCH = "/?wicket:bookmarkablePage=:nl.knaw.dans.easy.web.search.pages.PublicSearchResultPage&q=";
     public static final String URL_MY_DATSETS = "/mydatasets";
-    
+
     private static final Logger logger = LoggerFactory.getLogger(MigrationRedirectPage.class);
-    
+
     public MigrationRedirectPage(final PageParameters parameters)
     {
         super(parameters);
         String command = parameters.getString(PM_COMMAND);
-        
+
         if ("home".equals(command))
         {
             throw new RestartResponseException(new RedirectPage(URL_HOME));
@@ -76,9 +76,8 @@ public class MigrationRedirectPage extends AbstractEasyPage
             errorMessage(EasyResources.NOT_FOUND, parameters.toString());
             throw new InternalWebError();
         }
-        
-    }
 
+    }
 
     private void redirectToDatasetViewPage(PageParameters parameters)
     {
@@ -108,15 +107,14 @@ public class MigrationRedirectPage extends AbstractEasyPage
             logger.error("Unable to redirect: ", e);
             throw new InternalWebError();
         }
-        
+
     }
-    
+
     private void redirectToSearchPage(PageParameters parameters)
     {
         String query = parameters.getString(PM_SEARCH_QUERY, "");
         String url = URL_PUBLIC_SEARCH + query;
         throw new RestartResponseException(new RedirectPage(url));
     }
-
 
 }

@@ -16,12 +16,12 @@ public class RESTviewPage extends RESTdisseminationPage
 
     public static final String NAME = "view";
     public static final String RESOURCE_KEY = "rest.datasets.view";
-    
+
     public RESTviewPage(PageParameters parameters)
     {
         super(parameters);
     }
-    
+
     @Override
     public String getName()
     {

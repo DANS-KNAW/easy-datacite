@@ -10,7 +10,7 @@ public class SessionScopeService
 
     private static SessionScopeService INSTANCE;
 
-    private ITaskService               taskService;
+    private ITaskService taskService;
 
     private SessionScopeService()
     {

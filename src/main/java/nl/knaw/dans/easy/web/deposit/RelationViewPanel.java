@@ -29,10 +29,10 @@ public class RelationViewPanel extends AbstractCustomPanel
 {
 
     public static final String CHOICE_LIST_ID = "common.dcterms.relation";
-    
+
     private static final long serialVersionUID = 4767608404968347974L;
     private static final Logger logger = LoggerFactory.getLogger(RelationViewPanel.class);
-    
+
     private final EmdRelation emdRelations;
 
     public RelationViewPanel(String id, IModel<EasyMetadata> model)
@@ -48,7 +48,7 @@ public class RelationViewPanel extends AbstractCustomPanel
     {
         return new CustomPanel();
     }
-    
+
     class CustomPanel extends Panel
     {
 
@@ -70,12 +70,12 @@ public class RelationViewPanel extends AbstractCustomPanel
 
                     @Override
                     protected void populateItem(ListItem<String> item)
-                    {                        
+                    {
                         String key = item.getDefaultModelObjectAsString();
-                        
+
                         Label qualifierLabel = new Label("qualifier", choiceList.getValue(key));
                         item.add(qualifierLabel);
-                        
+
                         List<Serializable> relations = new ArrayList<Serializable>();
                         relations.addAll(plainRelations.get(key));
                         relations.addAll(linkedRelations.get(key));
@@ -83,30 +83,29 @@ public class RelationViewPanel extends AbstractCustomPanel
                         item.add(innerListView);
                         qualifierLabel.setVisible(relations.size() > 0);
                     }
-                    
+
                 };
                 add(listView);
-                
+
             }
             catch (ServiceException e)
             {
                 logger.error("Unable to render Relations.", e);
             }
         }
-        
+
         @Override
         public boolean isVisible()
         {
             return !emdRelations.isEmpty();
         }
-        
+
     }
-    
+
     class InnerListView extends ListView<Serializable>
     {
 
         private static final long serialVersionUID = 8265036526196753372L;
-        
 
         public InnerListView(List<Serializable> relations)
         {
@@ -122,7 +121,7 @@ public class RelationViewPanel extends AbstractCustomPanel
             if (mobj instanceof BasicIdentifier)
             {
                 href = "";
-                title = ((BasicIdentifier)mobj).getValue();
+                title = ((BasicIdentifier) mobj).getValue();
             }
             else if (mobj instanceof Relation)
             {
@@ -139,7 +138,7 @@ public class RelationViewPanel extends AbstractCustomPanel
             link.setEnabled(!StringUtils.isBlank(href));
             item.add(link);
         }
-        
+
     }
 
 }

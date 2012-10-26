@@ -4,9 +4,6 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
-
-
-
 public class HttpRequestStatistics extends StatisticsModel<HttpServletRequest>
 {
 
@@ -20,12 +17,12 @@ public class HttpRequestStatistics extends StatisticsModel<HttpServletRequest>
     {
         String ref_url = this.getObject().getHeader("Referer");
         HashMap<String, String> res = new HashMap<String, String>();
-        if(ref_url!=null) 
+        if (ref_url != null)
         {
             res.put("REFERRER_URL", ref_url);
         }
         String request_url = this.getObject().getRequestURL().toString();
-        if(request_url!=null)
+        if (request_url != null)
         {
             res.put("REQUEST_URL", request_url);
         }

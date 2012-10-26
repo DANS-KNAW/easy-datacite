@@ -13,96 +13,96 @@ import org.apache.wicket.util.resource.StringResourceStream;
 public class DownloadPanel extends Panel
 {
 
-	public static final String	DOWNLOAD_XML		= "download_xml";
+    public static final String DOWNLOAD_XML = "download_xml";
 
-	public static final String	DOWNLOAD_CSV		= "download_csv";
+    public static final String DOWNLOAD_CSV = "download_csv";
 
-	private static final long	serialVersionUID	= 9110250938647271835L;
+    private static final long serialVersionUID = 9110250938647271835L;
 
-	private final EasyMetadata	easyMetadata;
+    private final EasyMetadata easyMetadata;
 
-	private boolean				initiated;
+    private boolean initiated;
 
-	public DownloadPanel(final String id, final EasyMetadata easyMetadata)
-	{
-		super(id);
-		this.easyMetadata = easyMetadata;
-	}
+    public DownloadPanel(final String id, final EasyMetadata easyMetadata)
+    {
+        super(id);
+        this.easyMetadata = easyMetadata;
+    }
 
-	@Override
-	protected void onBeforeRender()
-	{
-		if (!initiated)
-		{
-			init();
-			initiated = true;
-		}
-		super.onBeforeRender();
-	}
+    @Override
+    protected void onBeforeRender()
+    {
+        if (!initiated)
+        {
+            init();
+            initiated = true;
+        }
+        super.onBeforeRender();
+    }
 
-	private void init()
-	{
-		add(new ResourceLink(DOWNLOAD_XML, getXMLWebResource(easyMetadata)));
-		add(new ResourceLink(DOWNLOAD_CSV, getCSVWebResource(easyMetadata)));
+    private void init()
+    {
+        add(new ResourceLink(DOWNLOAD_XML, getXMLWebResource(easyMetadata)));
+        add(new ResourceLink(DOWNLOAD_CSV, getCSVWebResource(easyMetadata)));
 
-	}
+    }
 
-	private WebResource getXMLWebResource(final EasyMetadata emd)
-	{
-		WebResource export = new WebResource()
-		{
+    private WebResource getXMLWebResource(final EasyMetadata emd)
+    {
+        WebResource export = new WebResource()
+        {
 
-			private static final long	serialVersionUID	= 2114665554680463199L;
+            private static final long serialVersionUID = 2114665554680463199L;
 
-			@Override
-			public IResourceStream getResourceStream()
-			{
-				CharSequence xml = null;
-				try
-				{
-					xml = emd.asXMLString(4);
-				}
-				catch (XMLSerializationException e)
-				{
-					error(e.getMessage());
-				}
-				return new StringResourceStream(xml, "text/xml");
-			}
+            @Override
+            public IResourceStream getResourceStream()
+            {
+                CharSequence xml = null;
+                try
+                {
+                    xml = emd.asXMLString(4);
+                }
+                catch (XMLSerializationException e)
+                {
+                    error(e.getMessage());
+                }
+                return new StringResourceStream(xml, "text/xml");
+            }
 
-			@Override
-			protected void setHeaders(WebResponse response)
-			{
-				super.setHeaders(response);
-				response.setAttachmentHeader(emd.getPreferredTitle() + ".xml");
-			}
-		};
-		export.setCacheable(false);
+            @Override
+            protected void setHeaders(WebResponse response)
+            {
+                super.setHeaders(response);
+                response.setAttachmentHeader(emd.getPreferredTitle() + ".xml");
+            }
+        };
+        export.setCacheable(false);
 
-		return export;
-	}
+        return export;
+    }
 
-	private WebResource getCSVWebResource(final EasyMetadata emd)
-	{
-		WebResource export = new WebResource()
-		{
+    private WebResource getCSVWebResource(final EasyMetadata emd)
+    {
+        WebResource export = new WebResource()
+        {
 
-			private static final long	serialVersionUID	= 2534427934241209655L;
+            private static final long serialVersionUID = 2534427934241209655L;
 
-			@Override
-			public IResourceStream getResourceStream()
-			{
-				return new StringResourceStream(emd.toString(";"), "text/csv");
-			}
+            @Override
+            public IResourceStream getResourceStream()
+            {
+                return new StringResourceStream(emd.toString(";"), "text/csv");
+            }
 
-			@Override
-			protected void setHeaders(WebResponse response)
-			{
-				super.setHeaders(response);
-				response.setAttachmentHeader(emd.getPreferredTitle() + ".csv");
-			}
-		};
-		export.setCacheable(false);
-		return export;
-	}
+            @Override
+            protected void setHeaders(WebResponse response)
+            {
+                super.setHeaders(response);
+                response.setAttachmentHeader(emd.getPreferredTitle() + ".csv");
+            }
+        };
+        export.setCacheable(false);
+        return export;
+    }
 
 }

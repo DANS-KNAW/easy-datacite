@@ -19,8 +19,8 @@ public abstract class AbstractDefaultListWrapper<T extends Object, S extends Obj
 
     private static final long serialVersionUID = 8139060385867927367L;
 
-    private final List<S>     wrappedList;
-    
+    private final List<S> wrappedList;
+
     private String schemeName;
     private String schemeId;
 
@@ -41,7 +41,7 @@ public abstract class AbstractDefaultListWrapper<T extends Object, S extends Obj
         this.schemeName = schemeName;
         this.schemeId = schemeId;
     }
-    
+
     /**
      * Returns <code>null</code>. Default implementation in case we don't need a ChoiceRenderer.
      */
@@ -57,7 +57,7 @@ public abstract class AbstractDefaultListWrapper<T extends Object, S extends Obj
     {
         return null;
     }
-    
+
     @Override
     public int size()
     {
@@ -73,7 +73,7 @@ public abstract class AbstractDefaultListWrapper<T extends Object, S extends Obj
     {
         return wrappedList;
     }
-    
+
     public String getSchemeName()
     {
         return schemeName;

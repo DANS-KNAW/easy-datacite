@@ -32,11 +32,7 @@ public class HiglightedCharSequenceLengthTest
     public static Collection<Object[]> parameters()
     {
         return Arrays.asList(new Object[][] {// @formatter:off
-                {"<em></em>", 0},
-                {"", 0},
-                {"1", 1}, 
-                {"<em>1</em>", 1},
-                {"0<em>1</em>2<em>34</em>5", 6}
+                {"<em></em>", 0}, {"", 0}, {"1", 1}, {"<em>1</em>", 1}, {"0<em>1</em>2<em>34</em>5", 6}
                 // @formatter:on
                 });
     }

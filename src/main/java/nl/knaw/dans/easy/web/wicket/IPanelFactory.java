@@ -8,9 +8,9 @@ import org.apache.wicket.markup.html.panel.Panel;
 
 public interface IPanelFactory extends Serializable
 {
-    
+
     Panel createPanel(StandardPanelDefinition panelDefinition) throws PanelFactoryException;
-    
+
     String getPanelWicketId();
 
 }

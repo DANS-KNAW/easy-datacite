@@ -35,13 +35,13 @@ import org.slf4j.LoggerFactory;
  */
 public class PermissionRequestPage extends AbstractEasyNavPage
 {
-    public static final String     PM_DATASET_ID          = "dsid";
-    public static final String     PM_REQUESTER_ID        = "rqid";
+    public static final String PM_DATASET_ID = "dsid";
+    public static final String PM_REQUESTER_ID = "rqid";
 
-    private static final Logger    LOGGER                 = LoggerFactory.getLogger(PermissionRequestPage.class);
-    private static final String    TITLE_KEY              = "InitialPermissionRequestTitle";
-    private static final String    INTRO_KEY              = "InitialPermissionRequestIntro";
-    private boolean                initiated              = false;
+    private static final Logger LOGGER = LoggerFactory.getLogger(PermissionRequestPage.class);
+    private static final String TITLE_KEY = "InitialPermissionRequestTitle";
+    private static final String INTRO_KEY = "InitialPermissionRequestIntro";
+    private boolean initiated = false;
     private final AbstractEasyPage fromPage;
 
     public static String urlFor(String datasetId, String requesterId, Component component)
@@ -60,11 +60,11 @@ public class PermissionRequestPage extends AbstractEasyNavPage
         super(new DatasetModel(datasetModel));
         this.fromPage = null;
     }
-    
+
     public PermissionRequestPage(PageParameters parameters)
     {
         super(parameters);
-        
+
         String datasetId;
         String requesterId;
         try
@@ -98,19 +98,19 @@ public class PermissionRequestPage extends AbstractEasyNavPage
             LOGGER.error("Unable to load model object: ", e);
             throw new InternalWebError();
         }
-//        if (!getDataset().hasPermissionRestrictedItems())
-//        {
-//            errorMessage(EasyResources.ILLEGAL_PAGE_PARAMETERS);
-//            LOGGER.error("No restricted items in dataset " + getDataset().getStoreId());
-//            throw new RestartResponseException(new ErrorPage());
-//        }
+        //        if (!getDataset().hasPermissionRestrictedItems())
+        //        {
+        //            errorMessage(EasyResources.ILLEGAL_PAGE_PARAMETERS);
+        //            LOGGER.error("No restricted items in dataset " + getDataset().getStoreId());
+        //            throw new RestartResponseException(new ErrorPage());
+        //        }
         fromPage = null;
         setResponsePage(new PermissionRequestPage(datasetModel));
     }
-    
+
     protected Dataset getDataset()
     {
-    	return (Dataset) getDefaultModelObject();
+        return (Dataset) getDefaultModelObject();
     }
 
     public PermissionRequestPage(final DatasetModel datasetModel, final AbstractEasyPage fromPage)
@@ -153,13 +153,12 @@ public class PermissionRequestPage extends AbstractEasyNavPage
         add(new Label("title", new Model<String>(getPageTitlePostfix())));
 
         addIfInitialRequest(new Label("intro", new Model<String>(getString(INTRO_KEY))));
-        
+
         // if initial (needs to be created or it is returned, we need to edit
         // the others; granted or denied (or submitted) are view only
         final EasyUser sessionUser = getSessionUser();
         final boolean initialRequest = !getDataset().getPermissionSequenceList().hasSequenceFor(sessionUser);
-        final PermissionSequence userSequence =
-            getDataset().getPermissionSequenceList().getSequenceFor(sessionUser);
+        final PermissionSequence userSequence = getDataset().getPermissionSequenceList().getSequenceFor(sessionUser);
         final PermissionSequence.State status = initialRequest ? null : userSequence.getState();
         final boolean editMode = initialRequest || (State.Returned.equals(status));
         if (editMode)
@@ -174,7 +173,7 @@ public class PermissionRequestPage extends AbstractEasyNavPage
         }
 
     }
-    
+
     private void addIfInitialRequest(final Label label)
     {
         label.setVisible(!getDataset().getPermissionSequenceList().hasSequenceFor(getSessionUser()));

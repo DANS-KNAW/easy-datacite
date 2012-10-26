@@ -33,22 +33,22 @@ import org.slf4j.LoggerFactory;
 public class ChoiceListExport extends DynamicWebResource
 {
 
-    public static final String  CONTENT_TYPE     = "text/xml";
+    public static final String CONTENT_TYPE = "text/xml";
 
-    public static final String  PARAM_LIST_ID    = "id";
-    public static final String  PARAM_LANGUAGE   = "l";
-    public static final String  PARAM_COUNTRY    = "c";
-    public static final String  RESOURCE_NAME    = "discipline.emd.choicelist";
+    public static final String PARAM_LIST_ID = "id";
+    public static final String PARAM_LANGUAGE = "l";
+    public static final String PARAM_COUNTRY = "c";
+    public static final String RESOURCE_NAME = "discipline.emd.choicelist";
 
-    private static String       PATH_HINT        = "host[:port]/[service name]/resources/" //
-                                                         + EasyWicketApplication.WICKET_APPLICATION_ALIAS + "/" + RESOURCE_NAME //
-                                                         + PARAM_LIST_ID + "=id[&amp;" //
-                                                         + PARAM_LANGUAGE + "=language-code[&amp;" //
-                                                         + PARAM_COUNTRY + "=country-code]]";
+    private static String PATH_HINT = "host[:port]/[service name]/resources/" //
+            + EasyWicketApplication.WICKET_APPLICATION_ALIAS + "/" + RESOURCE_NAME //
+            + PARAM_LIST_ID + "=id[&amp;" //
+            + PARAM_LANGUAGE + "=language-code[&amp;" //
+            + PARAM_COUNTRY + "=country-code]]";
 
-    private static final long   serialVersionUID = 7934743786110774390L;
+    private static final long serialVersionUID = 7934743786110774390L;
 
-    private static final Logger logger           = LoggerFactory.getLogger(ChoiceListExport.class);
+    private static final Logger logger = LoggerFactory.getLogger(ChoiceListExport.class);
 
     @Override
     protected ResourceState getResourceState()
@@ -61,7 +61,7 @@ public class ChoiceListExport extends DynamicWebResource
     {
 
         private final ValueMap valueMap;
-        private byte[]         content;
+        private byte[] content;
 
         public Data(ValueMap valueMap)
         {
@@ -96,8 +96,7 @@ public class ChoiceListExport extends DynamicWebResource
             {
                 String msg = "Insufficient parameters: no '" + PARAM_LIST_ID + "'.";
                 logger.debug(msg);
-                return ("<error>Insufficient parameters: no '" + PARAM_LIST_ID + "'. Path hint: " + PATH_HINT + "</error>")
-                        .getBytes();
+                return ("<error>Insufficient parameters: no '" + PARAM_LIST_ID + "'. Path hint: " + PATH_HINT + "</error>").getBytes();
             }
             String language = valueMap.getString(PARAM_LANGUAGE);
             String country = valueMap.getString(PARAM_COUNTRY);
@@ -117,8 +116,7 @@ public class ChoiceListExport extends DynamicWebResource
             try
             {
                 bytes = Services.getDepositService().getChoicesAsByteArray(listId, locale);
-                logger.debug("Created choicelist content for id=" + listId + ", language=" + language + ", country="
-                        + country);
+                logger.debug("Created choicelist content for id=" + listId + ", language=" + language + ", country=" + country);
             }
             catch (ServiceException e)
             {

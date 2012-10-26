@@ -25,15 +25,15 @@ import nl.knaw.dans.easy.web.template.AbstractEasyPanel;
 //
 public class PermissionRequestViewPanel extends AbstractEasyPanel
 {
-    private static final long        serialVersionUID    = -5400472018731834517L;
+    private static final long serialVersionUID = -5400472018731834517L;
 
-    private static final Logger      logger              = LoggerFactory.getLogger(PermissionRequestViewPanel.class);
+    private static final Logger logger = LoggerFactory.getLogger(PermissionRequestViewPanel.class);
 
-    private static final String      STATUS_RESOURCE_KEY = "permission.request.status.value.";
+    private static final String STATUS_RESOURCE_KEY = "permission.request.status.value.";
 
-    private static final String      THEME_WID           = "theme";
-    private static final String      TITLE_WID           = "title";
-    private static final String      BACK_WID          = "back";
+    private static final String THEME_WID = "theme";
+    private static final String TITLE_WID = "title";
+    private static final String BACK_WID = "back";
 
     protected final AbstractEasyPage fromPage;
 
@@ -57,11 +57,11 @@ public class PermissionRequestViewPanel extends AbstractEasyPanel
         final IModel statusModel = new ResourceModel(STATUS_RESOURCE_KEY + status, "" + status);
 
         add(new Label("status.value", statusModel).setVisible(status != null));
-        
+
         // In submitted state; Don't show the explanation of a reply that 'returned' the previous request
         boolean isExplanationVisible = (explanation != null) && (!State.Submitted.equals(status));
         add(new MultiLineLabel("explanation.value", explanation).setVisible(isExplanationVisible));
-        
+
         add(new Label(TITLE_WID, titleModel));
 
         // Note: maybe a MultiLineLabel is better

@@ -10,14 +10,14 @@ public abstract class AbstractDatasetModelPanel extends AbstractEasyPanel
 {
 
     private static final long serialVersionUID = -8845239111184791200L;
-    
+
     private transient Dataset dataset;
 
     public AbstractDatasetModelPanel(String wicketId, DatasetModel model)
     {
         super(wicketId, model);
     }
-    
+
     protected Dataset getDataset()
     {
         if (dataset == null)
@@ -33,10 +33,10 @@ public abstract class AbstractDatasetModelPanel extends AbstractEasyPanel
         }
         return dataset;
     }
-    
+
     protected DatasetModel getDatasetModel()
     {
-    	return (DatasetModel) getDefaultModel();
+        return (DatasetModel) getDefaultModel();
     }
 
 }

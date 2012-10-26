@@ -8,11 +8,11 @@ import org.joda.time.DateTime;
 
 public class EasyDateTimeLabel extends DateTimeLabel
 {
-	private static final long serialVersionUID = 8829625269109334314L;
+    private static final long serialVersionUID = 8829625269109334314L;
 
-	public EasyDateTimeLabel(String id, DateTime dateTime)
-	{
-		super(id, dateTime, new ResourceModel(EasyResources.DATETIME_FORMAY_KEY));
-	}
+    public EasyDateTimeLabel(String id, DateTime dateTime)
+    {
+        super(id, dateTime, new ResourceModel(EasyResources.DATETIME_FORMAY_KEY));
+    }
 
 }

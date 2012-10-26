@@ -14,8 +14,8 @@ import org.apache.wicket.protocol.http.WebRequest;
 public class DatasetUrlComposerImpl implements DatasetUrlComposer
 {
 
-    private final IPageMap            pageMap;
-    private final String              baseUrl;
+    private final IPageMap pageMap;
+    private final String baseUrl;
     private static DatasetUrlComposer instance = null;
 
     private DatasetUrlComposerImpl(final IPageMap pageMap)

@@ -18,41 +18,47 @@ import org.apache.wicket.model.StringResourceModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DeleteDatasetPanel extends Panel{
-	private static final long serialVersionUID = 1L;
-	
-	private static final Logger logger = LoggerFactory.getLogger(DeleteDatasetPanel.class);
+public class DeleteDatasetPanel extends Panel
+{
+    private static final long serialVersionUID = 1L;
 
-	public DeleteDatasetPanel(final ModalWindow window, final DatasetModel datasetModel){
-    	super(window.getContentId());
-    	
-    	add(new Label("text", new StringResourceModel("text", this, datasetModel)));
-    	
-    	add(new IndicatingAjaxLink<Void>("yes"){
-			private static final long serialVersionUID = 1L;
+    private static final Logger logger = LoggerFactory.getLogger(DeleteDatasetPanel.class);
 
-			@Override
-			public void onClick(AjaxRequestTarget target) {
-				handleDeleteDataset(datasetModel);
-				window.close(target);
-			}
-		});
-    	
-    	add(new IndicatingAjaxLink<Void>("no") {
-			private static final long serialVersionUID = 1L;
+    public DeleteDatasetPanel(final ModalWindow window, final DatasetModel datasetModel)
+    {
+        super(window.getContentId());
 
-			@Override
-			public void onClick(AjaxRequestTarget target) {
-				window.close(target);
-			}
-		});
+        add(new Label("text", new StringResourceModel("text", this, datasetModel)));
+
+        add(new IndicatingAjaxLink<Void>("yes")
+        {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void onClick(AjaxRequestTarget target)
+            {
+                handleDeleteDataset(datasetModel);
+                window.close(target);
+            }
+        });
+
+        add(new IndicatingAjaxLink<Void>("no")
+        {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void onClick(AjaxRequestTarget target)
+            {
+                window.close(target);
+            }
+        });
     }
-	
-	private void handleDeleteDataset(DatasetModel datasetModel)
+
+    private void handleDeleteDataset(DatasetModel datasetModel)
     {
         try
         {
-        	Services.getDatasetService().deleteDataset(EasySession.getSessionUser(), datasetModel.getObject());
+            Services.getDatasetService().deleteDataset(EasySession.getSessionUser(), datasetModel.getObject());
         }
         catch (ServiceException e)
         {
@@ -61,9 +67,9 @@ public class DeleteDatasetPanel extends Panel{
             setResponsePage(ErrorPage.class);
         }
     }
-	
-	private String errorMessage(final String messageKey, final String... param)
+
+    private String errorMessage(final String messageKey, final String... param)
     {
-    	return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.ERROR, param);
+        return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.ERROR, param);
     }
 }

@@ -28,102 +28,98 @@ import org.slf4j.LoggerFactory;
 
 public class BrowsePage extends AbstractSearchPage
 {
-	private static final Logger LOGGER = LoggerFactory.getLogger(BrowsePage.class);
-	
-	private Class<? extends AbstractSearchResultPage>	resultPage;
+    private static final Logger LOGGER = LoggerFactory.getLogger(BrowsePage.class);
 
-	public BrowsePage()
-	{
-		this.resultPage =  isArchivistOrAdmin() ? SearchAllSearchResultPage.class : PublicSearchResultPage.class;
-		
-		ResourceModel clabelModel;
-		if (resultPage.equals(SearchAllSearchResultPage.class))
-			clabelModel = new ResourceModel("searchall.defaultbreadcrumbtext");
-		else
-			clabelModel = new ResourceModel("publicsearch.defaultbreadcrumbtext");
-		setSearchModel( new SearchModel( new InitialSearchCriterium(clabelModel) ) );
-		
-		// show resultPage immediately
-		//init();
-		setResponsePage(AbstractSearchResultPage.instantiate(resultPage, getSearchModel()));
-		//
-	}
+    private Class<? extends AbstractSearchResultPage> resultPage;
 
-	public BrowsePage(SearchModel model, Class<? extends AbstractSearchResultPage> resultPage)
-	{
-		super(model);
-		this.resultPage = resultPage;
-		init();
-	}
-	
-	
-	private void init()
-	{
-		addCommonFeedbackPanel();
-		
-		add(new BrowsePanel("browsePanel", getSearchModel(), getBrowseConfig() )
-			{
-				private static final long	serialVersionUID	= 6303400676242763157L;
+    public BrowsePage()
+    {
+        this.resultPage = isArchivistOrAdmin() ? SearchAllSearchResultPage.class : PublicSearchResultPage.class;
 
-				@Override
-				public SearchResult<?> search(SimpleSearchRequest request)
-				{
-					try
-					{
-						if (resultPage.equals(SearchAllSearchResultPage.class))
-							return Services.getSearchService().searchAll(request, getSessionUser());
-						else
-							return Services.getSearchService().searchPublished(request, getSessionUser());
-					}
-					catch (ServiceException e)
-					{
-			        	String msg = errorMessage(EasyResources.BROWSE_SEARCH_FAILURE);
-			            LOGGER.error(msg, e);
-						throw new InternalWebError();
-					}
-				}
+        ResourceModel clabelModel;
+        if (resultPage.equals(SearchAllSearchResultPage.class))
+            clabelModel = new ResourceModel("searchall.defaultbreadcrumbtext");
+        else
+            clabelModel = new ResourceModel("publicsearch.defaultbreadcrumbtext");
+        setSearchModel(new SearchModel(new InitialSearchCriterium(clabelModel)));
 
-				@Override
-				public void onShowButtonClicked(SearchModel model)
-				{
-					setResponsePage(
-							AbstractSearchResultPage.instantiate(resultPage, getSearchModel())
-						);
-				}
-			}
-		);
-	}
+        // show resultPage immediately
+        //init();
+        setResponsePage(AbstractSearchResultPage.instantiate(resultPage, getSearchModel()));
+        //
+    }
 
-	protected BrowseConfig getBrowseConfig()
-	{
-		List<FacetConfig> facetConfigs = new ArrayList<FacetConfig>();
+    public BrowsePage(SearchModel model, Class<? extends AbstractSearchResultPage> resultPage)
+    {
+        super(model);
+        this.resultPage = resultPage;
+        init();
+    }
 
-		FacetConfig facetConfig;
-		
-		facetConfig = new FacetConfig(EasyDatasetSB.AUDIENCE_FIELD);
-		facetConfig.setOrder(FacetConfig.Order.BY_ALPHABET);
-		facetConfig.setFacetNameTranslator(new FieldNameResourceTranslator());
-		facetConfig.setFacetValueTranslator(new DisciplineTranslator());
-		facetConfig.setFacetValueCollapser(new DisciplineFacetValueCollapser(true));
-		facetConfig.setColumnCount(1);
-		facetConfigs.add(facetConfig);
-		
-		facetConfig = new FacetConfig(EasyDatasetSB.DS_ACCESSCATEGORY_FIELD);
-		facetConfig.setOrder(FacetConfig.Order.BY_COUNT);
-		facetConfig.setFacetNameTranslator(new FieldNameResourceTranslator());
-		facetConfig.setFacetValueTranslator(new FieldValueResourceTranslator());
-		facetConfigs.add(facetConfig);
+    private void init()
+    {
+        addCommonFeedbackPanel();
 
-		if (resultPage.equals(SearchAllSearchResultPage.class))
-		{
-			facetConfig = new FacetConfig(EasyDatasetSB.DS_STATE_FIELD);
-			facetConfig.setOrder(FacetConfig.Order.BY_COUNT);
-			facetConfig.setFacetNameTranslator(new FieldNameResourceTranslator());
-			facetConfig.setFacetValueTranslator(new FieldValueResourceTranslator());
-			facetConfigs.add(facetConfig);
-		}
+        add(new BrowsePanel("browsePanel", getSearchModel(), getBrowseConfig())
+        {
+            private static final long serialVersionUID = 6303400676242763157L;
 
-		return new BrowseConfig(facetConfigs);
-	}
+            @Override
+            public SearchResult<?> search(SimpleSearchRequest request)
+            {
+                try
+                {
+                    if (resultPage.equals(SearchAllSearchResultPage.class))
+                        return Services.getSearchService().searchAll(request, getSessionUser());
+                    else
+                        return Services.getSearchService().searchPublished(request, getSessionUser());
+                }
+                catch (ServiceException e)
+                {
+                    String msg = errorMessage(EasyResources.BROWSE_SEARCH_FAILURE);
+                    LOGGER.error(msg, e);
+                    throw new InternalWebError();
+                }
+            }
+
+            @Override
+            public void onShowButtonClicked(SearchModel model)
+            {
+                setResponsePage(AbstractSearchResultPage.instantiate(resultPage, getSearchModel()));
+            }
+        });
+    }
+
+    protected BrowseConfig getBrowseConfig()
+    {
+        List<FacetConfig> facetConfigs = new ArrayList<FacetConfig>();
+
+        FacetConfig facetConfig;
+
+        facetConfig = new FacetConfig(EasyDatasetSB.AUDIENCE_FIELD);
+        facetConfig.setOrder(FacetConfig.Order.BY_ALPHABET);
+        facetConfig.setFacetNameTranslator(new FieldNameResourceTranslator());
+        facetConfig.setFacetValueTranslator(new DisciplineTranslator());
+        facetConfig.setFacetValueCollapser(new DisciplineFacetValueCollapser(true));
+        facetConfig.setColumnCount(1);
+        facetConfigs.add(facetConfig);
+
+        facetConfig = new FacetConfig(EasyDatasetSB.DS_ACCESSCATEGORY_FIELD);
+        facetConfig.setOrder(FacetConfig.Order.BY_COUNT);
+        facetConfig.setFacetNameTranslator(new FieldNameResourceTranslator());
+        facetConfig.setFacetValueTranslator(new FieldValueResourceTranslator());
+        facetConfigs.add(facetConfig);
+
+        if (resultPage.equals(SearchAllSearchResultPage.class))
+        {
+            facetConfig = new FacetConfig(EasyDatasetSB.DS_STATE_FIELD);
+            facetConfig.setOrder(FacetConfig.Order.BY_COUNT);
+            facetConfig.setFacetNameTranslator(new FieldNameResourceTranslator());
+            facetConfig.setFacetValueTranslator(new FieldValueResourceTranslator());
+            facetConfigs.add(facetConfig);
+        }
+
+        return new BrowseConfig(facetConfigs);
+    }
 
 }

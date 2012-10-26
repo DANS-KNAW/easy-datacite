@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import nl.knaw.dans.easy.web.template.AbstractEasyPage;
 
-
 public class PageClassStatistics extends StatisticsModel<AbstractEasyPage>
 {
 
@@ -18,7 +17,7 @@ public class PageClassStatistics extends StatisticsModel<AbstractEasyPage>
     {
         HashMap<String, String> res = new HashMap<String, String>();
         res.put("CLASS_NAME", this.getObject().getClass().getName());
-        
+
         return res;
     }
 

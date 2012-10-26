@@ -24,42 +24,42 @@ import org.slf4j.LoggerFactory;
 public abstract class AbstractTestPage implements Serializable
 {
 
-    private static final long             serialVersionUID = 7303398658389815055L;
+    private static final long serialVersionUID = 7303398658389815055L;
 
-    private static Logger                 logger           = LoggerFactory.getLogger(AbstractTestPage.class);
+    private static Logger logger = LoggerFactory.getLogger(AbstractTestPage.class);
 
-    private static final String           LINE             = "-----------------------------------------------------------------------------------------------------";
+    private static final String LINE = "-----------------------------------------------------------------------------------------------------";
 
-    protected UserService                 userService;
-    protected DepositService              depositService;
+    protected UserService userService;
+    protected DepositService depositService;
 
-    protected EasyMessageTester           tester;
+    protected EasyMessageTester tester;
 
     @Before
     public void before()
     {
         createMockContext();
-        System.setProperty("easy.home", "../easy-home");        
+        System.setProperty("easy.home", "../easy-home");
         EasyWicketApplication application = new EasyWicketApplication()
         {
 
-//            @Override
-//            protected void setUpHive()
-//            {
-//                HiveMind.unregisterHive(getHiveKey());
-//              //super.setUpHive();
-//                try
-//                {
-//                    URL url = new File("src/main/webapp/WEB-INF/easy.hive").toURL();
-//                    List<URL> urls = new ArrayList<URL>();
-//                    urls.add(url);
-//                    super.setUpHive(urls);
-//                }
-//                catch (MalformedURLException e)
-//                {
-//                    throw new RuntimeException(e);
-//                }
-//            }
+            //            @Override
+            //            protected void setUpHive()
+            //            {
+            //                HiveMind.unregisterHive(getHiveKey());
+            //              //super.setUpHive();
+            //                try
+            //                {
+            //                    URL url = new File("src/main/webapp/WEB-INF/easy.hive").toURL();
+            //                    List<URL> urls = new ArrayList<URL>();
+            //                    urls.add(url);
+            //                    super.setUpHive(urls);
+            //                }
+            //                catch (MalformedURLException e)
+            //                {
+            //                    throw new RuntimeException(e);
+            //                }
+            //            }
 
         };
 
@@ -74,10 +74,9 @@ public abstract class AbstractTestPage implements Serializable
     {
         logger.debug("Create mock application context");
 
-
         userService = createMock(UserService.class);
         new Services().setUserService(userService);
-        
+
         depositService = createMock(DepositService.class);
         new Services().setDepositService(depositService);
     }

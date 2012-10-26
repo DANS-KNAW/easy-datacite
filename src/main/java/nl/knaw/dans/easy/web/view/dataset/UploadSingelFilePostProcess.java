@@ -15,11 +15,11 @@ import org.slf4j.LoggerFactory;
 
 public abstract class UploadSingelFilePostProcess implements IUploadPostProcess
 {
-    protected static final Logger logger  = LoggerFactory.getLogger(UploadSingelFilePostProcess.class);
+    protected static final Logger logger = LoggerFactory.getLogger(UploadSingelFilePostProcess.class);
 
-    private final UploadStatus    status  = new UploadStatus("Initializing upload process");
+    private final UploadStatus status = new UploadStatus("Initializing upload process");
 
-    private Dataset               dataset = null;
+    private Dataset dataset = null;
 
     @Override
     public void cancel() throws UploadPostProcessException

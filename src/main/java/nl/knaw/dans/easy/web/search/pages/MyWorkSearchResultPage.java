@@ -23,54 +23,52 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.ResourceModel;
 
 public class MyWorkSearchResultPage extends AbstractSearchResultPage
-{    
-	public MyWorkSearchResultPage()
-	{
-		super(true);
-	}
-	
-	public MyWorkSearchResultPage(SearchModel searchModel)
-	{
-		super(searchModel);
-	}
+{
+    public MyWorkSearchResultPage()
+    {
+        super(true);
+    }
 
-	@Override
-	protected SearchResult<? extends DatasetSB> doSearch(SearchRequest request)
-			throws ServiceException
-	{
-		return Services.getSearchService().searchMyWork(request, getSessionUser());
-	}
-	
-	@Override
-	protected SearchResultConfig getSearchResultConfig()
-	{
-		SearchResultConfig config = super.getSearchResultConfig();
-		List<SortField> initialSortFields = new ArrayList<SortField>();
-		initialSortFields.add(new SimpleSortField(EasyDatasetSB.DATE_SUBMITTED_FIELD, SortOrder.DESC));
-		config.setInitialSortFields(initialSortFields);
-		return config;
-	}
-	
-	@Override
-	protected IModel<String> getInitialCriteriumText()
-	{
-		return new ResourceModel("mywork.defaultbreadcrumbtext");
-	}
-	
-	
-	@Override
-	protected IModel<String> getSearchCriteriumText(final String searchText)
-	{
-		return new AbstractReadOnlyModel<String>()
-		{
-			private static final long	serialVersionUID	= 3254972701101566016L;
+    public MyWorkSearchResultPage(SearchModel searchModel)
+    {
+        super(searchModel);
+    }
 
-			@Override
-			public String getObject()
-			{
-				return CriteriumLabel.createFilterText(getString("mywork.searchbreadcrumbtext"), searchText);
-			}
-		};
-	}   
-	
+    @Override
+    protected SearchResult<? extends DatasetSB> doSearch(SearchRequest request) throws ServiceException
+    {
+        return Services.getSearchService().searchMyWork(request, getSessionUser());
+    }
+
+    @Override
+    protected SearchResultConfig getSearchResultConfig()
+    {
+        SearchResultConfig config = super.getSearchResultConfig();
+        List<SortField> initialSortFields = new ArrayList<SortField>();
+        initialSortFields.add(new SimpleSortField(EasyDatasetSB.DATE_SUBMITTED_FIELD, SortOrder.DESC));
+        config.setInitialSortFields(initialSortFields);
+        return config;
+    }
+
+    @Override
+    protected IModel<String> getInitialCriteriumText()
+    {
+        return new ResourceModel("mywork.defaultbreadcrumbtext");
+    }
+
+    @Override
+    protected IModel<String> getSearchCriteriumText(final String searchText)
+    {
+        return new AbstractReadOnlyModel<String>()
+        {
+            private static final long serialVersionUID = 3254972701101566016L;
+
+            @Override
+            public String getObject()
+            {
+                return CriteriumLabel.createFilterText(getString("mywork.searchbreadcrumbtext"), searchText);
+            }
+        };
+    }
+
 }

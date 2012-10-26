@@ -17,198 +17,219 @@ import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
  */
 public class TreeItem implements Serializable, ITreeItem, Comparable
 {
-	private static final long serialVersionUID = 1L;
-	
-	// TODO: somehow get display values for VisibleTo/AccessibleTo/Creator from properties file (ResourceModel doesn't work from here?)
-	
-	private int size;
-	private String sizeAsString;
-	private String creator;
-	private String visibleTo;
-	private String accessibleTo;
-	private String mimeType;
-	private ArrayList<TreeItem> children = new ArrayList<TreeItem>();				// directories only
-	private ArrayList<TreeItem> childrenWithFiles = new ArrayList<TreeItem>();		// files and directories
-	private TreeItem parent;
-	private Type type;
-	private ItemVO itemVO;
-	private boolean loaded;
+    private static final long serialVersionUID = 1L;
 
-	public TreeItem(ItemVO itemVO, TreeItem parent) {
-		this.itemVO = itemVO;
-		this.parent = parent;
+    // TODO: somehow get display values for VisibleTo/AccessibleTo/Creator from properties file (ResourceModel doesn't work from here?)
 
-		if(itemVO instanceof FolderItemVO) {
-			// we're dealing with a folder
-			FolderItemVO folderItem = (FolderItemVO)itemVO;
-			visibleTo = "";
-			for(FolderItemVisibleTo fivt: folderItem.getVisibleToList()) {
-				visibleTo += makeValueReadable(fivt.getVisibleTo().toString()) + ", ";
-			}
-			if(visibleTo.length() > 2)
-				visibleTo = visibleTo.substring(0, visibleTo.length()-2); // remove last comma
-			accessibleTo = "";
-			for(FolderItemAccessibleTo fiat: folderItem.getAccessibleToList()) {
-				accessibleTo += makeValueReadable(fiat.getAccessibleTo().toString()) + ", ";
-			}
-			if(accessibleTo.length() > 2)
-				accessibleTo = accessibleTo.substring(0, accessibleTo.length()-2); // remove last comma
-			creator = "";
-			for(FolderItemCreatorRole role: folderItem.getCreatorRoles()) {
-				creator += makeValueReadable(role.getCreatorRole().toString()) + ", ";
-			}
-			if(creator.length() > 2)
-				creator = creator.substring(0, creator.length()-2); // remove last comma
-			size = 0;
-			sizeAsString = "";
-			type = Type.FOLDER;
-			mimeType = "folder";
-		} else {
-			// we're dealing with a file
-			FileItemVO fileItem = (FileItemVO)itemVO;
-			visibleTo = makeValueReadable(fileItem.getVisibleTo().toString());
-			accessibleTo = makeValueReadable(fileItem.getAccessibleTo().toString());
-			creator = makeValueReadable(fileItem.getCreatorRole().toString());
-			size = fileItem.getSize();
-			sizeAsString = ""+fileItem.getSize();
-			type = Type.FILE;
-			mimeType = fileItem.getMimetype();
-		}
-	}
-	
-	public void addChild(ITreeItem child) {
-		TreeItem item = (TreeItem)child;
-		if(item.getType().equals(Type.FOLDER)) {
-			children.add(item);
-			childrenWithFiles.add(item);
-		} else if(item.getType().equals(Type.FILE)) {
-			childrenWithFiles.add(item);
-		}
-	}
-	
-	public void removeChild(TreeItem item) {
-		if(children.contains(item)) {
-			children.remove(item);
-		}
-		if(childrenWithFiles.contains(item)) {
-			childrenWithFiles.remove(item);
-		}
-	}
-	
-	// converts values of Creator, VisibleTo and AccessibleTo to readable values
-	public static String makeValueReadable(String value) {
-		String result = "";
-		String[] parts = value.split("_");
-		for(String part: parts) {
-			String convertedPart = part.charAt(0) + part.substring(1).toLowerCase();
-			result += convertedPart + " ";
-		}
-		return result.length() > 1 ? result.substring(0, result.length()-1) : result;
-	}
+    private int size;
+    private String sizeAsString;
+    private String creator;
+    private String visibleTo;
+    private String accessibleTo;
+    private String mimeType;
+    private ArrayList<TreeItem> children = new ArrayList<TreeItem>(); // directories only
+    private ArrayList<TreeItem> childrenWithFiles = new ArrayList<TreeItem>(); // files and directories
+    private TreeItem parent;
+    private Type type;
+    private ItemVO itemVO;
+    private boolean loaded;
 
-	public String getId()
-	{
-		return itemVO.getSid();
-	}
+    public TreeItem(ItemVO itemVO, TreeItem parent)
+    {
+        this.itemVO = itemVO;
+        this.parent = parent;
 
-	public String getName()
-	{
-		return itemVO.getName();
-	}
-	
-	public int getSize()
-	{
-		return size;
-	}
-	
-	public String getSizeAsString()
-	{
-		return sizeAsString;
-	}
+        if (itemVO instanceof FolderItemVO)
+        {
+            // we're dealing with a folder
+            FolderItemVO folderItem = (FolderItemVO) itemVO;
+            visibleTo = "";
+            for (FolderItemVisibleTo fivt : folderItem.getVisibleToList())
+            {
+                visibleTo += makeValueReadable(fivt.getVisibleTo().toString()) + ", ";
+            }
+            if (visibleTo.length() > 2)
+                visibleTo = visibleTo.substring(0, visibleTo.length() - 2); // remove last comma
+            accessibleTo = "";
+            for (FolderItemAccessibleTo fiat : folderItem.getAccessibleToList())
+            {
+                accessibleTo += makeValueReadable(fiat.getAccessibleTo().toString()) + ", ";
+            }
+            if (accessibleTo.length() > 2)
+                accessibleTo = accessibleTo.substring(0, accessibleTo.length() - 2); // remove last comma
+            creator = "";
+            for (FolderItemCreatorRole role : folderItem.getCreatorRoles())
+            {
+                creator += makeValueReadable(role.getCreatorRole().toString()) + ", ";
+            }
+            if (creator.length() > 2)
+                creator = creator.substring(0, creator.length() - 2); // remove last comma
+            size = 0;
+            sizeAsString = "";
+            type = Type.FOLDER;
+            mimeType = "folder";
+        }
+        else
+        {
+            // we're dealing with a file
+            FileItemVO fileItem = (FileItemVO) itemVO;
+            visibleTo = makeValueReadable(fileItem.getVisibleTo().toString());
+            accessibleTo = makeValueReadable(fileItem.getAccessibleTo().toString());
+            creator = makeValueReadable(fileItem.getCreatorRole().toString());
+            size = fileItem.getSize();
+            sizeAsString = "" + fileItem.getSize();
+            type = Type.FILE;
+            mimeType = fileItem.getMimetype();
+        }
+    }
 
-	public String getCreator()
-	{
-		return creator;
-	}
+    public void addChild(ITreeItem child)
+    {
+        TreeItem item = (TreeItem) child;
+        if (item.getType().equals(Type.FOLDER))
+        {
+            children.add(item);
+            childrenWithFiles.add(item);
+        }
+        else if (item.getType().equals(Type.FILE))
+        {
+            childrenWithFiles.add(item);
+        }
+    }
 
-	public String getVisibleTo()
-	{
-		return visibleTo;
-	}
+    public void removeChild(TreeItem item)
+    {
+        if (children.contains(item))
+        {
+            children.remove(item);
+        }
+        if (childrenWithFiles.contains(item))
+        {
+            childrenWithFiles.remove(item);
+        }
+    }
 
-	public String getAccessibleTo()
-	{
-		return accessibleTo;
-	}
+    // converts values of Creator, VisibleTo and AccessibleTo to readable values
+    public static String makeValueReadable(String value)
+    {
+        String result = "";
+        String[] parts = value.split("_");
+        for (String part : parts)
+        {
+            String convertedPart = part.charAt(0) + part.substring(1).toLowerCase();
+            result += convertedPart + " ";
+        }
+        return result.length() > 1 ? result.substring(0, result.length() - 1) : result;
+    }
 
-	public Type getType()
-	{
-		return type; 
-	}
-	
-	public String getMimeType()
-	{	
-		return mimeType;
-	}
-	
-	@Override
-	public String toString() {
-		return itemVO.getName();
-	}
-	
-	@Override
-	public Object clone() {
-		return new TreeItem(itemVO, parent);
-	}
-	
-	public boolean hasChildren() {
-		return children.size() > 0;
-	}
-	
-	public boolean isLoaded() {
-		return loaded;
-	}
-	
-	public void setLoaded(boolean loaded)
-	{
-		this.loaded = loaded;
-	}
-	
-	public ArrayList<TreeItem> getChildren()
-	{
-		return children;
-	}
-	
-	public ArrayList<TreeItem> getChildrenWithFiles()
-	{
-		return childrenWithFiles;
-	}
+    public String getId()
+    {
+        return itemVO.getSid();
+    }
 
-	public TreeItem getParent()
-	{
-		return parent;
-	}
+    public String getName()
+    {
+        return itemVO.getName();
+    }
 
-	public void setParent(TreeItem parent)
-	{
-		this.parent = parent;
-	}
-	
-	public ItemVO getItemVO()
-	{
-		return itemVO;
-	}
+    public int getSize()
+    {
+        return size;
+    }
 
-	public void setItemVO(ItemVO itemVO)
-	{
-		this.itemVO = itemVO;
-	}
+    public String getSizeAsString()
+    {
+        return sizeAsString;
+    }
 
-	@Override
-	public int compareTo(Object o) {
-		TreeItem other = (TreeItem)o;
-		
-		return this.getName().compareTo(other.getName());
-	}
-	
+    public String getCreator()
+    {
+        return creator;
+    }
+
+    public String getVisibleTo()
+    {
+        return visibleTo;
+    }
+
+    public String getAccessibleTo()
+    {
+        return accessibleTo;
+    }
+
+    public Type getType()
+    {
+        return type;
+    }
+
+    public String getMimeType()
+    {
+        return mimeType;
+    }
+
+    @Override
+    public String toString()
+    {
+        return itemVO.getName();
+    }
+
+    @Override
+    public Object clone()
+    {
+        return new TreeItem(itemVO, parent);
+    }
+
+    public boolean hasChildren()
+    {
+        return children.size() > 0;
+    }
+
+    public boolean isLoaded()
+    {
+        return loaded;
+    }
+
+    public void setLoaded(boolean loaded)
+    {
+        this.loaded = loaded;
+    }
+
+    public ArrayList<TreeItem> getChildren()
+    {
+        return children;
+    }
+
+    public ArrayList<TreeItem> getChildrenWithFiles()
+    {
+        return childrenWithFiles;
+    }
+
+    public TreeItem getParent()
+    {
+        return parent;
+    }
+
+    public void setParent(TreeItem parent)
+    {
+        this.parent = parent;
+    }
+
+    public ItemVO getItemVO()
+    {
+        return itemVO;
+    }
+
+    public void setItemVO(ItemVO itemVO)
+    {
+        this.itemVO = itemVO;
+    }
+
+    @Override
+    public int compareTo(Object o)
+    {
+        TreeItem other = (TreeItem) o;
+
+        return this.getName().compareTo(other.getName());
+    }
+
 }

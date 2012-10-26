@@ -37,7 +37,7 @@ public class UploadFileMetadataProcess extends UploadSingelFilePostProcess
             throw new UploadPostProcessException(e);
         }
     }
-    
+
     @Override
     public UploadStatus getStatus()
     {

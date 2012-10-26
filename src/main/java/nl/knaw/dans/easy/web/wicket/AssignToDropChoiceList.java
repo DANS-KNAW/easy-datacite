@@ -21,45 +21,43 @@ import org.apache.wicket.model.ResourceModel;
 public class AssignToDropChoiceList
 {
 
-	public static final String NOT_ASSIGNED_RESOURCEKEY = "assignTo.not_assigned";
+    public static final String NOT_ASSIGNED_RESOURCEKEY = "assignTo.not_assigned";
 
-	/**
-	 * I started out using inheritance, but got stuck and after an hour gave up so wrapped the damn
-	 * thing. To hell with wicket!
-	 */
-	public static DropDownChoice getDropDownChoice(String wicketId, IModel model) throws ServiceException
-	{
-		return new DropDownChoice(wicketId, model, getChoices(), getRenderer());
-	}
-	
-	public static IChoiceRenderer getRenderer()
-	{
-		return new ChoiceRenderer("value", "key");
-	}
-	
-	@SuppressWarnings("unchecked")
-	public static List getChoices() throws ServiceException
-	{
+    /**
+     * I started out using inheritance, but got stuck and after an hour gave up so wrapped the damn
+     * thing. To hell with wicket!
+     */
+    public static DropDownChoice getDropDownChoice(String wicketId, IModel model) throws ServiceException
+    {
+        return new DropDownChoice(wicketId, model, getChoices(), getRenderer());
+    }
+
+    public static IChoiceRenderer getRenderer()
+    {
+        return new ChoiceRenderer("value", "key");
+    }
+
+    @SuppressWarnings("unchecked")
+    public static List getChoices() throws ServiceException
+    {
         List<KeyValuePair> assingToList = new ArrayList<KeyValuePair>();
-        assingToList.add(
-        		new KeyValuePair(WorkflowData.NOT_ASSIGNED, 
-        				(String) new ResourceModel(NOT_ASSIGNED_RESOURCEKEY).getObject()
-        			)
-        	);
+        assingToList.add(new KeyValuePair(WorkflowData.NOT_ASSIGNED, (String) new ResourceModel(NOT_ASSIGNED_RESOURCEKEY).getObject()));
         List<EasyUser> archivists = Services.getUserService().getUsersByRole(Role.ARCHIVIST);
-        
+
         // sort list of archivists on surname
-        Collections.sort(archivists, new Comparator<EasyUser>() {
-			@Override
-			public int compare(EasyUser o1, EasyUser o2) {
-				return o1.getSurname().compareTo(o2.getSurname());
-			}        
+        Collections.sort(archivists, new Comparator<EasyUser>()
+        {
+            @Override
+            public int compare(EasyUser o1, EasyUser o2)
+            {
+                return o1.getSurname().compareTo(o2.getSurname());
+            }
         });
-        
+
         for (EasyUser archivist : archivists)
         {
             assingToList.add(new KeyValuePair(archivist.getId(), archivist.getDisplayName()));
         }
         return assingToList;
-	}
+    }
 }

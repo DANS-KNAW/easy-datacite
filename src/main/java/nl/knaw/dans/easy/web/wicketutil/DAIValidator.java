@@ -10,9 +10,9 @@ public class DAIValidator extends AbstractValidator<String>
 {
 
     private static final long serialVersionUID = -6877474354580072911L;
-    
+
     private static DAIValidator INSTANCE;
-    
+
     public static DAIValidator instance()
     {
         if (INSTANCE == null)
@@ -21,10 +21,10 @@ public class DAIValidator extends AbstractValidator<String>
         }
         return INSTANCE;
     }
-    
+
     private DAIValidator()
     {
-        
+
     }
 
     @Override
@@ -36,7 +36,7 @@ public class DAIValidator extends AbstractValidator<String>
             error(validatable);
         }
     }
-    
+
     @Override
     public void error(IValidatable<String> validatable)
     {

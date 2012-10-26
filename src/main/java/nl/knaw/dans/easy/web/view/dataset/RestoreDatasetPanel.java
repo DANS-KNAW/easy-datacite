@@ -19,37 +19,43 @@ import org.apache.wicket.model.StringResourceModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RestoreDatasetPanel extends Panel{
-	private static final long serialVersionUID = 1L;
-	
-	private static final Logger logger = LoggerFactory.getLogger(RestoreDatasetPanel.class);
+public class RestoreDatasetPanel extends Panel
+{
+    private static final long serialVersionUID = 1L;
 
-	public RestoreDatasetPanel(final ModalWindow window, final DatasetModel datasetModel){
-    	super(window.getContentId());
-    	
-    	add(new Label("text", new StringResourceModel("text", this, datasetModel)));
-    	
-    	add(new IndicatingAjaxLink<Void>("yes"){
-			private static final long serialVersionUID = 1L;
+    private static final Logger logger = LoggerFactory.getLogger(RestoreDatasetPanel.class);
 
-			@Override
-			public void onClick(AjaxRequestTarget target) {
-				handleRestoreDataset(datasetModel);
-				window.close(target);
-			}
-		});
-    	
-    	add(new IndicatingAjaxLink<Void>("no") {
-			private static final long serialVersionUID = 1L;
+    public RestoreDatasetPanel(final ModalWindow window, final DatasetModel datasetModel)
+    {
+        super(window.getContentId());
 
-			@Override
-			public void onClick(AjaxRequestTarget target) {
-				window.close(target);
-			}
-		});
+        add(new Label("text", new StringResourceModel("text", this, datasetModel)));
+
+        add(new IndicatingAjaxLink<Void>("yes")
+        {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void onClick(AjaxRequestTarget target)
+            {
+                handleRestoreDataset(datasetModel);
+                window.close(target);
+            }
+        });
+
+        add(new IndicatingAjaxLink<Void>("no")
+        {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void onClick(AjaxRequestTarget target)
+            {
+                window.close(target);
+            }
+        });
     }
-	
-	protected void handleRestoreDataset(DatasetModel datasetModel)
+
+    protected void handleRestoreDataset(DatasetModel datasetModel)
     {
         try
         {
@@ -66,9 +72,9 @@ public class RestoreDatasetPanel extends Panel{
             logger.error(message, e);
         }
     }
-	
-	private String errorMessage(final String messageKey, final String... param)
+
+    private String errorMessage(final String messageKey, final String... param)
     {
-    	return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.ERROR, param);
+        return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.ERROR, param);
     }
 }

@@ -35,18 +35,11 @@ public class HighlightedCharSequenceCharAtTest
     {
         return Arrays.asList(new Object[][] {
                 // @formatter:off
-                {"A <em>highlighted</em> string", 0, 'A'}, 
-                {"A <em>highlighted</em> string", 1, ' '}, 
-                {"A <em>highlighted</em> string", 2, 'h'}, 
-                {"A <em>highlighted</em> string", 3, 'i'}, 
-                {"A <em>highlighted</em> string", 12, 'd'}, 
-                {"A <em>highlighted</em> string", 13, ' '}, 
-                {"A <em>highlighted</em> string", 19, 'g'}, 
-                {"<em>0</em>", 0, '0'}, 
-                {"<em>0</em><em>1</em>", 1, '1'}, 
-                {"<em>0</em><em>1</em>2", 2, '2'},  
+                {"A <em>highlighted</em> string", 0, 'A'}, {"A <em>highlighted</em> string", 1, ' '}, {"A <em>highlighted</em> string", 2, 'h'},
+                {"A <em>highlighted</em> string", 3, 'i'}, {"A <em>highlighted</em> string", 12, 'd'}, {"A <em>highlighted</em> string", 13, ' '},
+                {"A <em>highlighted</em> string", 19, 'g'}, {"<em>0</em>", 0, '0'}, {"<em>0</em><em>1</em>", 1, '1'}, {"<em>0</em><em>1</em>2", 2, '2'},
                 {"<em>0</em>1<em>2</em>", 1, '1'}
-                // @formatter:on                
+        // @formatter:on                
                 });
     }
 }

@@ -27,18 +27,15 @@ import org.slf4j.LoggerFactory;
 public final class EasySession extends CommonSession
 {
 
-    public static final int                          MAX_CACHED_OBJECT_CAPACITY = 10;
-    private static final long                        serialVersionUID           = 3650502450193859555L;
-    private static final Logger                      logger                     = LoggerFactory
-                                                                                        .getLogger(EasySession.class);
+    public static final int MAX_CACHED_OBJECT_CAPACITY = 10;
+    private static final long serialVersionUID = 3650502450193859555L;
+    private static final Logger logger = LoggerFactory.getLogger(EasySession.class);
 
-    private EasyUser                                     user = EasyUserAnonymous.getInstance();
-    private Map<Class<? extends Page>, RedirectData> redirectMap                = new HashMap<Class<? extends Page>, RedirectData>();
-    private Map<Class<? extends Page>, Page>         redirectPageMap            = new HashMap<Class<? extends Page>, Page>();
-    private ContextParameters                        contextParameters;
-    private Map                                      dmoObjectMap                  = Collections
-                                                                                        .synchronizedMap(new LRUMap(
-                                                                                                MAX_CACHED_OBJECT_CAPACITY));
+    private EasyUser user = EasyUserAnonymous.getInstance();
+    private Map<Class<? extends Page>, RedirectData> redirectMap = new HashMap<Class<? extends Page>, RedirectData>();
+    private Map<Class<? extends Page>, Page> redirectPageMap = new HashMap<Class<? extends Page>, Page>();
+    private ContextParameters contextParameters;
+    private Map dmoObjectMap = Collections.synchronizedMap(new LRUMap(MAX_CACHED_OBJECT_CAPACITY));
     private Map<String, Object> sessionMap = Collections.synchronizedMap(new HashMap<String, Object>());
 
     public EasySession(Request request)
@@ -65,18 +62,18 @@ public final class EasySession extends CommonSession
     public void setLoggedIn(Authentication authentication)
     {
         this.user = authentication.getUser();
-        
+
         // No reset, otherwise we can't redirect to previous page when logging in
     }
 
-	public void setLoggedOff()
+    public void setLoggedOff()
     {
         user = EasyUserAnonymous.getInstance();
         cleanupFeedbackMessages();
         reset();
         super.clear();
     }
-    
+
     public boolean isAuthenticated()
     {
         return user.isActive() && !user.isAnonymous();
@@ -167,8 +164,7 @@ public final class EasySession extends CommonSession
         Page page = redirectPageMap.remove(fromPage);
         if (logger.isDebugEnabled())
         {
-            logger.debug("Removed redirect page for " + fromPage + ". size of redirectPageMap="
-                    + redirectPageMap.size());
+            logger.debug("Removed redirect page for " + fromPage + ". size of redirectPageMap=" + redirectPageMap.size());
         }
         return page;
     }
@@ -197,15 +193,16 @@ public final class EasySession extends CommonSession
         contextParameters = null;
         return ctxParameters;
     }
-    
+
     /**
      * Set contextParameters in the current EasySession.
      * Note: when the <code>getContextParameters()</code> is called the contextParameters in the EasySession are removed.
      * 
      * @param ctxParameters the parameters to add to the EasySession
      */
-    public void setContextParameters(ContextParameters ctxParameters) {
-    	contextParameters = ctxParameters;
+    public void setContextParameters(ContextParameters ctxParameters)
+    {
+        contextParameters = ctxParameters;
     }
 
     /**
@@ -221,7 +218,7 @@ public final class EasySession extends CommonSession
     {
         synchronized (dmoObjectMap)
         {
-        	logger.debug("Adding "+ dmoModel.getStoreId() +" to the session object map");
+            logger.debug("Adding " + dmoModel.getStoreId() + " to the session object map");
             dmoObjectMap.put(dmoModel.getDmoStoreId(), dmoModel);
         }
     }
@@ -243,31 +240,32 @@ public final class EasySession extends CommonSession
         synchronized (dmoObjectMap)
         {
             DatasetModel dmoModel = (DatasetModel) dmoObjectMap.get(dmoStoreId);
-            if (dmoModel != null) dmo = dmoModel.getObject();
+            if (dmoModel != null)
+                dmo = dmoModel.getObject();
         }
         try
-		{
-			if (dmo == null || dmo.isInvalidated())
-			{
-				if (dmo == null)
-					logger.debug("Object not in objectMap, getting it from service: " + dmoStoreId);
-				else
-					logger.debug("Object "+ dmoStoreId +" was invalidated, retreiving a new one from service.");
-			    dmo = Services.getDatasetService().getDataset(getUser(), dmoStoreId);
-			}
-		}
-		catch (RepositoryException e)
-		{
-			// wrapper for dmo isInvalidated
-			throw new ServiceException(e);
-		}
+        {
+            if (dmo == null || dmo.isInvalidated())
+            {
+                if (dmo == null)
+                    logger.debug("Object not in objectMap, getting it from service: " + dmoStoreId);
+                else
+                    logger.debug("Object " + dmoStoreId + " was invalidated, retreiving a new one from service.");
+                dmo = Services.getDatasetService().getDataset(getUser(), dmoStoreId);
+            }
+        }
+        catch (RepositoryException e)
+        {
+            // wrapper for dmo isInvalidated
+            throw new ServiceException(e);
+        }
         if (!dmo.isLoaded())
         {
             throw new WicketRuntimeException("A dmo is retrieved from session and it's loaded-flag is not set.");
         }
         return dmo;
     }
-    
+
     /**
      * A way for stateless areas in the web tier to access some state. Keep it lean and clean: the wicket framework is statefull.
      * 
@@ -281,27 +279,27 @@ public final class EasySession extends CommonSession
             sessionMap.put(key, value);
         }
     }
-    
+
     public Object get(String key)
     {
         return sessionMap.get(key);
     }
-    
+
     public Object remove(String key)
     {
         synchronized (sessionMap)
         {
             return sessionMap.remove(key);
-        }        
+        }
     }
 
-	public static EasySession get()
-	{
-		return (EasySession) Session.get();
-	}
-	
-	public static EasyUser getSessionUser()
-	{
-	    return get().getUser();
-	}
+    public static EasySession get()
+    {
+        return (EasySession) Session.get();
+    }
+
+    public static EasyUser getSessionUser()
+    {
+        return get().getUser();
+    }
 }

@@ -32,16 +32,16 @@ import org.slf4j.LoggerFactory;
 public class ZipDownloadHandler extends AbstractDownloadHandler
 {
 
-    private static final long          serialVersionUID = -6033391606229853640L;
+    private static final long serialVersionUID = -6033391606229853640L;
 
-    private static final Logger        logger           = LoggerFactory.getLogger(ZipDownloadHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(ZipDownloadHandler.class);
 
     private final FileDownloadResponse fileDownloadResponse;
 
-    private FileInputStream            inStream;
-    private ZipFileContentWrapper      contentWrapper;
+    private FileInputStream inStream;
+    private ZipFileContentWrapper contentWrapper;
 
-    private boolean                    hasSecurityException;
+    private boolean hasSecurityException;
 
     public ZipDownloadHandler(FileDownloadResponse fileDownloadResponse)
     {
@@ -89,11 +89,12 @@ public class ZipDownloadHandler extends AbstractDownloadHandler
         try
         {
             inStream = new FileInputStream(getZipFile());
-            
+
             // logging for statistics is badly placed code.
             DmoStoreId datasetId = new DmoStoreId(fileDownloadResponse.getMandatoryStringParam(FileDownloadResponse.DATASET_ID));
             Dataset dataset = (Dataset) EasySession.get().getDataset(datasetId);
-            StatisticsLogger.getInstance().logEvent(StatisticsEvent.DOWNLOAD_DATASET_REQUEST, new DatasetStatistics(dataset), new DownloadZipStatistics(contentWrapper), new DisciplineStatistics(dataset));
+            StatisticsLogger.getInstance().logEvent(StatisticsEvent.DOWNLOAD_DATASET_REQUEST, new DatasetStatistics(dataset),
+                    new DownloadZipStatistics(contentWrapper), new DisciplineStatistics(dataset));
         }
         catch (FileNotFoundException e)
         {

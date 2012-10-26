@@ -20,13 +20,13 @@ public abstract class AbstractEasyStatelessForm<T> extends AbstractEasyForm<T>
     /**
      * Logger for this class.
      */
-    static final Logger       LOGGER           = LoggerFactory.getLogger(AbstractEasyStatelessForm.class);
+    static final Logger LOGGER = LoggerFactory.getLogger(AbstractEasyStatelessForm.class);
 
     public AbstractEasyStatelessForm(final String wicketId, final IModel<T> model)
     {
         super(wicketId, model);
     }
-    
+
     /**
      * Set redirect to true for a stateless form.
      * 

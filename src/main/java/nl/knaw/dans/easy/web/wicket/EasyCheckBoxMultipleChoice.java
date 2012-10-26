@@ -17,7 +17,6 @@ public class EasyCheckBoxMultipleChoice extends CheckBoxMultipleChoice
         super(id);
     }
 
-    
     public EasyCheckBoxMultipleChoice(String id, List choices)
     {
         super(id, choices);
@@ -57,7 +56,7 @@ public class EasyCheckBoxMultipleChoice extends CheckBoxMultipleChoice
     {
         super(id, model, choices, renderer);
     }
-    
+
     @Override
     protected void onBeforeRender()
     {

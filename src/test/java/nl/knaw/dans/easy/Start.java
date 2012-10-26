@@ -22,7 +22,7 @@ public final class Start // NOPMD
      * PORT.
      */
     static final int PORT = 8081;
-    
+
     static final int SSL_PORT = 8444;
     /**
      * SLEEPTIME.
@@ -49,13 +49,13 @@ public final class Start // NOPMD
      */
     public static void main(final String[] args) throws Exception // NOPMD
     {
-        if(EasyHome.getValue() == null)
+        if (EasyHome.getValue() == null)
         {
-            System.err.println("Stopping EASY because of missing system property for home directory!"
-                    + "\n\tPlease specify the system property '" + EasyHome.EASY_HOME_KEY + "'");
+            System.err.println("Stopping EASY because of missing system property for home directory!" + "\n\tPlease specify the system property '"
+                    + EasyHome.EASY_HOME_KEY + "'");
             System.exit(EXIT_CODE);
         }
-        
+
         int port = args.length > 0 ? Integer.valueOf(args[0]) : PORT;
         int sslPort = args.length > 1 ? Integer.valueOf(args[1]) : SSL_PORT;
         final Server server = createServer(port, sslPort);
@@ -81,7 +81,7 @@ public final class Start // NOPMD
     static Server createServer(int port, int sslPort)
     {
         System.err.println(">>> Configuration folder = " + ClassLoader.getSystemResource("conf"));
-        
+
         /*
         <configuration>
             <systemProperties>
@@ -93,43 +93,42 @@ public final class Start // NOPMD
         </configuration>
         
         In order to prevent java.lang.IllegalStateException: Form too large214892>200000
-        */
+         */
         System.setProperty("org.mortbay.jetty.Request.maxFormContentSize", "500000");
 
         final Server server = new Server(); // NOPMD
-        
+
         System.out.println(">>> Creating connector on port " + port);
         final SocketConnector connector = new SocketConnector(); // NOPMD
         // Set some timeout options to make debugging easier.
         connector.setMaxIdleTime(MAX_IDLE_TIME);
         connector.setSoLingerTime(-1);
         connector.setPort(port); // NOPMD
-        
+
         Connector[] connectors;
         if ("true".equalsIgnoreCase(System.getProperty("nl.knaw.dans.easy.web.ssl")))
         {
-            System.out.println(">>> " +
-            		"Creating sslConnector on port " + sslPort);
+            System.out.println(">>> " + "Creating sslConnector on port " + sslPort);
             connector.setConfidentialPort(sslPort);
-            
+
             // ssl connector
             final SslSocketConnector sslConnector = new SslSocketConnector();
             sslConnector.setMaxIdleTime(MAX_IDLE_TIME);
             sslConnector.setSoLingerTime(-1);
-            
+
             sslConnector.setPort(sslPort);
             sslConnector.setKeystore("/etc/keystore");
             sslConnector.setPassword("jetty01");
             sslConnector.setKeyPassword("jetty01");
             sslConnector.setTruststore("/etc/keystore");
             sslConnector.setTrustPassword("jetty01");
-            connectors = new Connector[] { connector, sslConnector };
+            connectors = new Connector[] {connector, sslConnector};
         }
         else
         {
-            connectors = new Connector[] { connector };
+            connectors = new Connector[] {connector};
         }
-        
+
         server.setConnectors(connectors);
 
         final WebAppContext webAppContext = new WebAppContext(); // NOPMD

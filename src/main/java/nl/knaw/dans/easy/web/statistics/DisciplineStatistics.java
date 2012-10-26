@@ -17,27 +17,27 @@ public class DisciplineStatistics extends StatisticsModel<Dataset>
 {
     private static final Logger logger = LoggerFactory.getLogger(DisciplineStatistics.class);
 
-    
     public DisciplineStatistics(Dataset dataset)
     {
         super(dataset);
     }
-    
+
     @SuppressWarnings("unchecked")
-    private void getDisciplines(List<DisciplineContainer> disciplines, ArrayList<DisciplineContainer> res) throws RepositoryException{
-        if(disciplines==null || disciplines.size()<=0)
+    private void getDisciplines(List<DisciplineContainer> disciplines, ArrayList<DisciplineContainer> res) throws RepositoryException
+    {
+        if (disciplines == null || disciplines.size() <= 0)
         {
             return;
-        } 
+        }
         else
         {
-            for(DisciplineContainer dc:disciplines) 
+            for (DisciplineContainer dc : disciplines)
             {
-                if(dc.getLabel()!=null)
+                if (dc.getLabel() != null)
                 {
                     res.add(dc);
                 }
-                getDisciplines((List<DisciplineContainer>)dc.getParents(), res);
+                getDisciplines((List<DisciplineContainer>) dc.getParents(), res);
             }
         }
     }
@@ -54,15 +54,15 @@ public class DisciplineStatistics extends StatisticsModel<Dataset>
             // a draft dataset for example
             if (disciplines.size() > 0)
             {
-	            DisciplineContainer subDiscipline = disciplines.get(0);
-	            DisciplineContainer topDiscipline = disciplines.get(disciplines.size()-1);
-	            res.put("SUB_DISCIPLINE_ID", subDiscipline.getStoreId());
-	            res.put("SUB_DISCIPLINE_LABEL", subDiscipline.getLabel());
-	            res.put("TOP_DISCIPLINE_ID", topDiscipline.getStoreId());
-	            res.put("TOP_DISCIPLINE_LABEL", topDiscipline.getLabel());
+                DisciplineContainer subDiscipline = disciplines.get(0);
+                DisciplineContainer topDiscipline = disciplines.get(disciplines.size() - 1);
+                res.put("SUB_DISCIPLINE_ID", subDiscipline.getStoreId());
+                res.put("SUB_DISCIPLINE_LABEL", subDiscipline.getLabel());
+                res.put("TOP_DISCIPLINE_ID", topDiscipline.getStoreId());
+                res.put("TOP_DISCIPLINE_LABEL", topDiscipline.getLabel());
             }
-        } 
-        catch(RepositoryException e) 
+        }
+        catch (RepositoryException e)
         {
             logger.error(e.getMessage());
         }
@@ -74,7 +74,7 @@ public class DisciplineStatistics extends StatisticsModel<Dataset>
         {
             logger.error(e.getMessage());
         }
-        
+
         return res;
     }
 

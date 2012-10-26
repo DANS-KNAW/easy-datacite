@@ -26,13 +26,12 @@ import org.apache.wicket.model.PropertyModel;
 public class IdentifierPanel extends AbstractChoicePanel
 {
 
-    private static final long        serialVersionUID = -822413494904086019L;
+    private static final long serialVersionUID = -822413494904086019L;
 
-    private boolean					 dropdownVisible = true;
-    
+    private boolean dropdownVisible = true;
+
     // part of quick fix
     private static Map<String, String> SCHEMENAME_MAP;
-    
 
     /**
      * Constructor that takes a model with a ListWrapper&lt;T> as model object.
@@ -46,56 +45,56 @@ public class IdentifierPanel extends AbstractChoicePanel
      */
     public IdentifierPanel(final String wicketId, final IModel model, final ChoiceList choiceList)
     {
-       super(wicketId, model, choiceList);
+        super(wicketId, model, choiceList);
     }
 
-    public void setDropdownVisible(boolean dropdownVisible) {
-		this.dropdownVisible = dropdownVisible;
-	}
-    
+    public void setDropdownVisible(boolean dropdownVisible)
+    {
+        this.dropdownVisible = dropdownVisible;
+    }
+
     @Override
     protected Panel getRepeatingComponentPanel(final ListItem item)
     {
-    	if (isInEditMode())
-    	{
-    		return new RepeatingEditModePanel(item);
-    	}
-    	else
-    	{
-    		return new RepeatingViewModePanel(item);
-    	}
+        if (isInEditMode())
+        {
+            return new RepeatingEditModePanel(item);
+        }
+        else
+        {
+            return new RepeatingViewModePanel(item);
+        }
     }
 
-    
     class RepeatingEditModePanel extends Panel
     {
-        
+
         private static final long serialVersionUID = -1064600333931796440L;
-        
+
         private final BasicIdentifier identifier;
 
         RepeatingEditModePanel(final ListItem<IdentifierModel> item)
         {
             super(REPEATING_PANEL_ID);
             identifier = item.getModelObject().getBasicIdentifier();
-            
+
             List<KeyValuePair> choices = getChoices();
-            
-            final DropDownChoice schemeChoice = new DropDownChoice("schemeChoice", new PropertyModel(item.getDefaultModelObject(),
-            "scheme"), choices, getRenderer());
-            
+
+            final DropDownChoice schemeChoice = new DropDownChoice("schemeChoice", new PropertyModel(item.getDefaultModelObject(), "scheme"), choices,
+                    getRenderer());
+
             schemeChoice.setVisible(dropdownVisible);
             schemeChoice.setNullValid(isNullValid());
             final TextField valueField = new TextField("valueField", new PropertyModel(item.getDefaultModelObject(), "value"));
             add(schemeChoice);
             add(valueField);
         }
-        
+
     }
-    
+
     class RepeatingViewModePanel extends Panel
     {
-        
+
         private static final long serialVersionUID = -1064600333931796440L;
 
         RepeatingViewModePanel(final ListItem item)
@@ -113,12 +112,12 @@ public class IdentifierPanel extends AbstractChoicePanel
             add(schemeLabel);
             // end quick fix
             PropertyModel pm = new PropertyModel(item.getDefaultModel(), "value");
-    		Label label = new Label("noneditable", pm);
+            Label label = new Label("noneditable", pm);
             add(label);
         }
-        
+
     }
-    
+
     // part of quick fix: identifiers not editable or not editable on this panel
     private static String lookup(String scheme)
     {

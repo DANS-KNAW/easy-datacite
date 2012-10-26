@@ -21,18 +21,17 @@ import org.slf4j.LoggerFactory;
 
 public class RESTfoxmlPage extends RESTdisseminationPage
 {
-    
+
     public static final String NAME = "foxml";
     public static final String RESOURCE_KEY = "rest.datasets.foxml";
-    
+
     private static final Logger logger = LoggerFactory.getLogger(RESTfoxmlPage.class);
-    
 
     public RESTfoxmlPage(PageParameters parameters)
     {
         super(parameters);
     }
-    
+
     @Override
     public String getName()
     {
@@ -66,7 +65,7 @@ public class RESTfoxmlPage extends RESTdisseminationPage
         {
             throw new AbortWithWebErrorCodeException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
-        
+
         String filename = StringUtils.left(dataset.getLabel(), 10) + "_fo.xml";
         try
         {
@@ -78,7 +77,7 @@ public class RESTfoxmlPage extends RESTdisseminationPage
             logger.error("Unable to disseminate: ", e);
             throw new AbortWithWebErrorCodeException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
-        
+
     }
 
 }

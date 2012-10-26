@@ -22,7 +22,6 @@ public class TestStart
         server.start();
         server.stop();
         System.setErr(saved);
-        assertThat(out.toString(),
-                containsString("WARNING: Wicket is running in DEVELOPMENT mode. "));
+        assertThat(out.toString(), containsString("WARNING: Wicket is running in DEVELOPMENT mode. "));
     }
 }

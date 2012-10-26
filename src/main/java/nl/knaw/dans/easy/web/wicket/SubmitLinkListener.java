@@ -4,7 +4,7 @@ import org.apache.wicket.markup.html.form.SubmitLink;
 
 public interface SubmitLinkListener
 {
-    
+
     void onSubmit(SubmitLink submitLink);
 
 }

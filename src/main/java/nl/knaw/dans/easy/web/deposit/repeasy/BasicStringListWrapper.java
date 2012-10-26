@@ -17,13 +17,12 @@ public class BasicStringListWrapper extends AbstractDefaultListWrapper<String, B
 {
 
     private static final long serialVersionUID = -8198236609846333286L;
-    
 
     public BasicStringListWrapper(List<BasicString> sourceList)
     {
         super(sourceList);
     }
-    
+
     public BasicStringListWrapper(List<BasicString> sourceList, String schemeName, String schemeId)
     {
         super(sourceList, schemeName, schemeId);
@@ -53,7 +52,7 @@ public class BasicStringListWrapper extends AbstractDefaultListWrapper<String, B
             }
         }
         getWrappedList().removeAll(filteredList);
-        
+
         for (String str : (listItems))
         {
             if (!StringUtils.isBlank(str))

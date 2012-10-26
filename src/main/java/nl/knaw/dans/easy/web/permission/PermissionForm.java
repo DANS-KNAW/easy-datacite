@@ -21,8 +21,7 @@ public abstract class PermissionForm extends AbstractEasyForm<Dataset>
     protected static Logger logger = LoggerFactory.getLogger(PermissionForm.class);
     protected final AbstractEasyPage fromPage;
 
-    public PermissionForm(String wicketId, final AbstractEasyPage fromPage,
-            final DatasetModel datasetModel)
+    public PermissionForm(String wicketId, final AbstractEasyPage fromPage, final DatasetModel datasetModel)
     {
         super(wicketId, datasetModel);
         this.fromPage = fromPage;
@@ -53,6 +52,6 @@ public abstract class PermissionForm extends AbstractEasyForm<Dataset>
 
     protected Dataset getDataset()
     {
-    	return getModel().getObject(); 
+        return getModel().getObject();
     }
 }

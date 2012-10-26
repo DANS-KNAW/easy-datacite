@@ -11,8 +11,8 @@ import org.apache.wicket.model.IModel;
 
 public interface IModelFactory extends Serializable
 {
-    
+
     IModel createModel(StandardPanelDefinition panelDefinition) throws ModelFactoryException;
-    
+
     ChoiceList getChoiceList(String listId, Locale locale) throws ServiceException;
 }

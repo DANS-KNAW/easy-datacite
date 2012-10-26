@@ -28,26 +28,26 @@ import org.slf4j.LoggerFactory;
 
 @RequireHttps
 public class UserDetailsPage extends AbstractEasyNavPage implements FormListener
-{  
-    
+{
+
     public static final String PM_USER_ID = "uid";
-        
-    private static final String WI_USER_DETAILS_PANEL 	= "userDetailsPanel";
-    
+
+    private static final String WI_USER_DETAILS_PANEL = "userDetailsPanel";
+
     private static Logger logger = LoggerFactory.getLogger(UserDetailsPage.class);
 
     private EasyUser displayedUser;
-    
+
     private ContextParameters contextParameters;
-    
+
     // Constructs page with new blank user. However, 'User add' not implemented
-//    public UserDetailsPage()
-//    {
-//        super();
-//        setDisplayedUser(null);
-//        constructSwitchPanel(true, true, this);
-//    }
-    
+    //    public UserDetailsPage()
+    //    {
+    //        super();
+    //        setDisplayedUser(null);
+    //        constructSwitchPanel(true, true, this);
+    //    }
+
     public UserDetailsPage(PageParameters parameters)
     {
         super(parameters);
@@ -78,7 +78,7 @@ public class UserDetailsPage extends AbstractEasyNavPage implements FormListener
         setDisplayedUser(displayedUserId);
         constructSwitchPanel(inEditMode, enableModeSwitch, this);
     }
-    
+
     @Override
     public ContextParameters getContextParameters()
     {
@@ -106,12 +106,12 @@ public class UserDetailsPage extends AbstractEasyNavPage implements FormListener
 
         });
     }
-    
+
     private IModel getUserModel()
     {
         return new CompoundPropertyModel(displayedUser);
     }
-    
+
     private void setDisplayedUser(String displayedUserId)
     {
         if (displayedUserId == null)
@@ -124,7 +124,7 @@ public class UserDetailsPage extends AbstractEasyNavPage implements FormListener
         }
         contextParameters = new ContextParameters(getSessionUser(), displayedUser);
     }
-    
+
     private EasyUser getUser(String userId)
     {
         EasyUser user;
@@ -140,8 +140,8 @@ public class UserDetailsPage extends AbstractEasyNavPage implements FormListener
         }
         catch (ServiceException e)
         {
-        	final String message = errorMessage(EasyResources.USER_NOT_FOUND, userId);
-        	logger.error(message, e);
+            final String message = errorMessage(EasyResources.USER_NOT_FOUND, userId);
+            logger.error(message, e);
             throw new InternalWebError();
         }
         return user;
@@ -149,7 +149,7 @@ public class UserDetailsPage extends AbstractEasyNavPage implements FormListener
 
     public void onUpdate(Form form, Object object)
     {
-        String displayedUserId = ((EasyUser)object).getId(); 
+        String displayedUserId = ((EasyUser) object).getId();
         setDisplayedUser(displayedUserId);
-    }    
+    }
 }

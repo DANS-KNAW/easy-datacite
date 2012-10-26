@@ -6,7 +6,7 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 
 public interface AjaxEventListener extends Serializable
 {
-    
+
     void handleAjaxEvent(AjaxRequestTarget target);
 
 }

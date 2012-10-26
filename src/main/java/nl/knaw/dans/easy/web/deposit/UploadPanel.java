@@ -18,9 +18,9 @@ import org.slf4j.LoggerFactory;
 public class UploadPanel extends AbstractCustomPanel
 {
 
-    private static final long        serialVersionUID = -9132574510082841750L;
-    private static Logger            logger           = LoggerFactory.getLogger(UploadPanel.class);
-    
+    private static final long serialVersionUID = -9132574510082841750L;
+    private static Logger logger = LoggerFactory.getLogger(UploadPanel.class);
+
     private final DatasetModel datasetModel;
 
     public UploadPanel(String id, DatasetModel datasetModel)
@@ -43,7 +43,7 @@ public class UploadPanel extends AbstractCustomPanel
             List<String> list = new ArrayList<String>();
             try
             {
-            	list = Services.getItemService().getFilenames(datasetId, true);
+                list = Services.getItemService().getFilenames(datasetId, true);
                 if (list == null || list.isEmpty())
                 {
                     super.setVisible(false);

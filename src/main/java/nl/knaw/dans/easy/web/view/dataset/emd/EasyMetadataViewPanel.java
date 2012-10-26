@@ -28,14 +28,13 @@ import org.slf4j.LoggerFactory;
  */
 public class EasyMetadataViewPanel extends AbstractDatasetModelPanel
 {
-    private static final long   serialVersionUID = 2726623144989585861L;
+    private static final long serialVersionUID = 2726623144989585861L;
 
-    private static final Logger logger           = LoggerFactory.getLogger(EasyMetadataViewPanel.class);
+    private static final Logger logger = LoggerFactory.getLogger(EasyMetadataViewPanel.class);
 
-    private EmdPanelFactory     panelFactory;
+    private EmdPanelFactory panelFactory;
 
-    private boolean             initiated;
-    
+    private boolean initiated;
 
     public EasyMetadataViewPanel(String wicketId, DatasetModel datasetModel)
     {
@@ -52,15 +51,15 @@ public class EasyMetadataViewPanel extends AbstractDatasetModelPanel
         }
         super.onBeforeRender();
     }
-    
+
     private void init()
     {
         MetadataFormat emdFormat = getDataset().getEasyMetadata().getEmdOther().getEasApplicationSpecific().getMetadataFormat();
         try
         {
-    		DepositDiscipline depoDiscipline = Services.getDepositService().getDiscipline(emdFormat);
+            DepositDiscipline depoDiscipline = Services.getDepositService().getDiscipline(emdFormat);
             FormDescriptor formDescriptor = depoDiscipline.getEmdFormDescriptor();
-            
+
             FormDefinition formDefinition = formDescriptor.getFormDefinition(DepositDiscipline.EMD_VIEW_DEFINITION);
             FormPage formPage = formDefinition.getFormPage(DepositDiscipline.EMD_VIEW_DEFINITION + ".1");
             RecursivePanel recursivePanel = new RecursivePanel("recursivePane", getPanelFactory(), formPage);

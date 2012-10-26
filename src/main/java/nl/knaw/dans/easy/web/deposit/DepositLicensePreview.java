@@ -39,10 +39,10 @@ import com.lowagie.text.pdf.PdfWriter;
 public class DepositLicensePreview extends DynamicWebResource
 {
 
-    private static final Logger logger           = LoggerFactory.getLogger(DepositLicensePreview.class);
+    private static final Logger logger = LoggerFactory.getLogger(DepositLicensePreview.class);
 
-    private static final long   serialVersionUID = 2114665554680463199L;
-    
+    private static final long serialVersionUID = 2114665554680463199L;
+
     public static final String RESOURCE_NAME = "deposit_license_preview.pdf";
 
     @Override

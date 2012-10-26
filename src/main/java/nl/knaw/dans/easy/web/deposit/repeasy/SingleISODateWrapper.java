@@ -13,82 +13,82 @@ import org.apache.wicket.markup.html.form.ChoiceRenderer;
 import org.joda.time.DateTime;
 import org.joda.time.IllegalFieldValueException;
 
-public class SingleISODateWrapper extends AbstractListWrapper<SingleISODateWrapper.DateModel> 
+public class SingleISODateWrapper extends AbstractListWrapper<SingleISODateWrapper.DateModel>
 {
 
-	private static final long serialVersionUID = -7329761811695091371L;
-	
-	List<IsoDate> isoDateList = new ArrayList<IsoDate>();
+    private static final long serialVersionUID = -7329761811695091371L;
 
-	public SingleISODateWrapper(List<IsoDate> isoDateList)
-	{
-		this.isoDateList = isoDateList;
-	}
-	
-	public ChoiceRenderer getChoiceRenderer() {
-		return new KvpChoiceRenderer();
-	}
+    List<IsoDate> isoDateList = new ArrayList<IsoDate>();
 
-	public DateModel getEmptyValue() 
-	{
-		DateModel model = new DateModel();
+    public SingleISODateWrapper(List<IsoDate> isoDateList)
+    {
+        this.isoDateList = isoDateList;
+    }
+
+    public ChoiceRenderer getChoiceRenderer()
+    {
+        return new KvpChoiceRenderer();
+    }
+
+    public DateModel getEmptyValue()
+    {
+        DateModel model = new DateModel();
         return model;
-	}
+    }
 
-	
-	public List<DateModel> getInitialItems() 
-	{
-		List<DateModel> listItems = new ArrayList<DateModel>();
+    public List<DateModel> getInitialItems()
+    {
+        List<DateModel> listItems = new ArrayList<DateModel>();
 
-		for (IsoDate isoDate : isoDateList) 
-		{
-			listItems.add(new DateModel(isoDate));
-		}
+        for (IsoDate isoDate : isoDateList)
+        {
+            listItems.add(new DateModel(isoDate));
+        }
 
-		return listItems;
-	}
-	
-	@Override
-	public int size()
-	{
-	    return isoDateList.size();
-	}
+        return listItems;
+    }
 
-	public int synchronize(List<DateModel> listItems) 
-	{
-	    
-	    // clear previous entries
-		isoDateList.clear();
-		// add new entries
-		int errors = 0;
-		for (int i = 0; i < listItems.size(); i++)
-		{
-		    DateModel model = listItems.get(i);
-		    IsoDate isoDate = null;
+    @Override
+    public int size()
+    {
+        return isoDateList.size();
+    }
+
+    public int synchronize(List<DateModel> listItems)
+    {
+
+        // clear previous entries
+        isoDateList.clear();
+        // add new entries
+        int errors = 0;
+        for (int i = 0; i < listItems.size(); i++)
+        {
+            DateModel model = listItems.get(i);
+            IsoDate isoDate = null;
             isoDate = model.getIsoDate();
 
-		    if (isoDate != null)
-		    {
-		        isoDateList.add(isoDate);
-		    }
-		    if (model.hasErrors())
+            if (isoDate != null)
+            {
+                isoDateList.add(isoDate);
+            }
+            if (model.hasErrors())
             {
                 handleErrors(model.getErrors(), i);
                 errors += model.getErrors().size();
             }
             model.clearErrors();
-		}
-		return errors;
-	}
-	
-	public static class DateModel extends AbstractEasyModel implements QualifiedModel
+        }
+        return errors;
+    }
+
+    public static class DateModel extends AbstractEasyModel implements QualifiedModel
     {
         private static final long serialVersionUID = 3841830259279016843L;
         private static final String DATE_FORMAT = "YYYY-MM-dd";
-        
-        private String 			dateSchemeType;
-        private String     		value;
-        
+
+        private String dateSchemeType;
+        private String value;
+
         public DateModel(IsoDate isoDate)
         {
             if (isoDate == null)
@@ -97,12 +97,11 @@ public class SingleISODateWrapper extends AbstractListWrapper<SingleISODateWrapp
             }
             this.value = isoDate.toString();
         }
-        
+
         protected DateModel()
-        {           
+        {
         }
 
-        
         public String getValue()
         {
             return value;
@@ -123,10 +122,10 @@ public class SingleISODateWrapper extends AbstractListWrapper<SingleISODateWrapp
 
         public IsoDate getIsoDate()
         {
-        	final IsoDate isoDate;
+            final IsoDate isoDate;
             if (value == null)
             {
-            	isoDate = null;
+                isoDate = null;
             }
             else
             {
@@ -155,12 +154,12 @@ public class SingleISODateWrapper extends AbstractListWrapper<SingleISODateWrapp
                 addErrorMessage(exception.getMessage());
             }
         }
-		
+
         public void setScheme(KeyValuePair schemeKVP)
         {
-        	dateSchemeType = schemeKVP == null ? null : schemeKVP.getKey();
+            dateSchemeType = schemeKVP == null ? null : schemeKVP.getKey();
         }
-        
+
         public KeyValuePair getScheme()
         {
             return new KeyValuePair(dateSchemeType, null);

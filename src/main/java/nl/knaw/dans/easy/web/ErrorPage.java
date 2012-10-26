@@ -14,17 +14,17 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
  */
 public class ErrorPage extends AbstractEasyNavPage
 {
-	public static final String ERROR_PANEL      = "errorPanel";
-    
+    public static final String ERROR_PANEL = "errorPanel";
+
     private ErrorLevelFeedbackMessageFilter errorFilter = new ErrorLevelFeedbackMessageFilter(FeedbackMessage.ERROR);
 
     public ErrorPage()
     {
-    	if (getSession().getFeedbackMessages().messages(errorFilter).size() == 0)
-    	{
-    		errorMessage(EasyResources.DEFAULT_ERROR_MESSAGE);
-    	}
+        if (getSession().getFeedbackMessages().messages(errorFilter).size() == 0)
+        {
+            errorMessage(EasyResources.DEFAULT_ERROR_MESSAGE);
+        }
 
-    	addCommonFeedbackPanel(errorFilter);
+        addCommonFeedbackPanel(errorFilter);
     }
 }

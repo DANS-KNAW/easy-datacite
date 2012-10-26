@@ -23,14 +23,14 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  */
 public class ApplicationUser implements Serializable
 {
-    public static final String USER_ID           = "userId";
-    public static final String TITLE             = "title";
-    public static final String INITIALS          = "initials";
-    public static final String PREFIXES          = "prefixes";
-    public static final String SURNAME           = "surname";
-    public static final String PASSWORD          = "password";
-    public static final String EMAIL             = "email";
-    public static final String CONFIRM_PASSWORD  = "confirmPassword";
+    public static final String USER_ID = "userId";
+    public static final String TITLE = "title";
+    public static final String INITIALS = "initials";
+    public static final String PREFIXES = "prefixes";
+    public static final String SURNAME = "surname";
+    public static final String PASSWORD = "password";
+    public static final String EMAIL = "email";
+    public static final String CONFIRM_PASSWORD = "confirmPassword";
     public static final String FUNCTION = "function";
     public static final String TELEPHONE = "telephone";
     public static final String DISCIPLINE1 = "discipline1";
@@ -43,21 +43,21 @@ public class ApplicationUser implements Serializable
     public static final String POSTAL_CODE = "postalCode";
     public static final String CITY = "city";
     public static final String COUNTRY = "country";
-    public static final String OPTS_FOR_NEWSLETTER     = "optsForNewsletter";
+    public static final String OPTS_FOR_NEWSLETTER = "optsForNewsletter";
     public static final String ACCEPT_CONDITIONS = "acceptConditions";
     public static final String LOG_MY_ACTIONS = "logMyActions";
 
-    private static final long  serialVersionUID  = -6040242842409608573L;
+    private static final long serialVersionUID = -6040242842409608573L;
 
-    private String             password;
-    private String             confirmPassword;
-    
+    private String password;
+    private String confirmPassword;
+
     private String dai;
-    
+
     /**
      * Wrapped user model object.
      */
-    private final EasyUser         businessUser;
+    private final EasyUser businessUser;
 
     /**
      * Default constructor.
@@ -202,27 +202,27 @@ public class ApplicationUser implements Serializable
         return businessUser.getSurname();
     }
 
-	public void setOptsForNewsletter(boolean opts)
-	{
-		businessUser.setOptsForNewsletter(opts);	
-	}
+    public void setOptsForNewsletter(boolean opts)
+    {
+        businessUser.setOptsForNewsletter(opts);
+    }
 
-	public boolean getOptsForNewsletter()
-	{
-	    return businessUser.getOptsForNewsletter();
-	}
-	
-	public void setLogMyActions(boolean logMyActions)
-	{
-	    businessUser.setLogMyActions(logMyActions);
-	}
-	
-	public boolean getLogMyActions()
-	{
-	    return businessUser.isLogMyActions();
-	}
-	   
-	/**
+    public boolean getOptsForNewsletter()
+    {
+        return businessUser.getOptsForNewsletter();
+    }
+
+    public void setLogMyActions(boolean logMyActions)
+    {
+        businessUser.setLogMyActions(logMyActions);
+    }
+
+    public boolean getLogMyActions()
+    {
+        return businessUser.isLogMyActions();
+    }
+
+    /**
      * Get name.
      * 
      * @return name
@@ -293,37 +293,37 @@ public class ApplicationUser implements Serializable
     {
         businessUser.setTelephone(telephone);
     }
-    
+
     public KeyValuePair getDiscipline1()
     {
         return DisciplineUtils.getDisciplineItemById(businessUser.getDiscipline1());
     }
-    
-    public void setDiscipline1(KeyValuePair discipline)    
+
+    public void setDiscipline1(KeyValuePair discipline)
     {
         businessUser.setDiscipline1(discipline == null ? null : discipline.getKey());
     }
-    
+
     public KeyValuePair getDiscipline2()
     {
         return DisciplineUtils.getDisciplineItemById(businessUser.getDiscipline2());
     }
-    
-    public void setDiscipline2(KeyValuePair discipline)    
+
+    public void setDiscipline2(KeyValuePair discipline)
     {
         businessUser.setDiscipline2(discipline == null ? null : discipline.getKey());
     }
-    
+
     public KeyValuePair getDiscipline3()
     {
         return DisciplineUtils.getDisciplineItemById(businessUser.getDiscipline3());
     }
-    
-    public void setDiscipline3(KeyValuePair discipline)    
+
+    public void setDiscipline3(KeyValuePair discipline)
     {
         businessUser.setDiscipline3(discipline == null ? null : discipline.getKey());
     }
-    
+
     public String getDai()
     {
         return businessUser.getDai();

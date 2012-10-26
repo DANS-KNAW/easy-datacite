@@ -49,7 +49,7 @@ public class PermissionSatusPanel extends AbstractEasyPanel
     private PermissionSequence getSequence()
     {
         final PermissionSequenceList sequenceList = dataset.getPermissionSequenceList();
-        if (sequenceList==null || sessionUser==null || !sequenceList.hasSequenceFor(sessionUser))
+        if (sequenceList == null || sessionUser == null || !sequenceList.hasSequenceFor(sessionUser))
             return null;
         return sequenceList.getSequenceFor(sessionUser);
     }
@@ -57,14 +57,16 @@ public class PermissionSatusPanel extends AbstractEasyPanel
     private DateTime getStatusDate()
     {
         final PermissionSequence sequence = getSequence();
-        if (sequence==null)return null;
+        if (sequence == null)
+            return null;
         return sequence.getLastStateChange();
     }
 
     private State getRequestState()
     {
         final PermissionSequence sequence = getSequence();
-        if (sequence==null)return null;
+        if (sequence == null)
+            return null;
         return sequence.getState();
     }
 
@@ -141,7 +143,8 @@ public class PermissionSatusPanel extends AbstractEasyPanel
         final MarkupContainer pageLink = new PageLink(LINK, permissionRequestPage);
         add(pageLink);
 
-        pageLink.add(new Label(LINK_TEXT, new Model<String>(){
+        pageLink.add(new Label(LINK_TEXT, new Model<String>()
+        {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -153,18 +156,18 @@ public class PermissionSatusPanel extends AbstractEasyPanel
         }));
     }
 
-    public PermissionSatusPanel(String wicketId,final Dataset dataset)
+    public PermissionSatusPanel(String wicketId, final Dataset dataset)
     {
         super(wicketId);
         this.dataset = dataset;
         sessionUser = getSessionUser();
         if (dataset == null || sessionUser == null || sessionUser.isAnonymous() || !sessionUser.isActive())
             setVisible(false);
-        else if (sessionUser.hasRole(EasyUser.Role.ADMIN)||sessionUser.hasRole(EasyUser.Role.ARCHIVIST))
+        else if (sessionUser.hasRole(EasyUser.Role.ADMIN) || sessionUser.hasRole(EasyUser.Role.ARCHIVIST))
             setVisible(false);
         else if (dataset.hasDepositor(sessionUser))
             setVisible(false);
-        else if (! dataset.hasPermissionRestrictedItems())
+        else if (!dataset.hasPermissionRestrictedItems())
             setVisible(false);
     }
 

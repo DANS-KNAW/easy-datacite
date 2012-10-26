@@ -36,7 +36,8 @@ public class VerifyUrlPanel extends Panel
 
     private void init(final String label, final String focusTarget, final String inputName)
     {
-        this.add(new ExternalLink("verifyPopup", new Model(focusTarget), new ResourceModel(label)){
+        this.add(new ExternalLink("verifyPopup", new Model(focusTarget), new ResourceModel(label))
+        {
             /**
              *
              */

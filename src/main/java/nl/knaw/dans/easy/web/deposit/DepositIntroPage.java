@@ -28,7 +28,7 @@ public class DepositIntroPage extends AbstractEasyNavPage
     private static final Logger logger = LoggerFactory.getLogger(DepositIntroPage.class);
 
     public static final String EDITABLE_DEPOSIT_INTRO_TEMPLATE = "/editable/DepositIntro.template";
-    
+
     private final List<DepositDiscipline> disciplines;
     private boolean initiated;
 
@@ -36,11 +36,11 @@ public class DepositIntroPage extends AbstractEasyNavPage
     {
         try
         {
-    		disciplines = Services.getDepositService().getDisciplines();
+            disciplines = Services.getDepositService().getDisciplines();
         }
         catch (ServiceException e)
         {
-        	errorMessage(EasyResources.DEPOSIT_APPLICATION_ERROR);
+            errorMessage(EasyResources.DEPOSIT_APPLICATION_ERROR);
             logger.error("Could not start " + this.getClass().getSimpleName() + ": ", e);
             throw new InternalWebError();
         }
@@ -59,7 +59,7 @@ public class DepositIntroPage extends AbstractEasyNavPage
 
     private void init()
     {
-    	ListView<DepositDiscipline> listView = new ListView<DepositDiscipline>("disciplines", disciplines)
+        ListView<DepositDiscipline> listView = new ListView<DepositDiscipline>("disciplines", disciplines)
         {
 
             private static final long serialVersionUID = -2578773278751553901L;
@@ -72,7 +72,7 @@ public class DepositIntroPage extends AbstractEasyNavPage
 
                 item.add(new Label("discipline.name", new ResourceModel(formDescriptor.getLabelResourceKey())));
                 item.add(createInstructionLink(formDescriptor));
-                
+
                 Link<DepositDiscipline> startDepositLink = new Link<DepositDiscipline>("startDepositLink", item.getModel())
                 {
 
@@ -83,13 +83,13 @@ public class DepositIntroPage extends AbstractEasyNavPage
                     {
                         setResponsePage(new DepositPage(discipline, DepositDiscipline.EMD_DEPOSITFORM_WIZARD));
                     }
-                    
+
                 };
                 item.add(startDepositLink);
             }
         };
         add(listView);
-        
+
         add(new EasyEditablePanel("editablePanel", "/editable/DepositIntro.template"));
     }
 
@@ -97,10 +97,9 @@ public class DepositIntroPage extends AbstractEasyNavPage
     {
         final FormDefinition fDef = formDescriptor.getFormDefinition(DepositDiscipline.EMD_DEPOSITFORM_WIZARD);
         final String instructionUrl = fDef.getInstructionFile() == null ? "" : fDef.getInstructionFile();
-        ExternalLink instructionLink = new ExternalLink(
-                "instructionLink",
-                new Model<String>(instructionUrl),
-                new ResourceModel(formDescriptor.getLabelResourceKey() + ".instructionLinkText"));
+        ExternalLink instructionLink = new ExternalLink("instructionLink", new Model<String>(instructionUrl), new ResourceModel(formDescriptor
+                .getLabelResourceKey()
+                + ".instructionLinkText"));
         instructionLink.setVisible(instructionUrl.startsWith("http"));
         return instructionLink;
     }

@@ -54,7 +54,6 @@ public enum PageBookmark implements AliasInterface<Page>
     migration(MigrationRedirectPage.class, "dms"), //
     userDetailsPage(UserDetailsPage.class, "users"), //
     helpPage(HelpPage.class, "help");
-    
 
     private static ALiasDelegate<Page> delegate = new ALiasDelegate<Page>(PageBookmark.values());
     private final String bookmarkedName;

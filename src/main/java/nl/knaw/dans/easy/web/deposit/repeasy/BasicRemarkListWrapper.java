@@ -16,13 +16,12 @@ public class BasicRemarkListWrapper extends AbstractDefaultListWrapper<String, B
 {
 
     private static final long serialVersionUID = -8198236619846333286L;
-    
 
     public BasicRemarkListWrapper(List<BasicRemark> sourceList)
     {
         super(sourceList);
     }
-    
+
     public BasicRemarkListWrapper(List<BasicRemark> sourceList, String schemeName, String schemeId)
     {
         super(sourceList, schemeName, schemeId);

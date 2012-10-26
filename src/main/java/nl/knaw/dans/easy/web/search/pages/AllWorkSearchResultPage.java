@@ -23,52 +23,51 @@ import org.apache.wicket.model.ResourceModel;
 
 public class AllWorkSearchResultPage extends AbstractSearchResultPage
 {
-	public AllWorkSearchResultPage()
-	{
-		super(true);
-	}
+    public AllWorkSearchResultPage()
+    {
+        super(true);
+    }
 
-	public AllWorkSearchResultPage(SearchModel searchModel)
-	{
-		super(searchModel);
-	}
+    public AllWorkSearchResultPage(SearchModel searchModel)
+    {
+        super(searchModel);
+    }
 
-	@Override
-	protected SearchResult<? extends DatasetSB> doSearch(SearchRequest request) throws ServiceException
-	{
-		return Services.getSearchService().searchAllWork(request, getSessionUser());
-	}
-	
-	@Override
-	protected SearchResultConfig getSearchResultConfig()
-	{
-		SearchResultConfig config = super.getSearchResultConfig();
-		List<SortField> initialSortFields = new ArrayList<SortField>();
-		initialSortFields.add(new SimpleSortField(EasyDatasetSB.DATE_SUBMITTED_FIELD, SortOrder.DESC));
-		config.setInitialSortFields(initialSortFields);
-		return config;
-	}
-	
+    @Override
+    protected SearchResult<? extends DatasetSB> doSearch(SearchRequest request) throws ServiceException
+    {
+        return Services.getSearchService().searchAllWork(request, getSessionUser());
+    }
 
-	@Override
-	protected IModel<String> getInitialCriteriumText()
-	{
-		return new ResourceModel("allwork.defaultbreadcrumbtext");
-	}
+    @Override
+    protected SearchResultConfig getSearchResultConfig()
+    {
+        SearchResultConfig config = super.getSearchResultConfig();
+        List<SortField> initialSortFields = new ArrayList<SortField>();
+        initialSortFields.add(new SimpleSortField(EasyDatasetSB.DATE_SUBMITTED_FIELD, SortOrder.DESC));
+        config.setInitialSortFields(initialSortFields);
+        return config;
+    }
 
-	@Override
-	protected IModel<String> getSearchCriteriumText(final String searchText)
-	{
-		return new AbstractReadOnlyModel<String>()
-		{
-			private static final long	serialVersionUID	= 3254972701101566016L;
+    @Override
+    protected IModel<String> getInitialCriteriumText()
+    {
+        return new ResourceModel("allwork.defaultbreadcrumbtext");
+    }
 
-			@Override
-			public String getObject()
-			{
-				return CriteriumLabel.createFilterText(getString("allwork.searchbreadcrumbtext"), searchText);
-			}
-		};
-	}
+    @Override
+    protected IModel<String> getSearchCriteriumText(final String searchText)
+    {
+        return new AbstractReadOnlyModel<String>()
+        {
+            private static final long serialVersionUID = 3254972701101566016L;
+
+            @Override
+            public String getObject()
+            {
+                return CriteriumLabel.createFilterText(getString("allwork.searchbreadcrumbtext"), searchText);
+            }
+        };
+    }
 
 }

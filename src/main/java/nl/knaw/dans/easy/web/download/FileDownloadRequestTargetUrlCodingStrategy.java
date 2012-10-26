@@ -1,5 +1,6 @@
 /**
  * Class for mount encoders that uses paths and forward slashes.
+ * 
  * @author Eko Indarto
  */
 
@@ -21,20 +22,20 @@ import org.slf4j.LoggerFactory;
 public class FileDownloadRequestTargetUrlCodingStrategy extends AbstractRequestTargetUrlCodingStrategy
 {
 
-    private String              keyPrefix;
+    private String keyPrefix;
     private static final String PARAMS = "params";
     private static final Logger logger = LoggerFactory.getLogger(FileDownloadRequestTargetUrlCodingStrategy.class);
 
     // These constructors not in use? (hb) then throw them away.
-//    public FileDownloadRequestTargetUrlCodingStrategy(String mountPath, Class<?> scope)
-//    {
-//        this(mountPath, mountPath.substring(1));
-//    }
-//
-//    public FileDownloadRequestTargetUrlCodingStrategy(String mountPath)
-//    {
-//        super(mountPath);
-//    }
+    //    public FileDownloadRequestTargetUrlCodingStrategy(String mountPath, Class<?> scope)
+    //    {
+    //        this(mountPath, mountPath.substring(1));
+    //    }
+    //
+    //    public FileDownloadRequestTargetUrlCodingStrategy(String mountPath)
+    //    {
+    //        super(mountPath);
+    //    }
 
     public FileDownloadRequestTargetUrlCodingStrategy(String mountPath, String namePrefix)
     {

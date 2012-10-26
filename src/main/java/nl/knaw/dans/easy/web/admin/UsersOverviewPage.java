@@ -20,10 +20,10 @@ import org.slf4j.LoggerFactory;
 @RequireHttps
 public class UsersOverviewPage extends AbstractEasyNavPage implements EasyResources
 {
-    private static final String WI_USER_OVERVIEW_PANEL 	 = "userOverviewPanel";
-    
+    private static final String WI_USER_OVERVIEW_PANEL = "userOverviewPanel";
+
     private static final Logger logger = LoggerFactory.getLogger(UsersOverviewPage.class);
-        
+
     public UsersOverviewPage()
     {
         super();
@@ -43,16 +43,16 @@ public class UsersOverviewPage extends AbstractEasyNavPage implements EasyResour
                 catch (ServiceException e)
                 {
                     final String message = fatalMessage(EasyResources.COULD_NOT_RETRIEVE_USERS);
-                	logger.error(message, e);
+                    logger.error(message, e);
                     throw new InternalWebError();
-                } 
+                }
                 return users;
             }
-            
+
         });
-        
+
         add(new UsersOverviewPanel(WI_USER_OVERVIEW_PANEL, getDefaultModel()));
-        
+
         Link addLink = new Link(ADD_LINK)
         {
             private static final long serialVersionUID = -4963887902220218903L;
@@ -61,12 +61,11 @@ public class UsersOverviewPage extends AbstractEasyNavPage implements EasyResour
             public void onClick()
             {
                 setResponsePage(UserDetailsPage.class);
-            }           
+            }
         };
         addLink.add(new Label(ADD_LINK, new ResourceModel(ADD_LINK)));
         addLink.setVisible(false);
         add(addLink);
     }
-
 
 }

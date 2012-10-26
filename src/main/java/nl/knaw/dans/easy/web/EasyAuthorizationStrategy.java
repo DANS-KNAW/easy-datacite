@@ -92,7 +92,8 @@ final class EasyAuthorizationStrategy implements IAuthorizationStrategy
         return authorized;
     }
 
-    public boolean isInstantiationAuthorized(@SuppressWarnings("rawtypes") final Class componentClass)
+    public boolean isInstantiationAuthorized(@SuppressWarnings("rawtypes")
+    final Class componentClass)
     {
         if (WebPage.class.isAssignableFrom(componentClass))
         {
@@ -111,7 +112,7 @@ final class EasyAuthorizationStrategy implements IAuthorizationStrategy
                 {
                     SecurityOfficer officer = Security.getAuthz().getSecurityOfficer(componentClass.getName());
                     return officer.isEnableAllowed(EasySession.get().getContextParameters());
-                    
+
                 }
             }
         }

@@ -25,7 +25,7 @@ import org.apache.wicket.model.ResourceModel;
 
 public class DatasetHitPanel extends AbstractEasyPanel
 {
-    private static final long serialVersionUID	= 1765294309790135569L;
+    private static final long serialVersionUID = 1765294309790135569L;
 
     public DatasetHitPanel(String wicketId, IModel<SearchHit<DatasetSB>> model, SearchModel svModel)
     {
@@ -36,32 +36,27 @@ public class DatasetHitPanel extends AbstractEasyPanel
     public class DatasetLink extends AbstractDatasetLink<SearchHit<DatasetSB>>
     {
         private static final long serialVersionUID = -2898309546692290393L;
-		
+
         @SuppressWarnings("unchecked")
-		DatasetLink(String wicketId, IModel<SearchHit<DatasetSB>> model, SearchModel svModel)
+        DatasetLink(String wicketId, IModel<SearchHit<DatasetSB>> model, SearchModel svModel)
         {
             super(wicketId, model);
-            
+
             SearchHit<DatasetSB> hit = model.getObject();
             DatasetSB datasetHit = hit.getData();
-            
-            addLabel(new UnescapedLabel("title", 		new Model<String>(getSnippetOrValue("dcTitle"))));
-            addLabel(new UnescapedLabel("creator", 		new ShortenedCharSequenceModel(getSnippetOrValue( "dcCreator" ) )));
-            addLabel(new UnescapedLabel("description",	new ShortenedCharSequenceModel(getSnippetOrValue( "dcDescription" ) )));
-            
+
+            addLabel(new UnescapedLabel("title", new Model<String>(getSnippetOrValue("dcTitle"))));
+            addLabel(new UnescapedLabel("creator", new ShortenedCharSequenceModel(getSnippetOrValue("dcCreator"))));
+            addLabel(new UnescapedLabel("description", new ShortenedCharSequenceModel(getSnippetOrValue("dcDescription"))));
+
             //-------- column 3
-            addLabel(
-            		new Label("accessrights", new ResourceModel("fieldvalue."+ datasetHit.getAccessCategory() ) ), 
-            		datasetHit.getAccessCategory() != null
-            );
+            addLabel(new Label("accessrights", new ResourceModel("fieldvalue." + datasetHit.getAccessCategory())), datasetHit.getAccessCategory() != null);
 
             //-------- footer
-            addLabel(
-            		new Label("relevance", String.format("%.0f", hit.getRelevanceScore()*100) ), 
-            		!StringUtils.isBlank(svModel.getObject().getRequestBuilder().getRequest().getQuery().getQueryString())
-            	);
+            addLabel(new Label("relevance", String.format("%.0f", hit.getRelevanceScore() * 100)), !StringUtils.isBlank(svModel.getObject().getRequestBuilder()
+                    .getRequest().getQuery().getQueryString()));
             List<SnippetField> remainingSnippets = getRemainingSnippets();
-			add(new ListView("snippets", remainingSnippets)
+            add(new ListView("snippets", remainingSnippets)
             {
                 private static final long serialVersionUID = 6092057488401837474L;
 
@@ -71,14 +66,14 @@ public class DatasetHitPanel extends AbstractEasyPanel
                     final SnippetField snippetField = (SnippetField) item.getDefaultModelObject();
                     String snippet = "";
                     for (String snip : snippetField.getValue())
-                    	snippet += snip;
-                    item.add(new Label("snippetField", new ResourceModel("fieldname."+ snippetField.getName())));
+                        snippet += snip;
+                    item.add(new Label("snippetField", new ResourceModel("fieldname." + snippetField.getName())));
                     item.add(new UnescapedLabel("snippet", new ShortenedCharSequenceModel(new HighlightedCharSequence(snippet), 100)));
                 }
             }.setVisible(remainingSnippets.size() > 0));
         }
- 
-    	@Override
+
+        @Override
         public void onClick()
         {
             SearchHit<? extends DatasetSB> hit = (SearchHit<? extends DatasetSB>) getModelObject();
@@ -86,7 +81,7 @@ public class DatasetHitPanel extends AbstractEasyPanel
 
             // instructions how to get back to this searchView
             ((EasySession) getSession()).setRedirectPage(ViewCommonDatasetPage.class, getPage());
-            
+
             // view the dataset on dataset view page.
             PageParameters params = new PageParameters();
             params.put(DatasetViewPage.PM_DATASET_ID, datasetHit.getStoreId());

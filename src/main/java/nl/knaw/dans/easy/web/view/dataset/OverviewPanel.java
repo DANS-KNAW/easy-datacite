@@ -22,14 +22,13 @@ import org.apache.wicket.RestartResponseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 public class OverviewPanel extends AbstractEasyPanel
 {
 
     public static final String SUMMARY = "summary";
 
     private static final long serialVersionUID = 737305119989771486L;
-    
+
     private static final Logger logger = LoggerFactory.getLogger(OverviewPanel.class);
 
     private final Dataset dataset;
@@ -49,7 +48,6 @@ public class OverviewPanel extends AbstractEasyPanel
         {
 
             private static final long serialVersionUID = -1007009673871749198L;
-            
 
             @Override
             public void deleteJumpoffDmo(DataModelObject targetDmo, JumpoffDmo jumpoffDmo)
@@ -71,7 +69,8 @@ public class OverviewPanel extends AbstractEasyPanel
             {
                 try
                 {
-                    Services.getJumpoffService().deleteMetadataUnit(getSessionUser(), new DmoStoreId(resourceRef.getContainerId()), new DsUnitId(resourceRef.getUnitId()));
+                    Services.getJumpoffService().deleteMetadataUnit(getSessionUser(), new DmoStoreId(resourceRef.getContainerId()),
+                            new DsUnitId(resourceRef.getUnitId()));
                 }
                 catch (ServiceException e)
                 {
@@ -124,9 +123,9 @@ public class OverviewPanel extends AbstractEasyPanel
                     logger.error(message, e);
                     throw new RestartResponseException(ErrorPage.class);
                 }
-                
+
             }
-            
+
             @Override
             public void toggleEditorMode(JumpoffDmo jumpoffDmo)
             {
@@ -140,9 +139,9 @@ public class OverviewPanel extends AbstractEasyPanel
                     logger.error(message, e);
                     throw new RestartResponseException(ErrorPage.class);
                 }
-                
+
             }
-            
+
         });
     }
 }

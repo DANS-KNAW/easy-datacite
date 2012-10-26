@@ -1,6 +1,5 @@
 package nl.knaw.dans.easy.web;
 
-
 import static org.hamcrest.core.IsSame.sameInstance;
 import static org.junit.Assert.assertThat;
 
@@ -79,13 +78,13 @@ public class DelegatedBookmarkTest
     {
         for (final PageBookmark value : PageBookmark.values())
         {
-            assertThat (value,sameInstance(PageBookmark.valueOfAlias(value.getAlias())));
-            assertThat (value,sameInstance(PageBookmark.valueOf(value.getAliasClass())));
+            assertThat(value, sameInstance(PageBookmark.valueOfAlias(value.getAlias())));
+            assertThat(value, sameInstance(PageBookmark.valueOf(value.getAliasClass())));
         }
         for (final ResourceBookmark value : ResourceBookmark.values())
         {
-            assertThat (value,sameInstance(ResourceBookmark.valueOfAlias(value.getAlias())));
-            assertThat (value,sameInstance(ResourceBookmark.valueOf(value.getAliasClass())));
+            assertThat(value, sameInstance(ResourceBookmark.valueOfAlias(value.getAlias())));
+            assertThat(value, sameInstance(ResourceBookmark.valueOf(value.getAliasClass())));
             ResourceBookmark.getResourceReferenceOf(value.getAliasClass());
         }
     }

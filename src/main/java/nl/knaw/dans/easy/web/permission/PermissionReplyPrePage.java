@@ -32,27 +32,27 @@ import org.slf4j.LoggerFactory;
  */
 public class PermissionReplyPrePage extends AbstractEasyNavPage
 {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(PermissionReplyPrePage.class);
-    
+
     private final EasyUser sessionUser;
-    
+
     public PermissionReplyPrePage(PageParameters parameters)
     {
         sessionUser = EasySession.getSessionUser();
         String datasetId = parameters.getString(PermissionReplyPage.PM_DATASET_ID);
         String requesterId = parameters.getString(PermissionReplyPage.PM_REQUESTER_ID);
         try
-        {         
+        {
             // Get the dataset using the id in the url
             Dataset dataset = Services.getDatasetService().getDataset(sessionUser, new DmoStoreId(datasetId));
-            
+
             // The dataset is not in the ContextParameters, add it because the authorization needs it.
             getEasySession().setContextParameters(new ContextParameters(sessionUser, dataset));
-            
+
             DatasetModel datasetModel = new DatasetModel(dataset);
             PermissionSequence request = dataset.getPermissionSequenceList().getSequenceFor(requesterId);
-            
+
             // Finished setting up, go to the PermissionReplyPage
             setResponsePage(new PermissionReplyPage(datasetModel, null, request));
             //setResponsePage(new PermissionReplyPage(parameters));

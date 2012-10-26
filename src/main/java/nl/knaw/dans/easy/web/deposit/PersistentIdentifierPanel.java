@@ -12,11 +12,11 @@ import nl.knaw.dans.easy.web.deposit.repeater.AbstractCustomPanel;
 
 public class PersistentIdentifierPanel extends AbstractCustomPanel
 {
-    
+
     private static final long serialVersionUID = -2435808589132843377L;
-    
+
     public static final String PI_URL = "http://www.persistent-identifier.nl?identifier=";
-    
+
     private final String pid;
 
     public PersistentIdentifierPanel(String id, IModel<EasyMetadata> model)
@@ -26,7 +26,7 @@ public class PersistentIdentifierPanel extends AbstractCustomPanel
         EasyMetadata easyMetadata = (EasyMetadata) model.getObject();
         pid = easyMetadata.getEmdIdentifier().getPersistentIdentifier();
     }
-    
+
     public PersistentIdentifierPanel(String id, String pid)
     {
         super(id);
@@ -39,7 +39,7 @@ public class PersistentIdentifierPanel extends AbstractCustomPanel
     {
         return new CustomPanel();
     }
-    
+
     class CustomPanel extends Panel
     {
 
@@ -53,7 +53,7 @@ public class PersistentIdentifierPanel extends AbstractCustomPanel
             {
                 try
                 {
-                    link = new ExternalLink("pid", PI_URL + URLEncoder.encode(pid,"UTF-8"), pid);
+                    link = new ExternalLink("pid", PI_URL + URLEncoder.encode(pid, "UTF-8"), pid);
                 }
                 catch (UnsupportedEncodingException e)
                 {

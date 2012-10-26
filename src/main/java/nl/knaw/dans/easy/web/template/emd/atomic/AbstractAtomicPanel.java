@@ -16,16 +16,15 @@ public abstract class AbstractAtomicPanel extends Panel
     /**
      * serial UID.
      */
-   private static final long serialVersionUID = -5078462969562888539L;
+    private static final long serialVersionUID = -5078462969562888539L;
 
-
-   /**
-    * Constructor. All atomic panel have names.
-    * A component's id cannot be null.
-    * This is the minimal constructor of component. It does not register a model.
-    *
-    * @param id wicket id
-    */
+    /**
+     * Constructor. All atomic panel have names.
+     * A component's id cannot be null.
+     * This is the minimal constructor of component. It does not register a model.
+     *
+     * @param id wicket id
+     */
     public AbstractAtomicPanel(String id)
     {
         super(id);

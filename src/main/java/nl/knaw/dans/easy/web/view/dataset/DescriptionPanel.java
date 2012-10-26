@@ -15,18 +15,16 @@ import org.apache.wicket.markup.html.link.Link;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 public class DescriptionPanel extends AbstractDatasetModelPanel
 {
 
     private static final long serialVersionUID = 3936840351761057765L;
-    
+
     private static final Logger logger = LoggerFactory.getLogger(DescriptionPanel.class);
 
-    
     private boolean initiated;
 
-	public DescriptionPanel(String id, DatasetModel model)
+    public DescriptionPanel(String id, DatasetModel model)
     {
         super(id, model);
     }
@@ -50,11 +48,11 @@ public class DescriptionPanel extends AbstractDatasetModelPanel
     private void init()
     {
         final EasyMetadata emd = getDataset().getEasyMetadata();
-        
+
         add(new EasyMetadataViewPanel("easyMetadataPanel", getDatasetModel()));
-        
+
         add(new DownloadPanel("downloadPanel", emd));
-        
+
         Link editLink = new Link("editLink")
         {
 
@@ -70,7 +68,7 @@ public class DescriptionPanel extends AbstractDatasetModelPanel
                 Page depositPage = new DepositPage(getDataset().getStoreId(), DepositDiscipline.EMD_DEPOSITFORM_ARCHIVIST);
                 setResponsePage(depositPage);
             }
-            
+
         };
         editLink.setVisible(!DatasetState.PUBLISHED.equals(getDataset().getAdministrativeState()));
         add(editLink);

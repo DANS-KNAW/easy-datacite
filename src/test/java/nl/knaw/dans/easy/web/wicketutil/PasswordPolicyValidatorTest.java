@@ -25,7 +25,7 @@ public class PasswordPolicyValidatorTest
     /**
      * Password to test.
      */
-    private final String  password;
+    private final String password;
 
     /**
      * Validity of the tested password.
@@ -52,7 +52,7 @@ public class PasswordPolicyValidatorTest
      * @return collection of passwords
      */
     @Parameters
-    public static Collection< Object[] > getValidPasswords()
+    public static Collection<Object[]> getValidPasswords()
     {
         return Arrays.asList(new Object[][] { {"test1ValidPa$$", true}, {"an0th3rP@ssword", true}, {"invalid", false}, {"invalidpassword", false},
                 {"invalidPassword", false}, {"1nvalid", false}, {"noDig1Ts", false}, {"n0Sp3cialChars", false}, {"N0LOWERCASE#", false},

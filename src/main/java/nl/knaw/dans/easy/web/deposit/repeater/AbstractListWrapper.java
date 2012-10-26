@@ -4,12 +4,11 @@ import java.util.List;
 
 import org.apache.wicket.Component;
 
-
 public abstract class AbstractListWrapper<T> implements ListWrapper<T>
 {
 
     private static final long serialVersionUID = 7473810515414444306L;
-    
+
     private Component component;
 
     public void setComponent(Component component)
@@ -21,8 +20,7 @@ public abstract class AbstractListWrapper<T> implements ListWrapper<T>
     {
         return component;
     }
-    
-    
+
     @Override
     public List<T> getInitialEditableItems()
     {
@@ -48,7 +46,5 @@ public abstract class AbstractListWrapper<T> implements ListWrapper<T>
             }
         }
     }
-
-
 
 }

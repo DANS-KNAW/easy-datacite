@@ -23,180 +23,180 @@ import org.slf4j.LoggerFactory;
 
 public class RelationListWrapper extends AbstractListWrapper<RelationListWrapper.RelationModel>
 {
-	private static final Logger			logger				= LoggerFactory.getLogger(RelationListWrapper.class);
+    private static final Logger logger = LoggerFactory.getLogger(RelationListWrapper.class);
 
-	private static final long			serialVersionUID	= -7229861811665091371L;
-	// private static Logger logger = LoggerFactory.getLogger(RelationListWrapper.class);
+    private static final long serialVersionUID = -7229861811665091371L;
+    // private static Logger logger = LoggerFactory.getLogger(RelationListWrapper.class);
 
-	private Map<String, List<Relation>>	listMap				= new HashMap<String, List<Relation>>();
+    private Map<String, List<Relation>> listMap = new HashMap<String, List<Relation>>();
 
-	public RelationListWrapper(EmdRelation emdRelation)
-	{
-		listMap = emdRelation.getRelationMap();
-	}
+    public RelationListWrapper(EmdRelation emdRelation)
+    {
+        listMap = emdRelation.getRelationMap();
+    }
 
-	public ChoiceRenderer getChoiceRenderer()
-	{
-		return new KvpChoiceRenderer();
-	}
+    public ChoiceRenderer getChoiceRenderer()
+    {
+        return new KvpChoiceRenderer();
+    }
 
-	public RelationModel getEmptyValue()
-	{
-		RelationModel model = new RelationModel();
-		return model;
-	}
+    public RelationModel getEmptyValue()
+    {
+        RelationModel model = new RelationModel();
+        return model;
+    }
 
-	public List<RelationModel> getInitialItems()
-	{
-		List<RelationModel> listItems = new ArrayList<RelationModel>();
-		for (String relationType : listMap.keySet())
-		{
-			List<Relation> relations = listMap.get(relationType);
-			for (Relation relation : relations)
-			{
-				listItems.add(new RelationModel(relation, relationType));
-			}
-		}
-		return listItems;
-	}
-	
-	@Override
-	public int size()
-	{
-	    return getInitialItems().size();
-	}
+    public List<RelationModel> getInitialItems()
+    {
+        List<RelationModel> listItems = new ArrayList<RelationModel>();
+        for (String relationType : listMap.keySet())
+        {
+            List<Relation> relations = listMap.get(relationType);
+            for (Relation relation : relations)
+            {
+                listItems.add(new RelationModel(relation, relationType));
+            }
+        }
+        return listItems;
+    }
 
-	public int synchronize(List<RelationModel> listItems)
-	{
+    @Override
+    public int size()
+    {
+        return getInitialItems().size();
+    }
 
-		// clear previous entries
-		for (String relationType : listMap.keySet())
-		{
-			listMap.get(relationType).clear();
-		}
+    public int synchronize(List<RelationModel> listItems)
+    {
 
-		// add new entries
-		int errors = 0;
-		for (int i = 0; i < listItems.size(); i++)
-		{
-			RelationModel model = listItems.get(i);
-			Relation relation = null;
-			relation = model.getRelation();
+        // clear previous entries
+        for (String relationType : listMap.keySet())
+        {
+            listMap.get(relationType).clear();
+        }
 
-			if (relation != null)
-			{
-				String relationType = model.relationType == null ? "" : model.relationType;
-				listMap.get(relationType).add(relation);
+        // add new entries
+        int errors = 0;
+        for (int i = 0; i < listItems.size(); i++)
+        {
+            RelationModel model = listItems.get(i);
+            Relation relation = null;
+            relation = model.getRelation();
 
-				if (model.hasErrors())
-				{
-					handleErrors(model.getErrors(), i);
-					errors += model.getErrors().size();
-				}
-				model.clearErrors();
-			}
-		}
-		return errors;
-	}
+            if (relation != null)
+            {
+                String relationType = model.relationType == null ? "" : model.relationType;
+                listMap.get(relationType).add(relation);
 
-	public static class RelationModel extends AbstractEasyModel
-	{
+                if (model.hasErrors())
+                {
+                    handleErrors(model.getErrors(), i);
+                    errors += model.getErrors().size();
+                }
+                model.clearErrors();
+            }
+        }
+        return errors;
+    }
 
-		private static final long	serialVersionUID	= 3841830253279006843L;
+    public static class RelationModel extends AbstractEasyModel
+    {
 
-		private String				relationType;
-		private boolean				emphasis;
-		private String				subjectTitle;
-		private String				subjectLink;
+        private static final long serialVersionUID = 3841830253279006843L;
 
-		public RelationModel(Relation relation, String relationType)
-		{
-			if (relation == null)
-			{
-				throw new IllegalArgumentException("Model for relation cannot be created.");
-			}
-			if ("".equals(relationType))
-			{
-				relationType = null;
-			}
-			this.relationType = relationType;
-			emphasis = relation.hasEmphasis();
-			subjectTitle = relation.getSubjectTitle().getValue();
-			subjectLink = relation.getSubjectLink() == null ? null : relation.getSubjectLink().toString();
-		}
+        private String relationType;
+        private boolean emphasis;
+        private String subjectTitle;
+        private String subjectLink;
 
-		protected RelationModel()
-		{
-		}
+        public RelationModel(Relation relation, String relationType)
+        {
+            if (relation == null)
+            {
+                throw new IllegalArgumentException("Model for relation cannot be created.");
+            }
+            if ("".equals(relationType))
+            {
+                relationType = null;
+            }
+            this.relationType = relationType;
+            emphasis = relation.hasEmphasis();
+            subjectTitle = relation.getSubjectTitle().getValue();
+            subjectLink = relation.getSubjectLink() == null ? null : relation.getSubjectLink().toString();
+        }
 
-		public Relation getRelation()
-		{
-			Relation relation;
-			if (relationType == null && subjectTitle == null && subjectLink == null)
-			{
-				relation = null;
-			}
-			else
-			{
-				relation = new Relation();
-				relation.setEmphasis(emphasis);
-				relation.setSubjectTitle(subjectTitle);
-				if (StringUtils.isNotBlank(subjectLink))
-				{
-					try
-					{
-						relation.setSubjectLink(new URI(subjectLink));
-					}
-					catch (URISyntaxException e)
-					{
-						final String message = new PropertiesMessage("RelationListWrapper").getString(EasyResources.INVALID_URL).replace("$1", subjectLink);
-						logger.error(message, e);
-						addErrorMessage(message);
-					}
-				}
+        protected RelationModel()
+        {
+        }
 
-			}
-			return relation;
-		}
+        public Relation getRelation()
+        {
+            Relation relation;
+            if (relationType == null && subjectTitle == null && subjectLink == null)
+            {
+                relation = null;
+            }
+            else
+            {
+                relation = new Relation();
+                relation.setEmphasis(emphasis);
+                relation.setSubjectTitle(subjectTitle);
+                if (StringUtils.isNotBlank(subjectLink))
+                {
+                    try
+                    {
+                        relation.setSubjectLink(new URI(subjectLink));
+                    }
+                    catch (URISyntaxException e)
+                    {
+                        final String message = new PropertiesMessage("RelationListWrapper").getString(EasyResources.INVALID_URL).replace("$1", subjectLink);
+                        logger.error(message, e);
+                        addErrorMessage(message);
+                    }
+                }
 
-		public boolean isEmphasis()
-		{
-			return emphasis;
-		}
+            }
+            return relation;
+        }
 
-		public void setEmphasis(boolean emphasis)
-		{
-			this.emphasis = emphasis;
-		}
+        public boolean isEmphasis()
+        {
+            return emphasis;
+        }
 
-		public String getSubjectTitle()
-		{
-			return subjectTitle;
-		}
+        public void setEmphasis(boolean emphasis)
+        {
+            this.emphasis = emphasis;
+        }
 
-		public void setSubjectTitle(String subjectTitle)
-		{
-			this.subjectTitle = subjectTitle;
-		}
+        public String getSubjectTitle()
+        {
+            return subjectTitle;
+        }
 
-		public String getSubjectLink()
-		{
-			return subjectLink;
-		}
+        public void setSubjectTitle(String subjectTitle)
+        {
+            this.subjectTitle = subjectTitle;
+        }
 
-		public void setSubjectLink(String subjectLink)
-		{
-			this.subjectLink = subjectLink;
-		}
+        public String getSubjectLink()
+        {
+            return subjectLink;
+        }
 
-		public void setRelationType(KeyValuePair relationTypeKVP)
-		{
-			relationType = relationTypeKVP == null ? null : relationTypeKVP.getKey();
-		}
+        public void setSubjectLink(String subjectLink)
+        {
+            this.subjectLink = subjectLink;
+        }
 
-		public KeyValuePair getRelationType()
-		{
-			return new KeyValuePair(relationType, null);
-		}
-	}
+        public void setRelationType(KeyValuePair relationTypeKVP)
+        {
+            relationType = relationTypeKVP == null ? null : relationTypeKVP.getKey();
+        }
+
+        public KeyValuePair getRelationType()
+        {
+            return new KeyValuePair(relationType, null);
+        }
+    }
 }

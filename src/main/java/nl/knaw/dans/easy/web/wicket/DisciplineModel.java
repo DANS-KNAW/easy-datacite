@@ -10,25 +10,26 @@ import org.slf4j.LoggerFactory;
 
 public class DisciplineModel extends Model<String>
 {
-    private static final Logger	LOGGER 				= LoggerFactory.getLogger(DisciplineModel.class);
-	private static final long serialVersionUID = -1427246145762034962L;
-	
-	public DisciplineModel(String audienceId)
-	{
-		setObject(audienceId);
-	}
+    private static final Logger LOGGER = LoggerFactory.getLogger(DisciplineModel.class);
+    private static final long serialVersionUID = -1427246145762034962L;
 
-	@Override
-	public String getObject()
-	{
-		String audienceId = (String) super.getObject();
-		try
-		{
-			return Services.getDisciplineService().getDisciplineName(new DmoStoreId(audienceId));
-		} catch (Exception e)
-		{
-	        LOGGER.error("Unable to convert audienceId "+ audienceId +" to discipline name", e);
-	        throw new InternalWebError();
-		} 
-	}
+    public DisciplineModel(String audienceId)
+    {
+        setObject(audienceId);
+    }
+
+    @Override
+    public String getObject()
+    {
+        String audienceId = (String) super.getObject();
+        try
+        {
+            return Services.getDisciplineService().getDisciplineName(new DmoStoreId(audienceId));
+        }
+        catch (Exception e)
+        {
+            LOGGER.error("Unable to convert audienceId " + audienceId + " to discipline name", e);
+            throw new InternalWebError();
+        }
+    }
 }

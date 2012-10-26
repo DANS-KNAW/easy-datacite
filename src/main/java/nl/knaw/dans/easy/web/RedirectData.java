@@ -8,10 +8,10 @@ import org.apache.wicket.PageParameters;
 public class RedirectData implements Serializable
 {
     private static final long serialVersionUID = 2650092271045175148L;
-    
-    private final Class<? extends Page>    pageClass;
+
+    private final Class<? extends Page> pageClass;
     private PageParameters pageParameters;
-    
+
     public RedirectData(Class<? extends Page> pageClass)
     {
         this(pageClass, new PageParameters());

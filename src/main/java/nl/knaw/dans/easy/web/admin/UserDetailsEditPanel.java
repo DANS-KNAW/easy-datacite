@@ -146,12 +146,11 @@ public class UserDetailsEditPanel extends AbstractEasyPanel implements EasyResou
             informByEmailSelection.add(new Radio("news-yes", new Model(true)));
             informByEmailSelection.add(new Radio("news-no", new Model(false)));
             add(informByEmailSelection);
-            
+
             RadioGroup logMyActionsSelection = new RadioGroup(ApplicationUser.LOG_MY_ACTIONS);
             logMyActionsSelection.add(new Radio<Boolean>("log-yes", new Model<Boolean>(true)));
             logMyActionsSelection.add(new Radio<Boolean>("log-no", new Model<Boolean>(false)));
             add(logMyActionsSelection);
-            
 
             List<EasyUser.State> states = Arrays.asList(EasyUser.State.values());
             DropDownChoice stateChoice = new DropDownChoice(UserProperties.STATE, states);

@@ -31,7 +31,7 @@ public interface ListWrapper<T extends Object> extends Serializable
      * @return a list of type T instances
      */
     List<T> getInitialItems();
-    
+
     List<T> getInitialEditableItems();
 
     /**
@@ -56,7 +56,7 @@ public interface ListWrapper<T extends Object> extends Serializable
      * @return a ChoiceRenderer suited for type T
      */
     ChoiceRenderer getChoiceRenderer();
-    
+
     /**
      * The size of the wrapped list.
      * @return size of the wrapped list

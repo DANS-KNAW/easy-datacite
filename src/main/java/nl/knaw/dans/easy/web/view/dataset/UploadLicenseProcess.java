@@ -33,7 +33,7 @@ public class UploadLicenseProcess extends UploadSingelFilePostProcess implements
             throw new UploadPostProcessException(e);
         }
     }
-    
+
     @Override
     public boolean needsProcessing(final List<File> files)
     {

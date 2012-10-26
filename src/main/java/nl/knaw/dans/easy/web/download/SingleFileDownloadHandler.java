@@ -31,18 +31,18 @@ import org.slf4j.LoggerFactory;
 
 public class SingleFileDownloadHandler extends AbstractDownloadHandler
 {
-    
-    public static final String  DOWNLOAD_TYPE_FILE   = "file";
-    private static final long   serialVersionUID     = -3895017767546166939L;
-    private static final Logger logger               = LoggerFactory.getLogger(SingleFileDownloadHandler.class);
-    
+
+    public static final String DOWNLOAD_TYPE_FILE = "file";
+    private static final long serialVersionUID = -3895017767546166939L;
+    private static final Logger logger = LoggerFactory.getLogger(SingleFileDownloadHandler.class);
+
     private final FileDownloadResponse fileDownloadResponse;
-    
+
     private FileContentWrapper fileContentWrapper;
-    
+
     private InputStream ioStream;
     private boolean hasSecurityException;
-    
+
     public SingleFileDownloadHandler(FileDownloadResponse fileDownloadResponse)
     {
         this.fileDownloadResponse = fileDownloadResponse;
@@ -59,12 +59,13 @@ public class SingleFileDownloadHandler extends AbstractDownloadHandler
         try
         {
             ioStream = getURLConnection().getInputStream();
-            
+
             // logging for statistics is badly placed code
             DmoStoreId dmoStoreId = new DmoStoreId(fileDownloadResponse.getMandatoryStringParam(FileDownloadResponse.DATASET_ID));
             Dataset dataset = (Dataset) EasySession.get().getDataset(dmoStoreId);
-            StatisticsLogger.getInstance().logEvent(StatisticsEvent.DOWNLOAD_FILE_REQUEST, new DatasetStatistics(dataset), new DownloadStatistics(fileContentWrapper), new DisciplineStatistics(dataset));
-            
+            StatisticsLogger.getInstance().logEvent(StatisticsEvent.DOWNLOAD_FILE_REQUEST, new DatasetStatistics(dataset),
+                    new DownloadStatistics(fileContentWrapper), new DisciplineStatistics(dataset));
+
             return ioStream;
         }
         catch (IOException e)
@@ -83,7 +84,7 @@ public class SingleFileDownloadHandler extends AbstractDownloadHandler
             throw new ResourceStreamNotFoundException(e);
         }
     }
-    
+
     public void close() throws IOException
     {
         if (ioStream != null)
@@ -101,7 +102,7 @@ public class SingleFileDownloadHandler extends AbstractDownloadHandler
     {
         return Time.valueOf(getURLConnection().getLastModified());
     }
-    
+
     private URLConnection getURLConnection()
     {
         URLConnection connection = null;
@@ -116,7 +117,7 @@ public class SingleFileDownloadHandler extends AbstractDownloadHandler
         }
         return connection;
     }
-    
+
     public FileContentWrapper getFileContentWrapper()
     {
         if (fileContentWrapper == null)
@@ -145,7 +146,6 @@ public class SingleFileDownloadHandler extends AbstractDownloadHandler
         }
         return fileContentWrapper;
     }
-    
 
     public boolean hasSecurityException()
     {

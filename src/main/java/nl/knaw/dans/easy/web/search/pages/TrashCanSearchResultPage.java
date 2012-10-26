@@ -15,42 +15,41 @@ import org.apache.wicket.model.ResourceModel;
 
 public class TrashCanSearchResultPage extends AbstractSearchResultPage
 {
-	public TrashCanSearchResultPage()
-	{
-		super(true);
-	}
-	
-	public TrashCanSearchResultPage(SearchModel searchModel)
-	{
-		super(searchModel);
-	}
-	
-	@Override
-	protected SearchResult<? extends DatasetSB> doSearch(SearchRequest request)
-			throws ServiceException
-	{
-		return Services.getSearchService().searchTrashcan(request, getSessionUser());
-	}
+    public TrashCanSearchResultPage()
+    {
+        super(true);
+    }
 
-	@Override
-	protected IModel<String> getInitialCriteriumText()
-	{
-		return new ResourceModel("trashcan.defaultbreadcrumbtext");
-	}
+    public TrashCanSearchResultPage(SearchModel searchModel)
+    {
+        super(searchModel);
+    }
 
-	@Override
-	protected IModel<String> getSearchCriteriumText(final String searchText)
-	{
-		return new AbstractReadOnlyModel<String>()
-		{
-			private static final long	serialVersionUID	= 3254972701101566016L;
+    @Override
+    protected SearchResult<? extends DatasetSB> doSearch(SearchRequest request) throws ServiceException
+    {
+        return Services.getSearchService().searchTrashcan(request, getSessionUser());
+    }
 
-			@Override
-			public String getObject()
-			{
-				return CriteriumLabel.createFilterText(getString("trashcan.searchbreadcrumbtext"), searchText);
-			}
-		};
-	}   
-	
+    @Override
+    protected IModel<String> getInitialCriteriumText()
+    {
+        return new ResourceModel("trashcan.defaultbreadcrumbtext");
+    }
+
+    @Override
+    protected IModel<String> getSearchCriteriumText(final String searchText)
+    {
+        return new AbstractReadOnlyModel<String>()
+        {
+            private static final long serialVersionUID = 3254972701101566016L;
+
+            @Override
+            public String getObject()
+            {
+                return CriteriumLabel.createFilterText(getString("trashcan.searchbreadcrumbtext"), searchText);
+            }
+        };
+    }
+
 }

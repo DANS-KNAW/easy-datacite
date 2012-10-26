@@ -22,12 +22,11 @@ import org.slf4j.LoggerFactory;
 
 public class RESTfilesContentPage extends RESTdisseminationPage
 {
-    
+
     public static final String NAME = "content";
     public static final String RESOURCE_KEY = "rest.datasets.files.content";
-    
+
     private static final Logger logger = LoggerFactory.getLogger(RESTfilesContentPage.class);
-    
 
     public RESTfilesContentPage(PageParameters parameters)
     {
@@ -56,7 +55,7 @@ public class RESTfilesContentPage extends RESTdisseminationPage
         {
             throw new AbortWithWebErrorCodeException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
-        
+
         try
         {
             write(fileItem, url.openStream());
@@ -67,7 +66,7 @@ public class RESTfilesContentPage extends RESTdisseminationPage
             logger.error("Unable to disseminate: ", e);
             throw new AbortWithWebErrorCodeException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
-        
+
     }
 
     @Override

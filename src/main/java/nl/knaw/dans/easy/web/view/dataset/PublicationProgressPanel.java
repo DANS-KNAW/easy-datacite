@@ -25,36 +25,33 @@ import org.slf4j.LoggerFactory;
 
 public class PublicationProgressPanel extends AbstractEasyPanel
 {
-    
+
     public static final String AJAX_EVENT_ADMIN_METADATA_SAVED = PublicationProgressPanel.class.getName() + " administrative metadata saved";
-    
-	private static final long serialVersionUID = 597926626305715195L;
+
+    private static final long serialVersionUID = 597926626305715195L;
     private static final Logger logger = LoggerFactory.getLogger(PublicationProgressPanel.class);
-    
+
     private final DatasetModel datasetModel;
-    
+
     private boolean initiated;
-        
 
     public PublicationProgressPanel(String wicketId, DatasetModel datasetModel)
     {
         super(wicketId);
         this.datasetModel = datasetModel;
     }
-    
-    
+
     protected Dataset getDataset()
     {
-    	return datasetModel.getObject();
+        return datasetModel.getObject();
     }
-    
+
     @Override
     public boolean isVisible()
     {
-        return DatasetState.SUBMITTED.equals(getDataset().getAdministrativeState())
-                || DatasetState.MAINTENANCE.equals(getDataset().getAdministrativeState());
+        return DatasetState.SUBMITTED.equals(getDataset().getAdministrativeState()) || DatasetState.MAINTENANCE.equals(getDataset().getAdministrativeState());
     }
-    
+
     @Override
     protected void onBeforeRender()
     {
@@ -71,16 +68,16 @@ public class PublicationProgressPanel extends AbstractEasyPanel
         WorkflowProgressPanel pubProgress = new WorkflowProgressPanel("pubProgress", getDataset().getAdministrativeMetadata().getWorkflowData().getWorkflow())
         {
             private static final long serialVersionUID = -5454750325730819797L;
-            
+
             @Override
             public boolean isVisible()
             {
-            	// NOTE: GK: the publication progress has been disabled, remove if truly unnecessary
+                // NOTE: GK: the publication progress has been disabled, remove if truly unnecessary
                 //return DatasetState.SUBMITTED.equals(getDataset().getAdministrativeState())
                 //    || DatasetState.MAINTENANCE.equals(getDataset().getAdministrativeState());
-            	return false;
+                return false;
             }
-            
+
         };
         add(pubProgress);
 
@@ -89,18 +86,18 @@ public class PublicationProgressPanel extends AbstractEasyPanel
             IModel model = new PropertyModel(new AssignModel(getDataset().getAdministrativeMetadata().getWorkflowData()), "userId");
             Form assignToForm = new Form("assignToForm")
             {
-            	/**
-				 * 
-				 */
-				private static final long serialVersionUID = -7872676803301019518L;
+                /**
+                 * 
+                 */
+                private static final long serialVersionUID = -7872676803301019518L;
 
-				@Override
-            	protected void onSubmit()
-            	{
+                @Override
+                protected void onSubmit()
+                {
                     saveChanges();
-            	}
+                }
             };
-            
+
             DropDownChoice assignTo = AssignToDropChoiceList.getDropDownChoice("assignTo", model);
             assignTo.setNullValid(false);
             assignToForm.add(assignTo);
@@ -112,17 +109,16 @@ public class PublicationProgressPanel extends AbstractEasyPanel
             final String message = errorMessage(EasyResources.ERROR_GETTING_ARCHIVISTS_LIST);
             logger.error(message, e);
         }
-        
+
     }
 
-    
     protected void saveChanges()
     {
         try
         {
             Services.getDatasetService().saveAdministrativeMetadata(getSessionUser(), getDataset());
             final String message = infoMessage(EasyResources.SUCCESFUL_UPDATE);
-        	logger.info(message);           
+            logger.info(message);
         }
         catch (ServiceException e)
         {
@@ -141,9 +137,9 @@ public class PublicationProgressPanel extends AbstractEasyPanel
     {
 
         private static final long serialVersionUID = -6033853618498949502L;
-        
+
         private final WorkflowData workflowData;
-        
+
         protected AssignModel(WorkflowData workflowData)
         {
             this.workflowData = workflowData;
@@ -158,8 +154,7 @@ public class PublicationProgressPanel extends AbstractEasyPanel
         {
             workflowData.setAssigneeId(kvp.getKey());
         }
-        
-        
+
     }
 
 }

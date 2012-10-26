@@ -43,7 +43,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({Services.class, Security.class, StatisticsLogger.class, EasySession.class})
+@PrepareForTest( {Services.class, Security.class, StatisticsLogger.class, EasySession.class})
 public class TestRegistrationPage
 {
     private WicketTester tester;

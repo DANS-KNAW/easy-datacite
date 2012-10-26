@@ -8,25 +8,30 @@ import org.apache.wicket.model.Model;
 
 public class CheckboxPanel extends Panel
 {
-	private static final long serialVersionUID = 1L;
-	
-	private AjaxCheckBox cb;
-	public CheckboxPanel(String name, Model<Boolean> model) {
-	       super(name, model);
-	       Form<Void> form = new Form<Void>("form");
-	       cb = new AjaxCheckBox("checkbox", model) {
-	    	   private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-				@Override
-				protected void onUpdate(AjaxRequestTarget target) {
-					onSelectionChange(target);
-				}
-	       };
-	       form.add(cb);
-	       add(form);
-	}
-	
-	public void onSelectionChange(AjaxRequestTarget target) {
-		// please mister, Override me
-	}
+    private AjaxCheckBox cb;
+
+    public CheckboxPanel(String name, Model<Boolean> model)
+    {
+        super(name, model);
+        Form<Void> form = new Form<Void>("form");
+        cb = new AjaxCheckBox("checkbox", model)
+        {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            protected void onUpdate(AjaxRequestTarget target)
+            {
+                onSelectionChange(target);
+            }
+        };
+        form.add(cb);
+        add(form);
+    }
+
+    public void onSelectionChange(AjaxRequestTarget target)
+    {
+        // please mister, Override me
+    }
 }

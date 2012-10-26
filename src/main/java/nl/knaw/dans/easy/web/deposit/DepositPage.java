@@ -21,13 +21,13 @@ import org.slf4j.LoggerFactory;
 @RequireHttps
 public class DepositPage extends AbstractEasyNavPage
 {
-    private static final Logger logger                = LoggerFactory.getLogger(DepositPage.class);
+    private static final Logger logger = LoggerFactory.getLogger(DepositPage.class);
 
-    public static final String  PM_DATASET_ID         = "datasetId";
-    public static final String  PM_FORMDEFINITION_ID  = "formDefinitionId";
+    public static final String PM_DATASET_ID = "datasetId";
+    public static final String PM_FORMDEFINITION_ID = "formDefinitionId";
 
-    private DepositPanel        depositPanel;
-    
+    private DepositPanel depositPanel;
+
     /**
      * Constructor used by DepositIntroPage. Creates new a Dataset (and new EasyMetadata).
      * 
@@ -35,7 +35,7 @@ public class DepositPage extends AbstractEasyNavPage
      * @param formDefinitionId
      *        see formDefintions in src/main/resources/conf/discipline/emd/form-description and
      *        DepositDiscipline.EMD_DEPOSITFORM_...
-     */    
+     */
     public DepositPage(final DepositDiscipline discipline, final String formDefinitionId)
     {
         Dataset dataset;
@@ -53,7 +53,7 @@ public class DepositPage extends AbstractEasyNavPage
 
         // initialize the dataset
         dataset.getAdministrativeMetadata().setDepositor(getSessionUser());
-        
+
         dataset.getEasyMetadata().getEmdDate().getEasAvailable().add(new IsoDate());
 
         // do some initialization on the metadata:

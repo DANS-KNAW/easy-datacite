@@ -19,46 +19,45 @@ import org.apache.wicket.model.ResourceModel;
 
 public class SearchAllSearchResultPage extends AbstractSearchResultPage
 {
-	public SearchAllSearchResultPage()
-	{
-		super(true);
-	}
-	
-	public SearchAllSearchResultPage(PageParameters pm)
-	{
-		super(pm);
-	}
+    public SearchAllSearchResultPage()
+    {
+        super(true);
+    }
 
-	public SearchAllSearchResultPage(SearchModel model)
-	{
-		super(model);
-		model.getRequestBuilder().setFirstSortField(new SimpleSortField(EasyDatasetSB.DATE_CREATED_FIELD, SortOrder.DESC));
-	}
-	
-	protected SearchResult<? extends DatasetSB> doSearch(SearchRequest request)
-			throws ServiceException
-	{
-		return Services.getSearchService().searchAll(request, getSessionUser());
-	}
+    public SearchAllSearchResultPage(PageParameters pm)
+    {
+        super(pm);
+    }
 
-	@Override
-	protected IModel<String> getInitialCriteriumText()
-	{
-		return new ResourceModel("searchall.defaultbreadcrumbtext");
-	}
+    public SearchAllSearchResultPage(SearchModel model)
+    {
+        super(model);
+        model.getRequestBuilder().setFirstSortField(new SimpleSortField(EasyDatasetSB.DATE_CREATED_FIELD, SortOrder.DESC));
+    }
 
-	@Override
-	protected IModel<String> getSearchCriteriumText(final String searchText)
-	{
-		return new AbstractReadOnlyModel<String>()
-		{
-			private static final long	serialVersionUID	= 3254972701101566016L;
+    protected SearchResult<? extends DatasetSB> doSearch(SearchRequest request) throws ServiceException
+    {
+        return Services.getSearchService().searchAll(request, getSessionUser());
+    }
 
-			@Override
-			public String getObject()
-			{
-				return CriteriumLabel.createFilterText(getString("searchall.searchbreadcrumbtext"), searchText);
-			}
-		};
-	}   
+    @Override
+    protected IModel<String> getInitialCriteriumText()
+    {
+        return new ResourceModel("searchall.defaultbreadcrumbtext");
+    }
+
+    @Override
+    protected IModel<String> getSearchCriteriumText(final String searchText)
+    {
+        return new AbstractReadOnlyModel<String>()
+        {
+            private static final long serialVersionUID = 3254972701101566016L;
+
+            @Override
+            public String getObject()
+            {
+                return CriteriumLabel.createFilterText(getString("searchall.searchbreadcrumbtext"), searchText);
+            }
+        };
+    }
 }

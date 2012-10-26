@@ -29,32 +29,32 @@ public class SummaryPanel extends AbstractEasyPanel
     /**
      * Wicket id.
      */
-    public static final String CREATOR          = "creator";
+    public static final String CREATOR = "creator";
 
     /**
      * Wicket id.
      */
-    public static final String DATE_CREATED     = "dateCreated";
+    public static final String DATE_CREATED = "dateCreated";
 
     /**
      * Wicket id.
      */
-    public static final String TITLE            = "title";
+    public static final String TITLE = "title";
 
     /**
      * Wicket id.
      */
-    public static final String PID              = "pid";
+    public static final String PID = "pid";
 
     /**
      * Wicket id.
      */
-    public static final String DESCRIPTIONS     = "descriptions";
+    public static final String DESCRIPTIONS = "descriptions";
 
     /**
      * Wicket id.
      */
-    public static final String DESCRIPTION      = "description";
+    public static final String DESCRIPTION = "description";
 
     /**
      * String used to separate creator items.
@@ -68,7 +68,7 @@ public class SummaryPanel extends AbstractEasyPanel
 
     private final EasyMetadata emd;
 
-    private static final long  serialVersionUID = 5181882887614791831L;
+    private static final long serialVersionUID = 5181882887614791831L;
 
     public SummaryPanel(String wicketId, Dataset dataset)
     {
@@ -82,7 +82,7 @@ public class SummaryPanel extends AbstractEasyPanel
     {
         add(new Label(CREATOR, getCreators()));
         String dateCreated = getDateCreated();
-		add(new Label(DATE_CREATED, dateCreated).setVisible(!StringUtils.isBlank(dateCreated)));
+        add(new Label(DATE_CREATED, dateCreated).setVisible(!StringUtils.isBlank(dateCreated)));
         add(new Label(TITLE, getTitles()));
 
         final String persistentIdentifier = getPersistentIdentifier();
@@ -90,23 +90,24 @@ public class SummaryPanel extends AbstractEasyPanel
         {
 
             private static final long serialVersionUID = -475314441520496889L;
-            
-            public String getURL (){
+
+            public String getURL()
+            {
                 try
                 {
-                    return EmdConstants.BRI_RESOLVER + "?identifier=" +  URLEncoder.encode(persistentIdentifier,"UTF-8");
+                    return EmdConstants.BRI_RESOLVER + "?identifier=" + URLEncoder.encode(persistentIdentifier, "UTF-8");
                 }
                 catch (UnsupportedEncodingException e)
                 {
                     // happens either never or always
-                    return EmdConstants.BRI_RESOLVER + "?identifier=" +  persistentIdentifier;
+                    return EmdConstants.BRI_RESOLVER + "?identifier=" + persistentIdentifier;
                 }
             }
 
             @Override
             public void onClick()
             {
-                logger.debug("pidLink clicked: "+getURL());
+                logger.debug("pidLink clicked: " + getURL());
             }
 
         };
@@ -146,16 +147,17 @@ public class SummaryPanel extends AbstractEasyPanel
     private String getPersistentIdentifier()
     {
         EmdIdentifier emdIdentifier = emd.getEmdIdentifier();
-        if (emdIdentifier==null)return null;
+        if (emdIdentifier == null)
+            return null;
         BasicIdentifier identifier = emdIdentifier.getIdentifier(EmdConstants.SCHEME_PID);
-        if (identifier==null)return null;
-        return  identifier.getValue();
+        if (identifier == null)
+            return null;
+        return identifier.getValue();
     }
 
     private List<BasicString> getDescriptions()
     {
         return emd.getEmdDescription().getDcDescription();
     }
-
 
 }

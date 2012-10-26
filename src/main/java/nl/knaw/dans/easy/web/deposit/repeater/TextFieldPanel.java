@@ -10,7 +10,7 @@ public class TextFieldPanel<T extends Object> extends AbstractRepeaterPanel<T>
 {
 
     private static final long serialVersionUID = -8267060816678393222L;
-    
+
     /**
      * Constructor that takes a model with a ListWrapper&lt;T> as model object.
      * 
@@ -28,39 +28,38 @@ public class TextFieldPanel<T extends Object> extends AbstractRepeaterPanel<T>
     {
         super(wicketId, listWrapper);
     }
-    
+
     @Override
     protected Panel getRepeatingComponentPanel(final ListItem item)
     {
-    	if (isInEditMode())
-    	{
-    		return new RepeatingEditModePanel(item);
-    	}
-    	else
-    	{
-    		return new RepeatingViewModePanel(item);
-    	}
+        if (isInEditMode())
+        {
+            return new RepeatingEditModePanel(item);
+        }
+        else
+        {
+            return new RepeatingViewModePanel(item);
+        }
     }
 
-    
     class RepeatingEditModePanel extends Panel
     {
-        
+
         private static final long serialVersionUID = -1064600333931796440L;
 
-        @SuppressWarnings({"rawtypes", "unchecked"})
+        @SuppressWarnings( {"rawtypes", "unchecked"})
         RepeatingEditModePanel(final ListItem item)
         {
             super(REPEATING_PANEL_ID);
             final TextField textField = new TextField("textField", item.getDefaultModel());
             add(textField);
         }
-        
+
     }
-    
+
     class RepeatingViewModePanel extends Panel
     {
-        
+
         private static final long serialVersionUID = -1064600333931796440L;
 
         RepeatingViewModePanel(final ListItem item)
@@ -69,6 +68,6 @@ public class TextFieldPanel<T extends Object> extends AbstractRepeaterPanel<T>
             Label label = new Label("noneditable", item.getDefaultModel());
             add(label);
         }
-        
+
     }
 }

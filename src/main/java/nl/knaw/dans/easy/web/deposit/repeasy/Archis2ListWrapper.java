@@ -16,11 +16,11 @@ import org.apache.wicket.markup.html.form.ChoiceRenderer;
 
 public class Archis2ListWrapper extends AbstractListWrapper<Archis2ListWrapper.ArchisItemModel>
 {
-    
+
     private static final long serialVersionUID = -6827327637600594816L;
-    
+
     private final EasyMetadata easyMetadata;
-    
+
     public Archis2ListWrapper(EasyMetadata easyMetadata)
     {
         this.easyMetadata = easyMetadata;
@@ -36,7 +36,7 @@ public class Archis2ListWrapper extends AbstractListWrapper<Archis2ListWrapper.A
         }
         return items;
     }
-    
+
     @Override
     public int size()
     {
@@ -47,7 +47,7 @@ public class Archis2ListWrapper extends AbstractListWrapper<Archis2ListWrapper.A
     public int synchronize(List<ArchisItemModel> listItems)
     {
         easyMetadata.getEmdIdentifier().removeAllIdentifiers(EmdConstants.SCHEME_ARCHIS_ONDERZOEK_M_NR);
-        
+
         for (ArchisItemModel aim : listItems)
         {
             BasicIdentifier bi = aim.getIdentifier();
@@ -57,7 +57,7 @@ public class Archis2ListWrapper extends AbstractListWrapper<Archis2ListWrapper.A
                 easyMetadata.getEmdIdentifier().add(bi);
             }
         }
-        
+
         return 0;
     }
 
@@ -77,18 +77,18 @@ public class Archis2ListWrapper extends AbstractListWrapper<Archis2ListWrapper.A
     {
         return easyMetadata;
     }
-    
+
     public static class ArchisItemModel implements Serializable
     {
         private static final long serialVersionUID = -7569278187437901832L;
-        
+
         private final BasicIdentifier identifier;
-        
+
         public ArchisItemModel(BasicIdentifier identifier)
         {
             this.identifier = identifier;
         }
-        
+
         public BasicIdentifier getIdentifier()
         {
             return identifier;
@@ -98,7 +98,7 @@ public class Archis2ListWrapper extends AbstractListWrapper<Archis2ListWrapper.A
         {
             return identifier.getValue();
         }
-        
+
         public void setValue(String value)
         {
             identifier.setValue(value);

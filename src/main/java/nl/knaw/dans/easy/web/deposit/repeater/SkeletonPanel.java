@@ -24,7 +24,7 @@ public abstract class SkeletonPanel extends AbstractEasyPanel
     private boolean initiated;
 
     private boolean inEditMode;
-    
+
     private StandardPanelDefinition panelDefinition;
 
     public SkeletonPanel(final String id)

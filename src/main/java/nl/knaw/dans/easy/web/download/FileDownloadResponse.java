@@ -18,23 +18,23 @@ import org.slf4j.LoggerFactory;
 public class FileDownloadResponse
 {
     // key for the downloadParameters in the valueMap
-    public static final String      PARAMS             = "params";
-    
+    public static final String PARAMS = "params";
+
     // keys in the jsonObject
-    public static final String      DOWNLOAD_TYPE_ZIP  = "zip";
-    public static final String      DOWNLOAD_TYPE      = "downloadType";
-    public static final String      DATASET_ID         = "rootSid";
-    public static final String      SELECTED_ITEM_LIST = "selectedItemList";
-    public static final String      SELECTED_ITEM      = "selectedItem";
-    
+    public static final String DOWNLOAD_TYPE_ZIP = "zip";
+    public static final String DOWNLOAD_TYPE = "downloadType";
+    public static final String DATASET_ID = "rootSid";
+    public static final String SELECTED_ITEM_LIST = "selectedItemList";
+    public static final String SELECTED_ITEM = "selectedItem";
+
     // keys in the "selectedItemList" array
-    public static final String      ITEM_ID            = "sid";
+    public static final String ITEM_ID = "sid";
 
-    private static final Logger     logger             = LoggerFactory.getLogger(FileDownloadResponse.class);
+    private static final Logger logger = LoggerFactory.getLogger(FileDownloadResponse.class);
 
-    private final ValueMap          valueMap;
-    private JSONObject              jsonObject;
-    private int                     statusCode;
+    private final ValueMap valueMap;
+    private JSONObject jsonObject;
+    private int statusCode;
     private AbstractDownloadHandler downloadHandler;
 
     public FileDownloadResponse(ValueMap parameters)
@@ -81,7 +81,7 @@ public class FileDownloadResponse
         }
         return downloadType;
     }
-    
+
     protected String getMandatoryStringParam(final String key) throws DownloadException
     {
         String value;

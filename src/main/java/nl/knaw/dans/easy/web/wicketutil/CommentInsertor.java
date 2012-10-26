@@ -16,7 +16,7 @@ import java.io.PrintWriter;
  */
 public class CommentInsertor
 {
-    private static int    counterHtmlFile;
+    private static int counterHtmlFile;
     private static int counterFileModified;
 
     /**
@@ -113,7 +113,7 @@ public class CommentInsertor
                 else
                 {
                     out.println(thisLine);
-//                    previousLine = thisLine;// remember the previous line for the last line.
+                    //                    previousLine = thisLine;// remember the previous line for the last line.
                 }
 
             }

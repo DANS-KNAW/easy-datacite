@@ -37,32 +37,30 @@ public class PermissionRequestForm extends PermissionForm
     private static final long serialVersionUID = 6204591036947047986L;
 
     public static final String EDITABLE_PERMISSION_REQUEST_TEMPLATE = "/editable/PermissionRequest.template";
-    
+
     private static final String STATUS_RESOURCE_KEY = "permission.request.status.value.";
-//    private static final String TITLE_RESOURCE_KEY = "permission.request.research.title.";
-//    private static final String THEME_RESOURCE_KEY = "permission.request.research.theme.";
+    //    private static final String TITLE_RESOURCE_KEY = "permission.request.research.title.";
+    //    private static final String THEME_RESOURCE_KEY = "permission.request.research.theme.";
 
     private static final String CONDITIONS_WID = "acceptConditions";
     private static final String THEME_WID = "theme";
     private static final String TITLE_WID = "title";
     private static final String SUBMIT_WID = "submit";
     private static final String CANCEL_WID = "cancel";
-    private static final String MSG_ACCEPT_ADDITIONAL   = "permission.request.acceptAdditionalConditions.label";
+    private static final String MSG_ACCEPT_ADDITIONAL = "permission.request.acceptAdditionalConditions.label";
     private static final String ADDITIONAL_CONDITIONS_WID = "acceptAdditional";
     private static final String RETURNED_INTRO = "PermissionRequestReturnedIntro";
-    
+
     private final PermissionRequestModel prmRequest;
 
-    public PermissionRequestForm(final String wicketId, final AbstractEasyPage fromPage,
-            final DatasetModel datasetModel)
+    public PermissionRequestForm(final String wicketId, final AbstractEasyPage fromPage, final DatasetModel datasetModel)
     {
         super(wicketId, fromPage, datasetModel);
         addCommonFeedbackPanel();
 
         final EasyUser sessionUser = getSessionUser();
         final boolean initialRequest = !getDataset().getPermissionSequenceList().hasSequenceFor(sessionUser);
-        final PermissionSequence userSequence =
-        	getDataset().getPermissionSequenceList().getSequenceFor(sessionUser);
+        final PermissionSequence userSequence = getDataset().getPermissionSequenceList().getSequenceFor(sessionUser);
 
         final PermissionSequence.State status = initialRequest ? null : userSequence.getState();
         final String explanation = initialRequest ? null : userSequence.getReplyText();
@@ -71,19 +69,18 @@ public class PermissionRequestForm extends PermissionForm
         prmRequest = getDataset().getPermissionSequenceList().getPermissionRequest(sessionUser);
 
         add(new Label("intro", getString(RETURNED_INTRO)).setVisible(State.Returned.equals(status)));
-        
+
         // TODO add help links and required marks (only in editMode)
-//        final SimpleLabelPanel titleLabel =
-//                new SimpleLabelPanel(TITLE_WID, TITLE_RESOURCE_KEY + "label", TITLE_RESOURCE_KEY
-//                        + "anchor", true);
-//        final SimpleLabelPanel themaLabel =
-//                new SimpleLabelPanel(THEME_WID, THEME_RESOURCE_KEY + "label", THEME_RESOURCE_KEY
-//                        + "anchor", true);
+        //        final SimpleLabelPanel titleLabel =
+        //                new SimpleLabelPanel(TITLE_WID, TITLE_RESOURCE_KEY + "label", TITLE_RESOURCE_KEY
+        //                        + "anchor", true);
+        //        final SimpleLabelPanel themaLabel =
+        //                new SimpleLabelPanel(THEME_WID, THEME_RESOURCE_KEY + "label", THEME_RESOURCE_KEY
+        //                        + "anchor", true);
 
         final IModel titleModel = new PropertyModel(prmRequest, PermissionRequestModel.REQUEST_TITLE);
         final IModel themeModel = new PropertyModel(prmRequest, PermissionRequestModel.REQUEST_THEME);
-        final IModel conditionsModel =
-                new PropertyModel(prmRequest, PermissionRequestModel.ACCEPTING_CONDITIONS_OF_USE);
+        final IModel conditionsModel = new PropertyModel(prmRequest, PermissionRequestModel.ACCEPTING_CONDITIONS_OF_USE);
         final IModel statusModel = new ResourceModel(STATUS_RESOURCE_KEY + status, "" + status);
 
         addComponent(new Label("status.label"));
@@ -95,7 +92,7 @@ public class PermissionRequestForm extends PermissionForm
         addRequired(new TextField(TITLE_WID, titleModel)).setEnabled(editMode);
         addRequired(new PossiblyDisabledTextArea(THEME_WID, themeModel, editMode));
         addRequired(new CheckBox(CONDITIONS_WID, conditionsModel)).setEnabled(editMode);
-        
+
         // Additional conditions
         final UnitMetaDataResource additionalLicenseResource = Util.getAdditionalLicenseResource(datasetModel);
         final Component additionalLicense = new ResourceLink<UnitMetaDataResource>("additionalLicense", additionalLicenseResource);
@@ -109,7 +106,7 @@ public class PermissionRequestForm extends PermissionForm
         // Also select if conditions of use was already accepted (returned request)
         // prmRequest.isAcceptingConditionsOfUse()
         final Model<Boolean> additionalAccepted = new Model<Boolean>(!hasAdditionalLicense || prmRequest.isAcceptingConditionsOfUse());
-        if(hasAdditionalLicense)
+        if (hasAdditionalLicense)
         {
             addRequired(new CheckBox(ADDITIONAL_CONDITIONS_WID, additionalAccepted)).setEnabled(editMode);
         }
@@ -118,7 +115,7 @@ public class PermissionRequestForm extends PermissionForm
             // not visible and not required
             add(new CheckBox(ADDITIONAL_CONDITIONS_WID, additionalAccepted).setVisible(false));
         }
-        final Label acceptAdditionalBoxLabel = new Label("acceptAdditionalLabel",new ResourceModel(MSG_ACCEPT_ADDITIONAL));
+        final Label acceptAdditionalBoxLabel = new Label("acceptAdditionalLabel", new ResourceModel(MSG_ACCEPT_ADDITIONAL));
         add(acceptAdditionalBoxLabel);
 
         addComponent(new SubmitLink(SUBMIT_WID)).setVisible(editMode);
@@ -136,7 +133,6 @@ public class PermissionRequestForm extends PermissionForm
         });
     }
 
-
     @Override
     protected void onSubmit()
     {
@@ -145,15 +141,15 @@ public class PermissionRequestForm extends PermissionForm
             prmRequest.setPermissionsTabLink(DatasetViewPage.urlFor(getDataset(), DatasetPermissionsTab.TAB_INDEX, true, this));
             prmRequest.setRequestLink(PermissionReplyPage.urlFor(getDataset(), getSessionUser(), this));
 
-        	Services.getDatasetService().savePermissionRequest(getSessionUser(), getDataset(), prmRequest);
+            Services.getDatasetService().savePermissionRequest(getSessionUser(), getDataset(), prmRequest);
             logAction("permission request submitted.", prmRequest);
             final String message = infoMessage(EasyResources.PERMISSION_REQUESTED);
             logger.info(message);
         }
         catch (final ServiceException e)
         {
-			final String message = errorMessage(EasyResources.PERMISSION_REQUEST_FAIL);
-			logger.error(message, e);
+            final String message = errorMessage(EasyResources.PERMISSION_REQUEST_FAIL);
+            logger.error(message, e);
             throw new InternalWebError();
         }
         catch (DataIntegrityException e)
@@ -174,10 +170,8 @@ public class PermissionRequestForm extends PermissionForm
 
     protected void logAction(final String action, final PermissionRequestModel permissionRequest)
     {
-        logger.debug(String.format("%s title=[%s] theme=[%s] accept conditions=[%s]", action,
-                permissionRequest.getRequestTitle(),
-                StringUtils.abbreviate(permissionRequest.getRequestTheme(), 25),
-                permissionRequest.isAcceptingConditionsOfUse()));
+        logger.debug(String.format("%s title=[%s] theme=[%s] accept conditions=[%s]", action, permissionRequest.getRequestTitle(), StringUtils.abbreviate(
+                permissionRequest.getRequestTheme(), 25), permissionRequest.isAcceptingConditionsOfUse()));
     }
 
 }

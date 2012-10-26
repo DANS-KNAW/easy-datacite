@@ -23,14 +23,14 @@ import org.apache.wicket.protocol.http.servlet.AbortWithWebErrorCodeException;
 
 public class RESTdatasetsPage extends RESTcascadePage
 {
-    
+
     public static final String NAME = "datasets";
     public static final String RESOURCE_KEY = "rest.datasets";
-    
+
     public static final String PM_DATASET = "dataset";
-    
+
     private static final int LEVEL = 2;
-    
+
     private static Map<String, PageDescription> CHILDREN;
 
     public RESTdatasetsPage(PageParameters parameters)
@@ -44,17 +44,17 @@ public class RESTdatasetsPage extends RESTcascadePage
         if (CHILDREN == null)
         {
             CHILDREN = new LinkedHashMap<String, PageDescription>();
-            
+
             String name = RESTviewPage.NAME;
             String resourceKey = RESTviewPage.RESOURCE_KEY;
             PageDescription description = new PageDescription(name, resourceKey, RESTviewPage.class);
             CHILDREN.put(name, description);
-            
+
             name = RESTfoxmlPage.NAME;
             resourceKey = RESTfoxmlPage.RESOURCE_KEY;
             description = new PageDescription(name, resourceKey, RESTfoxmlPage.class);
             CHILDREN.put(name, description);
-            
+
             name = RESTfilesPage.NAME;
             resourceKey = RESTfilesPage.RESOURCE_KEY;
             description = new PageDescription(name, resourceKey, RESTfilesPage.class);
@@ -74,31 +74,31 @@ public class RESTdatasetsPage extends RESTcascadePage
     {
         return RESOURCE_KEY;
     }
-    
+
     @Override
     public int getLevel()
     {
         return LEVEL;
     }
-    
+
     @Override
     protected void doDefaultDissemination()
     {
         String targetUrl = DatasetViewPage.urlFor(getDatasetId(), 0, false, this);
         throw new RestartResponseException(new RedirectPage(targetUrl));
     }
-    
+
     @Override
     protected void contributeParameters(PageParameters parameters)
     {
         parameters.put(PM_DATASET, getDataset());
     }
-    
+
     protected Dataset getDataset()
     {
         Dataset dataset;
         try
-        {                                                     
+        {
             dataset = Services.getDatasetService().getDataset(EasySession.getSessionUser(), new DmoStoreId(getDatasetId()));
         }
         catch (ObjectNotAvailableException e)
@@ -115,7 +115,7 @@ public class RESTdatasetsPage extends RESTcascadePage
         }
         return dataset;
     }
-    
+
     protected String getDatasetId()
     {
         String storeId;

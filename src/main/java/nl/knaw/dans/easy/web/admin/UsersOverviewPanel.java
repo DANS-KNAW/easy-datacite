@@ -31,16 +31,15 @@ public class UsersOverviewPanel extends AbstractEasyPanel
             protected void populateItem(ListItem item)
             {
                 final EasyUser user = (EasyUser) item.getDefaultModelObject();
-                
+
                 item.add(new UserPanel("user", new CompoundPropertyModel(user)));
             }
         });
     }
 
-    
     class UserPanel extends AbstractEasyStatelessPanel
     {
-        
+
         private static final long serialVersionUID = 7544583798689556606L;
 
         public UserPanel(String wicketId, IModel model)
@@ -53,14 +52,14 @@ public class UsersOverviewPanel extends AbstractEasyPanel
         }
 
     }
-    
+
     static class UserLink extends Link
     {
-        
+
         private static final long serialVersionUID = -3139887868300673513L;
-        
+
         private final String userId;
-        
+
         public UserLink(String id, IModel model)
         {
             super(id, model);
@@ -72,7 +71,7 @@ public class UsersOverviewPanel extends AbstractEasyPanel
         public void onClick()
         {
             setResponsePage(new UserDetailsPage(userId, false, true));
-        }        
-        
+        }
+
     }
 }

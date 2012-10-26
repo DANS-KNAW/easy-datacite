@@ -12,7 +12,6 @@ import org.apache.wicket.Page;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.model.IModel;
 
-
 /**
  * Generic panel for Easy.
  *
@@ -21,7 +20,7 @@ import org.apache.wicket.model.IModel;
 public abstract class AbstractEasyPanel extends CommonPanel
 {
     private static final long serialVersionUID = 5529101351554863036L;
-    
+
     /**
      * Default constructor.
      *
@@ -44,12 +43,12 @@ public abstract class AbstractEasyPanel extends CommonPanel
         super(wicketId, model);
         initAbstractEasyPanel();
     }
-    
-    protected void initAbstractEasyPanel()
-	{
-	}
 
-	/**
+    protected void initAbstractEasyPanel()
+    {
+    }
+
+    /**
      * Check if authenticated.
      *
      * @return true if authenticated.
@@ -68,25 +67,25 @@ public abstract class AbstractEasyPanel extends CommonPanel
     {
         return getEasySession().getUser();
     }
-    
+
     public boolean registerAjaxEventListener(String event, AjaxEventListener listener)
     {
         boolean success = false;
         Page page = getPage();
         if (page != null && page instanceof AbstractEasyPage)
         {
-            ((AbstractEasyPage)page).registerAjaxEventListener(event, listener);
+            ((AbstractEasyPage) page).registerAjaxEventListener(event, listener);
             success = true;
         }
         return success;
     }
-    
+
     public void handleAjaxEvent(String event, AjaxRequestTarget target)
     {
         Page page = getPage();
         if (page != null && page instanceof AbstractEasyPage)
         {
-            ((AbstractEasyPage)page).handleAjaxEvent(event, target);
+            ((AbstractEasyPage) page).handleAjaxEvent(event, target);
         }
     }
 }

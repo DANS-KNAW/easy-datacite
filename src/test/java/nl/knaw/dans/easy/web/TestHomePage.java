@@ -29,7 +29,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({Services.class, Security.class, StatisticsLogger.class, EasySession.class})
+@PrepareForTest( {Services.class, Security.class, StatisticsLogger.class, EasySession.class})
 public class TestHomePage
 {
     private WicketTester tester;
@@ -45,7 +45,7 @@ public class TestHomePage
     {
         userIsLoggedOff();
         replayAll();
-    
+
         renderHomePage();
         assertLinkVisibilityConformsToLoggedOffStatus();
         assertHomeBrowseAdvSearchVisible();
@@ -112,7 +112,7 @@ public class TestHomePage
     {
         normalUserIsLoggedIn();
         replayAll();
-    
+
         renderHomePage();
         assertLinkVisibilityConformsToLoggedInStatus();
         assertHomeBrowseAdvSearchVisible();
@@ -139,7 +139,7 @@ public class TestHomePage
     {
         archivistIsLoggedIn();
         replayAll();
-    
+
         renderHomePage();
         assertLinkVisibilityConformsToLoggedInStatus();
         assertHomeBrowseAdvSearchVisible();
@@ -154,7 +154,7 @@ public class TestHomePage
     {
         adminIsLoggedIn();
         replayAll();
-    
+
         renderHomePage();
         assertLinkVisibilityConformsToLoggedInStatus();
         assertHomeBrowseAdvSearchVisible();
@@ -173,7 +173,7 @@ public class TestHomePage
         setUpUsers();
         setUpEasySessionMock();
         setUpStatisticsLoggerMock();
-        
+
         setupSearchServiceMock();
     }
 
@@ -232,17 +232,17 @@ public class TestHomePage
         // we want those items to be visible on the Personal bar
         expect(searchServiceMock.getNumberOfDatasets(isA(EasyUser.class))).andReturn(1).anyTimes();
         expect(searchServiceMock.getNumberOfRequests(isA(EasyUser.class))).andReturn(1).anyTimes();
-        
+
         // show a number for the management items (management bar)
         expect(searchServiceMock.getNumberOfItemsInTrashcan(isA(EasyUser.class))).andReturn(1).anyTimes();
         expect(searchServiceMock.getNumberOfItemsInAllWork(isA(EasyUser.class))).andReturn(1).anyTimes();
         expect(searchServiceMock.getNumberOfItemsInOurWork(isA(EasyUser.class))).andReturn(1).anyTimes();
         expect(searchServiceMock.getNumberOfItemsInMyWork(isA(EasyUser.class))).andReturn(1).anyTimes();
-        
+
         mockStatic(Services.class);
         expect(Services.getSearchService()).andReturn(searchServiceMock).anyTimes();
     }
-    
+
     @After
     public void tearDown()
     {
@@ -263,7 +263,7 @@ public class TestHomePage
     {
         tester.assertLabel("displayName", "Ad Administrator (Administrator)");
     }
-    
+
     private void adminIsLoggedIn()
     {
         expectUser(adminUser);
@@ -284,7 +284,7 @@ public class TestHomePage
         tester.assertVisible("managementBarPanel:userInfo");
         tester.assertVisible("managementBarPanel:editableContent");
     }
-    
+
     private void assertAdminManagementPanelVisible()
     {
         tester.assertVisible("managementBarPanel:trashCan");

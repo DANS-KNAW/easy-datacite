@@ -19,16 +19,16 @@ public class SchemedBasicStringListWrapper extends AbstractDefaultListWrapper<Ke
 {
 
     private static final long serialVersionUID = 7976759517463796566L;
-       
+
     public SchemedBasicStringListWrapper(List<BasicString> wrappedList)
     {
         super(wrappedList);
     }
-    
+
     public SchemedBasicStringListWrapper(List<BasicString> wrappedList, String schemeName, String schemeId)
     {
         super(wrappedList, schemeName, schemeId);
-        
+
     }
 
     public List<KeyValuePair> getInitialItems()
@@ -39,7 +39,7 @@ public class SchemedBasicStringListWrapper extends AbstractDefaultListWrapper<Ke
             if (isSame(getSchemeName(), bs.getScheme()))
             {
                 listItems.add(new KeyValuePair(bs.getValue(), null));
-            }           
+            }
         }
         return listItems;
     }
@@ -55,7 +55,7 @@ public class SchemedBasicStringListWrapper extends AbstractDefaultListWrapper<Ke
             }
         }
         getWrappedList().removeAll(filteredList);
-        
+
         for (KeyValuePair keyValuePair : listItems)
         {
             if (keyValuePair != null && keyValuePair.getKey() != null)

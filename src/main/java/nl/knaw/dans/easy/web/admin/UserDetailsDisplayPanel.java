@@ -24,13 +24,13 @@ import org.slf4j.LoggerFactory;
 
 public class UserDetailsDisplayPanel extends AbstractEasyPanel implements EasyResources
 {
-    private static Logger       logger                  = LoggerFactory.getLogger(UserDetailsDisplayPanel.class);
+    private static Logger logger = LoggerFactory.getLogger(UserDetailsDisplayPanel.class);
 
     private static final long serialVersionUID = 227752819073521342L;
-        
+
     private final SwitchPanel parent;
-    private final boolean       enableModeSwitch;
-    
+    private final boolean enableModeSwitch;
+
     public UserDetailsDisplayPanel(final SwitchPanel parent, final IModel model, final boolean enableModeSwitch)
     {
         super(SwitchPanel.SWITCH_PANEL_WI, model);
@@ -38,11 +38,11 @@ public class UserDetailsDisplayPanel extends AbstractEasyPanel implements EasyRe
         this.enableModeSwitch = enableModeSwitch;
         constructPanel();
     }
-    
+
     private void constructPanel()
     {
         EasyUser user = (EasyUser) getDefaultModel().getObject();
-        
+
         add(new Label(UserProperties.USER_ID));
         add(new Label(UserProperties.DISPLAYNAME));
         add(new Label(UserProperties.TITLE));
@@ -65,32 +65,30 @@ public class UserDetailsDisplayPanel extends AbstractEasyPanel implements EasyRe
         add(new Label(UserProperties.DISPLAYGROUPS));
         add(new Label(UserProperties.DISPLAYROLES));
         add(new Label(UserProperties.STATE));
-        
+
         // Have different message depending on boolean; yes or no!
-        add(new Label(UserProperties.OPTS_FOR_NEWSLETTER,
-                new StringResourceModel("userinfo.optsForNewsletter.${optsForNewsletter}", this, new Model(user))));
-        add(new Label(UserProperties.LOG_MY_ACTIONS,
-                new StringResourceModel("userinfo.logMyActions.${logMyActions}", this, new Model(user))));
+        add(new Label(UserProperties.OPTS_FOR_NEWSLETTER, new StringResourceModel("userinfo.optsForNewsletter.${optsForNewsletter}", this, new Model(user))));
+        add(new Label(UserProperties.LOG_MY_ACTIONS, new StringResourceModel("userinfo.logMyActions.${logMyActions}", this, new Model(user))));
 
         DateTime lastLogin = user.getLastLoginDate();
-        
+
         OperationalAttributes opa;
-		try
-		{
-			opa = Services.getUserService().getOperationalAttributes(user);
-		}
-		catch (ServiceException e)
-		{
+        try
+        {
+            opa = Services.getUserService().getOperationalAttributes(user);
+        }
+        catch (ServiceException e)
+        {
             final String message = errorMessage(EasyResources.INTERNAL_ERROR);
             logger.error(message, e);
-	        throw new InternalWebError();
-	    }
+            throw new InternalWebError();
+        }
         DateTime cDate = opa.getCreateTimestamp();
-        
+
         addCommonFeedbackPanel();
         add(DateLabel.forDatePattern("createTime", new Model(cDate == null ? null : cDate.toDate()), "yyyy-MM-dd HH:mm"));
         add(DateLabel.forDatePattern("lastLogin", new Model(lastLogin == null ? null : lastLogin.toDate()), "yyyy-MM-dd HH:mm"));
-        
+
         Link modeSwitch = new Link(EDIT_LINK)
         {
 
@@ -100,11 +98,11 @@ public class UserDetailsDisplayPanel extends AbstractEasyPanel implements EasyRe
             public void onClick()
             {
                 parent.switchMode();
-            }           
+            }
         };
         modeSwitch.setVisible(enableModeSwitch);
         add(modeSwitch);
-        
+
         Link doneLink = new Link(DONE_LINK)
         {
 
@@ -114,17 +112,16 @@ public class UserDetailsDisplayPanel extends AbstractEasyPanel implements EasyRe
             public void onClick()
             {
                 setResponsePage(UsersOverviewPage.class);
-            }           
+            }
         };
         add(doneLink);
     }
-    
+
     private String getDisciplineString(String id)
     {
         KeyValuePair result = DisciplineUtils.getDisciplineItemById(id);
-        
+
         return result == null ? "" : result.getValue();
     }
-    
 
 }

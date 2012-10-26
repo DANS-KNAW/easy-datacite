@@ -25,7 +25,6 @@ import org.apache.wicket.protocol.http.RequestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 /**
  * Page with a form allowing a depositor of a data set to (re)view or reply to a permission request.
  *
@@ -34,19 +33,19 @@ public class PermissionReplyPage extends AbstractEasyNavPage
 {
     public static final String PM_DATASET_ID = "dsid";
     public static final String PM_REQUESTER_ID = "rqid";
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(PermissionReplyPage.class);
     private static final String TITLE_KEY = "InitialPermissionReplyTitle";
     private final EasyUser user;
     private boolean initiated = false;
     private final AbstractEasyPage fromPage;
     private final PermissionSequence sequence;
-    
+
     public static String urlFor(Dataset dataset, EasyUser requester, Component component)
     {
         return urlFor(dataset.getStoreId(), requester.getId(), component);
     }
-    
+
     public static String urlFor(String datasetId, String requesterId, Component component)
     {
         PageParameters parameters = new PageParameters();
@@ -57,7 +56,7 @@ public class PermissionReplyPage extends AbstractEasyNavPage
         LOGGER.debug("Composed bookmarkable link: " + bookmarkableLink);
         return bookmarkableLink;
     }
-    
+
     public PermissionReplyPage(final DatasetModel datasetModel, final AbstractEasyPage fromPage, final PermissionSequence sequence)
     {
         super(new DatasetModel(datasetModel));
@@ -75,34 +74,34 @@ public class PermissionReplyPage extends AbstractEasyNavPage
         {
             pageBack();
         }
-        
+
         // Disable dynamic reload. We don't want the dataset reloading automatically
         // just before saving. We want to save it in exactly the way it was presented.
         getDatasetModel().setDynamicReload(false);
     }
-    
+
     protected DatasetModel getDatasetModel()
     {
-    	return (DatasetModel) getDefaultModel();
+        return (DatasetModel) getDefaultModel();
     }
-    
+
     public PermissionReplyPage(PageParameters parameters)
     {
         super(parameters);
         LOGGER.debug("Instantiating PermissionReplyPage with PageParameters");
         DatasetModel datasetModel;
         String datasetId = parameters.getString(PM_DATASET_ID);
-		try
-		{
-			datasetModel = new DatasetModel(datasetId);
-			setDefaultModelObject(datasetModel);
-		}
-		catch (ServiceException e)
-		{
-			errorMessage(EasyResources.DATASET_LOAD, datasetId);
-			LOGGER.error("Unable to load model object: ", e);
-			throw new InternalWebError();
-		}
+        try
+        {
+            datasetModel = new DatasetModel(datasetId);
+            setDefaultModelObject(datasetModel);
+        }
+        catch (ServiceException e)
+        {
+            errorMessage(EasyResources.DATASET_LOAD, datasetId);
+            LOGGER.error("Unable to load model object: ", e);
+            throw new InternalWebError();
+        }
         fromPage = null;
         String requesterId = parameters.getString(PM_REQUESTER_ID);
         sequence = getDataset().getPermissionSequenceList().getSequenceFor(requesterId);
@@ -113,12 +112,11 @@ public class PermissionReplyPage extends AbstractEasyNavPage
             pageBack();
         }
     }
-    
+
     protected Dataset getDataset()
     {
-    	return (Dataset) getDefaultModelObject();
+        return (Dataset) getDefaultModelObject();
     }
-
 
     @Override
     protected void onBeforeRender()
@@ -139,26 +137,26 @@ public class PermissionReplyPage extends AbstractEasyNavPage
         // TODO Get from resource, use Wicket StringResourceModel
         String format = getString(TITLE_KEY);
         if (sequence.getState().equals(PermissionSequence.State.Submitted))
-            format = getString(TITLE_KEY + "."+ sequence.getState());
+            format = getString(TITLE_KEY + "." + sequence.getState());
         String requesterName = sequence.getRequester().getDisplayName();
         String preferredTitle = getDataset().getPreferredTitle();
-        final String[] strings = new String[] { requesterName, preferredTitle};
+        final String[] strings = new String[] {requesterName, preferredTitle};
         return new MessageFormat(format).format(strings);
     }
 
     private void addComponents()
     {
         add(new Label("title", new Model<String>(getPageTitlePostfix())));
-        
+
         if (sequence.getState().equals(PermissionSequence.State.Submitted))
         {
             LOGGER.debug("Edit panel");
-            add(new PermissionReplyEditPanel("replyPanel", fromPage, new DatasetModel((Dataset) getDefaultModelObject()), sequence));        
+            add(new PermissionReplyEditPanel("replyPanel", fromPage, new DatasetModel((Dataset) getDefaultModelObject()), sequence));
         }
         else
         {
             LOGGER.debug("View panel");
-            add(new PermissionReplyViewPanel("replyPanel", fromPage, new DatasetModel((Dataset) getDefaultModelObject()), sequence));        
+            add(new PermissionReplyViewPanel("replyPanel", fromPage, new DatasetModel((Dataset) getDefaultModelObject()), sequence));
         }
 
     }
@@ -171,7 +169,7 @@ public class PermissionReplyPage extends AbstractEasyNavPage
         }
         else
         {
-            fromPage.refresh(); 
+            fromPage.refresh();
             setResponsePage(fromPage);
         }
     }

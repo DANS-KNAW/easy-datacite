@@ -15,7 +15,7 @@ public class WizardNavigationPanel extends Panel
 {
 
     private static final long serialVersionUID = 8137149138691417525L;
-    
+
     private final FormDefinition formDefinition;
     private final WizardNavigationListener listener;
     private boolean initiated;
@@ -28,7 +28,7 @@ public class WizardNavigationPanel extends Panel
         this.listener = listener;
         this.formDefinition = formDefinition;
     }
-    
+
     public String getLabelResourceKey()
     {
         return labelResourceKey;
@@ -59,7 +59,7 @@ public class WizardNavigationPanel extends Panel
         }
         super.onBeforeRender();
     }
-    
+
     private void init()
     {
         final ListView pageLinks = new ListView("listView", formDefinition.getFormPages())
@@ -80,20 +80,20 @@ public class WizardNavigationPanel extends Panel
                     {
                         listener.onPageClick(formPage);
                     }
-                    
+
                 };
                 submitLink.add(new Label("pageLinkLabel", new ResourceModel(formPage.getLabelResourceKey())));
                 submitLink.setEnabled(!formPage.equals(currentPage));
                 item.add(submitLink);
             }
-            
+
         };
         final WebMarkupContainer pageLinkContainer = new WebMarkupContainer("pageLinkContainer");
         pageLinkContainer.add(pageLinks);
         add(new Label("label", new ResourceModel(labelResourceKey, "")));
         add(pageLinkContainer);
         add(createInstructionLink());
-//        add(new Label("instructionLink", new ResourceModel(parentPage.getLabelResourceKey())));
+        //        add(new Label("instructionLink", new ResourceModel(parentPage.getLabelResourceKey())));
     }
 
     private ExternalLink createInstructionLink()
@@ -101,20 +101,24 @@ public class WizardNavigationPanel extends Panel
         ExternalLink link = createInstructionLink(currentPage);
         if (link == null)
             link = createInstructionLink(currentPage.getParent());
-        if (link == null) {
+        if (link == null)
+        {
             link = new ExternalLink("instructionLink", "", "");
             link.setVisible(false);
-        } else {
+        }
+        else
+        {
             link.setVisible(true);
         }
         return link;
     }
-    
-    private static ExternalLink createInstructionLink (AbstractInheritableDefinition<?> page) {
+
+    private static ExternalLink createInstructionLink(AbstractInheritableDefinition<?> page)
+    {
         String instructionUrl = page.getInstructionFile();
-        if (instructionUrl == null) return null;
-        String instructionLinkText =
-            page.getCustomProperty("instructionLinkTextResourceKey", "Instructions");
+        if (instructionUrl == null)
+            return null;
+        String instructionLinkText = page.getCustomProperty("instructionLinkTextResourceKey", "Instructions");
         return new ExternalLink("instructionLink", instructionUrl, instructionLinkText);
     }
 }

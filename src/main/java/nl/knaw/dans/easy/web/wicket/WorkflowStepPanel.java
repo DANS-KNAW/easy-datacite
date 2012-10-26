@@ -28,11 +28,11 @@ import org.joda.time.DateTime;
 
 public class WorkflowStepPanel extends AbstractEasyPanel
 {
-    
+
     public static final String COMPLETED = "completed";
-    
+
     public static final String AJAX_EVENT_WORKFOWSTEP_COMPLETED_CHANGED = WorkflowStepPanel.class.getName() + " workflowstep completed changed";
-    
+
     public static final String POSTFIX_CSS = ".css";
 
     public static final String POSTFIX_CHECKBOX = ".check";
@@ -40,14 +40,14 @@ public class WorkflowStepPanel extends AbstractEasyPanel
     public static final String POSTFIX_TITLE_KEY = ".wfsname";
 
     private static final long serialVersionUID = 7682413775887633507L;
-    
+
     private final WorkflowStep workflowStep;
     private final Properties displayProps;
     private final String cssClass;
     private final String resourceKeyForTitle;
     private final boolean checkBoxVisisble;
     private final boolean leaf;
-    
+
     private Set<Component> targetableComponents = new HashSet<Component>();
     private boolean initiated;
 
@@ -56,7 +56,7 @@ public class WorkflowStepPanel extends AbstractEasyPanel
         super(wicketId);
         this.workflowStep = workflowStep;
         this.displayProps = displayProps;
-        
+
         cssClass = displayProps.getProperty(workflowStep.getId() + POSTFIX_CSS);
         checkBoxVisisble = "true".equals(displayProps.getProperty(workflowStep.getId() + POSTFIX_CHECKBOX, "false"));
         leaf = workflowStep.isLeaf();
@@ -72,7 +72,7 @@ public class WorkflowStepPanel extends AbstractEasyPanel
     {
         return displayProps;
     }
-    
+
     public String getResourceKeyForTitle()
     {
         return resourceKeyForTitle;
@@ -92,7 +92,7 @@ public class WorkflowStepPanel extends AbstractEasyPanel
     {
         return leaf;
     }
-    
+
     public void addTargetableComponent(Component component)
     {
         targetableComponents.add(component);
@@ -110,7 +110,7 @@ public class WorkflowStepPanel extends AbstractEasyPanel
     }
 
     private void init()
-    {        
+    {
         // Title visible if there is no checkbox
         Label title = new Label("title", new ResourceModel(getResourceKeyForTitle(), "title of this step"));
         if (cssClass != null)
@@ -119,22 +119,23 @@ public class WorkflowStepPanel extends AbstractEasyPanel
         }
         title.setVisible(!isCheckBoxVisisble());
         add(title);
-        
+
         // Time spent visible if this step timeSpentWritable returns true
         final TextField timeSpent = new TextField("timeSpent", new Model()
         {
 
             private static final long serialVersionUID = -8549305949084351344L;
             private Serializable object;
-            
+
             @Override
             public Serializable getObject()
-            {               
+            {
                 double ts = workflowStep.getTimeSpent();
-                if (ts != 0.0D) object = new Double(ts);
+                if (ts != 0.0D)
+                    object = new Double(ts);
                 return object;
             }
-            
+
             @Override
             public void setObject(Serializable object)
             {
@@ -153,11 +154,11 @@ public class WorkflowStepPanel extends AbstractEasyPanel
                     }
                     catch (NumberFormatException e)
                     {
-                       //
+                        //
                     }
                 }
             }
-            
+
         });
         timeSpent.setOutputMarkupId(true);
         timeSpent.add(new OnChangeAjaxBehavior()
@@ -170,9 +171,9 @@ public class WorkflowStepPanel extends AbstractEasyPanel
             {
                 // we do nothing here, the model is set for us and rendered on blur.
             }
-            
+
         });
-        
+
         timeSpent.add(new AjaxEventBehavior("onBlur")
         {
 
@@ -183,12 +184,12 @@ public class WorkflowStepPanel extends AbstractEasyPanel
             {
                 target.addComponent(timeSpent.getForm());
             }
-            
-        }); 
+
+        });
 
         timeSpent.setVisible(workflowStep.isTimeSpentWritable());
         add(timeSpent);
-        
+
         // Checkbox, label for checkbox, step required. Visible if checkBoxVisisble
         WebMarkupContainer checkBoxContainer = new WebMarkupContainer("checkBoxContainer");
         if (cssClass != null)
@@ -196,7 +197,7 @@ public class WorkflowStepPanel extends AbstractEasyPanel
             checkBoxContainer.add(new SimpleAttributeModifier("class", cssClass));
         }
         final CheckBox checkBox = new CheckBox(COMPLETED, new PropertyModel(workflowStep, "completed"));
-        
+
         checkBox.add(new OnChangeAjaxBehavior()
         {
 
@@ -216,38 +217,38 @@ public class WorkflowStepPanel extends AbstractEasyPanel
                 target.addComponent(checkBox.getForm());
                 WorkflowStepPanel.this.handleAjaxEvent(AJAX_EVENT_WORKFOWSTEP_COMPLETED_CHANGED, target);
             }
-            
+
         });
         checkBox.setOutputMarkupId(true);
         checkBoxContainer.add(checkBox);
-        
+
         Label checkBoxLabel = new Label("completedLabel", new ResourceModel(getResourceKeyForTitle(), "checkBoxLabel"));
         checkBoxLabel.add(new SimpleAttributeModifier("for", checkBox.getMarkupId()));
         checkBoxContainer.add(checkBoxLabel);
-        
+
         Label required = new Label("required", "*");
         required.setVisible(workflowStep.isRequired());
         checkBoxContainer.add(required);
-        
+
         checkBoxContainer.setVisible(isCheckBoxVisisble());
         add(checkBoxContainer);
-        
+
         Label doneBy = new Label("doneBy", new Model()
         {
 
             private static final long serialVersionUID = -6036707328494787135L;
-            
+
             @Override
             public Serializable getObject()
             {
                 EasyUser whoDidIt = workflowStep.getWhoDidIt();
                 return whoDidIt == null ? null : whoDidIt.getDisplayName();
             }
-            
+
         });
         doneBy.setVisible(isLeaf());
         add(doneBy);
-        
+
         DateLabel doneOnDate = DateLabel.forDatePattern("doneOnDate", new Model()
         {
 
@@ -262,7 +263,7 @@ public class WorkflowStepPanel extends AbstractEasyPanel
 
         }, "yyyy-MM-dd");
         add(doneOnDate);
-        
+
         // substeps 
         add(new ListView("kidSteps", workflowStep.getSteps())
         {
@@ -275,9 +276,9 @@ public class WorkflowStepPanel extends AbstractEasyPanel
                 WorkflowStep kidStep = (WorkflowStep) item.getDefaultModelObject();
                 item.add(new WorkflowStepPanel("kidStep", kidStep, displayProps));
             }
-            
+
         });
-        
+
     }
 
 }

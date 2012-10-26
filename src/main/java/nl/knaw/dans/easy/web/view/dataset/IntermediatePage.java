@@ -28,17 +28,17 @@ import org.slf4j.LoggerFactory;
 
 public abstract class IntermediatePage extends AbstractEasyNavPage
 {
-    private static final Logger     logger                = LoggerFactory.getLogger(IntermediatePage.class);
+    private static final Logger logger = LoggerFactory.getLogger(IntermediatePage.class);
 
-    private static final String     ID_TITLE              = "title";
-    private static final String     ID_INTERMEDIATE_PANEL = "intermediatePanel";
-    private static final String     ID_INTERMEDIATE_FORM  = "intermediateForm";
-    private static final String     ID_DATASET_TITLE      = "datasetTitle";
-    private static final String     ID_DEPOSITOR_NAME     = "depositorName";
-    private static final String     ID_INCLUDE_LICENSE    = "includeLicense";
-    private static final String     ID_NOTIFY_DEPOSITOR   = "notifyDepositor";
-    private static final String     ID_SUBMIT             = "submit";
-    private static final String     ID_CANCEL             = "cancel";
+    private static final String ID_TITLE = "title";
+    private static final String ID_INTERMEDIATE_PANEL = "intermediatePanel";
+    private static final String ID_INTERMEDIATE_FORM = "intermediateForm";
+    private static final String ID_DATASET_TITLE = "datasetTitle";
+    private static final String ID_DEPOSITOR_NAME = "depositorName";
+    private static final String ID_INCLUDE_LICENSE = "includeLicense";
+    private static final String ID_NOTIFY_DEPOSITOR = "notifyDepositor";
+    private static final String ID_SUBMIT = "submit";
+    private static final String ID_CANCEL = "cancel";
 
     private final DatasetModel datasetModel;
 
@@ -120,7 +120,7 @@ public abstract class IntermediatePage extends AbstractEasyNavPage
     // UnsubmitPanel
     protected class UnsubmitPanel extends AbstractEasyPanel implements SubmitLinkListener
     {
-        private static final long      serialVersionUID = 3939391030695512753L;
+        private static final long serialVersionUID = 3939391030695512753L;
 
         private final IntermediateForm form;
 
@@ -158,7 +158,7 @@ public abstract class IntermediatePage extends AbstractEasyNavPage
     // PublishPanel
     protected class PublishPanel extends AbstractEasyPanel implements SubmitLinkListener
     {
-        private static final long      serialVersionUID = -78333439372508804L;
+        private static final long serialVersionUID = -78333439372508804L;
 
         private final IntermediateForm form;
 
@@ -199,7 +199,7 @@ public abstract class IntermediatePage extends AbstractEasyNavPage
     protected class UnpublishPanel extends AbstractEasyPanel implements SubmitLinkListener
     {
 
-        private static final long      serialVersionUID = -6362817621826949894L;
+        private static final long serialVersionUID = -6362817621826949894L;
 
         private final IntermediateForm form;
 
@@ -236,7 +236,7 @@ public abstract class IntermediatePage extends AbstractEasyNavPage
     // MaintainPanel
     protected class MaintainPanel extends AbstractEasyPanel implements SubmitLinkListener
     {
-        private static final long      serialVersionUID = -1580189067742854756L;
+        private static final long serialVersionUID = -1580189067742854756L;
 
         private final IntermediateForm form;
 
@@ -273,7 +273,7 @@ public abstract class IntermediatePage extends AbstractEasyNavPage
     // RepublishPanel
     protected class RepublishPanel extends AbstractEasyPanel implements SubmitLinkListener
     {
-        private static final long      serialVersionUID = -8958880253397322216L;
+        private static final long serialVersionUID = -8958880253397322216L;
 
         private final IntermediateForm form;
 
@@ -313,11 +313,11 @@ public abstract class IntermediatePage extends AbstractEasyNavPage
     protected class ChangeDepositorPanel extends AbstractEasyPanel implements SubmitLinkListener
     {
 
-        private static final long      serialVersionUID   = 5992545250405060874L;
+        private static final long serialVersionUID = 5992545250405060874L;
 
         private final IntermediateForm form;
-        private final SelectUserPanel  selectUserPanel;
-        private final Input            notifyNewDepositor = new Input();
+        private final SelectUserPanel selectUserPanel;
+        private final Input notifyNewDepositor = new Input();
 
         public ChangeDepositorPanel()
         {
@@ -366,16 +366,16 @@ public abstract class IntermediatePage extends AbstractEasyNavPage
     protected class IntermediateForm extends Form
     {
 
-        private static final long        serialVersionUID = 8451362357786696012L;
+        private static final long serialVersionUID = 8451362357786696012L;
 
         private final SubmitLinkListener listener;
-        private final Input              notifyDepositor  = new Input();
-        private final Input              includeLicense   = new Input();
+        private final Input notifyDepositor = new Input();
+        private final Input includeLicense = new Input();
 
-        private boolean                  showNotifyDepositor;
-        private boolean                  showIncludeLicense;
+        private boolean showNotifyDepositor;
+        private boolean showIncludeLicense;
 
-        private boolean                  initiated;
+        private boolean initiated;
 
         public IntermediateForm(SubmitLinkListener listener)
         {
@@ -465,7 +465,7 @@ public abstract class IntermediatePage extends AbstractEasyNavPage
     {
         private static final long serialVersionUID = -667029584818294155L;
 
-        protected boolean         slavink;
+        protected boolean slavink;
 
         public Boolean getChecked()
         {

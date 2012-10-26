@@ -1,4 +1,4 @@
-	package nl.knaw.dans.easy.web.deposit.repeater;
+package nl.knaw.dans.easy.web.deposit.repeater;
 
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -57,18 +57,18 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
      * 
      * @see #getRepeatingComponentPanel(ListItem)
      */
-    public static final String        REPEATING_PANEL_ID = "repeatingPanel";
-    
+    public static final String REPEATING_PANEL_ID = "repeatingPanel";
+
     public static final String PROP_NAME_HIDE_WHEN_EMPTY = "hideWhenEmpty";
 
-    private static final long         serialVersionUID   = -4194940323146017009L;
-    private static Logger             logger             = LoggerFactory.getLogger(AbstractRepeaterPanel.class);
+    private static final long serialVersionUID = -4194940323146017009L;
+    private static Logger logger = LoggerFactory.getLogger(AbstractRepeaterPanel.class);
 
-    private final ListWrapper<T>      listWrapper;
-    private List<T>             listItems;
-    private boolean                   repeating          = true;
-    
-	private Map<Integer, Set<String>> itemErrorMap;
+    private final ListWrapper<T> listWrapper;
+    private List<T> listItems;
+    private boolean repeating = true;
+
+    private Map<Integer, Set<String>> itemErrorMap;
     private Map<Integer, Set<String>> itemInfoMap;
 
     /**
@@ -122,7 +122,7 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
         this.listWrapper = listWrapper;
         this.listWrapper.setComponent(this);
         //listItems = this.listWrapper.getInitialItems();
-        
+
     }
 
     /**
@@ -133,15 +133,12 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
         super.setPanelDefinition(definition);
         this.repeating = definition.isRepeating();
     }
-    
-    
+
     @Override
     public boolean isVisible()
     {
         StandardPanelDefinition panelDefinition = getPanelDefinition();
-        if (panelDefinition != null
-                && "true".equalsIgnoreCase(panelDefinition.getCustomProperty(PROP_NAME_HIDE_WHEN_EMPTY))
-                && !hasBeenRendered()
+        if (panelDefinition != null && "true".equalsIgnoreCase(panelDefinition.getCustomProperty(PROP_NAME_HIDE_WHEN_EMPTY)) && !hasBeenRendered()
                 && getListWrapper().size() == 0)
         {
             return false;
@@ -187,7 +184,7 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
      */
     public int synchronize()
     {
-        if(isInEditMode() && listItems != null)
+        if (isInEditMode() && listItems != null)
         {
             return listWrapper.synchronize(listItems);
         }
@@ -206,7 +203,7 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
     {
         return repeating;
     }
-	
+
     /**
      * Should this RepeaterPanel show plus and minus buttons. The default is <code>true</code>: show plus and minus
      * buttons.
@@ -302,21 +299,22 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
      * @return a panel with wicketId {@link #REPEATING_PANEL_ID}
      */
     protected abstract Panel getRepeatingComponentPanel(final ListItem<T> item);
-    
+
     @Override
-    protected void onBeforeRender() {
+    protected void onBeforeRender()
+    {
         super.onBeforeRender();
-        
+
         // actions required after a user hits refresh
         if (!isInEditMode() && listItems.isEmpty())
             this.getParent().setVisible(false); //if no data, don't display.
     }
-    
+
     @SuppressWarnings("rawtypes")
     protected void init()
     {
         getListItems(); // make sure variable <listItems> is initialized 
-        
+
         if (isInEditMode())
         {
             if (listItems.isEmpty())
@@ -325,10 +323,10 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
             }
         }
         else
-    	{
-    		super.setHelpItem(null);      //don't display help sign.
-    		super.setRequired(false);     //don't display * sign.
-    	}
+        {
+            super.setHelpItem(null); //don't display help sign.
+            super.setRequired(false); //don't display * sign.
+        }
         super.init(); // skeletonPanel
 
         final WebMarkupContainer listViewContainer = new WebMarkupContainer("listViewContainer")
@@ -345,77 +343,74 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
         };
 
         @SuppressWarnings("unchecked")
-        final ListView listView = new ListView("listView", listItems) 
+        final ListView listView = new ListView("listView", listItems)
         {
 
-			private static final long serialVersionUID = -1211775601610374234L;
+            private static final long serialVersionUID = -1211775601610374234L;
 
-			
             @Override
-			protected void populateItem(final ListItem item) 
-			{
-				item.add(new EasyComponentFeedbackPanel("itemFeedback", item));
-				addItemMessages(item);
+            protected void populateItem(final ListItem item)
+            {
+                item.add(new EasyComponentFeedbackPanel("itemFeedback", item));
+                addItemMessages(item);
 
-				// call on subclasses to contribute their repeating component(s)
-				// on a panel.
-				Panel repeatingComponentPanel = getRepeatingComponentPanel(item);
-				item.add(repeatingComponentPanel);
-				
-				//create a holder of buttons minus and plus
-				//display it when in edit mode.
-				final WebMarkupContainer buttonsHolder = new WebMarkupContainer("buttonsHolder");
-				if (isInEditMode()) 
-				{
-					// create and add the minus link.
-					AjaxSubmitLink minusLink = new AjaxSubmitLink("minusLink") 
-					{
+                // call on subclasses to contribute their repeating component(s)
+                // on a panel.
+                Panel repeatingComponentPanel = getRepeatingComponentPanel(item);
+                item.add(repeatingComponentPanel);
 
-						private static final long serialVersionUID = -1068301614895419955L;
+                //create a holder of buttons minus and plus
+                //display it when in edit mode.
+                final WebMarkupContainer buttonsHolder = new WebMarkupContainer("buttonsHolder");
+                if (isInEditMode())
+                {
+                    // create and add the minus link.
+                    AjaxSubmitLink minusLink = new AjaxSubmitLink("minusLink")
+                    {
 
-						@Override
-						protected void onSubmit(final AjaxRequestTarget target,
-								final Form form) {
-							logger
-									.debug("onSubmit minusLink. removedItemIndex="
-											+ item.getIndex());
-							handleMinusButtonClicked(item, target, form);
-							target.addComponent(listViewContainer);
-						}
+                        private static final long serialVersionUID = -1068301614895419955L;
 
-					};
-					minusLink.setVisible(isRepeating() && listItems.size() != 1);
-					buttonsHolder.add(minusLink);
+                        @Override
+                        protected void onSubmit(final AjaxRequestTarget target, final Form form)
+                        {
+                            logger.debug("onSubmit minusLink. removedItemIndex=" + item.getIndex());
+                            handleMinusButtonClicked(item, target, form);
+                            target.addComponent(listViewContainer);
+                        }
 
-					// create and add the plus link.
-					AjaxSubmitLink plusLink = new AjaxSubmitLink("plusLink") 
-					{
+                    };
+                    minusLink.setVisible(isRepeating() && listItems.size() != 1);
+                    buttonsHolder.add(minusLink);
 
-						private static final long serialVersionUID = -1068301614895419955L;
+                    // create and add the plus link.
+                    AjaxSubmitLink plusLink = new AjaxSubmitLink("plusLink")
+                    {
 
-						@Override
-						protected void onSubmit(final AjaxRequestTarget target,
-								final Form form) {
-							logger.debug("onSubmit plusLink");
-							handlePlusButtonClicked(target, form);
-							logger.debug("addComponent");
-							target.addComponent(listViewContainer);
-						}
+                        private static final long serialVersionUID = -1068301614895419955L;
 
-					};
-					plusLink.setVisible(isRepeating() && item.getIndex() == listItems.size() - 1);
-					buttonsHolder.add(plusLink);
-				} 
-				else 
-				{
-					//hidden when in non editable mode.
-					buttonsHolder.setVisible(false);
-				}
+                        @Override
+                        protected void onSubmit(final AjaxRequestTarget target, final Form form)
+                        {
+                            logger.debug("onSubmit plusLink");
+                            handlePlusButtonClicked(target, form);
+                            logger.debug("addComponent");
+                            target.addComponent(listViewContainer);
+                        }
 
-				item.add(buttonsHolder);
-			}
+                    };
+                    plusLink.setVisible(isRepeating() && item.getIndex() == listItems.size() - 1);
+                    buttonsHolder.add(plusLink);
+                }
+                else
+                {
+                    //hidden when in non editable mode.
+                    buttonsHolder.setVisible(false);
+                }
 
-		};
+                item.add(buttonsHolder);
+            }
+
+        };
         listViewContainer.add(listView);
         add(listViewContainer.setOutputMarkupId(true));
 
@@ -466,9 +461,7 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
 
         if (infoos > 0 || errors > 0)
         {
-            logger
-                    .debug("Added item messages on index " + item.getIndex() + ". infoos=" + infoos + " errors="
-                            + errors);
+            logger.debug("Added item messages on index " + item.getIndex() + ". infoos=" + infoos + " errors=" + errors);
         }
     }
 

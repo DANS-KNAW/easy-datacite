@@ -41,15 +41,15 @@ import org.slf4j.LoggerFactory;
 
 public class EmdModelFactory implements IModelFactory
 {
-    
+
     private static final long serialVersionUID = -6320009217885693076L;
-    
+
     private static final Logger logger = LoggerFactory.getLogger(EmdModelFactory.class);
-    
+
     private transient Dataset dataset;
-    
+
     private DatasetModel datasetModel;
-    
+
     public EmdModelFactory(DatasetModel datasetModel)
     {
         this.datasetModel = datasetModel;
@@ -57,16 +57,16 @@ public class EmdModelFactory implements IModelFactory
 
     public ChoiceList getChoiceList(String listId, Locale locale) throws ServiceException
     {
-		return Services.getDepositService().getChoices(listId, locale);
+        return Services.getDepositService().getChoices(listId, locale);
     }
 
     @SuppressWarnings("rawtypes")
     public IModel createModel(StandardPanelDefinition tpDef) throws ModelFactoryException
     {
         IModel model = null;
-        
+
         String methodName = "create" + tpDef.getModelClass() + "Model";
-        
+
         try
         {
             Method method = this.getClass().getMethod(methodName, StandardPanelDefinition.class);
@@ -105,7 +105,7 @@ public class EmdModelFactory implements IModelFactory
         //logger.debug("Created model with object " + model.getObject());
         return model;
     }
-    
+
     private Dataset getDataset()
     {
         if (dataset == null)
@@ -124,22 +124,22 @@ public class EmdModelFactory implements IModelFactory
 
     private String composeErrorMessage(StandardPanelDefinition spDef)
     {
-        final String msg = "Could not create model for " + TermPanelDefinition.class.getSimpleName() + ":" + spDef.getId()
-            + "\n\t modelClass=" + spDef.getModelClass();
+        final String msg = "Could not create model for " + TermPanelDefinition.class.getSimpleName() + ":" + spDef.getId() + "\n\t modelClass="
+                + spDef.getModelClass();
         return msg;
     }
-    
-    @SuppressWarnings({"unchecked", "rawtypes"})
+
+    @SuppressWarnings( {"unchecked", "rawtypes"})
     public IModel createEasyMetadataModel(StandardPanelDefinition definition)
     {
         return new Model(getDataset().getEasyMetadata());
     }
-    
+
     protected EasyMetadata getEasyMetadata()
     {
         return getDataset().getEasyMetadata();
     }
-    
+
     public IModel<Archis2ListWrapper> createArchis2ListWrapperModel(StandardPanelDefinition definition)
     {
         Archis2ListWrapper a2lw = new Archis2ListWrapper(getEasyMetadata());
@@ -151,41 +151,41 @@ public class EmdModelFactory implements IModelFactory
         CMDIFormatChoiceWrapper cmdi = new CMDIFormatChoiceWrapper(getEasyMetadata());
         return new Model<CMDIFormatChoiceWrapper>(cmdi);
     }
-    
-    @SuppressWarnings({"unchecked", "rawtypes"})
+
+    @SuppressWarnings( {"unchecked", "rawtypes"})
     public IModel<AuthorListWrapper> createAuthorListWrapperModel(StandardPanelDefinition definition)
     {
         AuthorListWrapper alw = new AuthorListWrapper(getEasyMetadataList(definition));
         return new Model(alw);
     }
-    
-    @SuppressWarnings({"unchecked", "rawtypes"})
+
+    @SuppressWarnings( {"unchecked", "rawtypes"})
     public IModel createIsoDateListWrapperModel(StandardPanelDefinition definition)
     {
-    	IsoDateListWrapper dlw = new IsoDateListWrapper(getEasyMetadata().getEmdDate());
+        IsoDateListWrapper dlw = new IsoDateListWrapper(getEasyMetadata().getEmdDate());
         return new Model(dlw);
     }
-    
-    @SuppressWarnings({"unchecked", "rawtypes"})
+
+    @SuppressWarnings( {"unchecked", "rawtypes"})
     public IModel createBasicDateListWrapperModel(StandardPanelDefinition definition)
     {
         BasicDateListWrapper bdlw = new BasicDateListWrapper(getEasyMetadata().getEmdDate());
         return new Model(bdlw);
     }
-    
-    @SuppressWarnings({"unchecked", "rawtypes"})
+
+    @SuppressWarnings( {"unchecked", "rawtypes"})
     public IModel createSingleISODateWrapperModel(StandardPanelDefinition definition)
     {
         return new Model(new SingleISODateWrapper(getEasyMetadataList(definition)));
     }
-    
-    @SuppressWarnings({"rawtypes", "unchecked"})
+
+    @SuppressWarnings( {"rawtypes", "unchecked"})
     public IModel createSingleBasicDateWrapperModel(StandardPanelDefinition definition)
     {
         return new Model(new SingleBasicDateWrapper(getEasyMetadataList(definition)));
     }
-    
-    @SuppressWarnings({"unchecked", "rawtypes"})
+
+    @SuppressWarnings( {"unchecked", "rawtypes"})
     public IModel createBasicStringListWrapperModel(StandardPanelDefinition definition)
     {
         String schemeName = null;
@@ -197,8 +197,8 @@ public class EmdModelFactory implements IModelFactory
         }
         return new Model(new BasicStringListWrapper(getEasyMetadataList(definition), schemeName, schemeId));
     }
-    
-    @SuppressWarnings({"unchecked", "rawtypes"})
+
+    @SuppressWarnings( {"unchecked", "rawtypes"})
     public IModel createBasicRemarkListWrapperModel(StandardPanelDefinition definition)
     {
         String schemeName = null;
@@ -210,8 +210,8 @@ public class EmdModelFactory implements IModelFactory
         }
         return new Model(new BasicRemarkListWrapper(getEasyMetadataList(definition), schemeName, schemeId));
     }
-    
-    @SuppressWarnings({"unchecked", "rawtypes"})
+
+    @SuppressWarnings( {"unchecked", "rawtypes"})
     public IModel createSchemedBasicStringListWrapperModel(StandardPanelDefinition definition)
     {
         String schemeName = null;
@@ -223,38 +223,38 @@ public class EmdModelFactory implements IModelFactory
         }
         return new Model(new SchemedBasicStringListWrapper(getEasyMetadataList(definition), schemeName, schemeId));
     }
-    
-    @SuppressWarnings({"unchecked", "rawtypes"})
+
+    @SuppressWarnings( {"unchecked", "rawtypes"})
     public IModel createPointListWrapperModel(StandardPanelDefinition definition)
     {
         return new Model(new PointListWrapper(getEasyMetadataList(definition)));
     }
-    
-    @SuppressWarnings({"unchecked", "rawtypes"})
+
+    @SuppressWarnings( {"unchecked", "rawtypes"})
     public IModel createBoxListWrapperModel(StandardPanelDefinition definition)
     {
         return new Model(new BoxListWrapper(getEasyMetadataList(definition)));
     }
-    
-    @SuppressWarnings({"unchecked", "rawtypes"})
+
+    @SuppressWarnings( {"unchecked", "rawtypes"})
     public IModel createIdentifierListWrapperModel(StandardPanelDefinition definition)
     {
         return new Model(new IdentifierListWrapper(getEasyMetadataList(definition)));
     }
-    
-    @SuppressWarnings({"rawtypes", "unchecked"})
+
+    @SuppressWarnings( {"rawtypes", "unchecked"})
     public IModel createRelationListWrapperModel(StandardPanelDefinition definition)
     {
         return new Model(new RelationListWrapper(getEasyMetadata().getEmdRelation()));
     }
-    
-    @SuppressWarnings({"unchecked", "rawtypes"})
-	public IModel createLicenseWrapperModel(StandardPanelDefinition definition)
+
+    @SuppressWarnings( {"unchecked", "rawtypes"})
+    public IModel createLicenseWrapperModel(StandardPanelDefinition definition)
     {
         return new Model(new LicenseWrapper(getEasyMetadata().getEmdRights(), getEasyMetadataList(definition)));
     }
-    
-    @SuppressWarnings({"rawtypes"})
+
+    @SuppressWarnings( {"rawtypes"})
     private List getEasyMetadataList(StandardPanelDefinition definition)
     {
         List easyMetadataList = null;
@@ -269,7 +269,7 @@ public class EmdModelFactory implements IModelFactory
             final String msg = "Could not create Term: namespacePrefix=" + tpDef.getNamespacePrefix() + " termName=" + tpDef.getTermName();
             logger.error(msg, e);
             throw new ModelFactoryException(msg, e);
-        }        
+        }
         return easyMetadataList;
     }
 

@@ -16,7 +16,7 @@ public class FileExplorerPage extends AbstractEasyPage
     public FileExplorerPage(DatasetModel model)
     {
         super(model);
-        add(new Label("message",""));
+        add(new Label("message", ""));
         addContent(model);
     }
 

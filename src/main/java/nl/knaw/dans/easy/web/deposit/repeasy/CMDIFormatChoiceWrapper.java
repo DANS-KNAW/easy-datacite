@@ -16,7 +16,7 @@ public class CMDIFormatChoiceWrapper extends AbstractListWrapper<KeyValuePair>
     private static final long serialVersionUID = 1L;
 
     private static final BasicString CMDI_MIME = new BasicString("application/x-cmdi+xml");
-    
+
     private EasyMetadata easyMetadata;
 
     public CMDIFormatChoiceWrapper(EasyMetadata easyMetadata)
@@ -34,13 +34,13 @@ public class CMDIFormatChoiceWrapper extends AbstractListWrapper<KeyValuePair>
     public List<KeyValuePair> getInitialItems()
     {
         List<KeyValuePair> listItems = new ArrayList<KeyValuePair>();
-        if(containsCMDI())
+        if (containsCMDI())
         {
-            listItems.add(new KeyValuePair(CMDI_MIME.getValue(), null)); 
+            listItems.add(new KeyValuePair(CMDI_MIME.getValue(), null));
         }
-        else 
+        else
         {
-            listItems.add(getEmptyValue()); 
+            listItems.add(getEmptyValue());
         }
         return listItems;
     }
@@ -60,24 +60,25 @@ public class CMDIFormatChoiceWrapper extends AbstractListWrapper<KeyValuePair>
     public int synchronize(List<KeyValuePair> radioSelections)
     {
         String radioSelection = radioSelections.get(0).getKey();
-        boolean selectionIsCmdi = CMDI_MIME.getValue().equals(radioSelection); 
-        if(selectionIsCmdi) 
+        boolean selectionIsCmdi = CMDI_MIME.getValue().equals(radioSelection);
+        if (selectionIsCmdi)
         {
-            if(!containsCMDI())
+            if (!containsCMDI())
             {
                 getDcFormat().add(CMDI_MIME);
             }
-        } 
-        else 
+        }
+        else
         {
-            if(containsCMDI());
+            if (containsCMDI())
+                ;
             {
                 getDcFormat().remove(CMDI_MIME);
             }
         }
         return 0;
     }
-    
+
     private boolean containsCMDI()
     {
         return getDcFormat().contains(CMDI_MIME);
@@ -87,7 +88,7 @@ public class CMDIFormatChoiceWrapper extends AbstractListWrapper<KeyValuePair>
     {
         return easyMetadata.getEmdFormat().getDcFormat();
     }
-    
+
     @Override
     public int size()
     {
@@ -98,7 +99,7 @@ public class CMDIFormatChoiceWrapper extends AbstractListWrapper<KeyValuePair>
         }
         return size;
     }
-    
+
     @SuppressWarnings("rawtypes")
     @Override
     public ChoiceRenderer getChoiceRenderer()

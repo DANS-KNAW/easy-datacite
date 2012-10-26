@@ -33,18 +33,11 @@ public class ShortenedCharSequenceModelTest
     public static Collection<Object[]> parameters()
     {
         return Arrays.asList(new Object[][] {
-                    // @formatter:off
-                    {"1234567890123", 10, "1234567890..."}, 
-                    {"", 10, ""}, 
-                    {"", 0, ""}, 
-                    {"1", 0, "..."}, 
-                    {"12345", 0, "..."}, 
-                    {"12345", 5, "12345"}, 
-                    {"123456", 5, "12345..."}, 
-                    {hlCharSeq("1234<em>56</em>"), 5, "1234<em>5</em>..."}, 
-                    {hlCharSeq("1234<em>56</em>"), 6, "1234<em>56</em>"}, 
-                    {hlCharSeq("1<em>23</em>4<em>56</em>"), 4, "1<em>23</em>4..."}
-                    // @formatter:on
+                // @formatter:off
+                {"1234567890123", 10, "1234567890..."}, {"", 10, ""}, {"", 0, ""}, {"1", 0, "..."}, {"12345", 0, "..."}, {"12345", 5, "12345"},
+                {"123456", 5, "12345..."}, {hlCharSeq("1234<em>56</em>"), 5, "1234<em>5</em>..."}, {hlCharSeq("1234<em>56</em>"), 6, "1234<em>56</em>"},
+                {hlCharSeq("1<em>23</em>4<em>56</em>"), 4, "1<em>23</em>4..."}
+        // @formatter:on
                 });
 
     }

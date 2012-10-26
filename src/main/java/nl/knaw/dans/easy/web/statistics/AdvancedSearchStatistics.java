@@ -21,17 +21,17 @@ public class AdvancedSearchStatistics extends StatisticsModel<AdvSearchData>
 
         AdvSearchData asd = getObject();
 
-        if(asd.query != null && !asd.query.equals(""))
+        if (asd.query != null && !asd.query.equals(""))
         {
             res.put("ANY_FIELD", asd.query);
         }
-        
+
         List<SimpleField> fields = asd.fields;
-        for(SimpleField<String> sf: fields) 
+        for (SimpleField<String> sf : fields)
         {
-            if(sf.getValue()!=null)
+            if (sf.getValue() != null)
             {
-                res.put(sf.getName(), (String)sf.getValue());
+                res.put(sf.getName(), (String) sf.getValue());
             }
         }
 

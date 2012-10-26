@@ -34,232 +34,199 @@ import org.joda.time.DateTime;
 
 public class EasyDatasetHitPanel extends AbstractEasyPanel
 {
-	private static final long serialVersionUID = 1765295909790138569L;
+    private static final long serialVersionUID = 1765295909790138569L;
 
-	public EasyDatasetHitPanel(String wicketId,
-			IModel<SearchHit<EasyDatasetSB>> model, SearchModel svModel)
-	{
-		super(wicketId, model);
-		add(new DatasetLink("showDataset", model, svModel));
-	}
+    public EasyDatasetHitPanel(String wicketId, IModel<SearchHit<EasyDatasetSB>> model, SearchModel svModel)
+    {
+        super(wicketId, model);
+        add(new DatasetLink("showDataset", model, svModel));
+    }
 
-	private class DatasetLink extends
-			AbstractDatasetLink<SearchHit<EasyDatasetSB>>
-	{
-		private static final long serialVersionUID = -2898309546692290393L;
+    private class DatasetLink extends AbstractDatasetLink<SearchHit<EasyDatasetSB>>
+    {
+        private static final long serialVersionUID = -2898309546692290393L;
 
-		DatasetLink(String wicketId, IModel<SearchHit<EasyDatasetSB>> model,
-				SearchModel svModel)
-		{
-			super(wicketId, model);
+        DatasetLink(String wicketId, IModel<SearchHit<EasyDatasetSB>> model, SearchModel svModel)
+        {
+            super(wicketId, model);
 
-			SearchHit<EasyDatasetSB> hit = model.getObject();
-			EasyDatasetSB datasetHit = hit.getData();
+            SearchHit<EasyDatasetSB> hit = model.getObject();
+            EasyDatasetSB datasetHit = hit.getData();
 
-			// ------ status header
+            // ------ status header
 
-			// this could be done with the help of a SecurityOfficer. The
-			// problem is, however, that
-			// in this case if the user is a depositor cannot be determined by
-			// the Dataset, but only by
-			// the dataset search bean. Furthermore, we need to show different
-			// kinds of messages based
-			// on the role of the user
-			String sessionUserId = getSessionUser().isAnonymous() ? null
-					: getSessionUser().getId();
-			boolean isDepositor = sessionUserId == null ? false : datasetHit
-					.getDepositorId().equals(sessionUserId);
-			boolean isArchivist = getSessionUser() == null ? false
-					: getSessionUser().hasRole(Role.ARCHIVIST);
+            // this could be done with the help of a SecurityOfficer. The
+            // problem is, however, that
+            // in this case if the user is a depositor cannot be determined by
+            // the Dataset, but only by
+            // the dataset search bean. Furthermore, we need to show different
+            // kinds of messages based
+            // on the role of the user
+            String sessionUserId = getSessionUser().isAnonymous() ? null : getSessionUser().getId();
+            boolean isDepositor = sessionUserId == null ? false : datasetHit.getDepositorId().equals(sessionUserId);
+            boolean isArchivist = getSessionUser() == null ? false : getSessionUser().hasRole(Role.ARCHIVIST);
 
-			EasyDatasetHitStatus status = new EasyDatasetHitStatus();
-			status.setState(datasetHit.getState());
-			if (isDepositor)
-				status.setRole("depositor");
-			else if (isArchivist)
-				status.setRole("archivist");
-			status
-					.setDepositor(userIdToDisplayName(datasetHit
-							.getDepositorId()));
-			status.setAssignee(assigneeIdToDisplayName(datasetHit
-					.getAssigneeId()));
-			status
-					.setWorkflowProgress(datasetHit.getWorkflowProgress() == null ? 0
-							: datasetHit.getWorkflowProgress());
-			switch (datasetHit.getState())
-			{
-			case DRAFT:
-				status.setDate(datasetHit.getDateDraftSaved());
-				break;
-			case SUBMITTED:
-				status.setDate(datasetHit.getDateSubmitted());
-				break;
-			case PUBLISHED:
-				status.setDate(datasetHit.getDatePublished());
-				break;
-			case DELETED:
-				status.setDate(datasetHit.getDateDeleted());
-				break;
-			case MAINTENANCE:
-				status.setDate(datasetHit.getDateDeleted());
-				break;
-			}
-			if (isDepositor || isArchivist)
-				add(new UnescapedLabel("status", new StringResourceModel(
-						"status.${state}.${role}", this, 
-						new Model<EasyDatasetHitStatus>(status))));
-			else
-				WicketUtil.hide(this, "status");
+            EasyDatasetHitStatus status = new EasyDatasetHitStatus();
+            status.setState(datasetHit.getState());
+            if (isDepositor)
+                status.setRole("depositor");
+            else if (isArchivist)
+                status.setRole("archivist");
+            status.setDepositor(userIdToDisplayName(datasetHit.getDepositorId()));
+            status.setAssignee(assigneeIdToDisplayName(datasetHit.getAssigneeId()));
+            status.setWorkflowProgress(datasetHit.getWorkflowProgress() == null ? 0 : datasetHit.getWorkflowProgress());
+            switch (datasetHit.getState())
+            {
+            case DRAFT:
+                status.setDate(datasetHit.getDateDraftSaved());
+                break;
+            case SUBMITTED:
+                status.setDate(datasetHit.getDateSubmitted());
+                break;
+            case PUBLISHED:
+                status.setDate(datasetHit.getDatePublished());
+                break;
+            case DELETED:
+                status.setDate(datasetHit.getDateDeleted());
+                break;
+            case MAINTENANCE:
+                status.setDate(datasetHit.getDateDeleted());
+                break;
+            }
+            if (isDepositor || isArchivist)
+                add(new UnescapedLabel("status", new StringResourceModel("status.${state}.${role}", this, new Model<EasyDatasetHitStatus>(status))));
+            else
+                WicketUtil.hide(this, "status");
 
-			// ------ the number of new requests for this dataset
-            int  numReq = 0;
+            // ------ the number of new requests for this dataset
+            int numReq = 0;
             if (datasetHit.getPermissionStatusList() != null)
             {
                 // count the number of submitted requests
-                for(PermissionRequestSearchInfo info : datasetHit.getPermissionStatusList())
+                for (PermissionRequestSearchInfo info : datasetHit.getPermissionStatusList())
                 {
-                    if (info.getState().equals(State.Submitted)) 
+                    if (info.getState().equals(State.Submitted))
                         numReq++;
                 }
             }
             add(new Label("newRequests", new Model(numReq)).setVisible(numReq > 0 && (isDepositor || isArchivist)));
 
-			// ------- permission request
-			PermissionRequestSearchInfo pmInfo = getPermissionRequestInfo(
-					datasetHit, sessionUserId);
-			Label pmStatus = new Label("permissionRequestStatus");
-			if (pmInfo != null)
-			{
-				pmStatus.setDefaultModel(new ResourceModel("fieldvalue."
-						+ pmInfo.getState()));
-				add(new EasyDateLabel("permissionRequestDate", pmInfo
-						.getStateLastModified()));
-			}
-			else
-			{
-				pmStatus.setVisible(false);
-				WicketUtil.hide(this, "permissionRequestDate");
-			}
-			add(pmStatus);
+            // ------- permission request
+            PermissionRequestSearchInfo pmInfo = getPermissionRequestInfo(datasetHit, sessionUserId);
+            Label pmStatus = new Label("permissionRequestStatus");
+            if (pmInfo != null)
+            {
+                pmStatus.setDefaultModel(new ResourceModel("fieldvalue." + pmInfo.getState()));
+                add(new EasyDateLabel("permissionRequestDate", pmInfo.getStateLastModified()));
+            }
+            else
+            {
+                pmStatus.setVisible(false);
+                WicketUtil.hide(this, "permissionRequestDate");
+            }
+            add(pmStatus);
 
-			addLabel(new UnescapedLabel("title", new Model<String>(
-					getSnippetOrValue("dcTitle"))));
-			addLabel(new UnescapedLabel("creator", new ShortenedCharSequenceModel(
-					getSnippetOrValue("dcCreator"))));
-			addLabel(new Label("dateCreated", datasetHit
-					.getDateCreatedFormatted()));
+            addLabel(new UnescapedLabel("title", new Model<String>(getSnippetOrValue("dcTitle"))));
+            addLabel(new UnescapedLabel("creator", new ShortenedCharSequenceModel(getSnippetOrValue("dcCreator"))));
+            addLabel(new Label("dateCreated", datasetHit.getDateCreatedFormatted()));
 
-			// -------- column 3
-			final List<String> audienceList = datasetHit.getAudience();
-			// requirements say that 'audience' can be plural. mierenneukerij dus.
-			String emdAudience = audienceList == null || audienceList.size()  <= 1 ? "fieldname.emd_audience" : "fieldname.emd_audiences";
-			add(new Label("audienceLabel", new ResourceModel(emdAudience)));
-			
-			add(new ListView<String>("disciplines", audienceList)
-			{
-				private static final long serialVersionUID = 1540669253501482128L;
+            // -------- column 3
+            final List<String> audienceList = datasetHit.getAudience();
+            // requirements say that 'audience' can be plural. mierenneukerij dus.
+            String emdAudience = audienceList == null || audienceList.size() <= 1 ? "fieldname.emd_audience" : "fieldname.emd_audiences";
+            add(new Label("audienceLabel", new ResourceModel(emdAudience)));
 
-				@Override
-				protected void populateItem(ListItem<String> item)
-				{
-					item.add(new Label("disciplineName", new DisciplineModel(
-							item.getModelObject())));
-					Label disciplineSeparator = new Label(
-							"disciplineSeparator", ", ");
-					disciplineSeparator
-							.setVisible(item.getIndex() + 1 < audienceList
-									.size());
-					item.add(disciplineSeparator);
-				}
-			}.setVisible(audienceList != null && audienceList.size() > 0));
-			addLabel(new Label("accessrights", new ResourceModel("fieldvalue."
-					+ datasetHit.getAccessCategory())), datasetHit
-					.getAccessCategory() != null);
-			DateTime dateAvailable = datasetHit.getDateAvailable();
-			addLabel(new Label("dateAvailable", datasetHit
-					.getDateAvailableFormatted()), dateAvailable != null
-					&& dateAvailable.isAfterNow());
-			addLabel(new EasyDateLabel("dateSubmitted", datasetHit
-					.getDateSubmitted()));
+            add(new ListView<String>("disciplines", audienceList)
+            {
+                private static final long serialVersionUID = 1540669253501482128L;
 
-			// -------- footer
-			addLabel(new Label("relevance", String.format("%.0f", hit
-					.getRelevanceScore() * 100)), !StringUtils.isBlank(svModel
-					.getObject().getRequestBuilder().getRequest().getQuery().getQueryString()));
-			List<SnippetField> remainingSnippets = getRemainingSnippets();
-			add(new ListView<SnippetField>("snippets", remainingSnippets)
-			{
-				private static final long serialVersionUID = 6092057488401837474L;
+                @Override
+                protected void populateItem(ListItem<String> item)
+                {
+                    item.add(new Label("disciplineName", new DisciplineModel(item.getModelObject())));
+                    Label disciplineSeparator = new Label("disciplineSeparator", ", ");
+                    disciplineSeparator.setVisible(item.getIndex() + 1 < audienceList.size());
+                    item.add(disciplineSeparator);
+                }
+            }.setVisible(audienceList != null && audienceList.size() > 0));
+            addLabel(new Label("accessrights", new ResourceModel("fieldvalue." + datasetHit.getAccessCategory())), datasetHit.getAccessCategory() != null);
+            DateTime dateAvailable = datasetHit.getDateAvailable();
+            addLabel(new Label("dateAvailable", datasetHit.getDateAvailableFormatted()), dateAvailable != null && dateAvailable.isAfterNow());
+            addLabel(new EasyDateLabel("dateSubmitted", datasetHit.getDateSubmitted()));
 
-				@Override
-				protected void populateItem(ListItem<SnippetField> item)
-				{
-					final SnippetField snippetField = item.getModelObject();
-					String snippet = "";
-					for (String snip : snippetField.getValue())
-						snippet += snip;
-					item.add(new Label("snippetField", new ResourceModel(
-							"fieldname." + snippetField.getName())));
-					item.add(new UnescapedLabel("snippet",
-							new ShortenedCharSequenceModel(new HighlightedCharSequence(snippet), 100)));
-				}
-			}.setVisible(remainingSnippets.size() > 0));
-		}
+            // -------- footer
+            addLabel(new Label("relevance", String.format("%.0f", hit.getRelevanceScore() * 100)), !StringUtils.isBlank(svModel.getObject().getRequestBuilder()
+                    .getRequest().getQuery().getQueryString()));
+            List<SnippetField> remainingSnippets = getRemainingSnippets();
+            add(new ListView<SnippetField>("snippets", remainingSnippets)
+            {
+                private static final long serialVersionUID = 6092057488401837474L;
 
-		private PermissionRequestSearchInfo getPermissionRequestInfo(
-				EasyDatasetSB datasetHit, String userId)
-		{
-			if (userId == null)
-				return null;
+                @Override
+                protected void populateItem(ListItem<SnippetField> item)
+                {
+                    final SnippetField snippetField = item.getModelObject();
+                    String snippet = "";
+                    for (String snip : snippetField.getValue())
+                        snippet += snip;
+                    item.add(new Label("snippetField", new ResourceModel("fieldname." + snippetField.getName())));
+                    item.add(new UnescapedLabel("snippet", new ShortenedCharSequenceModel(new HighlightedCharSequence(snippet), 100)));
+                }
+            }.setVisible(remainingSnippets.size() > 0));
+        }
 
-			List<PermissionRequestSearchInfo> permissionStatusList = datasetHit
-					.getPermissionStatusList();
-			if (permissionStatusList == null)
-				return null;
+        private PermissionRequestSearchInfo getPermissionRequestInfo(EasyDatasetSB datasetHit, String userId)
+        {
+            if (userId == null)
+                return null;
 
-			for (PermissionRequestSearchInfo pmInfo : permissionStatusList)
-			{
-				if (pmInfo.getRequesterId().equals(userId))
-				{
-					return pmInfo;
-				}
-			}
+            List<PermissionRequestSearchInfo> permissionStatusList = datasetHit.getPermissionStatusList();
+            if (permissionStatusList == null)
+                return null;
 
-			return null;
-		}
+            for (PermissionRequestSearchInfo pmInfo : permissionStatusList)
+            {
+                if (pmInfo.getRequesterId().equals(userId))
+                {
+                    return pmInfo;
+                }
+            }
 
-		// TODO: implement this function
-		private String userIdToDisplayName(String userId)
-		{
-			return userId;
-		}
+            return null;
+        }
 
-		private String assigneeIdToDisplayName(String userId)
-		{
-			if (userId.equals(WorkflowData.NOT_ASSIGNED))
-			    // Tried to retrieve a localized string for a component that has not yet been added to the page.
-			    // Make sure you are not calling Component#getString() inside your Component's constructor.
-			    // This method called from the constructor.
-				//return getString(AssignToDropChoiceList.NOT_ASSIGNED_RESOURCEKEY);
-			    return "Not Assigned";
-			else
-				return userIdToDisplayName(userId);
-		}
+        // TODO: implement this function
+        private String userIdToDisplayName(String userId)
+        {
+            return userId;
+        }
 
-		@Override
-	    public void onClick()
-	    {
-	        SearchHit<? extends DatasetSB> hit = (SearchHit<? extends DatasetSB>) getModelObject();
-	        DatasetSB datasetHit = hit.getData();
+        private String assigneeIdToDisplayName(String userId)
+        {
+            if (userId.equals(WorkflowData.NOT_ASSIGNED))
+                // Tried to retrieve a localized string for a component that has not yet been added to the page.
+                // Make sure you are not calling Component#getString() inside your Component's constructor.
+                // This method called from the constructor.
+                //return getString(AssignToDropChoiceList.NOT_ASSIGNED_RESOURCEKEY);
+                return "Not Assigned";
+            else
+                return userIdToDisplayName(userId);
+        }
 
-	        // instructions how to get back to this searchView
-	        ((EasySession) getSession()).setRedirectPage(DatasetViewPage.class, getPage());
-	        
-	        // view the dataset on dataset view page.
-	        PageParameters params = new PageParameters();
-	        params.put(DatasetViewPage.PM_DATASET_ID, datasetHit.getStoreId());
-	        setResponsePage(DatasetViewPage.class, params);
-	    }
-	}
+        @Override
+        public void onClick()
+        {
+            SearchHit<? extends DatasetSB> hit = (SearchHit<? extends DatasetSB>) getModelObject();
+            DatasetSB datasetHit = hit.getData();
+
+            // instructions how to get back to this searchView
+            ((EasySession) getSession()).setRedirectPage(DatasetViewPage.class, getPage());
+
+            // view the dataset on dataset view page.
+            PageParameters params = new PageParameters();
+            params.put(DatasetViewPage.PM_DATASET_ID, datasetHit.getStoreId());
+            setResponsePage(DatasetViewPage.class, params);
+        }
+    }
 
 }

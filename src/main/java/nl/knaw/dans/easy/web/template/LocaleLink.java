@@ -19,7 +19,7 @@ public final class LocaleLink extends Link
     /**
      * Locale for this link.
      */
-    private final Locale      locale;
+    private final Locale locale;
 
     /**
      * Constructor for a new LocaleLink.

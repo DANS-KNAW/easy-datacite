@@ -13,11 +13,12 @@ import org.apache.wicket.markup.html.CSSPackageResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Util {
-	private static final Logger logger = LoggerFactory.getLogger(Util.class);
-	
-	// gets additional license from DatasetService
-	public static UnitMetaDataResource getAdditionalLicenseResource(DatasetModel datasetModel)
+public class Util
+{
+    private static final Logger logger = LoggerFactory.getLogger(Util.class);
+
+    // gets additional license from DatasetService
+    public static UnitMetaDataResource getAdditionalLicenseResource(DatasetModel datasetModel)
     {
         UnitMetadata additionalLicense = null;
         try
@@ -34,13 +35,14 @@ public class Util {
             throw new WicketRuntimeException(message, e);
         }
     }
-	
-	public static ModalWindow createModalWindow(String id, int initialWidth, String title) {
-		ModalWindow modal = new ModalWindow(id);
-		modal.setUseInitialHeight(false);
-		modal.setInitialWidth(initialWidth);
-		modal.setTitle(title);
-		modal.add(CSSPackageResource.getHeaderContribution(FileExplorer.class, "style/modal.css"));
+
+    public static ModalWindow createModalWindow(String id, int initialWidth, String title)
+    {
+        ModalWindow modal = new ModalWindow(id);
+        modal.setUseInitialHeight(false);
+        modal.setInitialWidth(initialWidth);
+        modal.setTitle(title);
+        modal.add(CSSPackageResource.getHeaderContribution(FileExplorer.class, "style/modal.css"));
         return modal;
-	}
+    }
 }

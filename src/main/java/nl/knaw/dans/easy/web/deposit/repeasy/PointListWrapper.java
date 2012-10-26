@@ -21,7 +21,7 @@ public class PointListWrapper extends AbstractDefaultListWrapper<PointListWrappe
     {
         super(wrappedList);
     }
-    
+
     public List<PointModel> getInitialItems()
     {
         List<PointModel> listItems = new ArrayList<PointModel>();
@@ -38,7 +38,7 @@ public class PointListWrapper extends AbstractDefaultListWrapper<PointListWrappe
     public int synchronize(List<PointModel> listItems)
     {
         getWrappedList().removeAll(getFilteredList());
-     // add new entries
+        // add new entries
         int errors = 0;
         for (int i = 0; i < listItems.size(); i++)
         {
@@ -47,7 +47,7 @@ public class PointListWrapper extends AbstractDefaultListWrapper<PointListWrappe
             if (spatial != null)
             {
                 getWrappedList().add(spatial);
-                
+
                 if (model.hasErrors())
                 {
                     handleErrors(model.getErrors(), i);
@@ -58,20 +58,20 @@ public class PointListWrapper extends AbstractDefaultListWrapper<PointListWrappe
         }
         return errors;
     }
-    
+
     @Override
     public PointModel getEmptyValue()
     {
         PointModel model = new PointModel();
         return model;
     }
-    
+
     @Override
     public ChoiceRenderer<?> getChoiceRenderer()
     {
         return new KvpChoiceRenderer();
     }
-    
+
     private List<Spatial> getFilteredList()
     {
         List<Spatial> filtered = new ArrayList<Spatial>();
@@ -84,16 +84,16 @@ public class PointListWrapper extends AbstractDefaultListWrapper<PointListWrappe
         }
         return filtered;
     }
-    
+
     public static class PointModel extends AbstractEasyModel
     {
 
         private static final long serialVersionUID = 3841830253279006843L;
-        
+
         private String schemeToken;
         private String x;
         private String y;
-        
+
         public PointModel(Spatial spatial)
         {
             if (spatial.getPoint() == null)
@@ -101,16 +101,16 @@ public class PointListWrapper extends AbstractDefaultListWrapper<PointListWrappe
                 throw new IllegalArgumentException("Cannot model a spatial without a point! (Do you get the point?)");
             }
             schemeToken = spatial.getPoint().getScheme();
-//            x = convertToString(spatial.getPoint().getX());
-//            y = convertToString(spatial.getPoint().getY());
+            //            x = convertToString(spatial.getPoint().getX());
+            //            y = convertToString(spatial.getPoint().getY());
             x = spatial.getPoint().getX();
             y = spatial.getPoint().getY();
         }
-        
+
         protected PointModel()
-        {           
+        {
         }
-        
+
         public Spatial getSpatial()
         {
             Spatial spatial;
@@ -131,34 +131,32 @@ public class PointListWrapper extends AbstractDefaultListWrapper<PointListWrappe
         {
             schemeToken = schemeKVP == null ? null : schemeKVP.getKey();
         }
-        
+
         public KeyValuePair getScheme()
         {
             return new KeyValuePair(schemeToken, null);
         }
-        
+
         public void setX(String x)
         {
             this.x = x;
         }
-        
+
         public String getX()
         {
             return x;
         }
-        
+
         public void setY(String y)
         {
             this.y = y;
         }
-        
+
         public String getY()
         {
             return y;
         }
-        
-        
-        
+
     }
 
 }

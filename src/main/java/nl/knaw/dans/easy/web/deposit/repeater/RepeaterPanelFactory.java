@@ -36,7 +36,6 @@ public class RepeaterPanelFactory implements IPanelFactory
 
     private final String panelWicketId;
 
-
     public RepeaterPanelFactory(IModelFactory modelFactory, String panelWicketId, Component parent)
     {
         this.modelFactory = modelFactory;
@@ -104,8 +103,8 @@ public class RepeaterPanelFactory implements IPanelFactory
 
     private String composeErrorMessage(StandardPanelDefinition spDef)
     {
-        final String msg = "Could not create panel for " + TermPanelDefinition.class.getSimpleName() + ":" + spDef.getId()
-            + "\n\t panelClass=" + spDef.getPanelClass();
+        final String msg = "Could not create panel for " + TermPanelDefinition.class.getSimpleName() + ":" + spDef.getId() + "\n\t panelClass="
+                + spDef.getPanelClass();
         return msg;
     }
 
@@ -115,7 +114,7 @@ public class RepeaterPanelFactory implements IPanelFactory
         textFieldPanel.setPanelDefinition(spDef);
         return textFieldPanel;
     }
-    
+
     public Panel createAuthorPanel(StandardPanelDefinition spDef, IModel model)
     {
         AuthorPanel authorPanel = new AuthorPanel(getPanelWicketId(), model);
@@ -125,8 +124,8 @@ public class RepeaterPanelFactory implements IPanelFactory
 
     public Panel createRadioGroupPanel(StandardPanelDefinition spDef, IModel model) throws ServiceException
     {
-    	ChoiceListDefinition choiceDef = spDef.getChoiceListDefinitions().get(0);
-    	ChoiceList choiceList  = modelFactory.getChoiceList(choiceDef.getId(), getLocale());
+        ChoiceListDefinition choiceDef = spDef.getChoiceListDefinitions().get(0);
+        ChoiceList choiceList = modelFactory.getChoiceList(choiceDef.getId(), getLocale());
         RadioChoicePanel radioGroupPanel = new RadioChoicePanel(getPanelWicketId(), model, choiceList);
         radioGroupPanel.setPanelDefinition(spDef);
         return radioGroupPanel;
@@ -134,25 +133,25 @@ public class RepeaterPanelFactory implements IPanelFactory
 
     public Panel createTextAreaPanel(StandardPanelDefinition spDef, IModel model)
     {
-    	TextAreaPanel<String> textAreaPanel = new TextAreaPanel<String>(getPanelWicketId(), model);
-    	textAreaPanel.setPanelDefinition(spDef);
+        TextAreaPanel<String> textAreaPanel = new TextAreaPanel<String>(getPanelWicketId(), model);
+        textAreaPanel.setPanelDefinition(spDef);
         return textAreaPanel;
     }
 
     public Panel createIsoDatePanel(StandardPanelDefinition spDef, IModel model) throws ServiceException
     {
-    	ChoiceListDefinition choiceDef = spDef.getChoiceListDefinitions().get(0);
-    	ChoiceList choiceList  = modelFactory.getChoiceList(choiceDef.getId(), getLocale());
+        ChoiceListDefinition choiceDef = spDef.getChoiceListDefinitions().get(0);
+        ChoiceList choiceList = modelFactory.getChoiceList(choiceDef.getId(), getLocale());
         IsoDatePanel datePanel = new IsoDatePanel(getPanelWicketId(), model, choiceList);
         datePanel.setDropdownVisible(true);
         datePanel.setPanelDefinition(spDef);
         return datePanel;
     }
-    
+
     public Panel createBasicDatePanel(StandardPanelDefinition spDef, IModel model) throws ServiceException
     {
         ChoiceListDefinition choiceDef = spDef.getChoiceListDefinitions().get(0);
-        ChoiceList choiceList  = modelFactory.getChoiceList(choiceDef.getId(), getLocale());
+        ChoiceList choiceList = modelFactory.getChoiceList(choiceDef.getId(), getLocale());
         BasicDatePanel basicDatePanel = new BasicDatePanel(getPanelWicketId(), model, choiceList);
         basicDatePanel.setDropdownVisible(true);
         basicDatePanel.setPanelDefinition(spDef);
@@ -161,8 +160,8 @@ public class RepeaterPanelFactory implements IPanelFactory
 
     public Panel createAvailableDatePanel(StandardPanelDefinition spDef, IModel model) throws ServiceException
     {
-    	ChoiceListDefinition choiceDef = spDef.getChoiceListDefinitions().get(0);
-    	ChoiceList choiceList  = modelFactory.getChoiceList(choiceDef.getId(), getLocale());
+        ChoiceListDefinition choiceDef = spDef.getChoiceListDefinitions().get(0);
+        ChoiceList choiceList = modelFactory.getChoiceList(choiceDef.getId(), getLocale());
         IsoDatePanel datePanel = new IsoDatePanel(getPanelWicketId(), model, choiceList);
         datePanel.setDefaultKey(EmdDate.AVAILABLE);
         datePanel.setDropdownVisible(false);
@@ -172,19 +171,19 @@ public class RepeaterPanelFactory implements IPanelFactory
 
     public Panel createCreatedDatePanel(StandardPanelDefinition spDef, IModel model) throws ServiceException
     {
-    	ChoiceListDefinition choiceDef = spDef.getChoiceListDefinitions().get(0);
-    	ChoiceList choiceList  = modelFactory.getChoiceList(choiceDef.getId(), getLocale());
+        ChoiceListDefinition choiceDef = spDef.getChoiceListDefinitions().get(0);
+        ChoiceList choiceList = modelFactory.getChoiceList(choiceDef.getId(), getLocale());
         IsoDatePanel datePanel = new IsoDatePanel(getPanelWicketId(), model, choiceList);
         datePanel.setDefaultKey(EmdDate.CREATED);
         datePanel.setDropdownVisible(false);
         datePanel.setPanelDefinition(spDef);
         return datePanel;
     }
-    
+
     public Panel createCreatedDatePanel2(StandardPanelDefinition spDef, IModel model) throws ServiceException
     {
         ChoiceListDefinition choiceDef = spDef.getChoiceListDefinitions().get(0);
-        ChoiceList choiceList  = modelFactory.getChoiceList(choiceDef.getId(), getLocale());
+        ChoiceList choiceList = modelFactory.getChoiceList(choiceDef.getId(), getLocale());
         BasicDatePanel datePanel = new BasicDatePanel(getPanelWicketId(), model, choiceList);
         datePanel.setDefaultKey(EmdDate.CREATED);
         datePanel.setDropdownVisible(false);
@@ -195,7 +194,7 @@ public class RepeaterPanelFactory implements IPanelFactory
     public Panel createDropDownChoicePanel(StandardPanelDefinition spDef, IModel model) throws ServiceException
     {
         ChoiceListDefinition choiceDef = spDef.getChoiceListDefinitions().get(0);
-        ChoiceList choiceList  = modelFactory.getChoiceList(choiceDef.getId(), getLocale());
+        ChoiceList choiceList = modelFactory.getChoiceList(choiceDef.getId(), getLocale());
         DropDownChoicePanel dropDownChoicePanel = new DropDownChoicePanel(getPanelWicketId(), model, choiceList);
         dropDownChoicePanel.setPanelDefinition(spDef);
         return dropDownChoicePanel;
@@ -204,7 +203,7 @@ public class RepeaterPanelFactory implements IPanelFactory
     public Panel createPointPanel(StandardPanelDefinition spDef, IModel model) throws ServiceException
     {
         ChoiceListDefinition choiceDef = spDef.getChoiceListDefinitions().get(0);
-        ChoiceList choiceList  = modelFactory.getChoiceList(choiceDef.getId(), getLocale());
+        ChoiceList choiceList = modelFactory.getChoiceList(choiceDef.getId(), getLocale());
         PointPanel pointPanel = new PointPanel(getPanelWicketId(), model, choiceList);
         pointPanel.setPanelDefinition(spDef);
         return pointPanel;
@@ -212,8 +211,8 @@ public class RepeaterPanelFactory implements IPanelFactory
 
     public Panel createBoxPanel(StandardPanelDefinition spDef, IModel model) throws ServiceException
     {
-    	ChoiceListDefinition choiceDef = spDef.getChoiceListDefinitions().get(0);
-    	ChoiceList choiceList  = modelFactory.getChoiceList(choiceDef.getId(), getLocale());
+        ChoiceListDefinition choiceDef = spDef.getChoiceListDefinitions().get(0);
+        ChoiceList choiceList = modelFactory.getChoiceList(choiceDef.getId(), getLocale());
         BoxPanel boxPanel = new BoxPanel(getPanelWicketId(), model, choiceList);
         boxPanel.setPanelDefinition(spDef);
 
@@ -222,8 +221,8 @@ public class RepeaterPanelFactory implements IPanelFactory
 
     public Panel createIdentifierPanel(StandardPanelDefinition spDef, IModel model) throws ServiceException
     {
-    	ChoiceListDefinition choiceDef = spDef.getChoiceListDefinitions().get(0);
-    	ChoiceList choiceList  = modelFactory.getChoiceList(choiceDef.getId(), getLocale());
+        ChoiceListDefinition choiceDef = spDef.getChoiceListDefinitions().get(0);
+        ChoiceList choiceList = modelFactory.getChoiceList(choiceDef.getId(), getLocale());
         IdentifierPanel identifierPanel = new IdentifierPanel(getPanelWicketId(), model, choiceList);
         identifierPanel.setPanelDefinition(spDef);
         return identifierPanel;
@@ -231,7 +230,7 @@ public class RepeaterPanelFactory implements IPanelFactory
 
     public Panel createSimpleIdentifierPanel(StandardPanelDefinition spDef, IModel model) throws ServiceException
     {
-    	List<KeyValuePair> kvpList = new ArrayList<KeyValuePair>();
+        List<KeyValuePair> kvpList = new ArrayList<KeyValuePair>();
         IdentifierPanel identifierPanel = new IdentifierPanel(getPanelWicketId(), model, new ChoiceList(kvpList));
         identifierPanel.setPanelDefinition(spDef);
         identifierPanel.setDropdownVisible(false);
@@ -241,7 +240,7 @@ public class RepeaterPanelFactory implements IPanelFactory
     public Panel createRelationPanel(StandardPanelDefinition spDef, IModel model) throws ServiceException
     {
         ChoiceListDefinition choiceDef = spDef.getChoiceListDefinitions().get(0);
-        ChoiceList choiceList  = modelFactory.getChoiceList(choiceDef.getId(), getLocale());
+        ChoiceList choiceList = modelFactory.getChoiceList(choiceDef.getId(), getLocale());
         RelationPanel relationPanel = new RelationPanel(getPanelWicketId(), model, choiceList);
         relationPanel.setUseRelationType(true);
         relationPanel.setPanelDefinition(spDef);
@@ -251,7 +250,7 @@ public class RepeaterPanelFactory implements IPanelFactory
     public Panel createSimpleRelationPanel(StandardPanelDefinition spDef, IModel model) throws ServiceException
     {
         ChoiceListDefinition choiceDef = spDef.getChoiceListDefinitions().get(0);
-        ChoiceList choiceList  = modelFactory.getChoiceList(choiceDef.getId(), getLocale());
+        ChoiceList choiceList = modelFactory.getChoiceList(choiceDef.getId(), getLocale());
         RelationPanel relationPanel = new RelationPanel(getPanelWicketId(), model, choiceList);
         relationPanel.setUseRelationType(false);
         relationPanel.setPanelDefinition(spDef);

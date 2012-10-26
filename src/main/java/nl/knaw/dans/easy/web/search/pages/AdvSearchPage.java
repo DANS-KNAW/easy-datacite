@@ -51,10 +51,10 @@ import org.slf4j.LoggerFactory;
 
 public class AdvSearchPage extends AbstractSearchPage
 {
-    private static final Logger                       LOGGER = LoggerFactory.getLogger(AdvSearchPage.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AdvSearchPage.class);
 
     private Class<? extends AbstractSearchResultPage> resultPage;
-    
+
     /*
      * How do you want the criteria displayed?
      * 
@@ -137,7 +137,6 @@ public class AdvSearchPage extends AbstractSearchPage
             StatisticsLogger.getInstance().logEvent(StatisticsEvent.ADVANCED_SEARCH_TERM, new AdvancedSearchStatistics(searchData));
         }
 
-        
         // Any Field box
         if (!StringUtils.isBlank(searchData.query))
         {
@@ -146,14 +145,14 @@ public class AdvSearchPage extends AbstractSearchPage
                 private static final long serialVersionUID = 1114909631810523718L;
 
                 final String queryStr = searchData.query; // copy the value
-                
+
                 public String getObject()
                 {
                     return CriteriumLabel.createFilterText(AdvSearchPage.this.getString(ADVSEARCH_ANYFIELD_CRITERIUM_PREFIX), queryStr);
                 }
             }));
         }
-        
+
         if (separateFilterCriteria)
         {
             collectSeparateCriteria(fields);
@@ -163,11 +162,11 @@ public class AdvSearchPage extends AbstractSearchPage
             collectMultiCriterium(fields);
         }
 
-        if (isArchivistOrAdmin()) resultPage = SearchAllSearchResultPage.class;
+        if (isArchivistOrAdmin())
+            resultPage = SearchAllSearchResultPage.class;
         setResponsePage(AbstractSearchResultPage.instantiate(resultPage, getSearchModel()));
     }
-    
-    
+
     private void collectSeparateCriteria(List<Field<?>> fields)
     {
         final FieldNameResourceTranslator translator = new FieldNameResourceTranslator();
@@ -179,10 +178,10 @@ public class AdvSearchPage extends AbstractSearchPage
             getSearchModel().addCriterium(new FilterCriterium(newField, new AbstractReadOnlyModel<String>()
             {
                 private static final long serialVersionUID = 1L;
-                
+
                 final String fieldValStr = newField.getValue().toString();
                 final String fieldName = newField.getName();
-                
+
                 @Override
                 public String getObject()
                 {
@@ -193,7 +192,7 @@ public class AdvSearchPage extends AbstractSearchPage
             }));
         }
     }
-    
+
     private void collectMultiCriterium(final List<Field<?>> fields)
     {
         // produces Adv. Search: value1, value2
@@ -227,7 +226,7 @@ public class AdvSearchPage extends AbstractSearchPage
                     }
                     else if (fields.size() > 0)
                     {
-                        
+
                         Field<?> field = fields.get(0);
 
                         FieldNameResourceTranslator translator = new FieldNameResourceTranslator();
@@ -270,7 +269,6 @@ public class AdvSearchPage extends AbstractSearchPage
 
             AdvSearchData data = (AdvSearchData) getModelObject();
 
-            
             // archivist panel
             initArchivistOptions();
 
@@ -324,8 +322,8 @@ public class AdvSearchPage extends AbstractSearchPage
             // assigned to
             try
             {
-                archivistOptions.add(AssignToDropChoiceList.getDropDownChoice("assignedToField",
-                        new PropertyModel(new AssignModel((AdvSearchData) model.getObject()), "userId")));
+                archivistOptions.add(AssignToDropChoiceList.getDropDownChoice("assignedToField", new PropertyModel(new AssignModel((AdvSearchData) model
+                        .getObject()), "userId")));
             }
             catch (ServiceException e)
             {
@@ -343,7 +341,7 @@ public class AdvSearchPage extends AbstractSearchPage
 
         class AssignModel implements Serializable
         {
-            private static final long   serialVersionUID = -6033853618498949502L;
+            private static final long serialVersionUID = -6033853618498949502L;
 
             private final AdvSearchData data;
 
@@ -368,7 +366,7 @@ public class AdvSearchPage extends AbstractSearchPage
 
         class DepositorModel implements Serializable
         {
-            private static final long   serialVersionUID = -6033853668497949502L;
+            private static final long serialVersionUID = -6033853668497949502L;
 
             private final AdvSearchData data;
 

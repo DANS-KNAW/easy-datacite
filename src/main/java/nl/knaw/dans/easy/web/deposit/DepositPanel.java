@@ -54,27 +54,27 @@ import org.slf4j.LoggerFactory;
 
 public class DepositPanel extends AbstractDatasetModelPanel
 {
-    private static final String         DEPOSIT_FORM        = "depositForm";
-    private static final String 	  	INFO_PAGE		    = "deposit.completed.header";
-    private static final String         CONFIRM_BUTTON_NAME = "button.confirm";
-    private static final String         CONFIRM_TITLE       = "submit.warning.title";
-    private static final String         CONFIRM_MESSAGE     = "submit.warning.message";
-        
-    private static final long           serialVersionUID    = 66648246305751046L;
+    private static final String DEPOSIT_FORM = "depositForm";
+    private static final String INFO_PAGE = "deposit.completed.header";
+    private static final String CONFIRM_BUTTON_NAME = "button.confirm";
+    private static final String CONFIRM_TITLE = "submit.warning.title";
+    private static final String CONFIRM_MESSAGE = "submit.warning.message";
 
-    private static Logger               logger           	= LoggerFactory.getLogger(DepositPanel.class);
+    private static final long serialVersionUID = 66648246305751046L;
+
+    private static Logger logger = LoggerFactory.getLogger(DepositPanel.class);
 
     public static final String EDITABLE_DEPOSIT_COMPLETE_TEMPLATE = "/editable/DepositComplete.template";
-    
-    private transient EmdPanelFactory   panelFactory;
 
-    private final FormDescriptor        formDescriptor;
-    private final FormDefinition        emdFormDefinition;
-    private final DatasetSubmission     submission;
-    private boolean                     initiated;
-    private FormPage                    currentPage;
+    private transient EmdPanelFactory panelFactory;
 
-    private DepositForm                 depoForm;
+    private final FormDescriptor formDescriptor;
+    private final FormDefinition emdFormDefinition;
+    private final DatasetSubmission submission;
+    private boolean initiated;
+    private FormPage currentPage;
+
+    private DepositForm depoForm;
 
     public DepositPanel(String wicketId, DepositDiscipline discipline, String formDefinitionId, DatasetModel model)
     {
@@ -82,10 +82,10 @@ public class DepositPanel extends AbstractDatasetModelPanel
         setOutputMarkupId(true);
 
         logger.debug("Creating a depositPanel with formDefinition " + formDefinitionId);
-        
+
         formDescriptor = discipline.getEmdFormDescriptor();
         emdFormDefinition = formDescriptor.getFormDefinition(formDefinitionId);
-        EasyUser currentUser = ((EasySession) getSession()).getUser();        
+        EasyUser currentUser = ((EasySession) getSession()).getUser();
         submission = new DatasetSubmissionImpl(emdFormDefinition, getDataset(), currentUser);
         if (emdFormDefinition != null && emdFormDefinition.getFormPages().size() > 0)
         {
@@ -156,13 +156,13 @@ public class DepositPanel extends AbstractDatasetModelPanel
         {
 
             private static final long serialVersionUID = -6373403759956095397L;
-            
+
             @Override
             protected String getDisplayMessage()
             {
                 return getString(EasyResources.DEPOSIT_UNSAVED_CHANGES);
             }
-            
+
         });
     }
 
@@ -197,18 +197,17 @@ public class DepositPanel extends AbstractDatasetModelPanel
             }
             for (String msgKey : submission.getGlobalInfoMessages())
             {
-            	final String message = infoMessage(msgKey);
+                final String message = infoMessage(msgKey);
                 logger.info(message);
             }
-        	
-			Services.getDatasetService().submitDataset(submission);
+
+            Services.getDatasetService().submitDataset(submission);
 
             FormPage firstErrorPage = submission.getFirstErrorPage();
             if (firstErrorPage != null)
             {
                 // we go to the first page that has metadata errors.
-                logger.debug("Going to init(DepositForm) because of submission errors on "
-                                + firstErrorPage.getId());
+                logger.debug("Going to init(DepositForm) because of submission errors on " + firstErrorPage.getId());
                 setCurrentPage(firstErrorPage);
                 depoForm = null;
                 init();
@@ -231,8 +230,8 @@ public class DepositPanel extends AbstractDatasetModelPanel
             {
                 // we leave the page and show thank-you-very-much-page.
 
-                final String message = 	infoMessage(EasyResources.DEPOSIT_COMPLETED, submission.getSessionUser().getEmail());
-    			logger.info(message);
+                final String message = infoMessage(EasyResources.DEPOSIT_COMPLETED, submission.getSessionUser().getEmail());
+                logger.info(message);
                 setResponsePage(new EditableInfoPage(getString(INFO_PAGE), EDITABLE_DEPOSIT_COMPLETE_TEMPLATE, EasySession.get().getUser()));
                 // end of procedure
             }
@@ -249,7 +248,7 @@ public class DepositPanel extends AbstractDatasetModelPanel
             logger.error(message, e);
             throw new RestartResponseException(new ErrorPage());
         }
-        finally 
+        finally
         {
             // logging for statistics
             StatisticsLogger.getInstance().logEvent(StatisticsEvent.DATASET_DEPOSIT, new DatasetStatistics(submission.getDataset()));
@@ -261,19 +260,19 @@ public class DepositPanel extends AbstractDatasetModelPanel
         Dataset dataset = getDataset();
         try
         {
-			Services.getDatasetService().saveEasyMetadata(submission.getSessionUser(), dataset);
+            Services.getDatasetService().saveEasyMetadata(submission.getSessionUser(), dataset);
         }
         catch (ServiceException e)
         {
             if (e.getCause() instanceof ConcurrentUpdateException)
             {
-                final String message = 	errorMessage(EasyResources.DATASET_METADATA_CHANGED);
-    			logger.error(message, e);
+                final String message = errorMessage(EasyResources.DATASET_METADATA_CHANGED);
+                logger.error(message, e);
             }
             else
             {
-                final String message = 	errorMessage(EasyResources.DATASET_FAIL_TO_SAVE);
-    			logger.error(message, e);
+                final String message = errorMessage(EasyResources.DATASET_FAIL_TO_SAVE);
+                logger.error(message, e);
             }
             // TODO set a more user friendly message
             setResponsePage(new ErrorPage());
@@ -295,17 +294,18 @@ public class DepositPanel extends AbstractDatasetModelPanel
     class DepositForm extends Form<Object> implements WizardNavigationListener
     {
 
-        private static final long     serialVersionUID = 478774282035192135L;
+        private static final long serialVersionUID = 478774282035192135L;
 
-        private FormPage              requestedPage;
+        private FormPage requestedPage;
 
-        private Label                 head;
-        private FeedbackPanel         formFeedBack;
+        private Label head;
+        private FeedbackPanel formFeedBack;
         private WizardNavigationPanel wizardNavigationPanel;
-        private RecursivePanel        recursivePanel;
-        private ButtonPanel           buttonPanel;
+        private RecursivePanel recursivePanel;
+        private ButtonPanel buttonPanel;
 
-        private int                   errors;
+        private int errors;
+
         public DepositForm(String id)
         {
             super(id);
@@ -358,7 +358,7 @@ public class DepositPanel extends AbstractDatasetModelPanel
             }
             return formFeedBack;
         }
-        
+
         public WizardNavigationPanel getWizardNavigationPanel()
         {
             if (wizardNavigationPanel == null)
@@ -421,11 +421,11 @@ public class DepositPanel extends AbstractDatasetModelPanel
         protected void onSubmit()
         {
             logger.debug("onSubmit of form " + this.getClass() + " currentPage=" + currentPage.getLabelResourceKey());
-            
+
             // Important. Find submittingButton before synchronize. The button may become
             // invisible in the hierarchy after synchronization.
             IFormSubmittingComponent submittingButton = findSubmittingButton();
-            
+
             errors = 0;
             submission.clearAllMessages();
             // synchronize sourceLbusiness objects on listItems from RepeaterPanels.
@@ -440,7 +440,6 @@ public class DepositPanel extends AbstractDatasetModelPanel
 
             });
 
-            
             // logger.debug("submittingButton=" + submittingButton);
             if (submittingButton != null && isNavigationOrSubmitButton((Component) submittingButton)) // do not save with clicks on plus-/minus buttons
             {
@@ -456,27 +455,28 @@ public class DepositPanel extends AbstractDatasetModelPanel
                     submitContents();
                     return;
                 }
-                
+
                 if (ButtonPanel.SAVE.equals(buttonId) && errors == 0)
-                {                	                
-                	// LB: if the setResponsePage is passing a class for some reason
-                	// the message will not show up on the other page's feedback
-                	// panel unless the reporter is null. I have no idea why this
-                	// is so and no (more) patience to find out. It works, so I left 
-                	// it like this.
+                {
+                    // LB: if the setResponsePage is passing a class for some reason
+                    // the message will not show up on the other page's feedback
+                    // panel unless the reporter is null. I have no idea why this
+                    // is so and no (more) patience to find out. It works, so I left 
+                    // it like this.
                     final String message = WicketUtil.commonMessage(null, EasyResources.DATASET_SAVED, FeedbackMessage.INFO);
                     logger.info(message);
 
-        			RedirectData rData = getEasySession().getRedirectData(getPage().getClass());
-        			if (rData != null)
-        			{
-        				setResponsePage(rData.getPageClass(), rData.getPageParameters());
-        			}
+                    RedirectData rData = getEasySession().getRedirectData(getPage().getClass());
+                    if (rData != null)
+                    {
+                        setResponsePage(rData.getPageClass(), rData.getPageParameters());
+                    }
                 }
             }
             else
             {
-                if(submittingButton == null) {
+                if (submittingButton == null)
+                {
                     setCurrentPage(emdFormDefinition.getFormPages().get(0));
                     depoForm = null;
                     init();
@@ -499,7 +499,7 @@ public class DepositPanel extends AbstractDatasetModelPanel
 
             if (errors > 0)
             {
-    			logger.error(getString(EasyResources.NR_ERRORS_IN_FORM).replace("$1", String.valueOf(errors)));
+                logger.error(getString(EasyResources.NR_ERRORS_IN_FORM).replace("$1", String.valueOf(errors)));
                 if (!(submittingButton instanceof AjaxSubmitLink))
                 {
                     // the error message seems to interfere with the onSubmit/target.addComponent procedure of the Ajax
@@ -515,21 +515,20 @@ public class DepositPanel extends AbstractDatasetModelPanel
         }
     }
 
-
     class ButtonPanel extends Panel
     {
 
-        public static final String NEXT             = "next";
-        public static final String SUBMIT           = "submit";
-        public static final String SAVE             = "save";
-        public static final String LEAVE            = "leave";
-        public static final String CANCEL           = "cancel";
-        public static final String PREVIOUS         = "previous";
-        public static final String CONFIRM          = "confirm";
-        private static final long  serialVersionUID = 4513083082403949353L;
-        private final DepositForm  depoForm;
-        private boolean            initiated;
-       
+        public static final String NEXT = "next";
+        public static final String SUBMIT = "submit";
+        public static final String SAVE = "save";
+        public static final String LEAVE = "leave";
+        public static final String CANCEL = "cancel";
+        public static final String PREVIOUS = "previous";
+        public static final String CONFIRM = "confirm";
+        private static final long serialVersionUID = 4513083082403949353L;
+        private final DepositForm depoForm;
+        private boolean initiated;
+
         protected ModalWindow confirmModal;
 
         public ButtonPanel(String id, DepositForm depoForm)
@@ -550,9 +549,9 @@ public class DepositPanel extends AbstractDatasetModelPanel
         }
 
         private void initComponents()
-        {                      
+        {
             final int currentPageIndex = getCurrentPageIndex();
-           
+
             String saveButtonText;
             if (DepositDiscipline.EMD_DEPOSITFORM_ARCHIVIST.equals(emdFormDefinition.getId()))
             {
@@ -572,9 +571,9 @@ public class DepositPanel extends AbstractDatasetModelPanel
                 {
                     depoForm.onPageClick(currentPageIndex - 1);
                 }
-                
+
                 @Override
-                public boolean isVisible() 
+                public boolean isVisible()
                 {
                     return currentPageIndex > 0;
                 }
@@ -583,7 +582,7 @@ public class DepositPanel extends AbstractDatasetModelPanel
             add(new Link<String>(LEAVE)
             {
                 private static final long serialVersionUID = -3733296648097227019L;
-                
+
                 @Override
                 public void onClick()
                 {
@@ -597,17 +596,17 @@ public class DepositPanel extends AbstractDatasetModelPanel
                         setResponsePage(HomePage.class);
                     }
                 }
-                
+
                 @Override
-                public boolean isVisible() 
+                public boolean isVisible()
                 {
                     return DepositDiscipline.EMD_DEPOSITFORM_WIZARD.equals(emdFormDefinition.getId());
                 }
             });
-            
+
             add(new Link<String>(CANCEL)
             {
-                
+
                 private static final long serialVersionUID = -6091186801938439734L;
 
                 @Override
@@ -624,7 +623,7 @@ public class DepositPanel extends AbstractDatasetModelPanel
                         setResponsePage(HomePage.class);
                     }
                 }
-                
+
                 @Override
                 public boolean isVisible()
                 {
@@ -643,7 +642,7 @@ public class DepositPanel extends AbstractDatasetModelPanel
                     // handled by depoForm.onSubmit()
                 }
             };
-            
+
             Label saveLabel = new Label("saveLabel", saveButtonText);
             save.add(saveLabel);
             save.setDefaultFormProcessing(true);
@@ -651,7 +650,7 @@ public class DepositPanel extends AbstractDatasetModelPanel
 
             final Label submitDatasetInfoMessage = new Label("submitDatasetInfoMessage", "");
             add(submitDatasetInfoMessage);
-            
+
             SubmitLink submit = new SubmitLink(SUBMIT)
             {
                 private static final long serialVersionUID = 2680341944559569382L;
@@ -659,7 +658,7 @@ public class DepositPanel extends AbstractDatasetModelPanel
                 @Override
                 public void onSubmit()
                 {
-                    
+
                 }
 
                 /**
@@ -673,41 +672,40 @@ public class DepositPanel extends AbstractDatasetModelPanel
                 @Override
                 public boolean isVisible()
                 {
-                    if (isLastPage() 
-                        && !DepositDiscipline.EMD_DEPOSITFORM_ARCHIVIST.equals(getEmdFormDefinition().getId())) {
-                    	
-                    	submitDatasetInfoMessage.setDefaultModelObject(getString("submit.info.message"));
-                    	submitDatasetInfoMessage.setVisible(true);
-                    	return true;
+                    if (isLastPage() && !DepositDiscipline.EMD_DEPOSITFORM_ARCHIVIST.equals(getEmdFormDefinition().getId()))
+                    {
+
+                        submitDatasetInfoMessage.setDefaultModelObject(getString("submit.info.message"));
+                        submitDatasetInfoMessage.setVisible(true);
+                        return true;
                     }
-                    
+
                     submitDatasetInfoMessage.setVisible(false);
                     return false;
                 }
             };
-            
+
             add(submit);
-            
-            add(new ConfirmPanel(CONFIRM,
-                    getString(CONFIRM_BUTTON_NAME), 
-                    getString(CONFIRM_MESSAGE), 
-                    getString(CONFIRM_TITLE))
+
+            add(new ConfirmPanel(CONFIRM, getString(CONFIRM_BUTTON_NAME), getString(CONFIRM_MESSAGE), getString(CONFIRM_TITLE))
             {
                 private static final long serialVersionUID = 1L;
+
                 @Override
-                protected void onConfirm(AjaxRequestTarget target) 
+                protected void onConfirm(AjaxRequestTarget target)
                 {
                     logger.debug("Dataset Confirmation Popup: The User Clicked - Yes!");
                     saveContents();
                     submitContents();
                 }
+
                 @Override
                 protected void onCancel(AjaxRequestTarget target)
-                { 
+                {
                     logger.debug("Dataset Confirmation Popup: The User Clicked - No!");
                     // TODO: redir to FormPage with UploadPanel...
                 }
-                
+
                 /**
                  * This Link is visible when:
                  *  1. This is the last page of the Wizard AND
@@ -720,12 +718,12 @@ public class DepositPanel extends AbstractDatasetModelPanel
                 public boolean isVisible()
                 {
                     return false;
-//                    return isLastPage() 
-//                        && !DepositDiscipline.EMD_DEPOSITFORM_ARCHIVIST.equals(getEmdFormDefinition().getId())
-//                        && submission.getDataset().getTotalFileCount() < 1;
+                    //                    return isLastPage() 
+                    //                        && !DepositDiscipline.EMD_DEPOSITFORM_ARCHIVIST.equals(getEmdFormDefinition().getId())
+                    //                        && submission.getDataset().getTotalFileCount() < 1;
                 }
             });
-            
+
             add(new SubmitLink(NEXT)
             {
                 private static final long serialVersionUID = -3105624268606924788L;
@@ -735,7 +733,7 @@ public class DepositPanel extends AbstractDatasetModelPanel
                 {
                     depoForm.onPageClick(currentPageIndex + 1);
                 }
-                
+
                 @Override
                 public boolean isVisible()
                 {
@@ -750,7 +748,8 @@ public class DepositPanel extends AbstractDatasetModelPanel
      * This method is used by Archis2EditPanel.
      * @param initiated
      */
-	public void setInitiated(boolean initiated) {
-		this.initiated = initiated;
-	}
+    public void setInitiated(boolean initiated)
+    {
+        this.initiated = initiated;
+    }
 }

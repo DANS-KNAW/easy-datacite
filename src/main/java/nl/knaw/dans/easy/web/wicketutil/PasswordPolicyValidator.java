@@ -20,26 +20,26 @@ import org.slf4j.LoggerFactory;
  */
 public final class PasswordPolicyValidator implements IValidator<String>
 {
-    
+
     public static final int MIN_PASSWORD_LENGTH = 6;
     /**
      * Logger for this class.
      */
-    private static final Logger                  LOGGER           = LoggerFactory.getLogger(PasswordPolicyValidator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PasswordPolicyValidator.class);
     /**
      * Serial version uid.
      */
-    private static final long                    serialVersionUID = -623135553060122902L;
+    private static final long serialVersionUID = -623135553060122902L;
 
     /**
      * Singleton instance.
      */
-    private static final PasswordPolicyValidator INSTANCE         = new PasswordPolicyValidator();
+    private static final PasswordPolicyValidator INSTANCE = new PasswordPolicyValidator();
 
     /**
      * List of validators to check.
      */
-    private final List< IValidator<String> >             validators       = new ArrayList< IValidator<String> >(2);
+    private final List<IValidator<String>> validators = new ArrayList<IValidator<String>>(2);
 
     /**
      * Validator to check minimum length of password.

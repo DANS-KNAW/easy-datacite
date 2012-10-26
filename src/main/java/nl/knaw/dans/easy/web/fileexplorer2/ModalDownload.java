@@ -236,14 +236,16 @@ public class ModalDownload extends Panel
                                 Services.getItemService().registerDownload(EasySession.getSessionUser(), datasetModel.getObject(), zfcw.getDownloadedItemVOs());
                                 // close download popup
                                 window.close(target);
-                                StatisticsLogger.getInstance().logEvent(StatisticsEvent.DOWNLOAD_DATASET_REQUEST, new DatasetStatistics(datasetModel.getObject()),
-                                        new DownloadStatistics(zfcw), new DisciplineStatistics(datasetModel.getObject()));
+                                StatisticsLogger.getInstance().logEvent(StatisticsEvent.DOWNLOAD_DATASET_REQUEST,
+                                        new DatasetStatistics(datasetModel.getObject()), new DownloadStatistics(zfcw),
+                                        new DisciplineStatistics(datasetModel.getObject()));
                             }
                         };
                     }
-                    catch (TooManyFilesException e) {
-                    	logger.info("Too many files requested for download ("+e.getAmount()+"). Limit is "+e.getLimit()+ " files.", e.getMessage());
-                    	// zip exceeds number of files limit
+                    catch (TooManyFilesException e)
+                    {
+                        logger.info("Too many files requested for download (" + e.getAmount() + "). Limit is " + e.getLimit() + " files.", e.getMessage());
+                        // zip exceeds number of files limit
                         message = new StringResourceModel(MSG_TOO_MANY_FILES, this, new Model<TooManyFilesException>(e));
                         downloadAllowed = false;
                     }

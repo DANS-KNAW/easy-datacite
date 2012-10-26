@@ -17,13 +17,12 @@ import org.apache.wicket.model.Model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 public class InfosegmentPanel extends AbstractDatasetModelPanel
 {
 
     private static final long serialVersionUID = -1476532905888130291L;
 
-	private static final Logger logger = LoggerFactory.getLogger(InfosegmentPanel.class);
+    private static final Logger logger = LoggerFactory.getLogger(InfosegmentPanel.class);
 
     private final DatasetViewPage.Mode mode;
 
@@ -34,7 +33,7 @@ public class InfosegmentPanel extends AbstractDatasetModelPanel
         super(id, datasetModel);
         this.mode = mode;
     }
-    
+
     public Mode getMode()
     {
         return mode;
@@ -70,7 +69,7 @@ public class InfosegmentPanel extends AbstractDatasetModelPanel
             @Override
             public String getObject()
             {
-            	return getDataset().getAdministrativeMetadata().getDepositor().getDisplayName();
+                return getDataset().getAdministrativeMetadata().getDepositor().getDisplayName();
             }
 
         });
@@ -114,19 +113,18 @@ public class InfosegmentPanel extends AbstractDatasetModelPanel
         }
     }
 
-
-    private class DatasetIntermediatePage extends IntermediatePage 
+    private class DatasetIntermediatePage extends IntermediatePage
     {
-    	public DatasetIntermediatePage(DatasetModel datasetModel, IntermediatePage.Mode mode)
-		{
-    		super(datasetModel, mode);
-		}
-    	
-    	@Override
-    	Page getReturnToPage() 
-    	{
-    		return new DatasetViewPage(getDatasetModel(), DatasetViewPage.Mode.VIEW);
-    	}
+        public DatasetIntermediatePage(DatasetModel datasetModel, IntermediatePage.Mode mode)
+        {
+            super(datasetModel, mode);
+        }
+
+        @Override
+        Page getReturnToPage()
+        {
+            return new DatasetViewPage(getDatasetModel(), DatasetViewPage.Mode.VIEW);
+        }
     }
 
 }

@@ -17,9 +17,9 @@ public class ChoiceListTranslator implements Translator<String>
 
     private static final long serialVersionUID = -5317555410541552791L;
     private static final Logger logger = LoggerFactory.getLogger(ChoiceListTranslator.class);
-    
+
     private final String listId;
-    
+
     public ChoiceListTranslator(String listId)
     {
         this.listId = listId;
@@ -43,7 +43,7 @@ public class ChoiceListTranslator implements Translator<String>
         {
             logger.error("Could not get choicelist: ", e);
         }
-        
+
         return new Model<String>(translation);
     }
 

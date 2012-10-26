@@ -40,16 +40,16 @@ public class StatusPanel extends AbstractEasyPanel
 
     private static final String DATE_TIME_FORMAT = "DateAndTimeFormat";
 
-	private static final long   serialVersionUID = -4453008625659085694L;
+    private static final long serialVersionUID = -4453008625659085694L;
 
-    private static final Logger logger           = LoggerFactory.getLogger(StatusPanel.class);
+    private static final Logger logger = LoggerFactory.getLogger(StatusPanel.class);
 
-    private boolean             initiated;
-    
+    private boolean initiated;
+
     private final DatasetModel datasetModel;
-    
+
     private final DatasetViewPage.Mode mode;
-    
+
     public StatusPanel(String wicketId, DatasetModel datasetModel, Mode mode)
     {
         super(wicketId);
@@ -59,9 +59,9 @@ public class StatusPanel extends AbstractEasyPanel
 
     protected Dataset getDataset()
     {
-    	return datasetModel.getObject();
+        return datasetModel.getObject();
     }
-    
+
     public boolean isInitiated()
     {
         return initiated;
@@ -117,8 +117,8 @@ public class StatusPanel extends AbstractEasyPanel
             @Override
             public Serializable getObject()
             {
-            	List<StateChangeDate> dates = datasetModel.getObject().getAdministrativeMetadata().getStateChangeDates();
-                return dates.size() > 0 ? dates.get(dates.size()-1).getChangeDate() : datasetModel.getObject().getLastModified();
+                List<StateChangeDate> dates = datasetModel.getObject().getAdministrativeMetadata().getStateChangeDates();
+                return dates.size() > 0 ? dates.get(dates.size() - 1).getChangeDate() : datasetModel.getObject().getLastModified();
             }
 
         });
@@ -138,13 +138,13 @@ public class StatusPanel extends AbstractEasyPanel
 
         };
         add(continueDeposit);
-        
+
         final ModalWindow popup = new ModalWindow("popup");
         popup.setUseInitialHeight(false);
         popup.setInitialWidth(450);
         popup.add(CSSPackageResource.getHeaderContribution(FileExplorer.class, "style/modal.css"));
         add(popup);
-        
+
         AjaxLink<Void> deleteDataset = new AjaxLink<Void>("deleteDataset")
         {
             private static final long serialVersionUID = 3429899621436517328L;
@@ -155,7 +155,7 @@ public class StatusPanel extends AbstractEasyPanel
                 logger.debug("deleteDataset clicked.");
                 popup.setTitle("Delete dataset");
                 popup.setContent(new DeleteDatasetPanel(popup, datasetModel));
-				popup.show(target);
+                popup.show(target);
             }
         };
         add(deleteDataset);
@@ -171,7 +171,7 @@ public class StatusPanel extends AbstractEasyPanel
                 logger.debug("restoreDeleted clicked");
                 popup.setTitle("Restore dataset");
                 popup.setContent(new RestoreDatasetPanel(popup, datasetModel));
-				popup.show(target);
+                popup.show(target);
             }
 
         };
@@ -253,11 +253,10 @@ public class StatusPanel extends AbstractEasyPanel
                 setResponsePage(new DatasetIntermediatePage(datasetModel, IntermediatePage.Mode.REPUBLISH));
             }
 
-
         };
         republish.setOutputMarkupPlaceholderTag(true);
         add(republish);
-        
+
         Link reuseLink = new Link("reuseLink")
         {
 
@@ -274,11 +273,11 @@ public class StatusPanel extends AbstractEasyPanel
         reuseLink.setVisible(Mode.VIEW.equals(getMode()));
         add(reuseLink);
 
-        PublicationProgressPanel pubProgressPanel = new PublicationProgressPanel("pubProgressPanel",datasetModel);
+        PublicationProgressPanel pubProgressPanel = new PublicationProgressPanel("pubProgressPanel", datasetModel);
         add(pubProgressPanel);
 
     }
-    
+
     private void handleReuseDataset()
     {
         try
@@ -289,30 +288,30 @@ public class StatusPanel extends AbstractEasyPanel
         }
         catch (ServiceException e)
         {
-        	String sid = getDataset().getStoreId();
-			errorMessage(EasyResources.ERROR_CLONING_DATASET, sid);
+            String sid = getDataset().getStoreId();
+            errorMessage(EasyResources.ERROR_CLONING_DATASET, sid);
             logger.error("Could not clone dataset with sid " + sid, e);
             setResponsePage(ErrorPage.class);
         }
     }
-    
-    private Mode getMode() 
+
+    private Mode getMode()
     {
-    	return mode;
+        return mode;
     }
-    
-    private class DatasetIntermediatePage extends IntermediatePage 
+
+    private class DatasetIntermediatePage extends IntermediatePage
     {
-    	public DatasetIntermediatePage(DatasetModel datasetModel, IntermediatePage.Mode mode)
-		{
-    		super(datasetModel, mode);
-		}
-    	
-    	@Override
-    	Page getReturnToPage()
-    	{
-    		return new DatasetViewPage(getDatasetModel(), DatasetViewPage.Mode.VIEW);
-    	}
-    }    
+        public DatasetIntermediatePage(DatasetModel datasetModel, IntermediatePage.Mode mode)
+        {
+            super(datasetModel, mode);
+        }
+
+        @Override
+        Page getReturnToPage()
+        {
+            return new DatasetViewPage(getDatasetModel(), DatasetViewPage.Mode.VIEW);
+        }
+    }
 
 }

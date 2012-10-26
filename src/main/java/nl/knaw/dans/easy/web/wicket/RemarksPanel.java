@@ -20,9 +20,9 @@ public class RemarksPanel extends AbstractEasyPanel
 {
 
     private static final long serialVersionUID = -4345309701422172351L;
-    
+
     private final List<Remark> remarks;
-    
+
     private boolean initiated;
 
     public RemarksPanel(String wicketId, RemarksModel remarksModel)
@@ -30,7 +30,7 @@ public class RemarksPanel extends AbstractEasyPanel
         super(wicketId, remarksModel);
         remarks = remarksModel.getRemarks();
     }
-    
+
     @Override
     protected void onBeforeRender()
     {
@@ -52,12 +52,12 @@ public class RemarksPanel extends AbstractEasyPanel
             protected void populateItem(ListItem item)
             {
                 final Remark remark = (Remark) item.getDefaultModelObject();
-                populate(item, remark);                               
+                populate(item, remark);
             }
-            
+
         };
         add(remarksView);
-        
+
         Remark remark = new Remark();
         populate(this, remark);
     }
@@ -67,17 +67,17 @@ public class RemarksPanel extends AbstractEasyPanel
         Label remarkerLabel = new Label("remarkerLabel", new Model()
         {
             private static final long serialVersionUID = 3251891045434565385L;
-            
+
             @Override
             public Serializable getObject()
             {
                 EasyUser remarker = remark.getRemarker();
                 return remarker == null ? null : remarker.getDisplayName();
             }
-            
+
         });
         container.add(remarkerLabel);
-        
+
         DateLabel remarkDate = DateLabel.forDatePattern("remarkDate", new Model()
         {
             private static final long serialVersionUID = 1139426060975374951L;
@@ -95,19 +95,19 @@ public class RemarksPanel extends AbstractEasyPanel
         TextArea textArea = new TextArea("textArea", new Model()
         {
             private static final long serialVersionUID = 8412623237717756209L;
-            
+
             @Override
             public Serializable getObject()
             {
                 return remark.getText();
             }
-            
+
             @Override
             public void setObject(Serializable object)
             {
                 remark.setText((String) object);
             }
-            
+
         });
         container.add(textArea);
     }
