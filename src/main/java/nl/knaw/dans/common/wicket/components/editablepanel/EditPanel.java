@@ -14,12 +14,12 @@ public class EditPanel extends Panel
     {
         super(id, model);
         final TextArea<String> textArea = new TextArea<String>("text", model);
-        
-        if(settings != null)
+
+        if (settings != null)
         {
             textArea.add(new TinyMceBehavior(settings));
         }
-        
+
         textArea.setEscapeModelStrings(false);
         add(textArea);
     }

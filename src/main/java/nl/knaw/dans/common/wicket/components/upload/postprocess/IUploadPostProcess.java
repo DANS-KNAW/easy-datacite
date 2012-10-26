@@ -18,24 +18,24 @@ import nl.knaw.dans.common.wicket.components.upload.UploadStatus;
  */
 public interface IUploadPostProcess
 {
-	boolean needsProcessing(List<File> files);
+    boolean needsProcessing(List<File> files);
 
-	/**
-	 * Implements the execution of a postprocessor. A postprocessor may alter uploaded files,
-	 * produce new ones, filter out files or delete files simply by getting a list of files
-	 * as input and returning a list of files that needs to be considered uploaded.
-	 * 
-	 * @param files the list with files that are to be considered uploaded
-	 * @param destPath the original path in which the files were uploaded
-	 * @param clientParams parameters received from the client side (javascript)
-	 * @return a list with files that need to be considered as uploaded.
-	 * @throws UploadPostProcessException
-	 */
-	List<File> execute(List<File> files, File destPath, Map<String, String> clientParams) throws UploadPostProcessException;
+    /**
+     * Implements the execution of a postprocessor. A postprocessor may alter uploaded files,
+     * produce new ones, filter out files or delete files simply by getting a list of files
+     * as input and returning a list of files that needs to be considered uploaded.
+     * 
+     * @param files the list with files that are to be considered uploaded
+     * @param destPath the original path in which the files were uploaded
+     * @param clientParams parameters received from the client side (javascript)
+     * @return a list with files that need to be considered as uploaded.
+     * @throws UploadPostProcessException
+     */
+    List<File> execute(List<File> files, File destPath, Map<String, String> clientParams) throws UploadPostProcessException;
 
-	UploadStatus getStatus();
+    UploadStatus getStatus();
 
-	void cancel()  throws UploadPostProcessException;
+    void cancel() throws UploadPostProcessException;
 
-	void rollBack() throws UploadPostProcessException;
+    void rollBack() throws UploadPostProcessException;
 }

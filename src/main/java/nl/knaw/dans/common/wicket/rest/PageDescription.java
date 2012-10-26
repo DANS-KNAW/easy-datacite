@@ -9,7 +9,7 @@ public class PageDescription implements Serializable
     private final String name;
     private final String resourceKey;
     private final Class<? extends RESTpage> pageClass;
-    
+
     public PageDescription(String name, String resourceKey, Class<? extends RESTpage> pageClass)
     {
         this.name = name;

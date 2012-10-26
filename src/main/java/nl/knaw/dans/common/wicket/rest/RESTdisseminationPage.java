@@ -18,23 +18,23 @@ public abstract class RESTdisseminationPage extends RESTpage
     }
 
     protected abstract void disseminate();
-    
+
     @Override
     public int getLevel()
     {
         return 0;
     }
-    
+
     @Override
     protected void cascadeToChild()
     {
         throw new IllegalStateException("A Disseminator is not supposed to cascade.");
     }
-    
+
     protected void writeXml(String filename, byte[] xml) throws IOException
     {
         String name = filename == null ? "no-name.xml" : filename.replaceAll(" ", "_");
-        
+
         WebResponse response = getWebRequestCycle().getWebResponse();
         response.setContentType("text/xml");
         response.setHeader("Content-Length", "" + xml.length);
@@ -43,16 +43,16 @@ public abstract class RESTdisseminationPage extends RESTpage
         throw new AbortException();
 
     }
-    
+
     protected void write(CommonFileItem fileDmo, InputStream inStream)
     {
         write(fileDmo.getLabel(), fileDmo.getMimeType(), fileDmo.getSize(), inStream);
     }
-    
+
     protected void write(String filename, String mimeType, long length, InputStream inStream)
     {
         String name = filename == null ? "no-name" : filename.replaceAll(" ", "_");
-        
+
         WebResponse response = getWebRequestCycle().getWebResponse();
         response.setContentType(mimeType);
         response.setHeader("Content-Length", "" + length);

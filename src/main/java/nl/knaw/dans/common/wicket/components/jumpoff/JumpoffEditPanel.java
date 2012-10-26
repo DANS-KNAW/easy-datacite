@@ -17,22 +17,22 @@ import wicket.contrib.tinymce.TinyMceBehavior;
 
 public abstract class JumpoffEditPanel extends Panel
 {
-    
+
     public static final String VALIDATE_BUTTON = "validate";
     public static final String VIEW_BUTTON = "view";
     public static final String CANCEL_BUTTON = "cancel";
     public static final String SUBMIT_BUTTON = "submit";
-	private static final long serialVersionUID = -886878277947316135L;
-	
-	private TextArea<String> editor;
-	private boolean initiated;
+    private static final long serialVersionUID = -886878277947316135L;
 
-	public JumpoffEditPanel(final String id, final DMOModel<JumpoffDmo> model)
-	{
-		super(id, model);
-	}
-	
-	protected void onBeforeRender()
+    private TextArea<String> editor;
+    private boolean initiated;
+
+    public JumpoffEditPanel(final String id, final DMOModel<JumpoffDmo> model)
+    {
+        super(id, model);
+    }
+
+    protected void onBeforeRender()
     {
         if (!initiated)
         {
@@ -46,66 +46,66 @@ public abstract class JumpoffEditPanel extends Panel
     {
         @SuppressWarnings("rawtypes")
         Form form = new Form("editForm");
-		
-		editor = new TextArea<String>("editor", new Model<String>(getJumpoffDmo().getMarkupUnit().getHtml()));
-		
-		if (getJumpoffDmo().isInHtmlMode())
-		{
-		    editor.add(new TinyMceBehavior(new DansTinyMCESettings()));
-		}
+
+        editor = new TextArea<String>("editor", new Model<String>(getJumpoffDmo().getMarkupUnit().getHtml()));
+
+        if (getJumpoffDmo().isInHtmlMode())
+        {
+            editor.add(new TinyMceBehavior(new DansTinyMCESettings()));
+        }
         editor.setEscapeModelStrings(false);
-		form.add(editor);
-		
-		form.add(new SubmitLink(VALIDATE_BUTTON)
-		{
+        form.add(editor);
+
+        form.add(new SubmitLink(VALIDATE_BUTTON)
+        {
             private static final long serialVersionUID = 1778637177139377551L;
-            
+
             @Override
             public void onSubmit()
             {
                 validate();
             }
-		    
-		});
-		
-		form.add(new SubmitLink(SUBMIT_BUTTON)
-		{
-		    private static final long serialVersionUID = 918379270241898255L;
+
+        });
+
+        form.add(new SubmitLink(SUBMIT_BUTTON)
+        {
+            private static final long serialVersionUID = 918379270241898255L;
 
             @Override
-		    public void onSubmit()
-		    {
-		        setContents();
-		        onSaveButtonClicked();
-		    }
-		});
-		form.add(new SubmitLink(VIEW_BUTTON)
-		{
+            public void onSubmit()
+            {
+                setContents();
+                onSaveButtonClicked();
+            }
+        });
+        form.add(new SubmitLink(VIEW_BUTTON)
+        {
             private static final long serialVersionUID = -2463272546185236888L;
-            
+
             public void onSubmit()
             {
                 setContents();
                 onViewButtonClicked();
-            }		    
-		});
-		form.add(new SubmitLink(CANCEL_BUTTON)
+            }
+        });
+        form.add(new SubmitLink(CANCEL_BUTTON)
         {
-            
+
             private static final long serialVersionUID = -491610584666052457L;
 
             public void onSubmit()
             {
                 onCancelButtonClicked();
-            }           
+            }
         });
-		
-		add(form);
-		// has no effect
-		//form.add(new FormModificationDetectorBehavior());
-		
-		add(new SimpleUploadPanel("upload", getJumpoffDmo().getStoreId())
-		{
+
+        add(form);
+        // has no effect
+        //form.add(new FormModificationDetectorBehavior());
+
+        add(new SimpleUploadPanel("upload", getJumpoffDmo().getStoreId())
+        {
 
             private static final long serialVersionUID = -3161938397225277632L;
 
@@ -115,7 +115,7 @@ public abstract class JumpoffEditPanel extends Panel
                 getJumpoffDmo().addFile(file);
                 onFileUpload();
             }
-            
+
             @Override
             protected void onDelete(ResourceRef resourceRef)
             {
@@ -127,28 +127,27 @@ public abstract class JumpoffEditPanel extends Panel
             {
                 return JumpoffEditPanel.this.getUploadedResources();
             }
-		    
-		});		
+
+        });
     }
-    
+
     public abstract void onSaveButtonClicked();
-    
+
     public abstract void onViewButtonClicked();
-    
+
     public abstract void onCancelButtonClicked();
-    
+
     public abstract void onFileUpload();
-    
+
     public abstract void onDelete(ResourceRef resourceRef);
-    
+
     public abstract List<ResourceRef> getUploadedResources();
-    
 
     private JumpoffDmo getJumpoffDmo()
-	{
-	    return (JumpoffDmo) getDefaultModelObject();
-	}
-    
+    {
+        return (JumpoffDmo) getDefaultModelObject();
+    }
+
     private void validate()
     {
         String content = editor.getDefaultModelObjectAsString();
@@ -177,6 +176,5 @@ public abstract class JumpoffEditPanel extends Panel
         String content = editor.getDefaultModelObjectAsString();
         getJumpoffDmo().getMarkupUnit().setHtml(content);
     }
-    
 
 }

@@ -12,39 +12,39 @@ import org.slf4j.LoggerFactory;
  */
 public class EasyUploadStatus extends UploadStatus
 {
-	/** Log. */
-	private static final Logger LOG = LoggerFactory.getLogger(EasyUploadStatus.class);
+    /** Log. */
+    private static final Logger LOG = LoggerFactory.getLogger(EasyUploadStatus.class);
 
-	private Integer uploadId;
+    private Integer uploadId;
 
-	public EasyUploadStatus(Integer uploadId, String message)
-	{
-		super(message);
-		this.uploadId = uploadId;
-	}
+    public EasyUploadStatus(Integer uploadId, String message)
+    {
+        super(message);
+        this.uploadId = uploadId;
+    }
 
-	public JSONObject toJSONObject()
-	{
-		JSONObject jobj = new JSONObject();
-		try
-		{
-			jobj.put("uploadId", uploadId);
-			jobj.put("message", getMessage());
-			jobj.put("error", isError());
-			jobj.put("finished", isFinished());
-			jobj.put("percentComplete", getPercentComplete());
-		}
-		catch (JSONException e)
-		{
-			//TODO: send exception to general exception handler
-			LOG.error("Caught error while serializing UploadStatus object to JSON.", e);
-			return jobj;
-		}
-		return jobj;
-	}
+    public JSONObject toJSONObject()
+    {
+        JSONObject jobj = new JSONObject();
+        try
+        {
+            jobj.put("uploadId", uploadId);
+            jobj.put("message", getMessage());
+            jobj.put("error", isError());
+            jobj.put("finished", isFinished());
+            jobj.put("percentComplete", getPercentComplete());
+        }
+        catch (JSONException e)
+        {
+            //TODO: send exception to general exception handler
+            LOG.error("Caught error while serializing UploadStatus object to JSON.", e);
+            return jobj;
+        }
+        return jobj;
+    }
 
-	public Integer getUploadId()
-	{
-		return uploadId;
-	}
+    public Integer getUploadId()
+    {
+        return uploadId;
+    }
 }

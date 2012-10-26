@@ -19,63 +19,57 @@ import org.apache.wicket.model.IModel;
  */
 public class FacetCriterium extends AbstractSearchCriterium
 {
-	private static final long	serialVersionUID	= -1946955118281043993L;
+    private static final long serialVersionUID = -1946955118281043993L;
 
-	private final FacetValue	facetValue;
-	private final String		facetName;
+    private final FacetValue facetValue;
+    private final String facetName;
 
-	public FacetCriterium(String facetName, FacetValue facetValue, IModel<String> labelModel)
-	{
-		super(labelModel);
-		this.facetName	= facetName;
-		this.facetValue	= facetValue;
-	}
-	
-	@Override
-	public void apply(SimpleSearchRequest searchRequest)
-	{
-		if (facetValue instanceof CollapsedFacetValue)
-		{
-			CollapsedFacetValue  collapsedFacetValue = (CollapsedFacetValue) facetValue;
-			
-			List collapsedValues = new ArrayList(collapsedFacetValue.getCollapsedValues());
-			Iterator<FacetValue<?>> collapsedValuesIt = collapsedValues.iterator();
-			String facetValuesQuery = "("+ facetValue.getValue().toString();
-			if (collapsedValuesIt.hasNext())
-				facetValuesQuery += " OR ";
-			while(collapsedValuesIt.hasNext())
-			{
-				FacetValue<?> collapsedValue = collapsedValuesIt.next();
-				facetValuesQuery += collapsedValue.getValue().toString();
-				if (collapsedValuesIt.hasNext())
-					facetValuesQuery += " OR ";
-			}
-			facetValuesQuery += ")";
-			
-			SimpleField<String> facetFilter = new SimpleField<String>(
-					facetName,
-					facetValuesQuery
-				);
-			searchRequest.addFilterQuery(facetFilter);
-		}
-		else
-		{
-			SimpleField<String> facetFilter = new SimpleField<String>(
-					facetName,
-					facetValue.getValue().toString()
-				);
-			searchRequest.addFilterQuery(facetFilter);
-		}
-	}
+    public FacetCriterium(String facetName, FacetValue facetValue, IModel<String> labelModel)
+    {
+        super(labelModel);
+        this.facetName = facetName;
+        this.facetValue = facetValue;
+    }
 
-	public FacetValue getFacetValue()
-	{
-		return facetValue;
-	}
+    @Override
+    public void apply(SimpleSearchRequest searchRequest)
+    {
+        if (facetValue instanceof CollapsedFacetValue)
+        {
+            CollapsedFacetValue collapsedFacetValue = (CollapsedFacetValue) facetValue;
 
-	public String getFacetName()
-	{
-		return facetName;
-	}
+            List collapsedValues = new ArrayList(collapsedFacetValue.getCollapsedValues());
+            Iterator<FacetValue<?>> collapsedValuesIt = collapsedValues.iterator();
+            String facetValuesQuery = "(" + facetValue.getValue().toString();
+            if (collapsedValuesIt.hasNext())
+                facetValuesQuery += " OR ";
+            while (collapsedValuesIt.hasNext())
+            {
+                FacetValue<?> collapsedValue = collapsedValuesIt.next();
+                facetValuesQuery += collapsedValue.getValue().toString();
+                if (collapsedValuesIt.hasNext())
+                    facetValuesQuery += " OR ";
+            }
+            facetValuesQuery += ")";
+
+            SimpleField<String> facetFilter = new SimpleField<String>(facetName, facetValuesQuery);
+            searchRequest.addFilterQuery(facetFilter);
+        }
+        else
+        {
+            SimpleField<String> facetFilter = new SimpleField<String>(facetName, facetValue.getValue().toString());
+            searchRequest.addFilterQuery(facetFilter);
+        }
+    }
+
+    public FacetValue getFacetValue()
+    {
+        return facetValue;
+    }
+
+    public String getFacetName()
+    {
+        return facetName;
+    }
 
 }

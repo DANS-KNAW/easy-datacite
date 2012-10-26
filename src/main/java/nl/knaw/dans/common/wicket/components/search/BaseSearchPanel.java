@@ -20,45 +20,45 @@ import nl.knaw.dans.common.wicket.components.search.model.SearchRequestBuilder;
  */
 public class BaseSearchPanel extends CommonPanel implements SearchResources
 {
-	private static final long	serialVersionUID	= -1388009453526753597L;
+    private static final long serialVersionUID = -1388009453526753597L;
 
-	public BaseSearchPanel(String wicketId)
-	{
-		super(wicketId);
-	}
-	
-	public BaseSearchPanel(String wicketId, SearchModel searchModel)
-	{
-		super(wicketId, searchModel);
-	}
-	
-	public SearchModel getSearchModel()
-	{
-		return (SearchModel) getDefaultModel();
-	}
-	
-	protected SearchData getSearchData()
-	{
-		return getSearchModel().getObject();
-	}
+    public BaseSearchPanel(String wicketId)
+    {
+        super(wicketId);
+    }
 
-	protected SearchResult<?> getSearchResult()
-	{
-		return getSearchData().getResult();
-	}
-	
-	protected SearchRequest getSearchRequest()
-	{
-		return getRequestBuilder().getRequest();
-	}
+    public BaseSearchPanel(String wicketId, SearchModel searchModel)
+    {
+        super(wicketId, searchModel);
+    }
 
-	protected SearchRequestBuilder getRequestBuilder()
-	{
-		return getSearchData().getRequestBuilder();
-	}
+    public SearchModel getSearchModel()
+    {
+        return (SearchModel) getDefaultModel();
+    }
 
-	protected void setSearchModel(SearchModel searchModel)
-	{
-		setDefaultModel(searchModel);
-	}
+    protected SearchData getSearchData()
+    {
+        return getSearchModel().getObject();
+    }
+
+    protected SearchResult<?> getSearchResult()
+    {
+        return getSearchData().getResult();
+    }
+
+    protected SearchRequest getSearchRequest()
+    {
+        return getRequestBuilder().getRequest();
+    }
+
+    protected SearchRequestBuilder getRequestBuilder()
+    {
+        return getSearchData().getRequestBuilder();
+    }
+
+    protected void setSearchModel(SearchModel searchModel)
+    {
+        setDefaultModel(searchModel);
+    }
 }

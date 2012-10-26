@@ -1,9 +1,9 @@
 package nl.knaw.dans.common.wicket;
 
-import java.util.*;
+import java.util.MissingResourceException;
 
 import org.apache.wicket.Component;
-import org.apache.wicket.markup.html.form.*;
+import org.apache.wicket.markup.html.form.IChoiceRenderer;
 
 /**
  * Renders one choice of an enum object. The 'id' values used for internal representation is the

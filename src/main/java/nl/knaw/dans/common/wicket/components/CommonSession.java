@@ -7,54 +7,54 @@ import org.apache.wicket.protocol.http.WebSession;
 
 public class CommonSession extends WebSession
 {
-	private static final long	serialVersionUID	= -7886316129048405422L;
+    private static final long serialVersionUID = -7886316129048405422L;
 
-	private String currentPageURL;
-	
-	private Class<? extends Page> currentPageClass;
-	
-	private String lastVisitedPageURL;
-	
-	private Class<? extends Page> lastVisitedPageClass;
-	
-	public CommonSession(Request request)
-	{
-		super(request);
-	}
+    private String currentPageURL;
 
-	public static CommonSession get()
-	{
-		return (CommonSession) Session.get();
-	}
+    private Class<? extends Page> currentPageClass;
 
-	public String getLastVisitedPageURL()
-	{
-		return lastVisitedPageURL;
-	}
+    private String lastVisitedPageURL;
 
-	public Class<? extends Page> getLastVisitedPageClass()
-	{
-		return lastVisitedPageClass;
-	}
+    private Class<? extends Page> lastVisitedPageClass;
 
-	public Class<? extends Page> getCurrentPageClass()
-	{
-		return currentPageClass;
-	}
+    public CommonSession(Request request)
+    {
+        super(request);
+    }
 
-	public String getCurrentPageURL()
-	{
-		return currentPageURL;
-	}
+    public static CommonSession get()
+    {
+        return (CommonSession) Session.get();
+    }
 
-	public void setCurrentPage(String URL, Class<? extends CommonPage> pageClass)
-	{
-		if (!pageClass.equals(currentPageClass))
-		{
-			this.lastVisitedPageURL = this.currentPageURL;
-			this.currentPageURL = URL;
-			this.lastVisitedPageClass = currentPageClass;
-			this.currentPageClass = pageClass;
-		}
-	}
+    public String getLastVisitedPageURL()
+    {
+        return lastVisitedPageURL;
+    }
+
+    public Class<? extends Page> getLastVisitedPageClass()
+    {
+        return lastVisitedPageClass;
+    }
+
+    public Class<? extends Page> getCurrentPageClass()
+    {
+        return currentPageClass;
+    }
+
+    public String getCurrentPageURL()
+    {
+        return currentPageURL;
+    }
+
+    public void setCurrentPage(String URL, Class<? extends CommonPage> pageClass)
+    {
+        if (!pageClass.equals(currentPageClass))
+        {
+            this.lastVisitedPageURL = this.currentPageURL;
+            this.currentPageURL = URL;
+            this.lastVisitedPageClass = currentPageClass;
+            this.currentPageClass = pageClass;
+        }
+    }
 }

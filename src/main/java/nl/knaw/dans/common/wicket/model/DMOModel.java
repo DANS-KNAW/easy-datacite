@@ -15,14 +15,14 @@ public abstract class DMOModel<T extends DataModelObject> implements IModel<T>
 {
 
     private static final long serialVersionUID = -8410446576640508341L;
-    
+
     private static final Logger logger = LoggerFactory.getLogger(DMOModel.class);
 
-    private T                 dmo;
+    private T dmo;
 
-    private final String      storeId;
+    private final String storeId;
     private DmoStoreId dmoStoreId;
-    
+
     /**
      * Dynamic reloading
      * of a DMO means that when the DMO gets invalidated the 
@@ -45,17 +45,17 @@ public abstract class DMOModel<T extends DataModelObject> implements IModel<T>
 
     public DMOModel(DMOModel<T> model)
     {
-    	this.storeId = model.getStoreId();
-    	this.dmoStoreId = storeId == null ? null : new DmoStoreId(storeId);
-    	this.dmo = model.getCachedObject();
-    	this.dynamicReload = model.isDynamicReloadEnabled();
+        this.storeId = model.getStoreId();
+        this.dmoStoreId = storeId == null ? null : new DmoStoreId(storeId);
+        this.dmo = model.getCachedObject();
+        this.dynamicReload = model.isDynamicReloadEnabled();
     }
 
     public String getStoreId()
     {
         return storeId;
     }
-    
+
     public DmoStoreId getDmoStoreId()
     {
         if (dmoStoreId == null && !StringUtils.isBlank(storeId))
@@ -68,22 +68,22 @@ public abstract class DMOModel<T extends DataModelObject> implements IModel<T>
     @Override
     public T getObject() throws ServiceRuntimeException
     {
-    	if (dmo == null)
-    	{
-    		dmo = loadDmo();
-    	}
-    	else if (dynamicReload && isInvalidated())
-    	{
-    		logger.debug("Reloading "+ dmo.toString());
-        	dmo = loadDmo();
+        if (dmo == null)
+        {
+            dmo = loadDmo();
         }
-        
+        else if (dynamicReload && isInvalidated())
+        {
+            logger.debug("Reloading " + dmo.toString());
+            dmo = loadDmo();
+        }
+
         return dmo;
     }
-    
+
     public T getCachedObject()
     {
-    	return dmo;
+        return dmo;
     }
 
     @Override
@@ -91,8 +91,8 @@ public abstract class DMOModel<T extends DataModelObject> implements IModel<T>
     {
         if (!this.storeId.equals(object.getStoreId()))
         {
-            throw new IllegalArgumentException("Trying to set a dmo which does not have the same storeId. this.storeId="
-                    + storeId + " other dmo.storeId=" + object.getStoreId());
+            throw new IllegalArgumentException("Trying to set a dmo which does not have the same storeId. this.storeId=" + storeId + " other dmo.storeId="
+                    + object.getStoreId());
         }
         this.dmo = object;
     }
@@ -103,22 +103,20 @@ public abstract class DMOModel<T extends DataModelObject> implements IModel<T>
         // not in use.
     }
 
-	protected abstract T loadDmo();
-    
+    protected abstract T loadDmo();
+
     public boolean isInvalidated()
-	{
-    	try
-		{
-			return dmo != null && 
-				dynamicReload && 
-				dmo.isInvalidated();
-		}
-		catch (RepositoryException e)
-		{
+    {
+        try
+        {
+            return dmo != null && dynamicReload && dmo.isInvalidated();
+        }
+        catch (RepositoryException e)
+        {
             throw new WicketRuntimeException("Could not determine if the Data Model Object was invalidated. storeId=" + storeId, e);
-		}
-	}
-    
+        }
+    }
+
     /**
      * Enable or disable dynamic reloading. Dynamic reloading
      * of a DMO means that when the DMO gets invalidated the 
@@ -127,11 +125,11 @@ public abstract class DMOModel<T extends DataModelObject> implements IModel<T>
      */
     public void setDynamicReload(boolean enable)
     {
-    	this.dynamicReload = enable;
+        this.dynamicReload = enable;
     }
-    
+
     public boolean isDynamicReloadEnabled()
     {
-    	return dynamicReload;
+        return dynamicReload;
     }
 }

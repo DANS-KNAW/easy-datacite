@@ -19,57 +19,57 @@ import org.slf4j.LoggerFactory;
 public class SearchModel implements IModel<SearchData>
 {
     private static final long serialVersionUID = 2540244607992268707L;
-    private static final Logger	LOGGER 				= LoggerFactory.getLogger(SearchModel.class);
-        
+    private static final Logger LOGGER = LoggerFactory.getLogger(SearchModel.class);
+
     private final SearchData searchData;
-                
+
     public SearchModel()
     {
-    	this(null);
+        this(null);
     }
-        
+
     public SearchModel(SearchCriterium searchCriterium)
     {
-    	searchData = new SearchData();
-    	if (searchCriterium != null)
-    	{
-    		searchData.getRequestBuilder().addCriterium(searchCriterium);
-    	}
+        searchData = new SearchData();
+        if (searchCriterium != null)
+        {
+            searchData.getRequestBuilder().addCriterium(searchCriterium);
+        }
     }
 
     public SearchData getObject()
     {
-    	return searchData;
+        return searchData;
     }
 
-	public void setObject(SearchData object)
-	{
-		LOGGER.error("SearchModel.setObject() not allowed.");
-		throw new InternalWebError();
-	}
+    public void setObject(SearchData object)
+    {
+        LOGGER.error("SearchModel.setObject() not allowed.");
+        throw new InternalWebError();
+    }
 
-	public void detach()
-	{
-	}
-	
-	List<SearchCriterium> getCriteria()
-	{
-		return getRequestBuilder().getCriteria();
-	}
+    public void detach()
+    {
+    }
 
-	public SearchRequestBuilder getRequestBuilder()
-	{
-		return getObject().getRequestBuilder();
-	}
+    List<SearchCriterium> getCriteria()
+    {
+        return getRequestBuilder().getCriteria();
+    }
 
-	public void addCriterium(SearchCriterium criterium)
-	{
-		getRequestBuilder().addCriterium(criterium);
-	}
-	
-	public void removeCriterium(SearchCriterium criterium)
-	{
-		getRequestBuilder().removeCriterium(criterium);
-	}
-	
- }
+    public SearchRequestBuilder getRequestBuilder()
+    {
+        return getObject().getRequestBuilder();
+    }
+
+    public void addCriterium(SearchCriterium criterium)
+    {
+        getRequestBuilder().addCriterium(criterium);
+    }
+
+    public void removeCriterium(SearchCriterium criterium)
+    {
+        getRequestBuilder().removeCriterium(criterium);
+    }
+
+}

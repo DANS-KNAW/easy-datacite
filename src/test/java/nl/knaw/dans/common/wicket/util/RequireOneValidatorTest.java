@@ -5,8 +5,6 @@ package nl.knaw.dans.common.wicket.util;
 
 import junit.framework.TestCase;
 
-import nl.knaw.dans.common.wicket.util.RequireOneValidator;
-
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.util.tester.WicketTester;
 import org.slf4j.Logger;
@@ -28,7 +26,7 @@ public class RequireOneValidatorTest extends TestCase
      * Wicket application tester for this class.
      */
     @SuppressWarnings("unused")
-	private WicketTester        tester;
+    private WicketTester tester;
 
     /**
      * Set up for tests.

@@ -14,10 +14,10 @@ import org.apache.wicket.model.Model;
 
 public class MarkupEditorPanel extends CommonPanel
 {
-    
+
     private static final long serialVersionUID = 4723045676949760270L;
 
-    private boolean           initiated;
+    private boolean initiated;
     private final IModel<Serializable> model;
     private Label outputFeed;
 
@@ -26,7 +26,7 @@ public class MarkupEditorPanel extends CommonPanel
         super(id);
         model = new Model<Serializable>("");
     }
-    
+
     public MarkupEditorPanel(String id, IModel<Serializable> model)
     {
         super(id, model);
@@ -52,34 +52,34 @@ public class MarkupEditorPanel extends CommonPanel
         outputFeed.setEscapeModelStrings(false);
         add(outputFeed);
     }
-    
+
     private void setOutPut(String output)
     {
         outputFeed.setDefaultModelObject(output);
     }
-    
+
     class MarkupEditorForm extends CommonForm<Serializable>
     {
 
         private static final long serialVersionUID = 892200475584026808L;
-        
-        private boolean           initiated;
+
+        private boolean initiated;
         private TextArea<Serializable> markupTextArea;
         private transient HtmlValidator htmlValidator;
         private final IModel<Serializable> model;
-        
+
         public MarkupEditorForm(String id)
         {
             super(id);
             model = new Model<Serializable>("");
         }
-        
+
         public MarkupEditorForm(String id, IModel<Serializable> model)
         {
             super(id, model);
             this.model = model;
         }
-        
+
         @Override
         protected void onBeforeRender()
         {
@@ -94,12 +94,12 @@ public class MarkupEditorPanel extends CommonPanel
         private void init()
         {
             markupTextArea = new TextArea<Serializable>("markupTextArea", model);
-            markupTextArea.setEscapeModelStrings(false);  
+            markupTextArea.setEscapeModelStrings(false);
 
             add(markupTextArea);
             add(new SubmitLink("submit.link"));
         }
-        
+
         @Override
         protected void onSubmit()
         {
@@ -121,7 +121,7 @@ public class MarkupEditorPanel extends CommonPanel
             }
             setOutPut(tidied);
         }
-        
+
         private HtmlValidator getHtmlValidator()
         {
             if (htmlValidator == null)
@@ -130,7 +130,7 @@ public class MarkupEditorPanel extends CommonPanel
             }
             return htmlValidator;
         }
-        
+
     }
 
 }

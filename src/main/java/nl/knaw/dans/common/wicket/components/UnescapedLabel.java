@@ -9,19 +9,19 @@ import org.apache.wicket.model.Model;
  * 
  * @author lobo
  */
-public class UnescapedLabel extends Label 
+public class UnescapedLabel extends Label
 {
-	private static final long serialVersionUID = 4653914433944688751L;
+    private static final long serialVersionUID = 4653914433944688751L;
 
-	public UnescapedLabel(final String id, String label)
-	{
-		this(id, new Model(label));
-	}
-	
-	public UnescapedLabel(final String id, IModel model)
-	{
-		super(id, model);
+    public UnescapedLabel(final String id, String label)
+    {
+        this(id, new Model(label));
+    }
 
-		setEscapeModelStrings(false);
-	}
+    public UnescapedLabel(final String id, IModel model)
+    {
+        super(id, model);
+
+        setEscapeModelStrings(false);
+    }
 }

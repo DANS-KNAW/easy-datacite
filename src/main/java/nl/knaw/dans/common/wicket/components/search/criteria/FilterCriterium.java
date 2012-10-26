@@ -7,9 +7,9 @@ import org.apache.wicket.model.IModel;
 
 public class FilterCriterium extends AbstractSearchCriterium
 {
-    
+
     private static final long serialVersionUID = 1795048166011045297L;
-    
+
     private final Field<?> field;
 
     public FilterCriterium(Field<?> field, IModel<String> labelModel)

@@ -23,115 +23,114 @@ import org.slf4j.LoggerFactory;
  */
 public class CommonPage extends WebPage
 {
-	private static final Logger LOGGER                 = LoggerFactory.getLogger(CommonPage.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommonPage.class);
 
-	public CommonPage()
-	{
-		super();
-		init();
-	}
-
-	public CommonPage(PageParameters parameters)
-	{
-		super(parameters);
-		init();
-	}
-
-	public CommonPage(IModel<?> model)
-	{
-		super(model);
-		init();
-	}
-
-	public CommonPage(IPageMap map)
-	{
-		super(map);
-		init();
-	}
-
-	public CommonPage(IPageMap map, IModel<?> model)
-	{
-		super(map, model);
-		init();
-	}
-
-	public CommonPage(IPageMap pageMap, PageParameters parameters)
-	{
-		super(pageMap, parameters);
-		init();
-	}
-
-	private void init()
-	{
-		RequestCycle cycle = RequestCycle.get();
-		String URL;
-		if (cycle.getRequest() instanceof WebRequest && ((WebRequest)cycle.getRequest()).isAjax())
-		{
-			URL = cycle.urlFor(cycle.getRequest().getPage()).toString();
-		}
-		else
-		{
-			URL = "/" + cycle.getRequest().getURL();
-			URL = WicketURLEncoder.FULL_PATH_INSTANCE.encode(URL);
-		}
-		
-		CommonSession.get().setCurrentPage(URL, this.getClass());
-	}
-	
-	protected FeedbackPanel addCommonFeedbackPanel()
+    public CommonPage()
     {
-    	return WicketUtil.addCommonFeedbackPanel(this);
+        super();
+        init();
     }
-	
-	protected FeedbackPanel addCommonFeedbackPanel(IFeedbackMessageFilter filter)
-    {
-    	return WicketUtil.addCommonFeedbackPanel(this, filter);
-    }	
 
-	public String infoMessage(final String messageKey)
+    public CommonPage(PageParameters parameters)
     {
-    	return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.INFO);
+        super(parameters);
+        init();
     }
-    
+
+    public CommonPage(IModel<?> model)
+    {
+        super(model);
+        init();
+    }
+
+    public CommonPage(IPageMap map)
+    {
+        super(map);
+        init();
+    }
+
+    public CommonPage(IPageMap map, IModel<?> model)
+    {
+        super(map, model);
+        init();
+    }
+
+    public CommonPage(IPageMap pageMap, PageParameters parameters)
+    {
+        super(pageMap, parameters);
+        init();
+    }
+
+    private void init()
+    {
+        RequestCycle cycle = RequestCycle.get();
+        String URL;
+        if (cycle.getRequest() instanceof WebRequest && ((WebRequest) cycle.getRequest()).isAjax())
+        {
+            URL = cycle.urlFor(cycle.getRequest().getPage()).toString();
+        }
+        else
+        {
+            URL = "/" + cycle.getRequest().getURL();
+            URL = WicketURLEncoder.FULL_PATH_INSTANCE.encode(URL);
+        }
+
+        CommonSession.get().setCurrentPage(URL, this.getClass());
+    }
+
+    protected FeedbackPanel addCommonFeedbackPanel()
+    {
+        return WicketUtil.addCommonFeedbackPanel(this);
+    }
+
+    protected FeedbackPanel addCommonFeedbackPanel(IFeedbackMessageFilter filter)
+    {
+        return WicketUtil.addCommonFeedbackPanel(this, filter);
+    }
+
+    public String infoMessage(final String messageKey)
+    {
+        return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.INFO);
+    }
+
     public String infoMessage(final String messageKey, final String... param)
     {
-    	return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.INFO, param);
-    }
-    
-    public String warningMessage(final String messageKey)
-    {        
-    	return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.WARNING);
-    }
-    
-    public String warningMessage(final String messageKey, final String param)
-    {
-    	return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.WARNING, param);
-    }
-    
-    public String errorMessage(final String messageKey)
-    {        
-    	return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.ERROR);
-    }
-    
-    public String errorMessage(final String messageKey, final String... param)
-    {
-    	return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.ERROR, param);
-    }
-    
-    public String fatalMessage(final String messageKey)
-    {        
-    	return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.FATAL);
-    }
-    
-    public String fatalMessage(final String messageKey, final String... param)
-    {
-    	return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.FATAL, param);
-    }
-	
-    public void hide(String wicketId)
-    {
-    	WicketUtil.hide(this, wicketId);
+        return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.INFO, param);
     }
 
+    public String warningMessage(final String messageKey)
+    {
+        return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.WARNING);
+    }
+
+    public String warningMessage(final String messageKey, final String param)
+    {
+        return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.WARNING, param);
+    }
+
+    public String errorMessage(final String messageKey)
+    {
+        return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.ERROR);
+    }
+
+    public String errorMessage(final String messageKey, final String... param)
+    {
+        return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.ERROR, param);
+    }
+
+    public String fatalMessage(final String messageKey)
+    {
+        return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.FATAL);
+    }
+
+    public String fatalMessage(final String messageKey, final String... param)
+    {
+        return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.FATAL, param);
+    }
+
+    public void hide(String wicketId)
+    {
+        WicketUtil.hide(this, wicketId);
+    }
 
 }

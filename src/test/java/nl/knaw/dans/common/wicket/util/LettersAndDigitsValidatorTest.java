@@ -3,8 +3,6 @@ package nl.knaw.dans.common.wicket.util;
 import java.util.Arrays;
 import java.util.Collection;
 
-import nl.knaw.dans.common.wicket.util.LettersAndDigitsValidator;
-
 import org.apache.wicket.validation.IValidatable;
 import org.apache.wicket.validation.IValidationError;
 import org.easymock.EasyMock;
@@ -16,7 +14,7 @@ import org.junit.runners.Parameterized.Parameters;
 @RunWith(Parameterized.class)
 public class LettersAndDigitsValidatorTest
 {
-    
+
     @Parameters
     public static Collection<Object[]> getTestData()
     {
@@ -37,16 +35,16 @@ public class LettersAndDigitsValidatorTest
                         {"\\", false} //
                 });
     }
-    
+
     private final String input;
     private final boolean valid;
-    
+
     public LettersAndDigitsValidatorTest(String input, boolean valid)
     {
         this.input = input;
         this.valid = valid;
     }
-    
+
     @Test
     public void valid()
     {

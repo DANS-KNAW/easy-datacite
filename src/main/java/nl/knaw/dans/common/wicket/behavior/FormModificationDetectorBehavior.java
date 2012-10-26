@@ -55,7 +55,7 @@ public class FormModificationDetectorBehavior extends AbstractBehavior
 
     public static final String DISABLE_DETECTOR_JS = "setDetectFormModification(false);";
 
-    private static final long  serialVersionUID            = -4529319874092963800L;
+    private static final long serialVersionUID = -4529319874092963800L;
 
     // Wicket calls this method just after a behavior is bound to
     // a Component and that's nice as we need access to the Form
@@ -78,13 +78,14 @@ public class FormModificationDetectorBehavior extends AbstractBehavior
         // template, we will use Wicket's TextTemplateHeaderContributor that allows us to
         // perform variable substitutions at runtime. Keep the JS file in the same package location
         // as the behavior.
-        
+
         // load dependencies
-        form.getWebPage().add(JavascriptPackageResource.getHeaderContribution( WicketEventReference.INSTANCE ));
-        form.getWebPage().add(JavascriptPackageResource.getHeaderContribution( WicketAjaxReference.INSTANCE ));
-        
-        form.getWebPage().add(TextTemplateHeaderContributor.forJavaScript(FormModificationDetectorBehavior.class,
-                "j-script/FormModificationDetector.js", new FormModificationDetectorModel(form.getMarkupId())));
+        form.getWebPage().add(JavascriptPackageResource.getHeaderContribution(WicketEventReference.INSTANCE));
+        form.getWebPage().add(JavascriptPackageResource.getHeaderContribution(WicketAjaxReference.INSTANCE));
+
+        form.getWebPage().add(
+                TextTemplateHeaderContributor.forJavaScript(FormModificationDetectorBehavior.class, "j-script/FormModificationDetector.js",
+                        new FormModificationDetectorModel(form.getMarkupId())));
     }
 
     // TextTemplateHeaderContributor expects to be supplied with a Map
@@ -95,7 +96,7 @@ public class FormModificationDetectorBehavior extends AbstractBehavior
 
         private static final long serialVersionUID = -7377791430281874480L;
         private Map<String, String> variables;
-        private String            formMarkupid;
+        private String formMarkupid;
 
         FormModificationDetectorModel(String formMarkupid)
         {

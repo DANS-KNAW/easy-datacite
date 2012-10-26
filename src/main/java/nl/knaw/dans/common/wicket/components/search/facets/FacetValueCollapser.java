@@ -59,5 +59,5 @@ import nl.knaw.dans.common.lang.search.FacetValue;
  */
 public interface FacetValueCollapser<T> extends Serializable
 {
-	List<CollapsedFacetValue<T>> collapse(List<FacetValue<T>> originalValues, FacetValue<T> selectedValue);
+    List<CollapsedFacetValue<T>> collapse(List<FacetValue<T>> originalValues, FacetValue<T> selectedValue);
 }

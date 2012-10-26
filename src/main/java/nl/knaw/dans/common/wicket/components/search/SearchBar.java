@@ -33,10 +33,10 @@ public class SearchBar extends BaseSearchPanel
 {
     private static final long serialVersionUID = -2867738048812631601L;
 
-    private static final String SIMPLE_SEARCH_FORM                  = "simpleSearchForm";
+    private static final String SIMPLE_SEARCH_FORM = "simpleSearchForm";
 
-    public static final String	QUERY_PARAM	= "q";
-    
+    public static final String QUERY_PARAM = "q";
+
     public SearchBar(String wicketId, Class<? extends Page> resultPage)
     {
         super(wicketId);
@@ -46,82 +46,75 @@ public class SearchBar extends BaseSearchPanel
     public SearchBar(String wicketId)
     {
         super(wicketId);
-    	init(wicketId, null);
+        init(wicketId, null);
     }
-  
-    public void init(String wicketId, 
-    		Class<? extends Page> resultPage)
+
+    public void init(String wicketId, Class<? extends Page> resultPage)
     {
         add(new SearchBarForm(SIMPLE_SEARCH_FORM, resultPage));
     }
-    
-	protected void onSearch(String searchText)
-	{
-	}
 
-    class SearchBarForm extends Form<SearchData> 
+    protected void onSearch(String searchText)
     {
-		private static final String SEARCH_STRING_ID = "searchString";
+    }
+
+    class SearchBarForm extends Form<SearchData>
+    {
+        private static final String SEARCH_STRING_ID = "searchString";
         private static final long serialVersionUID = -188845913357841972L;
 
         private Class<? extends Page> resultPage;
-		private TextField<String> queryField;
-		
-		public SearchBarForm(String id, final Class<? extends Page> resultPage) 
-		{
+        private TextField<String> queryField;
+
+        public SearchBarForm(String id, final Class<? extends Page> resultPage)
+        {
             super(id);
             this.resultPage = resultPage;
-            
-            queryField = new TextField<String>(SEARCH_STRING_ID, new Model<String>()
-            		{
-						private static final long	serialVersionUID	= 7278417820455893064L;
 
-						public String getObject() 
-            			{
-							// fill in the query field with the value that was last entered
-            				String q = super.getObject();
-            				if (StringUtils.isEmpty(q) && 
-            					getPage().getClass().equals(resultPage) && 
-            					getPage().getPageParameters() != null)
-            				{
-            					q = getPage().getPageParameters().getString(QUERY_PARAM);
-            					setObject(q);
-            				}
-            					
-            				return q; 
-            			};
-            		}
-            	);
+            queryField = new TextField<String>(SEARCH_STRING_ID, new Model<String>()
+            {
+                private static final long serialVersionUID = 7278417820455893064L;
+
+                public String getObject()
+                {
+                    // fill in the query field with the value that was last entered
+                    String q = super.getObject();
+                    if (StringUtils.isEmpty(q) && getPage().getClass().equals(resultPage) && getPage().getPageParameters() != null)
+                    {
+                        q = getPage().getPageParameters().getString(QUERY_PARAM);
+                        setObject(q);
+                    }
+
+                    return q;
+                };
+            });
             queryField.setEscapeModelStrings(false);
             add(new SubmitLink("submitLink"));
             add(queryField);
-            
-            
+
         }
 
-        public void onSubmit() 
+        public void onSubmit()
         {
             String searchText = queryField.getModelObject();
-        	if (StringUtils.isBlank(searchText))
-        		return;
+            if (StringUtils.isBlank(searchText))
+                return;
 
-			if (resultPage != null)
+            if (resultPage != null)
             {
-            	PageParameters params = new PageParameters();
-            	params.add(QUERY_PARAM, searchText);
+                PageParameters params = new PageParameters();
+                params.add(QUERY_PARAM, searchText);
                 setResponsePage(resultPage, params);
             }
-            
-			onSearch(searchText);
+
+            onSearch(searchText);
         }
 
+        private SearchRequestBuilder getRequestBuilder()
+        {
+            return getModelObject().getRequestBuilder();
+        }
 
-		private SearchRequestBuilder getRequestBuilder()
-		{
-			return getModelObject().getRequestBuilder();
-		}
-
-        
     }
 
 }

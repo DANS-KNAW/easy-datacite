@@ -18,7 +18,7 @@ public class RequireOneValidator extends AbstractFormValidator
     /**
      * Serial version uid.
      */
-    private static final long     serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * Components for this validator.

@@ -31,26 +31,26 @@ import org.apache.wicket.markup.html.list.ListView;
  */
 public abstract class RESTpage extends WebPage
 {
-    
+
     private static final String PATH = "/ui";
 
     private final String url;
-    
+
     private final String[] urlFragments;
-    
+
     public RESTpage()
     {
         this(new PageParameters());
     }
-    
+
     public RESTpage(PageParameters parameters)
     {
-        super(parameters);     
+        super(parameters);
         url = getRequest().getURL();
         urlFragments = url.split("/");
         if (isDisseminationPage())
         {
-            ((RESTdisseminationPage)this).disseminate();
+            ((RESTdisseminationPage) this).disseminate();
         }
         else if (urlFragments.length == getLevel())
         {
@@ -65,15 +65,15 @@ public abstract class RESTpage extends WebPage
             cascadeToChild();
         }
     }
-    
+
     public abstract String getName();
-    
+
     public abstract String getResourceKey();
-    
+
     public abstract int getLevel();
-    
+
     protected abstract void cascadeToChild();
-    
+
     /**
      * Initiates the page.
      */
@@ -91,12 +91,12 @@ public abstract class RESTpage extends WebPage
     {
         return false;
     }
-    
+
     public boolean isCascadePage()
     {
         return !isStartPage() && (this instanceof RESTcascadePage);
     }
-    
+
     public boolean isDisseminationPage()
     {
         return this instanceof RESTdisseminationPage;
@@ -111,36 +111,36 @@ public abstract class RESTpage extends WebPage
     {
         return urlFragments;
     }
-    
+
     public String getUrlFragment(int level)
     {
         return urlFragments[level];
     }
-    
+
     protected String composeUrl(int index, String... names)
     {
         StringBuilder sb = new StringBuilder(PATH);
         for (int i = 0; i < index; i++)
         {
             sb.append("/") //
-                .append(getUrlFragments()[i]);
+                    .append(getUrlFragments()[i]);
         }
         for (int i = 0; i < names.length; i++)
         {
             sb.append("/") //
-                .append(names[i]);
+                    .append(names[i]);
         }
         return sb.toString();
     }
-    
+
     protected void initPage()
     {
         createNavigationBar();
     }
-    
+
     protected void createNavigationBar()
     {
-        List<String> fragments = Arrays.asList(getUrlFragments()).subList(0, getLevel() -1);
+        List<String> fragments = Arrays.asList(getUrlFragments()).subList(0, getLevel() - 1);
         ListView<String> navigation = new ListView<String>("navigation", fragments)
         {
 

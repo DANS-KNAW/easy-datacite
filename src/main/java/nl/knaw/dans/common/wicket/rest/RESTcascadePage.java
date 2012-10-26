@@ -28,13 +28,12 @@ import org.apache.wicket.model.ResourceModel;
 
 public abstract class RESTcascadePage extends RESTpage
 {
-    
+
     public static final String ID_NAVIGATION_PANEL = "navigationPanel";
-    
+
     private String idValue;
     private String nextStep;
-    
-    
+
     public RESTcascadePage()
     {
         super();
@@ -44,7 +43,7 @@ public abstract class RESTcascadePage extends RESTpage
     {
         super(parameters);
     }
-    
+
     public String getIdValue()
     {
         return idValue;
@@ -71,7 +70,7 @@ public abstract class RESTcascadePage extends RESTpage
      * @return a map of children of this page
      */
     public abstract Map<String, PageDescription> getChildren();
-    
+
     /**
      * Does nothing. Override this method if you want to contribute parameters for the children of this page.
      * 
@@ -81,7 +80,7 @@ public abstract class RESTcascadePage extends RESTpage
     {
         // do nothing
     }
-    
+
     /**
      * Redirect to the first child of this page. Pages that want to react different should override.
      */
@@ -99,7 +98,7 @@ public abstract class RESTcascadePage extends RESTpage
             throw new RestartResponseException(new RedirectPage(targetUrl));
         }
     }
-    
+
     @Override
     protected void cascadeToChild()
     {
@@ -124,7 +123,7 @@ public abstract class RESTcascadePage extends RESTpage
             initPage();
         }
     }
-    
+
     @Override
     protected void initPage()
     {
@@ -143,20 +142,20 @@ public abstract class RESTcascadePage extends RESTpage
     {
         return new IdNavigationPanel();
     }
-    
+
     protected Panel getNavigationPanel()
     {
         return new NavigationPanel();
     }
-    
+
     protected String getMissingResourceMessage(String key)
     {
         return "Missing resource for '" + key + "' in " + this.getClass().getSimpleName();
     }
-    
+
     class IdNavigationPanel extends Panel
     {
-        
+
         private static final long serialVersionUID = 7613175508890943159L;
 
         protected IdNavigationPanel()
@@ -174,11 +173,11 @@ public abstract class RESTcascadePage extends RESTpage
                 }
             };
             submitLink.setOutputMarkupId(true);
-            
+
             Form<String> navigationForm = new Form<String>("navigationForm")
             {
                 private static final long serialVersionUID = 4524604506262081812L;
-                
+
                 @Override
                 protected void onSubmit()
                 {
@@ -188,25 +187,25 @@ public abstract class RESTcascadePage extends RESTpage
                         setResponsePage(new RedirectPage(targetUrl));
                     }
                 }
-                
+
             };
             navigationForm.setOutputMarkupId(true);
-            
+
             final TextField<String> idField = new TextField<String>("idField", new PropertyModel<String>(RESTcascadePage.this, "idValue"));
             idField.add(new OnChangeAjaxBehavior()
             {
-                
+
                 private static final long serialVersionUID = 6255926118715512652L;
 
                 @Override
                 protected void onUpdate(AjaxRequestTarget target)
                 {
-                    target.addComponent(submitLink);                    
+                    target.addComponent(submitLink);
                 }
             });
             idField.add(new FocusOnLoadBehavior());
             navigationForm.add(idField);
-            
+
             final Map<String, PageDescription> children = getChildren();
             List<String> names = new ArrayList<String>(children.keySet());
             if (names.size() > 0)
@@ -229,13 +228,13 @@ public abstract class RESTcascadePage extends RESTpage
                 }
             };
             group.add(nextSteps);
-            
+
             navigationForm.add(submitLink);
-            
+
             add(navigationForm);
         }
     }
-    
+
     class NavigationPanel extends Panel
     {
 
@@ -261,7 +260,7 @@ public abstract class RESTcascadePage extends RESTpage
                     String key = description.getResourceKey() + ".description";
                     item.add(new Label("description", new ResourceModel(key, getMissingResourceMessage(key))));
                 }
-                
+
             };
             add(listView);
         }

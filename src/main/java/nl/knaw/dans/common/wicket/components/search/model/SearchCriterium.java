@@ -17,15 +17,15 @@ import org.apache.wicket.model.IModel;
  */
 public interface SearchCriterium extends Serializable
 {
-	/**
-	 * @return a string model that is used by the CriteriaPanel for displaying
-	 * a link or label text belonging to this criterium.
-	 */
-	IModel<String> getLabelModel();
-	
-	/**
-	 * Applies this criterium to a searchRequest 
-	 * @param searchRequest
-	 */
-	void apply(SimpleSearchRequest searchRequest);
+    /**
+     * @return a string model that is used by the CriteriaPanel for displaying
+     * a link or label text belonging to this criterium.
+     */
+    IModel<String> getLabelModel();
+
+    /**
+     * Applies this criterium to a searchRequest 
+     * @param searchRequest
+     */
+    void apply(SimpleSearchRequest searchRequest);
 }

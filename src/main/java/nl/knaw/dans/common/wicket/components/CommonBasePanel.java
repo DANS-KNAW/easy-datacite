@@ -14,70 +14,70 @@ import org.apache.wicket.model.IModel;
  */
 class CommonBasePanel<T> extends GPanel<T>
 {
-	private static final long	serialVersionUID	= 3906988013645820611L;
+    private static final long serialVersionUID = 3906988013645820611L;
 
-	public CommonBasePanel(String id)
-	{
-		super(id);
-	}
-    
+    public CommonBasePanel(String id)
+    {
+        super(id);
+    }
+
     public CommonBasePanel(String id, IModel<T> model)
-	{
-		super(id, model);
-	}
-
-	protected FeedbackPanel addCommonFeedbackPanel()
     {
-    	return WicketUtil.addCommonFeedbackPanel(this);
+        super(id, model);
     }
-	
-	protected FeedbackPanel addCommonFeedbackPanel(IFeedbackMessageFilter filter)
-    {
-    	return WicketUtil.addCommonFeedbackPanel(this, filter);
-    }	
 
-	public String infoMessage(final String messageKey)
+    protected FeedbackPanel addCommonFeedbackPanel()
     {
-    	return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.INFO);
+        return WicketUtil.addCommonFeedbackPanel(this);
     }
-    
+
+    protected FeedbackPanel addCommonFeedbackPanel(IFeedbackMessageFilter filter)
+    {
+        return WicketUtil.addCommonFeedbackPanel(this, filter);
+    }
+
+    public String infoMessage(final String messageKey)
+    {
+        return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.INFO);
+    }
+
     public String infoMessage(final String messageKey, final String... param)
     {
-    	return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.INFO, param);
+        return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.INFO, param);
     }
-    
+
     public String warningMessage(final String messageKey)
-    {        
-    	return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.WARNING);
+    {
+        return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.WARNING);
     }
-    
+
     public String warningMessage(final String messageKey, final String param)
     {
-    	return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.WARNING, param);
+        return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.WARNING, param);
     }
-    
+
     public String errorMessage(final String messageKey)
-    {        
-    	return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.ERROR);
+    {
+        return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.ERROR);
     }
-    
+
     public String errorMessage(final String messageKey, final String... param)
     {
-    	return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.ERROR, param);
+        return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.ERROR, param);
     }
-    
+
     public String fatalMessage(final String messageKey)
-    {        
-    	return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.FATAL);
+    {
+        return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.FATAL);
     }
-    
+
     public String fatalMessage(final String messageKey, final String... param)
     {
-    	return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.FATAL, param);
+        return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.FATAL, param);
     }
 
     public void hide(String wicketId)
     {
-    	WicketUtil.hide(this, wicketId);
+        WicketUtil.hide(this, wicketId);
     }
 }

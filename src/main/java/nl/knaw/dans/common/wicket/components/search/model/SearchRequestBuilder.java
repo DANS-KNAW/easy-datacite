@@ -27,232 +27,232 @@ import org.apache.commons.lang.StringUtils;
  */
 public class SearchRequestBuilder implements Serializable
 {
-	private static final long	serialVersionUID	= -7268417198242303154L;
+    private static final long serialVersionUID = -7268417198242303154L;
 
-	private List<SearchCriterium> criteria = new ArrayList<SearchCriterium>();
-	
-	private List<SortField> sortFields = new ArrayList<SortField>();
-	
-	private int offset = 0;
-	
-	private int limit = 10;
-	
-	private boolean dirty = true;
-	
-	private List<FacetConfig> facets;
-	
-	private Set<CriteriumListener> criteriumListeners = new HashSet<CriteriumListener>();
-	
-	public SearchRequestBuilder()
-	{
+    private List<SearchCriterium> criteria = new ArrayList<SearchCriterium>();
 
-	}
-	
-	public SimpleSearchRequest getRequest()
-	{
-		SimpleSearchRequest sr = new SimpleSearchRequest();
-		
-		// facets
-		if (facets != null && facets.size() > 0)
-		{
-			Set<String> facetFields = new HashSet<String>(facets.size());
-			for (FacetConfig facet : facets)
-			{
-				facetFields.add(facet.getFacetName());
-			}
-			sr.setFacetFields(facetFields);
-		}
-				
-		// sorting
-    	sr.setSortFields(sortFields);
-		
-    	// paging
-		sr.setOffset(offset);
-		sr.setLimit(limit);
-		
-		// apply criteria
-    	for (SearchCriterium criterium : criteria)
-		{
-			criterium.apply(sr);
-		}
+    private List<SortField> sortFields = new ArrayList<SortField>();
 
-		// highlighting (this line of code must execute AFTER criteria have been applied)
-		sr.setHighlightingEnabled(!StringUtils.isBlank(sr.getQuery().getQueryString()));
-    	
-		return sr;
-	}
+    private int offset = 0;
 
-	public List<SearchCriterium> getCriteria()
-	{
-		return criteria;
-	}
+    private int limit = 10;
 
-	public void setCriteria(List<SearchCriterium> criteria)
-	{
-		dirty = true;
-		this.criteria = criteria;
-	}
+    private boolean dirty = true;
 
-	public List<SortField> getSortFields()
-	{
-		return sortFields;
-	}
+    private List<FacetConfig> facets;
 
-	public void setSortFields(List<SortField> sortFields)
-	{
-		dirty = true;
-		this.sortFields = sortFields;
-	}
-	
-	public void setFirstSortField(SortField sortField)
-	{
-	    removeSortField(sortField.getName());
-	    sortFields.add(0, sortField);
-	    dirty = true;
-	}
-	
-	public boolean removeSortField(String name)
-	{
-	    SortField foundSortField = getSortField(name);
-	    boolean removed = sortFields.remove(foundSortField);
-	    dirty |= removed;
-	    return removed;
-	}
+    private Set<CriteriumListener> criteriumListeners = new HashSet<CriteriumListener>();
+
+    public SearchRequestBuilder()
+    {
+
+    }
+
+    public SimpleSearchRequest getRequest()
+    {
+        SimpleSearchRequest sr = new SimpleSearchRequest();
+
+        // facets
+        if (facets != null && facets.size() > 0)
+        {
+            Set<String> facetFields = new HashSet<String>(facets.size());
+            for (FacetConfig facet : facets)
+            {
+                facetFields.add(facet.getFacetName());
+            }
+            sr.setFacetFields(facetFields);
+        }
+
+        // sorting
+        sr.setSortFields(sortFields);
+
+        // paging
+        sr.setOffset(offset);
+        sr.setLimit(limit);
+
+        // apply criteria
+        for (SearchCriterium criterium : criteria)
+        {
+            criterium.apply(sr);
+        }
+
+        // highlighting (this line of code must execute AFTER criteria have been applied)
+        sr.setHighlightingEnabled(!StringUtils.isBlank(sr.getQuery().getQueryString()));
+
+        return sr;
+    }
+
+    public List<SearchCriterium> getCriteria()
+    {
+        return criteria;
+    }
+
+    public void setCriteria(List<SearchCriterium> criteria)
+    {
+        dirty = true;
+        this.criteria = criteria;
+    }
+
+    public List<SortField> getSortFields()
+    {
+        return sortFields;
+    }
+
+    public void setSortFields(List<SortField> sortFields)
+    {
+        dirty = true;
+        this.sortFields = sortFields;
+    }
+
+    public void setFirstSortField(SortField sortField)
+    {
+        removeSortField(sortField.getName());
+        sortFields.add(0, sortField);
+        dirty = true;
+    }
+
+    public boolean removeSortField(String name)
+    {
+        SortField foundSortField = getSortField(name);
+        boolean removed = sortFields.remove(foundSortField);
+        dirty |= removed;
+        return removed;
+    }
 
     public SortField getSortField(String name)
     {
         SortField foundSortField = null;
-	    for (SortField sf : sortFields)
-	    {
-	        if (sf.getName().equals(name))
-	        {
-	            foundSortField = sf;
-	            break;
-	        }
-	    }
+        for (SortField sf : sortFields)
+        {
+            if (sf.getName().equals(name))
+            {
+                foundSortField = sf;
+                break;
+            }
+        }
         return foundSortField;
     }
 
-	public int getOffset()
-	{
-		return offset;
-	}
+    public int getOffset()
+    {
+        return offset;
+    }
 
-	public void setOffset(int offset)
-	{
-		checkDirty(this.offset, offset);
-		this.offset = offset;
-	}
+    public void setOffset(int offset)
+    {
+        checkDirty(this.offset, offset);
+        this.offset = offset;
+    }
 
-	private void checkDirty(Object o1, Object o2)
-	{
-		if (!o1.equals(o2))
-			dirty = true;
-	}
+    private void checkDirty(Object o1, Object o2)
+    {
+        if (!o1.equals(o2))
+            dirty = true;
+    }
 
-	public int getLimit()
-	{
-		return limit;
-	}
+    public int getLimit()
+    {
+        return limit;
+    }
 
-	public void setLimit(int limit)
-	{
-		checkDirty(this.limit, limit);
-		this.limit = limit;
-	}
+    public void setLimit(int limit)
+    {
+        checkDirty(this.limit, limit);
+        this.limit = limit;
+    }
 
-	public void addCriterium(SearchCriterium criterium)
-	{
-		if (criterium == null) return;
-		
-		// don't repeat yourself
-		String labelModelObject = criterium.getLabelModel().getObject();
-		for (SearchCriterium crit : criteria)
-		{
-		    if (crit.getLabelModel().getObject().equals(labelModelObject))
-		    {
-		        return;
-		    }
-		}
-		
-		setOffset(0);
-		onCriteriumAdded(criterium);
-		
-		criteria.add(criterium);
-		dirty = true;
-	}
-	
-	public void removeCriterium(SearchCriterium criterium)
-	{
-	    setOffset(0);
-	    onCriteriumRemoved(criterium);
+    public void addCriterium(SearchCriterium criterium)
+    {
+        if (criterium == null)
+            return;
 
-		if (criteria.remove(criterium))
-			dirty = true;
-	}
+        // don't repeat yourself
+        String labelModelObject = criterium.getLabelModel().getObject();
+        for (SearchCriterium crit : criteria)
+        {
+            if (crit.getLabelModel().getObject().equals(labelModelObject))
+            {
+                return;
+            }
+        }
 
-	public void removeCriterium(int idx)
-	{
-		setOffset(0);
+        setOffset(0);
+        onCriteriumAdded(criterium);
 
-		onCriteriumRemoved(criteria.remove(idx));
-		dirty = true;
-	}
+        criteria.add(criterium);
+        dirty = true;
+    }
 
-	public boolean isDirty()
-	{
-		return dirty;
-	}
+    public void removeCriterium(SearchCriterium criterium)
+    {
+        setOffset(0);
+        onCriteriumRemoved(criterium);
 
-	public void setDirty(boolean b)
-	{
-		dirty = b;
-	}
+        if (criteria.remove(criterium))
+            dirty = true;
+    }
 
-	public void setFacets(final List<FacetConfig> facets)
-	{
-		this.facets = facets;
-		for (CriteriumListener listener : criteriumListeners)
+    public void removeCriterium(int idx)
+    {
+        setOffset(0);
+
+        onCriteriumRemoved(criteria.remove(idx));
+        dirty = true;
+    }
+
+    public boolean isDirty()
+    {
+        return dirty;
+    }
+
+    public void setDirty(boolean b)
+    {
+        dirty = b;
+    }
+
+    public void setFacets(final List<FacetConfig> facets)
+    {
+        this.facets = facets;
+        for (CriteriumListener listener : criteriumListeners)
         {
             listener.addFacets(this.facets, this);
         }
-	}
+    }
 
-	public List<FacetConfig> getFacets()
-	{
-		return facets;
-	}
+    public List<FacetConfig> getFacets()
+    {
+        return facets;
+    }
 
-	public void addCriteriumListener(CriteriumListener criteriumListener)
-	{
-	    criteriumListeners.add(criteriumListener);
-	}
-	
-	public boolean removeCriteriumListener(CriteriumListener criteriumListener)
-	{
-	    return criteriumListeners.remove(criteriumListener);
-	}
-	
-	public Set<CriteriumListener> getCriteriumListeners()
-	{
-	    return Collections.unmodifiableSet(criteriumListeners);
-	}
-	
-	private void onCriteriumAdded(SearchCriterium searchCriterium)
-	{
-	    for (CriteriumListener listener : criteriumListeners)
-	    {
-	        listener.onCriteriumAdded(searchCriterium, this);
-	    }
-	}
-	
-	private void onCriteriumRemoved(SearchCriterium searchCriterium)
+    public void addCriteriumListener(CriteriumListener criteriumListener)
+    {
+        criteriumListeners.add(criteriumListener);
+    }
+
+    public boolean removeCriteriumListener(CriteriumListener criteriumListener)
+    {
+        return criteriumListeners.remove(criteriumListener);
+    }
+
+    public Set<CriteriumListener> getCriteriumListeners()
+    {
+        return Collections.unmodifiableSet(criteriumListeners);
+    }
+
+    private void onCriteriumAdded(SearchCriterium searchCriterium)
+    {
+        for (CriteriumListener listener : criteriumListeners)
+        {
+            listener.onCriteriumAdded(searchCriterium, this);
+        }
+    }
+
+    private void onCriteriumRemoved(SearchCriterium searchCriterium)
     {
         for (CriteriumListener listener : criteriumListeners)
         {
             listener.onCriteriumRemoved(searchCriterium, this);
         }
     }
-	
-	
+
 }

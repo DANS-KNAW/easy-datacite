@@ -6,11 +6,11 @@ public class TelephoneNumberValidator extends PatternValidator
 {
 
     public static final String PATTERN_TELEPHONE = "[+]?((\\([0-9- ]+\\))|[0-9- ]+)+";
-    
+
     private static final long serialVersionUID = 8803635130499334848L;
-    
+
     private static TelephoneNumberValidator instance;
-    
+
     public static TelephoneNumberValidator instance()
     {
         if (instance == null)
@@ -19,7 +19,7 @@ public class TelephoneNumberValidator extends PatternValidator
         }
         return instance;
     }
-    
+
     private TelephoneNumberValidator()
     {
         super(PATTERN_TELEPHONE);

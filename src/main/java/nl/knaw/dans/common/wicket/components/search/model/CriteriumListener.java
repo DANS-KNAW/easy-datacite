@@ -22,10 +22,8 @@ public interface CriteriumListener extends Serializable
      */
     void onCriteriumAdded(SearchCriterium searchCriterium, SearchRequestBuilder searchRequestBuilder);
 
-    
     void onCriteriumRemoved(SearchCriterium searchCriterium, SearchRequestBuilder searchRequestBuilder);
 
-    
     void addFacets(List<FacetConfig> refineFacets, SearchRequestBuilder searchRequestBuilder);
 
 }

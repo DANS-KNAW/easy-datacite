@@ -2,7 +2,6 @@ package nl.knaw.dans.common.wicket.components.editablepanel;
 
 import java.io.Serializable;
 
-
 @SuppressWarnings("serial")
 public class CompositeProcessor implements EditablePanel.Processor, Serializable
 {

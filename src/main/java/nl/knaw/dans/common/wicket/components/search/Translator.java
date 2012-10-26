@@ -16,5 +16,5 @@ import org.apache.wicket.model.IModel;
  */
 public interface Translator<T> extends Serializable
 {
-	IModel<String> getTranslation(T originalValue, Locale locale, boolean fullName);
+    IModel<String> getTranslation(T originalValue, Locale locale, boolean fullName);
 }

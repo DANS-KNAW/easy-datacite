@@ -13,14 +13,9 @@ public class PageBrowsePanelTest
     {
         new WicketTester();
         int pageSize = 10;
-        int[] totalHits = {1, 15, 15, 15, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100 };
-        int[] pageStart = {1, 1,  10, 14, 1,   15,  25,  35,  45,  55,  61,  80,  90,  91 };
-        String[] expected =
-        {
-                "1 false 1|",
-                "1 false 1|2 true 2|2 true next|",
-                "1 false 1|2 true 2|2 true next|",
-                "1 true previous|1 true 1|2 false 2|",
+        int[] totalHits = {1, 15, 15, 15, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100};
+        int[] pageStart = {1, 1, 10, 14, 1, 15, 25, 35, 45, 55, 61, 80, 90, 91};
+        String[] expected = {"1 false 1|", "1 false 1|2 true 2|2 true next|", "1 false 1|2 true 2|2 true next|", "1 true previous|1 true 1|2 false 2|",
                 "1 false 1|2 true 2|3 true 3|4 true 4|5 true 5|-1 false ...|10 true 10|2 true next|",
                 "1 true previous|1 true 1|2 false 2|3 true 3|4 true 4|5 true 5|-1 false ...|10 true 10|3 true next|",
                 "2 true previous|1 true 1|2 true 2|3 false 3|4 true 4|5 true 5|-1 false ...|10 true 10|4 true next|",

@@ -3,8 +3,6 @@ package nl.knaw.dans.common.wicket.util;
 import java.util.Arrays;
 import java.util.Collection;
 
-import nl.knaw.dans.common.wicket.util.TelephoneNumberValidator;
-
 import org.apache.wicket.validation.IValidatable;
 import org.apache.wicket.validation.IValidationError;
 import org.easymock.EasyMock;

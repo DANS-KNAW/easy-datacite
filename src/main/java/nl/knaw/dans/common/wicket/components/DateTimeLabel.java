@@ -11,7 +11,6 @@ public class DateTimeLabel extends Label
     //TODO alternative constructors with an enum with property keys for format styles,
     // such as date datetime time short and long versions /  locale?
 
-
     private static final long serialVersionUID = 155555555L;
 
     /**
@@ -21,9 +20,9 @@ public class DateTimeLabel extends Label
      */
     public DateTimeLabel(final String id, final DateTime dateTime, final String format)
     {
-    	this(id, dateTime, new Model<String>(format));
+        this(id, dateTime, new Model<String>(format));
     }
-    
+
     /**
      * @param id wicket id of the markup container
      * @param dateTime the value to be displayed.

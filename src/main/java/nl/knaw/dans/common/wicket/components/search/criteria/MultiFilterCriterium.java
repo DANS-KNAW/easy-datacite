@@ -1,13 +1,10 @@
 package nl.knaw.dans.common.wicket.components.search.criteria;
 
-import java.util.Iterator;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.search.Field;
 import nl.knaw.dans.common.lang.search.simple.SimpleSearchRequest;
-import nl.knaw.dans.common.wicket.components.search.model.SearchCriterium;
 
-import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 
 /**
@@ -24,28 +21,28 @@ import org.apache.wicket.model.IModel;
  */
 public class MultiFilterCriterium extends AbstractSearchCriterium
 {
-	private static final long	serialVersionUID	= -4451822971051448512L;
+    private static final long serialVersionUID = -4451822971051448512L;
 
-	private final List<Field<?>>	fields;
+    private final List<Field<?>> fields;
 
-	private IModel<String>	prefixLabelModel;
+    private IModel<String> prefixLabelModel;
 
-	public MultiFilterCriterium(List<Field<?>> fields, IModel<String> labelModel)
-	{
-		super(labelModel);
-		this.fields = fields;
-	}
-	
-	@Override
-	public void apply(SimpleSearchRequest sr)
-	{
-		for (Field<?> field : fields)
-			sr.addFilterQuery(field);
-	}
+    public MultiFilterCriterium(List<Field<?>> fields, IModel<String> labelModel)
+    {
+        super(labelModel);
+        this.fields = fields;
+    }
 
-	public List<Field<?>> getFields()
-	{
-		return fields;
-	}
-		
+    @Override
+    public void apply(SimpleSearchRequest sr)
+    {
+        for (Field<?> field : fields)
+            sr.addFilterQuery(field);
+    }
+
+    public List<Field<?>> getFields()
+    {
+        return fields;
+    }
+
 }

@@ -5,11 +5,11 @@ import org.apache.wicket.RestartResponseException;
 
 public class InternalWebError extends RestartResponseException
 {
-	private static final long	serialVersionUID	= 3581913687647975402L;
+    private static final long serialVersionUID = 3581913687647975402L;
 
-	public InternalWebError()
-	{
-		super(Application.get().getApplicationSettings().getInternalErrorPage());
-	}
+    public InternalWebError()
+    {
+        super(Application.get().getApplicationSettings().getInternalErrorPage());
+    }
 
 }

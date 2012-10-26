@@ -18,194 +18,194 @@ import org.slf4j.LoggerFactory;
  */
 public class EasyUploadProcesses
 {
-	//TODO: get from properties
-	/**
-	 * After how many minutes of no contact with the client should an uploadprocess be removed
-	 * from the list?
-	 */
-	private static final Integer TIMEOUT_MINS = 60;
+    //TODO: get from properties
+    /**
+     * After how many minutes of no contact with the client should an uploadprocess be removed
+     * from the list?
+     */
+    private static final Integer TIMEOUT_MINS = 60;
 
-	/** Log. */
-	private static final Logger LOG = LoggerFactory.getLogger(EasyUploadProcesses.class);
+    /** Log. */
+    private static final Logger LOG = LoggerFactory.getLogger(EasyUploadProcesses.class);
 
-	/*------------------------------------------------
-	 * Singleton code (Initialization on demand holder)
-	 *------------------------------------------------*/
+    /*------------------------------------------------
+     * Singleton code (Initialization on demand holder)
+     *------------------------------------------------*/
 
-	protected EasyUploadProcesses() {}
+    protected EasyUploadProcesses()
+    {
+    }
 
-	private static class SingletonHolder
-	{
-	     private final static EasyUploadProcesses INSTANCE = new EasyUploadProcesses();
-	}
+    private static class SingletonHolder
+    {
+        private final static EasyUploadProcesses INSTANCE = new EasyUploadProcesses();
+    }
 
-	public static EasyUploadProcesses getInstance()
-	{
-		return SingletonHolder.INSTANCE;
-	}
+    public static EasyUploadProcesses getInstance()
+    {
+        return SingletonHolder.INSTANCE;
+    }
 
+    /*------------------------------------------------
+     * List holding code for the processes
+     *------------------------------------------------*/
 
-	/*------------------------------------------------
-	 * List holding code for the processes
-	 *------------------------------------------------*/
+    private LinkedList<UploadProcessTimed> processList = new LinkedList<UploadProcessTimed>();
 
-	private LinkedList<UploadProcessTimed> processList = new LinkedList<UploadProcessTimed>();
+    private Integer lastUploadId = 1;
 
-	private Integer lastUploadId = 1;
+    /**
+     * This number is arbitrary, it may even be generated on the client side. As long
+     * as it is unique.
+     * @return
+     */
+    public Integer generateUploadId()
+    {
+        return lastUploadId++;
+    }
 
-	/**
-	 * This number is arbitrary, it may even be generated on the client side. As long
-	 * as it is unique.
-	 * @return
-	 */
-	public Integer generateUploadId()
-	{
-		return lastUploadId++;
-	}
+    private UploadProcessTimed getUploadProcessTimedById(Integer uploadId)
+    {
+        Iterator<UploadProcessTimed> it = processList.iterator();
+        UploadProcessTimed processTimed;
+        while (it.hasNext())
+        {
+            processTimed = it.next();
+            Integer processUploadId = processTimed.getUploadProcess().getUploadId();
+            if (processUploadId.equals(uploadId))
+            {
+                return processTimed;
+            }
+        }
+        return null;
+    }
 
-	private UploadProcessTimed getUploadProcessTimedById(Integer uploadId)
-	{
-		Iterator<UploadProcessTimed> it = processList.iterator();
-		UploadProcessTimed processTimed;
-	    while(it.hasNext())
-	    {
-	    	processTimed = it.next();
-	    	Integer processUploadId = processTimed.getUploadProcess().getUploadId();
-			if (processUploadId.equals(uploadId))
-			{
-				return processTimed;
-			}
-	    }
-		return null;
-	}
+    public EasyUploadProcess getUploadProcessById(Integer uploadId)
+    {
+        UploadProcessTimed processTimed = getUploadProcessTimedById(uploadId);
+        if (processTimed == null)
+            return null;
 
-	public EasyUploadProcess getUploadProcessById(Integer uploadId)
-	{
-		UploadProcessTimed processTimed = getUploadProcessTimedById(uploadId);
-		if (processTimed == null)
-			return null;
+        // update last used time before returning the process
+        processTimed.updateLastAccessed();
+        return processTimed.getUploadProcess();
+    }
 
-		// update last used time before returning the process
-		processTimed.updateLastAccessed();
-		return processTimed.getUploadProcess();
-	}
+    public void register(EasyUploadProcess process)
+    {
+        // cleanup old processes
+        cleanupOldProcesses();
 
+        // register new one
+        processList.add(new UploadProcessTimed(process));
+        LOG.info("Registered upload process with id: " + process.getUploadId());
+    }
 
-	public void register(EasyUploadProcess process)
-	{
-		// cleanup old processes
-		cleanupOldProcesses();
+    public void unregister(EasyUploadProcess process)
+    {
+        UploadProcessTimed processTimed = getUploadProcessTimedById(process.getUploadId());
+        if (processTimed == null)
+            return;
 
-		// register new one
-		processList.add(new UploadProcessTimed(process));
-		LOG.info("Registered upload process with id: "+ process.getUploadId());
-	}
+        LOG.info("Unregistered upload process with id: " + process.getUploadId());
+        processList.remove(processTimed);
+    }
 
-	public void unregister(EasyUploadProcess process)
-	{
-		UploadProcessTimed processTimed = getUploadProcessTimedById(process.getUploadId());
-		if (processTimed == null)
-			return;
+    public void cancelUploadsByEasyUpload(EasyUpload easyUpload)
+    {
+        Iterator<UploadProcessTimed> it = processList.iterator();
+        UploadProcessTimed processTimed;
+        ArrayList<UploadProcessTimed> removeList = new ArrayList<UploadProcessTimed>();
+        while (it.hasNext())
+        {
+            processTimed = it.next();
+            if (processTimed.getUploadProcess().getEasyUpload() == easyUpload)
+            {
+                removeList.add(processTimed);
+            }
+        }
 
-		LOG.info("Unregistered upload process with id: "+ process.getUploadId());
-		processList.remove(processTimed);
-	}
+        removeAndCancelProcesses(removeList);
+    }
 
-	public void cancelUploadsByEasyUpload(EasyUpload easyUpload)
-	{
-		Iterator<UploadProcessTimed> it = processList.iterator();
-		UploadProcessTimed processTimed;
-		ArrayList<UploadProcessTimed> removeList = new ArrayList<UploadProcessTimed>();
-	    while(it.hasNext())
-	    {
-	    	processTimed = it.next();
-	    	if (processTimed.getUploadProcess().getEasyUpload() == easyUpload)
-	    	{
-	    		removeList.add(processTimed);
-	    	}
-	    }
+    /**
+     * Throw away all upload process objects that have not been accessed for
+     * a certain amount of time (TIMEOUT_MIS)
+     */
+    private void cleanupOldProcesses()
+    {
+        Date now = new Date();
+        Iterator<UploadProcessTimed> it = processList.iterator();
+        UploadProcessTimed processTimed;
+        ArrayList<UploadProcessTimed> removeList = new ArrayList<UploadProcessTimed>();
+        while (it.hasNext())
+        {
+            processTimed = it.next();
+            long minutesOld = (now.getTime() - processTimed.getLastAccessed().getTime()) / 60000;
+            if (minutesOld >= TIMEOUT_MINS)
+            {
+                LOG.info("removed old (" + minutesOld + " minutes) upload process with id: " + processTimed.getUploadProcess().getUploadId());
+                removeList.add(processTimed);
+            }
+        }
 
-	    removeAndCancelProcesses(removeList);
-	}
+        removeAndCancelProcesses(removeList);
+    }
 
-	/**
-	 * Throw away all upload process objects that have not been accessed for
-	 * a certain amount of time (TIMEOUT_MIS)
-	 */
-	private void cleanupOldProcesses()
-	{
-		Date now = new Date();
-		Iterator<UploadProcessTimed> it = processList.iterator();
-		UploadProcessTimed processTimed;
-		ArrayList<UploadProcessTimed> removeList = new ArrayList<UploadProcessTimed>();
-	    while(it.hasNext())
-	    {
-	    	processTimed = it.next();
-	    	long minutesOld = (now.getTime() - processTimed.getLastAccessed().getTime() ) / 60000;
-	    	if (minutesOld >= TIMEOUT_MINS)
-	    	{
-	    		LOG.info("removed old ("+ minutesOld +" minutes) upload process with id: "+ processTimed.getUploadProcess().getUploadId());
-	    		removeList.add(processTimed);
-	    	}
-	    }
+    private void removeAndCancelProcesses(ArrayList<UploadProcessTimed> removeList)
+    {
+        Iterator<UploadProcessTimed> it = removeList.iterator();
+        UploadProcessTimed processTimed;
+        while (it.hasNext())
+        {
+            processTimed = it.next();
+            if (processTimed.getUploadProcess().getStatus().isFinished() == false)
+                processTimed.getUploadProcess().cancel();
+            processList.remove(processTimed);
+        }
+    }
 
-	    removeAndCancelProcesses(removeList);
-	}
+    public void cancelAllUploads()
+    {
+        Iterator<UploadProcessTimed> it = processList.iterator();
+        while (it.hasNext())
+            it.next().getUploadProcess().cancel();
+    }
 
-	private void removeAndCancelProcesses(ArrayList<UploadProcessTimed> removeList)
-	{
-		Iterator<UploadProcessTimed> it = removeList.iterator();
-		UploadProcessTimed processTimed;
-	    while(it.hasNext())
-	    {
-	    	processTimed = it.next();
-	    	if (processTimed.getUploadProcess().getStatus().isFinished() == false)
-	    		processTimed.getUploadProcess().cancel();
-	    	processList.remove(processTimed);
-	    }
-	}
+    /**
+     *
+     * @author lobo
+     * Wrapper class around UploadProcess that allows one to store a last accessed
+     * time with the UploadProcess object. This comes in handy when trying to
+     * determine if an upload process should be removed after considerable amount
+     * of idle time from the client's side.
+     */
+    static class UploadProcessTimed
+    {
+        private Date lastAccessed;
 
-	public void cancelAllUploads()
-	{
-		Iterator<UploadProcessTimed> it = processList.iterator();
-	    while(it.hasNext())
-    		it.next().getUploadProcess().cancel();
-	}
+        private EasyUploadProcess uploadProcess;
 
-	/**
-	 *
-	 * @author lobo
-	 * Wrapper class around UploadProcess that allows one to store a last accessed
-	 * time with the UploadProcess object. This comes in handy when trying to
-	 * determine if an upload process should be removed after considerable amount
-	 * of idle time from the client's side.
-	 */
-	static class UploadProcessTimed
-	{
-		private Date lastAccessed;
+        public UploadProcessTimed(EasyUploadProcess uploadProcess)
+        {
+            this.lastAccessed = new Date();
+            this.uploadProcess = uploadProcess;
+        }
 
-		private EasyUploadProcess uploadProcess;
+        public void updateLastAccessed()
+        {
+            this.lastAccessed = new Date();
+        }
 
-		public UploadProcessTimed(EasyUploadProcess uploadProcess)
-		{
-			this.lastAccessed = new Date();
-			this.uploadProcess = uploadProcess;
-		}
+        public Date getLastAccessed()
+        {
+            return this.lastAccessed;
+        }
 
-		public void updateLastAccessed()
-		{
-			this.lastAccessed = new Date();
-		}
-
-		public Date getLastAccessed()
-		{
-			return this.lastAccessed;
-		}
-
-		public EasyUploadProcess getUploadProcess()
-		{
-			return this.uploadProcess;
-		}
-	}
+        public EasyUploadProcess getUploadProcess()
+        {
+            return this.uploadProcess;
+        }
+    }
 
 }

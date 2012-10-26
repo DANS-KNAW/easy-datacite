@@ -24,29 +24,28 @@ public class EasyUploadIFrame extends WebPage
 
     public static final String UPLOAD_FORM_ID = "uploadForm";
 
-
     public EasyUploadIFrame(String componentId)
     {
         form = new UploadForm(UPLOAD_FORM_ID);
         add(form);
         add(HeaderContributor.forJavaScript(JS));
-        form.setMarkupId(UPLOAD_FORM_ID +"_" + componentId);
+        form.setMarkupId(UPLOAD_FORM_ID + "_" + componentId);
     }
 
     public void setEasyUpload(EasyUpload easyUpload)
     {
-    	this.easyUpload = easyUpload;
+        this.easyUpload = easyUpload;
     }
 
     public class UploadForm extends Form
     {
-		private static final long serialVersionUID = 48321765505919523L;
+        private static final long serialVersionUID = 48321765505919523L;
 
-	    private FileUploadField uploadField;
+        private FileUploadField uploadField;
 
-	    private HiddenField uploadIdField;
+        private HiddenField uploadIdField;
 
-		public UploadForm(String id)
+        public UploadForm(String id)
         {
             super(id);
 
@@ -59,7 +58,7 @@ public class EasyUploadIFrame extends WebPage
 
         public EasyUpload getEasyUpload()
         {
-        	return easyUpload;
+            return easyUpload;
         }
 
         /**
@@ -68,20 +67,20 @@ public class EasyUploadIFrame extends WebPage
         @Override
         protected void onBeforeRender()
         {
-        	Integer uploadId = EasyUploadProcesses.getInstance().generateUploadId();
-        	uploadIdField.setModel(new Model(uploadId));
-        	super.onBeforeRender();
+            Integer uploadId = EasyUploadProcesses.getInstance().generateUploadId();
+            uploadIdField.setModel(new Model(uploadId));
+            super.onBeforeRender();
         }
 
         public Integer getUploadId()
         {
-        	Object uploadId = uploadIdField.getModelObject();
-        	if (uploadId instanceof String)
-        		return Integer.valueOf( (String) uploadId);
-        	else if (uploadId instanceof Integer)
-        		return (Integer) uploadId;
-        	else
-        		return -1;
+            Object uploadId = uploadIdField.getModelObject();
+            if (uploadId instanceof String)
+                return Integer.valueOf((String) uploadId);
+            else if (uploadId instanceof Integer)
+                return (Integer) uploadId;
+            else
+                return -1;
         }
 
     }

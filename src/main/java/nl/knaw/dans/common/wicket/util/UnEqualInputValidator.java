@@ -5,7 +5,6 @@ import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.form.validation.EqualInputValidator;
 import org.apache.wicket.util.lang.Objects;
 
-
 /**
  * Validates that the input of two form components is <b>not</b> identical. Errors are reported on the second
  * form component with key 'UnEqualInputValidator' and the variables:

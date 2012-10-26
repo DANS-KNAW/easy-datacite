@@ -7,7 +7,6 @@ import nl.knaw.dans.common.wicket.components.search.facets.FacetConfig;
 import nl.knaw.dans.common.wicket.components.search.facets.FacetPanel;
 import nl.knaw.dans.common.wicket.components.search.model.SearchCriterium;
 import nl.knaw.dans.common.wicket.components.search.model.SearchModel;
-import nl.knaw.dans.common.wicket.components.search.model.SearchRequestBuilder;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
@@ -30,136 +29,132 @@ import org.apache.wicket.model.AbstractReadOnlyModel;
  */
 public abstract class BrowsePanel extends SearchPanel
 {
-	/**
-	 * Gets called when a user after having browsed enough finally clicks on
-	 * the 'show' button which should lead to a page where the results are shown.
-	 * The easiest way to do this is by passing the SearchModel, as is, to a 
-	 * SearchResultPanel.
-	 *  
-	 * @param model the model in its current state. Pass to a SearchResultPanel
-	 * for showing results.
-	 * @see nl.knaw.dans.common.wicket.components.search.results.SearchResultPanel
-	 */
-	public abstract void onShowButtonClicked(SearchModel model);
+    /**
+     * Gets called when a user after having browsed enough finally clicks on
+     * the 'show' button which should lead to a page where the results are shown.
+     * The easiest way to do this is by passing the SearchModel, as is, to a 
+     * SearchResultPanel.
+     *  
+     * @param model the model in its current state. Pass to a SearchResultPanel
+     * for showing results.
+     * @see nl.knaw.dans.common.wicket.components.search.results.SearchResultPanel
+     */
+    public abstract void onShowButtonClicked(SearchModel model);
 
-	private static final long	serialVersionUID	= -7561319774611828836L;	
+    private static final long serialVersionUID = -7561319774611828836L;
 
-	private final BrowseConfig	browseConfig;
+    private final BrowseConfig browseConfig;
 
-	public BrowsePanel(String id, 
-			BrowseConfig browseConfig)
-	{
-		this(id, new SearchModel(), browseConfig);
-	}
+    public BrowsePanel(String id, BrowseConfig browseConfig)
+    {
+        this(id, new SearchModel(), browseConfig);
+    }
 
-	public BrowsePanel(String id, 
-			SearchCriterium criterium,
-			BrowseConfig browseConfig)
-	{
-		this(id, new SearchModel(criterium), browseConfig);
-	}
+    public BrowsePanel(String id, SearchCriterium criterium, BrowseConfig browseConfig)
+    {
+        this(id, new SearchModel(criterium), browseConfig);
+    }
 
-	public BrowsePanel(String id, 
-			SearchModel searchModel, 
-			BrowseConfig browseConfig)
-	{
-		super(id, searchModel);
-		this.browseConfig = browseConfig;
-		init();
-	}
+    public BrowsePanel(String id, SearchModel searchModel, BrowseConfig browseConfig)
+    {
+        super(id, searchModel);
+        this.browseConfig = browseConfig;
+        init();
+    }
 
-	public BrowseConfig getConfig()
-	{
-		return browseConfig;
-	}
-	
-	private void init()
-	{
-		// init model
-		getRequestBuilder().setFacets(browseConfig.getFacets());
-		
-		// search
-		doSearch();
-		
-		initComponents();
-	}
+    public BrowseConfig getConfig()
+    {
+        return browseConfig;
+    }
 
-	private void initComponents()
-	{
-		// browse criteria
-		add(new SearchCriteriaPanel("browseCriteria", getSearchModel()));
-		
-		// result count	
-		add(new Label("resultCount", new AbstractReadOnlyModel<String>()
-				{
-					private static final long	serialVersionUID	= 1L;
-					public String getObject() 
-					{
-						return BrowsePanel.this.getSearchData().getResult().getTotalHits() + "";
-					};
-				}));
-		
-		// show button
-		add(new Link("showButton")
-				{
-					private static final long	serialVersionUID	= 1L;
-					public void onClick()
-					{
-						onShowButtonClicked(getSearchModel());
-					}
-				});
-		
-		// browse facets
-		add(new ListView<FacetConfig>("browseFacets",getConfig().getFacets())
-			{
-				private static final long	serialVersionUID	= 1L;
-				protected void populateItem(ListItem<FacetConfig> item) 
-				{
-					FacetPanel facetPanel = new FacetPanel("browseFacet", getSearchModel(), item.getModelObject())
-					{
-						private static final long	serialVersionUID	= -5913133341105521215L;
+    private void init()
+    {
+        // init model
+        getRequestBuilder().setFacets(browseConfig.getFacets());
 
-						protected void onFacetClick(nl.knaw.dans.common.lang.search.FacetValue<?> facetValue) 
-						{
-							// check for browse dead end
-							if (getSearchData().isDirty())
-							{
-								doSearch();
-								if (getVisibleFacetCount() == 0)
-									onBrowseDeadEnd();
-							}
-						}
-					};
-					item.add(facetPanel);
-				};
-			});
-	}
-	
-	
-	private void onBrowseDeadEnd()
-	{
-		onShowButtonClicked(getSearchModel());
-	}
-	
-	public int getVisibleFacetCount()
-	{
-		int count = 0;
-		for (FacetConfig facetConfig : getConfig().getFacets())
-		{
-			if (FacetPanel.isVisible(facetConfig, getSearchModel()))
-				count++;
-		}
-		return count;
-	}
-	
-	
-	@Override
-	protected SimpleSearchRequest prepareSearchRequest(SimpleSearchRequest request)
-	{
-		// we don't need no damned results
-		request.setLimit(0);
-		request.setOffset(0);		
-		return request;
-	}
-	
+        // search
+        doSearch();
+
+        initComponents();
+    }
+
+    private void initComponents()
+    {
+        // browse criteria
+        add(new SearchCriteriaPanel("browseCriteria", getSearchModel()));
+
+        // result count	
+        add(new Label("resultCount", new AbstractReadOnlyModel<String>()
+        {
+            private static final long serialVersionUID = 1L;
+
+            public String getObject()
+            {
+                return BrowsePanel.this.getSearchData().getResult().getTotalHits() + "";
+            };
+        }));
+
+        // show button
+        add(new Link("showButton")
+        {
+            private static final long serialVersionUID = 1L;
+
+            public void onClick()
+            {
+                onShowButtonClicked(getSearchModel());
+            }
+        });
+
+        // browse facets
+        add(new ListView<FacetConfig>("browseFacets", getConfig().getFacets())
+        {
+            private static final long serialVersionUID = 1L;
+
+            protected void populateItem(ListItem<FacetConfig> item)
+            {
+                FacetPanel facetPanel = new FacetPanel("browseFacet", getSearchModel(), item.getModelObject())
+                {
+                    private static final long serialVersionUID = -5913133341105521215L;
+
+                    protected void onFacetClick(nl.knaw.dans.common.lang.search.FacetValue<?> facetValue)
+                    {
+                        // check for browse dead end
+                        if (getSearchData().isDirty())
+                        {
+                            doSearch();
+                            if (getVisibleFacetCount() == 0)
+                                onBrowseDeadEnd();
+                        }
+                    }
+                };
+                item.add(facetPanel);
+            };
+        });
+    }
+
+    private void onBrowseDeadEnd()
+    {
+        onShowButtonClicked(getSearchModel());
+    }
+
+    public int getVisibleFacetCount()
+    {
+        int count = 0;
+        for (FacetConfig facetConfig : getConfig().getFacets())
+        {
+            if (FacetPanel.isVisible(facetConfig, getSearchModel()))
+                count++;
+        }
+        return count;
+    }
+
+    @Override
+    protected SimpleSearchRequest prepareSearchRequest(SimpleSearchRequest request)
+    {
+        // we don't need no damned results
+        request.setLimit(0);
+        request.setOffset(0);
+        return request;
+    }
+
 }

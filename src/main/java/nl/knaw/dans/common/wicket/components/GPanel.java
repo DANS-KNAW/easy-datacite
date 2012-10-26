@@ -12,37 +12,37 @@ import org.apache.wicket.model.IModel;
  */
 public abstract class GPanel<T> extends Panel
 {
-	private static final long	serialVersionUID	= 1522105023988180614L;
+    private static final long serialVersionUID = 1522105023988180614L;
 
-	public GPanel(final String id)
-	{
-		super(id);
-	}
+    public GPanel(final String id)
+    {
+        super(id);
+    }
 
-	public GPanel(final String id, final IModel<T> model)
-	{
-		super(id, model);
-	}
+    public GPanel(final String id, final IModel<T> model)
+    {
+        super(id, model);
+    }
 
-	@SuppressWarnings("unchecked")
-	public final T getModelObject()
-	{
-		return (T) getDefaultModelObject();
-	}
+    @SuppressWarnings("unchecked")
+    public final T getModelObject()
+    {
+        return (T) getDefaultModelObject();
+    }
 
-	public final void setModelObject(final T modelObject)
-	{
-		setDefaultModelObject(modelObject);
-	}
+    public final void setModelObject(final T modelObject)
+    {
+        setDefaultModelObject(modelObject);
+    }
 
-	@SuppressWarnings("unchecked")
-	public final IModel<T> getModel()
-	{
-		return (IModel<T>) getDefaultModel();
-	}
+    @SuppressWarnings("unchecked")
+    public final IModel<T> getModel()
+    {
+        return (IModel<T>) getDefaultModel();
+    }
 
-	public final void setModel(final IModel<T> model)
-	{
-		setDefaultModel(model);
-	}
+    public final void setModel(final IModel<T> model)
+    {
+        setDefaultModel(model);
+    }
 }

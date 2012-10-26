@@ -28,126 +28,117 @@ import org.slf4j.LoggerFactory;
  */
 public class SearchCriteriaPanel extends BaseSearchPanel
 {
-	private static final long serialVersionUID = 713695445090703764L;
-    private static final Logger	LOGGER 				= LoggerFactory.getLogger(SearchCriteriaPanel.class);
+    private static final long serialVersionUID = 713695445090703764L;
+    private static final Logger LOGGER = LoggerFactory.getLogger(SearchCriteriaPanel.class);
 
-	private static final String	DEFAULT_CRITERIUM_SEPARATOR	= " | ";
-	
-	private boolean	firstCriteriumDisabled;
-    
-	public SearchCriteriaPanel(String wicketId, SearchModel model)
-	{
-		super(wicketId, model);
-		
-		firstCriteriumDisabled = getCriteria().size() > 0;
-		
-		add(
-			new ListView<SearchCriterium>("criteriumLinks", 
-				new AbstractReadOnlyModel<List<SearchCriterium>>()
-				{
-					private static final long	serialVersionUID	= 1L;
-					public List<SearchCriterium> getObject()
-					{
-						return getCriteria();
-					}
-				})
-			{
-				private static final long serialVersionUID = 4136872716659659458L;
-	
-				@Override
-				protected void populateItem(final ListItem<SearchCriterium> item)
-				{
-					final SearchCriterium criterium = item.getModelObject();
-					
-					/*
-					item.add(new Link<Void>("criteriumLink")
-					{
-						private static final long	serialVersionUID	= -2838312214613553559L;
+    private static final String DEFAULT_CRITERIUM_SEPARATOR = " | ";
 
-						{
-							add(new CriteriumLabel("criteriumText", criterium.getLabelModel()));
-						}
-						
-						@Override
-						public void onClick()
-						{
-							int idx = getCriteriaIdx(criterium);
-							idx++;
-							List<SearchCriterium> criteria = getCriteria();
-							while(idx < criteria.size())
-								getRequestBuilder().removeCriterium(idx);
-						}
-						
-						public boolean isEnabled() 
-						{
-							if (firstCriteriumDisabled)
-								return item.getIndex()+1 < getCriteria().size();
-							else
-								return true;
-						};
-					}
-					); */
-					// Note: clicking the link removed all other criteria, it was decided not to have it 
-					// but I left it as a comment above!
-					item.add(new CriteriumLabel("criteriumText", criterium.getLabelModel()));
-					
-					item.add(
-						new Link("removeLink")
-						{
-							private static final long	serialVersionUID	= -1063707405830738778L;
+    private boolean firstCriteriumDisabled;
 
-							{
-								add(new Image("closeImage", new ResourceReference(SearchCriteriaPanel.class, "close-icon.png")));
-							}
-							
-							public void onClick() 
-							{
-								getRequestBuilder().removeCriterium(criterium);
-							};
-							
-							public boolean isVisible() 
-							{
-								return !(criterium instanceof InitialSearchCriterium);
-							};
-						}
-					);
+    public SearchCriteriaPanel(String wicketId, SearchModel model)
+    {
+        super(wicketId, model);
 
-					item.add(
-							new Label("criteriumSeparator", DEFAULT_CRITERIUM_SEPARATOR)
-								.setVisible(item.getIndex()+1 < getCriteria().size()
-								)
-						);
-				}
-			}
-		);	
-	}
+        firstCriteriumDisabled = getCriteria().size() > 0;
 
-	private List<SearchCriterium> getCriteria()
-	{
-		return getRequestBuilder().getCriteria();
-	}
+        add(new ListView<SearchCriterium>("criteriumLinks", new AbstractReadOnlyModel<List<SearchCriterium>>()
+        {
+            private static final long serialVersionUID = 1L;
 
-	private int getCriteriaIdx(SearchCriterium criterium)
-	{
-		List<SearchCriterium> criteria = getCriteria();
-		int idx = criteria.indexOf(criterium);
-		if (idx >= 0)
-		{
-			return idx;
-		}
-		else
-		{
-			LOGGER.error("Could not find criterium "+ getModelObject().toString());
-			throw new InternalWebError();
-		}
-	}
+            public List<SearchCriterium> getObject()
+            {
+                return getCriteria();
+            }
+        })
+        {
+            private static final long serialVersionUID = 4136872716659659458L;
 
-	
-	@Override
-	public boolean isVisible()
-	{
-		int criteria = getCriteria().size();
-		int hits = getSearchResult().getTotalHits();
-		return !(criteria <= 1 && hits == 0);
-	}
+            @Override
+            protected void populateItem(final ListItem<SearchCriterium> item)
+            {
+                final SearchCriterium criterium = item.getModelObject();
+
+                /*
+                item.add(new Link<Void>("criteriumLink")
+                {
+                	private static final long	serialVersionUID	= -2838312214613553559L;
+
+                	{
+                		add(new CriteriumLabel("criteriumText", criterium.getLabelModel()));
+                	}
+                	
+                	@Override
+                	public void onClick()
+                	{
+                		int idx = getCriteriaIdx(criterium);
+                		idx++;
+                		List<SearchCriterium> criteria = getCriteria();
+                		while(idx < criteria.size())
+                			getRequestBuilder().removeCriterium(idx);
+                	}
+                	
+                	public boolean isEnabled() 
+                	{
+                		if (firstCriteriumDisabled)
+                			return item.getIndex()+1 < getCriteria().size();
+                		else
+                			return true;
+                	};
+                }
+                ); */
+                // Note: clicking the link removed all other criteria, it was decided not to have it 
+                // but I left it as a comment above!
+                item.add(new CriteriumLabel("criteriumText", criterium.getLabelModel()));
+
+                item.add(new Link("removeLink")
+                {
+                    private static final long serialVersionUID = -1063707405830738778L;
+
+                    {
+                        add(new Image("closeImage", new ResourceReference(SearchCriteriaPanel.class, "close-icon.png")));
+                    }
+
+                    public void onClick()
+                    {
+                        getRequestBuilder().removeCriterium(criterium);
+                    };
+
+                    public boolean isVisible()
+                    {
+                        return !(criterium instanceof InitialSearchCriterium);
+                    };
+                });
+
+                item.add(new Label("criteriumSeparator", DEFAULT_CRITERIUM_SEPARATOR).setVisible(item.getIndex() + 1 < getCriteria().size()));
+            }
+        });
+    }
+
+    private List<SearchCriterium> getCriteria()
+    {
+        return getRequestBuilder().getCriteria();
+    }
+
+    private int getCriteriaIdx(SearchCriterium criterium)
+    {
+        List<SearchCriterium> criteria = getCriteria();
+        int idx = criteria.indexOf(criterium);
+        if (idx >= 0)
+        {
+            return idx;
+        }
+        else
+        {
+            LOGGER.error("Could not find criterium " + getModelObject().toString());
+            throw new InternalWebError();
+        }
+    }
+
+    @Override
+    public boolean isVisible()
+    {
+        int criteria = getCriteria().size();
+        int hits = getSearchResult().getTotalHits();
+        return !(criteria <= 1 && hits == 0);
+    }
 }

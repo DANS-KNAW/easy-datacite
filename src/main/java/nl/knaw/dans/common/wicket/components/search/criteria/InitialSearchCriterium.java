@@ -14,17 +14,17 @@ import org.apache.wicket.model.IModel;
  */
 public class InitialSearchCriterium extends AbstractSearchCriterium
 {
-	private static final long	serialVersionUID	= 8071037422279464457L;
+    private static final long serialVersionUID = 8071037422279464457L;
 
-	public InitialSearchCriterium(IModel<String> labelModel)
-	{
-		super(labelModel);
-	}
+    public InitialSearchCriterium(IModel<String> labelModel)
+    {
+        super(labelModel);
+    }
 
-	@Override
-	public void apply(SimpleSearchRequest sr)
-	{
-		// do nothing
-	}
+    @Override
+    public void apply(SimpleSearchRequest sr)
+    {
+        // do nothing
+    }
 
 }

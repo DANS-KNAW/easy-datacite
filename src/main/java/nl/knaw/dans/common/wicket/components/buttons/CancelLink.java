@@ -8,29 +8,29 @@ import org.apache.wicket.markup.html.link.Link;
 
 public class CancelLink extends Link<Void>
 {
-	private static final long	serialVersionUID	= -6430995496157454477L;
-	
-	private Class<? extends Page>	alternativePage;
+    private static final long serialVersionUID = -6430995496157454477L;
 
-	public CancelLink(String id)
-	{
-		super(id);
-		this.alternativePage = Application.get().getHomePage();
-	}
+    private Class<? extends Page> alternativePage;
 
-	public CancelLink(String id, Class<? extends Page> alternativePage)
-	{
-		super(id);
-		this.alternativePage = alternativePage;
-	}
+    public CancelLink(String id)
+    {
+        super(id);
+        this.alternativePage = Application.get().getHomePage();
+    }
 
-	@Override
-	public void onClick()
-	{
-		if (!WicketUtil.redirectToLastVisitedPage())
-		{
-			setResponsePage(alternativePage); 
-		}
-	}
+    public CancelLink(String id, Class<? extends Page> alternativePage)
+    {
+        super(id);
+        this.alternativePage = alternativePage;
+    }
+
+    @Override
+    public void onClick()
+    {
+        if (!WicketUtil.redirectToLastVisitedPage())
+        {
+            setResponsePage(alternativePage);
+        }
+    }
 
 }

@@ -27,39 +27,37 @@ import org.apache.wicket.model.ResourceModel;
  */
 public class PageBrowsePanel extends CommonGPanel<PageBrowseData>
 {
-	private static final long serialVersionUID = 4385883898867962693L;
+    private static final long serialVersionUID = 4385883898867962693L;
 
-	public static final String	DEFAULT_SEPARATOR	= "|";
+    public static final String DEFAULT_SEPARATOR = "|";
 
-    public static final String          RK_PREVIOUS           = "PageBrowsePanel.previous";
+    public static final String RK_PREVIOUS = "PageBrowsePanel.previous";
 
-    public static final String          RK_NEXT               = "PageBrowsePanel.next";
+    public static final String RK_NEXT = "PageBrowsePanel.next";
 
-    private Set<PageBrowseLinkListener> linkListeners      = new HashSet<PageBrowseLinkListener>();
-
+    private Set<PageBrowseLinkListener> linkListeners = new HashSet<PageBrowseLinkListener>();
 
     public PageBrowsePanel(final String wicketId, final IModel<PageBrowseData> model)
     {
-    	this(wicketId, model, null);
-    }	
-    
+        this(wicketId, model, null);
+    }
+
     public PageBrowsePanel(final String wicketId, final IModel<PageBrowseData> model, PageBrowseLinkListener listener)
     {
         super(wicketId, model);
-        
+
         if (listener != null)
-        	linkListeners.add( listener );
-        
+            linkListeners.add(listener);
+
         ListView<PageBrowseLink> pageBrowse = new ListView<PageBrowseLink>("pages", new AbstractReadOnlyModel<List<PageBrowseLink>>()
-			{
-				private static final long	serialVersionUID	= -7716849873494368548L;
-	
-				public List<PageBrowseLink> getObject() 
-				{
-					return computeLinks();
-				}
-			}
-        )
+        {
+            private static final long serialVersionUID = -7716849873494368548L;
+
+            public List<PageBrowseLink> getObject()
+            {
+                return computeLinks();
+            }
+        })
         {
             private static final long serialVersionUID = 0L;
 
@@ -67,7 +65,7 @@ public class PageBrowsePanel extends CommonGPanel<PageBrowseData>
             protected void populateItem(ListItem<PageBrowseLink> item)
             {
                 final int page = item.getIndex();
-                if(page > 0)
+                if (page > 0)
                 {
                     item.add(new Label("separator", DEFAULT_SEPARATOR));
                 }
@@ -76,7 +74,7 @@ public class PageBrowsePanel extends CommonGPanel<PageBrowseData>
                     // no separator
                     item.add(new Label("separator", ""));
                 }
-                
+
                 final PageBrowseLink plink = item.getModelObject();
                 item.add(plink);
             }
@@ -93,42 +91,41 @@ public class PageBrowsePanel extends CommonGPanel<PageBrowseData>
     {
         return linkListeners.remove(listener);
     }
-	
-		
+
     @Override
     public boolean isVisible()
     {
-    	return !(getCurrentPage() == 1 && getLastPage() == 1);
+        return !(getCurrentPage() == 1 && getLastPage() == 1);
     }
-        
+
     public int getCurrentPage()
     {
-    	return getModelObject().getCurrentPage();
+        return getModelObject().getCurrentPage();
     }
-    
+
     public int getLastPage()
     {
-    	return getModelObject().getLastPage();
+        return getModelObject().getLastPage();
     }
-    
+
     public int getWindowSize()
     {
-    	return getModelObject().getWindowSize();
+        return getModelObject().getWindowSize();
     }
 
     public int getWindowStart()
     {
-    	return getModelObject().getWindowStart();
+        return getModelObject().getWindowStart();
     }
 
     public int getWindowEnd()
     {
-    	return getModelObject().getWindowEnd();
+        return getModelObject().getWindowEnd();
     }
 
     List<PageBrowseLink> computeLinks()
     {
-    	PageBrowseData model = getModelObject();
+        PageBrowseData model = getModelObject();
         List<PageBrowseLink> links = new ArrayList<PageBrowseLink>();
         if (model.hasPrevious())
         {
@@ -161,11 +158,11 @@ public class PageBrowsePanel extends CommonGPanel<PageBrowseData>
         return links;
     }
 
-	private int getPageSize()
-	{
-		return getModelObject().getPageSize();
-	}
-    
+    private int getPageSize()
+    {
+        return getModelObject().getPageSize();
+    }
+
     // method for testing
     String printLinks()
     {
@@ -178,7 +175,6 @@ public class PageBrowsePanel extends CommonGPanel<PageBrowseData>
         return sb.toString();
     }
 
-    
     /**
      * A link for browsing through items on pages.
      *
@@ -191,11 +187,11 @@ public class PageBrowsePanel extends CommonGPanel<PageBrowseData>
 
         public static final String WI_PAGELINKTEXT = "pageLinkText";
 
-        private static final long           serialVersionUID = -5052832307990433719L;
-        private final int                   targetPage;
-        private final int                   pageSize;
-        private final IModel<String>        labelModel;
-        private final boolean               enabled;
+        private static final long serialVersionUID = -5052832307990433719L;
+        private final int targetPage;
+        private final int pageSize;
+        private final IModel<String> labelModel;
+        private final boolean enabled;
         private final Set<PageBrowseLinkListener> listeners;
 
         PageBrowseLink(int targetPage, int pageSize, IModel<String> labelModel, boolean enabled, Set<PageBrowseLinkListener> listeners)
@@ -228,7 +224,7 @@ public class PageBrowsePanel extends CommonGPanel<PageBrowseData>
         {
             return enabled;
         }
-        
+
         @Override
         protected boolean getStatelessHint()
         {
@@ -238,14 +234,14 @@ public class PageBrowsePanel extends CommonGPanel<PageBrowseData>
         @Override
         public void onClick()
         {
-        	PageBrowseData pbModel = PageBrowsePanel.this.getModelObject();
-			pbModel.setCurrentPage(targetPage);
+            PageBrowseData pbModel = PageBrowsePanel.this.getModelObject();
+            pbModel.setCurrentPage(targetPage);
             for (PageBrowseLinkListener listener : listeners)
             {
                 listener.onClick(this);
             }
         }
-        
+
         String printLink()
         {
             return targetPage + " " + enabled + " " + labelModel.getObject();

@@ -21,21 +21,21 @@ import org.apache.wicket.model.Model;
 
 public class CommonForm<T> extends Form<T>
 {
-	private static final long	serialVersionUID	= 3289096671803030890L;
+    private static final long serialVersionUID = 3289096671803030890L;
 
-    public final List<String>  myComponentsWithFeedBack = new ArrayList<String>();
+    public final List<String> myComponentsWithFeedBack = new ArrayList<String>();
 
     /**
      * Partial wicket id for FormComponentFeedbackIndicator.
      *
      * @see #add(FormComponent, IModel)
      */
-    public static final String  FEEDBACK                 = "feedback";
+    public static final String FEEDBACK = "feedback";
 
     /**
      * Separator for feedback components.
      */
-    public static final String  SEPARATOR                = "-";
+    public static final String SEPARATOR = "-";
 
     /**
      * Partial wicket id for FeedbackPanel with ComponentFeedbackMessageFilter.
@@ -43,77 +43,77 @@ public class CommonForm<T> extends Form<T>
      * @see #addWithComponentFeedback(FormComponent, IModel)
      */
     public static final String COMPONENT_FEEDBACK = "componentFeedback";
-    
-	public CommonForm(String id)
-	{
-		super(id);
-	}
 
-	public CommonForm(String id, IModel<T> model)
-	{
-		super(id, model);
-	}
-
-	/**
-	 * Add a common feedbackPanel. Feedback messages will show at
-	 *
-	 * <pre>
-	 *    &lt;span wicket:id=&quot;commonFeedbackPanel&quot;&gt;feedback&lt;/span&gt;
-	 * </pre>
-	 *
-	 * This feedback panel has a filter to exclude messages already shown in component feedback panels.
-	 *
-	 * @return the common feedback panel
-	 * @see #addWithComponentFeedback(FormComponent, IModel)
-	 */
-	protected FeedbackPanel addCommonFeedbackPanel()
+    public CommonForm(String id)
     {
-    	return WicketUtil.addCommonFeedbackPanel(this, new CommonLevelFeedbackFilter());
+        super(id);
     }
-	
-	protected FeedbackPanel addCommonFeedbackPanel(IFeedbackMessageFilter filter)
-    {
-    	return WicketUtil.addCommonFeedbackPanel(this, filter);
-    }	
 
-	public String infoMessage(final String messageKey)
+    public CommonForm(String id, IModel<T> model)
     {
-    	return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.INFO);
+        super(id, model);
     }
-    
+
+    /**
+     * Add a common feedbackPanel. Feedback messages will show at
+     *
+     * <pre>
+     *    &lt;span wicket:id=&quot;commonFeedbackPanel&quot;&gt;feedback&lt;/span&gt;
+     * </pre>
+     *
+     * This feedback panel has a filter to exclude messages already shown in component feedback panels.
+     *
+     * @return the common feedback panel
+     * @see #addWithComponentFeedback(FormComponent, IModel)
+     */
+    protected FeedbackPanel addCommonFeedbackPanel()
+    {
+        return WicketUtil.addCommonFeedbackPanel(this, new CommonLevelFeedbackFilter());
+    }
+
+    protected FeedbackPanel addCommonFeedbackPanel(IFeedbackMessageFilter filter)
+    {
+        return WicketUtil.addCommonFeedbackPanel(this, filter);
+    }
+
+    public String infoMessage(final String messageKey)
+    {
+        return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.INFO);
+    }
+
     public String infoMessage(final String messageKey, final String... param)
     {
-    	return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.INFO, param);
+        return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.INFO, param);
     }
-    
+
     public String warningMessage(final String messageKey)
-    {        
-    	return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.WARNING);
+    {
+        return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.WARNING);
     }
-    
+
     public String warningMessage(final String messageKey, final String param)
     {
-    	return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.WARNING, param);
+        return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.WARNING, param);
     }
-    
+
     public String errorMessage(final String messageKey)
-    {        
-    	return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.ERROR);
+    {
+        return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.ERROR);
     }
-    
+
     public String errorMessage(final String messageKey, final String... param)
     {
-    	return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.ERROR, param);
+        return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.ERROR, param);
     }
-    
+
     public String fatalMessage(final String messageKey)
-    {        
-    	return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.FATAL);
+    {
+        return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.FATAL);
     }
-    
+
     public String fatalMessage(final String messageKey, final String... param)
     {
-    	return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.FATAL, param);
+        return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.FATAL, param);
     }
 
     /**
@@ -131,8 +131,7 @@ public class CommonForm<T> extends Form<T>
             public Object component(final Component component)
             {
                 // Submitlinks and buttons are removed.
-                if (SubmitLink.class.isAssignableFrom(component.getClass())
-                        || Button.class.isAssignableFrom(component.getClass()))
+                if (SubmitLink.class.isAssignableFrom(component.getClass()) || Button.class.isAssignableFrom(component.getClass()))
                 {
                     component.setVisible(false);
                 }
@@ -184,61 +183,58 @@ public class CommonForm<T> extends Form<T>
         formComponent.setLabel(label);
 
         // Add feedback panel to display
-        FormComponentFeedbackIndicator feedbackIndicator = new FormComponentFeedbackIndicator(formComponent.getId()
-                + SEPARATOR + FEEDBACK);
+        FormComponentFeedbackIndicator feedbackIndicator = new FormComponentFeedbackIndicator(formComponent.getId() + SEPARATOR + FEEDBACK);
         feedbackIndicator.setIndicatorFor(formComponent);
         // LOGGER.debug("FeedbackIndicator " + feedbackIndicator.getId() + " added to the form " + this.getId());
         feedbackIndicator.setOutputMarkupId(true);
 
         super.add(feedbackIndicator);
-    }    
-	/**
-	 * Add a FormComponent and FormComponent feedback panel. Feedback messages will show at
-	 *
-	 * <pre>
-	 *    &lt;span wicket:id=&quot;[formComponent.id]-componentFeedback&quot;&gt;feedback&lt;/span&gt;
-	 * </pre>
-	 *
-	 * where [formComponent.id] is the id of <code>formComponent</code>.
-	 * <p/>
-	 * The FormComponent itself is at
-	 *
-	 * <pre>
-	 *    &lt;input id=&quot;tagId&quot; wicket:id=&quot;[formComponent.id]&quot; type=&quot;text&quot;/&gt;
-	 * </pre>
-	 *
-	 * @param formComponent
-	 *        FormComponent to add
-	 * @param labelModel
-	 *        label used in feedback messages
-	 * @return the feedbackPanel set on the given formComponent
-	 */
-	protected FeedbackPanel addWithComponentFeedback(final FormComponent<?> formComponent, final IModel<String> labelModel)
-	{
-	    ComponentFeedbackMessageFilter filter = 
-	    	new ComponentFeedbackMessageFilter(formComponent);
-	    
-	    FeedbackPanel feedBackPanel = new FeedbackPanel(
-	    		formComponent.getId() + SEPARATOR + COMPONENT_FEEDBACK, filter
-	    	)
-	    {
-	        private static final long serialVersionUID = -521216440119152641L;
-	
-	        @Override
-	        public boolean isVisible()
-	        {
-	            return this.anyMessage();
-	        }
-	
-	    };
-	    feedBackPanel.setOutputMarkupId(true);
-	    formComponent.setLabel(labelModel);
-	    super.add(formComponent);
-	    super.add(feedBackPanel);
-	    myComponentsWithFeedBack.add(formComponent.getId());
-	    
-	    return feedBackPanel;
-	}
+    }
+
+    /**
+     * Add a FormComponent and FormComponent feedback panel. Feedback messages will show at
+     *
+     * <pre>
+     *    &lt;span wicket:id=&quot;[formComponent.id]-componentFeedback&quot;&gt;feedback&lt;/span&gt;
+     * </pre>
+     *
+     * where [formComponent.id] is the id of <code>formComponent</code>.
+     * <p/>
+     * The FormComponent itself is at
+     *
+     * <pre>
+     *    &lt;input id=&quot;tagId&quot; wicket:id=&quot;[formComponent.id]&quot; type=&quot;text&quot;/&gt;
+     * </pre>
+     *
+     * @param formComponent
+     *        FormComponent to add
+     * @param labelModel
+     *        label used in feedback messages
+     * @return the feedbackPanel set on the given formComponent
+     */
+    protected FeedbackPanel addWithComponentFeedback(final FormComponent<?> formComponent, final IModel<String> labelModel)
+    {
+        ComponentFeedbackMessageFilter filter = new ComponentFeedbackMessageFilter(formComponent);
+
+        FeedbackPanel feedBackPanel = new FeedbackPanel(formComponent.getId() + SEPARATOR + COMPONENT_FEEDBACK, filter)
+        {
+            private static final long serialVersionUID = -521216440119152641L;
+
+            @Override
+            public boolean isVisible()
+            {
+                return this.anyMessage();
+            }
+
+        };
+        feedBackPanel.setOutputMarkupId(true);
+        formComponent.setLabel(labelModel);
+        super.add(formComponent);
+        super.add(feedBackPanel);
+        myComponentsWithFeedBack.add(formComponent.getId());
+
+        return feedBackPanel;
+    }
 
     /**
      * IFeedbackMessageFilter that filters out messages already shown in component feedback panels.
@@ -254,10 +250,10 @@ public class CommonForm<T> extends Form<T>
         {
             return !myComponentsWithFeedBack.contains(message.getReporter().getId());
         }
-    }	
-	
+    }
+
     public void hide(String wicketId)
     {
-    	WicketUtil.hide(this, wicketId);
+        WicketUtil.hide(this, wicketId);
     }
 }

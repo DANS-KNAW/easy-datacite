@@ -17,15 +17,15 @@ import org.apache.wicket.markup.html.link.Link;
 
 public abstract class JumpoffPanel extends CommonPanel
 {
-    private static final long     serialVersionUID = 1899985393302979412L;
-    private static final String   WI_CONTENTPANEL  = "viewEditJumpoffPanel";
+    private static final long serialVersionUID = 1899985393302979412L;
+    private static final String WI_CONTENTPANEL = "viewEditJumpoffPanel";
 
     private final DataModelObject targetDmo;
-    private Component             viewEditJumpoffPanel;
-    private boolean               initiated;
-    private boolean               jumpoffExists;
-    private boolean               inEditMode;
-    
+    private Component viewEditJumpoffPanel;
+    private boolean initiated;
+    private boolean jumpoffExists;
+    private boolean inEditMode;
+
     private final String resourceAlias;
 
     public JumpoffPanel(String id, DataModelObject targetDmo, String resourceAlias)
@@ -122,7 +122,7 @@ public abstract class JumpoffPanel extends CommonPanel
         };
         deleteButton.add(new SimpleAttributeModifier("onclick", "return confirm('Are you sure you want to delete " + "this jumpoff page?');"));
         add(deleteButton);
-        
+
         Link toggleEditorButton = new Link("toggleEditorButton")
         {
 
@@ -132,13 +132,13 @@ public abstract class JumpoffPanel extends CommonPanel
                 toggleEditorMode(getJumpoffDmo());
                 refreshPanel();
             }
-            
+
             @Override
             public boolean isVisible()
             {
                 return jumpoffExists || inEditMode;
             }
-            
+
         };
         add(toggleEditorButton);
     }
@@ -159,7 +159,7 @@ public abstract class JumpoffPanel extends CommonPanel
     public abstract List<UnitMetadata> getUnitMetadata(JumpoffDmo jumpoffDmo);
 
     public abstract void deleteResource(DataModelObject targetDmo, ResourceRef resourceRef);
-    
+
     public abstract void toggleEditorMode(JumpoffDmo jumpoffDmo);
 
     @Override
@@ -255,7 +255,7 @@ public abstract class JumpoffPanel extends CommonPanel
         viewEditJumpoffPanel = new JumpoffViewPanel(WI_CONTENTPANEL, getJumpoffDmoModel());
         addOrReplace(viewEditJumpoffPanel);
     }
-    
+
     private void refreshPanel()
     {
         if (inEditMode)
@@ -311,5 +311,4 @@ public abstract class JumpoffPanel extends CommonPanel
         switchViewMode();
     }
 
-    
 }

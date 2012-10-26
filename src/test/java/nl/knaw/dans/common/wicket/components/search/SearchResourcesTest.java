@@ -11,23 +11,23 @@ import org.junit.Test;
 
 public class SearchResourcesTest extends WicketCommonTestBase
 {
-	private static final long	serialVersionUID	= -1685338433015730235L;
+    private static final long serialVersionUID = -1685338433015730235L;
 
-	@Ignore("test in error ")
-	@Test
-	public void testResourceReferences() throws IllegalArgumentException, IllegalAccessException
-	{
-		Field[] fields = SearchResources.class.getDeclaredFields();
-		BaseSearchPanel sp = new BaseSearchPanel("test");
-		for (Field field : fields)
-		{
-			Class<?> fieldType = field.getType();
-			if (fieldType.equals(String.class))
-			{
-				String key = (String) field.get(null);
-				assertNotNull(sp.getString(key));
-			}
-		}
-	}
+    @Ignore("test in error ")
+    @Test
+    public void testResourceReferences() throws IllegalArgumentException, IllegalAccessException
+    {
+        Field[] fields = SearchResources.class.getDeclaredFields();
+        BaseSearchPanel sp = new BaseSearchPanel("test");
+        for (Field field : fields)
+        {
+            Class<?> fieldType = field.getType();
+            if (fieldType.equals(String.class))
+            {
+                String key = (String) field.get(null);
+                assertNotNull(sp.getString(key));
+            }
+        }
+    }
 
 }

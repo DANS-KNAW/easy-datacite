@@ -2,9 +2,9 @@ package nl.knaw.dans.common.wicket.components.jumpoff;
 
 import java.io.Serializable;
 
-import org.apache.wicket.Application;
-
 import nl.knaw.dans.common.lang.repo.UnitMetadata;
+
+import org.apache.wicket.Application;
 
 public class ResourceRef implements Serializable
 {
@@ -12,14 +12,14 @@ public class ResourceRef implements Serializable
     public static final String CONTEXT_PATH = "/ui";
 
     private static final long serialVersionUID = -3112109550712445609L;
-    
+
     private final String containerId;
     private final String unitId;
     private final String filename;
     private final String mimeType;
     private boolean referenced;
     private final String resourceAlias;
-    
+
     public ResourceRef(String containerId, UnitMetadata unitMetadata, String resourceAlias)
     {
         this.containerId = containerId;
@@ -28,7 +28,7 @@ public class ResourceRef implements Serializable
         mimeType = unitMetadata.getMimeType();
         this.resourceAlias = resourceAlias;
     }
-    
+
     public String getHref()
     {
         String alias = resourceAlias == null ? Application.class.getName() : resourceAlias;
