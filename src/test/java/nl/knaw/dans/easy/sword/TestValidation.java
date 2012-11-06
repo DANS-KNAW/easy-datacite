@@ -8,7 +8,10 @@ import java.util.List;
 import nl.knaw.dans.common.lang.util.FileUtil;
 import nl.knaw.dans.easy.sword.util.Fixture;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeUtils;
 import org.junit.After;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -25,6 +28,12 @@ public class TestValidation extends Fixture
     {
         this.metadataFileName = metadataFileName;
         this.messageContent = messageContent;
+    }
+
+    @BeforeClass
+    public static void mockNow()
+    {
+        DateTimeUtils.setCurrentMillisFixed(new DateTime("2012-10-29T14:42:08").getMillis());
     }
 
     /**
