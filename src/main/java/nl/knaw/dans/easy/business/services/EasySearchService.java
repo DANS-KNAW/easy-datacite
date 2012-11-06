@@ -1,5 +1,6 @@
 package nl.knaw.dans.easy.business.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -8,6 +9,7 @@ import nl.knaw.dans.common.lang.dataset.DatasetSB;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.repo.bean.RecursiveList;
 import nl.knaw.dans.common.lang.search.Field;
+import nl.knaw.dans.common.lang.search.SearchHit;
 import nl.knaw.dans.common.lang.search.SearchRequest;
 import nl.knaw.dans.common.lang.search.SearchResult;
 import nl.knaw.dans.common.lang.search.exceptions.SearchBeanFactoryException;
@@ -53,6 +55,7 @@ public class EasySearchService extends AbstractEasyService implements SearchServ
         {
             // dirty solution for ticket 544: user "abc" sees also requests of user "abc123"
             final List<?> hits = searchResult.getHits();
+            final List<Object> falseHits = new ArrayList<Object>();
             for (final Object hit : hits)
             {
                 boolean found = false;
@@ -60,8 +63,10 @@ public class EasySearchService extends AbstractEasyService implements SearchServ
                 for (final PermissionRequestSearchInfo permissionRequest : dataset.getPermissionStatusList())
                     found = false || requesterId.equals(permissionRequest.getRequesterId());
                 if (!found)
-                    hits.remove(hit);
+                    falseHits.add(hit);
             }
+            for (final Object hit : falseHits)
+                hits.remove(hit);
         }
         catch (final ClassCastException e)
         {
