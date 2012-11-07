@@ -117,27 +117,6 @@ public class AuthorPanel extends AbstractRepeaterPanel<AuthorModel>
             Label daiLabel = new Label("daiLabel", infoDai);
             add(daiLabel);
             daiLabel.setVisible(author.hasDigitalAuthorId());
-
-            // Tabular representation (can be removed after release oct. 2012)
-            //            final Label titleLabel = new Label("titleLabel", new PropertyModel(authorModel, "title"));
-            //            final Label initialsLabel = new Label("initialsLabel", new PropertyModel(authorModel, "initials"));
-            //            final Label insertionsLabel = new Label("insertionsLabel", new PropertyModel(authorModel, "prefix"));
-            //            final Label surnameLabel = new Label("surnameLabel", new PropertyModel(authorModel, "surname"));
-            //            final Label idLabel = new Label("idLabel", new PropertyModel(authorModel, "entityId"));
-            //            final Label organizationLabel = new Label("organizationLabel", new PropertyModel(authorModel, "organization"));
-            //            titleLabel.setVisible(StringUtils.isNotBlank(authorModel.getTitle()));
-            //            initialsLabel.setVisible(StringUtils.isNotBlank(authorModel.getInitials()));
-            //            insertionsLabel.setVisible(StringUtils.isNotBlank(authorModel.getPrefix()));
-            //            surnameLabel.setVisible(StringUtils.isNotBlank(authorModel.getSurname()));
-            //            idLabel.setVisible(StringUtils.isNotBlank(authorModel.getEntityId()));
-            //            organizationLabel.setVisible(StringUtils.isNotBlank(authorModel.getOrganization()));
-            //            add(titleLabel);
-            //            add(initialsLabel);
-            //            add(insertionsLabel);
-            //            add(surnameLabel);
-            //            add(idLabel);
-            //            add(organizationLabel);
-
             add(new WebMarkupContainer("item-demarcation")
             {
 
