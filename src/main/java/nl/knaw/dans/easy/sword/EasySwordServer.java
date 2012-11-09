@@ -105,8 +105,8 @@ public class EasySwordServer implements SWORDServer
         collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/docs/ddm/dans-dataset-md.html", 0f);
         // TODO replace URL with DDMValidator.instance().getSchemaURL("").toString()
 
-        final boolean jetty = !location.contains("/"+Context.getServletName()+"/");
-        collection.setLocation(Context.getProviderURL() + (jetty ? "" : Context.getServletName()+"/") + "deposit");
+        final boolean jetty = !location.contains("/" + Context.getServletName() + "/");
+        collection.setLocation(Context.getProviderURL() + (jetty ? "" : Context.getServletName() + "/") + "deposit");
         return collection;
     }
 
@@ -178,7 +178,7 @@ public class EasySwordServer implements SWORDServer
         // we won't support updating (task for archivists) so skip MediaLink
         // swordEntry.addLink(wrapEditMediaLink());
         swordEntry.addLink(wrapLink("edit", datasetUrl));
-        swordEntry.setGenerator(wrapGenerator(Context.getProviderURL()+Context.getServletName()));
+        swordEntry.setGenerator(wrapGenerator(Context.getProviderURL() + Context.getServletName()));
         swordEntry.setContent(wrapContent(datasetUrl));
 
         // http://validator.swordapp.org doesn't like a complex element
