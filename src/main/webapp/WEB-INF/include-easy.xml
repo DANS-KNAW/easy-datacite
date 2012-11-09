@@ -16,6 +16,9 @@
 		<property name="collectionAbstract" value="${easy.sword.server.collection.abstract}"/>
 		<property name="depositTreatment" value="${easy.sword.server.deposit.treatment}"/>
 		<property name="datasetPath" value="${easy.sword.server.dataset.path}"/>
+		<property name="providerURL" value="${sword.providerURL}"/>
+		<property name="servletName" value="${sword.servlet.name}"/>
+		<property name="easyHome" value="${easy.sword.server.easy.home}"/>
 	</bean>
 
 	<bean name="services" class="nl.knaw.dans.easy.servicelayer.services.Services">

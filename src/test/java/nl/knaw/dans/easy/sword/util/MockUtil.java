@@ -76,6 +76,9 @@ public class MockUtil
         context.setCollectionTitle("EASY");
         context.setWorkspaceTitle("DANS sword interface");
         context.setDatasetPath("/ui/datasets/id/");
+        context.setProviderURL("http://mockedhost:8080/");
+        context.setServletName("servlet/request");
+        context.setEasyHome("http://mockedhost:8080/ui/");
     }
 
     private static void mockNow()

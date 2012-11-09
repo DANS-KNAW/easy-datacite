@@ -8,6 +8,7 @@ import nl.knaw.dans.easy.sword.util.SubmitFixture;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.purl.sword.base.Deposit;
 import org.purl.sword.base.SWORDAuthenticationException;
@@ -135,18 +136,6 @@ public class TestFailingSubmit extends SubmitFixture
     public void emptyUser() throws Throwable
     {
         execute("", MockUtil.PASSWORD, LOCATION);
-    }
-
-    @Test(expected = SWORDErrorException.class)
-    public void invalidLocationProtocol() throws Throwable
-    {
-        execute(MockUtil.VALID_USER_ID, MockUtil.PASSWORD, "invalid" + LOCATION);
-    }
-
-    @Test(expected = SWORDErrorException.class)
-    public void locationWithoutProtocol() throws Throwable
-    {
-        execute(MockUtil.VALID_USER_ID, MockUtil.PASSWORD, "//" + LOCATION);
     }
 
     private SwordValidationInfo execute(String userId, String password, String location) throws Exception

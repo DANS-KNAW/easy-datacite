@@ -46,7 +46,7 @@
 	<context-param>
 		<description>URLs for the client to connect to</description>
 		<param-name>client-urls</param-name>
-		<param-value>http://localhost:8083/easy-sword/servicedocument,http://demo.dspace.org/sword/servicedocument,http://sword.intralibrary.com/IntraLibrary-Deposit/service</param-value>
+		<param-value>http://localhost:8083/sword/servicedocument</param-value>
 	</context-param>
 
 	<context-param>
@@ -61,7 +61,7 @@
 
 	<context-param>
 		<param-name>deposit-url</param-name>
-		<param-value>http://localhost:8083/easy-sword/</param-value>
+		<param-value>http://localhost:8083/sword/</param-value>
 	</context-param>
 
 	<context-param> 
@@ -82,7 +82,7 @@
 	</servlet>
 
 	<servlet>
-		<servlet-name>easy-sword</servlet-name>
+		<servlet-name>sword</servlet-name>
 		<servlet-class>org.purl.sword.client.ServletClient</servlet-class>
 	</servlet>
 
@@ -105,7 +105,7 @@
 	</servlet-mapping>
 
 	<servlet-mapping>
-		<servlet-name>easy-sword</servlet-name>
+		<servlet-name>sword</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 

@@ -14,6 +14,9 @@ public class Context
     private static String collectionAbstract = null;
     private static String depositTreatment = null;
     private static String datasetPath = null;
+    private static String providerURL = null;
+    private static String servletName = null;
+    private static String easyHome = null;
 
     public void setUnzip(String unzip)
     {
@@ -111,4 +114,39 @@ public class Context
         return datasetPath;
     }
 
+    public void setProviderURL(String providerURL)
+    {
+        Context.providerURL = providerURL;
+    }
+
+    public static String getProviderURL() throws SWORDException
+    {
+        if (providerURL == null)
+            throw new SWORDException("missing configuration: providerURL");
+        return providerURL;
+    }
+
+    public void setServletName(String servletName)
+    {
+        Context.servletName = servletName;
+    }
+
+    public static String getServletName() throws SWORDException
+    {
+        if (servletName == null)
+            throw new SWORDException("missing configuration: servletName");
+        return servletName;
+    }
+
+    public void setEasyHome(String easyHome)
+    {
+        Context.easyHome = easyHome;
+    }
+
+    public static String getEasyHome() throws SWORDException
+    {
+        if (easyHome == null)
+            throw new SWORDException("missing configuration: easyHome");
+        return easyHome;
+    }
 }

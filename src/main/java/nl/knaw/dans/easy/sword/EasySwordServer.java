@@ -1,8 +1,6 @@
 package nl.knaw.dans.easy.sword;
 
 import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.MessageFormat;
 import java.util.List;
 
@@ -85,8 +83,6 @@ public class EasySwordServer implements SWORDServer
 
     private Collection createCollection(final String location, final EasyUser user) throws SWORDErrorException, SWORDException
     {
-        final String locationBase = toLocationBase(location);
-        final String easyHomePage = toBaseLocation(toUrl(location));
         final Collection collection = new Collection();
 
         // DEMO client does not process HTML
@@ -95,7 +91,7 @@ public class EasySwordServer implements SWORDServer
         // DEMO client does process HTML
         collection.setCollectionPolicy("<div>" + Context.getCollectionPolicy() + "</div>");
         collection.setTreatment("<div>" + EasyBusinessFacade.composeCollectionTreatment(user) + "</div>");
-        collection.setAbstract("<div>" + MessageFormat.format(Context.getCollectionAbstract(), easyHomePage) + "</div>");
+        collection.setAbstract("<div>" + MessageFormat.format(Context.getCollectionAbstract(), Context.getEasyHome()) + "</div>");
 
         collection.addAccepts("application/zip");
         collection.setMediation(false);
@@ -109,50 +105,9 @@ public class EasySwordServer implements SWORDServer
         collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/docs/ddm/dans-dataset-md.html", 0f);
         // TODO replace URL with DDMValidator.instance().getSchemaURL("").toString()
 
-        collection.setLocation(locationBase + (locationBase.endsWith("/") ? "" : "/") + "deposit");
+        final boolean jetty = !location.contains("/"+Context.getServletName()+"/");
+        collection.setLocation(Context.getProviderURL() + (jetty ? "" : Context.getServletName()+"/") + "deposit");
         return collection;
-    }
-
-    private static String toLocationBase(final String inputLocation) throws SWORDErrorException
-    {
-        final URL url = toUrl(inputLocation);
-        final String baseLocation = toBaseLocation(url);
-        final String subPath = new File(url.getPath()).getParent();
-        final String outputLocation = baseLocation + subPath;
-        log.debug("location is: " + outputLocation + "    " + inputLocation);
-
-        return outputLocation;
-    }
-
-    private static String toServer(final String inputLocation) throws SWORDErrorException
-    {
-        final String location = toBaseLocation(toUrl(inputLocation));
-        log.debug("location is: " + location + "    " + inputLocation);
-
-        return location;
-    }
-
-    private static String toBaseLocation(final URL url)
-    {
-        if (url.getPort() >= 0)
-            return url.getProtocol() + "://" + url.getHost() + ":" + url.getPort();
-        else
-            return url.getProtocol() + "://" + url.getHost();
-    }
-
-    private static URL toUrl(final String inputLocation) throws SWORDErrorException
-    {
-        final URL url;
-        try
-        {
-            url = new URL(inputLocation);
-        }
-        catch (final MalformedURLException exception)
-        {
-            final String message = inputLocation + " Invalid location: " + exception.getMessage();
-            throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, message);
-        }
-        return url;
     }
 
     private static Workspace createWorkSpace(final Collection collection) throws SWORDException
@@ -190,7 +145,7 @@ public class EasySwordServer implements SWORDServer
             payload.clearTemp();
         }
 
-        final String datasetUrl = toServer(deposit.getLocation()) + Context.getDatasetPath() + dataset.getStoreId();
+        final String datasetUrl = Context.getDatasetPath() + dataset.getStoreId();
         final SWORDEntry swordEntry = wrapSwordEntry(deposit, user, dataset, datasetUrl);
         final DepositResponse response = wrapResponse(swordEntry, datasetUrl);
         return response;
@@ -223,7 +178,7 @@ public class EasySwordServer implements SWORDServer
         // we won't support updating (task for archivists) so skip MediaLink
         // swordEntry.addLink(wrapEditMediaLink());
         swordEntry.addLink(wrapLink("edit", datasetUrl));
-        swordEntry.setGenerator(wrapGenerator(deposit.getLocation()));
+        swordEntry.setGenerator(wrapGenerator(Context.getProviderURL()+Context.getServletName()));
         swordEntry.setContent(wrapContent(datasetUrl));
 
         // http://validator.swordapp.org doesn't like a complex element

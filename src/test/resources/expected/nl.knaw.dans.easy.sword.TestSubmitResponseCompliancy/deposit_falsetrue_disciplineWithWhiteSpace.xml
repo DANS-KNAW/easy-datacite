@@ -5,9 +5,9 @@
       <atom:name>Some Body</atom:name>
       <atom:email>some@body.com</atom:email>
    </atom:author>
-   <atom:content type="text/html" src="http://mockedhost:8080/ui/datasets/id/mockedStoreID:1"/>
+   <atom:content type="text/html" src="/ui/datasets/id/mockedStoreID:1"/>
    <atom:generator uri="http://mockedhost:8080/servlet/request" version="1.3">Easy SWORD Server</atom:generator>
-   <atom:link href="http://mockedhost:8080/ui/datasets/id/mockedStoreID:1" rel="edit"/>
+   <atom:link href="/ui/datasets/id/mockedStoreID:1" rel="edit"/>
    <atom:summary type="text">maar een paar bestandjes</atom:summary>
    <atom:title type="text">Sword deposit test</atom:title>
    <atom:updated>2010</atom:updated>
