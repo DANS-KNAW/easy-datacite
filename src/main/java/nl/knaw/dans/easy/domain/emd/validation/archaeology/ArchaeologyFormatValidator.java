@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import nl.knaw.dans.easy.domain.emd.validation.base.ChoiceListValidator.RightsValidator;
-import nl.knaw.dans.easy.domain.emd.validation.base.EmbargoValidator;
 import nl.knaw.dans.easy.domain.emd.validation.base.ValidationReporter;
 import nl.knaw.dans.easy.domain.emd.validation.base.Validator;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
@@ -22,7 +21,6 @@ public class ArchaeologyFormatValidator implements Validator
     {
         VALIDATORS.add(new EasSpatialValidator());
         VALIDATORS.add(new RightsValidator(EmdScheme.ARCHAEOLOGY_DCTERMS_ACCESSRIGHTS.getId()));
-        VALIDATORS.add(new EmbargoValidator());
     }
 
     public static ArchaeologyFormatValidator instance()
