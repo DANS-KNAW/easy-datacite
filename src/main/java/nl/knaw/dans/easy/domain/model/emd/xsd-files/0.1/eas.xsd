@@ -116,6 +116,7 @@
             <xs:element name="initials" type="xs:string" minOccurs="0"/>
             <xs:element name="prefix" type="xs:string" minOccurs="0"/>
             <xs:element name="surname" type="xs:string" minOccurs="0"/>
+            <xs:element name="organization" type="xs:string" minOccurs="0"/>
             <xs:element name="entityId" minOccurs="0">
                 <xs:complexType>
                     <xs:simpleContent>
