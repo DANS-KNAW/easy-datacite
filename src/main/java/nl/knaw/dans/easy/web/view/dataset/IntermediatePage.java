@@ -120,6 +120,44 @@ public abstract class IntermediatePage extends AbstractEasyNavPage
     // UnsubmitPanel
     protected class UnsubmitPanel extends AbstractEasyPanel implements SubmitLinkListener
     {
+        // UnpublishPanel
+        protected class UnpublishPanel extends AbstractEasyPanel implements SubmitLinkListener
+        {
+
+            private static final long serialVersionUID = -6362817621826949894L;
+
+            private final IntermediateForm form;
+
+            public UnpublishPanel()
+            {
+                super(ID_INTERMEDIATE_PANEL);
+                form = new IntermediateForm(this);
+                form.setShowNotifyDepositor(true, true);
+                add(form);
+            }
+
+            public void onSubmit(SubmitLink submitLink)
+            {
+                try
+                {
+                    Services.getDatasetService().unpublishDataset(getSessionUser(), getDataset(), form.getMustNotifyDepositor());
+                    final String message = infoMessage(EasyResources.DATASET_STATUS_CHANGED, DatasetState.SUBMITTED.toString().toLowerCase());
+                    logger.info(message);
+                    setResponsePage(getReturnToPage());
+                }
+                catch (ServiceException e)
+                {
+                    final String message = errorMessage(EasyResources.UNABLE_TO_UNPUBLISH, getDataset().getStoreId());
+                    logger.error(message, e);
+                }
+                catch (DataIntegrityException e)
+                {
+                    final String message = errorMessage(EasyResources.UNABLE_TO_UNPUBLISH, getDataset().getStoreId());
+                    logger.error(message, e);
+                }
+            }
+        }
+
         private static final long serialVersionUID = 3939391030695512753L;
 
         private final IntermediateForm form;
@@ -421,14 +459,34 @@ public abstract class IntermediatePage extends AbstractEasyNavPage
         {
             add(new Label(ID_DATASET_TITLE, getDataset().getPreferredTitle()));
 
-            CheckBox notifyDepositorCheckBox = new CheckBox(ID_NOTIFY_DEPOSITOR, new PropertyModel<Boolean>(notifyDepositor, "checked"));
+            final CheckBox includeLicenseCheckBox = new CheckBox(ID_INCLUDE_LICENSE, new PropertyModel<Boolean>(includeLicense, "checked"));
+            includeLicenseCheckBox.setVisible(showIncludeLicense);
+            add(includeLicenseCheckBox);
+
+            final CheckBox notifyDepositorCheckBox = new CheckBox(ID_NOTIFY_DEPOSITOR, new PropertyModel<Boolean>(notifyDepositor, "checked"))
+            {
+                private static final long serialVersionUID = 1L;
+
+                @Override
+                protected boolean wantOnSelectionChangedNotifications()
+                {
+                    return true;
+                }
+
+                @Override
+                protected void onSelectionChanged(Object newSelection)
+                {
+                    boolean checked = new Boolean(true).equals(newSelection);
+                    includeLicenseCheckBox.setEnabled(checked);
+                    if (!checked)
+                    {
+                        includeLicenseCheckBox.setModelValue(new String[] {""});
+                    }
+                }
+            };
             notifyDepositorCheckBox.setVisible(showNotifyDepositor);
             add(notifyDepositorCheckBox);
             add(new Label(ID_DEPOSITOR_NAME, getDepositorName()));
-
-            CheckBox includeLicenseCheckBox = new CheckBox(ID_INCLUDE_LICENSE, new PropertyModel<Boolean>(includeLicense, "checked"));
-            includeLicenseCheckBox.setVisible(showIncludeLicense);
-            add(includeLicenseCheckBox);
 
             SubmitLink submit = new SubmitLink(ID_SUBMIT)
             {

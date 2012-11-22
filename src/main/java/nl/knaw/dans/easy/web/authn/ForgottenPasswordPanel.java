@@ -5,7 +5,7 @@ import java.util.Map;
 
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
-import nl.knaw.dans.common.wicket.util.RequireOneValidator;
+import nl.knaw.dans.common.wicket.util.RequireExactlyOneValidator;
 import nl.knaw.dans.easy.domain.authn.ForgottenPasswordMessenger;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.services.Services;
@@ -80,8 +80,7 @@ public class ForgottenPasswordPanel extends AbstractEasyStatelessPanel implement
             email.add(EmailAddressValidator.getInstance());
             addWithComponentFeedback(email, new ResourceModel(LABEL_EMAIL));
 
-            RequireOneValidator requireOne = new RequireOneValidator(userId, email);
-            add(requireOne);
+            add(new RequireExactlyOneValidator(userId, email));
 
             add(new SubmitLink(REQUEST_BUTTON));
 
