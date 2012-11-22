@@ -8,20 +8,22 @@ import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.form.validation.AbstractFormValidator;
 
 /**
- * Validator to require at least one of the fields that is added to the validator.
+ * Validator to require that exactly one of the fields is filled in.
  * 
- * @author Herman Suijs
+ * @author Vesa Åkerman
  */
-public class RequireOneValidator extends AbstractRelatedFormFieldsValidator
+public class RequireExactlyOneValidator extends AbstractRelatedFormFieldsValidator
 {
+    /**
+     * Serial version uid.
+     */
     private static final long serialVersionUID = 1L;
 
     /**
-     * Default constructor with all formComponents that need to be validated.
-     * 
-     * @param components FormComponents at least two components of which at least one must be filled
+     * Constructor
+     * @param components FormComponents of which just one must be filled.
      */
-    public RequireOneValidator(final FormComponent... components)
+    public RequireExactlyOneValidator(final FormComponent... components)
     {
         super(components);
     }
@@ -34,20 +36,17 @@ public class RequireOneValidator extends AbstractRelatedFormFieldsValidator
      */
     public void validate(Form form)
     {
-        boolean anyNotEmpty = false;
+        int nrFilledFields = 0;
 
-        // Check content size for every component
         for (FormComponent component : this.dependentComponents)
         {
             if (component.getValue().trim().length() > 0)
             {
-                anyNotEmpty = true;
-                break;
+                nrFilledFields++;
             }
         }
 
-        // If every component is empty
-        if (!anyNotEmpty)
+        if (nrFilledFields != 1)
         {
             error(this.dependentComponents[0]);
         }
