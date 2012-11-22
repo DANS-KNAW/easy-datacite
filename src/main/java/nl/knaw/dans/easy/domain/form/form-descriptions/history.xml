@@ -547,7 +547,7 @@
 		<formDefinition>
 			<properties>
 				<id>emd-deposit-wizard</id>
-				<instructionFile>http://www.dans.knaw.nl/en/content/instructions-depositing-historical-data</instructionFile>
+				<instructionFile>http://www.dans.knaw.nl/sites/default/files/file/archief/Instructies%20deponeren/Instructions_for_depositing_historical_data_DEF.pdf</instructionFile>
 			</properties>
 			<formPages>
 				<formPage>

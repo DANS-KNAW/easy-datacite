@@ -792,7 +792,7 @@
 		<formDefinition>
             <properties>
                 <id>emd-deposit-wizard</id>
-                <instructionFile>http://www.dans.knaw.nl/en/content/instructions-depositing-archaeological-data</instructionFile>
+                <instructionFile>http://www.dans.knaw.nl/sites/default/files/file/archief/Instructies%20deponeren/Instructions_for_depositing_archaeological_data_DEF.pdf</instructionFile>
             </properties>
             <formPages>
            		<formPage>

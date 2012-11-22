@@ -547,7 +547,7 @@
 		<formDefinition>
             <properties>
                 <id>emd-deposit-wizard</id>
-                <instructionFile>http://www.dans.knaw.nl/en/content/instructions-depositing-social-science-data</instructionFile>
+                <instructionFile>http://www.dans.knaw.nl/sites/default/files/file/archief/DANS-EASY-Deponeer-instructies-MaGW.pdf</instructionFile>
             </properties>
             <formPages>
                 <formPage>
