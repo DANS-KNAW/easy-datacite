@@ -474,7 +474,7 @@
                 <shortHelpResourceKey>shortHelp.eas.available</shortHelpResourceKey>
 				<helpItem>DateAvailable</helpItem>
 			</properties>
-			<modelClass>SingleISODateWrapper</modelClass>
+			<modelClass>AvailableDateWrapper</modelClass>
 			<panelClass>AvailableDatePanel</panelClass>
 			<required>true</required>
 			<repeating>false</repeating>

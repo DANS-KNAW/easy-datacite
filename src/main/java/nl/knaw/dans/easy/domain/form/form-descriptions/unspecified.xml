@@ -76,7 +76,7 @@
                 <shortHelpResourceKey>shortHelp.dc.date.available</shortHelpResourceKey>
 				<helpItem>DateAvailable</helpItem>
 			</properties>
-			<modelClass>SingleISODateWrapper</modelClass>
+			<modelClass>AvailableDateWrapper</modelClass>
 			<panelClass>AvailableDatePanel</panelClass>
 			<required>false</required>
 			<repeating>false</repeating>
@@ -336,7 +336,7 @@
                 <shortHelpResourceKey>shortHelp.eas.available</shortHelpResourceKey>
 				<helpItem>DateAvailable</helpItem>
 			</properties>
-			<modelClass>SingleISODateWrapper</modelClass>
+			<modelClass>AvailableDateWrapper</modelClass>
 			<panelClass>AvailableDatePanel</panelClass>
 			<required>false</required>
 			<repeating>false</repeating>
