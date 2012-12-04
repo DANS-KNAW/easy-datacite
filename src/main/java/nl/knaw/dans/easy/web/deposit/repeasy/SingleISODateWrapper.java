@@ -130,29 +130,8 @@ public class SingleISODateWrapper extends AbstractListWrapper<SingleISODateWrapp
             else
             {
                 isoDate = convertToDateTime(value);
-                if (dateSchemeType.toLowerCase().contains("available"))
-                {
-                    final DateTime startOfToday = new DateTime(new DateTime().toString(DATE_FORMAT));
-                    isWithin(startOfToday, startOfToday.plusYears(2));
-                }
             }
             return isoDate;
-        }
-
-        private void isWithin(final DateTime min, final DateTime max)
-        {
-            try
-            {
-                final DateTime actual = new DateTime(value);
-                if (actual.isBefore(min) || actual.isAfter(max))
-                {
-                    addErrorMessage("minimun value: " + min.toString(DATE_FORMAT) + " maximum value: " + max.toString(DATE_FORMAT));
-                }
-            }
-            catch (IllegalFieldValueException exception)
-            {
-                addErrorMessage(exception.getMessage());
-            }
         }
 
         public void setScheme(KeyValuePair schemeKVP)
