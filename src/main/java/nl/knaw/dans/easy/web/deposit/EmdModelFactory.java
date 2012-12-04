@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Locale;
 
+import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceRuntimeException;
 import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceList;
@@ -25,6 +26,7 @@ import nl.knaw.dans.easy.web.deposit.repeasy.CMDIFormatChoiceWrapper;
 import nl.knaw.dans.easy.web.deposit.repeasy.IdentifierListWrapper;
 import nl.knaw.dans.easy.web.deposit.repeasy.IsoDateListWrapper;
 import nl.knaw.dans.easy.web.deposit.repeasy.LicenseWrapper;
+import nl.knaw.dans.easy.web.deposit.repeasy.LimitedDateWrapper;
 import nl.knaw.dans.easy.web.deposit.repeasy.PointListWrapper;
 import nl.knaw.dans.easy.web.deposit.repeasy.RelationListWrapper;
 import nl.knaw.dans.easy.web.deposit.repeasy.SchemedBasicStringListWrapper;
@@ -36,6 +38,7 @@ import nl.knaw.dans.easy.web.wicket.ModelFactoryException;
 import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -177,6 +180,20 @@ public class EmdModelFactory implements IModelFactory
     public IModel createSingleISODateWrapperModel(StandardPanelDefinition definition)
     {
         return new Model(new SingleISODateWrapper(getEasyMetadataList(definition)));
+    }
+
+    @SuppressWarnings( {"unchecked", "rawtypes"})
+    public IModel createAvailableDateWrapperModel(StandardPanelDefinition definition)
+    {
+        final DatasetState state = getDataset().getAdministrativeState();
+        if (state != null && !state.equals(DatasetState.DRAFT))
+            return new Model(new SingleISODateWrapper(getEasyMetadataList(definition)));
+        else
+        {
+            final DateTime min = new DateTime(new DateTime().toString(LimitedDateWrapper.DateModel.DATE_FORMAT));
+            final DateTime max = min.plusYears(2);
+            return new Model(new LimitedDateWrapper(getEasyMetadataList(definition), min, max));
+        }
     }
 
     @SuppressWarnings( {"rawtypes", "unchecked"})

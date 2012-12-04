@@ -10,8 +10,6 @@ import nl.knaw.dans.easy.web.deposit.repeater.AbstractListWrapper;
 import nl.knaw.dans.easy.web.wicket.KvpChoiceRenderer;
 
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
-import org.joda.time.DateTime;
-import org.joda.time.IllegalFieldValueException;
 
 public class SingleISODateWrapper extends AbstractListWrapper<SingleISODateWrapper.DateModel>
 {
@@ -32,8 +30,7 @@ public class SingleISODateWrapper extends AbstractListWrapper<SingleISODateWrapp
 
     public DateModel getEmptyValue()
     {
-        DateModel model = new DateModel();
-        return model;
+        return new DateModel();
     }
 
     public List<DateModel> getInitialItems()
@@ -66,7 +63,6 @@ public class SingleISODateWrapper extends AbstractListWrapper<SingleISODateWrapp
             DateModel model = listItems.get(i);
             IsoDate isoDate = null;
             isoDate = model.getIsoDate();
-
             if (isoDate != null)
             {
                 isoDateList.add(isoDate);
@@ -84,7 +80,7 @@ public class SingleISODateWrapper extends AbstractListWrapper<SingleISODateWrapp
     public static class DateModel extends AbstractEasyModel implements QualifiedModel
     {
         private static final long serialVersionUID = 3841830259279016843L;
-        private static final String DATE_FORMAT = "YYYY-MM-dd";
+        public static final String DATE_FORMAT = "YYYY-MM-dd";
 
         private String dateSchemeType;
         private String value;
@@ -122,16 +118,7 @@ public class SingleISODateWrapper extends AbstractListWrapper<SingleISODateWrapp
 
         public IsoDate getIsoDate()
         {
-            final IsoDate isoDate;
-            if (value == null)
-            {
-                isoDate = null;
-            }
-            else
-            {
-                isoDate = convertToDateTime(value);
-            }
-            return isoDate;
+            return value == null ? null : convertToDateTime(value);
         }
 
         public void setScheme(KeyValuePair schemeKVP)
