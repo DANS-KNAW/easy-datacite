@@ -32,11 +32,12 @@
             <panelClass>PersistentIdentifierPanel</panelClass>
         </standardPanel>
         
-		<standardPanel>
+ 		<standardPanel>
 			<properties>
 				<id>cmdiChoice</id>
 				<labelResourceKey>label.eas.cmdi.choice</labelResourceKey>
 				<shortHelpResourceKey>shortHelp.eas.cmdi.choice</shortHelpResourceKey>
+                <helpItem>CmdiChoice</helpItem>
 			</properties>
 			<modelClass>CMDIFormatChoiceWrapper</modelClass>
 			<panelClass>RadioGroupPanel</panelClass>
@@ -46,7 +47,7 @@
                 </properties>
                 <nullValid>true</nullValid>
             </choiceListDefinition>
-		</standardPanel>
+ 		</standardPanel>
 		
 		<termPanel>
 			<properties>

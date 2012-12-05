@@ -62,8 +62,8 @@ public class DownloadRegistration
                     else
                     {
                         dlh.getDownloadList().addDownload(downloadedItemVOs, sessionUser, downloadTime);
-                        DateTime updateTime = Data.getEasyStore().update(dlh, false, "Update with " + downloadedItemVOs.size() + " records.",
-                                sessionUser.getId());
+                        final String userId = sessionUser.isAnonymous() ? null : sessionUser.getId();
+                        DateTime updateTime = Data.getEasyStore().update(dlh, false, "Update with " + downloadedItemVOs.size() + " records.", userId);
                         logger.debug("Updated download history for " + dataset.getStoreId() + " at " + updateTime);
                     }
                 }
