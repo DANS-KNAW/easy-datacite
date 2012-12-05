@@ -16,6 +16,8 @@ import nl.knaw.dans.easy.domain.download.DownloadRecord;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
+import nl.knaw.dans.easy.domain.user.EasyUserAnonymous;
+import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.template.AbstractEasyPanel;
@@ -102,7 +104,7 @@ public class ActivityLogPanel extends AbstractEasyPanel
             super(id);
 
             // show temporary info message
-            //infoMessage("tempMessage");
+            // infoMessage("tempMessage");
 
             DateTime pDate = new DateTime(year, month, 1, 0, 0, 0, 0);
             DownloadList downloadList;
@@ -158,13 +160,13 @@ public class ActivityLogPanel extends AbstractEasyPanel
                         String function = "";
                         try
                         {
-                            if (records != null && records.get(0) != null && records.get(0).getDownloaderId() != null)
+                            if (records != null && records.get(0) != null)
                             {
-                                EasyUser downloader = Services.getUserService().getUserById(getSessionUser(), records.get(0).getDownloaderId());
-                                if (downloader != null
-                                        && (getSessionUser().hasRole(Role.ARCHIVIST) || (!downloader.isAnonymous() && downloader.isLogMyActions()) || (dataset
-                                                .hasDepositor(getSessionUser())
-                                                && dataset.hasPermissionRestrictedItems() && dataset.isPermissionGrantedTo(downloader))))
+                                final String downloaderId = records.get(0).getDownloaderId();
+                                EasyUser downloader = downloaderId == null ? EasyUserAnonymous.getInstance() : Services.getUserService().getUserById(
+                                        getSessionUser(), downloaderId);
+                                if (!downloader.isAnonymous()
+                                        && (isSessionUserArchivist() || isLogMyActionsOnFor(downloader) || isDepositorViewingGrantedRestrictedDownloadBy(downloader)))
                                 {
                                     displayName = downloader.getDisplayName();
                                     organization = downloader.getOrganization();
@@ -241,6 +243,21 @@ public class ActivityLogPanel extends AbstractEasyPanel
             return notEmpty;
         }
 
+    }
+
+    private boolean isSessionUserArchivist()
+    {
+        return getSessionUser().hasRole(Role.ARCHIVIST);
+    }
+
+    private boolean isLogMyActionsOnFor(EasyUser downloader)
+    {
+        return !downloader.isAnonymous() && downloader.isLogMyActions();
+    }
+
+    private boolean isDepositorViewingGrantedRestrictedDownloadBy(EasyUser downloader)
+    {
+        return dataset.hasDepositor(getSessionUser()) && dataset.hasPermissionRestrictedItems() && dataset.isPermissionGrantedTo(downloader);
     }
 
     private class DetailsViewPanel extends Panel

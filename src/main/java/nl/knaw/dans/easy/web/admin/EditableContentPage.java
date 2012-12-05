@@ -151,6 +151,7 @@ public class EditableContentPage extends AbstractEasyNavPage
         addLink("AccessRights", "/editable/help/AccessRights.template");
         addLink("Upload", "/editable/help/Upload.template");
         addLink("Audience", "/editable/help/Audience.template");
+        addLink("CmdiChoice", "/editable/help/CmdiChoice.template");
 
         addLink("ContributorDC", "/editable/help/Contributor.template");
         addLink("ContributorEAS", "/editable/help/EasContributor.template");

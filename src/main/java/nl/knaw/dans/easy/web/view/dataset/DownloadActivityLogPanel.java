@@ -98,7 +98,7 @@ public class DownloadActivityLogPanel extends Panel
                         try
                         {
                             downloader = Services.getUserService().getUserById(easyUser, dr.getDownloaderId());
-                            if (downloader != null && downloader.isLogMyActions())
+                            if (downloader != null && downloader.isLogMyActions() || downloader == null)
                             {
                                 sb.append(dr.getDownloadTime());
                                 sb.append(";");
