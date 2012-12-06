@@ -17,9 +17,9 @@
 
 		}
 		if ("" == relationUrlValue) {
-			easyAlert("No url specified.");
+			alert("No url specified.");
 		} else if (!isValidURL(relationUrlValue)) {
-			easyAlert("No valid url specified.<br/><span style='font-size:70%'>Did you encode argument values? For example urn:nbn:nl:ui:13-twcj-i0 should be urn%3Anbn%3Anl%3Aui%3A13-twcj-i0<span>");
+			alert("No valid url specified.\nDid you encode argument values?\nFor example urn:nbn:nl:ui:13-twcj-i0 should be urn%3Anbn%3Anl%3Aui%3A13-twcj-i0");
 		} else {
 			if (relationUrlValue.substring(0, 7) == "http://") {
 				newWind = window
@@ -38,17 +38,19 @@
 		}
 		//window.open(relationUrlValue.value, 'popuppagemap', 'scrollbars=no,location=no,menuBar=no,resizable=no,status=no,toolbar=no,width=500,height=500');  return false;
 	}
-	function isValidURL(url){
-    var RegExp = /^(([\w]+:)?\/\/)?(([\d\w]|%[a-fA-f\d]{2,2})+(:([\d\w]|%[a-fA-f\d]{2,2})+)?@)?([\d\w][-\d\w]{0,253}[\d\w]\.)+[\w]{2,4}(:[\d]+)?(\/([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)*(\?(&?([-+_~.\d\w]|%[a-fA-f\d]{2,2})=?)*)?(#([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)?$/;
-    if(RegExp.test(url)){
-        return true;
-    }else{
-        return false;
-    }
-} 
+
+	function isValidURL(url) {
+		// from http://stackoverflow.com/questions/8667070/javascript-regular-expression-to-validate-url
+		var RegExp = /(https?:\/\/(\w+:{0,1}\w*@)?(\S+)|)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+		if (RegExp.test(url)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 	// Cooler alert / confirm functions,
 	// because the originals do not support titles and are not stylized
-	
+
 	var ok_function;
 	var cancel_function;
 	var clicks;
@@ -75,14 +77,14 @@
 				document.body.appendChild(ifrm);
 			}
 			clicks.style.position = "absolute";
-			clicks.style.filter = "Alpha(opacity=0)";	// 35
-			clicks.style.backgroundColor = "grey";	// black
+			clicks.style.filter = "Alpha(opacity=0)"; // 35
+			clicks.style.backgroundColor = "grey"; // black
 			window.onscroll = repositionMsgBox;
 		} else {
 			clicks.style.position = "fixed";
-			clicks.style.MozOpacity = 0;	// 0.35
-			clicks.style.Opacity = 0;	// 0.35
-			clicks.style.backgroundColor = "grey";	// black
+			clicks.style.MozOpacity = 0; // 0.35
+			clicks.style.Opacity = 0; // 0.35
+			clicks.style.backgroundColor = "grey"; // black
 		}
 		window.onresize = repositionMsgBox;
 		clicks.style.height = "100%";
@@ -116,19 +118,19 @@
 				+ "</a></center></div>";
 
 		var topval = ((clicks.offsetHeight - dialog.offsetHeight) / 2) + "px";
-		var leftval =  ((clicks.offsetWidth - dialog.offsetWidth) / 2) + "px";
+		var leftval = ((clicks.offsetWidth - dialog.offsetWidth) / 2) + "px";
 		dialog.style.top = topval;
 		dialog.style.left = leftval;
 		ok_function = ok_func;
 		dialog.style.visibility = 'visible';
 		dialog.childNodes[1].childNodes[1].childNodes[0].focus();
-		
+
 		if (ifrm != null) {
 			ifrm.style.top = (clicks.offsetHeight - dialog.offsetHeight) / 2;
 			ifrm.style.left = (clicks.offsetWidth - dialog.offsetWidth) / 2;
 			ifrm.style.width = dialog.offsetWidth;
 			ifrm.style.height = dialog.offsetHeight;
-		} 
+		}
 		return true;
 	}
 
@@ -194,7 +196,8 @@
 			ifrm.style.top = (scrH - dialog.offsetHeight) / 2 + scrOfY + "px";
 		}
 	}
-/*-->]]>*/</script>
+	/*-->]]>*/
+</script>
 </wicket:head>
 <wicket:panel>
 	<a title="Search for a related dataset..." task="setRelation"

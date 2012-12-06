@@ -1,28 +1,24 @@
 package nl.knaw.dans.easy.web.deposit.repeater;
 
 import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceList;
-import nl.knaw.dans.easy.domain.model.user.EasyUser;
-import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
-import nl.knaw.dans.easy.web.EasySession;
+import nl.knaw.dans.easy.domain.model.emd.types.Relation;
 import nl.knaw.dans.easy.web.deposit.repeasy.RelationListWrapper.RelationModel;
-import nl.knaw.dans.easy.web.search.AbstractSearchResultPage;
-import nl.knaw.dans.easy.web.search.pages.PublicSearchResultPage;
 import nl.knaw.dans.easy.web.template.emd.atomic.VerifyUrlPanel;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.wicket.PageMap;
+import org.apache.wicket.Component;
+import org.apache.wicket.MarkupContainer;
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.DropDownChoice;
+import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.ExternalLink;
-import org.apache.wicket.markup.html.link.PopupSettings;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.model.ResourceModel;
 
 public class RelationPanel extends AbstractChoicePanel<RelationModel>
 {
@@ -42,7 +38,7 @@ public class RelationPanel extends AbstractChoicePanel<RelationModel>
      * @param choices
      *        a list of choices
      */
-    public RelationPanel(final String wicketId, final IModel model, final ChoiceList choiceList)
+    public RelationPanel(final String wicketId, final IModel<Relation> model, final ChoiceList choiceList)
     {
         super(wicketId, model, choiceList);
     }
@@ -70,31 +66,34 @@ public class RelationPanel extends AbstractChoicePanel<RelationModel>
 
         private static final long serialVersionUID = -1064600333931796440L;
 
-        RepeatingEditModePanel(final ListItem item)
+        RepeatingEditModePanel(final ListItem<RelationModel> item)
         {
             super(REPEATING_PANEL_ID);
-            final DropDownChoice relationTypeChoice = new DropDownChoice("relationTypeChoice", new PropertyModel(item.getDefaultModelObject(), "relationType"),
-                    getChoiceList().getChoices(), getRenderer());
-            relationTypeChoice.setNullValid(isNullValid());
-            CheckBox emphasizeCheckBox = new CheckBox("emphasize", new PropertyModel(item.getDefaultModelObject(), "emphasis"));
+
+            final PropertyModel<String> typeModel = createStringModel(item, "relationType");
+            final PropertyModel<String> titleModel = createStringModel(item, "subjectTitle");
+            final PropertyModel<String> linkModel = createStringModel(item, "subjectLink");
+
             //for simple deposit, we use emphasize checbox, otherwise dropdownchoice is used.
-            relationTypeChoice.setVisible(useRelationType);
-            final TextField subjectTitleField = new TextField("subjectTitleField", new PropertyModel(item.getDefaultModelObject(), "subjectTitle"));
+            final Component emphasizeCheckBox = new CheckBox("emphasize", createBooleanModel(item, "emphasis")).setVisible(true);
+            @SuppressWarnings({"unchecked", "rawtypes"})
+            final Component relationTypeChoice = new DropDownChoice("relationTypeChoice", typeModel, getChoiceList().getChoices(), getRenderer())//
+                    .setNullValid(isNullValid()).setVisible(useRelationType);
+            
+            final TextField<String> subjectTitleField = new TextField<String>("subjectTitleField", titleModel);
+            final TextField<String> subjectLinkField = new TextField<String>("subjectLinkField", linkModel);
 
-            final TextField subjectLinkField = new TextField("subjectLinkField", new PropertyModel(item.getDefaultModelObject(), "subjectLink"));
-
-            String currRelItemPath = item.getPageRelativePath().replace("depositPanel:depositForm:", "");
             add(emphasizeCheckBox);
             add(relationTypeChoice);
             add(subjectTitleField);
             add(subjectLinkField);
-            add(new VerifyUrlPanel("verifyPopup", "relation.url.verify.label", "#subjectTitle", currRelItemPath + ":" + this.getId() + ":"
-                    + subjectLinkField.getPageRelativePath()));
-            PageParameters params = new PageParameters();
-            params.add("q", "");// temporary
-            emphasizeCheckBox.setVisible(true);
-        }
 
+            String currRelItemPath = item.getPageRelativePath().replace("depositPanel:depositForm:", "");
+            String inputName = currRelItemPath + ":" + this.getId() + ":"
+                    + subjectLinkField.getPageRelativePath();
+            add(new VerifyUrlPanel("verifyPopup", "relation.url.verify.label", "#subjectTitle", inputName));
+//          add(new VerifyUrlLink("verifyButton",item.getModel()));
+        }
     }
 
     class RepeatingViewModePanel extends Panel
@@ -102,19 +101,26 @@ public class RelationPanel extends AbstractChoicePanel<RelationModel>
 
         private static final long serialVersionUID = -1064600333931796440L;
 
-        RepeatingViewModePanel(final ListItem item)
+        RepeatingViewModePanel(final ListItem<RelationModel> item)
         {
             super(REPEATING_PANEL_ID);
 
-            String title = (String) new PropertyModel(item.getDefaultModel(), "subjectTitle").getObject();
-            String href = (String) new PropertyModel(item.getDefaultModel(), "subjectLink").getObject();
+            String title = createStringModel(item,  "subjectTitle").getObject();
+            String href = createStringModel(item,  "subjectLink").getObject();
 
             ExternalLink link = new ExternalLink("relation", href, title);
             link.setEnabled(!StringUtils.isBlank(href));
             add(link);
-
         }
-
     }
-
+    
+    private PropertyModel<String> createStringModel(final ListItem<RelationModel> item, String propertyName)
+    {
+        return new PropertyModel<String>(item.getDefaultModelObject(), propertyName);
+    }
+    
+    private PropertyModel<Boolean> createBooleanModel(final ListItem<RelationModel> item, String propertyName)
+    {
+        return new PropertyModel<Boolean>(item.getDefaultModelObject(), propertyName);
+    }
 }
