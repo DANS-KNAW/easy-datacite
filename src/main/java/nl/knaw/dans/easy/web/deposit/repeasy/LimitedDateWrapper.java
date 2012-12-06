@@ -22,11 +22,13 @@ public class LimitedDateWrapper extends SingleISODateWrapper
         this.max = max;
     }
 
+    @Override
     public DateModel getEmptyValue()
     {
         return new DateAvailableModel();
     }
 
+    @Override
     public List<DateModel> getInitialItems()
     {
         final List<DateModel> listItems = new ArrayList<DateModel>();
@@ -52,6 +54,7 @@ public class LimitedDateWrapper extends SingleISODateWrapper
             super();
         }
 
+        @Override
         public IsoDate getIsoDate()
         {
             final IsoDate isoDate = super.getIsoDate();
