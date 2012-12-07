@@ -9,6 +9,7 @@ import java.io.File;
 import java.net.URL;
 
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
+import nl.knaw.dans.common.lang.user.User;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.EasyStore;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
@@ -90,7 +91,9 @@ public class FileHelper
     /**
      * Configures the expectation that
      * {@link EasyStore#purge(nl.knaw.dans.common.lang.repo.DataModelObject, boolean, String)} is called
-     * exactly once for the mocked {@link FileItem} with any value for the other arguments.
+     * exactly once for the mocked {@link FileItem} with any value for the other arguments.<br/>
+     * With the current implementation the file will keep showing up when calling some method from
+     * {@link Data#getFileStoreAccess()}
      * 
      * @return this object to allow a fluent interface.
      */

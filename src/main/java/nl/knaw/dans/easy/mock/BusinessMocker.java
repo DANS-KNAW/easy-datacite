@@ -11,7 +11,6 @@ import nl.knaw.dans.easy.servicelayer.services.Services;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.junit.runner.Runner;
 import org.powermock.api.easymock.PowerMock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -40,7 +39,7 @@ public class BusinessMocker
     private List<Dataset> mockedDatasets;
 
     /**
-     * Creates all mocks. Called by the {@link Runner}.
+     * Creates all mocks. Called by the {@link PowerMockRunner}.
      * 
      * @throws Exception
      */
@@ -58,7 +57,7 @@ public class BusinessMocker
     }
 
     /**
-     * Asserts that methods were called as expected. Called by the {@link Runner}.
+     * Asserts that methods were called as expected. Called by the {@link PowerMockRunner}.
      * 
      * @throws Exception
      */

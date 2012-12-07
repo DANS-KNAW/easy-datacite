@@ -10,11 +10,14 @@ import java.util.Map;
 
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.data.Data;
+import nl.knaw.dans.easy.data.migration.MigrationRepo;
 import nl.knaw.dans.easy.data.store.FileStoreAccess;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
+import nl.knaw.dans.easy.domain.migration.IdMap;
 import nl.knaw.dans.easy.domain.model.Dataset;
 
 import org.aspectj.lang.annotation.Before;
+import org.easymock.EasyMock;
 import org.powermock.api.easymock.PowerMock;
 
 public class DatasetHelper
@@ -22,6 +25,7 @@ public class DatasetHelper
     private final DmoStoreId dmoStoreId;
     private final Dataset dataset;
     private static FileStoreAccess fileStoreAccessMock;
+    private static MigrationRepo migrationRepoMock;
 
     /**
      * Creates a mocked instance of a {@link Dataset}. A fluent interface allows further configuration of
@@ -45,14 +49,23 @@ public class DatasetHelper
      */
     static void reset()
     {
+        migrationRepoMock = EasyMock.createMock(MigrationRepo.class);
         fileStoreAccessMock = PowerMock.createMock(FileStoreAccess.class);
         expect(Data.getFileStoreAccess()).andStubReturn(fileStoreAccessMock);
+        expect(Data.getMigrationRepo()).andStubReturn(migrationRepoMock);
     }
 
     public DatasetHelper withPid(final String persitentIdentifier)
     {
         expect(dataset.getPersistentIdentifier()).andReturn(persitentIdentifier).anyTimes();
         return this;
+    }
+    
+    public void withAipId(String aipId) throws Exception
+    {
+        final IdMap idMapMock = EasyMock.createMock(IdMap.class);
+        expect(idMapMock.getAipId()).andStubReturn(aipId);
+        expect(migrationRepoMock.findById(dmoStoreId.getId())).andStubReturn(idMapMock);
     }
 
     /**
