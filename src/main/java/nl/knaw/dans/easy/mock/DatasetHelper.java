@@ -60,7 +60,7 @@ public class DatasetHelper
         expect(dataset.getPersistentIdentifier()).andReturn(persitentIdentifier).anyTimes();
         return this;
     }
-    
+
     public void withAipId(String aipId) throws Exception
     {
         final IdMap idMapMock = EasyMock.createMock(IdMap.class);
@@ -90,6 +90,22 @@ public class DatasetHelper
         }
         expect(fileStoreAccessMock.getAllFiles(dmoStoreId)).andReturn(fileMap).anyTimes();
         expect(fileStoreAccessMock.getDatasetFiles(dmoStoreId)).andReturn(fileItems).anyTimes();
+        return this;
+    }
+
+    /**
+     * Creates the expectation that {@link FileStoreAccess#getDatasetFiles(DmoStoreId)} once returns the
+     * mocked file objects for the mocked {@link Dataset}.
+     * 
+     * @param files
+     * @return this object to allow a fluent interface.
+     */
+    public DatasetHelper expectGetDatasetFilesOnce(final FileHelper... files) throws Exception
+    {
+        final List<FileItemVO> fileItems = new ArrayList<FileItemVO>();
+        for (final FileHelper helper : files)
+            fileItems.add(helper.getFileItemVO());
+        expect(fileStoreAccessMock.getDatasetFiles(dmoStoreId)).andReturn(fileItems).once();
         return this;
     }
 

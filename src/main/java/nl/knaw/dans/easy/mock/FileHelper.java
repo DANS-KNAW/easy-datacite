@@ -92,7 +92,9 @@ public class FileHelper
      * Configures the expectation that
      * {@link EasyStore#purge(nl.knaw.dans.common.lang.repo.DataModelObject, boolean, String)} is called
      * exactly once for the mocked {@link FileItem} with any value for the other arguments.<br/>
-     * With the current implementation the file will keep showing up when calling some method from
+     * Note that the mocked purge does not change anything to the mocked datasets or files. The mocked
+     * objects are already in replay mode and therefore their behavior can't be changed any more. After
+     * calling the mocked purge the file will keep showing up when calling some method from the mocked
      * {@link Data#getFileStoreAccess()}
      * 
      * @return this object to allow a fluent interface.

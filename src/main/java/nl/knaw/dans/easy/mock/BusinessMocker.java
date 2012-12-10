@@ -16,17 +16,18 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
- * Provides starting points for a fluent interface to mock the business layer. Note that methods are
- * mocked on an as-needed bases. Trouble shooting:
+ * Provides a fluent interface to mock a static configuration of repository objects. Note that methods
+ * are mocked on an as-needed bases. Unless specified otherwise, implemented methods are expected to be
+ * called any times. Trouble shooting hints:
  * <dl>
  * <dt>Unexpected method call</dt>
- * <dd>caused by not yet implemented expectations. Add the required expectations to this class and/or to
- * the helper classes.</dd>
+ * <dd>caused by not yet implemented expectations. Add the required expectations to thisto the helper
+ * classes.</dd>
  * <dt>last method called on mock already has a non-fixed count set</dt>
  * <dd>caused by duplicate configuration of similar expectations, like multiple sets of files for a
  * {@link Dataset} or multiple expectations for a property like {@link AccessibleTo}.</dd>
- * <dt>{@link NullPointerException} caused by {@link IllegalStateException} : calling verify is not allowed in
- * record state</dt>
+ * <dt>{@link NullPointerException} caused by {@link IllegalStateException} : calling verify is not
+ * allowed in record state</dt>
  * <dd>please do call {@link #replayBusinessMocks}</dd>
  * <dt></dt>
  * <dd></dd>
@@ -68,7 +69,7 @@ public class BusinessMocker
     }
 
     /**
-     * Switches the mocked objects and classes to replay mode. Note that you must use this method after
+     * Switches the mocked objects and classes to replay mode. Note that you must call this method after
      * specifying your expectations but before executing the test.
      */
     protected void replayBusinessMocks()
