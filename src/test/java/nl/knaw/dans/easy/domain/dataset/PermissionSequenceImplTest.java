@@ -1,6 +1,7 @@
 package nl.knaw.dans.easy.domain.dataset;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import nl.knaw.dans.common.jibx.JiBXObjectFactory;
 import nl.knaw.dans.common.lang.test.Tester;
 import nl.knaw.dans.common.lang.xml.XMLException;
@@ -33,6 +34,7 @@ public class PermissionSequenceImplTest
         byte[] xml = sequence.asObjectXML();
         PermissionSequence sequence2 = (PermissionSequence) JiBXObjectFactory.unmarshal(PermissionSequenceImpl.class, xml);
         assertEquals(sequence.asXMLString(), sequence2.asXMLString());
+
     }
 
     @Test
