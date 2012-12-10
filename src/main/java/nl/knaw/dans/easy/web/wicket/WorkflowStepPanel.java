@@ -149,6 +149,7 @@ public class WorkflowStepPanel extends AbstractEasyPanel
                     String s = (String) object;
                     try
                     {
+                        s = s.replace(",", ".");
                         double ts = Double.valueOf(s);
                         workflowStep.setTimeSpent(ts);
                     }
