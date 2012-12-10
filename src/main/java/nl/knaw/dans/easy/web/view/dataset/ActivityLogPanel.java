@@ -17,7 +17,6 @@ import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.domain.user.EasyUserAnonymous;
-import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.template.AbstractEasyPanel;
@@ -51,6 +50,8 @@ public class ActivityLogPanel extends AbstractEasyPanel
 
     private boolean initiated;
 
+    private DownloadActivityLogPanel downloadActivityLogPanel;
+
     public ActivityLogPanel(String id, Dataset dataset)
     {
         super(id);
@@ -83,7 +84,8 @@ public class ActivityLogPanel extends AbstractEasyPanel
         ActivityLogForm activityLogForm = new ActivityLogForm("choiceForm");
         add(activityLogForm);
         displayDownloads(activityLogForm.getYear(), activityLogForm.getMonth());
-        addOrReplace(new DownloadActivityLogPanel("downloadActivityLogPanel", dataset, getSessionUser()));
+        downloadActivityLogPanel = new DownloadActivityLogPanel("downloadActivityLogPanel", dataset, getSessionUser());
+        addOrReplace(downloadActivityLogPanel);
     }
 
     private void displayDownloads(int year, int month)
@@ -363,8 +365,8 @@ public class ActivityLogPanel extends AbstractEasyPanel
         protected void onSubmit()
         {
             displayDownloads(year, month);
+            downloadActivityLogPanel.setDownloadList(year, month);
+            downloadActivityLogPanel.setVisibility();
         }
-
     }
-
 }

@@ -36,7 +36,7 @@ public class DownloadActivityLogPanel extends Panel
 
     private boolean downloadHistoryAvailable;
 
-    private boolean initiated;
+    private boolean initiated = false;
     private DownloadList downloadList = null;
 
     public DownloadActivityLogPanel(final String id, final Dataset dataset, final EasyUser easyUser)
@@ -54,26 +54,43 @@ public class DownloadActivityLogPanel extends Panel
             init();
             initiated = true;
         }
-        this.setVisible(isDownloadHistoryAvailableAvailable() && easyUser.hasRole(Role.ARCHIVIST));
         super.onBeforeRender();
     }
 
     private void init()
     {
         add(new ResourceLink(DOWNLOAD_CSV, getCSVWebResource(dataset)));
+        DateTime now = DateTime.now();
+        setDownloadList(now.getYear(), now.getMonthOfYear());
+        setVisibility();
+    }
+
+    void setDownloadList(int year, int month)
+    {
+        DateTime pDate = new DateTime(year, month, 1, 0, 0, 0, 0);
         try
         {
-            DownloadHistory downloadHistory = Services.getDatasetService().getDownloadHistoryFor(easyUser, dataset, new DateTime());
+            DownloadHistory downloadHistory = Services.getDatasetService().getDownloadHistoryFor(easyUser, dataset, pDate);
             if (downloadHistory != null)
             {
                 downloadHistoryAvailable = true;
                 downloadList = downloadHistory.getDownloadList();
+            }
+            else
+            {
+                downloadHistoryAvailable = false;
+                downloadList = null;
             }
         }
         catch (ServiceException e)
         {
             LOGGER.error("error getting downloader for activity log.", e);
         }
+    }
+
+    void setVisibility()
+    {
+        this.setVisible(isDownloadHistoryAvailableAvailable() && easyUser.hasRole(Role.ARCHIVIST));
     }
 
     private WebResource getCSVWebResource(final Dataset dataset)
