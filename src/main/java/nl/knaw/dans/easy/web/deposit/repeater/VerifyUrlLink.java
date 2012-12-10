@@ -9,7 +9,8 @@ import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.request.target.basic.RedirectRequestTarget;
 
-public class VerifyUrlLink extends SubmitLink{
+public class VerifyUrlLink extends SubmitLink
+{
 
     private static final long serialVersionUID = 1L;
     private IModel<RelationModel> model;
@@ -24,7 +25,8 @@ public class VerifyUrlLink extends SubmitLink{
     public void onSubmit()
     {
         final String uri = model.getObject().getSubjectLink();
-        if (uri !=null&&uri.trim().length()>0){
+        if (uri != null && uri.trim().length() > 0)
+        {
             try
             {
                 new URI(uri);

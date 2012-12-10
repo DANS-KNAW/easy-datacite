@@ -76,10 +76,10 @@ public class RelationPanel extends AbstractChoicePanel<RelationModel>
 
             //for simple deposit, we use emphasize checbox, otherwise dropdownchoice is used.
             final Component emphasizeCheckBox = new CheckBox("emphasize", createBooleanModel(item, "emphasis")).setVisible(true);
-            @SuppressWarnings({"unchecked", "rawtypes"})
+            @SuppressWarnings( {"unchecked", "rawtypes"})
             final Component relationTypeChoice = new DropDownChoice("relationTypeChoice", typeModel, getChoiceList().getChoices(), getRenderer())//
                     .setNullValid(isNullValid()).setVisible(useRelationType);
-            
+
             final TextField<String> subjectTitleField = new TextField<String>("subjectTitleField", titleModel);
             final TextField<String> subjectLinkField = new TextField<String>("subjectLinkField", linkModel);
 
@@ -89,10 +89,9 @@ public class RelationPanel extends AbstractChoicePanel<RelationModel>
             add(subjectLinkField);
 
             String currRelItemPath = item.getPageRelativePath().replace("depositPanel:depositForm:", "");
-            String inputName = currRelItemPath + ":" + this.getId() + ":"
-                    + subjectLinkField.getPageRelativePath();
+            String inputName = currRelItemPath + ":" + this.getId() + ":" + subjectLinkField.getPageRelativePath();
             add(new VerifyUrlPanel("verifyPopup", "relation.url.verify.label", "#subjectTitle", inputName));
-//          add(new VerifyUrlLink("verifyButton",item.getModel()));
+            //          add(new VerifyUrlLink("verifyButton",item.getModel()));
         }
     }
 
@@ -105,20 +104,20 @@ public class RelationPanel extends AbstractChoicePanel<RelationModel>
         {
             super(REPEATING_PANEL_ID);
 
-            String title = createStringModel(item,  "subjectTitle").getObject();
-            String href = createStringModel(item,  "subjectLink").getObject();
+            String title = createStringModel(item, "subjectTitle").getObject();
+            String href = createStringModel(item, "subjectLink").getObject();
 
             ExternalLink link = new ExternalLink("relation", href, title);
             link.setEnabled(!StringUtils.isBlank(href));
             add(link);
         }
     }
-    
+
     private PropertyModel<String> createStringModel(final ListItem<RelationModel> item, String propertyName)
     {
         return new PropertyModel<String>(item.getDefaultModelObject(), propertyName);
     }
-    
+
     private PropertyModel<Boolean> createBooleanModel(final ListItem<RelationModel> item, String propertyName)
     {
         return new PropertyModel<Boolean>(item.getDefaultModelObject(), propertyName);

@@ -79,7 +79,8 @@ public final class EasySession extends CommonSession
         return user.isActive() && !user.isAnonymous();
     }
 
-    // Reset this EasySession to a state that is appropriate for the new situation after setLoggedOff/setLoggedIn.
+    // Reset this EasySession to a state that is appropriate for the new situation after
+    // setLoggedOff/setLoggedIn.
     private void reset()
     {
         contextParameters = null;
@@ -91,8 +92,8 @@ public final class EasySession extends CommonSession
     }
 
     /**
-     * Set redirect data. This method called by page A that links to page B, so that page B knows which page to return
-     * to.
+     * Set redirect data. This method called by page A that links to page B, so that page B knows which
+     * page to return to.
      * 
      * <pre>
      *             [pageA] setRedirectData(PageB.class, new RedirectData(PageA.class, parameters))
@@ -119,8 +120,8 @@ public final class EasySession extends CommonSession
     }
 
     /**
-     * Get <u>and remove</u> redirect data. This method called by page B that wants to return to the page that set the
-     * redirect data.
+     * Get <u>and remove</u> redirect data. This method called by page B that wants to return to the page
+     * that set the redirect data.
      * 
      * @see #setRedirectData(Class, RedirectData)
      * @see #hasRedirectData(Class)
@@ -175,13 +176,13 @@ public final class EasySession extends CommonSession
     }
 
     /**
-     * Simple method to get some context. The only context that will be available is the sessionUser and even that may
-     * be <code>null</code>. Unless <code>setContextParameters()</code> is called. 
-     * 
-     * Note: After the contextParameters are returned the parameters are removed from the EasySession.
+     * Simple method to get some context. The only context that will be available is the sessionUser and
+     * even that may be <code>null</code>. Unless <code>setContextParameters()</code> is called. Note:
+     * After the contextParameters are returned the parameters are removed from the EasySession.
      * 
      * @see ContextParameters
-     * @return ContextParameters with a sessionUser equal to the user of this session (might be <code>null</code>)
+     * @return ContextParameters with a sessionUser equal to the user of this session (might be
+     *         <code>null</code>)
      */
     public ContextParameters getContextParameters()
     {
@@ -195,10 +196,12 @@ public final class EasySession extends CommonSession
     }
 
     /**
-     * Set contextParameters in the current EasySession.
-     * Note: when the <code>getContextParameters()</code> is called the contextParameters in the EasySession are removed.
+     * Set contextParameters in the current EasySession. Note: when the
+     * <code>getContextParameters()</code> is called the contextParameters in the EasySession are
+     * removed.
      * 
-     * @param ctxParameters the parameters to add to the EasySession
+     * @param ctxParameters
+     *        the parameters to add to the EasySession
      */
     public void setContextParameters(ContextParameters ctxParameters)
     {
@@ -206,11 +209,13 @@ public final class EasySession extends CommonSession
     }
 
     /**
-     * Put a DataModelObject for temporary storage in the internal objectMap. The Least Recently Used (LRU) object will
-     * be removed if adding the DataModelObject surpasses the maximum capacity for cached objects.
+     * Put a DataModelObject for temporary storage in the internal objectMap. The Least Recently Used
+     * (LRU) object will be removed if adding the DataModelObject surpasses the maximum capacity for
+     * cached objects.
      * 
      * @see #MAX_CACHED_OBJECT_CAPACITY
-     * @see <a href="http://commons.apache.org/collections/api/org/apache/commons/collections/LRUMap.html">LRUMap</a>
+     * @see <a
+     *      href="http://commons.apache.org/collections/api/org/apache/commons/collections/LRUMap.html">LRUMap</a>
      * @param dmo
      *        the DataModelObject to cache
      */
@@ -224,13 +229,13 @@ public final class EasySession extends CommonSession
     }
 
     /**
-     * Get the DataModelObject with the given storeId from cache. If the requested object is not in cache (anymore), an
-     * attempt will be made to get it from the service-layer.
+     * Get the DataModelObject with the given storeId from cache. If the requested object is not in cache
+     * (anymore), an attempt will be made to get it from the service-layer.
      * 
      * @param dmoStoreId
      *        the storeId of the requested object
      * @return the requested object
-     * @throws ServiceException 
+     * @throws ServiceException
      * @throws ServiceException
      *         as a wrapper for exceptions
      */
@@ -267,10 +272,13 @@ public final class EasySession extends CommonSession
     }
 
     /**
-     * A way for stateless areas in the web tier to access some state. Keep it lean and clean: the wicket framework is statefull.
+     * A way for stateless areas in the web tier to access some state. Keep it lean and clean: the wicket
+     * framework is statefull.
      * 
-     * @param key association key
-     * @param value associated value
+     * @param key
+     *        association key
+     * @param value
+     *        associated value
      */
     public void put(String key, Object value)
     {
