@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<foo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <boolean-element>false</boolean-element>
+    <boolean-element>false</boolean-element>
+    <boolean-element>false</boolean-element>
+    <date-element>2006-05-04</date-element>
+    <date-element>2006-05-04</date-element>
+    <date-element>2006-05-04</date-element>
+</foo>
