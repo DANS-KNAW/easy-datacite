@@ -31,6 +31,16 @@ public class UserHelper
     static void reset()
     {
         userRepoMock = PowerMock.createMock(EasyUserRepo.class);
-        expect(Data.getUserRepo()).andStubReturn(userRepoMock);
+        new Data().setUserRepo(userRepoMock);
+    }
+
+    public static void verifyAll()
+    {
+        PowerMock.verifyAll();
+    }
+
+    public static void replayAll()
+    {
+        PowerMock.replayAll();
     }
 }

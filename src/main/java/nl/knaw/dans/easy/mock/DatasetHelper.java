@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import nl.knaw.dans.common.lang.repo.DmoStoreEventListener;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.migration.MigrationRepo;
@@ -19,6 +20,7 @@ import nl.knaw.dans.easy.domain.migration.IdMap;
 import nl.knaw.dans.easy.domain.model.Dataset;
 
 import org.aspectj.lang.annotation.Before;
+import org.easymock.internal.matchers.Any;
 import org.powermock.api.easymock.PowerMock;
 
 public class DatasetHelper
@@ -46,14 +48,25 @@ public class DatasetHelper
     /**
      * Prepares the mocks for a new configuration. To be called by a {@link Before}.
      */
-    static void reset()
+    static void reset(EasyStore easyStore)
     {
         migrationRepoMock = PowerMock.createMock(MigrationRepo.class);
         fileStoreAccessMock = PowerMock.createMock(FileStoreAccess.class);
-        easyStoreMock = PowerMock.createMock(EasyStore.class);
-        expect(Data.getFileStoreAccess()).andStubReturn(fileStoreAccessMock);
-        expect(Data.getEasyStore()).andStubReturn(easyStoreMock);
-        expect(Data.getMigrationRepo()).andStubReturn(migrationRepoMock);
+        easyStoreMock = easyStore;
+        new Data().setEasyStore(easyStoreMock);
+        new Data().setFileStoreAccess(fileStoreAccessMock);
+        new Data().setMigrationRepo(migrationRepoMock);
+        expect(easyStoreMock.getListeners()).andReturn(new ArrayList<DmoStoreEventListener>()).anyTimes();
+    }
+
+    public static void verifyAll()
+    {
+        PowerMock.verifyAll();
+    }
+
+    public static void replayAll()
+    {
+        PowerMock.replayAll();
     }
 
     public DatasetHelper withPid(final String persitentIdentifier)

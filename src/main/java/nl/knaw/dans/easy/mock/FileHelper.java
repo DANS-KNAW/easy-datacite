@@ -58,19 +58,31 @@ public class FileHelper
         expect(fileItemVO.getSid()).andReturn(storeId).anyTimes();
         expect(fileItemVO.getPath()).andReturn(path).anyTimes();
         expect(fileItemVO.getName()).andReturn(new File(path).getName()).anyTimes();
-        expect(easyStoreMock.retrieve(dmoStoreId)).andReturn(fileItem).anyTimes();
+        expect(easyStoreMock.retrieve(eq(dmoStoreId))).andReturn(fileItem).anyTimes();
+        expect(easyStoreMock.exists(eq(dmoStoreId))).andReturn(true).anyTimes();
     }
 
     /**
      * Prepares the mocks for a new configuration. To be called by a {@link Before}.
+     * @param easyStore 
      */
-    static void reset()
+    static void reset(EasyStore easyStore)
     {
         fileCounter = 0;
-        easyStoreMock = PowerMock.createMock(EasyStore.class);
+        easyStoreMock = easyStore;
         itemServiceMock = PowerMock.createMock(ItemService.class);
-        expect(Data.getEasyStore()).andStubReturn(easyStoreMock);
-        expect(Services.getItemService()).andStubReturn(itemServiceMock);
+        new Services().setItemService(itemServiceMock);
+        new Data().setEasyStore(easyStoreMock);
+    }
+
+    public static void verifyAll()
+    {
+        PowerMock.verifyAll();
+    }
+
+    public static void replayAll()
+    {
+        PowerMock.replayAll();
     }
 
     /**

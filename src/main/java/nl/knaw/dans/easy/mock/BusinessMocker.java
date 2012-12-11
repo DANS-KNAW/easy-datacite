@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import nl.knaw.dans.easy.data.Data;
+import nl.knaw.dans.easy.data.store.EasyStore;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.servicelayer.services.Services;
@@ -14,6 +15,8 @@ import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Provides a fluent interface to mock a static configuration of repository objects. Note that methods
@@ -34,7 +37,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
  * </dl>
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest( {Data.class, Services.class})
 public class BusinessMocker
 {
     private List<Dataset> mockedDatasets;
@@ -49,12 +51,12 @@ public class BusinessMocker
     {
         mockedDatasets = new LinkedList<Dataset>();
 
-        PowerMock.mockStatic(Data.class);
-        PowerMock.mockStatic(Services.class);
+        Data.unlock();
 
         UserHelper.reset();
-        FileHelper.reset();
-        DatasetHelper.reset();
+        EasyStore easyStore = PowerMock.createMock(EasyStore.class);
+        FileHelper.reset(easyStore);
+        DatasetHelper.reset(easyStore);
     }
 
     /**
@@ -63,18 +65,24 @@ public class BusinessMocker
      * @throws Exception
      */
     @After
-    public void verifyBusinessMocks()
+    public void verifyAll()
     {
         PowerMock.verifyAll();
+        UserHelper.verifyAll();
+        FileHelper.verifyAll();
+        DatasetHelper.verifyAll();
     }
 
     /**
      * Switches the mocked objects and classes to replay mode. Note that you must call this method after
      * specifying your expectations but before executing the test.
      */
-    protected void replayBusinessMocks()
+    protected void replayAll()
     {
         PowerMock.replayAll();
+        UserHelper.replayAll();
+        FileHelper.replayAll();
+        DatasetHelper.replayAll();
     }
 
     /**

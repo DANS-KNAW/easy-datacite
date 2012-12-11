@@ -9,12 +9,26 @@ import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.domain.migration.IdMap;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.mock.BusinessMocker;
+import nl.knaw.dans.easy.mock.FileHelper;
 
-import org.junit.Ignore;
+import org.joda.time.DateTime;
 import org.junit.Test;
 
 public class BusinessMockerTest extends BusinessMocker
 {
+    @Test
+    public void easyStoreRetrieve() throws Exception
+    {
+        final String storeId = "easy-dataset:1";
+        Dataset mockedDataset = dataset(storeId).getDataset();
+
+        replayAll();
+
+        final Dataset retrievedDataset = (Dataset) Data.getEasyStore().retrieve(new DmoStoreId(storeId));
+        assertThat(retrievedDataset, sameInstance(mockedDataset));
+        verifyAll();
+    }
+
     @Test
     public void getMigrationAipId() throws Exception
     {
@@ -22,24 +36,17 @@ public class BusinessMockerTest extends BusinessMocker
         final String aipId = "twips-1";
         dataset(storeId).withAipId(aipId);
 
-        replayBusinessMocks();
+        replayAll();
 
         final IdMap idMap = Data.getMigrationRepo().findById(storeId);
         assertThat(idMap, notNullValue());
         assertThat(idMap.getAipId(), equalTo(aipId));
     }
-
-    @Ignore
-    //FIXME what is the essential difference with MockEasyStoreRetrieveTest?
+    
     @Test
-    public void easyStoreRetrieve() throws Exception
-    {
-        final String storeId = "easy-dataset:1";
-        Dataset mockedDataset = dataset(storeId).getDataset();
-
-        replayBusinessMocks();
-
-        final Dataset retrievedDataset = (Dataset) Data.getEasyStore().retrieve(new DmoStoreId(storeId));
-        assertThat(retrievedDataset, sameInstance(mockedDataset));
+    public void noPurge() throws Exception{
+        FileHelper helper = file("tif/2.tif");
+        replayAll();
+        Data.getEasyStore().retrieve(new DmoStoreId(helper.getStoreId()));
     }
 }
