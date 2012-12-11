@@ -365,7 +365,7 @@ public class ActivityLogPanel extends AbstractEasyPanel
         protected void onSubmit()
         {
             displayDownloads(year, month);
-            downloadActivityLogPanel.setDownloadList(year, month);
+            downloadActivityLogPanel.makeDownloadList(year, month);
             downloadActivityLogPanel.setVisibility();
         }
     }

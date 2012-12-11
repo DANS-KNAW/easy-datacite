@@ -61,11 +61,11 @@ public class DownloadActivityLogPanel extends Panel
     {
         add(new ResourceLink(DOWNLOAD_CSV, getCSVWebResource(dataset)));
         DateTime now = DateTime.now();
-        setDownloadList(now.getYear(), now.getMonthOfYear());
+        makeDownloadList(now.getYear(), now.getMonthOfYear());
         setVisibility();
     }
 
-    void setDownloadList(int year, int month)
+    void makeDownloadList(int year, int month)
     {
         DateTime pDate = new DateTime(year, month, 1, 0, 0, 0, 0);
         try
