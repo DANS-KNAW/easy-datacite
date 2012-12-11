@@ -93,8 +93,9 @@ public class BusinessMocker
      * 
      * @param datasetId
      * @return
+     * @throws Exception
      */
-    protected DatasetHelper dataset(final String datasetId)
+    protected DatasetHelper dataset(final String datasetId) throws Exception
     {
         final DatasetHelper datasetHelper = new DatasetHelper(datasetId);
         mockedDatasets.add(datasetHelper.getDataset());
