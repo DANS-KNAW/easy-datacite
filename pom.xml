@@ -2,24 +2,26 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>nl.knaw.dans.platform.language</groupId>
-  <artifactId>emd</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
+  <parent>
+		<groupId>nl.knaw.dans.platform.language</groupId>
+		<artifactId>aggregate-language</artifactId>
+		<version>1.0-SNAPSHOT</version>
+		<relativePath>../../aggregate-language/trunk/pom.xml</relativePath>
+	</parent>
 
-  <name>emd</name>
-  <url>http://maven.apache.org</url>
+	<artifactId>emd</artifactId>
+	<packaging>jar</packaging>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+	<name>emd</name>
+	<description>EasyMetadata, a format used by the Easy application</description>
 
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+	<dependencies>
+		<dependency>
+			<groupId>nl.knaw.dans.platform.language</groupId>
+			<artifactId>xml</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		
+	</dependencies>
+	
 </project>
