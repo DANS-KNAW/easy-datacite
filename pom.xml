@@ -74,6 +74,25 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		
+		<!-- This is an end-application, so it should declare a slf4j-binding -->
+		<!-- Dependency on slf4j-log4j12-binding. -->
+		<!-- Configuration of log4j can be done f.i. by log4j.xml on the classpath -->
+		<!--  -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.6.4</version>
+		</dependency>
+		<!-- Dependency on logback-classic binding for slf4j -->
+		<!-- Configuration of logback can be done f.i. by logback.xml on the classpath -->
+		<!--  
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.0.7</version>
+		</dependency>
+		-->
 
 		<!-- Dependencies on Repositories and other Data Access Points -->
 		<!-- REMINDER: these dependencies are only here so that Spring can instantiate 
