@@ -15,9 +15,9 @@ import nl.knaw.dans.common.jibx.AbstractTimestampedJiBXObject;
 import nl.knaw.dans.common.jibx.bean.JiBXDublinCoreMetadata;
 import nl.knaw.dans.common.lang.repo.bean.DublinCoreMetadata;
 import nl.knaw.dans.common.lang.repo.bean.DublinCoreMetadata.PropertyName;
-import nl.knaw.dans.l.emd.exceptions.NoSuchTermException;
-import nl.knaw.dans.l.emd.types.ApplicationSpecific.MetadataFormat;
-import nl.knaw.dans.l.emd.types.MetadataItem;
+import nl.knaw.dans.pf.language.emd.exceptions.NoSuchTermException;
+import nl.knaw.dans.pf.language.emd.types.MetadataItem;
+import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 
 /**
  * Implementation of {@link EasyMetadata} with JiBX serialization. An EasyMetadataImpl may be obtained from the

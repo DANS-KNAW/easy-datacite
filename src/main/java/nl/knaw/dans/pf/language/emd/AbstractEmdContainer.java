@@ -5,10 +5,10 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.knaw.dans.l.emd.exceptions.NoSuchTermException;
-import nl.knaw.dans.l.emd.types.MetadataItem;
-import nl.knaw.dans.l.emd.util.StringUtil;
 import nl.knaw.dans.pf.language.emd.Term.Name;
+import nl.knaw.dans.pf.language.emd.exceptions.NoSuchTermException;
+import nl.knaw.dans.pf.language.emd.types.MetadataItem;
+import nl.knaw.dans.pf.language.emd.util.StringUtil;
 
 /**
  * Abstract EmdContainer.

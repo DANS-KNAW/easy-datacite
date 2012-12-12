@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import nl.knaw.dans.l.emd.types.BasicString;
+import nl.knaw.dans.pf.language.emd.types.BasicString;
 
 /**
  * Container for resource properties of category type.

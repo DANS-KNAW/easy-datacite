@@ -1,6 +1,6 @@
 package nl.knaw.dans.pf.language.emd;
 
-import nl.knaw.dans.l.emd.types.ApplicationSpecific.MetadataFormat;
+import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 
 public final class EasyMetadataFactory
 {

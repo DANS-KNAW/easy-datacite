@@ -7,8 +7,8 @@ import java.util.Set;
 
 import nl.knaw.dans.common.lang.repo.MetadataUnitXMLBean;
 import nl.knaw.dans.common.lang.repo.bean.DublinCoreMetadata;
-import nl.knaw.dans.l.emd.exceptions.NoSuchTermException;
-import nl.knaw.dans.l.emd.types.MetadataItem;
+import nl.knaw.dans.pf.language.emd.exceptions.NoSuchTermException;
+import nl.knaw.dans.pf.language.emd.types.MetadataItem;
 
 /**
  * Meta data on collections in the Easy repository.

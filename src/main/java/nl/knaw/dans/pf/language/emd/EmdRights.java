@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
-import nl.knaw.dans.l.emd.types.BasicString;
-import nl.knaw.dans.l.emd.types.EmdScheme;
+import nl.knaw.dans.pf.language.emd.types.BasicString;
+import nl.knaw.dans.pf.language.emd.types.EmdScheme;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

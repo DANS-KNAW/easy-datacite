@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import nl.knaw.dans.l.emd.types.BasicIdentifier;
-import nl.knaw.dans.l.emd.types.Relation;
+import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
+import nl.knaw.dans.pf.language.emd.types.Relation;
 
 /**
  * Container for resource properties of category relation.

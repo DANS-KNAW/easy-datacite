@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import nl.knaw.dans.l.emd.types.BasicDate;
-import nl.knaw.dans.l.emd.types.IsoDate;
+import nl.knaw.dans.pf.language.emd.types.BasicDate;
+import nl.knaw.dans.pf.language.emd.types.IsoDate;
 
 import org.joda.time.DateTime;
 

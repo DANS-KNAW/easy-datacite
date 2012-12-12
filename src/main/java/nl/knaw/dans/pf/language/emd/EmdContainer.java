@@ -3,8 +3,8 @@ package nl.knaw.dans.pf.language.emd;
 import java.io.Serializable;
 import java.util.List;
 
-import nl.knaw.dans.l.emd.exceptions.NoSuchTermException;
-import nl.knaw.dans.l.emd.types.MetadataItem;
+import nl.knaw.dans.pf.language.emd.exceptions.NoSuchTermException;
+import nl.knaw.dans.pf.language.emd.types.MetadataItem;
 
 /**
  * Container for a category of resource properties.

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import nl.knaw.dans.l.emd.types.BasicString;
-import nl.knaw.dans.l.emd.types.EmdConstants;
+import nl.knaw.dans.pf.language.emd.types.BasicString;
+import nl.knaw.dans.pf.language.emd.types.EmdConstants;
 
 /**
  * Container for resource properties of category audience.
