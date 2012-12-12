@@ -18,6 +18,8 @@ import org.junit.Test;
 public class WorkflowStepJiBXTest extends AbstractJibxTest<WorkflowStep>
 {
 
+    private boolean verbose = false;
+
     @BeforeClass
     public static void testStartInformation()
     {
@@ -87,8 +89,8 @@ public class WorkflowStepJiBXTest extends AbstractJibxTest<WorkflowStep>
         if (wfs.isTimeSpentWritable())
             wfs.setTimeSpent(3.54D);
         fillSteps(wfs.getSteps());
-
-        System.err.println("\n" + wfs.asXMLString(4));
+        if (verbose)
+            System.err.println("\n" + wfs.asXMLString(4));
     }
 
     private void fillSteps(List<WorkflowStep> steps)
