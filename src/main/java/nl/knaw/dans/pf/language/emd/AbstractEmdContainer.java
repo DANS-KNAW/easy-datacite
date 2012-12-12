@@ -1,14 +1,14 @@
-package nl.knaw.dans.l.emd;
+package nl.knaw.dans.pf.language.emd;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.knaw.dans.l.emd.Term.Name;
 import nl.knaw.dans.l.emd.exceptions.NoSuchTermException;
 import nl.knaw.dans.l.emd.types.MetadataItem;
 import nl.knaw.dans.l.emd.util.StringUtil;
+import nl.knaw.dans.pf.language.emd.Term.Name;
 
 /**
  * Abstract EmdContainer.

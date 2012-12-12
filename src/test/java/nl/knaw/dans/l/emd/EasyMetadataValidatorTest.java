@@ -20,6 +20,9 @@ import nl.knaw.dans.common.lang.xml.XMLErrorHandler;
 import nl.knaw.dans.common.lang.xml.XMLException;
 import nl.knaw.dans.l.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.l.emd.util.TestHelper;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.EasyMetadataImpl;
+import nl.knaw.dans.pf.language.emd.EasyMetadataValidator;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;

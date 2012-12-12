@@ -30,6 +30,15 @@ import nl.knaw.dans.l.emd.types.Relation;
 import nl.knaw.dans.l.emd.types.Spatial;
 import nl.knaw.dans.l.emd.types.Spatial.Point;
 import nl.knaw.dans.l.emd.util.AbstractJibxTest;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.EasyMetadataFactory;
+import nl.knaw.dans.pf.language.emd.EasyMetadataImpl;
+import nl.knaw.dans.pf.language.emd.EasyMetadataValidator;
+import nl.knaw.dans.pf.language.emd.EmdContainer;
+import nl.knaw.dans.pf.language.emd.EmdTitle;
+import nl.knaw.dans.pf.language.emd.EmdVisitor;
+import nl.knaw.dans.pf.language.emd.MDContainer;
+import nl.knaw.dans.pf.language.emd.Term;
 
 import org.jibx.runtime.JiBXException;
 import org.junit.Assert;

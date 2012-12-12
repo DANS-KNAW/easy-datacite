@@ -1,4 +1,4 @@
-package nl.knaw.dans.l.emd;
+package nl.knaw.dans.pf.language.emd;
 
 import nl.knaw.dans.l.emd.types.ApplicationSpecific.MetadataFormat;
 

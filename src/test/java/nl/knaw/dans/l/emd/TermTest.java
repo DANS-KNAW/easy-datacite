@@ -5,11 +5,17 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 import java.util.Map;
 
-import nl.knaw.dans.l.emd.Term.Name;
-import nl.knaw.dans.l.emd.Term.Namespace;
 import nl.knaw.dans.l.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.l.emd.types.BasicString;
 import nl.knaw.dans.l.emd.types.MetadataItem;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.EasyMetadataFactory;
+import nl.knaw.dans.pf.language.emd.EmdContainer;
+import nl.knaw.dans.pf.language.emd.EmdTitle;
+import nl.knaw.dans.pf.language.emd.MDContainer;
+import nl.knaw.dans.pf.language.emd.Term;
+import nl.knaw.dans.pf.language.emd.Term.Name;
+import nl.knaw.dans.pf.language.emd.Term.Namespace;
 
 import org.junit.Test;
 

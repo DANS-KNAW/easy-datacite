@@ -1,4 +1,4 @@
-package nl.knaw.dans.l.emd;
+package nl.knaw.dans.pf.language.emd;
 
 import java.util.ArrayList;
 import java.util.Arrays;

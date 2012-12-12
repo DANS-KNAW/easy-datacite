@@ -2,6 +2,8 @@ package nl.knaw.dans.l.emd;
 
 import nl.knaw.dans.l.emd.types.BasicDate;
 import nl.knaw.dans.l.emd.types.IsoDate;
+import nl.knaw.dans.pf.language.emd.EmdDate;
+import nl.knaw.dans.pf.language.emd.Term;
 
 import org.junit.Assert;
 import org.junit.Test;

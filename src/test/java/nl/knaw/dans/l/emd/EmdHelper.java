@@ -13,6 +13,11 @@ import nl.knaw.dans.l.emd.types.BasicString;
 import nl.knaw.dans.l.emd.types.IsoDate;
 import nl.knaw.dans.l.emd.types.Relation;
 import nl.knaw.dans.l.emd.types.Spatial;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.EasyMetadataImpl;
+import nl.knaw.dans.pf.language.emd.EmdContainer;
+import nl.knaw.dans.pf.language.emd.MDContainer;
+import nl.knaw.dans.pf.language.emd.Term;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

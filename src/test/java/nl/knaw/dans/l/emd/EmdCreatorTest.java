@@ -5,6 +5,7 @@ import java.util.List;
 
 import nl.knaw.dans.l.emd.types.Author;
 import nl.knaw.dans.l.emd.types.BasicString;
+import nl.knaw.dans.pf.language.emd.EmdCreator;
 
 import org.junit.Assert;
 import org.junit.Test;
