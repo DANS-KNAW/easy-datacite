@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+	<appender name="COLOR_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
-			<Pattern>%highlight(%-5level %r [%thread]: %msg) %n%cyan(%caller{3})</Pattern>
+			<Pattern>%highlight(%-5level %r [%thread]: %msg) %n%cyan(%caller{1})</Pattern>
 		</encoder>
 	</appender>
 
 	<root level="trace">
-		<appender-ref ref="STDOUT" />
+		<appender-ref ref="COLOR_CONSOLE" />
 	</root>
 	
 	<!-- For ANSI Eclipse console see http://www.mihai-nita.net/eclipse/ -->
