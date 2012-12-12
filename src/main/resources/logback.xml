@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<Pattern>%highlight(%-5level %r [%thread]: %msg) %n%cyan(%caller{3})</Pattern>
+		</encoder>
+	</appender>
+
+	<root level="trace">
+		<appender-ref ref="STDOUT" />
+	</root>
+	
+	<!-- For ANSI Eclipse console see http://www.mihai-nita.net/eclipse/ -->
+
+</configuration>
