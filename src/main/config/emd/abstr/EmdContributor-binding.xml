@@ -4,21 +4,21 @@
 	<include path="BasicString-binding.xml" />
 	<include path="Author-binding.xml" />
 
-	<mapping class="nl.knaw.dans.easy.domain.model.emd.EmdContributor"
+	<mapping class="nl.knaw.dans.pf.language.emd.EmdContributor"
 		ns="http://easy.dans.knaw.nl/easy/easymetadata/" abstract="true">
 
 		<namespace uri="http://easy.dans.knaw.nl/easy/easymetadata/" prefix="emd" />
 		<namespace uri="http://purl.org/dc/elements/1.1/" prefix="dc" />
 		<namespace uri="http://easy.dans.knaw.nl/easy/easymetadata/eas/" prefix="eas" />
 
-		<collection field="dcContributor" factory="nl.knaw.dans.easy.domain.model.emd.types.ListFactory.basicStringList">
+		<collection field="dcContributor" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicStringList">
 			<structure ns="http://purl.org/dc/elements/1.1/" name="contributor"
-				type="nl.knaw.dans.easy.domain.model.emd.types.BasicString" usage="optional"/>
+				type="nl.knaw.dans.pf.language.emd.types.BasicString" usage="optional"/>
 		</collection>
 
-		<collection field="easContributor" factory="nl.knaw.dans.easy.domain.model.emd.types.ListFactory.authorList">
+		<collection field="easContributor" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.authorList">
 			<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="contributor"
-				type="nl.knaw.dans.easy.domain.model.emd.types.Author" usage="optional"/>
+				type="nl.knaw.dans.pf.language.emd.types.Author" usage="optional"/>
 		</collection>
 
 	</mapping>

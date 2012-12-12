@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <binding>
-
+	  
 	<include path="emd/abstr/EmdTitle-binding.xml" />
 	<include path="emd/abstr/EmdCreator-binding.xml" />
 	<include path="emd/abstr/EmdSubject-binding.xml" />
 	<include path="emd/abstr/EmdDescription-binding.xml" />
 	<include path="emd/abstr/EmdPublisher-binding.xml" />
-	<include path="emd/abstr/EmdContributor-binding.xml" />
+	<include path="emd/abstr/EmdContributor-binding.xml" /> 
 	<include path="emd/abstr/EmdDate-binding.xml" />
 	<include path="emd/abstr/EmdType-binding.xml" />
 	<include path="emd/abstr/EmdFormat-binding.xml" />
@@ -19,11 +19,11 @@
 	<include path="emd/abstr/EmdAudience-binding.xml" />
 	<include path="emd/abstr/EmdOther-binding.xml" />
 
-	<mapping name="easymetadata" class="nl.knaw.dans.easy.domain.model.emd.EasyMetadataImpl"
+	<mapping name="easymetadata" class="nl.knaw.dans.pf.language.emd.EasyMetadataImpl"
 		ns="http://easy.dans.knaw.nl/easy/easymetadata/">
 
 		<namespace uri="http://easy.dans.knaw.nl/easy/easymetadata/" prefix="emd"/>
-
+  
 		<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/" name="title" field="emdTitle" usage="optional"/>
 		<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/" name="creator" field="emdCreator" usage="optional" />
 		<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/" name="subject" field="emdSubject" usage="optional" />
@@ -41,7 +41,7 @@
 		<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/" name="rights" field="emdRights" usage="optional" />
 		<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/" name="audience" field="emdAudience" usage="optional" />
 		<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/" name="other" field="emdOther" usage="optional" />
-
+		
 		<value style="attribute" ns="http://easy.dans.knaw.nl/easy/easymetadata/" name="version" get-method="getVersion" field="version"/>
 
 	</mapping>

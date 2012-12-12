@@ -14,11 +14,11 @@ import org.jibx.runtime.JiBXException;
 
 // ecco: CHECKSTYLE: OFF
 
-public abstract class AbstractJibxTest<T> extends TestHelper
+public abstract class AbstractJibxTest<T>
 {
 
     private static final int INDENT = 4;
-    private static final String TEMP = "src/test/resources/output/jibx/";
+    private static final String TEMP = "target/";
 
     private Class<T> type;
     private IBindingFactory bindingFactory;

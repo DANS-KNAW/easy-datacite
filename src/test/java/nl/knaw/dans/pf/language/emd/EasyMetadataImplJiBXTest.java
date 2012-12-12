@@ -33,8 +33,16 @@ public class EasyMetadataImplJiBXTest
 {
 
     private static final Logger logger = LoggerFactory.getLogger(EasyMetadataImplJiBXTest.class);
-    @SuppressWarnings("unused")
+    
     private boolean verbose = true;
+    
+    @Test
+    public void constructEmpty() throws Exception
+    {
+        EasyMetadata emd = new EasyMetadataImpl();
+        if (verbose)
+            System.err.println(emd.asXMLString(4));
+    }
 
     @Test
     public void testEtc() throws XMLException, SAXException, SchemaCreationException

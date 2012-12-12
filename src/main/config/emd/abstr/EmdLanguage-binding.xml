@@ -3,15 +3,15 @@
 
 	<include path="BasicString-binding.xml" />
 
-	<mapping class="nl.knaw.dans.easy.domain.model.emd.EmdLanguage"
+	<mapping class="nl.knaw.dans.pf.language.emd.EmdLanguage"
 		ns="http://easy.dans.knaw.nl/easy/easymetadata/" abstract="true">
 
 		<namespace uri="http://easy.dans.knaw.nl/easy/easymetadata/" prefix="emd" />
 		<namespace uri="http://purl.org/dc/elements/1.1/" prefix="dc" />
 
-		<collection field="dcLanguage" factory="nl.knaw.dans.easy.domain.model.emd.types.ListFactory.basicStringList">
+		<collection field="dcLanguage" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicStringList">
 			<structure ns="http://purl.org/dc/elements/1.1/" name="language"
-				type="nl.knaw.dans.easy.domain.model.emd.types.BasicString" usage="optional"/>
+				type="nl.knaw.dans.pf.language.emd.types.BasicString" usage="optional"/>
 		</collection>
 
 	</mapping>

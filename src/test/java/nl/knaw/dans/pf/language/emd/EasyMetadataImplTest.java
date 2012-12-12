@@ -14,35 +14,25 @@ import nl.knaw.dans.common.lang.repo.bean.DublinCoreMetadata;
 import nl.knaw.dans.common.lang.repo.bean.DublinCoreMetadata.PropertyName;
 import nl.knaw.dans.common.lang.xml.SchemaCreationException;
 import nl.knaw.dans.common.lang.xml.XMLException;
-import nl.knaw.dans.pf.language.emd.EasyMetadata;
-import nl.knaw.dans.pf.language.emd.EasyMetadataFactory;
-import nl.knaw.dans.pf.language.emd.EasyMetadataImpl;
-import nl.knaw.dans.pf.language.emd.EasyMetadataValidator;
-import nl.knaw.dans.pf.language.emd.EmdContainer;
-import nl.knaw.dans.pf.language.emd.EmdTitle;
-import nl.knaw.dans.pf.language.emd.EmdVisitor;
-import nl.knaw.dans.pf.language.emd.MDContainer;
-import nl.knaw.dans.pf.language.emd.Term;
 import nl.knaw.dans.pf.language.emd.exceptions.NoSuchTermException;
+import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.pf.language.emd.types.Author;
 import nl.knaw.dans.pf.language.emd.types.BasicDate;
 import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
 import nl.knaw.dans.pf.language.emd.types.BasicRemark;
 import nl.knaw.dans.pf.language.emd.types.BasicString;
 import nl.knaw.dans.pf.language.emd.types.EmdConstants;
+import nl.knaw.dans.pf.language.emd.types.EmdConstants.DateScheme;
 import nl.knaw.dans.pf.language.emd.types.InvalidLanguageTokenException;
 import nl.knaw.dans.pf.language.emd.types.IsoDate;
 import nl.knaw.dans.pf.language.emd.types.MetadataItem;
 import nl.knaw.dans.pf.language.emd.types.Relation;
 import nl.knaw.dans.pf.language.emd.types.Spatial;
-import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
-import nl.knaw.dans.pf.language.emd.types.EmdConstants.DateScheme;
 import nl.knaw.dans.pf.language.emd.types.Spatial.Point;
 import nl.knaw.dans.pf.language.emd.util.AbstractJibxTest;
 
 import org.jibx.runtime.JiBXException;
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.xml.sax.SAXException;
@@ -52,17 +42,11 @@ import org.xml.sax.SAXException;
 public class EasyMetadataImplTest extends AbstractJibxTest<EasyMetadataImpl>
 {
 
-    private static final String VERSION_TEST_FILE = "src/test/resources/jibx/EasyMetadataImpl_version_test.xml";
+    private static final String VERSION_TEST_FILE = "src/test/resources/EasyMetadataImpl_version_test.xml";
 
     public EasyMetadataImplTest()
     {
         super(EasyMetadataImpl.class);
-    }
-
-    @BeforeClass
-    public static void testStartInformation()
-    {
-        before(EasyMetadataImplTest.class);
     }
 
     //@Test // used in javadoc package description
@@ -281,13 +265,13 @@ public class EasyMetadataImplTest extends AbstractJibxTest<EasyMetadataImpl>
         Assert.assertSame(titles, emd.getEmdTitle().getDcTitle());
     }
 
-    @Test(expected = SchemaCreationException.class)
-    public void testVersion() throws IOException, JiBXException, SAXException, XMLException, SchemaCreationException
-    {
-        EasyMetadata emd = unmarshal(VERSION_TEST_FILE);
-        Assert.assertEquals("version read from file", emd.getVersion());
-        EasyMetadataValidator.instance().validate(emd);
-    }
+//    @Test(expected = SchemaCreationException.class)
+//    public void testVersion() throws IOException, JiBXException, SAXException, XMLException, SchemaCreationException
+//    {
+//        EasyMetadata emd = unmarshal(VERSION_TEST_FILE);
+//        Assert.assertEquals("version read from file", emd.getVersion());
+//        EasyMetadataValidator.instance().validate(emd);
+//    }
 
     @Test
     public void testDublinCoreMetadata() throws Exception

@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javassist.tools.rmi.ObjectNotFoundException;
 import nl.knaw.dans.common.jibx.AbstractTimestampedJiBXObject;
 import nl.knaw.dans.common.jibx.bean.JiBXDublinCoreMetadata;
 import nl.knaw.dans.common.lang.repo.bean.DublinCoreMetadata;

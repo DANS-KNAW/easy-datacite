@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <binding>
 
-	<format type="org.joda.time.DateTime" serializer="nl.knaw.dans.easy.util.Converter.serializeDateTime"
-		deserializer="nl.knaw.dans.easy.util.Converter.deSerializeDateTime" />
+	<format type="org.joda.time.DateTime" serializer="nl.knaw.dans.pf.language.emd.util.Converter.serializeDateTime"
+		deserializer="nl.knaw.dans.pf.language.emd.util.Converter.deSerializeDateTime" />
 
-	<mapping class="nl.knaw.dans.easy.domain.model.emd.types.IsoDate" ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/"
+	<mapping class="nl.knaw.dans.pf.language.emd.types.IsoDate" ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/"
 		abstract="true">
 
 		<namespace uri="http://easy.dans.knaw.nl/easy/easymetadata/eas/" prefix="eas" />

@@ -3,26 +3,26 @@
 
 	<include path="BasicString-binding.xml" />
 
-	<mapping class="nl.knaw.dans.easy.domain.model.emd.EmdFormat"
+	<mapping class="nl.knaw.dans.pf.language.emd.EmdFormat"
 		ns="http://easy.dans.knaw.nl/easy/easymetadata/" abstract="true">
 
 		<namespace uri="http://easy.dans.knaw.nl/easy/easymetadata/" prefix="emd" />
 		<namespace uri="http://purl.org/dc/elements/1.1/" prefix="dc" />
 		<namespace uri="http://purl.org/dc/terms/" prefix="dcterms" />
 
-		<collection field="dcFormat" factory="nl.knaw.dans.easy.domain.model.emd.types.ListFactory.basicStringList">
+		<collection field="dcFormat" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicStringList">
 			<structure ns="http://purl.org/dc/elements/1.1/" name="format"
-				type="nl.knaw.dans.easy.domain.model.emd.types.BasicString" usage="optional"/>
+				type="nl.knaw.dans.pf.language.emd.types.BasicString" usage="optional"/>
 		</collection>
 
-		<collection field="termsExtent" factory="nl.knaw.dans.easy.domain.model.emd.types.ListFactory.basicStringList">
+		<collection field="termsExtent" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicStringList">
 			<structure ns="http://purl.org/dc/terms/" name="extent"
-				type="nl.knaw.dans.easy.domain.model.emd.types.BasicString" usage="optional"/>
+				type="nl.knaw.dans.pf.language.emd.types.BasicString" usage="optional"/>
 		</collection>
 
-		<collection field="termsMedium" factory="nl.knaw.dans.easy.domain.model.emd.types.ListFactory.basicStringList">
+		<collection field="termsMedium" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicStringList">
 			<structure ns="http://purl.org/dc/terms/" name="medium"
-				type="nl.knaw.dans.easy.domain.model.emd.types.BasicString" usage="optional"/>
+				type="nl.knaw.dans.pf.language.emd.types.BasicString" usage="optional"/>
 		</collection>
 
 
