@@ -22,6 +22,75 @@
 			<version>${project.parent.version}</version>
 		</dependency>
 		
+		<dependency>
+			<groupId>nl.knaw.dans.common</groupId>
+			<artifactId>dans-jibx</artifactId>
+			<version>2.x-SNAPSHOT</version>
+		</dependency>
+		
 	</dependencies>
+	
+	<build>
+
+		<plugins>
+			<plugin>
+				<groupId>org.jibx</groupId>
+				<artifactId>maven-jibx-plugin</artifactId>
+				<version>${jibx.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>bind</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<directory>src/main/config</directory>
+					<includes>
+						<includes>*-binding.xml</includes>
+					</includes>
+					<verbose>true</verbose>
+				</configuration>
+			</plugin>
+		</plugins>
+
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.jibx</groupId>
+										<artifactId>
+											maven-jibx-plugin
+										</artifactId>
+										<versionRange>
+											[1.1.6a,)
+										</versionRange>
+										<goals>
+											<goal>bind</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute>
+											<runOnIncremental>true</runOnIncremental>
+										</execute>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+	</build>
 	
 </project>

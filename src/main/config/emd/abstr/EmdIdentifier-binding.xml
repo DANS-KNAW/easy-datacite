@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<include path="BasicIdentifier-binding.xml" />
+
+	<mapping class="nl.knaw.dans.easy.domain.model.emd.EmdIdentifier"
+		ns="http://easy.dans.knaw.nl/easy/easymetadata/" abstract="true">
+
+		<namespace uri="http://easy.dans.knaw.nl/easy/easymetadata/" prefix="emd" />
+		<namespace uri="http://purl.org/dc/elements/1.1/" prefix="dc" />
+
+		<collection field="dcIdentifier" factory="nl.knaw.dans.easy.domain.model.emd.types.ListFactory.basicIdentifierList">
+			<structure ns="http://purl.org/dc/elements/1.1/" name="identifier"
+				type="nl.knaw.dans.easy.domain.model.emd.types.BasicIdentifier" usage="optional"/>
+		</collection>
+
+	</mapping>
+
+</binding>
