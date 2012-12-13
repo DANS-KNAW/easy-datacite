@@ -20,7 +20,7 @@
         
         <structure name="etc" ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/">
         <collection field="propertyListCollection" type="java.util.ArrayList" usage="optional">
-            <structure type="nl.knaw.dans.pf.language.emd.util.PropertyList" name="property-list"/>
+            <structure type="nl.knaw.dans.pf.language.emd.PropertyList" name="property-list"/>
         </collection>
         </structure>
         

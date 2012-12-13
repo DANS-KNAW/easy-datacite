@@ -1,4 +1,4 @@
-package nl.knaw.dans.pf.language.emd.util;
+package nl.knaw.dans.pf.language.emd;
 
 import java.io.Serializable;
 import java.util.ArrayList;

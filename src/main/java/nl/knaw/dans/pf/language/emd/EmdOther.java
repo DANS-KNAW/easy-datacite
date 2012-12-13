@@ -6,7 +6,6 @@ import java.util.List;
 
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific;
 import nl.knaw.dans.pf.language.emd.types.BasicRemark;
-import nl.knaw.dans.pf.language.emd.util.PropertyList;
 
 /**
  * Container for anything that can't be expressed in the Dublin Core Metadata Element Set, nor in the additional

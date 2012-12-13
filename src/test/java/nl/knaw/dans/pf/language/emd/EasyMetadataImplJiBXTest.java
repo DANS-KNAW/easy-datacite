@@ -18,7 +18,6 @@ import nl.knaw.dans.common.lang.xml.XMLException;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
 import nl.knaw.dans.pf.language.emd.types.EmdConstants;
-import nl.knaw.dans.pf.language.emd.util.PropertyList;
 import nl.knaw.dans.pf.language.emd.validation.EasyMetadataValidator;
 
 import org.joda.time.DateTime;
