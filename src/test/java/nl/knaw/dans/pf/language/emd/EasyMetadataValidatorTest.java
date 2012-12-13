@@ -11,7 +11,7 @@ import nl.knaw.dans.l.xml.exc.ValidatorException;
 import nl.knaw.dans.l.xml.exc.XMLException;
 import nl.knaw.dans.l.xml.validation.XMLErrorHandler;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
-import nl.knaw.dans.pf.language.emd.validation.EasyMetadataValidator;
+import nl.knaw.dans.pf.language.emd.validation.EMDValidator;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -28,10 +28,10 @@ public class EasyMetadataValidatorTest
     public void testValidate() throws XMLException, SAXException, SchemaCreationException
     {
         EasyMetadata emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
-        XMLErrorHandler result = EasyMetadataValidator.instance().validate(emd);
+        XMLErrorHandler result = EMDValidator.instance().validate(emd);
         Assert.assertTrue(result.passed());
         //
-        XMLErrorHandler result2 = EasyMetadataValidator.instance().validate(emd);
+        XMLErrorHandler result2 = EMDValidator.instance().validate(emd);
         Assert.assertTrue(result2.passed());
         Assert.assertNotSame(result, result2);
     }
@@ -43,7 +43,7 @@ public class EasyMetadataValidatorTest
         try
         {
             fis = new FileInputStream(VALID_XML);
-            XMLErrorHandler result = EasyMetadataValidator.instance().validate(fis, EasyMetadataValidator.VERSION_0_1);
+            XMLErrorHandler result = EMDValidator.instance().validate(fis, EMDValidator.VERSION_0_1);
             Assert.assertTrue(result.passed());
         }
         finally
@@ -64,7 +64,7 @@ public class EasyMetadataValidatorTest
         {
             fis = new FileInputStream(INVALID_0_XML);
 
-            XMLErrorHandler result = EasyMetadataValidator.instance().validate(fis, EasyMetadataValidator.VERSION_0_1);
+            XMLErrorHandler result = EMDValidator.instance().validate(fis, EMDValidator.VERSION_0_1);
 
             Assert.assertFalse(result.passed());
             Assert.assertEquals(9, result.getNotificationCount());
@@ -85,21 +85,21 @@ public class EasyMetadataValidatorTest
     public void testValidateString() throws ValidatorException, SAXException, SchemaCreationException
     {
         String xmlString = "<emd:easymetadata xmlns:emd=\"http://easy.dans.knaw.nl/easy/easymetadata/\"/>";
-        XMLErrorHandler result = EasyMetadataValidator.instance().validate(xmlString, EasyMetadataValidator.VERSION_0_1);
+        XMLErrorHandler result = EMDValidator.instance().validate(xmlString, EMDValidator.VERSION_0_1);
         Assert.assertFalse(result.passed());
         //        Assert.assertEquals("cvc-complex-type.4: Attribute 'version' must appear on element 'emd:easymetadata'.",
         //                result.getErrors().get(0).getMessage());
 
         xmlString = "<emd:easymetadata xmlns:emd=\"http://easy.dans.knaw.nl/easy/easymetadata/\" emd:version=\"0.1\"/>";
-        result = EasyMetadataValidator.instance().validate(xmlString, EasyMetadataValidator.VERSION_0_1);
+        result = EMDValidator.instance().validate(xmlString, EMDValidator.VERSION_0_1);
         Assert.assertTrue(result.passed());
     }
 
     @Test
     public void testSchema() throws ValidatorException, SchemaCreationException
     {
-        Schema schemaGrammer = EasyMetadataValidator.instance().getSchema(EasyMetadataValidator.VERSION_0_1);
-        Schema schemaGrammer2 = EasyMetadataValidator.instance().getSchema(EasyMetadataValidator.VERSION_0_1);
+        Schema schemaGrammer = EMDValidator.instance().getSchema(EMDValidator.VERSION_0_1);
+        Schema schemaGrammer2 = EMDValidator.instance().getSchema(EMDValidator.VERSION_0_1);
         Assert.assertSame(schemaGrammer, schemaGrammer2);
         Assert.assertNotSame(schemaGrammer.newValidator(), schemaGrammer2.newValidator());
     }

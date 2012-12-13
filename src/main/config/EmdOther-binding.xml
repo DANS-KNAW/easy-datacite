@@ -5,8 +5,8 @@
 	<include path="ApplicationSpecific-binding.xml" />
 	<include path="propertyList-binding.xml" />
 
-	<mapping class="nl.knaw.dans.pf.language.emd.EmdOther"
-		ns="http://easy.dans.knaw.nl/easy/easymetadata/" abstract="true">
+	<mapping name="other" class="nl.knaw.dans.pf.language.emd.EmdOther"
+		ns="http://easy.dans.knaw.nl/easy/easymetadata/">
 
 		<namespace uri="http://easy.dans.knaw.nl/easy/easymetadata/" prefix="emd" />
 		<namespace uri="http://easy.dans.knaw.nl/easy/easymetadata/eas/" prefix="eas" />

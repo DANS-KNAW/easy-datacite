@@ -86,5 +86,10 @@ public class EmdOther extends AbstractEmdContainer
     {
         this.propertyListCollection = propertyListCollection;
     }
+    
+    public void add(PropertyList propertyList)
+    {
+        getPropertyListCollection().add(propertyList);
+    }
 
 }

@@ -31,14 +31,32 @@ public class EmdHelper
         for (MDContainer mdContainer : MDContainer.values())
         {
             EmdContainer emdContainer = emd.getContainer(mdContainer, false);
-            // LOGGER.debug("populating " + mdContainer.toString() + " [term count=" + emdContainer.getTerms().size() + "] (" + emdContainer.getClass().getName() + ")");
-            for (Term term : emdContainer.getTerms())
-            {
-                List<?> list = emdContainer.get(term);
-                fill(list, term, repeatFill);
-            }
+            
+            populate(repeatFill, emdContainer);
         }
         
+    }
+
+    public static void populate(int repeatFill, EmdContainer emdContainer) throws URISyntaxException
+    {
+        for (Term term : emdContainer.getTerms())
+        {
+            List<?> list = emdContainer.get(term);
+            fill(list, term, repeatFill);
+        }
+        if (emdContainer instanceof EmdOther)
+        {
+            EmdOther emdOther = (EmdOther) emdContainer;
+            
+            for (int i = 0; i < repeatFill; i++)
+            {
+                PropertyList propertyList = new PropertyList();
+                propertyList.setComment("PropertyList " + i);
+                propertyList.addProperty("key 1", "value 1");
+                propertyList.addProperty("key 2", "value 2");
+                emdOther.add(propertyList);
+            }
+        }
     }
 
     @SuppressWarnings( {"rawtypes", "unchecked"})

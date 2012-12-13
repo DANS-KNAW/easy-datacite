@@ -4,8 +4,8 @@
 	<include path="BasicIdentifier-binding.xml" />
 	<include path="Relation-binding.xml" />
 
-	<mapping class="nl.knaw.dans.pf.language.emd.EmdRelation"
-		ns="http://easy.dans.knaw.nl/easy/easymetadata/" abstract="true">
+	<mapping name="relation" class="nl.knaw.dans.pf.language.emd.EmdRelation"
+		ns="http://easy.dans.knaw.nl/easy/easymetadata/">
 
 		<namespace uri="http://easy.dans.knaw.nl/easy/easymetadata/" prefix="emd" />
 		<namespace uri="http://purl.org/dc/elements/1.1/" prefix="dc" />

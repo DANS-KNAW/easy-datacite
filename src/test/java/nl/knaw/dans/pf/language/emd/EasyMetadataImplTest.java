@@ -178,7 +178,6 @@ public class EasyMetadataImplTest
             //                }
         }
 
-        System.out.println(dc.asXMLString(4));
     }
 
     @Test

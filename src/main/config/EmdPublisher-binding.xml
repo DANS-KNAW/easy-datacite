@@ -3,8 +3,8 @@
 
 	<include path="BasicString-binding.xml" />
 
-	<mapping class="nl.knaw.dans.pf.language.emd.EmdPublisher"
-		ns="http://easy.dans.knaw.nl/easy/easymetadata/" abstract="true">
+	<mapping name="publisher" class="nl.knaw.dans.pf.language.emd.EmdPublisher"
+		ns="http://easy.dans.knaw.nl/easy/easymetadata/">
 
 		<namespace uri="http://easy.dans.knaw.nl/easy/easymetadata/" prefix="emd" />
 		<namespace uri="http://purl.org/dc/elements/1.1/" prefix="dc" />

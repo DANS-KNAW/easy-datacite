@@ -11,7 +11,7 @@ import nl.knaw.dans.pf.language.emd.types.MetadataItem;
  *
  * @author ecco
  */
-public interface EmdContainer extends Serializable
+public interface EmdContainer extends EmdBean, Serializable
 {
 
     /**

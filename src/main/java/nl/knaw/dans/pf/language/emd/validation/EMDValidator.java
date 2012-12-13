@@ -19,7 +19,7 @@ import nl.knaw.dans.pf.language.emd.binding.EmdMarshaller;
  *
  * @author ecco
  */
-public final class EasyMetadataValidator extends AbstractValidator
+public final class EMDValidator extends AbstractValidator
 {
 
     /**
@@ -29,17 +29,17 @@ public final class EasyMetadataValidator extends AbstractValidator
 
     public static final String SCHEMA_LOCATION = "http://easy.dans.knaw.nl/schemas/md/emd/2012/11/emd.xsd";
 
-    private static final EasyMetadataValidator instance = new EasyMetadataValidator();
+    private static final EMDValidator instance = new EMDValidator();
 
     private String schemaLocation;
 
     // singleton
-    private EasyMetadataValidator()
+    private EMDValidator()
     {
 
     }
 
-    public static EasyMetadataValidator instance()
+    public static EMDValidator instance()
     {
         return instance;
     }

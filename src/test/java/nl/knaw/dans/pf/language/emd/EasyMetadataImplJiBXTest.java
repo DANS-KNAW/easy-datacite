@@ -17,7 +17,7 @@ import nl.knaw.dans.pf.language.emd.binding.EmdMarshaller;
 import nl.knaw.dans.pf.language.emd.binding.EmdUnmarshaller;
 import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
 import nl.knaw.dans.pf.language.emd.types.EmdConstants;
-import nl.knaw.dans.pf.language.emd.validation.EasyMetadataValidator;
+import nl.knaw.dans.pf.language.emd.validation.EMDValidator;
 
 import org.joda.time.DateTime;
 import org.junit.Test;
@@ -29,7 +29,7 @@ public class EasyMetadataImplJiBXTest
 
     private static final Logger logger = LoggerFactory.getLogger(EasyMetadataImplJiBXTest.class);
 
-    private boolean verbose = true;
+    private boolean verbose = false;
 
     @Test
     public void constructEmpty() throws Exception
@@ -53,9 +53,11 @@ public class EasyMetadataImplJiBXTest
         propList.addProperty("aipId", "abcde12345");
 
         String xmlString = new EmdMarshaller(emd).getXmlString();
-        logger.debug("\n" + xmlString);
         
-        XMLErrorHandler handler = EasyMetadataValidator.instance().validate(xmlString, null);
+        if (verbose)
+            logger.debug("\n" + xmlString);
+        
+        XMLErrorHandler handler = EMDValidator.instance().validate(xmlString, null);
         assertTrue(handler.passed());
     }
 

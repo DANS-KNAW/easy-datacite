@@ -24,23 +24,23 @@
 
 		<namespace uri="http://easy.dans.knaw.nl/easy/easymetadata/" prefix="emd"/>
   
-		<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/" name="title" field="emdTitle" usage="optional"/>
-		<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/" name="creator" field="emdCreator" usage="optional" />
-		<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/" name="subject" field="emdSubject" usage="optional" />
-		<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/" name="description" field="emdDescription" usage="optional" />
-		<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/" name="publisher" field="emdPublisher" usage="optional" />
-		<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/" name="contributor" field="emdContributor" usage="optional" />
-		<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/" name="date" field="emdDate" usage="optional" />
-		<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/" name="type" field="emdType" usage="optional" />
-		<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/" name="format" field="emdFormat" usage="optional" />
-		<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/" name="identifier" field="emdIdentifier" usage="optional" />
-		<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/" name="source" field="emdSource" usage="optional" />
-		<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/" name="language" field="emdLanguage" usage="optional" />
-		<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/" name="relation" field="emdRelation" usage="optional" />
-		<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/" name="coverage" field="emdCoverage" usage="optional" />
-		<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/" name="rights" field="emdRights" usage="optional" />
-		<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/" name="audience" field="emdAudience" usage="optional" />
-		<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/" name="other" field="emdOther" usage="optional" />
+		<structure type="nl.knaw.dans.pf.language.emd.EmdTitle" field="emdTitle" usage="optional"/>
+		<structure type="nl.knaw.dans.pf.language.emd.EmdCreator" field="emdCreator" usage="optional" />
+		<structure type="nl.knaw.dans.pf.language.emd.EmdSubject" field="emdSubject" usage="optional" />
+		<structure type="nl.knaw.dans.pf.language.emd.EmdDescription" field="emdDescription" usage="optional" />
+		<structure type="nl.knaw.dans.pf.language.emd.EmdPublisher" field="emdPublisher" usage="optional" />
+		<structure type="nl.knaw.dans.pf.language.emd.EmdContributor" field="emdContributor" usage="optional" />
+		<structure type="nl.knaw.dans.pf.language.emd.EmdDate" field="emdDate" usage="optional" />
+		<structure type="nl.knaw.dans.pf.language.emd.EmdType" field="emdType" usage="optional" />
+		<structure type="nl.knaw.dans.pf.language.emd.EmdFormat" field="emdFormat" usage="optional" />
+		<structure type="nl.knaw.dans.pf.language.emd.EmdIdentifier" field="emdIdentifier" usage="optional" />
+		<structure type="nl.knaw.dans.pf.language.emd.EmdSource" field="emdSource" usage="optional" />
+		<structure type="nl.knaw.dans.pf.language.emd.EmdLanguage" field="emdLanguage" usage="optional" />
+		<structure type="nl.knaw.dans.pf.language.emd.EmdRelation" field="emdRelation" usage="optional" />
+		<structure type="nl.knaw.dans.pf.language.emd.EmdCoverage" field="emdCoverage" usage="optional" />
+		<structure type="nl.knaw.dans.pf.language.emd.EmdRights" field="emdRights" usage="optional" />
+		<structure type="nl.knaw.dans.pf.language.emd.EmdAudience" field="emdAudience" usage="optional" />
+		<structure type="nl.knaw.dans.pf.language.emd.EmdOther" field="emdOther" usage="optional" />
 		
 		<value style="attribute" ns="http://easy.dans.knaw.nl/easy/easymetadata/" name="version" get-method="getVersion" field="version"/>
 

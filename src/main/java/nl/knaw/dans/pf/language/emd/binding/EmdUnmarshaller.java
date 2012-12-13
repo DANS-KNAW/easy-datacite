@@ -10,5 +10,6 @@ public class EmdUnmarshaller<T extends EmdBean> extends JiBXUnmarshaller<T>
     {
         super(EmdMarshaller.BINDING_NAME, beanClass);
     }
+    
 
 }
