@@ -42,8 +42,6 @@ import org.xml.sax.SAXException;
 public class EasyMetadataImplTest extends AbstractJibxTest<EasyMetadataImpl>
 {
 
-    private static final String VERSION_TEST_FILE = "src/test/resources/EasyMetadataImpl_version_test.xml";
-
     public EasyMetadataImplTest()
     {
         super(EasyMetadataImpl.class);

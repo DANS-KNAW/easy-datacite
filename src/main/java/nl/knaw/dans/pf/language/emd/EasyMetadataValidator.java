@@ -1,6 +1,5 @@
 package nl.knaw.dans.pf.language.emd;
 
-import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -22,6 +21,8 @@ public final class EasyMetadataValidator extends AbstractXMLBeanValidator<EasyMe
     public static final String SCHEMA_LOCATION = "http://easy.dans.knaw.nl/schemas/md/emd/2012/11/emd.xsd";
 
     private static final EasyMetadataValidator instance = new EasyMetadataValidator();
+    
+    private String schemaLocation;
 
     // singleton
     private EasyMetadataValidator()
@@ -34,19 +35,36 @@ public final class EasyMetadataValidator extends AbstractXMLBeanValidator<EasyMe
         return instance;
     }
 
+    /**
+     * Parameter <code>version</code> is silently ignored.
+     */
     @Override
     public URL getSchemaURL(final String version)
     {
         URL schemaURL;
         try
         {
-            schemaURL = new URL(SCHEMA_LOCATION);
+            schemaURL = new URL(getSchemaLocation());
         }
         catch (MalformedURLException e)
         {
             throw new RuntimeException(e);
         }
         return schemaURL;
+    }
+
+    public String getSchemaLocation()
+    {
+        if (schemaLocation == null)
+        {
+            schemaLocation = SCHEMA_LOCATION;
+        }
+        return schemaLocation;
+    }
+
+    public void setSchemaLocation(String schemaLocation)
+    {
+        this.schemaLocation = schemaLocation;
     }
 
 }

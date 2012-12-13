@@ -18,30 +18,20 @@ import nl.knaw.dans.common.lang.xml.SchemaCreationException;
 import nl.knaw.dans.common.lang.xml.ValidatorException;
 import nl.knaw.dans.common.lang.xml.XMLErrorHandler;
 import nl.knaw.dans.common.lang.xml.XMLException;
-import nl.knaw.dans.pf.language.emd.EasyMetadata;
-import nl.knaw.dans.pf.language.emd.EasyMetadataImpl;
-import nl.knaw.dans.pf.language.emd.EasyMetadataValidator;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
-import nl.knaw.dans.pf.language.emd.util.TestHelper;
 
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
 // ecco: CHECKSTYLE: OFF
 
-public class EasyMetadataValidatorTest extends TestHelper
+public class EasyMetadataValidatorTest
 {
 
     private static final String VALID_XML = "src/test/resources/xml-validator/valid-emd.xml";
     private static final String INVALID_0_XML = "src/test/resources/xml-validator/invalid-emd0.xml";
 
-    @BeforeClass
-    public static void testStartInformation()
-    {
-        before(EasyMetadataValidatorTest.class);
-    }
 
     @Test
     public void testValidate() throws XMLException, SAXException, SchemaCreationException
@@ -121,30 +111,6 @@ public class EasyMetadataValidatorTest extends TestHelper
         Schema schemaGrammer2 = EasyMetadataValidator.instance().getSchema(EasyMetadataValidator.VERSION_0_1);
         Assert.assertSame(schemaGrammer, schemaGrammer2);
         Assert.assertNotSame(schemaGrammer.newValidator(), schemaGrammer2.newValidator());
-    }
-
-    @Test(expected = SchemaCreationException.class)
-    public void testUnknownVersion() throws ValidatorException, SchemaCreationException
-    {
-        EasyMetadataValidator.instance().getSchema("foo");
-    }
-
-    @Test
-    public void validateVesaXml() throws Exception
-    {
-        File file = new File("src/test/resources/xml-validator/vesa.xml");
-        XMLErrorHandler handler = EasyMetadataValidator.instance().validate(file, EasyMetadataValidator.VERSION_0_1);
-        assertTrue(handler.passed());
-
-        EasyMetadata emd = (EasyMetadata) JiBXObjectFactory.unmarshal(EasyMetadataImpl.class, file);
-        String audience = emd.getEmdAudience().getDisciplines().get(0).getValue();
-        new DmoStoreId(audience);
-
-        assertEquals(AccessCategory.OPEN_ACCESS, emd.getEmdRights().getAccessCategory());
-
-        String uri = emd.getEmdSource().getDcSource().get(0).getValue();
-        new URI(uri.trim());
-
     }
 
 }

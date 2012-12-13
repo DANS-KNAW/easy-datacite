@@ -47,6 +47,7 @@ public class EmdHelper
         }
     }
 
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public static void fill(List list, Term term, int... times) throws URISyntaxException
     {
         if (term.getType() == null)
