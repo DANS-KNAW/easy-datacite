@@ -1,4 +1,4 @@
-package nl.knaw.dans.pf.language.emd;
+package nl.knaw.dans.pf.language.emd.bean;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
+import nl.knaw.dans.pf.language.emd.Term;
+import nl.knaw.dans.pf.language.emd.Term.Name;
+import nl.knaw.dans.pf.language.emd.Term.Namespace;
 import nl.knaw.dans.pf.language.emd.types.BasicString;
 import nl.knaw.dans.pf.language.emd.types.EmdScheme;
 

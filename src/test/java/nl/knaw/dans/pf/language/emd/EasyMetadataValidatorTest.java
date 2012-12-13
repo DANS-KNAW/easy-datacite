@@ -1,23 +1,16 @@
 package nl.knaw.dans.pf.language.emd;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
 
 import javax.xml.validation.Schema;
 
-import nl.knaw.dans.common.jibx.JiBXObjectFactory;
-import nl.knaw.dans.common.lang.dataset.AccessCategory;
-import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.xml.SchemaCreationException;
 import nl.knaw.dans.common.lang.xml.ValidatorException;
 import nl.knaw.dans.common.lang.xml.XMLErrorHandler;
 import nl.knaw.dans.common.lang.xml.XMLException;
+import nl.knaw.dans.pf.language.emd.bean.EasyMetadataImpl;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 
 import org.junit.Assert;

@@ -3,7 +3,7 @@ package nl.knaw.dans.pf.language.emd;
 import java.util.LinkedList;
 import java.util.List;
 
-import nl.knaw.dans.pf.language.emd.EmdCreator;
+import nl.knaw.dans.pf.language.emd.bean.EmdCreator;
 import nl.knaw.dans.pf.language.emd.types.Author;
 import nl.knaw.dans.pf.language.emd.types.BasicString;
 

@@ -1,10 +1,13 @@
-package nl.knaw.dans.pf.language.emd;
+package nl.knaw.dans.pf.language.emd.bean;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import nl.knaw.dans.pf.language.emd.Term;
+import nl.knaw.dans.pf.language.emd.Term.Name;
+import nl.knaw.dans.pf.language.emd.Term.Namespace;
 import nl.knaw.dans.pf.language.emd.types.BasicString;
 
 /**

@@ -1,7 +1,7 @@
 package nl.knaw.dans.pf.language.emd;
 
-import nl.knaw.dans.pf.language.emd.EmdDate;
 import nl.knaw.dans.pf.language.emd.Term;
+import nl.knaw.dans.pf.language.emd.bean.EmdDate;
 import nl.knaw.dans.pf.language.emd.types.BasicDate;
 import nl.knaw.dans.pf.language.emd.types.IsoDate;
 

@@ -7,6 +7,24 @@ import java.util.Set;
 
 import nl.knaw.dans.common.lang.repo.MetadataUnitXMLBean;
 import nl.knaw.dans.common.lang.repo.bean.DublinCoreMetadata;
+import nl.knaw.dans.pf.language.emd.bean.EmdAudience;
+import nl.knaw.dans.pf.language.emd.bean.EmdContainer;
+import nl.knaw.dans.pf.language.emd.bean.EmdContributor;
+import nl.knaw.dans.pf.language.emd.bean.EmdCoverage;
+import nl.knaw.dans.pf.language.emd.bean.EmdCreator;
+import nl.knaw.dans.pf.language.emd.bean.EmdDate;
+import nl.knaw.dans.pf.language.emd.bean.EmdDescription;
+import nl.knaw.dans.pf.language.emd.bean.EmdFormat;
+import nl.knaw.dans.pf.language.emd.bean.EmdIdentifier;
+import nl.knaw.dans.pf.language.emd.bean.EmdLanguage;
+import nl.knaw.dans.pf.language.emd.bean.EmdOther;
+import nl.knaw.dans.pf.language.emd.bean.EmdPublisher;
+import nl.knaw.dans.pf.language.emd.bean.EmdRelation;
+import nl.knaw.dans.pf.language.emd.bean.EmdRights;
+import nl.knaw.dans.pf.language.emd.bean.EmdSource;
+import nl.knaw.dans.pf.language.emd.bean.EmdSubject;
+import nl.knaw.dans.pf.language.emd.bean.EmdTitle;
+import nl.knaw.dans.pf.language.emd.bean.EmdType;
 import nl.knaw.dans.pf.language.emd.exceptions.NoSuchTermException;
 import nl.knaw.dans.pf.language.emd.types.MetadataItem;
 
