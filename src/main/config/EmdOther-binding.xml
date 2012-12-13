@@ -3,7 +3,7 @@
 
 	<include path="BasicRemark-binding.xml" />
 	<include path="ApplicationSpecific-binding.xml" />
-	<include path="../../propertyList-binding.xml" />
+	<include path="propertyList-binding.xml" />
 
 	<mapping class="nl.knaw.dans.pf.language.emd.EmdOther"
 		ns="http://easy.dans.knaw.nl/easy/easymetadata/" abstract="true">

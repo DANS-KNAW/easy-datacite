@@ -5,9 +5,6 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Locale;
 
-import nl.knaw.dans.pf.language.emd.EasyMetadata;
-import nl.knaw.dans.pf.language.emd.MDContainer;
-import nl.knaw.dans.pf.language.emd.Term;
 import nl.knaw.dans.pf.language.emd.types.Author;
 import nl.knaw.dans.pf.language.emd.types.BasicDate;
 import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
@@ -29,8 +26,6 @@ public class EmdHelper
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(EasyMetadataImpl.class);
 
-    private static final int TIMES = 2;
-
     public static void populate(int repeatFill, EasyMetadata emd) throws URISyntaxException
     {
         for (MDContainer mdContainer : MDContainer.values())
@@ -43,28 +38,21 @@ public class EmdHelper
                 fill(list, term, repeatFill);
             }
         }
+        
     }
 
     @SuppressWarnings( {"rawtypes", "unchecked"})
-    public static void fill(List list, Term term, int... times) throws URISyntaxException
+    public static void fill(List list, Term term, int times) throws URISyntaxException
     {
         if (term.getType() == null)
         {
             LOGGER.warn("No type set for " + term.toString());
             return;
         }
-        int repeat;
-        if (times.length == 0)
-        {
-            repeat = TIMES;
-        }
-        else
-        {
-            repeat = times[0];
-        }
+        
         if (term.getType().equals(BasicString.class))
         {
-            for (int i = 0; i < repeat; i++)
+            for (int i = 0; i < times; i++)
             {
                 BasicString bs = getBasicString(term, i);
                 list.add(bs);
@@ -72,7 +60,7 @@ public class EmdHelper
         }
         else if (term.getType().equals(Author.class))
         {
-            for (int i = 0; i < repeat; i++)
+            for (int i = 0; i < times; i++)
             {
                 Author author = new Author();
                 author.setEntityId("123" + i);
@@ -81,12 +69,13 @@ public class EmdHelper
                 author.setPrefix("van");
                 author.setSurname(term.getName().termName + " " + i);
                 author.setTitle("Dr.");
+                author.setOrganization("DANS");
                 list.add(author);
             }
         }
         else if (term.getType().equals(BasicDate.class))
         {
-            for (int i = 0; i < repeat; i++)
+            for (int i = 0; i < times; i++)
             {
                 BasicDate bdate = new BasicDate("maart '98");
                 bdate.setLanguage(new Locale("en", "US"));
@@ -96,7 +85,7 @@ public class EmdHelper
         }
         else if (term.getType().equals(BasicIdentifier.class))
         {
-            for (int i = 0; i < repeat; i++)
+            for (int i = 0; i < times; i++)
             {
                 BasicIdentifier bid = getBasicIdentifier(i);
                 bid.setSchemeId("basic.identifier.bla" + i);
@@ -105,7 +94,7 @@ public class EmdHelper
         }
         else if (term.getType().equals(BasicRemark.class))
         {
-            for (int i = 0; i < repeat; i++)
+            for (int i = 0; i < times; i++)
             {
                 BasicRemark remark = new BasicRemark(term.getName().termName + " " + i);
                 remark.setAuthor("Author von Bar");
@@ -117,7 +106,7 @@ public class EmdHelper
         }
         else if (term.getType().equals(IsoDate.class))
         {
-            for (int i = 0; i < repeat; i++)
+            for (int i = 0; i < times; i++)
             {
                 IsoDate idate = new IsoDate();
                 idate.setSchemeId("iso.date.bla" + i);
@@ -126,7 +115,7 @@ public class EmdHelper
         }
         else if (term.getType().equals(Relation.class))
         {
-            for (int i = 0; i < repeat; i++)
+            for (int i = 0; i < times; i++)
             {
                 Relation rel = new Relation(getBasicString(term, i));
                 rel.setEmphasis(i % 2 == 0);
@@ -137,7 +126,7 @@ public class EmdHelper
         }
         else if (term.getType().equals(Spatial.class))
         {
-            for (int i = 0; i < repeat; i++)
+            for (int i = 0; i < times; i++)
             {
                 Spatial spat = new Spatial();
                 spat.setPlace(getBasicString(term, i));

@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <binding>
 	  
-	<include path="emd/abstr/EmdTitle-binding.xml" />
-	<include path="emd/abstr/EmdCreator-binding.xml" />
-	<include path="emd/abstr/EmdSubject-binding.xml" />
-	<include path="emd/abstr/EmdDescription-binding.xml" />
-	<include path="emd/abstr/EmdPublisher-binding.xml" />
-	<include path="emd/abstr/EmdContributor-binding.xml" /> 
-	<include path="emd/abstr/EmdDate-binding.xml" />
-	<include path="emd/abstr/EmdType-binding.xml" />
-	<include path="emd/abstr/EmdFormat-binding.xml" />
-	<include path="emd/abstr/EmdIdentifier-binding.xml" />
-	<include path="emd/abstr/EmdSource-binding.xml" />
-	<include path="emd/abstr/EmdLanguage-binding.xml" />
-	<include path="emd/abstr/EmdRelation-binding.xml" />
-	<include path="emd/abstr/EmdCoverage-binding.xml" />
-	<include path="emd/abstr/EmdRights-binding.xml" />
-	<include path="emd/abstr/EmdAudience-binding.xml" />
-	<include path="emd/abstr/EmdOther-binding.xml" />
+	<include path="EmdTitle-binding.xml" />
+	<include path="EmdCreator-binding.xml" />
+	<include path="EmdSubject-binding.xml" />
+	<include path="EmdDescription-binding.xml" />
+	<include path="EmdPublisher-binding.xml" />
+	<include path="EmdContributor-binding.xml" /> 
+	<include path="EmdDate-binding.xml" />
+	<include path="EmdType-binding.xml" />
+	<include path="EmdFormat-binding.xml" />
+	<include path="EmdIdentifier-binding.xml" />
+	<include path="EmdSource-binding.xml" />
+	<include path="EmdLanguage-binding.xml" />
+	<include path="EmdRelation-binding.xml" />
+	<include path="EmdCoverage-binding.xml" />
+	<include path="EmdRights-binding.xml" />
+	<include path="EmdAudience-binding.xml" />
+	<include path="EmdOther-binding.xml" />
 
 	<mapping name="easymetadata" class="nl.knaw.dans.pf.language.emd.EasyMetadataImpl"
 		ns="http://easy.dans.knaw.nl/easy/easymetadata/">
