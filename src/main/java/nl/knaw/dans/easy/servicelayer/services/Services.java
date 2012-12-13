@@ -42,12 +42,12 @@ public class Services
     }
 
     /**
-     * Unlock Services.
+     * NO PUBLIC METHOD! ONLY FOR TESTS! Unlock Data. 
      */
-    public void unlock()
+    public static void unlock()
     {
         LOCKED = false;
-        logger.debug(this + " has been unlocked.");
+        logger.debug(Services.class.getName() + " has been unlocked.");
     }
 
     public static DepositService getDepositService()
