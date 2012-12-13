@@ -1,11 +1,8 @@
-package nl.knaw.dans.pf.language.emd.bean;
+package nl.knaw.dans.pf.language.emd;
 
 import java.io.Serializable;
 import java.util.List;
 
-import nl.knaw.dans.pf.language.emd.EasyMetadata;
-import nl.knaw.dans.pf.language.emd.Term;
-import nl.knaw.dans.pf.language.emd.Term.Name;
 import nl.knaw.dans.pf.language.emd.exceptions.NoSuchTermException;
 import nl.knaw.dans.pf.language.emd.types.MetadataItem;
 

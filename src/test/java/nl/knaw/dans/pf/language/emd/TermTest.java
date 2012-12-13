@@ -6,13 +6,12 @@ import java.util.List;
 import java.util.Map;
 
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
-import nl.knaw.dans.pf.language.emd.EasyMetadataFactory;
 import nl.knaw.dans.pf.language.emd.MDContainer;
 import nl.knaw.dans.pf.language.emd.Term;
 import nl.knaw.dans.pf.language.emd.Term.Name;
 import nl.knaw.dans.pf.language.emd.Term.Namespace;
-import nl.knaw.dans.pf.language.emd.bean.EmdContainer;
 import nl.knaw.dans.pf.language.emd.bean.EmdTitle;
+import nl.knaw.dans.pf.language.emd.binding.EasyMetadataFactory;
 import nl.knaw.dans.pf.language.emd.types.BasicString;
 import nl.knaw.dans.pf.language.emd.types.MetadataItem;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;

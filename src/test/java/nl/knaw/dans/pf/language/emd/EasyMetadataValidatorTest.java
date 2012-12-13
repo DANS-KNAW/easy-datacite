@@ -12,6 +12,7 @@ import nl.knaw.dans.common.lang.xml.XMLErrorHandler;
 import nl.knaw.dans.common.lang.xml.XMLException;
 import nl.knaw.dans.pf.language.emd.bean.EasyMetadataImpl;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
+import nl.knaw.dans.pf.language.emd.validation.EasyMetadataValidator;
 
 import org.junit.Assert;
 import org.junit.Test;

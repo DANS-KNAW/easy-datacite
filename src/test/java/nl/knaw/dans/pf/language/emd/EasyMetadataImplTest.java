@@ -15,8 +15,8 @@ import nl.knaw.dans.common.lang.repo.bean.DublinCoreMetadata.PropertyName;
 import nl.knaw.dans.common.lang.xml.SchemaCreationException;
 import nl.knaw.dans.common.lang.xml.XMLException;
 import nl.knaw.dans.pf.language.emd.bean.EasyMetadataImpl;
-import nl.knaw.dans.pf.language.emd.bean.EmdContainer;
 import nl.knaw.dans.pf.language.emd.bean.EmdTitle;
+import nl.knaw.dans.pf.language.emd.binding.EasyMetadataFactory;
 import nl.knaw.dans.pf.language.emd.exceptions.NoSuchTermException;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.pf.language.emd.types.Author;
@@ -33,6 +33,7 @@ import nl.knaw.dans.pf.language.emd.types.Relation;
 import nl.knaw.dans.pf.language.emd.types.Spatial;
 import nl.knaw.dans.pf.language.emd.types.Spatial.Point;
 import nl.knaw.dans.pf.language.emd.util.AbstractJibxTest;
+import nl.knaw.dans.pf.language.emd.validation.EasyMetadataValidator;
 
 import org.jibx.runtime.JiBXException;
 import org.junit.Assert;

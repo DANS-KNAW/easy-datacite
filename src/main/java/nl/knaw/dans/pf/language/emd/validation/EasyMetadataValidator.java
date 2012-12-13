@@ -1,9 +1,10 @@
-package nl.knaw.dans.pf.language.emd;
+package nl.knaw.dans.pf.language.emd.validation;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import nl.knaw.dans.common.lang.xml.AbstractXMLBeanValidator;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
 
 /**
  * Utility class for validating easymetadata.

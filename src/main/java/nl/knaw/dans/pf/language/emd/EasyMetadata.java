@@ -8,7 +8,6 @@ import java.util.Set;
 import nl.knaw.dans.common.lang.repo.MetadataUnitXMLBean;
 import nl.knaw.dans.common.lang.repo.bean.DublinCoreMetadata;
 import nl.knaw.dans.pf.language.emd.bean.EmdAudience;
-import nl.knaw.dans.pf.language.emd.bean.EmdContainer;
 import nl.knaw.dans.pf.language.emd.bean.EmdContributor;
 import nl.knaw.dans.pf.language.emd.bean.EmdCoverage;
 import nl.knaw.dans.pf.language.emd.bean.EmdCreator;
