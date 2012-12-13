@@ -12,10 +12,9 @@ import java.io.Serializable;
 import java.net.URI;
 import java.util.List;
 
-import nl.knaw.dans.common.jibx.JiBXObjectFactory;
-import nl.knaw.dans.common.lang.xml.SchemaCreationException;
-import nl.knaw.dans.common.lang.xml.XMLException;
-import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.l.xml.validation.XMLErrorHandler;
+import nl.knaw.dans.pf.language.emd.binding.EmdMarshaller;
+import nl.knaw.dans.pf.language.emd.binding.EmdUnmarshaller;
 import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
 import nl.knaw.dans.pf.language.emd.types.EmdConstants;
 import nl.knaw.dans.pf.language.emd.validation.EasyMetadataValidator;
@@ -24,7 +23,6 @@ import org.joda.time.DateTime;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.xml.sax.SAXException;
 
 public class EasyMetadataImplJiBXTest
 {
@@ -38,11 +36,11 @@ public class EasyMetadataImplJiBXTest
     {
         EasyMetadata emd = new EasyMetadataImpl();
         if (verbose)
-            System.err.println(emd.asXMLString(4));
+            System.err.println(new EmdMarshaller(emd).getXmlString());
     }
 
     @Test
-    public void testEtc() throws XMLException, SAXException, SchemaCreationException
+    public void testEtc() throws Exception
     {
         EasyMetadata emd = new EasyMetadataImpl();
         EmdOther emdOther = emd.getEmdOther();
@@ -54,9 +52,11 @@ public class EasyMetadataImplJiBXTest
         propList.addProperty("date", new DateTime().toString());
         propList.addProperty("aipId", "abcde12345");
 
-        logger.debug("\n" + emd.asXMLString(4));
-
-        assertTrue(EasyMetadataValidator.instance().validate(emd).passed());
+        String xmlString = new EmdMarshaller(emd).getXmlString();
+        logger.debug("\n" + xmlString);
+        
+        XMLErrorHandler handler = EasyMetadataValidator.instance().validate(xmlString, null);
+        assertTrue(handler.passed());
     }
 
     @Test
@@ -68,10 +68,9 @@ public class EasyMetadataImplJiBXTest
         bi.setIdentificationSystem(URI.create("http://foo.com"));
         emd.getEmdIdentifier().add(bi);
 
-        //System.out.println(emd.asXMLString(4));
-        byte[] bytes = emd.asObjectXML();
+        byte[] bytes = new EmdMarshaller(emd).getXmlByteArray();
 
-        EasyMetadata emd2 = (EasyMetadata) JiBXObjectFactory.unmarshal(EasyMetadataImpl.class, bytes);
+        EasyMetadata emd2 = new EmdUnmarshaller<EasyMetadata>(EasyMetadataImpl.class).unmarshal(bytes);
         //System.out.println(emd2.asXMLString(4));
         BasicIdentifier bi2 = emd2.getEmdIdentifier().getIdentifier(EmdConstants.SCHEME_ARCHIS_ONDERZOEK_M_NR);
         assertEquals("123", bi2.getValue());

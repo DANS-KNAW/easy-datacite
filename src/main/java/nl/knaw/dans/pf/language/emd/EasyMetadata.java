@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import nl.knaw.dans.common.lang.repo.MetadataUnitXMLBean;
 import nl.knaw.dans.common.lang.repo.bean.DublinCoreMetadata;
 import nl.knaw.dans.pf.language.emd.exceptions.NoSuchTermException;
 import nl.knaw.dans.pf.language.emd.types.MetadataItem;
@@ -16,7 +15,7 @@ import nl.knaw.dans.pf.language.emd.types.MetadataItem;
  * @author ecco
  * @see <a href="package-summary.html#package_description">package description</a>
  */
-public interface EasyMetadata extends MetadataUnitXMLBean
+public interface EasyMetadata extends EmdBean
 {
 
     String UNIT_ID = "EMD";

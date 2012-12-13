@@ -3,15 +3,23 @@ package nl.knaw.dans.pf.language.emd.validation;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import nl.knaw.dans.common.lang.xml.AbstractXMLBeanValidator;
+import org.xml.sax.SAXException;
+
+import nl.knaw.dans.l.xml.exc.SchemaCreationException;
+import nl.knaw.dans.l.xml.exc.ValidatorException;
+import nl.knaw.dans.l.xml.exc.XMLException;
+import nl.knaw.dans.l.xml.exc.XMLSerializationException;
+import nl.knaw.dans.l.xml.validation.AbstractValidator;
+import nl.knaw.dans.l.xml.validation.XMLErrorHandler;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.binding.EmdMarshaller;
 
 /**
  * Utility class for validating easymetadata.
  *
  * @author ecco
  */
-public final class EasyMetadataValidator extends AbstractXMLBeanValidator<EasyMetadata>
+public final class EasyMetadataValidator extends AbstractValidator
 {
 
     /**
@@ -66,6 +74,11 @@ public final class EasyMetadataValidator extends AbstractXMLBeanValidator<EasyMe
     public void setSchemaLocation(String schemaLocation)
     {
         this.schemaLocation = schemaLocation;
+    }
+    
+    public XMLErrorHandler validate(EasyMetadata emd) throws XMLException, SAXException
+    {
+        return validate(new EmdMarshaller(emd).getXmlString(), null);
     }
 
 }

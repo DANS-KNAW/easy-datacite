@@ -6,17 +6,16 @@ import java.io.InputStream;
 
 import javax.xml.validation.Schema;
 
-import nl.knaw.dans.common.lang.xml.SchemaCreationException;
-import nl.knaw.dans.common.lang.xml.ValidatorException;
-import nl.knaw.dans.common.lang.xml.XMLErrorHandler;
-import nl.knaw.dans.common.lang.xml.XMLException;
+import nl.knaw.dans.l.xml.exc.SchemaCreationException;
+import nl.knaw.dans.l.xml.exc.ValidatorException;
+import nl.knaw.dans.l.xml.exc.XMLException;
+import nl.knaw.dans.l.xml.validation.XMLErrorHandler;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.pf.language.emd.validation.EasyMetadataValidator;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.xml.sax.SAXException;
-
 // ecco: CHECKSTYLE: OFF
 
 public class EasyMetadataValidatorTest
