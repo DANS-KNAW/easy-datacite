@@ -97,7 +97,7 @@ public class IsoDate extends SimpleElementImpl<DateTime>
         DateTime dateTime;
         try
         {
-            dateTime = new DateTime(iso8601String.trim(), Converter.EASY_TIME_ZONE);
+            dateTime = new DateTime(iso8601String.trim(), Converter.LOCAL_TIME_ZONE);
         }
         // ecco: CHECKSTYLE: OFF
         catch (final RuntimeException e)
@@ -225,7 +225,7 @@ public class IsoDate extends SimpleElementImpl<DateTime>
         }
         else
         {
-            return value.toString(DateTimeFormat.forPattern(Format.MILLISECOND.pattern).withZone(Converter.EASY_TIME_ZONE));
+            return value.toString(DateTimeFormat.forPattern(Format.MILLISECOND.pattern).withZone(Converter.LOCAL_TIME_ZONE));
         }
     }
 

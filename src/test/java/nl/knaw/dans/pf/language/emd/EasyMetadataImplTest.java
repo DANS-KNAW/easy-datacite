@@ -265,13 +265,13 @@ public class EasyMetadataImplTest extends AbstractJibxTest<EasyMetadataImpl>
         Assert.assertSame(titles, emd.getEmdTitle().getDcTitle());
     }
 
-//    @Test(expected = SchemaCreationException.class)
-//    public void testVersion() throws IOException, JiBXException, SAXException, XMLException, SchemaCreationException
-//    {
-//        EasyMetadata emd = unmarshal(VERSION_TEST_FILE);
-//        Assert.assertEquals("version read from file", emd.getVersion());
-//        EasyMetadataValidator.instance().validate(emd);
-//    }
+    //    @Test(expected = SchemaCreationException.class)
+    //    public void testVersion() throws IOException, JiBXException, SAXException, XMLException, SchemaCreationException
+    //    {
+    //        EasyMetadata emd = unmarshal(VERSION_TEST_FILE);
+    //        Assert.assertEquals("version read from file", emd.getVersion());
+    //        EasyMetadataValidator.instance().validate(emd);
+    //    }
 
     @Test
     public void testDublinCoreMetadata() throws Exception

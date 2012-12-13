@@ -7,70 +7,72 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
  * Describes a metadata term.
- *
+ * 
  * @author ecco
  */
 public class Term implements Serializable
 {
 
     /**
-     * Terms found in easymetadata, heavily inspired by 
-     * <a href="http://dublincore.org/documents/dcmi-terms/">dcmi-terms</a>.
-     *
+     * Terms found in easymetadata, heavily inspired by <a
+     * href="http://dublincore.org/documents/dcmi-terms/">dcmi-terms</a>.
+     * 
      * @author ecco
      */
     public enum Name
     {
-        // ecco: CHECKSTYLE: OFF
-        TITLE("title"), //
-        ALTERNATIVE("alternative"), //
-        CREATOR("creator"), //
-        SUBJECT("subject"), //
-        DESCRIPTION("description"), //
-        TABLEOFCONTENTS("tableOfContents"), //
-        ABSTRACT("abstract"), //
-        RIGHTSHOLDER("rightsHolder"), //
-        PUBLISHER("publisher"), //
-        CONTRIBUTOR("contributor"), //
-        DATE("date"), //
-        CREATED("created"), //
-        VALID("valid"), //
-        AVAILABLE("available"), //
-        ISSUED("issued"), //
-        MODIFIED("modified"), //
-        DATE_ACCEPTED("dateAccepted"), //
-        DATE_COPYRIGHTED("dateCopyrighted"), //
-        DATE_SUBMITTED("dateSubmitted"), //
-        TYPE("type"), //
-        FORMAT("format"), //
-        EXTENT("extent"), //
-        MEDIUM("medium"), //
-        IDENTIFIER("identifier"), //
-        RELATION("relation"), //
-        CONFORMS_TO("conformsTo"), //
-        IS_VERSION_OF("isVersionOf"), //
-        HAS_VERSION("hasVersion"), //
-        IS_REPLACED_BY("isReplacedBy"), //
-        REPLACES("replaces"), //
-        IS_REQUIRED_BY("isRequiredBy"), //
-        REQUIRES("requires"), //
-        IS_PART_OF("isPartOf"), //
-        HAS_PART("hasPart"), //
-        IS_REFERENCED_BY("isReferencedBy"), //
-        REFERENCES("references"), //
-        IS_FORMAT_OF("isFormatOf"), //
-        HAS_FORMAT("hasFormat"), //
-        SOURCE("source"), //
-        LANGUAGE("language"), //
-        COVERAGE("coverage"), //
-        SPATIAL("spatial"), //
-        TEMPORAL("temporal"), //
-        RIGHTS("rights"), //
-        ACCESSRIGHTS("accessRights"), //
-        LICENSE("license"), //
-        AUDIENCE("audience"), //
-        REMARKS("remarks");//,
-        //APPLICATION_SPECIFIC("applicationSpecific");
+        // CHECKSTYLE: OFF
+        // @formatter:off
+        TITLE("title"), 
+        ALTERNATIVE("alternative"), 
+        CREATOR("creator"), 
+        SUBJECT("subject"), 
+        DESCRIPTION("description"), 
+        TABLEOFCONTENTS("tableOfContents"), 
+        ABSTRACT("abstract"), 
+        RIGHTSHOLDER("rightsHolder"), 
+        PUBLISHER("publisher"), 
+        CONTRIBUTOR("contributor"), 
+        DATE("date"), 
+        CREATED("created"), 
+        VALID("valid"), 
+        AVAILABLE("available"), 
+        ISSUED("issued"), 
+        MODIFIED("modified"), 
+        DATE_ACCEPTED("dateAccepted"), 
+        DATE_COPYRIGHTED("dateCopyrighted"), 
+        DATE_SUBMITTED("dateSubmitted"), 
+        TYPE("type"), 
+        FORMAT("format"), 
+        EXTENT("extent"), 
+        MEDIUM("medium"), 
+        IDENTIFIER("identifier"), 
+        RELATION("relation"), 
+        CONFORMS_TO("conformsTo"), 
+        IS_VERSION_OF("isVersionOf"), 
+        HAS_VERSION("hasVersion"), 
+        IS_REPLACED_BY("isReplacedBy"), 
+        REPLACES("replaces"), 
+        IS_REQUIRED_BY("isRequiredBy"), 
+        REQUIRES("requires"), 
+        IS_PART_OF("isPartOf"), 
+        HAS_PART("hasPart"), 
+        IS_REFERENCED_BY("isReferencedBy"), 
+        REFERENCES("references"), 
+        IS_FORMAT_OF("isFormatOf"), 
+        HAS_FORMAT("hasFormat"), 
+        SOURCE("source"), 
+        LANGUAGE("language"), 
+        COVERAGE("coverage"), 
+        SPATIAL("spatial"), 
+        TEMPORAL("temporal"), 
+        RIGHTS("rights"), 
+        ACCESSRIGHTS("accessRights"), 
+        LICENSE("license"), 
+        AUDIENCE("audience"), 
+        REMARKS("remarks");// ,
+        // APPLICATION_SPECIFIC("applicationSpecific");
+        // @formatter:on
 
         public final String termName;
 
@@ -82,13 +84,14 @@ public class Term implements Serializable
     }
 
     /**
-     * Namespaces found in easymetadata. The namespace makes it possible to have different formats for the same term.
-     *
+     * Namespaces found in easymetadata. The namespace makes it possible to have different formats for
+     * the same term.
+     * 
      * @author ecco
      */
     public enum Namespace
     {
-        // ecco: CHECKSTYLE: OFF
+        // CHECKSTYLE: OFF
         DC("http://purl.org/dc/elements/1.1/", "dc"), //
         DCTERMS("http://purl.org/dc/terms/", "terms"), //
         EAS("http://easy.dans.knaw.nl/easy/easymetadata/eas/", "eas");
@@ -101,7 +104,7 @@ public class Term implements Serializable
             this.uri = uri;
             this.prefix = prefix;
         }
-        // ecco: CHECKSTYLE: ON
+        // CHECKSTYLE: ON
     }
 
     private static final long serialVersionUID = 1035199854115482923L;
@@ -112,7 +115,7 @@ public class Term implements Serializable
 
     /**
      * Constructs a new Term.
-     *
+     * 
      * @param name
      *        the name of the term
      */
@@ -125,7 +128,7 @@ public class Term implements Serializable
 
     /**
      * Constructs a new Term.
-     *
+     * 
      * @param name
      *        name
      * @param namespace
@@ -142,10 +145,11 @@ public class Term implements Serializable
      * Constructs a new Term. The value of the parameter <code>qName</code> is a string
      * <ol>
      * <li>consisting of the toString value of a {@link Term.Name} ("TITLE").</li>
-     * <li>same as (1) but preceded with the toString value of a {@link Term.Namespace} and a period ("DC.TITLE").
+     * <li>same as (1) but preceded with the toString value of a {@link Term.Namespace} and a period
+     * ("DC.TITLE").
      * </ol>
      * though case is of no importance.
-     *
+     * 
      * @param qName
      *        string representing name or qualified name of the term
      */
@@ -167,9 +171,9 @@ public class Term implements Serializable
     }
 
     /**
-     * Constructs a new Term. Parameter values should correspond to the toString values of {@link Term.Name} ("TITLE") and
-     * {@link Term.Namespace} ("DC"), though case is of no importance.
-     *
+     * Constructs a new Term. Parameter values should correspond to the toString values of
+     * {@link Term.Name} ("TITLE") and {@link Term.Namespace} ("DC"), though case is of no importance.
+     * 
      * @param name
      *        string representing name
      * @param namespace
@@ -184,7 +188,7 @@ public class Term implements Serializable
 
     /**
      * Constructs a new Term.
-     *
+     * 
      * @param name
      *        name
      * @param namespace
@@ -201,7 +205,7 @@ public class Term implements Serializable
 
     /**
      * Get the name.
-     *
+     * 
      * @return the name
      */
     public Name getName()
@@ -211,7 +215,7 @@ public class Term implements Serializable
 
     /**
      * Get the namespace.
-     *
+     * 
      * @return the namespace
      */
     public Namespace getNamespace()
@@ -221,7 +225,7 @@ public class Term implements Serializable
 
     /**
      * Get the type that holds the values of this term.
-     *
+     * 
      * @return type
      */
     public Class<?> getType()
@@ -231,7 +235,7 @@ public class Term implements Serializable
 
     /**
      * Return a -sort of- qualified name of this term.
-     *
+     * 
      * @return qualified name
      */
     public String getQualifiedName()
@@ -246,7 +250,7 @@ public class Term implements Serializable
 
     /**
      * Test if object is equal.
-     *
+     * 
      * @param obj
      *        object to test
      * @return true if object is equal.
@@ -268,7 +272,7 @@ public class Term implements Serializable
 
     /**
      * Return hashCode.
-     *
+     * 
      * @return hash code of this Term
      */
     @Override
@@ -279,7 +283,7 @@ public class Term implements Serializable
 
     /**
      * Returns a string-representation of this term.
-     *
+     * 
      * @return a string-representation of this term
      */
     @Override

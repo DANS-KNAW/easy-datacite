@@ -31,9 +31,9 @@ public class EasyMetadataImplJiBXTest
 {
 
     private static final Logger logger = LoggerFactory.getLogger(EasyMetadataImplJiBXTest.class);
-    
+
     private boolean verbose = true;
-    
+
     @Test
     public void constructEmpty() throws Exception
     {

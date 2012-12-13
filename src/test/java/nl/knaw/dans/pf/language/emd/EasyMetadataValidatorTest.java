@@ -25,7 +25,6 @@ public class EasyMetadataValidatorTest
     private static final String VALID_XML = "src/test/resources/xml-validator/valid-emd.xml";
     private static final String INVALID_0_XML = "src/test/resources/xml-validator/invalid-emd0.xml";
 
-
     @Test
     public void testValidate() throws XMLException, SAXException, SchemaCreationException
     {

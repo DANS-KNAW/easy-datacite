@@ -22,7 +22,7 @@ public final class EasyMetadataValidator extends AbstractXMLBeanValidator<EasyMe
     public static final String SCHEMA_LOCATION = "http://easy.dans.knaw.nl/schemas/md/emd/2012/11/emd.xsd";
 
     private static final EasyMetadataValidator instance = new EasyMetadataValidator();
-    
+
     private String schemaLocation;
 
     // singleton
