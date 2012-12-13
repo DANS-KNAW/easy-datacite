@@ -84,12 +84,6 @@ public class JiBXMarshaller implements XMLMarshaller
     @Override
     public ByteArrayOutputStream getXmlOutputStream() throws XMLSerializationException
     {
-        return getXmlOutputStream(indent);
-    }
-
-    @Override
-    public ByteArrayOutputStream getXmlOutputStream(int indent) throws XMLSerializationException
-    {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try
         {
@@ -115,13 +109,13 @@ public class JiBXMarshaller implements XMLMarshaller
     @Override
     public String getXmlString() throws XMLSerializationException
     {
-        return getXmlString(indent);
+        return getXmlOutputStream().toString();
     }
-
+    
     @Override
-    public String getXmlString(int indent) throws XMLSerializationException
+    public byte[] getXmlByteArray() throws XMLSerializationException
     {
-        return getXmlOutputStream(indent).toString();
+        return getXmlOutputStream().toByteArray();
     }
 
     protected IMarshallingContext getMarshallingContext() throws JiBXException

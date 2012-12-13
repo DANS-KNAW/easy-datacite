@@ -40,13 +40,10 @@ public interface XMLMarshaller
 
     OutputStream getXmlOutputStream() throws XMLSerializationException;
 
-    OutputStream getXmlOutputStream(int indent) throws XMLSerializationException;
-
-    //byte[] getXmlByteArray(int indent, boolean standAlone) throws XMLSerializationException;
+    byte[] getXmlByteArray() throws XMLSerializationException;
 
     String getXmlString() throws XMLSerializationException;
 
-    String getXmlString(int indent) throws XMLSerializationException;
 
     //InputStream getXmlInputStream(T bean, int indent, boolean standAlone) throws XMLSerializationException;
 

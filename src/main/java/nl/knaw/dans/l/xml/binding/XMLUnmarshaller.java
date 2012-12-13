@@ -13,6 +13,8 @@ public interface XMLUnmarshaller<T>
     
     T unmarshal(InputStream inStream) throws XMLDeserializationException;
     
-    T unmarshal(final String xmlString) throws XMLDeserializationException;
+    T unmarshal(String xmlString) throws XMLDeserializationException;
+    
+    T unmarshal(byte[] bytes) throws XMLDeserializationException;
 
 }

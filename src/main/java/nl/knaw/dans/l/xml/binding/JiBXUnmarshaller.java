@@ -10,7 +10,7 @@ import org.jibx.runtime.IBindingFactory;
 import org.jibx.runtime.IUnmarshallingContext;
 import org.jibx.runtime.JiBXException;
 
-public class JiBXUnmarshaller<T>
+public class JiBXUnmarshaller<T> implements XMLUnmarshaller<T>
 {
 
     private final String bindingName;
@@ -57,9 +57,15 @@ public class JiBXUnmarshaller<T>
         return bean;
     }
 
-    public T unmarshal(final String xmlString) throws XMLDeserializationException
+    public T unmarshal(String xmlString) throws XMLDeserializationException
     {
         return unmarshal(new ByteArrayInputStream(xmlString.getBytes()));
+    }
+    
+    @Override
+    public T unmarshal(byte[] bytes) throws XMLDeserializationException
+    {
+        return unmarshal(new ByteArrayInputStream(bytes));
     }
 
     protected IUnmarshallingContext getUnMarshallingContext() throws JiBXException
