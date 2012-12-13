@@ -14,8 +14,6 @@ import nl.knaw.dans.common.lang.repo.bean.DublinCoreMetadata;
 import nl.knaw.dans.common.lang.repo.bean.DublinCoreMetadata.PropertyName;
 import nl.knaw.dans.common.lang.xml.SchemaCreationException;
 import nl.knaw.dans.common.lang.xml.XMLException;
-import nl.knaw.dans.pf.language.emd.bean.EasyMetadataImpl;
-import nl.knaw.dans.pf.language.emd.bean.EmdTitle;
 import nl.knaw.dans.pf.language.emd.binding.EasyMetadataFactory;
 import nl.knaw.dans.pf.language.emd.exceptions.NoSuchTermException;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;

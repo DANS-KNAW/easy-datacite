@@ -1,7 +1,7 @@
 package nl.knaw.dans.pf.language.emd.binding;
 
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
-import nl.knaw.dans.pf.language.emd.bean.EasyMetadataImpl;
+import nl.knaw.dans.pf.language.emd.EasyMetadataImpl;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 
 public final class EasyMetadataFactory

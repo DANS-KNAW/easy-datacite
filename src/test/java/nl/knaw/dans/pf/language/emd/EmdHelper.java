@@ -8,7 +8,6 @@ import java.util.Locale;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.MDContainer;
 import nl.knaw.dans.pf.language.emd.Term;
-import nl.knaw.dans.pf.language.emd.bean.EasyMetadataImpl;
 import nl.knaw.dans.pf.language.emd.types.Author;
 import nl.knaw.dans.pf.language.emd.types.BasicDate;
 import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;

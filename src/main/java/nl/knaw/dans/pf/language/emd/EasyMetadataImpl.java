@@ -1,4 +1,4 @@
-package nl.knaw.dans.pf.language.emd.bean;
+package nl.knaw.dans.pf.language.emd;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -14,12 +14,6 @@ import nl.knaw.dans.common.jibx.AbstractTimestampedJiBXObject;
 import nl.knaw.dans.common.jibx.bean.JiBXDublinCoreMetadata;
 import nl.knaw.dans.common.lang.repo.bean.DublinCoreMetadata;
 import nl.knaw.dans.common.lang.repo.bean.DublinCoreMetadata.PropertyName;
-import nl.knaw.dans.pf.language.emd.EasyMetadata;
-import nl.knaw.dans.pf.language.emd.EmdContainer;
-import nl.knaw.dans.pf.language.emd.EmdVisitor;
-import nl.knaw.dans.pf.language.emd.MDContainer;
-import nl.knaw.dans.pf.language.emd.Term;
-import nl.knaw.dans.pf.language.emd.Term.Name;
 import nl.knaw.dans.pf.language.emd.binding.EasyMetadataFactory;
 import nl.knaw.dans.pf.language.emd.exceptions.NoSuchTermException;
 import nl.knaw.dans.pf.language.emd.types.MetadataItem;
