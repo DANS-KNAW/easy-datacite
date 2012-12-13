@@ -10,7 +10,7 @@ import org.jibx.runtime.IBindingFactory;
 import org.jibx.runtime.IUnmarshallingContext;
 import org.jibx.runtime.JiBXException;
 
-public class JiBXFactory<T>
+public class JiBXUnmarshaller<T>
 {
     public final String ENC_UTF8 = "UTF-8";
     public final String ENC_UTF16 = "UTF-16";
@@ -22,13 +22,13 @@ public class JiBXFactory<T>
     private IUnmarshallingContext unmarshallingContext;
     private String encoding = ENC_UTF8;
 
-    public JiBXFactory(Class<? extends T> beanClass)
+    public JiBXUnmarshaller(Class<? extends T> beanClass)
     {
         this.beanClass = beanClass;
         this.bindingName = null;
     }
 
-    public JiBXFactory(String bindingName, Class<? extends T> beanClass)
+    public JiBXUnmarshaller(String bindingName, Class<? extends T> beanClass)
     {
         this.beanClass = beanClass;
         this.bindingName = bindingName;

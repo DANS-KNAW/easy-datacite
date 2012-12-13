@@ -9,7 +9,7 @@ import org.jibx.runtime.IBindingFactory;
 import org.jibx.runtime.IMarshallingContext;
 import org.jibx.runtime.JiBXException;
 
-public abstract class AbstractBinding implements XMLMarshaller
+public class JiBXMarshaller implements XMLMarshaller
 {
 
     private final String bindingName;
@@ -22,8 +22,14 @@ public abstract class AbstractBinding implements XMLMarshaller
     private int indent = 4;
     private boolean standAlone = true;
     private boolean omitXmlDeclaration;
+    
+    public JiBXMarshaller(Object bean)
+    {
+        this.bindingName = null;
+        this.bean = bean;
+    }
 
-    protected AbstractBinding(String bindingName, Object bean)
+    public JiBXMarshaller(String bindingName, Object bean)
     {
         this.bindingName = bindingName;
         this.bean = bean;
@@ -131,7 +137,14 @@ public abstract class AbstractBinding implements XMLMarshaller
     {
         if (bindingFactory == null)
         {
-            bindingFactory = BindingDirectory.getFactory(bindingName, bean.getClass());
+            if (bindingName == null)
+            {
+                bindingFactory = BindingDirectory.getFactory(bean.getClass());
+            }
+            else
+            {
+                bindingFactory = BindingDirectory.getFactory(bindingName, bean.getClass());
+            }
         }
         return bindingFactory;
     }

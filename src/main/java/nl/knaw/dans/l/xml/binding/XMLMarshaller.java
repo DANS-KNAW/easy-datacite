@@ -5,7 +5,7 @@ import java.io.OutputStream;
 import nl.knaw.dans.l.xml.exc.XMLSerializationException;
 
 /**
- * Wrapper for an object representing xml.
+ * Wrapper for an object representing xml, capable of marshalling the object to xml..
  * 
  * @author ecco
  *
