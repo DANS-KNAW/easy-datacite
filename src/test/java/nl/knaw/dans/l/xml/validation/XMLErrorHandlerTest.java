@@ -12,10 +12,9 @@ import org.xml.sax.SAXParseException;
 
 // ecco: CHECKSTYLE: OFF
 
-
 public class XMLErrorHandlerTest
 {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(XMLErrorHandlerTest.class);
 
     @Test
@@ -79,6 +78,5 @@ public class XMLErrorHandlerTest
         logger.info("expected a peculiar DEBUG message.");
         reporter.evaluate(parseException, "peculiar", 100000);
     }
-
 
 }

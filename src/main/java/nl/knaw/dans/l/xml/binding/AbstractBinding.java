@@ -9,62 +9,62 @@ import org.jibx.runtime.IBindingFactory;
 import org.jibx.runtime.IMarshallingContext;
 import org.jibx.runtime.JiBXException;
 
-public abstract class AbstractBinding implements Binding
+public abstract class AbstractBinding implements XMLMarshaller
 {
-    
+
     private final String bindingName;
     private final Object bean;
-    
+
     private IBindingFactory bindingFactory;
     private IMarshallingContext marshallingContext;
-    
+
     private String encoding = ENC_UTF8;
     private int indent = 4;
     private boolean standAlone = true;
     private boolean omitXmlDeclaration;
-    
+
     protected AbstractBinding(String bindingName, Object bean)
     {
         this.bindingName = bindingName;
         this.bean = bean;
     }
-    
+
     @Override
     public void setEncoding(String enc)
     {
         this.encoding = enc;
     }
-    
+
     @Override
     public String getEncoding()
     {
         return encoding;
     }
-    
+
     @Override
     public void setIndent(int indent)
     {
         this.indent = indent;
     }
-    
+
     @Override
     public int getIndent()
     {
         return indent;
     }
-    
+
     @Override
     public void setStandAlone(boolean standAlone)
     {
         this.standAlone = standAlone;
     }
-    
+
     @Override
     public boolean getStandAlone()
     {
         return standAlone;
     }
-    
+
     public boolean getOmitXmlDeclaration()
     {
         return omitXmlDeclaration;
@@ -80,7 +80,7 @@ public abstract class AbstractBinding implements Binding
     {
         return getXmlOutputStream(indent);
     }
-    
+
     @Override
     public ByteArrayOutputStream getXmlOutputStream(int indent) throws XMLSerializationException
     {
@@ -105,7 +105,7 @@ public abstract class AbstractBinding implements Binding
         }
         return out;
     }
-    
+
     @Override
     public String getXmlString() throws XMLSerializationException
     {
@@ -117,7 +117,7 @@ public abstract class AbstractBinding implements Binding
     {
         return getXmlOutputStream(indent).toString();
     }
-    
+
     protected IMarshallingContext getMarshallingContext() throws JiBXException
     {
         if (marshallingContext == null)
@@ -126,7 +126,7 @@ public abstract class AbstractBinding implements Binding
         }
         return marshallingContext;
     }
-    
+
     protected IBindingFactory getBindingFactory() throws JiBXException
     {
         if (bindingFactory == null)
@@ -135,7 +135,5 @@ public abstract class AbstractBinding implements Binding
         }
         return bindingFactory;
     }
-    
-    
 
 }

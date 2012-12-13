@@ -111,30 +111,30 @@ public class XMLErrorHandler implements ErrorHandler
     /**
      * Severity when a warning notification is received.
      */
-    private static final String     SEVERITY_WARNING     = "warning";
+    private static final String SEVERITY_WARNING = "warning";
 
     /**
      * Severity when a error notification is received.
      */
-    private static final String     SEVERITY_ERROR       = "error";
+    private static final String SEVERITY_ERROR = "error";
 
     /**
      * Severity when a fatal error notification is received.
      */
-    private static final String     SEVERITY_FATAL_ERROR = "fatal error";
+    private static final String SEVERITY_FATAL_ERROR = "fatal error";
 
     /**
      * Logger for logging.
      */
-    private static final Logger     LOGGER               = LoggerFactory.getLogger(XMLErrorHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(XMLErrorHandler.class);
 
-    private final Reporter          reporter;
+    private final Reporter reporter;
 
-    private int                     notifications;
+    private int notifications;
 
-    private List<SAXParseException> warnings             = new ArrayList<SAXParseException>();
-    private List<SAXParseException> errors               = new ArrayList<SAXParseException>();
-    private List<SAXParseException> fatalErrors          = new ArrayList<SAXParseException>();
+    private List<SAXParseException> warnings = new ArrayList<SAXParseException>();
+    private List<SAXParseException> errors = new ArrayList<SAXParseException>();
+    private List<SAXParseException> fatalErrors = new ArrayList<SAXParseException>();
 
     /**
      * Constructs a new XMLErrorHandler with a Reporter set to {@link Reporter#debug}.

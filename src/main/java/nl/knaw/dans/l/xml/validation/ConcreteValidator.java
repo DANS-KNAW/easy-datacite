@@ -7,14 +7,14 @@ import nl.knaw.dans.l.xml.exc.SchemaCreationException;
 
 public class ConcreteValidator extends AbstractValidator
 {
-    
+
     private final URL schemaURL;
-    
+
     public ConcreteValidator(String schemaURLString) throws MalformedURLException
     {
         this(new URL(schemaURLString));
     }
-    
+
     public ConcreteValidator(URL schemaURL)
     {
         this.schemaURL = schemaURL;

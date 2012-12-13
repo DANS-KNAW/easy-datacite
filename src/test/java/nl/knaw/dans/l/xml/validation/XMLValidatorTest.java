@@ -11,14 +11,13 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-
 public class XMLValidatorTest
 {
-    
+
     public static final String TEST_DIR = "src/test/resources/test-files/validation/";
-    public static final File  SCHEMA_FILE = new File(TEST_DIR, "schema.xsd");
-    public static final File  VALID_XML   = new File(TEST_DIR, "schema-valid.xml");
-    public static final File  INVALID_XML = new File(TEST_DIR, "schema-invalid.xml");
+    public static final File SCHEMA_FILE = new File(TEST_DIR, "schema.xsd");
+    public static final File VALID_XML = new File(TEST_DIR, "schema-valid.xml");
+    public static final File INVALID_XML = new File(TEST_DIR, "schema-invalid.xml");
 
     @Test
     public void testValidXML() throws Exception

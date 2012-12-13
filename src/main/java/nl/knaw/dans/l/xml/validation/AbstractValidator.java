@@ -26,7 +26,7 @@ import org.xml.sax.SAXException;
 public abstract class AbstractValidator
 {
 
-    private static final Logger       logger     = LoggerFactory.getLogger(AbstractValidator.class);
+    private static final Logger logger = LoggerFactory.getLogger(AbstractValidator.class);
 
     /**
      * Map containing version strings as key and the string-representation of their schema-URL as value.

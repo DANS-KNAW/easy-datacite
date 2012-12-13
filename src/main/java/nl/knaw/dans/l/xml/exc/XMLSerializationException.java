@@ -1,7 +1,5 @@
 package nl.knaw.dans.l.xml.exc;
 
-
-
 /**
  * Signals an exception while serializing an object to xml.
  * 
@@ -11,7 +9,7 @@ public class XMLSerializationException extends XMLException
 {
 
     private static final long serialVersionUID = 1286634981933080257L;
-    
+
     // CHECKSTYLE: OFF 
 
     public XMLSerializationException()

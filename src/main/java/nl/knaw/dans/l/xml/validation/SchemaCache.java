@@ -31,7 +31,7 @@ import org.xml.sax.SAXException;
 public final class SchemaCache
 {
 
-    private static final Map<String, Schema> CACHE  = Collections.synchronizedMap(new HashMap<String, Schema>());
+    private static final Map<String, Schema> CACHE = Collections.synchronizedMap(new HashMap<String, Schema>());
 
     /**
      * Logger for logging.

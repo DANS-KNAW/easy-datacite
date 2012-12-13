@@ -62,7 +62,7 @@ public class XMLTransformer implements ErrorListener
 
     private int cycleCount;
     private int maxTransformerReuse = DEFAULT_MAX_TRANSFORMER_REUSE;
-    
+
     private final TransformerFactory transformerFactory;
     private final String stylesheetName;
     private final List<TransformerException> errorList = new ArrayList<TransformerException>();
@@ -197,8 +197,8 @@ public class XMLTransformer implements ErrorListener
     {
         if (maxTransformerReuse < 1)
         {
-            throw new IllegalArgumentException("maxTransformerReuse should be set to a possitive integer. " +
-            		"A value of " + maxTransformerReuse + " is invalid.");
+            throw new IllegalArgumentException("maxTransformerReuse should be set to a possitive integer. " + "A value of " + maxTransformerReuse
+                    + " is invalid.");
         }
         this.maxTransformerReuse = maxTransformerReuse;
     }

@@ -11,11 +11,9 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
-
 public final class SchemaCacheTest
 {
-    
-    
+
     @Test(expected = SchemaCreationException.class)
     public void testGetSchemaWithNullUrlString() throws SchemaCreationException
     {

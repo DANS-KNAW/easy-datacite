@@ -26,7 +26,7 @@ public class XMLTransformerTest
 
     private static final String ROOT_XML = "src/test/resources/test-files/transform/root.xml";
     private static final String XALAN_TOOT_XSL = "src/test/resources/test-files/transform/xalan-toot.xsl";
-    private static final String SAXON_TOOT_XSL = "src/test/resources/test-files/transform/saxon-toot.xsl";    
+    private static final String SAXON_TOOT_XSL = "src/test/resources/test-files/transform/saxon-toot.xsl";
 
     /**
      * Test involves xalan-style java call. With Saxon the namesapce declaration in the stylesheet
@@ -46,7 +46,7 @@ public class XMLTransformerTest
         assertTrue(transformer.getTransformerFactoryName().contains("xalan"));
         performHonkTest(transformer, new File(ROOT_XML));
     }
-    
+
     /**
      * Test involves saxon-style java call. Stylesheet contains
      * <pre>
@@ -89,29 +89,29 @@ public class XMLTransformerTest
     {
         return HONK;
     }
-    
+
     @Test
     public void cacheTest() throws Exception
     {
         XMLTransformer.clearCache();
         assertEquals(0, XMLTransformer.getCacheSize());
         int times = 2;
-        
+
         saxonDurationTest(times);
         xalanDurationTest(times);
         saxonDurationTest(times);
         xalanDurationTest(times);
-        
+
         assertEquals(2, XMLTransformer.getCacheSize());
         assertEquals(1, XMLTransformer.getCacheSize(XMLTransformer.TF_SAXON));
         assertEquals(1, XMLTransformer.getCacheSize(XMLTransformer.TF_XALAN));
-        
+
         XMLTransformer.clearCache(XMLTransformer.TF_SAXON);
         assertEquals(1, XMLTransformer.getCacheSize());
         assertEquals(0, XMLTransformer.getCacheSize(XMLTransformer.TF_SAXON));
         assertEquals(1, XMLTransformer.getCacheSize(XMLTransformer.TF_XALAN));
     }
-    
+
     @Ignore("Performance test")
     @Test
     public void durationTest() throws Exception
@@ -133,37 +133,36 @@ public class XMLTransformerTest
             saxonDurationTest(times);
         }
     }
-    
+
     private void saxonDurationTest(int times) throws TransformerException
     {
         XMLTransformer transformer = new XMLTransformer(SAXON_TOOT_XSL, XMLTransformer.TF_SAXON);
         File rootXml = new File(ROOT_XML);
         long start = System.currentTimeMillis();
-        
-        for (int i = 0; i <= times; i++)
-        {     
-            performHonkTest(transformer, rootXml);
-        }
-        long duration = System.currentTimeMillis() - start;
-        double average = (double)duration/(double)times;
-        logger.debug("SAXON: times={}; duration={}; average=" + average, times, duration);
-    }
-    
-    private void xalanDurationTest(int times) throws TransformerException
-    {
-        XMLTransformer transformer = new XMLTransformer(XALAN_TOOT_XSL);
-        File rootXml = new File(ROOT_XML);
-        long start = System.currentTimeMillis();
-        
+
         for (int i = 0; i <= times; i++)
         {
             performHonkTest(transformer, rootXml);
         }
         long duration = System.currentTimeMillis() - start;
-        double average = (double)duration/(double)times;
+        double average = (double) duration / (double) times;
+        logger.debug("SAXON: times={}; duration={}; average=" + average, times, duration);
+    }
+
+    private void xalanDurationTest(int times) throws TransformerException
+    {
+        XMLTransformer transformer = new XMLTransformer(XALAN_TOOT_XSL);
+        File rootXml = new File(ROOT_XML);
+        long start = System.currentTimeMillis();
+
+        for (int i = 0; i <= times; i++)
+        {
+            performHonkTest(transformer, rootXml);
+        }
+        long duration = System.currentTimeMillis() - start;
+        double average = (double) duration / (double) times;
         logger.debug("XALAN: times={}; duration={}; average=" + average, times, duration);
     }
-   
 
     @Ignore("Stylesheet gets documents online.")
     @Test

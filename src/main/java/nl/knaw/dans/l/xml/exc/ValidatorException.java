@@ -1,6 +1,5 @@
 package nl.knaw.dans.l.xml.exc;
 
-
 /**
  * Signals an exception during validation.
  *
@@ -10,7 +9,7 @@ package nl.knaw.dans.l.xml.exc;
 public class ValidatorException extends XMLException
 {
     private static final long serialVersionUID = -122877223054951114L;
-    
+
     // ecco (Sep 29, 2009): CHECKSTYLE: OFF 
 
     public ValidatorException()
