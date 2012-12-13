@@ -11,7 +11,6 @@ import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.mock.BusinessMocker;
 import nl.knaw.dans.easy.mock.FileHelper;
 
-import org.joda.time.DateTime;
 import org.junit.Test;
 
 public class BusinessMockerTest extends BusinessMocker
@@ -20,7 +19,7 @@ public class BusinessMockerTest extends BusinessMocker
     public void easyStoreRetrieve() throws Exception
     {
         final String storeId = "easy-dataset:1";
-        Dataset mockedDataset = dataset(storeId).getDataset();
+        final Dataset mockedDataset = dataset(storeId).getDataset();
 
         replayAll();
 
@@ -42,10 +41,11 @@ public class BusinessMockerTest extends BusinessMocker
         assertThat(idMap, notNullValue());
         assertThat(idMap.getAipId(), equalTo(aipId));
     }
-    
+
     @Test
-    public void noPurge() throws Exception{
-        FileHelper helper = file("tif/2.tif");
+    public void noPurge() throws Exception
+    {
+        final FileHelper helper = file("tif/2.tif");
         replayAll();
         Data.getEasyStore().retrieve(new DmoStoreId(helper.getStoreId()));
     }

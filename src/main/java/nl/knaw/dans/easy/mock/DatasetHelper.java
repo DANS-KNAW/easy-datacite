@@ -9,27 +9,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import nl.knaw.dans.common.lang.repo.DmoStoreEventListener;
+import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.data.Data;
-import nl.knaw.dans.easy.data.migration.MigrationRepo;
-import nl.knaw.dans.easy.data.store.EasyStore;
 import nl.knaw.dans.easy.data.store.FileStoreAccess;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.migration.IdMap;
 import nl.knaw.dans.easy.domain.model.Dataset;
 
 import org.aspectj.lang.annotation.Before;
-import org.easymock.internal.matchers.Any;
 import org.powermock.api.easymock.PowerMock;
 
 public class DatasetHelper
 {
     private final DmoStoreId dmoStoreId;
     private final Dataset dataset;
-    private static FileStoreAccess fileStoreAccessMock;
-    private static MigrationRepo migrationRepoMock;
-    private static EasyStore easyStoreMock;
 
     /**
      * Creates a mocked instance of a {@link Dataset}. A fluent interface allows further configuration of
@@ -41,22 +35,15 @@ public class DatasetHelper
         dataset = PowerMock.createMock(Dataset.class);
         expect(dataset.getStoreId()).andReturn(storeId).anyTimes();
         expect(dataset.getDmoStoreId()).andReturn(dmoStoreId).anyTimes();
-        expect(easyStoreMock.retrieve(eq(dmoStoreId))).andReturn(dataset).anyTimes();
-        expect(easyStoreMock.exists(eq(dmoStoreId))).andReturn(true).anyTimes();
+        expect(Data.getEasyStore().retrieve(eq(dmoStoreId))).andReturn(dataset).anyTimes();
+        expect(Data.getEasyStore().exists(eq(dmoStoreId))).andReturn(true).anyTimes();
     }
 
     /**
      * Prepares the mocks for a new configuration. To be called by a {@link Before}.
      */
-    static void reset(EasyStore easyStore)
+    static void reset()
     {
-        migrationRepoMock = PowerMock.createMock(MigrationRepo.class);
-        fileStoreAccessMock = PowerMock.createMock(FileStoreAccess.class);
-        easyStoreMock = easyStore;
-        new Data().setEasyStore(easyStoreMock);
-        new Data().setFileStoreAccess(fileStoreAccessMock);
-        new Data().setMigrationRepo(migrationRepoMock);
-        expect(easyStoreMock.getListeners()).andReturn(new ArrayList<DmoStoreEventListener>()).anyTimes();
     }
 
     public static void verifyAll()
@@ -75,6 +62,12 @@ public class DatasetHelper
         return this;
     }
 
+    public DatasetHelper with(final DatasetState state)
+    {
+        expect(dataset.getAdministrativeState()).andReturn(state).anyTimes();
+        return this;
+    }
+
     public DatasetHelper withAipId(final String aipId) throws Exception
     {
         final IdMap idMapMock = new IdMap()
@@ -86,7 +79,7 @@ public class DatasetHelper
                 return aipId;
             }
         };
-        expect(migrationRepoMock.findById(dmoStoreId.getStoreId())).andStubReturn(idMapMock);
+        expect(Data.getMigrationRepo().findById(dmoStoreId.getStoreId())).andStubReturn(idMapMock);
         return this;
     }
 
@@ -110,8 +103,8 @@ public class DatasetHelper
                 fileItems.add(helper.getFileItemVO());
             }
         }
-        expect(fileStoreAccessMock.getAllFiles(dmoStoreId)).andReturn(fileMap).anyTimes();
-        expect(fileStoreAccessMock.getDatasetFiles(dmoStoreId)).andReturn(fileItems).anyTimes();
+        expect(Data.getFileStoreAccess().getAllFiles(dmoStoreId)).andReturn(fileMap).anyTimes();
+        expect(Data.getFileStoreAccess().getDatasetFiles(dmoStoreId)).andReturn(fileItems).anyTimes();
         return this;
     }
 
@@ -127,7 +120,7 @@ public class DatasetHelper
         final List<FileItemVO> fileItems = new ArrayList<FileItemVO>();
         for (final FileHelper helper : files)
             fileItems.add(helper.getFileItemVO());
-        expect(fileStoreAccessMock.getDatasetFiles(dmoStoreId)).andReturn(fileItems).once();
+        expect(Data.getFileStoreAccess().getDatasetFiles(dmoStoreId)).andReturn(fileItems).once();
         return this;
     }
 
@@ -140,8 +133,8 @@ public class DatasetHelper
      */
     public DatasetHelper withoutFiles() throws Exception
     {
-        expect(fileStoreAccessMock.getAllFiles(dmoStoreId)).andReturn(new HashMap<String, String>()).anyTimes();
-        expect(fileStoreAccessMock.getDatasetFiles(dmoStoreId)).andReturn(new ArrayList<FileItemVO>()).anyTimes();
+        expect(Data.getFileStoreAccess().getAllFiles(dmoStoreId)).andReturn(new HashMap<String, String>()).anyTimes();
+        expect(Data.getFileStoreAccess().getDatasetFiles(dmoStoreId)).andReturn(new ArrayList<FileItemVO>()).anyTimes();
         return this;
     }
 

@@ -1,22 +1,27 @@
 package nl.knaw.dans.easy.mock;
 
+import static org.easymock.EasyMock.expect;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import nl.knaw.dans.common.lang.repo.DmoStoreEventListener;
 import nl.knaw.dans.easy.data.Data;
+import nl.knaw.dans.easy.data.migration.MigrationRepo;
 import nl.knaw.dans.easy.data.store.EasyStore;
+import nl.knaw.dans.easy.data.store.FileStoreAccess;
+import nl.knaw.dans.easy.data.userrepo.EasyUserRepo;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
+import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Provides a fluent interface to mock a static configuration of repository objects. Note that methods
@@ -42,7 +47,7 @@ public class BusinessMocker
     private List<Dataset> mockedDatasets;
 
     /**
-     * Creates all mocks. Called by the {@link PowerMockRunner}.
+     * Creates mocked services. Called by the {@link PowerMockRunner}.
      * 
      * @throws Exception
      */
@@ -52,11 +57,19 @@ public class BusinessMocker
         mockedDatasets = new LinkedList<Dataset>();
 
         Data.unlock();
+        Services.unlock();
 
+        new Services().setItemService(PowerMock.createMock(ItemService.class));
+        new Data().setUserRepo(PowerMock.createMock(EasyUserRepo.class));
+        new Data().setEasyStore(PowerMock.createMock(EasyStore.class));
+        new Data().setFileStoreAccess(PowerMock.createMock(FileStoreAccess.class));
+        new Data().setMigrationRepo(PowerMock.createMock(MigrationRepo.class));
+
+        FileHelper.reset();
+        DatasetHelper.reset();
         UserHelper.reset();
-        EasyStore easyStore = PowerMock.createMock(EasyStore.class);
-        FileHelper.reset(easyStore);
-        DatasetHelper.reset(easyStore);
+
+        expect(Data.getEasyStore().getListeners()).andReturn(new ArrayList<DmoStoreEventListener>()).anyTimes();
     }
 
     /**

@@ -31,8 +31,6 @@ public class FileHelper
     private final String storeId;
     private final FileItemVO fileItemVO;
     private final FileItem fileItem;
-    private static EasyStore easyStoreMock;
-    private static ItemService itemServiceMock;
 
     private static int fileCounter = 0;
 
@@ -58,21 +56,17 @@ public class FileHelper
         expect(fileItemVO.getSid()).andReturn(storeId).anyTimes();
         expect(fileItemVO.getPath()).andReturn(path).anyTimes();
         expect(fileItemVO.getName()).andReturn(new File(path).getName()).anyTimes();
-        expect(easyStoreMock.retrieve(eq(dmoStoreId))).andReturn(fileItem).anyTimes();
-        expect(easyStoreMock.exists(eq(dmoStoreId))).andReturn(true).anyTimes();
+        expect(Data.getEasyStore().retrieve(eq(dmoStoreId))).andReturn(fileItem).anyTimes();
+        expect(Data.getEasyStore().exists(eq(dmoStoreId))).andReturn(true).anyTimes();
     }
 
     /**
      * Prepares the mocks for a new configuration. To be called by a {@link Before}.
      * @param easyStore 
      */
-    static void reset(EasyStore easyStore)
+    static void reset()
     {
         fileCounter = 0;
-        easyStoreMock = easyStore;
-        itemServiceMock = PowerMock.createMock(ItemService.class);
-        new Services().setItemService(itemServiceMock);
-        new Data().setEasyStore(easyStoreMock);
     }
 
     public static void verifyAll()
@@ -113,7 +107,7 @@ public class FileHelper
      */
     public FileHelper expectPurgeAt(final DateTime dateTime) throws Exception
     {
-        expect(easyStoreMock.purge(eq(fileItem), anyBoolean(), isA(String.class))).andReturn(dateTime).once();
+        expect(Data.getEasyStore().purge(eq(fileItem), anyBoolean(), isA(String.class))).andReturn(dateTime).once();
         return this;
     }
 
@@ -127,7 +121,7 @@ public class FileHelper
      */
     public FileHelper with(final URL itemServiceContentUrl) throws Exception
     {
-        expect(itemServiceMock.getFileContentURL(isA(EasyUser.class), isA(Dataset.class), eq(fileItem))).andReturn(itemServiceContentUrl).anyTimes();
+        expect(Services.getItemService().getFileContentURL(isA(EasyUser.class), isA(Dataset.class), eq(fileItem))).andReturn(itemServiceContentUrl).anyTimes();
         return this;
     }
 

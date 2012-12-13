@@ -10,8 +10,6 @@ import org.powermock.api.easymock.PowerMock;
 
 public class UserHelper
 {
-    private static EasyUserRepo userRepoMock;
-
     /**
      * Creates a mocked instance of a {@link EasyUser}. A fluent interface allows further configuration of
      * possible/expected behavior of the instance, and related methods of {@link EasyUserRepo}.
@@ -22,7 +20,7 @@ public class UserHelper
     UserHelper(final String userId) throws Exception
     {
         final EasyUser mockedUser = PowerMock.createMock(EasyUser.class);
-        expect(userRepoMock.findById(userId)).andReturn(mockedUser).anyTimes();
+        expect(Data.getUserRepo().findById(userId)).andReturn(mockedUser).anyTimes();
     }
 
     /**
@@ -30,8 +28,6 @@ public class UserHelper
      */
     static void reset()
     {
-        userRepoMock = PowerMock.createMock(EasyUserRepo.class);
-        new Data().setUserRepo(userRepoMock);
     }
 
     public static void verifyAll()
