@@ -22,12 +22,6 @@ public interface XMLMarshaller
      */
     int NEW_LINE_ONLY = 0;
 
-    String ENC_UTF8 = "UTF-8";
-
-    String ENC_UTF16 = "UTF-16";
-
-    String ENC_US_ASCII = "US-ASCII";
-
     void setEncoding(String enc);
 
     String getEncoding();

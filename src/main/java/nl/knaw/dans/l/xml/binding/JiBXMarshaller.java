@@ -18,7 +18,7 @@ public class JiBXMarshaller implements XMLMarshaller
     private IBindingFactory bindingFactory;
     private IMarshallingContext marshallingContext;
 
-    private String encoding = ENC_UTF8;
+    private String encoding = Encoding.UTF8;
     private int indent = 4;
     private boolean standAlone = true;
     private boolean omitXmlDeclaration;

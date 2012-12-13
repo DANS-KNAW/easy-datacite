@@ -12,15 +12,12 @@ import org.jibx.runtime.JiBXException;
 
 public class JiBXUnmarshaller<T>
 {
-    public final String ENC_UTF8 = "UTF-8";
-    public final String ENC_UTF16 = "UTF-16";
-    public final String ENC_US_ASCII = "US-ASCII";
 
     private final String bindingName;
     private final Class<? extends T> beanClass;
     private IBindingFactory bindingFactory;
     private IUnmarshallingContext unmarshallingContext;
-    private String encoding = ENC_UTF8;
+    private String encoding = Encoding.UTF8;
 
     public JiBXUnmarshaller(Class<? extends T> beanClass)
     {
