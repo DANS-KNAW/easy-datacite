@@ -20,8 +20,12 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest( {Data.class})
-public class MockEasyStoreRetrieveTest
+public class MockStaticTest
 {
+    // this code did not work when divided over the BusinessMocker and its helper classes
+    // (while it was still a superclass for test classes)
+    // it worked after replacing PowerMock.mockStatic by using the setters of the Data class
+
     private static EasyStore easyStoreMock;
 
     @Before

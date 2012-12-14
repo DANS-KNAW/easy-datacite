@@ -5,7 +5,6 @@ import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.userrepo.EasyUserRepo;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 
-import org.aspectj.lang.annotation.Before;
 import org.powermock.api.easymock.PowerMock;
 
 public class UserHelper
@@ -21,13 +20,6 @@ public class UserHelper
     {
         final EasyUser mockedUser = PowerMock.createMock(EasyUser.class);
         expect(Data.getUserRepo().findById(userId)).andReturn(mockedUser).anyTimes();
-    }
-
-    /**
-     * Prepares the mocks for a new configuration. To be called by a {@link Before}.
-     */
-    static void reset()
-    {
     }
 
     public static void verifyAll()

@@ -21,7 +21,6 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 
-import org.aspectj.lang.annotation.Before;
 import org.joda.time.DateTime;
 import org.powermock.api.easymock.PowerMock;
 
@@ -32,8 +31,6 @@ public class FileHelper
     private final FileItemVO fileItemVO;
     private final FileItem fileItem;
 
-    private static int fileCounter = 0;
-
     /**
      * Creates mocked instances of a {@link FileItem} a {@link FileItemVO}. A fluent interface allows
      * further configuration of possible/expected behavior of the objects, and how {@link EasyStore} and
@@ -42,10 +39,10 @@ public class FileHelper
      * @param path
      * @throws Exception
      */
-    FileHelper(final String path) throws Exception
+    FileHelper(final String path, final int id) throws Exception
     {
         this.path = path;
-        storeId = "easy-file:" + ++fileCounter;
+        storeId = "easy-file:" + id;
         fileItem = PowerMock.createMock(FileItem.class);
         fileItemVO = PowerMock.createMock(FileItemVO.class);
         final DmoStoreId dmoStoreId = new DmoStoreId(storeId);
@@ -58,15 +55,6 @@ public class FileHelper
         expect(fileItemVO.getName()).andReturn(new File(path).getName()).anyTimes();
         expect(Data.getEasyStore().retrieve(eq(dmoStoreId))).andReturn(fileItem).anyTimes();
         expect(Data.getEasyStore().exists(eq(dmoStoreId))).andReturn(true).anyTimes();
-    }
-
-    /**
-     * Prepares the mocks for a new configuration. To be called by a {@link Before}.
-     * @param easyStore 
-     */
-    static void reset()
-    {
-        fileCounter = 0;
     }
 
     public static void verifyAll()
@@ -162,5 +150,10 @@ public class FileHelper
     public FileItemVO getFileItemVO()
     {
         return fileItemVO;
+    }
+
+    public FileItem getFileItem()
+    {
+        return fileItem;
     }
 }

@@ -41,18 +41,17 @@ import org.powermock.modules.junit4.PowerMockRunner;
  * <dd></dd>
  * </dl>
  */
-@RunWith(PowerMockRunner.class)
 public class BusinessMocker
 {
     private List<Dataset> mockedDatasets;
+    private int fileCounter;
 
     /**
      * Creates mocked services. Called by the {@link PowerMockRunner}.
      * 
      * @throws Exception
      */
-    @Before
-    public void setUpMock() throws Exception
+    public BusinessMocker() throws Exception
     {
         mockedDatasets = new LinkedList<Dataset>();
 
@@ -65,10 +64,6 @@ public class BusinessMocker
         new Data().setFileStoreAccess(PowerMock.createMock(FileStoreAccess.class));
         new Data().setMigrationRepo(PowerMock.createMock(MigrationRepo.class));
 
-        FileHelper.reset();
-        DatasetHelper.reset();
-        UserHelper.reset();
-
         expect(Data.getEasyStore().getListeners()).andReturn(new ArrayList<DmoStoreEventListener>()).anyTimes();
     }
 
@@ -77,7 +72,6 @@ public class BusinessMocker
      * 
      * @throws Exception
      */
-    @After
     public void verifyAll()
     {
         PowerMock.verifyAll();
@@ -90,7 +84,7 @@ public class BusinessMocker
      * Switches the mocked objects and classes to replay mode. Note that you must call this method after
      * specifying your expectations but before executing the test.
      */
-    protected void replayAll()
+    public void replayAll()
     {
         PowerMock.replayAll();
         UserHelper.replayAll();
@@ -104,7 +98,7 @@ public class BusinessMocker
      * @param userId
      * @throws Exception
      */
-    protected UserHelper user(final String userId) throws Exception
+    public UserHelper user(final String userId) throws Exception
     {
         return new UserHelper(userId);
     }
@@ -116,7 +110,7 @@ public class BusinessMocker
      * @return
      * @throws Exception
      */
-    protected DatasetHelper dataset(final String datasetId) throws Exception
+    public DatasetHelper dataset(final String datasetId) throws Exception
     {
         final DatasetHelper datasetHelper = new DatasetHelper(datasetId);
         mockedDatasets.add(datasetHelper.getDataset());
@@ -130,15 +124,15 @@ public class BusinessMocker
      * @return
      * @throws Exception
      */
-    protected FileHelper file(final String path) throws Exception
+    public FileHelper file(final String path) throws Exception
     {
-        return new FileHelper(path);
+        return new FileHelper(path, ++fileCounter);
     }
 
     /**
      * @return the mocked dataset objects.
      */
-    protected List<Dataset> getDatasets()
+    public List<Dataset> getDatasets()
     {
         return mockedDatasets;
     }

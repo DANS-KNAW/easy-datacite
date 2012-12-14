@@ -2,9 +2,9 @@ package nl.knaw.dans.easy.mock;
 
 import static org.easymock.EasyMock.anyBoolean;
 import static org.easymock.EasyMock.eq;
-import static org.easymock.EasyMock.same;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
+import static org.easymock.EasyMock.same;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -22,7 +22,6 @@ import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.migration.IdMap;
 import nl.knaw.dans.easy.domain.model.Dataset;
 
-import org.aspectj.lang.annotation.Before;
 import org.easymock.EasyMock;
 import org.joda.time.DateTime;
 import org.powermock.api.easymock.PowerMock;
@@ -49,13 +48,6 @@ public class DatasetHelper
         expect(Data.getEasyStore().exists(eq(dmoStoreId))).andReturn(true).anyTimes();
         expect(Data.getEasyStore().findSubordinates(eq(dmoStoreId))).andReturn(subOrdinates).anyTimes();
         expect(Data.getMigrationRepo().exists(eq(dmoStoreId.toString()))).andReturn(true).anyTimes();
-    }
-
-    /**
-     * Prepares the mocks for a new configuration. To be called by a {@link Before}.
-     */
-    static void reset()
-    {
     }
 
     public static void verifyAll()
