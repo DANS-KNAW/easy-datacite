@@ -1,4 +1,4 @@
-package nl.dans.knaw.easy.mock;
+package nl.dans.knaw.easy.mock.approach;
 
 import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
@@ -18,13 +18,15 @@ import org.powermock.api.easymock.PowerMock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+/**
+ * This code did not work when divided over the BusinessMocker and its helper classes (while it was still
+ * a superclass for test classes) It worked after replacing PowerMock.mockStatic by using the setters of
+ * the Data class
+ */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest( {Data.class})
 public class MockStaticTest
 {
-    // this code did not work when divided over the BusinessMocker and its helper classes
-    // (while it was still a superclass for test classes)
-    // it worked after replacing PowerMock.mockStatic by using the setters of the Data class
 
     private static EasyStore easyStoreMock;
 

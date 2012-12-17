@@ -24,7 +24,7 @@ import nl.knaw.dans.easy.servicelayer.services.Services;
 import org.joda.time.DateTime;
 import org.powermock.api.easymock.PowerMock;
 
-public class FileHelper
+public class FileHelper extends AbstractHelper
 {
     private final String path;
     private final String storeId;
@@ -55,16 +55,6 @@ public class FileHelper
         expect(fileItemVO.getName()).andReturn(new File(path).getName()).anyTimes();
         expect(Data.getEasyStore().retrieve(eq(dmoStoreId))).andReturn(fileItem).anyTimes();
         expect(Data.getEasyStore().exists(eq(dmoStoreId))).andReturn(true).anyTimes();
-    }
-
-    public static void verifyAll()
-    {
-        PowerMock.verifyAll();
-    }
-
-    public static void replayAll()
-    {
-        PowerMock.replayAll();
     }
 
     /**
@@ -137,22 +127,38 @@ public class FileHelper
         return this;
     }
 
-    public String getPath()
-    {
-        return path;
-    }
-
+    /** @return the generated id */
     public String getStoreId()
     {
         return storeId;
     }
 
-    public FileItemVO getFileItemVO()
+    /**
+     * Meant for {@link DatasetHelper}
+     * 
+     * @return the path as set by the constructor
+     */
+    String getPath()
+    {
+        return path;
+    }
+
+    /**
+     * Meant for {@link DatasetHelper}
+     * 
+     * @return a mocked object
+     */
+    FileItemVO getFileItemVO()
     {
         return fileItemVO;
     }
 
-    public FileItem getFileItem()
+    /**
+     * Meant for {@link DatasetHelper}
+     * 
+     * @return a mocked object
+     */
+    FileItem getFileItem()
     {
         return fileItem;
     }

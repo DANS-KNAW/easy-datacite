@@ -68,7 +68,6 @@ public class BusinessMockerTest
         mock.replayAll();
 
         final FileItem fi = (FileItem) Data.getEasyStore().retrieve(new DmoStoreId(helper.getStoreId()));
-        assertThat(fi, equalTo(helper.getFileItem()));
         assertThat(fi.getPath(), equalTo(path));
     }
 }

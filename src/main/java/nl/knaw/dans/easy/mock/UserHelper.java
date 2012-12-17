@@ -7,7 +7,7 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 
 import org.powermock.api.easymock.PowerMock;
 
-public class UserHelper
+public class UserHelper extends AbstractHelper
 {
     /**
      * Creates a mocked instance of a {@link EasyUser}. A fluent interface allows further configuration of
@@ -20,15 +20,5 @@ public class UserHelper
     {
         final EasyUser mockedUser = PowerMock.createMock(EasyUser.class);
         expect(Data.getUserRepo().findById(userId)).andReturn(mockedUser).anyTimes();
-    }
-
-    public static void verifyAll()
-    {
-        PowerMock.verifyAll();
-    }
-
-    public static void replayAll()
-    {
-        PowerMock.replayAll();
     }
 }

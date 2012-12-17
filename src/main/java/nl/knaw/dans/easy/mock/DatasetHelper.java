@@ -26,7 +26,7 @@ import org.easymock.EasyMock;
 import org.joda.time.DateTime;
 import org.powermock.api.easymock.PowerMock;
 
-public class DatasetHelper
+public class DatasetHelper extends AbstractHelper
 {
     private Boolean filesExpectedAnyTimes;
     private final DmoStoreId dmoStoreId;
@@ -48,16 +48,6 @@ public class DatasetHelper
         expect(Data.getEasyStore().exists(eq(dmoStoreId))).andReturn(true).anyTimes();
         expect(Data.getEasyStore().findSubordinates(eq(dmoStoreId))).andReturn(subOrdinates).anyTimes();
         expect(Data.getMigrationRepo().exists(eq(dmoStoreId.toString()))).andReturn(true).anyTimes();
-    }
-
-    public static void verifyAll()
-    {
-        PowerMock.verifyAll();
-    }
-
-    public static void replayAll()
-    {
-        PowerMock.replayAll();
     }
 
     public DatasetHelper withPid(final String persitentIdentifier)
