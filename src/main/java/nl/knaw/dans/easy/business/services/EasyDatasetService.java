@@ -534,4 +534,19 @@ public class EasyDatasetService extends AbstractEasyService implements DatasetSe
         }
     }
 
+    public void deleteAdditionalLicense(EasyUser sessionUser, DmoStoreId storeId, DsUnitId unitId, DateTime creationDate) throws ServiceException
+    {
+        try
+        {
+            getDatasetWorkDispatcher().deleteAdditionalLicense(sessionUser, storeId, unitId, creationDate, "purged by " + getUserId(sessionUser));
+        }
+        catch (ServiceException e)
+        {
+            throw new ServiceException(e);
+        }
+        if (LOGGER.isDebugEnabled())
+        {
+            LOGGER.debug("User '" + getUserId(sessionUser) + "' deleted Additional License " + unitId.getUnitId() + " of dataset " + storeId.getStoreId());
+        }
+    }
 }

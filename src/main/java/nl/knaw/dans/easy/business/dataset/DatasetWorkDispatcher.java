@@ -251,4 +251,18 @@ public class DatasetWorkDispatcher
         URL url = Data.getEasyStore().getFileURL(dataset.getDmoStoreId(), new DsUnitId(unitMetadata.getId()), unitMetadata.getCreationDate());
         return url;
     }
+
+    public void deleteAdditionalLicense(EasyUser sessionUser, DmoStoreId storeId, DsUnitId unitId, DateTime creationDate, String logMessage)
+            throws ServiceException
+    {
+        try
+        {
+            Data.getEasyStore().purgeUnit(storeId, unitId, creationDate, logMessage);
+        }
+        catch (RepositoryException e)
+        {
+            throw new ServiceException(e);
+        }
+    }
+
 }

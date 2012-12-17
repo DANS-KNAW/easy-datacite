@@ -278,7 +278,7 @@ public class DummyEasyStore implements EasyStore
     }
 
     @Override
-    public DateTime puregUnit(DmoStoreId storeId, DsUnitId unitId, String logMessage) throws RepositoryException
+    public DateTime purgeUnit(DmoStoreId storeId, DsUnitId unitId, DateTime creationDate, String logMessage) throws RepositoryException
     {
         // TODO Auto-generated method stub
         return null;

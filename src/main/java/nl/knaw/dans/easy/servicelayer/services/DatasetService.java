@@ -6,6 +6,7 @@ import java.util.List;
 import nl.knaw.dans.common.lang.dataset.CommonDataset;
 import nl.knaw.dans.common.lang.repo.DataModelObject;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
+import nl.knaw.dans.common.lang.repo.DsUnitId;
 import nl.knaw.dans.common.lang.repo.UnitMetadata;
 import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
@@ -316,6 +317,8 @@ public interface DatasetService extends EasyService
     List<UnitMetadata> getLicenseVersions(final Dataset object) throws ServiceException;
 
     void saveAdditionalLicense(EasyUser sessionUser, Dataset dataset, final WorkListener... workListeners) throws ServiceException, DataIntegrityException;
+
+    void deleteAdditionalLicense(EasyUser sessionUser, DmoStoreId storeId, DsUnitId unitId, DateTime creationDate) throws ServiceException;
 
     URL getUnitMetadataURL(EasyUser sessionUser, Dataset dataset, UnitMetadata unitMetadata) throws ServiceException, CommonSecurityException;
 

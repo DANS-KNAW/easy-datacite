@@ -98,7 +98,7 @@ public class JumpoffWorkDispatcher
     {
         try
         {
-            Data.getEasyStore().puregUnit(storeId, unitId, logMessage);
+            Data.getEasyStore().purgeUnit(storeId, unitId, null, logMessage);
         }
         catch (RepositoryException e)
         {

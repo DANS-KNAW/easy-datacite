@@ -320,6 +320,9 @@ public class CodedAuthz extends AbstractEasyService implements Authz
                     getEnableToLoggedInUserRule());
             rules.put("URL nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.getUnitMetadataURL(EasyUser, Dataset, UnitMetadata)",
                     getEnableToArchivistOrAdminRule());
+            rules.put(
+                    "void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.deleteAdditionalLicense(EasyUser, DmoStoreId, DsUnitId, DateTime, String)",
+                    getEnableToArchivistOrAdminRule());
 
             // JumpoffWorkDispatcher
             rules.put("void nl.knaw.dans.easy.business.jumpoff.JumpoffWorkDispatcher.saveJumpoffDmo(EasyUser, JumpoffDmo, DataModelObject)",
