@@ -2,10 +2,12 @@ package nl.knaw.dans.easy.web.view.dataset;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Properties;
 
 import nl.knaw.dans.common.lang.ResourceLocator;
 import nl.knaw.dans.common.lang.ResourceNotFoundException;
+import nl.knaw.dans.common.lang.repo.UnitMetadata;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.components.upload.EasyUpload;
 import nl.knaw.dans.common.wicket.components.upload.EasyUploadConfig;
@@ -43,6 +45,8 @@ public class AdministrationPanel extends AbstractDatasetModelPanel
     private static final Logger logger = LoggerFactory.getLogger(AdministrationPanel.class);
 
     private static Properties DISPLAY_PROPS;
+    private static final String DEPOSITOR_LICENSE = "depositorLicense";
+    private static final String ADDITIONAL_LICENSE = "additionalLicense";
 
     private boolean initiated;
 
@@ -86,19 +90,8 @@ public class AdministrationPanel extends AbstractDatasetModelPanel
 
     private void addLicensesHistoryPanels()
     {
-        final DatasetService datasetService = Services.getDatasetService();
-        try
-        {
-            add(new UnitMetaDataPanel("depositorLicense", datasetService.getLicenseVersions(getDataset()), getDatasetModel(), LicenseUnit.UNIT_ID));
-            add(new UnitMetaDataPanel("additionalLicense", datasetService.getAdditionalLicenseVersions(getDataset()), getDatasetModel(),
-                    AdditionalLicenseUnit.UNIT_ID));
-        }
-        catch (final ServiceException serviceException)
-        {
-            final String message = "Could not get license history: ";
-            logger.error(message, serviceException);
-            throw new WicketRuntimeException(message, serviceException);
-        }
+        add(createUnitMetaDataPanel(DEPOSITOR_LICENSE, getDatasetModel(), LicenseUnit.UNIT_ID, false));
+        add(createUnitMetaDataPanel(ADDITIONAL_LICENSE, getDatasetModel(), AdditionalLicenseUnit.UNIT_ID, true));
     }
 
     @Override
@@ -109,7 +102,34 @@ public class AdministrationPanel extends AbstractDatasetModelPanel
             init();
             initiated = true;
         }
+        else
+        {
+            addOrReplace(createUnitMetaDataPanel(ADDITIONAL_LICENSE, getDatasetModel(), AdditionalLicenseUnit.UNIT_ID, true));
+        }
         super.onBeforeRender();
+    }
+
+    private UnitMetaDataPanel createUnitMetaDataPanel(String licenseType, DatasetModel datasetModel, String licenseUnitId, boolean showDeleteButton)
+    {
+        final DatasetService datasetService = Services.getDatasetService();
+        try
+        {
+            if (licenseType == ADDITIONAL_LICENSE)
+            {
+                return new UnitMetaDataPanel(licenseType, datasetService.getAdditionalLicenseVersions(getDataset()), datasetModel, licenseUnitId,
+                        showDeleteButton);
+            }
+            else
+            {
+                return new UnitMetaDataPanel(licenseType, datasetService.getLicenseVersions(getDataset()), datasetModel, licenseUnitId, showDeleteButton);
+            }
+        }
+        catch (ServiceException serviceException)
+        {
+            final String message = "Could not get license history: ";
+            logger.error(message, serviceException);
+            throw new WicketRuntimeException(message, serviceException);
+        }
     }
 
     private void init()
