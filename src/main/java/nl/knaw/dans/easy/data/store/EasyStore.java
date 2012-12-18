@@ -7,6 +7,7 @@ import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.DataModelObject;
 import nl.knaw.dans.common.lang.repo.DmoStore;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
+import nl.knaw.dans.common.lang.repo.DsUnitId;
 import nl.knaw.dans.easy.domain.download.DownloadHistory;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 
@@ -51,5 +52,7 @@ public interface EasyStore extends DmoStore
     URL getDescriptiveMetadataURL(DmoStoreId dmoStoreId);
 
     URL getStreamURL(DmoStoreId dmoStoreId, String streamId);
+
+    void purgeUnit(DmoStoreId storeId, DsUnitId unitId, Object object, String logMessage) throws RepositoryException;
 
 }

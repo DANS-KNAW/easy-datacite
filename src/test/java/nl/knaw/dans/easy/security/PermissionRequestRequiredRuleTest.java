@@ -8,9 +8,6 @@ import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
-import nl.knaw.dans.easy.security.CodedAuthz;
-import nl.knaw.dans.easy.security.ContextParameters;
-import nl.knaw.dans.easy.security.SecurityOfficer;
 
 import org.easymock.EasyMock;
 import org.junit.Ignore;

@@ -278,13 +278,6 @@ public class DummyEasyStore implements EasyStore
     }
 
     @Override
-    public DateTime purgeUnit(DmoStoreId storeId, DsUnitId unitId, DateTime creationDate, String logMessage) throws RepositoryException
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
     public void addOrUpdateBinaryUnit(DmoStoreId storeId, BinaryUnit binaryUnit, String logMessage) throws RepositoryException
     {
         // TODO Auto-generated method stub
@@ -345,6 +338,20 @@ public class DummyEasyStore implements EasyStore
     {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public DateTime puregUnit(DmoStoreId arg0, DsUnitId arg1, String arg2) throws RepositoryException
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void purgeUnit(DmoStoreId storeId, DsUnitId unitId, Object object, String logMessage) throws RepositoryException
+    {
+        // TODO Auto-generated method stub
+
     }
 
 }

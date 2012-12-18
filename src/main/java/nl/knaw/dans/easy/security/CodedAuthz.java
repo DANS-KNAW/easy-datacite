@@ -62,7 +62,6 @@ public class CodedAuthz extends AbstractEasyService implements Authz
     private SecurityOfficer userByIdRule;
 
     private SecurityOfficer noSecurityOfficer;
-    private SecurityOfficer dummyOfficer;
 
     @Override
     public String getServiceDescription()
@@ -356,16 +355,6 @@ public class CodedAuthz extends AbstractEasyService implements Authz
             logger.debug("Created rule: " + noSecurityOfficer.getProposition());
         }
         return noSecurityOfficer;
-    }
-
-    protected SecurityOfficer getDummyOfficer()
-    {
-        if (dummyOfficer == null)
-        {
-            logger.warn("Still using dummyOfficer!");
-            dummyOfficer = new DummySecurityOfficer();
-        }
-        return dummyOfficer;
     }
 
     /**
