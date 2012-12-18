@@ -15,7 +15,6 @@ import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.AbstractDmoFactory;
 import nl.knaw.dans.common.lang.repo.DataModelObject;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
-import nl.knaw.dans.common.lang.repo.DsUnitId;
 import nl.knaw.dans.common.lang.repo.exception.ObjectDeserializationException;
 import nl.knaw.dans.common.lang.repo.relations.RelsConstants;
 import nl.knaw.dans.common.lang.xml.XMLDeserializationException;
@@ -196,13 +195,6 @@ public class EasyFedoraStore extends FedoraDmoStore implements EasyStore
                 .append(dmoObject)//
                 .append("> . }")//
                 .toString();
-    }
-
-    @Override
-    public void purgeUnit(DmoStoreId storeId, DsUnitId unitId, Object object, String logMessage) throws RepositoryException
-    {
-        // TODO Auto-generated method stub
-
     }
 
 }
