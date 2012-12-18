@@ -26,50 +26,54 @@ import org.easymock.EasyMock;
 import org.joda.time.DateTime;
 import org.powermock.api.easymock.PowerMock;
 
-public class DatasetHelper extends AbstractHelper
+public class DatasetMocker
 {
-    private Boolean filesExpectedAnyTimes;
-    private final DmoStoreId dmoStoreId;
+    /** the mocked dataset */
     private final Dataset dataset;
+
+    /** The store ID for the mocked dataset */
+    private final DmoStoreId dmoStoreId;
+
+    /** Subordinates for the dataset, such as files */
     private List<DmoStoreId> subOrdinates;
 
     /**
      * Creates a mocked instance of a {@link Dataset}. A fluent interface allows further configuration of
      * possible/expected behavior of the instance, and related methods of {@link FileStoreAccess}.
      */
-    protected DatasetHelper(final String storeId) throws Exception
+    protected DatasetMocker(final String storeId) throws Exception
     {
         dmoStoreId = new DmoStoreId(storeId);
         dataset = PowerMock.createMock(Dataset.class);
         subOrdinates = new LinkedList<DmoStoreId>();
-        expect(dataset.getStoreId()).andReturn(storeId).anyTimes();
-        expect(dataset.getDmoStoreId()).andReturn(dmoStoreId).anyTimes();
-        expect(Data.getEasyStore().retrieve(eq(dmoStoreId))).andReturn(dataset).anyTimes();
-        expect(Data.getEasyStore().exists(eq(dmoStoreId))).andReturn(true).anyTimes();
-        expect(Data.getEasyStore().findSubordinates(eq(dmoStoreId))).andReturn(subOrdinates).anyTimes();
-        expect(Data.getMigrationRepo().exists(eq(dmoStoreId.toString()))).andReturn(true).anyTimes();
+        expect(dataset.getStoreId()).andStubReturn(storeId);
+        expect(dataset.getDmoStoreId()).andStubReturn(dmoStoreId);
+        expect(Data.getEasyStore().retrieve(eq(dmoStoreId))).andStubReturn(dataset);
+        expect(Data.getEasyStore().exists(eq(dmoStoreId))).andStubReturn(true);
+        expect(Data.getEasyStore().findSubordinates(eq(dmoStoreId))).andStubReturn(subOrdinates);
+        expect(Data.getMigrationRepo().exists(eq(dmoStoreId.toString()))).andStubReturn(true);
     }
 
-    public DatasetHelper withPid(final String persitentIdentifier)
+    public DatasetMocker withPid(final String persitentIdentifier)
     {
-        expect(dataset.getPersistentIdentifier()).andReturn(persitentIdentifier).anyTimes();
+        expect(dataset.getPersistentIdentifier()).andStubReturn(persitentIdentifier);
         return this;
     }
 
-    public DatasetHelper with(final DatasetState state)
+    public DatasetMocker with(final DatasetState state)
     {
-        expect(dataset.getAdministrativeState()).andReturn(state).anyTimes();
+        expect(dataset.getAdministrativeState()).andStubReturn(state);
         return this;
     }
 
-    public DatasetHelper with(final DatasetState administrativeSate, final String state)
+    public DatasetMocker with(final DatasetState administrativeSate, final String state)
     {
-        expect(dataset.getAdministrativeState()).andReturn(administrativeSate).anyTimes();
-        expect(dataset.getState()).andReturn(state).anyTimes();
+        expect(dataset.getAdministrativeState()).andStubReturn(administrativeSate);
+        expect(dataset.getState()).andStubReturn(state);
         return this;
     }
 
-    public DatasetHelper withAipId(final String aipId) throws Exception
+    public DatasetMocker withAipId(final String aipId) throws Exception
     {
         final IdMap idMapMock = new IdMap()
         {
@@ -93,19 +97,18 @@ public class DatasetHelper extends AbstractHelper
      * @param files
      * @return this object to allow a fluent interface.
      */
-    public DatasetHelper with(final FileHelper... files) throws Exception
+    public DatasetMocker with(final FileMocker... files) throws Exception
     {
-        filesExpected(true);
         final Map<String, String> fileMap = new HashMap<String, String>();
         final List<FileItemVO> fileItems = new ArrayList<FileItemVO>();
-        for (final FileHelper helper : files)
+        for (final FileMocker mocker : files)
         {
-            fileMap.put(helper.getStoreId(), new File(helper.getPath()).getName());
-            fileItems.add(helper.getFileItemVO());
-            subOrdinates.add(new DmoStoreId(helper.getStoreId()));
+            fileMap.put(mocker.getStoreId(), new File(mocker.getPath()).getName());
+            fileItems.add(mocker.getFileItemVO());
+            subOrdinates.add(new DmoStoreId(mocker.getStoreId()));
         }
-        expect(Data.getFileStoreAccess().getAllFiles(dmoStoreId)).andReturn(fileMap).anyTimes();
-        expect(Data.getFileStoreAccess().getDatasetFiles(dmoStoreId)).andReturn(fileItems).anyTimes();
+        expect(Data.getFileStoreAccess().getAllFiles(dmoStoreId)).andStubReturn(fileMap);
+        expect(Data.getFileStoreAccess().getDatasetFiles(dmoStoreId)).andStubReturn(fileItems);
         return this;
     }
 
@@ -116,12 +119,11 @@ public class DatasetHelper extends AbstractHelper
      * @param files
      * @return this object to allow a fluent interface.
      */
-    public DatasetHelper expectGetDatasetFilesOnce(final FileHelper... files) throws Exception
+    public DatasetMocker expectGetDatasetFilesOnce(final FileMocker... files) throws Exception
     {
-        filesExpected(false);
         final List<FileItemVO> fileItems = new ArrayList<FileItemVO>();
-        for (final FileHelper helper : files)
-            fileItems.add(helper.getFileItemVO());
+        for (final FileMocker mocker : files)
+            fileItems.add(mocker.getFileItemVO());
         expect(Data.getFileStoreAccess().getDatasetFiles(dmoStoreId)).andReturn(fileItems).once();
         return this;
     }
@@ -133,11 +135,10 @@ public class DatasetHelper extends AbstractHelper
      * @return
      * @throws Exception
      */
-    public DatasetHelper withoutFiles() throws Exception
+    public DatasetMocker withoutFiles() throws Exception
     {
-        filesExpected(true);
-        expect(Data.getFileStoreAccess().getAllFiles(dmoStoreId)).andReturn(new HashMap<String, String>()).anyTimes();
-        expect(Data.getFileStoreAccess().getDatasetFiles(dmoStoreId)).andReturn(new ArrayList<FileItemVO>()).anyTimes();
+        expect(Data.getFileStoreAccess().getAllFiles(dmoStoreId)).andStubReturn(new HashMap<String, String>());
+        expect(Data.getFileStoreAccess().getDatasetFiles(dmoStoreId)).andStubReturn(new ArrayList<FileItemVO>());
         return this;
     }
 
@@ -151,7 +152,7 @@ public class DatasetHelper extends AbstractHelper
      * 
      * @return this object to allow a fluent interface.
      */
-    public DatasetHelper expectPurgeAt(final DateTime dateTime) throws Exception
+    public DatasetMocker expectPurgeAt(final DateTime dateTime) throws Exception
     {
         expect(Data.getEasyStore().purge(same(dataset), anyBoolean(), isA(String.class))).andReturn(dateTime).once();
         return this;
@@ -167,7 +168,7 @@ public class DatasetHelper extends AbstractHelper
      * 
      * @return this object to allow a fluent interface.
      */
-    public DatasetHelper expectMigrationPurgeAt(final DateTime dateTime) throws Exception
+    public DatasetMocker expectMigrationPurgeAt(final DateTime dateTime) throws Exception
     {
         expect(Data.getEasyStore().purge(same(dataset), anyBoolean(), isA(String.class))).andReturn(dateTime).once();
         Data.getMigrationRepo().delete(eq(dmoStoreId.toString()));
@@ -175,13 +176,11 @@ public class DatasetHelper extends AbstractHelper
         return this;
     }
 
-    private void filesExpected(boolean anyTimes)
-    {
-        if (anyTimes && filesExpectedAnyTimes != null)
-            throw new IllegalStateException("mocked " + dmoStoreId + " allready has file expectations, can't set for anyTimes any more");
-        filesExpectedAnyTimes = anyTimes;
-    }
-
+    /**
+     * Returns the mocked dataset. The behavior of the returned object may be changed by this.
+     * 
+     * @return the mocked dataset
+     */
     public Dataset getDataset()
     {
         return dataset;

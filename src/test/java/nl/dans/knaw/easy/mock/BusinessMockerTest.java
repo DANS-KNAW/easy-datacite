@@ -9,12 +9,12 @@ import nl.knaw.dans.easy.domain.migration.IdMap;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.FileItem;
 import nl.knaw.dans.easy.mock.BusinessMocker;
-import nl.knaw.dans.easy.mock.FileHelper;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.powermock.api.easymock.PowerMock;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
@@ -31,7 +31,7 @@ public class BusinessMockerTest
     @After
     public void verifyAll()
     {
-        mock.verifyAll();
+        PowerMock.verifyAll();
     }
 
     @Test
@@ -40,7 +40,7 @@ public class BusinessMockerTest
         final String storeId = "easy-dataset:1";
         final Dataset mockedDataset = mock.dataset(storeId).getDataset();
 
-        mock.replayAll();
+        PowerMock.replayAll();
 
         final Dataset retrievedDataset = (Dataset) Data.getEasyStore().retrieve(new DmoStoreId(storeId));
         assertThat(retrievedDataset, sameInstance(mockedDataset));
@@ -53,7 +53,7 @@ public class BusinessMockerTest
         final String aipId = "twips-1";
         mock.dataset(storeId).withAipId(aipId);
 
-        mock.replayAll();
+        PowerMock.replayAll();
 
         final IdMap idMap = Data.getMigrationRepo().findById(storeId);
         assertThat(idMap.getAipId(), equalTo(aipId));
@@ -63,11 +63,12 @@ public class BusinessMockerTest
     public void noPurge() throws Exception
     {
         final String path = "tif/2.tif";
-        final FileHelper helper = mock.file(path);
+        final String storeId = "my-easy-file:1";
+        mock.file(path, storeId);
 
-        mock.replayAll();
+        PowerMock.replayAll();
 
-        final FileItem fi = (FileItem) Data.getEasyStore().retrieve(new DmoStoreId(helper.getStoreId()));
-        assertThat(fi.getPath(), equalTo(path));
+        final FileItem fileItem = (FileItem) Data.getEasyStore().retrieve(new DmoStoreId(storeId));
+        assertThat(fileItem.getPath(), equalTo(path));
     }
 }

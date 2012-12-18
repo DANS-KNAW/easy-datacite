@@ -7,18 +7,18 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 
 import org.powermock.api.easymock.PowerMock;
 
-public class UserHelper extends AbstractHelper
+public class UserMocker
 {
     /**
-     * Creates a mocked instance of a {@link EasyUser}. A fluent interface allows further configuration of
+     * Creates a mocked instance of an {@link EasyUser}. A fluent interface allows further configuration of
      * possible/expected behavior of the instance, and related methods of {@link EasyUserRepo}.
      * 
      * @param userId
      * @throws Exception
      */
-    UserHelper(final String userId) throws Exception
+    UserMocker(final String userId) throws Exception
     {
         final EasyUser mockedUser = PowerMock.createMock(EasyUser.class);
-        expect(Data.getUserRepo().findById(userId)).andReturn(mockedUser).anyTimes();
+        expect(Data.getUserRepo().findById(userId)).andStubReturn(mockedUser);
     }
 }

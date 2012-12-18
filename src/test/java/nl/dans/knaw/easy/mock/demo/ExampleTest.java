@@ -4,22 +4,26 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
 
+import nl.knaw.dans.common.fedora.fox.DobState;
+import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.mock.BusinessMocker;
-import nl.knaw.dans.easy.mock.DatasetHelper;
-import nl.knaw.dans.easy.mock.FileHelper;
+import nl.knaw.dans.easy.mock.DatasetMocker;
+import nl.knaw.dans.easy.mock.FileMocker;
 
 import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.powermock.api.easymock.PowerMock;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
 public class ExampleTest
 {
+    private static final DateTime BASE_DATE_TIME = new DateTime("2000-01-01T00:00:00");
     private BusinessMocker mock;
 
     @Before
@@ -31,34 +35,50 @@ public class ExampleTest
     @After
     public void verifyAll()
     {
-        mock.verifyAll();
+        PowerMock.verifyAll();
     }
 
     /**
-     * Demonstrates mocking a complex dataset that changes during the test. Without the change during the
-     * test you might use {@link DatasetHelper#with(FileHelper...)} which implements more expectations
-     * than {@link DatasetHelper#expectGetDatasetFilesOnce(FileHelper...).
+     * Demonstrates mocking a complex dataset that changes during the test. The "with" methods of the
+     * mockers create default behavior with stubs. These stubs are a fall back for regular expectations.
+     * Stubs are not verified. The order of {@link DatasetMocker#with(FileMocker...)} and
+     * {@link DatasetMocker#expectGetDatasetFilesOnce(FileMocker...)} does not seem to be relevant.
+     * 
+     * @see <a href="http://stackoverflow.com/questions/3740376/easymock-andreturn-vs-andstubreturn">
+     *      stackoverflow</>
      */
     @Test
     public void purgeTiff() throws Exception
     {
+        // TODO code smell: dependency on easy-fedora for DobState, found in PurgeDeletedDatasetTask
         final String datasetId = "easy-dataset:0";
         mock.user("archivist");
-        mock.dataset("easy-dataset:0").withPid("urn:nbn:nl:ui:13-2g23-6f")//
+        mock.dataset("easy-dataset:0")//
+                .withPid("urn:nbn:nl:ui:13-2g23-6f")//
+                .with(DatasetState.MAINTENANCE, DobState.Active.toString())//
+                .withAipId("twips-1")//
                 .expectGetDatasetFilesOnce(//
-                        mock.file("original/tiff/my.gif").forNone(), //
-                        mock.file("tif/2.tif").forNone().expectPurgeAt(new DateTime("2000-01-01T00:00:00").plus(1)), //
-                        mock.file("1.png").forNone(), //
-                        mock.file("tif/1.gif").with(AccessibleTo.ANONYMOUS).with(VisibleTo.NONE))//
-                .expectGetDatasetFilesOnce(// same files for the second test call except for the purged file
-                        mock.file("original/tiff/my.gif").forNone(), //
-                        mock.file("1.png").forNone(), //
-                        mock.file("tif/1.gif").with(AccessibleTo.ANONYMOUS).with(VisibleTo.NONE));
+                        mock.file("original/tiff/my.gif")//
+                                .with(AccessibleTo.NONE, VisibleTo.NONE), //
+                        mock.file("tif/2.tif")//
+                                .with(AccessibleTo.NONE, VisibleTo.NONE)//
+                                .expectPurgeAt(BASE_DATE_TIME.plus(1)), //
+                        mock.file("1.png")//
+                                .with(AccessibleTo.NONE, VisibleTo.NONE), //
+                        mock.file("tif/1.gif")//
+                                .with(AccessibleTo.ANONYMOUS, VisibleTo.NONE))//
+                .with(//
+                        mock.file("original/tiff/my.gif")//
+                                .with(AccessibleTo.NONE, VisibleTo.NONE), //
+                        mock.file("1.png")//
+                                .with(AccessibleTo.NONE, VisibleTo.NONE), //
+                        mock.file("tif/1.gif")//
+                                .with(AccessibleTo.ANONYMOUS, VisibleTo.NONE));
 
-        mock.replayAll();
+        PowerMock.replayAll();
 
-        ClassUnderTest.purgeTiffFiles(datasetId);
-        ClassUnderTest.purgeTiffFiles(datasetId);
+        // purge files with extension tif in a folder named tif or tiff
+        ClassUnderTest.cleanUp(datasetId, "(.*/)?tiff?/[^/]*[.]tif");
     }
 
     /**
@@ -71,17 +91,17 @@ public class ExampleTest
     {
         final String userId = "archivist";
         final String datasetStoreId = "easy-dataset:6";
-        final String mockedFile = "sample.txt";
+        final String fileStoreId = "my-easy-file:1";
 
+        final String path = "sample.txt";
         final String mockedFilesDir = "/src/test/resources/input/";
-        final URL url = new URL("file://" + new File(".").getAbsolutePath() + mockedFilesDir + mockedFile);
+        final URL mockedContentUrl = new URL("file://" + new File(".").getAbsolutePath() + mockedFilesDir + path);
 
-        final FileHelper fileToRead = mock.file(mockedFile).with(url).with(AccessibleTo.ANONYMOUS).with(VisibleTo.ANONYMOUS);
-        final String fileStoreId = fileToRead.getStoreId();
         mock.user(userId);
-        mock.dataset(datasetStoreId).withPid("urn:nbn:nl:ui:13-2g23-6f").with(fileToRead);
+        mock.dataset(datasetStoreId).withPid("urn:nbn:nl:ui:13-2g23-6f")//
+                .with(mock.file(path, fileStoreId).with(mockedContentUrl).with(AccessibleTo.ANONYMOUS, VisibleTo.ANONYMOUS));
 
-        mock.replayAll();
+        PowerMock.replayAll();
 
         ClassUnderTest.openFile(userId, datasetStoreId, fileStoreId);
     }

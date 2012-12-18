@@ -24,7 +24,7 @@ import nl.knaw.dans.easy.servicelayer.services.Services;
 import org.joda.time.DateTime;
 import org.powermock.api.easymock.PowerMock;
 
-public class FileHelper extends AbstractHelper
+public class FileMocker
 {
     private final String path;
     private final String storeId;
@@ -39,37 +39,22 @@ public class FileHelper extends AbstractHelper
      * @param path
      * @throws Exception
      */
-    FileHelper(final String path, final int id) throws Exception
+    FileMocker(final String path, final String storeId) throws Exception
     {
+        final DmoStoreId dmoStoreId = new DmoStoreId(storeId);
         this.path = path;
-        storeId = "easy-file:" + id;
+        this.storeId = storeId;
         fileItem = PowerMock.createMock(FileItem.class);
         fileItemVO = PowerMock.createMock(FileItemVO.class);
-        final DmoStoreId dmoStoreId = new DmoStoreId(storeId);
-        expect(fileItem.getDmoStoreId()).andReturn(dmoStoreId).anyTimes();
-        expect(fileItem.getStoreId()).andReturn(storeId).anyTimes();
-        expect(fileItem.getPath()).andReturn(path).anyTimes();
-        expect(fileItem.getFile()).andReturn(new File(path)).anyTimes();
-        expect(fileItemVO.getSid()).andReturn(storeId).anyTimes();
-        expect(fileItemVO.getPath()).andReturn(path).anyTimes();
-        expect(fileItemVO.getName()).andReturn(new File(path).getName()).anyTimes();
-        expect(Data.getEasyStore().retrieve(eq(dmoStoreId))).andReturn(fileItem).anyTimes();
-        expect(Data.getEasyStore().exists(eq(dmoStoreId))).andReturn(true).anyTimes();
-    }
-
-    /**
-     * Configures get methods of the mocked instances to return {@link AccessibleTo.NONE} respectively
-     * {@link VisibleTo.NONE}.
-     * 
-     * @return this object to allow a fluent interface.
-     */
-    public FileHelper forNone()
-    {
-        expect(fileItem.getAccessibleTo()).andReturn(AccessibleTo.NONE).anyTimes();
-        expect(fileItem.getVisibleTo()).andReturn(VisibleTo.NONE).anyTimes();
-        expect(fileItemVO.getAccessibleTo()).andReturn(AccessibleTo.NONE).anyTimes();
-        expect(fileItemVO.getVisibleTo()).andReturn(VisibleTo.NONE).anyTimes();
-        return this;
+        expect(fileItem.getDmoStoreId()).andStubReturn(dmoStoreId);
+        expect(fileItem.getStoreId()).andStubReturn(storeId);
+        expect(fileItem.getPath()).andStubReturn(path);
+        expect(fileItem.getFile()).andStubReturn(new File(path));
+        expect(fileItemVO.getSid()).andStubReturn(storeId);
+        expect(fileItemVO.getPath()).andStubReturn(path);
+        expect(fileItemVO.getName()).andStubReturn(new File(path).getName());
+        expect(Data.getEasyStore().retrieve(eq(dmoStoreId))).andStubReturn(fileItem);
+        expect(Data.getEasyStore().exists(eq(dmoStoreId))).andStubReturn(true);
     }
 
     /**
@@ -83,7 +68,7 @@ public class FileHelper extends AbstractHelper
      * 
      * @return this object to allow a fluent interface.
      */
-    public FileHelper expectPurgeAt(final DateTime dateTime) throws Exception
+    public FileMocker expectPurgeAt(final DateTime dateTime) throws Exception
     {
         expect(Data.getEasyStore().purge(eq(fileItem), anyBoolean(), isA(String.class))).andReturn(dateTime).once();
         return this;
@@ -97,9 +82,9 @@ public class FileHelper extends AbstractHelper
      * 
      * @return this object to allow a fluent interface.
      */
-    public FileHelper with(final URL itemServiceContentUrl) throws Exception
+    public FileMocker with(final URL itemServiceContentUrl) throws Exception
     {
-        expect(Services.getItemService().getFileContentURL(isA(EasyUser.class), isA(Dataset.class), eq(fileItem))).andReturn(itemServiceContentUrl).anyTimes();
+        expect(Services.getItemService().getFileContentURL(isA(EasyUser.class), isA(Dataset.class), eq(fileItem))).andStubReturn(itemServiceContentUrl);
         return this;
     }
 
@@ -108,33 +93,23 @@ public class FileHelper extends AbstractHelper
      * 
      * @return this object to allow a fluent interface.
      */
-    public FileHelper with(final AccessibleTo expected)
+    public FileMocker with(final AccessibleTo accessibleTo, VisibleTo visibleTo)
     {
-        expect(fileItem.getAccessibleTo()).andReturn(expected).anyTimes();
-        expect(fileItemVO.getAccessibleTo()).andReturn(expected).anyTimes();
+        expect(fileItem.getVisibleTo()).andStubReturn(visibleTo);
+        expect(fileItem.getAccessibleTo()).andStubReturn(accessibleTo);
+        expect(fileItemVO.getVisibleTo()).andStubReturn(visibleTo);
+        expect(fileItemVO.getAccessibleTo()).andStubReturn(accessibleTo);
         return this;
     }
 
-    /**
-     * Configures get methods of the mocked instances to return the expected {@link VisibleTo}.
-     * 
-     * @return this object to allow a fluent interface.
-     */
-    public FileHelper with(final VisibleTo expected)
-    {
-        expect(fileItem.getVisibleTo()).andReturn(expected).anyTimes();
-        expect(fileItemVO.getVisibleTo()).andReturn(expected).anyTimes();
-        return this;
-    }
-
-    /** @return the generated id */
-    public String getStoreId()
+    /** @return the id generated for the mocked object */
+    String getStoreId()
     {
         return storeId;
     }
 
     /**
-     * Meant for {@link DatasetHelper}
+     * Meant for {@link DatasetMocker}
      * 
      * @return the path as set by the constructor
      */
@@ -144,9 +119,9 @@ public class FileHelper extends AbstractHelper
     }
 
     /**
-     * Meant for {@link DatasetHelper}
+     * Meant for {@link DatasetMocker}. 
      * 
-     * @return a mocked object
+     * @return a mocked object. Please keep it in sync with the object returned by {@link #getFileItem()}.
      */
     FileItemVO getFileItemVO()
     {
@@ -154,9 +129,9 @@ public class FileHelper extends AbstractHelper
     }
 
     /**
-     * Meant for {@link DatasetHelper}
+     * Meant for {@link DatasetMocker}. 
      * 
-     * @return a mocked object
+     * @return a mocked object. Please keep it in sync with the object returned by {@link #getFileItemVO()}.
      */
     FileItem getFileItem()
     {

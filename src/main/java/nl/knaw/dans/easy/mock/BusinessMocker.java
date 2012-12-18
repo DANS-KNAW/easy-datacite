@@ -7,23 +7,25 @@ import java.util.LinkedList;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.repo.DmoStoreEventListener;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.migration.MigrationRepo;
 import nl.knaw.dans.easy.data.store.EasyStore;
 import nl.knaw.dans.easy.data.store.FileStoreAccess;
 import nl.knaw.dans.easy.data.userrepo.EasyUserRepo;
 import nl.knaw.dans.easy.domain.model.Dataset;
+import nl.knaw.dans.easy.domain.model.FileItem;
 import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 
-import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
- * Provides a fluent interface to mock a static configuration of repository objects. See test classes for
- * usage examples and troubleshooting.
+ * Provides a fluent interface to mock a static configuration of repository objects. See demo test
+ * classes for usage examples and troubleshooting.
  */
 public class BusinessMocker
 {
@@ -31,8 +33,10 @@ public class BusinessMocker
     private int fileCounter;
 
     /**
-     * Creates mocked services. Typically called by a {@link Test} method of a {@link PowerMockRunner} class.
-     * class.
+     * Initializes mocked services. Typically called by a {@link Test} method or a {@link Before} method
+     * of a {@link PowerMockRunner} class. Call {@link PowerMock#replayAll(Object...) } between
+     * configuring the desired mocked objects and executing your test. After completion of the test you
+     * may want to call {@link PowerMock#verifyAll(Object...) }.
      * 
      * @throws Exception
      */
@@ -42,6 +46,10 @@ public class BusinessMocker
 
         Data.unlock();
         Services.unlock();
+        // TRIED PowerMock.mockStatic(Data.class);
+        // before revision 12014 while this class was still a superclass for test classes
+        // it only worked when everything was reduced into a single class
+        // using setters did worked with expectations in the individual classes
 
         new Services().setItemService(PowerMock.createMock(ItemService.class));
         new Data().setUserRepo(PowerMock.createMock(EasyUserRepo.class));
@@ -49,70 +57,67 @@ public class BusinessMocker
         new Data().setFileStoreAccess(PowerMock.createMock(FileStoreAccess.class));
         new Data().setMigrationRepo(PowerMock.createMock(MigrationRepo.class));
 
-        expect(Data.getEasyStore().getListeners()).andReturn(new ArrayList<DmoStoreEventListener>()).anyTimes();
+        expect(Data.getEasyStore().getListeners()).andStubReturn(new ArrayList<DmoStoreEventListener>());
     }
 
     /**
-     * Asserts that methods were called as expected. Typically to be called by a {@link After} method of
-     * a {@link PowerMockRunner} class.
-     * 
-     * @throws Exception
-     */
-    public void verifyAll()
-    {
-        PowerMock.verifyAll();
-        UserHelper.verifyAll();
-        FileHelper.verifyAll();
-        DatasetHelper.verifyAll();
-    }
-
-    /**
-     * Switches the mocked objects and classes to replay mode. Note that you must call this method after
-     * specifying your expectations but before executing the test.
-     */
-    public void replayAll()
-    {
-        PowerMock.replayAll();
-        UserHelper.replayAll();
-        FileHelper.replayAll();
-        DatasetHelper.replayAll();
-    }
-
-    /**
-     * Creates an object to configure possible/expected behavior related to a user.
+     * Creates an object to configure possible/expected behavior of the mocked services related to a
+     * user.
      * 
      * @param userId
      * @throws Exception
      */
-    public UserHelper user(final String userId) throws Exception
+    public UserMocker user(final String userId) throws Exception
     {
-        return new UserHelper(userId);
+        return new UserMocker(userId);
     }
 
     /**
-     * Creates an object to configure possible/expected behavior related to a dataset in the repository.
+     * Creates an object to configure possible/expected behavior of a mocked {@link Dataset} and related
+     * services.
      * 
      * @param datasetId
      * @return
      * @throws Exception
      */
-    public DatasetHelper dataset(final String datasetId) throws Exception
+    public DatasetMocker dataset(final String datasetId) throws Exception
     {
-        final DatasetHelper datasetHelper = new DatasetHelper(datasetId);
-        mockedDatasets.add(datasetHelper.getDataset());
-        return datasetHelper;
+        final DatasetMocker datasetMocker = new DatasetMocker(datasetId);
+        mockedDatasets.add(datasetMocker.getDataset());
+        return datasetMocker;
     }
 
     /**
-     * Creates an object to configure possible/expected behavior related to a file in the repository.
+     * Creates an object to configure possible/expected behavior of the mocked services related to a
+     * file. The file gets a generated {@link DmoStoreId}.
      * 
      * @param path
+     *        of the the file within the dataset
      * @return
      * @throws Exception
      */
-    public FileHelper file(final String path) throws Exception
+    public FileMocker file(final String path) throws Exception
     {
-        return new FileHelper(path, ++fileCounter);
+        return new FileMocker(path, FileItem.NAMESPACE + ":" + ++fileCounter);
+    }
+
+    /**
+     * Creates an object to configure possible/expected behavior of the mocked services related to a
+     * file.
+     * 
+     * @param path
+     *        of the the file within the dataset
+     * @param id
+     *        the value for the {@link DmoStoreId} of the file. The name space should not equal
+     *        {@link FileItem#NAMESPACE} to avoid clashes with IDs generated by {@link #file(String)}.
+     * @return
+     * @throws Exception
+     */
+    public FileMocker file(final String path, final String id) throws Exception
+    {
+        if (id.startsWith(FileItem.NAMESPACE + ":"))
+            throw new IllegalArgumentException("possible clash with generated IDs, choose another namespace than: " + FileItem.NAMESPACE);
+        return new FileMocker(path, id);
     }
 
     /**
