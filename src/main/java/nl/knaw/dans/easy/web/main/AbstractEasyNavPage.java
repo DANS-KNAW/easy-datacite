@@ -13,7 +13,7 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasySession;
 import nl.knaw.dans.easy.web.HomePage;
-import nl.knaw.dans.easy.web.authn.LoginPage;
+import nl.knaw.dans.easy.web.authn.login.LoginPage;
 import nl.knaw.dans.easy.web.authn.LogoffLink;
 import nl.knaw.dans.easy.web.authn.RegistrationPage;
 import nl.knaw.dans.easy.web.authn.UserInfoPage;
@@ -56,8 +56,6 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage
     private static final String EASY_LOGO_LINK = "easyLogoLink";
     private static final String MANAGEMENT_BAR_PANEL = "managementBarPanel";
     private static final String EASY_VERSION = "easyVersion";
-    private static final String LANGUAGE_SWITCH_EN = "en";
-    private static final String LANGUAGE_SWITCH_NL = "nl";
     private static final String LOGIN = "login";
     private static final String REGISTER = "register";
     private static final String DEPOSIT = "navDeposit";

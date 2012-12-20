@@ -1,4 +1,4 @@
-package nl.knaw.dans.easy.web.authn;
+package nl.knaw.dans.easy.web.authn.login;
 
 import nl.knaw.dans.common.wicket.behavior.FocusOnLoadBehavior;
 import nl.knaw.dans.easy.domain.authn.Authentication;
@@ -7,6 +7,8 @@ import nl.knaw.dans.easy.util.Messenger;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.EasySession;
 import nl.knaw.dans.easy.web.EasyWicketApplication;
+import nl.knaw.dans.easy.web.authn.AbstractAuthenticationPage;
+import nl.knaw.dans.easy.web.authn.UserInfoPage;
 import nl.knaw.dans.easy.web.main.AbstractEasyNavPage;
 import nl.knaw.dans.easy.web.statistics.StatisticsEvent;
 import nl.knaw.dans.easy.web.statistics.StatisticsLogger;
@@ -24,7 +26,7 @@ import org.apache.wicket.model.ResourceModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class LoginForm extends AbstractEasyStatelessForm implements EasyResources
+class LoginForm extends AbstractEasyStatelessForm<UsernamePasswordAuthentication> implements EasyResources
 {
 
     /**
@@ -52,10 +54,10 @@ public class LoginForm extends AbstractEasyStatelessForm implements EasyResource
      */
     public LoginForm(final String wicketId, final UsernamePasswordAuthentication authentication)
     {
-        super(wicketId, new CompoundPropertyModel(authentication));
+        super(wicketId, new CompoundPropertyModel<UsernamePasswordAuthentication>(authentication));
         addCommonFeedbackPanel();
-        add(new HiddenField(Messenger.PROP_TOKEN));
-        RequiredTextField useridTextField = new RequiredTextField(Authentication.PROP_USER_ID);
+        add(new HiddenField<Void>(Messenger.PROP_TOKEN));
+        RequiredTextField<String> useridTextField = new RequiredTextField<String>(Authentication.PROP_USER_ID);
         useridTextField.add(new FocusOnLoadBehavior());
         addWithComponentFeedback(useridTextField, new ResourceModel(USER_USER_ID));
         PasswordTextField passwordTextField = new PasswordTextField(Authentication.PROP_CREDENTIALS);

@@ -1,10 +1,10 @@
-package nl.knaw.dans.easy.web.authn;
+package nl.knaw.dans.easy.web.authn.login;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UserLocking
+class UserLocking
 {
     private static int MAX_TRIES = 10;
     private static int WAIT_TIME = 1000 * 60 * 30;

@@ -8,7 +8,7 @@ import nl.knaw.dans.common.wicket.CommonWicketApplication;
 import nl.knaw.dans.common.wicket.components.jumpoff.DansTinyMCESettings;
 import nl.knaw.dans.common.wicket.components.upload.EasyUploadProcesses;
 import nl.knaw.dans.common.wicket.components.upload.EasyUploadWebRequest;
-import nl.knaw.dans.easy.web.authn.LoginPage;
+import nl.knaw.dans.easy.web.authn.login.LoginPage;
 import nl.knaw.dans.easy.web.rest.RESTstartPage;
 
 import org.apache.wicket.Request;

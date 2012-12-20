@@ -19,7 +19,7 @@ import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.EasySession;
 import nl.knaw.dans.easy.web.EasyWicketApplication;
 import nl.knaw.dans.easy.web.InfoPage;
-import nl.knaw.dans.easy.web.authn.LoginPage;
+import nl.knaw.dans.easy.web.authn.login.LoginPage;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.main.AbstractEasyNavPage;
 import nl.knaw.dans.easy.web.permission.DatasetPermissionsTab;

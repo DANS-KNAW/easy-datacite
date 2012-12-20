@@ -1,0 +1,27 @@
+<html xmlns:wicket>
+<head>
+<wicket:head>
+	<link rel="stylesheet" type="text/css" href="styles.css" />
+</wicket:head>
+</head>
+<body id="login-page">
+	<wicket:panel>
+		<h2>Institution account</h2>
+		<div class="login">
+			<div class="credential-or-information">
+				<p>
+					If you are already logged in via your institution account, this
+					option will conveniently log you in to EASY automatically. (Only
+					available for <a title="Connected institutions"
+						href="https://www.surfgroepen.nl/sites/communitysupport/surfmedia/support/Pages/Howto-Federatiefinloggen.aspx">connected
+						institutions</a>.)
+				</p>
+				<div id="surf" ></div>
+			</div>
+			<div>
+				<a wicket:id="federationLink" class="button"><wicket:message key="login.button.label">Log in label</wicket:message></a>
+			</div>
+		</div>
+	</wicket:panel>
+</body>
+</html>

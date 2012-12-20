@@ -4,7 +4,7 @@ import nl.knaw.dans.common.lang.ALiasDelegate;
 import nl.knaw.dans.common.lang.ALiasDelegate.AliasInterface;
 import nl.knaw.dans.easy.web.admin.UserDetailsPage;
 import nl.knaw.dans.easy.web.authn.ChangePasswordPage;
-import nl.knaw.dans.easy.web.authn.LoginPage;
+import nl.knaw.dans.easy.web.authn.login.LoginPage;
 import nl.knaw.dans.easy.web.authn.RegistrationPage;
 import nl.knaw.dans.easy.web.authn.RegistrationValidationPage;
 import nl.knaw.dans.easy.web.deposit.DepositIntroPage;

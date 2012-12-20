@@ -29,7 +29,7 @@ import nl.knaw.dans.easy.data.search.EasyDatasetSB;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.search.RecursiveListCache;
 import nl.knaw.dans.easy.web.EasySession;
-import nl.knaw.dans.easy.web.authn.LoginPage;
+import nl.knaw.dans.easy.web.authn.login.LoginPage;
 import nl.knaw.dans.easy.web.search.custom.RecursiveListTranslator;
 import nl.knaw.dans.easy.web.search.custom.RecursiveListValueCollapser;
 import nl.knaw.dans.easy.web.search.pages.AdvSearchPage;

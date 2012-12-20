@@ -1,13 +1,11 @@
-package nl.knaw.dans.easy.web.authn;
-
-import java.util.Enumeration;
+package nl.knaw.dans.easy.web.authn.login;
 
 import javax.servlet.http.HttpServletRequest;
 
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.common.ApplicationUser;
 
-public class FederativeUserInfoExtractor
+class FederativeUserInfoExtractor
 {
     static final String FEDUSER_ATTRIBUTE_NAME_UID = Services.getFederativeUserService().getPropertyNameUserId();
     static final String FEDUSER_ATTRIBUTE_NAME_HOMEORG = Services.getFederativeUserService().getPopertyNameOrganization();
@@ -68,31 +66,5 @@ public class FederativeUserInfoExtractor
         }
 
         return appUser;
-    }
-
-    // Utility for printing request header info
-    public static void printRequest(HttpServletRequest request)
-    {
-        System.out.println("headers");
-        Enumeration e = request.getHeaderNames();
-        String value = null;
-        String name = null;
-        while (e.hasMoreElements())
-        {
-            name = (String) e.nextElement();
-            value = request.getHeader(name);
-            System.out.println(name + "=" + value);
-        }
-
-        System.out.println("attributes");
-        e = request.getAttributeNames();
-        while (e.hasMoreElements())
-        {
-            name = (String) e.nextElement();
-            value = request.getAttribute(name).toString();
-            System.out.println(name + "=" + value);
-        }
-
-        // NOTE the Shibboleth attributes are not available from the getAttributeNames()
     }
 }

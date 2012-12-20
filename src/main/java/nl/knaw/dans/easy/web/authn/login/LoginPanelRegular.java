@@ -1,13 +1,13 @@
-package nl.knaw.dans.easy.web.authn;
+package nl.knaw.dans.easy.web.authn.login;
 
-import nl.knaw.dans.easy.domain.authn.UsernamePasswordAuthentication;
+import nl.knaw.dans.easy.web.authn.ForgottenPasswordPage;
 import nl.knaw.dans.easy.web.template.AbstractEasyStatelessPanel;
 
-import org.apache.wicket.markup.html.link.PageLink;
+import org.apache.wicket.markup.html.link.Link;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class LoginPanelRegular extends AbstractEasyStatelessPanel
+class LoginPanelRegular extends AbstractEasyStatelessPanel
 {
     private static Logger logger = LoggerFactory.getLogger(LoginPanelRegular.class);
 
@@ -29,7 +29,6 @@ public class LoginPanelRegular extends AbstractEasyStatelessPanel
     /**
      * Logger for this class.
      */
-    // private static final Logger logger = LoggerFactory.getLogger(LoginPanel.class);
 
     /**
      * Serial version UID.
@@ -51,8 +50,15 @@ public class LoginPanelRegular extends AbstractEasyStatelessPanel
 
     private void addForgottenPasswordLink()
     {
-        add(new PageLink(FORGOTTEN_PASSWORD, ForgottenPasswordPage.class)
+        add(new Link<Void>(FORGOTTEN_PASSWORD)
         {
+            @Override
+            public void onClick()
+            {
+                logger.debug("Forgotten password link clicked");
+                setResponsePage(ForgottenPasswordPage.class); // TODO Auto-generated method stub
+            }
+
             /**
              * Serial version uid.
              */

@@ -3,13 +3,11 @@ package nl.knaw.dans.easy.web;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
-
 import nl.knaw.dans.common.lang.ClassUtil;
 import nl.knaw.dans.easy.security.ContextParameters;
 import nl.knaw.dans.easy.security.Security;
 import nl.knaw.dans.easy.security.SecurityOfficer;
-import nl.knaw.dans.easy.web.authn.LoginPage;
+import nl.knaw.dans.easy.web.authn.login.LoginPage;
 import nl.knaw.dans.easy.web.template.AbstractEasyPage;
 import nl.knaw.dans.easy.web.wicket.SecureEasyPageLink;
 
@@ -20,7 +18,6 @@ import org.apache.wicket.Session;
 import org.apache.wicket.authorization.Action;
 import org.apache.wicket.authorization.IAuthorizationStrategy;
 import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.protocol.http.servlet.AbortWithWebErrorCodeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

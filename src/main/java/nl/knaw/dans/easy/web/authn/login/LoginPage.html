@@ -1,0 +1,35 @@
+<html xmlns:wicket>
+<head>
+<wicket:head>
+	<link rel="stylesheet" type="text/css" href="styles.css" />
+</wicket:head>
+</head>
+<body>
+	<wicket:extend>
+		<h1>
+			<wicket:message key="login.header">Login header</wicket:message>
+		</h1>
+		<div id="login-page">
+			<p>
+				<wicket:message key="login.options-intro">Options intro ...</wicket:message>
+			</p>
+			<div id="login-options">
+				<div id="option-regular-and-splitter-wrapper"
+					wicket:id="loginPanelRegular">[LoginPanel Regular]</div>
+				<div id="option-federation" wicket:id="loginPanelFederation">[LoginPanel
+					Federation]</div>
+			</div>
+			<div id="no-account">
+				<h2>
+					<wicket:message key="login.registration.header">Registration header</wicket:message>
+				</h2>
+				<p>
+					Please, <a href="#" wicket:id="registration">register</a> to be
+					able to use the full functionality of EASY (e.g. deposit research
+					data).
+				</p>
+			</div>
+		</div>
+	</wicket:extend>
+</body>
+</html>
