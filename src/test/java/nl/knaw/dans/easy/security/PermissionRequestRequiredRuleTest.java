@@ -3,7 +3,6 @@ package nl.knaw.dans.easy.security;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
-import nl.knaw.dans.easy.data.store.DummyFileStoreAccess;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
@@ -69,7 +68,7 @@ public class PermissionRequestRequiredRuleTest
 
     private Dataset datasetWithOpenAccess()
     {
-        final DatasetImpl dataset = new DatasetImpl(DummyFileStoreAccess.DUMMY_DATASET_SID);
+        final DatasetImpl dataset = new DatasetImpl(Dataset.NAMESPACE + "-dummy:1");
         assertThat(dataset.getAccessCategory(), is(AccessCategory.OPEN_ACCESS));
         return dataset;
     }
