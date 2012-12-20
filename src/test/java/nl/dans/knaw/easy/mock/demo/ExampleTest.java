@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
 
-import nl.knaw.dans.common.fedora.fox.DobState;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
@@ -23,7 +22,11 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @RunWith(PowerMockRunner.class)
 public class ExampleTest
 {
+    /** TODO in case your project depends on easy-fedora: use DobState.Active.toString() */
+    private static final String STATE_ACTIVE = "Active";
+
     private static final DateTime BASE_DATE_TIME = new DateTime("2000-01-01T00:00:00");
+
     private BusinessMocker mock;
 
     @Before
@@ -50,30 +53,33 @@ public class ExampleTest
     @Test
     public void purgeTiff() throws Exception
     {
-        // TODO code smell: dependency on easy-fedora for DobState, found in PurgeDeletedDatasetTask
         final String datasetId = "easy-dataset:0";
         mock.user("archivist");
-        mock.dataset("easy-dataset:0")//
+        mock.dataset(datasetId)//
                 .withPid("urn:nbn:nl:ui:13-2g23-6f")//
-                .with(DatasetState.MAINTENANCE, DobState.Active.toString())//
+                .with(DatasetState.MAINTENANCE, STATE_ACTIVE)//
                 .withAipId("twips-1")//
-                .expectGetDatasetFilesOnce(//
+                .expectGetDatasetFilesOnce//
+                (//
                         mock.file("original/tiff/my.gif")//
                                 .with(AccessibleTo.NONE, VisibleTo.NONE), //
                         mock.file("tif/2.tif")//
                                 .with(AccessibleTo.NONE, VisibleTo.NONE)//
-                                .expectPurgeAt(BASE_DATE_TIME.plus(1)), //
+                                .expectPurgeAt(BASE_DATE_TIME.plusMillis(1)), //
                         mock.file("1.png")//
                                 .with(AccessibleTo.NONE, VisibleTo.NONE), //
                         mock.file("tif/1.gif")//
-                                .with(AccessibleTo.ANONYMOUS, VisibleTo.NONE))//
-                .with(//
+                                .with(AccessibleTo.ANONYMOUS, VisibleTo.NONE)//
+                )//
+                .with//
+                (//
                         mock.file("original/tiff/my.gif")//
                                 .with(AccessibleTo.NONE, VisibleTo.NONE), //
                         mock.file("1.png")//
                                 .with(AccessibleTo.NONE, VisibleTo.NONE), //
                         mock.file("tif/1.gif")//
-                                .with(AccessibleTo.ANONYMOUS, VisibleTo.NONE));
+                                .with(AccessibleTo.ANONYMOUS, VisibleTo.NONE)//
+                );
 
         PowerMock.replayAll();
 
@@ -99,7 +105,12 @@ public class ExampleTest
 
         mock.user(userId);
         mock.dataset(datasetStoreId).withPid("urn:nbn:nl:ui:13-2g23-6f")//
-                .with(mock.file(path, fileStoreId).with(mockedContentUrl).with(AccessibleTo.ANONYMOUS, VisibleTo.ANONYMOUS));
+                .with//
+                (//
+                        mock.file(path, fileStoreId)//
+                                .with(mockedContentUrl)//
+                                .with(AccessibleTo.ANONYMOUS, VisibleTo.ANONYMOUS)//
+                );
 
         PowerMock.replayAll();
 
