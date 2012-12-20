@@ -105,6 +105,8 @@ public class DatasetMocker
         {
             fileMap.put(mocker.getStoreId(), new File(mocker.getPath()).getName());
             fileItems.add(mocker.getFileItemVO());
+            expect(mocker.getFileItemVO().getDatasetSid()).andStubReturn(dmoStoreId.toString());
+            expect(mocker.getFileItem().getDatasetId()).andStubReturn(dmoStoreId);
             subOrdinates.add(new DmoStoreId(mocker.getStoreId()));
         }
         expect(Data.getFileStoreAccess().getAllFiles(dmoStoreId)).andStubReturn(fileMap);
