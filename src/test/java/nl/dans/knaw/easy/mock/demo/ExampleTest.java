@@ -6,6 +6,8 @@ import java.net.URL;
 
 import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
+import nl.knaw.dans.easy.domain.model.Dataset;
+import nl.knaw.dans.easy.domain.model.FileItem;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.mock.BusinessMocker;
 import nl.knaw.dans.easy.mock.DatasetMocker;
@@ -53,9 +55,9 @@ public class ExampleTest
     @Test
     public void purgeTiff() throws Exception
     {
-        final String datasetId = "easy-dataset:0";
+        final String datasetStoreId = mock.nextDmoStoreId(Dataset.NAMESPACE);
         mock.user("archivist");
-        mock.dataset(datasetId)//
+        mock.dataset(datasetStoreId)//
                 .withPid("urn:nbn:nl:ui:13-2g23-6f")//
                 .with(DatasetState.MAINTENANCE, STATE_ACTIVE)//
                 .withAipId("twips-1")//
@@ -84,7 +86,7 @@ public class ExampleTest
         PowerMock.replayAll();
 
         // purge files with extension tif in a folder named tif or tiff
-        ClassUnderTest.cleanUp(datasetId, "(.*/)?tiff?/[^/]*[.]tif");
+        ClassUnderTest.cleanUp(datasetStoreId, "(.*/)?tiff?/[^/]*[.]tif");
     }
 
     /**
@@ -96,8 +98,8 @@ public class ExampleTest
     public void openDatasetFile() throws Exception
     {
         final String userId = "archivist";
-        final String datasetStoreId = "easy-dataset:6";
-        final String fileStoreId = "my-easy-file:1";
+        final String datasetStoreId = mock.nextDmoStoreId(Dataset.NAMESPACE);
+        final String fileStoreId = mock.nextDmoStoreId(FileItem.NAMESPACE);
 
         final String path = "sample.txt";
         final String mockedFilesDir = "/src/test/resources/input/";

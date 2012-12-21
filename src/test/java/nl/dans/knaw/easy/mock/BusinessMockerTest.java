@@ -1,7 +1,7 @@
 package nl.dans.knaw.easy.mock;
 
 import static org.hamcrest.core.IsEqual.equalTo;
-import static org.hamcrest.core.IsSame.sameInstance;
+import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.data.Data;
@@ -38,12 +38,13 @@ public class BusinessMockerTest
     public void easyStoreRetrieve() throws Exception
     {
         final String storeId = "easy-dataset:1";
-        final Dataset mockedDataset = mock.dataset(storeId).getDataset();
+        mock.dataset(storeId);
 
         PowerMock.replayAll();
 
-        final Dataset retrievedDataset = (Dataset) Data.getEasyStore().retrieve(new DmoStoreId(storeId));
-        assertThat(retrievedDataset, sameInstance(mockedDataset));
+        final DmoStoreId dmoStoreId = new DmoStoreId(storeId);
+        assertThat((Dataset) Data.getEasyStore().retrieve(dmoStoreId), notNullValue());
+        assertThat(Data.getEasyStore().exists(dmoStoreId), equalTo(true));
     }
 
     @Test
