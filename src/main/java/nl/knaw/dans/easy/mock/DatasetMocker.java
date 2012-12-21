@@ -153,8 +153,10 @@ public class DatasetMocker
         {
             for (final FileMocker fileMocker : fileMockers)
             {
+                final String path = fileMocker.getPath();
                 addItemExpectations(fileMocker);
-                fileNameMap.put(fileMocker.getStoreId(), new File(fileMocker.getPath()).getName());
+                fileNameMap.put(fileMocker.getStoreId(), new File(path).getName());
+                addFolder(new File(path).getParent());
             }
         }
     }
