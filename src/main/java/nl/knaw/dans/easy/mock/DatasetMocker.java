@@ -8,6 +8,7 @@ import static org.easymock.EasyMock.same;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,9 +19,15 @@ import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.EasyStore;
 import nl.knaw.dans.easy.data.store.FileStoreAccess;
+import nl.knaw.dans.easy.domain.dataset.item.AbstractItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
+import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
+import nl.knaw.dans.easy.domain.dataset.item.ItemOrder;
+import nl.knaw.dans.easy.domain.dataset.item.filter.ItemFilters;
 import nl.knaw.dans.easy.domain.migration.IdMap;
 import nl.knaw.dans.easy.domain.model.Dataset;
+import nl.knaw.dans.easy.domain.model.DatasetItem;
+import nl.knaw.dans.easy.domain.model.FileItem;
 import nl.knaw.dans.easy.domain.model.FolderItem;
 
 import org.easymock.EasyMock;
@@ -40,7 +47,7 @@ public class DatasetMocker
 
     private final Map<String, FolderMocker> addedFolders = new HashMap<String, FolderMocker>();
 
-    private StoreIdGenerator storeIdGenerator;
+    private final StoreIdGenerator storeIdGenerator;
 
     /**
      * Creates a mocked instance of a {@link Dataset}. A fluent interface allows further configuration of
@@ -103,26 +110,64 @@ public class DatasetMocker
      * Creates expectations that link the mocked files with the mocked {@link Dataset}. Mocked folders
      * are created for parent folders that were not yet added to the mocked {@link Dataset}.
      * 
-     * @param files
+     * @param fileMockers
      * @return this object to allow a fluent interface.
      */
-    public DatasetMocker with(final FileMocker... files) throws Exception
+    public DatasetMocker with(final FileMocker... fileMockers) throws Exception
     {
-        final Map<String, String> fileMap = new HashMap<String, String>();
-        final List<FileItemVO> fileItems = new ArrayList<FileItemVO>();
-        for (final FileMocker mocker : files)
+        final FileHandler fileHandler = new FileHandler();
+        final FolderHandler folderHandler = new FolderHandler();
+        final FileStoreAccess fsa = Data.getFileStoreAccess();
+
+        fileHandler.process(fileMockers);
+        folderHandler.process(addedFolders.values());
+
+        expect(fsa.getAllFiles(dmoStoreId)).andStubReturn(fileHandler.fileNameMap);
+        expect(fsa.getDatasetFiles(dmoStoreId)).andStubReturn(fileHandler.items);
+        expect(fsa.getFolders(eq(dmoStoreId), eq(0), eq(0), eq((ItemOrder) null), eq((ItemFilters) null))).andStubReturn(folderHandler.items);
+
+        return this;
+    }
+
+    private class ItemHandler<VO2 extends AbstractItemVO, I2 extends DatasetItem, M extends AbstractItemMocker<VO2, I2>>
+    {
+        final List<VO2> items = new ArrayList<VO2>();
+
+        void addItemExpectations(final M mocker) throws Exception
         {
+            final VO2 itemVO = mocker.getItemVO();
             final File file = new File(mocker.getPath());
-            fileMap.put(mocker.getStoreId(), file.getName());
-            fileItems.add(mocker.getItemVO());
-            expect(mocker.getItemVO().getDatasetSid()).andStubReturn(dmoStoreId.toString());
-            expect(mocker.getItemVO().getParentSid()).andStubReturn(addFolder(file.getParent()).toString());
+            items.add(itemVO);
+            expect(itemVO.getDatasetSid()).andStubReturn(dmoStoreId.toString());
+            expect(itemVO.getParentSid()).andStubReturn(addFolder(file.getParent()).toString());
             expect(mocker.getItem().getDatasetId()).andStubReturn(dmoStoreId);
             subOrdinates.add(new DmoStoreId(mocker.getStoreId()));
         }
-        expect(Data.getFileStoreAccess().getAllFiles(dmoStoreId)).andStubReturn(fileMap);
-        expect(Data.getFileStoreAccess().getDatasetFiles(dmoStoreId)).andStubReturn(fileItems);
-        return this;
+    }
+
+    private class FileHandler extends ItemHandler<FileItemVO, FileItem, FileMocker>
+    {
+        final Map<String, String> fileNameMap = new HashMap<String, String>();
+
+        void process(final FileMocker[] fileMockers) throws Exception
+        {
+            for (final FileMocker fileMocker : fileMockers)
+            {
+                addItemExpectations(fileMocker);
+                fileNameMap.put(fileMocker.getStoreId(), new File(fileMocker.getPath()).getName());
+            }
+        }
+    }
+
+    private class FolderHandler extends ItemHandler<FolderItemVO, FolderItem, FolderMocker>
+    {
+        void process(final Collection<FolderMocker> collection) throws Exception
+        {
+            for (final FolderMocker folderMocker : collection)
+            {
+                addItemExpectations(folderMocker);
+            }
+        }
     }
 
     /**
