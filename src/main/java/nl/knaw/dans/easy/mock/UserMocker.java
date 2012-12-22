@@ -7,6 +7,7 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 
 import org.powermock.api.easymock.PowerMock;
 
+/** Wraps mocked instances of an {@link EasyUser} */
 public class UserMocker
 {
     /**

@@ -10,18 +10,22 @@ import java.io.File;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.EasyStore;
+import nl.knaw.dans.easy.data.store.FileStoreAccess;
 import nl.knaw.dans.easy.domain.dataset.item.AbstractItemVO;
 import nl.knaw.dans.easy.domain.model.DatasetItem;
 import nl.knaw.dans.easy.servicelayer.services.ItemService;
 
 import org.joda.time.DateTime;
 
+/** Wraps mocked instances of a {@link AbstractItem} and a {@link AbstractItemVO} */
 class AbstractItemMocker<VO extends AbstractItemVO, I extends DatasetItem>
 {
     private final String path;
     private final String storeId;
     private final VO mockedItemVO;
     private final I mockedItem;
+
+    private String parentStoreId;
 
     /**
      * Creates mocked instances of a file or folder. A fluent interface allows further configuration of
@@ -49,10 +53,9 @@ class AbstractItemMocker<VO extends AbstractItemVO, I extends DatasetItem>
      * Configures the expectation that
      * {@link EasyStore#purge(nl.knaw.dans.common.lang.repo.DataModelObject, boolean, String)} is called
      * exactly once for the mocked {@link DatasetItem} with any value for the other arguments.<br/>
-     * Note that the mocked purge does not change anything to the mocked datasets or Folders. The mocked
-     * objects are already in replay mode and therefore their behavior can't be changed any more. After
-     * calling the mocked purge the Folder will keep showing up when calling some method from the mocked
-     * {@link Data#getFolderStoreAccess()}
+     * Remember to override corresponding method calls of {@link FileStoreAccess} set by
+     * {@link DatasetMocker}. Both the calls expected before as after the purge. Otherwise the default
+     * stubs give the items an eternal life.
      * 
      * @return this object to allow a fluent interface.
      */
@@ -65,7 +68,7 @@ class AbstractItemMocker<VO extends AbstractItemVO, I extends DatasetItem>
         return this;
     }
 
-    /** @return the id  as set by the constructor */
+    /** @return the id as set by the constructor */
     String getStoreId()
     {
         return storeId;
@@ -87,5 +90,15 @@ class AbstractItemMocker<VO extends AbstractItemVO, I extends DatasetItem>
     I getItem()
     {
         return mockedItem;
+    }
+
+    String getParentStoreId()
+    {
+        return parentStoreId;
+    }
+
+    void setParentStoreId(String parentStoreId)
+    {
+        this.parentStoreId = parentStoreId;
     }
 }

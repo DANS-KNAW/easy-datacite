@@ -21,6 +21,7 @@ import nl.knaw.dans.easy.servicelayer.services.Services;
 import org.joda.time.DateTime;
 import org.powermock.api.easymock.PowerMock;
 
+/** Wraps mocked instances of a {@link FileItem} a {@link FileItemVO} */
 public class FileMocker extends AbstractItemMocker<FileItemVO, FileItem>
 {
     /**

@@ -8,6 +8,7 @@ import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import org.joda.time.DateTime;
 import org.powermock.api.easymock.PowerMock;
 
+/** Wraps mocked instances of a {@link FolderItem} and a {@link FolderItemVO} */
 public class FolderMocker extends AbstractItemMocker<FolderItemVO, FolderItem>
 {
     /**
