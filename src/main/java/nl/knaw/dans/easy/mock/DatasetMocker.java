@@ -1,37 +1,24 @@
 package nl.knaw.dans.easy.mock;
 
 import static org.easymock.EasyMock.anyBoolean;
-import static org.easymock.EasyMock.anyInt;
-import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
 import static org.easymock.EasyMock.same;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.EasyStore;
 import nl.knaw.dans.easy.data.store.FileStoreAccess;
-import nl.knaw.dans.easy.domain.dataset.item.AbstractItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
-import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
-import nl.knaw.dans.easy.domain.dataset.item.ItemOrder;
-import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
-import nl.knaw.dans.easy.domain.dataset.item.filter.ItemFilters;
 import nl.knaw.dans.easy.domain.migration.IdMap;
 import nl.knaw.dans.easy.domain.model.Dataset;
-import nl.knaw.dans.easy.domain.model.DatasetItem;
-import nl.knaw.dans.easy.domain.model.FileItem;
-import nl.knaw.dans.easy.domain.model.FolderItem;
 
 import org.easymock.EasyMock;
 import org.joda.time.DateTime;
@@ -43,14 +30,14 @@ public class DatasetMocker
     private final Dataset dataset;
 
     /** The store ID for the mocked dataset */
-    private final DmoStoreId dmoStoreId;
+    private final DmoStoreId datasetStoreId;
 
     /** Subordinates for the dataset, such as files */
     private final List<DmoStoreId> subOrdinates;
 
-    private final Map<String, FolderMocker> addedFolders = new HashMap<String, FolderMocker>();
-
     private final StoreIdGenerator storeIdGenerator;
+
+    private FolderMocker[] folderMockers = {/* default in case only files were specified */};
 
     /**
      * Creates a mocked instance of a {@link Dataset}. A fluent interface allows further configuration of
@@ -64,15 +51,15 @@ public class DatasetMocker
     DatasetMocker(final String storeId, final StoreIdGenerator storeIdGenerator) throws Exception
     {
         this.storeIdGenerator = storeIdGenerator;
-        dmoStoreId = new DmoStoreId(storeId);
+        datasetStoreId = new DmoStoreId(storeId);
         dataset = PowerMock.createMock(Dataset.class);
         subOrdinates = new LinkedList<DmoStoreId>();
         expect(dataset.getStoreId()).andStubReturn(storeId);
-        expect(dataset.getDmoStoreId()).andStubReturn(dmoStoreId);
-        expect(Data.getEasyStore().retrieve(eq(dmoStoreId))).andStubReturn(dataset);
-        expect(Data.getEasyStore().exists(eq(dmoStoreId))).andStubReturn(true);
-        expect(Data.getEasyStore().findSubordinates(eq(dmoStoreId))).andStubReturn(subOrdinates);
-        expect(Data.getMigrationRepo().exists(eq(dmoStoreId.toString()))).andStubReturn(true);
+        expect(dataset.getDmoStoreId()).andStubReturn(datasetStoreId);
+        expect(Data.getEasyStore().retrieve(eq(datasetStoreId))).andStubReturn(dataset);
+        expect(Data.getEasyStore().exists(eq(datasetStoreId))).andStubReturn(true);
+        expect(Data.getEasyStore().findSubordinates(eq(datasetStoreId))).andStubReturn(subOrdinates);
+        expect(Data.getMigrationRepo().exists(eq(datasetStoreId.toString()))).andStubReturn(true);
     }
 
     public DatasetMocker withPid(final String persitentIdentifier)
@@ -105,12 +92,12 @@ public class DatasetMocker
                 return aipId;
             }
         };
-        expect(Data.getMigrationRepo().findById(dmoStoreId.getStoreId())).andStubReturn(idMapMock);
+        expect(Data.getMigrationRepo().findById(datasetStoreId.getStoreId())).andStubReturn(idMapMock);
         return this;
     }
 
     /**
-     * Creates expectations that link the mocked files and folders with each other and with the mocked
+     * Creates expectations that link the mocked files and folders with one another and with the mocked
      * {@link Dataset}. Mocked folders are created for parent folders that were not yet created.
      * 
      * @param fileMockers
@@ -118,146 +105,23 @@ public class DatasetMocker
      */
     public DatasetMocker with(final FileMocker... fileMockers) throws Exception
     {
-        final FileHandler fileHandler = new FileHandler();
-        final FolderHandler folderHandler = new FolderHandler();
-        final FileStoreAccess fsa = Data.getFileStoreAccess();
-
-        fileHandler.process(fileMockers);
-        folderHandler.process(addedFolders.values());
-
-        expect(fsa.getDatasetFiles(dmoStoreId))//
-                .andStubReturn(fileHandler.items);
-        expect(fsa.getAllFiles(dmoStoreId))//
-                .andStubReturn(fileHandler.fileNameMap);
-        expect(fsa.getFilenames(dmoStoreId, true))//
-                .andStubReturn(new ArrayList<String>(fileHandler.fileNameMap.values()));
-
-        createChildExpectations(dmoStoreId, fileHandler, folderHandler, fileMockers);
-        for (FolderMocker folderMocker : getFolderMockers())
-            createChildExpectations(new DmoStoreId(folderMocker.getStoreId()), fileHandler, folderHandler, fileMockers);
-
+        final ItemStubber stubber = new ItemStubber(datasetStoreId, storeIdGenerator);
+        stubber.createItemExpectations(fileMockers, folderMockers);
+        subOrdinates.addAll(stubber.getDmoStoreIDs());
         return this;
-    }
-
-    private void createChildExpectations(final DmoStoreId parentStoreId, final FileHandler fileHandler, final FolderHandler folderHandler,
-            final FileMocker... fileMockers) throws Exception
-    {
-        final FileStoreAccess fsa = Data.getFileStoreAccess();
-
-        final List<FolderItemVO> childFolders = folderHandler.filter(getFolderMockers(), parentStoreId.toString());
-        final List<FileItemVO> childFiles = fileHandler.filter(fileMockers, parentStoreId.toString());
-        final List<ItemVO> childItems = new ArrayList<ItemVO>();
-        childItems.addAll(childFiles);
-        childItems.addAll(childFolders);
-
-        expect(fsa.getFolders(eq(parentStoreId), anyInt(), anyInt(), anyObject(ItemOrder.class), anyObject(ItemFilters.class)))//
-                .andStubReturn(childFolders);
-        expect(fsa.getFiles(eq(parentStoreId), anyInt(), anyInt(), anyObject(ItemOrder.class), anyObject(ItemFilters.class)))//
-                .andStubReturn(childFiles);
-        expect(fsa.getFilesAndFolders(eq(parentStoreId), anyInt(), anyInt(), anyObject(ItemOrder.class), anyObject(ItemFilters.class)))//
-                .andStubReturn(childItems);
-        expect(fsa.hasChildItems(eq(parentStoreId)))//
-                .andStubReturn(childItems.size() > 0);
-    }
-
-    private FolderMocker[] getFolderMockers()
-    {
-        final Collection<FolderMocker> values = addedFolders.values();
-        return values.toArray(new FolderMocker[values.size()]);
-    }
-
-    private class ItemHandler<VO extends AbstractItemVO, I extends DatasetItem, M extends AbstractItemMocker<VO, I>>
-    {
-        final List<VO> items = new ArrayList<VO>();
-
-        void addItemExpectations(final M mocker) throws Exception
-        {
-            final VO itemVO = mocker.getItemVO();
-            final File file = new File(mocker.getPath());
-            final String parentStoreId = addFolder(file.getParent()).toString();
-            mocker.setParentStoreId(parentStoreId);
-            items.add(itemVO);
-            expect(itemVO.getDatasetSid()).andStubReturn(dmoStoreId.toString());
-            expect(itemVO.getParentSid()).andStubReturn(parentStoreId);
-            expect(mocker.getItem().getDatasetId()).andStubReturn(dmoStoreId);
-            expect(Data.getFileStoreAccess().getDatasetId(new DmoStoreId(mocker.getStoreId()))).andStubReturn(parentStoreId);
-            subOrdinates.add(new DmoStoreId(mocker.getStoreId()));
-        }
-
-        List<VO> filter(final M[] mockers, final String dmoStoreId)
-        {
-            final List<VO> itemVO = new ArrayList<VO>();
-            for (final M mocker : mockers)
-            {
-                if (mocker.getParentStoreId().equals(dmoStoreId))
-                    itemVO.add(mocker.getItemVO());
-            }
-            return itemVO;
-        }
-    }
-
-    private class FileHandler extends ItemHandler<FileItemVO, FileItem, FileMocker>
-    {
-        final Map<String, String> fileNameMap = new HashMap<String, String>();
-
-        void process(final FileMocker[] fileMockers) throws Exception
-        {
-            for (final FileMocker fileMocker : fileMockers)
-            {
-                final String path = fileMocker.getPath();
-                addItemExpectations(fileMocker);
-                fileNameMap.put(fileMocker.getStoreId(), new File(path).getName());
-                expect(Data.getFileStoreAccess().findFileById(new DmoStoreId(fileMocker.getStoreId())))//
-                        .andStubReturn(fileMocker.getItemVO());
-            }
-        }
-    }
-
-    private class FolderHandler extends ItemHandler<FolderItemVO, FolderItem, FolderMocker>
-    {
-        void process(final Collection<FolderMocker> collection) throws Exception
-        {
-            for (final FolderMocker folderMocker : collection)
-            {
-                addItemExpectations(folderMocker);
-                expect(Data.getFileStoreAccess().findFolderById(new DmoStoreId(folderMocker.getStoreId())))//
-                        .andStubReturn(folderMocker.getItemVO());
-            }
-        }
     }
 
     /**
-     * Creates expectations that link the mocked folders with the mocked {@link Dataset}. Mocked folders
-     * are created for parent folders that were not yet created. Note that links between folders and
-     * files are established by {@link #with(FileMocker...)}.
+     * Links the mocked folders with the mocked {@link Dataset}. Note that expectations are created
+     * together with {@link #with(FileMocker...)} because relations can only be established using both.
      * 
-     * @param folders
+     * @param folderMockers
      * @return this object to allow a fluent interface.
      */
-    public DatasetMocker with(final FolderMocker... folders) throws Exception
+    public DatasetMocker with(final FolderMocker... folderMockers) throws Exception
     {
-        for (final FolderMocker mocker : folders)
-        {
-            final String path = mocker.getPath();
-            if (addedFolders.keySet().contains(path))
-                throw new IllegalStateException(path + " is already configured for " + dmoStoreId);
-            addedFolders.put(path, new FolderMocker(path, mocker.getStoreId()));
-            mocker.setParentStoreId(addFolder(new File(path).getParent()).toString());
-        }
+        this.folderMockers = folderMockers;
         return this;
-    }
-
-    private DmoStoreId addFolder(final String path) throws Exception
-    {
-        if (path == null)
-            return dmoStoreId;
-        if (addedFolders.keySet().contains(path))
-            return new DmoStoreId(addedFolders.get(path).getStoreId());
-        final String storeId = storeIdGenerator.getNext(FolderItem.NAMESPACE);
-        final FolderMocker folderMocker = new FolderMocker(path, storeId);
-        addedFolders.put(path, folderMocker);
-        folderMocker.setParentStoreId(addFolder(new File(path).getParent()).toString());
-        return new DmoStoreId(storeId);
     }
 
     /**
@@ -272,7 +136,7 @@ public class DatasetMocker
         final List<FileItemVO> fileItems = new ArrayList<FileItemVO>();
         for (final FileMocker mocker : files)
             fileItems.add(mocker.getItemVO());
-        expect(Data.getFileStoreAccess().getDatasetFiles(dmoStoreId)).andReturn(fileItems).once();
+        expect(Data.getFileStoreAccess().getDatasetFiles(datasetStoreId)).andReturn(fileItems).once();
         return this;
     }
 
@@ -285,8 +149,8 @@ public class DatasetMocker
      */
     public DatasetMocker withoutFiles() throws Exception
     {
-        expect(Data.getFileStoreAccess().getAllFiles(dmoStoreId)).andStubReturn(new HashMap<String, String>());
-        expect(Data.getFileStoreAccess().getDatasetFiles(dmoStoreId)).andStubReturn(new ArrayList<FileItemVO>());
+        expect(Data.getFileStoreAccess().getAllFiles(datasetStoreId)).andStubReturn(new HashMap<String, String>());
+        expect(Data.getFileStoreAccess().getDatasetFiles(datasetStoreId)).andStubReturn(new ArrayList<FileItemVO>());
         return this;
     }
 
@@ -319,7 +183,7 @@ public class DatasetMocker
     public DatasetMocker expectMigrationPurgeAt(final DateTime dateTime) throws Exception
     {
         expect(Data.getEasyStore().purge(same(dataset), anyBoolean(), isA(String.class))).andReturn(dateTime).once();
-        Data.getMigrationRepo().delete(eq(dmoStoreId.toString()));
+        Data.getMigrationRepo().delete(eq(datasetStoreId.toString()));
         EasyMock.expectLastCall().once();
         return this;
     }

@@ -49,11 +49,12 @@ public class ExampleTest
      * Stubs are not verified. The order of {@link DatasetMocker#with(FileMocker...)} and
      * {@link DatasetMocker#expectGetDatasetFilesOnce(FileMocker...)} does not seem to be relevant.
      * 
-     * @see <a href="http://stackoverflow.com/questions/3740376/easymock-andreturn-vs-andstubreturn">
+     * @see also <a
+     *      href="http://stackoverflow.com/questions/3740376/easymock-andreturn-vs-andstubreturn">
      *      stackoverflow</>
      */
     @Test
-    public void purgeTiff() throws Exception
+    public void purge() throws Exception
     {
         final String datasetStoreId = mock.nextDmoStoreId(Dataset.NAMESPACE);
         mock.user("archivist");
@@ -87,6 +88,7 @@ public class ExampleTest
 
         // purge files with extension tif in a folder named tif or tiff
         ClassUnderTest.cleanUp(datasetStoreId, "(.*/)?tiff?/[^/]*[.]tif");
+        // the default verifyAll checks that purge is called once
     }
 
     /**
