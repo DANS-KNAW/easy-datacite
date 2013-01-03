@@ -97,8 +97,9 @@ public class DatasetMocker
     }
 
     /**
-     * Creates expectations that link the mocked files and folders with one another and with the mocked
-     * {@link Dataset}. Mocked folders are created for parent folders that were not yet created.
+     * Creates stubs for {@link FileStoreAccess} to relate mocked files and folders with one another and
+     * with the mocked {@link Dataset}. Mocked folders are created for parent folders that were not yet
+     * created.
      * 
      * @param fileMockers
      * @return this object to allow a fluent interface.

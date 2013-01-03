@@ -1,10 +1,15 @@
 package nl.dans.knaw.easy.mock.demo;
 
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expect;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.junit.matchers.JUnitMatchers.containsString;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.data.Data;
+import nl.knaw.dans.easy.data.store.FileStoreAccess;
+import nl.knaw.dans.easy.domain.dataset.item.ItemOrder;
+import nl.knaw.dans.easy.domain.dataset.item.filter.ItemFilters;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.FileItem;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
@@ -26,31 +31,41 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @RunWith(PowerMockRunner.class)
 public class TroubleShootingTest
 {
+    final static int EQUALS = 1;
+    final static int CONTAINS = 2;
+
     /**
      * The test methods using an instance explain possible causes of a problem.
      */
     static enum Message
     {
-        NON_FIXED_COUNT_SET("last method called on mock already has a non-fixed count set."), //
-        UNEXPECTED_METHOD("Unexpected method call"), //
-        RECORD_STATE("calling verify is not allowed in record state"), //
+        NON_FIXED_COUNT_SET(EQUALS, "last method called on mock already has a non-fixed count set."), //
+        UNEXPECTED_METHOD(CONTAINS, "Unexpected method call"), //
+        RECORD_STATE(EQUALS, "calling verify is not allowed in record state"), //
+        UNEXPECTED(CONTAINS, "Unexpected method call "), //
         //
         ;
         private final String value;
+        private int type;
 
-        Message(final String value)
+        Message(final int type, final String value)
         {
+            this.type = type;
             this.value = value;
         }
 
-        public void assertEqual(final Throwable throwable)
+        public void verify(final Throwable throwable)
         {
-            assertThat(throwable.getMessage(), equalTo(value));
-        }
+            switch (type)
+            {
+            case EQUALS:
+                assertThat(throwable.getMessage(), equalTo(value));
+                break;
 
-        public void assertContains(final Throwable throwable)
-        {
-            assertThat(throwable.getMessage(), containsString(value));
+            default:
+                assertThat(throwable.getMessage(), containsString(value));
+                break;
+            }
         }
     }
 
@@ -76,7 +91,7 @@ public class TroubleShootingTest
         }
         catch (final IllegalStateException e)
         {
-            Message.NON_FIXED_COUNT_SET.assertEqual(e);
+            Message.NON_FIXED_COUNT_SET.verify(e);
         }
     }
 
@@ -89,7 +104,8 @@ public class TroubleShootingTest
      * <li>plain "with" for non ambiguous signatures and
      * {@link IExpectationSetters#andStubReturn(Object)} which sets a default return value which is used
      * as a fallback only when regular .andReturn() have been used up</li>
-     * <li>plain "withXxxx" to disambiguate a signatures and {@link IExpectationSetters#andStubReturn(Object)}</li>
+     * <li>plain "withXxxx" to disambiguate a signatures and
+     * {@link IExpectationSetters#andStubReturn(Object)}</li>
      * <li>plain "expectYyyy" for a more specific number of times</li>
      * </ul>
      * 
@@ -109,7 +125,7 @@ public class TroubleShootingTest
         }
         catch (final AssertionError e)
         {
-            Message.UNEXPECTED_METHOD.assertContains(e);
+            Message.UNEXPECTED_METHOD.verify(e);
         }
     }
 
@@ -125,7 +141,43 @@ public class TroubleShootingTest
         }
         catch (final IllegalStateException e)
         {
-            Message.RECORD_STATE.assertEqual(e);
+            Message.RECORD_STATE.verify(e);
         }
+    }
+
+    @Test
+    public void noInline() throws Exception
+    {
+        final FileStoreAccess fsa = Data.getFileStoreAccess();
+        final DmoStoreId dmoStoreId = new DmoStoreId("x:1");
+
+        // Only inline expressions work, so don't do this
+        final ItemFilters noItermFilters = eq((ItemFilters) null);
+        final ItemOrder noItemOrder = eq((ItemOrder) null);
+
+        expect(fsa.getFilesAndFolders(eq(dmoStoreId), eq((Integer) 0), eq((Integer) 0), noItemOrder, noItermFilters))//
+                .andStubReturn(null);
+        PowerMock.replayAll();
+        try
+        {
+            fsa.getFilesAndFolders(dmoStoreId, 0, 0, null, null);
+        }
+        catch (final AssertionError e)
+        {
+            Message.UNEXPECTED.verify(e);
+        }
+    }
+
+    @Test
+    /** Proves the explaining comment in noInline() */
+    public void inline() throws Exception
+    {
+        final FileStoreAccess fsa = Data.getFileStoreAccess();
+        final DmoStoreId dmoStoreId = new DmoStoreId("x:1");
+        expect(fsa.getFilesAndFolders(eq(dmoStoreId), eq((Integer) 0), eq((Integer) 0), eq((ItemOrder) null), eq((ItemFilters) null)))//
+                .andStubReturn(null);
+        PowerMock.replayAll();
+        fsa.getFilesAndFolders(dmoStoreId, 0, 0, null, null);
+        PowerMock.verifyAll();
     }
 }

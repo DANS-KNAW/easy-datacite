@@ -11,7 +11,6 @@ import nl.knaw.dans.easy.mock.BusinessMocker;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
@@ -31,7 +30,6 @@ public class ItemStubberTest
         PowerMock.verifyAll();
     }
 
-    @Ignore
     @Test
     public void purge() throws Exception
     {
@@ -61,19 +59,19 @@ public class ItemStubberTest
         final String storeIdOf5 = fsa.findFileByPath(dmoStoreId, "a/c/5.png").getSid();
         assertThat(fsa.findFileById(new DmoStoreId(storeIdOf5)).getPath(), equalTo("a/c/5.png"));
 
-        //FIXME
         final String storeIdOfA = fsa.findFileByPath(dmoStoreId, "a/4.png").getParentSid();
         assertThat(fsa.findFolderById(new DmoStoreId(storeIdOfA)).getPath(), equalTo("a"));
         assertThat(fsa.getFiles(new DmoStoreId(storeIdOfA), 0, 0, null, null).size(), equalTo(2));
         assertThat(fsa.getFilesAndFolders(dmoStoreId, 0, 0, null, null).size(), equalTo(2));
-        assertThat(fsa.getFolders(dmoStoreId, 0, 0, null, null).size(), equalTo(3));
+        assertThat(fsa.getFolders(dmoStoreId, 0, 0, null, null).size(), equalTo(1));
+        assertThat(fsa.getFolders(new DmoStoreId(storeIdOfA), 0, 0, null, null).size(), equalTo(2));
         assertThat(fsa.findFolderByPath(dmoStoreId, "a").getDatasetSid(), equalTo(datasetStoreId));
         assertThat(fsa.findFolderByPath(dmoStoreId, "a/b").getDatasetSid(), equalTo(datasetStoreId));
-        assertThat(fsa.findFolderByPath(dmoStoreId, "6.gif").getDatasetSid(), equalTo(datasetStoreId));
-        assertThat(fsa.findFolderByPath(dmoStoreId, "a/c/5.png").getDatasetSid(), equalTo(datasetStoreId));
+        assertThat(fsa.findFileByPath(dmoStoreId, "6.gif").getDatasetSid(), equalTo(datasetStoreId));
+        assertThat(fsa.findFileByPath(dmoStoreId, "a/c/5.png").getDatasetSid(), equalTo(datasetStoreId));
         assertThat(fsa.findFolderByPath(dmoStoreId, "a/b").getParentSid()//
                 , equalTo(fsa.findFolderByPath(dmoStoreId, "a/c").getParentSid()));
         assertThat(fsa.findFolderByPath(dmoStoreId, "a/b").getParentSid()//
-                , equalTo(fsa.findFolderByPath(dmoStoreId, "a/4.png").getParentSid()));
+                , equalTo(fsa.findFileByPath(dmoStoreId, "a/4.png").getParentSid()));
     }
 }

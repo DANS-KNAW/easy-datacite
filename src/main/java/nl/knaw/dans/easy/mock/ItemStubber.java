@@ -8,6 +8,7 @@ import static org.easymock.EasyMock.expect;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,7 +27,8 @@ import nl.knaw.dans.easy.domain.model.DatasetItem;
 import nl.knaw.dans.easy.domain.model.FileItem;
 import nl.knaw.dans.easy.domain.model.FolderItem;
 
-public class ItemStubber
+/** Responsible for stubs of {@link FileStoreAccess} related to files and folders. */
+class ItemStubber
 {
 
     /** The store ID for the mocked dataset */
@@ -40,8 +42,7 @@ public class ItemStubber
 
     private final StoreIdGenerator storeIdGenerator;
 
-    private final List<FolderMocker> folderMockers = new ArrayList<FolderMocker>();
-    private final List<FileMocker> fileMockers = new ArrayList<FileMocker>();
+    private final Map<String, FolderMocker> addedFolders = new HashMap<String, FolderMocker>();
 
     ItemStubber(final DmoStoreId datasetStoreId, final StoreIdGenerator storeIdGenerator)
     {
@@ -51,10 +52,8 @@ public class ItemStubber
 
     void createItemExpectations(final FileMocker[] fileMockers, final FolderMocker[] folderMockers) throws Exception
     {
-        this.folderMockers.addAll(Arrays.asList(folderMockers));
-        this.fileMockers.addAll(Arrays.asList(fileMockers));
-        fileHandler.process();
-        folderHandler.process();
+        fileHandler.process(fileMockers);
+        folderHandler.process(folderMockers);
 
         final FileStoreAccess fsa = Data.getFileStoreAccess();
         expect(fsa.getDatasetFiles(eq(datasetStoreId)))//
@@ -64,15 +63,15 @@ public class ItemStubber
         expect(fsa.getFilenames(eq(datasetStoreId), eq(true)))//
                 .andStubReturn(new ArrayList<String>(fileHandler.fileNameMap.values()));
 
-        createChildExpectations(datasetStoreId);
-        for (final FolderMocker folderMocker : folderMockers)
-            createChildExpectations(new DmoStoreId(folderMocker.getStoreId()));
+        createChildExpectations(datasetStoreId, fileMockers);
+        for (final FolderMocker folderMocker : addedFolders.values())
+            createChildExpectations(new DmoStoreId(folderMocker.getStoreId()), fileMockers);
     }
 
-    private void createChildExpectations(final DmoStoreId parentStoreId) throws Exception
+    private void createChildExpectations(final DmoStoreId parentStoreId, final FileMocker[] fileMockers) throws Exception
     {
-        final List<FolderItemVO> childFolders = folderHandler.filter(folderMockers, parentStoreId.toString());
-        final List<FileItemVO> childFiles = fileHandler.filter(fileMockers, parentStoreId.toString());
+        final List<FolderItemVO> childFolders = folderHandler.findChildren(addedFolders.values(), parentStoreId);
+        final List<FileItemVO> childFiles = fileHandler.findChildren(Arrays.asList(fileMockers), parentStoreId);
         final List<ItemVO> childItems = new ArrayList<ItemVO>();
         childItems.addAll(childFiles);
         childItems.addAll(childFolders);
@@ -88,6 +87,7 @@ public class ItemStubber
                 .andStubReturn(childItems.size() > 0);
     }
 
+    /** @return Store ID's of files and folders */
     List<DmoStoreId> getDmoStoreIDs()
     {
         return dmoStoreIDs;
@@ -96,7 +96,6 @@ public class ItemStubber
     private class ItemHandler<VO extends AbstractItemVO, I extends DatasetItem, M extends AbstractItemMocker<VO, I>>
     {
         final List<VO> items = new ArrayList<VO>();
-        private final Map<String, FolderMocker> addedFolders = new HashMap<String, FolderMocker>();
 
         void addItemExpectations(final M mocker) throws Exception
         {
@@ -104,39 +103,48 @@ public class ItemStubber
             final I item = mocker.getItem();
             final File file = new File(mocker.getPath());
             final DmoStoreId itemStoreId = new DmoStoreId(mocker.getStoreId());
-            final String parentStoreId = addFolder(file.getParent()).toString();
+            final DmoStoreId parentStoreId = addParentFolder(file.getParent());
             items.add(itemVO);
             dmoStoreIDs.add(itemStoreId);
-            mocker.setParentStoreId(parentStoreId);
+            mocker.setParentStoreId(parentStoreId.toString());
             expect(itemVO.getDatasetSid()).andStubReturn(datasetStoreId.toString());
-            expect(itemVO.getParentSid()).andStubReturn(parentStoreId);
+            expect(itemVO.getParentSid()).andStubReturn(parentStoreId.toString());
             expect(item.getDatasetId()).andStubReturn(datasetStoreId);
             expect(Data.getFileStoreAccess().getDatasetId(eq(itemStoreId)))//
                     .andStubReturn(datasetStoreId.toString());
         }
 
-        List<VO> filter(final List<M> mockers, final String dmoStoreId)
+        List<VO> findChildren(final Collection<M> mockers, final DmoStoreId dmoStoreId)
         {
             final List<VO> itemVO = new ArrayList<VO>();
-            for (final M mocker : mockers)
+            for (final M childMocker : mockers)
             {
-                if (mocker.getParentStoreId().equals(dmoStoreId))
-                    itemVO.add(mocker.getItemVO());
+                final String parentStoreId = childMocker.getParentStoreId();
+                if (parentStoreId != null && dmoStoreId.toString().equals(parentStoreId))
+                    itemVO.add(childMocker.getItemVO());
             }
             return itemVO;
         }
 
-        private DmoStoreId addFolder(final String path) throws Exception
+        private DmoStoreId addParentFolder(final String parentPath) throws Exception
         {
-            if (path == null)
+            if (parentPath == null)
                 return datasetStoreId;
-            if (addedFolders.keySet().contains(path))
-                return new DmoStoreId(addedFolders.get(path).getStoreId());
-            final String storeId = storeIdGenerator.getNext(FolderItem.NAMESPACE);
-            final FolderMocker folderMocker = new FolderMocker(path, storeId);
-            addedFolders.put(path, folderMocker);
-            folderMocker.setParentStoreId(addFolder(new File(path).getParent()).toString());
-            return new DmoStoreId(storeId);
+            if (addedFolders.keySet().contains(parentPath))
+                return new DmoStoreId(addedFolders.get(parentPath).getStoreId());
+
+            // parent folder is not yet created
+
+            final String parentStoreId = storeIdGenerator.getNext(FolderItem.NAMESPACE);
+            final FolderMocker parentFolderMocker = new FolderMocker(parentPath, parentStoreId);
+            addedFolders.put(parentPath, parentFolderMocker);
+
+            // recursive call
+            final DmoStoreId grandParentStoreId = addParentFolder(new File(parentPath).getParent());
+
+            parentFolderMocker.setParentStoreId(grandParentStoreId.toString());
+            folderHandler.process(parentFolderMocker);
+            return new DmoStoreId(parentStoreId);
         }
     }
 
@@ -144,7 +152,7 @@ public class ItemStubber
     {
         final Map<String, String> fileNameMap = new HashMap<String, String>();
 
-        void process() throws Exception
+        void process(final FileMocker[] fileMockers) throws Exception
         {
             for (final FileMocker fileMocker : fileMockers)
             {
@@ -162,7 +170,7 @@ public class ItemStubber
 
     private class FolderHandler extends ItemHandler<FolderItemVO, FolderItem, FolderMocker>
     {
-        void process() throws Exception
+        void process(final FolderMocker... folderMockers) throws Exception
         {
             for (final FolderMocker folderMocker : folderMockers)
             {
