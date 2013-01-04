@@ -267,11 +267,13 @@
 	<bean name="resourceLocator" class="nl.knaw.dans.common.lang.ResourceLocator">
 		<constructor-arg ref="easyHome"/>
 	</bean>
+
+	<bean
+		class="nl.knaw.dans.common.lang.spring.HomeDirectoryBasedPropertyPlaceholderConfigurer">
+		<constructor-arg ref="easyHome" />
+	</bean>
 	
 	<bean name="easyHome" class="nl.knaw.dans.easy.util.EasyHome" />
-
-	<!-- user.name PropertyPlaceholderConfigurer: a file [user.name].properties should be on the classPath -->
-	<bean class="nl.knaw.dans.common.lang.spring.UsernamePropertyPlaceholderConfigurer"/>
 
 	<!-- BeanPostProcessor for Business layer -->
 	<bean class="nl.knaw.dans.easy.business.bean.BusinessBeanPostProcessor" />

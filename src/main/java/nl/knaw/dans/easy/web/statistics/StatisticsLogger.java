@@ -1,19 +1,16 @@
 package nl.knaw.dans.easy.web.statistics;
 
 import java.util.HashMap;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
-import nl.knaw.dans.easy.domain.model.user.Group;
-import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.domain.user.EasyUserAnonymous;
-import nl.knaw.dans.easy.util.EasyHome;
 import nl.knaw.dans.easy.web.EasySession;
 import nl.knaw.dans.easy.web.EasyWicketApplication;
 
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Service for handling statistics logging.
@@ -24,15 +21,10 @@ import org.apache.log4j.PropertyConfigurator;
 public class StatisticsLogger
 {
     private static StatisticsLogger instance = null;
-    private static final Logger logger = Logger.getLogger("statistics");
+    private static final Logger logger = LoggerFactory.getLogger("statistics");
     private static final String SEPARATOR = " ; ";
     private static final String DOUBLEQUOTE = "\"";
     private static final String ESCAPECHAR = "\\";
-
-    private StatisticsLogger()
-    {
-        PropertyConfigurator.configure(EasyHome.getValue() + "/log4j-statistics.properties");
-    }
 
     public void logEvent(StatisticsEvent eventType, StatisticsModel<?>... models)
     {

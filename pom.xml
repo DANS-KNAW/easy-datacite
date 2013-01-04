@@ -76,23 +76,15 @@
 		</dependency>
 		
 		<!-- This is an end-application, so it should declare a slf4j-binding -->
-		<!-- Dependency on slf4j-log4j12-binding. -->
-		<!-- Configuration of log4j can be done f.i. by log4j.xml on the classpath -->
-		<!--  -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.6.4</version>
-		</dependency>
 		<!-- Dependency on logback-classic binding for slf4j -->
 		<!-- Configuration of logback can be done f.i. by logback.xml on the classpath -->
-		<!--  
+		<!-- --> 
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<version>1.0.7</version>
 		</dependency>
-		-->
+		<!--  -->
 
 		<!-- Dependencies on Repositories and other Data Access Points -->
 		<!-- REMINDER: these dependencies are only here so that Spring can instantiate 
@@ -173,24 +165,10 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-api-easymock</artifactId>
-			<version>1.4.6</version>
-			<scope>test</scope>
+			<groupId>org.codehaus.janino</groupId>
+			<artifactId>janino</artifactId>
+			<version>2.6.1</version>
 		</dependency>
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-module-junit4</artifactId>
-			<version>1.4.6</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.easymock</groupId>
-			<artifactId>easymock</artifactId>
-			<version>3.1</version>
-			<scope>test</scope>
-		</dependency>
-
 	</dependencies>
 
 	<build>
@@ -210,7 +188,6 @@
 				<directory>src/main/resources</directory>
 				<includes>
 					<include>conf/dataset/**/*.*</include>
-					<include>log4j.xml</include>
 				</includes>
 			</resource>
 			<resource>

@@ -30,10 +30,6 @@
   		<level value="info"/> 
 	</logger>
 
-	<logger name="nl.knaw.dans.easy.business.security.CodedAuthz">
-  		<level value="info"/>
-	</logger>
-	
 	<logger name="org.trippi.io">
 		<level value="warn"/>
 	</logger>
@@ -42,26 +38,8 @@
 		<level value="error"/>
 	</logger>
 	
-	<logger name="nl.knaw.dans.easy.fedora.db">
-		<level value="debug"/>
-	</logger>
-	
-	<logger name="nl.knaw.dans.easy.business">
-  		<level value="debug"/> 
-	</logger>
-	
-	<logger name="nl.knaw.dans.easy.web">
-  		<level value="debug"/> 
-	</logger>
-	
-	<logger name="nl.knaw.dans.common.solr">
-		<level value="debug"/>
-	</logger>
-	
 	<root>
 	  <priority value="info" />
    	  <appender-ref ref="stdout" />
 	</root>
-	
-	
 </log4j:configuration>
