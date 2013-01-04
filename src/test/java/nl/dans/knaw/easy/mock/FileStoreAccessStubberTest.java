@@ -17,7 +17,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
-public class ItemStubberTest
+public class FileStoreAccessStubberTest
 {
     private static final DateTime BASE_DATE_TIME = new DateTime("2000-01-01T00:00:00");
 
