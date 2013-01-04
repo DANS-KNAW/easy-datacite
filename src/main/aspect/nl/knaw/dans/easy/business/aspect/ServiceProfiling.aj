@@ -31,24 +31,18 @@ public aspect ServiceProfiling
                 !execution(public * EasyJumpoffService.*(DmoStoreId, DsUnitId))
                 )||
         execution(public * EasyItemService.*(..)) ||
-        execution(public * EasyDisciplineCollectionService.*(..)); 
+        execution(public * EasyDisciplineCollectionService.*(..));
 
     Object around() : profiling()
-    {  
+    {
         long start = System.currentTimeMillis();
         Object result = proceed();
         long end = System.currentTimeMillis();
-        logger.info(thisJoinPointStaticPart.getSignature().getDeclaringType().getSimpleName() + ";"
-                + thisJoinPointStaticPart.getSignature().toString() + ";" + (end - start) + ";1");
+        if (logger.isInfoEnabled())
+        {
+            logger.info(thisJoinPointStaticPart.getSignature().getDeclaringType().getSimpleName() + ";" + thisJoinPointStaticPart.getSignature().toString()
+                    + ";" + (end - start) + ";1");
+        }
         return result;
     }
-    
-    // for testing only
-    protected static Logger setLogger(Logger newLogger)
-    {
-        Logger oldLogger = logger;
-        logger = newLogger;
-        return oldLogger;
-    }
-
 }

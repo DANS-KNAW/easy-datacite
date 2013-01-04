@@ -32,13 +32,13 @@ public class EasyHome implements HomeDirectory
     {
         if (value == null)
         {
-            if (System.getProperty(EASY_HOME_KEY) != null)
-            {
-                value = System.getProperty(EASY_HOME_KEY);
-            }
-            else if (System.getenv("EASY_HOME") != null)
+            if (System.getenv("EASY_HOME") != null)
             {
                 value = System.getenv("EASY_HOME");
+            }
+            else if (System.getProperty(EASY_HOME_KEY) != null)
+            {
+                value = System.getProperty(EASY_HOME_KEY);
             }
             else
             {
