@@ -47,8 +47,9 @@ public class ExampleTest
 
     /**
      * Demonstrates mocking a complex dataset that changes during the test. The "with" methods of the
-     * mockers create default behavior with stubs. These stubs are a fall back for regular expectations.
-     * Stubs are not verified. The order of {@link DatasetMocker#with(FileMocker...)} and
+     * mockers create default behavior with stubs. These stubs are a fall back and used when the regular
+     * expectations are exhausted. Stubs are not verified. The order of
+     * {@link DatasetMocker#with(FileMocker...)} and
      * {@link DatasetMocker#expectGetDatasetFilesOnce(FileMocker...)} does not seem to be relevant.
      * 
      * @see also <a
@@ -89,8 +90,13 @@ public class ExampleTest
         PowerMock.replayAll();
 
         // purge files with extension tif in a folder named tif or tiff
-        ClassUnderTest.cleanUp(datasetStoreId, "(.*/)?tiff?/[^/]*[.]tif");
-        // the default verifyAll checks that purge is called once
+        final String cleanUpPattern = "(.*/)?tiff?/[^/]*[.]tif";
+
+        // exhausts the explicit expectations
+        ClassUnderTest.cleanUp(datasetStoreId, cleanUpPattern);
+
+        // falls back to the stubs
+        ClassUnderTest.cleanUp(datasetStoreId, cleanUpPattern);
     }
 
     /** Demonstrates mocking object content with a test input file. */

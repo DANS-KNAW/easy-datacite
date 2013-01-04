@@ -5,7 +5,6 @@ import java.net.URL;
 import nl.knaw.dans.common.lang.repo.DataModelObject;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.data.Data;
-import nl.knaw.dans.easy.data.store.EasyStore;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.FileItem;
@@ -22,10 +21,7 @@ import org.apache.commons.io.IOUtils;
 class ClassUnderTest
 {
     /**
-     * Removes files from a dataset. The cleanup is performed twice to illustrate the difference between
-     * the stubs expectations of the "with" methods of the mockers and the explicit expectations. As the
-     * cleanup should change the files belonging to a dataset, {@link EasyStore#retrieve(DmoStoreId)}
-     * should return less files in the second iteration.
+     * Removes files from a dataset.
      * 
      * @param datasetId
      *        the dataset to clean
@@ -34,15 +30,12 @@ class ClassUnderTest
      */
     static void cleanUp(final String datasetId, final String pattern) throws Exception
     {
-        for (int i = 0; i < 2; i++)
+        for (final FileItemVO fileItemVO : Data.getFileStoreAccess().getDatasetFiles(new DmoStoreId(datasetId)))
         {
-            for (final FileItemVO fileItemVO : Data.getFileStoreAccess().getDatasetFiles(new DmoStoreId(datasetId)))
+            if (fileItemVO.getPath().toLowerCase().matches(pattern))
             {
-                if (fileItemVO.getPath().toLowerCase().matches(pattern))
-                {
-                    final DataModelObject fileItem = Data.getEasyStore().retrieve(new DmoStoreId(fileItemVO.getSid()));
-                    Data.getEasyStore().purge(fileItem, true, " purged ");
-                }
+                final DataModelObject fileItem = Data.getEasyStore().retrieve(new DmoStoreId(fileItemVO.getSid()));
+                Data.getEasyStore().purge(fileItem, true, " purged ");
             }
         }
     }
