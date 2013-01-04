@@ -65,7 +65,7 @@ public class TroubleShootingTest
                 assertThat(throwable.getMessage(), equalTo(value));
                 break;
 
-            default:
+            case CONTAINS:
                 assertThat(throwable.getMessage(), containsString(value));
                 break;
             }

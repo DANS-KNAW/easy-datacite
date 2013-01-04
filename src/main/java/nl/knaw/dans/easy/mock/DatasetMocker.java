@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.data.Data;
@@ -171,7 +172,7 @@ public class DatasetMocker
      */
     public DatasetMocker expectPurgeAt(final DateTime dateTime) throws Exception
     {
-        expect(Data.getEasyStore().purge(same(dataset), anyBoolean(), isA(String.class))).andReturn(dateTime).once();
+        expectPurgeFromEasyStore(dateTime);
         return this;
     }
 
@@ -187,10 +188,15 @@ public class DatasetMocker
      */
     public DatasetMocker expectMigrationPurgeAt(final DateTime dateTime) throws Exception
     {
-        expect(Data.getEasyStore().purge(same(dataset), anyBoolean(), isA(String.class))).andReturn(dateTime).once();
+        expectPurgeFromEasyStore(dateTime);
         Data.getMigrationRepo().delete(eq(datasetStoreId.toString()));
         EasyMock.expectLastCall().once();
         return this;
+    }
+
+    private void expectPurgeFromEasyStore(final DateTime dateTime) throws RepositoryException
+    {
+        expect(Data.getEasyStore().purge(same(dataset), anyBoolean(), isA(String.class))).andReturn(dateTime).once();
     }
 
     /** @return the mocked dataset */
