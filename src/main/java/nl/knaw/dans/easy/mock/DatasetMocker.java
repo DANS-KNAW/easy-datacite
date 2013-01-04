@@ -138,7 +138,7 @@ public class DatasetMocker
 
     private void withFilesAndFolders(FileMocker[] fileMockers) throws Exception
     {
-        final ItemStubber stubber = new ItemStubber(datasetStoreId, storeIdGenerator);
+        final FileStoreAccessStubber stubber = new FileStoreAccessStubber(datasetStoreId, storeIdGenerator);
         stubber.createItemExpectations(fileMockers, folderMockers);
         subOrdinates.addAll(stubber.getDmoStoreIDs());
     }

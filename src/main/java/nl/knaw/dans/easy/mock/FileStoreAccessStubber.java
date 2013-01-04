@@ -28,7 +28,7 @@ import nl.knaw.dans.easy.domain.model.FileItem;
 import nl.knaw.dans.easy.domain.model.FolderItem;
 
 /** Responsible for stubs of {@link FileStoreAccess} related to files and folders. */
-class ItemStubber
+class FileStoreAccessStubber
 {
 
     /** The store ID for the mocked dataset */
@@ -44,7 +44,7 @@ class ItemStubber
 
     private final Map<String, FolderMocker> addedFolders = new HashMap<String, FolderMocker>();
 
-    ItemStubber(final DmoStoreId datasetStoreId, final StoreIdGenerator storeIdGenerator)
+    FileStoreAccessStubber(final DmoStoreId datasetStoreId, final StoreIdGenerator storeIdGenerator)
     {
         this.storeIdGenerator = storeIdGenerator;
         this.datasetStoreId = datasetStoreId;
