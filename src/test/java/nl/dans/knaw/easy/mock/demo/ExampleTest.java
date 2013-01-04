@@ -1,7 +1,9 @@
 package nl.dans.knaw.easy.mock.demo;
 
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertThat;
+
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.net.URL;
 
 import nl.knaw.dans.common.lang.dataset.DatasetState;
@@ -91,12 +93,8 @@ public class ExampleTest
         // the default verifyAll checks that purge is called once
     }
 
-    /**
-     * Demonstrates mocking object content with a test input file.<br>
-     * Note: the mocked file does not exist, the message of the exception shows the location where it
-     * should have been for a real test.
-     */
-    @Test(expected = FileNotFoundException.class)
+    /** Demonstrates mocking object content with a test input file. */
+    @Test
     public void openDatasetFile() throws Exception
     {
         final String userId = "archivist";
@@ -118,6 +116,7 @@ public class ExampleTest
 
         PowerMock.replayAll();
 
-        ClassUnderTest.openFile(userId, datasetStoreId, fileStoreId);
+        final String content = ClassUnderTest.readFile(userId, datasetStoreId, fileStoreId);
+        assertThat(content, equalTo("hello world"));
     }
 }
