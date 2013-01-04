@@ -92,16 +92,25 @@ public class TroubleShootingTest
         PowerMock.verifyAll();
     }
 
-    /** The initial approach would reveal mistakes */
+    private class InitialApproachMocker
+    {
+        final Dataset dataset = PowerMock.createMock(Dataset.class);
+
+        InitialApproachMocker with(DatasetState state)
+        {
+            // the new approach is andStubReturn
+            expect(dataset.getAdministrativeState()).andReturn(DatasetState.DELETED).anyTimes();
+            return this;
+        }
+    }
+
+    /** The initial approach would reveal mistakes. */
     @Test
     public void duplicateExpectations() throws Exception
     {
-        // initial approach spelled out for new DatasetMocker("..").with(DatasetState)
-        final Dataset dataset = PowerMock.createMock(Dataset.class);
-        expect(dataset.getAdministrativeState()).andReturn(DatasetState.DRAFT).anyTimes();
         try
         {
-            expect(dataset.getAdministrativeState()).andReturn(DatasetState.DELETED).anyTimes();
+            new InitialApproachMocker().with(DatasetState.DRAFT).with(DatasetState.DELETED);
         }
         catch (final IllegalStateException e)
         {
