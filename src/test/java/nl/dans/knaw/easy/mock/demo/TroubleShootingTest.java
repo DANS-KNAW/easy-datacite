@@ -114,12 +114,10 @@ public class TroubleShootingTest
     @Test
     public void missingExpectations() throws Exception
     {
+        mock.file("test.txt");
+        PowerMock.replayAll();
         try
         {
-            mock.file("test.txt");
-
-            PowerMock.replayAll();
-
             final FileItem fileItem = (FileItem) Data.getEasyStore().retrieve(new DmoStoreId("easyfile:1"));
             fileItem.getAccessibleTo();
         }
@@ -132,10 +130,10 @@ public class TroubleShootingTest
     @Test
     public void replayMissing() throws Exception
     {
+        mock.file("test.txt").with(AccessibleTo.RESTRICTED_REQUEST, VisibleTo.ANONYMOUS);
+        // replay should belong here
         try
         {
-            mock.file("test.txt").with(AccessibleTo.RESTRICTED_REQUEST, VisibleTo.ANONYMOUS);
-            // replay should belong here
             Data.getEasyStore().retrieve(new DmoStoreId("easyfile:1"));
             PowerMock.verifyAll();
         }

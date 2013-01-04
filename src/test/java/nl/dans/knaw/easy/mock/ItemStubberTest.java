@@ -3,12 +3,15 @@ package nl.dans.knaw.easy.mock;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertThat;
+import nl.knaw.dans.common.lang.repo.DataModelObject;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.FileStoreAccess;
 import nl.knaw.dans.easy.domain.model.Dataset;
+import nl.knaw.dans.easy.domain.model.FolderItem;
 import nl.knaw.dans.easy.mock.BusinessMocker;
 
+import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +19,8 @@ import org.powermock.api.easymock.PowerMock;
 
 public class ItemStubberTest
 {
+    private static final DateTime BASE_DATE_TIME = new DateTime("2000-01-01T00:00:00");
+
     private BusinessMocker mock;
 
     @Before
@@ -34,6 +39,7 @@ public class ItemStubberTest
     public void purge() throws Exception
     {
         final String datasetStoreId = mock.nextDmoStoreId(Dataset.NAMESPACE);
+        final String folderStoreId = mock.nextDmoStoreId(FolderItem.NAMESPACE);
         mock.dataset(datasetStoreId)//
                 .with//
                 (//
@@ -43,9 +49,16 @@ public class ItemStubberTest
                         mock.file("a/4.png"), //
                         mock.file("a/c/5.png"), //
                         mock.file("6.gif")//
+                ).with//
+                (//
+                        mock.folder("a/d", folderStoreId)//
+                                .expectPurgeAt(BASE_DATE_TIME.plusMillis(1))//
                 );
 
         PowerMock.replayAll();
+
+        final DataModelObject folderItem = Data.getEasyStore().retrieve(new DmoStoreId(folderStoreId));
+        Data.getEasyStore().purge(folderItem, true, " purged ");
 
         final FileStoreAccess fsa = Data.getFileStoreAccess();
         final DmoStoreId dmoStoreId = new DmoStoreId(datasetStoreId);
