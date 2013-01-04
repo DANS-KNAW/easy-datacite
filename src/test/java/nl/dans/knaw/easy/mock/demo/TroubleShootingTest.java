@@ -4,13 +4,16 @@ import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 import static org.junit.matchers.JUnitMatchers.containsString;
+import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.FileStoreAccess;
 import nl.knaw.dans.easy.domain.dataset.item.ItemOrder;
 import nl.knaw.dans.easy.domain.dataset.item.filter.ItemFilters;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
+import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.FileItem;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.mock.BusinessMocker;
@@ -78,21 +81,34 @@ public class TroubleShootingTest
     }
 
     /**
-     * The actual {@link AbstractMocker} and property is just an example.
+     * Not sure if the first stub or a random stub of the duplicates is used.
      */
+    @Test
+    public void duplicateStubs() throws Exception
+    {
+        mock.dataset(mock.nextDmoStoreId(Dataset.NAMESPACE)).with(DatasetState.DRAFT).with(DatasetState.DELETED);
+        PowerMock.replayAll();
+        assertThat(mock.getDatasets().get(0).getAdministrativeState(), equalTo(DatasetState.DRAFT));
+        PowerMock.verifyAll();
+    }
+
+    /** The initial approach would reveal mistakes */
     @Test
     public void duplicateExpectations() throws Exception
     {
+        // initial approach spelled out for new DatasetMocker("..").with(DatasetState)
+        final Dataset dataset = PowerMock.createMock(Dataset.class);
+        expect(dataset.getAdministrativeState()).andReturn(DatasetState.DRAFT).anyTimes();
         try
         {
-            mock.file("test.txt").with(AccessibleTo.RESTRICTED_GROUP, VisibleTo.RESTRICTED_REQUEST);
-            PowerMock.replayAll();
-            PowerMock.verifyAll();
+            expect(dataset.getAdministrativeState()).andReturn(DatasetState.DELETED).anyTimes();
         }
         catch (final IllegalStateException e)
         {
             Message.NON_FIXED_COUNT_SET.verify(e);
+            return;
         }
+        fail();
     }
 
     /**
@@ -114,17 +130,20 @@ public class TroubleShootingTest
     @Test
     public void missingExpectations() throws Exception
     {
-        mock.file("test.txt");
+        String fileStoreId = mock.nextDmoStoreId(FileItem.NAMESPACE);
+        mock.file("test.txt", fileStoreId);
         PowerMock.replayAll();
         try
         {
-            final FileItem fileItem = (FileItem) Data.getEasyStore().retrieve(new DmoStoreId("easyfile:1"));
+            final FileItem fileItem = (FileItem) Data.getEasyStore().retrieve(new DmoStoreId(fileStoreId));
             fileItem.getAccessibleTo();
         }
         catch (final AssertionError e)
         {
             Message.UNEXPECTED_METHOD.verify(e);
+            return;
         }
+        fail();
     }
 
     @Test
@@ -140,14 +159,16 @@ public class TroubleShootingTest
         catch (final IllegalStateException e)
         {
             Message.RECORD_STATE.verify(e);
+            return;
         }
+        fail();
     }
 
     @Test
     public void noInline() throws Exception
     {
         final FileStoreAccess fsa = Data.getFileStoreAccess();
-        final DmoStoreId dmoStoreId = new DmoStoreId("x:1");
+        final DmoStoreId dmoStoreId = new DmoStoreId(mock.nextDmoStoreId(Dataset.NAMESPACE));
 
         // Only inline expressions work, so don't do this
         final ItemFilters noItermFilters = eq((ItemFilters) null);
@@ -163,19 +184,42 @@ public class TroubleShootingTest
         catch (final AssertionError e)
         {
             Message.UNEXPECTED.verify(e);
+            return;
         }
+        fail();
     }
 
-    @Test
     /** Proves the explaining comment in noInline() */
+    @Test
     public void inline() throws Exception
     {
         final FileStoreAccess fsa = Data.getFileStoreAccess();
-        final DmoStoreId dmoStoreId = new DmoStoreId("x:1");
+        final DmoStoreId dmoStoreId = new DmoStoreId(mock.nextDmoStoreId(Dataset.NAMESPACE));
         expect(fsa.getFilesAndFolders(eq(dmoStoreId), eq((Integer) 0), eq((Integer) 0), eq((ItemOrder) null), eq((ItemFilters) null)))//
                 .andStubReturn(null);
         PowerMock.replayAll();
         fsa.getFilesAndFolders(dmoStoreId, 0, 0, null, null);
         PowerMock.verifyAll();
+    }
+
+    /** Proper solutions: {@link ExampleTest#emptyFolder()} and {@link ExampleTest#justAnEmptyFolder()} */
+    @Test
+    public void incompleteEmptyFolder() throws Exception
+    {
+        final String storeId = mock.nextDmoStoreId(Dataset.NAMESPACE);
+        mock.dataset(storeId).with(mock.folder("a"));
+
+        PowerMock.replayAll();
+
+        try
+        {
+            ClassUnderTest.getNrOfFilesAndFolders(storeId);
+        }
+        catch (final AssertionError e)
+        {
+            Message.UNEXPECTED.verify(e);
+            return;
+        }
+        fail();
     }
 }

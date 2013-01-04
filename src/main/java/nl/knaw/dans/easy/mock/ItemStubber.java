@@ -174,6 +174,7 @@ class ItemStubber
         {
             for (final FolderMocker folderMocker : folderMockers)
             {
+                addedFolders.put(folderMocker.getPath(), folderMocker);
                 addItemExpectations(folderMocker);
                 final DmoStoreId folderStoreId = new DmoStoreId(folderMocker.getStoreId());
                 final String path = folderMocker.getPath();

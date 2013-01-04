@@ -26,8 +26,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @RunWith(PowerMockRunner.class)
 public class ExampleTest
 {
-    /** TODO in case your project depends on easy-fedora: use DobState.Active.toString() */
-    private static final String STATE_ACTIVE = "Active";
+    /** In case your project depends on easy-fedora: use for example DobState.Active.toString() */
+    private static final String SOME_STATE = "SomeState";
 
     private static final DateTime BASE_DATE_TIME = new DateTime("2000-01-01T00:00:00");
 
@@ -63,7 +63,7 @@ public class ExampleTest
         mock.user("archivist");
         mock.dataset(datasetStoreId)//
                 .withPid("urn:nbn:nl:ui:13-2g23-6f")//
-                .with(DatasetState.MAINTENANCE, STATE_ACTIVE)//
+                .with(DatasetState.MAINTENANCE, SOME_STATE)//
                 .withAipId("twips-1")//
                 .expectGetDatasetFilesOnce//
                 (//
@@ -124,5 +124,27 @@ public class ExampleTest
 
         final String content = ClassUnderTest.readFile(userId, datasetStoreId, fileStoreId);
         assertThat(content, equalTo("hello world"));
+    }
+
+    @Test
+    public void emptyFolder() throws Exception
+    {
+        final String storeId = mock.nextDmoStoreId(Dataset.NAMESPACE);
+        mock.dataset(storeId).with(mock.folder("a")).with(mock.file("b.txt"));
+
+        PowerMock.replayAll();
+
+        assertThat(ClassUnderTest.getNrOfFilesAndFolders(storeId), equalTo(2));
+    }
+
+    @Test
+    public void justAnEmptyFolder() throws Exception
+    {
+        final String storeId = mock.nextDmoStoreId(Dataset.NAMESPACE);
+        mock.dataset(storeId).with(mock.folder("a")).withoutFiles();
+
+        PowerMock.replayAll();
+
+        assertThat(ClassUnderTest.getNrOfFilesAndFolders(storeId), equalTo(1));
     }
 }

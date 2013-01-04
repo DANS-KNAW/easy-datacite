@@ -40,7 +40,8 @@ public class FileMocker extends AbstractItemMocker<FileItemVO, FileItem>
 
     public FileMocker expectPurgeAt(final DateTime dateTime) throws Exception
     {
-        return (FileMocker) super.expectPurgeAt(dateTime);
+        super.expectPurgeAt(dateTime);
+        return this;
     }
 
     /**

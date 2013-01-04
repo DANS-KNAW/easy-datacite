@@ -72,4 +72,16 @@ public class BusinessMockerTest
         final FileItem fileItem = (FileItem) Data.getEasyStore().retrieve(new DmoStoreId(storeId));
         assertThat(fileItem.getPath(), equalTo(path));
     }
+
+    @Test
+    public void missingEmptyFolder() throws Exception
+    {
+        mock.dataset("easy-dataset:1");
+        mock.dataset("easy-dataset:2");
+        mock.dataset("easy-dataset:3");
+
+        assertThat(mock.getDatasets().size(), equalTo(3));
+
+        PowerMock.replayAll();
+    }
 }
