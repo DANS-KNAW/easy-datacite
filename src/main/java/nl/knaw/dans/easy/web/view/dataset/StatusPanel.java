@@ -152,6 +152,7 @@ public class StatusPanel extends AbstractEasyPanel
             @Override
             public void onClick(AjaxRequestTarget target)
             {
+                target.prependJavascript("Wicket.Window.unloadConfirmation = false;");
                 logger.debug("deleteDataset clicked.");
                 popup.setTitle("Delete dataset");
                 popup.setContent(new DeleteDatasetPanel(popup, datasetModel));

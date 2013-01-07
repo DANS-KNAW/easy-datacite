@@ -7,7 +7,9 @@ import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.EasySession;
 import nl.knaw.dans.easy.web.ErrorPage;
 import nl.knaw.dans.easy.web.common.DatasetModel;
+import nl.knaw.dans.easy.web.template.AbstractEasyPage;
 
+import org.apache.wicket.Page;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.extensions.ajax.markup.html.IndicatingAjaxLink;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
@@ -24,6 +26,7 @@ public class DeleteDatasetPanel extends Panel
 
     private static final Logger logger = LoggerFactory.getLogger(DeleteDatasetPanel.class);
 
+
     public DeleteDatasetPanel(final ModalWindow window, final DatasetModel datasetModel)
     {
         super(window.getContentId());
@@ -38,7 +41,16 @@ public class DeleteDatasetPanel extends Panel
             public void onClick(AjaxRequestTarget target)
             {
                 handleDeleteDataset(datasetModel);
-                window.close(target);
+                
+                Page page = EasySession.get().getRedirectPage(getPage().getPageClass());
+                if (page != null && page instanceof AbstractEasyPage)
+                {
+                    ((AbstractEasyPage) page).refresh();
+                }
+                if (page != null)
+                {
+                    setResponsePage(page);
+                }
             }
         });
 
