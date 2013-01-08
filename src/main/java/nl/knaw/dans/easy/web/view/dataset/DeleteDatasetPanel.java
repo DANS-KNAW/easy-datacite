@@ -26,7 +26,6 @@ public class DeleteDatasetPanel extends Panel
 
     private static final Logger logger = LoggerFactory.getLogger(DeleteDatasetPanel.class);
 
-
     public DeleteDatasetPanel(final ModalWindow window, final DatasetModel datasetModel)
     {
         super(window.getContentId());
@@ -41,7 +40,7 @@ public class DeleteDatasetPanel extends Panel
             public void onClick(AjaxRequestTarget target)
             {
                 handleDeleteDataset(datasetModel);
-                
+
                 Page page = EasySession.get().getRedirectPage(getPage().getPageClass());
                 if (page != null && page instanceof AbstractEasyPage)
                 {
