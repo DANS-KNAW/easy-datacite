@@ -1,0 +1,16 @@
+I. SYSTEM REQUIREMENTS
+
+- Tomcat 6 webcontainer. 
+
+- Fedora 3.5
+
+- SOLR 3.5
+
+- ...
+
+
+II. INSTALLATION
+
+1. 
+
+

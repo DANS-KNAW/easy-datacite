@@ -4,8 +4,10 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 	
-	<import resource="cfg/store-context.xml"/>
-	<import resource="cfg/dmo-collections-context.xml"/>
+	<import resource="conf/store-context.xml"/>
+	<import resource="conf/dmo-collections-context.xml"/>
+	
+	<bean name="wicketApplication" class="nl.knaw.dans.easy.web.EasyWicketApplication" />
 	
 	<bean class="nl.knaw.dans.easy.business.bean.EasyContextListener" />
 	
@@ -273,7 +275,10 @@
 		<constructor-arg ref="easyHome" />
 	</bean>
 	
-	<bean name="easyHome" class="nl.knaw.dans.easy.util.EasyHome" />
+	<bean name="easyHome" class="nl.knaw.dans.easy.util.EnvironmentVariableBasedHomeDirectory" >
+		<property name="environmentVariableName" value="EASY_HOME" />
+	</bean>
+	
 
 	<!-- BeanPostProcessor for Business layer -->
 	<bean class="nl.knaw.dans.easy.business.bean.BusinessBeanPostProcessor" />

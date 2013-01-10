@@ -57,7 +57,7 @@ public class TestRegistrationPage
     @Before
     public void setUp() throws Exception
     {
-        System.setProperty("easy.home", "../easy-home");
+        System.setProperty("EASY_HOME", "../easy-home");
         tester = new WicketTester(new EasyWicketApplication());
         setUpAuthz();
         setUpEasySessionMock();

@@ -15,17 +15,21 @@ import org.apache.wicket.Request;
 import org.apache.wicket.Resource;
 import org.apache.wicket.Response;
 import org.apache.wicket.Session;
+import org.apache.wicket.injection.web.InjectorHolder;
 import org.apache.wicket.javascript.DefaultJavascriptCompressor;
 import org.apache.wicket.markup.html.EmptySrcAttributeCheckFilter;
 import org.apache.wicket.protocol.http.WebRequest;
 import org.apache.wicket.request.target.coding.BookmarkablePageRequestTargetUrlCodingStrategy;
 import org.apache.wicket.resource.ContextRelativeResource;
 import org.apache.wicket.settings.IExceptionSettings;
+import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.apache.wicket.util.lang.Bytes;
 import org.apache.wicket.util.time.Duration;
 import org.apache.wicket.util.value.ValueMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * Application object for your web application. If you want to run this application without deploying,
@@ -53,13 +57,16 @@ public class EasyWicketApplication extends CommonWicketApplication
     protected void init()
     {
         super.init();
-        LOGGER.debug("Init of Easy Web Application");
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
+        addComponentInstantiationListener(new SpringComponentInjector(this, applicationContext, true));
+        LOGGER.debug("Init of Easy Wicket Application");
 
         initConfiguration();
         initSecurity();
         setAliases();
         mountBookmarkables();
         mountRestService();
+        LOGGER.debug("Init of Easy Wicket Application finished successfully");
     }
 
     private void initConfiguration()

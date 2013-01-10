@@ -5,7 +5,7 @@
 		<artifactId>easy-application</artifactId>
 		<groupId>nl.knaw.dans.easy</groupId>
 		<version>2.x-SNAPSHOT</version>
-		
+
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
@@ -14,7 +14,7 @@
 	<packaging>war</packaging>
 	<version>2.6-beta-5</version>
 	<description>Easy Web Application</description>
-	
+
 	<profiles>
 		<profile>
 			<id>maven.filter.values</id>
@@ -74,17 +74,17 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		
+
 		<!-- This is an end-application, so it should declare a slf4j-binding -->
 		<!-- Dependency on logback-classic binding for slf4j -->
 		<!-- Configuration of logback can be done f.i. by logback.xml on the classpath -->
-		<!-- --> 
+		<!-- -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<version>1.0.7</version>
 		</dependency>
-		<!--  -->
+		<!-- -->
 
 		<!-- Dependencies on Repositories and other Data Access Points -->
 		<!-- REMINDER: these dependencies are only here so that Spring can instantiate 
@@ -111,7 +111,7 @@
 			<artifactId>dans-solr</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
-		
+
 		<!-- End dependencies on Repositories and other Data Access Points -->
 
 		<!-- End project dependencies -->
@@ -169,10 +169,15 @@
 			<artifactId>janino</artifactId>
 			<version>2.6.1</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.wicket</groupId>
+			<artifactId>wicket-spring</artifactId>
+			<version>1.4.12</version>
+		</dependency>
 	</dependencies>
 
 	<build>
-		<finalName>easy</finalName>
+		<finalName>easy-webui</finalName>
 
 		<resources>
 			<resource>
@@ -188,24 +193,45 @@
 				<directory>src/main/resources</directory>
 				<includes>
 					<include>conf/dataset/**/*.*</include>
+					<include>conf/*.*</include>
+					<include>applicationContext.xml</include>
 				</includes>
 			</resource>
 			<resource>
-                <filtering>false</filtering>
-                <directory>src/main/java</directory>
-                <includes>
-                    <include>**/*.html</include>
-                    <include>**/*.properties</include>
-                    <include>**/*.xml</include>
-                    <include>**/*.pdf</include>
-                    <include>**/*.*</include>
-                </includes>
-                <excludes>
-                    <exclude>**/*.java</exclude>
-                </excludes>
-            </resource>
+				<filtering>false</filtering>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.html</include>
+					<include>**/*.properties</include>
+					<include>**/*.xml</include>
+					<include>**/*.pdf</include>
+					<include>**/*.*</include>
+				</includes>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+			</resource>
 		</resources>
 		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<descriptors>
+						<descriptor>src/main/assembly/src.xml</descriptor>
+					</descriptors>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id> 
+						<phase>package</phase> 
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>maven-jetty-plugin</artifactId>
@@ -255,7 +281,8 @@
 		</plugins>
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
@@ -281,8 +308,8 @@
 									</pluginExecutionFilter>
 									<action>
 										<execute>
-                  							<runOnIncremental>true</runOnIncremental>
-                						</execute>
+											<runOnIncremental>true</runOnIncremental>
+										</execute>
 									</action>
 								</pluginExecution>
 							</pluginExecutions>

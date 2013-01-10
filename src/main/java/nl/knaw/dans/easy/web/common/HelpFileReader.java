@@ -1,11 +1,11 @@
 package nl.knaw.dans.easy.web.common;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import nl.knaw.dans.common.lang.ResourceLocator;
+import nl.knaw.dans.common.lang.ResourceNotFoundException;
 import nl.knaw.dans.common.lang.util.TextFileReader;
-import nl.knaw.dans.easy.util.EasyHome;
 
 /**
  * Helper class to read a help item from the corresponding file in the easy.home directory.
@@ -21,11 +21,15 @@ public class HelpFileReader extends TextFileReader
     {
         try
         {
-            return new File(EasyHome.getLocation(), "/editable/help/" + helpFileName + ".template");
+            return ResourceLocator.getFile("/editable/help/" + helpFileName + ".template");
         }
-        catch (FileNotFoundException e)
+        catch (ResourceNotFoundException e)
         {
-            throw new RuntimeException("Easy.home not set", e);
+            /*
+             * These semantics are not pretty. The problem is that not all form fields have associated
+             * help items. If we return a non-existent file (as below) everything works out correctly.
+             */
+            return new File("");
         }
     }
 
