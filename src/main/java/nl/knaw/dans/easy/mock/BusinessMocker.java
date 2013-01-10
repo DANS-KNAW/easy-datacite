@@ -46,8 +46,6 @@ public class BusinessMocker
     {
         mockedDatasets = new LinkedList<Dataset>();
 
-        Data.unlock();
-        Services.unlock();
         // TRIED PowerMock.mockStatic(Data.class);
         // before revision 12014 while this class was still a superclass for test classes
         // it only worked when everything was reduced into a single class
