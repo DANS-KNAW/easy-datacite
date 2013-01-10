@@ -48,9 +48,7 @@ public class Data
     private static int maxNumberOfFiles;
     private static File zipFileDir;
 
-    private static boolean locked;
     private static Logger logger = LoggerFactory.getLogger(Data.class);
-    private static final String ILLEGAL_METHOD_CALL = "Illegal method call: Setter methods in the Data class should not be called.";
 
     /**
      * Constructs new Data - called by the application context. Sets a {@link RepoAccessDelegatorImpl} on
@@ -61,34 +59,8 @@ public class Data
      */
     public Data() throws IllegalStateException
     {
-        if (locked) // CGLIB will call the constructor a second time.
-        {
-            final String msg = "Illegal constructor call: The Data class cannot be instantiated.";
-            logger.debug(msg);
-            throw new IllegalStateException(msg);
-        }
-        logger.debug("Created " + this);
         // set RepoAccessDelegator on RepoAccess.
         RepoAccess.setDelegator(new RepoAccessDelegatorImpl());
-    }
-
-    /**
-     * Lock Data. Can be called by a BeanPostProcessor to prevent further changes. All constructor calls
-     * and setter methods will throw an IllegalStateException afterwards.
-     */
-    public void lock()
-    {
-        locked = true;
-        logger.info(this + " has been locked.");
-    }
-
-    /**
-     * NO PUBLIC METHOD! ONLY FOR TESTS! Unlock Data. 
-     */
-    public static void unlock()
-    {
-        locked = false;
-        logger.debug(Data.class.getName() + " has been unlocked.");
     }
 
     /**
@@ -247,74 +219,55 @@ public class Data
      */
     public void setUserRepo(final EasyUserRepo userRepo) throws IllegalStateException
     {
-        checkLock();
         Data.userRepo = userRepo;
         logger.debug("Injected dependency userRepo: " + userRepo);
     }
 
     public void setGroupRepo(final GroupRepo groupRepo) throws IllegalStateException
     {
-        checkLock();
         Data.groupRepo = groupRepo;
         logger.debug("Injected dependency groupRepo: " + groupRepo);
     }
 
     public void setMigrationRepo(final MigrationRepo migrationRepo) throws IllegalStateException
     {
-        checkLock();
         Data.migrationRepo = migrationRepo;
         logger.debug("Injected dependency migrationRepo: " + migrationRepo);
     }
 
     public void setFederativeUserRepo(final FederativeUserRepo federativeUserRepo) throws IllegalStateException
     {
-        checkLock();
         Data.federativeUserRepo = federativeUserRepo;
         logger.debug("Injected dependency federativeUserRepo: " + federativeUserRepo);
     }
 
     public void setEasyStore(final EasyStore easyStore)
     {
-        checkLock();
         Data.easyStore = easyStore;
         logger.debug("Injected dependency easyStore: " + easyStore);
     }
 
     public void setFileStoreAccess(final FileStoreAccess fileStoreAccess) throws IllegalStateException
     {
-        checkLock();
         Data.fileStoreAccess = fileStoreAccess;
         logger.debug("Injected dependency fileStoreAccess: " + fileStoreAccess);
     }
 
     public void setDatasetSearch(final DatasetSearch datasetSearch) throws IllegalStateException
     {
-        checkLock();
         Data.datasetSearch = datasetSearch;
         logger.debug("Injected dependency datasetSearch: " + datasetSearch);
     }
 
     public void setSearchEngine(final SearchEngine searchEngine) throws IllegalStateException
     {
-        checkLock();
         Data.searchEngine = searchEngine;
         logger.debug("Injected dependency searchEngine: " + searchEngine);
     }
 
     public void setCollectionAccess(final DmoCollectionsAccess dmoCollectionAccess)
     {
-        checkLock();
         Data.dmoCollectionAccess = dmoCollectionAccess;
         logger.debug("Injected dependency easyCollections: " + dmoCollectionAccess);
     }
-
-    private void checkLock()
-    {
-        if (locked)
-        {
-            logger.debug(ILLEGAL_METHOD_CALL);
-            throw new IllegalStateException(ILLEGAL_METHOD_CALL);
-        }
-    }
-
 }

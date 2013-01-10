@@ -22,32 +22,7 @@ public class Services
 
     public Services() throws IllegalStateException
     {
-        if (LOCKED) // CGLIB will call the constructor a second time.
-        {
-            final String msg = "Illegal constructor call: The Services class cannot be instantiated.";
-            logger.debug(msg);
-            throw new IllegalStateException(msg);
-        }
         logger.debug("Created " + this);
-    }
-
-    /**
-     * Lock Services. Can be called by a BeanPostProcessor to prevent further changes. All constructor calls and setter
-     * methods will throw an IllegalStateException afterwards.
-     */
-    public void lock()
-    {
-        LOCKED = true;
-        logger.info(this + " has been locked.");
-    }
-
-    /**
-     * NO PUBLIC METHOD! ONLY FOR TESTS! Unlock Data. 
-     */
-    public static void unlock()
-    {
-        LOCKED = false;
-        logger.debug(Services.class.getName() + " has been unlocked.");
     }
 
     public static DepositService getDepositService()
@@ -102,63 +77,54 @@ public class Services
 
     public void setDepositService(DepositService depositService) throws IllegalStateException
     {
-        checkLock();
         Services.depositService = depositService;
         logger.debug("Injected dependency depositService: " + depositService);
     }
 
     public void setDatasetService(DatasetService datasetService) throws IllegalStateException
     {
-        checkLock();
         Services.datasetService = datasetService;
         logger.debug("Injected dependency datasetService: " + datasetService);
     }
 
     public void setItemService(ItemService itemService) throws IllegalStateException
     {
-        checkLock();
         Services.itemService = itemService;
         logger.debug("Injected dependency itemService: " + itemService);
     }
 
     public void setUserService(UserService userService) throws IllegalStateException
     {
-        checkLock();
         Services.userService = userService;
         logger.debug("Injected dependency userService: " + userService);
     }
 
     public void setMigrationService(MigrationService migrationService) throws IllegalStateException
     {
-        checkLock();
         Services.migrationService = migrationService;
         logger.debug("Injected dependency migrationService: " + migrationService);
     }
 
     public void setFederativeUserService(FederativeUserService federativeUserService)
     {
-        checkLock();
         Services.federativeUserService = federativeUserService;
         logger.debug("Injected dependency federativeUserService: " + federativeUserService);
     }
 
     public void setDisciplineService(DisciplineCollectionService disciplineService)
     {
-        checkLock();
         Services.disciplineService = disciplineService;
         logger.debug("Injected dependency disciplineCollectionService: " + disciplineService);
     }
 
     public void setCollectionService(CollectionService collectionService)
     {
-        checkLock();
         Services.collectionService = collectionService;
         logger.debug("injected dependency collectionService: " + collectionService);
     }
 
     public void setJumpoffService(JumpoffService jumpoffService)
     {
-        checkLock();
         Services.jumpoffService = jumpoffService;
         logger.debug("Injected dependency jumpoffService: " + jumpoffService);
     }
@@ -167,14 +133,4 @@ public class Services
     {
         Services.searchService = searchService;
     }
-
-    private void checkLock()
-    {
-        if (LOCKED)
-        {
-            logger.debug(ILLEGAL_METHOD_CALL);
-            throw new IllegalStateException(ILLEGAL_METHOD_CALL);
-        }
-    }
-
 }

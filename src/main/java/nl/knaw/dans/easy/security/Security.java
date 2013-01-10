@@ -7,7 +7,6 @@ public class Security
 {
 
     private static final Logger logger = LoggerFactory.getLogger(Security.class);
-    private static boolean locked;
     private static Authz AUTHZ;
 
     /**
@@ -16,12 +15,6 @@ public class Security
      */
     protected Security()
     {
-        if (locked)
-        {
-            final String msg = "Illegal constructor call: The Security class cannot be instantiated.";
-            logger.debug(msg);
-            throw new IllegalStateException(msg);
-        }
         logger.debug("Created " + this);
     }
 
@@ -35,33 +28,8 @@ public class Security
      */
     public Security(Authz authz) throws IllegalStateException
     {
-        if (locked)
-        {
-            final String msg = "Illegal constructor call: The Security class cannot be instantiated.";
-            logger.debug(msg);
-            throw new IllegalStateException(msg);
-        }
         Security.AUTHZ = authz;
         logger.debug("Created " + this);
-    }
-
-    /**
-     * Lock Security. Can be called by a BeanPostProcessor to prevent further changes. All constructor calls and setter
-     * methods will throw an IllegalStateException afterwards.
-     */
-    public void lock()
-    {
-        locked = true;
-        logger.info(this + " has been locked. Authz=" + getAuthz());
-    }
-
-    /**
-     * Unlock Security.
-     */
-    public void unlock()
-    {
-        locked = false;
-        logger.debug(this + " has been unlocked.");
     }
 
     public static Authz getAuthz()

@@ -5,16 +5,20 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import nl.knaw.dans.common.lang.HomeDirectory;
 import nl.knaw.dans.common.lang.RepositoryException;
+import nl.knaw.dans.common.lang.ResourceLocator;
 import nl.knaw.dans.common.lang.mail.Attachement;
 import nl.knaw.dans.common.lang.mail.Mailer;
 import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.test.ClassPathHacker;
+import nl.knaw.dans.common.lang.test.FileSystemHomeDirectory;
 import nl.knaw.dans.common.lang.test.Tester;
 import nl.knaw.dans.easy.business.authn.PasswordService;
 import nl.knaw.dans.easy.business.authn.RegistrationService;
@@ -43,7 +47,6 @@ import org.slf4j.LoggerFactory;
 
 public class EasyUserServiceAuthnTest extends TestHelper
 {
-
     private static MockMailer mockMailer;
 
     private UserService userService = new EasyUserService();

@@ -9,16 +9,15 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringReader;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import nl.knaw.dans.common.lang.ResourceLocator;
 import nl.knaw.dans.common.lang.ResourceNotFoundException;
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.mail.ApplicationMailer;
@@ -32,7 +31,6 @@ import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
 import nl.knaw.dans.easy.domain.model.Dataset;
-import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer;
 import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import nl.knaw.dans.easy.domain.model.emd.Term;
 import nl.knaw.dans.easy.domain.model.emd.types.IsoDate;
@@ -40,7 +38,6 @@ import nl.knaw.dans.easy.domain.model.emd.types.MetadataItem;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.services.DisciplineCollectionService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
-import nl.knaw.dans.easy.util.EasyHome;
 
 import org.apache.commons.io.FileUtils;
 import org.joda.time.DateTime;
@@ -128,9 +125,10 @@ public class LicenseComposer
     /**
      * @param depositor
      * @param dataset
-     * @param generateSample so we don't yet have/create a dateSubmitted
+     * @param generateSample
+     *        so we don't yet have/create a dateSubmitted
      * @throws LicenseComposerException
-     * @throws MalformedURLException 
+     * @throws MalformedURLException
      */
     public LicenseComposer(final EasyUser depositor, final Dataset dataset, final boolean generateSample) throws LicenseComposerException
     {
@@ -161,15 +159,7 @@ public class LicenseComposer
 
     private URL getLogoUrl() throws LicenseComposerException
     {
-        final URI uri = new File(EasyHome.getValue() + LOGO).toURI();
-        try
-        {
-            return uri.toURL();
-        }
-        catch (final MalformedURLException e)
-        {
-            throw new LicenseComposerException(uri + " " + e.getMessage(), e);
-        }
+        return ResourceLocator.getURL(LOGO);
     }
 
     public void createPdf(final OutputStream outputStream) throws LicenseComposerException
@@ -207,9 +197,7 @@ public class LicenseComposer
 
     private void createContent(final Document document) throws LicenseComposerException, DocumentException
     {
-
         document.open();
-
         copyHtml(document, compose(SnippetKey.body));
         copyHtml(document, snippets.get(dataset.getAccessCategory()));
         if (dataset.isUnderEmbargo())
@@ -253,10 +241,10 @@ public class LicenseComposer
         }
         table.getDefaultCell();
         table.setPadding(3);
-        //        table.getDefaultCell().setMinimumHeight(22);
-        //        table.setSpacingBefore(4);
-        //        table.setWidthPercentage(100f);
-        //        table.setSplitRows(false);
+        // table.getDefaultCell().setMinimumHeight(22);
+        // table.setSpacingBefore(4);
+        // table.setWidthPercentage(100f);
+        // table.setSplitRows(false);
         final EasyMetadata easyMetadata = dataset.getEasyMetadata();
         for (final Term term : easyMetadata.getTerms())
         {
@@ -326,7 +314,7 @@ public class LicenseComposer
     {
         String accesRights = "";
 
-        //AccessCategory cat = AccessCategory.valueOf(item.toString());
+        // AccessCategory cat = AccessCategory.valueOf(item.toString());
         final String categoryString = item.toString();
 
         // TODO use properties file for mapping these metadata values
@@ -443,12 +431,12 @@ public class LicenseComposer
         }
     }
 
-    private static File getSnippetFile(final String fileName) throws ResourceNotFoundException
+    private File getSnippetFile(final String fileName) throws ResourceNotFoundException
     {
-        return new File(EasyHome.getValue() + SNIPPET_FOLDER + fileName);
+        return ResourceLocator.getFile(SNIPPET_FOLDER + fileName);
     }
 
-    private static String getSnippetContent(final String fileName) throws LicenseComposerException
+    private String getSnippetContent(final String fileName) throws LicenseComposerException
     {
         try
         {
@@ -464,7 +452,7 @@ public class LicenseComposer
         }
     }
 
-    private static Properties loadMetadataProperties()
+    private Properties loadMetadataProperties()
     {
         final Properties properties = new Properties();
         try

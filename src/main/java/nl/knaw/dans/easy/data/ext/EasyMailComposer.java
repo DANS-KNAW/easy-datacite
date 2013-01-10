@@ -1,23 +1,23 @@
 package nl.knaw.dans.easy.data.ext;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import nl.knaw.dans.common.lang.ResourceLocator;
+import nl.knaw.dans.common.lang.ResourceNotFoundException;
 import nl.knaw.dans.common.lang.mail.MailComposer;
 import nl.knaw.dans.common.lang.mail.MailComposerException;
 import nl.knaw.dans.easy.domain.exceptions.ApplicationException;
-import nl.knaw.dans.easy.util.EasyHome;
 
 public class EasyMailComposer extends MailComposer
 {
 
-    public static final String LOCATION_TEXT_HEADER = EasyHome.getValue() + "/mail/templates/default/header.txt";
-    public static final String LOCATION_TEXT_FOOTER = EasyHome.getValue() + "/mail/templates/default/footer.txt";
-    public static final String LOCATION_HTML_HEADER = EasyHome.getValue() + "/mail/templates/default/header.html";
-    public static final String LOCATION_HTML_FOOTER = EasyHome.getValue() + "/mail/templates/default/footer.html";
+    public static final String LOCATION_TEXT_HEADER = "/mail/templates/default/header.txt";
+    public static final String LOCATION_TEXT_FOOTER = "/mail/templates/default/footer.txt";
+    public static final String LOCATION_HTML_HEADER = "/mail/templates/default/header.html";
+    public static final String LOCATION_HTML_FOOTER = "/mail/templates/default/footer.html";
 
     private static String TEXT_HEADER;
     private static String TEXT_FOOTER;
@@ -67,7 +67,7 @@ public class EasyMailComposer extends MailComposer
         BufferedReader reader = null;
         try
         {
-            reader = new BufferedReader(new InputStreamReader(new FileInputStream(location)));
+            reader = new BufferedReader(new InputStreamReader(ResourceLocator.getInputStream(location)));
             String line = null;
             while ((line = reader.readLine()) != null)
             {
@@ -75,6 +75,10 @@ public class EasyMailComposer extends MailComposer
             }
         }
         catch (IOException e)
+        {
+            throw new ApplicationException(e);
+        }
+        catch (ResourceNotFoundException e)
         {
             throw new ApplicationException(e);
         }
@@ -101,7 +105,8 @@ public class EasyMailComposer extends MailComposer
     }
 
     /**
-     * @param placeholderSuppliers only one instance per class supported
+     * @param placeholderSuppliers
+     *        only one instance per class supported
      */
     public EasyMailComposer(Object... placeholderSuppliers)
     {
@@ -124,10 +129,14 @@ public class EasyMailComposer extends MailComposer
         InputStream inStream = null;
         try
         {
-            inStream = new FileInputStream(templateLocation);
+            inStream = ResourceLocator.getInputStream(templateLocation);
             mailText = compose(inStream, htmlForLineBreak);
         }
         catch (IOException e)
+        {
+            throw new MailComposerException(e);
+        }
+        catch (ResourceNotFoundException e)
         {
             throw new MailComposerException(e);
         }

@@ -143,7 +143,6 @@ public class DatasetImplTest
     public void addRelationsButOnlyOneOfAKind() throws Exception
     {
         DmoCollectionsAccess dmoCollectionAccess = EasyMock.createMock(DmoCollectionsAccess.class);
-        Data.unlock();
         new Data().setCollectionAccess(dmoCollectionAccess);
 
         Dataset dataset = new DatasetImpl("dummy:2");

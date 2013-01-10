@@ -4,6 +4,9 @@ import java.io.File;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import nl.knaw.dans.common.lang.ResourceLocator;
+import nl.knaw.dans.common.lang.test.FileSystemHomeDirectory;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.slf4j.Logger;
@@ -38,7 +41,7 @@ public abstract class TestHelper
     @BeforeClass
     public static void beforeTestClass()
     {
-        EasyHome.setValue("../easy-home");
+        new ResourceLocator(new FileSystemHomeDirectory(new File("../easy-home")));
         log().info("EasyHome-value has been set");
     }
 

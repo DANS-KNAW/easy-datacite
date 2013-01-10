@@ -40,7 +40,6 @@ public class EasyCollectionServiceTest extends EasyMock
     {
         access = createMock(DmoCollectionsAccess.class);
 
-        Data.unlock();
         Data data = new Data();
         data.setCollectionAccess(access);
 

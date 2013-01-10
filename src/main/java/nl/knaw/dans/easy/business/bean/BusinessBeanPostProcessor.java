@@ -1,10 +1,7 @@
 package nl.knaw.dans.easy.business.bean;
 
 import nl.knaw.dans.easy.data.Data;
-import nl.knaw.dans.easy.data.ext.ExternalServices;
-import nl.knaw.dans.easy.security.Security;
 import nl.knaw.dans.easy.servicelayer.services.EasyService;
-import nl.knaw.dans.easy.servicelayer.services.Services;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,28 +21,10 @@ public class BusinessBeanPostProcessor implements BeanPostProcessor
 
     public Object postProcessAfterInitialization(Object bean, String beanname) throws BeansException
     {
-        if (bean instanceof Services)
-        {
-            ((Services) bean).lock();
-            logger.debug("Process after initialization: locked Services");
-        }
         if (bean instanceof Data)
         {
-            ((Data) bean).lock();
-            logger.debug("Process after initialization: locked Data");
-
             GroupCreator.createGroups();
             MigrationArchivistCreator.createMigrationArchivist();
-        }
-        if (bean instanceof Security)
-        {
-            ((Security) bean).lock();
-            logger.debug("Process after initialization: locked Security");
-        }
-        if (bean instanceof ExternalServices)
-        {
-            ((ExternalServices) bean).lock();
-            logger.debug("Process after initialization: locked ExternalServices");
         }
         if (bean instanceof EasyService)
         {
@@ -59,7 +38,6 @@ public class BusinessBeanPostProcessor implements BeanPostProcessor
             {
                 throw new FatalBeanException("Cannot properly instantiate " + service.getServiceTypeName() + ": ", e);
             }
-
         }
         return bean;
     }

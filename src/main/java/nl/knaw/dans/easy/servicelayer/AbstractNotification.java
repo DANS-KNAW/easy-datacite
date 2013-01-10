@@ -2,13 +2,14 @@ package nl.knaw.dans.easy.servicelayer;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import nl.knaw.dans.common.lang.ResourceLocator;
+import nl.knaw.dans.common.lang.ResourceNotFoundException;
 import nl.knaw.dans.common.lang.mail.Attachement;
 import nl.knaw.dans.common.lang.mail.MailComposerException;
 import nl.knaw.dans.common.lang.mail.Mailer;
@@ -17,7 +18,6 @@ import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.data.ext.EasyMailComposer;
 import nl.knaw.dans.easy.data.ext.ExternalServices;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
-import nl.knaw.dans.easy.util.EasyHome;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +27,7 @@ public abstract class AbstractNotification
 
     static final Logger logger = LoggerFactory.getLogger(AbstractNotification.class);
 
-    public static final String TEMPLATE_BASE_LOCATION = EasyHome.getValue() + "/mail/templates/";
+    public static final String TEMPLATE_BASE_LOCATION = "/mail/templates/";
     public static final String SUBJECT_PROPERTIES = TEMPLATE_BASE_LOCATION + "subject.properties";
     private static final String SUBJECT_ERROR = "could not load notification subjects";
     private static final Properties SUBJECT_TEMPLATES = loadSubjectTemplates();
@@ -81,13 +81,17 @@ public abstract class AbstractNotification
         try
         {
             final Properties properties = new Properties();
-            final InputStream resourceAsStream = new FileInputStream(SUBJECT_PROPERTIES);
+            final InputStream resourceAsStream = ResourceLocator.getInputStream(SUBJECT_PROPERTIES);
             properties.load(resourceAsStream);
             return properties;
         }
         catch (final IOException e)
         {
             logger.error(SUBJECT_ERROR, e);
+        }
+        catch (ResourceNotFoundException e)
+        {
+
         }
         return null;
     }

@@ -6,9 +6,10 @@ import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.knaw.dans.common.lang.ResourceLocator;
+import nl.knaw.dans.common.lang.ResourceNotFoundException;
 import nl.knaw.dans.easy.domain.exceptions.ApplicationException;
 import nl.knaw.dans.easy.domain.model.FileItem;
-import nl.knaw.dans.easy.util.EasyHome;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,7 +89,15 @@ public class FreelyAvailableContentCheck extends AbstractCheck
         try
         {
 
-            File file = new File(EasyHome.getLocation(), LIST_LOCATION);
+            File file;
+            try
+            {
+                file = ResourceLocator.getFile(LIST_LOCATION);
+            }
+            catch (ResourceNotFoundException e)
+            {
+                throw new RuntimeException("Could not load free content list");
+            }
             raf = new RandomAccessFile(file, "r");
             String line;
             while ((line = raf.readLine()) != null)

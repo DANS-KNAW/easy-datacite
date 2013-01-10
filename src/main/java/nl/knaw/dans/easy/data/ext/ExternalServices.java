@@ -16,10 +16,6 @@ public class ExternalServices
     private static AdminMailer ADMIN_MAILER;
     private static PidGenerator METADATA_PID_GENERATOR;
 
-    private static boolean LOCKED;
-    private static final String ILLEGAL_METHOD_CALL = "Illegal method call: Constructor and setter methods in the " + ExternalServices.class.getName()
-            + " class should not be called.";
-
     public static Mailer getMailOffice()
     {
         return MAIL_OFFICE;
@@ -41,41 +37,17 @@ public class ExternalServices
 
     public ExternalServices()
     {
-        checkLock(); // CGLIB will call the constructor a second time.
         logger.debug("Created " + this);
-    }
-
-    public void lock()
-    {
-        LOCKED = true;
-        logger.info(this + " has been locked.");
-    }
-
-    void unlock()
-    {
-        LOCKED = false;
-        logger.debug(this + " has been unlocked.");
-    }
-
-    private void checkLock()
-    {
-        if (LOCKED)
-        {
-            logger.debug(ILLEGAL_METHOD_CALL);
-            throw new IllegalStateException(ILLEGAL_METHOD_CALL);
-        }
     }
 
     public void setMailOffice(Mailer mailer)
     {
-        checkLock();
         MAIL_OFFICE = mailer;
         logger.debug("Injected dependency mailer: " + mailer);
     }
 
     public void setAdminMailer(AdminMailer adminMailer)
     {
-        checkLock();
         ADMIN_MAILER = adminMailer;
         logger.debug("Injected dependency adminMailer: " + adminMailer);
         boolean send = ADMIN_MAILER.sendApplicationStarting();
@@ -84,7 +56,6 @@ public class ExternalServices
 
     public void setMetadataPidGenerator(PidGenerator generator)
     {
-        checkLock();
         METADATA_PID_GENERATOR = generator;
         logger.debug("Injected dependency persistent identifier generator: " + generator);
     }

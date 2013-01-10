@@ -14,21 +14,12 @@ import nl.knaw.dans.easy.domain.authn.ForgottenPasswordMessenger;
 import nl.knaw.dans.easy.domain.authn.ForgottenPasswordMessenger.State;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.UpdatePasswordMessage;
-import nl.knaw.dans.easy.util.EasyHome;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class PasswordService extends AbstractTokenList
 {
-    public static final String NEW_PASS_TEXT = EasyHome.getValue() + "/mail/templates/authn/NewPasswordMail.txt";
-    public static final String NEW_PASS_HTML = EasyHome.getValue() + "/mail/templates/authn/NewPasswordMail.html";
-    public static final String NEW_PASS_SUBJECT = "DANS EASY: new password for Easy";
-
-    public static final String UPDATE_PASS_TEXT = EasyHome.getValue() + "/mail/templates/authn/UpdatePasswordMail.txt";
-    public static final String UPDATE_PASS_HTML = EasyHome.getValue() + "/mail/templates/authn/UpdatePasswordMail.html";
-    public static final String UPDATE_PASS_SUBJECT = "DANS EASY: instructions on changing your password";
-
     private static Logger logger = LoggerFactory.getLogger(PasswordService.class);
 
     /**
