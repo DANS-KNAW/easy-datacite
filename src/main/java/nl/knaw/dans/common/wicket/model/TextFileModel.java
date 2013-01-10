@@ -17,7 +17,7 @@ public class TextFileModel extends Model<String>
 {
     private static final long serialVersionUID = -736312827071904958L;
 
-    private final File file;
+    private File file;
     private String content;
 
     /**
@@ -27,6 +27,15 @@ public class TextFileModel extends Model<String>
      *        the text file from/to which to read/write
      */
     public TextFileModel(final File file)
+    {
+        this.file = file;
+    }
+
+    protected TextFileModel()
+    {
+    }
+
+    protected void setFile(File file)
     {
         this.file = file;
     }
