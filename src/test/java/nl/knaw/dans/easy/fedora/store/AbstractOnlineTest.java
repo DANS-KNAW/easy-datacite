@@ -47,7 +47,6 @@ public abstract class AbstractOnlineTest
 
     public static void setUpData() throws MalformedURLException, StoreAccessException
     {
-        DmoStores.skipThisRubbish = true;
         Data data = new Data();
         EasyStore easyStore = new EasyFedoraStore("easy", getFedora());
         DbUtil.setLocalConfig(getDbLocalConfig());
