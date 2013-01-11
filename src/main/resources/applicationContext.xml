@@ -4,8 +4,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 	
-	<import resource="cfg/store-context.xml"/>
-	<import resource="cfg/dmo-collections-context.xml"/>
+	<import resource="conf/store-context.xml"/>
+	<import resource="conf/dmo-collections-context.xml"/>
 	
 	<bean class="nl.knaw.dans.easy.business.bean.EasyContextListener" />
 	
@@ -247,23 +247,18 @@
 	<!-- Miscellaneous  -->
 	<!-- ============== -->
 
-	<!--  Jamon monitoring interceptor. is misbehaving (hb 2011-01-05)
-	<bean name="jamonPerformanceMonitorInterceptor"
-		class="org.springframework.aop.interceptor.JamonPerformanceMonitorInterceptor">
-		<property name="useDynamicLogger">
-			<value>true</value>
-		</property>
-	</bean>
-	-->
-	
 	<bean name="resourceLocator" class="nl.knaw.dans.common.lang.ResourceLocator">
-		<constructor-arg ref="easyHome"/>
+		<constructor-arg ref="homeDir"/>
+	</bean>
+
+	<bean
+		class="nl.knaw.dans.common.lang.spring.HomeDirectoryBasedPropertyPlaceholderConfigurer">
+		<constructor-arg ref="homeDir" />
 	</bean>
 	
-	<bean name="easyHome" class="nl.knaw.dans.easy.util.EasyHome" />
-
-	<!-- user.name PropertyPlaceholderConfigurer: a file [user.name].properties should be on the classPath -->
-	<bean class="nl.knaw.dans.common.lang.spring.UsernamePropertyPlaceholderConfigurer"/>
+	<bean name="homeDir" class="nl.knaw.dans.common.lang.EnvironmentVariableBasedHomeDirectory" >
+		<property name="environmentVariableName" value="EASY_REST_HOME" />
+	</bean>
 
 	<!-- BeanPostProcessor for Business layer -->
 	<bean class="nl.knaw.dans.easy.business.bean.BusinessBeanPostProcessor" />
