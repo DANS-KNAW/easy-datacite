@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import nl.knaw.dans.easy.business.services.EasyDepositService;
 import nl.knaw.dans.easy.sword.jetty.Start;
 import nl.knaw.dans.easy.sword.util.SubmitFixture;
-import nl.knaw.dans.easy.util.EasyHome;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
@@ -85,9 +84,6 @@ public class IntegrationTester
     @BeforeClass
     public static void start() throws Exception
     {
-        if (EasyHome.getValue() == null)
-            throw new Exception("mail notifications require the system property '" + EasyHome.EASY_HOME_KEY + "'");
-
         // zero implies a random port and allows the test to run along with an active server on port 8083
         server = Start.createServer(0, 0);
         server.start();

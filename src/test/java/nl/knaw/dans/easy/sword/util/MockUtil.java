@@ -146,8 +146,6 @@ public class MockUtil
     {
         if (services == null)
             services = new Services();
-        else
-            services.unlock();
         return services;
     }
 
@@ -183,7 +181,6 @@ public class MockUtil
         final EasyUserRepo userRepo = EasyMock.createMock(EasyUserRepo.class);
         final UserService userService = EasyMock.createMock(UserService.class);
 
-        Data.unlock();
         data.setUserRepo(userRepo);
         getServices().setUserService(userService);
 

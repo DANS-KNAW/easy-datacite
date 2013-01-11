@@ -4,8 +4,18 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
-	<!-- user.name PropertyPlaceholderConfigurer: a file [user.name].properties should be on the classPath -->
-	<bean class="nl.knaw.dans.common.lang.spring.UsernamePropertyPlaceholderConfigurer"/>
+	<bean name="resourceLocator" class="nl.knaw.dans.common.lang.ResourceLocator">
+		<constructor-arg ref="homeDir"/>
+	</bean>
+
+	<bean
+		class="nl.knaw.dans.common.lang.spring.HomeDirectoryBasedPropertyPlaceholderConfigurer">
+		<constructor-arg ref="homeDir" />
+	</bean>
+	
+	<bean name="homeDir" class="nl.knaw.dans.common.lang.EnvironmentVariableBasedHomeDirectory" >
+		<property name="environmentVariableName" value="EASY_SWORD_HOME" />
+	</bean>
 
 	<bean name="easySwordContext" class="nl.knaw.dans.easy.sword.Context">
 		<property name="unzip" value="${easy.sword.server.unzip.dir}"/>
@@ -18,6 +28,7 @@
 		<property name="datasetPath" value="${easy.sword.server.dataset.path}"/>
 		<property name="providerURL" value="${sword.providerURL}"/>
 		<property name="servletName" value="${sword.servlet.name}"/>
+		<!-- ATTENTION: This is the EASY Web UI Homepage. It has nothing to do with the home directory of EASY on the server! -->
 		<property name="easyHome" value="${easy.sword.server.easy.home}"/>
 	</bean>
 
@@ -57,11 +68,6 @@
 	</bean>
 	<import resource="pid-context.xml"/>
 	<import resource="mail-context.xml"/>
-
-	<bean name="resourceLocator" class="nl.knaw.dans.common.lang.ResourceLocator">
-		<constructor-arg ref="easyHome"/>
-	</bean>
-	<bean name="easyHome" class="nl.knaw.dans.easy.util.EasyHome" />
 
 	<bean name="security" class="nl.knaw.dans.easy.security.Security">
 		<constructor-arg ref="authz"/>

@@ -90,12 +90,14 @@ public class TestFailingSubmit extends SubmitFixture
         execute(false, true, getZip("max-path-exceeded"));
     }
 
+    @Ignore
     @Test(expected = SWORDErrorException.class)
     public void negativeEmbargo() throws Throwable
     {
         execute(false, true, getZip("negative-embargo"));
     }
 
+    @Ignore
     @Test(expected = SWORDErrorException.class)
     public void longEmbargo() throws Throwable
     {
