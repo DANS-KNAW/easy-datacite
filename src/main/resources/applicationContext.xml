@@ -257,26 +257,17 @@
 	<!-- Miscellaneous  -->
 	<!-- ============== -->
 
-	<!--  Jamon monitoring interceptor. is misbehaving (hb 2011-01-05)
-	<bean name="jamonPerformanceMonitorInterceptor"
-		class="org.springframework.aop.interceptor.JamonPerformanceMonitorInterceptor">
-		<property name="useDynamicLogger">
-			<value>true</value>
-		</property>
-	</bean>
-	-->
-	
 	<bean name="resourceLocator" class="nl.knaw.dans.common.lang.ResourceLocator">
-		<constructor-arg ref="easyHome"/>
+		<constructor-arg ref="homeDir"/>
 	</bean>
 
 	<bean
 		class="nl.knaw.dans.common.lang.spring.HomeDirectoryBasedPropertyPlaceholderConfigurer">
-		<constructor-arg ref="easyHome" />
+		<constructor-arg ref="homeDir" />
 	</bean>
 	
-	<bean name="easyHome" class="nl.knaw.dans.easy.util.EnvironmentVariableBasedHomeDirectory" >
-		<property name="environmentVariableName" value="EASY_HOME" />
+	<bean name="homeDir" class="nl.knaw.dans.common.lang.EnvironmentVariableBasedHomeDirectory" >
+		<property name="environmentVariableName" value="EASY_WEBUI_HOME" />
 	</bean>
 	
 

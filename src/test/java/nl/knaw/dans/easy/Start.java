@@ -1,7 +1,5 @@
 package nl.knaw.dans.easy;
 
-import nl.knaw.dans.easy.util.EasyHome;
-
 import org.mortbay.jetty.Connector;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.bio.SocketConnector;
@@ -49,13 +47,6 @@ public final class Start // NOPMD
      */
     public static void main(final String[] args) throws Exception // NOPMD
     {
-        if (EasyHome.getValue() == null)
-        {
-            System.err.println("Stopping EASY because of missing system property for home directory!" + "\n\tPlease specify the system property '"
-                    + EasyHome.EASY_HOME_KEY + "'");
-            System.exit(EXIT_CODE);
-        }
-
         int port = args.length > 0 ? Integer.valueOf(args[0]) : PORT;
         int sslPort = args.length > 1 ? Integer.valueOf(args[1]) : SSL_PORT;
         final Server server = createServer(port, sslPort);

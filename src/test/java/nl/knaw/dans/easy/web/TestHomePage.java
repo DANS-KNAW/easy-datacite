@@ -167,7 +167,7 @@ public class TestHomePage
     @Before
     public void setUp() throws Exception
     {
-        System.setProperty("EASY_HOME", "../easy-home");
+        System.setProperty("EASY_WEBUI_HOME", "../easy-home");
         tester = new WicketTester(new EasyWicketApplication());
         setUpAuthz();
         setUpUsers();

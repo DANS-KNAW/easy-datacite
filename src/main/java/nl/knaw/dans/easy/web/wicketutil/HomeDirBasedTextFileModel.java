@@ -14,7 +14,7 @@ public class HomeDirBasedTextFileModel extends TextFileModel
 {
     private static final Logger log = LoggerFactory.getLogger(HomeDirBasedTextFileModel.class);
 
-    @SpringBean(name = "easyHome")
+    @SpringBean(name = "homeDir")
     private HomeDirectory home;
 
     public HomeDirBasedTextFileModel(String relativeContentPath)
