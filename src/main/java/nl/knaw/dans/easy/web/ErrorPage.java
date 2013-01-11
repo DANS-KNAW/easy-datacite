@@ -27,4 +27,14 @@ public class ErrorPage extends AbstractEasyNavPage
 
         addCommonFeedbackPanel(errorFilter);
     }
+
+    public ErrorPage(final String message, final String... params)
+    {
+        if (getSession().getFeedbackMessages().messages(errorFilter).size() == 0)
+        {
+            errorMessage(message, params);
+        }
+
+        addCommonFeedbackPanel(errorFilter);
+    }
 }

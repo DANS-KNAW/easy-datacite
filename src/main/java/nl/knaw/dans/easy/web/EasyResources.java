@@ -66,6 +66,7 @@ public interface EasyResources
     String ILLEGAL_PAGE_PARAMETERS = "illegal_parameters";
     String INVALID_URL = "invalid_url";
 
+    String COULD_NOT_RETRIEVE_ARCHIS_FILE = "admin.could_not_retrieve_archis_file";
     String COULD_NOT_RETRIEVE_USERS = "could_not_retrieve_users";
     String DEPOSIT_UNSAVED_CHANGES = "deposit.unsaved_changes";
     String DEPOSIT_COMPLETED = "deposit.completed";

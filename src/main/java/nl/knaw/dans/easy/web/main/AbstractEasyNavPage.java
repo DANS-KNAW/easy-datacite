@@ -35,6 +35,7 @@ import org.apache.wicket.PageMap;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.link.PageLink;
 import org.apache.wicket.model.IModel;
@@ -68,6 +69,7 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage
     private static final String HOME_PAGE = "homePage";
     private static final String BROWSE_PAGE = "browsePage";
     private static final String ADVANCED_SEARCH_PAGE = "advancedSearchPage";
+    private static final String DISCLAIMER_URL = "http://www.dans.knaw.nl/sites/default/files/file/archief/DisclaimerEASY.pdf";
 
     private static final int MAX_NAME_LENGTH = 30;
 
@@ -284,6 +286,7 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage
          * add(new LocaleLink(LANGUAGE_SWITCH_NL, LANGUAGE_SWITCH_NL));
          */
 
+        add(createDisclaimerLink());
         add(new VersionPanel(EASY_VERSION));
     }
 
@@ -454,5 +457,13 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage
             return true;
         else
             return false;
+    }
+
+    private ExternalLink createDisclaimerLink()
+    {
+        String disclaimerLinkText = getLocalizer().getString("page.disclaimerLinkText", this);
+        ExternalLink disclaimerLink = new ExternalLink("disclaimerLink", DISCLAIMER_URL, disclaimerLinkText);
+        return disclaimerLink;
+
     }
 }

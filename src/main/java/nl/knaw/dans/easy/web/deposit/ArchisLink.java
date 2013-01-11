@@ -11,9 +11,12 @@ import nl.knaw.dans.easy.domain.deposit.discipline.ArchisCollector;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.Group;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
+import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.EasySession;
+import nl.knaw.dans.easy.web.ErrorPage;
 
 import org.apache.wicket.AbortException;
+import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.protocol.http.WebResponse;
@@ -57,7 +60,7 @@ class ArchisLink extends Link<String>
         catch (final IOException e)
         {
             logger.error("IOException: ", e);
-            throw new AbortWithWebErrorCodeException(HttpServletResponse.SC_BAD_GATEWAY);
+            throw new RestartResponseException(new ErrorPage(EasyResources.COULD_NOT_RETRIEVE_ARCHIS_FILE, e.toString()));
         }
 
     }
