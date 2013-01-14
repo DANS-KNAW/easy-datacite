@@ -10,6 +10,7 @@ public class DateTimeLabel extends Label
 {
     //TODO alternative constructors with an enum with property keys for format styles,
     // such as date datetime time short and long versions /  locale?
+    private static final DateTime UNKNOWN_DATE_TIME = new DateTime("0000-01-01");
 
     private static final long serialVersionUID = 155555555L;
 
@@ -26,9 +27,9 @@ public class DateTimeLabel extends Label
     /**
      * @param id wicket id of the markup container
      * @param dateTime the value to be displayed.
-     * @param format a string model, see {@link DateTimeFormat#forPattern(String)}
+     * @param formatModel a string model, see {@link DateTimeFormat#forPattern(String)}
      */
-    public DateTimeLabel(final String id, final DateTime dateTime, final IModel<String> format)
+    public DateTimeLabel(final String id, final DateTime dateTime, final IModel<String> formatModel)
     {
         super(id, new Model<String>()
         {
@@ -38,9 +39,11 @@ public class DateTimeLabel extends Label
             @Override
             public String getObject()
             {
-                if (dateTime == null)
+                final DateTime dt = dateTime;
+                if (dt == null || UNKNOWN_DATE_TIME.equals(dt))
                     return "";
-                return DateTimeFormat.forPattern((String) format.getObject()).print(dateTime);
+                final String format = formatModel.getObject();
+                return DateTimeFormat.forPattern(format).print(dt);
             }
         });
     }
@@ -61,7 +64,7 @@ public class DateTimeLabel extends Label
             public String getObject()
             {
                 final DateTime dateTime = dateTimeModel.getObject();
-                if (dateTime == null)
+                if (dateTime == null || UNKNOWN_DATE_TIME.equals(dateTime))
                     return "";
                 return DateTimeFormat.forPattern(format).print(dateTime);
             }
