@@ -93,9 +93,9 @@ public class LicenseComposer
         }
     }
 
-    private static final String SNIPPET_FOLDER = "/license/templates/";
+    private static final String SNIPPET_FOLDER = "/res/lic/tmpl/";
 
-    private static final String LOGO = "/license/images/dans_logo.jpg";
+    private static final String LOGO = "/res/lic/img/dans_logo.jpg";
 
     private static final String TERM_PROPERTIES = "MetadataTerms.properties";
 

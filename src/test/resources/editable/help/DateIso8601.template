@@ -1,0 +1,5 @@
+<h2>Date</h2>
+A date or period associated with the dataset.<br /><br />In addition to the &#8216;Date created' (on the first tab) and the &#8216;Temporal coverage' (on the second tab), one or more other periods may be important to the formation of the dataset. Think, for example, of the date on which the project was closed, when this date is much later than the date on which the digital files were completed (qualifier issued) or the date on which entries were changed (qualifier modified). Please use the standardized date notation (ISO), in the form of YYYY-[MM]-[DD].<br /><br /><strong>NB:</strong> The date on which the digital files were closed is already recorded at &#8216;Date created' on the first tab.<br /><br /><strong>NB:</strong> the fields "Date Submitted" (date of deposit) and "Date Available" (expiration of a temporary embargo on access) are automatically created by EASY.<br /><br />Click the [+] button behind a field to add an additional field.<br /><br />
+<h2>Examples</h2>
+2004<br />2006-02-21<br />Opgravingsperiode: maart - oktober 2003<br />
+<hr />

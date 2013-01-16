@@ -1,0 +1,9 @@
+Dear ~EasyUser.getDisplayName~,
+
+The depositor (~ReplyNotification.getDepositorName~) of the dataset "~ReplyNotification.getDatasetTitle~" has responded to your permission request.
+
+Your permission request has been granted. You can now access the restricted files of the dataset, which is found here:
+~ReplyNotification.getDatasetLink~
+
+Explanation by depositor: 
+~ReplyNotification.getExplanation~

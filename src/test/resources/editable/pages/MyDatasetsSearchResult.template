@@ -1,0 +1,8 @@
+<p>Your datasets are shown here with their status: 
+<ul>
+<li>Drafts: datasets you have entered, but you have not submitted yet.</li>
+<li>Submitted: datasets you have submitted, but which DANS has not published in EASY yet.</li>
+<li>Published: datasets which have been published in EASY.</li>
+<li>Maintenance: datasets which have been published in EASY (temporarily partly visible due to changes being made).</li>
+</ul>
+</p>

@@ -1,0 +1,13 @@
+Dear ~RequestNotification.getDepositorName~,
+
+A new permission request has been submitted, which requires your attention.
+
+Name: ~RequestNotification.getRequesterName~
+Dataset: ~Dataset.getPreferredTitle~
+
+
+You can find this request on the tab 'Permissions' of the dataset:
+~RequestNotification.getPermissionsTabLink~ 
+
+Direct link to the request:
+~RequestNotification.getRequestLink~

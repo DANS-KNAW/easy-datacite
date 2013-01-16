@@ -4,12 +4,12 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import nl.knaw.dans.common.lang.FileSystemHomeDirectory;
 import nl.knaw.dans.common.lang.ResourceLocator;
 import nl.knaw.dans.common.lang.mail.ApplicationMailer;
 import nl.knaw.dans.common.lang.mail.ApplicationMailerConfiguration;
 import nl.knaw.dans.common.lang.mail.MailerConfiguration;
 import nl.knaw.dans.common.lang.test.ClassPathHacker;
-import nl.knaw.dans.common.lang.test.FileSystemHomeDirectory;
 import nl.knaw.dans.common.lang.test.Tester;
 
 import org.junit.BeforeClass;

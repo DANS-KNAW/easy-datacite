@@ -1,0 +1,15 @@
+			<h1>Easy-II Meta Data Format</h1>
+			<h2>Requirements</h2>
+			<ul>
+				<li>
+					The XSD (download below) defines the lowest level of requirements.
+				</li>
+				<li>
+					The element <code>other/application-specific/metadataformat</code>
+					should contain one of the discipline names below.
+				</li>
+				<li>
+					Possible fields are specified per discipline.
+					Possible values are specified in the translation tables.
+				</li>
+			</ul>
