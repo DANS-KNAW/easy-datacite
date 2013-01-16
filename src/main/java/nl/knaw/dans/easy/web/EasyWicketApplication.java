@@ -28,7 +28,10 @@ import org.apache.wicket.util.time.Duration;
 import org.apache.wicket.util.value.ValueMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.access.SingletonBeanFactoryLocator;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
@@ -37,7 +40,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * 
  * @see nl.knaw.dans.easy.Start#main(String[])
  */
-public class EasyWicketApplication extends CommonWicketApplication
+public class EasyWicketApplication extends CommonWicketApplication implements ApplicationContextAware
 {
     public static final int DEFAULT_MAX_UPLOAD_SIZE_MB = 256;
 
@@ -50,6 +53,8 @@ public class EasyWicketApplication extends CommonWicketApplication
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EasyWicketApplication.class);
 
+    private ApplicationContext applicationContext;
+
     /**
      * Initialize the application.
      */
@@ -57,7 +62,7 @@ public class EasyWicketApplication extends CommonWicketApplication
     protected void init()
     {
         super.init();
-        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
+        assert applicationContext != null;
         addComponentInstantiationListener(new SpringComponentInjector(this, applicationContext, true));
         LOGGER.debug("Init of Easy Wicket Application");
 
@@ -232,6 +237,12 @@ public class EasyWicketApplication extends CommonWicketApplication
         LOGGER.info("Closing " + this.getClass().getSimpleName());
         EasyUploadProcesses.getInstance().cancelAllUploads();
         super.onDestroy();
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException
+    {
+        this.applicationContext = applicationContext;
     }
 
 }

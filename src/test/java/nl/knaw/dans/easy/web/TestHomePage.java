@@ -6,6 +6,10 @@ import static org.junit.Assert.assertNull;
 import static org.powermock.api.easymock.PowerMock.mockStatic;
 import static org.powermock.api.easymock.PowerMock.replayAll;
 import static org.powermock.api.easymock.PowerMock.resetAll;
+
+import java.io.File;
+
+import nl.knaw.dans.common.lang.FileSystemHomeDirectory;
 import nl.knaw.dans.common.lang.user.User.State;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
@@ -19,6 +23,7 @@ import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.statistics.StatisticsEvent;
 import nl.knaw.dans.easy.web.statistics.StatisticsLogger;
 
+import org.apache.wicket.spring.test.ApplicationContextMock;
 import org.apache.wicket.util.tester.WicketTester;
 import org.junit.After;
 import org.junit.Before;
@@ -167,8 +172,11 @@ public class TestHomePage
     @Before
     public void setUp() throws Exception
     {
-        System.setProperty("EASY_WEBUI_HOME", "../easy-home");
-        tester = new WicketTester(new EasyWicketApplication());
+        ApplicationContextMock ctx = new ApplicationContextMock();
+        ctx.putBean("editableContentHome", new FileSystemHomeDirectory(new File("src/main/assembly/dist/res/example/editable")));
+        EasyWicketApplication app = new EasyWicketApplication();
+        app.setApplicationContext(ctx);
+        tester = new WicketTester(app);
         setUpAuthz();
         setUpUsers();
         setUpEasySessionMock();

@@ -1,0 +1,5 @@
+<ul wicket:id="feedbackul" class="feedbackPanel">
+    <li wicket:id="messages" class="feedbackPanelINFO">
+      <span wicket:id="message" class="feedbackPanelINFO">Thank you for providing your dataset. A confirmation has been sent to your e-mail address (~EasyUser.getEmail~). It contains important details.</span>
+    </li>
+</ul>

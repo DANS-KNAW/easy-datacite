@@ -1,0 +1,10 @@
+Dear ~EasyUser.getDisplayName~,
+
+The depositor (~ReplyNotification.getDepositorName~) of the dataset "~Dataset.getPreferredTitle~" has responded to your permission request.
+
+Your permission request has been returned. The depositor of the dataset would like to receive more information.
+Please read the explanation by the depositor. Then review your permission request here:
+~ReplyNotification.getRequestLink~
+
+Explanation by depositor: 
+~ReplyNotification.getExplanation~

@@ -11,6 +11,5 @@
 	
 	<root>
 	  <priority value="off" />
-	  <appender-ref ref="stdout" />
 	</root>
 </log4j:configuration>

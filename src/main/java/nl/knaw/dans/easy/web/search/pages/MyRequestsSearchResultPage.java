@@ -16,7 +16,7 @@ import org.apache.wicket.model.ResourceModel;
 
 public class MyRequestsSearchResultPage extends AbstractSearchResultPage
 {
-    public static final String MY_REQUESTS_SEARCH_RESULTS = "/editable/MyRequestsSearchResult.template";
+    public static final String MY_REQUESTS_SEARCH_RESULTS = "/pages/MyRequestsSearchResult.template";
 
     public MyRequestsSearchResultPage()
     {

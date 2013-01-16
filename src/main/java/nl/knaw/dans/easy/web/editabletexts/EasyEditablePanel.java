@@ -5,7 +5,7 @@ import nl.knaw.dans.common.wicket.components.editablepanel.EditablePanel;
 import nl.knaw.dans.common.wicket.components.jumpoff.DansTinyMCESettings;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.web.EasySession;
-import nl.knaw.dans.easy.web.wicketutil.HomeDirBasedTextFileModel;
+import nl.knaw.dans.easy.web.wicketutil.EditableContentHomeBasedTextFileModel;
 import wicket.contrib.tinymce.settings.TinyMCESettings;
 
 public class EasyEditablePanel extends EditablePanel
@@ -26,7 +26,7 @@ public class EasyEditablePanel extends EditablePanel
     @SuppressWarnings("serial")
     public EasyEditablePanel(final String id, final String contentPath)
     {
-        super(id, new HomeDirBasedTextFileModel(contentPath), getTinyMceSettings(contentPath));
+        super(id, new EditableContentHomeBasedTextFileModel(contentPath), getTinyMceSettings(contentPath));
         setSessionContext(new EditablePanel.SessionContext()
         {
             @Override

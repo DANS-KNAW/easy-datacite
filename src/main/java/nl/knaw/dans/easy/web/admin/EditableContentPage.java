@@ -138,49 +138,49 @@ public class EditableContentPage extends AbstractEasyNavPage
         addLink("footerTXT", "/mail/templates/default/footer.txt", user, dataset);
 
         // LINKS TO SEARCH HELP TEXTS
-        addLink("searchHelp", "/editable/help/Search.template");
-        addLink("refineHelp", "/editable/help/Refine.template");
+        addLink("searchHelp", "/help/Search.template");
+        addLink("refineHelp", "/help/Refine.template");
 
         // LINKS TO DEPOSIT HELP TEXTS
-        addLink("CreatorDC", "/editable/help/Creator.template");
-        addLink("CreatorEAS", "/editable/help/EasCreator.template");
-        addLink("Title", "/editable/help/Title.template");
-        addLink("Description", "/editable/help/Description.template");
-        addLink("DateCreated", "/editable/help/DateCreated.template");
-        addLink("DateCreatedFreeForm", "/editable/help/DateCreatedFreeForm.template");
-        addLink("AccessRights", "/editable/help/AccessRights.template");
-        addLink("Upload", "/editable/help/Upload.template");
-        addLink("Audience", "/editable/help/Audience.template");
-        addLink("CmdiChoice", "/editable/help/CmdiChoice.template");
+        addLink("CreatorDC", "/help/Creator.template");
+        addLink("CreatorEAS", "/help/EasCreator.template");
+        addLink("Title", "/help/Title.template");
+        addLink("Description", "/help/Description.template");
+        addLink("DateCreated", "/help/DateCreated.template");
+        addLink("DateCreatedFreeForm", "/help/DateCreatedFreeForm.template");
+        addLink("AccessRights", "/help/AccessRights.template");
+        addLink("Upload", "/help/Upload.template");
+        addLink("Audience", "/help/Audience.template");
+        addLink("CmdiChoice", "/help/CmdiChoice.template");
 
-        addLink("ContributorDC", "/editable/help/Contributor.template");
-        addLink("ContributorEAS", "/editable/help/EasContributor.template");
-        addLink("Subject", "/editable/help/Subject.template");
-        addLink("Spatial", "/editable/help/Spatial.template");
-        addLink("Temporal", "/editable/help/Temporal.template");
-        addLink("Source", "/editable/help/Source.template");
-        addLink("Identifier", "/editable/help/Identifier.template");
+        addLink("ContributorDC", "/help/Contributor.template");
+        addLink("ContributorEAS", "/help/EasContributor.template");
+        addLink("Subject", "/help/Subject.template");
+        addLink("Spatial", "/help/Spatial.template");
+        addLink("Temporal", "/help/Temporal.template");
+        addLink("Source", "/help/Source.template");
+        addLink("Identifier", "/help/Identifier.template");
 
-        addLink("Format", "/editable/help/Format.template");
-        addLink("Relation", "/editable/help/Relation.template");
-        addLink("LanguageIso639", "/editable/help/LanguageIso639.template");
-        addLink("Language", "/editable/help/Language.template");
-        addLink("Remarks", "/editable/help/Remarks.template");
+        addLink("Format", "/help/Format.template");
+        addLink("Relation", "/help/Relation.template");
+        addLink("LanguageIso639", "/help/LanguageIso639.template");
+        addLink("Language", "/help/Language.template");
+        addLink("Remarks", "/help/Remarks.template");
 
-        addLink("Alternative", "/editable/help/Alternative.template");
-        addLink("Archis", "/editable/help/Archis.template");
-        addLink("Date", "/editable/help/Date.template");
-        addLink("DateIso8601", "/editable/help/DateIso8601.template");
-        addLink("DateAvailable", "/editable/help/DateAvailable.template");
-        addLink("FormatIMT", "/editable/help/FormatIMT.template");
-        addLink("Publisher", "/editable/help/Publisher.template");
-        addLink("RightsHolder", "/editable/help/RightsHolder.template");
-        addLink("SpatialBox", "/editable/help/SpatialBox.template");
-        addLink("SpatialPoint", "/editable/help/SpatialPoint.template");
-        addLink("SubjectAbr", "/editable/help/SubjectAbr.template");
-        addLink("TemporalAbr", "/editable/help/TemporalAbr.template");
-        addLink("Type", "/editable/help/Type.template");
-        addLink("TypeDCMI", "/editable/help/TypeDCMI.template");
+        addLink("Alternative", "/help/Alternative.template");
+        addLink("Archis", "/help/Archis.template");
+        addLink("Date", "/help/Date.template");
+        addLink("DateIso8601", "/help/DateIso8601.template");
+        addLink("DateAvailable", "/help/DateAvailable.template");
+        addLink("FormatIMT", "/help/FormatIMT.template");
+        addLink("Publisher", "/help/Publisher.template");
+        addLink("RightsHolder", "/help/RightsHolder.template");
+        addLink("SpatialBox", "/help/SpatialBox.template");
+        addLink("SpatialPoint", "/help/SpatialPoint.template");
+        addLink("SubjectAbr", "/help/SubjectAbr.template");
+        addLink("TemporalAbr", "/help/TemporalAbr.template");
+        addLink("Type", "/help/Type.template");
+        addLink("TypeDCMI", "/help/TypeDCMI.template");
     }
 
     private void addLink(final String id, final String path, final Object... placeholders)

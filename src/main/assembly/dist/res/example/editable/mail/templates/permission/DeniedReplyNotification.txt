@@ -1,0 +1,8 @@
+Dear ~EasyUser.getDisplayName~,
+
+The depositor (~ReplyNotification.getDepositorName~) of the dataset "~ReplyNotification.getDatasetTitle~" has responded to your permission request.
+
+Your permission request has been denied (not granted). This means that you can't access the restricted files of the dataset. Please read the explanation by the depositor. 
+
+Explanation by depositor:
+~ReplyNotification.getExplanation~

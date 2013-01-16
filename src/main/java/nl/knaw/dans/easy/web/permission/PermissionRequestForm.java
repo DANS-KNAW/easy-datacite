@@ -36,11 +36,9 @@ public class PermissionRequestForm extends PermissionForm
 {
     private static final long serialVersionUID = 6204591036947047986L;
 
-    public static final String EDITABLE_PERMISSION_REQUEST_TEMPLATE = "/editable/PermissionRequest.template";
+    public static final String EDITABLE_PERMISSION_REQUEST_TEMPLATE = "/pages/PermissionRequest.template";
 
     private static final String STATUS_RESOURCE_KEY = "permission.request.status.value.";
-    //    private static final String TITLE_RESOURCE_KEY = "permission.request.research.title.";
-    //    private static final String THEME_RESOURCE_KEY = "permission.request.research.theme.";
 
     private static final String CONDITIONS_WID = "acceptConditions";
     private static final String THEME_WID = "theme";

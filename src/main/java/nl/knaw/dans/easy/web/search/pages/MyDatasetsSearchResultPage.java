@@ -24,7 +24,7 @@ import org.apache.wicket.model.ResourceModel;
 
 public class MyDatasetsSearchResultPage extends AbstractSearchResultPage
 {
-    public static final String MY_DATASETS_SEARCH_RESULTS = "/editable/MyDatasetsSearchResult.template";
+    public static final String MY_DATASETS_SEARCH_RESULTS = "/pages/MyDatasetsSearchResult.template";
 
     public MyDatasetsSearchResultPage()
     {

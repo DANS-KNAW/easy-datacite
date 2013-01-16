@@ -59,7 +59,7 @@ public class ModalDownload extends Panel
 
     private static final Logger logger = LoggerFactory.getLogger(ModalDownload.class);
 
-    public static final String EDITABLE_DOWNLOAD_DIALOG_TEMPLATE = "/editable/DownloadDialog.template";
+    public static final String EDITABLE_DOWNLOAD_DIALOG_TEMPLATE = "/pages/DownloadDialog.template";
 
     private static final String MSG_NO_SELECTION = "download.noSelection";
     private static final String MSG_NO_ACCESS = "download.noAccess";

@@ -27,7 +27,7 @@ public class DepositIntroPage extends AbstractEasyNavPage
 
     private static final Logger logger = LoggerFactory.getLogger(DepositIntroPage.class);
 
-    public static final String EDITABLE_DEPOSIT_INTRO_TEMPLATE = "/editable/DepositIntro.template";
+    public static final String EDITABLE_DEPOSIT_INTRO_TEMPLATE = "/pages/DepositIntro.template";
 
     private final List<DepositDiscipline> disciplines;
     private boolean initiated;
@@ -90,7 +90,7 @@ public class DepositIntroPage extends AbstractEasyNavPage
         };
         add(listView);
 
-        add(new EasyEditablePanel("editablePanel", "/editable/DepositIntro.template"));
+        add(new EasyEditablePanel("editablePanel", EDITABLE_DEPOSIT_INTRO_TEMPLATE));
     }
 
     public static ExternalLink createInstructionLink(final FormDescriptor formDescriptor)

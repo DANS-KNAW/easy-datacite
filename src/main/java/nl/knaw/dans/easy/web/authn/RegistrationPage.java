@@ -9,7 +9,7 @@ import org.apache.wicket.protocol.https.RequireHttps;
 @RequireHttps
 public class RegistrationPage extends AbstractEasyNavPage implements EasyResources
 {
-    public static final String EDITABLE_REGISTRATION_TEMPLATE = "/editable/Registration.template";
+    public static final String EDITABLE_REGISTRATION_TEMPLATE = "/pages/Registration.template";
 
     private static final String REGISTRATION_FORM = "registrationForm";
 

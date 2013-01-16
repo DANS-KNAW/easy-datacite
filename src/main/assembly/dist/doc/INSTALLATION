@@ -1,0 +1,53 @@
+... This document is work in progress ....
+
+0. SYSTEM REQUIREMENTS
+
+...
+
+1. REQUIRED SERVICES
+
+Before installing and runing EASY Web-UI you must install and
+configure the following services:
+
+- Tomcat 6 webcontainer
+
+- Optionally (but recommended) Apache HTTP Server
+
+- Fedora Commons 3.5
+
+- Open LDAP ...
+
+- SOLR 3.5
+
+- PrOAI 1.1.3
+
+- ...
+
+See the installation manual for each of these services for
+instructions on how to set them up.
+
+
+2. INSTALLATION EASY WEB-UI
+
+In the following steps the variable $EASY_WEBUI_HOME is taken to point
+to the directory on the server where you unpacked the binary
+distribution archive.  The recommended location is /opt/easy-webui.
+
+a) Setting EASY_WEBUI_HOME
+
+   Edit the file $EASY_WEBUI_HOME/bin/ui.xml so that that the
+   attribute docBase point to the easy-webui.war file location and the
+   value of EASY_WEBUI_HOME is set to the directory where you unpacked
+   the binary distribution archive.
+
+b) Configuring the Fedora Commons repository
+
+c) ...
+
+.) Setting up the editable content
+
+
+   
+.) Deploying in Tomcat 6
+
+   

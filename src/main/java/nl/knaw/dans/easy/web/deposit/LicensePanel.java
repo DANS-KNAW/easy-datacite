@@ -21,8 +21,8 @@ public class LicensePanel extends AbstractCustomPanel
 
     private static final long serialVersionUID = -8835422851027831656L;
 
-    public static final String EDITABLE_LICENSE_PANEL_TEMPLATE = "/editable/LicensePanel.template";
-    public static final String EDITABLE_LICENSE_PANEL_OTHER_ACCESS_TEMPLATE = "/editable/LicensePanelOtherAccess.template";
+    public static final String EDITABLE_LICENSE_PANEL_TEMPLATE = "/pages/LicensePanel.template";
+    public static final String EDITABLE_LICENSE_PANEL_OTHER_ACCESS_TEMPLATE = "/pages/LicensePanelOtherAccess.template";
 
     private final EasyMetadata easyMetadata;
 

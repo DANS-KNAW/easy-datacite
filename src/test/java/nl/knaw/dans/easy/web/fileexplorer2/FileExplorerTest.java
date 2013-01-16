@@ -8,10 +8,12 @@ import static org.powermock.api.easymock.PowerMock.mockStatic;
 import static org.powermock.api.easymock.PowerMock.replayAll;
 import static org.powermock.api.easymock.PowerMock.resetAll;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import nl.knaw.dans.common.lang.FileSystemHomeDirectory;
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
@@ -55,6 +57,7 @@ import nl.knaw.dans.easy.web.statistics.StatisticsLogger;
 import nl.knaw.dans.easy.web.view.dataset.DatasetViewPage;
 
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.spring.test.ApplicationContextMock;
 import org.apache.wicket.util.tester.WicketTester;
 import org.joda.time.DateTime;
 import org.junit.After;
@@ -83,8 +86,11 @@ public class FileExplorerTest
     @Before
     public void setUp() throws Exception
     {
-        System.setProperty("easy.home", "../easy-home");
-        tester = new WicketTester(new EasyWicketApplication());
+        ApplicationContextMock ctx = new ApplicationContextMock();
+        ctx.putBean("editableContentHome", new FileSystemHomeDirectory(new File("src/main/assembly/dist/res/example/editable")));
+        EasyWicketApplication app = new EasyWicketApplication();
+        app.setApplicationContext(ctx);
+        tester = new WicketTester(app);
         setUpAuthz();
         setUpUsers();
         setUpEasySessionMock();

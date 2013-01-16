@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration scan="true" scanPeriod="5 seconds">
+<configuration scan="true" scanPeriod="3 minutes">
+	<property name="LOGDIR" value="/var/log/easy-webui" />
 
 	<!-- For ANSI Eclipse console see http://www.mihai-nita.net/eclipse/ -->
 	<appender name="COLOR_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
@@ -10,7 +11,7 @@
 
 	<appender name="STATISTICS_ROLLING_FILE_LOG"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>/var/log/easy-webui/statistics.log</file>
+		<file>${LOGDIR}/statistics.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- daily rollover -->
 			<fileNamePattern>statistics.%d{yyyy-MM-dd}.log</fileNamePattern>
@@ -26,7 +27,7 @@
 
 	<appender name="SERVICE_PROFILING__ROLLING_FILE_LOG"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>/var/log/easy-webui/service-profiling.csv</file>
+		<file>${LOGDIR}/service-profiling.csv</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- daily rollover -->
 			<fileNamePattern>service-profiling.%d{yyyy-MM-dd}.csv
@@ -43,7 +44,7 @@
 
 	<appender name="EASY_LOG"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>/var/log/easy-webui/easy.log</file>
+		<file>${LOGDIR}/easy-webui.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- daily rollover -->
 			<fileNamePattern>statistics.%d{yyyy-MM-dd}.log</fileNamePattern>
@@ -61,7 +62,7 @@
 		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
 			<level>ERROR</level>
 		</filter>
-		<file>/var/log/easy-webui/easy.log</file>
+		<file>${LOGDIR}/easy-webui-error.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- daily rollover -->
 			<fileNamePattern>statistics.%d{yyyy-MM-dd}.log</fileNamePattern>
@@ -76,8 +77,7 @@
 
 
 
-	<root level="off">
-		<appender-ref ref="COLOR_CONSOLE" />
+	<root level="error">
 	</root>
 
 	<logger name="nl.knaw.dans" level="info">

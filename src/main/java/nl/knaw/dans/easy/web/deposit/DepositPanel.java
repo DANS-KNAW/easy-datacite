@@ -64,7 +64,7 @@ public class DepositPanel extends AbstractDatasetModelPanel
 
     private static Logger logger = LoggerFactory.getLogger(DepositPanel.class);
 
-    public static final String EDITABLE_DEPOSIT_COMPLETE_TEMPLATE = "/editable/DepositComplete.template";
+    public static final String EDITABLE_DEPOSIT_COMPLETE_TEMPLATE = "/pages/DepositComplete.template";
 
     private transient EmdPanelFactory panelFactory;
 

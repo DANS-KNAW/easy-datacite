@@ -123,7 +123,7 @@ public class FederativeUserRegistrationPage extends AbstractEasyNavPage
             logMyActionsSelection.add(new Radio<Boolean>("log-no", new Model<Boolean>(false)));
             add(logMyActionsSelection);
 
-            add(new EasyEditablePanel("editablePanel", "/editable/Registration.template"));
+            add(new EasyEditablePanel("editablePanel", "/pages/Registration.template"));
 
             final AcceptConditions acceptConditions = new AcceptConditions(ApplicationUser.ACCEPT_CONDITIONS);
             add(acceptConditions);
