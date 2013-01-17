@@ -47,7 +47,7 @@
 		<file>${LOGDIR}/easy-webui.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- daily rollover -->
-			<fileNamePattern>statistics.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<fileNamePattern>easy-webui.%d{yyyy-MM-dd}.log</fileNamePattern>
 
 			<!-- keep 30 days' worth of history -->
 			<maxHistory>30</maxHistory>
@@ -65,7 +65,7 @@
 		<file>${LOGDIR}/easy-webui-error.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- daily rollover -->
-			<fileNamePattern>statistics.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<fileNamePattern>easy-webui-error.%d{yyyy-MM-dd}.log</fileNamePattern>
 
 			<!-- keep 30 days' worth of history -->
 			<maxHistory>30</maxHistory>
