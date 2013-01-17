@@ -82,6 +82,9 @@
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<version>1.0.7</version>
+			<!-- Normally the scope would be runtime, but we have compile-time dependencies from
+			code that loads the logback configuration. -->
+			<scope>compile</scope>
 		</dependency>
 		<!-- -->
 
