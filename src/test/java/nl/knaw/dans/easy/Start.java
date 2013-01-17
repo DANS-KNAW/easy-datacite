@@ -5,6 +5,8 @@ import org.mortbay.jetty.Server;
 import org.mortbay.jetty.bio.SocketConnector;
 import org.mortbay.jetty.security.SslSocketConnector;
 import org.mortbay.jetty.webapp.WebAppContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // CHECKSTYLE:OFF
 /**
@@ -12,28 +14,13 @@ import org.mortbay.jetty.webapp.WebAppContext;
  */
 public final class Start // NOPMD
 {
-    /**
-     * MAX_IDLE_TIME.
-     */
+    private static final Logger log = LoggerFactory.getLogger(Start.class);
     private static final int MAX_IDLE_TIME = 1000 * 60 * 60;
-    /**
-     * PORT.
-     */
-    static final int PORT = 8081;
-
-    static final int SSL_PORT = 8444;
-    /**
-     * SLEEPTIME.
-     */
+    private static final int PORT = 8081;
+    private static final int SSL_PORT = 8444;
     private static final int SLEEPTIME = 5000;
-    /**
-     * EXIT_CODE.
-     */
     private static final int EXIT_CODE = 100;
 
-    /**
-     * Default constructor.
-     */
     private Start()
     {
         // Make it impossible to instantiate
@@ -53,7 +40,7 @@ public final class Start // NOPMD
 
         try
         {
-            System.out.println(">>> STARTING EMBEDDED JETTY SERVER, PRESS ANY KEY TO STOP"); // NOPMD
+            log.info(">>> STARTING EMBEDDED JETTY SERVER, PRESS ANY KEY TO STOP"); // NOPMD
             server.start();
             while (System.in.available() == 0)
             {
@@ -71,7 +58,7 @@ public final class Start // NOPMD
 
     static Server createServer(int port, int sslPort)
     {
-        System.err.println(">>> Configuration folder = " + ClassLoader.getSystemResource("conf"));
+        log.info(">>> Configuration folder = {}", ClassLoader.getSystemResource("conf"));
 
         /*
         <configuration>
@@ -89,7 +76,7 @@ public final class Start // NOPMD
 
         final Server server = new Server(); // NOPMD
 
-        System.out.println(">>> Creating connector on port " + port);
+        log.info(">>> Creating connector on port {}", port);
         final SocketConnector connector = new SocketConnector(); // NOPMD
         // Set some timeout options to make debugging easier.
         connector.setMaxIdleTime(MAX_IDLE_TIME);
@@ -99,7 +86,7 @@ public final class Start // NOPMD
         Connector[] connectors;
         if ("true".equalsIgnoreCase(System.getProperty("nl.knaw.dans.easy.web.ssl")))
         {
-            System.out.println(">>> " + "Creating sslConnector on port " + sslPort);
+            log.info(">>> " + "Creating sslConnector on port {}", sslPort);
             connector.setConfidentialPort(sslPort);
 
             // ssl connector
@@ -126,13 +113,6 @@ public final class Start // NOPMD
         webAppContext.setServer(server);
         webAppContext.setContextPath("/");
         webAppContext.setWar("src/main/webapp");
-
-        // START JMX SERVER
-        // MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
-        // MBeanContainer mBeanContainer = new MBeanContainer(mBeanServer);
-        // server.getContainer().addEventListener(mBeanContainer);
-        // mBeanContainer.start();
-
         server.addHandler(webAppContext);
         return server;
     }
