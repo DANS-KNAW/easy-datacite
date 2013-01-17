@@ -21,7 +21,7 @@ public class HelpFileReader extends TextFileReader
     {
         try
         {
-            return ResourceLocator.getFile("/editable/help/" + helpFileName + ".template");
+            return ResourceLocator.getFile("/help/" + helpFileName + ".template");
         }
         catch (ResourceNotFoundException e)
         {
