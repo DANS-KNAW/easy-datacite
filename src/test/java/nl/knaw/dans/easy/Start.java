@@ -8,6 +8,9 @@ import org.mortbay.jetty.webapp.WebAppContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.core.util.StatusPrinter;
+
 // CHECKSTYLE:OFF
 /**
  * Start tester.
@@ -34,6 +37,7 @@ public final class Start // NOPMD
      */
     public static void main(final String[] args) throws Exception // NOPMD
     {
+        printLogbackStatus();
         int port = args.length > 0 ? Integer.valueOf(args[0]) : PORT;
         int sslPort = args.length > 1 ? Integer.valueOf(args[1]) : SSL_PORT;
         final Server server = createServer(port, sslPort);
@@ -115,5 +119,11 @@ public final class Start // NOPMD
         webAppContext.setWar("src/main/webapp");
         server.addHandler(webAppContext);
         return server;
+    }
+
+    private static void printLogbackStatus()
+    {
+        LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
+        StatusPrinter.print(lc);
     }
 }
