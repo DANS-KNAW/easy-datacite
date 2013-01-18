@@ -71,9 +71,13 @@
 					<artifactId>slf4j-api</artifactId>
 					<groupId>org.slf4j</groupId>
 				</exclusion>
+				<exclusion>
+					<groupId>log4j</groupId>
+					<artifactId>log4j</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
-
+		
 		<!-- This is an end-application, so it should declare a slf4j-binding -->
 		<!-- Dependency on logback-classic binding for slf4j -->
 		<!-- Configuration of logback can be done f.i. by logback.xml on the classpath -->
@@ -82,8 +86,8 @@
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<version>1.0.7</version>
-			<!-- Normally the scope would be runtime, but we have compile-time dependencies from
-			code that loads the logback configuration. -->
+			<!-- Normally the scope would be runtime, but we have compile-time dependencies 
+				from code that loads the logback configuration. -->
 			<scope>compile</scope>
 		</dependency>
 		<!-- -->
@@ -176,6 +180,11 @@
 			<artifactId>wicket-spring</artifactId>
 			<version>1.4.21</version>
 		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>log4j-over-slf4j</artifactId>
+			<version>1.7.2</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -225,8 +234,8 @@
 				</configuration>
 				<executions>
 					<execution>
-						<id>make-assembly</id> 
-						<phase>package</phase> 
+						<id>make-assembly</id>
+						<phase>package</phase>
 						<goals>
 							<goal>single</goal>
 						</goals>
