@@ -1,0 +1,3 @@
+<Context docBase="/opt/easy-sword/bin/easy-sword.war" debug="0" crossContext="true" >
+	<Environment name="EASY_SWORD_HOME" value="/opt/easy-sword" type="java.lang.String"/>
+</Context>

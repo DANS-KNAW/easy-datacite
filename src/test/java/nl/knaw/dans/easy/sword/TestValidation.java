@@ -10,7 +10,6 @@ import nl.knaw.dans.easy.sword.util.Fixture;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeUtils;
-import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,15 +1,20 @@
 package nl.knaw.dans.easy.sword.jetty;
 
-import nl.knaw.dans.common.lang.test.ClassPathHacker;
-
 import org.mortbay.jetty.Connector;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.bio.SocketConnector;
 import org.mortbay.jetty.security.SslSocketConnector;
 import org.mortbay.jetty.webapp.WebAppContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.core.util.StatusPrinter;
 
 public class Start
 {
+    private static final Logger log = LoggerFactory.getLogger(Start.class);
+
     public static final int PORT = 8083;
     public static final int SSL_PORT = 8449;
     private static final int SLEEPTIME = 5000;
@@ -40,6 +45,7 @@ public class Start
      */
     public static void main(final String[] args) throws Exception // NOPMD
     {
+        printLogbackStatus();
         int port = args.length > 0 ? Integer.valueOf(args[0]) : PORT;
         int sslPort = args.length > 1 ? Integer.valueOf(args[1]) : SSL_PORT;
         final Server server = createServer(port, sslPort);
@@ -47,9 +53,11 @@ public class Start
         try
         {
             server.start();
-            System.out.println(">>> STARTED EMBEDDED JETTY SERVER, PRESS ANY KEY TO STOP"); // NOPMD
+            log.info(">>> STARTED EMBEDDED JETTY SERVER, PRESS ANY KEY TO STOP"); // NOPMD
             while (System.in.available() == 0)
+            {
                 Thread.sleep(SLEEPTIME); // NOPMD
+            }
             server.stop();
             server.join();
         }
@@ -62,11 +70,9 @@ public class Start
 
     public static Server createServer(int port, int sslPort) throws Exception
     {
-        ClassPathHacker.addFile("src/main/resources/");
-
         final Server server = new Server(); // NOPMD
 
-        System.out.println(">>> Creating connector on port " + port);
+        log.info(">>> Creating connector on port {}", port);
         final SocketConnector connector = new SocketConnector(); // NOPMD
         connector.setPort(port); // NOPMD
 
@@ -77,7 +83,7 @@ public class Start
         }
         else
         {
-            System.out.println(">>> " + "Creating sslConnector on port " + sslPort);
+            log.info(">>> " + "Creating sslConnector on port {}", sslPort);
             connector.setConfidentialPort(sslPort);
 
             // ssl connector
@@ -99,5 +105,11 @@ public class Start
         webAppContext.setWar("src/main/webapp");
         server.addHandler(webAppContext);
         return server;
+    }
+
+    private static void printLogbackStatus()
+    {
+        LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
+        StatusPrinter.print(lc);
     }
 }

@@ -6,19 +6,20 @@
 
 	<display-name>Easy SWORD Demo Server</display-name>
 
-	<!-- EASY Configuration -->
+	<listener>
+	    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
 
+	<listener>
+		<listener-class>nl.knaw.dans.easy.sword.ExternalConfigLoaderContextListener</listener-class>
+	</listener>
+	
 	<context-param>
 	    <param-name>contextConfigLocation</param-name>
 	    <param-value>classpath:applicationContext.xml</param-value>
 	</context-param>
 
-	<listener>
-	    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
-
 	<!-- SWORD Configuration -->
-
 	<context-param>
 		<description>The SWORDServer class name</description>
 		<param-name>sword-server-class</param-name>
@@ -68,6 +69,8 @@
 		<param-name>upload-temp-directory</param-name> 
 		<param-value>target/tmp/</param-value> 
 	</context-param>
+	
+	
 
 	<!-- Servlets -->
 
