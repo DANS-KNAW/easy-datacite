@@ -6,6 +6,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import nl.knaw.dans.common.lang.EnvironmentVariableBasedHomeDirectory;
+import nl.knaw.dans.common.lang.util.LogBackConfigLoader;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
