@@ -117,7 +117,7 @@ public class XMLTransformer implements ErrorListener
      * Constructor that takes the stylesheet file and the fully qualified classname of the
      * transformerFactory as parameters.
      * 
-     * @param xsltFileName
+     * @param xsltFile
      *        filename of the stylesheet
      * @param transformerFactoryName
      *        fully qualified classname of the transformerFactory

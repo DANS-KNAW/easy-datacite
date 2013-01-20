@@ -1,5 +1,10 @@
 package nl.knaw.dans.l.xml.binding;
 
+/**
+ * A brief selection of encoding strings.
+ * @author ecco
+ *
+ */
 public interface Encoding
 {
     String UTF8 = "UTF-8";
