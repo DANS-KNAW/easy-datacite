@@ -1,4 +1,4 @@
-package nl.knaw.dans.l.xml.validation;
+package nl.knaw.dans.pf.language.xml.validation;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -14,8 +14,8 @@ import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 
-import nl.knaw.dans.l.xml.exc.SchemaCreationException;
-import nl.knaw.dans.l.xml.exc.ValidatorException;
+import nl.knaw.dans.pf.language.xml.exc.SchemaCreationException;
+import nl.knaw.dans.pf.language.xml.exc.ValidatorException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

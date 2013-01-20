@@ -1,11 +1,12 @@
-package nl.knaw.dans.l.xml.validation;
+package nl.knaw.dans.pf.language.xml.validation;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.xml.validation.Schema;
 
-import nl.knaw.dans.l.xml.exc.SchemaCreationException;
+import nl.knaw.dans.pf.language.xml.exc.SchemaCreationException;
+import nl.knaw.dans.pf.language.xml.validation.SchemaCache;
 
 import org.junit.Assert;
 import org.junit.Ignore;

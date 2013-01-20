@@ -1,4 +1,4 @@
-package nl.knaw.dans.l.xml.binding;
+package nl.knaw.dans.pf.language.xml.binding;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -6,7 +6,7 @@ import java.io.Writer;
 
 import javax.xml.transform.Source;
 
-import nl.knaw.dans.l.xml.exc.XMLSerializationException;
+import nl.knaw.dans.pf.language.xml.exc.XMLSerializationException;
 
 import org.dom4j.Document;
 import org.dom4j.Element;

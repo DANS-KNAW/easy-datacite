@@ -1,4 +1,4 @@
-package nl.knaw.dans.l.xml.transform;
+package nl.knaw.dans.pf.language.xml.transform;
 
 import java.io.File;
 import java.io.IOException;

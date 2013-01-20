@@ -1,4 +1,4 @@
-package nl.knaw.dans.l.xml.exc;
+package nl.knaw.dans.pf.language.xml.exc;
 
 /**
  * Signals an exception in the creation of a {@link javax.xml.validation.Schema}.

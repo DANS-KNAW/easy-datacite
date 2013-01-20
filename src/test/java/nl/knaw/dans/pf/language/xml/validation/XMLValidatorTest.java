@@ -1,9 +1,12 @@
-package nl.knaw.dans.l.xml.validation;
+package nl.knaw.dans.pf.language.xml.validation;
 
 import java.io.File;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
+
+import nl.knaw.dans.pf.language.xml.validation.XMLErrorHandler;
+import nl.knaw.dans.pf.language.xml.validation.XMLValidator;
 
 import org.junit.Assert;
 import org.junit.Test;

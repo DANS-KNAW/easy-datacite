@@ -1,4 +1,4 @@
-package nl.knaw.dans.l.xml.validation;
+package nl.knaw.dans.pf.language.xml.validation;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package nl.knaw.dans.l.xml.transform;
+package nl.knaw.dans.pf.language.xml.transform;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.StringWriter;
 
 import javax.xml.transform.TransformerException;
+
+import nl.knaw.dans.pf.language.xml.transform.XMLTransformer;
 
 import org.junit.Ignore;
 import org.junit.Test;

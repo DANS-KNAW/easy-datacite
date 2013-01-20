@@ -1,6 +1,7 @@
-package nl.knaw.dans.l.xml.validation;
+package nl.knaw.dans.pf.language.xml.validation;
 
-import nl.knaw.dans.l.xml.validation.XMLErrorHandler.Reporter;
+import nl.knaw.dans.pf.language.xml.validation.XMLErrorHandler;
+import nl.knaw.dans.pf.language.xml.validation.XMLErrorHandler.Reporter;
 
 import org.junit.Assert;
 import org.junit.Test;

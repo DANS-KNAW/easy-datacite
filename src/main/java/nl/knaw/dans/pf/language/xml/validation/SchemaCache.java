@@ -1,4 +1,4 @@
-package nl.knaw.dans.l.xml.validation;
+package nl.knaw.dans.pf.language.xml.validation;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -10,8 +10,8 @@ import javax.xml.XMLConstants;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import nl.knaw.dans.l.xml.exc.SchemaCreationException;
-import nl.knaw.dans.l.xml.validation.XMLErrorHandler.Reporter;
+import nl.knaw.dans.pf.language.xml.exc.SchemaCreationException;
+import nl.knaw.dans.pf.language.xml.validation.XMLErrorHandler.Reporter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
