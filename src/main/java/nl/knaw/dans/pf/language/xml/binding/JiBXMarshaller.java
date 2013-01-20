@@ -72,7 +72,8 @@ public class JiBXMarshaller implements XMLMarshaller
      * cannot be marshalled without top-level mapping'.
      * 
      * @param bindingName
-     *        the bindingName of the given object
+     *        the bindingName of the given object or the bindingName of one of the bindings in the same
+     *        hierarchy.
      * @param bean
      *        the object to serialize.
      */
@@ -226,6 +227,12 @@ public class JiBXMarshaller implements XMLMarshaller
         return getXmlDocument().getRootElement();
     }
 
+    /**
+     * Get the marshalling context, the actual serializer to xml.
+     * 
+     * @return the same instance at each call
+     * @throws JiBXException
+     */
     protected IMarshallingContext getMarshallingContext() throws JiBXException
     {
         if (marshallingContext == null)
@@ -235,6 +242,12 @@ public class JiBXMarshaller implements XMLMarshaller
         return marshallingContext;
     }
 
+    /**
+     * Get the binding factory.
+     * 
+     * @return the same instance at each call
+     * @throws JiBXException
+     */
     protected IBindingFactory getBindingFactory() throws JiBXException
     {
         if (bindingFactory == null)

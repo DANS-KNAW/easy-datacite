@@ -5,6 +5,11 @@ import java.net.URL;
 
 import nl.knaw.dans.pf.language.xml.exc.SchemaCreationException;
 
+/**
+ * Concrete implementation of an {@link AbstractValidator}, that takes a schema URL in its constructor.
+ * 
+ * @author ecco
+ */
 public class ConcreteValidator extends AbstractValidator
 {
 

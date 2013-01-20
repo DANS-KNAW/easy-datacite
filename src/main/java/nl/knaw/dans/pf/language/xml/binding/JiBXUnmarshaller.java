@@ -16,6 +16,13 @@ import org.jibx.runtime.IBindingFactory;
 import org.jibx.runtime.IUnmarshallingContext;
 import org.jibx.runtime.JiBXException;
 
+/**
+ * {@link XMLUnmarshaller} for JiBX-style deserialization
+ * 
+ * @author ecco
+ * @param <T>
+ *        the unmarshalled object
+ */
 public class JiBXUnmarshaller<T> implements XMLUnmarshaller<T>
 {
 
@@ -25,28 +32,52 @@ public class JiBXUnmarshaller<T> implements XMLUnmarshaller<T>
     private IUnmarshallingContext unmarshallingContext;
     private String encoding = Encoding.UTF8;
 
+    /**
+     * Constructs a JiBXUnmarshaller for the given beanClass.
+     * <p/>
+     * The given beanClass should have a top-level root binding.
+     * 
+     * @param beanClass
+     *        object to be unmarshalled
+     */
     public JiBXUnmarshaller(Class<? extends T> beanClass)
     {
         this.beanClass = beanClass;
         this.bindingName = null;
     }
 
+    /**
+     * Constructs a JiBXUnmarshaller for the given bindingName and beanClass. Parameter
+     * <code>bindingName</code> is the name of the binding file stripped of its extension. File name
+     * <code>my-bean-binding.xml</code> has the bindingName <code>my_bean_binding</code>.
+     * <p/>
+     * The given beanClass should have a top-level binding. Top-level bindings have a (element) name and
+     * do not declare abstract="true".
+     * 
+     * @param bindingName
+     *        the bindingName of the given beanClass or the bindingName of one of the bindings in the
+     *        same hierarchy.
+     * @param beanClass
+     *        the class of the bound object
+     */
     public JiBXUnmarshaller(String bindingName, Class<? extends T> beanClass)
     {
         this.beanClass = beanClass;
         this.bindingName = bindingName;
     }
 
+    @Override
     public void setEncoding(String enc)
     {
         this.encoding = enc;
     }
 
+    @Override
     public String getEncoding()
     {
         return encoding;
     }
-    
+
     @Override
     public T unmarshal(InputStream inStream) throws XMLDeserializationException
     {
@@ -54,6 +85,7 @@ public class JiBXUnmarshaller<T> implements XMLUnmarshaller<T>
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public T unmarshal(InputStream inStream, String enc) throws XMLDeserializationException
     {
         T bean;
@@ -68,7 +100,7 @@ public class JiBXUnmarshaller<T> implements XMLUnmarshaller<T>
         }
         return bean;
     }
-    
+
     @SuppressWarnings("unchecked")
     @Override
     public T unmarshal(Reader reader) throws XMLDeserializationException
@@ -86,30 +118,31 @@ public class JiBXUnmarshaller<T> implements XMLUnmarshaller<T>
         return bean;
     }
 
+    @Override
     public T unmarshal(String xmlString) throws XMLDeserializationException
     {
         return unmarshal(new ByteArrayInputStream(xmlString.getBytes()));
     }
-    
+
     @Override
     public T unmarshal(byte[] bytes) throws XMLDeserializationException
     {
         return unmarshal(new ByteArrayInputStream(bytes));
     }
-    
+
     @Override
     public T unmarshal(Source source) throws XMLDeserializationException
     {
         if (source instanceof StreamSource)
         {
-            return unmarshal(((StreamSource)source).getInputStream());
+            return unmarshal(((StreamSource) source).getInputStream());
         }
         else
         {
             throw new XMLDeserializationException("Cannot unmarshal from " + source);
         }
     }
-    
+
     @Override
     public T unmarshal(Document document) throws XMLDeserializationException
     {
@@ -123,7 +156,7 @@ public class JiBXUnmarshaller<T> implements XMLUnmarshaller<T>
             return unmarshal(document.asXML());
         }
     }
-    
+
     @Override
     public T unmarshal(Element element) throws XMLDeserializationException
     {
@@ -133,7 +166,7 @@ public class JiBXUnmarshaller<T> implements XMLUnmarshaller<T>
         {
             enc = document.getXMLEncoding();
         }
-        
+
         if (enc != null)
         {
             return unmarshal(new ByteArrayInputStream(element.asXML().getBytes()), enc);
@@ -144,6 +177,12 @@ public class JiBXUnmarshaller<T> implements XMLUnmarshaller<T>
         }
     }
 
+    /**
+     * Get the unmarshalling context, the actual deserializer from xml.
+     * 
+     * @return the same instance at each call
+     * @throws JiBXException
+     */
     protected IUnmarshallingContext getUnMarshallingContext() throws JiBXException
     {
         if (unmarshallingContext == null)
@@ -153,6 +192,12 @@ public class JiBXUnmarshaller<T> implements XMLUnmarshaller<T>
         return unmarshallingContext;
     }
 
+    /**
+     * Get the binding factory.
+     * 
+     * @return the same instance at each call
+     * @throws JiBXException
+     */
     protected IBindingFactory getBindingFactory() throws JiBXException
     {
         if (bindingFactory == null)

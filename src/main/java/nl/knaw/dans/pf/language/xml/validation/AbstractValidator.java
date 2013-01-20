@@ -23,6 +23,11 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+/**
+ * Convenience class for creating validators.
+ * 
+ * @author ecco
+ */
 public abstract class AbstractValidator
 {
 

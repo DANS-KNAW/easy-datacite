@@ -183,7 +183,7 @@ public interface XMLMarshaller
      * (4)   System.out.println(doc.getRootElement().asXML());
      * </pre>
      * 
-     * Line (3) produces xml with an xml-declaration, line (4) produces xml without an xml-declaration.
+     * Line (3) produces xml with an xml-declaration, line (4) produces the same xml without an xml-declaration.
      * 
      * @return org.dom4j.Document with the marshalled wrapped bean.
      * @throws XMLSerializationException
