@@ -12,12 +12,12 @@ import java.io.Serializable;
 import java.net.URI;
 import java.util.List;
 
-import nl.knaw.dans.l.xml.validation.XMLErrorHandler;
 import nl.knaw.dans.pf.language.emd.binding.EmdMarshaller;
 import nl.knaw.dans.pf.language.emd.binding.EmdUnmarshaller;
 import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
 import nl.knaw.dans.pf.language.emd.types.EmdConstants;
 import nl.knaw.dans.pf.language.emd.validation.EMDValidator;
+import nl.knaw.dans.pf.language.xml.validation.XMLErrorHandler;
 
 import org.joda.time.DateTime;
 import org.junit.Test;

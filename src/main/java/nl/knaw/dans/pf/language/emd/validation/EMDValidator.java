@@ -3,11 +3,11 @@ package nl.knaw.dans.pf.language.emd.validation;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import nl.knaw.dans.l.xml.exc.XMLException;
-import nl.knaw.dans.l.xml.validation.AbstractValidator;
-import nl.knaw.dans.l.xml.validation.XMLErrorHandler;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.binding.EmdMarshaller;
+import nl.knaw.dans.pf.language.xml.exc.XMLException;
+import nl.knaw.dans.pf.language.xml.validation.AbstractValidator;
+import nl.knaw.dans.pf.language.xml.validation.XMLErrorHandler;
 
 import org.xml.sax.SAXException;
 

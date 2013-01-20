@@ -6,12 +6,12 @@ import java.io.InputStream;
 
 import javax.xml.validation.Schema;
 
-import nl.knaw.dans.l.xml.exc.SchemaCreationException;
-import nl.knaw.dans.l.xml.exc.ValidatorException;
-import nl.knaw.dans.l.xml.exc.XMLException;
-import nl.knaw.dans.l.xml.validation.XMLErrorHandler;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.pf.language.emd.validation.EMDValidator;
+import nl.knaw.dans.pf.language.xml.exc.SchemaCreationException;
+import nl.knaw.dans.pf.language.xml.exc.ValidatorException;
+import nl.knaw.dans.pf.language.xml.exc.XMLException;
+import nl.knaw.dans.pf.language.xml.validation.XMLErrorHandler;
 
 import org.junit.Assert;
 import org.junit.Test;

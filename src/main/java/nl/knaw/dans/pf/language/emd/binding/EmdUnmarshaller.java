@@ -1,7 +1,7 @@
 package nl.knaw.dans.pf.language.emd.binding;
 
-import nl.knaw.dans.l.xml.binding.JiBXUnmarshaller;
 import nl.knaw.dans.pf.language.emd.EmdBean;
+import nl.knaw.dans.pf.language.xml.binding.JiBXUnmarshaller;
 
 public class EmdUnmarshaller<T extends EmdBean> extends JiBXUnmarshaller<T>
 {

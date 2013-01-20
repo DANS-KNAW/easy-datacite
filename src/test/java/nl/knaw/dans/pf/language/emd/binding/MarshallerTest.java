@@ -6,9 +6,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.CharArrayReader;
 
-import nl.knaw.dans.l.xml.binding.Encoding;
-import nl.knaw.dans.l.xml.binding.JiBXMarshaller;
-import nl.knaw.dans.l.xml.exc.XMLSerializationException;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.EasyMetadataImpl;
 import nl.knaw.dans.pf.language.emd.EmdCreator;
@@ -17,6 +14,9 @@ import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.pf.language.emd.types.Author;
 import nl.knaw.dans.pf.language.emd.types.BasicString;
 import nl.knaw.dans.pf.language.emd.validation.EMDValidator;
+import nl.knaw.dans.pf.language.xml.binding.Encoding;
+import nl.knaw.dans.pf.language.xml.binding.JiBXMarshaller;
+import nl.knaw.dans.pf.language.xml.exc.XMLSerializationException;
 
 import org.junit.Test;
 import org.slf4j.Logger;
