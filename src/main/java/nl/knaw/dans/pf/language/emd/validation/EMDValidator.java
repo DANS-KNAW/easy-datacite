@@ -3,16 +3,13 @@ package nl.knaw.dans.pf.language.emd.validation;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.xml.sax.SAXException;
-
-import nl.knaw.dans.l.xml.exc.SchemaCreationException;
-import nl.knaw.dans.l.xml.exc.ValidatorException;
 import nl.knaw.dans.l.xml.exc.XMLException;
-import nl.knaw.dans.l.xml.exc.XMLSerializationException;
 import nl.knaw.dans.l.xml.validation.AbstractValidator;
 import nl.knaw.dans.l.xml.validation.XMLErrorHandler;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.binding.EmdMarshaller;
+
+import org.xml.sax.SAXException;
 
 /**
  * Utility class for validating easymetadata.

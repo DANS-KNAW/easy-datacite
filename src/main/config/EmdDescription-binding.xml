@@ -8,7 +8,7 @@
 
 		<namespace uri="http://easy.dans.knaw.nl/easy/easymetadata/" prefix="emd" />
 		<namespace uri="http://purl.org/dc/elements/1.1/" prefix="dc" />
-		<namespace uri="http://purl.org/dc/terms/" prefix="dcterms" />
+		<namespace uri="http://purl.org/dc/terms/" prefix="dct" />
 
 		<collection field="dcDescription" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicStringList">
 			<structure ns="http://purl.org/dc/elements/1.1/" name="description"

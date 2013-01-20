@@ -23,6 +23,9 @@
 		ns="http://easy.dans.knaw.nl/easy/easymetadata/">
 
 		<namespace uri="http://easy.dans.knaw.nl/easy/easymetadata/" prefix="emd"/>
+		<namespace uri="http://purl.org/dc/elements/1.1/" prefix="dc" />
+		<namespace uri="http://purl.org/dc/terms/" prefix="dct" />
+		<namespace uri="http://easy.dans.knaw.nl/easy/easymetadata/eas/" prefix="eas" />
   
 		<structure type="nl.knaw.dans.pf.language.emd.EmdTitle" field="emdTitle" usage="optional"/>
 		<structure type="nl.knaw.dans.pf.language.emd.EmdCreator" field="emdCreator" usage="optional" />

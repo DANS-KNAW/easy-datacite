@@ -25,9 +25,12 @@ import nl.knaw.dans.pf.language.emd.EmdType;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.pf.language.emd.validation.EMDValidator;
 
+import org.jibx.runtime.impl.StAXReaderFactory;
+import org.jibx.runtime.impl.XMLPullReaderFactory;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xmlpull.v1.XmlPullParserFactory;
 
 public class RoundtripTest
 {
@@ -36,11 +39,40 @@ public class RoundtripTest
     boolean verbose = false;
     
     @Test
+    public void printParsers() throws Exception
+    {
+        if (verbose)
+        {
+            System.err.println(XmlPullParserFactory.newInstance());
+            System.err.println(XMLPullReaderFactory.getInstance());
+            System.err.println(StAXReaderFactory.getInstance());
+        }
+    }
+    
+    @Test
     public void easyMetadata() throws Exception
     {
         EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
         EmdHelper.populate(2, emd);
         
+        String xmlString = new EmdMarshaller(emd).getXmlString();
+        
+        EmdUnmarshaller<EasyMetadata> um = new EmdUnmarshaller<EasyMetadata>(EasyMetadataImpl.class);
+        EasyMetadata emd2 = um.unmarshal(xmlString);
+        String xmlString2 = new EmdMarshaller(emd2).getXmlString();
+        
+        if (verbose)
+            logger.debug(xmlString2);
+        
+        assertEquals(xmlString, xmlString2);
+        assertTrue(EMDValidator.instance().validate(xmlString, null).passed());
+        assertTrue(EMDValidator.instance().validate(xmlString2, null).passed());
+    }
+    
+    @Test
+    public void easyMetadataEmpty() throws Exception
+    {
+        EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
         String xmlString = new EmdMarshaller(emd).getXmlString();
         
         EmdUnmarshaller<EasyMetadata> um = new EmdUnmarshaller<EasyMetadata>(EasyMetadataImpl.class);
@@ -74,6 +106,23 @@ public class RoundtripTest
     }
     
     @Test
+    public void emdTitleEmpty() throws Exception
+    {
+        EmdTitle bean = new EmdTitle();
+        
+        String xml = new EmdMarshaller(bean).getXmlString();
+        
+        EmdUnmarshaller<EmdTitle> um = new EmdUnmarshaller<EmdTitle>(EmdTitle.class);
+        EmdTitle returned = um.unmarshal(xml);
+        String returnedXml = new EmdMarshaller(returned).getXmlString();
+        
+        if (verbose)
+            logger.debug(returnedXml);
+        
+        assertEquals(xml, returnedXml);
+    }
+    
+    @Test
     public void emdCreator() throws Exception
     {
         EmdCreator bean = new EmdCreator();
@@ -84,6 +133,27 @@ public class RoundtripTest
         EmdUnmarshaller<EmdCreator> um = new EmdUnmarshaller<EmdCreator>(EmdCreator.class);
         EmdCreator returned = um.unmarshal(xml);
         String returnedXml = new EmdMarshaller(returned).getXmlString();
+        
+        if (verbose)
+            logger.debug(returnedXml);
+        
+        assertEquals(xml, returnedXml);
+    }
+    
+    @Test
+    public void emdCreatorEmpty() throws Exception
+    {
+        EmdCreator bean = new EmdCreator();
+        
+        EmdMarshaller em = new EmdMarshaller(bean);
+        em.setOmitXmlDeclaration(true);
+        String xml = em.getXmlString();
+        
+        EmdUnmarshaller<EmdCreator> um = new EmdUnmarshaller<EmdCreator>(EmdCreator.class);
+        EmdCreator returned = um.unmarshal(xml);
+        EmdMarshaller em2 = new EmdMarshaller(returned);
+        em2.setOmitXmlDeclaration(true);
+        String returnedXml = em2.getXmlString();
         
         if (verbose)
             logger.debug(returnedXml);
@@ -360,5 +430,6 @@ public class RoundtripTest
         
         assertEquals(xml, returnedXml);
     }
+    
 
 }
