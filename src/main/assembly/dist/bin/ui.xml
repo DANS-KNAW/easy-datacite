@@ -1,3 +1,1 @@
-<Context docBase="/opt/easy-webui/bin/easy-webui.war" debug="0" crossContext="true" >
-	<Environment name="EASY_WEBUI_HOME" value="/opt/easy-webui" type="java.lang.String"/>
-</Context>
+<Context docBase="/opt/easy-webui/bin/easy-webui.war" debug="0" crossContext="true" />

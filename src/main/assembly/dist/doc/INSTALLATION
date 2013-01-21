@@ -33,16 +33,22 @@ In the following steps the variable $EASY_WEBUI_HOME is taken to point
 to the directory on the server where you unpacked the binary
 distribution archive.  The recommended location is /opt/easy-webui.
 
-a) Setting EASY_WEBUI_HOME
+
+a) Create an environment variable called EASY_WEBUI_HOME that contains
+   the path to the installation directory (by default /opt/easy-webui).
+   One way to do this is by editing the file /etc/tomcat6/tomcat6.conf
+   adding an entry like this:
+   
+   EASY_WEBUI_HOME=/opt/easy-webui
+
+b) Configuring the context container.
 
    Edit the file $EASY_WEBUI_HOME/bin/ui.xml so that that the
-   attribute docBase point to the easy-webui.war file location and the
-   value of EASY_WEBUI_HOME is set to the directory where you unpacked
-   the binary distribution archive.
+   attribute docBase point to the easy-webui.war file location.
 
-b) Configuring the Fedora Commons repository
+c) Configuring the Fedora Commons repository
 
-c) ...
+d) ...
 
 .) Setting up the editable content
 
@@ -50,4 +56,8 @@ c) ...
    
 .) Deploying in Tomcat 6
 
+   Copy the file $EASY_WEBUI_HOME/cfg/ui.xml to 
    
+   /etc/tomat6/Catalina/localhost
+   
+     
