@@ -18,10 +18,13 @@ public interface FileStoreAccess
 
     FolderItemVO findFolderById(DmoStoreId dmoStoreId) throws StoreAccessException;
 
+    // used by DownloadWorker
     List<FileItemVO> findFilesById(Collection<DmoStoreId> sids) throws StoreAccessException;
 
+    // not directly used
     List<FolderItemVO> findFoldersById(Collection<DmoStoreId> sids) throws StoreAccessException;
 
+    // used by EasyItemService.getFilesAndFolders(user, dataset, collection) <-- not used
     List<ItemVO> findFilesAndFoldersById(Collection<DmoStoreId> sids) throws StoreAccessException;
 
     /**
