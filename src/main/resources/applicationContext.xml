@@ -5,12 +5,23 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
 	<bean name="resourceLocator" class="nl.knaw.dans.common.lang.ResourceLocator">
-		<constructor-arg ref="homeDir"/>
+		<constructor-arg>
+			<list>
+				<ref bean="homeDir"/>	
+				<ref bean="editableContentHome" />						 
+			</list>
+		</constructor-arg>
 	</bean>
 
 	<bean
 		class="nl.knaw.dans.common.lang.spring.HomeDirectoryBasedPropertyPlaceholderConfigurer">
 		<constructor-arg ref="homeDir" />
+	</bean>
+	
+	<bean name="editableContentHome" class="nl.knaw.dans.common.lang.FileSystemHomeDirectory">
+		<constructor-arg>
+			<value type="java.io.File">${easy.editable.content.root}</value>
+		</constructor-arg>
 	</bean>
 	
 	<bean name="homeDir" class="nl.knaw.dans.common.lang.EnvironmentVariableBasedHomeDirectory" >
