@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import nl.knaw.dans.easy.domain.model.Dataset;
-import nl.knaw.dans.easy.domain.model.emd.types.Relation;
+import nl.knaw.dans.pf.language.emd.types.Relation;
 
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;

@@ -7,12 +7,12 @@ import java.util.Map;
 
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceList;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.domain.model.emd.EmdRelation;
-import nl.knaw.dans.easy.domain.model.emd.types.BasicIdentifier;
-import nl.knaw.dans.easy.domain.model.emd.types.Relation;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.deposit.repeater.AbstractCustomPanel;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.EmdRelation;
+import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
+import nl.knaw.dans.pf.language.emd.types.Relation;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.WicketRuntimeException;

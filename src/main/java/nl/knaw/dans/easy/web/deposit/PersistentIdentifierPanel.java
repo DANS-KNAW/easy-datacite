@@ -3,12 +3,12 @@ package nl.knaw.dans.easy.web.deposit;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import nl.knaw.dans.easy.web.deposit.repeater.AbstractCustomPanel;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+
 import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
-
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.web.deposit.repeater.AbstractCustomPanel;
 
 public class PersistentIdentifierPanel extends AbstractCustomPanel
 {

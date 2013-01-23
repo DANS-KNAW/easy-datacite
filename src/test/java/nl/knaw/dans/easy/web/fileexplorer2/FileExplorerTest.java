@@ -36,7 +36,6 @@ import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.StateChangeDate;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer;
-import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
@@ -55,6 +54,7 @@ import nl.knaw.dans.easy.web.EasySession;
 import nl.knaw.dans.easy.web.EasyWicketApplication;
 import nl.knaw.dans.easy.web.statistics.StatisticsLogger;
 import nl.knaw.dans.easy.web.view.dataset.DatasetViewPage;
+import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.spring.test.ApplicationContextMock;

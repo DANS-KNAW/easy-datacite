@@ -11,9 +11,9 @@ import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceListGetter;
 import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
-import nl.knaw.dans.easy.domain.model.emd.types.BasicIdentifier;
 import nl.knaw.dans.easy.web.deposit.repeasy.IdentifierListWrapper;
 import nl.knaw.dans.easy.web.deposit.repeasy.IdentifierListWrapper.IdentifierModel;
+import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;

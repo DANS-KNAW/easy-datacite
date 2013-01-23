@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
-import nl.knaw.dans.easy.domain.model.emd.types.Spatial;
-import nl.knaw.dans.easy.domain.model.emd.types.Spatial.Point;
 import nl.knaw.dans.easy.web.deposit.repeater.AbstractDefaultListWrapper;
 import nl.knaw.dans.easy.web.deposit.repeater.AbstractEasyModel;
 import nl.knaw.dans.easy.web.wicket.KvpChoiceRenderer;
+import nl.knaw.dans.pf.language.emd.types.Spatial;
+import nl.knaw.dans.pf.language.emd.types.Spatial.Point;
 
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
 

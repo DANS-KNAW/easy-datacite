@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
-import nl.knaw.dans.easy.domain.model.emd.types.BasicIdentifier;
-import nl.knaw.dans.easy.domain.model.emd.types.EmdConstants;
 import nl.knaw.dans.easy.web.deposit.repeater.AbstractDefaultListWrapper;
 import nl.knaw.dans.easy.web.wicket.KvpChoiceRenderer;
+import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
+import nl.knaw.dans.pf.language.emd.types.EmdConstants;
 
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
 

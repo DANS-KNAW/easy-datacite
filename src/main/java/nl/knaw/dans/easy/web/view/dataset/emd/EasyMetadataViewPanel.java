@@ -1,13 +1,11 @@
 package nl.knaw.dans.easy.web.view.dataset.emd;
 
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
-import nl.knaw.dans.common.lang.xml.XMLSerializationException;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.domain.deposit.discipline.DepositDiscipline;
 import nl.knaw.dans.easy.domain.form.FormDefinition;
 import nl.knaw.dans.easy.domain.form.FormDescriptor;
 import nl.knaw.dans.easy.domain.form.FormPage;
-import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.common.DatasetModel;
@@ -15,6 +13,7 @@ import nl.knaw.dans.easy.web.common.PropertiesMessage;
 import nl.knaw.dans.easy.web.deposit.EmdPanelFactory;
 import nl.knaw.dans.easy.web.template.AbstractDatasetModelPanel;
 import nl.knaw.dans.easy.web.wicket.RecursivePanel;
+import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

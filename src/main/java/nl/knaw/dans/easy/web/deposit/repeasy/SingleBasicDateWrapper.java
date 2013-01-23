@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
-import nl.knaw.dans.easy.domain.model.emd.types.BasicDate;
 import nl.knaw.dans.easy.web.deposit.repeater.AbstractEasyModel;
 import nl.knaw.dans.easy.web.deposit.repeater.AbstractListWrapper;
 import nl.knaw.dans.easy.web.wicket.KvpChoiceRenderer;
+import nl.knaw.dans.pf.language.emd.types.BasicDate;
 
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
 

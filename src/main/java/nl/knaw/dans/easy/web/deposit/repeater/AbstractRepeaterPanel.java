@@ -9,7 +9,6 @@ import java.util.Set;
 import nl.knaw.dans.easy.domain.form.StandardPanelDefinition;
 import nl.knaw.dans.easy.web.wicket.EasyComponentFeedbackPanel;
 
-import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.markup.html.WebMarkupContainer;

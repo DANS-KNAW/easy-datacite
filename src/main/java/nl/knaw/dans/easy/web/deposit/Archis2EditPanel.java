@@ -3,11 +3,11 @@ package nl.knaw.dans.easy.web.deposit;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.behavior.FormModificationDetectorBehavior;
 import nl.knaw.dans.easy.domain.deposit.discipline.ArchisCollector;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.domain.model.emd.types.BasicIdentifier;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.deposit.repeasy.Archis2ListWrapper;
 import nl.knaw.dans.easy.web.deposit.repeater.AbstractRepeaterPanel;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.ajax.AjaxRequestTarget;

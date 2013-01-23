@@ -10,7 +10,6 @@ import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.PermissionReplyModel;
 import nl.knaw.dans.easy.domain.model.PermissionRequestModel;
 import nl.knaw.dans.easy.domain.model.PermissionSequence.State;
-import nl.knaw.dans.easy.domain.model.emd.EmdIdentifier;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.MaintenanceNotification;
 import nl.knaw.dans.easy.servicelayer.NewDepositorNotification;
@@ -35,6 +34,7 @@ import nl.knaw.dans.easy.web.main.AbstractEasyNavPage;
 import nl.knaw.dans.easy.web.permission.PermissionRequestForm;
 import nl.knaw.dans.easy.web.search.pages.MyDatasetsSearchResultPage;
 import nl.knaw.dans.easy.web.search.pages.MyRequestsSearchResultPage;
+import nl.knaw.dans.pf.language.emd.EmdIdentifier;
 
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.protocol.http.WebResponse;

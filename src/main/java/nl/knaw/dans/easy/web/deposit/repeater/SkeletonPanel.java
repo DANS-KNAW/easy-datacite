@@ -1,15 +1,16 @@
 package nl.knaw.dans.easy.web.deposit.repeater;
 
 import nl.knaw.dans.easy.domain.form.StandardPanelDefinition;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import nl.knaw.dans.easy.web.template.AbstractEasyPanel;
-import nl.knaw.dans.easy.web.template.emd.atomic.*;
+import nl.knaw.dans.easy.web.template.emd.atomic.SimpleLabelPanel;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
 
 import org.apache.wicket.feedback.FeedbackMessage;
 import org.apache.wicket.feedback.IFeedbackMessageFilter;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.model.*;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.ResourceModel;
 
 public abstract class SkeletonPanel extends AbstractEasyPanel
 {

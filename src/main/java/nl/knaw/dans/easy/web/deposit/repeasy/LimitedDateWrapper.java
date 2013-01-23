@@ -3,7 +3,7 @@ package nl.knaw.dans.easy.web.deposit.repeasy;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.knaw.dans.easy.domain.model.emd.types.IsoDate;
+import nl.knaw.dans.pf.language.emd.types.IsoDate;
 
 import org.joda.time.DateTime;
 import org.joda.time.IllegalFieldValueException;

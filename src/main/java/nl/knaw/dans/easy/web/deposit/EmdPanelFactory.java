@@ -1,10 +1,10 @@
 package nl.knaw.dans.easy.web.deposit;
 
 import nl.knaw.dans.easy.domain.form.StandardPanelDefinition;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.deposit.repeasy.Archis2ListWrapper;
 import nl.knaw.dans.easy.web.deposit.repeater.RepeaterPanelFactory;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.markup.html.panel.Panel;

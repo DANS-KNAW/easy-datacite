@@ -2,12 +2,11 @@ package nl.knaw.dans.easy.web.deposit.repeasy;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import nl.knaw.dans.common.lang.id.DAI;
-import nl.knaw.dans.easy.domain.model.emd.types.Author;
 import nl.knaw.dans.easy.web.deposit.repeater.AbstractDefaultListWrapper;
 import nl.knaw.dans.easy.web.deposit.repeater.AbstractEasyModel;
+import nl.knaw.dans.pf.language.emd.types.Author;
 
 import org.apache.commons.lang.StringUtils;
 

@@ -5,13 +5,13 @@ import java.net.URLEncoder;
 import java.util.List;
 
 import nl.knaw.dans.easy.domain.model.Dataset;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.domain.model.emd.EmdIdentifier;
-import nl.knaw.dans.easy.domain.model.emd.Term;
-import nl.knaw.dans.easy.domain.model.emd.types.BasicIdentifier;
-import nl.knaw.dans.easy.domain.model.emd.types.BasicString;
-import nl.knaw.dans.easy.domain.model.emd.types.EmdConstants;
 import nl.knaw.dans.easy.web.template.AbstractEasyPanel;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.EmdIdentifier;
+import nl.knaw.dans.pf.language.emd.Term;
+import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
+import nl.knaw.dans.pf.language.emd.types.BasicString;
+import nl.knaw.dans.pf.language.emd.types.EmdConstants;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.markup.html.basic.Label;

@@ -1,24 +1,20 @@
 package nl.knaw.dans.easy.web.deposit.repeater;
 
 import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceList;
-import nl.knaw.dans.easy.domain.model.emd.types.Relation;
 import nl.knaw.dans.easy.web.deposit.repeasy.RelationListWrapper.RelationModel;
 import nl.knaw.dans.easy.web.template.emd.atomic.VerifyUrlPanel;
+import nl.knaw.dans.pf.language.emd.types.Relation;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.Component;
-import org.apache.wicket.MarkupContainer;
-import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.DropDownChoice;
-import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.model.ResourceModel;
 
 public class RelationPanel extends AbstractChoicePanel<RelationModel>
 {

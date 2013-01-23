@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.knaw.dans.easy.domain.model.emd.types.InvalidDateStringException;
-import nl.knaw.dans.easy.domain.model.emd.types.IsoDate;
+import nl.knaw.dans.pf.language.emd.types.InvalidDateStringException;
+import nl.knaw.dans.pf.language.emd.types.IsoDate;
 
 public abstract class AbstractEasyModel implements Serializable
 {

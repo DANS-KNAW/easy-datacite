@@ -3,11 +3,11 @@ package nl.knaw.dans.easy.web.deposit;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.domain.model.emd.EmdRights;
-import nl.knaw.dans.easy.domain.model.emd.types.BasicString;
 import nl.knaw.dans.easy.web.deposit.repeater.AbstractCustomPanel;
 import nl.knaw.dans.easy.web.editabletexts.EasyEditablePanel;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.EmdRights;
+import nl.knaw.dans.pf.language.emd.types.BasicString;
 
 import org.apache.wicket.IClusterable;
 import org.apache.wicket.markup.html.form.CheckBox;

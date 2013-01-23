@@ -12,10 +12,10 @@ import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
 import nl.knaw.dans.easy.domain.form.ChoiceListDefinition;
 import nl.knaw.dans.easy.domain.form.StandardPanelDefinition;
 import nl.knaw.dans.easy.domain.form.TermPanelDefinition;
-import nl.knaw.dans.easy.domain.model.emd.EmdDate;
 import nl.knaw.dans.easy.web.wicket.IModelFactory;
 import nl.knaw.dans.easy.web.wicket.IPanelFactory;
 import nl.knaw.dans.easy.web.wicket.PanelFactoryException;
+import nl.knaw.dans.pf.language.emd.EmdDate;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.markup.html.panel.Panel;

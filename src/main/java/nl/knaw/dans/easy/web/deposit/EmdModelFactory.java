@@ -12,8 +12,6 @@ import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceList;
 import nl.knaw.dans.easy.domain.form.StandardPanelDefinition;
 import nl.knaw.dans.easy.domain.form.TermPanelDefinition;
 import nl.knaw.dans.easy.domain.model.Dataset;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.domain.model.emd.Term;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.deposit.repeasy.Archis2ListWrapper;
@@ -34,6 +32,8 @@ import nl.knaw.dans.easy.web.deposit.repeasy.SingleBasicDateWrapper;
 import nl.knaw.dans.easy.web.deposit.repeasy.SingleISODateWrapper;
 import nl.knaw.dans.easy.web.wicket.IModelFactory;
 import nl.knaw.dans.easy.web.wicket.ModelFactoryException;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.Term;
 
 import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.model.IModel;

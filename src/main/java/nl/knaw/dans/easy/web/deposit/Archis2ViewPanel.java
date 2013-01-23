@@ -5,10 +5,10 @@ import java.util.List;
 
 import nl.knaw.dans.common.wicket.components.SeparatedListView;
 import nl.knaw.dans.easy.domain.deposit.discipline.ArchisCollector;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.domain.model.emd.types.BasicIdentifier;
-import nl.knaw.dans.easy.domain.model.emd.types.EmdConstants;
 import nl.knaw.dans.easy.web.deposit.repeater.AbstractCustomPanel;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
+import nl.knaw.dans.pf.language.emd.types.EmdConstants;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.markup.html.panel.Panel;

@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
-import nl.knaw.dans.easy.domain.model.emd.EmdRights;
-import nl.knaw.dans.easy.domain.model.emd.types.BasicString;
 import nl.knaw.dans.easy.web.deposit.repeater.AbstractDefaultListWrapper;
+import nl.knaw.dans.pf.language.emd.EmdRights;
+import nl.knaw.dans.pf.language.emd.types.BasicString;
 
 public class LicenseWrapper extends AbstractDefaultListWrapper<KeyValuePair, BasicString>
 {

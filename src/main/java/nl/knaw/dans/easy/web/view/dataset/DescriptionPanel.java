@@ -2,12 +2,12 @@ package nl.knaw.dans.easy.web.view.dataset;
 
 import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.easy.domain.deposit.discipline.DepositDiscipline;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import nl.knaw.dans.easy.web.RedirectData;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.deposit.DepositPage;
 import nl.knaw.dans.easy.web.template.AbstractDatasetModelPanel;
 import nl.knaw.dans.easy.web.view.dataset.emd.EasyMetadataViewPanel;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
 
 import org.apache.wicket.Page;
 import org.apache.wicket.PageParameters;

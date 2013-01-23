@@ -1,8 +1,8 @@
 package nl.knaw.dans.easy.web.deposit.repeater;
 
-import nl.knaw.dans.easy.domain.model.emd.types.Author;
 import nl.knaw.dans.easy.web.deposit.repeasy.AuthorListWrapper;
 import nl.knaw.dans.easy.web.deposit.repeasy.AuthorListWrapper.AuthorModel;
+import nl.knaw.dans.pf.language.emd.types.Author;
 
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.WebMarkupContainer;

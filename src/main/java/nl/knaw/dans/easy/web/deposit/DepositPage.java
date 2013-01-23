@@ -4,14 +4,14 @@ import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.domain.dataset.DatasetSpecification;
 import nl.knaw.dans.easy.domain.deposit.discipline.DepositDiscipline;
 import nl.knaw.dans.easy.domain.model.Dataset;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
-import nl.knaw.dans.easy.domain.model.emd.types.IsoDate;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.ErrorPage;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.main.AbstractEasyNavPage;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
+import nl.knaw.dans.pf.language.emd.types.IsoDate;
 
 import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.protocol.https.RequireHttps;

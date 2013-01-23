@@ -3,8 +3,8 @@ package nl.knaw.dans.easy.web.deposit.repeasy;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.knaw.dans.easy.domain.model.emd.types.BasicString;
 import nl.knaw.dans.easy.web.deposit.repeater.AbstractDefaultListWrapper;
+import nl.knaw.dans.pf.language.emd.types.BasicString;
 
 import org.apache.commons.lang.StringUtils;
 

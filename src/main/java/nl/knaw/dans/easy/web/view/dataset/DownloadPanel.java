@@ -1,7 +1,8 @@
 package nl.knaw.dans.easy.web.view.dataset;
 
-import nl.knaw.dans.common.lang.xml.XMLSerializationException;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.binding.EmdMarshaller;
+import nl.knaw.dans.pf.language.xml.exc.XMLSerializationException;
 
 import org.apache.wicket.markup.html.WebResource;
 import org.apache.wicket.markup.html.link.ResourceLink;
@@ -60,7 +61,7 @@ public class DownloadPanel extends Panel
                 CharSequence xml = null;
                 try
                 {
-                    xml = emd.asXMLString(4);
+                    xml = new EmdMarshaller(emd).getXmlString();
                 }
                 catch (XMLSerializationException e)
                 {

@@ -1,6 +1,6 @@
 package nl.knaw.dans.easy.web.deposit.repeater;
 
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
 
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;

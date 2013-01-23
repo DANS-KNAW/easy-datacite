@@ -4,12 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.knaw.dans.common.lang.xml.XMLSerializationException;
 import nl.knaw.dans.easy.domain.deposit.discipline.ArchisCollector;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.domain.model.emd.types.BasicIdentifier;
-import nl.knaw.dans.easy.domain.model.emd.types.EmdConstants;
 import nl.knaw.dans.easy.web.deposit.repeater.AbstractListWrapper;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
+import nl.knaw.dans.pf.language.emd.types.EmdConstants;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
