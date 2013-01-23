@@ -10,11 +10,11 @@ import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.domain.exceptions.DataIntegrityException;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.WorkflowData;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
-import nl.knaw.dans.easy.domain.model.emd.types.BasicString;
 import nl.knaw.dans.easy.domain.workflow.Remark;
 import nl.knaw.dans.easy.domain.workflow.WorkflowStep;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
+import nl.knaw.dans.pf.language.emd.types.BasicString;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

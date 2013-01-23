@@ -2,19 +2,19 @@ package nl.knaw.dans.easy.business.dataset;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.easy.domain.form.FormDefinition;
 import nl.knaw.dans.easy.domain.form.FormPage;
 import nl.knaw.dans.easy.domain.form.PanelDefinition;
 import nl.knaw.dans.easy.domain.form.SubHeadingDefinition;
 import nl.knaw.dans.easy.domain.form.TermPanelDefinition;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.domain.model.emd.Term;
-import nl.knaw.dans.easy.domain.model.emd.types.MetadataItem;
-import nl.knaw.dans.easy.domain.model.emd.types.Spatial;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.Term;
+import nl.knaw.dans.pf.language.emd.types.MetadataItem;
+import nl.knaw.dans.pf.language.emd.types.Spatial;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * SubmissionProcessor that validates metadata and reports in a web-ui-specific manner.

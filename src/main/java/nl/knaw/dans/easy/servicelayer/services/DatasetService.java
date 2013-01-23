@@ -18,10 +18,10 @@ import nl.knaw.dans.easy.domain.model.AdministrativeMetadata;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.PermissionReplyModel;
 import nl.knaw.dans.easy.domain.model.PermissionRequestModel;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.worker.WorkListener;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific;
 
 import org.joda.time.DateTime;
 

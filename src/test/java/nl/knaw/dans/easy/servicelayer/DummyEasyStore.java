@@ -18,7 +18,7 @@ import nl.knaw.dans.common.lang.repo.jumpoff.JumpoffDmo;
 import nl.knaw.dans.common.lang.repo.relations.Relation;
 import nl.knaw.dans.easy.data.store.EasyStore;
 import nl.knaw.dans.easy.domain.download.DownloadHistory;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
 
 import org.joda.time.DateTime;
 

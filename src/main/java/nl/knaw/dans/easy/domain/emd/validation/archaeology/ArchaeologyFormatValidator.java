@@ -7,8 +7,8 @@ import java.util.List;
 import nl.knaw.dans.easy.domain.emd.validation.base.ChoiceListValidator.RightsValidator;
 import nl.knaw.dans.easy.domain.emd.validation.base.ValidationReporter;
 import nl.knaw.dans.easy.domain.emd.validation.base.Validator;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.domain.model.emd.types.EmdScheme;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.types.EmdScheme;
 
 public class ArchaeologyFormatValidator implements Validator
 {

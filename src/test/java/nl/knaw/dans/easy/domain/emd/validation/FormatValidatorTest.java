@@ -1,7 +1,6 @@
 package nl.knaw.dans.easy.domain.emd.validation;
 
 import static org.junit.Assert.assertEquals;
-
 import static org.junit.Assert.assertFalse;
 
 import java.util.ArrayList;
@@ -11,11 +10,11 @@ import nl.knaw.dans.common.lang.test.Tester;
 import nl.knaw.dans.easy.domain.emd.validation.archaeology.EasSpatialValidator;
 import nl.knaw.dans.easy.domain.emd.validation.base.ValidationReport;
 import nl.knaw.dans.easy.domain.emd.validation.base.ValidationReporter;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadataImpl;
-import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
-import nl.knaw.dans.easy.domain.model.emd.types.Spatial;
-import nl.knaw.dans.easy.domain.model.emd.types.Spatial.Point;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.EasyMetadataImpl;
+import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
+import nl.knaw.dans.pf.language.emd.types.Spatial;
+import nl.knaw.dans.pf.language.emd.types.Spatial.Point;
 
 import org.junit.Ignore;
 import org.junit.Test;

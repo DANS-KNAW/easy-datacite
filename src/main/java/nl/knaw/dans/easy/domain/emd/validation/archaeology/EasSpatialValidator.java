@@ -15,10 +15,10 @@ import nl.knaw.dans.easy.domain.emd.validation.base.ValidationReporter;
 import nl.knaw.dans.easy.domain.emd.validation.base.Validator;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.domain.model.emd.EmdCoverage;
-import nl.knaw.dans.easy.domain.model.emd.types.EmdScheme;
-import nl.knaw.dans.easy.domain.model.emd.types.Spatial;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.EmdCoverage;
+import nl.knaw.dans.pf.language.emd.types.EmdScheme;
+import nl.knaw.dans.pf.language.emd.types.Spatial;
 
 public class EasSpatialValidator implements Validator
 {

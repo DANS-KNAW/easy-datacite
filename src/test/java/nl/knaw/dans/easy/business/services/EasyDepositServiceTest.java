@@ -8,9 +8,9 @@ import nl.knaw.dans.common.lang.test.ClassPathHacker;
 import nl.knaw.dans.easy.domain.deposit.discipline.DepositDiscipline;
 import nl.knaw.dans.easy.domain.form.FormDescriptor;
 import nl.knaw.dans.easy.domain.form.TermPanelDefinition;
-import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific;
 import nl.knaw.dans.easy.servicelayer.services.DepositService;
 import nl.knaw.dans.easy.util.TestHelper;
+import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific;
 
 import org.jibx.runtime.JiBXException;
 import org.junit.BeforeClass;

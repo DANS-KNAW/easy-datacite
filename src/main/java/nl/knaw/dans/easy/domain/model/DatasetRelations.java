@@ -13,8 +13,8 @@ import nl.knaw.dans.common.lang.repo.relations.DansOntologyNamespace;
 import nl.knaw.dans.common.lang.repo.relations.Relation;
 import nl.knaw.dans.common.lang.repo.relations.RelsConstants;
 import nl.knaw.dans.easy.domain.collections.ECollection;
-import nl.knaw.dans.easy.domain.model.emd.types.Author;
 import nl.knaw.dans.i.dmo.collections.DmoCollection;
+import nl.knaw.dans.pf.language.emd.types.Author;
 
 public class DatasetRelations extends DmoContainerItemRelations<Dataset>
 {

@@ -4,8 +4,8 @@ import java.net.URI;
 
 import nl.knaw.dans.easy.data.ext.ExternalServices;
 import nl.knaw.dans.easy.domain.model.DatasetRelations;
-import nl.knaw.dans.easy.domain.model.emd.types.BasicIdentifier;
-import nl.knaw.dans.easy.domain.model.emd.types.EmdConstants;
+import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
+import nl.knaw.dans.pf.language.emd.types.EmdConstants;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

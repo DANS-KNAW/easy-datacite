@@ -1,6 +1,6 @@
 package nl.knaw.dans.easy.business.dataset;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
 
 import java.util.List;
 
@@ -14,8 +14,8 @@ import nl.knaw.dans.easy.domain.form.PanelDefinition;
 import nl.knaw.dans.easy.domain.form.SubHeadingDefinition;
 import nl.knaw.dans.easy.domain.form.TermPanelDefinition;
 import nl.knaw.dans.easy.domain.model.Dataset;
-import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.easy.util.TestHelper;
+import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 
 import org.junit.BeforeClass;
 import org.junit.Test;

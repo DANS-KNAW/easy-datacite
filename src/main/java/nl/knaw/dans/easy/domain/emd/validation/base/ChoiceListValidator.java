@@ -1,6 +1,7 @@
 package nl.knaw.dans.easy.domain.emd.validation.base;
 
-import static nl.knaw.dans.easy.domain.emd.validation.base.EmdXPath.*;
+import static nl.knaw.dans.easy.domain.emd.validation.base.EmdXPath.RELATION;
+import static nl.knaw.dans.easy.domain.emd.validation.base.EmdXPath.RIGHTS;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceListGetter;
 import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
 
 public abstract class ChoiceListValidator implements Validator
 {

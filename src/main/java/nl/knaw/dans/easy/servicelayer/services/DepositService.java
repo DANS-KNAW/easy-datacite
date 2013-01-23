@@ -3,14 +3,13 @@ package nl.knaw.dans.easy.servicelayer.services;
 import java.util.List;
 import java.util.Locale;
 
-import nl.knaw.dans.common.lang.repo.bean.RecursiveList;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceList;
 import nl.knaw.dans.easy.domain.deposit.discipline.DepositDiscipline;
 import nl.knaw.dans.easy.domain.form.FormDefinition;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
-import nl.knaw.dans.easy.domain.model.emd.types.BasicIdentifier;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
+import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
 
 /**
  * Service for {@link DepositDiscipline}s. Each Discipline obtained from this service is guaranteed to have a

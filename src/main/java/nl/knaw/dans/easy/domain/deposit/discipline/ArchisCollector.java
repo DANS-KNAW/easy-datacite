@@ -9,12 +9,12 @@ import java.net.URL;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.domain.model.emd.types.BasicIdentifier;
-import nl.knaw.dans.easy.domain.model.emd.types.BasicString;
-import nl.knaw.dans.easy.domain.model.emd.types.EmdConstants;
-import nl.knaw.dans.easy.domain.model.emd.types.IsoDate;
-import nl.knaw.dans.easy.domain.model.emd.types.Spatial;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
+import nl.knaw.dans.pf.language.emd.types.BasicString;
+import nl.knaw.dans.pf.language.emd.types.EmdConstants;
+import nl.knaw.dans.pf.language.emd.types.IsoDate;
+import nl.knaw.dans.pf.language.emd.types.Spatial;
 
 import org.apache.commons.lang.StringUtils;
 import org.jdom.Document;

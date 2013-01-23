@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.knaw.dans.easy.domain.emd.validation.base.ChoiceListValidator.RightsValidator;
-import nl.knaw.dans.easy.domain.model.emd.types.EmdScheme;
+import nl.knaw.dans.pf.language.emd.types.EmdScheme;
 
 public class CommonValidators
 {

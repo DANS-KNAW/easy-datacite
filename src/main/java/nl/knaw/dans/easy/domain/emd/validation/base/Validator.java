@@ -1,6 +1,6 @@
 package nl.knaw.dans.easy.domain.emd.validation.base;
 
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
 
 public interface Validator
 {

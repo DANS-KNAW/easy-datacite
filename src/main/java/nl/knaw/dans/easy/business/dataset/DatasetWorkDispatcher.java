@@ -2,7 +2,6 @@ package nl.knaw.dans.easy.business.dataset;
 
 import java.net.URL;
 
-import nl.knaw.dans.common.jibx.JiBXObjectFactory;
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.repo.AbstractDmoFactory;
@@ -11,7 +10,6 @@ import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.DsUnitId;
 import nl.knaw.dans.common.lang.repo.UnitMetadata;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
-import nl.knaw.dans.common.lang.xml.XMLException;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.domain.annotations.MutatesDataset;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
@@ -22,9 +20,6 @@ import nl.knaw.dans.easy.domain.exceptions.DataIntegrityException;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.PermissionReplyModel;
 import nl.knaw.dans.easy.domain.model.PermissionRequestModel;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadataImpl;
-import nl.knaw.dans.easy.domain.model.emd.types.EmdConstants;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.worker.WorkListener;
 import nl.knaw.dans.easy.servicelayer.MaintenanceNotification;
@@ -34,6 +29,12 @@ import nl.knaw.dans.easy.servicelayer.PublishNotification;
 import nl.knaw.dans.easy.servicelayer.RepublishNotification;
 import nl.knaw.dans.easy.servicelayer.UnpublishNotification;
 import nl.knaw.dans.easy.servicelayer.UnsubmitNotification;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.EasyMetadataImpl;
+import nl.knaw.dans.pf.language.emd.binding.EmdMarshaller;
+import nl.knaw.dans.pf.language.emd.binding.EmdUnmarshaller;
+import nl.knaw.dans.pf.language.emd.types.EmdConstants;
+import nl.knaw.dans.pf.language.xml.exc.XMLException;
 
 import org.joda.time.DateTime;
 
@@ -58,7 +59,7 @@ public class DatasetWorkDispatcher
         EasyMetadata emd = dataset.getEasyMetadata();
         try
         {
-            EasyMetadata clonedEmd = (EasyMetadata) JiBXObjectFactory.unmarshal(EasyMetadataImpl.class, emd.asObjectXML());
+            EasyMetadata clonedEmd = new EmdUnmarshaller<EasyMetadata>(EasyMetadataImpl.class).unmarshal(new EmdMarshaller(emd).getXmlByteArray());
             clonedEmd.getEmdIdentifier().removeIdentifier(EmdConstants.SCHEME_PID);
             clonedEmd.getEmdIdentifier().removeIdentifier(EmdConstants.SCHEME_OAI_ITEM_ID);
             clonedEmd.getEmdIdentifier().removeIdentifier(EmdConstants.SCHEME_DMO_ID);

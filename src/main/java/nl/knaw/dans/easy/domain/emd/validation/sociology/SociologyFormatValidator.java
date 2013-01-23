@@ -7,7 +7,7 @@ import java.util.List;
 import nl.knaw.dans.easy.domain.emd.validation.base.CommonValidators;
 import nl.knaw.dans.easy.domain.emd.validation.base.ValidationReporter;
 import nl.knaw.dans.easy.domain.emd.validation.base.Validator;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
 
 public class SociologyFormatValidator implements Validator
 {

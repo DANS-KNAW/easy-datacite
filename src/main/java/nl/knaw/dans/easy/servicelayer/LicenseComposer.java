@@ -31,13 +31,13 @@ import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
 import nl.knaw.dans.easy.domain.model.Dataset;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.domain.model.emd.Term;
-import nl.knaw.dans.easy.domain.model.emd.types.IsoDate;
-import nl.knaw.dans.easy.domain.model.emd.types.MetadataItem;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.services.DisciplineCollectionService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.Term;
+import nl.knaw.dans.pf.language.emd.types.IsoDate;
+import nl.knaw.dans.pf.language.emd.types.MetadataItem;
 
 import org.apache.commons.io.FileUtils;
 import org.joda.time.DateTime;
@@ -99,6 +99,7 @@ public class LicenseComposer
 
     private static final String TERM_PROPERTIES = "MetadataTerms.properties";
 
+    @SuppressWarnings("rawtypes")
     private final Map<Enum, String> snippets = new HashMap<Enum, String>();
 
     private static enum SnippetKey
@@ -108,6 +109,7 @@ public class LicenseComposer
 
     private final URL headerImage;
 
+    @SuppressWarnings("rawtypes")
     private final HashMap parserProperties;
 
     private final Properties metadataNames;

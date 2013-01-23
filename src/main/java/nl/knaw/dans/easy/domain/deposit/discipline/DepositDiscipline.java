@@ -3,7 +3,7 @@ package nl.knaw.dans.easy.domain.deposit.discipline;
 import java.io.Serializable;
 
 import nl.knaw.dans.easy.domain.form.FormDescriptor;
-import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific;
+import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific;
 
 public interface DepositDiscipline extends Serializable
 {

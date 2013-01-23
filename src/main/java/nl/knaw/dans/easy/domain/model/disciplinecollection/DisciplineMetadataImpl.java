@@ -3,7 +3,7 @@ package nl.knaw.dans.easy.domain.model.disciplinecollection;
 import java.net.URI;
 
 import nl.knaw.dans.common.jibx.AbstractTimestampedJiBXObject;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
 
 public class DisciplineMetadataImpl extends AbstractTimestampedJiBXObject<EasyMetadata> implements DisciplineMetadata
 {

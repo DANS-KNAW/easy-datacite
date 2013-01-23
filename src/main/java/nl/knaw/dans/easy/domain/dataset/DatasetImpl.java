@@ -30,6 +30,7 @@ import nl.knaw.dans.common.lang.repo.relations.Relations;
 import nl.knaw.dans.common.lang.reposearch.HasSearchBeans;
 import nl.knaw.dans.common.lang.search.IndexDocument;
 import nl.knaw.dans.easy.data.search.EasyDatasetSB;
+import nl.knaw.dans.easy.data.store.EmdMetadataUnitXMLBeanAdapter;
 import nl.knaw.dans.easy.domain.collections.ECollection;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
@@ -44,18 +45,18 @@ import nl.knaw.dans.easy.domain.model.PermissionSequenceList;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineCollectionImpl;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadataFactory;
-import nl.knaw.dans.easy.domain.model.emd.EmdTitle;
-import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
-import nl.knaw.dans.easy.domain.model.emd.types.BasicIdentifier;
-import nl.knaw.dans.easy.domain.model.emd.types.BasicString;
-import nl.knaw.dans.easy.domain.model.emd.types.EmdConstants;
-import nl.knaw.dans.easy.domain.model.emd.types.IsoDate;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.Group;
 import nl.knaw.dans.easy.domain.model.user.RepoAccess;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.EmdTitle;
+import nl.knaw.dans.pf.language.emd.binding.EasyMetadataFactory;
+import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
+import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
+import nl.knaw.dans.pf.language.emd.types.BasicString;
+import nl.knaw.dans.pf.language.emd.types.EmdConstants;
+import nl.knaw.dans.pf.language.emd.types.IsoDate;
 
 import org.joda.time.DateTime;
 
@@ -404,7 +405,7 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
         DublinCoreMetadata dcmd = emd.getDublinCoreMetadata();
 
         metadataUnits.add(dcmd);
-        metadataUnits.add(emd);
+        metadataUnits.add(new EmdMetadataUnitXMLBeanAdapter(emd));
         metadataUnits.add(getDatasetItemContainerMetadata());
         metadataUnits.add(getAdministrativeMetadata());
         metadataUnits.add(getPermissionSequenceList());

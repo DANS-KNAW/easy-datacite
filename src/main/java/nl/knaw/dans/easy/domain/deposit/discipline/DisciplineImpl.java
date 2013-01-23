@@ -1,8 +1,8 @@
 package nl.knaw.dans.easy.domain.deposit.discipline;
 
 import nl.knaw.dans.easy.domain.form.FormDescriptor;
-import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific;
-import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
+import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific;
+import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 
 public class DisciplineImpl implements DepositDiscipline
 {

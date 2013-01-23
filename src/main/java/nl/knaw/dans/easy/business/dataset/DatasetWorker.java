@@ -26,12 +26,12 @@ import nl.knaw.dans.easy.domain.model.Constants;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.DatasetRelations;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer;
-import nl.knaw.dans.easy.domain.model.emd.types.BasicString;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.worker.AbstractWorker;
 import nl.knaw.dans.easy.servicelayer.LicenseComposer;
 import nl.knaw.dans.easy.servicelayer.LicenseComposer.LicenseComposerException;
 import nl.knaw.dans.i.dmo.collections.exceptions.CollectionsException;
+import nl.knaw.dans.pf.language.emd.types.BasicString;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

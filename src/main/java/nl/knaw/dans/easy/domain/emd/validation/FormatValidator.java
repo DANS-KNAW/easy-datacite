@@ -12,8 +12,8 @@ import nl.knaw.dans.easy.domain.emd.validation.base.Validator;
 import nl.knaw.dans.easy.domain.emd.validation.history.HistoryFormatValidator;
 import nl.knaw.dans.easy.domain.emd.validation.other.OtherFormatValidator;
 import nl.knaw.dans.easy.domain.emd.validation.sociology.SociologyFormatValidator;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 
 public class FormatValidator implements Validator
 {
