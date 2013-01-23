@@ -10,14 +10,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import nl.knaw.dans.common.jibx.AbstractTimestampedJiBXObject;
+import javassist.tools.rmi.ObjectNotFoundException;
 import nl.knaw.dans.common.jibx.bean.JiBXDublinCoreMetadata;
 import nl.knaw.dans.common.lang.repo.bean.DublinCoreMetadata;
 import nl.knaw.dans.common.lang.repo.bean.DublinCoreMetadata.PropertyName;
 import nl.knaw.dans.pf.language.emd.binding.EasyMetadataFactory;
 import nl.knaw.dans.pf.language.emd.exceptions.NoSuchTermException;
-import nl.knaw.dans.pf.language.emd.types.MetadataItem;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
+import nl.knaw.dans.pf.language.emd.types.MetadataItem;
 
 /**
  * Implementation of {@link EasyMetadata} with JiBX serialization. An EasyMetadataImpl may be obtained from the
@@ -27,7 +27,7 @@ import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
  * @author ecco
  * @see <a href="package-summary.html#package_description">package description</a>
  */
-public class EasyMetadataImpl extends AbstractTimestampedJiBXObject<EasyMetadata> implements EasyMetadata
+public class EasyMetadataImpl implements EasyMetadata
 {
 
     /**
@@ -333,6 +333,7 @@ public class EasyMetadataImpl extends AbstractTimestampedJiBXObject<EasyMetadata
      */
     public DublinCoreMetadata getDublinCoreMetadata()
     {
+        // TODO emd should not have a dependency to other md-formats.
         final JiBXDublinCoreMetadata jdc = new JiBXDublinCoreMetadata();
         for (PropertyName propertyName : PropertyName.values())
         {
@@ -342,7 +343,6 @@ public class EasyMetadataImpl extends AbstractTimestampedJiBXObject<EasyMetadata
                 jdc.set(propertyName, emdContainer.getValues());
             }
         }
-        jdc.setDirty(this.isDirty());
         return jdc;
     }
 

@@ -19,7 +19,6 @@ public final class EasyMetadataFactory
     public static EasyMetadata newEasyMetadata(MetadataFormat metadataFormat)
     {
         EasyMetadataImpl emd = new EasyMetadataImpl(metadataFormat);
-        emd.setDirty(false);
         return emd;
     }
 

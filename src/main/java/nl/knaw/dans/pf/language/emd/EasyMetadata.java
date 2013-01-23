@@ -1,5 +1,6 @@
 package nl.knaw.dans.pf.language.emd;
 
+import java.io.Serializable;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
@@ -13,9 +14,8 @@ import nl.knaw.dans.pf.language.emd.types.MetadataItem;
  * Meta data on collections in the Easy repository.
  * 
  * @author ecco
- * @see <a href="package-summary.html#package_description">package description</a>
  */
-public interface EasyMetadata extends EmdBean
+public interface EasyMetadata extends EmdBean, Serializable
 {
 
     String UNIT_ID = "EMD";
