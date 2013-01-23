@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import nl.knaw.dans.common.lang.TimestampedObject;
 import nl.knaw.dans.common.lang.repo.bean.DublinCoreMetadata;
 import nl.knaw.dans.pf.language.emd.exceptions.NoSuchTermException;
 import nl.knaw.dans.pf.language.emd.types.MetadataItem;
@@ -14,8 +15,9 @@ import nl.knaw.dans.pf.language.emd.types.MetadataItem;
  * Meta data on collections in the Easy repository.
  * 
  * @author ecco
+ *
  */
-public interface EasyMetadata extends EmdBean, Serializable
+public interface EasyMetadata extends TimestampedObject, EmdBean, Serializable
 {
 
     String UNIT_ID = "EMD";
