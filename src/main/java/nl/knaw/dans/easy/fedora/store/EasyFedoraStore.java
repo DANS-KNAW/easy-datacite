@@ -28,14 +28,15 @@ import nl.knaw.dans.easy.domain.download.DownloadHistory;
 import nl.knaw.dans.easy.domain.download.DownloadHistoryFactory;
 import nl.knaw.dans.easy.domain.exceptions.ApplicationException;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainerFactory;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadataImpl;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.EasyMetadataImpl;
 
-import fedora.server.types.gen.MIMETypedStream;
 import org.joda.time.DateTime;
 import org.jrdf.graph.Node;
 import org.trippi.TrippiException;
 import org.trippi.TupleIterator;
+
+import fedora.server.types.gen.MIMETypedStream;
 
 public class EasyFedoraStore extends FedoraDmoStore implements EasyStore
 {

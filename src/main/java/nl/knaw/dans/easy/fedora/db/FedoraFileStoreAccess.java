@@ -471,7 +471,7 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
         }
         finally
         {
-            session.close();
+            sessionFactory.closeSession();
         }
     }
 

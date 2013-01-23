@@ -3,17 +3,14 @@ package nl.knaw.dans.easy.fedora.store;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import nl.knaw.dans.common.fedora.fox.DigitalObject;
-import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.test.Tester;
-import nl.knaw.dans.common.lang.xml.XMLSerializationException;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
 import nl.knaw.dans.easy.domain.dataset.FileItemImpl;
-import nl.knaw.dans.easy.domain.exceptions.DomainException;
-import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
 import nl.knaw.dans.easy.domain.model.AdministrativeMetadata;
 import nl.knaw.dans.easy.domain.model.DatasetItemContainerMetadata;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.domain.model.emd.types.BasicString;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.binding.EmdMarshaller;
+import nl.knaw.dans.pf.language.emd.types.BasicString;
 
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -29,7 +26,7 @@ public class DatasetConverterTest
     private boolean verbose = Tester.isVerbose();
 
     @Test
-    public void testConversion() throws XMLSerializationException, RepositoryException, DomainException, ObjectNotFoundException
+    public void testConversion() throws Exception
     {
         DatasetImpl dataset = new DatasetImpl("easy-dataset:123");
         dataset.getAdministrativeMetadata().setDepositorId("kees4");
@@ -52,7 +49,7 @@ public class DatasetConverterTest
 
         EasyMetadata emdConverted = dataset2.getEasyMetadata();
         assertFalse(emdConverted.isDirty());
-        assertEquals(dataset.getEasyMetadata().asXMLString(), emdConverted.asXMLString());
+        assertEquals(new EmdMarshaller(dataset.getEasyMetadata()).getXmlString(), new EmdMarshaller(emdConverted).getXmlString());
 
         DatasetItemContainerMetadata icmd = dataset2.getDatasetItemContainerMetadata();
         assertFalse(icmd.isDirty());

@@ -5,7 +5,6 @@ import java.net.MalformedURLException;
 import nl.knaw.dans.common.fedora.Fedora;
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
-import nl.knaw.dans.common.lang.repo.DmoStores;
 import nl.knaw.dans.common.lang.reposearch.RepoSearchListener;
 import nl.knaw.dans.common.lang.search.SearchEngine;
 import nl.knaw.dans.common.lang.test.Tester;
@@ -19,11 +18,11 @@ import nl.knaw.dans.easy.db.DbUtil;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
 import nl.knaw.dans.easy.domain.model.AdministrativeMetadata;
 import nl.knaw.dans.easy.domain.model.Dataset;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.domain.model.emd.types.BasicString;
-import nl.knaw.dans.easy.domain.model.emd.types.IsoDate;
-import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.easy.fedora.db.FileStoreSyncListener;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
+import nl.knaw.dans.pf.language.emd.types.BasicString;
+import nl.knaw.dans.pf.language.emd.types.IsoDate;
 
 import org.joda.time.DateTime;
 
@@ -37,11 +36,11 @@ public abstract class AbstractOnlineTest
     private static Fedora fedora;
     private static SolrSearchEngine se;
 
-    private static final String USER_NAME = "fedora.db.username";
-    private static final String PASSWORD = "fedora.db.password";
-    private static final String CONNECTION_URL = "fedora.db.connectionUrl";
-    private static final String HBN_DRIVERCLASS = "fedora.db.hbnDriverClass";
-    private static final String HBN_DIALECT = "fedora.db.hbnDialect";
+    private static final String USER_NAME = "easy.db.username";
+    private static final String PASSWORD = "easy.db.password";
+    private static final String CONNECTION_URL = "easy.db.connectionUrl";
+    private static final String HBN_DRIVERCLASS = "easy.db.hbnDriverClass";
+    private static final String HBN_DIALECT = "easy.db.hbnDialect";
 
     private static DbLocalConfig dbLocalConfig;
 

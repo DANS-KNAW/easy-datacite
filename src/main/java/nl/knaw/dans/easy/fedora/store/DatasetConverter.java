@@ -19,8 +19,9 @@ import nl.knaw.dans.easy.domain.model.AdministrativeMetadata;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.DatasetItemContainerMetadata;
 import nl.knaw.dans.easy.domain.model.PermissionSequenceList;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadataImpl;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.EasyMetadataImpl;
+import nl.knaw.dans.pf.language.emd.binding.EmdUnmarshaller;
 
 import org.dom4j.Element;
 import org.slf4j.Logger;
@@ -88,7 +89,15 @@ public class DatasetConverter extends AbstractDobConverter<DatasetImpl>
         if (emdVersion != null)
         {
             Element element = emdVersion.getXmlContentElement();
-            EasyMetadata emd = (EasyMetadata) unmarshal(EasyMetadataImpl.class, element);
+            EasyMetadata emd;
+            try
+            {
+                emd = new EmdUnmarshaller<EasyMetadata>(EasyMetadataImpl.class).unmarshal(element);
+            }
+            catch (nl.knaw.dans.pf.language.xml.exc.XMLDeserializationException e)
+            {
+                throw new ObjectDeserializationException(e);
+            }
             emd.setTimestamp(emdVersion.getTimestamp());
             emd.setDirty(false);
             dataset.setEasyMetadata(emd);

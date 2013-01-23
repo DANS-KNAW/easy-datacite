@@ -22,7 +22,7 @@ import nl.knaw.dans.easy.data.search.EasyDatasetSB;
 import nl.knaw.dans.easy.data.store.EasyStore;
 import nl.knaw.dans.easy.domain.model.AdministrativeMetadata;
 import nl.knaw.dans.easy.domain.model.Dataset;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
 
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -72,8 +72,6 @@ public class EasyFedoraStoreOnlineTest extends AbstractOnlineTest
 
         EasyMetadata emd = dataset2.getEasyMetadata();
         assertNotNull(emd.getTimestamp());
-        if (verbose)
-            logger.debug("\n" + emd.asXMLString(4) + "\n");
 
         // check if the new dataset was inserted into the search index
         SimpleSearchRequest searchRequest = new SimpleSearchRequest();
