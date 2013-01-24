@@ -1,12 +1,15 @@
 package nl.knaw.dans.easy.sword;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
@@ -109,6 +112,13 @@ public class IntegrationTester
 
         // just check one of the audiences retrieved from fedora
         assertTrue(html.toString().contains("Glasblazerij"));
+        
+        OutputStream outputStream = new FileOutputStream("target/packagingDoc.html");
+        outputStream.write(html.toString().getBytes());
+        outputStream.close();
+        
+        // are all help files available?
+        assertFalse(html.toString().contains("file does not exist"));
     }
 
     @Test

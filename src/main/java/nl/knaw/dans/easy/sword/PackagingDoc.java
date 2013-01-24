@@ -270,9 +270,21 @@ public class PackagingDoc
 
     private static String readHelpFile(final String id) throws ResourceNotFoundException, IOException
     {
-        final File file = ResourceLocator.getFile("/editable/help/" + id + ".template");
-        final byte[] bytes = FileUtil.readFile(file);
-        return new String(bytes).replaceAll("<hr />", " ").replaceAll("h2>", "h4>");
+        final String helpDir = (String) System.getProperties().get("EDITABLE_HELP");
+        if (helpDir == null || !new File(helpDir).exists())
+            throw new IllegalArgumentException("please set ${EDITABLE_HELP} to ${EASY_WEBUI_HOME}/res/example/editable/help/");
+        final File file = new File(helpDir + id + ".template");
+        if (!file.exists())
+        {
+            final String msg = "file does not exist: " + file;
+            logger.error(msg);
+            return (msg);
+        }
+        else
+        {
+            final byte[] bytes = FileUtil.readFile(file);
+            return new String(bytes).replaceAll("<hr />", " ").replaceAll("h2>", "h4>");
+        }
     }
 
     private static String getShortHelp(final AbstractInheritableDefinition<?> panel, final String s)
@@ -286,17 +298,17 @@ public class PackagingDoc
         return "";
     }
 
-    public void setFedoraPassword(String fedoraPassword)
+    public void setFedoraPassword(final String fedoraPassword)
     {
         PackagingDoc.fedoraPassword = fedoraPassword;
     }
 
-    public void setFedoraUser(String fedoraUser)
+    public void setFedoraUser(final String fedoraUser)
     {
         PackagingDoc.fedoraUser = fedoraUser;
     }
 
-    public void setFedoraUrl(String fedoraUrl)
+    public void setFedoraUrl(final String fedoraUrl)
     {
         PackagingDoc.fedoraUrl = fedoraUrl;
     }
