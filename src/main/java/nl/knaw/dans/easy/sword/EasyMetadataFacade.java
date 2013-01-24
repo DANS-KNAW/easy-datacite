@@ -6,8 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import nl.knaw.dans.common.jibx.JiBXObjectFactory;
-import nl.knaw.dans.common.lang.xml.SchemaCreationException;
-import nl.knaw.dans.common.lang.xml.ValidatorException;
 import nl.knaw.dans.common.lang.xml.XMLDeserializationException;
 import nl.knaw.dans.common.lang.xml.XMLErrorHandler;
 import nl.knaw.dans.common.lang.xml.XMLErrorHandler.Reporter;
@@ -17,11 +15,11 @@ import nl.knaw.dans.easy.domain.form.FormPage;
 import nl.knaw.dans.easy.domain.form.PanelDefinition;
 import nl.knaw.dans.easy.domain.form.SubHeadingDefinition;
 import nl.knaw.dans.easy.domain.form.TermPanelDefinition;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadataImpl;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadataValidator;
-import nl.knaw.dans.easy.domain.model.emd.Term;
-import nl.knaw.dans.easy.domain.model.emd.types.MetadataItem;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.EasyMetadataImpl;
+import nl.knaw.dans.pf.language.emd.Term;
+import nl.knaw.dans.pf.language.emd.types.MetadataItem;
+import nl.knaw.dans.pf.language.emd.validation.EMDValidator;
 
 import org.purl.sword.base.ErrorCodes;
 import org.purl.sword.base.SWORDErrorException;
@@ -30,7 +28,7 @@ import org.xml.sax.SAXException;
 
 public class EasyMetadataFacade
 {
-    private static final String DEFAULT_SYNTAX_VERSION = EasyMetadataValidator.VERSION_0_1;
+    private static final String DEFAULT_SYNTAX_VERSION = EMDValidator.VERSION_0_1;
 
     /** Just a wrapper for exceptions. */
     private static EasyMetadata unmarshallEasyMetaData(final byte[] data) throws SWORDErrorException
@@ -125,11 +123,7 @@ public class EasyMetadataFacade
         final XMLErrorHandler handler = new XMLErrorHandler(Reporter.off);
         try
         {
-            EasyMetadataValidator.instance().validate(handler, new String(data, "UTF-8"), DEFAULT_SYNTAX_VERSION);
-        }
-        catch (final ValidatorException exception)
-        {
-            throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, "EASY metadata validation exception: " + exception.getMessage());
+            EMDValidator.instance().validate(handler, new String(data, "UTF-8"), DEFAULT_SYNTAX_VERSION);
         }
         catch (final UnsupportedEncodingException exception)
         {
@@ -139,7 +133,11 @@ public class EasyMetadataFacade
         {
             throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, "EASY metadata parse exception: " + exception.getMessage());
         }
-        catch (final SchemaCreationException exception)
+        catch (nl.knaw.dans.pf.language.xml.exc.ValidatorException exception)
+        {
+            throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, "EASY metadata validation exception: " + exception.getMessage());
+        }
+        catch (nl.knaw.dans.pf.language.xml.exc.SchemaCreationException exception)
         {
             throw new SWORDException("EASY metadata schema creation problem", exception);
         }

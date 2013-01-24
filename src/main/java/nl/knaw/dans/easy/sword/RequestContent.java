@@ -13,7 +13,7 @@ import java.util.zip.ZipInputStream;
 
 import nl.knaw.dans.common.lang.file.UnzipUtil;
 import nl.knaw.dans.common.lang.util.FileUtil;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
 
 import org.purl.sword.base.ErrorCodes;
 import org.purl.sword.base.SWORDErrorException;

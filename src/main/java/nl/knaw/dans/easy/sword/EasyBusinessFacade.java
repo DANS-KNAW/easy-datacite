@@ -24,14 +24,14 @@ import nl.knaw.dans.easy.domain.federation.FederativeUserIdMap;
 import nl.knaw.dans.easy.domain.form.FormDefinition;
 import nl.knaw.dans.easy.domain.form.PanelDefinition;
 import nl.knaw.dans.easy.domain.model.Dataset;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
-import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
-import nl.knaw.dans.easy.domain.model.emd.types.BasicString;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.LicenseComposer;
 import nl.knaw.dans.easy.servicelayer.LicenseComposer.LicenseComposerException;
 import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
+import nl.knaw.dans.pf.language.emd.types.BasicString;
 
 import org.easymock.EasyMock;
 import org.purl.sword.base.ErrorCodes;

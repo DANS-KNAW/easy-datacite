@@ -7,8 +7,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import nl.knaw.dans.easy.domain.model.Dataset;
-import nl.knaw.dans.easy.domain.model.emd.EasyMetadata;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
 
 import org.apache.commons.httpclient.HttpStatus;
 import org.purl.sword.atom.Author;

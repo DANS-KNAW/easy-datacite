@@ -21,7 +21,6 @@ import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.filter.ItemFilters;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainerImpl;
-import nl.knaw.dans.easy.domain.model.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
@@ -33,6 +32,7 @@ import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.servicelayer.services.UserService;
 import nl.knaw.dans.easy.sword.Context;
+import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 
 import org.easymock.EasyMock;
 import org.joda.time.DateTime;
