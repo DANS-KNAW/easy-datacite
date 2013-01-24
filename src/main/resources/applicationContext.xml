@@ -348,5 +348,8 @@
 			<property name="taskService" ref="taskService" />
 
 		</bean>
-
+		
+	<bean id="federationConnectedInstitutionsUrl" class="java.lang.String">
+    	<constructor-arg type="java.lang.String" value="${easy.federationLogin.connectedInstitutionsUrl}"/>
+    </bean>
 </beans>

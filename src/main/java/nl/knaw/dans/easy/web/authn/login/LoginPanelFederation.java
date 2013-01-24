@@ -12,6 +12,7 @@ import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.MarkupStream;
 import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.protocol.http.RequestUtils;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +20,10 @@ class LoginPanelFederation extends AbstractEasyStatelessPanel
 {
     private static Logger logger = LoggerFactory.getLogger(LoginPanelFederation.class);
     private static final long serialVersionUID = 1L;
-
+    
+    @SpringBean(name="federationConnectedInstitutionsUrl")
+    private String connectedInstitutionsUrl;
+    
     public LoginPanelFederation(final String wicketId)
     {
         super(wicketId);
@@ -45,7 +49,8 @@ class LoginPanelFederation extends AbstractEasyStatelessPanel
         };
         add(federationLink);
         federationLink.setVisible(Services.getFederativeUserService().isFederationLoginEnabled());
-
+        final ExternalLink connectedInstitutionsLink = new ExternalLink("connectedInstitutionsLink", connectedInstitutionsUrl, "connected institutions");
+        add(connectedInstitutionsLink);
     }
 
     private String constructLinkToFederationLogin()
@@ -76,5 +81,15 @@ class LoginPanelFederation extends AbstractEasyStatelessPanel
         final String percentEncodedReturnUrlString = URLEncoder.encode(returnUrlString, "UTF-8");
         logger.debug("Percent-encoded return URL with UTF-8 as charset: {}", percentEncodedReturnUrlString);
         return percentEncodedReturnUrlString;
+    }
+
+    public String getConnectedInstitutionsUrl()
+    {
+        return connectedInstitutionsUrl;
+    }
+
+    public void setConnectedInstitutionsUrl(String connectedInstitutionsUrl)
+    {
+        this.connectedInstitutionsUrl = connectedInstitutionsUrl;
     }
 }
