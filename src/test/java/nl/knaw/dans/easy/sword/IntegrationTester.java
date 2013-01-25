@@ -1,21 +1,16 @@
 package nl.knaw.dans.easy.sword;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 import javax.servlet.http.HttpServletResponse;
 
-import nl.knaw.dans.easy.business.services.EasyDepositService;
 import nl.knaw.dans.easy.sword.jetty.Start;
 import nl.knaw.dans.easy.sword.util.SubmitFixture;
 
@@ -102,23 +97,6 @@ public class IntegrationTester
         server.stop();
         server.join();
         log.debug("stopped " + URL.toString());
-    }
-
-    @Test
-    public void generatePackagingDoc() throws Exception
-    {
-        // relies on the started server for the required fedora context
-        final StringBuffer html = PackagingDoc.generate(new EasyDepositService());
-
-        // just check one of the audiences retrieved from fedora
-        assertTrue(html.toString().contains("Glasblazerij"));
-        
-        OutputStream outputStream = new FileOutputStream("target/packagingDoc.html");
-        outputStream.write(html.toString().getBytes());
-        outputStream.close();
-        
-        // are all help files available?
-        assertFalse(html.toString().contains("file does not exist"));
     }
 
     @Test

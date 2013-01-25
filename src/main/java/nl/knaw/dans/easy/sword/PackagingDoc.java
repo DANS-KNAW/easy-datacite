@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import nl.knaw.dans.common.fedora.Fedora;
-import nl.knaw.dans.common.lang.ResourceLocator;
 import nl.knaw.dans.common.lang.ResourceNotFoundException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.util.FileUtil;
@@ -37,14 +36,19 @@ public class PackagingDoc
     private static String fedoraUrl = "http://localhost:8080/fedora";
     private static String fedoraUser = "fedoraAdmin";
     private static String fedoraPassword = "fedoraAdmin";
+    private String helpDir;
 
     public static void main(final String[] args) throws ServiceException, IOException, ResourceNotFoundException
     {
-        if (args != null && args.length > 0)
-            fedoraUrl = args[0]; // TODO how to get everything from the proper properties file?
+        if (args == null || args.length ==0 || !new File(args[0]).exists())
+            throw new IllegalArgumentException("Expecting at least an excisting directory: ${EASY_WEBUI_HOME}/res/example/editable/help/");
+        final String helpDir = args[0];
+
+        if (args != null && args.length > 1)
+            fedoraUrl = args[1];
         final DepositService depositService = setFedoraContext();
-        // TODO get rid of INFO/DEBUG logging
-        System.out.print(generate(depositService).toString());
+        
+        System.out.print(new PackagingDoc().generate(depositService,helpDir).toString());
     }
 
     private static DepositService setFedoraContext()
@@ -54,8 +58,10 @@ public class PackagingDoc
         return new EasyDepositService();
     }
 
-    static StringBuffer generate(final DepositService depositService) throws ServiceException, IOException, ResourceNotFoundException
+    StringBuffer generate(final DepositService depositService, final String helpDir) throws ServiceException, IOException, ResourceNotFoundException
     {
+
+        this.helpDir = helpDir;
         final StringBuffer sb = new StringBuffer();
         final Map<String, ChoiceListDefinition> choiceLists = new HashMap<String, ChoiceListDefinition>();
         final StringBuffer disciplineDetails = parseDisciplines(choiceLists, depositService);
@@ -70,7 +76,7 @@ public class PackagingDoc
         return sb;
     }
 
-    private static StringBuffer parseDisciplines(final Map<String, ChoiceListDefinition> choiceLists, final DepositService depositService)
+    private StringBuffer parseDisciplines(final Map<String, ChoiceListDefinition> choiceLists, final DepositService depositService)
             throws ServiceException, IOException, ResourceNotFoundException
     {
         final StringBuffer sb = new StringBuffer();
@@ -115,7 +121,7 @@ public class PackagingDoc
         return sb;
     }
 
-    private static StringBuffer generateIntro() throws IOException, ResourceNotFoundException
+    private StringBuffer generateIntro() throws IOException, ResourceNotFoundException
     {
         final StringBuffer sb = new StringBuffer();
 
@@ -206,7 +212,7 @@ public class PackagingDoc
         return sb;
     }
 
-    private static StringBuffer generateElements(final Map<String, ChoiceListDefinition> choiceLists, final List<FormPage> formPages, final String disciplineId)
+    private StringBuffer generateElements(final Map<String, ChoiceListDefinition> choiceLists, final List<FormPage> formPages, final String disciplineId)
             throws IOException, ServiceException, ResourceNotFoundException
     {
         final StringBuffer sb = new StringBuffer();
@@ -245,7 +251,7 @@ public class PackagingDoc
         }
     }
 
-    private static String helpInfo(final AbstractInheritableDefinition<?> panel, final String disciplineId) throws IOException, ResourceNotFoundException
+    private String helpInfo(final AbstractInheritableDefinition<?> panel, final String disciplineId) throws IOException, ResourceNotFoundException
     {
         String s = "";
         if (panel instanceof StandardPanelDefinition)
@@ -268,12 +274,9 @@ public class PackagingDoc
                 + "<table class='help' id='" + id + "'><tr><td>" + help + "</td></tr></table>";
     }
 
-    private static String readHelpFile(final String id) throws ResourceNotFoundException, IOException
+    private String readHelpFile(final String id) throws ResourceNotFoundException, IOException
     {
-        final String helpDir = (String) System.getProperties().get("EDITABLE_HELP");
-        if (helpDir == null || !new File(helpDir).exists())
-            throw new IllegalArgumentException("please set ${EDITABLE_HELP} to ${EASY_WEBUI_HOME}/res/example/editable/help/");
-        final File file = new File(helpDir + id + ".template");
+        final File file = new File(this.helpDir + id + ".template");
         if (!file.exists())
         {
             final String msg = "file does not exist: " + file;
