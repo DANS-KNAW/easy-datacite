@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 public abstract class AbstractEasyForm<T> extends CommonForm<T>
 {
     private static final long serialVersionUID = 3422879786964201174L;
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractEasyForm.class);
+    private static final Logger log = LoggerFactory.getLogger(AbstractEasyForm.class);
 
     public AbstractEasyForm(final String wicketId, final IModel<T> model)
     {
@@ -63,16 +63,10 @@ public abstract class AbstractEasyForm<T> extends CommonForm<T>
      */
     protected String createPageURL(Class<? extends WebPage> pageClass, final Map<String, String> parameterMap)
     {
-        // this works
-        //String pageUrl = getBaseUrl() + this.urlFor(pageClass, new PageParameters(parameterMap));
-        //pageUrl = pageUrl.replaceAll("\\.\\./", "");
-
-        // this should be better
-        String absUrl = RequestUtils.toAbsolutePath((String) this.urlFor(pageClass, new PageParameters(parameterMap)));
-        LOGGER.debug("absolute url=" + absUrl);
+        String absUrl = RequestUtils.toAbsolutePath(this.urlFor(pageClass, new PageParameters(parameterMap)).toString());
+        log.debug("Absolute URL of page is {}", absUrl);
         final String pageUrl = absUrl;
-
-        LOGGER.debug("URL: " + pageUrl);
+        log.debug("Page URL is {}", pageUrl);
         return pageUrl;
     }
 
