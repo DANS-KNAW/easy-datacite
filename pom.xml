@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-  <parent>
+	<parent>
 		<groupId>nl.knaw.dans.platform.language</groupId>
 		<artifactId>aggregate-language</artifactId>
 		<version>1.0-SNAPSHOT</version>
@@ -15,8 +15,8 @@
 	<name>xml</name>
 	<description>Utility classes for handling xml.</description>
 
-  <dependencies>
-    <dependency>
+	<dependencies>
+		<dependency>
 			<groupId>org.jibx</groupId>
 			<artifactId>jibx-run</artifactId>
 			<version>${jibx.version}</version>
@@ -27,13 +27,20 @@
 			<artifactId>jibx-extras</artifactId>
 			<version>${jibx.version}</version>
 		</dependency>
-		
+
 		<!-- For saxon-style transformation -->
 		<dependency>
 			<groupId>net.sf.saxon</groupId>
 			<artifactId>Saxon-B</artifactId>
 			<version>9.0</version>
 		</dependency>
+
+		<!-- Official saxonia saxon9-dom.jar not distributed by maven -->
+		<dependency>
+			<groupId>org.fcrepo</groupId>
+			<artifactId>saxon-dom</artifactId>
+			<version>9.0</version>
+		</dependency>
 		
-  </dependencies>
+	</dependencies>
 </project>

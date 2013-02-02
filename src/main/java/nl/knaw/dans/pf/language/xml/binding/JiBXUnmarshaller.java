@@ -1,10 +1,17 @@
 package nl.knaw.dans.pf.language.xml.binding;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.Reader;
 
 import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import nl.knaw.dans.pf.language.xml.exc.XMLDeserializationException;
@@ -25,12 +32,16 @@ import org.jibx.runtime.JiBXException;
  */
 public class JiBXUnmarshaller<T> implements XMLUnmarshaller<T>
 {
+    
+    private static TransformerFactory W3C_TRANSFORMER_FACTORY;
 
     private final String bindingName;
     private final Class<? extends T> beanClass;
     private IBindingFactory bindingFactory;
     private IUnmarshallingContext unmarshallingContext;
     private String encoding = Encoding.UTF8;
+    
+    private Transformer w3cTransformer;
 
     /**
      * Constructs a JiBXUnmarshaller for the given beanClass.
@@ -176,6 +187,31 @@ public class JiBXUnmarshaller<T> implements XMLUnmarshaller<T>
             return unmarshal(element.asXML());
         }
     }
+    
+    @Override
+    public T unmarshal(org.w3c.dom.Document document) throws XMLDeserializationException
+    {
+        return unmarshal(document.getDocumentElement());
+    }
+    
+    @Override
+    public T unmarshal(org.w3c.dom.Element element) throws XMLDeserializationException
+    {
+        T bean;
+        try
+        {
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            DOMSource source = new DOMSource(element);
+            StreamResult result = new StreamResult(out);
+            getW3cTransformer().transform(source, result);
+            bean = unmarshal(out.toByteArray());
+        }
+        catch (TransformerException e)
+        {
+            throw new XMLDeserializationException(e);
+        }
+        return bean;
+    }
 
     /**
      * Get the unmarshalling context, the actual deserializer from xml.
@@ -212,5 +248,39 @@ public class JiBXUnmarshaller<T> implements XMLUnmarshaller<T>
             }
         }
         return bindingFactory;
+    }
+    
+    protected Transformer getW3cTransformer() throws XMLDeserializationException
+    {
+        try
+        {
+            if (w3cTransformer == null)
+            {
+                w3cTransformer = getW3cTransformerFactory().newTransformer();
+            }
+            else
+            {
+                w3cTransformer.reset();
+            }
+        }
+        catch (TransformerConfigurationException e)
+        {
+            throw new XMLDeserializationException(e);
+        }
+        return w3cTransformer;
+    }
+
+    public static TransformerFactory getW3cTransformerFactory()
+    {
+        if (W3C_TRANSFORMER_FACTORY == null)
+        {
+            W3C_TRANSFORMER_FACTORY = TransformerFactory.newInstance();
+        }
+        return W3C_TRANSFORMER_FACTORY;
+    }
+
+    public static void setW3cTransformerFactory(TransformerFactory factory)
+    {
+        W3C_TRANSFORMER_FACTORY = factory;
     }
 }

@@ -2,10 +2,14 @@ package nl.knaw.dans.pf.language.xml.binding;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Writer;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
@@ -19,6 +23,7 @@ import org.jibx.runtime.BindingDirectory;
 import org.jibx.runtime.IBindingFactory;
 import org.jibx.runtime.IMarshallingContext;
 import org.jibx.runtime.JiBXException;
+import org.xml.sax.SAXException;
 
 /**
  * {@link XMLMarshaller} for JiBX-style serialization.
@@ -27,6 +32,8 @@ import org.jibx.runtime.JiBXException;
  */
 public class JiBXMarshaller implements XMLMarshaller
 {
+    
+    private static DocumentBuilderFactory W3C_DOCUMENT_BUILDER_FACTORY;
 
     private final String bindingName;
     private final Object bean;
@@ -38,6 +45,8 @@ public class JiBXMarshaller implements XMLMarshaller
     private int indent = 4;
     private boolean standalone = true;
     private boolean omitXmlDeclaration;
+    
+    private DocumentBuilder w3cDomBuilder;
 
     /**
      * Constructs a JiBXMarshaller with the given Object as bean for serialization.
@@ -226,6 +235,31 @@ public class JiBXMarshaller implements XMLMarshaller
     {
         return getXmlDocument().getRootElement();
     }
+    
+    @Override
+    public org.w3c.dom.Document getW3cDomDocument() throws XMLSerializationException
+    {
+        org.w3c.dom.Document document;
+        try
+        {
+            document = getW3cDocumentBuilder().parse(getXmlInputStream());
+        }
+        catch (SAXException e)
+        {
+            throw new XMLSerializationException(e);
+        }
+        catch (IOException e)
+        {
+            throw new XMLSerializationException(e);
+        }
+        return document;
+    }
+    
+    @Override
+    public org.w3c.dom.Element getW3cDomElement() throws XMLSerializationException
+    {
+        return getW3cDomDocument().getDocumentElement();
+    }
 
     /**
      * Get the marshalling context, the actual serializer to xml.
@@ -263,5 +297,40 @@ public class JiBXMarshaller implements XMLMarshaller
         }
         return bindingFactory;
     }
+    
+    protected DocumentBuilder getW3cDocumentBuilder() throws XMLSerializationException
+    {
+        try
+        {
+            if (w3cDomBuilder == null)
+            {
+                w3cDomBuilder = getW3cDocumentBuilderFactory().newDocumentBuilder();
+            }
+            else
+            {
+                w3cDomBuilder.reset();
+            }
+        }
+        catch (ParserConfigurationException e)
+        {
+            throw new XMLSerializationException(e);
+        }
+        return w3cDomBuilder;
+    }
+
+    public static DocumentBuilderFactory getW3cDocumentBuilderFactory()
+    {
+        if (W3C_DOCUMENT_BUILDER_FACTORY == null)
+        {
+            W3C_DOCUMENT_BUILDER_FACTORY = DocumentBuilderFactory.newInstance();
+        }
+        return W3C_DOCUMENT_BUILDER_FACTORY;
+    }
+
+    public static void setW3cDocumentBuilderFactory(DocumentBuilderFactory factory)
+    {
+        W3C_DOCUMENT_BUILDER_FACTORY = factory;
+    }
+    
 
 }

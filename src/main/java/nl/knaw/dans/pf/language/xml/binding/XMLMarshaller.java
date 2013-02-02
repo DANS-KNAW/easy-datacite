@@ -201,5 +201,9 @@ public interface XMLMarshaller
      *         for exceptions during serialization
      */
     Element getXmlElement() throws XMLSerializationException;
+    
+    org.w3c.dom.Document getW3cDomDocument() throws XMLSerializationException;
+    
+    org.w3c.dom.Element getW3cDomElement() throws XMLSerializationException;
 
 }
