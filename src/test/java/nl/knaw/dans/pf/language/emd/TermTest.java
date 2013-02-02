@@ -57,7 +57,6 @@ public class TermTest
         assertEquals(EmdTitle.class, container.getClass());
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void getMetadataListByTerm()
     {
