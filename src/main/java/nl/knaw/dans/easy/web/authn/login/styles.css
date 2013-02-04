@@ -57,3 +57,8 @@
 	width: 93px;
 	height: 59px;
 }
+#login-page .warn {
+	padding: 3px;	
+	background: #F9E9C2;
+	border: 1px solid #D0960A;				
+}
