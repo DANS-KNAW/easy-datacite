@@ -63,6 +63,9 @@ public class IncludeJsOrCssBehavior extends AbstractBehavior
         {
             response.renderCSSReference(ref);
         }
-        throw new RuntimeException("Only know how to render JavaScript or CSS references");
+        else
+        {
+            throw new RuntimeException("Only know how to render JavaScript or CSS references");
+        }
     }
 }
