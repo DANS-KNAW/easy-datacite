@@ -8,18 +8,23 @@ import java.sql.Types;
 
 import org.hibernate.HibernateException;
 import org.hibernate.usertype.UserType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Copied from the interwebz: https://www.hibernate.org/265.html
+ * 
  * @author vincent ?
  */
 public class HbnEnumUserType<E extends Enum<E>> implements UserType
 {
+    private static final Logger log = LoggerFactory.getLogger(HbnEnumUserType.class);
     private Class<E> clazz = null;
 
     protected HbnEnumUserType(Class<E> c)
     {
         this.clazz = c;
+        log.debug("Instantiated HbnEnumUserType with class {}", c);
     }
 
     private static final int[] SQL_TYPES = {Types.VARCHAR};
@@ -29,7 +34,7 @@ public class HbnEnumUserType<E extends Enum<E>> implements UserType
         return SQL_TYPES;
     }
 
-    public Class returnedClass()
+    public Class<E> returnedClass()
     {
         return clazz;
     }
@@ -47,6 +52,7 @@ public class HbnEnumUserType<E extends Enum<E>> implements UserType
 
     public void nullSafeSet(PreparedStatement preparedStatement, Object value, int index) throws HibernateException, SQLException
     {
+        log.debug("Calling nullSafeSet for {}, value = {}, index = {}", this, value, index);
         if (null == value)
         {
             preparedStatement.setNull(index, Types.VARCHAR);
@@ -95,4 +101,11 @@ public class HbnEnumUserType<E extends Enum<E>> implements UserType
             return false;
         return x.equals(y);
     }
+
+    @Override
+    public String toString()
+    {
+        return String.format("HbnEnumUserType for enum class %s", clazz.getName());
+    }
+
 }
