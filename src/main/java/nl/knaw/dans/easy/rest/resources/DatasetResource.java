@@ -19,7 +19,6 @@ import nl.knaw.dans.common.lang.repo.jumpoff.JumpoffDmo;
 import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
-import nl.knaw.dans.common.lang.xml.XMLSerializationException;
 import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.RequestedItem;
 import nl.knaw.dans.easy.domain.download.FileContentWrapper;
@@ -33,10 +32,12 @@ import nl.knaw.dans.easy.rest.util.ItemConverter;
 import nl.knaw.dans.easy.rest.util.ThumbnailUtil;
 import nl.knaw.dans.easy.rest.util.UrlConverter;
 import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.binding.EmdMarshaller;
+import nl.knaw.dans.pf.language.xml.exc.XMLSerializationException;
 
 /**
- * This class provides methods to access resources/representations regarding
- * datasets.
+ * This class provides methods to access resources/representations regarding datasets.
  * 
  * @author Georgi Khomeriki
  * @author Roshan Timal
@@ -49,9 +50,8 @@ public class DatasetResource extends AuthenticatedResource
      * Returns metadata of the dataset if available.
      * 
      * @param sid
-     *            Store ID of the dataset.
-     * @return Response containing the metadata in the format that was requested
-     *         in the Accept header.
+     *        Store ID of the dataset.
+     * @return Response containing the metadata in the format that was requested in the Accept header.
      */
     @GET
     @Path("/{sid}/metadata")
@@ -61,7 +61,8 @@ public class DatasetResource extends AuthenticatedResource
         try
         {
             Dataset d = Services.getDatasetService().getDataset(authenticate(), new DmoStoreId(sid));
-            return responseXmlOrJson(d.getEasyMetadata().asXMLString());
+            EasyMetadata emd = d.getEasyMetadata();
+            return responseXmlOrJson(new EmdMarshaller(emd).getXmlString());
         }
         catch (ObjectNotAvailableException e)
         {
@@ -86,13 +87,11 @@ public class DatasetResource extends AuthenticatedResource
     }
 
     /**
-     * Checks whether metadata can be addressed and returns the applicable HTTP
-     * methods.
+     * Checks whether metadata can be addressed and returns the applicable HTTP methods.
      * 
      * @param sid
-     *            Store ID of the dataset.
-     * @return Response containing the HTTP methods that are applicable in the
-     *         Allow header.
+     *        Store ID of the dataset.
+     * @return Response containing the HTTP methods that are applicable in the Allow header.
      */
     @OPTIONS
     @Path("/{sid}/metadata")
@@ -122,9 +121,8 @@ public class DatasetResource extends AuthenticatedResource
      * Returns Dublin-Core metadata of the dataset if available.
      * 
      * @param sid
-     *            Store ID of the dataset.
-     * @return Response containing the metadata in the format that was requested
-     *         in the Accept header.
+     *        Store ID of the dataset.
+     * @return Response containing the metadata in the format that was requested in the Accept header.
      */
     @GET
     @Path("/{sid}/dc-metadata")
@@ -152,20 +150,18 @@ public class DatasetResource extends AuthenticatedResource
         {
             return internalServerError(e);
         }
-        catch (XMLSerializationException e)
+        catch (nl.knaw.dans.common.lang.xml.XMLSerializationException e)
         {
             return internalServerError(e);
         }
     }
 
     /**
-     * Checks whether Dublin-Core metadata can be addressed and returns the
-     * applicable HTTP methods.
+     * Checks whether Dublin-Core metadata can be addressed and returns the applicable HTTP methods.
      * 
      * @param sid
-     *            Store ID of the dataset.
-     * @return Response containing the HTTP methods that are applicable in the
-     *         Allow header.
+     *        Store ID of the dataset.
+     * @return Response containing the HTTP methods that are applicable in the Allow header.
      */
     @OPTIONS
     @Path("/{sid}/dc-metadata")
@@ -192,11 +188,10 @@ public class DatasetResource extends AuthenticatedResource
     }
 
     /**
-     * Returns the date on which the given dataset was modified for the last
-     * time.
+     * Returns the date on which the given dataset was modified for the last time.
      * 
      * @param sid
-     *            Store ID of the dataset.
+     *        Store ID of the dataset.
      * @return Last date modified.
      */
     @GET
@@ -227,7 +222,7 @@ public class DatasetResource extends AuthenticatedResource
      * Returns the jumpoff page (HTML) of the dataset.
      * 
      * @param sid
-     *            Store ID of the dataset.
+     *        Store ID of the dataset.
      * @return HTML jumpoff page.
      */
     @GET
@@ -258,9 +253,8 @@ public class DatasetResource extends AuthenticatedResource
      * Checks whether the jumpoff page of the given dataset is addressable.
      * 
      * @param sid
-     *            Store ID of the dataset.
-     * @return Response containing the HTTP methods that are applicable in the
-     *         Allow header.
+     *        Store ID of the dataset.
+     * @return Response containing the HTTP methods that are applicable in the Allow header.
      */
     @OPTIONS
     @Path("/{sid}/jumpoff")
@@ -289,7 +283,7 @@ public class DatasetResource extends AuthenticatedResource
      * Returns jumpoff metadata of the dataset if available.
      * 
      * @param sid
-     *            Store ID of the dataset.
+     *        Store ID of the dataset.
      * @return Jumpoff page metadata.
      */
     @GET
@@ -313,18 +307,17 @@ public class DatasetResource extends AuthenticatedResource
         {
             return internalServerError(e);
         }
-        catch (XMLSerializationException e)
+        catch (nl.knaw.dans.common.lang.xml.XMLSerializationException e)
         {
             return internalServerError(e);
         }
     }
 
     /**
-     * Checks whether jumpoff metadata can be addressed and returns the
-     * applicable HTTP methods.
+     * Checks whether jumpoff metadata can be addressed and returns the applicable HTTP methods.
      * 
      * @param sid
-     *            Store ID of the dataset.
+     *        Store ID of the dataset.
      * @return Metadata of the jumpoff page.
      */
     @OPTIONS
@@ -354,9 +347,9 @@ public class DatasetResource extends AuthenticatedResource
      * Tries to fetch the metadata of the given file.
      * 
      * @param sid
-     *            Store ID of the dataset.
+     *        Store ID of the dataset.
      * @param path
-     *            Path to the file.
+     *        Path to the file.
      * @return Response containing the file metadata.
      */
     @GET
@@ -372,9 +365,9 @@ public class DatasetResource extends AuthenticatedResource
      * Tries to fetch the Dublin-Core metadata of the given file.
      * 
      * @param sid
-     *            Store ID of the dataset.
+     *        Store ID of the dataset.
      * @param path
-     *            Path to the file.
+     *        Path to the file.
      * @return Response containing the DC file metadata.
      */
     @GET
@@ -411,7 +404,7 @@ public class DatasetResource extends AuthenticatedResource
         {
             return notAuthorized();
         }
-        catch (XMLSerializationException e)
+        catch (nl.knaw.dans.common.lang.xml.XMLSerializationException e)
         {
             return internalServerError(e);
         }
@@ -425,7 +418,7 @@ public class DatasetResource extends AuthenticatedResource
      * A resource to address the data item roots of the given dataset.
      * 
      * @param sid
-     *            Store ID of the dataset.
+     *        Store ID of the dataset.
      * @return An response containing the root items of the given dataset.
      */
     @GET
@@ -458,9 +451,9 @@ public class DatasetResource extends AuthenticatedResource
      * Returns the contents of the given folder (storeId).
      * 
      * @param sid
-     *            Store ID of the dataset.
+     *        Store ID of the dataset.
      * @param folderSid
-     *            Store ID of the folder.
+     *        Store ID of the folder.
      * @return An response containing the contents of the given folder.
      */
     @GET
@@ -494,9 +487,9 @@ public class DatasetResource extends AuthenticatedResource
      * Returns the contents of the given folder (path).
      * 
      * @param sid
-     *            Store ID of the dataset.
+     *        Store ID of the dataset.
      * @param path
-     *            Path of the folder.
+     *        Path of the folder.
      * @return An response containing the contents of the given folder.
      */
     @GET
@@ -531,7 +524,7 @@ public class DatasetResource extends AuthenticatedResource
      * Returns a list of store id's of thumbnails that are in the given dataset.
      * 
      * @param sid
-     *            Store ID of the dataset.
+     *        Store ID of the dataset.
      * @return A list containing id's of the thumbnails.
      */
     @GET
@@ -562,9 +555,9 @@ public class DatasetResource extends AuthenticatedResource
      * Returns the requested thumbnail.
      * 
      * @param sid
-     *            Store ID of the dataset.
+     *        Store ID of the dataset.
      * @param thumbnailSid
-     *            Store ID of the thumbnail file.
+     *        Store ID of the thumbnail file.
      * @return Returns the requested thumbnail iff it actually is a thumbnail.
      */
     @GET
@@ -610,7 +603,7 @@ public class DatasetResource extends AuthenticatedResource
      * Tries to zip the complete data of the dataset and return it.
      * 
      * @param sid
-     *            Store ID of the dataset.
+     *        Store ID of the dataset.
      * @return Response containing the zipped content of the dataset.
      */
     @GET
@@ -651,13 +644,12 @@ public class DatasetResource extends AuthenticatedResource
     }
 
     /**
-     * Returns a specific folder or file from the given dataset. Folders will be
-     * zipped.
+     * Returns a specific folder or file from the given dataset. Folders will be zipped.
      * 
      * @param sid
-     *            Store ID of the dataset.
+     *        Store ID of the dataset.
      * @param path
-     *            Path to the folder/file.
+     *        Path to the folder/file.
      * @return Response containing the requested data.
      */
     @GET
@@ -715,9 +707,9 @@ public class DatasetResource extends AuthenticatedResource
      * Returns a specific file from the dataset.
      * 
      * @param sid
-     *            Store ID of the dataset.
+     *        Store ID of the dataset.
      * @param fileSid
-     *            Store ID of the file.
+     *        Store ID of the file.
      * @return Response containing the requested file.
      */
     @GET
@@ -753,9 +745,9 @@ public class DatasetResource extends AuthenticatedResource
      * Returns a specific (zipped) folder from the dataset.
      * 
      * @param sid
-     *            Store ID of the dataset.
+     *        Store ID of the dataset.
      * @param folderSid
-     *            Store ID of the folder.
+     *        Store ID of the folder.
      * @return Response containing the requested folder.
      */
     @GET
