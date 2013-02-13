@@ -49,7 +49,7 @@ public class PermissionRequestPage extends AbstractEasyNavPage
         PageParameters parameters = new PageParameters();
         parameters.add(PM_DATASET_ID, datasetId);
         parameters.add(PM_REQUESTER_ID, requesterId);
-        String path = (String) component.urlFor(PermissionRequestPage.class, parameters);
+        String path = component.urlFor(PermissionRequestPage.class, parameters).toString();
         String bookmarkableLink = RequestUtils.toAbsolutePath(path);
         LOGGER.debug("Composed bookmarkable link: " + bookmarkableLink);
         return bookmarkableLink;

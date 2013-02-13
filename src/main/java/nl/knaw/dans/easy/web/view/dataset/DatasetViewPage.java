@@ -132,8 +132,7 @@ public class DatasetViewPage extends AbstractEasyNavPage
     public static String urlFor(String datasetId, int tabIndex, boolean mustLogin, Component component)
     {
         PageParameters parameters = urlParametersFor(datasetId, tabIndex, mustLogin);
-        String path = (String) component.urlFor(DatasetViewPage.class, parameters);
-        String bookmarkableLink = RequestUtils.toAbsolutePath(path);
+        String bookmarkableLink = RequestUtils.toAbsolutePath(component.urlFor(DatasetViewPage.class, parameters).toString());
         logger.debug("Composed bookmarkable link: " + bookmarkableLink);
         return bookmarkableLink;
     }
