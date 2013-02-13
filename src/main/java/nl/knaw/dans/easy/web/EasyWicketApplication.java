@@ -15,9 +15,9 @@ import org.apache.wicket.Request;
 import org.apache.wicket.Resource;
 import org.apache.wicket.Response;
 import org.apache.wicket.Session;
-import org.apache.wicket.injection.web.InjectorHolder;
 import org.apache.wicket.javascript.DefaultJavascriptCompressor;
 import org.apache.wicket.markup.html.EmptySrcAttributeCheckFilter;
+import org.apache.wicket.markup.html.SecurePackageResourceGuard;
 import org.apache.wicket.protocol.http.WebRequest;
 import org.apache.wicket.request.target.coding.BookmarkablePageRequestTargetUrlCodingStrategy;
 import org.apache.wicket.resource.ContextRelativeResource;
@@ -29,10 +29,8 @@ import org.apache.wicket.util.value.ValueMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.access.SingletonBeanFactoryLocator;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * Application object for your web application. If you want to run this application without deploying,
@@ -111,6 +109,8 @@ public class EasyWicketApplication extends CommonWicketApplication implements Ap
     private void initSecurity()
     {
         getSecuritySettings().setAuthorizationStrategy(new EasyAuthorizationStrategy());
+        SecurePackageResourceGuard guard = (SecurePackageResourceGuard) getResourceSettings().getPackageResourceGuard();
+        guard.addPattern("+*.htm");
     }
 
     private void setAliases()
