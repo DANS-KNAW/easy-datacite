@@ -9,14 +9,6 @@
 		</encoder>
 	</appender>
 
-	<!-- For ANSI Eclipse console see http://www.mihai-nita.net/eclipse/ -->
-	<appender name="COLOR_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-		<encoder>
-			<Pattern>%highlight(%-5level %r [%thread]: %msg) %n)
-			</Pattern>
-		</encoder>
-	</appender>
-
 	<root level="info">
 		<appender-ref ref="CONSOLE" />
 	</root>
