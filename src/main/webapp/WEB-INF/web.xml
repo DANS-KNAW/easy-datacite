@@ -5,13 +5,13 @@
 	 version="2.4">
 
 	<display-name>Easy SWORD Demo Server</display-name>
-
+	
 	<listener>
-	    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+		<listener-class>nl.knaw.dans.easy.sword.ExternalConfigLoaderContextListener</listener-class>
 	</listener>
 
 	<listener>
-		<listener-class>nl.knaw.dans.easy.sword.ExternalConfigLoaderContextListener</listener-class>
+	    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 	
 	<context-param>
