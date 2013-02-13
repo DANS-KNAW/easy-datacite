@@ -1,9 +1,14 @@
 package nl.knaw.dans.easy.sword;
 
 import org.purl.sword.base.SWORDException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.helpers.MessageFormatter;
 
 public class Context
 {
+    private static final Logger log = LoggerFactory.getLogger(Context.class);
+
     /** Directory were deposits are unzipped. */
     private static String unzip = null;
 
@@ -20,13 +25,17 @@ public class Context
 
     public void setUnzip(String unzip)
     {
+        log.debug("Setting unzip directory to {}", unzip);
         Context.unzip = unzip;
     }
 
     public static String getUnzip() throws SWORDException
     {
         if (unzip == null)
-            throw new SWORDException("missing configuration: unzip");
+        {
+            error("Missing configuration setting: unzip directory");
+        }
+
         return unzip;
     }
 
@@ -38,7 +47,7 @@ public class Context
     public static String getWorkspaceTitle() throws SWORDException
     {
         if (workspaceTitle == null)
-            throw new SWORDException("missing configuration: workspaceTitle");
+            error("missing configuration: workspaceTitle");
         return workspaceTitle;
     }
 
@@ -50,7 +59,7 @@ public class Context
     public static String getCollectionTreatment() throws SWORDException
     {
         if (collectionTreatment == null)
-            throw new SWORDException("missing configuration: collectionTreatment");
+            error("missing configuration: collectionTreatment");
         return collectionTreatment;
     }
 
@@ -62,7 +71,7 @@ public class Context
     public static String getCollectionPolicy() throws SWORDException
     {
         if (collectionPolicy == null)
-            throw new SWORDException("missing configuration: collectionPolicy");
+            error("missing configuration: collectionPolicy");
         return collectionPolicy;
     }
 
@@ -74,7 +83,7 @@ public class Context
     public static String getCollectionTitle() throws SWORDException
     {
         if (collectionTitle == null)
-            throw new SWORDException("missing configuration: collectionTitle");
+            error("missing configuration: collectionTitle");
         return collectionTitle;
     }
 
@@ -86,7 +95,7 @@ public class Context
     public static String getCollectionAbstract() throws SWORDException
     {
         if (collectionAbstract == null)
-            throw new SWORDException("missing configuration: collectionAbstract");
+            error("missing configuration: collectionAbstract");
         return collectionAbstract;
     }
 
@@ -98,7 +107,7 @@ public class Context
     public static String getDepositTreatment() throws SWORDException
     {
         if (depositTreatment == null)
-            throw new SWORDException("missing configuration: depositTreatment");
+            error("missing configuration: depositTreatment");
         return depositTreatment;
     }
 
@@ -110,7 +119,7 @@ public class Context
     public static String getDatasetPath() throws SWORDException
     {
         if (datasetPath == null)
-            throw new SWORDException("missing configuration: datasetPath");
+            error("missing configuration: datasetPath");
         return datasetPath;
     }
 
@@ -122,7 +131,7 @@ public class Context
     public static String getProviderURL() throws SWORDException
     {
         if (providerURL == null)
-            throw new SWORDException("missing configuration: providerURL");
+            error("missing configuration: providerURL");
         return providerURL;
     }
 
@@ -134,7 +143,7 @@ public class Context
     public static String getServletName() throws SWORDException
     {
         if (servletName == null)
-            throw new SWORDException("missing configuration: servletName");
+            error("missing configuration: servletName");
         return servletName;
     }
 
@@ -146,7 +155,14 @@ public class Context
     public static String getEasyHome() throws SWORDException
     {
         if (easyHome == null)
-            throw new SWORDException("missing configuration: easyHome");
+            error("missing configuration: easyHome");
         return easyHome;
+    }
+
+    private static void error(String msg, Object... args) throws SWORDException
+    {
+        msg = MessageFormatter.format(msg, args).toString();
+        log.error(msg);
+        throw new SWORDException(msg);
     }
 }
