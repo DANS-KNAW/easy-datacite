@@ -179,7 +179,7 @@ public class ModalDownload extends Panel
                                         return fcw.getFileName();
                                     }
                                 };
-                                add(download);
+                                window.getParent().add(download);
                                 download.initiate(target);
                                 // register this download action
                                 List<ItemVO> downloadList = new ArrayList<ItemVO>();
@@ -230,7 +230,7 @@ public class ModalDownload extends Panel
                                         return zfcw.getFilename();
                                     }
                                 };
-                                add(download);
+                                window.getParent().add(download);
                                 download.initiate(target);
                                 // register this download action
                                 Services.getItemService().registerDownload(EasySession.getSessionUser(), datasetModel.getObject(), zfcw.getDownloadedItemVOs());
