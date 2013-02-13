@@ -40,15 +40,15 @@ public class PackagingDoc
 
     public static void main(final String[] args) throws ServiceException, IOException, ResourceNotFoundException
     {
-        if (args == null || args.length ==0 || !new File(args[0]).exists())
+        if (args == null || args.length == 0 || !new File(args[0]).exists())
             throw new IllegalArgumentException("Expecting at least an excisting directory: ${EASY_WEBUI_HOME}/res/example/editable/help/");
         final String helpDir = args[0];
 
         if (args != null && args.length > 1)
             fedoraUrl = args[1];
         final DepositService depositService = setFedoraContext();
-        
-        System.out.print(new PackagingDoc().generate(depositService,helpDir).toString());
+
+        System.out.print(new PackagingDoc().generate(depositService, helpDir).toString());
     }
 
     private static DepositService setFedoraContext()
@@ -76,8 +76,8 @@ public class PackagingDoc
         return sb;
     }
 
-    private StringBuffer parseDisciplines(final Map<String, ChoiceListDefinition> choiceLists, final DepositService depositService)
-            throws ServiceException, IOException, ResourceNotFoundException
+    private StringBuffer parseDisciplines(final Map<String, ChoiceListDefinition> choiceLists, final DepositService depositService) throws ServiceException,
+            IOException, ResourceNotFoundException
     {
         final StringBuffer sb = new StringBuffer();
         for (final DepositDiscipline discipline : depositService.getDisciplines())
