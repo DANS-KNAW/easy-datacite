@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-	<!-- Configuration used during unit-tests AND during the initialization 
-		phase of starting the Jetty server (i.e. before our web app reconfigures 
-		logging according to the configuration in $EASY_SWORD_HOME/cfg/logback.xml) -->
+	<!-- 
+	   Configuration used during unit-tests AND during the initialization 
+	   phase of starting the Jetty server (i.e. before our web app reconfigures 
+	   logging according to the configuration in $EASY_SWORD_HOME/cfg/logback.xml) -->
 	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
-			<Pattern>%-5level %r [%thread]: %msg %n</Pattern>
-		</encoder>
-	</appender>
-
-	<!-- For ANSI Eclipse console see http://www.mihai-nita.net/eclipse/ -->
-	<appender name="COLOR_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-		<encoder>
-			<Pattern>%highlight(%-5level %r [%thread]: %msg) %n)
-			</Pattern>
+			<Pattern>%-5level %r [%thread]: %msg [%C] %n</Pattern>
 		</encoder>
 	</appender>
 
