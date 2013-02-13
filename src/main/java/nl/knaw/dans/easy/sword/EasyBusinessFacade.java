@@ -340,6 +340,7 @@ public class EasyBusinessFacade
         }
         catch (final ServiceException exception)
         {
+            logger.error("Cannot create new dataset with metadataformat: {}", metadataFormat.toString(), exception);
             throw new SWORDException(("Can't create a new dataset " + metadataFormat), exception);
         }
         return dataset;
