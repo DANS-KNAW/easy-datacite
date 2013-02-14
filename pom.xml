@@ -74,9 +74,9 @@
 
 		<!-- dans common language dependencies -->
 		<dependency>
-			<groupId>nl.knaw.dans.common</groupId>
+			<groupId>nl.knaw.dans.platform.deprecated</groupId>
 			<artifactId>dans-lang</artifactId>
-			<version>${project.parent.version}</version>
+			<version>1.0</version>
 		</dependency>
 
 		<dependency>
