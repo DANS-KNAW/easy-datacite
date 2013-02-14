@@ -25,7 +25,7 @@
 		<dependency>
 			<groupId>nl.knaw.dans.common</groupId>
 			<artifactId>dans-jibx</artifactId>
-			<version>2.x-SNAPSHOT</version>
+			<version>1.0</version>
 		</dependency>
 		
 	</dependencies>
