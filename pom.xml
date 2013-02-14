@@ -30,9 +30,9 @@
 
 		<!-- dependency on dans-lang for the test scope of this project -->
 		<dependency>
-			<groupId>nl.knaw.dans.common</groupId>
+			<groupId>nl.knaw.dans.platform.deprecated</groupId>
 			<artifactId>dans-lang</artifactId>
-			<version>${project.parent.version}</version>
+			<version>1.0</version>
 			<scope>test</scope>
 		</dependency>
 
