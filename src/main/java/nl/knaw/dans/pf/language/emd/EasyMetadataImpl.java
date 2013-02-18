@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javassist.tools.rmi.ObjectNotFoundException;
 import nl.knaw.dans.common.jibx.bean.JiBXDublinCoreMetadata;
 import nl.knaw.dans.common.lang.repo.AbstractTimestampedObject;
 import nl.knaw.dans.common.lang.repo.bean.DublinCoreMetadata;
@@ -80,7 +79,6 @@ public class EasyMetadataImpl extends AbstractTimestampedObject implements EasyM
     /**
      * Constructor.
      * @throws DomainException 
-     * @throws ObjectNotFoundException 
      */
     public EasyMetadataImpl(MetadataFormat metadataFormat)
     {
