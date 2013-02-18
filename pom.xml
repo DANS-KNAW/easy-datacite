@@ -23,7 +23,7 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>nl.knaw.dans.common</groupId>
+			<groupId>nl.knaw.dans.platform.deprecated</groupId>
 			<artifactId>dans-jibx</artifactId>
 			<version>1.0</version>
 		</dependency>
