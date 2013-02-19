@@ -39,9 +39,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>nl.knaw.dans.common</groupId>
+			<groupId>nl.knaw.dans.platform.deprecated</groupId>
 			<artifactId>dans-fedora</artifactId>
-			<version>${project.parent.version}</version>
+			<version>1.0</version>
 		</dependency>
 
 		<dependency>
@@ -175,9 +175,4 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-
-	<repositories>
-
-	</repositories>
-
 </project>
