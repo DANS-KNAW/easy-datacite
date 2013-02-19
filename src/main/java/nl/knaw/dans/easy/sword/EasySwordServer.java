@@ -132,17 +132,17 @@ public class EasySwordServer implements SWORDServer
         checkOnBehalfOf(deposit);
 
         final Dataset dataset;
-        final RequestContent payload = new RequestContent(deposit.getFile());
+        final RequestContent requestContent = new RequestContent(deposit.getFile());
         try
         {
-            final EasyMetadata metadata = payload.getEasyMetadata();
-            final File folder = payload.getDataFolder();
-            final List<File> files = payload.getFiles();
+            final EasyMetadata metadata = requestContent.getEasyMetadata();
+            final File folder = requestContent.getDataFolder();
+            final List<File> files = requestContent.getFiles();
             dataset = EasyBusinessFacade.submitNewDataset(deposit.isNoOp(), user, metadata, folder, files);
         }
         finally
         {
-            payload.clearTemp();
+            requestContent.clearTemp();
         }
 
         final String datasetUrl = Context.getDatasetPath() + dataset.getStoreId();
