@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 public class FreelyAvailableContentCheck extends AbstractCheck
 {
 
-    private static final String LIST_LOCATION = "specs/free-content.txt";
+    private static final String LIST_LOCATION = "res/spec/free-content.txt";
 
     private static List<String> FREE_CONTENT_LIST;
 
