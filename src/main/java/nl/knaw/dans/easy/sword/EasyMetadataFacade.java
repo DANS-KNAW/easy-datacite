@@ -62,7 +62,7 @@ public class EasyMetadataFacade
     }
 
     /** Just a wrapper for exceptions. To be replaced by implicit validation by the crosswalker. */
-    private static void validateMandatoryFields(final EasyMetadata metadata) throws SWORDErrorException, SWORDException
+    static void validateMandatoryFields(final EasyMetadata metadata) throws SWORDErrorException, SWORDException
     {
         final FormDefinition formDefinition = EasyBusinessFacade.getFormDefinition(metadata);
         final List<String> messages = new ArrayList<String>();
@@ -108,7 +108,7 @@ public class EasyMetadataFacade
     }
 
     /** Just a wrapper for exceptions. */
-    private static void validateControlledVocabulairies(final EasyMetadata metadata) throws SWORDErrorException, SWORDException
+    static void validateControlledVocabulairies(final EasyMetadata metadata) throws SWORDErrorException, SWORDException
     {
         // equivalent of nl.knaw.dans.easy.tools.batch.EasyMetadataCheck.validateSemantics()
         final EasySwordValidationReporter validationReporter = new EasySwordValidationReporter();
