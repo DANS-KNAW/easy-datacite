@@ -12,7 +12,7 @@ import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.editabletexts.EasyEditablePanel;
-import nl.knaw.dans.easy.web.fileexplorer2.Util;
+import nl.knaw.dans.easy.web.fileexplorer.Util;
 import nl.knaw.dans.easy.web.template.AbstractEasyPage;
 import nl.knaw.dans.easy.web.view.dataset.DatasetViewPage;
 import nl.knaw.dans.easy.web.view.dataset.UnitMetaDataResource;
