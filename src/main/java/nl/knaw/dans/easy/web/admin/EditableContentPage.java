@@ -29,7 +29,7 @@ import nl.knaw.dans.easy.web.deposit.DepositIntroPage;
 import nl.knaw.dans.easy.web.deposit.DepositPanel;
 import nl.knaw.dans.easy.web.deposit.LicensePanel;
 import nl.knaw.dans.easy.web.editabletexts.EditableTextPage;
-import nl.knaw.dans.easy.web.fileexplorer2.ModalDownload;
+import nl.knaw.dans.easy.web.fileexplorer.ModalDownload;
 import nl.knaw.dans.easy.web.main.AbstractEasyNavPage;
 import nl.knaw.dans.easy.web.permission.PermissionRequestForm;
 import nl.knaw.dans.easy.web.search.pages.MyDatasetsSearchResultPage;
