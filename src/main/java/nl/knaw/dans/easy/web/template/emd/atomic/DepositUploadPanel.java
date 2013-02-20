@@ -9,7 +9,7 @@ import nl.knaw.dans.common.wicket.components.upload.postprocess.unzip.UnzipPostP
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.common.DatasetModel;
-import nl.knaw.dans.easy.web.fileexplorer2.FileExplorer;
+import nl.knaw.dans.easy.web.fileexplorer.FileExplorer;
 import nl.knaw.dans.easy.web.template.AbstractDatasetModelPanel;
 import nl.knaw.dans.easy.web.template.upload.postprocess.ingest.IngestPostProcess;
 

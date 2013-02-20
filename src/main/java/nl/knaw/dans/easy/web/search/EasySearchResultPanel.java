@@ -5,7 +5,7 @@ import nl.knaw.dans.common.wicket.components.search.results.SearchResultConfig;
 import nl.knaw.dans.common.wicket.components.search.results.SearchResultPanel;
 import nl.knaw.dans.easy.web.common.HelpFileReader;
 import nl.knaw.dans.easy.web.common.ModalHelpPanel;
-import nl.knaw.dans.easy.web.fileexplorer2.FileExplorer;
+import nl.knaw.dans.easy.web.fileexplorer.FileExplorer;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.ajax.AjaxRequestTarget;

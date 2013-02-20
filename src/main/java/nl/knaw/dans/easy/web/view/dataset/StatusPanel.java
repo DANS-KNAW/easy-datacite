@@ -14,7 +14,7 @@ import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.ErrorPage;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.deposit.DepositPage;
-import nl.knaw.dans.easy.web.fileexplorer2.FileExplorer;
+import nl.knaw.dans.easy.web.fileexplorer.FileExplorer;
 import nl.knaw.dans.easy.web.statistics.DatasetStatistics;
 import nl.knaw.dans.easy.web.statistics.DisciplineStatistics;
 import nl.knaw.dans.easy.web.statistics.StatisticsEvent;

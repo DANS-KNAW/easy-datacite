@@ -11,7 +11,7 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.security.authz.AbstractDatasetAutzStrategy;
 import nl.knaw.dans.easy.web.common.DatasetModel;
-import nl.knaw.dans.easy.web.fileexplorer2.FileExplorer;
+import nl.knaw.dans.easy.web.fileexplorer.FileExplorer;
 import nl.knaw.dans.easy.web.permission.PermissionRequestPage;
 import nl.knaw.dans.easy.web.template.AbstractDatasetModelPanel;
 import nl.knaw.dans.easy.web.template.AbstractEasyPage;
