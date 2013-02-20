@@ -1,0 +1,23 @@
+<html>
+<body>
+<wicket:panel>
+<div wicket:id="message"></div>
+<p/>
+<wicket:enclosure child="accept">
+<div wicket:id="editablePanel"></div>
+<p><input wicket:id="accept" type="checkbox"/><span wicket:id="acceptLabel"></span></p>
+<wicket:enclosure child="dontShowAgain">
+<p><input wicket:id="dontShowAgain" type="checkbox"/><span wicket:id="dontShowAgainLabel"></span></p>
+</wicket:enclosure>
+<p/>
+</wicket:enclosure>
+<wicket:enclosure child="additionalLicense">
+Please note that <a wicket:id="additionalLicense">Additional Conditions of Use</a> (PDF) apply to this dataset.
+<p><input wicket:id="acceptAdditional" type="checkbox"/><span wicket:id="acceptAdditionalLabel"></span></p>
+</wicket:enclosure>
+<p/>
+<div><a wicket:id="downloadLink" class="button">Download</a> <a wicket:id="cancel" class="button">Cancel</a></div>
+<p/>
+</wicket:panel>
+</body>
+</html>
