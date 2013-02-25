@@ -1,65 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:aop="http://www.springframework.org/schema/aop"
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
-	
-	<import resource="conf/store-context.xml"/>
-	<import resource="conf/dmo-collections-context.xml"/>
-	
+
+	<import resource="conf/store-context.xml" />
+	<import resource="conf/dmo-collections-context.xml" />
+
 	<bean class="nl.knaw.dans.easy.business.bean.EasyContextListener" />
-	
+
 	<!-- ================= -->
 	<!-- Business Services -->
 	<!-- ================= -->
 	<bean name="services" class="nl.knaw.dans.easy.servicelayer.services.Services">
-		<property name="depositService" ref="depositService"/>
-		<property name="datasetService" ref="datasetService"/>
-		<property name="itemService" ref="itemService"/>
-		<property name="userService" ref="userService"/>
-		<property name="migrationService" ref="migrationService"/>
-		<property name="federativeUserService" ref="federativeUserService"/>
-		<property name="searchService" ref="searchService"/>
+		<property name="depositService" ref="depositService" />
+		<property name="datasetService" ref="datasetService" />
+		<property name="itemService" ref="itemService" />
+		<property name="userService" ref="userService" />
+		<property name="migrationService" ref="migrationService" />
+		<property name="federativeUserService" ref="federativeUserService" />
+		<property name="searchService" ref="searchService" />
 		<property name="disciplineService" ref="disciplineService" />
 		<property name="jumpoffService" ref="jumpoffService" />
 		<property name="collectionService" ref="collectionService" />
 
 	</bean>
-	
-	<bean name="jumpoffService" class="nl.knaw.dans.easy.business.services.EasyJumpoffService"/>
 
-	<bean name="disciplineService" class="nl.knaw.dans.easy.business.services.EasyDisciplineCollectionService"></bean>
+	<bean name="jumpoffService"
+		class="nl.knaw.dans.easy.business.services.EasyJumpoffService" />
 
-	<bean name="depositService" class="nl.knaw.dans.easy.business.services.EasyDepositService"></bean>
+	<bean name="disciplineService"
+		class="nl.knaw.dans.easy.business.services.EasyDisciplineCollectionService"></bean>
 
-	<bean name="datasetService" class="nl.knaw.dans.easy.business.services.EasyDatasetService"/>
+	<bean name="depositService"
+		class="nl.knaw.dans.easy.business.services.EasyDepositService"></bean>
 
-    <bean name="itemService" class="nl.knaw.dans.easy.business.services.EasyItemService" />
+	<bean name="datasetService"
+		class="nl.knaw.dans.easy.business.services.EasyDatasetService" />
+
+	<bean name="itemService" class="nl.knaw.dans.easy.business.services.EasyItemService" />
 
 	<bean name="userService" class="nl.knaw.dans.easy.business.services.EasyUserService" />
-	
-	<bean name="searchService" class="nl.knaw.dans.easy.business.services.EasySearchService" />
-	
-	<bean name="migrationService" class="nl.knaw.dans.easy.business.services.EasyMigrationService" />
 
-	<bean name="federativeUserService" class="nl.knaw.dans.easy.business.services.EasyFederativeUserService" />
-	
-	<bean name="collectionService" class="nl.knaw.dans.easy.business.services.EasyCollectionService" />
-	
+	<bean name="searchService" class="nl.knaw.dans.easy.business.services.EasySearchService" />
+
+	<bean name="migrationService"
+		class="nl.knaw.dans.easy.business.services.EasyMigrationService" />
+
+	<bean name="federativeUserService"
+		class="nl.knaw.dans.easy.business.services.EasyFederativeUserService" />
+
+	<bean name="collectionService"
+		class="nl.knaw.dans.easy.business.services.EasyCollectionService" />
+
 
 	<!-- ================== -->
-	<!--      Security      -->
+	<!-- Security -->
 	<!-- ================== -->
 	<bean name="security" class="nl.knaw.dans.easy.security.Security">
-		<constructor-arg ref="authz"/>
+		<constructor-arg ref="authz" />
 	</bean>
 
-	<bean name="authz" class="nl.knaw.dans.easy.security.CodedAuthz"/>
-	
+	<bean name="authz" class="nl.knaw.dans.easy.security.CodedAuthz" />
+
 	<!-- ================= -->
-	<!--  Business Audit   -->
+	<!-- Business Audit -->
 	<!-- ================= -->
-	
+
 	<bean name="businessAudit" class="nl.knaw.dans.easy.data.audit.Audit">
 		<property name="trailers">
 			<list>
@@ -67,222 +74,256 @@
 				<ref bean="syslogAuditTrail" />
 			</list>
 		</property>
-		<property name="enabled" value="${business.audit.enabled}"/>
+		<property name="enabled" value="${business.audit.enabled}" />
 	</bean>
-	
-	<bean name="fileBasedAuditTrail" class="nl.knaw.dans.easy.data.audit.FileBasedAuditTrail" destroy-method="close">
-		<constructor-arg index="0" value="${business.audit.file}"/>
+
+	<bean name="fileBasedAuditTrail" class="nl.knaw.dans.easy.data.audit.FileBasedAuditTrail"
+		destroy-method="close">
+		<constructor-arg index="0" value="${business.audit.file}" />
 	</bean>
-	
-	<bean name="syslogAuditTrail" class="nl.knaw.dans.easy.data.audit.SyslogAuditTrail"/>
-	
+
+	<bean name="syslogAuditTrail" class="nl.knaw.dans.easy.data.audit.SyslogAuditTrail" />
+
 	<!-- ================== -->
-	<!--    BeanFactory     -->
+	<!-- BeanFactory -->
 	<!-- ================== -->
 	<bean name="beanFactory" class="nl.knaw.dans.common.lang.repo.bean.BeanFactory">
-		<constructor-arg ref="beanFactoryDelegator"/>
+		<constructor-arg ref="beanFactoryDelegator" />
 	</bean>
-	
-	<bean name="beanFactoryDelegator" class="nl.knaw.dans.common.jibx.bean.JiBXBeanFactoryDelegator"/>
+
+	<bean name="beanFactoryDelegator"
+		class="nl.knaw.dans.common.jibx.bean.JiBXBeanFactoryDelegator" />
 
 	<!-- ================== -->
 	<!-- Data Access Points -->
 	<!-- ================== -->
 	<bean name="data" class="nl.knaw.dans.easy.data.Data">
-		<property name="userRepo" ref="userRepo"/>
-		<property name="groupRepo" ref="groupRepo"/>
-		<property name="migrationRepo" ref="migrationRepo"/>
-		<property name="federativeUserRepo" ref="federativeUserRepo"/>
-		<property name="easyStore" ref="easyStore"/>
-		<property name="fileStoreAccess" ref="fileStoreAccess"/>
-		<property name="datasetSearch" ref="datasetSearch"/>
-		<property name="searchEngine" ref="searchEngine"/>
-		<property name="collectionAccess" ref="collectionAccess"/>
-		
-		<property name="downloadLimit" value="${data.downloadLimit}"/>
-		<property name="maxNumberOfFiles" value="${file.downloadLimit}"/>
+		<property name="userRepo" ref="userRepo" />
+		<property name="groupRepo" ref="groupRepo" />
+		<property name="migrationRepo" ref="migrationRepo" />
+		<property name="federativeUserRepo" ref="federativeUserRepo" />
+		<property name="easyStore" ref="easyStore" />
+		<property name="fileStoreAccess" ref="fileStoreAccess" />
+		<property name="datasetSearch" ref="datasetSearch" />
+		<property name="searchEngine" ref="searchEngine" />
+		<property name="collectionAccess" ref="collectionAccess" />
+
+		<property name="downloadLimit" value="${data.downloadLimit}" />
+		<property name="maxNumberOfFiles" value="${file.downloadLimit}" />
 	</bean>
 
 	<bean name="userRepo" class="nl.knaw.dans.easy.ldap.EasyLdapUserRepo">
-		<constructor-arg ref="ldapClient"/>
-		<constructor-arg value="${ldap.context.users}"/>
+		<constructor-arg ref="ldapClient" />
+		<constructor-arg value="${ldap.context.users}" />
 	</bean>
 
 	<bean name="groupRepo" class="nl.knaw.dans.easy.ldap.EasyLdapGroupRepo">
-        <constructor-arg ref="ldapClient"/>
-        <constructor-arg value="${ldap.context.groups}"/>
-    </bean>
-    
-    <bean name="migrationRepo" class="nl.knaw.dans.easy.ldap.EasyLdapMigrationRepo">
-        <constructor-arg ref="ldapClient"/>
-        <constructor-arg value="${ldap.context.migration}"/>
-    </bean>
-
-    <bean name="federativeUserRepo" class="nl.knaw.dans.easy.ldap.EasyLdapFederativeUserRepo">
-        <constructor-arg ref="ldapClient"/>
-        <constructor-arg value="${ldap.context.federation}"/>
-    </bean>
-
-	<bean name="ldapClient" class="nl.knaw.dans.common.ldap.ds.LdapClient">
-		<property name="dirContextSupplier" ref="dirContextSupplier"/>
+		<constructor-arg ref="ldapClient" />
+		<constructor-arg value="${ldap.context.groups}" />
 	</bean>
 
-	<bean name="dirContextSupplier" class="nl.knaw.dans.common.ldap.ds.StandAloneDS" >
-		<property name="providerURL" value="${ldap.providerURL}"/>
-		<property name="securityPrincipal" value="${ldap.securityPrincipal}"/>
-		<property name="securityCredentials" value="${ldap.securityCredentials}"/>
+	<bean name="migrationRepo" class="nl.knaw.dans.easy.ldap.EasyLdapMigrationRepo">
+		<constructor-arg ref="ldapClient" />
+		<constructor-arg value="${ldap.context.migration}" />
+	</bean>
+
+	<bean name="federativeUserRepo" class="nl.knaw.dans.easy.ldap.EasyLdapFederativeUserRepo">
+		<constructor-arg ref="ldapClient" />
+		<constructor-arg value="${ldap.context.federation}" />
+	</bean>
+
+	<bean name="ldapClient" class="nl.knaw.dans.common.ldap.ds.LdapClient">
+		<property name="dirContextSupplier" ref="dirContextSupplier" />
+	</bean>
+
+	<bean name="dirContextSupplier" class="nl.knaw.dans.common.ldap.ds.StandAloneDS">
+		<property name="providerURL" value="${ldap.providerURL}" />
+		<property name="securityPrincipal" value="${ldap.securityPrincipal}" />
+		<property name="securityCredentials" value="${ldap.securityCredentials}" />
 	</bean>
 
 	<bean name="fedora" class="nl.knaw.dans.common.fedora.Fedora">
-		<constructor-arg index="0"><value>${fedora.base.url}</value></constructor-arg>
-		<constructor-arg index="1"><value>${fedora.admin.username}</value></constructor-arg>
-		<constructor-arg index="2"><value>${fedora.admin.userpass}</value></constructor-arg>
+		<constructor-arg index="0">
+			<value>${fedora.base.url}</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>${fedora.admin.username}</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>${fedora.admin.userpass}</value>
+		</constructor-arg>
 		<property name="sidListBufferSizeMap">
-           <map>
-               <entry key="easy-dataset" value="10"/>
-               <entry key="easy-folder" value="40"/>
-               <entry key="easy-file" value="100"/>
-           </map>
-	    </property>
-	</bean >
+			<map>
+				<entry key="easy-dataset" value="10" />
+				<entry key="easy-folder" value="40" />
+				<entry key="easy-file" value="100" />
+			</map>
+		</property>
+	</bean>
 
-    <bean name="easyStore" class="nl.knaw.dans.easy.fedora.store.EasyFedoraStore">
-        <constructor-arg index="0" value="${easy.store.name}"/>
-        <constructor-arg index="1" ref="fedora"/>
-        <property name="eventListeners">
-        	<list>
-        		<ref bean="fileStoreSyncListener"/>
-        		<ref bean="repoSearchListener"/>
-        	</list>
-        </property>
-    </bean>
+	<bean name="easyStore" class="nl.knaw.dans.easy.fedora.store.EasyFedoraStore">
+		<constructor-arg index="0" value="${easy.store.name}" />
+		<constructor-arg index="1" ref="fedora" />
+		<property name="eventListeners">
+			<list>
+				<ref bean="fileStoreSyncListener" />
+				<ref bean="repoSearchListener" />
+			</list>
+		</property>
+	</bean>
 
-    <!-- ====== A subset of file and folder metadata is kept in the fedora database ======= -->
-    <!-- fileStoreSyncListener is responsible for keeping this (part of) the database in sync with Fedora store -->
-    <bean name="fileStoreSyncListener" class="nl.knaw.dans.easy.fedora.db.FileStoreSyncListener" depends-on="dbUtilRegistrator"/>
-    
-	<bean name="fileStoreAccess" class="nl.knaw.dans.easy.fedora.db.FedoraFileStoreAccess" depends-on="dbUtilRegistrator"/>
-		
+	<!-- ====== A subset of file and folder metadata is kept in the fedora database 
+		======= -->
+	<!-- fileStoreSyncListener is responsible for keeping this (part of) the 
+		database in sync with Fedora store -->
+	<bean name="fileStoreSyncListener" class="nl.knaw.dans.easy.fedora.db.FileStoreSyncListener"
+		depends-on="dbUtilRegistrator" />
+
+	<bean name="fileStoreAccess" class="nl.knaw.dans.easy.fedora.db.FedoraFileStoreAccess"
+		depends-on="dbUtilRegistrator" />
+
 	<bean name="dbUtilRegistrator" class="nl.knaw.dans.easy.db.DbUtil$Registrator">
-		<property name="localConfig" ref="dbLocalConfig"/>
+		<property name="localConfig" ref="dbLocalConfig" />
 	</bean>
 
 	<bean name="dbLocalConfig" class="nl.knaw.dans.easy.db.DbLocalConfig">
-		<constructor-arg index="0"><value>${fedora.db.username}</value></constructor-arg>
-		<constructor-arg index="1"><value>${fedora.db.password}</value></constructor-arg>
-		<constructor-arg index="2"><value>${fedora.db.connectionUrl}</value></constructor-arg>
-		<constructor-arg index="3"><value>${fedora.db.hbnDriverClass}</value></constructor-arg>
-		<constructor-arg index="4"><value>${fedora.db.hbnDialect}</value></constructor-arg>
-	</bean >
-	<!-- ====== /A subset of file and folder metadata is kept in the fedora database ======= -->
-	
+		<constructor-arg index="0">
+			<value>${fedora.db.username}</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>${fedora.db.password}</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>${fedora.db.connectionUrl}</value>
+		</constructor-arg>
+		<constructor-arg index="3">
+			<value>${fedora.db.hbnDriverClass}</value>
+		</constructor-arg>
+		<constructor-arg index="4">
+			<value>${fedora.db.hbnDialect}</value>
+		</constructor-arg>
+	</bean>
+	<!-- ====== /A subset of file and folder metadata is kept in the fedora 
+		database ======= -->
+
 	<!-- ====== Search ======= -->
 	<bean name="searchEngine" class="nl.knaw.dans.common.solr.SolrSearchEngine">
-    	<constructor-arg index="0"><value>${solr.url}</value></constructor-arg>
-    	<constructor-arg index="1" ref="easySearchBeanFactory" />
-    </bean>
+		<constructor-arg index="0">
+			<value>${solr.url}</value>
+		</constructor-arg>
+		<constructor-arg index="1" ref="easySearchBeanFactory" />
+	</bean>
 
-    <bean name="easySearchBeanFactory" class="nl.knaw.dans.easy.data.search.EasySearchBeanFactory" />
-    
-    <!-- repoSearchListener is responsible for keeping the search index in sync with Fedora store -->
-    <bean name="repoSearchListener" class="nl.knaw.dans.common.lang.reposearch.RepoSearchListener">
-    	<constructor-arg ref="searchEngine"/>
-    </bean>
-    
-    <bean name="datasetSearch" class="nl.knaw.dans.easy.data.search.DatasetSearchImpl">
-		<constructor-arg index="0" ref="searchEngine"/>
-	</bean >
+	<bean name="easySearchBeanFactory" class="nl.knaw.dans.easy.data.search.EasySearchBeanFactory" />
+
+	<!-- repoSearchListener is responsible for keeping the search index in sync 
+		with Fedora store -->
+	<bean name="repoSearchListener"
+		class="nl.knaw.dans.common.lang.reposearch.RepoSearchListener">
+		<constructor-arg ref="searchEngine" />
+	</bean>
+
+	<bean name="datasetSearch" class="nl.knaw.dans.easy.data.search.DatasetSearchImpl">
+		<constructor-arg index="0" ref="searchEngine" />
+	</bean>
 	<!-- ====== /Search ======= -->
-	
-	<bean name="collectionAccess" class="nl.knaw.dans.easy.data.collections.DmoCollectionsAccessImpl">
-		<constructor-arg ref="dmoCollections"/>
+
+	<bean name="collectionAccess"
+		class="nl.knaw.dans.easy.data.collections.DmoCollectionsAccessImpl">
+		<constructor-arg ref="dmoCollections" />
 	</bean>
 
 	<!-- ================= -->
-    <!-- External services -->
-    <!-- ================= -->
+	<!-- External services -->
+	<!-- ================= -->
 
-    <bean name="externalServices" class="nl.knaw.dans.easy.data.ext.ExternalServices" destroy-method="close">
-        <property name="mailOffice" ref="mailOffice"/>
-        <property name="adminMailer" ref="adminMailer"/>
-        <property name="metadataPidGenerator" ref="metadataPidGenerator"/>
-     </bean>
+	<bean name="externalServices" class="nl.knaw.dans.easy.data.ext.ExternalServices"
+		destroy-method="close">
+		<property name="mailOffice" ref="mailOffice" />
+		<property name="adminMailer" ref="adminMailer" />
+		<property name="metadataPidGenerator" ref="metadataPidGenerator" />
+	</bean>
 
-    <bean name="mailOffice" class="nl.knaw.dans.common.lang.mail.ApplicationMailer" depends-on="resourceLocator">
-        <constructor-arg ref="mailOfficeConfiguration"/>
-    </bean>
+	<bean name="mailOffice" class="nl.knaw.dans.common.lang.mail.ApplicationMailer"
+		depends-on="resourceLocator">
+		<constructor-arg ref="mailOfficeConfiguration" />
+	</bean>
 
-    <bean name="mailOfficeConfiguration" class="nl.knaw.dans.common.lang.mail.ApplicationMailerConfiguration">
-        <property name="smtpHost" value="${mail.smtp.host}"/>
-        <property name="fromAddress" value="${mail.fromAddress}"/>
-        <property name="senderName" value="DANS Team"/>
-        <property name="imageMap">
-            <map>
-                <entry key="easy-logo" value="mail/images/easy_logo.png"/>
-            </map>
-         </property>
-    </bean>
-    
-    <bean name="adminMailer" class="nl.knaw.dans.common.lang.mail.AdminMailer">
-    	<constructor-arg ref="mailOffice"/>
-    	<constructor-arg value="Easy"/>
-    	<property name="sendOnStarting" value="${admin.mailer.sendOnStarting}"/>
-    	<property name="sendOnClosing" value="${admin.mailer.sendOnClosing}"/>
-    	<property name="exeptionMailInterval" value="15"/>
-    	<property name="adminMailAddressesCS" value="${admin.mailer.addresses}"/>
-    </bean>
+	<bean name="mailOfficeConfiguration"
+		class="nl.knaw.dans.common.lang.mail.ApplicationMailerConfiguration">
+		<property name="smtpHost" value="${mail.smtp.host}" />
+		<property name="fromAddress" value="${mail.fromAddress}" />
+		<property name="senderName" value="DANS Team" />
+		<property name="imageMap">
+			<map>
+				<entry key="easy-logo" value="mail/images/easy_logo.png" />
+			</map>
+		</property>
+	</bean>
 
-	<bean name="metadataPidGenerator" class="nl.knaw.dans.commons.pid.PidGenerator" destroy-method="close">
-        <constructor-arg ref="pidConnectionConfiguration"/>
-    </bean>
+	<bean name="adminMailer" class="nl.knaw.dans.common.lang.mail.AdminMailer">
+		<constructor-arg ref="mailOffice" />
+		<constructor-arg value="Easy" />
+		<property name="sendOnStarting" value="${admin.mailer.sendOnStarting}" />
+		<property name="sendOnClosing" value="${admin.mailer.sendOnClosing}" />
+		<property name="exeptionMailInterval" value="15" />
+		<property name="adminMailAddressesCS" value="${admin.mailer.addresses}" />
+	</bean>
 
-    <bean name="pidConnectionConfiguration" class="nl.knaw.dans.commons.pid.PidConnectionConfiguration">
-        <property name="username" value="${pid.generator.username}"/>
-        <property name="password" value="${pid.generator.password}"/>
-        <property name="connectionUrl" value="${pid.generator.connectionUrl}"/>
-        <property name="driverClass" value="${pid.generator.driver}"/>
-    </bean>
+	<bean name="metadataPidGenerator" class="nl.knaw.dans.commons.pid.PidGenerator"
+		destroy-method="close">
+		<constructor-arg ref="pidConnectionConfiguration" />
+	</bean>
+
+	<bean name="pidConnectionConfiguration" class="nl.knaw.dans.commons.pid.PidConnectionConfiguration">
+		<property name="username" value="${pid.generator.username}" />
+		<property name="password" value="${pid.generator.password}" />
+		<property name="connectionUrl" value="${pid.generator.connectionUrl}" />
+		<property name="driverClass" value="${pid.generator.driver}" />
+	</bean>
 
 	<!-- ============== -->
-	<!-- Miscellaneous  -->
+	<!-- Miscellaneous -->
 	<!-- ============== -->
 
 	<bean name="resourceLocator" class="nl.knaw.dans.common.lang.ResourceLocator">
-		<constructor-arg ref="homeDir"/>
+		<constructor-arg>
+			<list>
+				<ref bean="homeDir" />
+				<ref bean="editableContentHome" />
+			</list>
+		</constructor-arg>
 	</bean>
 
 	<bean
 		class="nl.knaw.dans.common.lang.spring.HomeDirectoryBasedPropertyPlaceholderConfigurer">
 		<constructor-arg ref="homeDir" />
 	</bean>
-	
-	<bean name="homeDir" class="nl.knaw.dans.common.lang.EnvironmentVariableBasedHomeDirectory" >
+
+	<bean name="homeDir"
+		class="nl.knaw.dans.common.lang.EnvironmentVariableBasedHomeDirectory">
 		<property name="environmentVariableName" value="EASY_REST_HOME" />
 	</bean>
 
+	<bean name="editableContentHome" class="nl.knaw.dans.common.lang.FileSystemHomeDirectory">
+		<constructor-arg>
+			<value type="java.io.File">${easy.editable.content.root}</value>
+		</constructor-arg>
+	</bean>
+
+
 	<!-- BeanPostProcessor for Business layer -->
 	<bean class="nl.knaw.dans.easy.business.bean.BusinessBeanPostProcessor" />
-	
-	
-	<!-- a HTTP Session-scoped bean exposed as a proxy -->
-	<!--
-    <bean id="taskService" class="nl.knaw.dans.common.wicket.TaskServiceImpl" scope="session">
-          
-          this next element effects the proxying of the surrounding bean
-          <aop:scoped-proxy/>
-          <constructor-arg>
-          	<bean class="org.wicketstuff.progressbar.spring.AsynchronousExecutor"/>
-          </constructor-arg>
-    </bean>
-    -->
-     
-    <!-- a singleton-scoped bean injected with a proxy to the above bean -->
-    <!--
-    <bean id="sessionScopeService" class="nl.knaw.dans.easy.web.SessionScopeService">
-    
-        a reference to the proxied 'taskService' bean
-        <property name="taskService" ref="taskService"/>
 
-    </bean>
-	-->
+
+	<!-- a HTTP Session-scoped bean exposed as a proxy -->
+	<!-- <bean id="taskService" class="nl.knaw.dans.common.wicket.TaskServiceImpl" 
+		scope="session"> this next element effects the proxying of the surrounding 
+		bean <aop:scoped-proxy/> <constructor-arg> <bean class="org.wicketstuff.progressbar.spring.AsynchronousExecutor"/> 
+		</constructor-arg> </bean> -->
+
+	<!-- a singleton-scoped bean injected with a proxy to the above bean -->
+	<!-- <bean id="sessionScopeService" class="nl.knaw.dans.easy.web.SessionScopeService"> 
+		a reference to the proxied 'taskService' bean <property name="taskService" 
+		ref="taskService"/> </bean> -->
 </beans>
