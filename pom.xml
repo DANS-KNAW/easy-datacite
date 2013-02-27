@@ -14,36 +14,6 @@
 	<version>2.7-beta-1</version>
 	<description>Easy Web Application</description>
 
-	<profiles>
-		<profile>
-			<id>maven.filter.values</id>
-			<activation>
-				<file>
-					<exists>${user.home}/.m2/maven-filter-values.properties</exists>
-				</file>
-			</activation>
-			<build>
-				<filters>
-					<filter>${user.home}/.m2/maven-filter-values.properties</filter>
-				</filters>
-			</build>
-		</profile>
-		<profile>
-			<id>pom.specified.values</id>
-			<activation>
-				<file>
-					<missing>${user.home}/.m2/maven-filter-values.properties</missing>
-				</file>
-			</activation>
-			<properties>
-				<evm.host.address>127.0.0.1</evm.host.address>
-			</properties>
-		</profile>
-	</profiles>
-
-	<!-- TODO <organization> <name>company name</name> <url>company url</url> 
-		</organization> -->
-
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
@@ -85,7 +55,7 @@
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			<version>1.0.7</version>
+			<version>1.0.9</version>
 			<!-- Normally the scope would be runtime, but we have compile-time dependencies 
 				from code that loads the logback configuration. -->
 			<scope>compile</scope>
