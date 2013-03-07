@@ -136,4 +136,17 @@ public class FedoraFileStoreAccessOnlineTest extends AbstractOnlineTest
         fsAccess.getDatasetId(new DmoStoreId("easy-dataset:1"));
     }
 
+    @Test
+    public void getItemAndAllChildren() throws Exception
+    {
+        DmoStoreId dmoStoreId = new DmoStoreId("easy-dataset:53035");
+        for (int i = 0; i < 10; i++)
+        {
+            long start = System.currentTimeMillis();
+            fsAccess.getItemAndAllChildren(dmoStoreId);
+            long end = System.currentTimeMillis();
+            System.err.println("query took " + (end - start));
+        }
+    }
+
 }
