@@ -16,9 +16,9 @@ public class FileOntology
     public static final String URI = "http://easy.dans.knaw.nl/ontologies/file#";
     public static final String PREFIX = "easy-file";
 
-    public final String IS_METADATA_ON = "isMetadataOn";
+    private static final String IS_METADATA_ON = "isMetadataOn";
 
-    public final String HAS_METADATA_FORMAT = "hasMetadataFormat";
+    private static final String HAS_METADATA_FORMAT = "hasMetadataFormat";
 
     private String text = URI;
 

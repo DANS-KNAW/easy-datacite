@@ -231,6 +231,11 @@ public class ItemIngester extends AbstractWorker
     {
         delegator.addAdditionalMetadata(fileItem);
     }
+    
+    protected void addAdditionalRDF(FileItem fileItem)
+    {
+        delegator.addAdditionalRDF(fileItem);
+    }
 
     // update FileItems and FolderItems
     private void updateFile(DmoStoreId storeId, File file) throws RepositoryException, IOException, UnitOfWorkInterruptException, DomainException
@@ -260,6 +265,7 @@ public class ItemIngester extends AbstractWorker
             currentFile.setOwnerId(sessionUser.getId());
             setFileRights(currentFile);
             addAdditionalMetadata(currentFile);
+            addAdditionalRDF(currentFile);
 
             getUnitOfWork().saveAndDetach(currentFile);
         }
