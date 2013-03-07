@@ -8,5 +8,7 @@ public interface ItemIngesterDelegator
     void setFileRights(FileItem fileItem);
 
     void addAdditionalMetadata(FileItem fileItem);
+    
+    void addAdditionalRDF(FileItem fileItem);
 
 }
