@@ -13,25 +13,31 @@ import javax.xml.validation.SchemaFactory;
 import nl.knaw.dans.pf.language.xml.exc.SchemaCreationException;
 import nl.knaw.dans.pf.language.xml.validation.XMLErrorHandler.Reporter;
 
+import org.apache.commons.collections.map.LRUMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 /**
- * Basic implementation of a cache facility for {@link Schema}s. Schemas that have not yet been cached are created by
- * parsing the schema at an {@link URL} and are than stored under the cache key that equals the toString-representation
- * of this URL. <p/> Special notice has to be taken to the fact that "parsers may choose to ignore all but the first
+ * Basic implementation of a cache facility for {@link Schema}s. Schemas that have not yet been cached
+ * are created by parsing the schema at an {@link URL} and are than stored under the cache key that
+ * equals the toString-representation of this URL.
+ * <p/>
+ * Special notice has to be taken to the fact that "parsers may choose to ignore all but the first
  * &lt;import&gt; for a given namespace, regardless of information provided in schemaLocation". (From
- * {@link SchemaFactory}.) <p/> Errors during the parsing process are logged by an {@link XMLErrorHandler} and thrown
- * as {@link SchemaCreationException} to the caller.
- *
+ * {@link SchemaFactory}.)
+ * <p/>
+ * Errors during the parsing process are logged by an {@link XMLErrorHandler} and thrown as
+ * {@link SchemaCreationException} to the caller.
+ * 
  * @author ecco
  * @see Schema
  */
 public final class SchemaCache
 {
 
-    private static final Map<String, Schema> CACHE = Collections.synchronizedMap(new HashMap<String, Schema>());
+    @SuppressWarnings("unchecked")
+    private static final Map<String, Schema> CACHE = Collections.synchronizedMap(new LRUMap());
 
     /**
      * Logger for logging.
@@ -43,9 +49,43 @@ public final class SchemaCache
         // never instantiate.
     }
 
+    public static Schema putSchema(final String urlString, final Schema schema)
+    {
+        synchronized (CACHE)
+        {
+            return CACHE.put(urlString, schema);
+        }
+    }
+
     /**
-     * Get or create the schema under the given urlString.
-     *
+     * Get the schema at the given location or <code>null</code> if not in cache and create is
+     * <code>false</code>.
+     * 
+     * @param location
+     *        schemaLocation
+     * @param create
+     *        create the schema if not in cache.
+     * @return the schema at the given location or <code>null</code> if not in cache and create is
+     *         <code>false</code>.
+     * @throws SchemaCreationException
+     */
+    public static Schema getSchema(final String location, boolean create) throws SchemaCreationException
+    {
+        Schema schema;
+        synchronized (CACHE)
+        {
+            schema = CACHE.get(location);
+            if (schema == null && create)
+            {
+                schema = getSchema(location);
+            }
+        }
+        return schema;
+    }
+
+    /**
+     * Get or create the schema under the given urlString. Does not support multiple schemaLocations.
+     * 
      * @param urlString
      *        string-representation of an URL pointing to the schema location
      * @return the schema parsed at said location
@@ -54,18 +94,21 @@ public final class SchemaCache
      */
     public static Schema getSchema(final String urlString) throws SchemaCreationException
     {
-        Schema schema = CACHE.get(urlString);
-        if (schema == null)
+        synchronized (CACHE)
         {
-            schema = createSchema(urlString);
+            Schema schema = CACHE.get(urlString);
+            if (schema == null)
+            {
+                schema = createSchema(urlString);
+            }
+            return schema;
         }
-        return schema;
     }
 
     /**
-     * Get or create the schema at the given URL. If the schema was successfully created and cached, on subsequent calls
-     * it may be gotten with the string-representation of the URL.
-     *
+     * Get or create the schema at the given URL. If the schema was successfully created and cached, on
+     * subsequent calls it may be gotten with the string-representation of the URL.
+     * 
      * @param url
      *        the location of the schema
      * @return the schema parsed at said location
@@ -81,6 +124,22 @@ public final class SchemaCache
             throw new SchemaCreationException(msg);
         }
         return getSchema(url.toString());
+    }
+    
+    public static int size()
+    {
+        synchronized (CACHE)
+        {
+            return CACHE.size();
+        }
+    }
+    
+    public static void invalidate()
+    {
+        synchronized (CACHE)
+        {
+            CACHE.clear();
+        }
     }
 
     private static Schema createSchema(final String urlString) throws SchemaCreationException
