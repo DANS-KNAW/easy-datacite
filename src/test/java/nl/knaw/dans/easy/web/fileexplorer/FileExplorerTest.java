@@ -1,4 +1,4 @@
-package nl.knaw.dans.easy.web.fileexplorer2;
+package nl.knaw.dans.easy.web.fileexplorer;
 
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;

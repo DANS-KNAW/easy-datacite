@@ -1,4 +1,4 @@
-package nl.knaw.dans.easy.web.fileexplorer2;
+package nl.knaw.dans.easy.web.fileexplorer;
 
 import java.util.ArrayList;
 import java.util.List;
