@@ -142,67 +142,65 @@
 			</testResource>
 		</testResources>
 
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>2.5.1</version>
-					<configuration>
-						<encoding>UTF-8</encoding>
-						<source>${source-code-version}</source>
-						<target>${byte-code-version}</target>
-						<debug>true</debug>
-						<excludes>
-							<exclude>**/package.html</exclude>
-							<exclude>**/overview.html</exclude>
-						</excludes>
-					</configuration>
-				</plugin>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5.1</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<source>${source-code-version}</source>
+					<target>${byte-code-version}</target>
+					<debug>true</debug>
+					<excludes>
+						<exclude>**/package.html</exclude>
+						<exclude>**/overview.html</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
 
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-source-plugin</artifactId>
-					<version>2.1.2</version>
-					<executions>
-						<execution>
-							<id>attach-sources</id>
-							<phase>verify</phase>
-							<goals>
-								<goal>jar-no-fork</goal>
-							</goals>
-						</execution>
-					</executions>
-					<configuration>
-						<includePom>true</includePom>
-					</configuration>
-				</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.1.2</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<includePom>true</includePom>
+				</configuration>
+			</plugin>
 
-				<plugin>
-					<groupId>org.jibx</groupId>
-					<artifactId>maven-jibx-plugin</artifactId>
-					<version>${jibx.version}</version>
-					<executions>
-						<execution>
-							<goals>
-								<goal>bind</goal>
-							</goals>
-						</execution>
-					</executions>
-					<configuration>
-						<directory>src/main/config</directory>
-						<includes>
-							<includes>*-binding.xml</includes>
-						</includes>
-						<verbose>true</verbose>
-					</configuration>
-				</plugin>
-
+			<plugin>
+				<groupId>org.jibx</groupId>
+				<artifactId>maven-jibx-plugin</artifactId>
+				<version>${jibx.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>bind</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<directory>src/main/config</directory>
+					<includes>
+						<includes>*-binding.xml</includes>
+					</includes>
+					<verbose>true</verbose>
+				</configuration>
+			</plugin>
 
 
-				<!-- javadoc plug-in in profiles -->
-			</plugins>
-		</pluginManagement>
+
+			<!-- javadoc plug-in in profiles -->
+		</plugins>
 
 	</build>
 
