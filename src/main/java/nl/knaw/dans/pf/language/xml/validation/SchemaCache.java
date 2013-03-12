@@ -3,7 +3,6 @@ package nl.knaw.dans.pf.language.xml.validation;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.xml.XMLConstants;
