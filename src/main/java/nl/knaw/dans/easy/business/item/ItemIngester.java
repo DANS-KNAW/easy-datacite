@@ -231,7 +231,7 @@ public class ItemIngester extends AbstractWorker
     {
         delegator.addAdditionalMetadata(fileItem);
     }
-    
+
     protected void addAdditionalRDF(FileItem fileItem)
     {
         delegator.addAdditionalRDF(fileItem);
@@ -350,12 +350,12 @@ public class ItemIngester extends AbstractWorker
         {
             // no additional metadata in default behavior.
         }
-        
+
         @Override
         public void addAdditionalRDF(FileItem fileItem)
         {
             // no additional RDF in default behavior.
-            
+
         }
 
     }

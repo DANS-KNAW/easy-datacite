@@ -10,9 +10,9 @@ public class FileOntology
 
     public enum MetadataFormat
     {
-        CMDI, DDM, DDI 
+        CMDI, DDM, DDI
     }
-    
+
     public static final String URI = "http://easy.dans.knaw.nl/ontologies/file#";
     public static final String PREFIX = "easy-file";
 
