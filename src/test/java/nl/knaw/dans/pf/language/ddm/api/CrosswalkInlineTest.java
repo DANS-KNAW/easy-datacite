@@ -12,7 +12,26 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import nl.knaw.dans.common.lang.util.StreamUtil;
+import nl.knaw.dans.pf.language.ddm.datehandlers.DcDateHandler;
+import nl.knaw.dans.pf.language.ddm.datehandlers.EasAvailableHandler;
+import nl.knaw.dans.pf.language.ddm.datehandlers.EasDateAccepteddHandler;
+import nl.knaw.dans.pf.language.ddm.datehandlers.EasDateCopyrightedHandler;
+import nl.knaw.dans.pf.language.ddm.datehandlers.EasDateHandler;
+import nl.knaw.dans.pf.language.ddm.datehandlers.EasDateSubmittedHandler;
+import nl.knaw.dans.pf.language.ddm.datehandlers.EasIssuedHandler;
+import nl.knaw.dans.pf.language.ddm.datehandlers.EasModiefiedHandler;
+import nl.knaw.dans.pf.language.ddm.datehandlers.EasValidHandler;
+import nl.knaw.dans.pf.language.ddm.datehandlers.TermsAvailableHandler;
+import nl.knaw.dans.pf.language.ddm.datehandlers.TermsCreatedHandler;
+import nl.knaw.dans.pf.language.ddm.datehandlers.TermsDateAccepteddHandler;
+import nl.knaw.dans.pf.language.ddm.datehandlers.TermsDateCopyrightedHandler;
+import nl.knaw.dans.pf.language.ddm.datehandlers.TermsDateSubmittedHandler;
+import nl.knaw.dans.pf.language.ddm.datehandlers.TermsIssuedHandler;
+import nl.knaw.dans.pf.language.ddm.datehandlers.TermsModiefiedHandler;
+import nl.knaw.dans.pf.language.ddm.datehandlers.TermsValidHandler;
 import nl.knaw.dans.pf.language.ddm.handlermaps.NameSpace;
+import nl.knaw.dans.pf.language.ddm.handlertypes.BasicDateHandler;
+import nl.knaw.dans.pf.language.ddm.handlertypes.IsoDateHandler;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.xml.binding.Encoding;
 import nl.knaw.dans.pf.language.xml.crosswalk.CrosswalkException;
@@ -255,6 +274,44 @@ public class CrosswalkInlineTest
         runTest(new Exception(), readFile("abr.xml"), 4, "Cannot resolve", "dc:subject");
         // TODO fix multiple XSD's
         // checkMiniProfile(emd);
+    }
+    private static final String fields[] = {"dcterms:created","dcterms:available","dcterms:dateAccepted","dcterms:valid","dcterms:issued","dcterms:modified","dcterms:dateCopyrighted","dcterms:dateSubmitted","dcterms:date","dc:date"};
+
+    @Test
+    public void emptyDates() throws Exception
+    {
+        StringBuffer sb = new StringBuffer();
+        for (String field : fields){
+            sb.append(newEl(field,  "",""));
+        }
+        runTest(new Exception(), newRoot(newMiniProfile("") + newAdditional(sb.toString())), 0);
+    }
+
+    @Test
+    public void emptyW3cDates() throws Exception
+    {
+        StringBuffer sb = new StringBuffer();
+     // TODO  sb.append(newEl("ddm:created", "",""));
+     // TODO sb.append(newEl("ddm:available",  "",""));
+        
+        for (String field : fields){
+            sb.append(newEl(field,  W3CDTF_TYPE,""));
+        }
+        runTest(new Exception(), newRoot(newMiniProfile("") + newAdditional(sb.toString())), fields.length*2,"must be valid");
+    }
+
+    @Test
+    public void dates() throws Exception
+    {
+    	StringBuffer sb = new StringBuffer();
+       // TODO sb.append(newEl("ddm:created", "","2013"));
+       // TODO sb.append(newEl("ddm:available",  "","1900"));
+        
+        for (String field : fields){
+        	sb.append(newEl(field,  W3CDTF_TYPE,"190003"));
+        	sb.append(newEl(field,  "","03-2013"));
+        }
+        runTest(new Exception(), newRoot(newMiniProfile("") + newAdditional(sb.toString())), 0);
     }
 
     private String readFile(final String string) throws Exception

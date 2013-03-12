@@ -91,16 +91,14 @@ public class CrosswalkHandler<T> extends DefaultHandler
 
     /**
      * Receive notification of the start of the first element treated by this handler. Especially in the
-     * case of a complex element: Be aware of remnants of a previous cycle. See also the final
-     * {@link #startElement(String, String, String)}
+     * case of a complex element: Be aware of remnants of a previous cycle. See also the final startElement
      */
     protected void initFirstElement(final String uri, final String localName, final Attributes attributes) throws SAXException
     {
     }
 
     /**
-     * Receive notification of the start of the any element treated by this handler. See also the final
-     * {@link #startElement(String, String, String)}.
+     * Receive notification of the start of the any element treated by this handler. See also the final startElement
      */
     protected void initElement(final String uri, final String localName, final Attributes attributes) throws SAXException
     {

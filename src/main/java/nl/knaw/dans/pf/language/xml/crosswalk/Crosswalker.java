@@ -88,8 +88,6 @@ public class Crosswalker<T, V extends AbstractValidator>
     /**
      * Configures the logging level of the {@link XMLErrorHandler} for new instances. The method is not
      * static to allow configuration by spring. The default level is off.
-     * 
-     * @param reporter
      */
     public void setReporter(final Reporter myReporter)
     {
@@ -97,9 +95,8 @@ public class Crosswalker<T, V extends AbstractValidator>
     }
 
     /**
-     * @return The handler of notifications. The log level depends on the reporter configured in
-     *         {@link DdmEmdErrorHandlerFactory} at instantiation of the {@link AbstractCrosswalk}. The
-     *         default level is off.
+     * @return The handler of notifications. The log level depends on the reporter configured at
+     *         instantiation of the {@link Crosswalker}. The default level is off.
      */
     public XMLErrorHandler getXmlErrorHandler()
     {
