@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ddm:DDM xmlns:dcx="http://easy.dans.knaw.nl/schemas/dcx/"
+ xmlns:dcx-dai="http://easy.dans.knaw.nl/schemas/dcx/dai/"
+ xmlns:dc="http://purl.org/dc/elements/1.1/"
+ xmlns:dcmitype="http://purl.org/dc/dcmitype/"
+ xmlns:narcis="http://easy.dans.knaw.nl/schemas/vocab/narcis-type/"
+ xmlns:ddm="http://easy.dans.knaw.nl/schemas/md/ddm/"
+ xmlns:dcterms="http://purl.org/dc/terms/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://easy.dans.knaw.nl/schemas/md/ddm/ http://easy.dans.knaw.nl/schemas/md/2012/11/ddm.xsd">
+    <ddm:profile>
+        <dcterms:alternative xml:lang="en-AU">
+        </dcterms:alternative>
+        <dc:title xml:lang="zh-CHT"/>
+        <dcterms:abstract xml:lang="ar-EG">
+        </dcterms:abstract>
+        <dcterms:abstract xml:lang="en-US">
+        </dcterms:abstract>
+        <dcterms:creator xml:lang="en-US">
+        </dcterms:creator>
+        <dcterms:creator xml:lang="en-CA">
+        </dcterms:creator>
+        <ddm:created>1999-02</ddm:created>
+        <ddm:available>2014</ddm:available>
+        <ddm:audience>D42100</ddm:audience>
+        <ddm:audience>D41500</ddm:audience>
+        <ddm:accessRights>OPEN_ACCESS</ddm:accessRights>
+    </ddm:profile>
+    <ddm:dcmiMetadata>
+        <dcterms:tableOfContents xml:lang="en-CA">
+        </dcterms:tableOfContents>
+        <dcterms:title xml:lang="fr-BE"/>
+    </ddm:dcmiMetadata>
+    <ddm:additional-xml>
+        <dcterms:spatial xml:lang="sv-SE">
+        </dcterms:spatial>
+        <dc:contributor xml:lang="de-DE"/>
+    </ddm:additional-xml>
+</ddm:DDM>

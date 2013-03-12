@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ddm:DDM xmlns:dcx="http://easy.dans.knaw.nl/schemas/dcx/"
+ xmlns:dcx-dai="http://easy.dans.knaw.nl/schemas/dcx/dai/"
+ xmlns:dc="http://purl.org/dc/elements/1.1/"
+ xmlns:dcmitype="http://purl.org/dc/dcmitype/"
+ xmlns:narcis="http://easy.dans.knaw.nl/schemas/vocab/narcis-type/"
+ xmlns:ddm="http://easy.dans.knaw.nl/schemas/md/ddm/"
+ xmlns:dcterms="http://purl.org/dc/terms/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://easy.dans.knaw.nl/schemas/md/ddm/ http://easy.dans.knaw.nl/schemas/md/2012/11/ddm.xsd">
+    <ddm:profile>
+        <dcterms:alternative xml:lang="ru-RU">
+        </dcterms:alternative>
+        <dcterms:title xml:lang="zh-CHS"/>
+        <dcterms:tableOfContents xml:lang="ru-RU">
+        </dcterms:tableOfContents>
+        <dc:description xml:lang="fr-CA"/>
+        <dcx-dai:creator DAI="701949690x" xml:lang="en-GB">
+        </dcx-dai:creator>
+        <dc:creator xml:lang="he-IL"/>
+        <ddm:created>2001</ddm:created>
+        <ddm:available>2014</ddm:available>
+        <ddm:audience>D63000</ddm:audience>
+        <ddm:audience>D65000</ddm:audience>
+        <ddm:accessRights>NO_ACCESS</ddm:accessRights>
+    </ddm:profile>
+    <ddm:dcmiMetadata>
+        <dcterms:alternative xml:lang="fr-CA">
+        </dcterms:alternative>
+        <dcterms:title xml:lang="zh-CHT"/>
+    </ddm:dcmiMetadata>
+    <ddm:additional-xml>
+        <dcterms:isFormatOf xml:lang="ar-EG">
+        </dcterms:isFormatOf>
+        <dcx-dai:titles xml:lang="en-NZ">aXSTCDIo</dcx-dai:titles>
+    </ddm:additional-xml>
+</ddm:DDM>

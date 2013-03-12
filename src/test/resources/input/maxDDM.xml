@@ -1,0 +1,954 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ddm:DDM xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:dcmitype="http://purl.org/dc/dcmitype/" xmlns:narcis="http://easy.dans.knaw.nl/schemas/vocab/narcis-type/"
+	xmlns:dcx="http://easy.dans.knaw.nl/schemas/dcx/" xmlns:dcx-dai="http://easy.dans.knaw.nl/schemas/dcx/dai/"
+	xmlns:ddm="http://easy.dans.knaw.nl/schemas/md/ddm/" xmlns:dcterms="http://purl.org/dc/terms/"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://easy.dans.knaw.nl/schemas/md/ddm/ http://easy.dans.knaw.nl/schemas/md/2012/11/ddm.xsd">
+	<ddm:profile>
+		<dcterms:alternative xml:lang="nl-NL">
+		</dcterms:alternative>
+		<dcterms:title xml:lang="ru-RU">
+		</dcterms:title>
+		<dcterms:alternative xml:lang="en-US">
+		</dcterms:alternative>
+		<dc:title xml:lang="zh-CHT">
+		</dc:title>
+		<dcterms:alternative xml:lang="de-DE">
+		</dcterms:alternative>
+		<dcterms:title xml:lang="ru-RU">
+		</dcterms:title>
+		<dcterms:alternative xml:lang="fr-BE">
+		</dcterms:alternative>
+		<dc:title xml:lang="zh-CHT">
+		</dc:title>
+		<dcterms:tableOfContents xml:lang="ar-EG">
+		</dcterms:tableOfContents>
+		<dcterms:abstract xml:lang="en-US">
+		</dcterms:abstract>
+		<dcterms:description xml:lang="en-CA">
+		</dcterms:description>
+		<dcterms:abstract xml:lang="en-NZ">
+		</dcterms:abstract>
+		<dcterms:tableOfContents xml:lang="nl-NL">
+		</dcterms:tableOfContents>
+		<dc:description xml:lang="en-AU">
+		</dc:description>
+		<dcterms:tableOfContents xml:lang="fr-CA">
+		</dcterms:tableOfContents>
+		<dcterms:abstract xml:lang="da-DK">
+		</dcterms:abstract>
+		<dcterms:description xml:lang="he-IL">
+		</dcterms:description>
+		<dcterms:abstract xml:lang="zh-TW">
+		</dcterms:abstract>
+		<dcterms:tableOfContents xml:lang="da-DK">
+		</dcterms:tableOfContents>
+		<dc:description xml:lang="ar-EG">
+		</dc:description>
+		<dcx-dai:creator DAI="info:eu-repo/dai/nl/989691736x"
+			xml:lang="en-IE">
+		</dcx-dai:creator>
+		<dcx-dai:creatorDetails>
+			<dcx-dai:author>
+				<dcx-dai:titles xml:lang="en-IE">QFZdiu3W</dcx-dai:titles>
+				<dcx-dai:initials>cK74wAyN</dcx-dai:initials>
+				<dcx-dai:insertions>wPtPQYDB</dcx-dai:insertions>
+				<dcx-dai:surname>RR:p5vw.</dcx-dai:surname>
+				<dcx-dai:DAI>93313935x</dcx-dai:DAI>
+				<dcx-dai:organization>
+					<dcx-dai:name xml:lang="zh-CN">DC.LPEeo</dcx-dai:name>
+				</dcx-dai:organization>
+			</dcx-dai:author>
+		</dcx-dai:creatorDetails>
+		<dcterms:creator xml:lang="sv-SE">
+		</dcterms:creator>
+		<dc:creator xml:lang="sv-SE">
+		</dc:creator>
+		<dcx-dai:creator DAI="8367245472" xml:lang="en-AU">
+		</dcx-dai:creator>
+		<dcx-dai:creatorDetails>
+			<dcx-dai:author>
+				<dcx-dai:titles xml:lang="en-IE">SKPJJuVA</dcx-dai:titles>
+				<dcx-dai:initials>WSORKkdw</dcx-dai:initials>
+				<dcx-dai:insertions>PIRomYTD</dcx-dai:insertions>
+				<dcx-dai:surname>CTM..lWI</dcx-dai:surname>
+				<dcx-dai:DAI>910547236</dcx-dai:DAI>
+				<dcx-dai:organization>
+					<dcx-dai:name xml:lang="ar-EG">MNfDOOZS</dcx-dai:name>
+				</dcx-dai:organization>
+			</dcx-dai:author>
+		</dcx-dai:creatorDetails>
+		<dcterms:creator xml:lang="es-ES">
+		</dcterms:creator>
+		<dc:creator xml:lang="en-NZ">
+		</dc:creator>
+		<ddm:created>2013-12-04</ddm:created>
+		<ddm:available>2014-12</ddm:available>
+		<ddm:audience>D34000</ddm:audience>
+		<ddm:audience>D24000</ddm:audience>
+		<ddm:accessRights>REQUEST_PERMISSION</ddm:accessRights>
+	</ddm:profile>
+	<ddm:dcmiMetadata>
+		<ddm:created>2013-08-22</ddm:created>
+		<dcterms:created xml:lang="fr-BE">
+		</dcterms:created>
+		<ddm:created>2013-05-05T10:29:21</ddm:created>
+		<ddm:available>2015-02-24</ddm:available>
+		<dcterms:available xml:lang="ja-JP" />
+		<ddm:available>2014-07-11T10:29:21</ddm:available>
+		<dcterms:valid xml:lang="en-AU">
+		</dcterms:valid>
+		<dcterms:issued xml:lang="zh-TW">
+		</dcterms:issued>
+		<dcterms:modified xml:lang="en-CA">
+		</dcterms:modified>
+		<dcterms:dateAccepted xml:lang="en-AU">
+		</dcterms:dateAccepted>
+		<dcterms:dateCopyrighted xml:lang="fr-BE">
+		</dcterms:dateCopyrighted>
+		<dcterms:dateSubmitted xml:lang="es-ES">
+		</dcterms:dateSubmitted>
+		<dcterms:date xml:lang="en-CA">
+		</dcterms:date>
+		<dcterms:dateSubmitted xml:lang="fr-BE">
+		</dcterms:dateSubmitted>
+		<dcterms:dateCopyrighted xml:lang="tr-TR">
+		</dcterms:dateCopyrighted>
+		<dcterms:dateAccepted xml:lang="fr-FR">
+		</dcterms:dateAccepted>
+		<dcterms:modified xml:lang="en-NZ">
+		</dcterms:modified>
+		<dcterms:issued xml:lang="en-GB">
+		</dcterms:issued>
+		<dcterms:valid xml:lang="fr-BE">
+		</dcterms:valid>
+		<ddm:available>2014-04-09T10:29:21</ddm:available>
+		<ddm:available>2013-06-13T10:29:21</ddm:available>
+		<dcterms:available xml:lang="es-ES" />
+		<ddm:created>2014-01-10T10:29:21</ddm:created>
+		<ddm:created>2013-07-10</ddm:created>
+		<dcterms:created xml:lang="en-NZ">
+		</dcterms:created>
+		<dc:date xml:lang="nl-NL">
+		</dc:date>
+		<ddm:created>1991</ddm:created>
+		<dcterms:created xml:lang="ru-RU">
+		</dcterms:created>
+		<ddm:created>2003-07</ddm:created>
+		<ddm:available>1995</ddm:available>
+		<dcterms:available xml:lang="nl-NL" />
+		<ddm:available>1996-06</ddm:available>
+		<dcterms:valid xml:lang="en-NZ">
+		</dcterms:valid>
+		<dcterms:issued xml:lang="ar-EG">
+		</dcterms:issued>
+		<dcterms:modified xml:lang="ja-JP">
+		</dcterms:modified>
+		<dcterms:dateAccepted xml:lang="fr-FR">
+		</dcterms:dateAccepted>
+		<dcterms:dateCopyrighted xml:lang="en-GB">
+		</dcterms:dateCopyrighted>
+		<dcterms:dateSubmitted xml:lang="it-IT">
+		</dcterms:dateSubmitted>
+		<ddm:created>2013-08-30T10:29:21</ddm:created>
+		<dcterms:created xml:lang="it-IT">
+		</dcterms:created>
+		<ddm:created>2003</ddm:created>
+		<ddm:available>2015-02-20T10:29:21</ddm:available>
+		<dcterms:available xml:lang="fr-CA" />
+		<ddm:available>2013-02-28T10:29:21</ddm:available>
+		<dcterms:valid xml:lang="en-IE">
+		</dcterms:valid>
+		<dcterms:issued xml:lang="tr-TR">
+		</dcterms:issued>
+		<dcterms:modified xml:lang="ru-RU">
+		</dcterms:modified>
+		<dcterms:dateAccepted xml:lang="he-IL">
+		</dcterms:dateAccepted>
+		<dcterms:dateCopyrighted xml:lang="ar-EG">
+		</dcterms:dateCopyrighted>
+		<dcterms:dateSubmitted xml:lang="fr-BE">
+		</dcterms:dateSubmitted>
+		<dcterms:date xml:lang="zh-CHS">
+		</dcterms:date>
+		<ddm:accessRights>NO_ACCESS</ddm:accessRights>
+		<dcterms:accessRights xml:lang="en-US">
+		</dcterms:accessRights>
+		<ddm:accessRights>REQUEST_PERMISSION</ddm:accessRights>
+		<dcterms:license xml:lang="fr-CA">
+		</dcterms:license>
+		<dcterms:rights xml:lang="zh-CHS">
+		</dcterms:rights>
+		<dcterms:license xml:lang="es-ES">
+		</dcterms:license>
+		<ddm:accessRights>GROUP_ACCESS</ddm:accessRights>
+		<ddm:accessRights>NO_ACCESS</ddm:accessRights>
+		<dcterms:accessRights xml:lang="nl-NL">
+		</dcterms:accessRights>
+		<dc:rights xml:lang="ar-EG">
+		</dc:rights>
+		<ddm:accessRights>NO_ACCESS</ddm:accessRights>
+		<dcterms:accessRights xml:lang="en-US">
+		</dcterms:accessRights>
+		<ddm:accessRights>NO_ACCESS</ddm:accessRights>
+		<dcterms:license xml:lang="it-IT">
+		</dcterms:license>
+		<ddm:accessRights>OPEN_ACCESS</ddm:accessRights>
+		<dcterms:accessRights xml:lang="da-DK">
+		</dcterms:accessRights>
+		<ddm:accessRights>OPEN_ACCESS</ddm:accessRights>
+		<dcterms:license xml:lang="zh-CHS">
+		</dcterms:license>
+		<dcterms:rights xml:lang="sv-SE">
+		</dcterms:rights>
+		<dcx-dai:creator DAI="33900014x" xml:lang="fr-BE">
+		</dcx-dai:creator>
+		<dcx-dai:creatorDetails>
+			<dcx-dai:author>
+				<dcx-dai:initials>bEimspTX</dcx-dai:initials>
+				<dcx-dai:surname>DK_23AMm</dcx-dai:surname>
+			</dcx-dai:author>
+		</dcx-dai:creatorDetails>
+		<dcterms:creator xml:lang="tr-TR">
+		</dcterms:creator>
+		<dc:creator xml:lang="it-IT">
+		</dc:creator>
+		<dcterms:creator xml:lang="sv-SE">
+		</dcterms:creator>
+		<dcx-dai:creatorDetails>
+			<dcx-dai:author>
+				<dcx-dai:titles xml:lang="fr-CA">TZ75yArg</dcx-dai:titles>
+				<dcx-dai:initials>jm-U5RsL</dcx-dai:initials>
+				<dcx-dai:insertions>SEgj8AQE</dcx-dai:insertions>
+				<dcx-dai:surname>AShyaH2i</dcx-dai:surname>
+				<dcx-dai:DAI>006388747</dcx-dai:DAI>
+				<dcx-dai:organization>
+					<dcx-dai:name xml:lang="en-GB">NTjDv4Vv</dcx-dai:name>
+				</dcx-dai:organization>
+			</dcx-dai:author>
+		</dcx-dai:creatorDetails>
+		<dcx-dai:creator DAI="013403412x" xml:lang="fr-FR">
+		</dcx-dai:creator>
+		<dcx-dai:contributor DAI="747923353x" xml:lang="en-US">
+		</dcx-dai:contributor>
+		<dcx-dai:contributorDetails>
+			<dcx-dai:author>
+				<dcx-dai:initials>YUixu9c5</dcx-dai:initials>
+				<dcx-dai:surname>vBoTtuy1</dcx-dai:surname>
+			</dcx-dai:author>
+		</dcx-dai:contributorDetails>
+		<dcterms:contributor xml:lang="en-AU">
+		</dcterms:contributor>
+		<dc:contributor xml:lang="tr-TR">
+		</dc:contributor>
+		<dcterms:contributor xml:lang="el-GR">
+		</dcterms:contributor>
+		<dcx-dai:contributorDetails>
+			<dcx-dai:author>
+				<dcx-dai:titles xml:lang="af-ZA">p03YLcRK</dcx-dai:titles>
+				<dcx-dai:initials>PtLwWsv4</dcx-dai:initials>
+				<dcx-dai:insertions>220of5wl</dcx-dai:insertions>
+				<dcx-dai:surname>4gN_i8_6</dcx-dai:surname>
+				<dcx-dai:DAI>212563391X</dcx-dai:DAI>
+				<dcx-dai:organization>
+					<dcx-dai:name xml:lang="ja-JP">IL2yD_zm</dcx-dai:name>
+				</dcx-dai:organization>
+			</dcx-dai:author>
+		</dcx-dai:contributorDetails>
+		<dcx-dai:contributor DAI="info:eu-repo/dai/nl/19673704x"
+			xml:lang="ru-RU">
+		</dcx-dai:contributor>
+		<dcterms:alternative xml:lang="fr-FR">
+		</dcterms:alternative>
+		<dcterms:title xml:lang="af-ZA">
+		</dcterms:title>
+		<dcterms:alternative xml:lang="nl-NL">
+		</dcterms:alternative>
+		<dc:title xml:lang="nl-NL">
+		</dc:title>
+		<dcterms:alternative xml:lang="es-ES">
+		</dcterms:alternative>
+		<dcterms:alternative xml:lang="ar-EG">
+		</dcterms:alternative>
+		<dcterms:title xml:lang="sv-SE">
+		</dcterms:title>
+		<dcterms:subject xml:lang="ar-EG">
+		</dcterms:subject>
+		<dc:subject xml:lang="ja-JP">
+		</dc:subject>
+		<dcterms:subject xml:lang="fr-FR">
+		</dcterms:subject>
+		<dcterms:tableOfContents xml:lang="zh-TW">
+		</dcterms:tableOfContents>
+		<dcterms:abstract xml:lang="af-ZA">
+		</dcterms:abstract>
+		<dcterms:description xml:lang="fr-FR">
+		</dcterms:description>
+		<dcterms:abstract xml:lang="da-DK">
+		</dcterms:abstract>
+		<dcterms:tableOfContents xml:lang="ru-RU">
+		</dcterms:tableOfContents>
+		<dc:description xml:lang="he-IL">
+		</dc:description>
+		<dcterms:tableOfContents xml:lang="fr-FR">
+		</dcterms:tableOfContents>
+		<dcterms:abstract xml:lang="zh-CHT">
+		</dcterms:abstract>
+		<dcterms:tableOfContents xml:lang="it-IT">
+		</dcterms:tableOfContents>
+		<dcterms:abstract xml:lang="he-IL">
+		</dcterms:abstract>
+		<dcterms:description xml:lang="he-IL">
+		</dcterms:description>
+		<dcterms:publisher xml:lang="ar-EG">
+		</dcterms:publisher>
+		<dc:publisher xml:lang="en-US">
+		</dc:publisher>
+		<dcterms:publisher xml:lang="ar-EG">
+		</dcterms:publisher>
+		<dcterms:type xml:lang="ja-JP">
+		</dcterms:type>
+		<dc:type xml:lang="he-IL">
+		</dc:type>
+		<dcterms:type xml:lang="af-ZA">
+		</dcterms:type>
+		<dcterms:extent xml:lang="nl-NL">
+		</dcterms:extent>
+		<dcterms:medium xml:lang="da-DK">
+		</dcterms:medium>
+		<dcterms:format xml:lang="zh-CHT">
+		</dcterms:format>
+		<dcterms:medium xml:lang="sv-SE">
+		</dcterms:medium>
+		<dcterms:extent xml:lang="zh-CN">
+		</dcterms:extent>
+		<dc:format xml:lang="es-ES">
+		</dc:format>
+		<dcterms:extent xml:lang="he-IL">
+		</dcterms:extent>
+		<dcterms:medium xml:lang="af-ZA">
+		</dcterms:medium>
+		<dcterms:extent xml:lang="sv-SE">
+		</dcterms:extent>
+		<dcterms:medium xml:lang="sv-SE">
+		</dcterms:medium>
+		<dcterms:format xml:lang="en-IE">
+		</dcterms:format>
+		<dcterms:bibliographicCitation xml:lang="ja-JP">
+		</dcterms:bibliographicCitation>
+		<dcterms:identifier xml:lang="zh-CHS">
+		</dcterms:identifier>
+		<dcterms:bibliographicCitation xml:lang="en-GB">
+		</dcterms:bibliographicCitation>
+		<dc:identifier xml:lang="fr-BE">
+		</dc:identifier>
+		<dcterms:bibliographicCitation xml:lang="en-GB">
+		</dcterms:bibliographicCitation>
+		<dcterms:bibliographicCitation xml:lang="fr-BE">
+		</dcterms:bibliographicCitation>
+		<dcterms:identifier xml:lang="en-AU">
+		</dcterms:identifier>
+		<dcterms:source xml:lang="el-GR">
+		</dcterms:source>
+		<dc:source xml:lang="zh-TW">
+		</dc:source>
+		<dcterms:source xml:lang="en-GB">
+		</dcterms:source>
+		<dcterms:language xml:lang="nl-NL">
+		</dcterms:language>
+		<dc:language xml:lang="el-GR">
+		</dc:language>
+		<dcterms:language xml:lang="fr-CA">
+		</dcterms:language>
+		<dcterms:isVersionOf xml:lang="da-DK">
+		</dcterms:isVersionOf>
+		<dcterms:hasVersion xml:lang="en-CA">
+		</dcterms:hasVersion>
+		<dcterms:isReplacedBy xml:lang="zh-CHT">
+		</dcterms:isReplacedBy>
+		<dcterms:replaces xml:lang="zh-TW">
+		</dcterms:replaces>
+		<dcterms:isRequiredBy xml:lang="en-NZ">
+		</dcterms:isRequiredBy>
+		<dcterms:requires xml:lang="el-GR">
+		</dcterms:requires>
+		<dcterms:isPartOf xml:lang="zh-TW">
+		</dcterms:isPartOf>
+		<dcterms:hasPart xml:lang="ar-EG">
+		</dcterms:hasPart>
+		<dcterms:isReferencedBy xml:lang="fr-BE">
+		</dcterms:isReferencedBy>
+		<dcterms:references xml:lang="en-IE">
+		</dcterms:references>
+		<dcterms:isFormatOf xml:lang="en-NZ">
+		</dcterms:isFormatOf>
+		<dcterms:hasFormat xml:lang="fr-FR">
+		</dcterms:hasFormat>
+		<dcterms:conformsTo xml:lang="el-GR">
+		</dcterms:conformsTo>
+		<dcterms:relation xml:lang="tr-TR">
+		</dcterms:relation>
+		<dcterms:conformsTo xml:lang="ja-JP">
+		</dcterms:conformsTo>
+		<dcterms:hasFormat xml:lang="da-DK">
+		</dcterms:hasFormat>
+		<dcterms:isFormatOf xml:lang="zh-TW">
+		</dcterms:isFormatOf>
+		<dcterms:references xml:lang="el-GR">
+		</dcterms:references>
+		<dcterms:isReferencedBy xml:lang="tr-TR">
+		</dcterms:isReferencedBy>
+		<dcterms:hasPart xml:lang="ru-RU">
+		</dcterms:hasPart>
+		<dcterms:isPartOf xml:lang="en-IE">
+		</dcterms:isPartOf>
+		<dcterms:requires xml:lang="sv-SE">
+		</dcterms:requires>
+		<dcterms:isRequiredBy xml:lang="en-AU">
+		</dcterms:isRequiredBy>
+		<dcterms:replaces xml:lang="en-CA">
+		</dcterms:replaces>
+		<dcterms:isReplacedBy xml:lang="en-GB">
+		</dcterms:isReplacedBy>
+		<dcterms:hasVersion xml:lang="en-GB">
+		</dcterms:hasVersion>
+		<dcterms:isVersionOf xml:lang="fr-CA">
+		</dcterms:isVersionOf>
+		<dc:relation xml:lang="it-IT">
+		</dc:relation>
+		<dcterms:isVersionOf xml:lang="af-ZA">
+		</dcterms:isVersionOf>
+		<dcterms:hasVersion xml:lang="zh-CN">
+		</dcterms:hasVersion>
+		<dcterms:isReplacedBy xml:lang="ja-JP">
+		</dcterms:isReplacedBy>
+		<dcterms:replaces xml:lang="en-US">
+		</dcterms:replaces>
+		<dcterms:isRequiredBy xml:lang="el-GR">
+		</dcterms:isRequiredBy>
+		<dcterms:requires xml:lang="ar-EG">
+		</dcterms:requires>
+		<dcterms:isPartOf xml:lang="el-GR">
+		</dcterms:isPartOf>
+		<dcterms:hasPart xml:lang="en-GB">
+		</dcterms:hasPart>
+		<dcterms:isReferencedBy xml:lang="it-IT">
+		</dcterms:isReferencedBy>
+		<dcterms:references xml:lang="en-AU">
+		</dcterms:references>
+		<dcterms:isFormatOf xml:lang="ja-JP">
+		</dcterms:isFormatOf>
+		<dcterms:hasFormat xml:lang="af-ZA">
+		</dcterms:hasFormat>
+		<dcterms:conformsTo xml:lang="en-CA">
+		</dcterms:conformsTo>
+		<dcterms:isVersionOf xml:lang="he-IL">
+		</dcterms:isVersionOf>
+		<dcterms:hasVersion xml:lang="zh-TW">
+		</dcterms:hasVersion>
+		<dcterms:isReplacedBy xml:lang="en-NZ">
+		</dcterms:isReplacedBy>
+		<dcterms:replaces xml:lang="zh-TW">
+		</dcterms:replaces>
+		<dcterms:isRequiredBy xml:lang="fr-CA">
+		</dcterms:isRequiredBy>
+		<dcterms:requires xml:lang="es-ES">
+		</dcterms:requires>
+		<dcterms:isPartOf xml:lang="es-ES">
+		</dcterms:isPartOf>
+		<dcterms:hasPart xml:lang="zh-CN">
+		</dcterms:hasPart>
+		<dcterms:isReferencedBy xml:lang="ru-RU">
+		</dcterms:isReferencedBy>
+		<dcterms:references xml:lang="zh-CHT">
+		</dcterms:references>
+		<dcterms:isFormatOf xml:lang="en-IE">
+		</dcterms:isFormatOf>
+		<dcterms:hasFormat xml:lang="zh-CHT">
+		</dcterms:hasFormat>
+		<dcterms:conformsTo xml:lang="sv-SE">
+		</dcterms:conformsTo>
+		<dcterms:relation xml:lang="tr-TR">
+		</dcterms:relation>
+		<dcterms:spatial xml:lang="en-CA">
+		</dcterms:spatial>
+		<dcterms:temporal xml:lang="zh-TW">
+		</dcterms:temporal>
+		<dcterms:coverage xml:lang="nl-NL">
+		</dcterms:coverage>
+		<dcterms:temporal xml:lang="he-IL">
+		</dcterms:temporal>
+		<dcterms:spatial xml:lang="en-AU">
+		</dcterms:spatial>
+		<dc:coverage xml:lang="ja-JP">
+		</dc:coverage>
+		<dcterms:spatial xml:lang="sv-SE">
+		</dcterms:spatial>
+		<dcterms:temporal xml:lang="en-AU">
+		</dcterms:temporal>
+		<dcterms:spatial xml:lang="af-ZA">
+		</dcterms:spatial>
+		<dcterms:temporal xml:lang="ar-EG">
+		</dcterms:temporal>
+		<dcterms:coverage xml:lang="zh-CHT">
+		</dcterms:coverage>
+		<ddm:audience>D52000</ddm:audience>
+		<dcterms:mediator xml:lang="es-ES">
+		</dcterms:mediator>
+		<dcterms:educationLevel xml:lang="zh-CHS">
+		</dcterms:educationLevel>
+		<dcterms:audience xml:lang="sv-SE">
+		</dcterms:audience>
+		<dcterms:educationLevel xml:lang="nl-NL">
+		</dcterms:educationLevel>
+		<dcterms:mediator xml:lang="zh-CHS">
+		</dcterms:mediator>
+		<ddm:audience>D41500</ddm:audience>
+		<dcterms:accrualMethod xml:lang="zh-CHS">
+		</dcterms:accrualMethod>
+		<dcterms:accrualPeriodicity xml:lang="en-CA">
+		</dcterms:accrualPeriodicity>
+		<dcterms:accrualPolicy xml:lang="en-NZ">
+		</dcterms:accrualPolicy>
+		<dcterms:instructionalMethod xml:lang="ar-EG">
+		</dcterms:instructionalMethod>
+		<dcterms:provenance xml:lang="he-IL">
+		</dcterms:provenance>
+		<dcterms:rightsHolder xml:lang="it-IT">
+		</dcterms:rightsHolder>
+		<ddm:created>2014-11-30</ddm:created>
+		<dcterms:created xml:lang="es-ES">
+		</dcterms:created>
+		<ddm:created>2013-04-13</ddm:created>
+		<ddm:available>2013-02-26T10:29:21</ddm:available>
+		<dcterms:available xml:lang="da-DK" />
+		<ddm:available>2014-10-19</ddm:available>
+		<dcterms:valid xml:lang="fr-CA">
+		</dcterms:valid>
+		<dcterms:issued xml:lang="fr-BE">
+		</dcterms:issued>
+		<dcterms:modified xml:lang="en-CA">
+		</dcterms:modified>
+		<dcterms:dateAccepted xml:lang="zh-CHS">
+		</dcterms:dateAccepted>
+		<dcterms:dateCopyrighted xml:lang="el-GR">
+		</dcterms:dateCopyrighted>
+		<dcterms:dateSubmitted xml:lang="en-IE">
+		</dcterms:dateSubmitted>
+		<dcterms:date xml:lang="nl-NL">
+		</dcterms:date>
+		<dcterms:dateSubmitted xml:lang="he-IL">
+		</dcterms:dateSubmitted>
+		<dcterms:dateCopyrighted xml:lang="en-NZ">
+		</dcterms:dateCopyrighted>
+		<dcterms:dateAccepted xml:lang="ja-JP">
+		</dcterms:dateAccepted>
+		<dcterms:modified xml:lang="nl-NL">
+		</dcterms:modified>
+		<dcterms:issued xml:lang="en-CA">
+		</dcterms:issued>
+		<dcterms:valid xml:lang="ru-RU">
+		</dcterms:valid>
+		<ddm:available>1998</ddm:available>
+		<ddm:available>2005</ddm:available>
+		<dcterms:available xml:lang="af-ZA" />
+		<ddm:created>2014-06-10</ddm:created>
+		<ddm:created>2002-04</ddm:created>
+		<dcterms:created xml:lang="fr-BE">
+		</dcterms:created>
+		<dc:date xml:lang="ar-EG">
+		</dc:date>
+		<ddm:created>2013-05-15T10:29:21</ddm:created>
+		<dcterms:created xml:lang="en-US">
+		</dcterms:created>
+		<ddm:created>1999-07</ddm:created>
+		<ddm:available>2014-01-17T10:29:21</ddm:available>
+		<dcterms:available xml:lang="en-CA" />
+		<ddm:available>2006</ddm:available>
+		<dcterms:valid xml:lang="tr-TR">
+		</dcterms:valid>
+		<dcterms:issued xml:lang="en-US">
+		</dcterms:issued>
+		<dcterms:modified xml:lang="af-ZA">
+		</dcterms:modified>
+		<dcterms:dateAccepted xml:lang="en-AU">
+		</dcterms:dateAccepted>
+		<dcterms:dateCopyrighted xml:lang="en-IE">
+		</dcterms:dateCopyrighted>
+		<dcterms:dateSubmitted xml:lang="de-DE">
+		</dcterms:dateSubmitted>
+		<ddm:created>2014-04-04</ddm:created>
+		<dcterms:created xml:lang="af-ZA">
+		</dcterms:created>
+		<ddm:created>2013-11-27T10:29:21</ddm:created>
+		<ddm:available>2014-04-17</ddm:available>
+		<dcterms:available xml:lang="zh-CHS" />
+		<ddm:available>2013-03-21</ddm:available>
+		<dcterms:valid xml:lang="es-ES">
+		</dcterms:valid>
+		<dcterms:issued xml:lang="el-GR">
+		</dcterms:issued>
+		<dcterms:modified xml:lang="ar-EG">
+		</dcterms:modified>
+		<dcterms:dateAccepted xml:lang="zh-CHS">
+		</dcterms:dateAccepted>
+		<dcterms:dateCopyrighted xml:lang="he-IL">
+		</dcterms:dateCopyrighted>
+		<dcterms:dateSubmitted xml:lang="en-IE">
+		</dcterms:dateSubmitted>
+		<dcterms:date xml:lang="fr-CA">
+		</dcterms:date>
+		<ddm:accessRights>REQUEST_PERMISSION</ddm:accessRights>
+		<dcterms:accessRights xml:lang="zh-CN">
+		</dcterms:accessRights>
+		<ddm:accessRights>REQUEST_PERMISSION</ddm:accessRights>
+		<dcterms:license xml:lang="de-DE">
+		</dcterms:license>
+		<dcterms:rights xml:lang="af-ZA">
+		</dcterms:rights>
+		<dcterms:license xml:lang="zh-CHT">
+		</dcterms:license>
+		<ddm:accessRights>NO_ACCESS</ddm:accessRights>
+		<ddm:accessRights>REQUEST_PERMISSION</ddm:accessRights>
+		<dcterms:accessRights xml:lang="zh-CHS">
+		</dcterms:accessRights>
+		<dc:rights xml:lang="da-DK">
+		</dc:rights>
+		<ddm:accessRights>OPEN_ACCESS</ddm:accessRights>
+		<dcterms:accessRights xml:lang="it-IT">
+		</dcterms:accessRights>
+		<ddm:accessRights>GROUP_ACCESS</ddm:accessRights>
+		<dcterms:license xml:lang="en-NZ">
+		</dcterms:license>
+		<ddm:accessRights>REQUEST_PERMISSION</ddm:accessRights>
+		<dcterms:accessRights xml:lang="af-ZA">
+		</dcterms:accessRights>
+		<ddm:accessRights>NO_ACCESS</ddm:accessRights>
+		<dcterms:license xml:lang="fr-FR">
+		</dcterms:license>
+		<dcterms:rights xml:lang="es-ES">
+		</dcterms:rights>
+		<dcx-dai:creator DAI="813082120" xml:lang="en-NZ">
+		</dcx-dai:creator>
+		<dcx-dai:creatorDetails>
+			<dcx-dai:organization>
+				<dcx-dai:name xml:lang="en-CA">Jclm.wL0</dcx-dai:name>
+			</dcx-dai:organization>
+		</dcx-dai:creatorDetails>
+		<dcterms:creator xml:lang="de-DE">
+		</dcterms:creator>
+		<dc:creator xml:lang="de-DE">
+		</dc:creator>
+		<dcterms:creator xml:lang="af-ZA">
+		</dcterms:creator>
+		<dcx-dai:creatorDetails>
+			<dcx-dai:organization>
+				<dcx-dai:name xml:lang="en-NZ">sD5xwOF5</dcx-dai:name>
+			</dcx-dai:organization>
+		</dcx-dai:creatorDetails>
+		<dcx-dai:creator DAI="077641548" xml:lang="ru-RU">
+		</dcx-dai:creator>
+		<dcx-dai:contributor DAI="288232076x" xml:lang="ru-RU">
+		</dcx-dai:contributor>
+		<dcx-dai:contributorDetails>
+			<dcx-dai:organization>
+				<dcx-dai:name xml:lang="en-US">o76PntHW</dcx-dai:name>
+			</dcx-dai:organization>
+		</dcx-dai:contributorDetails>
+		<dcterms:contributor xml:lang="sv-SE">
+		</dcterms:contributor>
+		<dc:contributor xml:lang="da-DK">
+		</dc:contributor>
+		<dcterms:contributor xml:lang="zh-TW">
+		</dcterms:contributor>
+		<dcx-dai:contributorDetails>
+			<dcx-dai:author>
+				<dcx-dai:titles xml:lang="af-ZA">Z443y7Dl</dcx-dai:titles>
+				<dcx-dai:initials>qilsNBY-</dcx-dai:initials>
+				<dcx-dai:insertions>3wA4aIF0</dcx-dai:insertions>
+				<dcx-dai:surname>0j9vg_lx</dcx-dai:surname>
+				<dcx-dai:DAI>70330774x</dcx-dai:DAI>
+				<dcx-dai:organization>
+					<dcx-dai:name xml:lang="en-US">Lyg1VWdP</dcx-dai:name>
+				</dcx-dai:organization>
+			</dcx-dai:author>
+		</dcx-dai:contributorDetails>
+		<dcx-dai:contributor DAI="847556303x" xml:lang="es-ES">
+		</dcx-dai:contributor>
+		<dcterms:alternative xml:lang="fr-CA">
+		</dcterms:alternative>
+		<dcterms:title xml:lang="zh-CN">
+		</dcterms:title>
+		<dcterms:alternative xml:lang="en-IE">
+		</dcterms:alternative>
+		<dc:title xml:lang="fr-FR">
+		</dc:title>
+		<dcterms:alternative xml:lang="zh-TW">
+		</dcterms:alternative>
+		<dcterms:alternative xml:lang="sv-SE">
+		</dcterms:alternative>
+		<dcterms:title xml:lang="ar-EG">
+		</dcterms:title>
+		<dcterms:subject xml:lang="en-GB">
+		</dcterms:subject>
+		<dc:subject xml:lang="fr-BE">
+		</dc:subject>
+		<dcterms:subject xml:lang="el-GR">
+		</dcterms:subject>
+		<dcterms:tableOfContents xml:lang="it-IT">
+		</dcterms:tableOfContents>
+		<dcterms:abstract xml:lang="fr-FR">
+		</dcterms:abstract>
+		<dcterms:description xml:lang="zh-TW">
+		</dcterms:description>
+		<dcterms:abstract xml:lang="nl-NL">
+		</dcterms:abstract>
+		<dcterms:tableOfContents xml:lang="zh-CHT">
+		</dcterms:tableOfContents>
+		<dc:description xml:lang="ru-RU">
+		</dc:description>
+		<dcterms:tableOfContents xml:lang="en-AU">
+		</dcterms:tableOfContents>
+		<dcterms:abstract xml:lang="en-CA">
+		</dcterms:abstract>
+		<dcterms:tableOfContents xml:lang="el-GR">
+		</dcterms:tableOfContents>
+		<dcterms:abstract xml:lang="zh-TW">
+		</dcterms:abstract>
+		<dcterms:description xml:lang="zh-CN">
+		</dcterms:description>
+		<dcterms:publisher xml:lang="fr-FR">
+		</dcterms:publisher>
+		<dc:publisher xml:lang="ar-EG">
+		</dc:publisher>
+		<dcterms:publisher xml:lang="he-IL">
+		</dcterms:publisher>
+		<dcterms:type xml:lang="ja-JP">
+		</dcterms:type>
+		<dc:type xml:lang="en-GB">
+		</dc:type>
+		<dcterms:type xml:lang="es-ES">
+		</dcterms:type>
+		<dcterms:extent xml:lang="he-IL">
+		</dcterms:extent>
+		<dcterms:medium xml:lang="es-ES">
+		</dcterms:medium>
+		<dcterms:format xml:lang="es-ES">
+		</dcterms:format>
+		<dcterms:medium xml:lang="tr-TR">
+		</dcterms:medium>
+		<dcterms:extent xml:lang="en-CA">
+		</dcterms:extent>
+		<dc:format xml:lang="it-IT">
+		</dc:format>
+		<dcterms:extent xml:lang="ar-EG">
+		</dcterms:extent>
+		<dcterms:medium xml:lang="zh-CN">
+		</dcterms:medium>
+		<dcterms:extent xml:lang="fr-FR">
+		</dcterms:extent>
+		<dcterms:medium xml:lang="tr-TR">
+		</dcterms:medium>
+		<dcterms:format xml:lang="en-US">
+		</dcterms:format>
+		<dcterms:bibliographicCitation xml:lang="fr-FR">
+		</dcterms:bibliographicCitation>
+		<dcterms:identifier xml:lang="fr-FR">
+		</dcterms:identifier>
+		<dcterms:bibliographicCitation xml:lang="zh-CN">
+		</dcterms:bibliographicCitation>
+		<dc:identifier xml:lang="en-GB">
+		</dc:identifier>
+		<dcterms:bibliographicCitation xml:lang="zh-CHT">
+		</dcterms:bibliographicCitation>
+		<dcterms:bibliographicCitation xml:lang="sv-SE">
+		</dcterms:bibliographicCitation>
+		<dcterms:identifier xml:lang="en-AU">
+		</dcterms:identifier>
+		<dcterms:source xml:lang="nl-NL">
+		</dcterms:source>
+		<dc:source xml:lang="en-IE">
+		</dc:source>
+		<dcterms:source xml:lang="sv-SE">
+		</dcterms:source>
+		<dcterms:language xml:lang="tr-TR">
+		</dcterms:language>
+		<dc:language xml:lang="fr-FR">
+		</dc:language>
+		<dcterms:language xml:lang="zh-CHT">
+		</dcterms:language>
+		<dcterms:isVersionOf xml:lang="el-GR">
+		</dcterms:isVersionOf>
+		<dcterms:hasVersion xml:lang="zh-CHT">
+		</dcterms:hasVersion>
+		<dcterms:isReplacedBy xml:lang="en-NZ">
+		</dcterms:isReplacedBy>
+		<dcterms:replaces xml:lang="ar-EG">
+		</dcterms:replaces>
+		<dcterms:isRequiredBy xml:lang="zh-CHT">
+		</dcterms:isRequiredBy>
+		<dcterms:requires xml:lang="he-IL">
+		</dcterms:requires>
+		<dcterms:isPartOf xml:lang="el-GR">
+		</dcterms:isPartOf>
+		<dcterms:hasPart xml:lang="nl-NL">
+		</dcterms:hasPart>
+		<dcterms:isReferencedBy xml:lang="fr-CA">
+		</dcterms:isReferencedBy>
+		<dcterms:references xml:lang="de-DE">
+		</dcterms:references>
+		<dcterms:isFormatOf xml:lang="fr-CA">
+		</dcterms:isFormatOf>
+		<dcterms:hasFormat xml:lang="zh-CHS">
+		</dcterms:hasFormat>
+		<dcterms:conformsTo xml:lang="en-AU">
+		</dcterms:conformsTo>
+		<dcterms:relation xml:lang="zh-CHS">
+		</dcterms:relation>
+		<dcterms:conformsTo xml:lang="it-IT">
+		</dcterms:conformsTo>
+		<dcterms:hasFormat xml:lang="en-US">
+		</dcterms:hasFormat>
+		<dcterms:isFormatOf xml:lang="de-DE">
+		</dcterms:isFormatOf>
+		<dcterms:references xml:lang="zh-CHT">
+		</dcterms:references>
+		<dcterms:isReferencedBy xml:lang="de-DE">
+		</dcterms:isReferencedBy>
+		<dcterms:hasPart xml:lang="en-GB">
+		</dcterms:hasPart>
+		<dcterms:isPartOf xml:lang="sv-SE">
+		</dcterms:isPartOf>
+		<dcterms:requires xml:lang="he-IL">
+		</dcterms:requires>
+		<dcterms:isRequiredBy xml:lang="en-GB">
+		</dcterms:isRequiredBy>
+		<dcterms:replaces xml:lang="fr-FR">
+		</dcterms:replaces>
+		<dcterms:isReplacedBy xml:lang="en-US">
+		</dcterms:isReplacedBy>
+		<dcterms:hasVersion xml:lang="he-IL">
+		</dcterms:hasVersion>
+		<dcterms:isVersionOf xml:lang="zh-TW">
+		</dcterms:isVersionOf>
+		<dc:relation xml:lang="en-AU">
+		</dc:relation>
+		<dcterms:isVersionOf xml:lang="zh-CN">
+		</dcterms:isVersionOf>
+		<dcterms:hasVersion xml:lang="en-US">
+		</dcterms:hasVersion>
+		<dcterms:isReplacedBy xml:lang="da-DK">
+		</dcterms:isReplacedBy>
+		<dcterms:replaces xml:lang="af-ZA">
+		</dcterms:replaces>
+		<dcterms:isRequiredBy xml:lang="fr-BE">
+		</dcterms:isRequiredBy>
+		<dcterms:requires xml:lang="de-DE">
+		</dcterms:requires>
+		<dcterms:isPartOf xml:lang="fr-FR">
+		</dcterms:isPartOf>
+		<dcterms:hasPart xml:lang="da-DK">
+		</dcterms:hasPart>
+		<dcterms:isReferencedBy xml:lang="af-ZA">
+		</dcterms:isReferencedBy>
+		<dcterms:references xml:lang="en-IE">
+		</dcterms:references>
+		<dcterms:isFormatOf xml:lang="af-ZA">
+		</dcterms:isFormatOf>
+		<dcterms:hasFormat xml:lang="fr-CA">
+		</dcterms:hasFormat>
+		<dcterms:conformsTo xml:lang="zh-TW">
+		</dcterms:conformsTo>
+		<dcterms:isVersionOf xml:lang="ja-JP">
+		</dcterms:isVersionOf>
+		<dcterms:hasVersion xml:lang="he-IL">
+		</dcterms:hasVersion>
+		<dcterms:isReplacedBy xml:lang="fr-BE">
+		</dcterms:isReplacedBy>
+		<dcterms:replaces xml:lang="ru-RU">
+		</dcterms:replaces>
+		<dcterms:isRequiredBy xml:lang="el-GR">
+		</dcterms:isRequiredBy>
+		<dcterms:requires xml:lang="tr-TR">
+		</dcterms:requires>
+		<dcterms:isPartOf xml:lang="en-IE">
+		</dcterms:isPartOf>
+		<dcterms:hasPart xml:lang="de-DE">
+		</dcterms:hasPart>
+		<dcterms:isReferencedBy xml:lang="zh-TW">
+		</dcterms:isReferencedBy>
+		<dcterms:references xml:lang="en-GB">
+		</dcterms:references>
+		<dcterms:isFormatOf xml:lang="en-CA">
+		</dcterms:isFormatOf>
+		<dcterms:hasFormat xml:lang="da-DK">
+		</dcterms:hasFormat>
+		<dcterms:conformsTo xml:lang="nl-NL">
+		</dcterms:conformsTo>
+		<dcterms:relation xml:lang="ar-EG">
+		</dcterms:relation>
+		<dcterms:spatial xml:lang="en-CA">
+		</dcterms:spatial>
+		<dcterms:temporal xml:lang="en-AU">
+		</dcterms:temporal>
+		<dcterms:coverage xml:lang="en-IE">
+		</dcterms:coverage>
+		<dcterms:temporal xml:lang="zh-TW">
+		</dcterms:temporal>
+		<dcterms:spatial xml:lang="fr-BE">
+		</dcterms:spatial>
+		<dc:coverage xml:lang="sv-SE">
+		</dc:coverage>
+		<dcterms:spatial xml:lang="zh-CHT">
+		</dcterms:spatial>
+		<dcterms:temporal xml:lang="sv-SE">
+		</dcterms:temporal>
+		<dcterms:spatial xml:lang="he-IL">
+		</dcterms:spatial>
+		<dcterms:temporal xml:lang="zh-CHS">
+		</dcterms:temporal>
+		<dcterms:coverage xml:lang="ru-RU">
+		</dcterms:coverage>
+		<ddm:audience>D34500</ddm:audience>
+		<dcterms:mediator xml:lang="fr-FR">
+		</dcterms:mediator>
+		<dcterms:educationLevel xml:lang="zh-TW">
+		</dcterms:educationLevel>
+		<dcterms:audience xml:lang="af-ZA">
+		</dcterms:audience>
+		<dcterms:educationLevel xml:lang="ru-RU">
+		</dcterms:educationLevel>
+		<dcterms:mediator xml:lang="fr-FR">
+		</dcterms:mediator>
+		<ddm:audience>D35300</ddm:audience>
+		<dcterms:accrualMethod xml:lang="da-DK">
+		</dcterms:accrualMethod>
+		<dcterms:accrualPeriodicity xml:lang="it-IT">
+		</dcterms:accrualPeriodicity>
+		<dcterms:accrualPolicy xml:lang="el-GR">
+		</dcterms:accrualPolicy>
+		<dcterms:instructionalMethod xml:lang="en-US">
+		</dcterms:instructionalMethod>
+		<dcterms:provenance xml:lang="fr-CA">
+		</dcterms:provenance>
+		<dcterms:rightsHolder xml:lang="ar-EG">
+		</dcterms:rightsHolder>
+	</ddm:dcmiMetadata>
+	<ddm:additional-xml>
+		<dcx-dai:author>
+			<dcx-dai:titles xml:lang="el-GR">ADv96oAh</dcx-dai:titles>
+			<dcx-dai:initials>KngzBhBF</dcx-dai:initials>
+			<dcx-dai:insertions>TNHKQFxi</dcx-dai:insertions>
+			<dcx-dai:surname>5WPc7JHm</dcx-dai:surname>
+			<dcx-dai:DAI>info:eu-repo/dai/nl/578905768x</dcx-dai:DAI>
+			<dcx-dai:organization>
+				<dcx-dai:name xml:lang="en-IE">QARmTm.b</dcx-dai:name>
+			</dcx-dai:organization>
+		</dcx-dai:author>
+		<dcterms:publisher xml:lang="af-ZA">
+		</dcterms:publisher>
+		<dc:publisher xml:lang="en-CA">
+		</dc:publisher>
+	</ddm:additional-xml>
+</ddm:DDM>

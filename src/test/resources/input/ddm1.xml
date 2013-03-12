@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ddm:DDM xmlns:dcx="http://easy.dans.knaw.nl/schemas/dcx/"
+ xmlns:dcx-dai="http://easy.dans.knaw.nl/schemas/dcx/dai/"
+ xmlns:dc="http://purl.org/dc/elements/1.1/"
+ xmlns:dcmitype="http://purl.org/dc/dcmitype/"
+ xmlns:narcis="http://easy.dans.knaw.nl/schemas/vocab/narcis-type/"
+ xmlns:ddm="http://easy.dans.knaw.nl/schemas/md/ddm/"
+ xmlns:dcterms="http://purl.org/dc/terms/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://easy.dans.knaw.nl/schemas/md/ddm/ http://easy.dans.knaw.nl/schemas/md/2012/11/ddm.xsd">
+    <ddm:profile>
+        <dc:title xml:lang="zh-TW">dc titel</dc:title>
+        <dcterms:title xml:lang="it-IT">dcterms titel</dcterms:title>
+        <dcterms:abstract xml:lang="he-IL">samenvattting
+        </dcterms:abstract>
+        <dcterms:description xml:lang="en-US">beschrijving</dcterms:description>
+        <dcterms:creator xml:lang="en-US">
+        </dcterms:creator>
+        <dcx-dai:creator DAI="info:eu-repo/dai/nl/017014534" xml:lang="es-ES">
+        </dcx-dai:creator>
+        <ddm:created>2013-12-14</ddm:created>
+        <ddm:available>2014</ddm:available>
+        <ddm:audience>D34400</ddm:audience>
+        <ddm:audience>D67000</ddm:audience>
+        <ddm:accessRights>REQUEST_PERMISSION</ddm:accessRights>
+    </ddm:profile>
+    <ddm:dcmiMetadata>
+        <dcterms:spatial xml:lang="ja-JP">
+        </dcterms:spatial>
+        <dcterms:tableOfContents xml:lang="zh-CHS">
+        </dcterms:tableOfContents>
+    </ddm:dcmiMetadata>
+    <ddm:additional-xml>
+        <dcterms:tableOfContents xml:lang="fr-BE">
+        </dcterms:tableOfContents>
+        <dcx-dai:creatorDetails>
+            <dcx-dai:author>
+                <dcx-dai:titles xml:lang="fr-BE">dbYsueTn</dcx-dai:titles>
+                <dcx-dai:initials>Sa05F_6A</dcx-dai:initials>
+                <dcx-dai:insertions>C.9f4E14</dcx-dai:insertions>
+                <dcx-dai:surname>WAe_ZY4e</dcx-dai:surname>
+                <dcx-dai:DAI>256458107X</dcx-dai:DAI>
+                <dcx-dai:organization>
+                    <dcx-dai:name xml:lang="zh-TW">myCng7b9</dcx-dai:name>
+                </dcx-dai:organization>
+            </dcx-dai:author>
+        </dcx-dai:creatorDetails>
+    </ddm:additional-xml>
+</ddm:DDM>

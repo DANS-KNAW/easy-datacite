@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+    <schemaSystemId>http://easy.dans.knaw.nl/schemas/md/2012/11/ddm.xsd</schemaSystemId>
+    <documentRoot>DDM</documentRoot>
+    <outputFolder>/Users/jokepol/vm-data/SVN/platform/language/ddm/src/test/resources/input</outputFolder>
+    <filenamePrefix>maxDDM</filenamePrefix>
+    <filenameExtension>xml</filenameExtension>
+    <noOfInstances>1</noOfInstances>
+    <openFirstInstance>true</openFirstInstance>
+    <defaultNamespace>&lt;NO_NAMESPACE></defaultNamespace>
+    <valuesMaxLength>30</valuesMaxLength>
+    <isUseIncrementalNamesForValues>true</isUseIncrementalNamesForValues>
+    <discardOptionalElementsAfterNestedLevel>6</discardOptionalElementsAfterNestedLevel>
+    <namespaceMapping ns="http://easy.dans.knaw.nl/schemas/md/ddm/" proxy="ddm"/>
+    <namespaceMapping ns="http://easy.dans.knaw.nl/schemas/vocab/narcis-type/" proxy="narcis"/>
+    <namespaceMapping ns="http://purl.org/dc/terms/" proxy="dcterms"/>
+    <namespaceMapping ns="http://easy.dans.knaw.nl/schemas/dcx/dai/" proxy="dcx-dai"/>
+    <namespaceMapping ns="http://purl.org/dc/elements/1.1/" proxy="dc"/>
+    <namespaceMapping ns="http://purl.org/dc/dcmitype/" proxy="dcmitype"/>
+    <namespaceMapping ns="http://easy.dans.knaw.nl/schemas/dcx/" proxy="dcx"/>
+    <element namespace="&lt;ANY>" name="&lt;ANY>">
+        <generateOptionalElements>true</generateOptionalElements>
+        <generateOptionalAttributes>true</generateOptionalAttributes>
+        <valuesForContentType>RANDOM</valuesForContentType>
+        <preferredNumberOfRepetitions>2</preferredNumberOfRepetitions>
+        <maximumRecursivityLevel>2</maximumRecursivityLevel>
+        <choicesAndSubstitutions strategy="RANDOM" generateOthersAsComments="true"/>
+        <attribute namespace="&lt;ANY>" name="&lt;ANY>">
+        </attribute>
+    </element>
+    <element namespace="&lt;ANY>" name="available">
+        <generateOptionalElements>true</generateOptionalElements>
+        <generateOptionalAttributes>true</generateOptionalAttributes>
+        <valuesForContentType>RANDOM</valuesForContentType>
+        <preferredNumberOfRepetitions>2</preferredNumberOfRepetitions>
+        <maximumRecursivityLevel>1</maximumRecursivityLevel>
+        <choicesAndSubstitutions strategy="RANDOM" generateOthersAsComments="true"/>
+        <attribute namespace="&lt;ANY>" name="&lt;ANY>">
+        </attribute>
+    </element>
+</settings>

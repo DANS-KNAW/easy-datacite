@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ddm:DDM xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:dcmitype="http://purl.org/dc/dcmitype/"
+	xmlns:narcis="http://easy.dans.knaw.nl/schemas/vocab/narcis-type/"
+	xmlns:dcx="http://easy.dans.knaw.nl/schemas/dcx/"
+	xmlns:dcx-dai="http://easy.dans.knaw.nl/schemas/dcx/dai/"
+	xmlns:ddm="http://easy.dans.knaw.nl/schemas/md/ddm/" 
+	xmlns:dcterms="http://purl.org/dc/terms/"
+	xmlns:dcx-gml="http://easy.dans.knaw.nl/schemas/dcx/gml/"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://easy.dans.knaw.nl/schemas/md/ddm/ http://easy.dans.knaw.nl/schemas/md/2012/11/ddm.xsd
+		http://easy.dans.knaw.nl/schemas/dcx/gml/ http://eof12.dans.knaw.nl/schemas/dcx/2012/10/dcx-gml.xsd
+">
+	<ddm:profile>
+		<dc:title>fabeltjeskrant</dc:title>
+		<dcterms:description>tv serie</dcterms:description>
+		<dc:creator>meneer de uil</dc:creator>
+		<ddm:created>2013</ddm:created>
+		<ddm:audience>D41500</ddm:audience>
+		<ddm:accessRights>OPEN_ACCESS</ddm:accessRights>
+	</ddm:profile>
+
+	<ddm:additional-xml>
+		<dcterms:spatial xsi:type="dcx-gml:SimpleGMLType">
+			<Point xmlns="http://www.opengis.net/gml" >
+				<pos>1.0 2.0</pos>
+			</Point>
+		</dcterms:spatial>
+	</ddm:additional-xml>
+</ddm:DDM>

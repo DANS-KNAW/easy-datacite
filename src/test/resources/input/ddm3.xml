@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ddm:DDM xmlns:dcx="http://easy.dans.knaw.nl/schemas/dcx/"
+ xmlns:dcx-dai="http://easy.dans.knaw.nl/schemas/dcx/dai/"
+ xmlns:dc="http://purl.org/dc/elements/1.1/"
+ xmlns:dcmitype="http://purl.org/dc/dcmitype/"
+ xmlns:narcis="http://easy.dans.knaw.nl/schemas/vocab/narcis-type/"
+ xmlns:ddm="http://easy.dans.knaw.nl/schemas/md/ddm/"
+ xmlns:dcterms="http://purl.org/dc/terms/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://easy.dans.knaw.nl/schemas/md/ddm/ http://easy.dans.knaw.nl/schemas/md/2012/11/ddm.xsd">
+    <ddm:profile>
+        <dc:title xml:lang="nl-NL"/>
+        <dcterms:alternative xml:lang="da-DK">
+        </dcterms:alternative>
+        <dcterms:description xml:lang="nl-NL"/>
+        <dcterms:tableOfContents xml:lang="tr-TR">
+        </dcterms:tableOfContents>
+        <dcx-dai:creator DAI="755559390x" xml:lang="zh-TW">
+        </dcx-dai:creator>
+        <dcx-dai:creatorDetails>
+            <dcx-dai:author>
+                <dcx-dai:titles xml:lang="zh-CN">bHcux71L</dcx-dai:titles>
+                <dcx-dai:initials>oV1:Qsbx</dcx-dai:initials>
+                <dcx-dai:insertions>WXVtT-9_</dcx-dai:insertions>
+                <dcx-dai:surname>ZLMvvEM:</dcx-dai:surname>
+                <dcx-dai:DAI>info:eu-repo/dai/nl/706226635x</dcx-dai:DAI>
+                <dcx-dai:organization>
+                    <dcx-dai:name xml:lang="tr-TR">:XQ.N:s-</dcx-dai:name>
+                </dcx-dai:organization>
+            </dcx-dai:author>
+        </dcx-dai:creatorDetails>
+        <ddm:created>1996-11</ddm:created>
+        <ddm:available>2013-03</ddm:available>
+        <ddm:audience>D30000</ddm:audience>
+        <ddm:audience>D35200</ddm:audience>
+        <ddm:accessRights>GROUP_ACCESS</ddm:accessRights>
+    </ddm:profile>
+    <ddm:dcmiMetadata>
+        <ddm:available>2014</ddm:available>
+        <dcterms:isReferencedBy xml:lang="he-IL">
+        </dcterms:isReferencedBy>
+    </ddm:dcmiMetadata>
+    <ddm:additional-xml>
+        <dcterms:tableOfContents xml:lang="zh-CHS">
+        </dcterms:tableOfContents>
+        <dcterms:tableOfContents xml:lang="da-DK">
+        </dcterms:tableOfContents>
+    </ddm:additional-xml>
+</ddm:DDM>
