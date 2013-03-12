@@ -197,8 +197,6 @@
 				</configuration>
 			</plugin>
 
-
-
 			<!-- javadoc plug-in in profiles -->
 		</plugins>
 
