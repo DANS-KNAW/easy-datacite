@@ -1,4 +1,4 @@
-package nl.knaw.dans.pf.language.xml.validation2;
+package nl.knaw.dans.pf.language.xml.validation;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -20,43 +20,46 @@ import org.xml.sax.SAXException;
 
 import nl.knaw.dans.pf.language.xml.exc.SchemaCreationException;
 import nl.knaw.dans.pf.language.xml.exc.XMLException;
-import nl.knaw.dans.pf.language.xml.validation.SchemaCache;
-import nl.knaw.dans.pf.language.xml.validation.XMLErrorHandler;
 
+/**
+ * Abstract validator capable of handling multiple schema sources.
+ * 
+ * @author henk van den berg
+ */
 public abstract class AbstractValidator2
 {
-    
+
     private final String mainLocation;
     private final String[] schemaLocations;
-    
-    protected AbstractValidator2(String...schemaLocations)
+
+    protected AbstractValidator2(String... schemaLocations)
     {
         this.mainLocation = schemaLocations[0];
         this.schemaLocations = schemaLocations;
     }
-    
+
     public XMLErrorHandler validate(final String xmlString) throws XMLException
     {
         Source xmlSource = new StreamSource(new ByteArrayInputStream(xmlString.getBytes()));
         return validate(xmlSource);
     }
-    
+
     public void validate(ErrorHandler handler, String xmlString) throws XMLException
     {
         validate(handler, new StreamSource(new ByteArrayInputStream(xmlString.getBytes())));
     }
-    
+
     public XMLErrorHandler validate(final File file) throws XMLException
     {
         Source xmlSource = new StreamSource(file);
         return validate(xmlSource);
     }
-    
+
     public void validate(ErrorHandler handler, File file) throws XMLException
     {
         validate(handler, new StreamSource(file));
     }
-    
+
     public XMLErrorHandler validate(final InputStream xmlStream) throws XMLException
     {
         try
@@ -69,7 +72,7 @@ public abstract class AbstractValidator2
             IOUtils.closeQuietly(xmlStream);
         }
     }
-    
+
     public void validate(ErrorHandler handler, InputStream xmlStream) throws XMLException
     {
         try
@@ -82,14 +85,14 @@ public abstract class AbstractValidator2
             IOUtils.closeQuietly(xmlStream);
         }
     }
-    
+
     public XMLErrorHandler validate(Source xmlSource) throws XMLException
     {
         XMLErrorHandler handler = new XMLErrorHandler();
         validate(handler, xmlSource);
         return handler;
     }
-    
+
     public void validate(final ErrorHandler handler, final Source xmlSource) throws XMLException
     {
         final Validator schemaValidator = getSchema().newValidator();
@@ -107,7 +110,7 @@ public abstract class AbstractValidator2
             throw new XMLException(e);
         }
     }
-    
+
     private Schema getSchema() throws XMLException
     {
         Schema schema;
@@ -134,13 +137,13 @@ public abstract class AbstractValidator2
     {
         Schema schema;
         Source[] sources = new Source[schemaLocations.length];
-        URL[] urls = new URL[schemaLocations.length];
+        InputStream[] inputStreams = new InputStream[schemaLocations.length];
         try
         {
             for (int i = 0; i < schemaLocations.length; i++)
             {
-                urls[i] = new URL(schemaLocations[i]);
-                sources[i] = new StreamSource(urls[i].openStream());
+                inputStreams[i] = new URL(schemaLocations[i]).openStream();
+                sources[i] = new StreamSource(inputStreams[i]);
             }
         }
         catch (MalformedURLException e)
@@ -163,12 +166,9 @@ public abstract class AbstractValidator2
         }
         finally
         {
-            for (URL url : urls)
+            for (InputStream in : inputStreams)
             {
-                if (url != null)
-                {
-                    IOUtils.closeQuietly(url.openStream());
-                }
+                    IOUtils.closeQuietly(in);
             }
         }
         return schema;
