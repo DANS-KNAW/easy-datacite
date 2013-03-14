@@ -1,6 +1,7 @@
 package nl.knaw.dans.pf.language.ddm.api;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -11,6 +12,7 @@ import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.binding.EasyMetadataFactory;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.pf.language.xml.crosswalk.CrosswalkHandler;
+import nl.knaw.dans.pf.language.xml.exc.XMLException;
 import nl.knaw.dans.pf.language.xml.validation.XMLErrorHandler;
 import nl.knaw.dans.pf.language.xml.validation.XMLErrorHandler.Reporter;
 
@@ -21,6 +23,7 @@ import org.xml.sax.XMLReader;
 
 public class Ddm2EmdHandlerMapTest
 {
+    private static final XMLErrorHandler XML_ERROR_HANDLER = new XMLErrorHandler(Reporter.off);
     private static final String INPUT_DIR = "src/test/resources/input/";
     private static XMLReader reader;
 
@@ -34,6 +37,18 @@ public class Ddm2EmdHandlerMapTest
     public void rubbish() throws Exception
     {
         final EasyMetadata easyMetadata = unguarderdCrosswalk(new FileInputStream(INPUT_DIR + "abstract.xml"));
+    }
+
+    @Test
+    public void guardedRubbish() throws Exception
+    {
+        final EasyMetadata easyMetadata = guardedCrosswalk(INPUT_DIR + "abstract.xml");
+    }
+
+    private EasyMetadata guardedCrosswalk(String fileName) throws XMLException, SAXException, ParserConfigurationException, IOException, FileNotFoundException
+    {
+        DDMValidator.instance().validate(XML_ERROR_HANDLER,new FileInputStream(fileName));
+        return unguarderdCrosswalk(new FileInputStream(fileName));
     }
 
     private EasyMetadata unguarderdCrosswalk(final InputStream source) throws SAXException, ParserConfigurationException, IOException
@@ -53,7 +68,7 @@ public class Ddm2EmdHandlerMapTest
         if (reader == null)
         {
             reader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
-            reader.setErrorHandler(new XMLErrorHandler(Reporter.off));
+            reader.setErrorHandler(XML_ERROR_HANDLER);
         }
         return reader;
     }

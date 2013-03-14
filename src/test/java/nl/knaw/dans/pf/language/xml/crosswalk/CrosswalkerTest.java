@@ -86,12 +86,12 @@ public class CrosswalkerTest
 
         public StringBuffer createFrom(final File file) throws CrosswalkException
         {
-            return walk(file, new StringBuffer());
+            return gurardedWalk(file, new StringBuffer());
         }
 
         public StringBuffer createFrom(final String xml) throws CrosswalkException
         {
-            return walk(xml, new StringBuffer());
+            return guardedWalk(xml, new StringBuffer());
         }
     }
 

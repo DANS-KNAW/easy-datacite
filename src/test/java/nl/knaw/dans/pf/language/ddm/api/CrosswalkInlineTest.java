@@ -7,7 +7,6 @@ import static org.junit.internal.matchers.StringContains.containsString;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import nl.knaw.dans.common.lang.util.StreamUtil;
@@ -18,6 +17,7 @@ import nl.knaw.dans.pf.language.xml.binding.Encoding;
 import nl.knaw.dans.pf.language.xml.crosswalk.CrosswalkException;
 
 import org.joda.time.DateTime;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,8 +34,8 @@ public class CrosswalkInlineTest
 
     private static final Logger logger          = LoggerFactory.getLogger(CrosswalkInlineTest.class);
 
-    // TODO @BeforeClass
-    public static void checkWebAccess() throws MalformedURLException
+    @BeforeClass
+    public static void checkWebAccess() throws Exception
     {
         try
         {
@@ -43,10 +43,7 @@ public class CrosswalkInlineTest
         }
         catch (final IOException e)
         {
-            // TODO slashes worden gesloopt door new URL()
-            // DDMValidator.instance().setSchemaLocation("file://" + new
-            // File("src/test/resources/offlineFallBackDDM.xsd").getAbsolutePath());
-            throw new IllegalStateException("tests require web access for XSD");
+            throw new Exception("static mock for DDMValidator would allow offline tests");
         }
     }
 

@@ -40,9 +40,19 @@ public class Crosswalker<T, V extends AbstractValidator2>
 
     private CrosswalkHandlerMap<T> handlerMap;
 
-    /** Creates an instance. */
-    public Crosswalker(V validator, CrosswalkHandlerMap<T> handlerMap)
+    /**
+     * * Creates an instance.
+     * 
+     * @param validator
+     *        if null, guarded walks will throw an {@link IllegalStateException}
+     * @param handlerMap
+     * @throws IllegalArgumentException
+     *         if handlerMap is null
+     */
+    public Crosswalker(V validator, CrosswalkHandlerMap<T> handlerMap) throws IllegalArgumentException
     {
+        if (handlerMap == null)
+            throw new IllegalArgumentException("hanlderMap can not be null");
         this.validator = validator;
         this.handlerMap = handlerMap;
         errorHandler = new XMLErrorHandler(reporter);
@@ -56,8 +66,10 @@ public class Crosswalker<T, V extends AbstractValidator2>
      * @return null in case of errors reported by {@link #getXmlErrorHandler()}
      * @throws CrosswalkException
      */
-    final protected T walk(final File file, T target) throws CrosswalkException
+    final protected T gurardedWalk(final File file, T target) throws CrosswalkException, IllegalStateException
     {
+        if (validator == null)
+            throw new IllegalStateException("no validator avalable");
         try
         {
             validateAgainstXsd(new FileInputStream(file));
@@ -79,11 +91,18 @@ public class Crosswalker<T, V extends AbstractValidator2>
      * @return null in case of errors reported by {@link #getXmlErrorHandler()}
      * @throws CrosswalkException
      */
-    final protected T walk(final String xml, T target) throws CrosswalkException
+    final protected T guardedWalk(final String xml, T target) throws CrosswalkException, IllegalStateException
     {
+        if (validator == null)
+            throw new IllegalStateException("no validator avalable");
         final byte[] bytes = xml.getBytes();
         validateAgainstXsd(new ByteArrayInputStream(bytes));
         return parse(new ByteArrayInputStream(bytes), target);
+    }
+
+    final protected T walk(final InputStream xml, T target) throws CrosswalkException
+    {
+        return parse(xml, target);
     }
 
     /**

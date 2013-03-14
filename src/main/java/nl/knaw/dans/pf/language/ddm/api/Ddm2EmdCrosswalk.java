@@ -33,7 +33,7 @@ public class Ddm2EmdCrosswalk extends Crosswalker<EasyMetadata, DDMValidator>
      */
     public EasyMetadata createFrom(final File file) throws CrosswalkException
     {
-        return validate(walk(file, newTarget()));
+        return validateEMD(gurardedWalk(file, newTarget()));
     }
 
     /**
@@ -46,7 +46,7 @@ public class Ddm2EmdCrosswalk extends Crosswalker<EasyMetadata, DDMValidator>
      */
     public EasyMetadata createFrom(final String xml) throws CrosswalkException
     {
-        return validate(walk(xml, newTarget()));
+        return validateEMD(guardedWalk(xml, newTarget()));
     }
 
     private EasyMetadata newTarget()
@@ -54,7 +54,7 @@ public class Ddm2EmdCrosswalk extends Crosswalker<EasyMetadata, DDMValidator>
         return EasyMetadataFactory.newEasyMetadata(MetadataFormat.UNSPECIFIED);
     }
 
-    private EasyMetadata validate(final EasyMetadata emd) throws CrosswalkException
+    private EasyMetadata validateEMD(final EasyMetadata emd) throws CrosswalkException
     {
         if (getXmlErrorHandler().getErrors().size() > 0 || getXmlErrorHandler().getFatalErrors().size() > 0)
             throw new CrosswalkException(getXmlErrorHandler().getMessages());
