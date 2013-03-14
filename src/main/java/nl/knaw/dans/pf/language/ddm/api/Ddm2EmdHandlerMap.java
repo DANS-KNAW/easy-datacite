@@ -71,7 +71,7 @@ import org.dom4j.DocumentException;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-class Ddm2EmdHandlerMap implements CrosswalkHandlerMap<EasyMetadata>
+public class Ddm2EmdHandlerMap implements CrosswalkHandlerMap<EasyMetadata>
 {
     private static final SkippedFieldHandler SKIPPED_FIELD_HANDLER= new SkippedFieldHandler(null);
     private static final CrosswalkHandler<EasyMetadata> NOT_YET_IMPLEMENTED = new SkippedFieldHandler("not yet configured/implemented");

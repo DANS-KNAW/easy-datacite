@@ -13,7 +13,8 @@ import javax.xml.parsers.SAXParserFactory;
 
 import nl.knaw.dans.pf.language.xml.exc.SchemaCreationException;
 import nl.knaw.dans.pf.language.xml.exc.ValidatorException;
-import nl.knaw.dans.pf.language.xml.validation.AbstractValidator;
+import nl.knaw.dans.pf.language.xml.exc.XMLException;
+import nl.knaw.dans.pf.language.xml.validation.AbstractValidator2;
 import nl.knaw.dans.pf.language.xml.validation.XMLErrorHandler;
 import nl.knaw.dans.pf.language.xml.validation.XMLErrorHandler.Reporter;
 
@@ -22,7 +23,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.XMLReader;
 
-public class Crosswalker<T, V extends AbstractValidator>
+public class Crosswalker<T, V extends AbstractValidator2>
 {
     private static final String VALIDATE_ERROR_MESSAGE = "could not validate against XSD: ";
 
@@ -107,7 +108,7 @@ public class Crosswalker<T, V extends AbstractValidator>
     {
         try
         {
-            validator.validate(errorHandler, xml, null);
+            validator.validate(errorHandler, xml);
         }
         catch (final ValidatorException e)
         {
@@ -117,7 +118,7 @@ public class Crosswalker<T, V extends AbstractValidator>
         {
             throw new CrosswalkException(VALIDATE_ERROR_MESSAGE + e.getMessage(), e);
         }
-        catch (final SAXException e)
+        catch (XMLException e)
         {
             throw new CrosswalkException(VALIDATE_ERROR_MESSAGE + e.getMessage(), e);
         }

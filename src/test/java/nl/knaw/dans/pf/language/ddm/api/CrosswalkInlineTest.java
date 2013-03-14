@@ -5,66 +5,47 @@ import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.junit.internal.matchers.StringContains.containsString;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import nl.knaw.dans.common.lang.util.StreamUtil;
-import nl.knaw.dans.pf.language.ddm.datehandlers.DcDateHandler;
-import nl.knaw.dans.pf.language.ddm.datehandlers.EasAvailableHandler;
-import nl.knaw.dans.pf.language.ddm.datehandlers.EasDateAccepteddHandler;
-import nl.knaw.dans.pf.language.ddm.datehandlers.EasDateCopyrightedHandler;
-import nl.knaw.dans.pf.language.ddm.datehandlers.EasDateHandler;
-import nl.knaw.dans.pf.language.ddm.datehandlers.EasDateSubmittedHandler;
-import nl.knaw.dans.pf.language.ddm.datehandlers.EasIssuedHandler;
-import nl.knaw.dans.pf.language.ddm.datehandlers.EasModiefiedHandler;
-import nl.knaw.dans.pf.language.ddm.datehandlers.EasValidHandler;
-import nl.knaw.dans.pf.language.ddm.datehandlers.TermsAvailableHandler;
-import nl.knaw.dans.pf.language.ddm.datehandlers.TermsCreatedHandler;
-import nl.knaw.dans.pf.language.ddm.datehandlers.TermsDateAccepteddHandler;
-import nl.knaw.dans.pf.language.ddm.datehandlers.TermsDateCopyrightedHandler;
-import nl.knaw.dans.pf.language.ddm.datehandlers.TermsDateSubmittedHandler;
-import nl.knaw.dans.pf.language.ddm.datehandlers.TermsIssuedHandler;
-import nl.knaw.dans.pf.language.ddm.datehandlers.TermsModiefiedHandler;
-import nl.knaw.dans.pf.language.ddm.datehandlers.TermsValidHandler;
 import nl.knaw.dans.pf.language.ddm.handlermaps.NameSpace;
-import nl.knaw.dans.pf.language.ddm.handlertypes.BasicDateHandler;
-import nl.knaw.dans.pf.language.ddm.handlertypes.IsoDateHandler;
+import nl.knaw.dans.pf.language.ddm.handlers.EasSpatialHandler;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.xml.binding.Encoding;
 import nl.knaw.dans.pf.language.xml.crosswalk.CrosswalkException;
 
 import org.joda.time.DateTime;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class CrosswalkInlineTest
 {
-    private static final String NARCIS_TYPE = " xsi:type='narcis:DisciplineType'";
-    private static final String W3CDTF_TYPE = " xsi:type='dcterms:W3CDTF'";
+    private static final String NARCIS_TYPE     = " xsi:type='narcis:DisciplineType'";
+    private static final String W3CDTF_TYPE     = " xsi:type='dcterms:W3CDTF'";
 
-    private static final String FREE_CONTENT = "<xhtml:body><p>Hello</p></xhtml:body>";
+    private static final String FREE_CONTENT    = "<xhtml:body><p>Hello</p></xhtml:body>";
 
-    private static final String MINI_AUDIENCE = "D41500";
+    private static final String MINI_AUDIENCE   = "D41500";
     private static final String MINI_DISCIPLINE = "easy-discipline:34";
 
-    private static final Logger logger = LoggerFactory.getLogger(CrosswalkInlineTest.class);
+    private static final Logger logger          = LoggerFactory.getLogger(CrosswalkInlineTest.class);
 
-    @BeforeClass
+    // TODO @BeforeClass
     public static void checkWebAccess() throws MalformedURLException
     {
         try
         {
-            new URL(DDMValidator.SCHEMA_LOCATION).openStream();
+            new URL(NameSpace.DDM.xsd).openStream();
         }
         catch (final IOException e)
         {
             // TODO slashes worden gesloopt door new URL()
-            DDMValidator.instance().setSchemaLocation("file://" + new File("src/test/resources/offlineFallBackDDM.xsd").getAbsolutePath());
+            // DDMValidator.instance().setSchemaLocation("file://" + new
+            // File("src/test/resources/offlineFallBackDDM.xsd").getAbsolutePath());
             throw new IllegalStateException("tests require web access for XSD");
         }
     }
@@ -256,33 +237,30 @@ public class CrosswalkInlineTest
     @Test
     public void spatialPoint() throws Exception
     {
-        // TODO XSD validator does not load auxiliary schema's
-        // final EasyMetadata emd =
-        runTest(new Exception(), readFile("spatial.xml"), 2, "Cannot resolve", "Point");
-        // TODO fix multiple XSD's
-        // checkMiniProfile(emd);
-        // assertThat(emd.getEmdCoverage().getEasSpatial().get(0).getPoint().getX(), is("2.0"));
-        // assertThat(emd.getEmdCoverage().getEasSpatial().get(0).getPoint().getY(), is("1.0"));
-        // assertThat(emd.getEmdCoverage().getEasSpatial().get(0).getPoint().getScheme(),is(SpatialPointHandler.WGS84_4326));
+        final EasyMetadata emd = runTest(new Exception(), readFile("spatial.xml"), 0);
+        checkMiniProfile(emd);
+        assertThat(emd.getEmdCoverage().getEasSpatial().get(0).getPoint().getX(), is("2.0"));
+        assertThat(emd.getEmdCoverage().getEasSpatial().get(0).getPoint().getY(), is("1.0"));
+        assertThat(emd.getEmdCoverage().getEasSpatial().get(0).getPoint().getScheme(), is(EasSpatialHandler.WGS84_4326));
     }
 
     @Test
     public void abr() throws Exception
     {
-        // TODO XSD validator does not load auxiliary schema's
-        // final EasyMetadata emd =
-        runTest(new Exception(), readFile("abr.xml"), 4, "Cannot resolve", "dc:subject");
-        // TODO fix multiple XSD's
-        // checkMiniProfile(emd);
+        final EasyMetadata emd = runTest(new Exception(), readFile("abr.xml"), 2, "skipped", "temporal", "subject");
+        checkMiniProfile(emd);
     }
-    private static final String fields[] = {"dcterms:created","dcterms:available","dcterms:dateAccepted","dcterms:valid","dcterms:issued","dcterms:modified","dcterms:dateCopyrighted","dcterms:dateSubmitted","dcterms:date","dc:date"};
+
+    private static final String fields[] = {"dcterms:created", "dcterms:available", "dcterms:dateAccepted", "dcterms:valid", "dcterms:issued",
+            "dcterms:modified", "dcterms:dateCopyrighted", "dcterms:dateSubmitted", "dcterms:date", "dc:date"};
 
     @Test
     public void emptyDates() throws Exception
     {
-        StringBuffer sb = new StringBuffer();
-        for (String field : fields){
-            sb.append(newEl(field,  "",""));
+        final StringBuffer sb = new StringBuffer();
+        for (final String field : fields)
+        {
+            sb.append(newEl(field, "", ""));
         }
         runTest(new Exception(), newRoot(newMiniProfile("") + newAdditional(sb.toString())), 0);
     }
@@ -290,26 +268,28 @@ public class CrosswalkInlineTest
     @Test
     public void emptyW3cDates() throws Exception
     {
-        StringBuffer sb = new StringBuffer();
-     // TODO  sb.append(newEl("ddm:created", "",""));
-     // TODO sb.append(newEl("ddm:available",  "",""));
-        
-        for (String field : fields){
-            sb.append(newEl(field,  W3CDTF_TYPE,""));
+        final StringBuffer sb = new StringBuffer();
+        // TODO sb.append(newEl("ddm:created", "",""));
+        // TODO sb.append(newEl("ddm:available", "",""));
+
+        for (final String field : fields)
+        {
+            sb.append(newEl(field, W3CDTF_TYPE, ""));
         }
-        runTest(new Exception(), newRoot(newMiniProfile("") + newAdditional(sb.toString())), fields.length*2,"must be valid");
+        runTest(new Exception(), newRoot(newMiniProfile("") + newAdditional(sb.toString())), fields.length * 2, "must be valid");
     }
 
     @Test
     public void dates() throws Exception
     {
-    	StringBuffer sb = new StringBuffer();
-       // TODO sb.append(newEl("ddm:created", "","2013"));
-       // TODO sb.append(newEl("ddm:available",  "","1900"));
-        
-        for (String field : fields){
-        	sb.append(newEl(field,  W3CDTF_TYPE,"190003"));
-        	sb.append(newEl(field,  "","03-2013"));
+        final StringBuffer sb = new StringBuffer();
+        // TODO sb.append(newEl("ddm:created", "","2013"));
+        // TODO sb.append(newEl("ddm:available", "","1900"));
+
+        for (final String field : fields)
+        {
+            sb.append(newEl(field, W3CDTF_TYPE, "190003"));
+            sb.append(newEl(field, "", "03-2013"));
         }
         runTest(new Exception(), newRoot(newMiniProfile("") + newAdditional(sb.toString())), 0);
     }
@@ -317,8 +297,7 @@ public class CrosswalkInlineTest
     private String readFile(final String string) throws Exception
     {
         final byte[] xml = StreamUtil.getBytes(new FileInputStream("src/test/resources/input/" + string));
-        final String string2 = new String(xml, Encoding.UTF8);
-        return string2;
+        return new String(xml, Encoding.UTF8);
     }
 
     private static String newEl(final String element, final String attributes, final String content)

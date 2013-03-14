@@ -5,13 +5,10 @@ import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertThat;
 
 import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import javax.xml.XMLConstants;
 
-import nl.knaw.dans.pf.language.xml.exc.SchemaCreationException;
-import nl.knaw.dans.pf.language.xml.validation.AbstractValidator;
+import nl.knaw.dans.pf.language.xml.validation.AbstractValidator2;
 import nl.knaw.dans.pf.language.xml.validation.XMLErrorHandler.Reporter;
 
 import org.junit.Before;
@@ -21,60 +18,70 @@ import org.xml.sax.SAXException;
 
 public class CrosswalkerTest
 {
-    private static final CrosswalkHandler<StringBuffer> simpleElementHandler = new CrosswalkHandler<StringBuffer>()
-    // handles a simple element
+    private static final String XSD = "file://"+new File("src/test/resources/input/abstract.xsd").getAbsolutePath();
+
+    private static CrosswalkHandler<StringBuffer> createSimpleHandler()
     {
-        @Override
-        protected void finishElement(final String uri, final String localName) throws SAXException
+        return new CrosswalkHandler<StringBuffer>()
         {
-            getTarget().append("-" + getAttribute(XMLConstants.XML_NS_URI, "lang") + "-" + getCharsSinceStart());
-            if ("xyz".equals(getCharsSinceStart()))
+            @Override
+            protected void finishElement(final String uri, final String localName) throws SAXException
             {
-                error("no xyz allowed");
-                fatalError("we do not allow xyz");
-            }
-        }
-
-    };
-    private static final CrosswalkHandler<StringBuffer> complexElementHandler = new CrosswalkHandler<StringBuffer>()
-    // handles a complex element
-    {
-        @Override
-        protected void finishElement(final String uri, final String localName) throws SAXException
-        {
-            if ("use".equals(localName))
                 getTarget().append("-" + getAttribute(XMLConstants.XML_NS_URI, "lang") + "-" + getCharsSinceStart());
-            else
-                warning("skipping " + localName + " " + getCharsSinceStart());
-        }
+                if ("xyz".equals(getCharsSinceStart()))
+                {
+                    error("no xyz allowed");
+                    fatalError("we do not allow xyz");
+                }
+            }
 
-    };
-    private static final CrosswalkHandlerMap<StringBuffer> handlerMap = new CrosswalkHandlerMap<StringBuffer>()
+        };
+    }
+
+    private static CrosswalkHandler<StringBuffer> createComplexHandler()
+    {
+        return new CrosswalkHandler<StringBuffer>()
+        {
+            @Override
+            protected void finishElement(final String uri, final String localName) throws SAXException
+            {
+                if ("use".equals(localName))
+                    getTarget().append("-" + getAttribute(XMLConstants.XML_NS_URI, "lang") + "-" + getCharsSinceStart());
+                else
+                    warning("skipping " + localName + " " + getCharsSinceStart());
+            }
+
+        };
+    }
+
+    private static CrosswalkHandlerMap<StringBuffer> createHandlerMap()
+    {
+        return new CrosswalkHandlerMap<StringBuffer>()
+        {
+            @Override
+            public CrosswalkHandler<StringBuffer> getHandler(String uri, String localName, Attributes attributes) throws SAXException
+            {
+                if ("simple".equals(localName))
+                    return createSimpleHandler();
+                else if ("complex".equals(localName))
+                    return createComplexHandler();
+                return null;
+            }
+
+            @Override
+            public boolean reportMissingHandler(String uri, String localName, Attributes attributes)
+            {
+                return false;
+            }
+        };
+    }
+
+    private class CW extends Crosswalker<StringBuffer, AbstractValidator2>
     {
 
-        @Override
-        public CrosswalkHandler<StringBuffer> getHandler(String uri, String localName, Attributes attributes) throws SAXException
+        public CW(AbstractValidator2 validator)
         {
-            if ("simple".equals(localName))
-                return simpleElementHandler;
-            else if ("complex".equals(localName))
-                return complexElementHandler;
-            return null;
-        }
-
-        @Override
-        public boolean reportMissingHandler(String uri, String localName, Attributes attributes)
-        {
-            return false;
-        }
-    };
-
-    private class CW extends Crosswalker<StringBuffer, AbstractValidator>
-    {
-
-        public CW(AbstractValidator validator)
-        {
-            super(validator, handlerMap);
+            super(validator, createHandlerMap());
         }
 
         public StringBuffer createFrom(final File file) throws CrosswalkException
@@ -88,33 +95,15 @@ public class CrosswalkerTest
         }
     }
 
-    private final CW crosswalk = new CW(new AbstractValidator()
+    private final CW crosswalk = new CW(new AbstractValidator2(XSD)
     {
-        @Override
-        public URL getSchemaURL(String version) throws SchemaCreationException
-        {
-            try
-            {
-                return new File("src/test/resources/input/abstract.xsd").toURI().toURL();
-            }
-            catch (MalformedURLException e)
-            {
-                throw new RuntimeException(e);
-            }
-        }
     });
 
-    @Test(expected = CrosswalkException.class)
+    @Test(expected = NullPointerException.class)
     public void noXSD() throws Exception
     {
-        new CW(new AbstractValidator()
+        new CW(new AbstractValidator2((String[]) null)
         {
-
-            @Override
-            public URL getSchemaURL(String version) throws SchemaCreationException
-            {
-                return null;
-            }
         }).createFrom("");
     }
 
