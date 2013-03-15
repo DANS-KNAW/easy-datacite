@@ -24,15 +24,16 @@ import org.slf4j.LoggerFactory;
 
 public class CrosswalkInlineTest
 {
-    private static final String NARCIS_TYPE     = " xsi:type='narcis:DisciplineType'";
-    private static final String W3CDTF_TYPE     = " xsi:type='dcterms:W3CDTF'";
+    private static final String NARCIS_TYPE = " xsi:type='narcis:DisciplineType'";
+    private static final String W3CDTF_TYPE = " xsi:type='dcterms:W3CDTF'";
 
-    private static final String FREE_CONTENT    = "<xhtml:body><p>Hello</p></xhtml:body>";
+    private static final String FREE_CONTENT = "<xhtml:body><p>Hello</p></xhtml:body>";
 
-    private static final String MINI_AUDIENCE   = "D41500";
+    private static final String MINI_AUDIENCE = "D41500";
     private static final String MINI_DISCIPLINE = "easy-discipline:34";
 
-    private static final Logger logger          = LoggerFactory.getLogger(CrosswalkInlineTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(CrosswalkInlineTest.class);
+    private static final Ddm2EmdCrosswalk crosswalk = new Ddm2EmdCrosswalk();
 
     @BeforeClass
     public static void checkWebAccess() throws Exception
@@ -363,7 +364,7 @@ public class CrosswalkInlineTest
     private static EasyMetadata runTest(final Exception dummyException, final String xml, final int i, final String... messageContents)
     {
         final String methodName = dummyException.getStackTrace()[0].getMethodName();
-        final Ddm2EmdCrosswalk crosswalk = new Ddm2EmdCrosswalk();
+        crosswalk.getXmlErrorHandler().reset();
         EasyMetadata emd = null;
         logger.debug(methodName + "\n" + xml);
         try

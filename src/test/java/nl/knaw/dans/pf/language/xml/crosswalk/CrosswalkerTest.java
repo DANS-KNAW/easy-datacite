@@ -19,6 +19,10 @@ import org.xml.sax.SAXException;
 public class CrosswalkerTest
 {
     private static final String XSD = "file://"+new File("src/test/resources/input/abstract.xsd").getAbsolutePath();
+    private static final AbstractValidator2 VALIDATOR = new AbstractValidator2(XSD)
+    {
+    };
+    private final CW crosswalk = new CW(VALIDATOR);
 
     private static CrosswalkHandler<StringBuffer> createSimpleHandler()
     {
@@ -76,28 +80,23 @@ public class CrosswalkerTest
         };
     }
 
-    private class CW extends Crosswalker<StringBuffer, AbstractValidator2>
+    private class CW extends Crosswalker<StringBuffer>
     {
-
         public CW(AbstractValidator2 validator)
         {
-            super(validator, createHandlerMap());
+            super(createHandlerMap());
         }
 
         public StringBuffer createFrom(final File file) throws CrosswalkException
         {
-            return gurardedWalk(file, new StringBuffer());
+            return walk(VALIDATOR, file, new StringBuffer());
         }
 
         public StringBuffer createFrom(final String xml) throws CrosswalkException
         {
-            return guardedWalk(xml, new StringBuffer());
+            return walk(VALIDATOR,xml, new StringBuffer());
         }
     }
-
-    private final CW crosswalk = new CW(new AbstractValidator2(XSD)
-    {
-    });
 
     @Test(expected = NullPointerException.class)
     public void noXSD() throws Exception
@@ -154,11 +153,5 @@ public class CrosswalkerTest
     public void resetErrorHandler()
     {
         crosswalk.getXmlErrorHandler().reset();
-    }
-
-    @Before
-    public void setLogLevel()
-    {
-        crosswalk.setReporter(Reporter.debug);
     }
 }

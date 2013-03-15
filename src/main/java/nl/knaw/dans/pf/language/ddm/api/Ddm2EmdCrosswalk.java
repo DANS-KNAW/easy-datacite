@@ -2,9 +2,6 @@ package nl.knaw.dans.pf.language.ddm.api;
 
 import java.io.File;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.binding.EasyMetadataFactory;
 import nl.knaw.dans.pf.language.emd.binding.EmdMarshaller;
@@ -13,14 +10,17 @@ import nl.knaw.dans.pf.language.xml.crosswalk.CrosswalkException;
 import nl.knaw.dans.pf.language.xml.crosswalk.Crosswalker;
 import nl.knaw.dans.pf.language.xml.exc.XMLSerializationException;
 
-public class Ddm2EmdCrosswalk extends Crosswalker<EasyMetadata, DDMValidator>
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class Ddm2EmdCrosswalk extends Crosswalker<EasyMetadata>
 {
     private static final Logger logger = LoggerFactory.getLogger(Ddm2EmdCrosswalk.class);
 
     /** Creates an instance. */
     public Ddm2EmdCrosswalk()
     {
-        super(DDMValidator.instance(), Ddm2EmdHandlerMap.getInstance());
+        super(Ddm2EmdHandlerMap.getInstance());
     }
 
     /**
@@ -33,7 +33,7 @@ public class Ddm2EmdCrosswalk extends Crosswalker<EasyMetadata, DDMValidator>
      */
     public EasyMetadata createFrom(final File file) throws CrosswalkException
     {
-        return validateEMD(gurardedWalk(file, newTarget()));
+        return validateEMD(walk(DDMValidator.instance(), file, newTarget()));
     }
 
     /**
@@ -46,7 +46,7 @@ public class Ddm2EmdCrosswalk extends Crosswalker<EasyMetadata, DDMValidator>
      */
     public EasyMetadata createFrom(final String xml) throws CrosswalkException
     {
-        return validateEMD(guardedWalk(xml, newTarget()));
+        return validateEMD(walk(DDMValidator.instance(), xml, newTarget()));
     }
 
     private EasyMetadata newTarget()
@@ -60,7 +60,7 @@ public class Ddm2EmdCrosswalk extends Crosswalker<EasyMetadata, DDMValidator>
             throw new CrosswalkException(getXmlErrorHandler().getMessages());
         try
         {
-            // empty fields in DDM are skipped and may cause missing mandatory fields
+            // incomplete fields may cause trouble
             final String validatedXML = new EmdMarshaller(emd).getXmlString();
             logger.debug(validatedXML);
             return emd;

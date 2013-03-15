@@ -8,11 +8,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import nl.knaw.dans.pf.language.xml.exc.SchemaCreationException;
-import nl.knaw.dans.pf.language.xml.exc.ValidatorException;
 import nl.knaw.dans.pf.language.xml.exc.XMLException;
 import nl.knaw.dans.pf.language.xml.validation.AbstractValidator2;
 import nl.knaw.dans.pf.language.xml.validation.XMLErrorHandler;
@@ -20,24 +17,13 @@ import nl.knaw.dans.pf.language.xml.validation.XMLErrorHandler.Reporter;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.XMLReader;
 
-public class Crosswalker<T, V extends AbstractValidator2>
+public class Crosswalker<T>
 {
     private static final String VALIDATE_ERROR_MESSAGE = "could not validate against XSD: ";
-
-    /** lazy singleton instance */
-    protected static SAXParser parser;
-
-    /** The log level configured for the error handler of new instances. */
-    protected static Reporter reporter = Reporter.off;
-
-    /** The collector of validating errors and warnings of this instance. */
-    private final XMLErrorHandler errorHandler;
-
-    private V validator;
-
+    private XMLReader reader;
+    private XMLErrorHandler errorHandler = new XMLErrorHandler(Reporter.off);
     private CrosswalkHandlerMap<T> handlerMap;
 
     /**
@@ -49,30 +35,29 @@ public class Crosswalker<T, V extends AbstractValidator2>
      * @throws IllegalArgumentException
      *         if handlerMap is null
      */
-    public Crosswalker(V validator, CrosswalkHandlerMap<T> handlerMap) throws IllegalArgumentException
+    public Crosswalker(CrosswalkHandlerMap<T> handlerMap) throws IllegalArgumentException
     {
         if (handlerMap == null)
             throw new IllegalArgumentException("hanlderMap can not be null");
-        this.validator = validator;
         this.handlerMap = handlerMap;
-        errorHandler = new XMLErrorHandler(reporter);
     }
 
     /**
      * Creates an object after validation against an XSD.
      * 
+     * @param validator
+     *        null validation against XSD already done
      * @param file
      *        with XML content
      * @return null in case of errors reported by {@link #getXmlErrorHandler()}
      * @throws CrosswalkException
      */
-    final protected T gurardedWalk(final File file, T target) throws CrosswalkException, IllegalStateException
+    final protected T walk(final AbstractValidator2 validator, final File file, T target) throws CrosswalkException, IllegalStateException
     {
-        if (validator == null)
-            throw new IllegalStateException("no validator avalable");
         try
         {
-            validateAgainstXsd(new FileInputStream(file));
+            if (validator != null)
+                validateAgainstXsd(validator, new FileInputStream(file));
             return parse(new FileInputStream(file), target);
         }
         catch (final FileNotFoundException e)
@@ -84,6 +69,8 @@ public class Crosswalker<T, V extends AbstractValidator2>
     /**
      * Fills the target after validation against an XSD.
      * 
+     * @param validator
+     *        null validation against XSD already done
      * @param xml
      *        the XML content
      * @param target
@@ -91,27 +78,17 @@ public class Crosswalker<T, V extends AbstractValidator2>
      * @return null in case of errors reported by {@link #getXmlErrorHandler()}
      * @throws CrosswalkException
      */
-    final protected T guardedWalk(final String xml, T target) throws CrosswalkException, IllegalStateException
+    final protected T walk(final AbstractValidator2 validator, final String xml, T target) throws CrosswalkException, IllegalStateException
     {
-        if (validator == null)
-            throw new IllegalStateException("no validator avalable");
         final byte[] bytes = xml.getBytes();
-        validateAgainstXsd(new ByteArrayInputStream(bytes));
+        if (validator != null)
+            validateAgainstXsd(validator, new ByteArrayInputStream(bytes));
         return parse(new ByteArrayInputStream(bytes), target);
     }
 
     final protected T walk(final InputStream xml, T target) throws CrosswalkException
     {
         return parse(xml, target);
-    }
-
-    /**
-     * Configures the logging level of the {@link XMLErrorHandler} for new instances. The method is not
-     * static to allow configuration by spring. The default level is off.
-     */
-    public void setReporter(final Reporter myReporter)
-    {
-        reporter = myReporter;
     }
 
     /**
@@ -123,19 +100,11 @@ public class Crosswalker<T, V extends AbstractValidator2>
         return errorHandler;
     }
 
-    private void validateAgainstXsd(final InputStream xml) throws CrosswalkException
+    private void validateAgainstXsd(final AbstractValidator2 validator, final InputStream xml) throws CrosswalkException
     {
         try
         {
             validator.validate(errorHandler, xml);
-        }
-        catch (final ValidatorException e)
-        {
-            throw new CrosswalkException(VALIDATE_ERROR_MESSAGE + e.getMessage(), e);
-        }
-        catch (final SchemaCreationException e)
-        {
-            throw new CrosswalkException(VALIDATE_ERROR_MESSAGE + e.getMessage(), e);
         }
         catch (XMLException e)
         {
@@ -145,16 +114,15 @@ public class Crosswalker<T, V extends AbstractValidator2>
 
     private T parse(final InputStream source, T target) throws CrosswalkException
     {
-        final XMLReader reader = getReader();
-        reader.setErrorHandler(errorHandler);
+        getReader().setErrorHandler(errorHandler);
 
         // sets itself as ContentHandler of the reader passed into it
-        new CrosswalkHandler<T>(target, reader, handlerMap);
+        new CrosswalkHandler<T>(target, getReader(), handlerMap);
 
         final String msg = "could not parse: ";
         try
         {
-            reader.parse(new InputSource(source));
+            getReader().parse(new InputSource(source));
         }
         catch (final IOException e)
         {
@@ -171,44 +139,22 @@ public class Crosswalker<T, V extends AbstractValidator2>
 
     private XMLReader getReader() throws CrosswalkException
     {
-        final SAXParser parser = getParser();
+        if (reader != null)
+            return reader;
         try
         {
-            return parser.getXMLReader();
+            final SAXParserFactory factory = SAXParserFactory.newInstance();
+            factory.setNamespaceAware(true);
+            reader = factory.newSAXParser().getXMLReader();
+            return reader;
         }
         catch (final SAXException e)
         {
             throw new CrosswalkException("could not get reader from parser: " + e.getMessage(), e);
         }
-    }
-
-    private SAXParser getParser() throws CrosswalkException
-    {
-        if (parser == null)
-            parser = createParser();
-        return parser;
-    }
-
-    private SAXParser createParser() throws CrosswalkException
-    {
-        final String msg = "could not create parser: ";
-        final SAXParserFactory factory = SAXParserFactory.newInstance();
-        factory.setNamespaceAware(true);
-        try
+        catch (ParserConfigurationException e)
         {
-            return factory.newSAXParser();
-        }
-        catch (final SAXNotRecognizedException e)
-        {
-            throw new CrosswalkException(msg + e.getMessage(), e);
-        }
-        catch (final ParserConfigurationException e)
-        {
-            throw new CrosswalkException(msg + e.getMessage(), e);
-        }
-        catch (final SAXException e)
-        {
-            throw new CrosswalkException(msg + e.getMessage(), e);
+            throw new CrosswalkException("could not create parser" + e.getMessage(), e);
         }
     }
 }
