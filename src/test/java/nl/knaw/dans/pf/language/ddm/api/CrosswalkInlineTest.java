@@ -8,6 +8,7 @@ import static org.junit.internal.matchers.StringContains.containsString;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 
 import nl.knaw.dans.common.lang.util.StreamUtil;
 import nl.knaw.dans.pf.language.ddm.handlermaps.NameSpace;
@@ -65,15 +66,6 @@ public class CrosswalkInlineTest
         final String notTerminatedToo = "<this mistake='is not reported'>";
         final String content = newProfile(notTerminated) + notTerminatedToo;
         runTest(new Exception(), newRoot(content), 2, "must be terminated", "title}' is expected");
-    }
-
-    @Test
-    public void dateAvailable() throws Exception
-    {
-        final String content = newEl("ddm:accessRights", "", "OPEN_ACCESS") + newEl("ddm:available", "", "2014-03");
-        final String profile = newProfile(content);
-        runTest(new Exception(), newRoot(profile), 1, "Invalid content", "accessRights");
-        // TODO assert
     }
 
     @Test
@@ -169,45 +161,6 @@ public class CrosswalkInlineTest
     }
 
     @Test
-    public void typedDcDate() throws Exception
-    {
-        final String value = "1919";
-        final String fieldUnderTest = newEl("dc:date", W3CDTF_TYPE, value);
-        final EasyMetadata emd = runTest(new Exception(), newRoot(newMiniProfile("") + newAdditional(fieldUnderTest)), 0);
-        checkMiniProfile(emd);
-        assertThat(emd.getEmdDate().getEasDate().get(0).getValue(), is(new DateTime(value)));
-    }
-
-    @Test
-    public void dcDate() throws Exception
-    {
-        final String value = "bronze age";
-        final String fieldUnderTest = newEl("dc:date", "", value);
-        final EasyMetadata emd = runTest(new Exception(), newRoot(newMiniProfile("") + newAdditional(fieldUnderTest)), 0);
-        checkMiniProfile(emd);
-        assertThat(emd.getEmdDate().getDcDate().get(0).getValue(), is(value));
-    }
-
-    @Test
-    public void typedDcTermsDate() throws Exception
-    {
-        final String value = "1919-01";
-        final String fieldUnderTest = newEl("dcterms:date", W3CDTF_TYPE, value);
-        final EasyMetadata emd = runTest(new Exception(), newRoot(newMiniProfile("") + newAdditional(fieldUnderTest)), 0);
-        checkMiniProfile(emd);
-        assertThat(emd.getEmdDate().getEasDate().get(0).getValue(), is(new DateTime(value)));
-    }
-
-    @Test
-    public void subTypedDcTermsDate() throws Exception
-    {
-        final String value = "1919";
-        final String fieldUnderTest = newEl("dcterms:date", " xsi:type='xs:gYear'", value);
-        // TODO Would it work with more name space declarations in the root element?
-        runTest(new Exception(), newRoot(newMiniProfile("") + newAdditional(fieldUnderTest)), 5, "prefix 'xs'");
-    }
-
-    @Test
     public void daiCreator() throws Exception
     {
         final String name = "pipo de clown";
@@ -220,16 +173,6 @@ public class CrosswalkInlineTest
         assertThat(emd.getEmdCreator().getEasCreator().get(0).getSurname(), is(name));
         assertThat(emd.getEmdCreator().getEasCreator().get(0).getEntityId(), is(id));
         assertThat(emd.getEmdCreator().getEasCreator().get(0).getIdentificationSystem().toString(), is(sys));
-    }
-
-    @Test
-    public void dcTermsDate() throws Exception
-    {
-        final String value = "bronze age";
-        final String fieldUnderTest = newEl("dcterms:date", "", value);
-        final EasyMetadata emd = runTest(new Exception(), newRoot(newMiniProfile("") + newAdditional(fieldUnderTest)), 0);
-        checkMiniProfile(emd);
-        assertThat(emd.getEmdDate().getDcDate().get(0).getValue(), is(value));
     }
 
     @Test
@@ -249,47 +192,46 @@ public class CrosswalkInlineTest
         checkMiniProfile(emd);
     }
 
-    private static final String fields[] = {"dcterms:created", "dcterms:available", "dcterms:dateAccepted", "dcterms:valid", "dcterms:issued",
+    private static final String dateFields[] = {"dcterms:created", "dcterms:available", "dcterms:dateAccepted", "dcterms:valid", "dcterms:issued",
             "dcterms:modified", "dcterms:dateCopyrighted", "dcterms:dateSubmitted", "dcterms:date", "dc:date"};
 
     @Test
     public void emptyDates() throws Exception
     {
         final StringBuffer sb = new StringBuffer();
-        for (final String field : fields)
+        for (final String field : dateFields)
         {
             sb.append(newEl(field, "", ""));
         }
-        runTest(new Exception(), newRoot(newMiniProfile("") + newAdditional(sb.toString())), 0);
+        final EasyMetadata emd = runTest(new Exception(), newRoot(newMiniProfile("") + newAdditional(sb.toString())), 0);
+        logger.debug(Arrays.deepToString(emd.getEmdDate().getValues().toArray()));
+        // only the date from the default content of miniProfile is detected
+        assertThat(emd.getEmdDate().getValues().size(), is(1));
     }
 
     @Test
     public void emptyW3cDates() throws Exception
     {
-        final StringBuffer sb = new StringBuffer();
-        // TODO sb.append(newEl("ddm:created", "",""));
-        // TODO sb.append(newEl("ddm:available", "",""));
-
-        for (final String field : fields)
-        {
-            sb.append(newEl(field, W3CDTF_TYPE, ""));
-        }
-        runTest(new Exception(), newRoot(newMiniProfile("") + newAdditional(sb.toString())), fields.length * 2, "must be valid");
+        String content = newEl("ddm:created", "", "")+newEl("ddm:available", "", "");
+        final EasyMetadata emd = runTest(new Exception(), newRoot(newMiniProfile("") + newAdditional(content)), 5, "available","created","must be valid");
+        assertThat(emd, nullValue());
     }
 
     @Test
     public void dates() throws Exception
     {
         final StringBuffer sb = new StringBuffer();
-        // TODO sb.append(newEl("ddm:created", "","2013"));
-        // TODO sb.append(newEl("ddm:available", "","1900"));
+        // ddm:created is in miniProfile
+        sb.append(newEl("ddm:available", "", "1900"));
 
-        for (final String field : fields)
+        for (final String field : dateFields)
         {
-            sb.append(newEl(field, W3CDTF_TYPE, "190003"));
+            sb.append(newEl(field, W3CDTF_TYPE, "1900-04"));
             sb.append(newEl(field, "", "03-2013"));
         }
-        runTest(new Exception(), newRoot(newMiniProfile("") + newAdditional(sb.toString())), 0);
+        final EasyMetadata emd = runTest(new Exception(), newRoot(newMiniProfile("") + newDcmi(sb.toString())), 0);
+        logger.debug(Arrays.deepToString(emd.getEmdDate().getValues().toArray()));
+        assertThat(emd.getEmdDate().getValues().size(), is(dateFields.length * 2 + 2));
     }
 
     private String readFile(final String string) throws Exception
