@@ -13,6 +13,7 @@ import org.junit.Test;
 
 public class SanityCheckEmdFormsConfiguration
 {
+    // TODO move implicit sanity check to easy web-ui ?
     @Test
     public void generatePackagingDoc() throws Exception
     {

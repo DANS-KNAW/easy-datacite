@@ -13,7 +13,9 @@ import java.util.zip.ZipInputStream;
 
 import nl.knaw.dans.common.lang.file.UnzipUtil;
 import nl.knaw.dans.common.lang.util.FileUtil;
+import nl.knaw.dans.pf.language.ddm.api.Ddm2EmdCrosswalk;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.xml.crosswalk.CrosswalkException;
 
 import org.purl.sword.base.ErrorCodes;
 import org.purl.sword.base.SWORDErrorException;
@@ -25,7 +27,7 @@ public class RequestContent
 {
     enum MDFileName
     {
-        easyMetadata("deprecated"), DansDatasetMetadata("not yet implemented");
+        easyMetadata("deprecated"), DansDatasetMetadata("preferred metadata format");
 
         static boolean accepts(final File file)
         {
@@ -108,9 +110,24 @@ public class RequestContent
     {
         if (metadataFile.getName().startsWith(MDFileName.easyMetadata.name()))
             return EasyMetadataFacade.validate(readMetadata(metadataFile));
-
-        // TODO apply cross-walker conversion
-        throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, ("Format not yet implemented: " + metadataFile.getName()));
+        else if (metadataFile.getName().startsWith(MDFileName.DansDatasetMetadata.name()))
+        {
+            final Ddm2EmdCrosswalk ddmEmdCrosswalk = new Ddm2EmdCrosswalk();
+            try
+            {
+                EasyMetadata emd = ddmEmdCrosswalk.createFrom(metadataFile);
+                if (emd==null)
+                    throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "Could not create EMD from DDM "+ddmEmdCrosswalk.getXmlErrorHandler().getMessages());
+                EasyMetadataFacade.validateControlledVocabulairies(emd);
+                EasyMetadataFacade.validateMandatoryFields(emd);
+                return emd;
+            }
+            catch (CrosswalkException e)
+            {
+                throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "Could not create EMD from DDM "+ddmEmdCrosswalk.getXmlErrorHandler().getMessages());
+            }
+        }
+        throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, ("Metadata format not implemented: " + metadataFile.getName()));
     }
 
     private List<File> unzip(final InputStream inputStream) throws SWORDErrorException
@@ -207,8 +224,9 @@ public class RequestContent
         return readFile;
     }
 
+    /** Misleading name since we ingest the meta data too: for external use only */
     public File getDataFolder()
     {
-        return dataFolder;
+        return tempDir;
     }
 }

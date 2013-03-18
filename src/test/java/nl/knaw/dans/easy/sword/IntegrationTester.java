@@ -1,6 +1,8 @@
 package nl.knaw.dans.easy.sword;
 
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+import static org.junit.internal.matchers.StringContains.containsString;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -153,7 +155,27 @@ public class IntegrationTester
     }
 
     @Test
-    public void depositProperZip() throws Exception
+    public void depositWithInvalidDDM() throws Exception
+    {
+        final RequestEntity request = createRequest(SubmitFixture.getFile("data-plus-invalid-ddm.zip"));
+        final PostMethod method = createPostMethod(request, false, false);
+        String r = getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
+        assertResponseCode(method, HttpStatus.SC_UNSUPPORTED_MEDIA_TYPE);
+        assertThat(r, containsString("Cannot find"));
+        assertThat(r, containsString("dans-dataset-md"));
+    }
+
+    @Test
+    public void depositWithDDM() throws Exception
+    {
+        final RequestEntity request = createRequest(SubmitFixture.getFile("data-plus-ddm.zip"));
+        final PostMethod method = createPostMethod(request, false, false);
+        getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
+        assertResponseCode(method, HttpStatus.SC_ACCEPTED);
+    }
+
+    @Test
+    public void depositWithEMD() throws Exception
     {
         final RequestEntity request = createRequest(VALID_FILE);
         final PostMethod method = createPostMethod(request, false, false);
@@ -182,6 +204,8 @@ public class IntegrationTester
         assertResponseCode(method, HttpStatus.SC_ACCEPTED);
     }
 
+    //@Ignore
+    // TODO reduce path length, fits nog longer
     @Test
     public void maxPathLength() throws Throwable
     {
@@ -189,6 +213,9 @@ public class IntegrationTester
         final PostMethod method = createPostMethod(request, false, false);
         getResponse(method, createClient(DEPOSITOR, (150 * SECOND)));
         assertResponseCode(method, HttpStatus.SC_ACCEPTED);
+        /*
+original/datafolder/abcdefghijklmnopqr/abcdefghijklmnopqrstuvwxyz/abcdefghijklmnopqrstuvwxyz/abcdefghijklmnopqrstuvwxyz/abcdefghijklmnopqrstuvwxyz/abcdefghijklmnopqrstuvwxyz/abcdefghijklmnopqrstuvwxyz/abcdefghijklmnopqrstuvwxyz/abcdefghijklmn/abc/test.txt
+         */
     }
 
     @Test

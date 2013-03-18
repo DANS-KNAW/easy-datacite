@@ -9,6 +9,7 @@ import java.util.Set;
 
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.business.dataset.DatasetSubmissionImpl;
+import nl.knaw.dans.easy.business.item.ItemIngesterDelegator;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.FileStoreAccess;
 import nl.knaw.dans.easy.data.userrepo.EasyUserRepo;
@@ -110,7 +111,7 @@ public class MockUtil
                 EasyMock.isA(DatasetImpl.class), //
                 EasyMock.isA(DmoStoreId.class), //
                 EasyMock.isA(File.class), //
-                EasyMock.isA(List.class), //
+                EasyMock.isA(ItemIngesterDelegator.class), //
                 EasyMock.isA(WorkReporter.class));
         EasyMock.expectLastCall().anyTimes();
 

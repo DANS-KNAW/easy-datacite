@@ -27,7 +27,6 @@ import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.LicenseComposer;
 import nl.knaw.dans.easy.servicelayer.LicenseComposer.LicenseComposerException;
-import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
@@ -226,7 +225,7 @@ public class EasyBusinessFacade
         if (!submission.isCompleted())
         {
             // For unit tests we use mocked datasets
-            if (!Services.getDatasetService().getClass().getName().startsWith("$Proxy"))
+            if (!Services.getDatasetService().getClass().getName().contains("$Proxy"))
             {
                 // FIXME a mocked dataset does not set the submission conditions, nor sends a mail
                 throw createSubmitException(submission, "submission not completed");
@@ -288,12 +287,11 @@ public class EasyBusinessFacade
         final Dataset dataset = submission.getDataset();
         final EasyUser user = submission.getSessionUser();
         final DmoStoreId dmoStoreId = dataset.getDmoStoreId();
-        final ItemService itemService = Services.getItemService();
         final IngestReporter ingestReporter = new IngestReporter();
         logIngest(directory, fileList, dmoStoreId);
         try
         {
-            itemService.addDirectoryContents(user, dataset, dmoStoreId, directory, fileList, ingestReporter);
+            Services.getItemService().addDirectoryContents(user, dataset, dmoStoreId, directory, new ItemIngester(dataset), ingestReporter);
         }
         catch (final ServiceException exception)
         {
