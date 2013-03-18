@@ -11,8 +11,7 @@ import org.xml.sax.SAXParseException;
 
 /**
  * Collects validating errors and warnings and prints them to the log-facility. At which log-level
- * messages will be printed is dependent on the {@link XMLErrorHandler.Reporter} that was set on the
- * handler at instantiation.
+ * messages will be printed is dependent on the {@link XMLErrorHandler.Reporter}.
  * 
  * @author ecco
  */

@@ -154,45 +154,45 @@
 				</includes>
 			</testResource>
 		</testResources>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>2.5.1</version>
-					<configuration>
-						<encoding>UTF-8</encoding>
-						<source>${source-code-version}</source>
-						<target>${byte-code-version}</target>
-						<debug>true</debug>
-						<excludes>
-							<exclude>**/package.html</exclude>
-							<exclude>**/overview.html</exclude>
-						</excludes>
-					</configuration>
-				</plugin>
 
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-source-plugin</artifactId>
-					<version>2.1.2</version>
-					<executions>
-						<execution>
-							<id>attach-sources</id>
-							<phase>verify</phase>
-							<goals>
-								<goal>jar-no-fork</goal>
-							</goals>
-						</execution>
-					</executions>
-					<configuration>
-						<includePom>true</includePom>
-					</configuration>
-				</plugin>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5.1</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<source>${source-code-version}</source>
+					<target>${byte-code-version}</target>
+					<debug>true</debug>
+					<excludes>
+						<exclude>**/package.html</exclude>
+						<exclude>**/overview.html</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
 
-				<!-- javadoc plug-in in profiles -->
-			</plugins>
-		</pluginManagement>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.1.2</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<includePom>true</includePom>
+				</configuration>
+			</plugin>
+
+			<!-- javadoc plug-in in profiles -->
+		</plugins>
+
 
 	</build>
 
@@ -213,5 +213,112 @@
 		</repository>
 
 	</repositories>
+	
+		<profiles>
+		<profile>
+			<id>yworks-uml-doclet</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+				<file>
+					<exists>/opt/doclets/yworks-uml-doclet/lib/ydoc.jar</exists>
+				</file>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>2.8.1</version>
+						<!-- Default configuration for all reports -->
+						<configuration>
+							<encoding>UTF-8</encoding>
+							<linksource>true</linksource>
+							<quiet>true</quiet>
+							<!-- stylesheetfile>${project.basedir}/src/main/javadoc/stylesheet.css</stylesheetfile -->
+							<!-- java 7 cannot find javadocExecutable -->
+							<javadocExecutable>/Library/Java/JavaVirtualMachines/jdk1.7.0_12.jdk/Contents/Home/bin/</javadocExecutable>
+
+							<bottom><![CDATA[Copyright 2013, <a href="http://www.dans.knaw.nl">DANS<a>
+									<code>build: yworks-uml-doclet ${maven.build.timestamp}</code>
+									]]></bottom>
+							<overview>src/main/java/overview.html</overview>
+
+							<doclet>ydoc.doclets.YStandard</doclet>
+							<docletPath>/opt/doclets/yworks-uml-doclet/lib/ydoc.jar:/opt/doclets/yworks-uml-doclet/resources</docletPath>
+							<additionalparam>-umlautogen</additionalparam>
+							<detectLinks>true</detectLinks>
+							<links>
+								<link>http://hc.apache.org/httpcomponents-core-ga/httpcore/apidocs</link>
+								<link>http://hc.apache.org/httpcomponents-client-ga/httpclient/apidocs</link>
+								<link>http://jena.apache.org/documentation/javadoc/jena</link>
+								<link>http://jena.apache.org/documentation/javadoc/arq/</link>
+							</links>
+						</configuration>
+						<executions>
+							<execution>
+								<id>attach-javadoc</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+
+							</execution>
+							<execution>
+								<id>aggregate</id>
+								<goals>
+									<goal>aggregate</goal>
+								</goals>
+								<phase>site</phase>
+								<configuration>
+									<!-- Specific configuration for the aggregate report -->
+									<stylesheetfile>stylesheet.css</stylesheetfile>
+								</configuration>
+							</execution>
+						</executions>
+
+
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>plain-javadoc</id>
+			<activation>
+				<file>
+					<missing>/opt/doclets/yworks-uml-doclet/lib/ydoc.jar</missing>
+				</file>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>2.8.1</version>
+						<executions>
+							<execution>
+								<id>attach-javadoc</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<encoding>UTF-8</encoding>
+							<linksource>true</linksource>
+							<quiet>true</quiet>
+
+							<bottom><![CDATA[Copyright 2012, <a href="http://www.dans.knaw.nl">DANS<a>
+							<pre>build: plain-javadoc ${maven.build.timestamp}</pre>]]></bottom>
+							<overview>src/main/java/overview.html</overview>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+	
+	
 
 </project>

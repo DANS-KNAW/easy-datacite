@@ -129,7 +129,7 @@ public interface XMLUnmarshaller<T>
     /**
      * Unmarshal an object from the given org.w3c.dom.Document.
      * 
-     * @param element
+     * @param document
      *        xml source
      * @return unmarshalled object
      * @throws XMLDeserializationException
