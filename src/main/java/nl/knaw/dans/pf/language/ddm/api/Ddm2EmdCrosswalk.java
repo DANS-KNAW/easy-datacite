@@ -9,9 +9,12 @@ import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.pf.language.xml.crosswalk.CrosswalkException;
 import nl.knaw.dans.pf.language.xml.crosswalk.Crosswalker;
 import nl.knaw.dans.pf.language.xml.exc.XMLSerializationException;
+import nl.knaw.dans.pf.language.xml.validation.XMLErrorHandler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 public class Ddm2EmdCrosswalk extends Crosswalker<EasyMetadata>
 {
@@ -28,7 +31,7 @@ public class Ddm2EmdCrosswalk extends Crosswalker<EasyMetadata>
      * 
      * @param file
      *        with XML content
-     * @return null in case of errors reported by {@link #getXmlErrorHandler()}
+     * @return null if errors are reported by the {@link XMLErrorHandler}
      * @throws CrosswalkException
      */
     public EasyMetadata createFrom(final File file) throws CrosswalkException
@@ -37,16 +40,42 @@ public class Ddm2EmdCrosswalk extends Crosswalker<EasyMetadata>
     }
 
     /**
+     * Creates an object assuming validation against an XSD has been done.
+     * 
+     * @param file
+     *        with XML content
+     * @return null if errors are reported by the {@link XMLErrorHandler}
+     * @throws CrosswalkException
+     */
+    public EasyMetadata createFromValidated(final File file) throws CrosswalkException
+    {
+        return validateEMD(walk(null, file, newTarget()));
+    }
+
+    /**
      * Creates an object after validation against an XSD.
      * 
      * @param xml
      *        the XML content
-     * @return null in case of errors reported by {@link #getXmlErrorHandler()}
+     * @return null if errors are reported by the {@link XMLErrorHandler}
      * @throws CrosswalkException
      */
     public EasyMetadata createFrom(final String xml) throws CrosswalkException
     {
         return validateEMD(walk(DDMValidator.instance(), xml, newTarget()));
+    }
+
+    /**
+     * Creates an object assuming validation against an XSD has been done.
+     * 
+     * @param xml
+     *        the XML content
+     * @return null if errors are reported by the {@link XMLErrorHandler}
+     * @throws CrosswalkException
+     */
+    public EasyMetadata createFromValidated(final String xml) throws CrosswalkException
+    {
+        return validateEMD(walk(null, xml, newTarget()));
     }
 
     private EasyMetadata newTarget()
@@ -57,7 +86,7 @@ public class Ddm2EmdCrosswalk extends Crosswalker<EasyMetadata>
     private EasyMetadata validateEMD(final EasyMetadata emd) throws CrosswalkException
     {
         if (getXmlErrorHandler().getErrors().size() > 0 || getXmlErrorHandler().getFatalErrors().size() > 0)
-            throw new CrosswalkException(getXmlErrorHandler().getMessages());
+            return null;
         try
         {
             // incomplete fields may cause trouble
@@ -67,8 +96,18 @@ public class Ddm2EmdCrosswalk extends Crosswalker<EasyMetadata>
         }
         catch (final XMLSerializationException e)
         {
-            logger.error("resulting Easy Meta Data is invalid: ", e);
-            throw new CrosswalkException("resulting Easy Meta Data is invalid: " + e.getMessage(), e);
+            String msg = "resulting Easy Meta Data is invalid: ";
+            logger.error(msg, e);
+            try
+            {
+                getXmlErrorHandler().error(new SAXParseException(msg + e.getMessage(), null));
+            }
+            catch (SAXException dummy)
+            {
+                // wrap the original exception, do not re-wrap
+                throw new CrosswalkException(msg + e.getMessage(), e);
+            }
+            throw new CrosswalkException(msg + e.getMessage(), e);
         }
     }
 }
