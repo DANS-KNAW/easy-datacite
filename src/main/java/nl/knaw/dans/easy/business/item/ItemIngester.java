@@ -217,6 +217,7 @@ public class ItemIngester extends AbstractWorker
             kidFile.setParent(parentContainer);
             setFileRights(kidFile);
             addAdditionalMetadata(kidFile);
+            addAdditionalRDF(kidFile);
 
             getUnitOfWork().saveAndDetach(kidFile);
         }
