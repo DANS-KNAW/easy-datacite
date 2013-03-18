@@ -29,8 +29,6 @@ public class Crosswalker<T>
     /**
      * * Creates an instance.
      * 
-     * @param validator
-     *        if null, guarded walks will throw an {@link IllegalStateException}
      * @param handlerMap
      * @throws IllegalArgumentException
      *         if handlerMap is null
@@ -43,13 +41,16 @@ public class Crosswalker<T>
     }
 
     /**
-     * Creates an object after validation against an XSD.
+     * Creates an object after an optional validation against an XSD.
      * 
      * @param validator
-     *        null validation against XSD already done
+     *        optional, omit if validation against XSD is already done, or the handlers passed on to the
+     *        constructor are happy with invalid XML
      * @param file
      *        with XML content
-     * @return null in case of errors reported by {@link #getXmlErrorHandler()}
+     * @param target
+     *        an instance that receives values from the XML
+     * @return the target unless errors are reported by the {@link XMLErrorHandler}
      * @throws CrosswalkException
      */
     final protected T walk(final AbstractValidator2 validator, final File file, T target) throws CrosswalkException, IllegalStateException
@@ -67,15 +68,16 @@ public class Crosswalker<T>
     }
 
     /**
-     * Fills the target after validation against an XSD.
+     * Fills the target after an optional validation against an XSD.
      * 
      * @param validator
-     *        null validation against XSD already done
+     *        optional, omit if validation against XSD is already done, or the handlers passed on to the
+     *        constructor are happy with invalid XML
      * @param xml
      *        the XML content
      * @param target
-     *        receives values from the XML
-     * @return null in case of errors reported by {@link #getXmlErrorHandler()}
+     *        an instance that receives values from the XML
+     * @return the target unless errors are reported by the {@link XMLErrorHandler}
      * @throws CrosswalkException
      */
     final protected T walk(final AbstractValidator2 validator, final String xml, T target) throws CrosswalkException, IllegalStateException
@@ -86,18 +88,24 @@ public class Crosswalker<T>
         return parse(new ByteArrayInputStream(bytes), target);
     }
 
-    final protected T walk(final InputStream xml, T target) throws CrosswalkException
-    {
-        return parse(xml, target);
-    }
-
     /**
-     * @return The handler of notifications. The log level depends on the reporter configured at
-     *         instantiation of the {@link Crosswalker}. The default level is off.
+     * @return The handler of notifications. Initially the log level is off. The level can be changed
+     *         with {@link #setReporter(Reporter)}. The handler collects notifications of subsequent
+     *         calls to the walk methods unless reset is called in between.
      */
     public XMLErrorHandler getXmlErrorHandler()
     {
         return errorHandler;
+    }
+
+    /**
+     * Change the logging level of the error handler.
+     * 
+     * @param reporter
+     */
+    public void setReporter(Reporter reporter)
+    {
+        errorHandler.setReporter(reporter);
     }
 
     private void validateAgainstXsd(final AbstractValidator2 validator, final InputStream xml) throws CrosswalkException
