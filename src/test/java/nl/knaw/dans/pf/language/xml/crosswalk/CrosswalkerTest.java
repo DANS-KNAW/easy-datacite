@@ -1,15 +1,14 @@
 package nl.knaw.dans.pf.language.xml.crosswalk;
 
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsNull.nullValue;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.core.Is.*;
+import static org.hamcrest.core.IsNull.*;
+import static org.junit.Assert.*;
 
 import java.io.File;
 
 import javax.xml.XMLConstants;
 
 import nl.knaw.dans.pf.language.xml.validation.AbstractValidator2;
-import nl.knaw.dans.pf.language.xml.validation.XMLErrorHandler.Reporter;
 
 import org.junit.Before;
 import org.junit.Test;
