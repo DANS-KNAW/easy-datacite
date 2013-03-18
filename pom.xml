@@ -219,8 +219,8 @@
 		</repository>
 
 	</repositories>
-	
-		<profiles>
+
+	<profiles>
 		<profile>
 			<id>yworks-uml-doclet</id>
 			<activation>
@@ -324,6 +324,6 @@
 			</build>
 		</profile>
 	</profiles>
-	
+
 
 </project>
