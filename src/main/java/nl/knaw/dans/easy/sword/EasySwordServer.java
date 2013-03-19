@@ -97,13 +97,10 @@ public class EasySwordServer implements SWORDServer
         collection.setMediation(false);
 
         // qualityValue indicates this is the preferred format
-        collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/md/emd/2012/easymetadata.xsd", 1f);
-        collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/docs/emd/emd.html", 1f);
+        collection.addAcceptPackaging("http://easy.dans.knaw.nl/schemas/index.xml", 1f);
 
-        // qualityValue indicates this format is not (yet) supported
-        collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/md/dataset/2012/dans-dataset-md.xsd", 0f);
-        collection.addAcceptPackaging("http://eof12.dans.knaw.nl/schemas/docs/ddm/dans-dataset-md.html", 0f);
-        // TODO replace URL with DDMValidator.instance().getSchemaURL("").toString()
+        // qualityValue indicates this format is deprecated
+        collection.addAcceptPackaging("https://www.dropbox.com/s/8xzzkqztq6c2nh3/SwordPackaging.html", 0f);
 
         final boolean jetty = !location.contains("/" + Context.getServletName() + "/");
         collection.setLocation(Context.getProviderURL() + (jetty ? "" : Context.getServletName() + "/") + "deposit");
