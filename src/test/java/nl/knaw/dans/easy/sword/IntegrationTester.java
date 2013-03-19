@@ -166,6 +166,16 @@ public class IntegrationTester
     }
 
     @Test
+    public void depositWithMinimalDDM() throws Exception
+    {
+        final RequestEntity request = createRequest(SubmitFixture.getFile("minimal-ddm.zip"));
+        final PostMethod method = createPostMethod(request, false, false);
+        String r = getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
+        assertResponseCode(method, HttpStatus.SC_BAD_REQUEST);
+        assertThat(r, containsString("Missing required field dc.title, Missing required field dc.description"));
+    }
+
+    @Test
     public void depositWithDDM() throws Exception
     {
         final RequestEntity request = createRequest(SubmitFixture.getFile("data-plus-ddm.zip"));
