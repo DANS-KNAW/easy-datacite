@@ -20,13 +20,13 @@ import nl.knaw.dans.easy.domain.dataset.DatasetSpecification;
 import nl.knaw.dans.easy.domain.dataset.DatasetSubmission;
 import nl.knaw.dans.easy.domain.deposit.discipline.DepositDiscipline;
 import nl.knaw.dans.easy.domain.exceptions.DataIntegrityException;
+import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
 import nl.knaw.dans.easy.domain.federation.FederativeUserIdMap;
 import nl.knaw.dans.easy.domain.form.FormDefinition;
 import nl.knaw.dans.easy.domain.form.PanelDefinition;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
-import nl.knaw.dans.easy.servicelayer.LicenseComposer;
-import nl.knaw.dans.easy.servicelayer.LicenseComposer.LicenseComposerException;
+import nl.knaw.dans.easy.servicelayer.services.DisciplineCollectionService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
@@ -316,16 +316,30 @@ public class EasyBusinessFacade
         logger.debug("ingesting files from " + directory + " into " + dmoStoreId + " " + string);
     }
 
-    public static String formatAudience(final EasyMetadata metadata) throws SWORDErrorException
+    public static String formatAudience(final EasyMetadata metadata) throws SWORDException
     {
-        try
+        final String msg = "can't get audience description ";
+        final DisciplineCollectionService disciplineService = Services.getDisciplineService();
+        if (disciplineService == null)
+            throw new SWORDException(msg, null);
+        final StringBuffer string = new StringBuffer();
+        for (final String sid : metadata.getEmdAudience().getValues())
         {
-            return LicenseComposer.formatAudience(metadata);
+            string.append(", ");
+            try
+            {
+                string.append(disciplineService.getDisciplineById(new DmoStoreId(sid)).getName());
+            }
+            catch (final ObjectNotFoundException e)
+            {
+                throw new SWORDException(msg, e);
+            }
+            catch (final ServiceException e)
+            {
+                throw new SWORDException(msg, e);
+            }
         }
-        catch (final LicenseComposerException exception)
-        {
-            throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, exception.getMessage());
-        }
+        return string.substring(2);
     }
 
     /** Wraps exceptions thrown by Services.getDatasetService().newDataset(metadataFormat). */
@@ -339,7 +353,7 @@ public class EasyBusinessFacade
         catch (final ServiceException exception)
         {
             logger.error("Cannot create new dataset with metadataformat: {}", metadataFormat.toString(), exception);
-            throw new SWORDException(("Can't create a new dataset " + metadataFormat), exception);
+            throw new SWORDException("Can't create a new dataset " + metadataFormat, exception);
         }
         return dataset;
     }
