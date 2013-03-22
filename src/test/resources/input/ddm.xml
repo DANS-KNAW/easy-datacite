@@ -15,6 +15,42 @@
 		<ddm:accessRights>OPEN_ACCESS</ddm:accessRights>
 	</ddm:profile>
 	<ddm:dcmiMetadata>
+		<dcterms:audience xsi:type='narcis:DisciplineType'>D34500</dcterms:audience>
+		<dcterms:audience>wetenschappers:1</dcterms:audience>
+		<dcterms:audience></dcterms:audience>
+		<dcterms:educationLevel>uiversitair:1</dcterms:educationLevel>
+		<!-- relations -->
+		<dc:relation>relatie nummer 01</dc:relation>
+		<dc:relation></dc:relation>
+		<dcterms:relation>relatie nummer 02</dcterms:relation>
+		<dcterms:relation></dcterms:relation>
+		<dcterms:conformsTo>relatie nummer 03</dcterms:conformsTo>
+		<dcterms:conformsTo></dcterms:conformsTo>
+		<dcterms:isVersionOf>relatie nummer 04</dcterms:isVersionOf>
+		<dcterms:isVersionOf></dcterms:isVersionOf>
+		<dcterms:hasVersion>relatie nummer 05</dcterms:hasVersion>
+		<dcterms:hasVersion></dcterms:hasVersion>
+		<dcterms:isReplacedBy>relatie nummer 06</dcterms:isReplacedBy>
+		<dcterms:isReplacedBy></dcterms:isReplacedBy>
+		<dcterms:replaces>relatie nummer 07</dcterms:replaces>
+		<dcterms:replaces></dcterms:replaces>
+		<dcterms:isRequiredBy>relatie nummer 08</dcterms:isRequiredBy>
+		<dcterms:isRequiredBy></dcterms:isRequiredBy>
+		<dcterms:requires>relatie nummer 09</dcterms:requires>
+		<dcterms:requires></dcterms:requires>
+		<dcterms:isPartOf>relatie nummer 10</dcterms:isPartOf>
+		<dcterms:isPartOf></dcterms:isPartOf>
+		<dcterms:hasPart>relatie nummer 11</dcterms:hasPart>
+		<dcterms:hasPart></dcterms:hasPart>
+		<dcterms:isReferencedBy>relatie nummer 12</dcterms:isReferencedBy>
+		<dcterms:isReferencedBy></dcterms:isReferencedBy>
+		<dcterms:references>relatie nummer 13</dcterms:references>
+		<dcterms:references></dcterms:references>
+		<dcterms:isFormatOf>relatie nummer 14</dcterms:isFormatOf>
+		<dcterms:isFormatOf></dcterms:isFormatOf>
+		<dcterms:hasFormat>relatie nummer 15</dcterms:hasFormat>
+		<dcterms:hasFormat></dcterms:hasFormat>
+		<!-- dates -->
 		<ddm:available>1900</ddm:available>
 		<dcterms:created xsi:type='dcterms:W3CDTF'>1900-04</dcterms:created>
 		<dcterms:created>03-2013</dcterms:created>
@@ -40,5 +76,114 @@
 		<dcterms:date>03-2013</dcterms:date>
 		<dc:date xsi:type='dcterms:W3CDTF'>1900-04</dc:date>
 		<dc:date>03-2013</dc:date>
+		<!-- authors -->
+		<dcx-dai:creator DAI='info:eu-repo/dai/nl/989691736x'>pipo de clown</dcx-dai:creator>
+		<dcx-dai:contributor DAI='info:eu-repo/dai/nl/123456789x'>mammaloe
+		</dcx-dai:contributor>
+		<dcx-dai:creator DAI='989691736x'><!-- TODO fix null pointer exception--></dcx-dai:creator>
+		<dcx-dai:contributor DAI='123456789x'><!-- TODO --></dcx-dai:contributor>
+		<dc:creator>Pipo de clown</dc:creator>
+		<dc:contributor>Mammaloe</dc:contributor>
+		<dc:creator></dc:creator>
+		<dc:contributor></dc:contributor>
+		<dcterms:creator>Pipo de Clown</dcterms:creator>
+		<dcterms:contributor>Mamma Loe</dcterms:contributor>
+		<dcterms:creator></dcterms:creator>
+		<dcterms:contributor></dcterms:contributor>
+		<dcx-dai:creatorDetails>
+			<dcx-dai:author>
+				<dcx-dai:titles xml:lang="en-IE">dr.</dcx-dai:titles>
+				<dcx-dai:initials>P</dcx-dai:initials>
+				<dcx-dai:insertions>v.d.</dcx-dai:insertions>
+				<dcx-dai:surname>P</dcx-dai:surname>
+				<dcx-dai:DAI>93313935x</dcx-dai:DAI>
+				<dcx-dai:organization>
+					<dcx-dai:name xml:lang="zh-CN">DC.LPEeo</dcx-dai:name>
+				</dcx-dai:organization>
+			</dcx-dai:author>
+		</dcx-dai:creatorDetails>
+		<dcx-dai:contributorDetails>
+			<dcx-dai:author>
+				<dcx-dai:titles xml:lang="en-IE">sr.</dcx-dai:titles>
+				<dcx-dai:initials>J.</dcx-dai:initials>
+				<dcx-dai:insertions></dcx-dai:insertions>
+				<dcx-dai:surname>Klaassen</dcx-dai:surname>
+				<dcx-dai:DAI>13313935x</dcx-dai:DAI>
+			</dcx-dai:author>
+		</dcx-dai:contributorDetails>
+		<!-- not supported -->
+		<dcterms:instructionalMethod>not supported 01
+		</dcterms:instructionalMethod>
+		<dcterms:instructionalMethod></dcterms:instructionalMethod>
+		<dcterms:accrualMethod>not supported 02</dcterms:accrualMethod>
+		<dcterms:accrualMethod></dcterms:accrualMethod>
+		<dcterms:accrualPolicy>not supported 03</dcterms:accrualPolicy>
+		<dcterms:accrualPolicy></dcterms:accrualPolicy>
+		<dcterms:accrualPeriodicity>not supported 04
+		</dcterms:accrualPeriodicity>
+		<dcterms:accrualPeriodicity></dcterms:accrualPeriodicity>
+		<dcterms:mediator>not supported 05</dcterms:mediator>
+		<dcterms:mediator></dcterms:mediator>
+		<dcterms:provenance>not supported 06</dcterms:provenance>
+		<dcterms:provenance></dcterms:provenance>
+		<dcterms:bibliographicCitation>not supported 07
+		</dcterms:bibliographicCitation>
+		<dcterms:bibliographicCitation></dcterms:bibliographicCitation>
+		<dcterms:medium>not supported 08</dcterms:medium>
+		<dcterms:medium></dcterms:medium>
+		<dcterms:license>not supported 09</dcterms:license>
+		<dcterms:license></dcterms:license>
+		<dcterms:extent>not supported 10</dcterms:extent>
+		<dcterms:extent></dcterms:extent>
+		<dcterms:abstract>not supported 11</dcterms:abstract>
+		<dcterms:abstract></dcterms:abstract>
+		<dcterms:tableOfContents>not supported 12</dcterms:tableOfContents>
+		<dcterms:tableOfContents></dcterms:tableOfContents>
+		<!-- not yet implemented -->
+		<dcterms:accessRights>not implemented 1</dcterms:accessRights>
+		<dc:rights>not implemented 2</dc:rights>
+		<dcterms:rights>not implemented 3</dcterms:rights>
+		<dcterms:rightsHolder>not implemented 4</dcterms:rightsHolder>
+		<!-- language -->
+		<dcterms:language>Nederlands</dcterms:language>
+		<dc:language>Engels</dc:language>
+		<dcterms:language></dcterms:language>
+		<dc:language></dc:language>
+		<dc:language xsi:type='dcterms:ISO639-3'>Ned</dc:language>
+		<dc:language xsi:type='dcterms:ISO639-2'>en</dc:language>
+		<dcterms:language xsi:type='dcterms:ISO639-3'>Dui</dcterms:language>
+		<dcterms:language xsi:type='dcterms:ISO639-2'>fr</dcterms:language>
+		<!-- misceleneous -->
+		<dcterms:identifier>IDA</dcterms:identifier>
+		<dc:identifier>IDB</dc:identifier>
+		<dcterms:identifier></dcterms:identifier>
+		<dc:identifier></dc:identifier>
+		<dcterms:description>beschrijving</dcterms:description>
+		<dcterms:format>formaat</dcterms:format>
+		<dcterms:alternative>alternatief</dcterms:alternative>
+		<dcterms:title>titel</dcterms:title>
+		<dcterms:publisher>uitgever</dcterms:publisher>
+		<dcterms:type>tiepe</dcterms:type>
+		<dcterms:source>bron</dcterms:source>
+		<dc:description>Beschrijving</dc:description>
+		<dc:format>Formaat</dc:format>
+		<dc:title>Titel</dc:title>
+		<dc:publisher>Uitgever</dc:publisher>
+		<dc:type>Tiepe</dc:type>
+		<dc:source>Bron</dc:source>
+		<dcterms:description></dcterms:description>
+		<dcterms:format></dcterms:format>
+		<dcterms:alternative></dcterms:alternative>
+		<dcterms:title></dcterms:title>
+		<dcterms:publisher></dcterms:publisher>
+		<dcterms:type></dcterms:type>
+		<dcterms:source></dcterms:source>
+		<dc:description></dc:description>
+		<dc:format></dc:format>
+		<dc:title></dc:title>
+		<dc:publisher></dc:publisher>
+		<dc:type></dc:type>
+		<dc:source></dc:source>
 	</ddm:dcmiMetadata>
 </ddm:DDM>
+

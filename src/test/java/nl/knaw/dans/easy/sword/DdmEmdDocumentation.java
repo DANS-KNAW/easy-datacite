@@ -73,9 +73,15 @@ public class DdmEmdDocumentation
     }
 
     @Test
-    public void doc() throws Exception
+    public void basics() throws Exception
     {
         run("ddm.xml");
+    }
+
+    @Test
+    public void withExtensions() throws Exception
+    {
+        run("ddm-extensions.xml");
     }
 
     private void run(final String fileName) throws Exception
@@ -83,7 +89,7 @@ public class DdmEmdDocumentation
         final EasyMetadata emd = crosswalk.createFrom(readFile(fileName));
         writeFile(new File(OUTPUT + "emd-from-" + fileName), new EmdMarshaller(emd).getXmlString());
         final String html = new MyComposer(MOCKED_DEPOSITOR, mockDataset(emd), true).getEMDasHTML();
-        writeFile(new File(OUTPUT + "emd-from-" + fileName + "-in-license-doc.html"), html);
+        writeFile(new File(OUTPUT + "emd-from-" + fileName + ".html"), html);
     }
 
     private Dataset mockDataset(final EasyMetadata emd) throws Exception
@@ -99,8 +105,10 @@ public class DdmEmdDocumentation
         final Map<String, String> disciplines = new MapFromXSD(NameSpace.NARCIS_TYPE.xsd).getAppInfo2doc();
         return new EasyDisciplineCollectionService(){
             public DisciplineContainer getDisciplineById(final DmoStoreId dmoStoreId){
+                final String key = dmoStoreId.toString();
+                final String value = disciplines.get(key);
                 final DisciplineContainer container = EasyMock.createMock(DisciplineContainer.class);
-                EasyMock.expect(container.getName()).andStubReturn(disciplines.get(dmoStoreId.toString()));
+                EasyMock.expect(container.getName()).andStubReturn(value==null?key:value);
                 EasyMock.replay(container);
                 return container;
                 
