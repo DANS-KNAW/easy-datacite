@@ -13,6 +13,19 @@ import java.util.Arrays;
 import nl.knaw.dans.common.lang.util.StreamUtil;
 import nl.knaw.dans.pf.language.ddm.handlermaps.NameSpace;
 import nl.knaw.dans.pf.language.ddm.handlers.EasSpatialHandler;
+import nl.knaw.dans.pf.language.ddm.relationhandlers.IsVersionOfHandler;
+import nl.knaw.dans.pf.language.ddm.relationhandlers.TermsConformsToHandler;
+import nl.knaw.dans.pf.language.ddm.relationhandlers.TermsHasFormatHandler;
+import nl.knaw.dans.pf.language.ddm.relationhandlers.TermsHasPartHandler;
+import nl.knaw.dans.pf.language.ddm.relationhandlers.TermsHasVersionHandler;
+import nl.knaw.dans.pf.language.ddm.relationhandlers.TermsIsFormatOfHandler;
+import nl.knaw.dans.pf.language.ddm.relationhandlers.TermsIsPartOfHandler;
+import nl.knaw.dans.pf.language.ddm.relationhandlers.TermsIsReferencedByHandler;
+import nl.knaw.dans.pf.language.ddm.relationhandlers.TermsIsReplacedByHandler;
+import nl.knaw.dans.pf.language.ddm.relationhandlers.TermsIsRequiredByHandler;
+import nl.knaw.dans.pf.language.ddm.relationhandlers.TermsReferencesHandler;
+import nl.knaw.dans.pf.language.ddm.relationhandlers.TermsReplacesHandler;
+import nl.knaw.dans.pf.language.ddm.relationhandlers.TermsRequiresHandler;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.xml.binding.Encoding;
 import nl.knaw.dans.pf.language.xml.crosswalk.CrosswalkException;
@@ -224,14 +237,53 @@ public class CrosswalkInlineTest
         // ddm:created is in miniProfile
         sb.append(newEl("ddm:available", "", "1900"));
 
+        int i=0;
         for (final String field : dateFields)
         {
-            sb.append(newEl(field, W3CDTF_TYPE, "1900-04"));
-            sb.append(newEl(field, "", "03-2013"));
+            sb.append(newEl(field, W3CDTF_TYPE, "1900-04-"+ pad(++i)));
+            sb.append(newEl(field, "", pad(++i)+"-03-2013"));
         }
         final EasyMetadata emd = runTest(new Exception(), newRoot(newMiniProfile("") + newDcmi(sb.toString())), 0);
         logger.debug(Arrays.deepToString(emd.getEmdDate().getValues().toArray()));
         assertThat(emd.getEmdDate().getValues().size(), is(dateFields.length * 2 + 2));
+    }
+
+    @Test
+    public void relations() throws Exception
+    {
+        final String fields[] = {
+        "dc:relation", 
+        "dcterms:relation", 
+        "dcterms:conformsTo",
+        "dcterms:isVersionOf",
+        "dcterms:hasVersion", 
+        "dcterms:isReplacedBy",
+        "dcterms:replaces", 
+        "dcterms:isRequiredBy", 
+        "dcterms:requires", 
+        "dcterms:isPartOf", 
+        "dcterms:hasPart", 
+        "dcterms:isReferencedBy", 
+        "dcterms:references", 
+        "dcterms:isFormatOf",
+        "dcterms:hasFormat",
+        };
+        final StringBuffer sb = new StringBuffer();
+        int i=0;
+        for (final String field : fields)
+        {
+            sb.append(newEl(field, "", "relatie nummer "+pad(++i)));
+            sb.append(newEl(field, "", ""));
+        }
+        final EasyMetadata emd = runTest(new Exception(), newRoot(newMiniProfile("") + newDcmi(sb.toString())), 0,"");
+        logger.debug(Arrays.deepToString(emd.getEmdRelation().getValues().toArray()));
+        assertThat(emd.getEmdRelation().getValues().size(), is(fields.length ));
+    }
+
+    private String pad(int i)
+    {
+        String s = "0"+i;
+        return s.substring(s.length()-2);
     }
 
     private String readFile(final String string) throws Exception

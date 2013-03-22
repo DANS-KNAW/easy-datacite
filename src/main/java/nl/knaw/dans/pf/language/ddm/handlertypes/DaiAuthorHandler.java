@@ -38,13 +38,21 @@ public abstract class DaiAuthorHandler extends CrosswalkHandler<EasyMetadata>
         else
         {
             final DAI dai = toDAI(attribute);
-            author.setEntityId(dai.getIdentifier(), EmdConstants.SCHEME_DAI);
-            author.setIdentificationSystem(toURI("info:eu-repo/dai/nl/"));
+            if (dai != null)
+            {
+                author.setEntityId(dai.getIdentifier(), EmdConstants.SCHEME_DAI);
+                author.setIdentificationSystem(toURI("info:eu-repo/dai/nl/"));
+            }
         }
     }
 
     private DAI toDAI(final String attribute) throws SAXException
     {
+        if (!DAI.isValid(attribute))
+        {
+            error("invalid value for DAI: " + attribute);
+            return null;
+        }
         try
         {
             return new DAI(attribute);
