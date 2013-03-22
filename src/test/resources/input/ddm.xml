@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ddm:DDM xmlns:dc='http://purl.org/dc/elements/1.1/'
+	xmlns:dcterms='http://purl.org/dc/terms/' xmlns:dcmitype='http://purl.org/dc/dcmitype/'
+	xmlns:dcx='http://easy.dans.knaw.nl/schemas/dcx/' xmlns:dcx-dai='http://easy.dans.knaw.nl/schemas/dcx/dai/'
+	xmlns:dcx-gml='http://easy.dans.knaw.nl/schemas/dcx/gml/' xmlns:ddm='http://easy.dans.knaw.nl/schemas/md/ddm/'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:narcis='http://easy.dans.knaw.nl/schemas/vocab/narcis-type/'
+	xmlns:abr='http://www.den.nl/standaard/166/Archeologisch-Basisregister/'
+	xsi:schemaLocation='http://easy.dans.knaw.nl/schemas/md/ddm/ http://easy.dans.knaw.nl/schemas/md/2012/11/ddm.xsd'>
+	<ddm:profile>
+		<dc:title>fabeltjeskrant</dc:title>
+		<dcterms:description>tv serie</dcterms:description>
+		<dc:creator>meneer de uil</dc:creator>
+		<ddm:created>2013</ddm:created>
+		<ddm:audience>D41500</ddm:audience>
+		<ddm:accessRights>OPEN_ACCESS</ddm:accessRights>
+	</ddm:profile>
+	<ddm:dcmiMetadata>
+		<ddm:available>1900</ddm:available>
+		<dcterms:created xsi:type='dcterms:W3CDTF'>1900-04</dcterms:created>
+		<dcterms:created>03-2013</dcterms:created>
+		<dcterms:available xsi:type='dcterms:W3CDTF'>1900-04
+		</dcterms:available>
+		<dcterms:available>03-2013</dcterms:available>
+		<dcterms:dateAccepted xsi:type='dcterms:W3CDTF'>1900-04
+		</dcterms:dateAccepted>
+		<dcterms:dateAccepted>03-2013</dcterms:dateAccepted>
+		<dcterms:valid xsi:type='dcterms:W3CDTF'>1900-04</dcterms:valid>
+		<dcterms:valid>03-2013</dcterms:valid>
+		<dcterms:issued xsi:type='dcterms:W3CDTF'>1900-04</dcterms:issued>
+		<dcterms:issued>03-2013</dcterms:issued>
+		<dcterms:modified xsi:type='dcterms:W3CDTF'>1900-04</dcterms:modified>
+		<dcterms:modified>03-2013</dcterms:modified>
+		<dcterms:dateCopyrighted xsi:type='dcterms:W3CDTF'>1900-04
+		</dcterms:dateCopyrighted>
+		<dcterms:dateCopyrighted>03-2013</dcterms:dateCopyrighted>
+		<dcterms:dateSubmitted xsi:type='dcterms:W3CDTF'>1900-04
+		</dcterms:dateSubmitted>
+		<dcterms:dateSubmitted>03-2013</dcterms:dateSubmitted>
+		<dcterms:date xsi:type='dcterms:W3CDTF'>1900-04</dcterms:date>
+		<dcterms:date>03-2013</dcterms:date>
+		<dc:date xsi:type='dcterms:W3CDTF'>1900-04</dc:date>
+		<dc:date>03-2013</dc:date>
+	</ddm:dcmiMetadata>
+</ddm:DDM>
