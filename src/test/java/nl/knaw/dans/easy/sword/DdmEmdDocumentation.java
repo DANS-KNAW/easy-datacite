@@ -1,5 +1,9 @@
 package nl.knaw.dans.easy.sword;
 
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,45 +22,44 @@ import nl.knaw.dans.easy.servicelayer.LicenseComposer;
 import nl.knaw.dans.easy.servicelayer.services.DisciplineCollectionService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.pf.language.ddm.api.Ddm2EmdCrosswalk;
+import nl.knaw.dans.pf.language.ddm.api.Ddm2EmdHandlerMap;
 import nl.knaw.dans.pf.language.ddm.handlermaps.NameSpace;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.binding.EmdMarshaller;
 import nl.knaw.dans.pf.language.xml.binding.Encoding;
 import nl.knaw.dans.pf.language.xml.vocabulary.MapFromXSD;
 
+import org.dom4j.Document;
+import org.dom4j.io.SAXReader;
 import org.easymock.EasyMock;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import com.lowagie.text.Document;
-import com.lowagie.text.Element;
-import com.lowagie.text.html.HtmlWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Shows how/which DDM fields appear in a license document as meta data */
 public class DdmEmdDocumentation
 {
+    private static final File INPUT = new File("src/test/resources/input/ddm.xml");
     private static final String OUTPUT = "target/doc/";
-    private static final Ddm2EmdCrosswalk crosswalk = new Ddm2EmdCrosswalk();
+    private static final Ddm2EmdCrosswalk crosswalker = new Ddm2EmdCrosswalk();
     private static final EasyUser MOCKED_DEPOSITOR = EasyMock.createMock(EasyUser.class);
+    private static final Logger logger = LoggerFactory.getLogger(DdmEmdDocumentation.class);
 
-    private class MyComposer extends LicenseComposer
+    private class MockedLicenseComposer extends LicenseComposer
     {
-        public MyComposer(final EasyUser depositor, final Dataset dataset, final boolean generateSample) throws LicenseComposerException
+        public MockedLicenseComposer(final EasyUser depositor, final Dataset dataset, final boolean generateSample) throws LicenseComposerException
         {
             super(depositor, dataset, generateSample);
         }
 
-        /** Makes a protected method visible for testing purposes. */
-        protected Element formatMetaData(final Document document) throws LicenseComposerException
+        /** get just a section of the license document */
+        String getMetadataAsHTML() throws Exception
         {
-            return super.formatMetaData(document);
-        }
-
-        String getEMDasHTML() throws Exception
-        {
-            final Document document = new Document();
+            // no import because of conflicts with dom4j
+            final com.lowagie.text.Document document = new com.lowagie.text.Document();
             final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            HtmlWriter.getInstance(document, outputStream);
+            com.lowagie.text.html.HtmlWriter.getInstance(document, outputStream);
             document.open();
             document.add(formatMetaData(document));
             document.close();
@@ -73,23 +76,39 @@ public class DdmEmdDocumentation
     }
 
     @Test
-    public void basics() throws Exception
+    public void crosswalk() throws Exception
     {
-        run("ddm.xml");
+        final EasyMetadata emd = crosswalker.createFrom(readFile(INPUT));
+        logger.info(crosswalker.getXmlErrorHandler().getMessages());
+        writeFile(new File(OUTPUT + "emd-from-" + INPUT.getName()), new EmdMarshaller(emd).getXmlString());
+        final String html = new MockedLicenseComposer(MOCKED_DEPOSITOR, mockDataset(emd), true).getMetadataAsHTML();
+        writeFile(new File(OUTPUT + "emd-from-" + INPUT.getName() + ".html"), html);
+        assertThat(crosswalker.getXmlErrorHandler().getErrors().size(), is(0));
+        assertThat(crosswalker.getXmlErrorHandler().getFatalErrors().size(), is(0));
     }
 
     @Test
-    public void withExtensions() throws Exception
+    public void handlerMapCoverage() throws Exception
     {
-        run("ddm-extensions.xml");
-    }
-
-    private void run(final String fileName) throws Exception
-    {
-        final EasyMetadata emd = crosswalk.createFrom(readFile(fileName));
-        writeFile(new File(OUTPUT + "emd-from-" + fileName), new EmdMarshaller(emd).getXmlString());
-        final String html = new MyComposer(MOCKED_DEPOSITOR, mockDataset(emd), true).getEMDasHTML();
-        writeFile(new File(OUTPUT + "emd-from-" + fileName + ".html"), html);
+        final Document document = new SAXReader().read(INPUT);
+        for (final String key : Ddm2EmdHandlerMap.getInstance().getKeys())
+        {
+            final String[] split = key.split("/");
+            final String tag = split[1];
+            final String localNameOfType = split[0];
+            final String xpath;
+            if (localNameOfType.length() == 0)
+                xpath = "//" + tag;
+            else
+                xpath = "//" + tag + "[contains(@xsi:type,'" + localNameOfType + "')]";
+            if (tag.equals("ddm:additional-xml"))
+                ;
+            else
+            {
+                final String msg = "<" + tag + "> with attribute xsi:type " + localNameOfType + " not in xml";
+                assertTrue(msg, document.selectNodes(xpath).size() > 0);
+            }
+        }
     }
 
     private Dataset mockDataset(final EasyMetadata emd) throws Exception
@@ -103,22 +122,24 @@ public class DdmEmdDocumentation
     private static DisciplineCollectionService mockDisciplineService() throws Exception
     {
         final Map<String, String> disciplines = new MapFromXSD(NameSpace.NARCIS_TYPE.xsd).getAppInfo2doc();
-        return new EasyDisciplineCollectionService(){
-            public DisciplineContainer getDisciplineById(final DmoStoreId dmoStoreId){
+        return new EasyDisciplineCollectionService()
+        {
+            public DisciplineContainer getDisciplineById(final DmoStoreId dmoStoreId)
+            {
                 final String key = dmoStoreId.toString();
                 final String value = disciplines.get(key);
                 final DisciplineContainer container = EasyMock.createMock(DisciplineContainer.class);
-                EasyMock.expect(container.getName()).andStubReturn(value==null?key:value);
+                EasyMock.expect(container.getName()).andStubReturn(value == null ? key : value);
                 EasyMock.replay(container);
                 return container;
-                
+
             }
         };
     }
 
-    private String readFile(final String string) throws Exception
+    private String readFile(final File file) throws Exception
     {
-        final byte[] xml = StreamUtil.getBytes(new FileInputStream("src/test/resources/input/" + string));
+        final byte[] xml = StreamUtil.getBytes(new FileInputStream(file));
         return new String(xml, Encoding.UTF8);
     }
 

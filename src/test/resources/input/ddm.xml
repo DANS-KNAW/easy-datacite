@@ -1,11 +1,15 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<ddm:DDM xmlns:dc='http://purl.org/dc/elements/1.1/'
-	xmlns:dcterms='http://purl.org/dc/terms/' xmlns:dcmitype='http://purl.org/dc/dcmitype/'
-	xmlns:dcx='http://easy.dans.knaw.nl/schemas/dcx/' xmlns:dcx-dai='http://easy.dans.knaw.nl/schemas/dcx/dai/'
-	xmlns:dcx-gml='http://easy.dans.knaw.nl/schemas/dcx/gml/' xmlns:ddm='http://easy.dans.knaw.nl/schemas/md/ddm/'
-	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:narcis='http://easy.dans.knaw.nl/schemas/vocab/narcis-type/'
-	xmlns:abr='http://www.den.nl/standaard/166/Archeologisch-Basisregister/'
-	xsi:schemaLocation='http://easy.dans.knaw.nl/schemas/md/ddm/ http://easy.dans.knaw.nl/schemas/md/2012/11/ddm.xsd'>
+<?xml version="1.0" encoding="UTF-8"?>
+<ddm:DDM xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:dcmitype="http://purl.org/dc/dcmitype/" xmlns:narcis="http://easy.dans.knaw.nl/schemas/vocab/narcis-type/"
+	xmlns:dcx="http://easy.dans.knaw.nl/schemas/dcx/" xmlns:dcx-dai="http://easy.dans.knaw.nl/schemas/dcx/dai/"
+	xmlns:ddm="http://easy.dans.knaw.nl/schemas/md/ddm/" xmlns:dcterms="http://purl.org/dc/terms/"
+	xmlns:dcx-gml="http://easy.dans.knaw.nl/schemas/dcx/gml/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:abr="http://www.den.nl/standaard/166/Archeologisch-Basisregister/"
+	xsi:schemaLocation="
+		http://www.den.nl/standaard/166/Archeologisch-Basisregister/ http://easy.dans.knaw.nl/schemas/vocab/2012/10/abr-type.xsd
+		http://easy.dans.knaw.nl/schemas/md/ddm/ http://easy.dans.knaw.nl/schemas/md/2012/11/ddm.xsd
+		http://easy.dans.knaw.nl/schemas/dcx/gml/ http://eof12.dans.knaw.nl/schemas/dcx/2012/10/dcx-gml.xsd
+">
 	<ddm:profile>
 		<dc:title>fabeltjeskrant</dc:title>
 		<dcterms:description>tv serie</dcterms:description>
@@ -77,11 +81,10 @@
 		<dc:date xsi:type='dcterms:W3CDTF'>1900-04</dc:date>
 		<dc:date>03-2013</dc:date>
 		<!-- authors -->
-		<dcx-dai:creator DAI='info:eu-repo/dai/nl/989691736x'>pipo de clown</dcx-dai:creator>
-		<dcx-dai:contributor DAI='info:eu-repo/dai/nl/123456789x'>mammaloe
-		</dcx-dai:contributor>
-		<dcx-dai:creator DAI='989691736x'><!-- TODO fix null pointer exception--></dcx-dai:creator>
-		<dcx-dai:contributor DAI='123456789x'><!-- TODO --></dcx-dai:contributor>
+		<dcx-dai:creator DAI='info:eu-repo/dai/nl/1234567897'>pipo de clown</dcx-dai:creator>
+		<dcx-dai:contributor DAI='1234567897'>pipo de clown</dcx-dai:contributor>
+		<dcx-dai:creator DAI='info:eu-repo/dai/nl/9876543216'></dcx-dai:creator>
+		<dcx-dai:contributor DAI='9876543216'></dcx-dai:contributor>
 		<dc:creator>Pipo de clown</dc:creator>
 		<dc:contributor>Mammaloe</dc:contributor>
 		<dc:creator></dc:creator>
@@ -184,6 +187,32 @@
 		<dc:publisher></dc:publisher>
 		<dc:type></dc:type>
 		<dc:source></dc:source>
+		<!-- coverage -->
+		<dcterms:spatial></dcterms:spatial>
+		<dcterms:spatial>doe maar wat</dcterms:spatial>
+		<dc:coverage>lowieke de vos</dc:coverage>
+		<dc:coverage></dc:coverage>
+		<dc:subject xsi:type="abr:ABRcomplex">EGVW</dc:subject>
+		<dcterms:subject xsi:type="abr:ABRcomplex">ELA</dcterms:subject>
+		<dcterms:subject></dcterms:subject>
+		<dcterms:subject>bed time story</dcterms:subject>
+		<dcterms:coverage>bor de wolf</dcterms:coverage>
+		<dcterms:coverage></dcterms:coverage>
+		<dcterms:temporal xsi:type="abr:ABRperiode">PALEOLB</dcterms:temporal>
+		<dcterms:temporal></dcterms:temporal>
+		<dcterms:temporal>bronzen tijdperk</dcterms:temporal>
+		<dcterms:spatial xsi:type="dcx-gml:SimpleGMLType">
+			<Point xmlns="http://www.opengis.net/gml">
+				<pos>1.0 2.0</pos>
+			</Point>
+		</dcterms:spatial>
+		<dcx-gml:spatial>
+			<Point xmlns="http://www.opengis.net/gml">
+				<pos>
+					52.08113 4.34510
+				</pos>
+			</Point>
+		</dcx-gml:spatial>
 	</ddm:dcmiMetadata>
 </ddm:DDM>
 
