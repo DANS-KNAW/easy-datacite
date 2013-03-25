@@ -10,22 +10,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 
+import nl.knaw.dans.common.lang.id.DAI;
 import nl.knaw.dans.common.lang.util.StreamUtil;
 import nl.knaw.dans.pf.language.ddm.handlermaps.NameSpace;
 import nl.knaw.dans.pf.language.ddm.handlers.EasSpatialHandler;
-import nl.knaw.dans.pf.language.ddm.relationhandlers.IsVersionOfHandler;
-import nl.knaw.dans.pf.language.ddm.relationhandlers.TermsConformsToHandler;
-import nl.knaw.dans.pf.language.ddm.relationhandlers.TermsHasFormatHandler;
-import nl.knaw.dans.pf.language.ddm.relationhandlers.TermsHasPartHandler;
-import nl.knaw.dans.pf.language.ddm.relationhandlers.TermsHasVersionHandler;
-import nl.knaw.dans.pf.language.ddm.relationhandlers.TermsIsFormatOfHandler;
-import nl.knaw.dans.pf.language.ddm.relationhandlers.TermsIsPartOfHandler;
-import nl.knaw.dans.pf.language.ddm.relationhandlers.TermsIsReferencedByHandler;
-import nl.knaw.dans.pf.language.ddm.relationhandlers.TermsIsReplacedByHandler;
-import nl.knaw.dans.pf.language.ddm.relationhandlers.TermsIsRequiredByHandler;
-import nl.knaw.dans.pf.language.ddm.relationhandlers.TermsReferencesHandler;
-import nl.knaw.dans.pf.language.ddm.relationhandlers.TermsReplacesHandler;
-import nl.knaw.dans.pf.language.ddm.relationhandlers.TermsRequiresHandler;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.xml.binding.Encoding;
 import nl.knaw.dans.pf.language.xml.crosswalk.CrosswalkException;
@@ -62,6 +50,14 @@ public class CrosswalkInlineTest
         }
     }
 
+    @Test
+    public void dais(){
+        String[] s = {"9876543210","9876543211","9876543212","9876543213","9876543214","9876543215","9876543216","9876543217","9876543218","9876543219","987654321x"};
+        for(String v:s){
+            logger.debug(v+" "+DAI.isValid(v));
+        }
+    }
+    
     @Test
     public void invalidAccesRights() throws Exception
     {
@@ -177,7 +173,7 @@ public class CrosswalkInlineTest
     public void daiCreator() throws Exception
     {
         final String name = "pipo de clown";
-        final String id = "989691736x";
+        final String id = "9876543216";
         final String sys = "info:eu-repo/dai/nl/";
         final String attribute = " DAI='" + sys + id + "'";
         final String fieldUnderTest = newEl("dcx-dai:creator", attribute, name);
@@ -186,6 +182,17 @@ public class CrosswalkInlineTest
         assertThat(emd.getEmdCreator().getEasCreator().get(0).getSurname(), is(name));
         assertThat(emd.getEmdCreator().getEasCreator().get(0).getEntityId(), is(id));
         assertThat(emd.getEmdCreator().getEasCreator().get(0).getIdentificationSystem().toString(), is(sys));
+    }
+
+    @Test
+    public void invalidDaiContributor() throws Exception
+    {
+        final String name = "pipo de clown";
+        final String id = "123456789x";
+        final String sys = "info:eu-repo/dai/nl/";
+        final String attribute = " DAI='" + sys + id + "'";
+        final String fieldUnderTest = newEl("dcx-dai:contributor", attribute, name);
+        runTest(new Exception(), newRoot(newMiniProfile("") + newAdditional(fieldUnderTest)), 1,"invalid DAI");
     }
 
     @Test

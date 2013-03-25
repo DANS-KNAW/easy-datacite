@@ -2,6 +2,7 @@ package nl.knaw.dans.pf.language.ddm.api;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import nl.knaw.dans.pf.language.ddm.datehandlers.DcDateHandler;
 import nl.knaw.dans.pf.language.ddm.datehandlers.EasAvailableHandler;
@@ -73,7 +74,7 @@ import org.xml.sax.SAXException;
 
 public class Ddm2EmdHandlerMap implements CrosswalkHandlerMap<EasyMetadata>
 {
-    private static final SkippedFieldHandler SKIPPED_FIELD_HANDLER= new SkippedFieldHandler(null);
+    private static final SkippedFieldHandler SKIPPED_FIELD_HANDLER = new SkippedFieldHandler(null);
     private static final CrosswalkHandler<EasyMetadata> NOT_YET_IMPLEMENTED = new SkippedFieldHandler("not yet configured/implemented");
     private static final Ddm2EmdHandlerMap INSTANCE = new Ddm2EmdHandlerMap();
     private static Map<String, String> uri2prefix = initNameSpaceMap();
@@ -95,6 +96,12 @@ public class Ddm2EmdHandlerMap implements CrosswalkHandlerMap<EasyMetadata>
     /** no instantiation for a singleton */
     private Ddm2EmdHandlerMap()
     {
+    }
+
+    /** TODO let test achieve this with mocking and make the class not public */
+    public Set<String> getKeys()
+    {
+        return map.keySet();
     }
 
     /** lazy initialization */
@@ -139,8 +146,8 @@ public class Ddm2EmdHandlerMap implements CrosswalkHandlerMap<EasyMetadata>
      * @param localName
      * @param attributes
      * @return [type/ns:localName] where<br>
-     *        ns = translated to an internal name space prefix<br>
-     *        type = the local name of the type attribute
+     *         ns = translated to an internal name space prefix<br>
+     *         type = the local name of the type attribute
      * @throws SAXException
      *         if lazy initialization of the map fails
      */

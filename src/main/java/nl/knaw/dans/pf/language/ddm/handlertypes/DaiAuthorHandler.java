@@ -15,53 +15,36 @@ public abstract class DaiAuthorHandler extends CrosswalkHandler<EasyMetadata>
 {
     protected Author createDaiAuthor(final String uri, final String localName) throws SAXException
     {
-        final Author author = new Author();
         final String value = getCharsSinceStart().trim();
         final String attribute = getAttribute("", "DAI").trim();
         if (value.length() == 0 || attribute.length() == 0)
             return null;
-        setDAI(author, attribute);
+        final Author author = new Author();
         author.setSurname(value);
-        return author;
+        return setDAI(author, attribute);
     }
 
-    protected void setDAI(final Author author, final String attribute) throws SAXException
+    protected Author setDAI(final Author author, final String value) throws SAXException
     {
-        if (attribute.startsWith("info"))
+        if (value.startsWith("info"))
         {
-            final String[] strings = attribute.split("/");
+            final String[] strings = value.split("/");
             final String entityId = strings[strings.length - 1];
-            final String idSys = attribute.replaceAll(entityId + "$", "");
+            final String idSys = value.replaceAll(entityId + "$", "");
             author.setEntityId(entityId, EmdConstants.SCHEME_DAI);
             author.setIdentificationSystem(toURI(idSys));
         }
         else
         {
-            final DAI dai = toDAI(attribute);
-            if (dai != null)
-            {
-                author.setEntityId(dai.getIdentifier(), EmdConstants.SCHEME_DAI);
-                author.setIdentificationSystem(toURI("info:eu-repo/dai/nl/"));
-            }
+            author.setEntityId(value, EmdConstants.SCHEME_DAI);
+            author.setIdentificationSystem(toURI("info:eu-repo/dai/nl/"));
         }
-    }
-
-    private DAI toDAI(final String attribute) throws SAXException
-    {
-        if (!DAI.isValid(attribute))
+        if (!DAI.isValid(author.getEntityId()))
         {
-            error("invalid value for DAI: " + attribute);
+            error("invalid DAI "+author.getEntityId());
             return null;
         }
-        try
-        {
-            return new DAI(attribute);
-        }
-        catch (final IllegalArgumentException e)
-        {
-            error(e.getMessage());
-            return null;
-        }
+        return author;
     }
 
     private URI toURI(final String string) throws SAXException

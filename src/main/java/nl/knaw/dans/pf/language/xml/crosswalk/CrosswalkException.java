@@ -8,9 +8,4 @@ public class CrosswalkException extends Exception
     {
         super(string, e);
     }
-
-    public CrosswalkException(String string)
-    {
-        super(string);
-    }
 }
