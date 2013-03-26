@@ -126,19 +126,10 @@ public class CrosswalkInlineTest
     }
 
     @Test
-    public void demo() throws Exception
-    {
-        final EasyMetadata emd = runTest(new Exception(), readFile("demo.xml"), 8,"");
-        assertThat(emd.getEmdAudience().getTermsAudience().size(), is(4));
-        assertThat(emd.getEmdCreator().getEasCreator().size(), is(2));
-    }
-
-    @Test
     public void narcisTypePropertyWithAlternativeNameSpace() throws Exception
     {
         final String audience = newEl("dcterms:audience", " xsi:type='xnarcis:DisciplineType'", "D34500");
-        final String dcmi = newEl("ddm:dcmiMetadata", "", audience);
-        final String xml = newRoot(newMiniProfile("") + dcmi).replace(" xmlns:narcis=", " xmlns:xnarcis=");
+        final String xml = newRoot(newMiniProfile("") + newDcmi(audience)).replace(" xmlns:narcis=", " xmlns:xnarcis=");
         final EasyMetadata emd = runTest(new Exception(), xml, 0);
         assertThat(emd.getEmdAudience().getDisciplines().get(1).getValue(), is("easy-discipline:13"));
     }
