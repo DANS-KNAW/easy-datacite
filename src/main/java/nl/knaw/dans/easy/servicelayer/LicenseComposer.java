@@ -368,9 +368,15 @@ public class LicenseComposer
                 string.append(", ");
                 string.append(disciplineService.getDisciplineById(new DmoStoreId(sid)).getName());
             }
+            catch (final IllegalArgumentException e)
+            {
+                string.append(", ");
+                string.append(sid);
+            }
             catch (final ObjectNotFoundException e)
             {
-                throw new LicenseComposerException("discipline not found: " + sid, e);
+                string.append(", ");
+                string.append(sid);
             }
             catch (final ServiceException e)
             {
