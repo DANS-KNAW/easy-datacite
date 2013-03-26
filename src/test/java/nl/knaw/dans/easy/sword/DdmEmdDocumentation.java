@@ -19,6 +19,7 @@ import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.LicenseComposer;
+import nl.knaw.dans.easy.servicelayer.LicenseComposer.LicenseComposerException;
 import nl.knaw.dans.easy.servicelayer.services.DisciplineCollectionService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.pf.language.ddm.api.Ddm2EmdCrosswalk;
@@ -41,33 +42,13 @@ import org.slf4j.LoggerFactory;
 public class DdmEmdDocumentation
 {
     /** Same test file as in CrosswalkInlineTest */
-    private static final File INPUT = new File("src/test/resources/input/demo.xml");
-    
-    private static final String OUTPUT = "target/doc/";
+    private static final File INPUT = new File("src/test/resources/input/demoDDM.xml");
+
+    private static final String OUTPUT = "target/doc/emd-from-" + INPUT.getName();
+
     private static final Ddm2EmdCrosswalk crosswalker = new Ddm2EmdCrosswalk();
     private static final EasyUser MOCKED_DEPOSITOR = EasyMock.createMock(EasyUser.class);
     private static final Logger logger = LoggerFactory.getLogger(DdmEmdDocumentation.class);
-
-    private class MockedLicenseComposer extends LicenseComposer
-    {
-        public MockedLicenseComposer(final EasyUser depositor, final Dataset dataset, final boolean generateSample) throws LicenseComposerException
-        {
-            super(depositor, dataset, generateSample);
-        }
-
-        /** get just a section of the license document */
-        String getMetadataAsHTML() throws Exception
-        {
-            // no import because of conflicts with dom4j
-            final com.lowagie.text.Document document = new com.lowagie.text.Document();
-            final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            com.lowagie.text.html.HtmlWriter.getInstance(document, outputStream);
-            document.open();
-            document.add(formatMetaData(document));
-            document.close();
-            return outputStream.toString();
-        }
-    }
 
     @BeforeClass
     public static void init() throws Exception
@@ -82,11 +63,29 @@ public class DdmEmdDocumentation
     {
         final EasyMetadata emd = crosswalker.createFrom(readFile(INPUT));
         logger.info(crosswalker.getXmlErrorHandler().getMessages());
-        writeFile(new File(OUTPUT + "emd-from-" + INPUT.getName()), new EmdMarshaller(emd).getXmlString());
-        final String html = new MockedLicenseComposer(MOCKED_DEPOSITOR, mockDataset(emd), true).getMetadataAsHTML();
-        writeFile(new File(OUTPUT + "emd-from-" + INPUT.getName() + ".html"), html);
+        writeFile(new File(OUTPUT), new EmdMarshaller(emd).getXmlString());
+        writeFile(new File(OUTPUT + ".html"), getMetadataAsHTML(emd));
         assertThat(crosswalker.getXmlErrorHandler().getErrors().size(), is(0));
         assertThat(crosswalker.getXmlErrorHandler().getFatalErrors().size(), is(0));
+    }
+
+    private String getMetadataAsHTML(final EasyMetadata emd) throws Exception, LicenseComposerException
+    {
+        // get just a section of the license document
+        return new LicenseComposer(MOCKED_DEPOSITOR, mockDataset(emd), true)
+        {
+            String getMetadataAsHTML() throws Exception
+            {
+                // no import because of conflicts with dom4j
+                final com.lowagie.text.Document document = new com.lowagie.text.Document();
+                final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                com.lowagie.text.html.HtmlWriter.getInstance(document, outputStream);
+                document.open();
+                document.add(formatMetaData(document));
+                document.close();
+                return outputStream.toString();
+            }
+        }.getMetadataAsHTML();
     }
 
     @Test

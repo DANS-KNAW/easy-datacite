@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ddm:DDM xmlns:dc="http://purl.org/dc/elements/1.1/"
-	xmlns:dcmitype="http://purl.org/dc/dcmitype/" xmlns:narcis="http://easy.dans.knaw.nl/schemas/vocab/narcis-type/"
-	xmlns:dcx="http://easy.dans.knaw.nl/schemas/dcx/" xmlns:dcx-dai="http://easy.dans.knaw.nl/schemas/dcx/dai/"
-	xmlns:ddm="http://easy.dans.knaw.nl/schemas/md/ddm/" xmlns:dcterms="http://purl.org/dc/terms/"
-	xmlns:dcx-gml="http://easy.dans.knaw.nl/schemas/dcx/gml/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<ddm:DDM
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:dcmitype="http://purl.org/dc/dcmitype/"
+	xmlns:narcis="http://easy.dans.knaw.nl/schemas/vocab/narcis-type/"
+	xmlns:dcx="http://easy.dans.knaw.nl/schemas/dcx/"
+	xmlns:dcx-dai="http://easy.dans.knaw.nl/schemas/dcx/dai/"
+	xmlns:ddm="http://easy.dans.knaw.nl/schemas/md/ddm/"
+	xmlns:dcterms="http://purl.org/dc/terms/"
+	xmlns:dcx-gml="http://easy.dans.knaw.nl/schemas/dcx/gml/"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:abr="http://www.den.nl/standaard/166/Archeologisch-Basisregister/"
 	xsi:schemaLocation="
 		http://www.den.nl/standaard/166/Archeologisch-Basisregister/ http://easy.dans.knaw.nl/schemas/vocab/2012/10/abr-type.xsd
@@ -21,64 +26,32 @@
 	<ddm:dcmiMetadata>
 		<dcterms:audience xsi:type='narcis:DisciplineType'>D34500</dcterms:audience>
 		<dcterms:audience>vrije tekst</dcterms:audience>
-		<dcterms:audience><!-- empty so ignored -->
-		</dcterms:audience>
 		<dcterms:educationLevel>meer vrije tekst</dcterms:educationLevel>
+		<dcterms:audience><!-- empty fields are ignored -->
+		</dcterms:audience>
 		<!-- =============================================================== relations -->
 		<dc:relation>relatie nummer 01</dc:relation>
-		<dc:relation><!-- empty so ignored -->
-		</dc:relation>
 		<dcterms:relation>relatie nummer 02</dcterms:relation>
-		<dcterms:relation><!-- empty so ignored -->
-		</dcterms:relation>
 		<dcterms:conformsTo>relatie nummer 03</dcterms:conformsTo>
-		<dcterms:conformsTo><!-- empty so ignored -->
-		</dcterms:conformsTo>
 		<dcterms:isVersionOf>relatie nummer 04</dcterms:isVersionOf>
-		<dcterms:isVersionOf><!-- empty so ignored -->
-		</dcterms:isVersionOf>
 		<dcterms:hasVersion>relatie nummer 05</dcterms:hasVersion>
-		<dcterms:hasVersion><!-- empty so ignored -->
-		</dcterms:hasVersion>
 		<dcterms:isReplacedBy>relatie nummer 06</dcterms:isReplacedBy>
-		<dcterms:isReplacedBy><!-- empty so ignored -->
-		</dcterms:isReplacedBy>
 		<dcterms:replaces>relatie nummer 07</dcterms:replaces>
-		<dcterms:replaces><!-- empty so ignored -->
-		</dcterms:replaces>
 		<dcterms:isRequiredBy>relatie nummer 08</dcterms:isRequiredBy>
-		<dcterms:isRequiredBy><!-- empty so ignored -->
-		</dcterms:isRequiredBy>
 		<dcterms:requires>relatie nummer 09</dcterms:requires>
-		<dcterms:requires><!-- empty so ignored -->
-		</dcterms:requires>
 		<dcterms:isPartOf>relatie nummer 10</dcterms:isPartOf>
-		<dcterms:isPartOf><!-- empty so ignored -->
-		</dcterms:isPartOf>
 		<dcterms:hasPart>relatie nummer 11</dcterms:hasPart>
-		<dcterms:hasPart><!-- empty so ignored -->
-		</dcterms:hasPart>
 		<dcterms:isReferencedBy>relatie nummer 12</dcterms:isReferencedBy>
-		<dcterms:isReferencedBy><!-- empty so ignored -->
-		</dcterms:isReferencedBy>
 		<dcterms:references>relatie nummer 13</dcterms:references>
-		<dcterms:references><!-- empty so ignored -->
-		</dcterms:references>
 		<dcterms:isFormatOf>relatie nummer 14</dcterms:isFormatOf>
-		<dcterms:isFormatOf><!-- empty so ignored -->
-		</dcterms:isFormatOf>
 		<dcterms:hasFormat>relatie nummer 15</dcterms:hasFormat>
-		<dcterms:hasFormat><!-- empty so ignored -->
-		</dcterms:hasFormat>
 		<!-- ================================================================ dates -->
 		<ddm:available>1900</ddm:available>
 		<dcterms:created xsi:type='dcterms:W3CDTF'>1900-04</dcterms:created>
 		<dcterms:created>03-2013</dcterms:created>
-		<dcterms:available xsi:type='dcterms:W3CDTF'>1900-04
-		</dcterms:available>
+		<dcterms:available xsi:type='dcterms:W3CDTF'>1900-04</dcterms:available>
 		<dcterms:available>03-2013</dcterms:available>
-		<dcterms:dateAccepted xsi:type='dcterms:W3CDTF'>1900-04
-		</dcterms:dateAccepted>
+		<dcterms:dateAccepted xsi:type='dcterms:W3CDTF'>1900-04</dcterms:dateAccepted>
 		<dcterms:dateAccepted>03-2013</dcterms:dateAccepted>
 		<dcterms:valid xsi:type='dcterms:W3CDTF'>1900-04</dcterms:valid>
 		<dcterms:valid>03-2013</dcterms:valid>
@@ -86,36 +59,23 @@
 		<dcterms:issued>03-2013</dcterms:issued>
 		<dcterms:modified xsi:type='dcterms:W3CDTF'>1900-04</dcterms:modified>
 		<dcterms:modified>03-2013</dcterms:modified>
-		<dcterms:dateCopyrighted xsi:type='dcterms:W3CDTF'>1900-04
-		</dcterms:dateCopyrighted>
+		<dcterms:dateCopyrighted xsi:type='dcterms:W3CDTF'>1900-04</dcterms:dateCopyrighted>
 		<dcterms:dateCopyrighted>03-2013</dcterms:dateCopyrighted>
-		<dcterms:dateSubmitted xsi:type='dcterms:W3CDTF'>1900-04
-		</dcterms:dateSubmitted>
+		<dcterms:dateSubmitted xsi:type='dcterms:W3CDTF'>1900-04</dcterms:dateSubmitted>
 		<dcterms:dateSubmitted>03-2013</dcterms:dateSubmitted>
 		<dcterms:date xsi:type='dcterms:W3CDTF'>1900-04</dcterms:date>
 		<dcterms:date>03-2013</dcterms:date>
 		<dc:date xsi:type='dcterms:W3CDTF'>1900-04</dc:date>
 		<dc:date>03-2013</dc:date>
 		<!-- ================================================================ authors -->
-		<dcx-dai:creator DAI='info:eu-repo/dai/nl/1234567897'>pipo de clown</dcx-dai:creator>
-		<dcx-dai:contributor DAI='1234567897'>pipo de clown
-		</dcx-dai:contributor>
-		<dcx-dai:creator DAI='info:eu-repo/dai/nl/9876543216'><!-- empty so ignored -->
-		</dcx-dai:creator>
-		<dcx-dai:contributor DAI='9876543216'><!-- empty so ignored -->
-		</dcx-dai:contributor>
-		<dc:creator>Pipo de clown</dc:creator>
-		<dc:contributor>Mammaloe</dc:contributor>
-		<dc:creator><!-- empty so ignored -->
-		</dc:creator>
-		<dc:contributor><!-- empty so ignored -->
-		</dc:contributor>
-		<dcterms:creator>Pipo de Clown</dcterms:creator>
-		<dcterms:contributor>Mamma Loe</dcterms:contributor>
-		<dcterms:creator><!-- empty so ignored -->
-		</dcterms:creator>
-		<dcterms:contributor><!-- empty so ignored -->
-		</dcterms:contributor>
+		<dcx-dai:creator DAI='info:eu-repo/dai/nl/1234567897'>maker met dai</dcx-dai:creator>
+		<dcx-dai:contributor DAI='1234567897'>bijdrager met DAI</dcx-dai:contributor>
+		<dcx-dai:creator DAI='info:eu-repo/dai/nl/9876543216'/>
+		<dcx-dai:contributor DAI='9876543216'/>
+		<dc:creator>maker</dc:creator>
+		<dc:contributor>bijdrager</dc:contributor>
+		<dcterms:creator>maker term</dcterms:creator>
+		<dcterms:contributor>bijdrager term</dcterms:contributor>
 		<dcx-dai:creatorDetails>
 			<dcx-dai:author>
 				<dcx-dai:titles xml:lang="en-IE">dr.</dcx-dai:titles>
@@ -132,23 +92,19 @@
 			<dcx-dai:author>
 				<dcx-dai:titles xml:lang="en-IE">sr.</dcx-dai:titles>
 				<dcx-dai:initials>J.</dcx-dai:initials>
-				<dcx-dai:insertions><!-- empty so ignored -->
-				</dcx-dai:insertions>
-				<dcx-dai:surname>Klaassen</dcx-dai:surname>
+				<dcx-dai:insertions>van</dcx-dai:insertions>
+				<dcx-dai:surname>Putten</dcx-dai:surname>
 				<dcx-dai:DAI>13313935x</dcx-dai:DAI>
 			</dcx-dai:author>
 		</dcx-dai:contributorDetails>
 		<!-- =================================================== not supported -->
-		<dcterms:instructionalMethod>not supported 01
-		</dcterms:instructionalMethod>
+		<dcterms:instructionalMethod>not supported 01</dcterms:instructionalMethod>
 		<dcterms:accrualMethod>not supported 02</dcterms:accrualMethod>
 		<dcterms:accrualPolicy>not supported 03</dcterms:accrualPolicy>
-		<dcterms:accrualPeriodicity>not supported 04
-		</dcterms:accrualPeriodicity>
+		<dcterms:accrualPeriodicity>not supported 04</dcterms:accrualPeriodicity>
 		<dcterms:mediator>not supported 05</dcterms:mediator>
 		<dcterms:provenance>not supported 06</dcterms:provenance>
-		<dcterms:bibliographicCitation>not supported 07
-		</dcterms:bibliographicCitation>
+		<dcterms:bibliographicCitation>not supported 07</dcterms:bibliographicCitation>
 		<dcterms:medium>not supported 08</dcterms:medium>
 		<dcterms:license>not supported 09</dcterms:license>
 		<dcterms:extent>not supported 10</dcterms:extent>
@@ -162,10 +118,6 @@
 		<!-- =================================================== language -->
 		<dcterms:language>Nederlands</dcterms:language>
 		<dc:language>Engels</dc:language>
-		<dcterms:language><!-- empty so ignored -->
-		</dcterms:language>
-		<dc:language><!-- empty so ignored -->
-		</dc:language>
 		<dc:language xsi:type='dcterms:ISO639-3'>Ned</dc:language>
 		<dc:language xsi:type='dcterms:ISO639-2'>en</dc:language>
 		<dcterms:language xsi:type='dcterms:ISO639-3'>Dui</dcterms:language>
@@ -173,10 +125,6 @@
 		<!-- =================================================== misceleneous -->
 		<dcterms:identifier>IDA</dcterms:identifier>
 		<dc:identifier>IDB</dc:identifier>
-		<dcterms:identifier><!-- empty so ignored -->
-		</dcterms:identifier>
-		<dc:identifier><!-- empty so ignored -->
-		</dc:identifier>
 		<dcterms:description>beschrijving</dcterms:description>
 		<dcterms:format>formaat</dcterms:format>
 		<dcterms:alternative>alternatief</dcterms:alternative>
@@ -189,51 +137,15 @@
 		<dc:title>Titel</dc:title>
 		<dc:publisher>Uitgever</dc:publisher>
 		<dc:type>Tiepe</dc:type>
-		<dc:source>Bron</dc:source>
-		<dcterms:description><!-- empty so ignored -->
-		</dcterms:description>
-		<dcterms:format><!-- empty so ignored -->
-		</dcterms:format>
-		<dcterms:alternative><!-- empty so ignored -->
-		</dcterms:alternative>
-		<dcterms:title><!-- empty so ignored -->
-		</dcterms:title>
-		<dcterms:publisher><!-- empty so ignored -->
-		</dcterms:publisher>
-		<dcterms:type><!-- empty so ignored -->
-		</dcterms:type>
-		<dcterms:source><!-- empty so ignored -->
-		</dcterms:source>
-		<dc:description><!-- empty so ignored -->
-		</dc:description>
-		<dc:format><!-- empty so ignored -->
-		</dc:format>
-		<dc:title><!-- empty so ignored -->
-		</dc:title>
-		<dc:publisher><!-- empty so ignored -->
-		</dc:publisher>
-		<dc:type><!-- empty so ignored -->
-		</dc:type>
-		<dc:source><!-- empty so ignored -->
-		</dc:source>
+		<dc:source>nog een bron</dc:source>
 		<!-- ====================================================== coverage -->
-		<dcterms:spatial><!-- empty so ignored -->
-		</dcterms:spatial>
-		<dcterms:spatial>doe maar wat</dcterms:spatial>
-		<dc:coverage>lowieke de vos</dc:coverage>
-		<dc:coverage><!-- empty so ignored -->
-		</dc:coverage>
+		<dcterms:spatial>Ruimte</dcterms:spatial>
+		<dc:coverage>Dekking</dc:coverage>
 		<dc:subject xsi:type="abr:ABRcomplex">EGVW</dc:subject>
 		<dcterms:subject xsi:type="abr:ABRcomplex">ELA</dcterms:subject>
-		<dcterms:subject><!-- empty so ignored --><!-- empty so ignored -->
-		</dcterms:subject>
-		<dcterms:subject>bed time story</dcterms:subject>
-		<dcterms:coverage>bor de wolf</dcterms:coverage>
-		<dcterms:coverage><!-- empty so ignored -->
-		</dcterms:coverage>
+		<dcterms:subject>onderwerp</dcterms:subject>
+		<dcterms:coverage>meer dekking</dcterms:coverage>
 		<dcterms:temporal xsi:type="abr:ABRperiode">PALEOLB</dcterms:temporal>
-		<dcterms:temporal><!-- empty so ignored -->
-		</dcterms:temporal>
 		<dcterms:temporal>bronzen tijdperk</dcterms:temporal>
 		<dcterms:spatial xsi:type="dcx-gml:SimpleGMLType">
 			<Point xmlns="http://www.opengis.net/gml">
@@ -254,18 +166,16 @@
 				<pos>52.08110 4.34521 1.12</pos>
 			</Point>
 		</dcx-gml:spatial>
-
-		<!-- Same point in Dutch National Grid (urn:ogc:def:crs:EPSG::28992). The 
-			list in element pos is in the order x y [altitude]. All units in m. -->
 		<dcx-gml:spatial srsName="http://www.opengis.net/def/crs/EPSG/0/28992">
 			<!-- explicit srsName currently ignored -->
 			<Point xmlns="http://www.opengis.net/gml">
+				<!-- Same point in Dutch National Grid (urn:ogc:def:crs:EPSG::28992).
+					The list in element pos is in the order x y [altitude]. All units in m. -->
 				<description>Entrance of DANS Building</description>
 				<name>Data Archiving and Networked Services (DANS)</name>
 				<pos>83575.4 455271.2 1.12</pos>
 			</Point>
 		</dcx-gml:spatial>
-
 	</ddm:dcmiMetadata>
 </ddm:DDM>
 
