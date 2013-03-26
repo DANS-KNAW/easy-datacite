@@ -370,12 +370,10 @@ public class LicenseComposer
             }
             catch (final IllegalArgumentException e)
             {
-                string.append(", ");
                 string.append(sid);
             }
             catch (final ObjectNotFoundException e)
             {
-                string.append(", ");
                 string.append(sid);
             }
             catch (final ServiceException e)
