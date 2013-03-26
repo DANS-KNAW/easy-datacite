@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ddm:DDM xmlns:dc="http://purl.org/dc/elements/1.1/"
-	xmlns:dcmitype="http://purl.org/dc/dcmitype/"
-	xmlns:narcis="http://easy.dans.knaw.nl/schemas/vocab/narcis-type/"
-	xmlns:dcx="http://easy.dans.knaw.nl/schemas/dcx/"
-	xmlns:dcx-dai="http://easy.dans.knaw.nl/schemas/dcx/dai/"
-	xmlns:ddm="http://easy.dans.knaw.nl/schemas/md/ddm/" 
-	xmlns:dcterms="http://purl.org/dc/terms/"
-	xmlns:dcx-gml="http://easy.dans.knaw.nl/schemas/dcx/gml/"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dcmitype="http://purl.org/dc/dcmitype/" xmlns:narcis="http://easy.dans.knaw.nl/schemas/vocab/narcis-type/"
+	xmlns:dcx="http://easy.dans.knaw.nl/schemas/dcx/" xmlns:dcx-dai="http://easy.dans.knaw.nl/schemas/dcx/dai/"
+	xmlns:ddm="http://easy.dans.knaw.nl/schemas/md/ddm/" xmlns:dcterms="http://purl.org/dc/terms/"
+	xmlns:dcx-gml="http://easy.dans.knaw.nl/schemas/dcx/gml/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="
 		http://easy.dans.knaw.nl/schemas/md/ddm/ http://easy.dans.knaw.nl/schemas/md/2012/11/ddm.xsd
 		http://easy.dans.knaw.nl/schemas/dcx/gml/ http://eof12.dans.knaw.nl/schemas/dcx/2012/10/dcx-gml.xsd
@@ -23,9 +19,35 @@
 
 	<ddm:additional-xml>
 		<dcterms:spatial xsi:type="dcx-gml:SimpleGMLType">
-			<Point xmlns="http://www.opengis.net/gml" >
+			<Point xmlns="http://www.opengis.net/gml">
 				<pos>1.0 2.0</pos>
 			</Point>
 		</dcterms:spatial>
+		<dcx-gml:spatial>
+			<Point xmlns="http://www.opengis.net/gml">
+				<description>Entrance of DANS Building</description>
+				<name>Data Archiving and Networked Services (DANS)</name>
+				<pos>52.08110 4.34521 1.12</pos>
+			</Point>
+		</dcx-gml:spatial>
+
+		<!-- Same point in Dutch National Grid (urn:ogc:def:crs:EPSG::28992). The 
+			list in element pos is in the order x y [altitude]. All units in m. -->
+		<dcx-gml:spatial srsName="http://www.opengis.net/def/crs/EPSG/0/28992">
+			<Point xmlns="http://www.opengis.net/gml">
+				<description>Entrance of DANS Building</description>
+				<name>Data Archiving and Networked Services (DANS)</name>
+				<pos>83575.4 455271.2 1.12</pos>
+			</Point>
+		</dcx-gml:spatial>
+
+		<!-- Example definition of a LineString -->
+		<dcx-gml:spatial>
+			<LineString xmlns="http://www.opengis.net/gml">
+				<description>Walk from DANS to the railway station</description>
+				<posList>52.08110 4.34521 52.08071 4.34422 52.07913 4.34332
+				</posList>
+			</LineString>
+		</dcx-gml:spatial>
 	</ddm:additional-xml>
 </ddm:DDM>

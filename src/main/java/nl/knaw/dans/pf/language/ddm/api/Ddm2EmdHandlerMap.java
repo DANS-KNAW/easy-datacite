@@ -372,8 +372,10 @@ public class Ddm2EmdHandlerMap implements CrosswalkHandlerMap<EasyMetadata>
         map.put("/dcterms:coverage", dcCoverageHandler);
         // EasyMetadataImpl: EmdCoverage emdCoverage;
 
+        final EasSpatialHandler easSpatialHandler = new EasSpatialHandler();
         map.put("/dcterms:spatial", new TermsSpatialHandler());
-        map.put("SimpleGMLType/dcterms:spatial", new EasSpatialHandler());
+        map.put("/dcx-gml:spatial", easSpatialHandler);
+        map.put("SimpleGMLType/dcterms:spatial", easSpatialHandler);
         // <ref-panelId>dcterms.spatial</ref-panelId>
         // <ref-panelId>eas.spatial.point</ref-panelId>
         // <ref-panelId>eas.spatial.box</ref-panelId>

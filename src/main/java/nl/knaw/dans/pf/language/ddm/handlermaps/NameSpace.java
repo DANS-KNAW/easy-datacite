@@ -8,8 +8,9 @@ public enum NameSpace
     DC_TERMS("dcterms", "http://purl.org/dc/terms/"), //
     DCMITYPE("dcmitype", "http://purl.org/dc/dcmitype/"), //
     DCX("dcx", "http://easy.dans.knaw.nl/schemas/dcx/"), //
+    GML("gml", "http://www.opengis.net/gml"), //
     DCX_DAI("dcx-dai", "http://easy.dans.knaw.nl/schemas/dcx/dai/", "http://easy.dans.knaw.nl/schemas/dcx/2012/10/dcx-dai.xsd"), //
-    GML("dcx-gml", "http://easy.dans.knaw.nl/schemas/dcx/gml/", "http://easy.dans.knaw.nl/schemas/dcx/2012/10/dcx-gml.xsd"), //
+    DCX_GML("dcx-gml", "http://easy.dans.knaw.nl/schemas/dcx/gml/", "http://easy.dans.knaw.nl/schemas/dcx/2012/10/dcx-gml.xsd"), //
     DDM("ddm", "http://easy.dans.knaw.nl/schemas/md/ddm/", "http://easy.dans.knaw.nl/schemas/md/2012/11/ddm.xsd"), //
     XSI("xsi", "http://www.w3.org/2001/XMLSchema-instance", "http://easy.dans.knaw.nl/schemas/md/2012/11/ddm.xsd"), //
     NARCIS_TYPE("narcis", "http://easy.dans.knaw.nl/schemas/vocab/narcis-type/", "http://easy.dans.knaw.nl/schemas/vocab/2012/10/narcis-type.xsd",

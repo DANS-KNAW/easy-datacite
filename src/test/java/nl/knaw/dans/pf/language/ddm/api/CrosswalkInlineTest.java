@@ -203,6 +203,10 @@ public class CrosswalkInlineTest
         assertThat(emd.getEmdCoverage().getEasSpatial().get(0).getPoint().getX(), is("2.0"));
         assertThat(emd.getEmdCoverage().getEasSpatial().get(0).getPoint().getY(), is("1.0"));
         assertThat(emd.getEmdCoverage().getEasSpatial().get(0).getPoint().getScheme(), is(EasSpatialHandler.WGS84_4326));
+        assertThat(emd.getEmdCoverage().getEasSpatial().get(1).getPoint().getX(), is("4.34521"));
+        assertThat(emd.getEmdCoverage().getEasSpatial().get(1).getPoint().getY(), is("52.08110"));
+        assertThat(emd.getEmdCoverage().getEasSpatial().get(1).getPoint().getScheme(), is(EasSpatialHandler.WGS84_4326));
+        assertThat(emd.getEmdCoverage().getEasSpatial().size(), is(2));
     }
 
     @Test
