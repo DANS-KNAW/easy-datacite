@@ -15,9 +15,15 @@
 		http://easy.dans.knaw.nl/schemas/md/ddm/ http://easy.dans.knaw.nl/schemas/md/2012/11/ddm.xsd
 		http://easy.dans.knaw.nl/schemas/dcx/gml/ http://eof12.dans.knaw.nl/schemas/dcx/2012/10/dcx-gml.xsd
 ">
-	<!-- This example shows which fields with which types will show up as meta data:
+	<!-- If you view this example in a browser, click 'page source' to see the namespace declarations.  -->
+	<!-- 
+		This example shows all the fields that will show up as meta data:
 		a) in a license document of the ingest confirmation message
-		b) on the description tab of the dataset in the web-ui
+		b) on the description tab of the dataset in the web-ui -->
+	<!-- 
+		Some fields may have a type. If a field is not shown with some type, that type will not show up
+	-->
+	<!-- 
 		Some additional fields contain comment why they do not show up.
 	-->
 	<ddm:profile>
