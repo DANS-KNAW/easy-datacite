@@ -15,6 +15,11 @@
 		http://easy.dans.knaw.nl/schemas/md/ddm/ http://easy.dans.knaw.nl/schemas/md/2012/11/ddm.xsd
 		http://easy.dans.knaw.nl/schemas/dcx/gml/ http://eof12.dans.knaw.nl/schemas/dcx/2012/10/dcx-gml.xsd
 ">
+	<!-- This example shows which fields with which types will show up as meta data:
+		a) in a license document of the ingest confirmation message
+		b) on the description tab of the dataset in the web-ui
+		Some additional fields contain comment why they do not show up.
+	-->
 	<ddm:profile>
 		<dc:title>mandatory title</dc:title>
 		<dcterms:description>mandatory description</dcterms:description>
@@ -27,8 +32,7 @@
 		<dcterms:audience xsi:type='narcis:DisciplineType'>D34500</dcterms:audience>
 		<dcterms:audience>vrije tekst</dcterms:audience>
 		<dcterms:educationLevel>meer vrije tekst</dcterms:educationLevel>
-		<dcterms:audience><!-- empty fields are ignored -->
-		</dcterms:audience>
+		<dcterms:audience><!-- empty: does not show up --></dcterms:audience>
 		<!-- =============================================================== relations -->
 		<dc:relation>relatie nummer 01</dc:relation>
 		<dcterms:relation>relatie nummer 02</dcterms:relation>
@@ -70,8 +74,7 @@
 		<!-- ================================================================ authors -->
 		<dcx-dai:creator DAI='info:eu-repo/dai/nl/1234567897'>maker met dai</dcx-dai:creator>
 		<dcx-dai:contributor DAI='1234567897'>bijdrager met DAI</dcx-dai:contributor>
-		<dcx-dai:creator DAI='info:eu-repo/dai/nl/9876543216'/>
-		<dcx-dai:contributor DAI='9876543216'/>
+		<dcx-dai:creator DAI='info:eu-repo/dai/nl/9876543216'><!-- empty: does not show up --></dcx-dai:creator>
 		<dc:creator>maker</dc:creator>
 		<dc:contributor>bijdrager</dc:contributor>
 		<dcterms:creator>maker term</dcterms:creator>
@@ -138,15 +141,15 @@
 		<dc:publisher>Uitgever</dc:publisher>
 		<dc:type>Tiepe</dc:type>
 		<dc:source>nog een bron</dc:source>
-		<!-- ====================================================== coverage -->
-		<dcterms:spatial>Ruimte</dcterms:spatial>
-		<dc:coverage>Dekking</dc:coverage>
+		<dcterms:subject>onderwerp</dcterms:subject>
 		<dc:subject xsi:type="abr:ABRcomplex">EGVW</dc:subject>
 		<dcterms:subject xsi:type="abr:ABRcomplex">ELA</dcterms:subject>
-		<dcterms:subject>onderwerp</dcterms:subject>
+		<!-- ====================================================== coverage -->
+		<dc:coverage>Dekking</dc:coverage>
 		<dcterms:coverage>meer dekking</dcterms:coverage>
-		<dcterms:temporal xsi:type="abr:ABRperiode">PALEOLB</dcterms:temporal>
 		<dcterms:temporal>bronzen tijdperk</dcterms:temporal>
+		<dcterms:temporal xsi:type="abr:ABRperiode">PALEOLB</dcterms:temporal>
+		<dcterms:spatial>Ruimte</dcterms:spatial>
 		<dcterms:spatial xsi:type="dcx-gml:SimpleGMLType">
 			<Point xmlns="http://www.opengis.net/gml">
 				<pos>1.0 2.0</pos>
@@ -167,7 +170,7 @@
 			</Point>
 		</dcx-gml:spatial>
 		<dcx-gml:spatial srsName="http://www.opengis.net/def/crs/EPSG/0/28992">
-			<!-- explicit srsName currently ignored -->
+			<!-- fields with an explicit srsName will not show up -->
 			<Point xmlns="http://www.opengis.net/gml">
 				<!-- Same point in Dutch National Grid (urn:ogc:def:crs:EPSG::28992).
 					The list in element pos is in the order x y [altitude]. All units in m. -->
