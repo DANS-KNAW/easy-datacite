@@ -24,6 +24,7 @@ public class EasSpatialHandler extends CrosswalkHandler<EasyMetadata>
     {
         description = null;
         lower = upper = pos = null;
+        foundSRS = false;
         checkSRS(attributes);
     }
     

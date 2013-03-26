@@ -52,8 +52,8 @@ public class CrosswalkInlineTest
 
     @Test
     public void dais(){
-        String[] s = {"9876543210","9876543211","9876543212","9876543213","9876543214","9876543215","9876543216","9876543217","9876543218","9876543219","987654321x"};
-        for(String v:s){
+        final String[] s = {"9876543210","9876543211","9876543212","9876543213","9876543214","9876543215","9876543216","9876543217","9876543218","9876543219","987654321x"};
+        for(final String v:s){
             logger.debug(v+" "+DAI.isValid(v));
         }
     }
@@ -113,6 +113,23 @@ public class CrosswalkInlineTest
         final EasyMetadata emd = runTest(new Exception(), newRoot(newMiniProfile("") + newDcmi(fieldUnderTest)), 0);
         checkMiniProfile(emd);
         assertThat(emd.getEmdAudience().getDisciplines().get(1).getValue(), is("easy-discipline:13"));
+    }
+
+    @Test
+    public void plainAudience() throws Exception
+    {
+        final String value = "literal audience value";
+        final String fieldUnderTest = newEl("dcterms:audience", "", value);
+        final EasyMetadata emd = runTest(new Exception(), newRoot(newMiniProfile("") + newDcmi(fieldUnderTest)), 0);
+        checkMiniProfile(emd);
+        assertThat(emd.getEmdAudience().getTermsAudience().get(1).getValue(), is(value));
+    }
+
+    @Test
+    public void demo() throws Exception
+    {
+        final EasyMetadata emd = runTest(new Exception(), readFile("demo.xml"), 8,"");
+        assertThat(emd.getEmdAudience().getTermsAudience().get(2).getValue(), is("vrije tekst"));
     }
 
     @Test
@@ -236,7 +253,7 @@ public class CrosswalkInlineTest
     @Test
     public void emptyW3cDates() throws Exception
     {
-        String content = newEl("ddm:created", "", "")+newEl("ddm:available", "", "");
+        final String content = newEl("ddm:created", "", "")+newEl("ddm:available", "", "");
         final EasyMetadata emd = runTest(new Exception(), newRoot(newMiniProfile("") + newAdditional(content)), 5, "available","created","must be valid");
         assertThat(emd, nullValue());
     }
@@ -291,9 +308,9 @@ public class CrosswalkInlineTest
         assertThat(emd.getEmdRelation().getValues().size(), is(fields.length ));
     }
 
-    private String pad(int i)
+    private String pad(final int i)
     {
-        String s = "0"+i;
+        final String s = "0"+i;
         return s.substring(s.length()-2);
     }
 
