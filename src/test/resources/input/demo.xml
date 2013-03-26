@@ -20,10 +20,10 @@
 	</ddm:profile>
 	<ddm:dcmiMetadata>
 		<dcterms:audience xsi:type='narcis:DisciplineType'>D34500</dcterms:audience>
-		<dcterms:audience>wetenschappers:1</dcterms:audience>
+		<dcterms:audience>vrije tekst</dcterms:audience>
 		<dcterms:audience><!-- empty so ignored -->
 		</dcterms:audience>
-		<dcterms:educationLevel>uiversitair:1</dcterms:educationLevel>
+		<dcterms:educationLevel>meer vrije tekst</dcterms:educationLevel>
 		<!-- =============================================================== relations -->
 		<dc:relation>relatie nummer 01</dc:relation>
 		<dc:relation><!-- empty so ignored -->

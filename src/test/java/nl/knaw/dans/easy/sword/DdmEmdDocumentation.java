@@ -40,7 +40,9 @@ import org.slf4j.LoggerFactory;
 /** Shows how/which DDM fields appear in a license document as meta data */
 public class DdmEmdDocumentation
 {
-    private static final File INPUT = new File("src/test/resources/input/ddm.xml");
+    /** Same test file as in CrosswalkInlineTest */
+    private static final File INPUT = new File("src/test/resources/input/demo.xml");
+    
     private static final String OUTPUT = "target/doc/";
     private static final Ddm2EmdCrosswalk crosswalker = new Ddm2EmdCrosswalk();
     private static final EasyUser MOCKED_DEPOSITOR = EasyMock.createMock(EasyUser.class);
