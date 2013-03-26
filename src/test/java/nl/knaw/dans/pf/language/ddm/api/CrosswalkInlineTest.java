@@ -129,7 +129,8 @@ public class CrosswalkInlineTest
     public void demo() throws Exception
     {
         final EasyMetadata emd = runTest(new Exception(), readFile("demo.xml"), 8,"");
-        assertThat(emd.getEmdAudience().getTermsAudience().get(2).getValue(), is("vrije tekst"));
+        assertThat(emd.getEmdAudience().getTermsAudience().size(), is(4));
+        assertThat(emd.getEmdCreator().getEasCreator().size(), is(2));
     }
 
     @Test
