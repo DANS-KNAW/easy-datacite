@@ -116,15 +116,16 @@ public class RequestContent
             try
             {
                 EasyMetadata emd = ddmEmdCrosswalk.createFrom(metadataFile);
-                if (emd==null)
-                    throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "Could not create EMD from DDM "+ddmEmdCrosswalk.getXmlErrorHandler().getMessages());
+                if (emd == null)
+                    throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "Could not create EMD from DDM "
+                            + ddmEmdCrosswalk.getXmlErrorHandler().getMessages());
                 EasyMetadataFacade.validateControlledVocabulairies(emd);
                 EasyMetadataFacade.validateMandatoryFields(emd);
                 return emd;
             }
             catch (CrosswalkException e)
             {
-                throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "Could not create EMD from DDM "+ddmEmdCrosswalk.getXmlErrorHandler().getMessages());
+                throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, "Could not create EMD from DDM " + ddmEmdCrosswalk.getXmlErrorHandler().getMessages());
             }
         }
         throw new SWORDErrorException(ErrorCodes.ERROR_CONTENT, ("Metadata format not implemented: " + metadataFile.getName()));
