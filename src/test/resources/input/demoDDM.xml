@@ -117,13 +117,13 @@
 		<dcterms:medium>not supported 08</dcterms:medium>
 		<dcterms:license>not supported 09</dcterms:license>
 		<dcterms:extent>not supported 10</dcterms:extent>
-		<dcterms:abstract>not supported 11</dcterms:abstract>
-		<dcterms:tableOfContents>not supported 12</dcterms:tableOfContents>
 		<!-- =================================================== not yet implemented -->
 		<dcterms:accessRights>not implemented 1</dcterms:accessRights>
 		<dc:rights>not implemented 2</dc:rights>
 		<dcterms:rights>not implemented 3</dcterms:rights>
 		<dcterms:rightsHolder>not implemented 4</dcterms:rightsHolder>
+		<dcterms:abstract>not implemented 5</dcterms:abstract>
+		<dcterms:tableOfContents>not implemented 6</dcterms:tableOfContents>
 		<!-- =================================================== language -->
 		<dcterms:language>Nederlands</dcterms:language>
 		<dc:language>Engels</dc:language>
