@@ -170,7 +170,7 @@ public class AuthenticationSpecification
 
     private String getMasterkeyPasswordHash()
     {
-        if (masterkeyPasswordFile.exists())
+        if (masterkeyPasswordFile != null && masterkeyPasswordFile.exists())
         {
             logger.warn("Masterkey password file present");
             BufferedReader lineReader = null;
