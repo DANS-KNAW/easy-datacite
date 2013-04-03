@@ -23,15 +23,12 @@ import org.slf4j.LoggerFactory;
 public class RegistrationService extends AbstractTokenList
 {
     private static Logger logger = LoggerFactory.getLogger(RegistrationService.class);
+    private AuthenticationSpecification authenticationSpecification;
 
     /**
      * Store all tokens for registration requests.
      */
     private static final Map<String, String> TOKEN_MAP = new HashMap<String, String>();
-
-    public RegistrationService()
-    {
-    }
 
     @Override
     public Map<String, String> getTokenMap()
@@ -53,7 +50,7 @@ public class RegistrationService extends AbstractTokenList
         final String requestToken = authentication.getReturnedToken();
         boolean authenticated = checkToken(userId, requestTime, requestToken)
         // gets the user
-                && AuthenticationSpecification.userIsInQualifiedState(authentication);
+                && authenticationSpecification.userIsInQualifiedState(authentication);
 
         if (authenticated)
         {
@@ -313,4 +310,8 @@ public class RegistrationService extends AbstractTokenList
         Data.getUserRepo().delete(user);
     }
 
+    public void setAuthenticationSpecification(AuthenticationSpecification authenticationSpecification)
+    {
+        this.authenticationSpecification = authenticationSpecification;
+    }
 }

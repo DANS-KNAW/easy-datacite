@@ -20,6 +20,9 @@ import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.test.ClassPathHacker;
 import nl.knaw.dans.common.lang.test.Tester;
+import nl.knaw.dans.easy.business.authn.AuthenticationSpecification;
+import nl.knaw.dans.easy.business.authn.ChangePasswordSpecification;
+import nl.knaw.dans.easy.business.authn.LoginService;
 import nl.knaw.dans.easy.business.authn.PasswordService;
 import nl.knaw.dans.easy.business.authn.RegistrationService;
 import nl.knaw.dans.easy.data.Data;
@@ -69,6 +72,19 @@ public class EasyUserServiceAuthnTest extends TestHelper
     {
         mockMailer.mailCount = 0;
         mockMailer.verbose = verbose;
+        userService = new EasyUserService();
+        LoginService loginService = new LoginService();
+        loginService.setAuthenticationSpecification(new AuthenticationSpecification());
+        RegistrationService registrationService = new RegistrationService();
+        registrationService.setAuthenticationSpecification(new AuthenticationSpecification());
+        PasswordService passwordService = new PasswordService();
+        passwordService.setAuthenticationSpecification(new AuthenticationSpecification());
+        ChangePasswordSpecification changePasswordSpecification = new ChangePasswordSpecification();
+        changePasswordSpecification.setAuthenticationSpecification(new AuthenticationSpecification());
+        passwordService.setChangePasswordSpecification(changePasswordSpecification);
+        userService.setLoginService(loginService);
+        userService.setRegistrationService(registrationService);
+        userService.setPasswordService(passwordService);
     }
 
     @Test
@@ -895,7 +911,8 @@ public class EasyUserServiceAuthnTest extends TestHelper
         assertFalse(messenger.isCompleted());
         assertEquals(1, messenger.getExceptions().size());
         assertEquals(ChangePasswordMessenger.State.SystemError, messenger.getState());
-        // momentary value of new password stays on user, but it doesn't matter: old password wasn't changed on data layer.
+        // momentary value of new password stays on user, but it doesn't matter: old password wasn't
+        // changed on data layer.
         assertEquals("haddock", jan.getPassword());
     }
 

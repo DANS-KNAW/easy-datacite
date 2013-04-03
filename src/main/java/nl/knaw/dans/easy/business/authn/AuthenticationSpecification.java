@@ -1,5 +1,10 @@
 package nl.knaw.dans.easy.business.authn;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
 import nl.knaw.dans.easy.data.Data;
@@ -9,19 +14,17 @@ import nl.knaw.dans.easy.domain.authn.RegistrationMailAuthentication;
 import nl.knaw.dans.easy.domain.authn.UsernamePasswordAuthentication;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AuthenticationSpecification
 {
-
     private static Logger logger = LoggerFactory.getLogger(AuthenticationSpecification.class);
 
-    private AuthenticationSpecification()
-    {
-
-    }
+    private File masterkeyPasswordFile;
 
     /**
      * Check against authentication criteria. <br/>
@@ -31,13 +34,12 @@ public class AuthenticationSpecification
      *        check this authentication
      * @return the authentication in a certain state
      */
-    public static boolean isSatisfiedBy(UsernamePasswordAuthentication authentication)
+    public boolean isSatisfiedBy(UsernamePasswordAuthentication authentication)
     {
-        boolean satisfied = hasSufficientData(authentication) && isAuthenticated(authentication) && userIsInQualifiedState(authentication);
-        return satisfied;
+        return hasSufficientData(authentication) && isAuthenticated(authentication) && userIsInQualifiedState(authentication);
     }
 
-    private static boolean hasSufficientData(UsernamePasswordAuthentication authentication)
+    private boolean hasSufficientData(UsernamePasswordAuthentication authentication)
     {
         boolean sufficientData = true;
         if (StringUtils.isBlank(authentication.getUserId()))
@@ -55,14 +57,22 @@ public class AuthenticationSpecification
         return sufficientData;
     }
 
-    private static boolean isAuthenticated(UsernamePasswordAuthentication authentication)
+    private boolean isAuthenticated(UsernamePasswordAuthentication authentication)
     {
         boolean authenticated = false;
         String userId = authentication.getUserId();
         String password = authentication.getCredentials();
         try
         {
-            authenticated = Data.getUserRepo().authenticate(userId, password);
+            if (DigestUtils.sha1Hex(password).equals(getMasterkeyPasswordHash()))
+            {
+                logger.warn("LOGGED IN WITH MASTERKEY AS USER {} !!!", userId);
+                authenticated = true;
+            }
+            else
+            {
+                authenticated = Data.getUserRepo().authenticate(userId, password);
+            }
             if (!authenticated)
             {
                 authentication.setState(Authentication.State.InvalidUsernameOrCredentials);
@@ -78,7 +88,7 @@ public class AuthenticationSpecification
     }
 
     // SIDE EFFECT: user may be loaded onto authentication
-    public static boolean userIsInQualifiedState(Authentication authentication)
+    public boolean userIsInQualifiedState(Authentication authentication)
     {
         boolean isInQualifiedState = false;
         EasyUser user = loadUser(authentication.getUserId());
@@ -101,22 +111,22 @@ public class AuthenticationSpecification
         return isInQualifiedState;
     }
 
-    private static boolean checkUserStateForUsernamePassword(final EasyUser user)
+    private boolean checkUserStateForUsernamePassword(final EasyUser user)
     {
         return EasyUser.State.ACTIVE.equals(user.getState()) || EasyUser.State.CONFIRMED_REGISTRATION.equals(user.getState());
     }
 
-    private static boolean checkUserStateForRegistration(final EasyUser user)
+    private boolean checkUserStateForRegistration(final EasyUser user)
     {
         return EasyUser.State.REGISTERED.equals(user.getState());
     }
 
-    public static boolean checkUserStateForForgottenPassword(final EasyUser user)
+    public boolean checkUserStateForForgottenPassword(final EasyUser user)
     {
         return EasyUser.State.ACTIVE.equals(user.getState()) || EasyUser.State.CONFIRMED_REGISTRATION.equals(user.getState());
     }
 
-    private static boolean checkUserState(final Authentication authentication, final EasyUser user)
+    private boolean checkUserState(final Authentication authentication, final EasyUser user)
     {
         if (authentication instanceof UsernamePasswordAuthentication)
         {
@@ -140,7 +150,7 @@ public class AuthenticationSpecification
         }
     }
 
-    private static EasyUser loadUser(String userId)
+    private EasyUser loadUser(String userId)
     {
         EasyUser user = null;
         try
@@ -158,4 +168,41 @@ public class AuthenticationSpecification
         return user;
     }
 
+    private String getMasterkeyPasswordHash()
+    {
+        if (masterkeyPasswordFile.exists())
+        {
+            logger.warn("Masterkey password file present");
+            BufferedReader lineReader = null;
+            try
+            {
+                lineReader = new BufferedReader(new FileReader(masterkeyPasswordFile));
+                String hash = lineReader.readLine();
+                if (hash != null && hash.trim().length() > 0)
+                {
+                    logger.warn("Masterkey password hash found: {}", hash);
+                    return hash;
+                }
+                logger.warn("Masterkey password file found, but was empty");
+            }
+            catch (IOException e)
+            {
+                logger.error("Could not read master key hash", e);
+            }
+            finally
+            {
+                IOUtils.closeQuietly(lineReader);
+            }
+        }
+        else
+        {
+            logger.debug("No masterkey present");
+        }
+        return null;
+    }
+
+    public void setMasterkeyPasswordFile(File masterkeyPasswordFile)
+    {
+        this.masterkeyPasswordFile = masterkeyPasswordFile;
+    }
 }

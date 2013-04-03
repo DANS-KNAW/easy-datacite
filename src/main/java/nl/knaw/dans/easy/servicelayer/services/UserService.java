@@ -9,6 +9,9 @@ import java.util.Map;
 import nl.knaw.dans.common.lang.ldap.OperationalAttributes;
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
+import nl.knaw.dans.easy.business.authn.LoginService;
+import nl.knaw.dans.easy.business.authn.PasswordService;
+import nl.knaw.dans.easy.business.authn.RegistrationService;
 import nl.knaw.dans.easy.domain.authn.Authentication;
 import nl.knaw.dans.easy.domain.authn.ChangePasswordMessenger;
 import nl.knaw.dans.easy.domain.authn.FederativeUserRegistration;
@@ -85,5 +88,11 @@ public interface UserService
     OperationalAttributes getOperationalAttributes(EasyUser user) throws ServiceException;
 
     OperationalAttributes getOperationalAttributes(Group group) throws ServiceException;
+
+    void setPasswordService(PasswordService passwordService);
+
+    void setLoginService(LoginService loginService);
+
+    void setRegistrationService(RegistrationService registrationService);
 
 }

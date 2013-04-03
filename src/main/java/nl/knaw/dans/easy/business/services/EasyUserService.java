@@ -36,11 +36,11 @@ public class EasyUserService extends AbstractEasyService implements UserService
 
     private static Logger logger = LoggerFactory.getLogger(EasyUserService.class);
 
-    private LoginService loginService = new LoginService();
+    private LoginService loginService;
 
     private PasswordService passwordService;
 
-    private RegistrationService registrationService = new RegistrationService();
+    private RegistrationService registrationService;
 
     public EasyUserService()
     {
@@ -284,7 +284,8 @@ public class EasyUserService extends AbstractEasyService implements UserService
         // We can send a new password by mail:
         // passwordService.sendNewPassword(messenger);
 
-        // Or do it in the fancy way by sending a link to a page where the user can type in a new password:
+        // Or do it in the fancy way by sending a link to a page where the user can type in a new
+        // password:
         getPasswordService().sendUpdatePasswordLink(messenger);
     }
 
@@ -312,23 +313,28 @@ public class EasyUserService extends AbstractEasyService implements UserService
         }
     }
 
-    LoginService getLoginService()
+    public void setLoginService(LoginService loginService)
     {
-        return loginService;
+        this.loginService = loginService;
     }
 
-    RegistrationService getRegistrationService()
+    public RegistrationService getRegistrationService()
     {
         return registrationService;
     }
 
-    PasswordService getPasswordService()
+    public PasswordService getPasswordService()
     {
-        if (passwordService == null)
-        {
-            passwordService = new PasswordService();
-        }
         return passwordService;
     }
 
+    public void setPasswordService(PasswordService passwordService)
+    {
+        this.passwordService = passwordService;
+    }
+
+    public void setRegistrationService(RegistrationService registrationService)
+    {
+        this.registrationService = registrationService;
+    }
 }

@@ -27,10 +27,8 @@ public class PasswordService extends AbstractTokenList
      */
     private static final Map<String, String> TOKEN_MAP = new HashMap<String, String>();
 
-    public PasswordService()
-    {
-
-    }
+    private AuthenticationSpecification authenticationSpecification;
+    private ChangePasswordSpecification changePasswordSpecification;
 
     @Override
     public Map<String, String> getTokenMap()
@@ -51,7 +49,7 @@ public class PasswordService extends AbstractTokenList
         final String requestToken = authentication.getReturnedToken();
         boolean authenticated = checkToken(userId, requestTime, requestToken)
         // gets the user
-                && AuthenticationSpecification.userIsInQualifiedState(authentication);
+                && authenticationSpecification.userIsInQualifiedState(authentication);
 
         if (authenticated)
         {
@@ -72,7 +70,7 @@ public class PasswordService extends AbstractTokenList
      */
     public void changePassword(ChangePasswordMessenger messenger)
     {
-        if (ChangePasswordSpecification.isSatisFiedBy(messenger))
+        if (changePasswordSpecification.isSatisFiedBy(messenger))
         {
             changePasswordOnDataLayer(messenger);
             resetRequestToken(messenger);
@@ -156,4 +154,13 @@ public class PasswordService extends AbstractTokenList
         Data.getUserRepo().update(user);
     }
 
+    public void setAuthenticationSpecification(AuthenticationSpecification authenticationSpecification)
+    {
+        this.authenticationSpecification = authenticationSpecification;
+    }
+
+    public void setChangePasswordSpecification(ChangePasswordSpecification changePasswordSpecification)
+    {
+        this.changePasswordSpecification = changePasswordSpecification;
+    }
 }

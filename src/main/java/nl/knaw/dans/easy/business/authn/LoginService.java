@@ -1,17 +1,16 @@
 package nl.knaw.dans.easy.business.authn;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nl.knaw.dans.easy.domain.authn.Authentication;
 import nl.knaw.dans.easy.domain.authn.UsernamePasswordAuthentication;
 
 public class LoginService
 {
+    private static Logger log = LoggerFactory.getLogger(LoginService.class);
 
-    //private static Logger logger = LoggerFactory.getLogger(LoginService.class);
-
-    public LoginService()
-    {
-
-    }
+    private AuthenticationSpecification authenticationSpecification;
 
     public UsernamePasswordAuthentication newAuthentication()
     {
@@ -24,10 +23,14 @@ public class LoginService
 
     public void login(final UsernamePasswordAuthentication authentication)
     {
-        if (AuthenticationSpecification.isSatisfiedBy(authentication))
+        if (authenticationSpecification.isSatisfiedBy(authentication))
         {
             authentication.setState(Authentication.State.Authenticated);
         }
     }
 
+    public void setAuthenticationSpecification(AuthenticationSpecification authenticationSpecification)
+    {
+        this.authenticationSpecification = authenticationSpecification;
+    }
 }

@@ -9,15 +9,11 @@ import org.slf4j.LoggerFactory;
 
 public class ChangePasswordSpecification
 {
-
     private static Logger logger = LoggerFactory.getLogger(ChangePasswordSpecification.class);
 
-    private ChangePasswordSpecification()
-    {
+    private AuthenticationSpecification authenticationSpecification;
 
-    }
-
-    public static boolean isSatisFiedBy(ChangePasswordMessenger messenger)
+    public boolean isSatisFiedBy(ChangePasswordMessenger messenger)
     {
         boolean satisfied = true;
         satisfied &= hasSufficientData(messenger);
@@ -29,16 +25,16 @@ public class ChangePasswordSpecification
         else if (satisfied && messenger.isMailContext())
         {
             logger.debug("Mail context: checking for qualifiedState.");
-            satisfied &= AuthenticationSpecification.checkUserStateForForgottenPassword(messenger.getUser());
+            satisfied &= authenticationSpecification.checkUserStateForForgottenPassword(messenger.getUser());
         }
         return satisfied;
     }
 
-    private static boolean checkAuthentication(ChangePasswordMessenger messenger)
+    private boolean checkAuthentication(ChangePasswordMessenger messenger)
     {
         boolean authenticated = false;
         UsernamePasswordAuthentication authentication = new UsernamePasswordAuthentication(messenger.getUserId(), messenger.getOldPassword());
-        if (AuthenticationSpecification.isSatisfiedBy(authentication))
+        if (authenticationSpecification.isSatisfiedBy(authentication))
         {
             authenticated = true;
         }
@@ -60,6 +56,11 @@ public class ChangePasswordSpecification
             messenger.setState(ChangePasswordMessenger.State.InsufficientData);
         }
         return hasSufficientData;
+    }
+
+    public void setAuthenticationSpecification(AuthenticationSpecification authenticationSpecification)
+    {
+        this.authenticationSpecification = authenticationSpecification;
     }
 
 }
