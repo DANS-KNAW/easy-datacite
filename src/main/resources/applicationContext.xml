@@ -42,7 +42,31 @@
 
 	<bean name="itemService" class="nl.knaw.dans.easy.business.services.EasyItemService" />
 
-	<bean name="userService" class="nl.knaw.dans.easy.business.services.EasyUserService" />
+	<bean name="userService" class="nl.knaw.dans.easy.business.services.EasyUserService">
+		<property name="loginService" ref="loginService" />
+		<property name="passwordService" ref="passwordService" />
+	</bean>
+
+	<bean name="loginService" class="nl.knaw.dans.easy.business.authn.LoginService">
+		<property name="authenticationSpecification" ref="authenticationSpecification" />
+	</bean>
+
+	<bean name="passwordService" class="nl.knaw.dans.easy.business.authn.PasswordService">
+		<property name="authenticationSpecification" ref="authenticationSpecification" />
+		<property name="changePasswordSpecification" ref="changePasswordSpecification" />
+	</bean>
+
+	<bean name="changePasswordSpecification"
+		class="nl.knaw.dans.easy.business.authn.ChangePasswordSpecification">
+		<property name="authenticationSpecification" ref="authenticationSpecification" />
+	</bean>
+
+	<bean name="authenticationSpecification"
+		class="nl.knaw.dans.easy.business.authn.AuthenticationSpecification">
+		<property name="masterkeyPasswordFile">
+			<value type="java.io.File">${easy.admin.masterkeyfile}</value>
+		</property>
+	</bean>
 
 	<bean name="searchService" class="nl.knaw.dans.easy.business.services.EasySearchService" />
 
@@ -304,7 +328,7 @@
 	<bean name="resourceLocator" class="nl.knaw.dans.common.lang.ResourceLocator">
 		<constructor-arg>
 			<list>
-				<ref bean="homeDir"/>			 
+				<ref bean="homeDir" />
 				<ref bean="editableContentHome" />
 			</list>
 		</constructor-arg>
@@ -327,29 +351,31 @@
 	</bean>
 
 	<!-- BeanPostProcessor for Business layer -->
-		<bean class="nl.knaw.dans.easy.business.bean.BusinessBeanPostProcessor" />
+	<bean class="nl.knaw.dans.easy.business.bean.BusinessBeanPostProcessor" />
 
 
-		<!-- a HTTP Session-scoped bean exposed as a proxy -->
-		<bean id="taskService" class="nl.knaw.dans.common.wicket.TaskServiceImpl"
-			scope="session">
+	<!-- a HTTP Session-scoped bean exposed as a proxy -->
+	<bean id="taskService" class="nl.knaw.dans.common.wicket.TaskServiceImpl"
+		scope="session">
 
-			<!-- this next element effects the proxying of the surrounding bean -->
-			<aop:scoped-proxy />
-			<constructor-arg>
-				<bean class="org.wicketstuff.progressbar.spring.AsynchronousExecutor" />
-			</constructor-arg>
-		</bean>
+		<!-- this next element effects the proxying of the surrounding bean -->
+		<aop:scoped-proxy />
+		<constructor-arg>
+			<bean class="org.wicketstuff.progressbar.spring.AsynchronousExecutor" />
+		</constructor-arg>
+	</bean>
 
-		<!-- a singleton-scoped bean injected with a proxy to the above bean -->
-		<bean id="sessionScopeService" class="nl.knaw.dans.easy.web.SessionScopeService">
+	<!-- a singleton-scoped bean injected with a proxy to the above bean -->
+	<bean id="sessionScopeService" class="nl.knaw.dans.easy.web.SessionScopeService">
 
-			<!-- a reference to the proxied 'taskService' bean -->
-			<property name="taskService" ref="taskService" />
+		<!-- a reference to the proxied 'taskService' bean -->
+		<property name="taskService" ref="taskService" />
 
-		</bean>
-		
+	</bean>
+
 	<bean id="federationConnectedInstitutionsUrl" class="java.lang.String">
-    	<constructor-arg type="java.lang.String" value="${easy.federationLogin.connectedInstitutionsUrl}"/>
-    </bean>
+		<constructor-arg type="java.lang.String"
+			value="${easy.federationLogin.connectedInstitutionsUrl}" />
+	</bean>
 </beans>
+ 
