@@ -92,7 +92,7 @@ class LoginForm extends AbstractEasyStatelessForm<UsernamePasswordAuthentication
                     + ") authenticated.");
             StatisticsLogger.getInstance().logEvent(StatisticsEvent.USER_LOGIN);
 
-            // TODO: Is this stale code?            
+            // TODO: Is this stale code?
             // do we need an upate on user info?
             if (authentication.getUser().isUserInfoUpdateRequired())
             {
