@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nl.knaw.dans.common.lang.CacheException;
 import nl.knaw.dans.common.lang.dataset.DatasetSB;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.repo.bean.RecursiveList;
 import nl.knaw.dans.common.lang.search.Field;
-import nl.knaw.dans.common.lang.search.SearchHit;
 import nl.knaw.dans.common.lang.search.SearchRequest;
 import nl.knaw.dans.common.lang.search.SearchResult;
 import nl.knaw.dans.common.lang.search.exceptions.SearchBeanFactoryException;
@@ -29,6 +31,8 @@ import nl.knaw.dans.easy.servicelayer.services.SearchService;
 
 public class EasySearchService extends AbstractEasyService implements SearchService
 {
+    private static final Logger log = LoggerFactory.getLogger(EasySearchService.class);
+
     public SearchResult<? extends DatasetSB> searchAllWork(SearchRequest request, EasyUser user) throws ServiceException
     {
         addFilterByStates(request, new DatasetState[] {DatasetState.SUBMITTED, DatasetState.MAINTENANCE});
@@ -47,6 +51,7 @@ public class EasySearchService extends AbstractEasyService implements SearchServ
     public SearchResult<? extends DatasetSB> searchMyRequests(SearchRequest request, EasyUser requester) throws ServiceException
     {
         final String requesterId = requester.getId();
+        log.debug("Search my requests for user: '{}'", requesterId);
         addFilterByRequesterId(request, requesterId);
         addFilterByStates(request, new DatasetState[] {DatasetState.PUBLISHED, DatasetState.MAINTENANCE});
 
@@ -54,14 +59,20 @@ public class EasySearchService extends AbstractEasyService implements SearchServ
         try
         {
             // dirty solution for ticket 544: user "abc" sees also requests of user "abc123"
+            log.debug("Filtering my requests for false hits");
             final List<?> hits = searchResult.getHits();
             final List<Object> falseHits = new ArrayList<Object>();
             for (final Object hit : hits)
             {
                 boolean found = false;
                 final EasyDatasetSB dataset = ((SimpleSearchHit<EasyDatasetSB>) hit).getData();
+                log.debug("Found dataset {}. Looking for requester '{}' ...", dataset.getStoreId(), requesterId);
                 for (final PermissionRequestSearchInfo permissionRequest : dataset.getPermissionStatusList())
+                {
+                    log.debug("  Found '{}'", permissionRequest.getRequesterId());
                     found = false || requesterId.equals(permissionRequest.getRequesterId());
+                }
+                log.debug("Requester found? {}", found);
                 if (!found)
                     falseHits.add(hit);
             }
@@ -70,6 +81,7 @@ public class EasySearchService extends AbstractEasyService implements SearchServ
         }
         catch (final ClassCastException e)
         {
+            log.error("Error in cast! Ignoring.", e);
         }
         return searchResult;
     }
@@ -195,12 +207,12 @@ public class EasySearchService extends AbstractEasyService implements SearchServ
     @SuppressWarnings("unchecked")
     private void addFilterByStates(SearchRequest request, DatasetState... states) throws ServiceException
     {
-        // check if an existing filter is not already a subset of the 
+        // check if an existing filter is not already a subset of the
         // allowed states. This is a simple solution to the problem
         // that an incoming request might be a subset of the request
         // that might be filtered upon. This subset would be overwritten
         // and a bigger set would be returned if it were not for this
-        // small piece of simplistic code.  
+        // small piece of simplistic code.
         Field<?> existingFilter = request.getFilterQueries().getByFieldName(EasyDatasetSB.DS_STATE_FIELD);
         if (existingFilter != null)
         {
