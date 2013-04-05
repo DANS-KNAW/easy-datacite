@@ -26,6 +26,12 @@
             <groupId>nl.knaw.dans.platform.deprecated</groupId>
             <artifactId>dans-lang</artifactId>
             <version>1.0</version>
+	    	<exclusions>
+				<exclusion>
+					<artifactId>spring</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+			</exclusions>
         </dependency>
 
         <dependency>
