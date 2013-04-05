@@ -34,6 +34,12 @@
 			<groupId>nl.knaw.dans.platform.deprecated</groupId>
 			<artifactId>dans-jibx</artifactId>
 			<version>1.0</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>spring</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		
 		<dependency>
