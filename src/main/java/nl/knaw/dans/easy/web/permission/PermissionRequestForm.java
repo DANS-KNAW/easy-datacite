@@ -83,10 +83,10 @@ public class PermissionRequestForm extends PermissionForm
 
         addComponent(new Label("status.label"));
         addComponent(new Label("status.value", statusModel)).setVisible(status != null);
+        addComponent(new Label("status.shorthelp").setVisible(!State.Returned.equals(status)));
         addComponent(new Label("explanation.label"));
-
         addComponent(new MultiLineLabel("explanation.value", explanation)).setVisible(explanation != null);
-
+        addComponent(new Label("explanation.shorthelp").setVisible(!State.Returned.equals(status)));
         addRequired(new TextField(TITLE_WID, titleModel)).setEnabled(editMode);
         addRequired(new PossiblyDisabledTextArea(THEME_WID, themeModel, editMode));
         addRequired(new CheckBox(CONDITIONS_WID, conditionsModel)).setEnabled(editMode);
