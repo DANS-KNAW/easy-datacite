@@ -11,11 +11,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>dans-ldap</artifactId>
 	<name>DANS Ldap Data Access Implementation</name>
-    <packaging>jar</packaging>
-    <organization>
-        <name>DANS</name>
-        <url>http://www.dans.knaw.nl</url>
-    </organization>
+	<packaging>jar</packaging>
+	<organization>
+		<name>DANS</name>
+		<url>http://www.dans.knaw.nl</url>
+	</organization>
 	<description>
 		Implementation of Data Access Point(s) in Easy business, using the Lightweight Directory Access Protocol
 	</description>
@@ -27,95 +27,95 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
-    
+
 	<!-- === DEPENDENCIES === -->
 	<dependencies>
-        <!-- dans common language dependencies -->
-        <dependency>
-            <groupId>nl.knaw.dans.platform.deprecated</groupId>
-            <artifactId>dans-lang</artifactId>
-            <version>1.0</version>
-        </dependency>
+		<!-- dans common language dependencies -->
+		<dependency>
+			<groupId>nl.knaw.dans.platform.deprecated</groupId>
+			<artifactId>dans-lang</artifactId>
+			<version>1.0</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>spring</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 
-        <!-- Spring dependencies -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring</artifactId>
-            <version>2.5</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>2.5</version>
-            <scope>test</scope>
-        </dependency>
+		<!-- Spring dependencies -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>3.2.2.RELEASE</version>
+		</dependency>
 	</dependencies>
 
 	<!-- === BUILD === -->
 	<build>
-        <resources>
-            <resource>
-                <filtering>true</filtering>
-                <directory>src/main/resources</directory>
-            </resource>
-        </resources>
-        <testResources>
-            <testResource>
-                <filtering>true</filtering>
-                <directory>src/test/resources</directory>
-                <includes>
-                    <include>**/*.*</include>
-                </includes>
-            </testResource>
-        </testResources>
+		<resources>
+			<resource>
+				<filtering>true</filtering>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
+		<testResources>
+			<testResource>
+				<filtering>true</filtering>
+				<directory>src/test/resources</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+			</testResource>
+		</testResources>
 	</build>
-    
-    <distributionManagement>
-        <repository>
-            <id>matrix-reloaded.knaw.dans.nl</id>
-            <url>scp://${repository-server}/var/www/html/maven2</url>
-        </repository>
-        <snapshotRepository>
-            <id>matrix-reloaded.knaw.dans.nl</id>
-            <url>scp://${repository-server}/var/www/html/maven2-snapshots</url>
-        </snapshotRepository>
 
-    <site>
-        <id>develop01.knaw.dans.nl</id>
-        <name>Deployment Server</name>
-        <url>scp://${repository-server}/var/www/html/maven2/eof-open-source/${project.artifactId}</url>
-    </site>
-    </distributionManagement>
-	
+	<distributionManagement>
+		<repository>
+			<id>matrix-reloaded.knaw.dans.nl</id>
+			<url>scp://${repository-server}/var/www/html/maven2</url>
+		</repository>
+		<snapshotRepository>
+			<id>matrix-reloaded.knaw.dans.nl</id>
+			<url>scp://${repository-server}/var/www/html/maven2-snapshots</url>
+		</snapshotRepository>
 
-    <!-- When your project needs specific repositories, add them here -->
-    <repositories>
+		<site>
+			<id>develop01.knaw.dans.nl</id>
+			<name>Deployment Server</name>
+			<url>scp://${repository-server}/var/www/html/maven2/eof-open-source/${project.artifactId}</url>
+		</site>
+	</distributionManagement>
 
-        <repository>
-            <id>maven orig</id>
-            <url>http://repo1.maven.org/maven2</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
 
-       <!-- local repositories -->
-        <repository>
-            <id>central</id>
-            <url>http://artifactory.dans.knaw.nl/libs-releases</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
+	<!-- When your project needs specific repositories, add them here -->
+	<repositories>
 
-        <repository>
-            <id>snapshots</id>
-            <url>http://artifactory.dans.knaw.nl/libs-snapshots</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-        </repository>
+		<repository>
+			<id>maven orig</id>
+			<url>http://repo1.maven.org/maven2</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
 
-    </repositories>
+		<!-- local repositories -->
+		<repository>
+			<id>central</id>
+			<url>http://artifactory.dans.knaw.nl/libs-releases</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+
+		<repository>
+			<id>snapshots</id>
+			<url>http://artifactory.dans.knaw.nl/libs-snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+
+	</repositories>
 
 </project>
