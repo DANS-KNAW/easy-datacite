@@ -45,9 +45,13 @@
 					<groupId>log4j</groupId>
 					<artifactId>log4j</artifactId>
 				</exclusion>
+				<exclusion>
+					<artifactId>servlet-api</artifactId>
+					<groupId>javax.servlet</groupId>
+				</exclusion>
 			</exclusions>
 		</dependency>
-		
+
 		<!-- This is an end-application, so it should declare a slf4j-binding -->
 		<!-- Dependency on logback-classic binding for slf4j -->
 		<!-- Configuration of logback can be done f.i. by logback.xml on the classpath -->
@@ -140,6 +144,14 @@
 			<artifactId>janino</artifactId>
 			<version>2.6.1</version>
 		</dependency>
+
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>3.2.2.RELEASE</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-spring</artifactId>
