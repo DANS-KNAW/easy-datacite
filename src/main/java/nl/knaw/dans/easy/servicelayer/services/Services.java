@@ -15,10 +15,7 @@ public class Services
     private static DisciplineCollectionService disciplineService;
     private static CollectionService collectionService;
     private static JumpoffService jumpoffService;
-
-    private static boolean LOCKED;
     private static Logger logger = LoggerFactory.getLogger(Services.class);
-    private static final String ILLEGAL_METHOD_CALL = "Illegal method call: Setter methods in the Services class should not be called.";
 
     public Services() throws IllegalStateException
     {
