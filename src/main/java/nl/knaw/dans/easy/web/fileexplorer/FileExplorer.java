@@ -532,10 +532,11 @@ public class FileExplorer extends AbstractDatasetModelPanel
         ArrayList<VisibleTo> visibleToList = new ArrayList<VisibleTo>(Arrays.asList(VisibleTo.values()));
         visibleToList.remove(VisibleTo.RESTRICTED_REQUEST); // GK: milco requested to turn off the possibility of group and request on the visibility of files 
         visibleToList.remove(VisibleTo.RESTRICTED_GROUP);
-        final EnumChoiceRenderer renderer = new EnumChoiceRenderer(this, "Rights");
-        final DropDownChoice<VisibleTo> viewRights = new DropDownChoice<VisibleTo>("viewRights", new Model<VisibleTo>(), visibleToList, renderer);
+        final EnumChoiceRenderer<VisibleTo> visibleToRenderer = new EnumChoiceRenderer<VisibleTo>(this, "Rights");
+        final DropDownChoice<VisibleTo> viewRights = new DropDownChoice<VisibleTo>("viewRights", new Model<VisibleTo>(), visibleToList, visibleToRenderer);
+        final EnumChoiceRenderer<AccessibleTo> accessibleToRenderer = new EnumChoiceRenderer<AccessibleTo>(this, "Rights");
         final DropDownChoice<AccessibleTo> accessRights = new DropDownChoice<AccessibleTo>("accessRights", new Model<AccessibleTo>(), Arrays
-                .asList(AccessibleTo.values()), renderer);
+                .asList(AccessibleTo.values()), accessibleToRenderer);
         viewRights.setNullValid(true);
         accessRights.setNullValid(true);
 

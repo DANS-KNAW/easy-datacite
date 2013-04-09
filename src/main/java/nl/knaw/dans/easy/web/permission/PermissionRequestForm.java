@@ -76,10 +76,10 @@ public class PermissionRequestForm extends PermissionForm
         //                new SimpleLabelPanel(THEME_WID, THEME_RESOURCE_KEY + "label", THEME_RESOURCE_KEY
         //                        + "anchor", true);
 
-        final IModel titleModel = new PropertyModel(prmRequest, PermissionRequestModel.REQUEST_TITLE);
-        final IModel themeModel = new PropertyModel(prmRequest, PermissionRequestModel.REQUEST_THEME);
-        final IModel conditionsModel = new PropertyModel(prmRequest, PermissionRequestModel.ACCEPTING_CONDITIONS_OF_USE);
-        final IModel statusModel = new ResourceModel(STATUS_RESOURCE_KEY + status, "" + status);
+        final IModel<String> titleModel = new PropertyModel<String>(prmRequest, PermissionRequestModel.REQUEST_TITLE);
+        final IModel<String> themeModel = new PropertyModel<String>(prmRequest, PermissionRequestModel.REQUEST_THEME);
+        final IModel<Boolean> conditionsModel = new PropertyModel<Boolean>(prmRequest, PermissionRequestModel.ACCEPTING_CONDITIONS_OF_USE);
+        final IModel<String> statusModel = new ResourceModel(STATUS_RESOURCE_KEY + status, "" + status);
 
         addComponent(new Label("status.label"));
         addComponent(new Label("status.value", statusModel)).setVisible(status != null);
@@ -87,8 +87,8 @@ public class PermissionRequestForm extends PermissionForm
         addComponent(new Label("explanation.label"));
         addComponent(new MultiLineLabel("explanation.value", explanation)).setVisible(explanation != null);
         addComponent(new Label("explanation.shorthelp").setVisible(!State.Returned.equals(status)));
-        addRequired(new TextField(TITLE_WID, titleModel)).setEnabled(editMode);
-        addRequired(new PossiblyDisabledTextArea(THEME_WID, themeModel, editMode));
+        addRequired(new TextField<String>(TITLE_WID, titleModel)).setEnabled(editMode);
+        addRequired(new PossiblyDisabledTextArea<String>(THEME_WID, themeModel, editMode));
         addRequired(new CheckBox(CONDITIONS_WID, conditionsModel)).setEnabled(editMode);
 
         // Additional conditions
@@ -118,7 +118,7 @@ public class PermissionRequestForm extends PermissionForm
 
         addComponent(new SubmitLink(SUBMIT_WID)).setVisible(editMode);
         add(new EasyEditablePanel("editablePanel", EDITABLE_PERMISSION_REQUEST_TEMPLATE));
-        add(new Link(CANCEL_WID)
+        add(new Link<Void>(CANCEL_WID)
         {
             private static final long serialVersionUID = -6091186801938439734L;
 
@@ -159,9 +159,9 @@ public class PermissionRequestForm extends PermissionForm
         pageBack();
     }
 
-    private FormComponent addRequired(final FormComponent field)
+    private <T> FormComponent<T> addRequired(final FormComponent<T> field)
     {
-        addWithComponentFeedback(field, new Model(field.getId()));
+        addWithComponentFeedback(field, new Model<String>(field.getId()));
         field.setRequired(true);
         return field;
     }
