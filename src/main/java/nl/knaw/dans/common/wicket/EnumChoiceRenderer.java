@@ -55,9 +55,8 @@ import org.apache.wicket.markup.html.form.IChoiceRenderer;
  * adapted from http://techblog.molindo.at/2008/01/wicket-choicerenderer-for-enums.html by Michael
  * Sparer
  */
-public class EnumChoiceRenderer implements IChoiceRenderer
+public class EnumChoiceRenderer<T extends Enum<T>> implements IChoiceRenderer<T>
 {
-
     private static final long serialVersionUID = 1L;
 
     private final Component resourceProvider;
@@ -77,10 +76,9 @@ public class EnumChoiceRenderer implements IChoiceRenderer
         this.qualifier = qualifier;
     }
 
-    public Object getDisplayValue(final Object object)
+    public String getDisplayValue(final T enumConst)
     {
-        final Enum<?> v = (Enum<?>) object;
-        final String key = v == null ? "null" : v.name();
+        final String key = enumConst == null ? "null" : enumConst.name();
         if (qualifier != null)
         {
             try
@@ -103,10 +101,9 @@ public class EnumChoiceRenderer implements IChoiceRenderer
 
     }
 
-    public String getIdValue(final Object object, final int index)
+    public String getIdValue(final T enumConst, final int index)
     {
-        final Enum<?> v = (Enum<?>) object;
-        return v == null ? null : v.name();
+        return enumConst == null ? null : enumConst.name();
     }
 
 }

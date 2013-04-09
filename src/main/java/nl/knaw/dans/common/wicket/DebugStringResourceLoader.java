@@ -67,7 +67,7 @@ public class DebugStringResourceLoader implements IStringResourceLoader
         return null;
     }
 
-    public String loadStringResource(Class clazz, String key, Locale locale, String style)
+    public String loadStringResource(Class<?> clazz, String key, Locale locale, String style)
     {
         Iterator<IStringResourceLoader> iter = rloaders.iterator();
         while (iter.hasNext())

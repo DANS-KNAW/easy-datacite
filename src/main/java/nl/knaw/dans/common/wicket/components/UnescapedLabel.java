@@ -15,13 +15,12 @@ public class UnescapedLabel extends Label
 
     public UnescapedLabel(final String id, String label)
     {
-        this(id, new Model(label));
+        this(id, new Model<String>(label));
     }
 
-    public UnescapedLabel(final String id, IModel model)
+    public <T> UnescapedLabel(final String id, IModel<T> model)
     {
         super(id, model);
-
         setEscapeModelStrings(false);
     }
 }

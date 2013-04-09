@@ -4,7 +4,7 @@ import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.model.IModel;
 
-public class PossiblyDisabledTextArea extends TextArea
+public class PossiblyDisabledTextArea<T> extends TextArea<T>
 {
     private static final long serialVersionUID = 1L;
     private boolean editMode;
@@ -21,7 +21,7 @@ public class PossiblyDisabledTextArea extends TextArea
      *    color: #575756;
      *  } </pre>
      */
-    public PossiblyDisabledTextArea(String id, IModel model, boolean editMode)
+    public PossiblyDisabledTextArea(String id, IModel<T> model, boolean editMode)
     {
         super(id, model);
         this.editMode = editMode;
