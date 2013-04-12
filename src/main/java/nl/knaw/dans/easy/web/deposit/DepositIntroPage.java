@@ -5,9 +5,8 @@ import java.util.List;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.domain.deposit.discipline.DepositDiscipline;
-import nl.knaw.dans.easy.domain.form.FormDefinition;
 import nl.knaw.dans.easy.domain.form.FormDescriptor;
-import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.easy.servicelayer.services.DepositService;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.editabletexts.EasyEditablePanel;
 import nl.knaw.dans.easy.web.main.AbstractEasyNavPage;
@@ -17,35 +16,23 @@ import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class DepositIntroPage extends AbstractEasyNavPage
 {
-
     private static final Logger logger = LoggerFactory.getLogger(DepositIntroPage.class);
-
     public static final String EDITABLE_DEPOSIT_INTRO_TEMPLATE = "/pages/DepositIntro.template";
-
-    private final List<DepositDiscipline> disciplines;
     private boolean initiated;
-
-    public DepositIntroPage()
-    {
-        try
-        {
-            disciplines = Services.getDepositService().getDisciplines();
-        }
-        catch (ServiceException e)
-        {
-            errorMessage(EasyResources.DEPOSIT_APPLICATION_ERROR);
-            logger.error("Could not start " + this.getClass().getSimpleName() + ": ", e);
-            throw new InternalWebError();
-        }
-    }
-
+    
+    @SpringBean(name="depositService")
+    private DepositService depositService;
+    
+    @SpringBean(name="depositInstructionsBaseUrl")
+    private String depositInstructionsBaseUrl;
+    
     @Override
     protected void onBeforeRender()
     {
@@ -59,7 +46,7 @@ public class DepositIntroPage extends AbstractEasyNavPage
 
     private void init()
     {
-        ListView<DepositDiscipline> listView = new ListView<DepositDiscipline>("disciplines", disciplines)
+        ListView<DepositDiscipline> listView = new ListView<DepositDiscipline>("disciplines", getDisciplines())
         {
 
             private static final long serialVersionUID = -2578773278751553901L;
@@ -71,7 +58,8 @@ public class DepositIntroPage extends AbstractEasyNavPage
                 final FormDescriptor formDescriptor = discipline.getEmdFormDescriptor();
 
                 item.add(new Label("discipline.name", new ResourceModel(formDescriptor.getLabelResourceKey())));
-                item.add(createInstructionLink(formDescriptor));
+                item.add(new ExternalLink("instructionLink_EN", depositInstructionsBaseUrl + "/" + formDescriptor.getInstructionFile() + "UK.pdf", "English"));
+                item.add(new ExternalLink("instructionLink_NL", depositInstructionsBaseUrl + "/" + formDescriptor.getInstructionFile() + "NL.pdf", "Nederlands"));
 
                 Link<DepositDiscipline> startDepositLink = new Link<DepositDiscipline>("startDepositLink", item.getModel())
                 {
@@ -89,18 +77,20 @@ public class DepositIntroPage extends AbstractEasyNavPage
             }
         };
         add(listView);
-
         add(new EasyEditablePanel("editablePanel", EDITABLE_DEPOSIT_INTRO_TEMPLATE));
     }
 
-    public static ExternalLink createInstructionLink(final FormDescriptor formDescriptor)
+    private List<DepositDiscipline> getDisciplines()
     {
-        final FormDefinition fDef = formDescriptor.getFormDefinition(DepositDiscipline.EMD_DEPOSITFORM_WIZARD);
-        final String instructionUrl = fDef.getInstructionFile() == null ? "" : fDef.getInstructionFile();
-        ExternalLink instructionLink = new ExternalLink("instructionLink", new Model<String>(instructionUrl), new ResourceModel(formDescriptor
-                .getLabelResourceKey()
-                + ".instructionLinkText"));
-        instructionLink.setVisible(instructionUrl.startsWith("http"));
-        return instructionLink;
+        try
+        {
+            return depositService.getDisciplines();
+        }
+        catch (ServiceException e)
+        {
+            errorMessage(EasyResources.DEPOSIT_APPLICATION_ERROR);
+            logger.error("Could not start " + this.getClass().getSimpleName() + ": ", e);
+            throw new InternalWebError();
+        }
     }
 }
