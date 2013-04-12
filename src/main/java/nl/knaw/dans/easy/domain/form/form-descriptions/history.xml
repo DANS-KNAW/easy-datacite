@@ -6,6 +6,7 @@
 	<properties>
 		<id>history</id>
 		<labelResourceKey>discipline.history.name</labelResourceKey>
+		<instructionFile>DEP_History</instructionFile>
 	</properties>
 	<ordinal>2</ordinal>
 	<panelDefinitions>

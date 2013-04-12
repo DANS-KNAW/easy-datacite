@@ -4,6 +4,7 @@
 	<properties>
 		<id>lifescience</id>
 		<labelResourceKey>discipline.lifescience.name</labelResourceKey>
+		<instructionFile>DEP_Life science and medicine</instructionFile>
 	</properties>
 	<ordinal>4</ordinal>
 	

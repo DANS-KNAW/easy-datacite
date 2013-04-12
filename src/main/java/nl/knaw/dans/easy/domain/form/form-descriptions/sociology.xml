@@ -4,7 +4,7 @@
 	<properties>
 		<id>sociology</id>
 		<labelResourceKey>discipline.sociology.name</labelResourceKey>
-
+		<instructionFile>DEP_Social and behavioural sciences</instructionFile>
 	</properties>
 	<ordinal>3</ordinal>
 	

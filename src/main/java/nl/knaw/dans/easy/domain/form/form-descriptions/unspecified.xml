@@ -4,6 +4,7 @@
 	<properties>
 		<id>unspecified</id>
 		<labelResourceKey>discipline.unspecified.name</labelResourceKey>
+		<instructionFile>DEP_All other disciplines</instructionFile>
 	</properties>
 	<ordinal>4</ordinal>
 	
