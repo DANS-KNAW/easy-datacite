@@ -32,11 +32,18 @@ public class ExternalConfigLoaderContextListener implements ServletContextListen
              */
             EnvironmentVariableBasedHomeDirectory home = new EnvironmentVariableBasedHomeDirectory();
             home.setEnvironmentVariableName("EASY_WEBUI_HOME");
-            new LogBackConfigLoader(new File(home.getHomeDirectory(), "cfg/logback.xml"));
+            File config = new File(home.getHomeDirectory(), "cfg/logback.xml");
+            new LogBackConfigLoader(config);
+            log.info("Loaded logback configuration from: {}", config);
         }
         catch (Exception e)
         {
-            log.error("Unable to read logback config file");
+            /*
+             * Writing to STDERR because logging will probably not work as expected without the
+             * configuration file loaded.
+             */
+            System.err.println("Unable to read logback config file");
+            e.printStackTrace();
         }
     }
 

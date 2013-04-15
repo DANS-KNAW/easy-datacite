@@ -182,6 +182,7 @@
 				<includes>
 					<include>conf/dataset/**/*.*</include>
 					<include>conf/*.*</include>
+					<include>logback.xml</include>
 					<include>applicationContext.xml</include>
 				</includes>
 			</resource>
