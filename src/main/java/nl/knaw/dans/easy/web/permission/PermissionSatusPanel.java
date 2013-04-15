@@ -23,6 +23,7 @@ import org.joda.time.DateTime;
  */
 public class PermissionSatusPanel extends AbstractEasyPanel
 {
+    private static final DateTime UNKNOWN_DATE_TIME = new DateTime("0000-01-01");
     private static final long serialVersionUID = 1L;
 
     private static enum LinkType
