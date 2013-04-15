@@ -26,13 +26,13 @@ public class DepositIntroPage extends AbstractEasyNavPage
     private static final Logger logger = LoggerFactory.getLogger(DepositIntroPage.class);
     public static final String EDITABLE_DEPOSIT_INTRO_TEMPLATE = "/pages/DepositIntro.template";
     private boolean initiated;
-    
-    @SpringBean(name="depositService")
+
+    @SpringBean(name = "depositService")
     private DepositService depositService;
-    
-    @SpringBean(name="depositInstructionsBaseUrl")
+
+    @SpringBean(name = "depositInstructionsBaseUrl")
     private String depositInstructionsBaseUrl;
-    
+
     @Override
     protected void onBeforeRender()
     {
@@ -59,7 +59,9 @@ public class DepositIntroPage extends AbstractEasyNavPage
 
                 item.add(new Label("discipline.name", new ResourceModel(formDescriptor.getLabelResourceKey())));
                 item.add(new ExternalLink("instructionLink_EN", depositInstructionsBaseUrl + "/" + formDescriptor.getInstructionFile() + "UK.pdf", "English"));
-                item.add(new ExternalLink("instructionLink_NL", depositInstructionsBaseUrl + "/" + formDescriptor.getInstructionFile() + "NL.pdf", "Nederlands"));
+                item
+                        .add(new ExternalLink("instructionLink_NL", depositInstructionsBaseUrl + "/" + formDescriptor.getInstructionFile() + "NL.pdf",
+                                "Nederlands"));
 
                 Link<DepositDiscipline> startDepositLink = new Link<DepositDiscipline>("startDepositLink", item.getModel())
                 {
