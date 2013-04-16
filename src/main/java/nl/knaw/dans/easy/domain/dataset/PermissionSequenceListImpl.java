@@ -81,19 +81,6 @@ public class PermissionSequenceListImpl extends AbstractTimestampedJiBXObject<Pe
         return new ArrayList<PermissionSequence>(sequencesMap.values());
     }
 
-    public DateTime getLastRequestDate()
-    {
-        DateTime lrd = null;
-        for (PermissionSequence permSeq : sequencesMap.values())
-        {
-            if (permSeq.getLastRequestDate().isAfter(lrd))
-            {
-                lrd = permSeq.getLastRequestDate();
-            }
-        }
-        return lrd;
-    }
-
     public List<PermissionSequence> getPermissionSequences(PermissionSequence.State state)
     {
         ArrayList<PermissionSequence> result = new ArrayList<PermissionSequence>();
