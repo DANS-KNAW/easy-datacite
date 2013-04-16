@@ -1,5 +1,6 @@
 package nl.knaw.dans.easy.web.view.dataset;
 
+import java.io.Serializable;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.dataset.DatasetState;
@@ -16,18 +17,33 @@ import nl.knaw.dans.easy.web.permission.PermissionRequestPage;
 import nl.knaw.dans.easy.web.template.AbstractDatasetModelPanel;
 import nl.knaw.dans.easy.web.template.AbstractEasyPage;
 
+import org.apache.wicket.Component;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
 import org.joda.time.DateTime;
 
 public class DataFilesPanel extends AbstractDatasetModelPanel
 {
+    private static final Model<NoDate> NO_DATE_MODEL = new Model<NoDate>(new NoDate());
     public static final int TAB_INDEX = 2;
     private static final long serialVersionUID = 3634861329844965675L;
+
+    private static class NoDate implements Serializable
+    {
+        private static final long serialVersionUID = 1L;
+
+        @SuppressWarnings("unused")
+        public String toLocalDate()
+        {
+            // used via reflection
+            return "";
+        }
+    }
 
     public DataFilesPanel(final String id, final DatasetModel datasetModel)
     {
@@ -38,107 +54,55 @@ public class DataFilesPanel extends AbstractDatasetModelPanel
         final Dataset dataset = getDataset();
         final boolean seesAll = seesAll(dataset, user);
 
-        boolean showFileExplorer = seesAll || dataset.hasVisibleItems(user);
+        final boolean showFileExplorer = seesAll || dataset.hasVisibleItems(user);
 
-        DateTime statusDate = getPermissionStateDate(dataset, user);
-        if (statusDate == null)
-        {
-            statusDate = new DateTime();
-        }
-        final Model<DateTime> statusDateModel = new Model<DateTime>(statusDate);
+        final Model<? extends Object> statusDateModel = getPermissionStateDateModel(dataset, user);
 
         final PageParameters urlForFe = getUrlForFe(dataset);
 
         /* --------- NEW MESSAGES STRUCTURE --------- */
-        List<AuthzMessage> messages = dataset.getAuthzStrategy().getReadMessages();
+        final List<AuthzMessage> messages = dataset.getAuthzStrategy().getReadMessages();
 
-        BookmarkablePageLink<DatasetViewPage> loginButton = new BookmarkablePageLink<DatasetViewPage>("loginButton", DatasetViewPage.class, urlForFe);
+        final Component loginButton = new BookmarkablePageLink<DatasetViewPage>("loginButton", DatasetViewPage.class, urlForFe);
         loginButton.setVisible(containsMessage(AbstractDatasetAutzStrategy.MSG_LOGIN, messages));
         add(loginButton);
 
-        Label embargo = new Label(AbstractDatasetAutzStrategy.MSG_EMBARGO, new StringResourceModel(AbstractDatasetAutzStrategy.MSG_EMBARGO, datasetModel));
-        embargo.setVisible(containsMessage(AbstractDatasetAutzStrategy.MSG_EMBARGO, messages));
-        add(embargo);
+        add(createMessageLabel(datasetModel, messages, AbstractDatasetAutzStrategy.MSG_EMBARGO));
+        add(createMessageLabel(datasetModel, messages, AbstractDatasetAutzStrategy.MSG_PERMISSION));
 
-        Label permission = new Label(AbstractDatasetAutzStrategy.MSG_PERMISSION, new StringResourceModel(AbstractDatasetAutzStrategy.MSG_PERMISSION,
-                datasetModel));
-        permission.setVisible(containsMessage(AbstractDatasetAutzStrategy.MSG_PERMISSION, messages));
-        add(permission);
-
-        final Link<Void> permissionButton = createLink(AbstractDatasetAutzStrategy.MSG_PERMISSION_BUTTON, dataset);
+        final Component permissionButton = createLink(AbstractDatasetAutzStrategy.MSG_PERMISSION_BUTTON, dataset);
         permissionButton.setVisible(containsMessage(AbstractDatasetAutzStrategy.MSG_PERMISSION_BUTTON, messages));
         add(permissionButton);
 
-        Label permissionLogin = new Label(AbstractDatasetAutzStrategy.MSG_PERMISSION_LOGIN, new StringResourceModel(
-                AbstractDatasetAutzStrategy.MSG_PERMISSION_LOGIN, datasetModel));
-        permissionLogin.setVisible(containsMessage(AbstractDatasetAutzStrategy.MSG_PERMISSION_LOGIN, messages));
-        add(permissionLogin);
-
-        Label permissionSubmitted = new Label(AbstractDatasetAutzStrategy.MSG_PERMISSION_SUBMITTED, new StringResourceModel(
-                AbstractDatasetAutzStrategy.MSG_PERMISSION_SUBMITTED, statusDateModel));
-        permissionSubmitted.setVisible(containsMessage(AbstractDatasetAutzStrategy.MSG_PERMISSION_SUBMITTED, messages));
-        add(permissionSubmitted);
-
-        final Link<Void> permissionSubmittedButton = createLink(AbstractDatasetAutzStrategy.MSG_PERMISSION_SUBMITTED + ".button", dataset);
-        add(permissionSubmittedButton);
-
-        Label permissionReturned = new Label(AbstractDatasetAutzStrategy.MSG_PERMISSION_RETURNED, new StringResourceModel(
-                AbstractDatasetAutzStrategy.MSG_PERMISSION_RETURNED, statusDateModel));
-        permissionReturned.setVisible(containsMessage(AbstractDatasetAutzStrategy.MSG_PERMISSION_RETURNED, messages));
-        add(permissionReturned);
-
-        final Link<Void> permissionReturnedButton = createLink(AbstractDatasetAutzStrategy.MSG_PERMISSION_RETURNED + ".button", dataset);
-        add(permissionReturnedButton);
-
-        Label permissionGranted = new Label(AbstractDatasetAutzStrategy.MSG_PERMISSION_GRANTED, new StringResourceModel(
-                AbstractDatasetAutzStrategy.MSG_PERMISSION_GRANTED, statusDateModel));
-        permissionGranted.setVisible(containsMessage(AbstractDatasetAutzStrategy.MSG_PERMISSION_GRANTED, messages));
-        add(permissionGranted);
-
-        final Link<Void> permissionGrantedButton = createLink(AbstractDatasetAutzStrategy.MSG_PERMISSION_GRANTED + ".button", dataset);
-        add(permissionGrantedButton);
-
-        Label permissionDenied = new Label(AbstractDatasetAutzStrategy.MSG_PERMISSION_DENIED, new StringResourceModel(
-                AbstractDatasetAutzStrategy.MSG_PERMISSION_DENIED, statusDateModel));
-        permissionDenied.setVisible(containsMessage(AbstractDatasetAutzStrategy.MSG_PERMISSION_DENIED, messages));
-        add(permissionDenied);
-
-        final Link<Void> permissionDeniedButton = createLink(AbstractDatasetAutzStrategy.MSG_PERMISSION_DENIED + ".button", dataset);
-        add(permissionDeniedButton);
-
-        Label permissionEmbargo = new Label(AbstractDatasetAutzStrategy.MSG_PERMISSION_EMBARGO, new StringResourceModel(
-                AbstractDatasetAutzStrategy.MSG_PERMISSION_EMBARGO, datasetModel));
-        permissionEmbargo.setVisible(containsMessage(AbstractDatasetAutzStrategy.MSG_PERMISSION_EMBARGO, messages));
-        add(permissionEmbargo);
-
-        Label groupAccess = new Label(AbstractDatasetAutzStrategy.MSG_GROUP, new StringResourceModel(AbstractDatasetAutzStrategy.MSG_GROUP, datasetModel));
-        groupAccess.setVisible(containsMessage(AbstractDatasetAutzStrategy.MSG_GROUP, messages));
-        add(groupAccess);
-
-        Label otherAccess = new Label(AbstractDatasetAutzStrategy.MSG_OTHER, new StringResourceModel(AbstractDatasetAutzStrategy.MSG_OTHER, datasetModel));
-        otherAccess.setVisible(containsMessage(AbstractDatasetAutzStrategy.MSG_OTHER, messages));
-        add(otherAccess);
-
-        Label noVisibleFiles = new Label(AbstractDatasetAutzStrategy.MSG_NO_FILES, new StringResourceModel(AbstractDatasetAutzStrategy.MSG_NO_FILES,
-                datasetModel));
-        noVisibleFiles.setVisible(containsMessage(AbstractDatasetAutzStrategy.MSG_NO_FILES, messages));
-        add(noVisibleFiles);
-
-        Label depositor = new Label(AbstractDatasetAutzStrategy.MSG_DEPOSITOR, new StringResourceModel(AbstractDatasetAutzStrategy.MSG_DEPOSITOR, datasetModel));
-        depositor.setVisible(containsMessage(AbstractDatasetAutzStrategy.MSG_DEPOSITOR, messages));
-        add(depositor);
-
-        Label depositorDraft = new Label(AbstractDatasetAutzStrategy.MSG_DEPOSITOR_DRAFT, new StringResourceModel(
-                AbstractDatasetAutzStrategy.MSG_DEPOSITOR_DRAFT, datasetModel));
-        depositorDraft.setVisible(containsMessage(AbstractDatasetAutzStrategy.MSG_DEPOSITOR_DRAFT, messages));
-        add(depositorDraft);
+        add(createMessageLabel(datasetModel, messages, AbstractDatasetAutzStrategy.MSG_PERMISSION_LOGIN));
+        add(createMessageLabel(statusDateModel, messages, AbstractDatasetAutzStrategy.MSG_PERMISSION_SUBMITTED));
+        add(createLink(AbstractDatasetAutzStrategy.MSG_PERMISSION_SUBMITTED + ".button", dataset));
+        add(createMessageLabel(statusDateModel, messages, AbstractDatasetAutzStrategy.MSG_PERMISSION_RETURNED));
+        add(createLink(AbstractDatasetAutzStrategy.MSG_PERMISSION_RETURNED + ".button", dataset));
+        add(createMessageLabel(statusDateModel, messages, AbstractDatasetAutzStrategy.MSG_PERMISSION_GRANTED));
+        add(createLink(AbstractDatasetAutzStrategy.MSG_PERMISSION_GRANTED + ".button", dataset));
+        add(createMessageLabel(statusDateModel, messages, AbstractDatasetAutzStrategy.MSG_PERMISSION_DENIED));
+        add(createLink(AbstractDatasetAutzStrategy.MSG_PERMISSION_DENIED + ".button", dataset));
+        add(createMessageLabel(datasetModel, messages, AbstractDatasetAutzStrategy.MSG_PERMISSION_EMBARGO));
+        add(createMessageLabel(datasetModel, messages, AbstractDatasetAutzStrategy.MSG_GROUP));
+        add(createMessageLabel(datasetModel, messages, AbstractDatasetAutzStrategy.MSG_OTHER));
+        add(createMessageLabel(datasetModel, messages, AbstractDatasetAutzStrategy.MSG_NO_FILES));
+        add(createMessageLabel(datasetModel, messages, AbstractDatasetAutzStrategy.MSG_DEPOSITOR));
+        add(createMessageLabel(datasetModel, messages, AbstractDatasetAutzStrategy.MSG_DEPOSITOR_DRAFT));
 
         add(new FileExplorer("fe", datasetModel).setVisible(showFileExplorer));
     }
 
-    private boolean containsMessage(String messageCode, List<AuthzMessage> messages)
+    private Label createMessageLabel(final IModel<? extends Object> model, final List<AuthzMessage> messages, final String wicketId)
     {
-        for (AuthzMessage message : messages)
+        final Label label = new Label(wicketId, new StringResourceModel(wicketId, model));
+        label.setVisible(containsMessage(wicketId, messages));
+        return label;
+    }
+
+    private boolean containsMessage(final String messageCode, final List<AuthzMessage> messages)
+    {
+        for (final AuthzMessage message : messages)
         {
             if (message.getMessageCode().equals(messageCode))
             {
@@ -178,14 +142,17 @@ public class DataFilesPanel extends AbstractDatasetModelPanel
         };
     }
 
-    private DateTime getPermissionStateDate(Dataset dataset, EasyUser user)
+    private Model<? extends Object> getPermissionStateDateModel(final Dataset dataset, final EasyUser user)
     {
         final PermissionSequenceList sequenceList = dataset.getPermissionSequenceList();
         if (sequenceList == null || user == null || user.isAnonymous() || !sequenceList.hasSequenceFor(user))
-            return null;
+            return NO_DATE_MODEL;
         final PermissionSequence sequence = sequenceList.getSequenceFor(user);
         if (sequence == null)
-            return null;
-        return sequence.getLastStateChange();
+            return NO_DATE_MODEL;
+        DateTime lastStateChange = sequence.getLastStateChange();
+        if (lastStateChange==null)
+            return NO_DATE_MODEL;
+        return new Model<DateTime>(lastStateChange);
     }
 }
