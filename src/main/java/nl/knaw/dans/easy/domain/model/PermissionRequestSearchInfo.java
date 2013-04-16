@@ -30,11 +30,13 @@ public class PermissionRequestSearchInfo implements Serializable
         int s2 = fromString.indexOf(STR_SEPARATOR, s1 + 1);
 
         if (s1 < 0 || s2 < 0)
-            throw new DomainException("Could not converter " + fromString + " to PermissionRequestSearchInfo. Missing separators.");
+            throw new DomainException("Could not convert " + fromString + " to PermissionRequestSearchInfo. Missing separators.");
 
         setRequesterId(fromString.substring(0, s1));
         setState(State.valueOf(fromString.substring(s1 + 1, s2)));
-        setStateLastModified(new DateTime(fromString.substring(s2 + 1)));
+        String substring = fromString.substring(s2 + 1);
+        if (!"null".equals(substring))
+            setStateLastModified(new DateTime(substring));
     }
 
     @Override
