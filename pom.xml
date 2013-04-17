@@ -13,7 +13,7 @@
   <artifactId>store</artifactId>
   <packaging>jar</packaging>
 
-  <name>store</name>
+  <name>Store</name>
 
   <dependencies> 
   	
