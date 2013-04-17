@@ -12,7 +12,7 @@
 	<artifactId>dmo-collections</artifactId>
 	<packaging>jar</packaging>
 
-	<name>dmo-collections</name>
+	<name>DMO Collections</name>
 	
 	<properties>
 		<jibx.version>1.2.4.5</jibx.version>
