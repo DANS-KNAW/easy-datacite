@@ -4,15 +4,15 @@
 
 	<parent>
 		<groupId>nl.knaw.dans.platform.interfaces</groupId>
-		<artifactId>aggregate-interfaces</artifactId>
-		<version>1.1-SNAPSHOT</version>
-		<relativePath>../aggregate-interfaces/pom.xml</relativePath>
+		<artifactId>interfaces-build</artifactId>
+		<version>1.0.1.b</version>
+		<relativePath>../interfaces-build/pom.xml</relativePath>
 	</parent>
 
 	<artifactId>isecurity</artifactId>
 	<packaging>jar</packaging>
 
-	<name>isecurity</name>
+	<name>Security Interfaces</name>
 
 	<dependencies>
 
