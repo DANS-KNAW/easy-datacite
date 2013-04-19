@@ -3,9 +3,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<parent>
-		<artifactId>dans-commons</artifactId>
-		<groupId>nl.knaw.dans.common</groupId>
+		<artifactId>easy-build</artifactId>
+		<groupId>nl.knaw.dans.easy</groupId>
 		<version>2.x-SNAPSHOT</version>
+		<relativePath>../../easy-build/pom.xml</relativePath>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
@@ -118,4 +119,5 @@
 
 	</repositories>
 
+	<groupId>nl.knaw.dans.common</groupId>
 </project>
