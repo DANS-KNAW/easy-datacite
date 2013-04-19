@@ -64,7 +64,7 @@ public class EasyUserServiceAuthnTest extends TestHelper
         mockMailer = new MockMailer();
         new ExternalServices().setMailOffice(mockMailer);
 
-        ClassPathHacker.addFile("../easy-webui/src/main/resources");
+        ClassPathHacker.addFile("../../app/easy-webui/src/main/resources");
     }
 
     @Before

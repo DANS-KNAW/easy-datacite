@@ -24,7 +24,7 @@ public class WorkflowDataImplJibxTest extends AbstractJibxTest<WorkflowDataImpl>
     public static void testStartInformation()
     {
         before(WorkflowDataImplJibxTest.class);
-        ClassPathHacker.addFile("../easy-webui/src/main/resources");
+        ClassPathHacker.addFile("../../app/easy-webui/src/main/resources");
     }
 
     public WorkflowDataImplJibxTest()

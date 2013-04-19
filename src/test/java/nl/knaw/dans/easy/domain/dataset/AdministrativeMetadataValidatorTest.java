@@ -27,7 +27,7 @@ public class AdministrativeMetadataValidatorTest
     @BeforeClass
     public static void beforeClass()
     {
-        ClassPathHacker.addFile("../easy-webui/src/main/resources");
+        ClassPathHacker.addFile("../../app/easy-webui/src/main/resources");
     }
 
     @Test

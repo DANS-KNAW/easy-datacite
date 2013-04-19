@@ -32,7 +32,7 @@ public abstract class AbstractMailFixture
     public static void beforeClass() throws Exception
     {
         new ResourceLocator(new FileSystemHomeDirectory(new File("src/test/resources/editable")));
-        ClassPathHacker.addFile("../easy-webui/src/main/resources");
+        ClassPathHacker.addFile("../../app/easy-webui/src/main/resources");
     }
 
     protected static ApplicationMailer getMailer() throws Exception

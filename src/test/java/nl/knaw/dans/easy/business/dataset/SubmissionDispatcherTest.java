@@ -27,7 +27,7 @@ public class SubmissionDispatcherTest extends TestHelper
     @BeforeClass
     public static void beforeClass() throws ServiceException
     {
-        ClassPathHacker.addFile("../easy-webui/src/main/resources");
+        ClassPathHacker.addFile("../../app/easy-webui/src/main/resources");
         SERVICE = new EasyDepositService();
         SERVICE.doBeanPostProcessing();
     }

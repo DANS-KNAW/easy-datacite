@@ -21,7 +21,7 @@ public class WorkflowStepTest extends AbstractJibxTest<WorkflowStep>
     @BeforeClass
     public static void beforeClass()
     {
-        ClassPathHacker.addFile("../easy-webui/src/main/resources");
+        ClassPathHacker.addFile("../../app/easy-webui/src/main/resources");
         before(WorkflowStepTest.class);
     }
 

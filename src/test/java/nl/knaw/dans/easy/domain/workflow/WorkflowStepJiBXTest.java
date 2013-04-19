@@ -24,7 +24,7 @@ public class WorkflowStepJiBXTest extends AbstractJibxTest<WorkflowStep>
     public static void testStartInformation()
     {
         before(WorkflowStepJiBXTest.class);
-        ClassPathHacker.addFile("../easy-webui/src/main/resources");
+        ClassPathHacker.addFile("../../app/easy-webui/src/main/resources");
     }
 
     public WorkflowStepJiBXTest()
