@@ -151,7 +151,7 @@ public class DataFilesPanel extends AbstractDatasetModelPanel
         if (sequence == null)
             return NO_DATE_MODEL;
         DateTime lastStateChange = sequence.getLastStateChange();
-        if (lastStateChange==null)
+        if (lastStateChange == null)
             return NO_DATE_MODEL;
         return new Model<DateTime>(lastStateChange);
     }
