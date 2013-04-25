@@ -17,6 +17,7 @@ import nl.knaw.dans.easy.data.userrepo.EasyUserRepo;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.FileItem;
 import nl.knaw.dans.easy.domain.model.FolderItem;
+import nl.knaw.dans.easy.servicelayer.services.DatasetService;
 import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 
@@ -52,6 +53,7 @@ public class BusinessMocker
         // using setters did worked with expectations in the individual classes
 
         new Services().setItemService(PowerMock.createMock(ItemService.class));
+        new Services().setDatasetService(PowerMock.createMock(DatasetService.class));
         new Data().setUserRepo(PowerMock.createMock(EasyUserRepo.class));
         new Data().setEasyStore(PowerMock.createMock(EasyStore.class));
         new Data().setFileStoreAccess(PowerMock.createMock(FileStoreAccess.class));

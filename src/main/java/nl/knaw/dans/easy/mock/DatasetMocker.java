@@ -17,8 +17,14 @@ import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.EasyStore;
 import nl.knaw.dans.easy.data.store.FileStoreAccess;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
+import nl.knaw.dans.easy.domain.download.DownloadHistory;
+import nl.knaw.dans.easy.domain.download.DownloadList;
+import nl.knaw.dans.easy.domain.download.DownloadList.Level;
 import nl.knaw.dans.easy.domain.migration.IdMap;
 import nl.knaw.dans.easy.domain.model.Dataset;
+import nl.knaw.dans.easy.domain.model.user.EasyUser;
+import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.easy.mock.util.StringMatcher;
 
 import org.easymock.EasyMock;
 import org.joda.time.DateTime;
@@ -60,6 +66,33 @@ public class DatasetMocker
         expect(Data.getEasyStore().exists(eq(datasetStoreId))).andStubReturn(true);
         expect(Data.getEasyStore().findSubordinates(eq(datasetStoreId))).andStubReturn(subOrdinates);
         expect(Data.getMigrationRepo().exists(eq(datasetStoreId.toString()))).andStubReturn(true);
+    }
+
+    public DatasetMocker accessedByAny() throws Exception
+    {
+        EasyMock.expect(Services.getDatasetService().getDataset(EasyMock.isA(EasyUser.class), EasyMock.eq(datasetStoreId))).andStubReturn(dataset);
+        return this;
+    }
+
+    public DatasetMocker withDownloadHistoryFor(final DateTime dateTime) throws Exception
+    {
+        final String period = DownloadList.printPeriod(DownloadList.TYPE_ALL, dateTime);
+        final String storeId = storeIdGenerator.getNext(DownloadHistory.NAMESPACE);
+        final DownloadHistory dlh = new DownloadHistory(storeId, DownloadList.TYPE_ALL, Level.DATASET, datasetStoreId.getStoreId());
+        EasyMock.expect(Data.getEasyStore().findDownloadHistoryFor(EasyMock.eq(dataset), EasyMock.eq(period))).andStubReturn(dlh);
+        return this;
+    }
+
+    public DatasetMocker withoutDownloadHistoryFor(final DateTime dateTime) throws Exception
+    {
+        final String period = DownloadList.printPeriod(DownloadList.TYPE_ALL, dateTime);
+        final String storeId = storeIdGenerator.getNext(DownloadHistory.NAMESPACE);
+        final DownloadHistory dlh = new DownloadHistory(storeId, DownloadList.TYPE_ALL, Level.DATASET, datasetStoreId.getStoreId());
+
+        EasyMock.expect(Data.getEasyStore().findDownloadHistoryFor(EasyMock.eq(dataset), EasyMock.eq(period))).andStubReturn(null);
+        EasyMock.expect(Data.getEasyStore().ingest(StringMatcher.eq(dlh), EasyMock.isA(String.class))).andStubReturn(storeId);
+        EasyMock.expect(Data.getEasyStore().nextSid(DownloadHistory.NAMESPACE)).andStubReturn(storeId);
+        return this;
     }
 
     public DatasetMocker withPid(final String persitentIdentifier)
@@ -137,7 +170,7 @@ public class DatasetMocker
         return this;
     }
 
-    private void withFilesAndFolders(FileMocker[] fileMockers) throws Exception
+    private void withFilesAndFolders(final FileMocker[] fileMockers) throws Exception
     {
         final FileStoreAccessStubber stubber = new FileStoreAccessStubber(datasetStoreId, storeIdGenerator);
         stubber.createItemExpectations(fileMockers, folderMockers);
@@ -200,7 +233,7 @@ public class DatasetMocker
     }
 
     /** @return the mocked dataset */
-    Dataset getDataset()
+    public Dataset getDataset()
     {
         return dataset;
     }
