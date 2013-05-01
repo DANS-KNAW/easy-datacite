@@ -24,12 +24,6 @@ public class AdministrativeMetadataValidatorTest
 
     private static final boolean verbose = Tester.isVerbose();
 
-    @BeforeClass
-    public static void beforeClass()
-    {
-        ClassPathHacker.addFile("../../app/easy-webui/src/main/resources");
-    }
-
     @Test
     public void testMarshalUnMarshal() throws Exception
     {

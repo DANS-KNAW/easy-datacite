@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
-import nl.knaw.dans.common.lang.test.ClassPathHacker;
 import nl.knaw.dans.easy.domain.deposit.discipline.DepositDiscipline;
 import nl.knaw.dans.easy.domain.form.FormDescriptor;
 import nl.knaw.dans.easy.domain.form.TermPanelDefinition;
@@ -22,7 +21,6 @@ public class EasyDepositServiceTest extends TestHelper
     @BeforeClass
     public static void beforeClass()
     {
-        ClassPathHacker.addFile("../../app/easy-webui/src/main/resources");
         before(EasyDepositServiceTest.class);
     }
 

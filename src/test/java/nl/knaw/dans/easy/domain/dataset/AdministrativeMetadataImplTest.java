@@ -32,7 +32,6 @@ public class AdministrativeMetadataImplTest
     @BeforeClass
     public static void beforeClass()
     {
-        ClassPathHacker.addFile("../../app/easy-webui/src/main/resources");
         userRepo = EasyMock.createMock(EasyUserRepo.class);
         new Data().setUserRepo(userRepo);
     }

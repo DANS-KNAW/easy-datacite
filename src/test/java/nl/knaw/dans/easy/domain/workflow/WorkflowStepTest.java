@@ -8,7 +8,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
-import nl.knaw.dans.common.lang.test.ClassPathHacker;
 import nl.knaw.dans.common.lang.xml.XMLSerializationException;
 import nl.knaw.dans.easy.util.AbstractJibxTest;
 
@@ -21,7 +20,6 @@ public class WorkflowStepTest extends AbstractJibxTest<WorkflowStep>
     @BeforeClass
     public static void beforeClass()
     {
-        ClassPathHacker.addFile("../../app/easy-webui/src/main/resources");
         before(WorkflowStepTest.class);
     }
 
@@ -83,8 +81,6 @@ public class WorkflowStepTest extends AbstractJibxTest<WorkflowStep>
         assertEquals("2009-10-26T12:15:34.287+01:00", root.getCompletionTimeRequiredSteps().toString());
         assertNotNull(root.getCompletionTimeAllSteps());
         assertEquals("2009-10-26T12:15:34.287+01:00", root.getCompletionTimeAllSteps().toString());
-
-        //System.err.println(root.asXMLString(4));
     }
 
 }

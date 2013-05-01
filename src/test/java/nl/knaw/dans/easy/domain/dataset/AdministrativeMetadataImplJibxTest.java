@@ -30,7 +30,6 @@ public class AdministrativeMetadataImplJibxTest extends AbstractJibxTest<Adminis
     @BeforeClass
     public static void testStartInformation()
     {
-        ClassPathHacker.addFile("../../app/easy-webui/src/main/resources");
         before(AdministrativeMetadataImplJibxTest.class);
     }
 

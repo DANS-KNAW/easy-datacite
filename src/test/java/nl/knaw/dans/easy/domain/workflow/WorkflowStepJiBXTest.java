@@ -7,7 +7,6 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.util.List;
 
-import nl.knaw.dans.common.lang.test.ClassPathHacker;
 import nl.knaw.dans.common.lang.xml.XMLSerializationException;
 import nl.knaw.dans.easy.util.AbstractJibxTest;
 
@@ -24,7 +23,6 @@ public class WorkflowStepJiBXTest extends AbstractJibxTest<WorkflowStep>
     public static void testStartInformation()
     {
         before(WorkflowStepJiBXTest.class);
-        ClassPathHacker.addFile("../../app/easy-webui/src/main/resources");
     }
 
     public WorkflowStepJiBXTest()

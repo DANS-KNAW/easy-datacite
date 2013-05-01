@@ -9,7 +9,6 @@ import nl.knaw.dans.common.lang.ResourceLocator;
 import nl.knaw.dans.common.lang.mail.ApplicationMailer;
 import nl.knaw.dans.common.lang.mail.ApplicationMailerConfiguration;
 import nl.knaw.dans.common.lang.mail.MailerConfiguration;
-import nl.knaw.dans.common.lang.test.ClassPathHacker;
 import nl.knaw.dans.common.lang.test.Tester;
 
 import org.junit.BeforeClass;
@@ -32,7 +31,6 @@ public abstract class AbstractMailFixture
     public static void beforeClass() throws Exception
     {
         new ResourceLocator(new FileSystemHomeDirectory(new File("src/test/resources/editable")));
-        ClassPathHacker.addFile("../../app/easy-webui/src/main/resources");
     }
 
     protected static ApplicationMailer getMailer() throws Exception
