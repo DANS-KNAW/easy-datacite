@@ -15,7 +15,6 @@ import nl.knaw.dans.common.lang.repo.jumpoff.JumpoffDmo;
 import nl.knaw.dans.common.lang.search.SearchResult;
 import nl.knaw.dans.common.lang.search.simple.SimpleField;
 import nl.knaw.dans.common.lang.search.simple.SimpleSearchRequest;
-import nl.knaw.dans.common.lang.test.ClassPathHacker;
 import nl.knaw.dans.common.lang.test.Tester;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.search.EasyDatasetSB;
@@ -42,7 +41,6 @@ public class EasyFedoraStoreOnlineTest extends AbstractOnlineTest
     @BeforeClass
     public static void beforeClass() throws RepositoryException, MalformedURLException
     {
-        ClassPathHacker.addFile("../../app/easy-webui/src/main/resources");
         setUpData();
         store = Data.getEasyStore();
 
