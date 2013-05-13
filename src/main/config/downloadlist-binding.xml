@@ -18,7 +18,7 @@
         <value name="month" field="month" usage="optional" />
         <value name="week" field="week" usage="optional" />
         <value name="downloadCount"  field="downloadCount" />
-        <value name="bytes-downloaded"  field="totalBytes" />
+        <value name="bytes-downloaded"  field="totalBytes" usage="optional" />
             
         <structure name="downloads" usage="optional">
             <collection field="records" type="java.util.ArrayList">
