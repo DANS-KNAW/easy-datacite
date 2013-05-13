@@ -44,14 +44,14 @@ public class DownloadList extends AbstractTimestampedJiBXObject<DownloadList> im
 
     private final int listType;
     private final Level level;
-    private final DateTime startDate;
+    private DateTime startDate;
 
     @SuppressWarnings("unused")
-    private final int year;
+    private int year;
     @SuppressWarnings("unused")
-    private final int month;
+    private int month;
     @SuppressWarnings("unused")
-    private final int week;
+    private int week;
 
     private int downloadCount;
     private long totalBytes;
@@ -289,6 +289,13 @@ public class DownloadList extends AbstractTimestampedJiBXObject<DownloadList> im
 
         downloadCount++;
         createRecord(downloadedFileItemVO, user, downloadTime);
+    }
+
+    public void addMigrationRecord(final DownloadRecord downloadRecord)
+    {
+        checkDownloadTime(downloadRecord.getDownloadTime());
+        downloadCount++;
+        add(downloadRecord);
     }
 
     private void checkDownloadTime(DateTime downloadTime)

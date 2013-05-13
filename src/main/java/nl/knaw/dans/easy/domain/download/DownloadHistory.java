@@ -2,6 +2,8 @@ package nl.knaw.dans.easy.domain.download;
 
 import java.util.List;
 
+import org.joda.time.DateTime;
+
 import nl.knaw.dans.common.lang.repo.AbstractDataModelObject;
 import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.common.lang.repo.MetadataUnit;
@@ -30,6 +32,15 @@ public class DownloadHistory extends AbstractDataModelObject
         super(storeId);
         this.objectId = objectId;
         downloadList = new DownloadList(listType, level);
+    }
+
+    public DownloadHistory(String storeId, int listType, Level level, String objectId, DateTime start)
+    {
+        super(storeId);
+        this.objectId = objectId;
+        if(listType !=DownloadList.TYPE_MONTH)
+            throw new IllegalArgumentException("only level month supported");
+        downloadList = new DownloadList(listType, level,new DateTime(start.getYearOfEra()+"-"+start.getMonthOfYear()));
     }
 
     public DmoNamespace getDmoNamespace()
