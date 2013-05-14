@@ -21,6 +21,7 @@ import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.template.AbstractEasyPanel;
 
+import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -52,7 +53,7 @@ public class ActivityLogPanel extends AbstractEasyPanel
 
     private DownloadActivityLogPanel downloadActivityLogPanel;
 
-    public ActivityLogPanel(String id, Dataset dataset)
+    public ActivityLogPanel(final String id, final Dataset dataset)
     {
         super(id);
         this.dataset = dataset;
@@ -81,16 +82,16 @@ public class ActivityLogPanel extends AbstractEasyPanel
 
     private void init()
     {
-        ActivityLogForm activityLogForm = new ActivityLogForm("choiceForm");
+        final ActivityLogForm activityLogForm = new ActivityLogForm("choiceForm");
         add(activityLogForm);
         displayDownloads(activityLogForm.getYear(), activityLogForm.getMonth());
         downloadActivityLogPanel = new DownloadActivityLogPanel("downloadActivityLogPanel", dataset, getSessionUser());
         addOrReplace(downloadActivityLogPanel);
     }
 
-    private void displayDownloads(int year, int month)
+    private void displayDownloads(final int year, final int month)
     {
-        DownloadListPanel dlp = new DownloadListPanel("downloadListPanel", year, month);
+        final DownloadListPanel dlp = new DownloadListPanel("downloadListPanel", year, month);
         dlp.setVisible(dlp.isNotEmpty());
         addOrReplace(dlp);
     }
@@ -101,19 +102,19 @@ public class ActivityLogPanel extends AbstractEasyPanel
         private static final long serialVersionUID = -7996685875625497073L;
         private boolean notEmpty = false;
 
-        public DownloadListPanel(String id, int year, int month)
+        public DownloadListPanel(final String id, final int year, final int month)
         {
             super(id);
 
             // show temporary info message
             // infoMessage("tempMessage");
 
-            DateTime pDate = new DateTime(year, month, 1, 0, 0, 0, 0);
+            final DateTime pDate = new DateTime(year, month, 1, 0, 0, 0, 0);
             DownloadList downloadList;
 
             try
             {
-                DownloadHistory dlh = Services.getDatasetService().getDownloadHistoryFor(getSessionUser(), dataset, pDate);
+                final DownloadHistory dlh = Services.getDatasetService().getDownloadHistoryFor(getSessionUser(), dataset, pDate);
                 if (dlh == null)
                 {
                     downloadList = new DownloadList(DownloadHistory.LIST_TYPE_DATASET);
@@ -124,115 +125,22 @@ public class ActivityLogPanel extends AbstractEasyPanel
                     notEmpty = true;
                 }
                 add(new Label("downloadCount", Integer.toString(downloadList.getDownloadCount())));
-                add(new Label("downloadedBytes", Long.toString(downloadList.getTotalBytes())).setVisible(downloadList.getTotalBytes()!=0));
+                add(new Label("downloadedBytes", Long.toString(downloadList.getTotalBytes())).setVisible(downloadList.getTotalBytes() != 0));
 
                 final Map<DateTime, List<DownloadRecord>> timeMap = downloadList.getDownloadsByTime();
-                List<DateTime> dates = new ArrayList<DateTime>(timeMap.keySet());
+                final List<DateTime> dates = new ArrayList<DateTime>(timeMap.keySet());
 
                 final WebMarkupContainer timeViewContainer = new WebMarkupContainer("timeViewContainer");
-                Label detailsHeader = new Label("detailsHeader", "Details");
+                final Label detailsHeader = new Label("detailsHeader", "Details");
                 detailsHeader.setVisible(getSessionUser().hasRole(Role.ARCHIVIST) || getSessionUser().hasRole(Role.ADMIN)
                         || dataset.hasDepositor(getSessionUser()));
                 timeViewContainer.add(detailsHeader);
                 add(timeViewContainer);
-                ListView<DateTime> timeView = new ListView<DateTime>("timeView", dates)
-                {
-
-                    private static final long serialVersionUID = 1835277512292284607L;
-
-                    @Override
-                    protected void populateItem(final ListItem<DateTime> item)
-                    {
-                        final List<DownloadRecord> records = timeMap.get(item.getModelObject());
-
-                        item.add(new DateTimeLabel("downloadTime", getString(EasyResources.DATE_FORMAY_KEY), new Model<DateTime>()
-                        {
-
-                            private static final long serialVersionUID = -868918967174524401L;
-
-                            @Override
-                            public DateTime getObject()
-                            {
-                                return item.getModelObject();
-                            }
-                        }));
-
-                        String displayName = "";
-                        String organization = "";
-                        String function = "";
-                        try
-                        {
-                            if (records != null && records.get(0) != null)
-                            {
-                                final String downloaderId = records.get(0).getDownloaderId();
-                                EasyUser downloader = downloaderId == null ? EasyUserAnonymous.getInstance() : Services.getUserService().getUserById(
-                                        getSessionUser(), downloaderId);
-                                if (!downloader.isAnonymous()
-                                        && (isSessionUserArchivist() || isLogMyActionsOnFor(downloader) || isDepositorViewingGrantedRestrictedDownloadBy(downloader)))
-                                {
-                                    displayName = downloader.getDisplayName();
-                                    organization = downloader.getOrganization();
-                                    function = downloader.getFunction();
-                                }
-                                else
-                                {
-                                    displayName = "Anonymous";
-                                }
-                            }
-                        }
-                        catch (ObjectNotAvailableException e)
-                        {
-                            LOGGER.error("error getting downloader for activity.", e);
-                        }
-                        catch (ServiceException e)
-                        {
-                            LOGGER.error("error getting downloader for activity.", e);
-                        }
-
-                        item.add(new Label("displayName", displayName));
-                        item.add(new Label("organization", organization));
-                        item.add(new Label("function", function));
-                        item.add(new Label("fileCount", Integer.toString(records.size())));
-
-                        final DetailsViewPanel detailsViewPanel = new DetailsViewPanel("detailsView", records);
-                        item.add(detailsViewPanel);
-
-                        final Label detailsLabel = new Label("detailsLabel", new Model<String>()
-                        {
-                            private static final long serialVersionUID = -3463837402258647445L;
-
-                            @Override
-                            public String getObject()
-                            {
-                                return detailsViewPanel.isShowing() ? getString("label.details.hide") : getString("label.details.show");
-                            }
-
-                        });
-                        detailsLabel.setOutputMarkupId(true);
-
-                        final AjaxLink<Void> detailsLink = new AjaxLink<Void>("detailsLink")
-                        {
-                            private static final long serialVersionUID = 7852411683843630456L;
-
-                            @Override
-                            public void onClick(AjaxRequestTarget target)
-                            {
-                                detailsViewPanel.toggleDisplay();
-                                target.addComponent(detailsLabel);
-                                target.addComponent(detailsViewPanel);
-                            }
-                        };
-                        detailsLink.setVisible(getSessionUser().hasRole(Role.ARCHIVIST) || getSessionUser().hasRole(Role.ADMIN)
-                                || dataset.hasDepositor(getSessionUser()));
-                        detailsLink.add(detailsLabel);
-                        item.add(detailsLink);
-
-                    }
-                };
+                final ListView<DateTime> timeView = createTimeView(timeMap, dates);
                 timeViewContainer.setOutputMarkupId(true);
                 timeViewContainer.add(timeView);
             }
-            catch (ServiceException e)
+            catch (final ServiceException e)
             {
                 final String message = errorMessage(EasyResources.ERROR_RETRIEVING_DOWNLOAD_HISTORY);
                 LOGGER.error(message, e);
@@ -247,17 +155,127 @@ public class ActivityLogPanel extends AbstractEasyPanel
 
     }
 
+    private ListView<DateTime> createTimeView(final Map<DateTime, List<DownloadRecord>> timeMap, final List<DateTime> dates)
+    {
+        return new ListView<DateTime>("timeView", dates)
+        {
+
+            private static final long serialVersionUID = 1835277512292284607L;
+
+            @Override
+            protected void populateItem(final ListItem<DateTime> item)
+            {
+                final List<DownloadRecord> records = timeMap.get(item.getModelObject());
+
+                item.add(new DateTimeLabel("downloadTime", getString(EasyResources.DATE_FORMAY_KEY), createDateTimeModel(item)));
+
+                String displayName = "";
+                String organization = "";
+                String function = "";
+                try
+                {
+                    if (records != null && records.get(0) != null)
+                    {
+                        final String downloaderId = records.get(0).getDownloaderId();
+                        final EasyUser downloader = downloaderId == null ? EasyUserAnonymous.getInstance() : Services.getUserService().getUserById(
+                                getSessionUser(), downloaderId);
+                        if (!downloader.isAnonymous()
+                                && (isSessionUserArchivist() || isLogMyActionsOnFor(downloader) || isDepositorViewingGrantedRestrictedDownloadBy(downloader)))
+                        {
+                            displayName = downloader.getDisplayName();
+                            organization = downloader.getOrganization();
+                            function = downloader.getFunction();
+                        }
+                        else
+                        {
+                            displayName = "Anonymous";
+                        }
+                    }
+                }
+                catch (final ObjectNotAvailableException e)
+                {
+                    LOGGER.error("error getting downloader for activity.", e);
+                }
+                catch (final ServiceException e)
+                {
+                    LOGGER.error("error getting downloader for activity.", e);
+                }
+
+                item.add(new Label("displayName", displayName));
+                item.add(new Label("organization", organization));
+                item.add(new Label("function", function));
+                item.add(new Label("fileCount", Integer.toString(records.size())));
+
+                final DetailsViewPanel detailsViewPanel = new DetailsViewPanel("detailsView", records);
+                item.add(detailsViewPanel);
+                item.add(createDetailsLink(detailsViewPanel));
+            }
+        };
+    }
+
+    private Model<DateTime> createDateTimeModel(final ListItem<DateTime> item)
+    {
+        return new Model<DateTime>()
+        {
+    
+            private static final long serialVersionUID = -868918967174524401L;
+    
+            @Override
+            public DateTime getObject()
+            {
+                return item.getModelObject();
+            }
+        };
+    }
+
+    private Label createDetailsLabel(final DetailsViewPanel detailsViewPanel)
+    {
+        final Label detailsLabel = new Label("detailsLabel", new Model<String>()
+        {
+            private static final long serialVersionUID = -3463837402258647445L;
+
+            @Override
+            public String getObject()
+            {
+                return detailsViewPanel.isShowing() ? getString("label.details.hide") : getString("label.details.show");
+            }
+
+        });
+        detailsLabel.setOutputMarkupId(true);
+        return detailsLabel;
+    }
+
+    private AjaxLink<Void> createDetailsLink(final DetailsViewPanel detailsViewPanel)
+    {
+        final Component detailsLabel = createDetailsLabel(detailsViewPanel);
+        final AjaxLink<Void> detailsLink = new AjaxLink<Void>("detailsLink")
+        {
+            private static final long serialVersionUID = 7852411683843630456L;
+
+            @Override
+            public void onClick(final AjaxRequestTarget target)
+            {
+                detailsViewPanel.toggleDisplay();
+                target.addComponent(detailsLabel);
+                target.addComponent(detailsViewPanel);
+            }
+        };
+        detailsLink.setVisible(getSessionUser().hasRole(Role.ARCHIVIST) || getSessionUser().hasRole(Role.ADMIN) || dataset.hasDepositor(getSessionUser()));
+        detailsLink.add(detailsLabel);
+        return detailsLink;
+    }
+
     private boolean isSessionUserArchivist()
     {
         return getSessionUser().hasRole(Role.ARCHIVIST);
     }
 
-    private boolean isLogMyActionsOnFor(EasyUser downloader)
+    private boolean isLogMyActionsOnFor(final EasyUser downloader)
     {
         return !downloader.isAnonymous() && downloader.isLogMyActions();
     }
 
-    private boolean isDepositorViewingGrantedRestrictedDownloadBy(EasyUser downloader)
+    private boolean isDepositorViewingGrantedRestrictedDownloadBy(final EasyUser downloader)
     {
         return dataset.hasDepositor(getSessionUser()) && dataset.hasPermissionRestrictedItems() && dataset.isPermissionGrantedTo(downloader);
     }
@@ -271,7 +289,7 @@ public class ActivityLogPanel extends AbstractEasyPanel
 
         private boolean showing;
 
-        public DetailsViewPanel(String wicketId, List<DownloadRecord> records)
+        public DetailsViewPanel(final String wicketId, final List<DownloadRecord> records)
         {
             super(wicketId);
             this.records = records;
@@ -281,20 +299,26 @@ public class ActivityLogPanel extends AbstractEasyPanel
         @Override
         protected void onBeforeRender()
         {
-            ListView detailsView = new ListView("detailsView", showing ? records : emptyList)
+            final ListView detailsView = creteDetailsView();
+            addOrReplace(detailsView);
+            super.onBeforeRender();
+        }
+
+        private ListView creteDetailsView()
+        {
+            final ListView detailsView = new ListView("detailsView", showing ? records : emptyList)
             {
                 private static final long serialVersionUID = -6012969128990248434L;
 
                 @Override
-                protected void populateItem(ListItem item)
+                protected void populateItem(final ListItem item)
                 {
-                    DownloadRecord record = (DownloadRecord) item.getDefaultModelObject();
+                    final DownloadRecord record = (DownloadRecord) item.getDefaultModelObject();
                     item.add(new Label("path", record.getPath()));
                 }
 
             };
-            addOrReplace(detailsView);
-            super.onBeforeRender();
+            return detailsView;
         }
 
         public void toggleDisplay()
@@ -314,11 +338,11 @@ public class ActivityLogPanel extends AbstractEasyPanel
         private int year;
         private int month;
 
-        public ActivityLogForm(String wicketId)
+        public ActivityLogForm(final String wicketId)
         {
             super(wicketId);
 
-            DateTime dateTime = new DateTime();
+            final DateTime dateTime = new DateTime();
             year = dateTime.getYear();
             month = dateTime.getMonthOfYear();
             final List<Integer> years = new ArrayList<Integer>();
@@ -327,17 +351,17 @@ public class ActivityLogPanel extends AbstractEasyPanel
                 years.add(i);
             }
 
-            DropDownChoice yearChoice = new DropDownChoice("yearChoice", new PropertyModel(this, "year"), years);
+            final DropDownChoice yearChoice = new DropDownChoice("yearChoice", new PropertyModel(this, "year"), years);
             yearChoice.setRequired(true);
             yearChoice.setNullValid(false);
             add(yearChoice);
 
-            DropDownChoice monthChoice = new DropDownChoice("monthChoice", new PropertyModel(this, "month"), MONTHS);
+            final DropDownChoice monthChoice = new DropDownChoice("monthChoice", new PropertyModel(this, "month"), MONTHS);
             monthChoice.setRequired(true);
             monthChoice.setNullValid(false);
             add(monthChoice);
 
-            SubmitLink submitButton = new SubmitLink("submitLink", new ResourceModel("button.text.submit"));
+            final SubmitLink submitButton = new SubmitLink("submitLink", new ResourceModel("button.text.submit"));
             add(submitButton);
         }
 
@@ -346,7 +370,7 @@ public class ActivityLogPanel extends AbstractEasyPanel
             return year;
         }
 
-        public void setYear(int year)
+        public void setYear(final int year)
         {
             this.year = year;
         }
@@ -356,7 +380,7 @@ public class ActivityLogPanel extends AbstractEasyPanel
             return month;
         }
 
-        public void setMonth(int month)
+        public void setMonth(final int month)
         {
             this.month = month;
         }
