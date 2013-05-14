@@ -132,8 +132,7 @@ public class ActivityLogPanel extends AbstractEasyPanel
 
                 final WebMarkupContainer timeViewContainer = new WebMarkupContainer("timeViewContainer");
                 final Label detailsHeader = new Label("detailsHeader", "Details");
-                detailsHeader.setVisible(getSessionUser().hasRole(Role.ARCHIVIST) || getSessionUser().hasRole(Role.ADMIN)
-                        || dataset.hasDepositor(getSessionUser()));
+                detailsHeader.setVisible(hasPermissionForDetails());
                 timeViewContainer.add(detailsHeader);
                 add(timeViewContainer);
                 final ListView<DateTime> timeView = createTimeView(timeMap, dates);
@@ -217,9 +216,9 @@ public class ActivityLogPanel extends AbstractEasyPanel
     {
         return new Model<DateTime>()
         {
-    
+
             private static final long serialVersionUID = -868918967174524401L;
-    
+
             @Override
             public DateTime getObject()
             {
@@ -260,7 +259,7 @@ public class ActivityLogPanel extends AbstractEasyPanel
                 target.addComponent(detailsViewPanel);
             }
         };
-        detailsLink.setVisible(getSessionUser().hasRole(Role.ARCHIVIST) || getSessionUser().hasRole(Role.ADMIN) || dataset.hasDepositor(getSessionUser()));
+        detailsLink.setVisible(hasPermissionForDetails());
         detailsLink.add(detailsLabel);
         return detailsLink;
     }
@@ -273,6 +272,11 @@ public class ActivityLogPanel extends AbstractEasyPanel
     private boolean isLogMyActionsOnFor(final EasyUser downloader)
     {
         return !downloader.isAnonymous() && downloader.isLogMyActions();
+    }
+    
+    private boolean hasPermissionForDetails()
+    {
+        return getSessionUser().hasRole(Role.ARCHIVIST) || getSessionUser().hasRole(Role.ADMIN) || dataset.hasDepositor(getSessionUser());
     }
 
     private boolean isDepositorViewingGrantedRestrictedDownloadBy(final EasyUser downloader)
