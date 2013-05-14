@@ -124,7 +124,7 @@ public class ActivityLogPanel extends AbstractEasyPanel
                     notEmpty = true;
                 }
                 add(new Label("downloadCount", Integer.toString(downloadList.getDownloadCount())));
-                add(new Label("downloadedBytes", Long.toString(downloadList.getTotalBytes())));
+                add(new Label("downloadedBytes", Long.toString(downloadList.getTotalBytes())).setVisible(downloadList.getTotalBytes()!=0));
 
                 final Map<DateTime, List<DownloadRecord>> timeMap = downloadList.getDownloadsByTime();
                 List<DateTime> dates = new ArrayList<DateTime>(timeMap.keySet());
