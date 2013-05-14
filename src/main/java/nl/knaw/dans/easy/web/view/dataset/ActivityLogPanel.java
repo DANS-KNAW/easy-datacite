@@ -29,6 +29,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.SubmitLink;
+import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -171,15 +172,14 @@ public class ActivityLogPanel extends AbstractEasyPanel
                 String displayName = "";
                 String organization = "";
                 String function = "";
+                boolean detailsAvailable = false;
                 try
                 {
                     if (records != null && records.get(0) != null)
                     {
-                        final String downloaderId = records.get(0).getDownloaderId();
-                        final EasyUser downloader = downloaderId == null ? EasyUserAnonymous.getInstance() : Services.getUserService().getUserById(
-                                getSessionUser(), downloaderId);
-                        if (!downloader.isAnonymous()
-                                && (isSessionUserArchivist() || isLogMyActionsOnFor(downloader) || isDepositorViewingGrantedRestrictedDownloadBy(downloader)))
+                        detailsAvailable = records.get(0).getFileItemId() != null;
+                        final EasyUser downloader = getDownloader(records.get(0).getDownloaderId());
+                        if (!downloader.isAnonymous() && hasPerrmissionToViewDownloader(downloader))
                         {
                             displayName = downloader.getDisplayName();
                             organization = downloader.getOrganization();
@@ -203,13 +203,29 @@ public class ActivityLogPanel extends AbstractEasyPanel
                 item.add(new Label("displayName", displayName));
                 item.add(new Label("organization", organization));
                 item.add(new Label("function", function));
-                item.add(new Label("fileCount", Integer.toString(records.size())));
+                item.add(new Label("fileCount", Integer.toString(records.size())).setVisible(detailsAvailable));
 
-                final DetailsViewPanel detailsViewPanel = new DetailsViewPanel("detailsView", records);
-                item.add(detailsViewPanel);
-                item.add(createDetailsLink(detailsViewPanel));
+                if (detailsAvailable)
+                {
+                    final DetailsViewPanel detailsViewPanel = new DetailsViewPanel("detailsView", records);
+                    item.add(createDetailsLink(detailsViewPanel));
+                    item.add(detailsViewPanel);
+                }
+                else
+                {
+                    item.add(createDummyLink());
+                    item.add(new Label("detailsView", getString("label.details.available")));
+                }
             }
         };
+    }
+
+    private EasyUser getDownloader(final String downloaderId) throws ObjectNotAvailableException, ServiceException
+    {
+        if (downloaderId == null)
+            return EasyUserAnonymous.getInstance();
+        else
+            return Services.getUserService().getUserById(getSessionUser(), downloaderId);
     }
 
     private Model<DateTime> createDateTimeModel(final ListItem<DateTime> item)
@@ -264,6 +280,19 @@ public class ActivityLogPanel extends AbstractEasyPanel
         return detailsLink;
     }
 
+    private Component createDummyLink()
+    {
+        final ExternalLink detailsLink = new ExternalLink("detailsLink", "#");
+        detailsLink.add(new Label("detailsLabel", new Model<String>("")));
+        detailsLink.setVisible(false);
+        return detailsLink;
+    }
+
+    private boolean hasPerrmissionToViewDownloader(final EasyUser downloader)
+    {
+        return isSessionUserArchivist() || isLogMyActionsOnFor(downloader) || isDepositorViewingGrantedRestrictedDownloadBy(downloader);
+    }
+
     private boolean isSessionUserArchivist()
     {
         return getSessionUser().hasRole(Role.ARCHIVIST);
@@ -273,7 +302,7 @@ public class ActivityLogPanel extends AbstractEasyPanel
     {
         return !downloader.isAnonymous() && downloader.isLogMyActions();
     }
-    
+
     private boolean hasPermissionForDetails()
     {
         return getSessionUser().hasRole(Role.ARCHIVIST) || getSessionUser().hasRole(Role.ADMIN) || dataset.hasDepositor(getSessionUser());
@@ -303,13 +332,13 @@ public class ActivityLogPanel extends AbstractEasyPanel
         @Override
         protected void onBeforeRender()
         {
-            final ListView detailsView = creteDetailsView();
-            addOrReplace(detailsView);
+            addOrReplace(creteDetailsView());
             super.onBeforeRender();
         }
 
         private ListView creteDetailsView()
         {
+            @SuppressWarnings({"rawtypes", "unchecked"})
             final ListView detailsView = new ListView("detailsView", showing ? records : emptyList)
             {
                 private static final long serialVersionUID = -6012969128990248434L;
