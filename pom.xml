@@ -11,7 +11,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>easy-fedora</artifactId>
-	<name>Easy Fedora Data Access Implementation</name>
+	<name>EASY Fedora Library</name>
 	<description>
 		Fedora implementation of the Easy Data layer
 	</description>
