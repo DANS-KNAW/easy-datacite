@@ -38,9 +38,9 @@ public class DownloadHistory extends AbstractDataModelObject
     {
         super(storeId);
         this.objectId = objectId;
-        if(listType !=DownloadList.TYPE_MONTH)
+        if (listType != DownloadList.TYPE_MONTH)
             throw new IllegalArgumentException("only level month supported");
-        downloadList = new DownloadList(listType, level,new DateTime(start.getYearOfEra()+"-"+start.getMonthOfYear()));
+        downloadList = new DownloadList(listType, level, new DateTime(start.getYearOfEra() + "-" + start.getMonthOfYear()));
     }
 
     public DmoNamespace getDmoNamespace()
