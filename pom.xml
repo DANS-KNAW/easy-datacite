@@ -8,8 +8,7 @@
 
   <modelVersion>4.0.0</modelVersion>
   <artifactId>dans-solr</artifactId>
-  <name>DANS-Solr</name>
-  <url>http://develop01.dans.knaw.nl/maven2/eof-open-source/solr</url>
+  <name>DANS SOLR Library</name>
   <description>Common DANS Solr implementation</description>
   
   	<properties>
