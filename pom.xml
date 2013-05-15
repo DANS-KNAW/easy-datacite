@@ -17,8 +17,7 @@
 		<url>http://www.dans.knaw.nl</url>
 	</organization>
 
-	<name>DANS pid</name>
-	<url>http://develop01.dans.knaw.nl/maven2/eof-open-source/dans-pid</url>
+	<name>DANS PID Library</name>
 	<description>generate persistent identifiers</description>
 
 	<dependencies>
