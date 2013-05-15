@@ -5,7 +5,7 @@
 	<artifactId>easy-rest</artifactId>
 	<packaging>war</packaging>
 	<version>0.1</version>
-	<name>EASY REST API</name>
+	<name>EASY Experimental REST API</name>
 	<description>RESTful API for EASY</description>
 	<properties>
 		<jetty.version>6.1.7</jetty.version>		
@@ -221,7 +221,7 @@
 				<version>2.3</version>
 				<configuration>
 					<descriptors>
-						<descriptor>src/main/assembly/src.xml</descriptor>
+						<descriptor>src/main/assembly/bin.xml</descriptor>
 					</descriptors>
 				</configuration>
 				<executions>
