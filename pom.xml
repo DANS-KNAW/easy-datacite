@@ -16,8 +16,7 @@
 		<name>DANS</name>
 		<url>http://www.dans.knaw.nl</url>
 	</organization>
-	<name>DANS Wicket</name>
-	<url>http://develop01.dans.knaw.nl/maven2/eof-open-source/dans-wicket</url>
+	<name>DANS Wicket Library</name>
 	<description>Shared Wicket components within DANS</description>
 
 	<properties>
