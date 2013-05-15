@@ -11,7 +11,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>dans-ldap</artifactId>
-	<name>DANS Ldap Data Access Implementation</name>
+	<name>DANS LDAP Library</name>
 	<packaging>jar</packaging>
 	<organization>
 		<name>DANS</name>
