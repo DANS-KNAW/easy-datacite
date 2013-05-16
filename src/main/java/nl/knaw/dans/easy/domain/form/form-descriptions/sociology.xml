@@ -431,7 +431,7 @@
 			<modelClass>SingleISODateWrapper</modelClass>
 			<panelClass>CreatedDatePanel</panelClass>
 			<required>true</required>
-			<repeating>true</repeating>
+			<repeating>false</repeating>
 			<choiceListDefinition>
                 <properties>
                     <id>common.dcterms.date</id>
