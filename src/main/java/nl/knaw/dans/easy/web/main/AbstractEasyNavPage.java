@@ -19,6 +19,7 @@ import nl.knaw.dans.easy.web.authn.RegistrationPage;
 import nl.knaw.dans.easy.web.authn.UserInfoPage;
 import nl.knaw.dans.easy.web.common.HelpFileReader;
 import nl.knaw.dans.easy.web.deposit.DepositIntroPage;
+import nl.knaw.dans.easy.web.editabletexts.EasyEditablePanel;
 import nl.knaw.dans.easy.web.search.pages.AdvSearchPage;
 import nl.knaw.dans.easy.web.search.pages.BrowsePage;
 import nl.knaw.dans.easy.web.search.pages.MyDatasetsSearchResultPage;
@@ -70,6 +71,7 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage
     private static final String BROWSE_PAGE = "browsePage";
     private static final String ADVANCED_SEARCH_PAGE = "advancedSearchPage";
     private static final String DISCLAIMER_URL = "http://www.dans.knaw.nl/sites/default/files/file/archief/DisclaimerEASY.pdf";
+    public static final String EDITABLE_ADMIN_BANNER_TEMPLATE = "/pages/AdminBanner.template";
 
     private static final int MAX_NAME_LENGTH = 30;
 
@@ -167,6 +169,7 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage
         // search bar
         add(new SearchBar(SEARCH_PANEL, isArchivistOrAdmin() ? SearchAllSearchResultPage.class : PublicSearchResultPage.class));
         add(new HelpPopup("searchHelpPopup", "Search", new HelpFileReader("Search").read()));
+        add(new EasyEditablePanel("adminBanner", EDITABLE_ADMIN_BANNER_TEMPLATE));
 
         // personal bar
         add(new PageLink<LoginPage>(LOGIN, LoginPage.class)

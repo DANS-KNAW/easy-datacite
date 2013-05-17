@@ -55,6 +55,7 @@ public class EditableContentPage extends AbstractEasyNavPage
         prm.setState(State.Granted);
 
         // LINKS TO EDITABLE PAGES
+        addLink("adminBannerLink", AbstractEasyNavPage.EDITABLE_ADMIN_BANNER_TEMPLATE);
         addLink("homepage", HomePage.EDITABLE_HOMEPAGE_TEMPLATE);
         addLink("registration", RegistrationPage.EDITABLE_REGISTRATION_TEMPLATE);
         addLink("depositIntro", DepositIntroPage.EDITABLE_DEPOSIT_INTRO_TEMPLATE);
