@@ -338,7 +338,7 @@ public class ActivityLogPanel extends AbstractEasyPanel
 
         private ListView creteDetailsView()
         {
-            @SuppressWarnings({"rawtypes", "unchecked"})
+            @SuppressWarnings( {"rawtypes", "unchecked"})
             final ListView detailsView = new ListView("detailsView", showing ? records : emptyList)
             {
                 private static final long serialVersionUID = -6012969128990248434L;
