@@ -113,7 +113,7 @@ public class TextFileModel extends Model<String>
         try
         {
             writer = new FileWriter(file);
-            writer.write(content);
+            writer.write(content==null?"":content);
         }
         catch (final IOException e)
         {
