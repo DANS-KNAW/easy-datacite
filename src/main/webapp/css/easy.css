@@ -1672,3 +1672,17 @@ div.popupDialog {
 }
 */
 
+#third-line{
+	display: block;
+	width: 100%;
+}	
+.third-line-left {
+	display: inline-block;
+	float: left;
+}
+
+.third-line-right {
+	display: inline-block;
+	float: right;
+}
+
