@@ -379,12 +379,10 @@ td {
 }
 
 #managementBar {
-	clear: both;
-	display: block;
-	float: left;
-	text-align: left;
+	display: inline-block;
+	float: right;
+	text-align: right;
 	padding-bottom: 0.6em;
-	width: 100%;
 }
 
 #managementBar.rightalign {
@@ -415,10 +413,6 @@ td {
 	padding-left: 0.5em!important;
 	border-right: 1px solid #CCC;
 	padding-right: 5px!important;
-}
-
-a.first {
-	padding-left: 262px!important;
 }
 
 #managementBar.rightalign a.first {
@@ -517,6 +511,20 @@ a.first {
 	padding: 4px;
 	padding-top: 9px;
 	height: 18px;
+}
+
+#third-line{
+	display: block;
+	width: 100%;
+}	
+.third-line-left {
+	display: inline-block;
+	float: left;
+}
+
+.third-line-right {
+	display: inline-block;
+	float: right;
 }
 
 .name-buttons span {		
@@ -1671,18 +1679,4 @@ div.popupDialog {
 	vertical-align: text-bottom !important;
 }
 */
-
-#third-line{
-	display: block;
-	width: 100%;
-}	
-.third-line-left {
-	display: inline-block;
-	float: left;
-}
-
-.third-line-right {
-	display: inline-block;
-	float: right;
-}
 
