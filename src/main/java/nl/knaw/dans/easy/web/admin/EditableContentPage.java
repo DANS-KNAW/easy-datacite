@@ -55,133 +55,133 @@ public class EditableContentPage extends AbstractEasyNavPage
         prm.setState(State.Granted);
 
         // LINKS TO EDITABLE PAGES
-        addLink("adminBannerLink", AbstractEasyNavPage.EDITABLE_ADMIN_BANNER_TEMPLATE);
-        addLink("homepage", HomePage.EDITABLE_HOMEPAGE_TEMPLATE);
-        addLink("registration", RegistrationPage.EDITABLE_REGISTRATION_TEMPLATE);
-        addLink("depositIntro", DepositIntroPage.EDITABLE_DEPOSIT_INTRO_TEMPLATE);
-        addLink("depositComplete", DepositPanel.EDITABLE_DEPOSIT_COMPLETE_TEMPLATE, user);
-        addLink("licensePanel", LicensePanel.EDITABLE_LICENSE_PANEL_TEMPLATE, new EmdIdentifier());
-        addLink("licensePanelOtherAccess", LicensePanel.EDITABLE_LICENSE_PANEL_OTHER_ACCESS_TEMPLATE, new EmdIdentifier());
-        addLink("downloadDialog", ModalDownload.EDITABLE_DOWNLOAD_DIALOG_TEMPLATE);
-        addLink("permissionRequest", PermissionRequestForm.EDITABLE_PERMISSION_REQUEST_TEMPLATE);
-        addLink("myDatasetsSearchResult", MyDatasetsSearchResultPage.MY_DATASETS_SEARCH_RESULTS);
-        addLink("myRequestsSearchResult", MyRequestsSearchResultPage.MY_REQUESTS_SEARCH_RESULTS);
+        addLink("adminBannerEditLink", AbstractEasyNavPage.EDITABLE_ADMIN_BANNER_TEMPLATE);
+        addLink("homepageEditLink", HomePage.EDITABLE_HOMEPAGE_TEMPLATE);
+        addLink("registrationEditLink", RegistrationPage.EDITABLE_REGISTRATION_TEMPLATE);
+        addLink("depositIntroEditLink", DepositIntroPage.EDITABLE_DEPOSIT_INTRO_TEMPLATE);
+        addLink("depositCompleteEditLink", DepositPanel.EDITABLE_DEPOSIT_COMPLETE_TEMPLATE, user);
+        addLink("licensePanelEditLink", LicensePanel.EDITABLE_LICENSE_PANEL_TEMPLATE, new EmdIdentifier());
+        addLink("licensePanelOtherAccessEditLink", LicensePanel.EDITABLE_LICENSE_PANEL_OTHER_ACCESS_TEMPLATE, new EmdIdentifier());
+        addLink("downloadDialogEditLink", ModalDownload.EDITABLE_DOWNLOAD_DIALOG_TEMPLATE);
+        addLink("permissionRequestEditLink", PermissionRequestForm.EDITABLE_PERMISSION_REQUEST_TEMPLATE);
+        addLink("myDatasetsSearchResultEditLink", MyDatasetsSearchResultPage.MY_DATASETS_SEARCH_RESULTS);
+        addLink("myRequestsSearchResultEditLink", MyRequestsSearchResultPage.MY_REQUESTS_SEARCH_RESULTS);
 
         // LINKS TO EDITABLE E-MAILS
-        addLink("registrationMailHTML", "/mail/templates/authn/RegistrationMail.html", user, new Registration(user));
-        addLink("registrationMailTXT", "/mail/templates/authn/RegistrationMail.txt", user, new Registration(user));
+        addLink("registrationMailHTMLEditLink", "/mail/templates/authn/RegistrationMail.html", user, new Registration(user));
+        addLink("registrationMailTXTEditLink", "/mail/templates/authn/RegistrationMail.txt", user, new Registration(user));
 
-        addLink("updatePasswordMailHTML", "/mail/templates/authn/UpdatePasswordMail.html", user, new UpdatePasswordMessage(user,
+        addLink("updatePasswordMailHTMLEditLink", "/mail/templates/authn/UpdatePasswordMail.html", user, new UpdatePasswordMessage(user,
                 new ForgottenPasswordMessenger(null, "jan@jansen.com")));
-        addLink("updatePasswordMailTXT", "/mail/templates/authn/UpdatePasswordMail.txt", user, new UpdatePasswordMessage(user, new ForgottenPasswordMessenger(
+        addLink("updatePasswordMailTXTEditLink", "/mail/templates/authn/UpdatePasswordMail.txt", user, new UpdatePasswordMessage(user, new ForgottenPasswordMessenger(
                 null, "jan@jansen.com")));
 
-        addLink("maintenanceNotificationMailHTML", "/mail/templates/maintenance/maintenaceNotification.html", user, dataset, new MaintenanceNotification(
+        addLink("maintenanceNotificationMailHTMLEditLink", "/mail/templates/maintenance/maintenaceNotification.html", user, dataset, new MaintenanceNotification(
                 dataset));
-        addLink("maintenanceNotificationMailTXT", "/mail/templates/maintenance/maintenaceNotification.txt", user, dataset, new MaintenanceNotification(dataset));
+        addLink("maintenanceNotificationMailTXTEditLink", "/mail/templates/maintenance/maintenaceNotification.txt", user, dataset, new MaintenanceNotification(dataset));
 
-        addLink("depositConfirmationHTML", "/mail/templates/deposit/depositConfirmation.html", user, dataset, datasetSubmission, new SubmitNotification(
+        addLink("depositConfirmationHTMLEditLink", "/mail/templates/deposit/depositConfirmation.html", user, dataset, datasetSubmission, new SubmitNotification(
                 datasetSubmission));
-        addLink("depositConfirmationTXT", "/mail/templates/deposit/depositConfirmation.txt", user, dataset, datasetSubmission, new SubmitNotification(
+        addLink("depositConfirmationTXTEditLink", "/mail/templates/deposit/depositConfirmation.txt", user, dataset, datasetSubmission, new SubmitNotification(
                 datasetSubmission));
 
-        addLink("depositConfirmationOtherAccessHTML", "/mail/templates/deposit/depositConfirmationOtherAccess.html", user, dataset, datasetSubmission,
+        addLink("depositConfirmationOtherAccessHTMLEditLink", "/mail/templates/deposit/depositConfirmationOtherAccess.html", user, dataset, datasetSubmission,
                 new SubmitNotification(datasetSubmission));
-        addLink("depositConfirmationOtherAccessTXT", "/mail/templates/deposit/depositConfirmationOtherAccess.txt", user, dataset, datasetSubmission,
+        addLink("depositConfirmationOtherAccessTXTEditLink", "/mail/templates/deposit/depositConfirmationOtherAccess.txt", user, dataset, datasetSubmission,
                 new SubmitNotification(datasetSubmission));
 
-        addLink("newDepositorNotificationHTML", "/mail/templates/deposit/newDepositorNotification.html", user, dataset, new NewDepositorNotification(dataset,
+        addLink("newDepositorNotificationHTMLEditLink", "/mail/templates/deposit/newDepositorNotification.html", user, dataset, new NewDepositorNotification(dataset,
                 user, user));
-        addLink("newDepositorNotificationTXT", "/mail/templates/deposit/newDepositorNotification.txt", user, dataset, new NewDepositorNotification(dataset,
-                user, user));
-
-        addLink("oldDepositorNotificationHTML", "/mail/templates/deposit/oldDepositorNotification.html", user, dataset, new OldDepositorNotification(dataset,
-                user, user));
-        addLink("oldDepositorNotificationTXT", "/mail/templates/deposit/oldDepositorNotification.txt", user, dataset, new OldDepositorNotification(dataset,
+        addLink("newDepositorNotificationTXTEditLink", "/mail/templates/deposit/newDepositorNotification.txt", user, dataset, new NewDepositorNotification(dataset,
                 user, user));
 
-        addLink("unsubmitNotificationHTML", "/mail/templates/deposit/unsubmitNotification.html", user, dataset, new UnsubmitNotification(dataset));
-        addLink("unsubmitNotificationTXT", "/mail/templates/deposit/unsubmitNotification.txt", user, dataset, new UnsubmitNotification(dataset));
+        addLink("oldDepositorNotificationHTMLEditLink", "/mail/templates/deposit/oldDepositorNotification.html", user, dataset, new OldDepositorNotification(dataset,
+                user, user));
+        addLink("oldDepositorNotificationTXTEditLink", "/mail/templates/deposit/oldDepositorNotification.txt", user, dataset, new OldDepositorNotification(dataset,
+                user, user));
 
-        addLink("publishNotificationHTML", "/mail/templates/publish/publishNotification.html", user, dataset, new PublishNotification(dataset));
-        addLink("publishNotificationTXT", "/mail/templates/publish/publishNotification.txt", user, dataset, new PublishNotification(dataset));
+        addLink("unsubmitNotificationHTMLEditLink", "/mail/templates/deposit/unsubmitNotification.html", user, dataset, new UnsubmitNotification(dataset));
+        addLink("unsubmitNotificationTXTEditLink", "/mail/templates/deposit/unsubmitNotification.txt", user, dataset, new UnsubmitNotification(dataset));
 
-        addLink("republishNotificationHTML", "/mail/templates/publish/republishNotification.html", user, dataset, new RepublishNotification(dataset));
-        addLink("republishNotificationTXT", "/mail/templates/publish/republishNotification.txt", user, dataset, new RepublishNotification(dataset));
+        addLink("publishNotificationHTMLEditLink", "/mail/templates/publish/publishNotification.html", user, dataset, new PublishNotification(dataset));
+        addLink("publishNotificationTXTEditLink", "/mail/templates/publish/publishNotification.txt", user, dataset, new PublishNotification(dataset));
 
-        addLink("unpublishNotificationHTML", "/mail/templates/publish/unpublishNotification.html", user, dataset, new UnpublishNotification(dataset));
-        addLink("unpublishNotificationTXT", "/mail/templates/publish/unpublishNotification.txt", user, dataset, new UnpublishNotification(dataset));
+        addLink("republishNotificationHTMLEditLink", "/mail/templates/publish/republishNotification.html", user, dataset, new RepublishNotification(dataset));
+        addLink("republishNotificationTXTEditLink", "/mail/templates/publish/republishNotification.txt", user, dataset, new RepublishNotification(dataset));
 
-        addLink("deniedReplyNotificationHTML", "/mail/templates/permission/DeniedReplyNotification.html", user, dataset, new ReplyNotification(dataset,
+        addLink("unpublishNotificationHTMLEditLink", "/mail/templates/publish/unpublishNotification.html", user, dataset, new UnpublishNotification(dataset));
+        addLink("unpublishNotificationTXTEditLink", "/mail/templates/publish/unpublishNotification.txt", user, dataset, new UnpublishNotification(dataset));
+
+        addLink("deniedReplyNotificationHTMLEditLink", "/mail/templates/permission/DeniedReplyNotification.html", user, dataset, new ReplyNotification(dataset,
                 new PermissionSequenceImpl(user), prm));
-        addLink("deniedReplyNotificationTXT", "/mail/templates/permission/DeniedReplyNotification.txt", user, dataset, new ReplyNotification(dataset,
+        addLink("deniedReplyNotificationTXTEditLink", "/mail/templates/permission/DeniedReplyNotification.txt", user, dataset, new ReplyNotification(dataset,
                 new PermissionSequenceImpl(user), prm));
 
-        addLink("grantedReplyNotificationHTML", "/mail/templates/permission/GrantedReplyNotification.html", user, dataset, new ReplyNotification(dataset,
+        addLink("grantedReplyNotificationHTMLEditLink", "/mail/templates/permission/GrantedReplyNotification.html", user, dataset, new ReplyNotification(dataset,
                 new PermissionSequenceImpl(user), prm));
-        addLink("grantedReplyNotificationTXT", "/mail/templates/permission/GrantedReplyNotification.txt", user, dataset, new ReplyNotification(dataset,
+        addLink("grantedReplyNotificationTXTEditLink", "/mail/templates/permission/GrantedReplyNotification.txt", user, dataset, new ReplyNotification(dataset,
                 new PermissionSequenceImpl(user), prm));
 
-        addLink("requestNotificationHTML", "/mail/templates/permission/requestNotification.html", user, dataset, new RequestNotification(dataset, user,
+        addLink("requestNotificationHTMLEditLink", "/mail/templates/permission/requestNotification.html", user, dataset, new RequestNotification(dataset, user,
                 new PermissionRequestModel()));
-        addLink("requestNotificationTXT", "/mail/templates/permission/requestNotification.txt", user, dataset, new RequestNotification(dataset, user,
+        addLink("requestNotificationTXTEditLink", "/mail/templates/permission/requestNotification.txt", user, dataset, new RequestNotification(dataset, user,
                 new PermissionRequestModel()));
 
-        addLink("returnedReplyNotificationHTML", "/mail/templates/permission/ReturnedReplyNotification.html", user, dataset, new ReplyNotification(dataset,
+        addLink("returnedReplyNotificationHTMLEditLink", "/mail/templates/permission/ReturnedReplyNotification.html", user, dataset, new ReplyNotification(dataset,
                 new PermissionSequenceImpl(user), prm));
-        addLink("returnedReplyNotificationTXT", "/mail/templates/permission/ReturnedReplyNotification.txt", user, dataset, new ReplyNotification(dataset,
+        addLink("returnedReplyNotificationTXTEditLink", "/mail/templates/permission/ReturnedReplyNotification.txt", user, dataset, new ReplyNotification(dataset,
                 new PermissionSequenceImpl(user), prm));
 
-        addLink("headerHTML", "/mail/templates/default/header.html", user, dataset);
-        addLink("headerTXT", "/mail/templates/default/header.txt", user, dataset);
+        addLink("headerHTMLEditLink", "/mail/templates/default/header.html", user, dataset);
+        addLink("headerTXTEditLink", "/mail/templates/default/header.txt", user, dataset);
 
-        addLink("footerHTML", "/mail/templates/default/footer.html", user, dataset);
-        addLink("footerTXT", "/mail/templates/default/footer.txt", user, dataset);
+        addLink("footerHTMLEditLink", "/mail/templates/default/footer.html", user, dataset);
+        addLink("footerTXTEditLink", "/mail/templates/default/footer.txt", user, dataset);
 
         // LINKS TO SEARCH HELP TEXTS
-        addLink("searchHelp", "/help/Search.template");
-        addLink("refineHelp", "/help/Refine.template");
+        addLink("searchHelpEditLink", "/help/Search.template");
+        addLink("refineHelpEditLink", "/help/Refine.template");
 
         // LINKS TO DEPOSIT HELP TEXTS
-        addLink("CreatorDC", "/help/Creator.template");
-        addLink("CreatorEAS", "/help/EasCreator.template");
-        addLink("Title", "/help/Title.template");
-        addLink("Description", "/help/Description.template");
-        addLink("DateCreated", "/help/DateCreated.template");
-        addLink("DateCreatedFreeForm", "/help/DateCreatedFreeForm.template");
-        addLink("AccessRights", "/help/AccessRights.template");
-        addLink("Upload", "/help/Upload.template");
-        addLink("Audience", "/help/Audience.template");
-        addLink("CmdiChoice", "/help/CmdiChoice.template");
+        addLink("CreatorDCEditLink", "/help/Creator.template");
+        addLink("CreatorEASEditLink", "/help/EasCreator.template");
+        addLink("TitleEditLink", "/help/Title.template");
+        addLink("DescriptionEditLink", "/help/Description.template");
+        addLink("DateCreatedEditLink", "/help/DateCreated.template");
+        addLink("DateCreatedFreeFormEditLink", "/help/DateCreatedFreeForm.template");
+        addLink("AccessRightsEditLink", "/help/AccessRights.template");
+        addLink("UploadEditLink", "/help/Upload.template");
+        addLink("AudienceEditLink", "/help/Audience.template");
+        addLink("CmdiChoiceEditLink", "/help/CmdiChoice.template");
 
-        addLink("ContributorDC", "/help/Contributor.template");
-        addLink("ContributorEAS", "/help/EasContributor.template");
-        addLink("Subject", "/help/Subject.template");
-        addLink("Spatial", "/help/Spatial.template");
-        addLink("Temporal", "/help/Temporal.template");
-        addLink("Source", "/help/Source.template");
-        addLink("Identifier", "/help/Identifier.template");
+        addLink("ContributorDCEditLink", "/help/Contributor.template");
+        addLink("ContributorEASEditLink", "/help/EasContributor.template");
+        addLink("SubjectEditLink", "/help/Subject.template");
+        addLink("SpatialEditLink", "/help/Spatial.template");
+        addLink("TemporalEditLink", "/help/Temporal.template");
+        addLink("SourceEditLink", "/help/Source.template");
+        addLink("IdentifierEditLink", "/help/Identifier.template");
 
-        addLink("Format", "/help/Format.template");
-        addLink("Relation", "/help/Relation.template");
-        addLink("LanguageIso639", "/help/LanguageIso639.template");
-        addLink("Language", "/help/Language.template");
-        addLink("Remarks", "/help/Remarks.template");
+        addLink("FormatEditLink", "/help/Format.template");
+        addLink("RelationEditLink", "/help/Relation.template");
+        addLink("LanguageIso639EditLink", "/help/LanguageIso639.template");
+        addLink("LanguageEditLink", "/help/Language.template");
+        addLink("RemarksEditLink", "/help/Remarks.template");
 
-        addLink("Alternative", "/help/Alternative.template");
-        addLink("Archis", "/help/Archis.template");
-        addLink("Date", "/help/Date.template");
-        addLink("DateIso8601", "/help/DateIso8601.template");
-        addLink("DateAvailable", "/help/DateAvailable.template");
-        addLink("FormatIMT", "/help/FormatIMT.template");
-        addLink("Publisher", "/help/Publisher.template");
-        addLink("RightsHolder", "/help/RightsHolder.template");
-        addLink("SpatialBox", "/help/SpatialBox.template");
-        addLink("SpatialPoint", "/help/SpatialPoint.template");
-        addLink("SubjectAbr", "/help/SubjectAbr.template");
-        addLink("TemporalAbr", "/help/TemporalAbr.template");
-        addLink("Type", "/help/Type.template");
-        addLink("TypeDCMI", "/help/TypeDCMI.template");
+        addLink("AlternativeEditLink", "/help/Alternative.template");
+        addLink("ArchisEditLink", "/help/Archis.template");
+        addLink("DateEditLink", "/help/Date.template");
+        addLink("DateIso8601EditLink", "/help/DateIso8601.template");
+        addLink("DateAvailableEditLink", "/help/DateAvailable.template");
+        addLink("FormatIMTEditLink", "/help/FormatIMT.template");
+        addLink("PublisherEditLink", "/help/Publisher.template");
+        addLink("RightsHolderEditLink", "/help/RightsHolder.template");
+        addLink("SpatialBoxEditLink", "/help/SpatialBox.template");
+        addLink("SpatialPointEditLink", "/help/SpatialPoint.template");
+        addLink("SubjectAbrEditLink", "/help/SubjectAbr.template");
+        addLink("TemporalAbrEditLink", "/help/TemporalAbr.template");
+        addLink("TypeEditLink", "/help/Type.template");
+        addLink("TypeDCMIEditLink", "/help/TypeDCMI.template");
     }
 
     private void addLink(final String id, final String path, final Object... placeholders)
