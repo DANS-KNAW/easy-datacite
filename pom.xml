@@ -1,53 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
+	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>easy-build</artifactId>
+		<artifactId>easy-prototype</artifactId>
 		<groupId>nl.knaw.dans.easy</groupId>
 		<version>2.x-SNAPSHOT</version>
-		<relativePath>../../easy-build/pom.xml</relativePath>
+		<relativePath>../easy-prototype</relativePath>
 	</parent>
-
-	<modelVersion>4.0.0</modelVersion>
-	<name>EASY Business Mocking Test Library</name>
 	<artifactId>easy-business-mocking</artifactId>
 	<packaging>jar</packaging>
+	<name>EASY Business Mocking Test Library</name>
 	<description>Mocking facilities for the Easy Business library.  For use in unit tests.</description>
-
-	<licenses>
-		<license>
-			<name>The Apache Software License, Version 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
-
 	<dependencies>
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>easy-business</artifactId>
-			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.powermock</groupId>
 			<artifactId>powermock-api-easymock</artifactId>
-			<version>1.4.6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.powermock</groupId>
 			<artifactId>powermock-module-junit4</artifactId>
-			<version>1.4.6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.easymock</groupId>
 			<artifactId>easymock</artifactId>
-			<version>3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.7</version>
 		</dependency>
 	</dependencies>
 </project>
