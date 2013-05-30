@@ -1,33 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
-	<parent>
-		<artifactId>easy-build</artifactId>
-		<version>2.x-SNAPSHOT</version>
-		<groupId>nl.knaw.dans.easy</groupId>
-		<relativePath>../../easy-build/pom.xml</relativePath>
-	</parent>
-
 	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>nl.knaw.dans.easy</groupId>
+		<artifactId>easy-prototype</artifactId>
+		<version>2.x-SNAPSHOT</version>
+		<relativePath>../easy-prototype</relativePath>		
+	</parent>
+	<groupId>nl.knaw.dans.common</groupId>	
 	<artifactId>dans-pid</artifactId>
-	<packaging>jar</packaging>
-	<organization>
-		<name>DANS</name>
-		<url>http://www.dans.knaw.nl</url>
-	</organization>
-
 	<name>DANS PID Library</name>
-	<description>generate persistent identifiers</description>
-
+	<packaging>jar</packaging>
+	<description>Generate persistent identifiers</description>
 	<dependencies>
-		<!-- database -->
 		<dependency>
 			<groupId>postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>8.4-701.jdbc3</version>
 		</dependency>
-
 		<!-- dependency on dans-lang for the test scope of this project -->
 		<dependency>
 			<groupId>nl.knaw.dans.platform.deprecated</groupId>
@@ -41,7 +32,6 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
 	</dependencies>
 
 	<build>
@@ -61,48 +51,4 @@
 			</testResource>
 		</testResources>
 	</build>
-
-	<distributionManagement>
-		<repository>
-			<id>matrix-reloaded.knaw.dans.nl</id>
-			<url>scp://${repository-server}/var/www/html/maven2</url>
-		</repository>
-		<snapshotRepository>
-			<id>matrix-reloaded.knaw.dans.nl</id>
-			<url>scp://${repository-server}/var/www/html/maven2-snapshots</url>
-		</snapshotRepository>
-
-		<site>
-			<id>develop01.knaw.dans.nl</id>
-			<name>Deployment Server</name>
-			<url>scp://${repository-server}/var/www/html/maven2/eof-open-source/${project.artifactId}</url>
-		</site>
-	</distributionManagement>
-
-	<!-- When your project needs specific repositories, add them here -->
-	<repositories>
-		<repository>
-			<id>central</id>
-			<url>http://artifactory.dans.knaw.nl/repo</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>snapshots</id>
-			<url>http://artifactory.dans.knaw.nl/repo</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</repository>
-		<repository>
-			<id>maven orig</id>
-			<url>http://repo1.maven.org/maven2</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
-
-	<groupId>nl.knaw.dans.common</groupId>
 </project>
