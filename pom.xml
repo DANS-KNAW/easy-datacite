@@ -1,77 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
-	<parent>
-		<artifactId>easy-build</artifactId>
-		<groupId>nl.knaw.dans.easy</groupId>
-		<version>2.x-SNAPSHOT</version>
-		<relativePath>../../easy-build/pom.xml</relativePath>
-	</parent>
-
 	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>nl.knaw.dans.easy</groupId>
+		<artifactId>easy-prototype</artifactId>
+		<version>2.x-SNAPSHOT</version>
+		<relativePath>../easy-prototype</relativePath>
+	</parent>
 	<artifactId>easy-ldap</artifactId>
 	<name>EASY LDAP Library</name>
 	<description>
 		Implementation of Data Access Point(s) in Easy business, using the Lightweight Directory Access Protocol
 	</description>
-
 	<packaging>jar</packaging>
-
-	<licenses>
-		<license>
-			<name>The Apache Software License, Version 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
-	
-	<profiles>
-		<profile>
-			<id>maven.filter.values</id>
-			<activation>
-				<file>
-					<exists>${user.home}/.m2/maven-filter-values.properties</exists>
-				</file>
-			</activation>
-			<build>
-				<filters>
-					<filter>${user.home}/.m2/maven-filter-values.properties</filter>
-				</filters>
-			</build>
-		</profile>
-		<profile>
-			<id>pom.specified.values</id>
-			<activation>
-				<file>
-					<missing>${user.home}/.m2/maven-filter-values.properties</missing>
-				</file>
-			</activation>
-			<properties>
-				<evm.host.address>127.0.0.1</evm.host.address>
-			</properties>
-		</profile>
-	</profiles>
-
-	<!-- === DEPENDENCIES === -->
 	<dependencies>
-
-		<!-- Project dependencies -->
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>easy-business</artifactId>
-			<version>${project.parent.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>nl.knaw.dans.common</groupId>
 			<artifactId>dans-ldap</artifactId>
-			<version>${project.parent.version}</version>
 		</dependency>
-
 	</dependencies>
-
-	<!-- === BUILD === -->
 	<build>
 		<testResources>
 			<testResource>
@@ -82,7 +34,5 @@
 				</includes>
 			</testResource>
 		</testResources>
-
 	</build>
-
 </project>
