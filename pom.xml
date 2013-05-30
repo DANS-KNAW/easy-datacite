@@ -1,31 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
-	<parent>
-		<artifactId>easy-build</artifactId>
-		<version>2.x-SNAPSHOT</version>
-		<groupId>nl.knaw.dans.easy</groupId>
-		<relativePath>../../easy-build/pom.xml</relativePath>
-	</parent>
-
 	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>nl.knaw.dans.easy</groupId>
+		<artifactId>easy-prototype</artifactId>
+		<version>2.x-SNAPSHOT</version>
+		<relativePath>../easy-prototype</relativePath>		
+	</parent>
+	<groupId>nl.knaw.dans.common</groupId>
 	<artifactId>dans-wicket</artifactId>
 	<packaging>jar</packaging>
-	<organization>
-		<name>DANS</name>
-		<url>http://www.dans.knaw.nl</url>
-	</organization>
 	<name>DANS Wicket Library</name>
 	<description>Shared Wicket components within DANS</description>
-
 	<properties>
 		<wicket.version>1.4.22</wicket.version>
+		<wicketstuff.version>1.4.21</wicketstuff.version>
+		<wickettree-mod.version>0.5-SNAPSHOT</wickettree-mod.version>
 	</properties>
-
 	<dependencies>
-		<!-- WICKET DEPENDENCIES -->
-
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket</artifactId>
@@ -47,32 +40,21 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		
 		<dependency>
 			<groupId>org.wicketstuff</groupId>
 			<artifactId>tinymce</artifactId>
-			<version>1.4.1</version>
+			<version>${wicketstuff.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.wicketstuff</groupId>
 			<artifactId>progressbar</artifactId>
-			<version>1.4.18</version>
+			<version>${wicketstuff.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.wicketstuff</groupId>
 			<artifactId>progressbar-spring</artifactId>
-			<version>1.4.18</version>
+			<version>${wicketstuff.version}</version>
 		</dependency>
-
-		<!-- END WICKET DEPENDENCIES -->
-
-		<dependency>
-			<groupId>org.json</groupId>
-			<artifactId>json</artifactId>
-			<version>20080701</version>
-		</dependency>
-
-		<!-- dans common language dependencies -->
 		<dependency>
 			<groupId>nl.knaw.dans.platform.deprecated</groupId>
 			<artifactId>dans-lang</artifactId>
@@ -84,14 +66,12 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
 		<dependency>
 			<groupId>wicket-tree</groupId>
 			<artifactId>wicket-tree-mod</artifactId>
-			<version>0.5-SNAPSHOT</version>
+			<version>${wickettree-mod.version}</version>
 		</dependency>
 	</dependencies>
-
 	<build>
 		<resources>
 			<resource>
@@ -124,49 +104,5 @@
 			</testResource>
 		</testResources>
 	</build>
-
-	<distributionManagement>
-		<repository>
-			<id>matrix-reloaded.knaw.dans.nl</id>
-			<url>scp://${repository-server}/var/www/html/maven2</url>
-		</repository>
-		<snapshotRepository>
-			<id>matrix-reloaded.knaw.dans.nl</id>
-			<url>scp://${repository-server}/var/www/html/maven2-snapshots</url>
-		</snapshotRepository>
-
-		<site>
-			<id>develop01.knaw.dans.nl</id>
-			<name>Deployment Server</name>
-			<url>scp://${repository-server}/var/www/html/maven2/eof-open-source/${project.artifactId}</url>
-		</site>
-	</distributionManagement>
-
-	<!-- When your project needs specific repositories, add them here -->
-	<repositories>
-		<repository>
-			<id>central</id>
-			<url>http://artifactory.dans.knaw.nl/repo</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>snapshots</id>
-			<url>http://artifactory.dans.knaw.nl/repo</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</repository>
-		<repository>
-			<id>maven orig</id>
-			<url>http://repo1.maven.org/maven2</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
-
-	<groupId>nl.knaw.dans.common</groupId>
 </project>
 
