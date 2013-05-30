@@ -1,36 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
-	<parent>
-		<artifactId>easy-build</artifactId>
-		<groupId>nl.knaw.dans.easy</groupId>
-		<version>2.x-SNAPSHOT</version>
-		<relativePath>../../easy-build/pom.xml</relativePath>
-	</parent>
-	
 	<modelVersion>4.0.0</modelVersion>
-	<name>EASY Business Library</name>
+	<parent>
+		<groupId>nl.knaw.dans.easy</groupId>
+		<artifactId>easy-prototype</artifactId>
+		<version>2.x-SNAPSHOT</version>
+		<relativePath>../easy-prototype</relativePath>
+	</parent>
 	<artifactId>easy-business</artifactId>
+	<name>EASY Business Library</name>
 	<packaging>jar</packaging>
 	<description>Easy business logic</description>
-
-	<licenses>
-		<license>
-			<name>The Apache Software License, Version 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
-	
 	<properties>
-		<jibx.version>1.2.4.5</jibx.version>
+		<jrdf.version>0.5.5.4</jrdf.version>
+		<jdom.version>1.0</jdom.version>
+		<jaxen.version>1.1</jaxen.version>
 	</properties>
-
 	<dependencies>
-
-		<!-- common jibx client library -->
 		<dependency>
 			<groupId>nl.knaw.dans.platform.deprecated</groupId>
 			<artifactId>dans-jibx</artifactId>
@@ -42,59 +29,51 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>nl.knaw.dans.common</groupId>
 			<artifactId>dans-pid</artifactId>
-			<version>${project.parent.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>jrdf</groupId>
 			<artifactId>jrdf</artifactId>
-			<version>0.5.5.4</version>
+			<version>${jrdf.version}</version>
 		</dependency>
-
-		<!-- ArchisCollector uses jdom -->
 		<dependency>
 			<groupId>jdom</groupId>
 			<artifactId>jdom</artifactId>
-			<version>1.0</version>
+			<version>${jdom.version}</version>
 		</dependency>
-
 		<dependency>
-            <groupId>jaxen</groupId>
-            <artifactId>jaxen</artifactId>
-            <version>1.1</version>
-        </dependency>
-
-		<!-- ASPECTJ -->
+			<groupId>jaxen</groupId>
+			<artifactId>jaxen</artifactId>
+			<version>${jaxen.version}</version>
+		</dependency>
 		<dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjrt</artifactId>
-            <version>1.6.11</version>
-        </dependency>
-        
-        <dependency>
-			<groupId>org.apache.commons</groupId>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>1.3.2</version>
 		</dependency>
-		
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
-			<version>1.7</version>
 		</dependency>
-		
 		<dependency>
 			<groupId>nl.knaw.dans.platform.pack</groupId>
 			<artifactId>easy-pack</artifactId>
-			<version>1.2</version>
 			<type>pom</type>
 		</dependency>
 	</dependencies>
-
 	<build>
 		<resources>
 			<resource>
@@ -115,167 +94,40 @@
 				</excludes>
 			</resource>
 		</resources>
-		
 		<testResources>
 			<testResource>
 				<filtering>true</filtering>
-                <directory>src/test/resources</directory>
-                <includes>
-                    <include>**/*.*</include>
-                </includes>
-                <excludes>
-                	<exclude>**/*.doc</exclude>
-                	<exclude>**/*.pdf</exclude>
-                </excludes>
+				<directory>src/test/resources</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+				<excludes>
+					<exclude>**/*.doc</exclude>
+					<exclude>**/*.pdf</exclude>
+				</excludes>
 			</testResource>
 			<testResource>
 				<filtering>false</filtering>
-                <directory>src/test/resources</directory>
-                <includes>
-                    <include>**/*.doc</include>
-                    <include>**/*.pdf</include>
-                </includes>
+				<directory>src/test/resources</directory>
+				<includes>
+					<include>**/*.doc</include>
+					<include>**/*.pdf</include>
+				</includes>
 			</testResource>
 		</testResources>
-		
 		<plugins>
-
 			<plugin>
 				<groupId>org.jibx</groupId>
 				<artifactId>maven-jibx-plugin</artifactId>
-				<version>${jibx.version}</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>bind</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<directory>src/main/config/</directory>
-					<includes>
-						<includes>*-binding.xml</includes>
-					</includes>
-					<verbose>false</verbose>
-				</configuration>
 			</plugin>
-
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>1.7</version>
-				<executions>
-					<execution>
-						<id>add-source</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>add-source</goal>
-						</goals>
-						<configuration>
-							<sources>
-								<source>src/main/aspect</source>
-							</sources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>aspectj-maven-plugin</artifactId>
-				<version>1.4</version>
-				<configuration>
-					<verbose>true</verbose>
-					<source>${source-code-version}</source>
-					<target>${byte-code-version}</target>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>compile</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
-
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+			</plugin>
 		</plugins>
-
-		<pluginManagement>
-			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>org.jibx</groupId>
-										<artifactId>
-											maven-jibx-plugin
-										</artifactId>
-										<versionRange>
-											[1.1.6a,)
-										</versionRange>
-										<goals>
-											<goal>bind</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<execute >
-                  							<runOnIncremental>true</runOnIncremental>
-                						</execute >
-									</action>
-								</pluginExecution>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>
-											org.codehaus.mojo
-										</groupId>
-										<artifactId>
-											aspectj-maven-plugin
-										</artifactId>
-										<versionRange>
-											[1.4,)
-										</versionRange>
-										<goals>
-											<goal>compile</goal>
-											<goal>test-compile</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<execute >
-                  							<runOnIncremental>true</runOnIncremental>
-                						</execute >
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 	</build>
-
-	<repositories>
-
-	</repositories>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<releases>
-				<updatePolicy>never</updatePolicy>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<id>jibx.sf.net</id>
-			<name>JiBX repository</name>
-			<url>http://jibx.sf.net/maven2</url>
-		</pluginRepository>
-	</pluginRepositories>
-
 </project>
