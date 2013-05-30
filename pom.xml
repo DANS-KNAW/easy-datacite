@@ -1,113 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
-	<parent>
-		<artifactId>easy-build</artifactId>
-		<groupId>nl.knaw.dans.easy</groupId>
-		<version>2.x-SNAPSHOT</version>
-		<relativePath>../../easy-build/pom.xml</relativePath>
-	</parent>
-
 	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>nl.knaw.dans.easy</groupId>
+		<artifactId>easy-prototype</artifactId>
+		<version>2.x-SNAPSHOT</version>
+		<relativePath>../easy-prototype</relativePath>
+	</parent>
 	<artifactId>easy-fedora</artifactId>
 	<name>EASY Fedora Library</name>
 	<description>
 		Fedora implementation of the Easy Data layer
 	</description>
-
 	<packaging>jar</packaging>
-
-	<licenses>
-		<license>
-			<name>The Apache Software License, Version 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
-	
 	<properties>
-		<jibx.version>1.2.4.5</jibx.version>
+		<hibernate.version>3.2.6.ga</hibernate.version>
+		<postgresql.version>9.1-901.jdbc4</postgresql.version>
+		<hsqldb.version>1.8.0.10</hsqldb.version>
+		<logdriver.version>1.0</logdriver.version>
 	</properties>
-
-	<!-- === DEPENDENCIES === -->
 	<dependencies>
-		<!-- Project dependencies -->
+		<dependency>
+			<groupId>nl.knaw.dans.platform.pack</groupId>
+			<artifactId>easy-pack</artifactId>
+			<type>pom</type>
+		</dependency>
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>easy-business</artifactId>
-			<version>${project.parent.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>nl.knaw.dans.platform.deprecated</groupId>
 			<artifactId>dans-fedora</artifactId>
 			<version>1.0</version>
 		</dependency>
-
 		<dependency>
 			<groupId>nl.knaw.dans.common</groupId>
 			<artifactId>dans-solr</artifactId>
-			<version>${project.parent.version}</version>
 		</dependency>
-
-		<!-- /Project dependencies -->
-
-		<!-- Hibernate -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate</artifactId>
-			<version>3.2.6.ga</version>
+			<version>${hibernate.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>8.4-701.jdbc3</version>
+			<version>${postgresql.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
-			<version>1.8.0.10</version>
+			<version>${hsqldb.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.rkbloom.logdriver</groupId>
 			<artifactId>logdriver</artifactId>
-			<version>1.0</version>
+			<version>${logdriver.version}</version>
 		</dependency>
-
 	</dependencies>
-	
-	<profiles>
-		<profile>
-			<id>maven.filter.values</id>
-			<activation>
-				<file>
-					<exists>${user.home}/.m2/maven-filter-values.properties</exists>
-				</file>
-			</activation>
-			<build>
-				<filters>
-					<filter>${user.home}/.m2/maven-filter-values.properties</filter>
-				</filters>
-			</build>
-		</profile>
-		<profile>
-			<id>pom.specified.values</id>
-			<activation>
-				<file>
-					<missing>${user.home}/.m2/maven-filter-values.properties</missing>
-				</file>
-			</activation>
-			<properties>
-				<evm.host.address>127.0.0.1</evm.host.address>
-			</properties>
-		</profile>
-	</profiles>
-	
-
-	<!-- === BUILD === -->
 	<build>
 		<testResources>
 			<testResource>
@@ -122,58 +75,7 @@
 			<plugin>
 				<groupId>org.jibx</groupId>
 				<artifactId>maven-jibx-plugin</artifactId>
-				<version>${jibx.version}</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>bind</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<directory>src/main/config/</directory>
-					<includes>
-						<includes>*-binding.xml</includes>
-					</includes>
-					<verbose>false</verbose>
-				</configuration>
 			</plugin>
-
 		</plugins>
-		<pluginManagement>
-			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>org.jibx</groupId>
-										<artifactId>
-											maven-jibx-plugin
-										</artifactId>
-										<versionRange>
-											[1.1.6a,)
-										</versionRange>
-										<goals>
-											<goal>bind</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<execute >
-                  							<runOnIncremental>true</runOnIncremental>
-                						</execute >
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 	</build>
 </project>
