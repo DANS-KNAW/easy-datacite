@@ -17,7 +17,7 @@ import org.xml.sax.SAXException;
 
 public class CrosswalkerTest
 {
-    private static final String XSD = "file://"+new File("src/test/resources/input/abstract.xsd").getAbsolutePath();
+    private static final String XSD = "file://" + new File("src/test/resources/input/abstract.xsd").getAbsolutePath();
     private static final AbstractValidator2 VALIDATOR = new AbstractValidator2(XSD)
     {
     };
@@ -93,7 +93,7 @@ public class CrosswalkerTest
 
         public StringBuffer createFrom(final String xml) throws CrosswalkException
         {
-            return walk(VALIDATOR,xml, new StringBuffer());
+            return walk(VALIDATOR, xml, new StringBuffer());
         }
     }
 

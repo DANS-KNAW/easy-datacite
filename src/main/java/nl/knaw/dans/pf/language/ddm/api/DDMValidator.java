@@ -13,7 +13,7 @@ public final class DDMValidator extends AbstractValidator2
     // singleton
     private DDMValidator()
     {
-        super(DDM.xsd,DCX_GML.xsd,NARCIS_TYPE.xsd,ABR.xsd);
+        super(DDM.xsd, DCX_GML.xsd, NARCIS_TYPE.xsd, ABR.xsd);
     }
 
     public static DDMValidator instance()

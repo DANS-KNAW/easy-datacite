@@ -10,10 +10,10 @@ public class SubjectHandler extends BasicStringHandler
     public SubjectHandler()
     {
     }
-    
+
     public SubjectHandler(String schemeId)
     {
-        super(null,schemeId);
+        super(null, schemeId);
     }
 
     @Override

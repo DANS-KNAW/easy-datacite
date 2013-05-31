@@ -41,7 +41,7 @@ public abstract class DaiAuthorHandler extends CrosswalkHandler<EasyMetadata>
         }
         if (!DAI.isValid(author.getEntityId()))
         {
-            error("invalid DAI "+author.getEntityId());
+            error("invalid DAI " + author.getEntityId());
             return null;
         }
         return author;

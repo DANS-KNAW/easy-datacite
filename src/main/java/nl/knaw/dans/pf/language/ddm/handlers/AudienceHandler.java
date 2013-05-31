@@ -16,7 +16,7 @@ public class AudienceHandler extends BasicStringHandler
     public AudienceHandler()
     {
     }
-    
+
     public AudienceHandler(final Map<String, String> vocabulary, final String SchemeId)
     {
         super(vocabulary, SchemeId);

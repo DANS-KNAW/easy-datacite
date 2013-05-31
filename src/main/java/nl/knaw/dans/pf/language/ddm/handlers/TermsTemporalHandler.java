@@ -10,10 +10,10 @@ public class TermsTemporalHandler extends BasicStringHandler
     public TermsTemporalHandler()
     {
     }
-    
+
     public TermsTemporalHandler(String schemeId)
     {
-        super(null,schemeId);
+        super(null, schemeId);
     }
 
     @Override

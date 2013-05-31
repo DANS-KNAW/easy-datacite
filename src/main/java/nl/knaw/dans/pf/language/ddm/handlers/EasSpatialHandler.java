@@ -27,16 +27,16 @@ public class EasSpatialHandler extends CrosswalkHandler<EasyMetadata>
         foundSRS = false;
         checkSRS(attributes);
     }
-    
+
     @Override
     public void initElement(final String uri, final String localName, final Attributes attributes)
     {
         checkSRS(attributes);
     }
-    
+
     private void checkSRS(final Attributes attributes)
     {
-        for (int i=0; i<attributes.getLength();i++)
+        for (int i = 0; i < attributes.getLength(); i++)
             foundSRS = foundSRS || SRS_NAME.equals(attributes.getLocalName(i));
     }
 
@@ -60,7 +60,7 @@ public class EasSpatialHandler extends CrosswalkHandler<EasyMetadata>
         {
             if (lower != null && upper != null && !foundSRS)
             {
-                 getTarget().getEmdCoverage().getEasSpatial().add(new Spatial(description, createBox()));
+                getTarget().getEmdCoverage().getEasSpatial().add(new Spatial(description, createBox()));
             }
         }
         // other types than point/box not supported by EMD: don't warn
@@ -73,11 +73,11 @@ public class EasSpatialHandler extends CrosswalkHandler<EasyMetadata>
         final float upperX = Integer.parseInt(upper.getX());
         final float lowerY = Integer.parseInt(lower.getY());
         final float lowerX = Integer.parseInt(lower.getX());
-        final String n = ""+(upperY>lowerY?upperY:lowerY);
-        final String s = ""+(upperY<lowerY?upperY:lowerY);
-        final String e = ""+(upperX>lowerX?upperX:lowerX);
-        final String w = ""+(upperX<lowerX?upperX:lowerX);
-        return new Spatial.Box(WGS84_4326, n,e,s,w);
+        final String n = "" + (upperY > lowerY ? upperY : lowerY);
+        final String s = "" + (upperY < lowerY ? upperY : lowerY);
+        final String e = "" + (upperX > lowerX ? upperX : lowerX);
+        final String w = "" + (upperX < lowerX ? upperX : lowerX);
+        return new Spatial.Box(WGS84_4326, n, e, s, w);
     }
 
     private Point wgs84Point() throws SAXException

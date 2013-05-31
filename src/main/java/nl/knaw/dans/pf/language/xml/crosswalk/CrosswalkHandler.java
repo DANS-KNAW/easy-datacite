@@ -91,14 +91,16 @@ public class CrosswalkHandler<T> extends DefaultHandler
 
     /**
      * Receive notification of the start of the first element treated by this handler. Especially in the
-     * case of a complex element: Be aware of remnants of a previous cycle. See also the final startElement
+     * case of a complex element: Be aware of remnants of a previous cycle. See also the final
+     * startElement
      */
     protected void initFirstElement(final String uri, final String localName, final Attributes attributes) throws SAXException
     {
     }
 
     /**
-     * Receive notification of the start of the any element treated by this handler. See also the final startElement
+     * Receive notification of the start of the any element treated by this handler. See also the final
+     * startElement
      */
     protected void initElement(final String uri, final String localName, final Attributes attributes) throws SAXException
     {
@@ -142,8 +144,8 @@ public class CrosswalkHandler<T> extends DefaultHandler
      * The characters since the last startElement. Beware of mixed content, for example: <br>
      * &lt;p> Some &lt;b>bold&lt;/b> text &lt;/p><br>
      * 
-     * @return If called by {@link #finishElement()} for &lt;p>: "bold text". The string " Some " should
-     *         be accessed otherwise through {@link #chars(char[], int, int)}.
+     * @return If called by {@link #finishElement(String, String)} for &lt;p>: "bold text". The string
+     *         " Some " should be accessed otherwise through {@link #chars(char[], int, int)}.
      */
     protected String getCharsSinceStart()
     {
@@ -154,8 +156,8 @@ public class CrosswalkHandler<T> extends DefaultHandler
      * The attributes saved by the last startElement. Beware of mixed/complex content, for example: <br>
      * &lt;p> Some &lt;b>bold&lt;/b> text &lt;/p><br>
      * 
-     * @return If called by {@link #finishElement()} for &lt;p>: you'll get an attribute of &lt;b> if it
-     *         had any.
+     * @return If called by {@link #finishElement(String, String)} for &lt;p>: you'll get an attribute of
+     *         &lt;b> if it had any.
      */
     protected String getAttribute(String uri, final String localName)
     {

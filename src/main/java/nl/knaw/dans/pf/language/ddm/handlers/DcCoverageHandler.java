@@ -11,7 +11,7 @@ public class DcCoverageHandler extends BasicStringHandler
     protected void finishElement(final String uri, final String localName) throws SAXException
     {
         final BasicString basicString = createBasicString(uri, localName);
-        if (basicString != null )
+        if (basicString != null)
             getTarget().getEmdCoverage().getDcCoverage().add(basicString);
     }
 }

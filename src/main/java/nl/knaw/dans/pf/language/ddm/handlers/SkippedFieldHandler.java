@@ -18,7 +18,7 @@ public class SkippedFieldHandler extends CrosswalkHandler<EasyMetadata>
     protected void finishElement(final String uri, final String localName) throws SAXException
     {
         // in this case we might want qName of the endElement
-        if (warn!=null)
-            warning("skipped "+uri+" "+localName+" ["+warn+"]");
+        if (warn != null)
+            warning("skipped " + uri + " " + localName + " [" + warn + "]");
     }
 }

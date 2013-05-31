@@ -51,13 +51,16 @@ public class CrosswalkInlineTest
     }
 
     @Test
-    public void dais(){
-        final String[] s = {"9876543210","9876543211","9876543212","9876543213","9876543214","9876543215","9876543216","9876543217","9876543218","9876543219","987654321x"};
-        for(final String v:s){
-            logger.debug(v+" "+DAI.isValid(v));
+    public void dais()
+    {
+        final String[] s = {"9876543210", "9876543211", "9876543212", "9876543213", "9876543214", "9876543215", "9876543216", "9876543217", "9876543218",
+                "9876543219", "987654321x"};
+        for (final String v : s)
+        {
+            logger.debug(v + " " + DAI.isValid(v));
         }
     }
-    
+
     @Test
     public void invalidAccesRights() throws Exception
     {
@@ -201,7 +204,7 @@ public class CrosswalkInlineTest
         final String sys = "info:eu-repo/dai/nl/";
         final String attribute = " DAI='" + sys + id + "'";
         final String fieldUnderTest = newEl("dcx-dai:contributor", attribute, name);
-        runTest(new Exception(), newRoot(newMiniProfile("") + newAdditional(fieldUnderTest)), 1,"invalid DAI");
+        runTest(new Exception(), newRoot(newMiniProfile("") + newAdditional(fieldUnderTest)), 1, "invalid DAI");
     }
 
     @Test
@@ -245,8 +248,8 @@ public class CrosswalkInlineTest
     @Test
     public void emptyW3cDates() throws Exception
     {
-        final String content = newEl("ddm:created", "", "")+newEl("ddm:available", "", "");
-        final EasyMetadata emd = runTest(new Exception(), newRoot(newMiniProfile("") + newAdditional(content)), 5, "available","created","must be valid");
+        final String content = newEl("ddm:created", "", "") + newEl("ddm:available", "", "");
+        final EasyMetadata emd = runTest(new Exception(), newRoot(newMiniProfile("") + newAdditional(content)), 5, "available", "created", "must be valid");
         assertThat(emd, nullValue());
     }
 
@@ -257,11 +260,11 @@ public class CrosswalkInlineTest
         // ddm:created is in miniProfile
         sb.append(newEl("ddm:available", "", "1900"));
 
-        int i=0;
+        int i = 0;
         for (final String field : dateFields)
         {
-            sb.append(newEl(field, W3CDTF_TYPE, "1900-04-"+ pad(++i)));
-            sb.append(newEl(field, "", pad(++i)+"-03-2013"));
+            sb.append(newEl(field, W3CDTF_TYPE, "1900-04-" + pad(++i)));
+            sb.append(newEl(field, "", pad(++i) + "-03-2013"));
         }
         final EasyMetadata emd = runTest(new Exception(), newRoot(newMiniProfile("") + newDcmi(sb.toString())), 0);
         logger.debug(Arrays.deepToString(emd.getEmdDate().getValues().toArray()));
@@ -271,39 +274,25 @@ public class CrosswalkInlineTest
     @Test
     public void relations() throws Exception
     {
-        final String fields[] = {
-        "dc:relation", 
-        "dcterms:relation", 
-        "dcterms:conformsTo",
-        "dcterms:isVersionOf",
-        "dcterms:hasVersion", 
-        "dcterms:isReplacedBy",
-        "dcterms:replaces", 
-        "dcterms:isRequiredBy", 
-        "dcterms:requires", 
-        "dcterms:isPartOf", 
-        "dcterms:hasPart", 
-        "dcterms:isReferencedBy", 
-        "dcterms:references", 
-        "dcterms:isFormatOf",
-        "dcterms:hasFormat",
-        };
+        final String fields[] = {"dc:relation", "dcterms:relation", "dcterms:conformsTo", "dcterms:isVersionOf", "dcterms:hasVersion", "dcterms:isReplacedBy",
+                "dcterms:replaces", "dcterms:isRequiredBy", "dcterms:requires", "dcterms:isPartOf", "dcterms:hasPart", "dcterms:isReferencedBy",
+                "dcterms:references", "dcterms:isFormatOf", "dcterms:hasFormat",};
         final StringBuffer sb = new StringBuffer();
-        int i=0;
+        int i = 0;
         for (final String field : fields)
         {
-            sb.append(newEl(field, "", "relatie nummer "+pad(++i)));
+            sb.append(newEl(field, "", "relatie nummer " + pad(++i)));
             sb.append(newEl(field, "", ""));
         }
-        final EasyMetadata emd = runTest(new Exception(), newRoot(newMiniProfile("") + newDcmi(sb.toString())), 0,"");
+        final EasyMetadata emd = runTest(new Exception(), newRoot(newMiniProfile("") + newDcmi(sb.toString())), 0, "");
         logger.debug(Arrays.deepToString(emd.getEmdRelation().getValues().toArray()));
-        assertThat(emd.getEmdRelation().getValues().size(), is(fields.length ));
+        assertThat(emd.getEmdRelation().getValues().size(), is(fields.length));
     }
 
     private String pad(final int i)
     {
-        final String s = "0"+i;
-        return s.substring(s.length()-2);
+        final String s = "0" + i;
+        return s.substring(s.length() - 2);
     }
 
     private String readFile(final String string) throws Exception
