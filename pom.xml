@@ -8,6 +8,7 @@
 		<relativePath>../../lib/easy-prototype</relativePath>
 	</parent>
 	<artifactId>easy-rest</artifactId>
+	<version>2.7-beta-1</version>
 	<packaging>war</packaging>
 	<name>EASY Experimental REST API</name>
 	<description>RESTful API for EASY</description>
@@ -157,7 +158,6 @@
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 			</plugin>
-
 		</plugins>
 	</build>
 	<reporting>
