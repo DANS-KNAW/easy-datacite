@@ -60,6 +60,22 @@
 			<artifactId>jetty</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.mortbay.jetty</groupId>
+			<artifactId>jetty-util</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mortbay.jetty</groupId>
+			<artifactId>jetty-management</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mortbay.jetty</groupId>
+			<artifactId>jetty-annotations</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mortbay.jetty</groupId>
+			<artifactId>jetty-naming</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>HTTPClient</groupId>
 			<artifactId>HTTPClient</artifactId>
 			<version>${HTTPClient.version}</version>

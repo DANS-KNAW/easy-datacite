@@ -71,6 +71,8 @@ public class Start
     public static Server createServer(int port, int sslPort) throws Exception
     {
         final Server server = new Server(); // NOPMD
+        System.setProperty("java.naming.factory.url.pkgs", "org.mortbay.naming");
+        System.setProperty("java.naming.factory.initial", "org.mortbay.naming.InitialContextFactory");
 
         log.info(">>> Creating connector on port {}", port);
         final SocketConnector connector = new SocketConnector(); // NOPMD
