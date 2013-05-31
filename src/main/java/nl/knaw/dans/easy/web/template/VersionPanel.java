@@ -45,7 +45,6 @@ public class VersionPanel extends Panel
     private void init()
     {
         add(new Label("version", getVersion()));
-        add(new Label("buildNumber", getBuildNumber()));
         add(new Label("buildDate", getBuildDate()));
     }
 
@@ -62,19 +61,6 @@ public class VersionPanel extends Panel
         return version;
     }
 
-    public static String getBuildNumber()
-    {
-        if (buildNumber == null)
-        {
-            buildNumber = getVersionProps().getProperty("easy.buildNumber", UNKNOWN);
-            if ("${buildNumber}".equals(buildNumber))
-            {
-                buildNumber = UNKNOWN;
-            }
-        }
-        return buildNumber;
-    }
-
     public static String getBuildDate()
     {
         if (buildDate == null)
@@ -86,17 +72,7 @@ public class VersionPanel extends Panel
             }
             else
             {
-                try
-                {
-                    long time = Long.parseLong(buildTime);
-                    DateTime dateTime = new DateTime(time);
-                    buildDate = dateTime.toString("yyyy-MM-dd HH:mm");
-                }
-                catch (NumberFormatException e)
-                {
-                    logger.warn("Unable to parse property 'easy.buildTime' from version.properties");
-                    buildDate = UNKNOWN;
-                }
+                buildDate = buildTime;
             }
         }
         return buildDate;
