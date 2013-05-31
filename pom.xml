@@ -11,7 +11,7 @@
 	<artifactId>easy-webui</artifactId>
 	<name>EASY Web-UI Application</name>
 	<packaging>war</packaging>
-	<version>2.7-beta-5</version>
+	<version>2.7-beta-6</version>
 	<description>Easy Web user interface application</description>
 	<dependencies>
 		<dependency>
@@ -175,6 +175,9 @@
 						and doesn't result in an enormous web of related classes anymore -->
 					<excludePackageNames>nl.knaw.dans.easy.web.*</excludePackageNames>
 				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>
