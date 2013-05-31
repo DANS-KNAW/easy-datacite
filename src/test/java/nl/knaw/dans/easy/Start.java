@@ -77,6 +77,8 @@ public final class Start // NOPMD
         In order to prevent java.lang.IllegalStateException: Form too large214892>200000
          */
         System.setProperty("org.mortbay.jetty.Request.maxFormContentSize", "500000");
+        System.setProperty("java.naming.factory.url.pkgs", "org.mortbay.naming");
+        System.setProperty("java.naming.factory.initial", "org.mortbay.naming.InitialContextFactory");
 
         final Server server = new Server(); // NOPMD
 
