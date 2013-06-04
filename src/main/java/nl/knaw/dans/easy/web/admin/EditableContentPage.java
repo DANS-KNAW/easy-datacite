@@ -73,15 +73,16 @@ public class EditableContentPage extends AbstractEasyNavPage
 
         addLink("updatePasswordMailHTMLEditLink", "/mail/templates/authn/UpdatePasswordMail.html", user, new UpdatePasswordMessage(user,
                 new ForgottenPasswordMessenger(null, "jan@jansen.com")));
-        addLink("updatePasswordMailTXTEditLink", "/mail/templates/authn/UpdatePasswordMail.txt", user, new UpdatePasswordMessage(user, new ForgottenPasswordMessenger(
-                null, "jan@jansen.com")));
+        addLink("updatePasswordMailTXTEditLink", "/mail/templates/authn/UpdatePasswordMail.txt", user, new UpdatePasswordMessage(user,
+                new ForgottenPasswordMessenger(null, "jan@jansen.com")));
 
-        addLink("maintenanceNotificationMailHTMLEditLink", "/mail/templates/maintenance/maintenaceNotification.html", user, dataset, new MaintenanceNotification(
+        addLink("maintenanceNotificationMailHTMLEditLink", "/mail/templates/maintenance/maintenaceNotification.html", user, dataset,
+                new MaintenanceNotification(dataset));
+        addLink("maintenanceNotificationMailTXTEditLink", "/mail/templates/maintenance/maintenaceNotification.txt", user, dataset, new MaintenanceNotification(
                 dataset));
-        addLink("maintenanceNotificationMailTXTEditLink", "/mail/templates/maintenance/maintenaceNotification.txt", user, dataset, new MaintenanceNotification(dataset));
 
-        addLink("depositConfirmationHTMLEditLink", "/mail/templates/deposit/depositConfirmation.html", user, dataset, datasetSubmission, new SubmitNotification(
-                datasetSubmission));
+        addLink("depositConfirmationHTMLEditLink", "/mail/templates/deposit/depositConfirmation.html", user, dataset, datasetSubmission,
+                new SubmitNotification(datasetSubmission));
         addLink("depositConfirmationTXTEditLink", "/mail/templates/deposit/depositConfirmation.txt", user, dataset, datasetSubmission, new SubmitNotification(
                 datasetSubmission));
 
@@ -90,15 +91,15 @@ public class EditableContentPage extends AbstractEasyNavPage
         addLink("depositConfirmationOtherAccessTXTEditLink", "/mail/templates/deposit/depositConfirmationOtherAccess.txt", user, dataset, datasetSubmission,
                 new SubmitNotification(datasetSubmission));
 
-        addLink("newDepositorNotificationHTMLEditLink", "/mail/templates/deposit/newDepositorNotification.html", user, dataset, new NewDepositorNotification(dataset,
-                user, user));
-        addLink("newDepositorNotificationTXTEditLink", "/mail/templates/deposit/newDepositorNotification.txt", user, dataset, new NewDepositorNotification(dataset,
-                user, user));
+        addLink("newDepositorNotificationHTMLEditLink", "/mail/templates/deposit/newDepositorNotification.html", user, dataset, new NewDepositorNotification(
+                dataset, user, user));
+        addLink("newDepositorNotificationTXTEditLink", "/mail/templates/deposit/newDepositorNotification.txt", user, dataset, new NewDepositorNotification(
+                dataset, user, user));
 
-        addLink("oldDepositorNotificationHTMLEditLink", "/mail/templates/deposit/oldDepositorNotification.html", user, dataset, new OldDepositorNotification(dataset,
-                user, user));
-        addLink("oldDepositorNotificationTXTEditLink", "/mail/templates/deposit/oldDepositorNotification.txt", user, dataset, new OldDepositorNotification(dataset,
-                user, user));
+        addLink("oldDepositorNotificationHTMLEditLink", "/mail/templates/deposit/oldDepositorNotification.html", user, dataset, new OldDepositorNotification(
+                dataset, user, user));
+        addLink("oldDepositorNotificationTXTEditLink", "/mail/templates/deposit/oldDepositorNotification.txt", user, dataset, new OldDepositorNotification(
+                dataset, user, user));
 
         addLink("unsubmitNotificationHTMLEditLink", "/mail/templates/deposit/unsubmitNotification.html", user, dataset, new UnsubmitNotification(dataset));
         addLink("unsubmitNotificationTXTEditLink", "/mail/templates/deposit/unsubmitNotification.txt", user, dataset, new UnsubmitNotification(dataset));
@@ -117,8 +118,8 @@ public class EditableContentPage extends AbstractEasyNavPage
         addLink("deniedReplyNotificationTXTEditLink", "/mail/templates/permission/DeniedReplyNotification.txt", user, dataset, new ReplyNotification(dataset,
                 new PermissionSequenceImpl(user), prm));
 
-        addLink("grantedReplyNotificationHTMLEditLink", "/mail/templates/permission/GrantedReplyNotification.html", user, dataset, new ReplyNotification(dataset,
-                new PermissionSequenceImpl(user), prm));
+        addLink("grantedReplyNotificationHTMLEditLink", "/mail/templates/permission/GrantedReplyNotification.html", user, dataset, new ReplyNotification(
+                dataset, new PermissionSequenceImpl(user), prm));
         addLink("grantedReplyNotificationTXTEditLink", "/mail/templates/permission/GrantedReplyNotification.txt", user, dataset, new ReplyNotification(dataset,
                 new PermissionSequenceImpl(user), prm));
 
@@ -127,10 +128,10 @@ public class EditableContentPage extends AbstractEasyNavPage
         addLink("requestNotificationTXTEditLink", "/mail/templates/permission/requestNotification.txt", user, dataset, new RequestNotification(dataset, user,
                 new PermissionRequestModel()));
 
-        addLink("returnedReplyNotificationHTMLEditLink", "/mail/templates/permission/ReturnedReplyNotification.html", user, dataset, new ReplyNotification(dataset,
-                new PermissionSequenceImpl(user), prm));
-        addLink("returnedReplyNotificationTXTEditLink", "/mail/templates/permission/ReturnedReplyNotification.txt", user, dataset, new ReplyNotification(dataset,
-                new PermissionSequenceImpl(user), prm));
+        addLink("returnedReplyNotificationHTMLEditLink", "/mail/templates/permission/ReturnedReplyNotification.html", user, dataset, new ReplyNotification(
+                dataset, new PermissionSequenceImpl(user), prm));
+        addLink("returnedReplyNotificationTXTEditLink", "/mail/templates/permission/ReturnedReplyNotification.txt", user, dataset, new ReplyNotification(
+                dataset, new PermissionSequenceImpl(user), prm));
 
         addLink("headerHTMLEditLink", "/mail/templates/default/header.html", user, dataset);
         addLink("headerTXTEditLink", "/mail/templates/default/header.txt", user, dataset);
