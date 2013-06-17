@@ -8,7 +8,6 @@ import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.authn.AbstractAuthenticationPage;
 import nl.knaw.dans.easy.web.authn.RegistrationPage;
-import nl.knaw.dans.easy.web.common.ApplicationUser;
 
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -21,12 +20,12 @@ public class FederationToEasyAccountLinkingPage extends AbstractAuthenticationPa
 {
     private static final Logger logger = LoggerFactory.getLogger(FederationToEasyAccountLinkingPage.class);
 
-    public FederationToEasyAccountLinkingPage(final ApplicationUser appUser)
+    public FederationToEasyAccountLinkingPage(final FederationUser user)
     {
         add(new IncludeJsOrCssBehavior(LoginPage.class, "styles.css"));
-        add(new FederationUserInfoPanel("federationUserInfoPanel", appUser));
+        add(new FederationUserInfoPanel("federationUserInfoPanel", user));
         final UsernamePasswordAuthentication authentication = createUsernamePasswordAuthentication();
-        add(new LoginPanelRegular("loginPanelRegular", new LoginAndLinkForm("loginForm", authentication, appUser.getUserId(), appUser.getOrganization())));
+        add(new LoginPanelRegular("loginPanelRegular", new LoginAndLinkForm("loginForm", authentication, user.getUserId(), user.getHomeOrg())));
         final WebMarkupContainer registrationSection = new WebMarkupContainer("registration_and_linking");
         add(registrationSection);
         final Link<Void> registrationLink = new Link<Void>("registration")
@@ -35,7 +34,7 @@ public class FederationToEasyAccountLinkingPage extends AbstractAuthenticationPa
 
             public void onClick()
             {
-                setResponsePage(new RegistrationPage(appUser.getUserId(), appUser.getOrganization()));
+                setResponsePage(new RegistrationPage(user.getUserId(), user.getHomeOrg()));
             };
         };
         registrationSection.add(registrationLink);

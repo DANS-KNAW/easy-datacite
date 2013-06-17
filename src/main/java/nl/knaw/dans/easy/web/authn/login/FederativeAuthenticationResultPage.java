@@ -9,7 +9,6 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.HomePage;
 import nl.knaw.dans.easy.web.InfoPage;
-import nl.knaw.dans.easy.web.common.ApplicationUser;
 import nl.knaw.dans.easy.web.main.AbstractEasyNavPage;
 import nl.knaw.dans.easy.web.statistics.StatisticsEvent;
 import nl.knaw.dans.easy.web.statistics.StatisticsLogger;
@@ -22,6 +21,7 @@ import org.slf4j.LoggerFactory;
 @RequireHttps
 public class FederativeAuthenticationResultPage extends AbstractEasyNavPage
 {
+    private static final String SHIB_SESSION_ID = Services.getFederativeUserService().getPropertyNameShibSessionId();
     private static Logger logger = LoggerFactory.getLogger(FederativeAuthenticationResultPage.class);
     private String federativeUserId = null;
 
@@ -30,7 +30,7 @@ public class FederativeAuthenticationResultPage extends AbstractEasyNavPage
         return federativeUserId;
     }
 
-    private ApplicationUser appUser = null;
+    private FederationUser fedUser;
 
     public FederativeAuthenticationResultPage()
     {
@@ -48,24 +48,28 @@ public class FederativeAuthenticationResultPage extends AbstractEasyNavPage
         else
         {
             HttpServletRequest request = getWebRequestCycle().getWebRequest().getHttpServletRequest();
-            // If we have an Federative Id, get the easy user and add to the session
-            String federationUserId = FederativeUserInfoExtractor.extractFederativeUserId(request);
-            if (federationUserId != null)
+            if (!hasShibbolethSession(request))
             {
-                appUser = FederativeUserInfoExtractor.extractFederativeUser(request);
+                logger.error("Shibboleth does not appear to have sent a session ID");
+                infoPageWithError();
+            }
+            else
+            {
                 try
                 {
-                    EasyUser easyUser = Services.getFederativeUserService().getUserById(getSessionUser(), federationUserId);
-
-                    // NOTE maybe use a FederatedAthentication class
-                    // have it set the userId make it in an correct state and put it in the session
-                    Authentication authentication = new Authentication()
-                    {
-                        private static final long serialVersionUID = 1L;
-                    };
+                    fedUser = FederationUser.fromHttpRequest(request);
+                }
+                catch (IllegalArgumentException e)
+                {
+                    infoPageWithError();
+                    return;
+                }
+                try
+                {
+                    EasyUser easyUser = Services.getFederativeUserService().getUserById(getSessionUser(), fedUser.getUserId());
+                    Authentication authentication = new Authentication();
                     authentication.setState(Authentication.State.Authenticated);
                     authentication.setUser(easyUser);
-
                     getEasySession().setLoggedIn(authentication);
                     StatisticsLogger.getInstance().logEvent(StatisticsEvent.USER_LOGIN);
 
@@ -74,21 +78,29 @@ public class FederativeAuthenticationResultPage extends AbstractEasyNavPage
                 }
                 catch (ObjectNotAvailableException e)
                 {
-                    logger.info("There is no mapping for the given federative user id: " + federationUserId);
-                    setResponsePage(new FederationToEasyAccountLinkingPage(appUser));
+                    logger.info("There is no mapping for the given federative user id: {}", fedUser.getUserId());
+                    setResponsePage(new FederationToEasyAccountLinkingPage(fedUser));
                 }
                 catch (ServiceException e)
                 {
-                    logger.error("Could not get easy user with the given federative user id: " + federationUserId, e);
-                    setResponsePage(new InfoPage("federative.error_during_federation_login"));
+                    logger.error("Could not get easy user with the given federative user id: {}", fedUser.getUserId(), e);
+                    errorMessage("federative.error_during_federation_login");
+                    setResponsePage(new InfoPage(getString("federative.error_during_federation_login")));
                 }
-            }
-            else
-            {
-                logger.error("Could not retrieve the Federative user identification from Shibboleth");
-                setResponsePage(new InfoPage("federative.error_during_federation_login"));
             }
 
         }
     }
+
+    private boolean hasShibbolethSession(HttpServletRequest request)
+    {
+        return request.getAttribute(SHIB_SESSION_ID) != null;
+    }
+
+    private void infoPageWithError()
+    {
+        warningMessage("federative.error_during_federation_login");
+        setResponsePage(new InfoPage("Error during federation login"));
+    }
+
 }
