@@ -66,7 +66,7 @@ public class Authentication extends Messenger<Authentication.State>
     private String credentials;
     private EasyUser user;
 
-    protected Authentication()
+    public Authentication()
     {
         super(Authentication.State.class);
     }

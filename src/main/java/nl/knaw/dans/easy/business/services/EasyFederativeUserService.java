@@ -20,11 +20,12 @@ public class EasyFederativeUserService extends AbstractEasyService implements Fe
     private static Logger logger = LoggerFactory.getLogger(EasyFederativeUserService.class);
     private URL federationUrl;
     private boolean federationLoginEnabled;
-    private String propertyNameUserId;
+    private String propertyNameRemoteUser;
     private String propertyNameEmail;
     private String propertyNameFirstName;
     private String propertyNameSurname;
-    private String popertyNameOrganization;
+    private String propertyNameOrganization;
+    private String propertyNameShibSessionId;
 
     @Override
     public EasyUser getUserById(EasyUser sessionUser, String fedUserId) throws ObjectNotAvailableException, ServiceException
@@ -133,14 +134,14 @@ public class EasyFederativeUserService extends AbstractEasyService implements Fe
     }
 
     @Override
-    public String getPropertyNameUserId()
+    public String getPropertyNameRemoteUser()
     {
-        return propertyNameUserId;
+        return propertyNameRemoteUser;
     }
 
-    public void setPropertyNameUserId(String propertyNameUserId)
+    public void setPropertyNameRemoteUser(String propertyNameRemoteUser)
     {
-        this.propertyNameUserId = propertyNameUserId;
+        this.propertyNameRemoteUser = propertyNameRemoteUser;
     }
 
     @Override
@@ -179,11 +180,22 @@ public class EasyFederativeUserService extends AbstractEasyService implements Fe
     @Override
     public String getPopertyNameOrganization()
     {
-        return popertyNameOrganization;
+        return propertyNameOrganization;
     }
 
-    public void setPopertyNameOrganization(String popertyNameOrganization)
+    public void setPropertyNameOrganization(String popertyNameOrganization)
     {
-        this.popertyNameOrganization = popertyNameOrganization;
+        this.propertyNameOrganization = popertyNameOrganization;
+    }
+
+    @Override
+    public String getPropertyNameShibSessionId()
+    {
+        return propertyNameShibSessionId;
+    }
+
+    public void setPropertyNameShibSessionId(String propertyNameShibSessionId)
+    {
+        this.propertyNameShibSessionId = propertyNameShibSessionId;
     }
 }

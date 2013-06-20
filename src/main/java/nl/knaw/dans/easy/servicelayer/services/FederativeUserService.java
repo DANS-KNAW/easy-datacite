@@ -22,13 +22,15 @@ public interface FederativeUserService
 
     URL getFederationUrl();
 
-    public abstract String getPopertyNameOrganization();
+    String getPopertyNameOrganization();
 
-    public abstract String getPropertyNameSurname();
+    String getPropertyNameSurname();
 
-    public abstract String getPropertyNameFirstName();
+    String getPropertyNameFirstName();
 
-    public abstract String getPropertyNameEmail();
+    String getPropertyNameEmail();
 
-    public abstract String getPropertyNameUserId();
+    String getPropertyNameRemoteUser();
+
+    String getPropertyNameShibSessionId();
 }
