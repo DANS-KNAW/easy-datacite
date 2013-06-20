@@ -768,7 +768,7 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
         }
         catch (XMLDeserializationException e)
         {
-            throw new DomainException("desarialisation problem of Easy Metadata: "+e.getMessage(),e);
+            throw new DomainException("desarialisation problem of Easy Metadata: " + e.getMessage(), e);
         }
     }
 }
