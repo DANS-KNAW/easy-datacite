@@ -50,13 +50,16 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.Group;
 import nl.knaw.dans.easy.domain.model.user.RepoAccess;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.EasyMetadataImpl;
 import nl.knaw.dans.pf.language.emd.EmdTitle;
 import nl.knaw.dans.pf.language.emd.binding.EasyMetadataFactory;
+import nl.knaw.dans.pf.language.emd.binding.EmdUnmarshaller;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
 import nl.knaw.dans.pf.language.emd.types.BasicString;
 import nl.knaw.dans.pf.language.emd.types.EmdConstants;
 import nl.knaw.dans.pf.language.emd.types.IsoDate;
+import nl.knaw.dans.pf.language.xml.exc.XMLDeserializationException;
 
 import org.joda.time.DateTime;
 
@@ -754,5 +757,18 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
     public String getAutzStrategyName()
     {
         return "nl.knaw.dans.easy.security.authz.EasyItemContainerAuthzStrategy";
+    }
+
+    @Override
+    public void replaceEasyMetadata(String xml) throws DomainException
+    {
+        try
+        {
+            easyMetadata = new EmdUnmarshaller<EasyMetadata>(EasyMetadataImpl.class).unmarshal(xml);
+        }
+        catch (XMLDeserializationException e)
+        {
+            throw new DomainException("desarialisation problem of Easy Metadata: "+e.getMessage(),e);
+        }
     }
 }
