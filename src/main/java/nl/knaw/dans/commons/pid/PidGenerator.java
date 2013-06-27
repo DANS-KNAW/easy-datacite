@@ -42,29 +42,6 @@ public class PidGenerator
         }
     };
 
-    /**
-     * Creates a generator for persistent identifiers. A database with a row per prefix remembers
-     * the last generated id.
-     *
-     * @param connection connection with the database.
-     * @param prefix the first characters after "urn:nbn:nl:ui:"
-     * @throws PidException in case of problems with a connection property
-     */
-    public PidGenerator(Connection connection, String prefix) throws PidException
-    {
-        this.connection = connection;
-        try
-        {
-            this.connection.setAutoCommit(false);
-        }
-        catch (SQLException exception)
-        {
-            throw new PidException("could not switch off autocommit of pid generator", exception);
-        }
-        this.prefix = URN_PREFIX + prefix;
-        whereClause = String.format(WHERE_CLAUSE, this.prefix);
-    }
-
     public PidGenerator(PidConnectionConfiguration connection, String prefix) throws PidException
     {
         this.prefix = URN_PREFIX + prefix;
@@ -82,6 +59,7 @@ public class PidGenerator
         try
         {
             this.connection = DriverManager.getConnection(connection.getUrl(), connection.getUsername(), connection.getPassword());
+            this.connection.setAutoCommit(false);
         }
         catch (SQLException exception)
         {
@@ -90,11 +68,6 @@ public class PidGenerator
     }
 
     public PidGenerator(PidConnectionConfiguration connection) throws PidException
-    {
-        this(connection, DANS_PREFIX);
-    }
-
-    public PidGenerator(Connection connection) throws PidException
     {
         this(connection, DANS_PREFIX);
     }
