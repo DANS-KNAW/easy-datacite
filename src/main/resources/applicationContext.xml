@@ -45,6 +45,7 @@
 	<bean name="userService" class="nl.knaw.dans.easy.business.services.EasyUserService">
 		<property name="loginService" ref="loginService" />
 		<property name="passwordService" ref="passwordService" />
+		<property name="registrationService" ref="registrationService" />
 	</bean>
 
 	<bean name="loginService" class="nl.knaw.dans.easy.business.authn.LoginService">
@@ -54,6 +55,10 @@
 	<bean name="passwordService" class="nl.knaw.dans.easy.business.authn.PasswordService">
 		<property name="authenticationSpecification" ref="authenticationSpecification" />
 		<property name="changePasswordSpecification" ref="changePasswordSpecification" />
+	</bean>
+	
+	<bean name="registrationService" class="nl.knaw.dans.easy.business.authn.RegistrationService" >
+		<property name="authenticationSpecification" ref="authenticationSpecificationWithoutMasterkey" />
 	</bean>
 
 	<bean name="changePasswordSpecification"
@@ -67,6 +72,9 @@
 			<value type="java.io.File">${easy.admin.masterkeyfile}</value>
 		</property>
 	</bean>
+	
+	<bean name="authenticationSpecificationWithoutMasterkey"
+		class="nl.knaw.dans.easy.business.authn.AuthenticationSpecification" />
 
 	<bean name="searchService" class="nl.knaw.dans.easy.business.services.EasySearchService" />
 
