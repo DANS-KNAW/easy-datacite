@@ -56,18 +56,21 @@ public class RegistrationForm extends AbstractEasyStatelessForm<ApplicationUser>
     private String paramToken;
 
     private String federationUserId;
+    private String federationUserDescription;
     private String institute;
     private String easyUserId;
 
     public RegistrationForm(final String wicketId)
     {
-        this(wicketId, new ApplicationUser(), null, null);
+        this(wicketId, new ApplicationUser(), null, null, null);
     }
 
-    public RegistrationForm(final String wicketId, final ApplicationUser appUser, final String federationUserId, String institute)
+    public RegistrationForm(final String wicketId, final ApplicationUser appUser, final String federationUserId, String federationUserDescription,
+            String institute)
     {
         super(wicketId, new CompoundPropertyModel<ApplicationUser>(appUser));
         this.federationUserId = federationUserId;
+        this.federationUserDescription = federationUserDescription;
         this.institute = institute;
         addCommonFeedbackPanel();
 
@@ -240,7 +243,7 @@ public class RegistrationForm extends AbstractEasyStatelessForm<ApplicationUser>
             {
                 easyUserId = registration.getUserId();
                 createLinkBetweenCurrentEasyUserAndFederationUser();
-                infoMessage("register-and-link.link-created", federationUserId, institute, easyUserId);
+                infoMessage("register-and-link.link-created", federationUserDescription, institute, easyUserId);
             }
 
             // logging for statistics
