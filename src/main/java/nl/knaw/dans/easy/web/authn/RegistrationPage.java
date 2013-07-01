@@ -19,8 +19,8 @@ public class RegistrationPage extends AbstractEasyNavPage implements EasyResourc
         add(new RegistrationForm(REGISTRATION_FORM));
     }
 
-    public RegistrationPage(String federationUserId, String institute)
+    public RegistrationPage(String federationUserId, String federationUserDescription, String institute)
     {
-        add(new RegistrationForm(REGISTRATION_FORM, new ApplicationUser(), federationUserId, institute));
+        add(new RegistrationForm(REGISTRATION_FORM, new ApplicationUser(), federationUserId, federationUserDescription, institute));
     }
 }
