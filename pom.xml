@@ -8,7 +8,6 @@
 		<relativePath>../../lib/easy-prototype</relativePath>
 	</parent>
 	<artifactId>easy-sword</artifactId>
-	<version>2.7-RC-2</version>
 	<name>EASY SWORD Service</name>
 	<packaging>war</packaging>
 	<properties>
