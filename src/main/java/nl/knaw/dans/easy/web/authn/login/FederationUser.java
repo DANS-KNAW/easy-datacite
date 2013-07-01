@@ -1,11 +1,14 @@
 package nl.knaw.dans.easy.web.authn.login;
 
+import java.io.Serializable;
+
 import javax.servlet.http.HttpServletRequest;
 
 import nl.knaw.dans.easy.servicelayer.services.Services;
 
-public class FederationUser
+public class FederationUser implements Serializable
 {
+    private static final long serialVersionUID = 1L;
     private static final String FEDUSER_ATTRIBUTE_NAME_REMOTE_USER = Services.getFederativeUserService().getPropertyNameRemoteUser();
     private static final String FEDUSER_ATTRIBUTE_NAME_GIVENNAME = Services.getFederativeUserService().getPropertyNameFirstName();
     private static final String FEDUSER_ATTRIBUTE_NAME_SURNAME = Services.getFederativeUserService().getPropertyNameSurname();
