@@ -17,13 +17,15 @@ class LoginAndLinkForm extends LoginForm
     private static final Logger logger = LoggerFactory.getLogger(LoginAndLinkForm.class);
 
     private String federationUserId;
+    private String userDescription;
     private String institution;
     private String easyUserId;
 
-    public LoginAndLinkForm(String wicketId, UsernamePasswordAuthentication authentication, String federationUserId, String institution)
+    public LoginAndLinkForm(String wicketId, UsernamePasswordAuthentication authentication, String federationUserId, String userDescription, String institution)
     {
         super(wicketId, authentication);
         this.federationUserId = federationUserId;
+        this.userDescription = userDescription;
         this.institution = institution;
     }
 
@@ -32,7 +34,7 @@ class LoginAndLinkForm extends LoginForm
     {
         setEasyUserId();
         createLinkBetweenCurrentEasyUserAndFederationUser();
-        infoMessage("login-and-link.link-created", federationUserId, institution, easyUserId);
+        infoMessage("login-and-link.link-created", userDescription, institution, easyUserId);
         throw new RestartResponseException(new InfoPage("Link created"));
     }
 
