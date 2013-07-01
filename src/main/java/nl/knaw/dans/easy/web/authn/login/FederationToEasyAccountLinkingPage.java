@@ -34,7 +34,7 @@ public class FederationToEasyAccountLinkingPage extends AbstractAuthenticationPa
 
             public void onClick()
             {
-                setResponsePage(new RegistrationPage(user.getUserId(), user.getHomeOrg()));
+                setResponsePage(new RegistrationPage(user.getUserId(), user.getUserDescription(), user.getHomeOrg()));
             };
         };
         registrationSection.add(registrationLink);
