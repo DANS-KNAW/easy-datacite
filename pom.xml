@@ -13,7 +13,7 @@
 	<version>2.x-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<properties>
-		<easy.version>2.7</easy.version>
+		<easy.version>2.x-SNAPSHOT</easy.version>
 		<easy-pack.version>1.2</easy-pack.version>
 		<aspectj.version>1.7.2</aspectj.version>
 		<servlet-api.version>2.5</servlet-api.version>
