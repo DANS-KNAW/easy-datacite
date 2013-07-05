@@ -52,10 +52,10 @@
 	line-height: 1.5em;
 }
 #login-page div#surf {
-	background: url('surf_conext_logo.gif') no-repeat;
+	background: url('surf_conext_logo.png') no-repeat;
 	float: right;
-	width: 93px;
-	height: 59px;
+	width: 112px;
+	height: 36px;
 }
 #login-page .warn {
 	padding: 3px;	
