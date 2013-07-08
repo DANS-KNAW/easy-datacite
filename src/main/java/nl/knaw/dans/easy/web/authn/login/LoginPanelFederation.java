@@ -21,9 +21,6 @@ class LoginPanelFederation extends AbstractEasyStatelessPanel
     private static Logger logger = LoggerFactory.getLogger(LoginPanelFederation.class);
     private static final long serialVersionUID = 1L;
 
-    @SpringBean(name = "federationConnectedInstitutionsUrl")
-    private String connectedInstitutionsUrl;
-
     public LoginPanelFederation(final String wicketId)
     {
         super(wicketId);
@@ -49,8 +46,6 @@ class LoginPanelFederation extends AbstractEasyStatelessPanel
         };
         add(federationLink);
         federationLink.setVisible(Services.getFederativeUserService().isFederationLoginEnabled());
-        final ExternalLink connectedInstitutionsLink = new ExternalLink("connectedInstitutionsLink", connectedInstitutionsUrl, "connected institutions");
-        add(connectedInstitutionsLink);
     }
 
     private String constructLinkToFederationLogin()
@@ -81,15 +76,5 @@ class LoginPanelFederation extends AbstractEasyStatelessPanel
         final String percentEncodedReturnUrlString = URLEncoder.encode(returnUrlString, "UTF-8");
         logger.debug("Percent-encoded return URL with UTF-8 as charset: {}", percentEncodedReturnUrlString);
         return percentEncodedReturnUrlString;
-    }
-
-    public String getConnectedInstitutionsUrl()
-    {
-        return connectedInstitutionsUrl;
-    }
-
-    public void setConnectedInstitutionsUrl(String connectedInstitutionsUrl)
-    {
-        this.connectedInstitutionsUrl = connectedInstitutionsUrl;
     }
 }
