@@ -10,6 +10,7 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.*;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 
 public class WizardNavigationPanel extends Panel
 {
@@ -21,6 +22,9 @@ public class WizardNavigationPanel extends Panel
     private boolean initiated;
     private String labelResourceKey;
     private FormPage currentPage;
+
+    @SpringBean(name = "depositInstructionsBaseUrl")
+    private String depositInstructionsBaseUrl;
 
     public WizardNavigationPanel(String id, FormDefinition formDefinition, WizardNavigationListener listener)
     {
@@ -92,33 +96,13 @@ public class WizardNavigationPanel extends Panel
         pageLinkContainer.add(pageLinks);
         add(new Label("label", new ResourceModel(labelResourceKey, "")));
         add(pageLinkContainer);
-        add(createInstructionLink());
-        //        add(new Label("instructionLink", new ResourceModel(parentPage.getLabelResourceKey())));
+        String instructionFileNameBase = getInstructionFileNameBase();
+        add(new ExternalLink("instructionLink_EN", depositInstructionsBaseUrl + "/" + instructionFileNameBase + "UK.pdf" + "", "English"));
+        add(new ExternalLink("instructionLink_NL", depositInstructionsBaseUrl + "/" + instructionFileNameBase + "NL.pdf" + "", "Nederlands"));
     }
 
-    private ExternalLink createInstructionLink()
+    private String getInstructionFileNameBase()
     {
-        ExternalLink link = createInstructionLink(currentPage);
-        if (link == null)
-            link = createInstructionLink(currentPage.getParent());
-        if (link == null)
-        {
-            link = new ExternalLink("instructionLink", "", "");
-            link.setVisible(false);
-        }
-        else
-        {
-            link.setVisible(true);
-        }
-        return link;
-    }
-
-    private static ExternalLink createInstructionLink(AbstractInheritableDefinition<?> page)
-    {
-        String instructionUrl = page.getInstructionFile();
-        if (instructionUrl == null)
-            return null;
-        String instructionLinkText = page.getCustomProperty("instructionLinkTextResourceKey", "Instructions");
-        return new ExternalLink("instructionLink", instructionUrl, instructionLinkText);
+        return currentPage.getInstructionFile() == null ? currentPage.getParent().getInstructionFile() : currentPage.getInstructionFile();
     }
 }
