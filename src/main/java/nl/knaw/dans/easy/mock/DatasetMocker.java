@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.RepositoryException;
+import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.data.Data;
@@ -108,6 +109,12 @@ public class DatasetMocker
     public DatasetMocker with(final DatasetState state)
     {
         expect(dataset.getAdministrativeState()).andStubReturn(state);
+        return this;
+    }
+
+    public DatasetMocker with(final AccessCategory category)
+    {
+        expect(dataset.getAccessCategory()).andStubReturn(category);
         return this;
     }
 
