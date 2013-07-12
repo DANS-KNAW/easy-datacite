@@ -45,6 +45,8 @@ public class DatasetMocker
 
     private FolderMocker[] folderMockers = {/* default in case only files were specified */};
 
+    private IdMap idMap;
+
     /**
      * Creates a mocked instance of a {@link Dataset}. A fluent interface allows further configuration of
      * possible/expected behavior of the instance, and related methods of {@link FileStoreAccess}.
@@ -97,6 +99,8 @@ public class DatasetMocker
 
     public DatasetMocker withPid(final String persitentIdentifier)
     {
+        if (idMap != null)
+            idMap = new IdMap(idMap.getStoreId(), idMap.getAipId(), persitentIdentifier, idMap.getMigrationDate());
         expect(dataset.getPersistentIdentifier()).andStubReturn(persitentIdentifier);
         return this;
     }
@@ -114,18 +118,12 @@ public class DatasetMocker
         return this;
     }
 
+    /** note That withPid must be called later to be effective in the IdMap. */
     public DatasetMocker withAipId(final String aipId) throws Exception
     {
-        final IdMap idMapMock = new IdMap()
-        {
-            private static final long serialVersionUID = 1L;
-
-            public String getAipId()
-            {
-                return aipId;
-            }
-        };
-        expect(Data.getMigrationRepo().findById(datasetStoreId.getStoreId())).andStubReturn(idMapMock);
+        idMap = new IdMap(datasetStoreId.getStoreId(), aipId, "somepid", new DateTime("2013-07-12"));
+        expect(Data.getMigrationRepo().findById(EasyMock.eq(datasetStoreId.getStoreId()))).andStubReturn(idMap);
+        expect(Data.getMigrationRepo().getMostRecentByAipId(EasyMock.eq(aipId))).andStubReturn(idMap);
         return this;
     }
 
