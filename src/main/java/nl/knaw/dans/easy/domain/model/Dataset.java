@@ -91,6 +91,8 @@ public interface Dataset extends DatasetItemContainer
 
     void setLicenseContent(byte[] content);
 
+    void setEasyMetadata(String xml);
+
     IsoDate getDateSubmitted();
 
     void setAdditionalLicenseContent(File file);

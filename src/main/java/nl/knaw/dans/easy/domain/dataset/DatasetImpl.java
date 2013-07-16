@@ -32,6 +32,7 @@ import nl.knaw.dans.common.lang.search.IndexDocument;
 import nl.knaw.dans.easy.data.search.EasyDatasetSB;
 import nl.knaw.dans.easy.data.store.EmdMetadataUnitXMLBeanAdapter;
 import nl.knaw.dans.easy.domain.collections.ECollection;
+import nl.knaw.dans.easy.domain.exceptions.DeserializationException;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
@@ -50,13 +51,16 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.Group;
 import nl.knaw.dans.easy.domain.model.user.RepoAccess;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.EasyMetadataImpl;
 import nl.knaw.dans.pf.language.emd.EmdTitle;
 import nl.knaw.dans.pf.language.emd.binding.EasyMetadataFactory;
+import nl.knaw.dans.pf.language.emd.binding.EmdUnmarshaller;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
 import nl.knaw.dans.pf.language.emd.types.BasicString;
 import nl.knaw.dans.pf.language.emd.types.EmdConstants;
 import nl.knaw.dans.pf.language.emd.types.IsoDate;
+import nl.knaw.dans.pf.language.xml.exc.XMLDeserializationException;
 
 import org.joda.time.DateTime;
 
@@ -245,7 +249,8 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
         return getChildAccessibility().contains(AccessCategory.GROUP_ACCESS);
     }
 
-    /*
+    //@formatter:off
+    /* 
      * Return values
      *  0 = dataset is not published
      *  1 = dataset is published and user is anonymous
@@ -254,6 +259,7 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
      * 11 = dataset is published and user is known and was granted permission
      * 15 = dataset is published and user is known and was granted permission and is member of one or more dataset-specific groups
      */
+    //@formatter:on
     public int getAccessProfileFor(EasyUser user)
     {
         List<AccessCategory> categories = new ArrayList<AccessCategory>();
@@ -315,6 +321,19 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
     public void setEasyMetadata(final EasyMetadata emd)
     {
         this.easyMetadata = emd;
+    }
+
+    @Override
+    public void setEasyMetadata(final String xml)
+    {
+        try
+        {
+            easyMetadata = new EmdUnmarshaller<EasyMetadata>(EasyMetadataImpl.class).unmarshal(xml);
+        }
+        catch (XMLDeserializationException e)
+        {
+            throw new DeserializationException("Could not deserialize EASY Metadata");
+        }
     }
 
     public PermissionSequenceList getPermissionSequenceList()
@@ -654,13 +673,6 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
     public List<DisciplineContainer> getLeafDisciplines() throws ObjectNotFoundException, DomainException
     {
         List<DisciplineContainer> allDisciplines = getParentDisciplines();
-        //
-        //        StringBuilder sb = new StringBuilder("allDisciplines\n");
-        //        for (DisciplineContainer dc : allDisciplines)
-        //        {
-        //            sb.append(dc.getStoreId() + " " + dc.getName() + "\n");
-        //        }
-
         List<DisciplineContainer> leafDisciplines = new ArrayList<DisciplineContainer>();
 
         for (DisciplineContainer dc : allDisciplines)
