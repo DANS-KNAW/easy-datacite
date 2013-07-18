@@ -19,10 +19,7 @@ public class DisciplineContainerOnlineTest extends AbstractOnlineTest
     @BeforeClass
     public static void beforeClass() throws RepositoryException, MalformedURLException
     {
-        //ClassPathHacker.addFile("../easy-webui/src/main/resources");
         setUpData();
-        //store = Data.getEasyStore();
-
     }
 
     @Test
