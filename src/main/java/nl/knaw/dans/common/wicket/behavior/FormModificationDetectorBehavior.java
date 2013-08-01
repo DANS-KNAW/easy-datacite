@@ -67,7 +67,7 @@ public class FormModificationDetectorBehavior extends AbstractBehavior
         {
             throw new WicketRuntimeException(getClass() + " behavior can be bound only to a Form component");
         }
-        Form form = (Form) component;
+        Form<?> form = (Form<?>) component;
 
         // This will make sure that the Form emits the
         // HTML 'ID' attribure when rendering. We require the 'ID' in our JS file
@@ -91,11 +91,11 @@ public class FormModificationDetectorBehavior extends AbstractBehavior
     // TextTemplateHeaderContributor expects to be supplied with a Map
     // as the backing Model. It will use the map to perform variable substitution.
 
-    class FormModificationDetectorModel extends AbstractReadOnlyModel
+    class FormModificationDetectorModel extends AbstractReadOnlyModel<Map<String, Object>>
     {
 
         private static final long serialVersionUID = -7377791430281874480L;
-        private Map<String, String> variables;
+        private Map<String, Object> variables;
         private String formMarkupid;
 
         FormModificationDetectorModel(String formMarkupid)
@@ -104,7 +104,7 @@ public class FormModificationDetectorBehavior extends AbstractBehavior
         }
 
         // return the Map as the model object
-        public Object getObject()
+        public Map<String, Object> getObject()
         {
             if (variables == null)
             {
@@ -114,7 +114,7 @@ public class FormModificationDetectorBehavior extends AbstractBehavior
                 // Also, while we are on this subject, you might also
                 // want to look at the MicroMap class
 
-                variables = new MiniMap(2);
+                variables = new MiniMap<String, Object>(2);
 
                 // provide runtime values for the 'form_id' and 'message'
                 variables.put("form_id", formMarkupid);
