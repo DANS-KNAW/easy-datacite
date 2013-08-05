@@ -125,8 +125,8 @@ public class CommonForm<T> extends Form<T>
     protected void disableForm(final String[] enableComponents)
     {
         // Disable all components.
-        final AttributeModifier disabler = new AttributeModifier("disabled", true, new Model("true"));
-        this.visitChildren(FormComponent.class, new IVisitor()
+        final AttributeModifier disabler = new AttributeModifier("disabled", true, new Model<String>("true"));
+        this.visitChildren(FormComponent.class, new IVisitor<Component>()
         {
             public Object component(final Component component)
             {
@@ -174,7 +174,7 @@ public class CommonForm<T> extends Form<T>
      * @param label
      *        label used in feedback messages
      */
-    protected void add(final FormComponent formComponent, final IModel label)
+    protected void add(final FormComponent<String> formComponent, final IModel<String> label)
     {
         // Add the component to the form
         super.add(formComponent);

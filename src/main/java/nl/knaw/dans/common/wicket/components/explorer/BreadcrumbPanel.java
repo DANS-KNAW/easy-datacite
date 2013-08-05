@@ -22,7 +22,7 @@ public class BreadcrumbPanel extends Panel
         {
             private static final long serialVersionUID = 1L;
 
-            protected void populateItem(ListItem item)
+            protected void populateItem(ListItem<String> item)
             {
                 item.add(new Label("breadcrumb", item.getModel()));
             }

@@ -10,7 +10,7 @@ import org.apache.wicket.model.IModel;
  *  
  * @author lobo
  */
-public abstract class CommonPanel extends CommonBasePanel
+public abstract class CommonPanel<T> extends CommonBasePanel<T>
 {
     private static final long serialVersionUID = 3906988013645820611L;
 
@@ -19,7 +19,7 @@ public abstract class CommonPanel extends CommonBasePanel
         super(id);
     }
 
-    public CommonPanel(String id, IModel<?> model)
+    public CommonPanel(String id, IModel<T> model)
     {
         super(id, model);
     }

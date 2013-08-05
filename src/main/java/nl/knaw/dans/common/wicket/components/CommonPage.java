@@ -12,8 +12,6 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.protocol.http.WebRequest;
 import org.apache.wicket.protocol.http.WicketURLEncoder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Extending this class gives the extender access to common Wicket
@@ -23,8 +21,6 @@ import org.slf4j.LoggerFactory;
  */
 public class CommonPage extends WebPage
 {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CommonPage.class);
-
     public CommonPage()
     {
         super();
