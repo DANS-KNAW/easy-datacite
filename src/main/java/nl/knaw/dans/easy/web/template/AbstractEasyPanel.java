@@ -17,7 +17,7 @@ import org.apache.wicket.model.IModel;
  *
  * @author Herman Suijs
  */
-public abstract class AbstractEasyPanel extends CommonPanel
+public abstract class AbstractEasyPanel<T> extends CommonPanel<T>
 {
     private static final long serialVersionUID = 5529101351554863036L;
 
@@ -38,7 +38,7 @@ public abstract class AbstractEasyPanel extends CommonPanel
      * @param wicketId wicket id
      * @param model model
      */
-    public AbstractEasyPanel(final String wicketId, final IModel<?> model)
+    public AbstractEasyPanel(final String wicketId, final IModel<T> model)
     {
         super(wicketId, model);
         initAbstractEasyPanel();

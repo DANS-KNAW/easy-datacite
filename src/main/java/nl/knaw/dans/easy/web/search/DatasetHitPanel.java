@@ -23,7 +23,7 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 
-public class DatasetHitPanel extends AbstractEasyPanel
+public class DatasetHitPanel extends AbstractEasyPanel<SearchHit<DatasetSB>>
 {
     private static final long serialVersionUID = 1765294309790135569L;
 
