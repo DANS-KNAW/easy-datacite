@@ -3,14 +3,9 @@ package nl.knaw.dans.easy.servicelayer;
 import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Method;
-import java.net.URL;
 
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
-import nl.knaw.dans.common.lang.repo.DmoStoreId;
-import nl.knaw.dans.common.lang.repo.DsUnitId;
 import nl.knaw.dans.easy.business.dataset.DatasetSubmissionImpl;
-import nl.knaw.dans.easy.data.Data;
-import nl.knaw.dans.easy.data.ext.ExternalServices;
 import nl.knaw.dans.easy.domain.authn.ForgottenPasswordMessenger;
 import nl.knaw.dans.easy.domain.authn.Registration;
 import nl.knaw.dans.easy.domain.model.Dataset;
@@ -20,21 +15,6 @@ import nl.knaw.dans.easy.domain.model.PermissionSequence;
 import nl.knaw.dans.easy.domain.model.PermissionSequence.State;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
-import nl.knaw.dans.easy.servicelayer.AbstractNotification;
-import nl.knaw.dans.easy.servicelayer.DatasetNotification;
-import nl.knaw.dans.easy.servicelayer.DatasetUrlComposer;
-import nl.knaw.dans.easy.servicelayer.MaintenanceNotification;
-import nl.knaw.dans.easy.servicelayer.NewDepositorNotification;
-import nl.knaw.dans.easy.servicelayer.OldDepositorNotification;
-import nl.knaw.dans.easy.servicelayer.PublishNotification;
-import nl.knaw.dans.easy.servicelayer.RegistrationConfirmation;
-import nl.knaw.dans.easy.servicelayer.ReplyNotification;
-import nl.knaw.dans.easy.servicelayer.RepublishNotification;
-import nl.knaw.dans.easy.servicelayer.RequestNotification;
-import nl.knaw.dans.easy.servicelayer.SubmitNotification;
-import nl.knaw.dans.easy.servicelayer.UnpublishNotification;
-import nl.knaw.dans.easy.servicelayer.UnsubmitNotification;
-import nl.knaw.dans.easy.servicelayer.UpdatePasswordMessage;
 
 import org.easymock.EasyMock;
 import org.junit.Before;
@@ -54,27 +34,9 @@ public class NotificationTest extends AbstractMailFixture
     private static PermissionSequence permissionSequence;
 
     @BeforeClass
-    public static void setMailer() throws Exception
-    {
-        if (!online())
-            return;
-        new ExternalServices().setMailOffice(getMailer());
-        new Data().setEasyStore(new DummyEasyStore()
-        {
-            @Override
-            public URL getFileURL(final DmoStoreId storeId, final DsUnitId unitId)
-            {
-                return getClass().getResource(storeId + "-" + unitId.getUnitId() + ".pdf");
-            }
-        });
-    }
-
-    @BeforeClass
     public static void beforeClass() throws Exception
     {
         AbstractMailFixture.beforeClass();
-        System.setProperty("easy.home", "../easy-home");
-
         permissionSequence = EasyMock.createMock(PermissionSequence.class);
         dataset = EasyMock.createMock(Dataset.class);
         depositor = EasyMock.createMock(EasyUser.class);
