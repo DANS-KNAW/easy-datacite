@@ -47,8 +47,8 @@ public class EasySwordServer implements SWORDServer
      */
     public ServiceDocument doServiceDocument(final ServiceDocumentRequest sdr) throws SWORDAuthenticationException, SWORDErrorException, SWORDException
     {
-        log.info(MessageFormat.format("SERVICE DOCUMENT user={0}; IP={1}; location={2}; onBehalfOf={3}", sdr.getUsername(), sdr.getIPAddress(), sdr
-                .getLocation(), sdr.getOnBehalfOf()));
+        log.info(MessageFormat.format("SERVICE DOCUMENT user={0}; IP={1}; location={2}; onBehalfOf={3}", sdr.getUsername(), sdr.getIPAddress(),
+                sdr.getLocation(), sdr.getOnBehalfOf()));
 
         final EasyUser user = null;
         try
@@ -117,8 +117,8 @@ public class EasySwordServer implements SWORDServer
 
     public DepositResponse doDeposit(final Deposit deposit) throws SWORDAuthenticationException, SWORDErrorException, SWORDException
     {
-        log.info(MessageFormat.format("DEPOSIT user={0}; IP={1}; location={2}; fileName={3}", deposit.getUsername(), deposit.getIPAddress(), deposit
-                .getLocation(), deposit.getFilename()));
+        log.info(MessageFormat.format("DEPOSIT user={0}; IP={1}; location={2}; fileName={3}", deposit.getUsername(), deposit.getIPAddress(),
+                deposit.getLocation(), deposit.getFilename()));
 
         /*
          * TODO authentication too late for "Expect: 100-Continue" ?
@@ -193,10 +193,10 @@ public class EasySwordServer implements SWORDServer
 
     private static DepositResponse wrapResponse(final SWORDEntry swordEntry, final String storeID)
     {
-        final DepositResponse depostiResponse = new DepositResponse(Deposit.CREATED);
+        final DepositResponse depostiResponse = new DepositResponse(Deposit.ACCEPTED);
         depostiResponse.setEntry(swordEntry);
         depostiResponse.setLocation(storeID);
-        depostiResponse.setHttpResponse(HttpStatus.SC_ACCEPTED);
+        depostiResponse.setHttpResponse(swordEntry.isNoOp() ? HttpStatus.SC_OK : HttpStatus.SC_ACCEPTED);
         return depostiResponse;
     }
 

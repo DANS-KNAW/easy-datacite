@@ -211,7 +211,7 @@ public class IntegrationTester
         final RequestEntity request = createRequest(VALID_FILE);
         final PostMethod method = createPostMethod(request, true, false);
         getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
-        assertResponseCode(method, HttpStatus.SC_ACCEPTED);
+        assertResponseCode(method, HttpStatus.SC_OK);
     }
 
     @Test
