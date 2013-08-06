@@ -214,6 +214,16 @@ public class IntegrationTester
         assertResponseCode(method, HttpStatus.SC_ACCEPTED);
     }
 
+    @Test
+    public void md5() throws Exception
+    {
+        final RequestEntity request = createRequest(VALID_FILE);
+        final PostMethod method = createPostMethod(request, true, false);
+        method.addRequestHeader("Content-MD5", "nonsense checksum");
+        getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
+        assertResponseCode(method, HttpStatus.SC_PRECONDITION_FAILED);
+    }
+
     //@Ignore
     // TODO reduce path length, fits nog longer
     @Test
