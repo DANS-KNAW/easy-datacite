@@ -106,7 +106,7 @@
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<configuration>
 					<detectLinks>true</detectLinks>
-					<javadocExecutable>/Library/Java/JavaVirtualMachines/jdk1.7.0_12.jdk/Contents/Home/bin/</javadocExecutable>
+					<javadocExecutable>${java.home}/bin/</javadocExecutable>
 				</configuration>
 			</plugin>
 		</plugins>
