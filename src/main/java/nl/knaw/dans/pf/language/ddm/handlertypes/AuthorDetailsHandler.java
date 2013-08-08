@@ -22,7 +22,7 @@ public abstract class AuthorDetailsHandler extends DaiAuthorHandler
             if (value.length() == 0)
                 return;
             if ("initials".equals(localName))
-                author.setTitle(value);
+                author.setInitials(value);
             else if ("surname".equals(localName))
                 author.setSurname(value);
             else if ("DAI".equals(localName))
