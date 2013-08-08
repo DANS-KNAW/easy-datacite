@@ -88,11 +88,11 @@ public class DatasetMocker
 
     public DatasetMocker withoutDownloadHistoryFor(final DateTime dateTime) throws Exception
     {
-        final String period = DownloadList.printPeriod(DownloadList.TYPE_ALL, dateTime);
+        final String period = DownloadList.printPeriod(DownloadList.TYPE_MONTH, dateTime);
         final String storeId = storeIdGenerator.getNext(DownloadHistory.NAMESPACE);
         final DownloadHistory dlh = new DownloadHistory(storeId, DownloadList.TYPE_ALL, Level.DATASET, datasetStoreId.getStoreId());
 
-        EasyMock.expect(Data.getEasyStore().findDownloadHistoryFor(EasyMock.eq(dataset), EasyMock.eq(period))).andStubReturn(null);
+        EasyMock.expect(Data.getEasyStore().findDownloadHistoryFor(EasyMock.eq(datasetStoreId), EasyMock.eq(period))).andStubReturn(null);
         EasyMock.expect(Data.getEasyStore().ingest(StringMatcher.eq(dlh), EasyMock.isA(String.class))).andStubReturn(storeId);
         EasyMock.expect(Data.getEasyStore().nextSid(DownloadHistory.NAMESPACE)).andStubReturn(storeId);
         return this;
