@@ -15,7 +15,7 @@ import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
  * @author Georgi Khomeriki
  *
  */
-public class TreeItem implements Serializable, ITreeItem, Comparable
+public class TreeItem implements Serializable, ITreeItem
 {
     private static final long serialVersionUID = 1L;
 
@@ -27,14 +27,14 @@ public class TreeItem implements Serializable, ITreeItem, Comparable
     private String visibleTo;
     private String accessibleTo;
     private String mimeType;
-    private ArrayList<TreeItem> children = new ArrayList<TreeItem>(); // directories only
-    private ArrayList<TreeItem> childrenWithFiles = new ArrayList<TreeItem>(); // files and directories
-    private TreeItem parent;
+    private ArrayList<ITreeItem> children = new ArrayList<ITreeItem>(); // directories only
+    private ArrayList<ITreeItem> childrenWithFiles = new ArrayList<ITreeItem>(); // files and directories
+    private ITreeItem parent;
     private Type type;
     private ItemVO itemVO;
     private boolean loaded;
 
-    public TreeItem(ItemVO itemVO, TreeItem parent)
+    public TreeItem(ItemVO itemVO, ITreeItem parent)
     {
         this.itemVO = itemVO;
         this.parent = parent;
@@ -85,7 +85,7 @@ public class TreeItem implements Serializable, ITreeItem, Comparable
 
     public void addChild(ITreeItem child)
     {
-        TreeItem item = (TreeItem) child;
+        ITreeItem item = (ITreeItem) child;
         if (item.getType().equals(Type.FOLDER))
         {
             children.add(item);
@@ -97,7 +97,8 @@ public class TreeItem implements Serializable, ITreeItem, Comparable
         }
     }
 
-    public void removeChild(TreeItem item)
+    @Override
+    public void removeChild(ITreeItem item)
     {
         if (children.contains(item))
         {
@@ -194,22 +195,22 @@ public class TreeItem implements Serializable, ITreeItem, Comparable
         this.loaded = loaded;
     }
 
-    public ArrayList<TreeItem> getChildren()
+    public ArrayList<ITreeItem> getChildren()
     {
         return children;
     }
 
-    public ArrayList<TreeItem> getChildrenWithFiles()
+    public ArrayList<ITreeItem> getChildrenWithFiles()
     {
         return childrenWithFiles;
     }
 
-    public TreeItem getParent()
+    public ITreeItem getParent()
     {
         return parent;
     }
 
-    public void setParent(TreeItem parent)
+    public void setParent(ITreeItem parent)
     {
         this.parent = parent;
     }
@@ -225,11 +226,9 @@ public class TreeItem implements Serializable, ITreeItem, Comparable
     }
 
     @Override
-    public int compareTo(Object o)
+    public int compareTo(ITreeItem o)
     {
-        TreeItem other = (TreeItem) o;
-
-        return this.getName().compareTo(other.getName());
+        return this.getName().compareTo(o.getName());
     }
 
 }

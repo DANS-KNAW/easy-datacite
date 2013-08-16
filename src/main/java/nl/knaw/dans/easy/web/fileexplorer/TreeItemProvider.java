@@ -76,7 +76,7 @@ public class TreeItemProvider implements ITreeProvider<ITreeItem>
             FolderItemVO rootFolder = new FolderItemVO();
             rootFolder.setName("Dataset contents");
             rootFolder.setSid(dataset.getStoreId());
-            TreeItem root = new TreeItem(rootFolder, null);
+            ITreeItem root = new TreeItem(rootFolder, null);
 
             List<ItemVO> items = Services.getItemService().getFilesAndFolders(sessionUser, dataset, dataset.getDmoStoreId(), -1, -1, null, null);
             for (ItemVO item : items)
@@ -201,7 +201,7 @@ public class TreeItemProvider implements ITreeProvider<ITreeItem>
                                 && filters.get(file.getCreatorRole()) != null && filters.get(file.getVisibleTo()).getModelObject()
                                 && filters.get(file.getAccessibleTo()).getModelObject() && filters.get(file.getCreatorRole()).getModelObject())
                         {
-                            item.addChild(new TreeItem(child, (TreeItem) item));
+                            item.addChild(new TreeItem(child, (ITreeItem) item));
                         }
                     }
                     else if (child instanceof FolderItemVO && !strategy.canChildrenBeDiscovered().equals(TriState.NONE))
@@ -246,7 +246,7 @@ public class TreeItemProvider implements ITreeProvider<ITreeItem>
                         }
                         if (vision && access && creator)
                         {
-                            item.addChild(new TreeItem(child, (TreeItem) item));
+                            item.addChild(new TreeItem(child, (ITreeItem) item));
                         }
                     }
                 }

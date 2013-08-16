@@ -6,6 +6,7 @@ import java.util.List;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.security.authz.AuthzStrategy;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
+import nl.knaw.dans.common.wicket.components.explorer.ITreeItem;
 import nl.knaw.dans.easy.domain.dataset.FileItemDescription;
 import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
@@ -31,7 +32,7 @@ public class ModalFileDetails extends Panel
 
     private static final Logger logger = LoggerFactory.getLogger(ModalFileDetails.class);
 
-    public ModalFileDetails(final ModalWindow window, final List<TreeItem> items, final DatasetModel dataset)
+    public ModalFileDetails(final ModalWindow window, final List<ITreeItem> items, final DatasetModel dataset)
     {
         super(window.getContentId());
 
@@ -54,14 +55,14 @@ public class ModalFileDetails extends Panel
         });
     }
 
-    private void buildList(final List<TreeItem> items, final DatasetModel dataset)
+    private void buildList(final List<ITreeItem> items, final DatasetModel dataset)
     {
-        add(new ListView<TreeItem>("outerList", items)
+        add(new ListView<ITreeItem>("outerList", items)
         {
             private static final long serialVersionUID = 1L;
 
             @Override
-            protected void populateItem(ListItem<TreeItem> item)
+            protected void populateItem(ListItem<ITreeItem> item)
             {
                 TreeItem treeItem = (TreeItem) item.getDefaultModelObject();
                 List<KeyValuePair> metadata = getFileItemMetaData(treeItem, dataset);

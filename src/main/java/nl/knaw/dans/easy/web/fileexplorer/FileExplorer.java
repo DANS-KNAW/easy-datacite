@@ -74,8 +74,8 @@ public class FileExplorer extends AbstractDatasetModelPanel
 
     final private ExplorerPanel explorer;
     final private ITreeProvider<ITreeItem> treeProvider;
-    final private ArrayList<TreeItem> selectedFiles = new ArrayList<TreeItem>();
-    final private ArrayList<TreeItem> selectedFolders = new ArrayList<TreeItem>();
+    final private ArrayList<ITreeItem> selectedFiles = new ArrayList<ITreeItem>();
+    final private ArrayList<ITreeItem> selectedFolders = new ArrayList<ITreeItem>();
     private boolean archivistView = false;
     private boolean depositorView = false;
     private boolean showTools = false;
@@ -173,8 +173,8 @@ public class FileExplorer extends AbstractDatasetModelPanel
             {
                 selectedFiles.clear();
                 selectedFolders.clear();
-                ArrayList<TreeItem> items = this.getContent().getSelected().getObject().getChildrenWithFiles();
-                for (TreeItem item : items)
+                ArrayList<ITreeItem> items = this.getContent().getSelected().getObject().getChildrenWithFiles();
+                for (ITreeItem item : items)
                 {
                     if (item.getType().equals(Type.FILE))
                     {
@@ -226,7 +226,7 @@ public class FileExplorer extends AbstractDatasetModelPanel
 
             public void populateItem(Item cellItem, String componentId, final IModel rowModel)
             {
-                final TreeItem item = ((TreeItem) (rowModel.getObject()));
+                final ITreeItem item = ((ITreeItem) (rowModel.getObject()));
                 Model<Boolean> checked = new Model<Boolean>();
                 checked.setObject(selectedFiles.contains(item) || selectedFolders.contains(item)); // selection memoization
                 cellItem.add(new CheckboxPanel(componentId, checked)
@@ -236,7 +236,7 @@ public class FileExplorer extends AbstractDatasetModelPanel
                     @Override
                     public void onSelectionChange(AjaxRequestTarget target)
                     {
-                        ArrayList<TreeItem> list;
+                        ArrayList<ITreeItem> list;
                         if (item.getType().equals(Type.FILE))
                         {
                             list = selectedFiles;
@@ -277,7 +277,7 @@ public class FileExplorer extends AbstractDatasetModelPanel
                                 public void onClick(AjaxRequestTarget target)
                                 {
                                     // show download popup
-                                    modalDownload.setContent(new ModalDownload(modalDownload, (TreeItem) rowModel.getObject(), datasetModel));
+                                    modalDownload.setContent(new ModalDownload(modalDownload, (ITreeItem) rowModel.getObject(), datasetModel));
                                     modalDownload.show(target);
                                 }
                             }));
@@ -423,11 +423,11 @@ public class FileExplorer extends AbstractDatasetModelPanel
                 else
                 {
                     // show download popup
-                    ArrayList<TreeItem> items;
+                    ArrayList<ITreeItem> items;
                     if (selectedFiles.size() > 0 || selectedFolders.size() > 0)
                     {
                         // download whatever is selected
-                        items = new ArrayList<TreeItem>();
+                        items = new ArrayList<ITreeItem>();
                         items.addAll(selectedFiles);
                         items.addAll(selectedFolders);
                     }
@@ -495,7 +495,7 @@ public class FileExplorer extends AbstractDatasetModelPanel
             @Override
             public void onClick(AjaxRequestTarget target)
             {
-                ArrayList<TreeItem> items = new ArrayList<TreeItem>();
+                ArrayList<ITreeItem> items = new ArrayList<ITreeItem>();
                 items.addAll(selectedFiles);
                 items.addAll(selectedFolders);
                 modalDelete.setContent(new ModalDelete(modalDelete, items, datasetModel)
@@ -505,12 +505,12 @@ public class FileExplorer extends AbstractDatasetModelPanel
                     @Override
                     public void updateAfterDelete(AjaxRequestTarget target)
                     {
-                        TreeItem currentFolder = (TreeItem) explorer.getContent().getSelected().getObject();
-                        for (TreeItem file : selectedFiles)
+                        ITreeItem currentFolder = (ITreeItem) explorer.getContent().getSelected().getObject();
+                        for (ITreeItem file : selectedFiles)
                         {
                             currentFolder.removeChild(file);
                         }
-                        for (TreeItem folder : selectedFolders)
+                        for (ITreeItem folder : selectedFolders)
                         {
                             currentFolder.removeChild(folder);
                         }
@@ -566,11 +566,11 @@ public class FileExplorer extends AbstractDatasetModelPanel
             @Override
             public void onClick(AjaxRequestTarget target)
             {
-                List<TreeItem> items = new ArrayList<TreeItem>();
+                List<ITreeItem> items = new ArrayList<ITreeItem>();
                 items.addAll(selectedFiles);
                 items.addAll(selectedFolders);
                 List<DmoStoreId> sidList = new ArrayList<DmoStoreId>();
-                for (TreeItem item : items)
+                for (ITreeItem item : items)
                 {
                     sidList.add(new DmoStoreId(item.getId()));
                 }
@@ -615,10 +615,11 @@ public class FileExplorer extends AbstractDatasetModelPanel
         if (selectedFiles.isEmpty() && selectedFolders.isEmpty())
         {
             // prepare complete dataset
-            ArrayList<TreeItem> items = ((TreeItemProvider) treeProvider).getRoot().getChildrenWithFiles();
-            for (TreeItem item : items)
+            ArrayList<ITreeItem> items = ((TreeItemProvider) treeProvider).getRoot().getChildrenWithFiles();
+            for (ITreeItem item : items)
             {
-                AuthzStrategy strategy = item.getItemVO().getAuthzStrategy();
+                TreeItem concreteItem = (TreeItem) item;
+                AuthzStrategy strategy = concreteItem.getItemVO().getAuthzStrategy();
                 if (item.getType().equals(Type.FILE) && strategy.canUnitBeRead(EasyFile.UNIT_ID))
                 {
                     result.add(new RequestedItem(item.getId()));
@@ -632,18 +633,20 @@ public class FileExplorer extends AbstractDatasetModelPanel
         else
         {
             // prepare selected items
-            for (TreeItem file : selectedFiles)
+            for (ITreeItem file : selectedFiles)
             {
-                AuthzStrategy strategy = file.getItemVO().getAuthzStrategy();
+                TreeItem concreteItem = (TreeItem) file;
+                AuthzStrategy strategy = concreteItem.getItemVO().getAuthzStrategy();
                 if (strategy.canUnitBeRead(EasyFile.UNIT_ID))
                 {
                     result.add(new RequestedItem(file.getId()));
                 }
             }
 
-            for (TreeItem folder : selectedFolders)
+            for (ITreeItem folder : selectedFolders)
             {
-                AuthzStrategy strategy = folder.getItemVO().getAuthzStrategy();
+                TreeItem concreteItem = (TreeItem) folder;
+                AuthzStrategy strategy = concreteItem.getItemVO().getAuthzStrategy();
                 if (!strategy.canChildrenBeRead().equals(TriState.NONE))
                 {
                     result.add(new RequestedItem(folder.getId()));

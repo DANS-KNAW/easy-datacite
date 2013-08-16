@@ -11,6 +11,7 @@ import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceRuntimeException;
 import nl.knaw.dans.common.lang.service.exceptions.TooManyFilesException;
 import nl.knaw.dans.common.lang.service.exceptions.ZipFileLengthException;
+import nl.knaw.dans.common.wicket.components.explorer.ITreeItem;
 import nl.knaw.dans.common.wicket.components.explorer.ITreeItem.Type;
 import nl.knaw.dans.easy.domain.dataset.EasyFile;
 import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
@@ -72,23 +73,23 @@ public class ModalDownload extends Panel
     private static final String MSG_FILE_SIZE_TOLARGE = "download.fileSizeToLarge";
     private static final String MSG_TOO_MANY_FILES = "download.tooManyFiles";
 
-    public ModalDownload(final ModalWindow window, TreeItem item, DatasetModel datasetModel)
+    public ModalDownload(final ModalWindow window, ITreeItem item, DatasetModel datasetModel)
     {
         super(window.getContentId());
 
-        List<TreeItem> items = new ArrayList<TreeItem>();
+        List<ITreeItem> items = new ArrayList<ITreeItem>();
         items.add(item);
         addContent(window, items, datasetModel, false);
     }
 
-    public ModalDownload(final ModalWindow window, List<TreeItem> items, DatasetModel datasetModel)
+    public ModalDownload(final ModalWindow window, List<ITreeItem> items, DatasetModel datasetModel)
     {
         super(window.getContentId());
 
         addContent(window, items, datasetModel, true);
     }
 
-    private void addContent(final ModalWindow window, List<TreeItem> items, final DatasetModel datasetModel, boolean zipped)
+    private void addContent(final ModalWindow window, List<ITreeItem> items, final DatasetModel datasetModel, boolean zipped)
     {
         add(new DisableDefaultConfirmBehavior());
 
@@ -101,9 +102,10 @@ public class ModalDownload extends Panel
         add(editableMessage);
 
         ArrayList<RequestedItem> requestedItems = new ArrayList<RequestedItem>();
-        for (TreeItem item : items)
+        for (ITreeItem item : items)
         {
-            AuthzStrategy strategy = item.getItemVO().getAuthzStrategy();
+            TreeItem concreteItem = (TreeItem) item;
+            AuthzStrategy strategy = concreteItem.getItemVO().getAuthzStrategy();
             if (item.getType().equals(Type.FILE) && strategy.canUnitBeRead(EasyFile.UNIT_ID) || item.getType().equals(Type.FOLDER)
                     && !strategy.canChildrenBeRead().equals(TriState.NONE))
             {

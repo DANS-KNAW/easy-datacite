@@ -6,6 +6,7 @@ import java.util.List;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceRuntimeException;
+import nl.knaw.dans.common.wicket.components.explorer.ITreeItem;
 import nl.knaw.dans.easy.domain.dataset.item.UpdateInfo;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasySession;
@@ -26,7 +27,7 @@ public class ModalDelete extends Panel
 
     private static final Logger logger = LoggerFactory.getLogger(ModalDelete.class);
 
-    public ModalDelete(final ModalWindow window, final List<TreeItem> items, final DatasetModel dataset)
+    public ModalDelete(final ModalWindow window, final List<ITreeItem> items, final DatasetModel dataset)
     {
         super(window.getContentId());
 
@@ -55,7 +56,7 @@ public class ModalDelete extends Panel
             public void onClick(AjaxRequestTarget target)
             {
                 List<DmoStoreId> sidList = new ArrayList<DmoStoreId>();
-                for (TreeItem item : items)
+                for (ITreeItem item : items)
                 {
                     sidList.add(new DmoStoreId(item.getId()));
                 }
