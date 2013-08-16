@@ -39,7 +39,7 @@ public class ExplorerPanel extends Panel
 
     private Set<ITreeItem> treeState;
 
-    private DefaultDataTable table;
+    private DefaultDataTable<?> table;
 
     private TableProvider tableProvider = new TableProvider();
 
@@ -51,7 +51,7 @@ public class ExplorerPanel extends Panel
     private final ResourceReference style = new ExplorerTheme();
 
     @SuppressWarnings("serial")
-    public ExplorerPanel(String name, IModel model, final ITreeProvider<ITreeItem> treeProvider)
+    public ExplorerPanel(String name, IModel<?> model, final ITreeProvider<ITreeItem> treeProvider)
     {
         super(name, model);
 
@@ -185,8 +185,8 @@ public class ExplorerPanel extends Panel
         breadcrumbPanel = new BreadcrumbPanel("breadcrumbPanel", content.getSelected().getObject());
         add(breadcrumbPanel);
 
-        IColumn[] columns = new IColumn[1];
-        columns[0] = new PropertyColumn(new Model("name"), "name", "name");
+        IColumn<?>[] columns = new IColumn[1];
+        columns[0] = new PropertyColumn<Object>(new Model<String>("name"), "name", "name");
 
         // GK: note: couldn't find a function to disable paging therefor the Integer.MAX_VALUE as a workaround
         table = new DefaultDataTable("datatable", columns, tableProvider, Integer.MAX_VALUE);
@@ -203,14 +203,14 @@ public class ExplorerPanel extends Panel
         tree.expand(root);
         treeProvider.getChildren(root);
         List<ITreeItem> children = root.getChildrenWithFiles();
-        if (children.size() > 1 || children.size() > 0 && ((ITreeItem) children.get(0)).getType().equals(Type.FILE))
+        if (children.size() > 1 || children.size() > 0 && children.get(0).getType().equals(Type.FILE))
         {
             tableProvider.setList(children);
             selectedFolderChanged(treeProvider.model(root));
         }
         else if (children.size() > 0)
         {
-            initialExpand((ITreeItem) children.get(0));
+            initialExpand(children.get(0));
         }
     }
 
@@ -289,7 +289,7 @@ public class ExplorerPanel extends Panel
         return tree;
     }
 
-    public DefaultDataTable getTable()
+    public DefaultDataTable<?> getTable()
     {
         return table;
     }

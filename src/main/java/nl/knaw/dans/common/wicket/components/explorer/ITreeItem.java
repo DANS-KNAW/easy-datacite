@@ -2,28 +2,30 @@ package nl.knaw.dans.common.wicket.components.explorer;
 
 import java.util.ArrayList;
 
-public interface ITreeItem
+public interface ITreeItem extends Comparable<ITreeItem>
 {
-    public static enum Type
+    enum Type
     {
         FILE, FOLDER
     };
 
-    public void addChild(ITreeItem item);
+    void addChild(ITreeItem item);
 
-    public ArrayList getChildren();
+    ArrayList<ITreeItem> getChildren();
 
-    public ArrayList getChildrenWithFiles();
+    ArrayList<ITreeItem> getChildrenWithFiles();
 
-    public ITreeItem getParent();
+    ITreeItem getParent();
 
-    public Type getType();
+    Type getType();
 
-    public String getId();
+    String getId();
 
-    public boolean isLoaded();
+    boolean isLoaded();
 
-    public void setLoaded(boolean loaded);
+    void setLoaded(boolean loaded);
 
-    public String getName();
+    String getName();
+
+    void removeChild(ITreeItem item);
 }

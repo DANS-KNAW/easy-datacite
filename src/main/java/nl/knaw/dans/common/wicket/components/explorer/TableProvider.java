@@ -14,7 +14,7 @@ import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 
-public class TableProvider extends SortableDataProvider
+public class TableProvider extends SortableDataProvider<ITreeItem>
 {
     private static final long serialVersionUID = 1L;
 
@@ -24,8 +24,8 @@ public class TableProvider extends SortableDataProvider
 
         public int compare(final ITreeItem o1, final ITreeItem o2)
         {
-            PropertyModel<Comparable> model1 = new PropertyModel<Comparable>(o1, getSort().getProperty());
-            PropertyModel<Comparable> model2 = new PropertyModel<Comparable>(o2, getSort().getProperty());
+            PropertyModel<Comparable<ITreeItem>> model1 = new PropertyModel<Comparable<ITreeItem>>(o1, getSort().getProperty());
+            PropertyModel<Comparable<ITreeItem>> model2 = new PropertyModel<Comparable<ITreeItem>>(o2, getSort().getProperty());
 
             if (o1.getType().equals(Type.FOLDER) && !o2.getType().equals(Type.FOLDER))
             {
@@ -37,7 +37,7 @@ public class TableProvider extends SortableDataProvider
             }
             else
             {
-                int result = model1.getObject().compareTo(model2.getObject());
+                int result = model1.getObject().compareTo((ITreeItem) model2.getObject());
 
                 if (!getSort().isAscending())
                 {
@@ -58,7 +58,7 @@ public class TableProvider extends SortableDataProvider
         setSort("name", true);
     }
 
-    public Iterator iterator(int first, int count)
+    public Iterator<ITreeItem> iterator(int first, int count)
     {
         // Get the data
         List<ITreeItem> newList = new ArrayList<ITreeItem>(list);
@@ -75,7 +75,7 @@ public class TableProvider extends SortableDataProvider
         return list.size();
     }
 
-    public IModel<ITreeItem> model(final Object object)
+    public IModel<ITreeItem> model(final ITreeItem object)
     {
         return new AbstractReadOnlyModel<ITreeItem>()
         {
@@ -84,7 +84,7 @@ public class TableProvider extends SortableDataProvider
             @Override
             public ITreeItem getObject()
             {
-                return (ITreeItem) object;
+                return object;
             }
         };
     }
