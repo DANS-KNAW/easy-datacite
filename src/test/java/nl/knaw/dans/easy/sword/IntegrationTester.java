@@ -150,8 +150,10 @@ public class IntegrationTester
     {
         final GetMethod method = new GetMethod(URL + "servicedocument");
         method.addRequestHeader("X-On-Behalf-Of", DEPOSITOR.getUserName());
-        getResponse(method, createClient(DEPOSITOR, null));
+        String response = getResponse(method, createClient(DEPOSITOR, null));
         assertResponseCode(method, HttpStatus.SC_PRECONDITION_FAILED);
+        assertThat(response, containsString("Error 412"));
+        assertThat(response, containsString("Mediated deposits not allowed"));
     }
 
     @Test
@@ -159,10 +161,10 @@ public class IntegrationTester
     {
         final RequestEntity request = createRequest(SubmitFixture.getFile("data-plus-invalid-ddm.zip"));
         final PostMethod method = createPostMethod(request, false, false);
-        String r = getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
+        String response = getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
         assertResponseCode(method, HttpStatus.SC_UNSUPPORTED_MEDIA_TYPE);
-        assertThat(r, containsString("Cannot find"));
-        assertThat(r, containsString("dans-dataset-md"));
+        assertThat(response, containsString("Cannot find"));
+        assertThat(response, containsString("dans-dataset-md"));
     }
 
     @Test
@@ -254,8 +256,9 @@ public class IntegrationTester
         final RequestEntity request = createRequest(VALID_FILE);
         final PostMethod method = createPostMethod(request, false, false);
         method.addRequestHeader("X-On-Behalf-Of", DEPOSITOR.getUserName());
-        getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
+        String response = getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
         assertResponseCode(method, HttpStatus.SC_PRECONDITION_FAILED);
+        assertThat(response, containsString("href=\"http://purl.org/net/sword/error/MediationNotAllowed\""));
     }
 
     @Test
@@ -263,9 +266,10 @@ public class IntegrationTester
     {
         final RequestEntity request = createRequest(SubmitFixture.getFile("invalidDisciplineId.zip"));
         final PostMethod method = createPostMethod(request, false, false);
-        getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
+        String response = getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
         assertResponseCode(method, HttpStatus.SC_BAD_REQUEST);
-        // assertTrue(response.contains("easy-dataset:"));
+        assertThat(response, containsString("href=\"http://purl.org/net/sword/error/ErrorBadRequest\""));
+        assertThat(response, containsString("submission failed"));//TODO prevent this type of error
     }
 
     @Test
