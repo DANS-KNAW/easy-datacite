@@ -4,32 +4,28 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
-	<bean name="mailOffice" class="nl.knaw.dans.common.lang.mail.ApplicationMailer"
-		depends-on="resourceLocator">
-		<constructor-arg ref="mailOfficeConfiguration" />
-	</bean>
-
-	<bean name="mailOfficeConfiguration"
-		class="nl.knaw.dans.common.lang.mail.ApplicationMailerConfiguration">
+	<bean name="mailOffice" class="nl.knaw.dans.easy.mail.EasyMailerImpl">
 		<property name="smtpHost" value="${mail.smtp.host}" />
-		<property name="fromAddress" value="${mail.fromAddress}" />
-		<property name="senderName" value="DANS Team" />
-		<property name="imageMap">
-			<map>
-				<!-- Attention: ApplicationMailer looks up resources relative to the 
-					home directories. -->
-				<entry key="easy-logo" value="mail/images/easy_logo.png" />
-			</map>
-		</property>
+		<property name="from" value="${mail.fromAddress}" />
+		<property name="bccs" value="${mail.bccs}" />
 	</bean>
 
 	<bean name="adminMailer" class="nl.knaw.dans.common.lang.mail.AdminMailer">
-		<constructor-arg ref="mailOffice" />
-		<constructor-arg value="EasySword" />
+		<constructor-arg>
+			<bean class="nl.knaw.dans.easy.mail.MailerAdapterForAdminMailer">
+				<constructor-arg>
+					<!-- Almost identical to mailOffice, but it does not BCC to anyone -->
+					<bean class="nl.knaw.dans.easy.mail.EasyMailerImpl">
+						<property name="smtpHost" value="${mail.smtp.host}" />
+						<property name="from" value="${mail.fromAddress}" />
+					</bean>
+				</constructor-arg>
+			</bean>
+		</constructor-arg>
+		<constructor-arg value="EASY SWORD Service" />
 		<property name="sendOnStarting" value="${admin.mailer.sendOnStarting}" />
 		<property name="sendOnClosing" value="${admin.mailer.sendOnClosing}" />
 		<property name="exeptionMailInterval" value="15" />
 		<property name="adminMailAddressesCS" value="${admin.mailer.addresses}" />
 	</bean>
-
 </beans>
