@@ -3,6 +3,8 @@ package nl.knaw.dans.easy.servicelayer;
 import java.io.IOException;
 import java.net.URL;
 
+import org.apache.commons.mail.ByteArrayDataSource;
+
 import nl.knaw.dans.common.lang.mail.Attachement;
 import nl.knaw.dans.common.lang.repo.DsUnitId;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
@@ -11,6 +13,7 @@ import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.domain.dataset.LicenseUnit;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
+import nl.knaw.dans.easy.mail.EasyMailerAttachmentImpl;
 
 /**
  * Notification about a dataset sent without a license.
@@ -56,7 +59,8 @@ public abstract class DatasetNotification extends AbstractNotification
     private final Dataset dataset;
 
     /**
-     * Lazy initialization to recognize a license attached for a previous send not wanted for the new send.
+     * Lazy initialization to recognize a license attached for a previous send not wanted for the new
+     * send.
      */
     private Attachement license = null;
 
@@ -67,8 +71,8 @@ public abstract class DatasetNotification extends AbstractNotification
      * @param receiver
      *        A placeHolderSupplier and the receiver of the message.<br>
      *        Wrappers for receiver.getXx().getYy() should be defined in {@link AbstractNotification}.<br>
-     *        Wrappers for any other EasyUser should be defined in subclasses.
-     *        Wrappers for Dataset.getDepositor().getXx() should be defined here.<br>
+     *        Wrappers for any other EasyUser should be defined in subclasses. Wrappers for
+     *        Dataset.getDepositor().getXx() should be defined here.<br>
      * @param placeHolderSuppliers
      *        The types should be unique and not be an EasyUser or Dataset.<br>
      *        Wrappers for any PlaceHolderSupplier.getXx().getYy() should be defined in subclasses.
@@ -91,7 +95,8 @@ public abstract class DatasetNotification extends AbstractNotification
     }
 
     /**
-     * Changes in the dataset are not reflected in the attached license document if sending with a license for another time on the same instance.
+     * Changes in the dataset are not reflected in the attached license document if sending with a
+     * license for another time on the same instance.
      * 
      * @param withLicense
      *        Defaults to false if omitted.
@@ -111,7 +116,8 @@ public abstract class DatasetNotification extends AbstractNotification
     }
 
     /**
-     * Changes in the dataset are not reflected in the attached license document if sending with a license for another time on the same instance.
+     * Changes in the dataset are not reflected in the attached license document if sending with a
+     * license for another time on the same instance.
      * 
      * @param withLicense
      *        Defaults to false if omitted.
@@ -135,27 +141,9 @@ public abstract class DatasetNotification extends AbstractNotification
 
     private void setLicense(final boolean withLicense) throws IOException
     {
-        if (!withLicense)
-        {
-            // just in case the previous send was with a license
-            if (license != null && getAttachements().contains(license))
-            {
-                getAttachements().remove(license);
-            }
-            return;
-        }
-        if (license != null)
-        {
-            // just in case the previous send was also with a license
-            if (getAttachements().contains(license))
-                return;
-        }
-        else
-        {
-            final URL url = Data.getEasyStore().getFileURL(dataset.getDmoStoreId(), new DsUnitId(LicenseUnit.UNIT_ID));
-            final byte[] bytes = StreamUtil.getBytes(url.openStream());
-            license = new Attachement(LicenseUnit.UNIT_LABEL, LicenseUnit.MIME_TYPE, bytes);
-        }
-        getAttachements().add(license);
+        attachments.clear();
+        final URL url = Data.getEasyStore().getFileURL(dataset.getDmoStoreId(), new DsUnitId(LicenseUnit.UNIT_ID));
+        final byte[] bytes = StreamUtil.getBytes(url.openStream());
+        attachments.add(new EasyMailerAttachmentImpl(new ByteArrayDataSource(bytes, LicenseUnit.MIME_TYPE), LicenseUnit.UNIT_LABEL, "The licence"));
     }
 }
