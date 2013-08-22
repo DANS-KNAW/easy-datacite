@@ -244,26 +244,25 @@
 		<property name="metadataPidGenerator" ref="metadataPidGenerator" />
 	</bean>
 
-	<bean name="mailOffice" class="nl.knaw.dans.common.lang.mail.ApplicationMailer"
-		depends-on="resourceLocator">
-		<constructor-arg ref="mailOfficeConfiguration" />
-	</bean>
-
-	<bean name="mailOfficeConfiguration"
-		class="nl.knaw.dans.common.lang.mail.ApplicationMailerConfiguration">
+	<bean name="mailOffice" class="nl.knaw.dans.easy.mail.EasyMailerImpl">
 		<property name="smtpHost" value="${mail.smtp.host}" />
-		<property name="fromAddress" value="${mail.fromAddress}" />
-		<property name="senderName" value="DANS Team" />
-		<property name="imageMap">
-			<map>
-				<entry key="easy-logo" value="mail/images/easy_logo.png" />
-			</map>
-		</property>
+		<property name="from" value="${mail.fromAddress}" />
+		<property name="bccs" value="${mail.bccs}" />
 	</bean>
 
 	<bean name="adminMailer" class="nl.knaw.dans.common.lang.mail.AdminMailer">
-		<constructor-arg ref="mailOffice" />
-		<constructor-arg value="Easy" />
+		<constructor-arg>
+			<bean class="nl.knaw.dans.easy.mail.MailerAdapterForAdminMailer">
+				<constructor-arg>
+					<!-- Almost identical to mailOffice, but it does not BCC to anyone -->
+					<bean class="nl.knaw.dans.easy.mail.EasyMailerImpl">
+						<property name="smtpHost" value="${mail.smtp.host}" />
+						<property name="from" value="${mail.fromAddress}" />
+					</bean>
+				</constructor-arg>
+			</bean>
+		</constructor-arg>
+		<constructor-arg value="EASY Experimental RESTful Service" />
 		<property name="sendOnStarting" value="${admin.mailer.sendOnStarting}" />
 		<property name="sendOnClosing" value="${admin.mailer.sendOnClosing}" />
 		<property name="exeptionMailInterval" value="15" />
@@ -314,16 +313,4 @@
 
 	<!-- BeanPostProcessor for Business layer -->
 	<bean class="nl.knaw.dans.easy.business.bean.BusinessBeanPostProcessor" />
-
-
-	<!-- a HTTP Session-scoped bean exposed as a proxy -->
-	<!-- <bean id="taskService" class="nl.knaw.dans.common.wicket.TaskServiceImpl" 
-		scope="session"> this next element effects the proxying of the surrounding 
-		bean <aop:scoped-proxy/> <constructor-arg> <bean class="org.wicketstuff.progressbar.spring.AsynchronousExecutor"/> 
-		</constructor-arg> </bean> -->
-
-	<!-- a singleton-scoped bean injected with a proxy to the above bean -->
-	<!-- <bean id="sessionScopeService" class="nl.knaw.dans.easy.web.SessionScopeService"> 
-		a reference to the proxied 'taskService' bean <property name="taskService" 
-		ref="taskService"/> </bean> -->
 </beans>
