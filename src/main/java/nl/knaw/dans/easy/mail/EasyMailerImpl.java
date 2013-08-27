@@ -182,7 +182,23 @@ public class EasyMailerImpl implements EasyMailer
 
     public void setBccs(String bccs)
     {
-        this.bccs = bccs == null ? null : bccs.split("[,\\s]");
+        if (bccs == null)
+        {
+            this.bccs = null;
+        }
+        else
+        {
+            this.bccs = bccs.split(",");
+            trimBccs();
+        }
+    }
+
+    private void trimBccs()
+    {
+        for (int i = 0; i < bccs.length; ++i)
+        {
+            bccs[i] = bccs[i].trim();
+        }
     }
 
     public void setSmtpHost(String smtpHost)
