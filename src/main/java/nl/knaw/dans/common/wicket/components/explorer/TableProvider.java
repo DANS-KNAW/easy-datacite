@@ -24,8 +24,8 @@ public class TableProvider extends SortableDataProvider<ITreeItem>
 
         public int compare(final ITreeItem o1, final ITreeItem o2)
         {
-            PropertyModel<Comparable<ITreeItem>> model1 = new PropertyModel<Comparable<ITreeItem>>(o1, getSort().getProperty());
-            PropertyModel<Comparable<ITreeItem>> model2 = new PropertyModel<Comparable<ITreeItem>>(o2, getSort().getProperty());
+            PropertyModel<Comparable<Object>> model1 = new PropertyModel<Comparable<Object>>(o1, getSort().getProperty());
+            PropertyModel<Comparable<Object>> model2 = new PropertyModel<Comparable<Object>>(o2, getSort().getProperty());
 
             if (o1.getType().equals(Type.FOLDER) && !o2.getType().equals(Type.FOLDER))
             {
@@ -37,14 +37,8 @@ public class TableProvider extends SortableDataProvider<ITreeItem>
             }
             else
             {
-                int result = model1.getObject().compareTo((ITreeItem) model2.getObject());
-
-                if (!getSort().isAscending())
-                {
-                    result = -result;
-                }
-
-                return result;
+                int result = model1.getObject().compareTo(model2.getObject());
+                return getSort().isAscending() ? result : -result;
             }
         }
     }
