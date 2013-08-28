@@ -340,7 +340,7 @@ public class TestEasyMailerImpl
         assertEquals("Attachment name not passed to HtmlEmail", "attachment name", attachmentNames.getValue());
         assertEquals("Attachment description not passed to HtmlEmail", "attachment description", attachmentDescriptions.getValue());
     }
-    
+
     @Test
     public void multipleAttachmentPassedIfSpecified() throws Exception
     {
@@ -352,15 +352,15 @@ public class TestEasyMailerImpl
         mailer.setSmtpHost("myhost.nl");
         mailer.setFrom("me@org.com");
         String[] recipients = {"piet@puk.com"};
-        mailer.sendMail(null, recipients, "text", "html", new EasyMailerAttachmentImpl(ds1, "attachment name 1", "attachment description 1"), 
+        mailer.sendMail(null, recipients, "text", "html", new EasyMailerAttachmentImpl(ds1, "attachment name 1", "attachment description 1"),
                 new EasyMailerAttachmentImpl(ds2, "attachment name 2", "attachment description 2"));
         assertEquals("Attachment 1 dataSource not passed to HtmlEmail", ds1, attachmentDatasSources.getValues().get(0));
         assertEquals("Attachment 1 name not passed to HtmlEmail", "attachment name 1", attachmentNames.getValues().get(0));
         assertEquals("Attachment 1 description not passed to HtmlEmail", "attachment description 1", attachmentDescriptions.getValues().get(0));
-        
+
         assertEquals("Attachment 1 dataSource not passed to HtmlEmail", ds2, attachmentDatasSources.getValues().get(1));
         assertEquals("Attachment 1 name not passed to HtmlEmail", "attachment name 2", attachmentNames.getValues().get(1));
         assertEquals("Attachment 1 description not passed to HtmlEmail", "attachment description 2", attachmentDescriptions.getValues().get(1));
-        
-    }    
+
+    }
 }
