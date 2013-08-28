@@ -84,7 +84,7 @@
 
 	<logger name="nl.knaw.dans.easy.business.aspect.ServiceProfiling"
 		level="info" additiviy="false">
-		<appendeer-ref ref="SERVICE_PROFILING__ROLLING_FILE_LOG" />
+		<appender-ref ref="SERVICE_PROFILING_ROLLING_FILE_LOG" />
 	</logger>
 
 	<logger name="statistics" level="info" additivity="false">
