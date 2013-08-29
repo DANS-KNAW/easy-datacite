@@ -70,14 +70,16 @@ public final class Converter
         DateTime dateTimeZone = null;
         if (dateString != null)
         {
-            /*
-             * if (INVALID_DATE_PATTERN.matcher(dateString).matches()) { // 2006-05-01T00:00:00+02:00
-             * String corrected = dateString.substring(0, 19) + ".0" + dateString.substring(19);
-             * System.out.println(corrected); dateTimeZone = DATE_FORMATTER.parseDateTime(corrected); }
-             * else {
-             */
-            dateTimeZone = DATE_FORMATTER.parseDateTime(dateString);
-            /* } */
+
+            if (INVALID_DATE_PATTERN.matcher(dateString).matches())
+            { // 2006-05-01T00:00:00+02:00
+                String corrected = dateString.substring(0, 19) + ".0" + dateString.substring(19);
+                dateTimeZone = DATE_FORMATTER.parseDateTime(corrected);
+            }
+            else
+            {
+                dateTimeZone = DATE_FORMATTER.parseDateTime(dateString);
+            }
         }
         return dateTimeZone;
     }
