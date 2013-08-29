@@ -32,7 +32,7 @@ import org.jibx.runtime.JiBXException;
  */
 public class JiBXUnmarshaller<T> implements XMLUnmarshaller<T>
 {
-    
+
     private static TransformerFactory W3C_TRANSFORMER_FACTORY;
 
     private final String bindingName;
@@ -40,7 +40,7 @@ public class JiBXUnmarshaller<T> implements XMLUnmarshaller<T>
     private IBindingFactory bindingFactory;
     private IUnmarshallingContext unmarshallingContext;
     private String encoding = Encoding.UTF8;
-    
+
     private Transformer w3cTransformer;
 
     /**
@@ -187,13 +187,13 @@ public class JiBXUnmarshaller<T> implements XMLUnmarshaller<T>
             return unmarshal(element.asXML());
         }
     }
-    
+
     @Override
     public T unmarshal(org.w3c.dom.Document document) throws XMLDeserializationException
     {
         return unmarshal(document.getDocumentElement());
     }
-    
+
     @Override
     public T unmarshal(org.w3c.dom.Element element) throws XMLDeserializationException
     {
@@ -249,7 +249,7 @@ public class JiBXUnmarshaller<T> implements XMLUnmarshaller<T>
         }
         return bindingFactory;
     }
-    
+
     protected Transformer getW3cTransformer() throws XMLDeserializationException
     {
         try

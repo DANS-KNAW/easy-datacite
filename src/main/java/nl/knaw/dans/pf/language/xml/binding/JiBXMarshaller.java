@@ -32,7 +32,7 @@ import org.xml.sax.SAXException;
  */
 public class JiBXMarshaller implements XMLMarshaller
 {
-    
+
     private static DocumentBuilderFactory W3C_DOCUMENT_BUILDER_FACTORY;
 
     private final String bindingName;
@@ -45,7 +45,7 @@ public class JiBXMarshaller implements XMLMarshaller
     private int indent = 4;
     private boolean standalone = true;
     private boolean omitXmlDeclaration;
-    
+
     private DocumentBuilder w3cDomBuilder;
 
     /**
@@ -235,7 +235,7 @@ public class JiBXMarshaller implements XMLMarshaller
     {
         return getXmlDocument().getRootElement();
     }
-    
+
     @Override
     public org.w3c.dom.Document getW3cDomDocument() throws XMLSerializationException
     {
@@ -254,7 +254,7 @@ public class JiBXMarshaller implements XMLMarshaller
         }
         return document;
     }
-    
+
     @Override
     public org.w3c.dom.Element getW3cDomElement() throws XMLSerializationException
     {
@@ -297,7 +297,7 @@ public class JiBXMarshaller implements XMLMarshaller
         }
         return bindingFactory;
     }
-    
+
     protected DocumentBuilder getW3cDocumentBuilder() throws XMLSerializationException
     {
         try
@@ -331,6 +331,5 @@ public class JiBXMarshaller implements XMLMarshaller
     {
         W3C_DOCUMENT_BUILDER_FACTORY = factory;
     }
-    
 
 }

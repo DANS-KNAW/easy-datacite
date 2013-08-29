@@ -168,7 +168,7 @@ public abstract class AbstractValidator2
         {
             for (InputStream in : inputStreams)
             {
-                    IOUtils.closeQuietly(in);
+                IOUtils.closeQuietly(in);
             }
         }
         return schema;

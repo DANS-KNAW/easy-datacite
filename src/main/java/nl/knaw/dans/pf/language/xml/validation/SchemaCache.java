@@ -124,7 +124,7 @@ public final class SchemaCache
         }
         return getSchema(url.toString());
     }
-    
+
     public static int size()
     {
         synchronized (CACHE)
@@ -132,7 +132,7 @@ public final class SchemaCache
             return CACHE.size();
         }
     }
-    
+
     public static void invalidate()
     {
         synchronized (CACHE)

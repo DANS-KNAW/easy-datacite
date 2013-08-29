@@ -125,7 +125,7 @@ public interface XMLUnmarshaller<T>
      *         for exceptions during deserialization
      */
     T unmarshal(Element element) throws XMLDeserializationException;
-    
+
     /**
      * Unmarshal an object from the given org.w3c.dom.Document.
      * 
@@ -136,7 +136,7 @@ public interface XMLUnmarshaller<T>
      *         for exceptions during deserialization
      */
     T unmarshal(org.w3c.dom.Document document) throws XMLDeserializationException;
-    
+
     /**
      * Unmarshal an object from the given org.w3c.dom.Element.
      * 

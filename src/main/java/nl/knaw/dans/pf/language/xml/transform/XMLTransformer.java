@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Writer;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,11 +18,13 @@ import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Templates;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -134,6 +137,24 @@ public class XMLTransformer implements ErrorListener
         System.setProperty(XMLTransformer.PROP_TRANSFORMERFACTORY, transformerFactoryName);
         transformerFactory = TransformerFactory.newInstance();
         stylesheetName = xsltFile.getPath();
+        logger.info("Using TransformerFactory: {}", this.transformerFactory.getClass().getName());
+    }
+    
+    public XMLTransformer(URL url) throws TransformerException
+    {
+        this(url, TF_XALAN);
+    }
+    
+    public XMLTransformer(URL url, String transformerFactoryName) throws TransformerException
+    {
+        if (transformerFactoryName == null)
+        {
+            transformerFactoryName = TF_XALAN;
+            logger.warn("Parameter 'transformerFactoryName' is null. Using default TransformerFactory.");
+        }
+        System.setProperty(XMLTransformer.PROP_TRANSFORMERFACTORY, transformerFactoryName);
+        transformerFactory = TransformerFactory.newInstance();
+        stylesheetName = url.toString();
         logger.info("Using TransformerFactory: {}", this.transformerFactory.getClass().getName());
     }
 
@@ -262,6 +283,11 @@ public class XMLTransformer implements ErrorListener
             }
         }
     }
+    
+    public void transform(InputStream in, OutputStream out) throws TransformerException
+    {
+        transform(new StreamSource(in), new StreamResult(out));
+    }
 
     /**
      * Transform the given <code>xmlSource</code> to the given <code>result</code>, using this
@@ -369,12 +395,52 @@ public class XMLTransformer implements ErrorListener
             templates = factoryTemplates.get(stylesheetName);
             if (templates == null)
             {
-                templates = factory.newTemplates(new StreamSource(stylesheetName));
+                File stylesheetFile = new File(stylesheetName);
+                if (stylesheetFile.exists())
+                {
+                    templates = createTemplatesFromFile(factory, stylesheetFile);
+                }
+                else
+                {
+                    templates = createTemplatesFromURL(factory, stylesheetName);
+                }
                 factoryTemplates.put(stylesheetName, templates);
                 logger.info("Cache, size={} [{}]", factoryTemplates.size(), factoryName + ":" + stylesheetName);
             }
             return templates;
         }
+    }
+
+    private static Templates createTemplatesFromURL(TransformerFactory factory, String stylesheetName) throws TransformerException
+    {
+        Templates templates;
+        InputStream inStream = null;
+        try
+        {
+            URL url = new URL(stylesheetName);
+            inStream = url.openStream();
+            templates = factory.newTemplates(new StreamSource(inStream));
+        }
+        catch (MalformedURLException e)
+        {
+            throw new TransformerException(e);
+        }
+        catch (IOException e)
+        {
+            throw new TransformerException(e);
+        }
+        finally
+        {
+            IOUtils.closeQuietly(inStream);
+        }
+        return templates;
+    }
+
+    private static Templates createTemplatesFromFile(TransformerFactory factory, File stylesheetFile) throws TransformerConfigurationException
+    {
+        Templates templates;
+        templates = factory.newTemplates(new StreamSource(stylesheetFile));
+        return templates;
     }
 
     /**
