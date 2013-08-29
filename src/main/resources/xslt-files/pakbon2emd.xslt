@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:emd="http://easy.dans.knaw.nl/easy/easymetadata/" xmlns:dc="http://purl.org/dc/elements/1.1/"
-  xmlns:dcterms="http://purl.org/dc/terms/" xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/" xmlns:gml="http://www.opengis.net/gml/3.2"
-  xmlns:sikb="http://www.sikb.nl/sikb0102/2.1.0" exclude-result-prefixes="sikb gml">
+<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+	xmlns:emd="http://easy.dans.knaw.nl/easy/easymetadata/" 
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+  	xmlns:dcterms="http://purl.org/dc/terms/" 
+  	xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/" 
+  	xmlns:gml="http://www.opengis.net/gml/3.2"
+  	xmlns:sikb="http://www.sikb.nl/sikb0102/2.1.0" 
+  	xmlns:p2e="java:nl.knaw.dans.platform.language.pakbon.Pakbon2EmdFunctions"
+  	exclude-result-prefixes="sikb gml">
 
   <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes"/>
 
@@ -9911,8 +9917,8 @@
         <!-- emd:etc -->
         <eas:etc>
           <property-list>
-            <comment>Metadata conversion from archaeological exchange format depots</comment>
-            <entry key="conversion.date">2012</entry>
+            <comment>Metadata conversion from archaeological exchange format depots.</comment>
+            <entry key="conversion.date"><xsl:value-of select="p2e:currentDateTime()"/></entry>
           </property-list>
         </eas:etc>
       </emd:other>

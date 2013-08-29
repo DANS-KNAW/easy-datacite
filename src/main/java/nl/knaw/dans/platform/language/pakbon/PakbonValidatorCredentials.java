@@ -1,15 +1,15 @@
 package nl.knaw.dans.platform.language.pakbon;
 
-public class PakbonCredentials
+public class PakbonValidatorCredentials
 {
     
-    private static PakbonCredentials INSTANCE;
+    private static PakbonValidatorCredentials INSTANCE;
     
-    public static PakbonCredentials instance()
+    public static PakbonValidatorCredentials instance()
     {
         if (INSTANCE == null)
         {
-            throw new IllegalStateException(PakbonCredentials.class.getSimpleName() + " not initialized.");
+            throw new IllegalStateException(PakbonValidatorCredentials.class.getSimpleName() + " not initialized.");
         }
         return INSTANCE;
     }
@@ -17,7 +17,7 @@ public class PakbonCredentials
     private final String username;
     private final String password;
     
-    public PakbonCredentials(String username, String password)
+    public PakbonValidatorCredentials(String username, String password)
     {
         this.username = username;
         this.password = password;

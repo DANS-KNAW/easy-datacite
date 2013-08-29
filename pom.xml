@@ -44,7 +44,7 @@
 
 		<dependency>
 			<groupId>nl.knaw.dans.platform.language</groupId>
-			<artifactId>xml</artifactId>
+			<artifactId>emd</artifactId>
 			<version>1.2-SNAPSHOT</version>
 		</dependency>
 

@@ -35,12 +35,12 @@ public class PakbonValidator
     
     public String getUsername()
     {
-        return PakbonCredentials.instance().getUsername();
+        return PakbonValidatorCredentials.instance().getUsername();
     }
 
     public String getPassword()
     {
-        return PakbonCredentials.instance().getPassword();
+        return PakbonValidatorCredentials.instance().getPassword();
     }
     
     public ValidateXmlResponse validateXml(File file) throws ValidatorException, SOAPException, IOException

@@ -23,7 +23,7 @@ public class PakbonValidatorTest
     @BeforeClass
     public static void beforeClass()
     {
-        new PakbonCredentials(DEFAULT_USERNAME, DEFAULT_PASSWORD);
+        new PakbonValidatorCredentials(DEFAULT_USERNAME, DEFAULT_PASSWORD);
     }
 
     @Test
