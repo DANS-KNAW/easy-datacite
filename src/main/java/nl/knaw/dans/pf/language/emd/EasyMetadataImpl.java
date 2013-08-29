@@ -14,16 +14,13 @@ import nl.knaw.dans.common.jibx.bean.JiBXDublinCoreMetadata;
 import nl.knaw.dans.common.lang.repo.AbstractTimestampedObject;
 import nl.knaw.dans.common.lang.repo.bean.DublinCoreMetadata;
 import nl.knaw.dans.common.lang.repo.bean.DublinCoreMetadata.PropertyName;
-import nl.knaw.dans.pf.language.emd.binding.EasyMetadataFactory;
 import nl.knaw.dans.pf.language.emd.exceptions.NoSuchTermException;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.pf.language.emd.types.MetadataItem;
 
 /**
- * Implementation of {@link EasyMetadata} with JiBX serialization. An EasyMetadataImpl may be obtained from the
- * {@link EasyMetadataFactory}.
+ * Implementation of {@link EasyMetadata} with JiBX serialization.
  * 
- * @see EasyMetadataFactory#newEasyMetadata(MetadataFormat)
  * @author ecco
  * @see <a href="package-summary.html#package_description">package description</a>
  */
