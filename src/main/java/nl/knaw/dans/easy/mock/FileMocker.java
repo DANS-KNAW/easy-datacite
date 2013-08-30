@@ -7,7 +7,9 @@ import static org.easymock.EasyMock.isA;
 import java.io.File;
 import java.net.URL;
 
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.user.User;
+import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.EasyStore;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
@@ -52,9 +54,10 @@ public class FileMocker extends AbstractItemMocker<FileItemVO, FileItem>
      * 
      * @return this object to allow a fluent interface.
      */
-    public FileMocker with(final URL itemServiceContentUrl) throws Exception
+    public FileMocker with(final URL contentUrl) throws Exception
     {
-        expect(Services.getItemService().getFileContentURL(isA(EasyUser.class), isA(Dataset.class), eq(getItem()))).andStubReturn(itemServiceContentUrl);
+        expect(Services.getItemService().getFileContentURL(isA(EasyUser.class), isA(Dataset.class), eq(getItem()))).andStubReturn(contentUrl);
+        expect(Data.getEasyStore().getFileURL(eq(new DmoStoreId(getStoreId())))).andStubReturn(contentUrl);
         return this;
     }
 
