@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
  * then it uses the original web request class that could be useful for traditional Wicket file upload.
  * <p>
  * This request object is necessary for the UploadPanel to function properly. It is installed like so:
+ * 
  * <pre>
  * class MyApplication extends WebApplication {
  * ...
@@ -37,7 +38,7 @@ import org.slf4j.LoggerFactory;
  * ...
  * }
  * </pre>
- *
+ * 
  * @author lobo
  */
 public class EasyUploadWebRequest extends ServletWebRequest

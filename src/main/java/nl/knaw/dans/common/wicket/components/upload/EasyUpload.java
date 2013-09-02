@@ -27,34 +27,33 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author lobo
- * This panel provides an upload component with progressbar, cancel option,
- * maximum file size detection, error handling, extensible postprocessing on
- * a separate thread, unzipping and extensible javascript through event handling.
- *
- * To get this baby to work a few shared resources need to be registered by
- * the wicket application (1) and the webrequest factory method on the wicket
- * application object needs to be overriden (2).
- *
- * 1. Place this code on your WebApplication.init() method
- *<pre>
- *   EasyUploadStatusCommand uploadStatusResource = new EasyUploadStatusCommand();
- *   uploadStatusResource.registerAsSharedResource(this);
- *   EasyUploadCancelCommand uploadCancelResource = new EasyUploadCancelCommand();
- *   uploadCancelResource.registerAsSharedResource(this);
- *</pre>
- *
- * 2. Place this code on your WebApplication object
- *<pre>
- *    @Override
- *    protected WebRequest newWebRequest(HttpServletRequest servletRequest) {
+ * @author lobo This panel provides an upload component with progressbar, cancel option, maximum file
+ *         size detection, error handling, extensible postprocessing on a separate thread, unzipping and
+ *         extensible javascript through event handling. To get this baby to work a few shared resources
+ *         need to be registered by the wicket application (1) and the webrequest factory method on the
+ *         wicket application object needs to be overriden (2). 1. Place this code on your
+ *         WebApplication.init() method
+ * 
+ *         <pre>
+ * EasyUploadStatusCommand uploadStatusResource = new EasyUploadStatusCommand();
+ * uploadStatusResource.registerAsSharedResource(this);
+ * EasyUploadCancelCommand uploadCancelResource = new EasyUploadCancelCommand();
+ * uploadCancelResource.registerAsSharedResource(this);
+ * </pre>
+ * 
+ *         2. Place this code on your WebApplication object
+ * 
+ *         <pre>
+ * &#064;Override
+ * protected WebRequest newWebRequest(HttpServletRequest servletRequest)
+ * {
  *     return new EasyUploadWebRequest(servletRequest);
- *   }
- *</pre>
- *
- * Override the onReceivedFiles method of this object to handle upload completion
- * events. For more control create our own postprocessor and register it to this
- * component through the registerPostProcessor method.
+ * }
+ * </pre>
+ * 
+ *         Override the onReceivedFiles method of this object to handle upload completion events. For
+ *         more control create our own postprocessor and register it to this component through the
+ *         registerPostProcessor method.
  */
 public class EasyUpload extends Panel
 {
