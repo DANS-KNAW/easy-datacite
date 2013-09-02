@@ -51,9 +51,9 @@ public class SolrSearchEngine implements SearchEngine
     private SearchBeanFactory searchBeanFactory;
 
     /**
-     * The name of the field that hold the type value of search entities. It is
-     * up to the searchEngine how the type of the bean is stored. In the case of
-     * Solr we add a type field which holds this information.
+     * The name of the field that hold the type value of search entities. It is up to the searchEngine
+     * how the type of the bean is stored. In the case of Solr we add a type field which holds this
+     * information.
      */
     final static String SE_TYPE_FIELD_NAME = "type";
 

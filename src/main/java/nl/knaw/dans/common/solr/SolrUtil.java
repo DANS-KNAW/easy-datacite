@@ -20,7 +20,7 @@ public class SolrUtil
     public static String escapeColon(String str)
     {
         String result;
-        //http://lucene.apache.org/java/2_3_2/queryparsersyntax.html#Escaping%20Special%20Characters
+        // http://lucene.apache.org/java/2_3_2/queryparsersyntax.html#Escaping%20Special%20Characters
         result = str.replaceAll(":", "\\\\:");
         return result;
     }

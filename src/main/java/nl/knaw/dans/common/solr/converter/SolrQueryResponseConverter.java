@@ -37,7 +37,7 @@ public class SolrQueryResponseConverter
         result.setNumFound((int) sdl.getNumFound());
 
         // Relevance scores in Solr are calculated from the base
-        // of 1.0f. If any document is scored any different then 
+        // of 1.0f. If any document is scored any different then
         // the maximum relevance score is not 1.0f anymore. The
         // chances of a maximum relevance score of 1.0f with actual
         // meaning is pretty slim. This therefore assumes that if
