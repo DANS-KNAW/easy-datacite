@@ -29,7 +29,8 @@ public class EasyLdapGroupRepo extends AbstractGenericRepo<Group> implements Gro
      * @param client
      *        the LdapClient this UserRepo talks to
      * @param context
-     *        the context where groups are kept on the client, i.e. "ou=groups,ou=easy,dc=dans,dc=knaw,dc=nl"
+     *        the context where groups are kept on the client, i.e.
+     *        "ou=groups,ou=easy,dc=dans,dc=knaw,dc=nl"
      */
     public EasyLdapGroupRepo(LdapClient client, String context)
     {

@@ -33,7 +33,8 @@ public class EasyLdapUserRepo extends AbstractLdapUserRepo<EasyUser> implements 
      * @param client
      *        the LdapClient this UserRepo talks to
      * @param context
-     *        the context where users are kept on the client, i.e. "ou=users,ou=easy,dc=dans,dc=knaw,dc=nl"
+     *        the context where users are kept on the client, i.e.
+     *        "ou=users,ou=easy,dc=dans,dc=knaw,dc=nl"
      */
     public EasyLdapUserRepo(LdapClient client, String context)
     {
@@ -48,7 +49,6 @@ public class EasyLdapUserRepo extends AbstractLdapUserRepo<EasyUser> implements 
 
     /**
      * {@inheritDoc}
-     * 
      */
     public List<EasyUser> findByRole(Role role) throws RepositoryException
     {

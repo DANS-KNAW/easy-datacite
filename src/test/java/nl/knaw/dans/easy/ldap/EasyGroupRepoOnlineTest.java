@@ -99,10 +99,10 @@ public class EasyGroupRepoOnlineTest extends AbstractOnlineTest
         assertNotNull(opa.getCreateTimestamp());
 
         // goes for apacheds
-        //assertNull(opa.getModifyTimestamp());
+        // assertNull(opa.getModifyTimestamp());
 
         // goes for openldap
-        //assertNotNull(opa.getModifyTimestamp());
+        // assertNotNull(opa.getModifyTimestamp());
 
         repo.update(test2);
 
