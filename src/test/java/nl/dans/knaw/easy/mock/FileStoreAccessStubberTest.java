@@ -43,16 +43,16 @@ public class FileStoreAccessStubberTest
         mock.dataset(datasetStoreId)//
                 .with//
                 (//
-                        mock.file("a/b/1.gif"), //
-                        mock.file("a/b/2.tif"),//
+                mock.file("a/b/1.gif"), //
+                mock.file("a/b/2.tif"),//
                         mock.file("a/3.png"), //
                         mock.file("a/4.png"), //
                         mock.file("a/c/5.png"), //
                         mock.file("6.gif")//
                 ).with//
                 (//
-                        mock.folder("a/d", folderStoreId)//
-                                .expectPurgeAt(BASE_DATE_TIME.plusMillis(1))//
+                mock.folder("a/d", folderStoreId)//
+                        .expectPurgeAt(BASE_DATE_TIME.plusMillis(1))//
                 );
 
         PowerMock.replayAll();

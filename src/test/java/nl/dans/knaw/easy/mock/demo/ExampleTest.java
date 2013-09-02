@@ -67,11 +67,11 @@ public class ExampleTest
                 .withAipId("twips-1")//
                 .expectGetDatasetFilesOnce//
                 (//
-                        mock.file("original/tiff/my.gif")//
-                                .with(AccessibleTo.NONE, VisibleTo.NONE), //
-                        mock.file("tif/2.tif")//
-                                .with(AccessibleTo.NONE, VisibleTo.NONE)//
-                                .expectPurgeAt(BASE_DATE_TIME.plusMillis(1)), //
+                mock.file("original/tiff/my.gif")//
+                        .with(AccessibleTo.NONE, VisibleTo.NONE), //
+                mock.file("tif/2.tif")//
+                        .with(AccessibleTo.NONE, VisibleTo.NONE)//
+                        .expectPurgeAt(BASE_DATE_TIME.plusMillis(1)), //
                         mock.file("1.png")//
                                 .with(AccessibleTo.NONE, VisibleTo.NONE), //
                         mock.file("tif/1.gif")//
@@ -79,10 +79,10 @@ public class ExampleTest
                 )//
                 .with//
                 (//
-                        mock.file("original/tiff/my.gif")//
-                                .with(AccessibleTo.NONE, VisibleTo.NONE), //
-                        mock.file("1.png")//
-                                .with(AccessibleTo.NONE, VisibleTo.NONE), //
+                mock.file("original/tiff/my.gif")//
+                        .with(AccessibleTo.NONE, VisibleTo.NONE), //
+                mock.file("1.png")//
+                        .with(AccessibleTo.NONE, VisibleTo.NONE), //
                         mock.file("tif/1.gif")//
                                 .with(AccessibleTo.ANONYMOUS, VisibleTo.NONE)//
                 );
@@ -115,9 +115,9 @@ public class ExampleTest
         mock.dataset(datasetStoreId).withPid("urn:nbn:nl:ui:13-2g23-6f")//
                 .with//
                 (//
-                        mock.file(path, fileStoreId)//
-                                .with(mockedContentUrl)//
-                                .with(AccessibleTo.ANONYMOUS, VisibleTo.ANONYMOUS)//
+                mock.file(path, fileStoreId)//
+                        .with(mockedContentUrl)//
+                        .with(AccessibleTo.ANONYMOUS, VisibleTo.ANONYMOUS)//
                 );
 
         PowerMock.replayAll();

@@ -12,8 +12,8 @@ import org.powermock.api.easymock.PowerMock;
 public class UserMocker
 {
     /**
-     * Creates a mocked instance of an {@link EasyUser}. A fluent interface allows further configuration of
-     * possible/expected behavior of the instance, and related methods of {@link EasyUserRepo}.
+     * Creates a mocked instance of an {@link EasyUser}. A fluent interface allows further configuration
+     * of possible/expected behavior of the instance, and related methods of {@link EasyUserRepo}.
      * 
      * @param userId
      * @throws Exception
