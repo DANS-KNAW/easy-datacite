@@ -55,6 +55,7 @@ public class AdvSearchPage extends AbstractSearchPage
 
     private Class<? extends AbstractSearchResultPage> resultPage;
 
+    // @formatter:off
     /*
      * How do you want the criteria displayed?
      * 
@@ -65,6 +66,7 @@ public class AdvSearchPage extends AbstractSearchPage
      *      Criteria: All datasets | Title: park | Subject: nederzetting
      * 
      */
+    // @formatter:on
     private boolean separateFilterCriteria = true;
 
     public AdvSearchPage()
@@ -104,18 +106,21 @@ public class AdvSearchPage extends AbstractSearchPage
      * How do you want the criteria displayed?
      * <p/>
      * separateFilterCriteria = false:
+     * 
      * <pre>
-     *      Criteria: All datasets | Adv. Search: park, nederzetting 
+     *      Criteria: All datasets | Adv. Search: park, nederzetting
      * </pre>
+     * 
      * separateFilterCriteria = true:
+     * 
      * <pre>
      *      Criteria: All datasets | Title: park | Subject: nederzetting
      * </pre>
      * 
      * default value is <code>true</code>
-     *      
-     * @param separateFilterCriteria <code>true</code> for separate filter criteria, 
-     *  <code>false</code> for comma-separated list
+     * 
+     * @param separateFilterCriteria
+     *        <code>true</code> for separate filter criteria, <code>false</code> for comma-separated list
      */
     public void setSeparateFilterCriteria(boolean separateFilterCriteria)
     {
@@ -280,7 +285,7 @@ public class AdvSearchPage extends AbstractSearchPage
             add(new TextField<String>("subjectField", new SearchFieldModel(data, "subject")));
             add(new TextField<String>("coverageField", new SearchFieldModel(data, "coverage")));
             add(new TextField<String>("identifierField", new SearchFieldModel(data, "identifier")));
-            //add(new TextField<String>("relationField", new SearchFieldModel(data, "relation")));
+            // add(new TextField<String>("relationField", new SearchFieldModel(data, "relation")));
 
             add(new SubmitLink("submitButton"));
             add(new CancelLink("cancelButton"));
@@ -322,8 +327,8 @@ public class AdvSearchPage extends AbstractSearchPage
             // assigned to
             try
             {
-                archivistOptions.add(AssignToDropChoiceList.getDropDownChoice("assignedToField", new PropertyModel(new AssignModel((AdvSearchData) model
-                        .getObject()), "userId")));
+                archivistOptions.add(AssignToDropChoiceList.getDropDownChoice("assignedToField",
+                        new PropertyModel(new AssignModel((AdvSearchData) model.getObject()), "userId")));
             }
             catch (ServiceException e)
             {

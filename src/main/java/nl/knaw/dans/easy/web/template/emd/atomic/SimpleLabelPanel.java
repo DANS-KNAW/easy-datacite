@@ -11,7 +11,6 @@ import org.apache.wicket.model.ResourceModel;
 
 /**
  * @author Eko Indarto
- *
  */
 public class SimpleLabelPanel extends AbstractAtomicPanel
 {
@@ -27,6 +26,7 @@ public class SimpleLabelPanel extends AbstractAtomicPanel
 
     /**
      * Constructor.
+     * 
      * @param id
      * @param label
      * @param anchorName

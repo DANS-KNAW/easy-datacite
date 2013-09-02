@@ -9,8 +9,7 @@ import nl.knaw.dans.pf.language.emd.types.BasicRemark;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * Wraps a list of {@link BasicRemark} to obtain {@link String}s. 
- * 
+ * Wraps a list of {@link BasicRemark} to obtain {@link String}s.
  */
 public class BasicRemarkListWrapper extends AbstractDefaultListWrapper<String, BasicRemark>
 {

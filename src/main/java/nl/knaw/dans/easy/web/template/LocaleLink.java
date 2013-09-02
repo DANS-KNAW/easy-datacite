@@ -24,8 +24,10 @@ public final class LocaleLink extends Link
     /**
      * Constructor for a new LocaleLink.
      * 
-     * @param wicketId Id of wicket component
-     * @param localeString Locale to switch to
+     * @param wicketId
+     *        Id of wicket component
+     * @param localeString
+     *        Locale to switch to
      */
     public LocaleLink(final String wicketId, final String localeString)
     {
@@ -36,8 +38,10 @@ public final class LocaleLink extends Link
     /**
      * Constructor with locale.
      * 
-     * @param wicketId Id of wicket component
-     * @param locale Locale to switch to
+     * @param wicketId
+     *        Id of wicket component
+     * @param locale
+     *        Locale to switch to
      */
     public LocaleLink(final String wicketId, final Locale locale)
     {

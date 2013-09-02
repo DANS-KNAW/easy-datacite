@@ -48,7 +48,7 @@ public class AuthorPanel extends AbstractRepeaterPanel<AuthorModel>
 
         private final int index;
 
-        @SuppressWarnings( {"unchecked", "rawtypes"})
+        @SuppressWarnings({"unchecked", "rawtypes"})
         EditPanel(ListItem<AuthorModel> item)
         {
             super(REPEATING_PANEL_ID);

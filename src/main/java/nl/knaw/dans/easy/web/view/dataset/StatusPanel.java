@@ -81,21 +81,6 @@ public class StatusPanel extends AbstractEasyPanel
     private void init()
     {
         setOutputMarkupId(true);
-
-        /*
-         * //Update the status panel when the workflow is changed (we don't want this anymore)
-        registerAjaxEventListener(WorkflowStepPanel.AJAX_EVENT_WORKFOWSTEP_COMPLETED_CHANGED, new AjaxEventListener()
-        {
-
-            private static final long serialVersionUID = -5155074898187559541L;
-
-            public void handleAjaxEvent(AjaxRequestTarget target)
-            {
-                target.addComponent(StatusPanel.this);
-            }
-
-        }); */
-
         Component datasetStatus = new Label("datasetStatus", new Model()
         {
 

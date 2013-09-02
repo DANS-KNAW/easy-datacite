@@ -281,14 +281,8 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage
         // management bar
         ManagementBarPanel mgmBar = new ManagementBarPanel(MANAGEMENT_BAR_PANEL);
         add(mgmBar);
-
+     
         // footer
-        /*
-         * The user does not see any change on the site, so we disable it until the switch is effective
-         * add(new LocaleLink(LANGUAGE_SWITCH_EN, Locale.US)); 
-         * add(new LocaleLink(LANGUAGE_SWITCH_NL, LANGUAGE_SWITCH_NL));
-         */
-
         add(createDisclaimerLink());
         add(new VersionPanel(EASY_VERSION));
     }
@@ -397,7 +391,7 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage
         String displayName = user.getDisplayName();
         displayName = displayName.trim();
 
-        // Add roles 
+        // Add roles
         displayName += getDisplayRolesLabelString(user);
 
         return displayName;
@@ -410,7 +404,7 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage
 
         // user display name
         String displayName = user.getDisplayName();
-        // Truncate user name part to a maximum length 
+        // Truncate user name part to a maximum length
         // and indicate truncation with ellipsis (...)
         String truncationIndicator = "...";
         displayName = displayName.trim();
@@ -419,7 +413,7 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage
             displayName = displayName.substring(0, MAX_NAME_LENGTH - truncationIndicator.length()) + truncationIndicator;
         }
 
-        // Add roles 
+        // Add roles
         displayName += getDisplayRolesLabelString(user);
 
         return displayName;
@@ -453,7 +447,7 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage
 
         // user display name
         String displayName = user.getDisplayName();
-        // Truncate user name part to a maximum length 
+        // Truncate user name part to a maximum length
         // and indicate truncation with ellipsis (...)
         displayName = displayName.trim();
         if (displayName.length() > MAX_NAME_LENGTH)

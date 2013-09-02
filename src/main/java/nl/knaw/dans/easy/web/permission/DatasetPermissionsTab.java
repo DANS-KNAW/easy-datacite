@@ -28,7 +28,6 @@ import org.apache.wicket.model.StringResourceModel;
 
 /**
  * Tab for a depositor with an overview of permission requests on his/her data set.
- *
  */
 public class DatasetPermissionsTab extends AbstractDatasetModelPanel
 {
@@ -37,7 +36,8 @@ public class DatasetPermissionsTab extends AbstractDatasetModelPanel
     private static final long serialVersionUID = 1L;
     public static int TAB_INDEX = 3;
 
-    // GK: note: couldn't find a function to disable paging therefor the Integer.MAX_VALUE as a workaround
+    // GK: note: couldn't find a function to disable paging therefor the Integer.MAX_VALUE as a
+    // workaround
     // PBoon: use 50 for now
     public static int MAX_REQUESTS_IN_LIST = 50;
 
@@ -66,7 +66,6 @@ public class DatasetPermissionsTab extends AbstractDatasetModelPanel
             @Override
             protected void onClick(IModel<PermissionSequence> clicked)
             {
-                //info("You clicked: " + clicked.getObject().getRequester().getDisplayName());
                 // The dataset is not in de contextparameters, add it because the authorization needs it.
                 getEasySession().setContextParameters(new ContextParameters(EasySession.getSessionUser(), datasetModel.getObject()));
                 PermissionReplyPage permissionReplyPage = new PermissionReplyPage(datasetModel, currentPage, clicked.getObject());

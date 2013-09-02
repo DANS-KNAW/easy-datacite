@@ -19,7 +19,7 @@ import nl.knaw.dans.easy.web.wicket.SecureEasyPageLink;
 
 /**
  * Management Panel
- *
+ * 
  * @author lobo
  */
 public class ManagementBarPanel extends AbstractEasyStatelessPanel

@@ -34,7 +34,8 @@ import com.lowagie.text.pdf.PdfWriter;
  * http://localhost:8081/resources/easy/deposit_license_preview.pdf?id=easy-dataset:999
  * </pre>
  * 
- * For an up to date URL see {@link EasyWicketApplication#WICKET_APPLICATION_ALIAS}/{@link #RESOURCE_NAME} 
+ * For an up to date URL see {@link EasyWicketApplication#WICKET_APPLICATION_ALIAS}/
+ * {@link #RESOURCE_NAME}
  */
 public class DepositLicensePreview extends DynamicWebResource
 {

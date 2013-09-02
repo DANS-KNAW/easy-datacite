@@ -12,13 +12,12 @@ import org.apache.wicket.Resource;
 import org.apache.wicket.ResourceReference;
 
 /**
- * The instances are in fact entries of a cross reference between {@link Resource} classes and URLs. A static initializer guarantees a 1:1 relationship. The
- * resources are automatically registered by {@link EasyWicketApplication}.
+ * The instances are in fact entries of a cross reference between {@link Resource} classes and URLs. A
+ * static initializer guarantees a 1:1 relationship. The resources are automatically registered by
+ * {@link EasyWicketApplication}.
  */
 public enum ResourceBookmark implements AliasInterface<Resource>
 {
-    //fetchFiles(FileExplorerDataFetcher.class, "backend_data"), // deprecated
-    //updateFiles(FileExplorerUpdateCommand.class, "updateData"), // ddeprecated
     uploadStatus(EasyUploadStatusCommand.class, EasyUploadStatusCommand.RESOURCE_NAME), //
     uploadCancel(EasyUploadCancelCommand.class, EasyUploadCancelCommand.RESOURCE_NAME), //
     download(FileDownloadResource.class, "fileDownloadResource"), //

@@ -8,7 +8,6 @@ import org.apache.wicket.protocol.https.RequireHttps;
 
 /**
  * FileExplorePage displays FileExplorer Panel.
- *
  */
 @RequireHttps
 public class FileExplorerPage extends AbstractEasyPage

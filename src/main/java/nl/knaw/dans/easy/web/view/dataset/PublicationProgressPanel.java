@@ -73,8 +73,8 @@ public class PublicationProgressPanel extends AbstractEasyPanel
             public boolean isVisible()
             {
                 // NOTE: GK: the publication progress has been disabled, remove if truly unnecessary
-                //return DatasetState.SUBMITTED.equals(getDataset().getAdministrativeState())
-                //    || DatasetState.MAINTENANCE.equals(getDataset().getAdministrativeState());
+                // return DatasetState.SUBMITTED.equals(getDataset().getAdministrativeState())
+                // || DatasetState.MAINTENANCE.equals(getDataset().getAdministrativeState());
                 return false;
             }
 

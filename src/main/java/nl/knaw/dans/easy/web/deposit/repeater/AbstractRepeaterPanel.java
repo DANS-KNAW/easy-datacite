@@ -22,12 +22,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A RepeaterPanel can show an extendible and shrinkable list of (form) components. The extendible list is shown in a
- * {@link ListView}. Subclasses of this AbstractRepeaterPanel are asked to contribute their repeating components on a
- * panel with {@link #getRepeatingComponentPanel(ListItem)}.
+ * A RepeaterPanel can show an extendible and shrinkable list of (form) components. The extendible list
+ * is shown in a {@link ListView}. Subclasses of this AbstractRepeaterPanel are asked to contribute their
+ * repeating components on a panel with {@link #getRepeatingComponentPanel(ListItem)}.
  * <p/>
- * The generic AbstractRepeaterPanel is parameterized with T extends Object. Let <code>item</code> be an item from this
- * RepeaterPanel ListView. Then, in pseudo code,
+ * The generic AbstractRepeaterPanel is parameterized with T extends Object. Let <code>item</code> be an
+ * item from this RepeaterPanel ListView. Then, in pseudo code,
  * 
  * <pre>
  *    item.getDefaultModelObject() instance of T
@@ -35,14 +35,16 @@ import org.slf4j.LoggerFactory;
  * 
  * holds true.
  * <p/>
- * A RepeaterPanel shows at least one item, even when the list it represents is empty. Therefore the internal list
- * cannot be the same as the list it represents (<code>1 != 0</code>). The helper class {@link ListWrapper} converts and
- * synchronizes the two lists.
+ * A RepeaterPanel shows at least one item, even when the list it represents is empty. Therefore the
+ * internal list cannot be the same as the list it represents (<code>1 != 0</code>). The helper class
+ * {@link ListWrapper} converts and synchronizes the two lists.
  * <p/>
- * A FeedbackPanel with a ComponentFeedbackMessageFilter filtering messages from this RepeaterPanel is provided.
+ * A FeedbackPanel with a ComponentFeedbackMessageFilter filtering messages from this RepeaterPanel is
+ * provided.
  * <p/>
- * Each item in the ListView has a FeedbackPanel. The itemFeedback can be reached with {@link #error(int, String)} and
- * {@link #info(int, String)}, where the int-parameter corresponds to the item index.
+ * Each item in the ListView has a FeedbackPanel. The itemFeedback can be reached with
+ * {@link #error(int, String)} and {@link #info(int, String)}, where the int-parameter corresponds to the
+ * item index.
  * 
  * @author ecco Apr 2, 2009
  * @param <T>
@@ -87,8 +89,8 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
     }
 
     /**
-     * Construct a new RepeaterPanel. Since there was nothing else to put there, the model of this panel has the given
-     * ListWrapper as object.
+     * Construct a new RepeaterPanel. Since there was nothing else to put there, the model of this panel
+     * has the given ListWrapper as object.
      * 
      * @param wicketId
      *        id of this panel
@@ -104,8 +106,8 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
     /**
      * Construct a new RepeaterPanel. The given Model is not used by this AbstractRepeaterPanel.
      * <p/>
-     * Gets the initial list from the ListWrapper and, if the list is empty adds an empty value obtained from the
-     * ListWrapper.
+     * Gets the initial list from the ListWrapper and, if the list is empty adds an empty value obtained
+     * from the ListWrapper.
      * 
      * @param wicketId
      *        id of this panel
@@ -120,8 +122,6 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
         setOutputMarkupId(true);
         this.listWrapper = listWrapper;
         this.listWrapper.setComponent(this);
-        //listItems = this.listWrapper.getInitialItems();
-
     }
 
     /**
@@ -204,8 +204,8 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
     }
 
     /**
-     * Should this RepeaterPanel show plus and minus buttons. The default is <code>true</code>: show plus and minus
-     * buttons.
+     * Should this RepeaterPanel show plus and minus buttons. The default is <code>true</code>: show plus
+     * and minus buttons.
      * 
      * @param repeating
      *        <code>true</code> if plus and minus buttons should be visible, <code>false</code> otherwise
@@ -257,10 +257,10 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
     }
 
     /**
-     * Handle the action for a plus-button click. Standard behavior of this method is to add an empty value to the
-     * listItems of the ListView on this panel. An empty value is obtained by calling
-     * {@link ListWrapper#getEmptyValue()} on this panels ListWrapper. Subclasses may override this method to perform
-     * more complex actions.
+     * Handle the action for a plus-button click. Standard behavior of this method is to add an empty
+     * value to the listItems of the ListView on this panel. An empty value is obtained by calling
+     * {@link ListWrapper#getEmptyValue()} on this panels ListWrapper. Subclasses may override this
+     * method to perform more complex actions.
      * 
      * @param target
      *        target that produces ajax response envelopes
@@ -273,9 +273,10 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
     }
 
     /**
-     * Handle the action for a minus-button click. Standard behavior of this method is to remove the item from the list
-     * of Items of the ListView on this panel. and call synchronize on the wrapped list (see
-     * {@link ListWrapper#synchronize(List)}). Subclasses may override this method to perform more complex actions.
+     * Handle the action for a minus-button click. Standard behavior of this method is to remove the item
+     * from the list of Items of the ListView on this panel. and call synchronize on the wrapped list
+     * (see {@link ListWrapper#synchronize(List)}). Subclasses may override this method to perform more
+     * complex actions.
      * 
      * @param item
      *        the item receiving the minus click
@@ -306,13 +307,13 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
 
         // actions required after a user hits refresh
         if (!isInEditMode() && listItems.isEmpty())
-            this.getParent().setVisible(false); //if no data, don't display.
+            this.getParent().setVisible(false); // if no data, don't display.
     }
 
     @SuppressWarnings("rawtypes")
     protected void init()
     {
-        getListItems(); // make sure variable <listItems> is initialized 
+        getListItems(); // make sure variable <listItems> is initialized
 
         if (isInEditMode())
         {
@@ -323,8 +324,8 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
         }
         else
         {
-            super.setHelpItem(null); //don't display help sign.
-            super.setRequired(false); //don't display * sign.
+            super.setHelpItem(null); // don't display help sign.
+            super.setRequired(false); // don't display * sign.
         }
         super.init(); // skeletonPanel
 
@@ -335,7 +336,7 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
             @Override
             protected void onAfterRender()
             {
-                //logger.debug("after render of listViewContainer");
+                // logger.debug("after render of listViewContainer");
                 clearItemMessages();
                 super.onAfterRender();
             }
@@ -358,8 +359,8 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
                 Panel repeatingComponentPanel = getRepeatingComponentPanel(item);
                 item.add(repeatingComponentPanel);
 
-                //create a holder of buttons minus and plus
-                //display it when in edit mode.
+                // create a holder of buttons minus and plus
+                // display it when in edit mode.
                 final WebMarkupContainer buttonsHolder = new WebMarkupContainer("buttonsHolder");
                 if (isInEditMode())
                 {
@@ -402,7 +403,7 @@ public abstract class AbstractRepeaterPanel<T extends Object> extends SkeletonPa
                 }
                 else
                 {
-                    //hidden when in non editable mode.
+                    // hidden when in non editable mode.
                     buttonsHolder.setVisible(false);
                 }
 

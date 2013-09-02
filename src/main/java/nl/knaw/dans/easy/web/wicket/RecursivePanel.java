@@ -47,7 +47,8 @@ public class RecursivePanel extends Panel
     private boolean headVisible = true;
 
     // Keep panels in a map:
-    // 1. (very important) plus-/minus buttons on the clients browser page aren't in the tree with new panels;
+    // 1. (very important) plus-/minus buttons on the clients browser page aren't in the tree with new
+    // panels;
     // 2. Panels remember their errors and new Panels have no knowledge of that;
     // 3. It saves a lot of instantiating.
     private Map<String, Panel> panelMap = new HashMap<String, Panel>();
@@ -92,7 +93,7 @@ public class RecursivePanel extends Panel
 
     private void init()
     {
-        //logger.debug("Init of RecursivePanel");
+        // logger.debug("Init of RecursivePanel");
         final WebMarkupContainer levelContainer = new WebMarkupContainer("levelContainer")
         {
             private static final long serialVersionUID = -8613158818378626261L;
@@ -120,7 +121,7 @@ public class RecursivePanel extends Panel
         levelContainer.add(head);
 
         final WebMarkupContainer listViewContainer = new WebMarkupContainer("recursivePanelContainer");
-        @SuppressWarnings( {"rawtypes", "unchecked"})
+        @SuppressWarnings({"rawtypes", "unchecked"})
         final ListView listView = new ListView("recursivePanels", panelDefinitions)
         {
 
@@ -130,8 +131,9 @@ public class RecursivePanel extends Panel
             protected void populateItem(final ListItem item)
             {
                 final PanelDefinition panelDefinition = (PanelDefinition) item.getDefaultModelObject();
-                ///
-                //System.err.println(panelDefinition.getId() + " " + panelDefinition.getParent().getId());
+                // /
+                // System.err.println(panelDefinition.getId() + " " +
+                // panelDefinition.getParent().getId());
                 //
                 if (panelDefinition instanceof SubHeadingDefinition)
                 {
@@ -220,7 +222,8 @@ public class RecursivePanel extends Panel
     }
 
     /**
-     * @param cssContainerClassName the cssContainerClassName to set
+     * @param cssContainerClassName
+     *        the cssContainerClassName to set
      */
     public void setCssContainerClassName(String cssContainerClassName)
     {
@@ -240,7 +243,8 @@ public class RecursivePanel extends Panel
     }
 
     /**
-     * @param cssHeadingClassName the cssHeadingClassName to set
+     * @param cssHeadingClassName
+     *        the cssHeadingClassName to set
      */
     public void setCssHeadingClassName(String cssHeadingClassName)
     {

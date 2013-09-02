@@ -338,7 +338,7 @@ public class DatasetViewPage extends AbstractEasyNavPage
         infosegmentPanel.setOutputMarkupId(true);
         add(infosegmentPanel);
 
-        // add the tabs 
+        // add the tabs
         List<ITab> tabs = new ArrayList<ITab>();
         tabs.add(getOverviewTab());
         tabs.add(getDescriptionTab());
@@ -346,7 +346,7 @@ public class DatasetViewPage extends AbstractEasyNavPage
         tabs.add(getAdministrationTab());
         tabs.add(getPermissionsTab());
         tabs.add(getActivityLogTab());
-        //        tabs.add(getRelationsTab());
+        // tabs.add(getRelationsTab());
         TabbedPanel tabbedPanel = new TabbedPanel(WI_VIEW_TABS, tabs)
         {
 
@@ -421,14 +421,13 @@ public class DatasetViewPage extends AbstractEasyNavPage
             private static final long serialVersionUID = -7961575318107788527L;
 
             /**
-             * A model is used, because these values might change
-             * when the dataset changes.
+             * A model is used, because these values might change when the dataset changes.
              */
             @Override
             public String getObject()
             {
-                // NOTE: GK: move this logic to business layer 
-                //		 i.e. add a method getVisibleFileCount(EasyUser user)
+                // NOTE: GK: move this logic to business layer
+                // i.e. add a method getVisibleFileCount(EasyUser user)
                 EasyUser user = EasySession.getSessionUser();
                 int count = 0;
                 if (user.isAnonymous())
@@ -524,8 +523,7 @@ public class DatasetViewPage extends AbstractEasyNavPage
     {
         final StringResourceModel titleModel = new StringResourceModel(RI_TAB_PERMISSIONS, null, new Object[] {
         /**
-         * Models are used, because these values might change
-         * when the dataset changes.
+         * Models are used, because these values might change when the dataset changes.
          */
         new Model<String>()
         {

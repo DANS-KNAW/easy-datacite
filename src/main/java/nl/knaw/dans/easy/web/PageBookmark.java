@@ -27,12 +27,12 @@ import org.apache.wicket.Page;
  * <p/>
  * Note that other bookmarkedNames exist within and without this application. F.i.:
  * <ul>
- *  <li>resource - Wicket resource</li>
- *  <li>rest - start url for rest services</li>
- *  <li>fedora* - fedora url if on same server as this application</li>
- *  <li>oai - oai url</li>
- *  <li>saxon - saxon url </li>
- *  <li>There may be others...</li>
+ * <li>resource - Wicket resource</li>
+ * <li>rest - start url for rest services</li>
+ * <li>fedora* - fedora url if on same server as this application</li>
+ * <li>oai - oai url</li>
+ * <li>saxon - saxon url</li>
+ * <li>There may be others...</li>
  * </ul>
  */
 public enum PageBookmark implements AliasInterface<Page>

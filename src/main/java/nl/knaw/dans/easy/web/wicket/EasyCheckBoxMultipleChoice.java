@@ -63,7 +63,8 @@ public class EasyCheckBoxMultipleChoice extends CheckBoxMultipleChoice
         // We need to set the enabled-look of the children of this group.
         // Purely cosmetic, if not Action.ENABLE is authorized, the user will not be able to update
         // the model of this SecureCheckBoxMultipleChoice.
-        // We have to incorporate enabled state previously set on the component, to prevent overriding this setting.
+        // We have to incorporate enabled state previously set on the component, to prevent overriding
+        // this setting.
         setEnabled(isEnableAllowed() && isEnabled());
         super.onBeforeRender();
     }

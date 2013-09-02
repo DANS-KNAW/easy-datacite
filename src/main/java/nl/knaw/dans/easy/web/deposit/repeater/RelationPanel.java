@@ -70,9 +70,9 @@ public class RelationPanel extends AbstractChoicePanel<RelationModel>
             final PropertyModel<String> titleModel = createStringModel(item, "subjectTitle");
             final PropertyModel<String> linkModel = createStringModel(item, "subjectLink");
 
-            //for simple deposit, we use emphasize checbox, otherwise dropdownchoice is used.
+            // for simple deposit, we use emphasize checbox, otherwise dropdownchoice is used.
             final Component emphasizeCheckBox = new CheckBox("emphasize", createBooleanModel(item, "emphasis")).setVisible(true);
-            @SuppressWarnings( {"unchecked", "rawtypes"})
+            @SuppressWarnings({"unchecked", "rawtypes"})
             final Component relationTypeChoice = new DropDownChoice("relationTypeChoice", typeModel, getChoiceList().getChoices(), getRenderer())//
                     .setNullValid(isNullValid()).setVisible(useRelationType);
 
@@ -87,7 +87,6 @@ public class RelationPanel extends AbstractChoicePanel<RelationModel>
             String currRelItemPath = item.getPageRelativePath().replace("depositPanel:depositForm:", "");
             String inputName = currRelItemPath + ":" + this.getId() + ":" + subjectLinkField.getPageRelativePath();
             add(new VerifyUrlPanel("verifyPopup", "relation.url.verify.label", "#subjectTitle", inputName));
-            //          add(new VerifyUrlLink("verifyButton",item.getModel()));
         }
     }
 

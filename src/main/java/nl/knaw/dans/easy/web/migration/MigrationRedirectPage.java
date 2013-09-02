@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
  * Driven by urls starting with '/dms', redirects to pages similar to the ones served by Easy I.
  * <p/>
  * Redirects:
+ * 
  * <pre>
  *   /dms?command=home
  *   /dms?command=loginForm
@@ -27,7 +28,6 @@ import org.slf4j.LoggerFactory;
  *   /dms?command=show&query=Analecta
  *   /dms?command=myContents
  * </pre>
- *
  */
 public class MigrationRedirectPage extends AbstractEasyPage
 {

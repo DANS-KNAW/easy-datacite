@@ -15,8 +15,8 @@ import org.slf4j.LoggerFactory;
 /**
  * Serves resources from the path {@link #PATH_HINT}
  * <p/>
- * The parameter <code>id</code> in the path is obligatory, parameters <code>l</code> (language-code) and <code>c</code>
- * (country-code) are optional.
+ * The parameter <code>id</code> in the path is obligatory, parameters <code>l</code> (language-code) and
+ * <code>c</code> (country-code) are optional.
  * <p/>
  * For instance:
  * 
@@ -26,7 +26,8 @@ import org.slf4j.LoggerFactory;
  * http://localhost:8081/resources/easy/discipline.emd.choicelist?id=archaeology.eas.spatial&amp;l=en&amp;c=US
  * </pre>
  * 
- * For an up to date URL see {@link EasyWicketApplication#WICKET_APPLICATION_ALIAS}/{@link #RESOURCE_NAME} 
+ * For an up to date URL see {@link EasyWicketApplication#WICKET_APPLICATION_ALIAS}/
+ * {@link #RESOURCE_NAME}
  * 
  * @author ecco Nov 27, 2009
  */

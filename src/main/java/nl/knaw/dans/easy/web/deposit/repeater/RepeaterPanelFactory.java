@@ -97,7 +97,6 @@ public class RepeaterPanelFactory implements IPanelFactory
             logger.error(msg, e);
             throw new PanelFactoryException(msg, e);
         }
-        //logger.debug("Created panel: " + panel.getClass().getSimpleName());
         return panel;
     }
 

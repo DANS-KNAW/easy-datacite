@@ -68,14 +68,6 @@ public class PermissionRequestForm extends PermissionForm
 
         add(new Label("intro", getString(RETURNED_INTRO)).setVisible(State.Returned.equals(status)));
 
-        // TODO add help links and required marks (only in editMode)
-        //        final SimpleLabelPanel titleLabel =
-        //                new SimpleLabelPanel(TITLE_WID, TITLE_RESOURCE_KEY + "label", TITLE_RESOURCE_KEY
-        //                        + "anchor", true);
-        //        final SimpleLabelPanel themaLabel =
-        //                new SimpleLabelPanel(THEME_WID, THEME_RESOURCE_KEY + "label", THEME_RESOURCE_KEY
-        //                        + "anchor", true);
-
         final IModel<String> titleModel = new PropertyModel<String>(prmRequest, PermissionRequestModel.REQUEST_TITLE);
         final IModel<String> themeModel = new PropertyModel<String>(prmRequest, PermissionRequestModel.REQUEST_THEME);
         final IModel<Boolean> conditionsModel = new PropertyModel<Boolean>(prmRequest, PermissionRequestModel.ACCEPTING_CONDITIONS_OF_USE);
@@ -97,7 +89,7 @@ public class PermissionRequestForm extends PermissionForm
         final boolean hasAdditionalLicense = additionalLicenseResource != null;
         additionalLicense.setVisible(hasAdditionalLicense);
         add(additionalLicense);
-        // TODO  Change the validation in the business layer;
+        // TODO Change the validation in the business layer;
         // add the additional acceptance and an indicator if its needed to the PermissionRequestModel
         //
         // Note: select if acceptance not needed, because the checkbox form element is required
@@ -168,8 +160,8 @@ public class PermissionRequestForm extends PermissionForm
 
     protected void logAction(final String action, final PermissionRequestModel permissionRequest)
     {
-        logger.debug(String.format("%s title=[%s] theme=[%s] accept conditions=[%s]", action, permissionRequest.getRequestTitle(), StringUtils.abbreviate(
-                permissionRequest.getRequestTheme(), 25), permissionRequest.isAcceptingConditionsOfUse()));
+        logger.debug(String.format("%s title=[%s] theme=[%s] accept conditions=[%s]", action, permissionRequest.getRequestTitle(),
+                StringUtils.abbreviate(permissionRequest.getRequestTheme(), 25), permissionRequest.isAcceptingConditionsOfUse()));
     }
 
 }

@@ -5,8 +5,8 @@ import java.util.List;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
 
 /**
- * A default implementation of a {@link ListWrapper}, providing methods to obtain and handle instances of type T, with a
- * wrapped list containing type S.
+ * A default implementation of a {@link ListWrapper}, providing methods to obtain and handle instances of
+ * type T, with a wrapped list containing type S.
  * 
  * @author ecco Mar 31, 2009
  * @param <T>

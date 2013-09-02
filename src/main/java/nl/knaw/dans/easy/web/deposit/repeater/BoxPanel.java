@@ -77,24 +77,25 @@ public class BoxPanel extends AbstractChoicePanel<BoxModel>
         {
             super(REPEATING_PANEL_ID);
             String s = (String) new PropertyModel(item.getDefaultModel(), "schemeToken").getObject();
-            /*Double northVal = (Double)new PropertyModel(item.getDefaultModel(), "north").getObject();
-            Double eastVal = (Double)new PropertyModel(item.getDefaultModel(), "east").getObject();
-            Double southVal = (Double)new PropertyModel(item.getDefaultModel(), "south").getObject();
-            Double westVal = (Double)new PropertyModel(item.getDefaultModel(), "west").getObject();
-            Label northLabel = new Label("northLabel", "North: " + String.valueOf(northVal));//Put "North" label in here not in html, otherwise it will displays if x is empty
-            Label eastLabel = new Label("eastLabel", "East: " + String.valueOf(eastVal));//Put "East" label in here not in html, otherwise it will displays if y is empty
-            Label southLabel = new Label("southField", "North: " + String.valueOf(southVal));//Put "South" label in here not in html, otherwise it will displays if x is empty
-            Label westLabel = new Label("westField", "East: " + String.valueOf(westVal));//Put "West" label in here not in html, otherwise it will displays if y is empty
-             */
             String northVal = (String) new PropertyModel(item.getDefaultModel(), "north").getObject();
             String eastVal = (String) new PropertyModel(item.getDefaultModel(), "east").getObject();
             String southVal = (String) new PropertyModel(item.getDefaultModel(), "south").getObject();
             String westVal = (String) new PropertyModel(item.getDefaultModel(), "west").getObject();
             Label sLabel = new Label("sLabel", getChoiceList().getValue(s));
-            Label northLabel = new Label("northLabel", "North: " + northVal);//Put "North" label in here not in html, otherwise it will displays if x is empty
-            Label eastLabel = new Label("eastLabel", "East: " + eastVal);//Put "East" label in here not in html, otherwise it will displays if y is empty
-            Label southLabel = new Label("southLabel", "South: " + southVal);//Put "South" label in here not in html, otherwise it will displays if x is empty
-            Label westLabel = new Label("westLabel", "West: " + westVal);//Put "West" label in here not in html, otherwise it will displays if y is empty
+            Label northLabel = new Label("northLabel", "North: " + northVal);// Put "North" label in here
+                                                                             // not in html, otherwise it
+                                                                             // will displays if x is
+                                                                             // empty
+            Label eastLabel = new Label("eastLabel", "East: " + eastVal);// Put "East" label in here not
+                                                                         // in html, otherwise it will
+                                                                         // displays if y is empty
+            Label southLabel = new Label("southLabel", "South: " + southVal);// Put "South" label in here
+                                                                             // not in html, otherwise it
+                                                                             // will displays if x is
+                                                                             // empty
+            Label westLabel = new Label("westLabel", "West: " + westVal);// Put "West" label in here not
+                                                                         // in html, otherwise it will
+                                                                         // displays if y is empty
 
             add(sLabel);
             add(northLabel.setVisible(northVal != null));

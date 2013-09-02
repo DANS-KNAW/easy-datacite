@@ -50,7 +50,7 @@ public class TreeItemProvider implements ITreeProvider<ITreeItem>
 
     public TreeItemProvider(DmoStoreId datasetSid, HashMap<Enum<?>, CheckBox> filters)
     {
-        //this(false);
+        // this(false);
         this.filters = filters;
         sessionUser = EasySession.getSessionUser();
         try
@@ -342,10 +342,8 @@ public class TreeItemProvider implements ITreeProvider<ITreeItem>
     }
 
     /**
-     * A {@link Model} which uses an id to load its {@link Foo}.
-     * 
-     * If {@link Foo}s were {@link Serializable} you could just use a standard
-     * {@link Model}.
+     * A {@link Model} which uses an id to load its {@link Foo}. If {@link Foo}s were
+     * {@link Serializable} you could just use a standard {@link Model}.
      * 
      * @see #equals(Object)
      * @see #hashCode()

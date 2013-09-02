@@ -40,14 +40,6 @@ public class UserDetailsPage extends AbstractEasyNavPage implements FormListener
 
     private ContextParameters contextParameters;
 
-    // Constructs page with new blank user. However, 'User add' not implemented
-    //    public UserDetailsPage()
-    //    {
-    //        super();
-    //        setDisplayedUser(null);
-    //        constructSwitchPanel(true, true, this);
-    //    }
-
     public UserDetailsPage(PageParameters parameters)
     {
         super(parameters);

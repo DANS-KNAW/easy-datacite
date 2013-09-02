@@ -13,13 +13,13 @@ import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 
 /**
  * @author Georgi Khomeriki
- *
  */
 public class TreeItem implements Serializable, ITreeItem
 {
     private static final long serialVersionUID = 1L;
 
-    // TODO: somehow get display values for VisibleTo/AccessibleTo/Creator from properties file (ResourceModel doesn't work from here?)
+    // TODO: somehow get display values for VisibleTo/AccessibleTo/Creator from properties file
+    // (ResourceModel doesn't work from here?)
 
     private int size;
     private String sizeAsString;

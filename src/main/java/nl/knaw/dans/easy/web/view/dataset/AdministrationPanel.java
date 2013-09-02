@@ -166,18 +166,6 @@ public class AdministrationPanel extends AbstractDatasetModelPanel
 
         workflowForm.add(new SubmitLink("saveWorkflow"));
 
-        /*
-         * final AjaxSubmitLink saveWorkflowButton = new AjaxSubmitLink("saveWorkflow") { private static final long serialVersionUID = -5142196634697262599L;
-         * @Override public void onSubmit(AjaxRequestTarget target, Form form) { try { Services.getDatasetService().saveAdministrativeMetadata(getSessionUser(),
-         * getDataset()); target.addComponent(this); target.appendJavascript(FormModificationDetectorBehavior.FORM_MODIFICATIONS_SAVED_JS); } catch
-         * (ServiceException e) { logger.error("Unable to save workflow: ", e); error("Unable to save workflow: " + e.getMessage()); } }
-         * @Override public boolean isEnabled() { return workflow.isDirty(); } };
-         * registerAjaxEventListener(PublicationProgressPanel.AJAX_EVENT_ADMIN_METADATA_SAVED, new AjaxEventListener() { private static final long
-         * serialVersionUID = 6141339594942084875L; public void handleAjaxEvent(AjaxRequestTarget target) { // update button-looks
-         * target.addComponent(saveWorkflowButton); // send message that form-elements are now saved to the back-end
-         * target.appendJavascript(FormModificationDetectorBehavior.FORM_MODIFICATIONS_SAVED_JS); } }); workflowForm.add(saveWorkflowButton);
-         */
-
         final WorkflowStep workflow = getDataset().getAdministrativeMetadata().getWorkflowData().getWorkflow();
 
         final WorkflowStepPanel workflowStepPanel = new WorkflowStepPanel("workflowStepPanel", workflow, DISPLAY_PROPS);
@@ -214,14 +202,6 @@ public class AdministrationPanel extends AbstractDatasetModelPanel
 
         });
 
-        /*
-         * textArea.add(new OnChangeAjaxBehavior() { private static final long serialVersionUID = -7537736177162560209L;
-         * @Override protected void onUpdate(AjaxRequestTarget target) { workflow.setDirty(true); target.addComponent(saveWorkflowButton); } });
-         * textArea.add(new AjaxEventBehavior("onBlur") { private static final long serialVersionUID = -7537736177162560209L;
-         * @Override protected void onEvent(AjaxRequestTarget target) { target.addComponent(workflowForm); } }); workflowForm.add(new
-         * FormModificationDetectorBehavior() { private static final long serialVersionUID = -790668701320131126L;
-         * @Override protected String getDisplayMessage() { return "The workflow on this page has unsaved changes."; } });
-         */
         workflowForm.add(textArea);
 
         add(workflowForm);

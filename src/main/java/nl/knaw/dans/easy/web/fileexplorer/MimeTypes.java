@@ -12,11 +12,9 @@ public class MimeTypes
     {
         map.put("image/bmp", "bmp");
         map.put("image/x-windows-bmp", "bmp");
-        //map.put("", "clo");
         map.put("application/x-msdownload", "dll");
         map.put("application/msword", "doc");
         map.put("application/vnd.openxmlformats-officedocument.wordprocessingml.document", "docx");
-        //map.put("", "fla");
         map.put("image/gif", "gif");
         map.put("text/html", "html");
         map.put("image/jpeg", "jpg");
@@ -35,14 +33,8 @@ public class MimeTypes
         map.put("text/richtext", "rtf");
         map.put("text/rtf", "rtf");
         map.put("text/x-rtf", "rtf");
-        //map.put("", "sav");
-        //map.put("", "sct");
-        //map.put("", "spo");
-        //map.put("", "spp");
-        //map.put("", "sps");
         map.put("image/tiff", "tif");
         map.put("image/x-tiff", "tif");
-        //map.put("", "tlo");
         map.put("text/plain", "txt");
         map.put("application/plain", "txt");
         map.put("audio/wav", "wav");

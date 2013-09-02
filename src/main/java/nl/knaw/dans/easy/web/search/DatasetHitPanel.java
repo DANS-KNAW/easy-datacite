@@ -49,12 +49,12 @@ public class DatasetHitPanel extends AbstractEasyPanel<SearchHit<DatasetSB>>
             addLabel(new UnescapedLabel("creator", new ShortenedCharSequenceModel(getSnippetOrValue("dcCreator"))));
             addLabel(new UnescapedLabel("description", new ShortenedCharSequenceModel(getSnippetOrValue("dcDescription"))));
 
-            //-------- column 3
+            // -------- column 3
             addLabel(new Label("accessrights", new ResourceModel("fieldvalue." + datasetHit.getAccessCategory())), datasetHit.getAccessCategory() != null);
 
-            //-------- footer
-            addLabel(new Label("relevance", String.format("%.0f", hit.getRelevanceScore() * 100)), !StringUtils.isBlank(svModel.getObject().getRequestBuilder()
-                    .getRequest().getQuery().getQueryString()));
+            // -------- footer
+            addLabel(new Label("relevance", String.format("%.0f", hit.getRelevanceScore() * 100)),
+                    !StringUtils.isBlank(svModel.getObject().getRequestBuilder().getRequest().getQuery().getQueryString()));
             List<SnippetField> remainingSnippets = getRemainingSnippets();
             add(new ListView("snippets", remainingSnippets)
             {

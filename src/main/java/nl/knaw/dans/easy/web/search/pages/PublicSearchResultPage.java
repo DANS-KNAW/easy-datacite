@@ -83,7 +83,7 @@ public class PublicSearchResultPage extends AbstractSearchResultPage
     @Override
     protected List<FacetConfig> getFacets()
     {
-        // remove the state facet from the list 
+        // remove the state facet from the list
         List<FacetConfig> facets = super.getFacets();
         Iterator<FacetConfig> facetIt = facets.iterator();
         while (facetIt.hasNext())

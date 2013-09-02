@@ -39,7 +39,7 @@ public class UploadLicenseProcess extends UploadSingelFilePostProcess implements
     {
         // TODO to allow other types, make private in AdditionalLicenseUnit:
         // UNIT_LABEL, MIME_TYPE
-        //return needsProcessing(files, ".pdf");
+        // return needsProcessing(files, ".pdf");
         return files != null && files.size() > 0;
     }
 }

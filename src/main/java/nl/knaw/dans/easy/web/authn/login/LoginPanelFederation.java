@@ -35,8 +35,8 @@ class LoginPanelFederation extends AbstractEasyStatelessPanel
             }
 
             /*
-             * WORK-AROUND: Overriding, otherwise Wicket does not accept the wicket:message element in the body of the
-             * anchor element. Not clear why this is not allowed.
+             * WORK-AROUND: Overriding, otherwise Wicket does not accept the wicket:message element in
+             * the body of the anchor element. Not clear why this is not allowed.
              */
             @Override
             protected void onComponentTagBody(final MarkupStream markupStream, final ComponentTag openTag)

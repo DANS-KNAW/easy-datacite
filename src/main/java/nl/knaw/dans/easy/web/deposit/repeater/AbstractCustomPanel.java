@@ -31,7 +31,7 @@ public abstract class AbstractCustomPanel extends SkeletonPanel
 
     protected void init()
     {
-        super.init(); // skeletonPanel        
+        super.init(); // skeletonPanel
         Panel customComponent = getCustomComponentPanel();
         add(customComponent);
         setVisible(customComponent.isVisible());

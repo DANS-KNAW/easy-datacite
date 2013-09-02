@@ -114,7 +114,8 @@ public class NamePanel extends Panel
 
             if (canUnitBeRead && !hasAdditionalLicense && EasySession.getSessionUser().hasAcceptedGeneralConditions())
             {
-                // the user has already accepted general conditions and there are no additional conditions so create a direct download link
+                // the user has already accepted general conditions and there are no additional
+                // conditions so create a direct download link
                 link = new IndicatingAjaxLink<Void>("link")
                 {
                     private static final long serialVersionUID = 1L;

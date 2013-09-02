@@ -39,7 +39,8 @@ public class ExpiredPage extends AbstractEasyNavPage
     /**
      * Constructor with IModel.
      * 
-     * @param model IModel
+     * @param model
+     *        IModel
      */
     public ExpiredPage(final IModel model)
     {
@@ -50,8 +51,10 @@ public class ExpiredPage extends AbstractEasyNavPage
     /**
      * Constructor with PageMap and IModel.
      * 
-     * @param map PageMap
-     * @param model IModel
+     * @param map
+     *        PageMap
+     * @param model
+     *        IModel
      */
     public ExpiredPage(final PageMap map, final IModel model)
     {
@@ -62,7 +65,8 @@ public class ExpiredPage extends AbstractEasyNavPage
     /**
      * Constructor with PageMap.
      * 
-     * @param map PageMap
+     * @param map
+     *        PageMap
      */
     public ExpiredPage(final PageMap map)
     {
@@ -73,7 +77,8 @@ public class ExpiredPage extends AbstractEasyNavPage
     /**
      * Constructor with parameters.
      * 
-     * @param parameters Page parameters
+     * @param parameters
+     *        Page parameters
      */
     public ExpiredPage(final PageParameters parameters)
     {

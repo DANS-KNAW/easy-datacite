@@ -27,7 +27,6 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Page with a form allowing a depositor of a data set to (re)view or reply to a permission request.
- *
  */
 public class PermissionReplyPage extends AbstractEasyNavPage
 {

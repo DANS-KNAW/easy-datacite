@@ -101,8 +101,6 @@ public class PointListWrapper extends AbstractDefaultListWrapper<PointListWrappe
                 throw new IllegalArgumentException("Cannot model a spatial without a point! (Do you get the point?)");
             }
             schemeToken = spatial.getPoint().getScheme();
-            //            x = convertToString(spatial.getPoint().getX());
-            //            y = convertToString(spatial.getPoint().getY());
             x = spatial.getPoint().getX();
             y = spatial.getPoint().getY();
         }
@@ -121,7 +119,6 @@ public class PointListWrapper extends AbstractDefaultListWrapper<PointListWrappe
             else
             {
                 spatial = new Spatial();
-                //spatial.setPoint(new Point(schemeToken, convertToDouble(x, "X"), convertToDouble(y, "Y")));
                 spatial.setPoint(new Point(schemeToken, x, y));
             }
             return spatial;

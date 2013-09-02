@@ -19,16 +19,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This page acts as a staging for the {@link PermissionReplyPage.java}. It is created when a user clicks on a
- * bookmarkable link (set in {@link PageBookmark.java}). This link is mostly clicked from an email send to the user.
- * 
- * Before the PermissionReplyPage is instantiated the authorization is checked using the authorization rule 
- * {@link isDepositorOfDataset.java}. For this authorization-rule to work the dataset needs to be added to the 
- * ContextParameters. Which isn't the case when a user tries to access the page directly.
- * 
- * This page sets thing up, so it adds the dataset to the ContextParameters and redirects to the 
+ * <p>
+ * This page acts as a staging for the {@link PermissionReplyPage.java}. It is created when a user clicks
+ * on a bookmarkable link (set in {@link PageBookmark.java}). This link is mostly clicked from an email
+ * send to the user.
+ * <p>
+ * Before the PermissionReplyPage is instantiated the authorization is checked using the authorization
+ * rule {@link isDepositorOfDataset.java}. For this authorization-rule to work the dataset needs to be
+ * added to the ContextParameters. Which isn't the case when a user tries to access the page directly.
+ * <p>
+ * This page sets thing up, so it adds the dataset to the ContextParameters and redirects to the
  * PermissionReplyPage properly checking the authorization.
- * 
  */
 public class PermissionReplyPrePage extends AbstractEasyNavPage
 {
@@ -55,7 +56,7 @@ public class PermissionReplyPrePage extends AbstractEasyNavPage
 
             // Finished setting up, go to the PermissionReplyPage
             setResponsePage(new PermissionReplyPage(datasetModel, null, request));
-            //setResponsePage(new PermissionReplyPage(parameters));
+            // setResponsePage(new PermissionReplyPage(parameters));
         }
         catch (ServiceException e)
         {

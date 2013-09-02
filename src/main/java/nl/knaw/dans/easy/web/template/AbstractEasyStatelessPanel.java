@@ -21,7 +21,8 @@ public abstract class AbstractEasyStatelessPanel extends AbstractEasyPanel
     /**
      * Default constructor.
      * 
-     * @param wicketId wicket id
+     * @param wicketId
+     *        wicket id
      */
     public AbstractEasyStatelessPanel(final String wicketId)
     {
@@ -31,8 +32,10 @@ public abstract class AbstractEasyStatelessPanel extends AbstractEasyPanel
     /**
      * Constructor with model.
      * 
-     * @param wicketId wicket id
-     * @param model model
+     * @param wicketId
+     *        wicket id
+     * @param model
+     *        model
      */
     public AbstractEasyStatelessPanel(final String wicketId, final IModel model)
     {

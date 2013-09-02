@@ -9,13 +9,13 @@ import java.util.regex.Pattern;
 /**
  * A {@link CharSequence} implementation that may contain HTML &lt;em&gt; tags. The tags are <i>not</i>
  * considered part of the char sequence. However, when getting a subsequence the &lt;em&gt; tags are
- * always properly closed.  For instance:
+ * always properly closed. For instance:
  * 
  * <pre>
  * CharSequence hs = new HighlightedString("This is <em>important</em> so remember it")
  * assert hs.getSubsequence(5, 10).equals("is <em>im</em>");
  * assert hs.length() == 5;
- * assert hs.charAt(11) == 'o'; 
+ * assert hs.charAt(11) == 'o';
  * </pre>
  */
 public class HighlightedCharSequence implements CharSequence

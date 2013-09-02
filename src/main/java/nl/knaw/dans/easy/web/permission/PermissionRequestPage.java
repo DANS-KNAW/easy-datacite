@@ -98,12 +98,6 @@ public class PermissionRequestPage extends AbstractEasyNavPage
             LOGGER.error("Unable to load model object: ", e);
             throw new InternalWebError();
         }
-        //        if (!getDataset().hasPermissionRestrictedItems())
-        //        {
-        //            errorMessage(EasyResources.ILLEGAL_PAGE_PARAMETERS);
-        //            LOGGER.error("No restricted items in dataset " + getDataset().getStoreId());
-        //            throw new RestartResponseException(new ErrorPage());
-        //        }
         fromPage = null;
         setResponsePage(new PermissionRequestPage(datasetModel));
     }

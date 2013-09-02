@@ -18,7 +18,7 @@ public class PointPanel extends AbstractChoicePanel<PointModel>
 
     /**
      * Constructor that takes a model with a ListWrapper&lt;PointModel> as model object.
-     *
+     * 
      * @param wicketId
      *        id of this panel
      * @param model
@@ -57,7 +57,7 @@ public class PointPanel extends AbstractChoicePanel<PointModel>
         RepeatingEditModePanel(final ListItem item)
         {
             super(REPEATING_PANEL_ID);
-            //add(new FeedbackPanel(REPEATING_PANEL_ID + ".feedback"));
+            // add(new FeedbackPanel(REPEATING_PANEL_ID + ".feedback"));
             final DropDownChoice schemeChoice = new DropDownChoice("schemeChoice", new PropertyModel(item.getDefaultModelObject(), "scheme"), getChoiceList()
                     .getChoices(), getRenderer());
             schemeChoice.setNullValid(isNullValid());
@@ -85,8 +85,12 @@ public class PointPanel extends AbstractChoicePanel<PointModel>
             String x = (String) new PropertyModel(item.getDefaultModel(), "x").getObject();
             String y = (String) new PropertyModel(item.getDefaultModel(), "y").getObject();
             Label sLabel = new Label("sLabel", getChoiceList().getValue(s));
-            Label xLabel = new Label("xLabel", "X: " + String.valueOf(x));//Put "X" label in here not in html, otherwise it will displays if x is empty
-            Label yLabel = new Label("yLabel", "Y: " + String.valueOf(y));//Put "Y" label in here not in html, otherwise it will displays if y is empty
+            Label xLabel = new Label("xLabel", "X: " + String.valueOf(x));// Put "X" label in here not in
+                                                                          // html, otherwise it will
+                                                                          // displays if x is empty
+            Label yLabel = new Label("yLabel", "Y: " + String.valueOf(y));// Put "Y" label in here not in
+                                                                          // html, otherwise it will
+                                                                          // displays if y is empty
             add(sLabel);
             add(xLabel.setVisible(x != null));
             add(yLabel.setVisible(y != null));

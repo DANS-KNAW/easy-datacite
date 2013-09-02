@@ -13,8 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Password policy. This Validator is based on the CompoundValidator. It uses seperate validators to check for all the rules, which each use their own error
- * message. In contrast to the CompoundValidator, this validator keeps checking even if the validatable is already invalid.
+ * Password policy. This Validator is based on the CompoundValidator. It uses seperate validators to
+ * check for all the rules, which each use their own error message. In contrast to the CompoundValidator,
+ * this validator keeps checking even if the validatable is already invalid.
  * 
  * @author Herman Suijs
  */
@@ -56,7 +57,8 @@ public final class PasswordPolicyValidator implements IValidator<String>
         /**
          * Default constructor.
          * 
-         * @param length minimum length of the password
+         * @param length
+         *        minimum length of the password
          */
         public PasswordMinimumLengthValidator(final int length)
         {
@@ -89,7 +91,8 @@ public final class PasswordPolicyValidator implements IValidator<String>
         /**
          * Constructor with number of lower case characters expected.
          * 
-         * @param numberLowerCase expected
+         * @param numberLowerCase
+         *        expected
          */
         public RequireLowerCaseValidator(final int numberLowerCase)
         {
@@ -121,7 +124,8 @@ public final class PasswordPolicyValidator implements IValidator<String>
         /**
          * Constructor with number of upper case characters expected.
          * 
-         * @param numberUpperCase expected
+         * @param numberUpperCase
+         *        expected
          */
         public RequireUpperCaseValidator(final int numberUpperCase)
         {
@@ -152,7 +156,8 @@ public final class PasswordPolicyValidator implements IValidator<String>
         /**
          * Constructor with number of digits expected.
          * 
-         * @param numberDigits expected
+         * @param numberDigits
+         *        expected
          */
         public RequireDigitValidator(final int numberDigits)
         {
@@ -183,7 +188,8 @@ public final class PasswordPolicyValidator implements IValidator<String>
         /**
          * Constructor with number of special characters expected.
          * 
-         * @param numberSpecials expected
+         * @param numberSpecials
+         *        expected
          */
         public RequireSpecialCharacterValidator(final int numberSpecials)
         {
@@ -203,22 +209,24 @@ public final class PasswordPolicyValidator implements IValidator<String>
     }
 
     /**
-     * Default protected constructor. Defines the pattern to check for the passwordPolicy. <br/> Pattern requires 1 or more digits, 1 or more lower and upper
-     * case character and a special character with a minimum of 8. Complete pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\\W).{8,}$"
+     * Default protected constructor. Defines the pattern to check for the passwordPolicy. <br/>
+     * Pattern requires 1 or more digits, 1 or more lower and upper case character and a special
+     * character with a minimum of 8. Complete pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\\W).{8,}$"
      */
     private PasswordPolicyValidator()
     {
         add(passwordMinimumLengthValidator(MIN_PASSWORD_LENGTH));
-        //add(requireLowerCaseValidator(1));
-        //add(requireUpperCaseValidator(1));
-        //add(requireDigitValidator(1));
-        //add(requireSpecialCharValidator(1));
+        // add(requireLowerCaseValidator(1));
+        // add(requireUpperCaseValidator(1));
+        // add(requireDigitValidator(1));
+        // add(requireSpecialCharValidator(1));
     }
 
     /**
      * Return a length validator.
      * 
-     * @param length to check
+     * @param length
+     *        to check
      * @return minimum length validator.
      */
     public static PasswordMinimumLengthValidator passwordMinimumLengthValidator(final int length)
@@ -229,7 +237,8 @@ public final class PasswordPolicyValidator implements IValidator<String>
     /**
      * Return lower case validator.
      * 
-     * @param numberLowerCase expected
+     * @param numberLowerCase
+     *        expected
      * @return lower case validator
      */
     public static RequireLowerCaseValidator requireLowerCaseValidator(final int numberLowerCase)
@@ -240,7 +249,8 @@ public final class PasswordPolicyValidator implements IValidator<String>
     /**
      * Return upper case validator.
      * 
-     * @param numberUpperCase expected
+     * @param numberUpperCase
+     *        expected
      * @return upper case validator.
      */
     public static RequireUpperCaseValidator requireUpperCaseValidator(final int numberUpperCase)
@@ -251,7 +261,8 @@ public final class PasswordPolicyValidator implements IValidator<String>
     /**
      * Return digit validator.
      * 
-     * @param numberDigits expected
+     * @param numberDigits
+     *        expected
      * @return digit validator.
      */
     public static RequireDigitValidator requireDigitValidator(final int numberDigits)
@@ -262,7 +273,8 @@ public final class PasswordPolicyValidator implements IValidator<String>
     /**
      * Return special characters validator.
      * 
-     * @param numberSpecialChars expected
+     * @param numberSpecialChars
+     *        expected
      * @return special characters validator.
      */
     public static RequireSpecialCharacterValidator requireSpecialCharValidator(final int numberSpecialChars)
@@ -273,7 +285,8 @@ public final class PasswordPolicyValidator implements IValidator<String>
     /**
      * Adds an <code>IValidator</code> to the chain of validators.
      * 
-     * @param validator an <code>IValidator</code> to be added
+     * @param validator
+     *        an <code>IValidator</code> to be added
      * @return this <code>ValidationError</code> for chaining purposes
      */
     public PasswordPolicyValidator add(final IValidator<String> validator)
@@ -290,7 +303,8 @@ public final class PasswordPolicyValidator implements IValidator<String>
     /**
      * Validate the validatable field.
      * 
-     * @param validatable validatable field
+     * @param validatable
+     *        validatable field
      * @see org.apache.wicket.validation.IValidator#validate(org.apache.wicket.validation.IValidatable)
      */
     public void validate(final IValidatable<String> validatable)

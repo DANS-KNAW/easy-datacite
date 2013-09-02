@@ -9,7 +9,7 @@ import nl.knaw.dans.pf.language.emd.types.BasicString;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * Wraps a list of {@link BasicString} to obtain {@link String}s. 
+ * Wraps a list of {@link BasicString} to obtain {@link String}s.
  * 
  * @author ecco Mar 31, 2009
  */

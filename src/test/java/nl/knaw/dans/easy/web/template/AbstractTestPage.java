@@ -40,29 +40,7 @@ public abstract class AbstractTestPage implements Serializable
     {
         createMockContext();
         System.setProperty("easy.home", "../easy-home");
-        EasyWicketApplication application = new EasyWicketApplication()
-        {
-
-            //            @Override
-            //            protected void setUpHive()
-            //            {
-            //                HiveMind.unregisterHive(getHiveKey());
-            //              //super.setUpHive();
-            //                try
-            //                {
-            //                    URL url = new File("src/main/webapp/WEB-INF/easy.hive").toURL();
-            //                    List<URL> urls = new ArrayList<URL>();
-            //                    urls.add(url);
-            //                    super.setUpHive(urls);
-            //                }
-            //                catch (MalformedURLException e)
-            //                {
-            //                    throw new RuntimeException(e);
-            //                }
-            //            }
-
-        };
-
+        EasyWicketApplication application = new EasyWicketApplication();
         tester = new EasyMessageTester(application);
         new Security(new CodedAuthz());
     }

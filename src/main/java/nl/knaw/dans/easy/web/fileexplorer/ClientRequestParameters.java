@@ -45,7 +45,8 @@ class ClientRequestParameters
     private final Map<String, String[]> parameterMap;
 
     /**
-     * @param parameterMap key-value pairs of the request arguments
+     * @param parameterMap
+     *        key-value pairs of the request arguments
      */
     ClientRequestParameters(final Map<String, String[]> parameterMap)
     {
@@ -54,7 +55,9 @@ class ClientRequestParameters
 
     /**
      * creates an instance from the request in the RequestCycle
-     * @throws MalformedURLException should not happen as the url is extracted from the request
+     * 
+     * @throws MalformedURLException
+     *         should not happen as the url is extracted from the request
      */
     @SuppressWarnings("unchecked")
     ClientRequestParameters()

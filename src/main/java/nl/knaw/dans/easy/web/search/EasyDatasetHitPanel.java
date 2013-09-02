@@ -155,8 +155,8 @@ public class EasyDatasetHitPanel extends AbstractEasyPanel
             addLabel(new EasyDateLabel("dateSubmitted", datasetHit.getDateSubmitted()));
 
             // -------- footer
-            addLabel(new Label("relevance", String.format("%.0f", hit.getRelevanceScore() * 100)), !StringUtils.isBlank(svModel.getObject().getRequestBuilder()
-                    .getRequest().getQuery().getQueryString()));
+            addLabel(new Label("relevance", String.format("%.0f", hit.getRelevanceScore() * 100)),
+                    !StringUtils.isBlank(svModel.getObject().getRequestBuilder().getRequest().getQuery().getQueryString()));
             List<SnippetField> remainingSnippets = getRemainingSnippets();
             add(new ListView<SnippetField>("snippets", remainingSnippets)
             {
@@ -204,10 +204,6 @@ public class EasyDatasetHitPanel extends AbstractEasyPanel
         private String assigneeIdToDisplayName(String userId)
         {
             if (userId == null || userId.equals(WorkflowData.NOT_ASSIGNED))
-                // Tried to retrieve a localized string for a component that has not yet been added to the page.
-                // Make sure you are not calling Component#getString() inside your Component's constructor.
-                // This method called from the constructor.
-                //return getString(AssignToDropChoiceList.NOT_ASSIGNED_RESOURCEKEY);
                 return "Not Assigned";
             else
                 return userIdToDisplayName(userId);

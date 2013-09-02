@@ -35,8 +35,10 @@ public class PasswordPolicyValidatorTest
     /**
      * Create a validation test with parameterized passwords.
      * 
-     * @param password to test
-     * @param valid true if password is valid
+     * @param password
+     *        to test
+     * @param valid
+     *        true if password is valid
      */
     public PasswordPolicyValidatorTest(String password, boolean valid)
     {

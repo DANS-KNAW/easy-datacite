@@ -25,10 +25,9 @@ public class CMDIFormatChoiceWrapper extends AbstractListWrapper<KeyValuePair>
     }
 
     /**
-     * This method is called when the panel is displayed.
-     * When it is displayed we need to decide which of the radio options should be selected
-     * If the EASY Metadata's DC Format contains the CMDI MIME-type, the YES option should be selected.
-     * In all other cases the NO option should be selected.
+     * This method is called when the panel is displayed. When it is displayed we need to decide which of
+     * the radio options should be selected If the EASY Metadata's DC Format contains the CMDI MIME-type,
+     * the YES option should be selected. In all other cases the NO option should be selected.
      */
     @Override
     public List<KeyValuePair> getInitialItems()
@@ -46,13 +45,14 @@ public class CMDIFormatChoiceWrapper extends AbstractListWrapper<KeyValuePair>
     }
 
     /**
+     * <p>
      * This method is called when the model needs to be updated to the latest version.
      * E.g. when a page is saved, or when you move to another page.
      * If the panel was in view and was editted it will also be saved.
-     * 
+     * <p>
      * When the YES option was selected we add the CMDI MIME-type to the DC Format field
      * in the EASY Metadata.
-     * 
+     * <p>
      * When the NO option (default) was selected we remove the CMDI MIME-type from the 
      * DC Format field in the EASY Metadata.
      */

@@ -45,7 +45,6 @@ public class PermissionReplyViewPanel extends AbstractEasyPanel
         prmReply = getDataset().getPermissionSequenceList().getPermissionReply(sequence.getRequesterId());
 
         // add the form
-        //add(new PermissionReplyForm("form", fromPage, datasetModel, sequence));
         addMotivation(sequence);
         addPersonalInfo(sequence.getRequester());
 

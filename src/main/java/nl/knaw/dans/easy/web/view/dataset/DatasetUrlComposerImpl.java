@@ -29,8 +29,10 @@ public class DatasetUrlComposerImpl implements DatasetUrlComposer
 
     /**
      * Gets an instance to inject into {@link DatasetNotification}.<br>
-     * TODO rather at session or even application level, but called by onBeforeRender of pages that might send e-mails about datasets.<br>
-     * We get indefinite recursion when called by EasyWicketApplication.newSession with argument: session.getDefaultPageMap()
+     * TODO rather at session or even application level, but called by onBeforeRender of pages that might
+     * send e-mails about datasets.<br>
+     * We get indefinite recursion when called by EasyWicketApplication.newSession with argument:
+     * session.getDefaultPageMap()
      * 
      * @param pageMap
      *        we need a page map but don't care about which one

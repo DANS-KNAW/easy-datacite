@@ -188,11 +188,10 @@ class PermissionReplyForm extends PermissionForm
             if (explanation.getValue().trim().length() == 0)
             {
                 error(explanation);
-                /* TODO maybe not always required, but needs to be in sync with the PermissionWorker.validateReply
-                if (! GRANTED.equals(choice.getValue())) 
-                {
-                    error(explanation);
-                }
+                /*
+                 * TODO maybe not always required, but needs to be in sync with the
+                 * PermissionWorker.validateReply if (! GRANTED.equals(choice.getValue())) {
+                 * error(explanation); }
                  */
             }
         }

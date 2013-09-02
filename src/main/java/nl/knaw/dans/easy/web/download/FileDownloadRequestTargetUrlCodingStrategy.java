@@ -26,21 +26,9 @@ public class FileDownloadRequestTargetUrlCodingStrategy extends AbstractRequestT
     private static final String PARAMS = "params";
     private static final Logger logger = LoggerFactory.getLogger(FileDownloadRequestTargetUrlCodingStrategy.class);
 
-    // These constructors not in use? (hb) then throw them away.
-    //    public FileDownloadRequestTargetUrlCodingStrategy(String mountPath, Class<?> scope)
-    //    {
-    //        this(mountPath, mountPath.substring(1));
-    //    }
-    //
-    //    public FileDownloadRequestTargetUrlCodingStrategy(String mountPath)
-    //    {
-    //        super(mountPath);
-    //    }
-
     public FileDownloadRequestTargetUrlCodingStrategy(String mountPath, String namePrefix)
     {
         super(mountPath);
-        //this.keyPrefix = scope.getCanonicalName() + "/" + namePrefix;
         this.keyPrefix = EasyWicketApplication.WICKET_APPLICATION_ALIAS + "/" + namePrefix;
     }
 
@@ -50,7 +38,6 @@ public class FileDownloadRequestTargetUrlCodingStrategy extends AbstractRequestT
         {
             String downloadParams = requestParameters.getPath().substring(getMountPath().length() + 1);
             String str = urlDecodePathComponent(downloadParams);
-            //logger.debug(str);
             Map<String, String> map = new HashMap<String, String>();
             map.put(PARAMS, str);
             requestParameters.setParameters(map);

@@ -54,13 +54,12 @@ class EasyDatasetHitStatus implements Serializable
     }
 
     /**
-     * This retrieves the maximum workflow progress from the workflow 
-     * factory, which gets its information from the XML, but this is 
-     * done only once, so if the XML changes the change is not reflected
-     * here until you restart EASY. If it will be needed to hot swap the 
-     * workflow steps then this code needs to be changed.
-     * @return the number of steps needed to be fulfilled before the 
-     * dataset workflow is completed. 
+     * This retrieves the maximum workflow progress from the workflow factory, which gets its information
+     * from the XML, but this is done only once, so if the XML changes the change is not reflected here
+     * until you restart EASY. If it will be needed to hot swap the workflow steps then this code needs
+     * to be changed.
+     * 
+     * @return the number of steps needed to be fulfilled before the dataset workflow is completed.
      */
     public int getMaxWorkflowProgress()
     {

@@ -46,8 +46,8 @@ public abstract class PermissionForm extends AbstractEasyForm<Dataset>
         // create a new instance of the page so that everything will be refreshed properly
         setResponsePage(new DatasetViewPage(fromPage.getPageParameters()));
         // this method doesn't work correctly:
-        //fromPage.refresh();
-        //setResponsePage(fromPage);
+        // fromPage.refresh();
+        // setResponsePage(fromPage);
     }
 
     protected Dataset getDataset()

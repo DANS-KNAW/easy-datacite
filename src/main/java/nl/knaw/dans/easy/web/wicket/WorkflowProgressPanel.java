@@ -15,8 +15,8 @@ import org.apache.wicket.model.Model;
 
 /**
  * &#8853;
+ * 
  * @author ecco Aug 28, 2009
- *
  */
 public class WorkflowProgressPanel extends Panel
 {

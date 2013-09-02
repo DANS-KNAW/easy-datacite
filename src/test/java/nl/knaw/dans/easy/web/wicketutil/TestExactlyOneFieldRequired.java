@@ -14,7 +14,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest( {RequireExactlyOneValidator.class, Form.class, FormComponent.class})
+@PrepareForTest({RequireExactlyOneValidator.class, Form.class, FormComponent.class})
 public class TestExactlyOneFieldRequired
 {
     private boolean errorCalled = false;

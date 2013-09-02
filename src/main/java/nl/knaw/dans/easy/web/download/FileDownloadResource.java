@@ -21,7 +21,6 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Singleton WebResource for file download.
- *
  */
 public class FileDownloadResource extends WebResource
 {
@@ -44,7 +43,7 @@ public class FileDownloadResource extends WebResource
         try
         {
             FileDownloadResponse fileDownloadResponse = (FileDownloadResponse) ((EasySession) Session.get()).get(FileDownloadResponse.class.getName());
-            // TODO Known issue: Wicket doesn't like us sending a response, 
+            // TODO Known issue: Wicket doesn't like us sending a response,
             // but has no method for sending failure to the client (that I know of).
             if (fileDownloadResponse == null)
             {

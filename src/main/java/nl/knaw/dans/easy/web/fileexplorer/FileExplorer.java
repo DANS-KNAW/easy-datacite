@@ -86,7 +86,6 @@ public class FileExplorer extends AbstractDatasetModelPanel
         super(id, datasetModel);
 
         add(CSSPackageResource.getHeaderContribution(FileExplorer.class, "style/file-explorer.css"));
-        //add(CSSPackageResource.getHeaderContribution(FileExplorer.class, "style/style.css"));
 
         // check if archivist or depsitor view should be enabled
         if (EasySession.getSessionUser().hasRole(Role.ARCHIVIST))
@@ -126,7 +125,6 @@ public class FileExplorer extends AbstractDatasetModelPanel
 
         Form<Void> filterForm = new Form<Void>("filterForm");
         final HashMap<Enum<?>, CheckBox> filterMap = new HashMap<Enum<?>, CheckBox>();
-        //VisibleTo[] visibilityValues = {VisibleTo.ANONYMOUS, VisibleTo.KNOWN, VisibleTo.NONE};
         createFilterCheckboxes(filterForm, filterMap, CreatorRole.values(), "creator");
         createFilterCheckboxes(filterForm, filterMap, VisibleTo.values(), "visible");
         createFilterCheckboxes(filterForm, filterMap, AccessibleTo.values(), "access");
@@ -138,8 +136,8 @@ public class FileExplorer extends AbstractDatasetModelPanel
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form<?> form)
             {
-                // in filterMap we can lookup wich filters are enabled/disabled  
-                // we reload the treeProvider, clear the tableProvider 
+                // in filterMap we can lookup wich filters are enabled/disabled
+                // we reload the treeProvider, clear the tableProvider
                 // and update the explorer
                 ((TreeItemProvider) treeProvider).setFilters(filterMap);
                 selectedFiles.clear();
@@ -203,7 +201,8 @@ public class FileExplorer extends AbstractDatasetModelPanel
         legend.setVisible(false);
         add(legend);
 
-        // initialize columns, archivist has 6 columns, depositor has 5 columns, normal user has 4 columns
+        // initialize columns, archivist has 6 columns, depositor has 5 columns, normal user has 4
+        // columns
         IColumn<?>[] columns;
         if (archivistView)
         {
@@ -228,7 +227,8 @@ public class FileExplorer extends AbstractDatasetModelPanel
             {
                 final ITreeItem item = ((ITreeItem) (rowModel.getObject()));
                 Model<Boolean> checked = new Model<Boolean>();
-                checked.setObject(selectedFiles.contains(item) || selectedFolders.contains(item)); // selection memoization
+                checked.setObject(selectedFiles.contains(item) || selectedFolders.contains(item)); // selection
+                                                                                                   // memoization
                 cellItem.add(new CheckboxPanel(componentId, checked)
                 {
                     private static final long serialVersionUID = 1L;
@@ -530,13 +530,15 @@ public class FileExplorer extends AbstractDatasetModelPanel
         });
 
         ArrayList<VisibleTo> visibleToList = new ArrayList<VisibleTo>(Arrays.asList(VisibleTo.values()));
-        visibleToList.remove(VisibleTo.RESTRICTED_REQUEST); // GK: milco requested to turn off the possibility of group and request on the visibility of files 
+        visibleToList.remove(VisibleTo.RESTRICTED_REQUEST); // GK: milco requested to turn off the
+                                                            // possibility of group and request on the
+                                                            // visibility of files
         visibleToList.remove(VisibleTo.RESTRICTED_GROUP);
         final EnumChoiceRenderer<VisibleTo> visibleToRenderer = new EnumChoiceRenderer<VisibleTo>(this, "Rights");
         final DropDownChoice<VisibleTo> viewRights = new DropDownChoice<VisibleTo>("viewRights", new Model<VisibleTo>(), visibleToList, visibleToRenderer);
         final EnumChoiceRenderer<AccessibleTo> accessibleToRenderer = new EnumChoiceRenderer<AccessibleTo>(this, "Rights");
-        final DropDownChoice<AccessibleTo> accessRights = new DropDownChoice<AccessibleTo>("accessRights", new Model<AccessibleTo>(), Arrays
-                .asList(AccessibleTo.values()), accessibleToRenderer);
+        final DropDownChoice<AccessibleTo> accessRights = new DropDownChoice<AccessibleTo>("accessRights", new Model<AccessibleTo>(),
+                Arrays.asList(AccessibleTo.values()), accessibleToRenderer);
         viewRights.setNullValid(true);
         accessRights.setNullValid(true);
 
@@ -551,7 +553,8 @@ public class FileExplorer extends AbstractDatasetModelPanel
             }
         };
 
-        // GK: these behaviours make sure AJAX round trips are made to the server whenever the value changes.
+        // GK: these behaviours make sure AJAX round trips are made to the server whenever the value
+        // changes.
         // Should AjaxFormComponentUpdatingBehavior be used instead maybe?
         viewRights.add(getAjaxFormSubmitBehavior(rightsForm));
         accessRights.add(getAjaxFormSubmitBehavior(rightsForm));

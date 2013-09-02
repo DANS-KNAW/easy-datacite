@@ -19,8 +19,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Displays EasyMetadata in a metadata-format-specific way. How and what is displayed is governed by the formDefinition
- * with id 'emd-view-definition' in the form-description xml of the metadata format.
+ * Displays EasyMetadata in a metadata-format-specific way. How and what is displayed is governed by the
+ * formDefinition with id 'emd-view-definition' in the form-description xml of the metadata format.
  * 
  * @see src/main/resources/conf/discipline/emd/form-description/
  * @author ecco Feb 26, 2010

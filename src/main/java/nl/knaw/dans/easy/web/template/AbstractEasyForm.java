@@ -44,7 +44,7 @@ public abstract class AbstractEasyForm<T> extends CommonForm<T>
 
     /**
      * Get the current user of the session or <code>null</code> if no user is logged in.
-     *
+     * 
      * @return current user or null
      */
     protected EasyUser getSessionUser()
@@ -54,7 +54,7 @@ public abstract class AbstractEasyForm<T> extends CommonForm<T>
 
     /**
      * Create the url to the specified page.
-     *
+     * 
      * @param pageClass
      *        Page to create url for.
      * @param parameterMap

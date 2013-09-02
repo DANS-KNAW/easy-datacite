@@ -44,9 +44,7 @@ public class BrowsePage extends AbstractSearchPage
         setSearchModel(new SearchModel(new InitialSearchCriterium(clabelModel)));
 
         // show resultPage immediately
-        //init();
         setResponsePage(AbstractSearchResultPage.instantiate(resultPage, getSearchModel()));
-        //
     }
 
     public BrowsePage(SearchModel model, Class<? extends AbstractSearchResultPage> resultPage)

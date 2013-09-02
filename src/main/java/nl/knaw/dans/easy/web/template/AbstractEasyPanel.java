@@ -14,7 +14,7 @@ import org.apache.wicket.model.IModel;
 
 /**
  * Generic panel for Easy.
- *
+ * 
  * @author Herman Suijs
  */
 public abstract class AbstractEasyPanel<T> extends CommonPanel<T>
@@ -23,8 +23,9 @@ public abstract class AbstractEasyPanel<T> extends CommonPanel<T>
 
     /**
      * Default constructor.
-     *
-     * @param wicketId wicket id
+     * 
+     * @param wicketId
+     *        wicket id
      */
     public AbstractEasyPanel(final String wicketId)
     {
@@ -34,9 +35,11 @@ public abstract class AbstractEasyPanel<T> extends CommonPanel<T>
 
     /**
      * Constructor with model.
-     *
-     * @param wicketId wicket id
-     * @param model model
+     * 
+     * @param wicketId
+     *        wicket id
+     * @param model
+     *        model
      */
     public AbstractEasyPanel(final String wicketId, final IModel<T> model)
     {
@@ -50,7 +53,7 @@ public abstract class AbstractEasyPanel<T> extends CommonPanel<T>
 
     /**
      * Check if authenticated.
-     *
+     * 
      * @return true if authenticated.
      */
     public final boolean isAuthenticated()

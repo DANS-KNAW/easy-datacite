@@ -98,7 +98,11 @@ public class Archis2EditPanel extends AbstractRepeaterPanel<Archis2ListWrapper.A
                             }
                             else
                             {
-                                ((DepositPanel) form.getParent()).setInitiated(false);//set initated variable of DepositPanel to false to run init() method.
+                                ((DepositPanel) form.getParent()).setInitiated(false);// set initated
+                                                                                      // variable of
+                                                                                      // DepositPanel to
+                                                                                      // false to run
+                                                                                      // init() method.
                                 EasyMetadata emd = getEasyMetadata();
                                 if (emd.getEmdIdentifier() != null)
                                 {

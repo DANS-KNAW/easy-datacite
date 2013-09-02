@@ -59,9 +59,7 @@ public class DepositIntroPage extends AbstractEasyNavPage
 
                 item.add(new Label("discipline.name", new ResourceModel(formDescriptor.getLabelResourceKey())));
                 item.add(new ExternalLink("instructionLink_EN", depositInstructionsBaseUrl + "/" + formDescriptor.getInstructionFile() + "UK.pdf", "English"));
-                item
-                        .add(new ExternalLink("instructionLink_NL", depositInstructionsBaseUrl + "/" + formDescriptor.getInstructionFile() + "NL.pdf",
-                                "Nederlands"));
+                item.add(new ExternalLink("instructionLink_NL", depositInstructionsBaseUrl + "/" + formDescriptor.getInstructionFile() + "NL.pdf", "Nederlands"));
 
                 Link<DepositDiscipline> startDepositLink = new Link<DepositDiscipline>("startDepositLink", item.getModel())
                 {

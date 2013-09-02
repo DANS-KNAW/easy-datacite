@@ -34,7 +34,7 @@ public class DepositUploadPanel extends AbstractDatasetModelPanel
 
     /**
      * Constructor.
-     *
+     * 
      * @param id
      *        Wicket id
      * @param dataset
@@ -76,10 +76,6 @@ public class DepositUploadPanel extends AbstractDatasetModelPanel
         add(easyUpload);
 
         uploadPanelHolder = new WebMarkupContainer("depositUploadPanelbuttonsPanel");
-        //        int height = 300;
-        //        try {
-        //            height = Integer.parseInt(new StringResourceModel("popup.height", this, null).getString());
-        //        }catch(NumberFormatException nfe){}
 
         int width = 600;
         try
@@ -93,7 +89,7 @@ public class DepositUploadPanel extends AbstractDatasetModelPanel
         final ModalWindow popup = new ModalWindow("popup");
         popup.setUseInitialHeight(false);
         popup.setInitialWidth(width);
-        //popup.setInitialHeight(height);
+        // popup.setInitialHeight(height);
         popup.setTitle("Files");
         popup.add(CSSPackageResource.getHeaderContribution(FileExplorer.class, "style/modal.css"));
         uploadPanelHolder.add(popup);

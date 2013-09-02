@@ -18,7 +18,6 @@ import org.apache.wicket.model.PropertyModel;
 
 /**
  * @author akmi
- *
  */
 public class RelationInfoPanel extends Panel
 {

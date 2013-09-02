@@ -17,8 +17,6 @@ import org.apache.wicket.model.PropertyModel;
 
 public class LicensePanel extends AbstractCustomPanel
 {
-    //private static final Logger logger = LoggerFactory.getLogger(LicensePanel.class);
-
     private static final long serialVersionUID = -8835422851027831656L;
 
     public static final String EDITABLE_LICENSE_PANEL_TEMPLATE = "/pages/LicensePanel.template";
@@ -54,7 +52,7 @@ public class LicensePanel extends AbstractCustomPanel
             super(CUSTOM_PANEL_ID);
             add(new EasyEditablePanel("editablePanel", getLicenceMessage(), easyMetadata.getEmdIdentifier()));
             add(new AcceptLicense("acceptLicense").setVisible(!AccessCategory.NO_ACCESS.equals(easyMetadata.getEmdRights().getAccessCategory())));
-            //add(new ResourceLink<LicenseResource>("licenseLink", new LicenseResource()));
+            // add(new ResourceLink<LicenseResource>("licenseLink", new LicenseResource()));
         }
 
         private String getLicenceMessage()
@@ -69,64 +67,6 @@ public class LicensePanel extends AbstractCustomPanel
             }
         }
     }
-
-    /*private class LicenseResource extends WebResource
-    {
-        private static final long serialVersionUID = 2114665554680463199L;
-        
-        @Override
-        protected void setHeaders(WebResponse response)
-        {
-            super.setHeaders(response);
-            response.setAttachmentHeader(easyMetadata.getPreferredTitle()+"-" + LicenseUnit.UNIT_LABEL);
-            response.setContentType(LicenseUnit.MIME_TYPE);
-        }
-
-        @Override
-        public IResourceStream getResourceStream()
-        {
-            setCacheable(false);
-            final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            final String storeId = easyMetadata.getEmdIdentifier().getDatasetId();
-            try
-            {
-            	final Dataset dataset = Services.getDatasetService().getDataset(storeId);
-            	new LicenseComposer(getSessionUser(), dataset, true).createPdf(outputStream);
-            }
-            catch (final LicenseComposerException exception)
-            {
-            	final String message = errorMessage(EasyResources.LICENSE_COMPOSER);
-                logger.error(message + " " + storeId, exception);
-            }
-            catch (final ServiceException exception)
-            {
-                final String message = errorMessage(EasyResources.LICENSE_DATASET);
-                logger.error(message + " " + storeId, exception);
-            }
-    //            catch (MalformedURLException exception)
-    //            {
-    //                final String message = errorMessage(EasyResources.LICENSE_COMPOSER);
-    //                logger.error(message + " " + storeId, exception);
-    //            }
-            return new AbstractResourceStream()
-            {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void close() throws IOException
-                {
-                }
-
-                @Override
-                public InputStream getInputStream() throws ResourceStreamNotFoundException
-                {
-                    if (outputStream.size() == 0)
-                        return null;
-                    return new ByteArrayInputStream(outputStream.toByteArray());
-                }
-            };
-        }
-    }*/
 
     class AcceptLicense extends CheckBox
     {

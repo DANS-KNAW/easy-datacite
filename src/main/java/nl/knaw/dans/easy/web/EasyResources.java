@@ -1,8 +1,9 @@
 package nl.knaw.dans.easy.web;
 
 /**
- * Keys for common resources, found on EasyWicketApplication.properties. These resources can be found throughout the application and have a uniform translation.
- * Please do not use common resources for resources that are specific to a particular package or a particular page.
+ * Keys for common resources, found on EasyWicketApplication.properties. These resources can be found
+ * throughout the application and have a uniform translation. Please do not use common resources for
+ * resources that are specific to a particular package or a particular page.
  * 
  * @author ecco Mar 13, 2009
  * @author lobo (refactored)

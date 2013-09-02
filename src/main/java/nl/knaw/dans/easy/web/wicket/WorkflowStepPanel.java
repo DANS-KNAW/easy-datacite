@@ -265,7 +265,7 @@ public class WorkflowStepPanel extends AbstractEasyPanel
         }, "yyyy-MM-dd");
         add(doneOnDate);
 
-        // substeps 
+        // substeps
         add(new ListView("kidSteps", workflowStep.getSteps())
         {
 

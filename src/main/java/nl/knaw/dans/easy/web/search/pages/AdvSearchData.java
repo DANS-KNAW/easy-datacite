@@ -23,7 +23,6 @@ public class AdvSearchData implements Serializable
     public SimpleField<String> subject = new SimpleField<String>(DatasetSB.DC_SUBJECT_FIELD);
     public SimpleField<String> coverage = new SimpleField<String>(DatasetSB.DC_COVERAGE_FIELD);
     public SimpleField<String> identifier = new SimpleField<String>(DatasetSB.DC_IDENTIFIER_FIELD);
-    //public SimpleField<String> relation 	= new SimpleField<String>(DatasetSB.DC_RELATION_FIELD);
 
     public SimpleField<String> depositor = new SimpleField<String>(EasyDatasetSB.DEPOSITOR_ID_FIELD);
     public SimpleField<String> assignedTo = new SimpleField<String>(EasyDatasetSB.ASSIGNEE_ID_FIELD);
@@ -48,7 +47,7 @@ public class AdvSearchData implements Serializable
             add(subject);
             add(coverage);
             add(identifier);
-            //add(relation);
+            // add(relation);
             add(depositor);
             add(assignedTo);
         }

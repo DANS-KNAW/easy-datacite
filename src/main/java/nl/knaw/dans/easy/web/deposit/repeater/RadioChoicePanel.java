@@ -54,7 +54,7 @@ public class RadioChoicePanel extends AbstractChoicePanel<ChoiceList>
             RadioChoice rc = new RadioChoice("radioList", item.getDefaultModel(), getChoiceList().getChoices(), getRenderer());
             if (((KeyValuePair) item.getDefaultModelObject()).getKey() == null)
             {
-                //assign default value
+                // assign default value
                 rc.setDefaultModelObject(getChoiceList().getChoices().get(0));
             }
             add(rc);

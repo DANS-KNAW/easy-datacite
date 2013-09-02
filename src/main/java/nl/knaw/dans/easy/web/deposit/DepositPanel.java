@@ -352,8 +352,6 @@ public class DepositPanel extends AbstractDatasetModelPanel
         {
             if (formFeedBack == null)
             {
-                //?? java.lang.IllegalAccessError: tried to access class nl.knaw.dans.common.wicket.components.CommonBasePanel from class nl.knaw.dans.easy.web.deposit.DepositPanel
-                //formFeedBack = addCommonFeedbackPanel(new ExcludeMessageFilter(this));
                 formFeedBack = WicketUtil.addCommonFeedbackPanel(this, new ExcludeMessageFilter(this));
             }
             return formFeedBack;
@@ -394,7 +392,7 @@ public class DepositPanel extends AbstractDatasetModelPanel
          * <p/>
          * see also: <br/>
          * DepositPage.properties, page.title=Deposit dataset - ${currentPageTitle})
-         *
+         * 
          * @return title of the current page
          */
         public String getCurrentPageTitle()
@@ -441,7 +439,14 @@ public class DepositPanel extends AbstractDatasetModelPanel
             });
 
             // logger.debug("submittingButton=" + submittingButton);
-            if (submittingButton != null && isNavigationOrSubmitButton((Component) submittingButton)) // do not save with clicks on plus-/minus buttons
+            if (submittingButton != null && isNavigationOrSubmitButton((Component) submittingButton)) // do
+                                                                                                      // not
+                                                                                                      // save
+                                                                                                      // with
+                                                                                                      // clicks
+                                                                                                      // on
+                                                                                                      // plus-/minus
+                                                                                                      // buttons
             {
                 logger.debug("Save deposit form");
                 if (!saveContents())
@@ -461,7 +466,7 @@ public class DepositPanel extends AbstractDatasetModelPanel
                     // LB: if the setResponsePage is passing a class for some reason
                     // the message will not show up on the other page's feedback
                     // panel unless the reporter is null. I have no idea why this
-                    // is so and no (more) patience to find out. It works, so I left 
+                    // is so and no (more) patience to find out. It works, so I left
                     // it like this.
                     final String message = WicketUtil.commonMessage(null, EasyResources.DATASET_SAVED, FeedbackMessage.INFO);
                     logger.info(message);
@@ -489,7 +494,8 @@ public class DepositPanel extends AbstractDatasetModelPanel
                 if (!(submittingButton instanceof AjaxSubmitLink))
                 {
                     // only init() when not submitted by plus-/minus buttons:
-                    // (very important) plus-/minus buttons on the clients browser page aren't in the tree with new
+                    // (very important) plus-/minus buttons on the clients browser page aren't in the
+                    // tree with new
                     // panels!
                     logger.debug("Going to init()");
                     setCurrentPage(requestedPage);
@@ -502,7 +508,8 @@ public class DepositPanel extends AbstractDatasetModelPanel
                 logger.error(getString(EasyResources.NR_ERRORS_IN_FORM).replace("$1", String.valueOf(errors)));
                 if (!(submittingButton instanceof AjaxSubmitLink))
                 {
-                    // the error message seems to interfere with the onSubmit/target.addComponent procedure of the Ajax
+                    // the error message seems to interfere with the onSubmit/target.addComponent
+                    // procedure of the Ajax
                     // submission.
                     errorMessage(EasyResources.NR_ERRORS_IN_FORM, String.valueOf(errors));
                 }
@@ -612,7 +619,7 @@ public class DepositPanel extends AbstractDatasetModelPanel
                 @Override
                 public void onClick()
                 {
-                    //logger.debug("Leave clicked.");
+                    // logger.debug("Leave clicked.");
                     RedirectData rData = getEasySession().getRedirectData(getPage().getClass());
                     if (rData != null)
                     {
@@ -662,11 +669,9 @@ public class DepositPanel extends AbstractDatasetModelPanel
                 }
 
                 /**
-                 * This Link is visible when:
-                 *  1. This is the last page of the Wizard AND
-                 *  2. The form isn't an archivist form? AND
-                 *  3. There are any files uploaded to this dataset
-                 *  
+                 * This Link is visible when: 1. This is the last page of the Wizard AND 2. The form
+                 * isn't an archivist form? AND 3. There are any files uploaded to this dataset
+                 * 
                  * @return
                  */
                 @Override
@@ -707,20 +712,19 @@ public class DepositPanel extends AbstractDatasetModelPanel
                 }
 
                 /**
-                 * This Link is visible when:
-                 *  1. This is the last page of the Wizard AND
-                 *  2. The form isn't an archivist form? AND
-                 *  3. There are no files uploaded to this dataset
-                 *  
+                 * This Link is visible when: 1. This is the last page of the Wizard AND 2. The form
+                 * isn't an archivist form? AND 3. There are no files uploaded to this dataset
+                 * 
                  * @return
                  */
                 @Override
                 public boolean isVisible()
                 {
                     return false;
-                    //                    return isLastPage() 
-                    //                        && !DepositDiscipline.EMD_DEPOSITFORM_ARCHIVIST.equals(getEmdFormDefinition().getId())
-                    //                        && submission.getDataset().getTotalFileCount() < 1;
+                    // return isLastPage()
+                    // &&
+                    // !DepositDiscipline.EMD_DEPOSITFORM_ARCHIVIST.equals(getEmdFormDefinition().getId())
+                    // && submission.getDataset().getTotalFileCount() < 1;
                 }
             });
 
@@ -744,8 +748,9 @@ public class DepositPanel extends AbstractDatasetModelPanel
     }
 
     /**
-     * This method is needed to run init() method of DepositPanel class.
-     * This method is used by Archis2EditPanel.
+     * This method is needed to run init() method of DepositPanel class. This method is used by
+     * Archis2EditPanel.
+     * 
      * @param initiated
      */
     public void setInitiated(boolean initiated)

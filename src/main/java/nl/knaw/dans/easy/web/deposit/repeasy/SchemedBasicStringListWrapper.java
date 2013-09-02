@@ -12,8 +12,8 @@ import org.apache.wicket.markup.html.form.ChoiceRenderer;
 
 /**
  * Wraps a list of {@link BasicString} to obtain {@link KeyValuePair}s.
+ * 
  * @author ecco Mar 31, 2009
- *
  */
 public class SchemedBasicStringListWrapper extends AbstractDefaultListWrapper<KeyValuePair, BasicString>
 {

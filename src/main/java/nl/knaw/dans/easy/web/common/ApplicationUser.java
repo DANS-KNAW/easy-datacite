@@ -233,8 +233,8 @@ public class ApplicationUser implements Serializable
     }
 
     /**
-     * Get confirm Password.
-     * disciplines
+     * Get confirm Password. disciplines
+     * 
      * @return confirm password
      */
     public String getConfirmPassword()

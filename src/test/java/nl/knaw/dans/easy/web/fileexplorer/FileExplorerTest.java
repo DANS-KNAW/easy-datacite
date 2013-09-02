@@ -69,7 +69,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest( {Services.class, Security.class, StatisticsLogger.class, EasySession.class, RepoAccess.class})
+@PrepareForTest({Services.class, Security.class, StatisticsLogger.class, EasySession.class, RepoAccess.class})
 public class FileExplorerTest
 {
     private WicketTester tester;
@@ -154,8 +154,8 @@ public class FileExplorerTest
         ArrayList<ItemVO> filesAndFolders = new ArrayList<ItemVO>();
         filesAndFolders.add(mockFile());
         expect(
-                itemServiceMock.getFilesAndFolders(isA(EasyUser.class), isA(Dataset.class), isA(DmoStoreId.class), isA(Integer.class), isA(Integer.class), or(
-                        isNull(ItemOrder.class), isA(ItemOrder.class)), or(isNull(ItemFilters.class), isA(ItemFilters.class)))).andReturn(filesAndFolders)
+                itemServiceMock.getFilesAndFolders(isA(EasyUser.class), isA(Dataset.class), isA(DmoStoreId.class), isA(Integer.class), isA(Integer.class),
+                        or(isNull(ItemOrder.class), isA(ItemOrder.class)), or(isNull(ItemFilters.class), isA(ItemFilters.class)))).andReturn(filesAndFolders)
                 .anyTimes();
         expect(itemServiceMock.hasChildItems(isA(DmoStoreId.class))).andReturn(false).anyTimes();
     }

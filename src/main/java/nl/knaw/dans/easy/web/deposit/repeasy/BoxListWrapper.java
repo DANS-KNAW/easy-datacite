@@ -104,10 +104,6 @@ public class BoxListWrapper extends AbstractDefaultListWrapper<BoxListWrapper.Bo
                 // you don't get the point.
             }
             schemeToken = spatial.getBox().getScheme();
-            //            north = convertToString(spatial.getBox().getNorth());
-            //            east = convertToString(spatial.getBox().getEast());
-            //            south = convertToString(spatial.getBox().getSouth());
-            //            west = convertToString(spatial.getBox().getWest());
             north = spatial.getBox().getNorth();
             east = spatial.getBox().getEast();
             south = spatial.getBox().getSouth();
@@ -128,11 +124,11 @@ public class BoxListWrapper extends AbstractDefaultListWrapper<BoxListWrapper.Bo
             else
             {
                 spatial = new Spatial();
-                //                spatial.setBox(new Box(schemeToken, 
-                //                        convertToDouble(north, "North"), 
-                //                        convertToDouble(east, "East"),
-                //                        convertToDouble(south, "South"), 
-                //                        convertToDouble(west, "West")));
+                // spatial.setBox(new Box(schemeToken,
+                // convertToDouble(north, "North"),
+                // convertToDouble(east, "East"),
+                // convertToDouble(south, "South"),
+                // convertToDouble(west, "West")));
                 spatial.setBox(new Box(schemeToken, north, east, south, west));
             }
             return spatial;

@@ -31,11 +31,6 @@ public class LicenseWrapper extends AbstractDefaultListWrapper<KeyValuePair, Bas
         {
             kvp = new KeyValuePair("true", EmdRights.LICENSE_ACCEPT);
         }
-        //        if (listMap.get(EmdRights.ACCESS_RIGHTS).get(0).getValue().equals(EmdRights.OTHER_ACCESS_KEY))
-        //        {
-        //        	//in case "Other access".
-        //        	kvp.setKey("hide");
-        //        }
         listItems.add(kvp);
         return listItems;
     }
