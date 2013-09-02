@@ -51,7 +51,6 @@ public class JumpoffDmoConverterTest
 
         JumpoffDmo rJoDmo = new JumpoffDmo();
         converter.deserialize(dob, rJoDmo);
-        //rJoDmo.g
     }
 
     @Test

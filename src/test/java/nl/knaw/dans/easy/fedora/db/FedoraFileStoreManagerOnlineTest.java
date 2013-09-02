@@ -44,8 +44,8 @@ public class FedoraFileStoreManagerOnlineTest
     public static void beforeClass() throws StoreAccessException
     {
         // using properties from src/test/resources/test.properties
-        DbLocalConfig localConfig = new DbLocalConfig(Tester.getString("easy.db.username"), Tester.getString("easy.db.password"), Tester
-                .getString("easy.db.connectionUrl"), Tester.getString("easy.db.hbnDriverClass"), Tester.getString("easy.db.hbnDialect"));
+        DbLocalConfig localConfig = new DbLocalConfig(Tester.getString("easy.db.username"), Tester.getString("easy.db.password"),
+                Tester.getString("easy.db.connectionUrl"), Tester.getString("easy.db.hbnDriverClass"), Tester.getString("easy.db.hbnDialect"));
         DbUtil.setLocalConfig(localConfig);
 
         fsManager = new FedoraFileStoreManager();

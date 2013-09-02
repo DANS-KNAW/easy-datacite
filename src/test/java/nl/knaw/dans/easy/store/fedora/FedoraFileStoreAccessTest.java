@@ -78,8 +78,9 @@ public class FedoraFileStoreAccessTest
                 }
             }
 
-            assertTrue("Folder with sid " + folder1.getSid() + " has the role " + role1.getCreatorRole().toString() + " which folder2 with sid "
-                    + folder2.getSid() + " does not have ", found);
+            assertTrue(
+                    "Folder with sid " + folder1.getSid() + " has the role " + role1.getCreatorRole().toString() + " which folder2 with sid "
+                            + folder2.getSid() + " does not have ", found);
         }
 
         for (FolderItemVisibleTo visibleTo1 : folder1.getVisibleToList())

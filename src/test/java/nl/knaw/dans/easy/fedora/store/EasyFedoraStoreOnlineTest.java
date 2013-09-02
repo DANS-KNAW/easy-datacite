@@ -65,7 +65,6 @@ public class EasyFedoraStoreOnlineTest extends AbstractOnlineTest
         AdministrativeMetadata amd = dataset2.getAdministrativeMetadata();
         assertNotNull(amd.getTimestamp());
 
-        //if (verbose)
         logger.debug("\n" + amd.asXMLString(4) + "\n");
 
         EasyMetadata emd = dataset2.getEasyMetadata();
@@ -86,21 +85,6 @@ public class EasyFedoraStoreOnlineTest extends AbstractOnlineTest
         assertEquals(0, result.getTotalHits());
     }
 
-    //@Test
-    public void retrieveMultipleInstances() throws RepositoryException
-    {
-        Dataset dataset1 = getDummyDataset(store.nextSid(Dataset.NAMESPACE));
-        String storeId = store.ingest(dataset1, "ingest dataset for test");
-
-        Dataset dataset2 = (Dataset) store.retrieve(new DmoStoreId(storeId));
-        Dataset dataset3 = (Dataset) store.retrieve(new DmoStoreId(storeId));
-        System.err.println(dataset1);
-        System.err.println(dataset2);
-        System.err.println(dataset3);
-
-        purge(dataset1);
-    }
-
     private void purge(Dataset dataset) throws RepositoryException
     {
         dataset.getAdministrativeMetadata().setAdministrativeState(DatasetState.DELETED);
@@ -112,21 +96,12 @@ public class EasyFedoraStoreOnlineTest extends AbstractOnlineTest
     @Test
     public void findJumpoffDmo() throws Exception
     {
-        //Dataset dataset = new DatasetImpl(store.nextSid("easy-dataset"));
-        String datasetId = "easy-dataset:181"; //store.ingest(dataset, "ingest dataset for test");
-
-        //        JumpoffDmo jod = new JumpoffDmo(store.nextSid(JumpoffDmo.OBJECT_NS), datasetId);
-        //        String jodId = store.ingest(jod, "ingest jumpoff for test");
+        String datasetId = "easy-dataset:181"; // store.ingest(dataset, "ingest dataset for test");
 
         JumpoffDmo foundJod = store.findJumpoffDmoFor(new DmoStoreId(datasetId));
         assertNotNull(foundJod);
         assertEquals("easy-jumpoff:31", foundJod.getStoreId());
         assertEquals(datasetId, foundJod.getObjectId());
-        //System.err.println(foundJod.getMarkup().getHtml());
-
-        //purge(dataset);
-        //        jod.registerDeleted();
-        //        store.purge(jod, false, "cleaning up");
     }
 
     @Test

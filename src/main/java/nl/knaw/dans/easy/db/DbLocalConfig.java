@@ -5,8 +5,8 @@ import org.hibernate.cfg.Configuration;
 /**
  * Local config of the database, meaning the config that is changeable per instance of the software.
  * Global config is written in the hibernate config file (hibernate.cfg.xml).
+ * 
  * @author lobo
- *
  */
 public class DbLocalConfig
 {
@@ -37,7 +37,9 @@ public class DbLocalConfig
 
     /**
      * Set local properties to hibernate config object.
-     * @param config a hibernate config object
+     * 
+     * @param config
+     *        a hibernate config object
      */
     public void configure(Configuration config)
     {

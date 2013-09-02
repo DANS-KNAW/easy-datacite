@@ -6,12 +6,11 @@ import org.hibernate.HibernateException;
 import org.hibernate.classic.Session;
 
 /**
- * This session factory creates a maximum of one session for one thread. The 
- * session can thus easily be reused by reusing this factory for getting the
- * session. This makes it possible to share session objects between objects
- * and methods without having to send the session along. 
+ * This session factory creates a maximum of one session for one thread. The session can thus easily be
+ * reused by reusing this factory for getting the session. This makes it possible to share session
+ * objects between objects and methods without having to send the session along.
+ * 
  * @author lobo
- *
  */
 public class ThreadLocalSessionFactory
 {
@@ -35,9 +34,9 @@ public class ThreadLocalSessionFactory
     }
 
     /**
-     * Get a new or existing Session object. If a session already was created
-     * by this factory for this thread this existing session is returned, 
-     * otherwise a new session is created and returned.
+     * Get a new or existing Session object. If a session already was created by this factory for this
+     * thread this existing session is returned, otherwise a new session is created and returned.
+     * 
      * @return a new or existing session object
      */
     public Session openSession() throws HibernateException, DbException
@@ -70,7 +69,7 @@ public class ThreadLocalSessionFactory
     }
 
     /**
-     * Call this instead of calling Session.close(). 
+     * Call this instead of calling Session.close().
      */
     public void closeSession()
     {

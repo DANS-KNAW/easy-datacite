@@ -135,8 +135,8 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
         try
         {
 
-            List<FileItemVO> items = session.createQuery("select fivo from " + NAME_FILE_ITEM + " as fivo where fivo.sid = :sid").setParameter("sid",
-                    dmoStoreId.getStoreId()).setFetchSize(1).list();
+            List<FileItemVO> items = session.createQuery("select fivo from " + NAME_FILE_ITEM + " as fivo where fivo.sid = :sid")
+                    .setParameter("sid", dmoStoreId.getStoreId()).setFetchSize(1).list();
             if (items.size() > 0)
             {
                 fivo = items.get(0);
@@ -242,8 +242,8 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
         try
         {
 
-            List<FolderItemVO> items = session.createQuery("select fovo from " + NAME_FOLDER_ITEM + " as fovo where fovo.sid = :sid").setParameter("sid",
-                    dmoStoreId.getStoreId()).setFetchSize(1).list();
+            List<FolderItemVO> items = session.createQuery("select fovo from " + NAME_FOLDER_ITEM + " as fovo where fovo.sid = :sid")
+                    .setParameter("sid", dmoStoreId.getStoreId()).setFetchSize(1).list();
             if (items.size() > 0)
             {
                 fovo = items.get(0);

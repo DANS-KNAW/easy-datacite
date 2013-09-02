@@ -68,8 +68,8 @@ public abstract class AbstractOnlineTest
     {
         if (dbLocalConfig == null)
         {
-            dbLocalConfig = new DbLocalConfig(Tester.getString(USER_NAME), Tester.getString(PASSWORD), Tester.getString(CONNECTION_URL), Tester
-                    .getString(HBN_DRIVERCLASS), Tester.getString(HBN_DIALECT));
+            dbLocalConfig = new DbLocalConfig(Tester.getString(USER_NAME), Tester.getString(PASSWORD), Tester.getString(CONNECTION_URL),
+                    Tester.getString(HBN_DRIVERCLASS), Tester.getString(HBN_DIALECT));
         }
         return dbLocalConfig;
     }

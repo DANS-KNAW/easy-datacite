@@ -91,7 +91,7 @@ public class DbUtil
         return sessionFactory;
     }
 
-    // This method, with the //conn = getSessionFactory().openSession().connection(); 
+    // This method, with the //conn = getSessionFactory().openSession().connection();
     // in the try clause out-commented for ages
     // does effectively nothing.
     public static void checkConnection() throws CouldNotConnectToDatabaseException, DbException
@@ -99,7 +99,7 @@ public class DbUtil
         Connection conn = null;
         try
         {
-            //conn = getSessionFactory().openSession().connection();
+            // conn = getSessionFactory().openSession().connection();
         }
         catch (HibernateException e)
         {
@@ -122,9 +122,7 @@ public class DbUtil
     }
 
     /**
-     * 
      * Used by Spring.
-     *
      */
     public static class Registrator
     {

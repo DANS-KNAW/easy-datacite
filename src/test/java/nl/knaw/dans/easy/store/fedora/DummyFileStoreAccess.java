@@ -64,12 +64,16 @@ public class DummyFileStoreAccess implements FileStoreAccess
         compositions = new HashMap<String, List<ItemVO>>();
 
         // create the content before the folder
-        addFile(FILE + 1, DUMMY_DATASET_SID, ARCHIVIST, VisibleTo.NONE, AccessibleTo.KNOWN, "somefile.txt", "txt", 1024, "/Folder2"); // FOLDER 2
-        addFile(FILE + 2, DUMMY_DATASET_SID, DEPOSITOR, VisibleTo.KNOWN, AccessibleTo.RESTRICTED_REQUEST, "hello.world", "doc", 1024, "/Folder2"); // FOLDER 2
+        addFile(FILE + 1, DUMMY_DATASET_SID, ARCHIVIST, VisibleTo.NONE, AccessibleTo.KNOWN, "somefile.txt", "txt", 1024, "/Folder2"); // FOLDER
+                                                                                                                                      // 2
+        addFile(FILE + 2, DUMMY_DATASET_SID, DEPOSITOR, VisibleTo.KNOWN, AccessibleTo.RESTRICTED_REQUEST, "hello.world", "doc", 1024, "/Folder2"); // FOLDER
+                                                                                                                                                   // 2
         addFile(FILE + 3, DUMMY_DATASET_SID, ARCHIVIST, VisibleTo.ANONYMOUS, AccessibleTo.ANONYMOUS, "foo", "pdf", 1024, "/"); // ROOT
         addFile(FILE + 4, DUMMY_DATASET_SID, DEPOSITOR, VisibleTo.KNOWN, AccessibleTo.RESTRICTED_REQUEST, "bar", "png", 1024, "/"); // ROOT
-        addFile(FILE + 5, DUMMY_DATASET_SID, DEPOSITOR, VisibleTo.KNOWN, AccessibleTo.RESTRICTED_GROUP, "testfile", "txt", 1024, "/Folder4"); // FOLDER 4
-        addFile(FILE + 6, DUMMY_DATASET_SID, DEPOSITOR, VisibleTo.KNOWN, AccessibleTo.NONE, "jokefile", "grp", 2048, "/Folder4"); // FOLDER 4
+        addFile(FILE + 5, DUMMY_DATASET_SID, DEPOSITOR, VisibleTo.KNOWN, AccessibleTo.RESTRICTED_GROUP, "testfile", "txt", 1024, "/Folder4"); // FOLDER
+                                                                                                                                              // 4
+        addFile(FILE + 6, DUMMY_DATASET_SID, DEPOSITOR, VisibleTo.KNOWN, AccessibleTo.NONE, "jokefile", "grp", 2048, "/Folder4"); // FOLDER
+                                                                                                                                  // 4
 
         addFolder(FOLDER + 1, FOLDER + 2, "/Folder2", DUMMY_DATASET_SID);
         addFolder(FOLDER + 2, DUMMY_DATASET_SID, "/", DUMMY_DATASET_SID, FOLDER + 1, FILE + 1, FILE + 2);
@@ -186,8 +190,8 @@ public class DummyFileStoreAccess implements FileStoreAccess
         for (final ItemVO item : composition)
         {
             /*
-             * Returns cloned objects, so that the internal composition cannot get changed by
-             * external parties.
+             * Returns cloned objects, so that the internal composition cannot get changed by external
+             * parties.
              */
             try
             {
@@ -266,8 +270,7 @@ public class DummyFileStoreAccess implements FileStoreAccess
     }
 
     /**
-     * Returns cloned objects, so that the internal composition cannot get changed by external
-     * parties.
+     * Returns cloned objects, so that the internal composition cannot get changed by external parties.
      */
     public List<FolderItemVO> getFolders(final DmoStoreId parentSid, final Integer limit, final Integer offset, final ItemOrder order, final ItemFilters filters)
             throws StoreAccessException
