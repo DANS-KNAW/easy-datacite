@@ -46,15 +46,15 @@ public class CMDIFormatChoiceWrapper extends AbstractListWrapper<KeyValuePair>
 
     /**
      * <p>
-     * This method is called when the model needs to be updated to the latest version.
-     * E.g. when a page is saved, or when you move to another page.
-     * If the panel was in view and was editted it will also be saved.
+     * This method is called when the model needs to be updated to the latest version. E.g. when a page
+     * is saved, or when you move to another page. If the panel was in view and was editted it will also
+     * be saved.
      * <p>
-     * When the YES option was selected we add the CMDI MIME-type to the DC Format field
-     * in the EASY Metadata.
+     * When the YES option was selected we add the CMDI MIME-type to the DC Format field in the EASY
+     * Metadata.
      * <p>
-     * When the NO option (default) was selected we remove the CMDI MIME-type from the 
-     * DC Format field in the EASY Metadata.
+     * When the NO option (default) was selected we remove the CMDI MIME-type from the DC Format field in
+     * the EASY Metadata.
      */
     @Override
     public int synchronize(List<KeyValuePair> radioSelections)

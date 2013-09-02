@@ -281,7 +281,7 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage
         // management bar
         ManagementBarPanel mgmBar = new ManagementBarPanel(MANAGEMENT_BAR_PANEL);
         add(mgmBar);
-     
+
         // footer
         add(createDisclaimerLink());
         add(new VersionPanel(EASY_VERSION));
