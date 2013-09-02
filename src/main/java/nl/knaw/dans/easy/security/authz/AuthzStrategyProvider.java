@@ -10,21 +10,22 @@ import nl.knaw.dans.common.lang.user.User;
  * Provides implementations of {@link AuthzStrategy}.
  * <p/>
  * To obtain a single AuthzStrategy, use the static method of this class:
+ * 
  * <pre>
  * AuthzStrategy strategy = AuthzStrategyProvider.new AuthzStrategy(name, user, target, contextObjects);
  * </pre>
  * <p/>
- * To obtain multiple AuthzStrategies for a given context, instantiate this class for the context,
- * and use the object method:
+ * To obtain multiple AuthzStrategies for a given context, instantiate this class for the context, and
+ * use the object method:
+ * 
  * <pre>
  * AuthzStrategyProvider provider = new AuthzStrategyProvider(user, contextObjects);
  * for (TargetableObject target : targetObjects)
  * {
- *    AuthzStrategy strategy = provider.getAuthzStrategy(name, target);
- *    target.setAuthzStrategy(strategy);
+ *     AuthzStrategy strategy = provider.getAuthzStrategy(name, target);
+ *     target.setAuthzStrategy(strategy);
  * }
  * </pre>
- * 
  */
 public class AuthzStrategyProvider
 {

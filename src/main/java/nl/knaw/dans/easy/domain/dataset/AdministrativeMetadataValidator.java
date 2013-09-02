@@ -11,7 +11,7 @@ public class AdministrativeMetadataValidator extends AbstractXMLBeanValidator<Ad
 {
 
     /**
-     * The version token for version {@value}.
+     * The version token for version {@value} .
      */
     public static final String VERSION_0_1 = "0.1";
 

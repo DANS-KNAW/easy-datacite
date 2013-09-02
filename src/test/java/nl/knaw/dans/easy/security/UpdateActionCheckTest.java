@@ -25,7 +25,6 @@ public class UpdateActionCheckTest
         UpdateInfo info = new UpdateInfo();
         info.updateAccessibleTo(AccessibleTo.KNOWN);
         info.registerDeleted(true);
-        //info.updateVisibleTo(VisibleTo.ANONYMOUS);
         ContextParameters ctxParameters = new ContextParameters(info);
         if (Tester.isVerbose())
             logger.debug(officer.explainComponentVisible(ctxParameters));

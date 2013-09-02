@@ -65,7 +65,7 @@ public class EasyUserImpl extends UserImpl implements EasyUser
 
     /**
      * Constructor with values.
-     *
+     * 
      * @param userId
      *        UserImpl id.
      * @param email
@@ -92,6 +92,7 @@ public class EasyUserImpl extends UserImpl implements EasyUser
 
     /**
      * Used by wicket.
+     * 
      * @param roles
      */
     public void setRoles(Set<Role> roles)
@@ -170,6 +171,7 @@ public class EasyUserImpl extends UserImpl implements EasyUser
 
     /**
      * Used by wicket.
+     * 
      * @param groupIds
      */
     public void setGroupIds(Set<String> groupIds)
@@ -223,7 +225,7 @@ public class EasyUserImpl extends UserImpl implements EasyUser
 
     /**
      * String representation.
-     *
+     * 
      * @return string representation
      */
     @Override
@@ -234,7 +236,7 @@ public class EasyUserImpl extends UserImpl implements EasyUser
 
     /**
      * Test if object is equal.
-     *
+     * 
      * @param obj
      *        object to test
      * @return true if object is equal.
@@ -273,7 +275,7 @@ public class EasyUserImpl extends UserImpl implements EasyUser
 
     /**
      * Return hashCode.
-     *
+     * 
      * @return hashcode
      */
     @Override

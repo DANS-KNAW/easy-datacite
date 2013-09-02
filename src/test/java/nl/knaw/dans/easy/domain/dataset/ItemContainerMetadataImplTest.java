@@ -113,11 +113,7 @@ public class ItemContainerMetadataImplTest
         // - datasetId:java.lang.String
         // versionable:boolean --> leave it for the time being
 
-        //DummyUnitOfWork dmoUow = new DummyUnitOfWork();
-
         FolderItemImpl folder = new FolderItemImpl("foo:123");
-
-        //dmoUow.attach(folder);
 
         DatasetItemContainerMetadata icmd = folder.getDatasetItemContainerMetadata();
         assertTrue(icmd.isDirty());

@@ -180,10 +180,8 @@ public class FormDescriptorTest extends AbstractJibxTest<FormDescriptor>
         dfp.getPanelIds().add("idtp2");
         dfp.getPanelIds().add("idsp2");
         dfps.add(dfp);
-        //System.out.println(desc.asXMLString(4));
 
         assertTrue(FormDescriptionValidator.instance().validate(desc).passed());
-        ////////////////////////////////
         String filename = marshal((FormDescriptor) desc);
         FormDescriptor desc2 = unmarshal(filename);
         assertTrue(FormDescriptionValidator.instance().validate(desc2).passed());
@@ -192,32 +190,25 @@ public class FormDescriptorTest extends AbstractJibxTest<FormDescriptor>
         assertTrue(FormDescriptionValidator.instance().validate(cloned).passed());
 
         String d1 = desc.asXMLString();
-        //System.out.println("desc " + desc.asXMLString(4));
         String d2 = desc2.asXMLString();
-        //System.out.println("desc2 " + desc2.asXMLString(4));
         String d3 = cloned.asXMLString();
         assertEquals("Marshaling/Unmarshaling went wrong", d1, d2);
         assertEquals("Cloning went wrong", d1, d3);
 
         // test AbstractJiBXObject methods on sub-elements
         TermPanelDefinition tpDefM = desc2.getTermPanelDefinition("idtp");
-        //System.out.println(tpDefM.asXMLString(4));
         assertEquals("Marhaling/Unmarshaling TermPanelDefinition", tpDef.asXMLString(), tpDefM.asXMLString());
 
         ChoiceListDefinition clDefM = tpDefM.getChoiceListDefinition("clid");
-        //System.out.println(clDefM.asXMLString(4));
         assertEquals("Marhaling/Unmarshaling ChoiceListDefinition", tpDefM.getChoiceListDefinition("clid").asXMLString(), clDefM.asXMLString());
 
         SubHeadingDefinition shDefM = desc2.getSubHeadingDefinition("idsp");
-        //System.out.println(shDefM.asXMLString(4));
         assertEquals("Marhaling/Unmarshaling SubHeadingDefinition", shDef.asXMLString(), shDefM.asXMLString());
 
         FormDefinition fd1M = desc2.getFormDefinition("fd1-id");
-        //System.out.println(fd1M.asXMLString(4));
         assertEquals("Marhaling/Unmarshaling FormDefinition", fd1.asXMLString(), fd1M.asXMLString());
 
         FormPage dfpM = fd1M.getFormPage("formPage1");
-        //System.out.println(dfpM.asXMLString(4));
         assertEquals("Marhaling/Unmarshaling FormPage", fd1.getFormPage("formPage1").asXMLString(), dfpM.asXMLString());
     }
 

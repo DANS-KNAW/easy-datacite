@@ -12,8 +12,8 @@ public interface Authz
      * 
      * @param item
      *        string-representation of a component or action
-     * @return the SecurityOfficer for the given item, or, if a SecurityOfficer for the given item is not available, a
-     *         default SecurityOfficer that denies all implications
+     * @return the SecurityOfficer for the given item, or, if a SecurityOfficer for the given item is not
+     *         available, a default SecurityOfficer that denies all implications
      */
     SecurityOfficer getSecurityOfficer(String item);
 

@@ -16,8 +16,8 @@ public class WorkflowDataImpl extends AbstractTimestampedJiBXObject<WorkflowData
 {
 
     /**
-     * The version - when newly instantiated. The actual version of an instance as read from an xml-stream might be
-     * obtained by {@link #getVersion()}.
+     * The version - when newly instantiated. The actual version of an instance as read from an
+     * xml-stream might be obtained by {@link #getVersion()}.
      */
     public static final String VERSION = "0.1";
 
@@ -63,7 +63,7 @@ public class WorkflowDataImpl extends AbstractTimestampedJiBXObject<WorkflowData
         return assigneeId;
     }
 
-    public EasyUser getAssignee() //throws ObjectNotFoundException, DataAccessException
+    public EasyUser getAssignee() // throws ObjectNotFoundException, DataAccessException
     {
         if (assignee == null && !NOT_ASSIGNED.equals(assigneeId))
         {

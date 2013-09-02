@@ -4,10 +4,10 @@ import nl.knaw.dans.common.lang.dataset.AccessCategory;
 
 /**
  * Enumeration of allowed visibleTo-relation value.
+ * 
  * @author akmi
- *
  */
-//TODO unify this enum to key-abstraction AccessCategory
+// TODO unify this enum to key-abstraction AccessCategory
 public enum VisibleTo
 {
 

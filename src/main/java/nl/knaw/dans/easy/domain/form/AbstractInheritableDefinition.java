@@ -19,9 +19,6 @@ public abstract class AbstractInheritableDefinition<T> extends AbstractJiBXObjec
 
     private static final long serialVersionUID = -3247134648110523055L;
 
-    //    private static final Logger              logger              = LoggerFactory
-    //                                                                         .getLogger(AbstractInheritableDefinition.class);
-
     private String id;
     private AbstractInheritableDefinition<?> parent;
     private final Map<String, String> customPropertiesMap = new HashMap<String, String>();
@@ -223,7 +220,8 @@ public abstract class AbstractInheritableDefinition<T> extends AbstractJiBXObjec
     }
 
     /**
-     * Get the custom property by the given <code>name</code> or <code>null</code> if the property could not be found.
+     * Get the custom property by the given <code>name</code> or <code>null</code> if the property could
+     * not be found.
      * 
      * @param name
      *        name of the property
@@ -235,8 +233,8 @@ public abstract class AbstractInheritableDefinition<T> extends AbstractJiBXObjec
     }
 
     /**
-     * Get the custom property by the given <code>name</code> or the given <code>defaultValue</code> if the property
-     * could not be found.
+     * Get the custom property by the given <code>name</code> or the given <code>defaultValue</code> if
+     * the property could not be found.
      * 
      * @param name
      *        name of the property
@@ -348,9 +346,6 @@ public abstract class AbstractInheritableDefinition<T> extends AbstractJiBXObjec
     // JiBX
     protected void postAbstractJiBXProcess() throws JiBXException
     {
-        //        logger.debug("Postprocessing (abstract) " + this.getClass().getSimpleName() + ":" + getId()
-        //                + " after JiBX deserialization.");
-
         mapCustomProperties();
     }
 

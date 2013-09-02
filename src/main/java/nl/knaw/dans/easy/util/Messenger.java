@@ -50,13 +50,14 @@ public class Messenger<T extends Enum<T>> implements Serializable
     private String token;
 
     /**
-     * Constructs a new Messenger with it's state set to the first enumConstant of stateType. Also the (final) request
-     * time and a (final) random string are instantiated.
+     * Constructs a new Messenger with it's state set to the first enumConstant of stateType. Also the
+     * (final) request time and a (final) random string are instantiated.
      * <p/>
-     * In order to let the method {@link #isCompleted()} work properly, the last enumConstant of stateType should also
-     * be the last and final state this Messenger can be in.
+     * In order to let the method {@link #isCompleted()} work properly, the last enumConstant of
+     * stateType should also be the last and final state this Messenger can be in.
      * <p/>
-     * More formal: the state of this Messenger after instantiation is equal to the enumConstant with ordinal 0.
+     * More formal: the state of this Messenger after instantiation is equal to the enumConstant with
+     * ordinal 0.
      * 
      * @param stateType
      *        Class of the enumConstants used
@@ -199,9 +200,9 @@ public class Messenger<T extends Enum<T>> implements Serializable
     }
 
     /**
-     * Get the token set on this messenger. A random string, composed at instantiation time, can make a round trip via a
-     * hidden field on a html form and, on submit of the form, be picked up by the {@link #setToken(String)} method.
-     * Token and random string can than be verified to be equal.
+     * Get the token set on this messenger. A random string, composed at instantiation time, can make a
+     * round trip via a hidden field on a html form and, on submit of the form, be picked up by the
+     * {@link #setToken(String)} method. Token and random string can than be verified to be equal.
      * 
      * @return token set on this Messenger
      * @see #getRandomString()
@@ -230,11 +231,13 @@ public class Messenger<T extends Enum<T>> implements Serializable
     /**
      * Verify the integrity of a html form submit.
      * 
-     * @return <code>true</code> if this random string is equal to this token, <code>false</code> otherwise
+     * @return <code>true</code> if this random string is equal to this token, <code>false</code>
+     *         otherwise
      * @see #getRandomString()
      * @see #setToken(String)
      * @see #getToken()
-     * @deprecated Only works the way it should after refresh of page in browser. (Otherwise we get a cache.)
+     * @deprecated Only works the way it should after refresh of page in browser. (Otherwise we get a
+     *             cache.)
      */
     public boolean verifyToken()
     {
@@ -330,8 +333,8 @@ public class Messenger<T extends Enum<T>> implements Serializable
     /**
      * Has this Messenger reached it's last state?
      * 
-     * @return <code>true</code> the state of this Messenger is equal to the enumConstant with the highest ordinal,
-     *         <code>false</code> otherwise.
+     * @return <code>true</code> the state of this Messenger is equal to the enumConstant with the
+     *         highest ordinal, <code>false</code> otherwise.
      */
     public boolean isCompleted()
     {

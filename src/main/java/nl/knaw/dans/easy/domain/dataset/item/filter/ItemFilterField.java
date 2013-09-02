@@ -18,7 +18,7 @@ public enum ItemFilterField
     public Class<? extends ItemFilter> fieldFilter;
 
     /**
-     * The name of this property in the FileItemVO 
+     * The name of this property in the FileItemVO
      */
     public String filePropertyName;
 

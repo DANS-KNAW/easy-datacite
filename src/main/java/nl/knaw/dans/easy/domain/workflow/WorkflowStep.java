@@ -253,8 +253,8 @@ public class WorkflowStep extends AbstractJiBXObject<WorkflowStep>
     /**
      * Set time spent on this WorkflowStep.
      * <p/>
-     * Whether time spent on this level is read-only or also writable is dictated by timeSpentWritable. Either this
-     * level is writable <b>or</b> sub levels are writable, not both.
+     * Whether time spent on this level is read-only or also writable is dictated by timeSpentWritable.
+     * Either this level is writable <b>or</b> sub levels are writable, not both.
      * 
      * @param timeSpent
      * @throws IllegalStateException

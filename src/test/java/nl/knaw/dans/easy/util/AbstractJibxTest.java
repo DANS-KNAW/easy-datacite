@@ -109,8 +109,8 @@ public abstract class AbstractJibxTest<T> extends TestHelper
     }
 
     /**
-     * From "http://jibx.sourceforge.net/api/org/jibx/runtime/IBindingFactory.html": 'All binding factory instances are
-     * guaranteed to be threadsafe and reusable.'
+     * From "http://jibx.sourceforge.net/api/org/jibx/runtime/IBindingFactory.html": 'All binding factory
+     * instances are guaranteed to be threadsafe and reusable.'
      * 
      * @return
      * @throws JiBXException

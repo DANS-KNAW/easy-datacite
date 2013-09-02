@@ -60,7 +60,8 @@ public class StandardPanelDefinition extends PanelDefinition
     }
 
     /**
-     * @param required the required to set
+     * @param required
+     *        the required to set
      */
     public void setRequired(boolean required)
     {

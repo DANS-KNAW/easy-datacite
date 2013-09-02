@@ -94,7 +94,9 @@ public class DownloadHistory extends AbstractDataModelObject
 
     /**
      * NOT PUBLIC API.
-     * @param downloadList the thing to set
+     * 
+     * @param downloadList
+     *        the thing to set
      */
     public void setDownloadList(DownloadList downloadList)
     {

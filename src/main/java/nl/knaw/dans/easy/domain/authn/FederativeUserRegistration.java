@@ -6,7 +6,6 @@ import nl.knaw.dans.easy.util.Messenger;
 
 /**
  * Messenger object for user registration.
- * 
  */
 public class FederativeUserRegistration extends Messenger<FederativeUserRegistration.State>
 {
@@ -16,7 +15,6 @@ public class FederativeUserRegistration extends Messenger<FederativeUserRegistra
 
     /**
      * Indicates the state of the registration.
-     *
      */
     public enum State
     {

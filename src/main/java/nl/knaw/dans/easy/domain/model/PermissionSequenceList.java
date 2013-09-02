@@ -26,10 +26,11 @@ public interface PermissionSequenceList extends MetadataUnitXMLBean
     List<PermissionSequence> getPermissionSequences();
 
     /**
-     * Get a list of permission sequences for the dataset this PermissionSequenceList belongs to
-     * that are of a certain state.
+     * Get a list of permission sequences for the dataset this PermissionSequenceList belongs to that are
+     * of a certain state.
      * 
-     * @param state the state of the permission sequences to be returned
+     * @param state
+     *        the state of the permission sequences to be returned
      * @return a list of permission sequences of State state
      */
     List<PermissionSequence> getPermissionSequences(State state);

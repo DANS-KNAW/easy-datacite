@@ -97,8 +97,8 @@ public class FolderItemAccessibleTo implements java.io.Serializable, Cloneable
     @Override
     public String toString()
     {
-        //if (accessibleTo== null) return "null";
-        //return accessibleTo.toString();
+        // if (accessibleTo== null) return "null";
+        // return accessibleTo.toString();
 
         return "folderSid=" + folderSid + " accessibleTo=" + accessibleTo;
     }

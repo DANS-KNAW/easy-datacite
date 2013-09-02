@@ -35,8 +35,11 @@ public class DmoCollectionsAccessImpl implements DmoCollectionsAccess
         logger.info("Completed initialization.");
     }
 
-    /* (non-Javadoc)
-     * @see nl.knaw.dans.easy.data.collections.EasyCollections#createRoot(nl.knaw.dans.easy.domain.model.user.EasyUser, java.lang.String)
+    /*
+     * (non-Javadoc)
+     * @see
+     * nl.knaw.dans.easy.data.collections.EasyCollections#createRoot(nl.knaw.dans.easy.domain.model.user
+     * .EasyUser, java.lang.String)
      */
     @Override
     public DmoCollection createRoot(EasyUser sessionUser, ECollection eColl) throws CollectionsException
@@ -46,8 +49,11 @@ public class DmoCollectionsAccessImpl implements DmoCollectionsAccess
         return root;
     }
 
-    /* (non-Javadoc)
-     * @see nl.knaw.dans.easy.data.collections.EasyCollections#getRoot(nl.knaw.dans.common.lang.repo.DmoNamespace)
+    /*
+     * (non-Javadoc)
+     * @see
+     * nl.knaw.dans.easy.data.collections.EasyCollections#getRoot(nl.knaw.dans.common.lang.repo.DmoNamespace
+     * )
      */
     @Override
     public DmoCollection getRoot(ECollection eColl) throws CollectionsException
@@ -57,8 +63,11 @@ public class DmoCollectionsAccessImpl implements DmoCollectionsAccess
         return root;
     }
 
-    /* (non-Javadoc)
-     * @see nl.knaw.dans.easy.data.collections.EasyCollections#getCollection(nl.knaw.dans.common.lang.repo.DmoStoreId)
+    /*
+     * (non-Javadoc)
+     * @see
+     * nl.knaw.dans.easy.data.collections.EasyCollections#getCollection(nl.knaw.dans.common.lang.repo
+     * .DmoStoreId)
      */
     @Override
     public DmoCollection getCollection(DmoStoreId dmoStoreId) throws CollectionsException
@@ -69,8 +78,11 @@ public class DmoCollectionsAccessImpl implements DmoCollectionsAccess
         return collection;
     }
 
-    /* (non-Javadoc)
-     * @see nl.knaw.dans.easy.data.collections.EasyCollections#saveCollection(nl.knaw.dans.easy.domain.model.user.EasyUser, nl.knaw.dans.i.dmo.collections.DmoCollection)
+    /*
+     * (non-Javadoc)
+     * @see
+     * nl.knaw.dans.easy.data.collections.EasyCollections#saveCollection(nl.knaw.dans.easy.domain.model
+     * .user.EasyUser, nl.knaw.dans.i.dmo.collections.DmoCollection)
      */
     @Override
     public void saveCollection(EasyUser sessionUser, DmoCollection collection) throws CollectionsException
@@ -80,8 +92,11 @@ public class DmoCollectionsAccessImpl implements DmoCollectionsAccess
         manager.update(collection);
     }
 
-    /* (non-Javadoc)
-     * @see nl.knaw.dans.easy.data.collections.EasyCollections#createCollection(nl.knaw.dans.easy.domain.model.user.EasyUser, nl.knaw.dans.i.dmo.collections.DmoCollection, java.lang.String, java.lang.String)
+    /*
+     * (non-Javadoc)
+     * @see
+     * nl.knaw.dans.easy.data.collections.EasyCollections#createCollection(nl.knaw.dans.easy.domain.model
+     * .user.EasyUser, nl.knaw.dans.i.dmo.collections.DmoCollection, java.lang.String, java.lang.String)
      */
     @Override
     public DmoCollection createCollection(EasyUser sessionUser, DmoCollection parent, String label, String shortName) throws CollectionsException
@@ -92,8 +107,12 @@ public class DmoCollectionsAccessImpl implements DmoCollectionsAccess
         return collection;
     }
 
-    /* (non-Javadoc)
-     * @see nl.knaw.dans.easy.data.collections.EasyCollections#attachCollection(nl.knaw.dans.easy.domain.model.user.EasyUser, nl.knaw.dans.i.dmo.collections.DmoCollection, nl.knaw.dans.i.dmo.collections.DmoCollection)
+    /*
+     * (non-Javadoc)
+     * @see
+     * nl.knaw.dans.easy.data.collections.EasyCollections#attachCollection(nl.knaw.dans.easy.domain.model
+     * .user.EasyUser, nl.knaw.dans.i.dmo.collections.DmoCollection,
+     * nl.knaw.dans.i.dmo.collections.DmoCollection)
      */
     @Override
     public void attachCollection(EasyUser sessionUser, DmoCollection parent, DmoCollection child) throws CollectionsException
@@ -103,8 +122,11 @@ public class DmoCollectionsAccessImpl implements DmoCollectionsAccess
         manager.attachCollection(parent, child);
     }
 
-    /* (non-Javadoc)
-     * @see nl.knaw.dans.easy.data.collections.EasyCollections#detachCollection(nl.knaw.dans.easy.domain.model.user.EasyUser, nl.knaw.dans.i.dmo.collections.DmoCollection)
+    /*
+     * (non-Javadoc)
+     * @see
+     * nl.knaw.dans.easy.data.collections.EasyCollections#detachCollection(nl.knaw.dans.easy.domain.model
+     * .user.EasyUser, nl.knaw.dans.i.dmo.collections.DmoCollection)
      */
     @Override
     public void detachCollection(EasyUser sessionUser, DmoCollection collection) throws CollectionsException
@@ -114,8 +136,11 @@ public class DmoCollectionsAccessImpl implements DmoCollectionsAccess
         manager.detachCollection(collection);
     }
 
-    /* (non-Javadoc)
-     * @see nl.knaw.dans.easy.data.collections.EasyCollections#publishAsOAISet(nl.knaw.dans.easy.domain.model.user.EasyUser, nl.knaw.dans.i.dmo.collections.DmoCollection)
+    /*
+     * (non-Javadoc)
+     * @see
+     * nl.knaw.dans.easy.data.collections.EasyCollections#publishAsOAISet(nl.knaw.dans.easy.domain.model
+     * .user.EasyUser, nl.knaw.dans.i.dmo.collections.DmoCollection)
      */
     @Override
     public void publishAsOAISet(EasyUser sessionUser, DmoCollection collection) throws CollectionsException
@@ -125,8 +150,11 @@ public class DmoCollectionsAccessImpl implements DmoCollectionsAccess
         manager.publishAsOAISet(collection);
     }
 
-    /* (non-Javadoc)
-     * @see nl.knaw.dans.easy.data.collections.EasyCollections#unpublishAsOAISet(nl.knaw.dans.easy.domain.model.user.EasyUser, nl.knaw.dans.i.dmo.collections.DmoCollection)
+    /*
+     * (non-Javadoc)
+     * @see
+     * nl.knaw.dans.easy.data.collections.EasyCollections#unpublishAsOAISet(nl.knaw.dans.easy.domain.
+     * model.user.EasyUser, nl.knaw.dans.i.dmo.collections.DmoCollection)
      */
     @Override
     public void unpublishAsOAISet(EasyUser sessionUser, DmoCollection collection) throws CollectionsException
@@ -160,37 +188,39 @@ public class DmoCollectionsAccessImpl implements DmoCollectionsAccess
     // !!WARNING!!
     // Causes deadlock at full server restart:
     // If Fedora not yet running,
-    //      this method never returns
-    //      Tomcat keeps waiting....
-    //      ... and Fedora never starts.
-    //    public void initializeCollections() throws CollectionsException, ValidatorException, XMLSerializationException
-    //    {
-    //        CollectionManager manager = dmoCollections.newManager("migration");
-    //        Iterator<ECollection> collIter = ECollection.iterator();
-    //        while (collIter.hasNext())
-    //        {
-    //            ECollection eColl = collIter.next();
-    //            if (!manager.exists(eColl.namespace))
-    //            {
-    //                URL templateUrl = eColl.getTemplateURL();
-    //                if (templateUrl != null)
-    //                {
-    //                    XMLErrorHandler handler = dmoCollections.validateXml(templateUrl);
-    //                    if (handler.passed())
-    //                    {
-    //                        logger.info("Ingesting collection template for " + eColl.namespace.getValue());
-    //                        manager.createRoot(templateUrl, false);
-    //                    }
-    //                    else
-    //                    {
-    //                        throw new CollectionsException("Invallid xml in template for " + eColl.namespace.getValue() + handler.getMessages());
-    //                    }
-    //                    
-    //                }
-    //            }
-    //            
-    //        }
-    //    }
+    // this method never returns
+    // Tomcat keeps waiting....
+    // ... and Fedora never starts.
+    // public void initializeCollections() throws CollectionsException, ValidatorException,
+    // XMLSerializationException
+    // {
+    // CollectionManager manager = dmoCollections.newManager("migration");
+    // Iterator<ECollection> collIter = ECollection.iterator();
+    // while (collIter.hasNext())
+    // {
+    // ECollection eColl = collIter.next();
+    // if (!manager.exists(eColl.namespace))
+    // {
+    // URL templateUrl = eColl.getTemplateURL();
+    // if (templateUrl != null)
+    // {
+    // XMLErrorHandler handler = dmoCollections.validateXml(templateUrl);
+    // if (handler.passed())
+    // {
+    // logger.info("Ingesting collection template for " + eColl.namespace.getValue());
+    // manager.createRoot(templateUrl, false);
+    // }
+    // else
+    // {
+    // throw new CollectionsException("Invallid xml in template for " + eColl.namespace.getValue() +
+    // handler.getMessages());
+    // }
+    //
+    // }
+    // }
+    //
+    // }
+    // }
 
     private String getOwnerId(EasyUser sessionUser)
     {

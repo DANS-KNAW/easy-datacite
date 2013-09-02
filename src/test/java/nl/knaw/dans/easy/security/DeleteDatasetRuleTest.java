@@ -47,6 +47,7 @@ public class DeleteDatasetRuleTest
         assertEquals(proposition, rule.getProposition());
     }
 
+    // @formatter:off
     /*
      * Because of efficient equation have to test following table:
      * 
@@ -61,6 +62,7 @@ public class DeleteDatasetRuleTest
      * 1: partial proposition is 'true' and 
      * x: partial proposition 'does not matter'.
      */
+    // @formatter:on
 
     @Test
     public void test0x0x()

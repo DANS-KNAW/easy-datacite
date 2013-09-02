@@ -229,9 +229,9 @@ public class PermissionSequenceImpl extends AbstractTimestampedJiBXObject<Permis
      */
     public int hashCode()
     {
-        return new HashCodeBuilder(-1670986549, 382131205).appendSuper(super.hashCode()).append(this.stateLastModified).append(this.requestTheme).append(
-                this.lastReplyDate).append(this.backLog).append(this.requesterId).append(this.lastRequestDate).append(this.acceptConditionsOfUse).append(
-                this.state).append(this.replyText).append(this.requestTitle).toHashCode();
+        return new HashCodeBuilder(-1670986549, 382131205).appendSuper(super.hashCode()).append(this.stateLastModified).append(this.requestTheme)
+                .append(this.lastReplyDate).append(this.backLog).append(this.requesterId).append(this.lastRequestDate).append(this.acceptConditionsOfUse)
+                .append(this.state).append(this.replyText).append(this.requestTitle).toHashCode();
     }
 
     // only use for Migration!!

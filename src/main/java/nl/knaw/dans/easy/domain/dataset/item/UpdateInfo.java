@@ -10,12 +10,10 @@ import nl.knaw.dans.easy.domain.model.VisibleTo;
 public class UpdateInfo implements Serializable
 {
     /**
-     * Possible actions contained in UpdateInfo.
-     * (archivist)
-     *    or
-     * ((draft/unsaved and depositor) and (allowedUpdateAction Delete or Rename))
+     * Possible actions contained in UpdateInfo. (archivist) or ((draft/unsaved and depositor) and
+     * (allowedUpdateAction Delete or Rename))
+     * 
      * @author ecco Nov 17, 2009
-     *
      */
     public enum Action
     {

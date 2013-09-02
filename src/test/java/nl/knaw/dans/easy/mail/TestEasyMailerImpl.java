@@ -22,6 +22,9 @@ import static org.powermock.api.easymock.PowerMock.replayAll;
 import static org.powermock.api.easymock.PowerMock.resetAll;
 import static org.junit.Assert.*;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(EasyMailerImpl.class)
 public class TestEasyMailerImpl
@@ -66,7 +69,8 @@ public class TestEasyMailerImpl
         mailer.setFrom("me@org.com");
         String[] recipients = {"piet@puk.com"};
         mailer.sendMail("Host name correct", recipients, "text", "html");
-        assertEquals("Host not correctly passed to HtmlEmail", "myhost.nl", hostName.getValue());
+        assertThat("'Host' passed to HtmlEmail", hostName, hasProperty("value", is(equalTo("myhost.nl"))));
+
     }
 
     private void expectConfigureAndSendHtmlEmail() throws Exception, EmailException
@@ -102,7 +106,7 @@ public class TestEasyMailerImpl
         mailer.setFrom("me@org.com");
         String[] recipients = {"piet@puk.com"};
         mailer.sendMail("Host name correct", recipients, "text", "html");
-        assertEquals("From not correctly passed to HtmlEmail", "me@org.com", from.getValue());
+        assertThat("Pass from to HtmlEmail", from.getValue(), is(equalTo("me@org.com")));
     }
 
     @Test(expected = EasyMailerException.class)
@@ -132,8 +136,8 @@ public class TestEasyMailerImpl
         mailer.setFrom("me@org.com");
         String[] recipients = {"piet@puk.com"};
         mailer.sendMail("Host name correct", recipients, "text", "html");
-        assertEquals("Not the number of recipients expected", 1, to.getValues().size());
-        assertEquals("One recipient not correctly passed to HtmlEmail", "piet@puk.com", to.getValue());
+        assertThat("Number of recipients", to.getValues().size(), is(1));
+        assertThat("Pass recipient to HtmlEmail", to.getValue(), is(equalTo("piet@puk.com")));
     }
 
     @Test

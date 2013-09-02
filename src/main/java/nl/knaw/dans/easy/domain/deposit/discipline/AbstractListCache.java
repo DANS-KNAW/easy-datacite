@@ -83,8 +83,8 @@ public abstract class AbstractListCache<V> extends AbstractCache<String, V>
     }
 
     /**
-     * Get an InputStream on the given listId for the given Locale. The caller is responsible for proper closing of the
-     * InputStream.
+     * Get an InputStream on the given listId for the given Locale. The caller is responsible for proper
+     * closing of the InputStream.
      * 
      * @param listId
      *        id of the list
@@ -103,8 +103,8 @@ public abstract class AbstractListCache<V> extends AbstractCache<String, V>
     }
 
     /**
-     * Get an InputStream on the given listId for the default Locale. The caller is responsible for proper closing of
-     * the InputStream.
+     * Get an InputStream on the given listId for the default Locale. The caller is responsible for
+     * proper closing of the InputStream.
      * 
      * @param listId
      *        id of the list

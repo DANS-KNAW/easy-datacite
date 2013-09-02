@@ -14,9 +14,11 @@ public class SplitAnswer implements SecurityOfficer
     private final SecurityOfficer enablingOfficer;
 
     /**
-     * Constructs a new SplitAnswer with the given <code>visibilityOfficer</code> and <code>enablingOfficer</code> as respondents.
+     * Constructs a new SplitAnswer with the given <code>visibilityOfficer</code> and
+     * <code>enablingOfficer</code> as respondents.
      * <p/>
      * This SecurityOfficer evaluates
+     * 
      * <pre>
      * v &#8594; component is visible
      * e &#8594; enable is allowed
@@ -25,8 +27,10 @@ public class SplitAnswer implements SecurityOfficer
      * where v: visibilityOfficer and e: enablingOfficer
      * <p/>
      * 
-     * @param visibilityOfficer v
-     * @param enablingOfficer e
+     * @param visibilityOfficer
+     *        v
+     * @param enablingOfficer
+     *        e
      */
     public SplitAnswer(SecurityOfficer visibilityOfficer, SecurityOfficer enablingOfficer)
     {
@@ -62,8 +66,9 @@ public class SplitAnswer implements SecurityOfficer
 
     public String explainComponentVisible(ContextParameters ctxParameters)
     {
-        return new StringBuilder().append(visibilityOfficer.explainComponentVisible(ctxParameters)).append("\n").append(ctxParameters.nextChar(this)).append(
-                " = ").append(ctxParameters.charFor(visibilityOfficer)).append(" --> ").append(isComponentVisible(ctxParameters)).append("\n").toString();
+        return new StringBuilder().append(visibilityOfficer.explainComponentVisible(ctxParameters)).append("\n").append(ctxParameters.nextChar(this))
+                .append(" = ").append(ctxParameters.charFor(visibilityOfficer)).append(" --> ").append(isComponentVisible(ctxParameters)).append("\n")
+                .toString();
     }
 
     public boolean getHints(ContextParameters ctxParameters, List<Object> hints)

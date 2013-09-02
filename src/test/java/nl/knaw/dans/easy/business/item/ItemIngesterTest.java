@@ -36,12 +36,11 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest( {ItemIngester.class, Data.class})
+@PrepareForTest({ItemIngester.class, Data.class})
 public class ItemIngesterTest
 {
     private Dataset datasetMock;
     private EasyUser userMock;
-    //    private ItemIngesterDelegator ingesterDelegatorMock;
     private File rootFileMock;
     private DatasetItemContainer parentContainerMock;
     private EasyUnitOfWork unitOfWorkMock;
@@ -54,7 +53,6 @@ public class ItemIngesterTest
     {
         datasetMock = PowerMock.createMock(Dataset.class);
         userMock = PowerMock.createMock(EasyUser.class);
-        //        ingesterDelegatorMock = PowerMock.createMock(ItemIngesterDelegator.class);
         rootFileMock = PowerMock.createMock(File.class);
         parentContainerMock = PowerMock.createMock(DatasetItemContainer.class);
         unitOfWorkMock = PowerMock.createMock(EasyUnitOfWork.class);
@@ -202,8 +200,6 @@ public class ItemIngesterTest
         oneFileUnderRootFolder();
 
         // Set up expectations
-        //expect(unitOfWorkMock.createObject(FileItemImpl.class)).andReturn(fileItemMock);
-
         fileItemMock.setFile(fileMock);
         fileItemMock.setCreatorRole(CreatorRole.DEPOSITOR);
         fileItemMock.setDatasetId(new DmoStoreId("easy-dataset:1"));

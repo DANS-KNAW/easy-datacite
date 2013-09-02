@@ -29,20 +29,20 @@ public class EasyItemContainerAuthzStrategyTest
         List<AccessCategory> accessCategories = new ArrayList<AccessCategory>();
         accessCategories.add(AccessCategory.ANONYMOUS_ACCESS);
 
-        //constructor
+        // constructor
         EasyMock.expect(dataset.getDmoStoreId()).andReturn(new DmoStoreId("dataset:1"));
         EasyMock.expect(dataset.getDatasetItemContainerMetadata()).andReturn(icmd).times(2);
         EasyMock.expect(icmd.getDatasetDmoStoreId()).andReturn(new DmoStoreId("dataset:1"));
 
-        //isEnableAllowed?
+        // isEnableAllowed?
         EasyMock.expect(dataset.getAdministrativeState()).andReturn(DatasetState.PUBLISHED);
         EasyMock.expect(dataset.isUnderEmbargo()).andReturn(false);
 
-        //getUserProfile
+        // getUserProfile
         EasyMock.expect(user.isAnonymous()).andReturn(true);
         EasyMock.expect(user.isActive()).andReturn(true);
 
-        //getResourceReadProfile
+        // getResourceReadProfile
         EasyMock.expect(icmd.getChildAccessibility()).andReturn(accessCategories);
 
         EasyMock.replay(dataset, user, icmd);
@@ -65,20 +65,20 @@ public class EasyItemContainerAuthzStrategyTest
         accessCategories.add(AccessCategory.ANONYMOUS_ACCESS);
         accessCategories.add(AccessCategory.OPEN_ACCESS);
 
-        //constructor
+        // constructor
         EasyMock.expect(dataset.getDmoStoreId()).andReturn(new DmoStoreId("dataset:1"));
         EasyMock.expect(dataset.getDatasetItemContainerMetadata()).andReturn(icmd).times(2);
         EasyMock.expect(icmd.getDatasetDmoStoreId()).andReturn(new DmoStoreId("dataset:1"));
 
-        //isEnableAllowed?
+        // isEnableAllowed?
         EasyMock.expect(dataset.getAdministrativeState()).andReturn(DatasetState.PUBLISHED);
         EasyMock.expect(dataset.isUnderEmbargo()).andReturn(false);
 
-        //getUserProfile
+        // getUserProfile
         EasyMock.expect(user.isAnonymous()).andReturn(true).times(2);
         EasyMock.expect(user.isActive()).andReturn(true);
 
-        //getResourceReadProfile
+        // getResourceReadProfile
         EasyMock.expect(icmd.getChildAccessibility()).andReturn(accessCategories);
 
         EasyMock.replay(dataset, user, icmd);

@@ -40,8 +40,8 @@ public abstract class AbstractCheck implements SecurityOfficer
      * 
      * @param ctxParameters
      *        the context
-     * @return <code>true</code> if condition(s) as proposed by this check are met by the context, <code>false</code>
-     *         otherwise
+     * @return <code>true</code> if condition(s) as proposed by this check are met by the context,
+     *         <code>false</code> otherwise
      */
     public abstract boolean evaluate(ContextParameters ctxParameters);
 

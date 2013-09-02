@@ -60,7 +60,7 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem
 
     public void setLabel(String label)
     {
-        //evaluateDirty(label, getLabel());
+        // evaluateDirty(label, getLabel());
         super.setLabel(label);
         getFileItemMetadataImpl().setName(label);
     }
@@ -165,7 +165,9 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem
 
     /**
      * DO NOT USE. Needed for deserialization in Store.
-     * @param fileItemMetadata FileItemMetadataImpl
+     * 
+     * @param fileItemMetadata
+     *        FileItemMetadataImpl
      */
     public void setFileItemMetadata(FileItemMetadataImpl fileItemMetadata)
     {
@@ -284,7 +286,9 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem
     }
 
     /**
-     * Hack needed because there is no unification of key abstractions in the DANS software development process. 
+     * Hack needed because there is no unification of key abstractions in the DANS software development
+     * process.
+     * 
      * @return the AccessCategory of the file item in respect to this 'AccessibleTo'.
      */
     public AccessCategory getReadAccessCategory()

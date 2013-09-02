@@ -119,8 +119,6 @@ public class EasyDatasetServiceTest extends TestHelper
         // we are archivist so we can discover and read the unpublished dataset.
         assertTrue(strategy.canBeDiscovered());
         assertTrue(strategy.canBeRead());
-
-        //System.err.println(strategy.explainCanChildrenBeDiscovered());
     }
 
     @Test(expected = DataIntegrityException.class)
@@ -260,7 +258,8 @@ public class EasyDatasetServiceTest extends TestHelper
         // It happens to be FileItemStore.
         EasyMock.reset(easyStore);
 
-        // Since nothing is dirty, we do not expect updates. (if dirty checking in emd is done with string comparison)
+        // Since nothing is dirty, we do not expect updates. (if dirty checking in emd is done with
+        // string comparison)
         EasyMock.replay(easyStore);
         {
             service.saveEasyMetadata(sessionUser, dataset, reporter);

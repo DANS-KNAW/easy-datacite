@@ -45,56 +45,6 @@ public class ChoiceListCache extends AbstractListCache<ChoiceList>
         return instance;
     }
 
-    //    /**
-    //     * Get a choice list as a Properties object for the default Locale.
-    //     * 
-    //     * @param listId
-    //     *        id of the choice list
-    //     * @return choice list as Properties
-    //     * @throws IOException
-    //     *         if such mishap occurs
-    //     * @throws ResourceNotFoundException
-    //     *         if not found
-    //     */
-    //    public Properties getProperties(String listId) throws IOException, ResourceNotFoundException
-    //    {
-    //        return getProperties(listId, null);
-    //    }
-    //
-    //    /**
-    //     * Get a choice list as a Properties object. Properties inherit from HashTable and therefore the sequence of choices
-    //     * between calls is not stable or conforming to any order.
-    //     * 
-    //     * @param listId
-    //     *        id of the choice list
-    //     * @param locale
-    //     *        Locale, may be <code>null</code>
-    //     * @return choice list as Properties
-    //     * @throws IOException
-    //     *         if that occurs
-    //     * @throws ResourceNotFoundException
-    //     *         if not found
-    //     * @see ResourceLocator#getURL(String, Locale, String)
-    //     */
-    //    public Properties getProperties(String listId, Locale locale) throws IOException, ResourceNotFoundException
-    //    {
-    //        Properties props = new Properties();
-    //        InputStream inStream = null;
-    //        try
-    //        {
-    //            inStream = getInputStream(listId, locale);
-    //            props.loadFromXML(inStream);
-    //        }
-    //        finally
-    //        {
-    //            if (inStream != null)
-    //            {
-    //                inStream.close();
-    //            }
-    //        }
-    //        return props;
-    //    }
-
     @Override
     protected String getBaseFolder()
     {

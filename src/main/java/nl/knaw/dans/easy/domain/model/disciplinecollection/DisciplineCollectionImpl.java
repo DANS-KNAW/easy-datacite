@@ -70,14 +70,14 @@ public class DisciplineCollectionImpl extends AbstractDmoCollection implements D
         return false;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see nl.knaw.dans.easy.domain.model.disciplinecollection.IDisciplineCollection#getRootDiscipline()
      */
     public DisciplineContainer getRootDiscipline() throws DomainException, ObjectNotFoundException
     {
         try
         {
-            // 
             if (rootDiscipline == null || rootDiscipline.isInvalidated())
             {
                 rootDiscipline = (DisciplineContainer) Data.getEasyStore().retrieve(EASY_DISCIPLINE_ROOT_DMO_STORE_ID);
@@ -94,8 +94,11 @@ public class DisciplineCollectionImpl extends AbstractDmoCollection implements D
         }
     }
 
-    /* (non-Javadoc)
-     * @see nl.knaw.dans.easy.domain.model.disciplinecollection.IDisciplineCollection#getDisciplineById(java.lang.String)
+    /*
+     * (non-Javadoc)
+     * @see
+     * nl.knaw.dans.easy.domain.model.disciplinecollection.IDisciplineCollection#getDisciplineById(java
+     * .lang.String)
      */
     public DisciplineContainer getDisciplineBySid(DmoStoreId disciplineId) throws ObjectNotFoundException, DomainException
     {
@@ -119,8 +122,11 @@ public class DisciplineCollectionImpl extends AbstractDmoCollection implements D
         return null;
     }
 
-    /* (non-Javadoc)
-     * @see nl.knaw.dans.easy.domain.model.disciplinecollection.IDisciplineCollection#getDisciplineByName(java.lang.String)
+    /*
+     * (non-Javadoc)
+     * @see
+     * nl.knaw.dans.easy.domain.model.disciplinecollection.IDisciplineCollection#getDisciplineByName(
+     * java.lang.String)
      */
     public DisciplineContainer getDisciplineByName(String disciplineName) throws ObjectNotFoundException, DomainException
     {

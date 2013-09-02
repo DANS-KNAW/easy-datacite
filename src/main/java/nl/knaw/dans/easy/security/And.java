@@ -21,7 +21,8 @@ public class And implements SecurityOfficer
      * a &#8743; b &#8594; q
      * </pre>
      * 
-     * @param officers the operands
+     * @param officers
+     *        the operands
      */
     public And(SecurityOfficer... officers)
     {

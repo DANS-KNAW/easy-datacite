@@ -2,8 +2,8 @@ package nl.knaw.dans.easy.domain.exceptions;
 
 /**
  * Indicates that an object does not exist or was not found in the repository.
+ * 
  * @author ecco Feb 2, 2009
- *
  */
 public class ObjectNotFoundException extends DomainException
 {

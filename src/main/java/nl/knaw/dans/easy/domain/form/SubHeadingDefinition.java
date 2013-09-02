@@ -45,7 +45,8 @@ public class SubHeadingDefinition extends PanelDefinition
     }
 
     /**
-     * Get the PanelDefinitions for this SubHeadingDefinition with their parent set to this SubHeadingDefinition.
+     * Get the PanelDefinitions for this SubHeadingDefinition with their parent set to this
+     * SubHeadingDefinition.
      * 
      * @return PanelDefinitions for this SubHeadingDefinition
      */

@@ -10,8 +10,8 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
 /**
- * Converter offering methods to serialize and deserialize Java types to and from strings. JiBX is instructed to use
- * methods from this converter.
+ * Converter offering methods to serialize and deserialize Java types to and from strings. JiBX is
+ * instructed to use methods from this converter.
  * 
  * @author ecco
  */
@@ -24,8 +24,8 @@ public final class Converter
     public static final DateTimeZone EASY_TIME_ZONE = DateTimeZone.getDefault();
 
     /**
-     * joda.time does not know how to parse a date like "2006-05-01T00:00:00+02:00" (it is missing millisecond
-     * precision), while it is a legal xml date format.
+     * joda.time does not know how to parse a date like "2006-05-01T00:00:00+02:00" (it is missing
+     * millisecond precision), while it is a legal xml date format.
      * 
      * @see #deSerializeDateTime(String)
      */
@@ -57,8 +57,9 @@ public final class Converter
     /**
      * Deserialize date string to DateTime object.
      * <p/>
-     * DateStrings missing millisecond precision but defining a time zone are not accepted by joda time. <strike>A dateString
-     * like 2006-05-01T00:00:00+02:00 will therefore be corrected to 2006-05-01T00:00:0.00+02:00 before parsing.</strike> (hb)
+     * DateStrings missing millisecond precision but defining a time zone are not accepted by joda time.
+     * <strike>A dateString like 2006-05-01T00:00:00+02:00 will therefore be corrected to
+     * 2006-05-01T00:00:0.00+02:00 before parsing.</strike> (hb)
      * 
      * @param dateString
      *        date string
@@ -69,17 +70,7 @@ public final class Converter
         DateTime dateTimeZone = null;
         if (dateString != null)
         {
-            /* if (INVALID_DATE_PATTERN.matcher(dateString).matches())
-            {
-                // 2006-05-01T00:00:00+02:00
-                String corrected = dateString.substring(0, 19) + ".0" + dateString.substring(19);
-                System.out.println(corrected);
-                dateTimeZone = DATE_FORMATTER.parseDateTime(corrected);
-            }
-            else
-            { */
             dateTimeZone = DATE_FORMATTER.parseDateTime(dateString);
-            /* } */
         }
         return dateTimeZone;
     }

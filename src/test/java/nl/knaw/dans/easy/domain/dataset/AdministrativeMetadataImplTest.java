@@ -51,7 +51,8 @@ public class AdministrativeMetadataImplTest
             assertEquals("willem", amd.getDepositorId());
             EasyUser depositor = amd.getDepositor(); // get user from userRepo once
             assertEquals(willem, depositor);
-            EasyUser depositor2 = amd.getDepositor(); // don't ask userRepo again, depositor already there
+            EasyUser depositor2 = amd.getDepositor(); // don't ask userRepo again, depositor already
+                                                      // there
             assertEquals(willem, depositor2);
         }
         EasyMock.verify(userRepo);
@@ -92,7 +93,8 @@ public class AdministrativeMetadataImplTest
     }
 
     @Test
-    public void dirtyChecking() // if hash-dirty-checking is implemented correctly this test can be removed
+    public void dirtyChecking() // if hash-dirty-checking is implemented correctly this test can be
+                                // removed
     {
         if (verbose)
             Tester.printClassAndFieldHierarchy(AdministrativeMetadataImpl.class);
@@ -130,7 +132,7 @@ public class AdministrativeMetadataImplTest
         wfd.setAssigneeId("pietK");
         assertTrue(amd.isDirty());
         amd.setDirty(false);
-        //assertFalse(amd.isDirty());
+        // assertFalse(amd.isDirty());
 
         if (verbose)
             Tester.printClassAndFieldHierarchy(WorkflowStep.class);
@@ -144,7 +146,7 @@ public class AdministrativeMetadataImplTest
         wfStep.setCompleted(true);
         assertTrue(amd.isDirty());
         amd.setDirty(false);
-        //assertFalse(amd.isDirty());
+        // assertFalse(amd.isDirty());
 
         wfStep.setDoneById("KeesK");
         assertTrue(amd.isDirty());
