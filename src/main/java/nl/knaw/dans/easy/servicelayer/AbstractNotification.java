@@ -10,14 +10,14 @@ import java.util.Properties;
 
 import nl.knaw.dans.common.lang.ResourceLocator;
 import nl.knaw.dans.common.lang.ResourceNotFoundException;
-import nl.knaw.dans.common.lang.mail.Attachement;
 import nl.knaw.dans.common.lang.mail.MailComposerException;
-import nl.knaw.dans.common.lang.mail.Mailer;
-import nl.knaw.dans.common.lang.mail.Mailer.MailerException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.data.ext.EasyMailComposer;
 import nl.knaw.dans.easy.data.ext.ExternalServices;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
+import nl.knaw.dans.easy.mail.EasyMailer;
+import nl.knaw.dans.easy.mail.EasyMailerAttachment;
+import nl.knaw.dans.easy.mail.EasyMailerException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +32,7 @@ public abstract class AbstractNotification
     private static final String SUBJECT_ERROR = "could not load notification subjects";
     private static final Properties SUBJECT_TEMPLATES = loadSubjectTemplates();
 
-    private final List<Attachement> attachements = new ArrayList<Attachement>();
+    protected final List<EasyMailerAttachment> attachments = new ArrayList<EasyMailerAttachment>();
 
     private final EasyMailComposer composer;
 
@@ -49,7 +49,8 @@ public abstract class AbstractNotification
      *         <li>an entry: {@link #getTemplateLocation()} (slashes replaced by dots)<br>
      *         in the properties file {@link #SUBJECT_PROPERTIES}</li>
      *         </ul>
-     *         The templates can contain place holders like ~PlaceHolderSupplier.getXx~ (see constructor) or ~Notification.getYy~ (see subclasses).
+     *         The templates can contain place holders like ~PlaceHolderSupplier.getXx~ (see constructor)
+     *         or ~Notification.getYy~ (see subclasses).
      */
     abstract String getTemplateLocation();
 
@@ -96,29 +97,17 @@ public abstract class AbstractNotification
         return null;
     }
 
-    List<Attachement> getAttachements()
-    {
-        return attachements;
-    }
-
-    private Attachement[] getAttachementsAsArray()
-    {
-        if (attachements.size() == 0)
-            return null;
-        final Attachement[] attachementArray = {};
-        return attachements.toArray(attachementArray);
-    }
-
     final public void send() throws ServiceException
     {
-        final Mailer mailOffice = ExternalServices.getMailOffice();
+        final EasyMailer mailOffice = ExternalServices.getMailOffice();
         if (mailOffice == null)
             throw new ServiceException(new NullPointerException("no mail office available"));
         try
         {
-            mailOffice.sendMail(getSubject(), getText(), getHtml(), getAttachementsAsArray(), getReceiverEmail());
+            mailOffice.sendMail(getSubject(), new String[] {getReceiverEmail()}, getText(), getHtml(), attachments.toArray(new EasyMailerAttachment[attachments
+                    .size()]));
         }
-        catch (final MailerException e)
+        catch (final EasyMailerException e)
         {
             throw new ServiceException(e);
         }
@@ -165,7 +154,7 @@ public abstract class AbstractNotification
         }
     }
 
-    String getReceiverEmail()
+    protected String getReceiverEmail()
     {
         return receiver.getEmail();
     }

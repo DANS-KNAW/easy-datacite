@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.dataset.DatasetState;
-import nl.knaw.dans.common.lang.test.ClassPathHacker;
 import nl.knaw.dans.common.lang.test.Tester;
 import nl.knaw.dans.common.lang.xml.XMLSerializationException;
 import nl.knaw.dans.easy.domain.workflow.Remark;

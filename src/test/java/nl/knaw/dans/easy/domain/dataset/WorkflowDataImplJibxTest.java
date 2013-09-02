@@ -5,11 +5,8 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 import java.util.List;
 
-import nl.knaw.dans.common.lang.test.ClassPathHacker;
 import nl.knaw.dans.common.lang.xml.XMLSerializationException;
-import nl.knaw.dans.easy.domain.model.WorkflowData;
 import nl.knaw.dans.easy.domain.workflow.Remark;
-import nl.knaw.dans.easy.domain.workflow.WorkflowFactory;
 import nl.knaw.dans.easy.domain.workflow.WorkflowStep;
 import nl.knaw.dans.easy.util.AbstractJibxTest;
 

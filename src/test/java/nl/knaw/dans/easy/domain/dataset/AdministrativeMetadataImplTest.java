@@ -8,7 +8,6 @@ import static org.junit.Assert.assertTrue;
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
-import nl.knaw.dans.common.lang.test.ClassPathHacker;
 import nl.knaw.dans.common.lang.test.Tester;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.userrepo.EasyUserRepo;

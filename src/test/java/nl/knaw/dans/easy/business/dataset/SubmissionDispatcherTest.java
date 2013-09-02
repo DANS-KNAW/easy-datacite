@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
-import nl.knaw.dans.common.lang.test.ClassPathHacker;
 import nl.knaw.dans.easy.business.services.EasyDepositService;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
 import nl.knaw.dans.easy.domain.deposit.discipline.DepositDiscipline;

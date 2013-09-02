@@ -3,6 +3,7 @@ package nl.knaw.dans.easy.data.ext;
 import nl.knaw.dans.common.lang.mail.AdminMailer;
 import nl.knaw.dans.common.lang.mail.Mailer;
 import nl.knaw.dans.commons.pid.PidGenerator;
+import nl.knaw.dans.easy.mail.EasyMailer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,11 +13,11 @@ public class ExternalServices
 
     private static final Logger logger = LoggerFactory.getLogger(ExternalServices.class);
 
-    private static Mailer MAIL_OFFICE;
+    private static EasyMailer MAIL_OFFICE;
     private static AdminMailer ADMIN_MAILER;
     private static PidGenerator METADATA_PID_GENERATOR;
 
-    public static Mailer getMailOffice()
+    public static EasyMailer getMailOffice()
     {
         return MAIL_OFFICE;
     }
@@ -40,7 +41,7 @@ public class ExternalServices
         logger.debug("Created " + this);
     }
 
-    public void setMailOffice(Mailer mailer)
+    public void setMailOffice(EasyMailer mailer)
     {
         MAIL_OFFICE = mailer;
         logger.debug("Injected dependency mailer: " + mailer);

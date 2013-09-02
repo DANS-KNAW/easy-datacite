@@ -5,14 +5,12 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.dataset.DatasetState;
-import nl.knaw.dans.common.lang.test.ClassPathHacker;
 import nl.knaw.dans.common.lang.test.Tester;
 import nl.knaw.dans.common.lang.xml.XMLErrorHandler;
 import nl.knaw.dans.easy.domain.workflow.Remark;
 import nl.knaw.dans.easy.domain.workflow.WorkflowStep;
 
 import org.joda.time.DateTime;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
