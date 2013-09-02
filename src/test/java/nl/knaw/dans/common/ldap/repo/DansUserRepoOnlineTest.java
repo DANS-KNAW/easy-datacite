@@ -249,8 +249,8 @@ public class DansUserRepoOnlineTest extends AbstractRepoOnlineTest
         assertFalse(repo.authenticate("", "geheim"));
 
         // cleanup
-        //repo.delete(piet);
-        //repo.delete(klaas);
+        // repo.delete(piet);
+        // repo.delete(klaas);
     }
 
     @Test
@@ -279,7 +279,7 @@ public class DansUserRepoOnlineTest extends AbstractRepoOnlineTest
         assertTrue(repo.authenticate("test", "newPassword"));
         assertFalse(repo.authenticate("test", "geheim"));
 
-        //cleanup
+        // cleanup
         repo.delete(test);
     }
 

@@ -46,9 +46,10 @@ public class ApacheDSServerBuilder extends LdapServerBuilder
     }
 
     /**
-     * @param args optional: providerUrl, securityPrincipal, securityCredentials
-     * @throws NamingException 
-     * @throws IOException 
+     * @param args
+     *        optional: providerUrl, securityPrincipal, securityCredentials
+     * @throws NamingException
+     * @throws IOException
      */
     public static void main(String[] args) throws NamingException, IOException
     {

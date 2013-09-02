@@ -51,12 +51,12 @@ public class LdapMapperTest
         // size: 14 + objectclass + cn + displayName
         assertEquals(17, attrs.size());
 
-        //        NamingEnumeration<? extends Attribute> nenum = attrs.getAll();
-        //        while (nenum.hasMoreElements())
-        //        {
-        //            Attribute attr = nenum.next();
-        //            System.err.println(attr.getID() + " " + attr.get());
-        //        }
+        // NamingEnumeration<? extends Attribute> nenum = attrs.getAll();
+        // while (nenum.hasMoreElements())
+        // {
+        // Attribute attr = nenum.next();
+        // System.err.println(attr.getID() + " " + attr.get());
+        // }
 
         Person sophie2 = mapper.unmarshal(attrs);
         assertEquals("Sophie", sophie2.getFirstname());
@@ -126,8 +126,9 @@ public class LdapMapperTest
         mapper.marshal(instance, false);
     }
 
-    /** Tests unmarshalling and marshalling of a field and a method using a translator
-     *
+    /**
+     * Tests unmarshalling and marshalling of a field and a method using a translator
+     * 
      * @throws LdapMappingException
      * @throws NamingException
      */

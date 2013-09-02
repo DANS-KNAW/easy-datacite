@@ -61,6 +61,7 @@ public abstract class AbstractSchema
         return sb.toString();
     }
 
+    // @formatter:off
     /* 
     
     attributetype ( 1.3.6.1.4.1.18060.0.4.1.2.21 
@@ -71,10 +72,10 @@ public abstract class AbstractSchema
         SINGLE-VALUE)
         
      */
+    // @formatter:on
     /*
-     * Notice: for openldap 
-     * the closing bracket *cannot* be on a new line.
-     * each definition *must* be followed by a blank line.
+     * Notice: for openldap the closing bracket *cannot* be on a new line. each definition *must* be
+     * followed by a blank line.
      */
 
     public String printAttributeTypeForOpenLdap(Attributes attrs) throws NamingException
@@ -98,6 +99,7 @@ public abstract class AbstractSchema
         return sb.toString();
     }
 
+    // @formatter:off
     /*
     objectclass ( 1.3.6.1.4.1.42.2.27.4.2.4
     NAME 'javaObject'
@@ -108,6 +110,7 @@ public abstract class AbstractSchema
     MAY ( javaClassNames $ javaCodebase $
             javaDoc $ description ) )
      */
+    // @formatter:on
 
     public String printObjectForOpenLdap(Attributes attrs) throws NamingException
     {

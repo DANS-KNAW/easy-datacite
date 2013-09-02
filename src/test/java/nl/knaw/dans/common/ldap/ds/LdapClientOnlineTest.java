@@ -96,7 +96,7 @@ public class LdapClientOnlineTest extends AbstractOnlineTest
         // remove player if already in context
         deleteEntryIfExists(rdn, subContext);
 
-        // add entry with given attributes        
+        // add entry with given attributes
         client.addEntry(rdn, subContext, attrs);
 
         // retrieve the attributes
@@ -136,15 +136,15 @@ public class LdapClientOnlineTest extends AbstractOnlineTest
         deleteEntryIfExists(rdnJan, subContext);
         deleteEntryIfExists(rdnPiet, subContext);
 
-        // add entry with given attributes        
+        // add entry with given attributes
         client.addEntry(rdnJan, subContext, janAttrs);
         client.addEntry(rdnPiet, subContext, pietAttrs);
 
         // do search
-        //searchAddress = "Henk.van.den.berg@DANS.knaw.nl";
+        // searchAddress = "Henk.van.den.berg@DANS.knaw.nl";
         String filter = "(&(objectClass=inetOrgPerson)(mail=" + searchAddress + "))";
         NamingEnumeration<SearchResult> resultEnum = client.search(subContext, filter);
-        //printSearchResults(resultEnum);
+        // printSearchResults(resultEnum);
 
         // and assert
         List<Object> list = new ArrayList<Object>();
@@ -238,7 +238,7 @@ public class LdapClientOnlineTest extends AbstractOnlineTest
         Attributes six = createUser(uidSix, encryptedPassSix, "Zyxwvuts Six", "Six");
         Attributes one = createUser(uidOne, encryptedPassOne, "One User", "User");
 
-        // add entries with given attributes       
+        // add entries with given attributes
         client.addEntry(rdnSix, Constants.TEST_USERS_CONTEXT, six);
         client.addEntry(rdnOne, Constants.TEST_USERS_CONTEXT, one);
 
@@ -275,7 +275,7 @@ public class LdapClientOnlineTest extends AbstractOnlineTest
         }
         catch (NameNotFoundException e)
         {
-            // 
+            //
         }
     }
 

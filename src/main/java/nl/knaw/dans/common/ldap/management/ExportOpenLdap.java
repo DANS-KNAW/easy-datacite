@@ -9,7 +9,7 @@ public class ExportOpenLdap
 
     /**
      * @param args
-     * @throws NamingException 
+     * @throws NamingException
      */
     public static void main(String[] args) throws NamingException
     {
@@ -24,6 +24,7 @@ public class ExportOpenLdap
 
     }
 
+    // @formatter:off
     /* 
     
     attributetype ( 1.3.6.1.4.1.18060.0.4.1.2.21 
@@ -34,10 +35,10 @@ public class ExportOpenLdap
     SINGLE-VALUE)
     
      */
+    // @formatter:on
     /*
-     * Notice: for openldap 
-     * the closing bracket *cannot* be on a new line.
-     * each definition *must* be followed by a blank line.
+     * Notice: for openldap the closing bracket *cannot* be on a new line. each definition *must* be
+     * followed by a blank line.
      */
 
     private static void print(Attributes attrs) throws NamingException

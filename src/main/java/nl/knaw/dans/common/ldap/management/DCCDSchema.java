@@ -45,7 +45,7 @@ public class DCCDSchema extends AbstractSchema
         attrs.put("NUMERICOID", "1.3.6.1.4.1.33188.2.2.1");
         attrs.put("NAME", "dccdUser");
         attrs.put("DESC", "An entry which represents a user of DCCD");
-        attrs.put("SUP", "dansUser");//"inetOrgPerson");
+        attrs.put("SUP", "dansUser");// "inetOrgPerson");
         attrs.put("STRUCTURAL", "true");
         Attribute must = new BasicAttribute("MUST", "uid");
         must.add("objectclass");

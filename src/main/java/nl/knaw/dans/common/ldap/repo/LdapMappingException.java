@@ -5,7 +5,7 @@ import nl.knaw.dans.common.lang.RepositoryException;
 
 /**
  * Signals an exception while marshaling/unmarshaling an object to/from attributes.
- *
+ * 
  * @author ecco Feb 16, 2009
  */
 public class LdapMappingException extends RepositoryException

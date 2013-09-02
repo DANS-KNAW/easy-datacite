@@ -18,7 +18,8 @@ public interface DirContextSupplier
      * 
      * @return DirContext
      * @throws RepositoryException
-     *         as the root exception for everything that can go wrong and eventually, sooner or later, will go wrong.
+     *         as the root exception for everything that can go wrong and eventually, sooner or later,
+     *         will go wrong.
      */
     DirContext getDirContext() throws NamingException;
 

@@ -37,8 +37,10 @@ public abstract class AbstractLdapUserRepo<T extends User> extends AbstractGener
      * @param client
      *        the LdapClient this UserRepo talks to
      * @param context
-     *        the context where users are kept on the client, i.e. "ou=users,ou=easy,dc=dans,dc=knaw,dc=nl"
-     * @param ldapMapper the mapper to use;
+     *        the context where users are kept on the client, i.e.
+     *        "ou=users,ou=easy,dc=dans,dc=knaw,dc=nl"
+     * @param ldapMapper
+     *        the mapper to use;
      */
     public AbstractLdapUserRepo(LdapClient client, String context, LdapMapper<T> ldapMapper)
     {
@@ -72,10 +74,9 @@ public abstract class AbstractLdapUserRepo<T extends User> extends AbstractGener
     }
 
     /**
-     * Note that {@link User.getPassword()} will not give the password from the repository after 'unmarshalling'.
-     * The user repository must be queried for this because the password is never retrieved from the repository 
-     * and the User object does not contain it.  
-     * 
+     * Note that {@link User.getPassword()} will not give the password from the repository after
+     * 'unmarshalling'. The user repository must be queried for this because the password is never
+     * retrieved from the repository and the User object does not contain it.
      */
     public boolean isPasswordStored(String userId) throws RepositoryException
     {

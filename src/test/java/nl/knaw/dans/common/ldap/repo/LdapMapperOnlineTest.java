@@ -69,7 +69,7 @@ public class LdapMapperOnlineTest extends AbstractOnlineTest
         assertEquals("123", tc2.telephone);
         assertEquals("1970-01-02T11:17:36.000+01:00", tc2.lastLogin.toString());
 
-        //modify
+        // modify
         tc2.cn = "Ling Ping";
         tc2.accept = false;
         tc2.telephone = null;

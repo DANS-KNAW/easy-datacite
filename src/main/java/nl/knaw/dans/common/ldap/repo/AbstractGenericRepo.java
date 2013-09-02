@@ -425,8 +425,9 @@ public abstract class AbstractGenericRepo<T extends RepoEntry> implements Generi
     }
 
     /**
-     * Censors humanoid search phrases. Humanoids have the inclination to come up with search phrases that can get an
-     * Ldap server totally upset. This method censors the given stub and returns a text suitable for Ldap digestion.
+     * Censors humanoid search phrases. Humanoids have the inclination to come up with search phrases
+     * that can get an Ldap server totally upset. This method censors the given stub and returns a text
+     * suitable for Ldap digestion.
      * 
      * @param stub
      *        uncensored search phrase

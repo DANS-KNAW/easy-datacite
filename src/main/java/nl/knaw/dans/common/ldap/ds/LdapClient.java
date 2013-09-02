@@ -93,8 +93,8 @@ public class LdapClient
     }
 
     /**
-     * Set whether this client should update the 'dansLastLogin' attribute after a successful authentication. The
-     * default is <code>true</code>.
+     * Set whether this client should update the 'dansLastLogin' attribute after a successful
+     * authentication. The default is <code>true</code>.
      * 
      * @param updatingLastLogin
      *        <code>true</code> if it should, <code>false</code> otherwise
@@ -173,8 +173,8 @@ public class LdapClient
     }
 
     /**
-     * Update the entry with the given rdn, within the given sub context, relative to the base context of this
-     * LdapClient. This method <b>replaces</b> all previously assigned attributes with the new ones.
+     * Update the entry with the given rdn, within the given sub context, relative to the base context of
+     * this LdapClient. This method <b>replaces</b> all previously assigned attributes with the new ones.
      * 
      * @param rdn
      *        the relative distinguished name of the entry to update
@@ -200,7 +200,8 @@ public class LdapClient
     }
 
     /**
-     * Add a new entry under the given sub context, relative to this LdapClients base context, as the given rdn.
+     * Add a new entry under the given sub context, relative to this LdapClients base context, as the
+     * given rdn.
      * 
      * @param rdn
      *        the relative distinguished name of the entry to add
@@ -228,8 +229,8 @@ public class LdapClient
     }
 
     /**
-     * Delete the entry with the given rdn, within the given sub context, relative to the base context of this
-     * LdapClient.
+     * Delete the entry with the given rdn, within the given sub context, relative to the base context of
+     * this LdapClient.
      * 
      * @param rdn
      *        the relative distinguished name of the entry to delete
@@ -277,10 +278,12 @@ public class LdapClient
     }
 
     /**
-     * Authenticate the dn found in the given subContext, with the given filter against the given password.
+     * Authenticate the dn found in the given subContext, with the given filter against the given
+     * password.
      * <ol>
      * <li>If no dn is found returns false;</li>
-     * <li>If a lookup with found dn as security principal and given password cannot be done, returns false;</li>
+     * <li>If a lookup with found dn as security principal and given password cannot be done, returns
+     * false;</li>
      * <li>Otherwise returns true</li>
      * </ol>
      * 
@@ -291,8 +294,8 @@ public class LdapClient
      * @param filter
      *        filter to find the dn (i.e. "(&(objectClass=inetOrgPerson)(uid=jan))"
      * @param objectClasses
-     *        the ldap objectClasses of the authenticated entity in reverse hierarchical order. Maybe <code>null</code>
-     *        if updatingLastLogin is off.
+     *        the ldap objectClasses of the authenticated entity in reverse hierarchical order. Maybe
+     *        <code>null</code> if updatingLastLogin is off.
      * @throws NamingException
      *         for exceptions
      */

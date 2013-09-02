@@ -35,13 +35,13 @@ import org.slf4j.LoggerFactory;
  * <p/>
  * Single values can be mapped by annotating the attribute, the getter or setter.
  * <p/>
- * Collections in the ldap-annotated objects should be mapped on the getter-method (for marshaling)
- * and on an add- or set-method for a single item in the (homogeneous) collection.
- * The reason for this is that the ldap attributes will not be a collection,
- * but instead the ldap entity will have multiple instances of the same attribute - with different values.
- * Each time the unmarshalling 'finds' such an attribute in the ldap entity
- * it will use the single-item 'add' method to add the value to the collection.
- *
+ * Collections in the ldap-annotated objects should be mapped on the getter-method (for marshaling) and
+ * on an add- or set-method for a single item in the (homogeneous) collection. The reason for this is
+ * that the ldap attributes will not be a collection, but instead the ldap entity will have multiple
+ * instances of the same attribute - with different values. Each time the unmarshalling 'finds' such an
+ * attribute in the ldap entity it will use the single-item 'add' method to add the value to the
+ * collection.
+ * 
  * @see LdapObject
  * @see LdapAttribute
  * @author ecco Feb 16, 2009
@@ -52,8 +52,8 @@ public class LdapMapper<T>
 {
 
     /**
-     * The encryption algorithm used for marshaling {@link LdapAttribute}-annotated fields and methods which have
-     * {@link LdapAttribute#oneWayEncrypted()} set to <code>true</code>.
+     * The encryption algorithm used for marshaling {@link LdapAttribute}-annotated fields and methods
+     * which have {@link LdapAttribute#oneWayEncrypted()} set to <code>true</code>.
      */
     public static final String ENCRYPTION_ALGORITHM = "SHA";
 
@@ -98,10 +98,11 @@ public class LdapMapper<T>
     private static Logger logger = LoggerFactory.getLogger(LdapMapper.class);
 
     /**
-     * Construct a new LdapMapper for the type T and mapped implementing class <code>clazz</code>. Fields and/or methods
-     * of the implementing class <code>clazz</code> should be annotated with {@link LdapAttribute}-annotations.
-     * Optionally the class type declaration can be annotated with an {@link LdapObject}-annotation.
-     *
+     * Construct a new LdapMapper for the type T and mapped implementing class <code>clazz</code>. Fields
+     * and/or methods of the implementing class <code>clazz</code> should be annotated with
+     * {@link LdapAttribute}-annotations. Optionally the class type declaration can be annotated with an
+     * {@link LdapObject}-annotation.
+     * 
      * @param clazz
      *        the implementing mapped class
      */
@@ -112,7 +113,7 @@ public class LdapMapper<T>
 
     /**
      * Marshal an object to attributes.
-     *
+     * 
      * @param instance
      *        the object to be marshaled
      * @param forUpdate
@@ -334,9 +335,9 @@ public class LdapMapper<T>
     }
 
     /**
-     * Unmarshal an object from the given attributes. The object to be unmarshaled should have a public no-argument
-     * constructor.
-     *
+     * Unmarshal an object from the given attributes. The object to be unmarshaled should have a public
+     * no-argument constructor.
+     * 
      * @param attrs
      *        the attributes to unmarshal from
      * @return the unmarshaled object
@@ -387,7 +388,7 @@ public class LdapMapper<T>
 
     /**
      * Unmarshal the object from the given attributes.
-     *
+     * 
      * @param instance
      *        object to handle while unmarshaling
      * @param attrs
@@ -597,9 +598,9 @@ public class LdapMapper<T>
     }
 
     /**
-     * Get a list of fields annotated with {@link LdapAttribute} of the implementing mapped class and it's super
-     * classes.
-     *
+     * Get a list of fields annotated with {@link LdapAttribute} of the implementing mapped class and
+     * it's super classes.
+     * 
      * @return list of annotated fields
      */
     protected synchronized List<Field> getAnnotatedFields()
@@ -625,9 +626,9 @@ public class LdapMapper<T>
     }
 
     /**
-     * Get a list of getter-methods annotated with {@link LdapAttribute} of the implementing mapped class and it's super
-     * classes.
-     *
+     * Get a list of getter-methods annotated with {@link LdapAttribute} of the implementing mapped class
+     * and it's super classes.
+     * 
      * @return list of annotated getter-methods
      */
     protected List<Method> getAnnotatedGetMetods()
@@ -643,9 +644,9 @@ public class LdapMapper<T>
     }
 
     /**
-     * Get a list of setter-methods annotated with {@link LdapAttribute} of the implementing mapped class and it's super
-     * classes.
-     *
+     * Get a list of setter-methods annotated with {@link LdapAttribute} of the implementing mapped class
+     * and it's super classes.
+     * 
      * @return list of annotated setter-methods
      */
     protected List<Method> getAnnotatedSetMethods()
@@ -689,9 +690,9 @@ public class LdapMapper<T>
     }
 
     /**
-     * Get the set of ldap objectClasses as annotated with {@link LdapObject} on the implementing mapped class and it's
-     * super classes.
-     *
+     * Get the set of ldap objectClasses as annotated with {@link LdapObject} on the implementing mapped
+     * class and it's super classes.
+     * 
      * @return the set of ldap objectClasses
      */
     protected Set<String> getObjectClasses()
