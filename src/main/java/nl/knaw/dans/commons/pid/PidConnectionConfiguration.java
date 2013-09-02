@@ -43,8 +43,9 @@ public class PidConnectionConfiguration
     }
 
     /**
-     * @param driverClass Note that Maven needs dependencies to support
-     *            specific databases, see also {@link PidTableProperties}.
+     * @param driverClass
+     *        Note that Maven needs dependencies to support specific databases, see also
+     *        {@link PidTableProperties}.
      */
     public void setDriverClass(String driverClass)
     {
