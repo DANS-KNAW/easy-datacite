@@ -1,8 +1,8 @@
 package nl.knaw.dans.easy.sword;
 
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
-import static org.junit.internal.matchers.StringContains.containsString;
+import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -214,7 +214,7 @@ public class IntegrationTester
         assertResponseCode(method, HttpStatus.SC_ACCEPTED);
     }
 
-    //@Ignore
+    // @Ignore
     // TODO reduce path length, fits nog longer
     @Test
     public void maxPathLength() throws Throwable
@@ -223,9 +223,6 @@ public class IntegrationTester
         final PostMethod method = createPostMethod(request, false, false);
         getResponse(method, createClient(DEPOSITOR, (150 * SECOND)));
         assertResponseCode(method, HttpStatus.SC_ACCEPTED);
-        /*
-        original/datafolder/abcdefghijklmnopqr/abcdefghijklmnopqrstuvwxyz/abcdefghijklmnopqrstuvwxyz/abcdefghijklmnopqrstuvwxyz/abcdefghijklmnopqrstuvwxyz/abcdefghijklmnopqrstuvwxyz/abcdefghijklmnopqrstuvwxyz/abcdefghijklmnopqrstuvwxyz/abcdefghijklmn/abc/test.txt
-         */
     }
 
     @Test
