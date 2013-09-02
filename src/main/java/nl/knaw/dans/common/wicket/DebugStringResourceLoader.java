@@ -9,21 +9,16 @@ import org.apache.wicket.Component;
 import org.apache.wicket.resource.loader.IStringResourceLoader;
 
 /**
- *
- * Example usage in the wicket application init()
- * With the effect that every string resource not for Locale.ENGLISH will be surrounded by {}
- * This us useful for testing if strings are loaded on a Locale settings change for the application
- * while having the 'normal' strings for a 'standard' locale
- *
+ * Example usage in the wicket application init() With the effect that every string resource not for
+ * Locale.ENGLISH will be surrounded by {} This us useful for testing if strings are loaded on a Locale
+ * settings change for the application while having the 'normal' strings for a 'standard' locale
+ * 
  * <pre>
- *	 List<IStringResourceLoader> rloaders = getResourceSettings().getStringResourceLoaders();
- *	 getResourceSettings().addStringResourceLoader(
- *	   	new DebugStringResourceLoader(rloaders, "{", "}", Locale.ENGLISH)
- *	  );
+ * List&lt;IStringResourceLoader&gt; rloaders = getResourceSettings().getStringResourceLoaders();
+ * getResourceSettings().addStringResourceLoader(new DebugStringResourceLoader(rloaders, &quot;{&quot;, &quot;}&quot;, Locale.ENGLISH));
  * </pre>
- *
+ * 
  * @author paulboon
- *
  */
 public class DebugStringResourceLoader implements IStringResourceLoader
 {

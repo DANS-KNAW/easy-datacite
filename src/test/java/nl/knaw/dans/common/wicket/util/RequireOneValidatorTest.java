@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Tests for the Require one validator.
- *
+ * 
  * @author Herman Suijs
  */
 public class RequireOneValidatorTest extends TestCase

@@ -6,16 +6,16 @@ import org.apache.wicket.markup.html.form.validation.EqualInputValidator;
 import org.apache.wicket.util.lang.Objects;
 
 /**
- * Validates that the input of two form components is <b>not</b> identical. Errors are reported on the second
- * form component with key 'UnEqualInputValidator' and the variables:
+ * Validates that the input of two form components is <b>not</b> identical. Errors are reported on the
+ * second form component with key 'UnEqualInputValidator' and the variables:
  * <ul>
  * <li>${input(n)}: the user's input</li>
  * <li>${name}: the name of the component</li>
- * <li>${label(n)}: the label of the component - either comes from FormComponent.labelModel or
- * resource key [form-id].[form-component-id] in that order</li>
+ * <li>${label(n)}: the label of the component - either comes from FormComponent.labelModel or resource
+ * key [form-id].[form-component-id] in that order</li>
  * </ul>
+ * 
  * @author ecco Feb 25, 2009
- *
  */
 public class UnEqualInputValidator extends EqualInputValidator
 {
@@ -23,8 +23,11 @@ public class UnEqualInputValidator extends EqualInputValidator
 
     /**
      * Constructor.
-     * @param formComponent1 one formComponent
-     * @param formComponent2 another formComponent
+     * 
+     * @param formComponent1
+     *        one formComponent
+     * @param formComponent2
+     *        another formComponent
      */
     public UnEqualInputValidator(FormComponent formComponent1, FormComponent formComponent2)
     {

@@ -18,11 +18,11 @@ import org.apache.wicket.model.ResourceModel;
 
 /**
  * A panel for browsing through items on pages. A typical {@link PageBrowsePanel} looks like this:
- *
+ * 
  * <pre>
  *      previous   |   1   |   ...   |   3   |   4   |   5   |   6   |   7   |   ...   |   9   |   next
  * </pre>
- *
+ * 
  * @author ecco
  */
 public class PageBrowsePanel extends CommonGPanel<PageBrowseData>
@@ -177,7 +177,7 @@ public class PageBrowsePanel extends CommonGPanel<PageBrowseData>
 
     /**
      * A link for browsing through items on pages.
-     *
+     * 
      * @author ecco
      */
     public class PageBrowseLink extends Link<String>

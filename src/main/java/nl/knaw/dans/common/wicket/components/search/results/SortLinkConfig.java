@@ -9,7 +9,7 @@ import nl.knaw.dans.common.wicket.components.search.model.SearchModel;
 
 /**
  * Configuration of a sort link. Sort links are presented by the SearchResultPanel.
- *  
+ * 
  * @author lobo
  */
 public class SortLinkConfig implements Serializable
@@ -17,8 +17,8 @@ public class SortLinkConfig implements Serializable
     private static final long serialVersionUID = 4339062684284092473L;
 
     /**
-     * the name of the search field to sort on. Must be an existing, known and sortable
-     * field in the search engine otherwise errors are bound to occur.
+     * the name of the search field to sort on. Must be an existing, known and sortable field in the
+     * search engine otherwise errors are bound to occur.
      */
     private String fieldName;
 
@@ -27,8 +27,7 @@ public class SortLinkConfig implements Serializable
     private final SortOrder initialSortOrder;
 
     /**
-     * Either set this property or use override the isVisible method for conditional
-     * visibility.
+     * Either set this property or use override the isVisible method for conditional visibility.
      */
     private boolean visible = true;
 

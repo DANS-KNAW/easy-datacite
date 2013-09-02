@@ -1,9 +1,8 @@
 package nl.knaw.dans.common.wicket.components.upload;
 
 /**
- * @author lobo
- * This class contains the information concerning the upload process. It is being held
- * by an UploadProcess class.
+ * @author lobo This class contains the information concerning the upload process. It is being held by an
+ *         UploadProcess class.
  */
 public class UploadStatus
 {

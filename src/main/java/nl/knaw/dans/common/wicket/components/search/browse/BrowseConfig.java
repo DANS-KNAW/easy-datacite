@@ -7,10 +7,9 @@ import java.util.List;
 import nl.knaw.dans.common.wicket.components.search.facets.FacetConfig;
 
 /**
- * Configuration object for the BrowsePanel. 
+ * Configuration object for the BrowsePanel.
  * 
  * @see BrowsePanel
- * 
  * @author lobo
  */
 public class BrowseConfig implements Serializable

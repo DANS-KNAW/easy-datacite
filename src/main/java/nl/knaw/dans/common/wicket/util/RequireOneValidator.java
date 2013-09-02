@@ -19,7 +19,8 @@ public class RequireOneValidator extends AbstractRelatedFormFieldsValidator
     /**
      * Default constructor with all formComponents that need to be validated.
      * 
-     * @param components FormComponents at least two components of which at least one must be filled
+     * @param components
+     *        FormComponents at least two components of which at least one must be filled
      */
     public RequireOneValidator(final FormComponent... components)
     {
@@ -29,7 +30,8 @@ public class RequireOneValidator extends AbstractRelatedFormFieldsValidator
     /**
      * Validate the form.
      * 
-     * @param form The form to validate.
+     * @param form
+     *        The form to validate.
      * @see org.apache.wicket.markup.html.form.validation.IFormValidator#validate(org.apache.wicket.markup.html.form.Form)
      */
     public void validate(Form form)

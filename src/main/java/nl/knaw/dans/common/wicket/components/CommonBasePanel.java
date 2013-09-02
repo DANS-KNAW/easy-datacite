@@ -9,8 +9,9 @@ import org.apache.wicket.model.IModel;
 
 /**
  * Do not use this class directly. Use CommonPanel or CommonGPanel instead.
- *
- * @param <T> the internal model data object
+ * 
+ * @param <T>
+ *        the internal model data object
  */
 class CommonBasePanel<T> extends GPanel<T>
 {

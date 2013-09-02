@@ -48,8 +48,7 @@ public class FacetConfig implements Serializable
     private Translator<String> facetValueTranslator = null;
 
     /**
-     * A column count of 0 or lower defaults to 1 column. Maximum supported
-     * column count is 6.
+     * A column count of 0 or lower defaults to 1 column. Maximum supported column count is 6.
      */
     private int columnCount = 1;
 

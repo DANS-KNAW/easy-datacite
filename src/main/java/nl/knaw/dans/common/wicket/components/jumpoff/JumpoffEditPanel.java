@@ -102,7 +102,7 @@ public abstract class JumpoffEditPanel extends Panel
 
         add(form);
         // has no effect
-        //form.add(new FormModificationDetectorBehavior());
+        // form.add(new FormModificationDetectorBehavior());
 
         add(new SimpleUploadPanel("upload", getJumpoffDmo().getStoreId())
         {

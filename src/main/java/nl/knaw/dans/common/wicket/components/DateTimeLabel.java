@@ -8,16 +8,19 @@ import org.joda.time.format.DateTimeFormat;
 
 public class DateTimeLabel extends Label
 {
-    //TODO alternative constructors with an enum with property keys for format styles,
-    // such as date datetime time short and long versions /  locale?
+    // TODO alternative constructors with an enum with property keys for format styles,
+    // such as date datetime time short and long versions / locale?
     private static final DateTime UNKNOWN_DATE_TIME = new DateTime("0000-01-01");
 
     private static final long serialVersionUID = 155555555L;
 
     /**
-     * @param id wicket id of the markup container
-     * @param dateTime the value to be displayed.
-     * @param format see {@link DateTimeFormat#forPattern(String)}
+     * @param id
+     *        wicket id of the markup container
+     * @param dateTime
+     *        the value to be displayed.
+     * @param format
+     *        see {@link DateTimeFormat#forPattern(String)}
      */
     public DateTimeLabel(final String id, final DateTime dateTime, final String format)
     {
@@ -25,9 +28,12 @@ public class DateTimeLabel extends Label
     }
 
     /**
-     * @param id wicket id of the markup container
-     * @param dateTime the value to be displayed.
-     * @param formatModel a string model, see {@link DateTimeFormat#forPattern(String)}
+     * @param id
+     *        wicket id of the markup container
+     * @param dateTime
+     *        the value to be displayed.
+     * @param formatModel
+     *        a string model, see {@link DateTimeFormat#forPattern(String)}
      */
     public DateTimeLabel(final String id, final DateTime dateTime, final IModel<String> formatModel)
     {
@@ -49,9 +55,12 @@ public class DateTimeLabel extends Label
     }
 
     /**
-     * @param id wicket id of the markup container
-     * @param format see {@link DateTimeFormat#forPattern(String)}
-     * @param dateTimeModel getObject returns the {@link DateTime} object to display.
+     * @param id
+     *        wicket id of the markup container
+     * @param format
+     *        see {@link DateTimeFormat#forPattern(String)}
+     * @param dateTimeModel
+     *        getObject returns the {@link DateTime} object to display.
      */
     public DateTimeLabel(final String id, final String format, final IModel<DateTime> dateTimeModel)
     {

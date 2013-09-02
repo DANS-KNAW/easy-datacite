@@ -12,14 +12,16 @@ public class PossiblyDisabledTextArea<T> extends TextArea<T>
     /**
      * @param id
      * @param model
-     * @param editMode if true the following attributes are added: readonly="true" class="readonly".
-     *            Add to your css something like:
+     * @param editMode
+     *        if true the following attributes are added: readonly="true" class="readonly". Add to your
+     *        css something like:
      * 
-     * <pre> 
+     *        <pre>
      *  textarea.readonly  {
      *    border:0;
      *    color: #575756;
-     *  } </pre>
+     *  }
+     * </pre>
      */
     public PossiblyDisabledTextArea(String id, IModel<T> model, boolean editMode)
     {

@@ -15,28 +15,23 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 
 /**
- * The browse panel shows one or more facets with the intention of letting
- * the user pick one or more browsing criteria. It can be configured with
- * the BrowseConfig object.  
- * 
- * If the BrowsePanel is created with an existing SearchModel, like one 
- * that already was modified by another component e.g. the SearchResultPanel,
- * it will just display the facets based on what previous criteria were 
- * already entered. In other words you can start browsing with this panel
- * where the user left off.
+ * The browse panel shows one or more facets with the intention of letting the user pick one or more
+ * browsing criteria. It can be configured with the BrowseConfig object. If the BrowsePanel is created
+ * with an existing SearchModel, like one that already was modified by another component e.g. the
+ * SearchResultPanel, it will just display the facets based on what previous criteria were already
+ * entered. In other words you can start browsing with this panel where the user left off.
  * 
  * @author lobo
  */
 public abstract class BrowsePanel extends SearchPanel
 {
     /**
-     * Gets called when a user after having browsed enough finally clicks on
-     * the 'show' button which should lead to a page where the results are shown.
-     * The easiest way to do this is by passing the SearchModel, as is, to a 
-     * SearchResultPanel.
-     *  
-     * @param model the model in its current state. Pass to a SearchResultPanel
-     * for showing results.
+     * Gets called when a user after having browsed enough finally clicks on the 'show' button which
+     * should lead to a page where the results are shown. The easiest way to do this is by passing the
+     * SearchModel, as is, to a SearchResultPanel.
+     * 
+     * @param model
+     *        the model in its current state. Pass to a SearchResultPanel for showing results.
      * @see nl.knaw.dans.common.wicket.components.search.results.SearchResultPanel
      */
     public abstract void onShowButtonClicked(SearchModel model);
@@ -83,7 +78,7 @@ public abstract class BrowsePanel extends SearchPanel
         // browse criteria
         add(new SearchCriteriaPanel("browseCriteria", getSearchModel()));
 
-        // result count	
+        // result count
         add(new Label("resultCount", new AbstractReadOnlyModel<String>()
         {
             private static final long serialVersionUID = 1L;

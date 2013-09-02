@@ -5,7 +5,7 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
 /**
- * A label that does not escape HTML 
+ * A label that does not escape HTML
  * 
  * @author lobo
  */

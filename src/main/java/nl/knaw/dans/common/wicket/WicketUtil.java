@@ -21,8 +21,11 @@ public class WicketUtil
 {
     /**
      * Hides an element with a certain wicketId in a certain parent component.
-     * @param parentComponent the parent component, may be a page, panel, etc.
-     * @param wicketId the id of the wicket element that needs to be hidden
+     * 
+     * @param parentComponent
+     *        the parent component, may be a page, panel, etc.
+     * @param wicketId
+     *        the id of the wicket element that needs to be hidden
      */
     public static void hide(MarkupContainer parentComponent, String wicketId)
     {

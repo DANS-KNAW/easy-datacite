@@ -19,7 +19,7 @@ public class HelpPopup extends Panel
         super(id);
         add(JavascriptPackageResource.getHeaderContribution(HelpPopup.class, "HelpPopup.js"));
         /*
-         * Warning: hackerisch code ahead!  The label is filled with actual HTML-code!
+         * Warning: hackerisch code ahead! The label is filled with actual HTML-code!
          */
         add(new Label("popupHTML", createHtmlForPopup(anchorName, content)).setEscapeModelStrings(false));
 

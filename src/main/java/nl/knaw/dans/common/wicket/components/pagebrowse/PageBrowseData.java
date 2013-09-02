@@ -3,8 +3,9 @@ package nl.knaw.dans.common.wicket.components.pagebrowse;
 import java.io.Serializable;
 
 /**
- * A model for browsing through items on pages. In this model there is the notion of a window of pages following the current page. In the next example the
- * <code>currentPage</code> is page# 5, the <code>windowSize</code> in this example is 2, and the <code>separator</code> is '|'.
+ * A model for browsing through items on pages. In this model there is the notion of a window of pages
+ * following the current page. In the next example the <code>currentPage</code> is page# 5, the
+ * <code>windowSize</code> in this example is 2, and the <code>separator</code> is '|'.
  * 
  * <pre>
  *                                                         currentPage

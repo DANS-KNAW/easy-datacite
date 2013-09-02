@@ -21,8 +21,11 @@ public class CriteriumLabel extends Label
 
     /**
      * Creates a label text using a standard layout
-     * @param filter what are we filtering for?
-     * @param filterBy what are we filtering on?
+     * 
+     * @param filter
+     *        what are we filtering for?
+     * @param filterBy
+     *        what are we filtering on?
      * @return a label text using a standard layout
      */
     public static String createFilterText(String filter, String filterBy)

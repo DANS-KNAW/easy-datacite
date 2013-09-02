@@ -18,10 +18,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Shows the list of selected criteria and makes it possible for a user to remove one 
- * or more of these criteria. 
- * 
- * This panel does not update the SearchModel when it gets dirty, but does dirty the
+ * Shows the list of selected criteria and makes it possible for a user to remove one or more of these
+ * criteria. This panel does not update the SearchModel when it gets dirty, but does dirty the
  * SearchModel.
  * 
  * @author lobo
@@ -58,6 +56,7 @@ public class SearchCriteriaPanel extends BaseSearchPanel
             {
                 final SearchCriterium criterium = item.getModelObject();
 
+                // @formatter:off
                 /*
                 item.add(new Link<Void>("criteriumLink")
                 {
@@ -88,6 +87,7 @@ public class SearchCriteriaPanel extends BaseSearchPanel
                 ); */
                 // Note: clicking the link removed all other criteria, it was decided not to have it 
                 // but I left it as a comment above!
+                // @formatter:on
                 item.add(new CriteriumLabel("criteriumText", criterium.getLabelModel()));
 
                 item.add(new Link("removeLink")

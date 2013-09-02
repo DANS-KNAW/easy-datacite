@@ -6,9 +6,9 @@ import org.apache.wicket.Component;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
 
 /**
- * Renders one choice of an enum object. The 'id' values used for internal representation is the
- * name of the enum instance. This value is also (part of) the key to look up the 'display value' in
- * the resource. The 'display value' is the first non null value of the following list:
+ * Renders one choice of an enum object. The 'id' values used for internal representation is the name of
+ * the enum instance. This value is also (part of) the key to look up the 'display value' in the
+ * resource. The 'display value' is the first non null value of the following list:
  * <ul>
  * <li>resourceProvider.getString(&lt;resourceId>.&lt;enum.value></li>
  * <li>resourceProvider.getString(&lt;enum.value>)</li>
@@ -52,8 +52,7 @@ import org.apache.wicket.markup.html.form.IChoiceRenderer;
  *     &lt;/select>
  * </pre>
  * 
- * adapted from http://techblog.molindo.at/2008/01/wicket-choicerenderer-for-enums.html by Michael
- * Sparer
+ * adapted from http://techblog.molindo.at/2008/01/wicket-choicerenderer-for-enums.html by Michael Sparer
  */
 public class EnumChoiceRenderer<T extends Enum<T>> implements IChoiceRenderer<T>
 {
@@ -64,11 +63,12 @@ public class EnumChoiceRenderer<T extends Enum<T>> implements IChoiceRenderer<T>
     private final String qualifier;
 
     /**
-     * @param resourceProvider resource provider for the display value of an enum instance.
-     * @param qualifier optional qualification to look up the display value in the resourceProvider.
-     *            This allows to use the same list (or overlapping lists) of enum values for
-     *            different components, such as a filter and an update value.
-     * 
+     * @param resourceProvider
+     *        resource provider for the display value of an enum instance.
+     * @param qualifier
+     *        optional qualification to look up the display value in the resourceProvider. This allows to
+     *        use the same list (or overlapping lists) of enum values for different components, such as a
+     *        filter and an update value.
      */
     public EnumChoiceRenderer(final Component resourceProvider, final String qualifier)
     {

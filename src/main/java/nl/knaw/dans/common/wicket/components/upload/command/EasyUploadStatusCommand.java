@@ -8,10 +8,9 @@ import org.apache.wicket.markup.html.DynamicWebResource;
 import org.json.JSONArray;
 
 /**
- * @author lobo
- * This dynamic web resource is being called by the Ajax polling mechanism of the
- * browser that request an update on the status of one or more uploads. The
- * return value is serialized in JSON.
+ * @author lobo This dynamic web resource is being called by the Ajax polling mechanism of the browser
+ *         that request an update on the status of one or more uploads. The return value is serialized in
+ *         JSON.
  */
 public class EasyUploadStatusCommand extends EasyUploadCommand
 {
@@ -34,13 +33,13 @@ public class EasyUploadStatusCommand extends EasyUploadCommand
         {
             try
             {
-                Integer[] uploadIds = getUploadProcessIds();//NOPMD;
+                Integer[] uploadIds = getUploadProcessIds();// NOPMD;
 
                 // log incoming request
                 String ids = "";
                 for (int i = 0; i < uploadIds.length; i++)
                     ids += uploadIds[i].toString() + ", ";
-                //LOG.debug("Upload STATUS request for upload process ids: "+ ids);
+                // LOG.debug("Upload STATUS request for upload process ids: "+ ids);
 
                 // create JSON response
                 for (int i = 0; i < uploadIds.length; i++)
@@ -90,7 +89,7 @@ public class EasyUploadStatusCommand extends EasyUploadCommand
          */
         public byte[] getData()
         {
-            //LOG.debug("Send upload status update = "+ responseWriter.toString());
+            // LOG.debug("Send upload status update = "+ responseWriter.toString());
             return responseWriter.toString().getBytes();
         }
     }

@@ -15,10 +15,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Unzips an incoming file. Explicit rollback is not needed, because the directory gets cleaned on cancel by the
- * EasyUploadProcess.
+ * Unzips an incoming file. Explicit rollback is not needed, because the directory gets cleaned on cancel
+ * by the EasyUploadProcess.
+ * 
  * @author lobo
- *
  */
 public class UnzipPostProcess implements IUploadPostProcess, UnzipListener
 {

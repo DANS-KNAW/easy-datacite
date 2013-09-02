@@ -6,9 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author lobo
- * This class contains the information concerning the upload process. It is being held
- * by an UploadProcess class.
+ * @author lobo This class contains the information concerning the upload process. It is being held by an
+ *         UploadProcess class.
  */
 public class EasyUploadStatus extends UploadStatus
 {
@@ -36,7 +35,7 @@ public class EasyUploadStatus extends UploadStatus
         }
         catch (JSONException e)
         {
-            //TODO: send exception to general exception handler
+            // TODO: send exception to general exception handler
             LOG.error("Caught error while serializing UploadStatus object to JSON.", e);
             return jobj;
         }

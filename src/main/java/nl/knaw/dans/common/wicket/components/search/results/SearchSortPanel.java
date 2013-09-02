@@ -20,13 +20,10 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.ResourceModel;
 
 /**
- * This panel shows the sort options for the search result panel based
- * on a list of sort link config objects. It updates the sort fields in
- * the request builder whenever a sort option has been selected.
+ * This panel shows the sort options for the search result panel based on a list of sort link config
+ * objects. It updates the sort fields in the request builder whenever a sort option has been selected.
+ * This panel does not update the SearchModel when it gets dirty, but does dirty the SearchModel.
  * 
- * This panel does not update the SearchModel when it gets dirty, but does dirty the
- * SearchModel.
- *
  * @author lobo
  */
 public class SearchSortPanel extends BaseSearchPanel
@@ -112,14 +109,14 @@ public class SearchSortPanel extends BaseSearchPanel
             {
                 this.sortOrder = config.getInitialSortOrder();
             }
-            //			if (isActiveSortField())
-            //			{
-            //			    this.sortOrder = getActiveSortField().getValue();
-            //			}	
-            //			else
-            //			{
-            //				this.sortOrder = SortOrder.DESC;	
-            //			}
+            // if (isActiveSortField())
+            // {
+            // this.sortOrder = getActiveSortField().getValue();
+            // }
+            // else
+            // {
+            // this.sortOrder = SortOrder.DESC;
+            // }
 
             Label sortTextLabel;
             if (config.getSortType().equals(SortType.BY_RELEVANCE_SCORE))

@@ -18,10 +18,8 @@ import org.apache.wicket.model.IModel;
 import wickettree.AbstractTree;
 
 /**
- * Tree content factory for the {@link ExplorerPanel}.
- * 
- * Note: This indirection is used for demonstration purposes only! Don't jump
- * through similar hoops if you're just using one type of content for your
+ * Tree content factory for the {@link ExplorerPanel}. Note: This indirection is used for demonstration
+ * purposes only! Don't jump through similar hoops if you're just using one type of content for your
  * application's trees.
  * 
  * @author Sven Meier

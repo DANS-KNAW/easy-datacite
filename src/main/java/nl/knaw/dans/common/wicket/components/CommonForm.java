@@ -27,7 +27,7 @@ public class CommonForm<T> extends Form<T>
 
     /**
      * Partial wicket id for FormComponentFeedbackIndicator.
-     *
+     * 
      * @see #add(FormComponent, IModel)
      */
     public static final String FEEDBACK = "feedback";
@@ -39,7 +39,7 @@ public class CommonForm<T> extends Form<T>
 
     /**
      * Partial wicket id for FeedbackPanel with ComponentFeedbackMessageFilter.
-     *
+     * 
      * @see #addWithComponentFeedback(FormComponent, IModel)
      */
     public static final String COMPONENT_FEEDBACK = "componentFeedback";
@@ -56,13 +56,13 @@ public class CommonForm<T> extends Form<T>
 
     /**
      * Add a common feedbackPanel. Feedback messages will show at
-     *
+     * 
      * <pre>
      *    &lt;span wicket:id=&quot;commonFeedbackPanel&quot;&gt;feedback&lt;/span&gt;
      * </pre>
-     *
+     * 
      * This feedback panel has a filter to exclude messages already shown in component feedback panels.
-     *
+     * 
      * @return the common feedback panel
      * @see #addWithComponentFeedback(FormComponent, IModel)
      */
@@ -118,7 +118,7 @@ public class CommonForm<T> extends Form<T>
 
     /**
      * Disable all components in the form, make any submit component invisible and make a link visible.
-     *
+     * 
      * @param enableComponents
      *        list of all components
      */
@@ -156,19 +156,19 @@ public class CommonForm<T> extends Form<T>
 
     /**
      * Add a FormComponent and FormComponentFeedbackIndicator. A red star will show at
-     *
+     * 
      * <pre>
      *    &lt;span wicket:id=&quot;[formComponent.id]-feedback&quot;&gt;feedback&lt;/span&gt;
      * </pre>
-     *
+     * 
      * where [formComponent.id] is the id of <code>formComponent</code>.
      * <p/>
      * The FormComponent itself is at
-     *
+     * 
      * <pre>
      *    &lt;input id=&quot;tagId&quot; wicket:id=&quot;[formComponent.id]&quot; type=&quot;text&quot;/&gt;
      * </pre>
-     *
+     * 
      * @param formComponent
      *        FormComponent to add
      * @param label
@@ -185,7 +185,8 @@ public class CommonForm<T> extends Form<T>
         // Add feedback panel to display
         FormComponentFeedbackIndicator feedbackIndicator = new FormComponentFeedbackIndicator(formComponent.getId() + SEPARATOR + FEEDBACK);
         feedbackIndicator.setIndicatorFor(formComponent);
-        // LOGGER.debug("FeedbackIndicator " + feedbackIndicator.getId() + " added to the form " + this.getId());
+        // LOGGER.debug("FeedbackIndicator " + feedbackIndicator.getId() + " added to the form " +
+        // this.getId());
         feedbackIndicator.setOutputMarkupId(true);
 
         super.add(feedbackIndicator);
@@ -193,19 +194,19 @@ public class CommonForm<T> extends Form<T>
 
     /**
      * Add a FormComponent and FormComponent feedback panel. Feedback messages will show at
-     *
+     * 
      * <pre>
      *    &lt;span wicket:id=&quot;[formComponent.id]-componentFeedback&quot;&gt;feedback&lt;/span&gt;
      * </pre>
-     *
+     * 
      * where [formComponent.id] is the id of <code>formComponent</code>.
      * <p/>
      * The FormComponent itself is at
-     *
+     * 
      * <pre>
      *    &lt;input id=&quot;tagId&quot; wicket:id=&quot;[formComponent.id]&quot; type=&quot;text&quot;/&gt;
      * </pre>
-     *
+     * 
      * @param formComponent
      *        FormComponent to add
      * @param labelModel
@@ -238,7 +239,7 @@ public class CommonForm<T> extends Form<T>
 
     /**
      * IFeedbackMessageFilter that filters out messages already shown in component feedback panels.
-     *
+     * 
      * @author ecco Feb 25, 2009
      */
     public class CommonLevelFeedbackFilter implements IFeedbackMessageFilter

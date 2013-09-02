@@ -22,15 +22,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This WebRequest object is used to intercept multipart request that are meant for the UploadPanel
- * It only invokes itself (class: UploadRequest) when an uploadId was send via the URL (GET method)
- * if not then it uses the original web request class that could be useful for traditional
- * Wicket file upload.
+ * This WebRequest object is used to intercept multipart request that are meant for the UploadPanel It
+ * only invokes itself (class: UploadRequest) when an uploadId was send via the URL (GET method) if not
+ * then it uses the original web request class that could be useful for traditional Wicket file upload.
  * <p>
- * This request object is necessary for the UploadPanel to function properly. It is installed
- * like so:
- *
- * <code>
+ * This request object is necessary for the UploadPanel to function properly. It is installed like so:
+ * <pre>
  * class MyApplication extends WebApplication {
  * ...
  *     @Override
@@ -39,7 +36,7 @@ import org.slf4j.LoggerFactory;
  *     }
  * ...
  * }
- * </code>
+ * </pre>
  *
  * @author lobo
  */
@@ -73,8 +70,9 @@ public class EasyUploadWebRequest extends ServletWebRequest
     }
 
     /**
-     * This method starts the upload process. To handle the tracking of the upload prorgess it starts a new
-     * EasyUploadProcess. This process can be polled using its unique uploadId.
+     * This method starts the upload process. To handle the tracking of the upload prorgess it starts a
+     * new EasyUploadProcess. This process can be polled using its unique uploadId.
+     * 
      * @see org.apache.wicket.protocol.http.WebRequest#newMultipartWebRequest(org.apache.wicket.util.lang.Bytes)
      */
     public WebRequest newMultipartWebRequest(Bytes maxsize)
@@ -240,8 +238,7 @@ class EasyUploadRequest extends MultipartServletWebRequest
     }
 
     /**
-     * @see org.apache.wicket.protocol.http.servlet.MultipartServletWebRequest#onUploadUpdate(int,
-     *      int)
+     * @see org.apache.wicket.protocol.http.servlet.MultipartServletWebRequest#onUploadUpdate(int, int)
      */
     protected void onUploadUpdate(int bytesUploaded, int total)
     {
@@ -251,8 +248,9 @@ class EasyUploadRequest extends MultipartServletWebRequest
     }
 
     /**
-     * This function is not used, since at this point one cannot retrieve the list of files
-     * yet. Instead onUploadCompleted2 does the job.
+     * This function is not used, since at this point one cannot retrieve the list of files yet. Instead
+     * onUploadCompleted2 does the job.
+     * 
      * @see org.apache.wicket.protocol.http.servlet.MultipartServletWebRequest#onUploadCompleted()
      */
     protected void onUploadCompleted()

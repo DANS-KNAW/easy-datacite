@@ -37,20 +37,20 @@ import org.slf4j.LoggerFactory;
  * application object needs to be overriden (2).
  *
  * 1. Place this code on your WebApplication.init() method
- *<code>
+ *<pre>
  *   EasyUploadStatusCommand uploadStatusResource = new EasyUploadStatusCommand();
  *   uploadStatusResource.registerAsSharedResource(this);
  *   EasyUploadCancelCommand uploadCancelResource = new EasyUploadCancelCommand();
  *   uploadCancelResource.registerAsSharedResource(this);
- *</code>
+ *</pre>
  *
  * 2. Place this code on your WebApplication object
- *<code>
+ *<pre>
  *    @Override
  *    protected WebRequest newWebRequest(HttpServletRequest servletRequest) {
  *     return new EasyUploadWebRequest(servletRequest);
  *   }
- *</code>
+ *</pre>
  *
  * Override the onReceivedFiles method of this object to handle upload completion
  * events. For more control create our own postprocessor and register it to this
@@ -69,9 +69,13 @@ public class EasyUpload extends Panel
 
     /**
      * This is an event method that may be overwritten.
-     * @param clientParams a hashmap of parameters received from the client-side
-     * @param basePath the basePath in which the uploaded files are received
-     * @param a list of files received
+     * 
+     * @param clientParams
+     *        a hashmap of parameters received from the client-side
+     * @param basePath
+     *        the basePath in which the uploaded files are received
+     * @param a
+     *        list of files received
      */
     public void onReceivedFiles(Map<String, String> clientParams, String basePath, List<File> files)
     {
@@ -80,7 +84,9 @@ public class EasyUpload extends Panel
     /**
      * Creates an EasyUpload wicket component based on a panel. The default tmp directory of the machine
      * will be used for writing the uploads to disk.
-     * @param id the id of the wicket component.
+     * 
+     * @param id
+     *        the id of the wicket component.
      */
     public EasyUpload(String id)
     {
@@ -89,8 +95,11 @@ public class EasyUpload extends Panel
 
     /**
      * Creates an EasyUpload wicket component based on a panel.
-     * @param id the id of the wicket component
-     * @param basePath the path to which all uploads are written (directories will be created for each upload)
+     * 
+     * @param id
+     *        the id of the wicket component
+     * @param basePath
+     *        the path to which all uploads are written (directories will be created for each upload)
      */
     public EasyUpload(String id, String basePath)
     {
@@ -100,7 +109,9 @@ public class EasyUpload extends Panel
     /**
      * Creates an EasyUpload wicket component based on a panel. The default tmp directory of the machine
      * will be used for writing the uploads to disk.
-     * @param id the id of the wicket component.
+     * 
+     * @param id
+     *        the id of the wicket component.
      */
     public EasyUpload(String id, EasyUploadConfig config)
     {
@@ -184,6 +195,7 @@ public class EasyUpload extends Panel
 
     /**
      * Convenience method. Same as calling easyUpload.getConfig().getBasePath().
+     * 
      * @return the path where files are upload to
      */
     public String getBasePath()

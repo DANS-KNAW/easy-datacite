@@ -144,7 +144,8 @@ public abstract class JumpoffPanel extends CommonPanel
     }
 
     /**
-     * Get the JumpoffDmo for the given targetDmo. If no JumpoffDmo for the given targetDmo exists <code>null</code> must be returned.
+     * Get the JumpoffDmo for the given targetDmo. If no JumpoffDmo for the given targetDmo exists
+     * <code>null</code> must be returned.
      * 
      * @param targetDmo
      *        the DMO that is the object of the jump off page

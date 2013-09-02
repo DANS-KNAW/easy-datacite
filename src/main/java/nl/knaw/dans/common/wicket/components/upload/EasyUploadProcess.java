@@ -21,14 +21,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author lobo
- * This object is the upload workflow controller. It has an UploadStatus object
- * which is the model. It's role is not only to keep the UploadStatus object up to date
- * but also to handle the different steps of the uploading process. It delegates this
- * action to the an UploadPostProcessThread, staying in close contact.
- *
- * This class does its own error handling; it does not throw exceptions.
- * It is assumed to be used from within an ajax or multi-part upload environment.
+ * @author lobo This object is the upload workflow controller. It has an UploadStatus object which is the
+ *         model. It's role is not only to keep the UploadStatus object up to date but also to handle the
+ *         different steps of the uploading process. It delegates this action to the an
+ *         UploadPostProcessThread, staying in close contact. This class does its own error handling; it
+ *         does not throw exceptions. It is assumed to be used from within an ajax or multi-part upload
+ *         environment.
  */
 public class EasyUploadProcess
 {
@@ -57,8 +55,8 @@ public class EasyUploadProcess
     private UploadPostProcessThread postProcessorThread = null;
 
     /**
-     * This boolean determines if the postprocessing will block the wicket operation. The only
-     * use for this is debugging and stress testing.
+     * This boolean determines if the postprocessing will block the wicket operation. The only use for
+     * this is debugging and stress testing.
      */
     private final boolean POSTPROCESSORS_BLOCKING = false;
 
@@ -186,7 +184,8 @@ public class EasyUploadProcess
             }
             catch (Exception ex)
             {
-                // write error to log, but continue execution. fileMoved == false means fallback mechanism.
+                // write error to log, but continue execution. fileMoved == false means fallback
+                // mechanism.
                 LOG.error("Exception occured while moving uploaded file from temp. location '" + ((DiskFileItem) file).getStoreLocation().getAbsolutePath()
                         + "' to '" + uploadedFile + "'. Exception: " + ex.getMessage(), ex);
             }

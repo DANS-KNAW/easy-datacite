@@ -72,9 +72,11 @@ public abstract class RESTcascadePage extends RESTpage
     public abstract Map<String, PageDescription> getChildren();
 
     /**
-     * Does nothing. Override this method if you want to contribute parameters for the children of this page.
+     * Does nothing. Override this method if you want to contribute parameters for the children of this
+     * page.
      * 
-     * @param parameters the page parameters
+     * @param parameters
+     *        the page parameters
      */
     protected void contributeParameters(PageParameters parameters)
     {

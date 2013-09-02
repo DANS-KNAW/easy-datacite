@@ -5,16 +5,12 @@ import java.util.concurrent.Executor;
 import org.wicketstuff.progressbar.spring.TaskService;
 
 /**
- * Should be registered as SESSION scoped bean to prevent memory leaks with
- * unfinished tasks.
- *
+ * Should be registered as SESSION scoped bean to prevent memory leaks with unfinished tasks.
  */
 public class TaskServiceImpl extends TaskService
 {
     /**
-     * ** NO PUBLIC CONSTRUCTOR ** 
-     * 
-     * Spring proxy instantiation needs a no-argument constructor.
+     * ** NO PUBLIC CONSTRUCTOR ** Spring proxy instantiation needs a no-argument constructor.
      */
     public TaskServiceImpl()
     {
@@ -22,9 +18,7 @@ public class TaskServiceImpl extends TaskService
     }
 
     /**
-     * ** NO PUBLIC CONSTRUCTOR ** 
-     * 
-     * Used by Spring framework.
+     * ** NO PUBLIC CONSTRUCTOR ** Used by Spring framework.
      * 
      * @param executor
      *        the executor

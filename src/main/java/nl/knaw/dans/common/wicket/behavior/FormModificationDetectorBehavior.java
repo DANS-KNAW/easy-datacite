@@ -14,37 +14,41 @@ import org.apache.wicket.util.collections.MiniMap;
 import org.apache.wicket.util.template.TextTemplateHeaderContributor;
 
 /**
- * Detects form modification. This behavior can be added to a {@link Form}. It compares form elements onLoad and
- * onbeforeUnload. If there are differences a confirm-message is displayed. After a submit on the form, comparison
- * parameters are renewed.
+ * Detects form modification. This behavior can be added to a {@link Form}. It compares form elements
+ * onLoad and onbeforeUnload. If there are differences a confirm-message is displayed. After a submit on
+ * the form, comparison parameters are renewed.
  * <p/>
- * Sometimes a model object is dynamically updated from different parts of the page and saved to the back-end storage on
- * events other than the classical form-submission. In that case, comparison parameters can be renewed by calling the
- * function {@link #FORM_MODIFICATIONS_SAVED_JS} on an ajax round trip.
- * <p>Example</p>
- * Here is an ajax-event handler that updates the
- * save-button and the the state of comparison parameters on the clients machine:
- *
+ * Sometimes a model object is dynamically updated from different parts of the page and saved to the
+ * back-end storage on events other than the classical form-submission. In that case, comparison
+ * parameters can be renewed by calling the function {@link #FORM_MODIFICATIONS_SAVED_JS} on an ajax
+ * round trip.
+ * <p>
+ * Example
+ * </p>
+ * Here is an ajax-event handler that updates the save-button and the the state of comparison parameters
+ * on the clients machine:
+ * 
  * <pre>
  * public void handleAjaxEvent(AjaxRequestTarget target)
  * {
  *     // update button-looks
  *     target.addComponent(saveButton);
- *
+ * 
  *     // send message that form-elements are now saved to the back-end
  *     target.appendJavascript(FormModificationDetectorBehavior.FORM_MODIFICATIONS_SAVED_JS);
  * }
  * </pre>
- *
- * Sometimes you want to get rid of form modification detection behavior altogether, like for instance after some other
- * procedure on the page bumped into an error. In that case append {@link #DISABLE_DETECTOR_JS} to the target.
+ * 
+ * Sometimes you want to get rid of form modification detection behavior altogether, like for instance
+ * after some other procedure on the page bumped into an error. In that case append
+ * {@link #DISABLE_DETECTOR_JS} to the target.
  * <p/>
  * The message displayed can be influenced by overriding {@link #getDisplayMessage()}.
  * <p/>
  * See also <a
- * href="http://www.hunlock.com/blogs/Mastering_The_Back_Button_With_Javascript">http://www.hunlock.com/blogs
- * /Mastering_The_Back_Button_With_Javascript</a>
- *
+ * href="http://www.hunlock.com/blogs/Mastering_The_Back_Button_With_Javascript">http://www.hunlock
+ * .com/blogs /Mastering_The_Back_Button_With_Javascript</a>
+ * 
  * @author Sep 2, 2009 Class and js adapted from
  *         http://www.jroller.com/karthikg/entry/modelling_client_side_form_modifications
  */
@@ -126,7 +130,7 @@ public class FormModificationDetectorBehavior extends AbstractBehavior
 
     /**
      * Get the display message.
-     *
+     * 
      * @return the message displayed in a confirm dialog
      */
     protected String getDisplayMessage()

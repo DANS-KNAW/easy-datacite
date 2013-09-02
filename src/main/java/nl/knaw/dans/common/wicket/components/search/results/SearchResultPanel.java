@@ -40,27 +40,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This component shows an overview of search result and is able to paginate,
- * sort, refine the search and use facets. It is configured through the 
- * SearchResultConfig object.
- * 
- * This component uses the SearchModel which contains the search request builder
- * and the search results. If you pass this component an existing SearchModel 
- * from another component, like the BrowsePanel, then it will continue where
- * that component left off.
- * 
- * This panel has two empty methods that you might want to implement: 
- *  - onAdvancedSearchClicked
- *  - onBrowseMoreClicked
- *  These methods can be used as hooks to implementations of a browse panel
- *  or an advanced search form. Simply by passing the SearchModel around 
- *  you can integrate this component with others that work on the SearchModel.
- * In the SearchResultConfig you will find option for making these hooks
- * visible.
+ * This component shows an overview of search result and is able to paginate, sort, refine the search and
+ * use facets. It is configured through the SearchResultConfig object. This component uses the
+ * SearchModel which contains the search request builder and the search results. If you pass this
+ * component an existing SearchModel from another component, like the BrowsePanel, then it will continue
+ * where that component left off. This panel has two empty methods that you might want to implement: -
+ * onAdvancedSearchClicked - onBrowseMoreClicked These methods can be used as hooks to implementations of
+ * a browse panel or an advanced search form. Simply by passing the SearchModel around you can integrate
+ * this component with others that work on the SearchModel. In the SearchResultConfig you will find
+ * option for making these hooks visible.
  * 
  * @see SearchModel
  * @see SearchResultConfig
- * 
  * @author lobo
  */
 public abstract class SearchResultPanel extends SearchPanel
@@ -91,8 +82,8 @@ public abstract class SearchResultPanel extends SearchPanel
     }
 
     /**
-     * Initialize the search result panel with an initial search criterium.
-     * It is impossible for the user to remove this initial criterium.
+     * Initialize the search result panel with an initial search criterium. It is impossible for the user
+     * to remove this initial criterium.
      */
     public SearchResultPanel(final String wicketId, final SearchCriterium searchCriterium, final SearchResultConfig config)
     {
@@ -100,7 +91,7 @@ public abstract class SearchResultPanel extends SearchPanel
     }
 
     /**
-     * Initialize the search result panel with an existing search model. 
+     * Initialize the search result panel with an existing search model.
      */
     public SearchResultPanel(final String wicketId, final SearchModel model, final SearchResultConfig config)
     {
@@ -191,8 +182,8 @@ public abstract class SearchResultPanel extends SearchPanel
             public void onSearch(String searchText)
             {
                 SearchResultPanel.this.getRequestBuilder().addCriterium(
-                        new TextSearchCriterium(searchText, new Model<String>(CriteriumLabel.createFilterText(SearchResultPanel.this
-                                .getString(SEARCHRESULTPANEL_CRITERIUMTEXT_REFINE_SEARCH), searchText))));
+                        new TextSearchCriterium(searchText, new Model<String>(CriteriumLabel.createFilterText(
+                                SearchResultPanel.this.getString(SEARCHRESULTPANEL_CRITERIUMTEXT_REFINE_SEARCH), searchText))));
             }
 
             @Override
@@ -205,11 +196,10 @@ public abstract class SearchResultPanel extends SearchPanel
         add(new HelpPopup("refineHelpPopup", "Refine", getRefineHelpContent()));
 
         /**
-         * I had to make this enclosure by hand, because putting a wicket:enclosure in a
-         * wicket:enclosure caused a nasty bug when using the setResponsePage to render
-         * a page with this component on it. Everytime it would say that the "browseMore"
-         * component was forgotten in the markup. After almost 2 hours of searching it
-         * turned out to be a freaking bug in Wicket 1.4.7. 
+         * I had to make this enclosure by hand, because putting a wicket:enclosure in a wicket:enclosure
+         * caused a nasty bug when using the setResponsePage to render a page with this component on it.
+         * Everytime it would say that the "browseMore" component was forgotten in the markup. After
+         * almost 2 hours of searching it turned out to be a freaking bug in Wicket 1.4.7.
          */
         WebMarkupContainer refineFacets = new WebMarkupContainer("refineFacetsEnclosure")
         {

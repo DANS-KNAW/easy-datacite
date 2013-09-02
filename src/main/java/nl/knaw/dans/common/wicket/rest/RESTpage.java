@@ -12,22 +12,28 @@ import org.apache.wicket.markup.html.list.ListView;
 
 /**
  * Top class of cascading RESTful web pages. A RESTful URL can be composed as
+ * 
  * <pre>
  *    {/collection-name{/#id}{/collection-name{/#id}}}{/dissemination-type}
  * </pre>
+ * 
  * where url-forms
  * <dl>
- * <dt>(1) /</dt><dd>leads to a page showing collection names</dd>
- * <dt>(2) /collection-name</dt><dd>leads to a page showing item-id's and/or sub collections and/or dissemination-types</dd>
- * <dt>(3) /collection-name/#id</dt><dd>leads to a default dissemination</dd>
- * <dt>(4) /collection-name/#id/dissemination-type</dt><dd>leads to the dissemination</dd>
+ * <dt>(1) /</dt>
+ * <dd>leads to a page showing collection names</dd>
+ * <dt>(2) /collection-name</dt>
+ * <dd>leads to a page showing item-id's and/or sub collections and/or dissemination-types</dd>
+ * <dt>(3) /collection-name/#id</dt>
+ * <dd>leads to a default dissemination</dd>
+ * <dt>(4) /collection-name/#id/dissemination-type</dt>
+ * <dd>leads to the dissemination</dd>
  * </dl>
- * 
- * <p>&nbsp;</p>
+ * <p>
+ * &nbsp;
+ * </p>
  * This class creates a navigation bar corresponding to the url at the top of the page.
  * 
  * @see {@link RESTcascadePage}, {@link RESTdisseminationPage}
- *
  */
 public abstract class RESTpage extends WebPage
 {

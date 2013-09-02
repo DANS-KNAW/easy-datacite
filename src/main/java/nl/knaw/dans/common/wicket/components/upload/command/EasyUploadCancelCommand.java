@@ -8,10 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author lobo
- * Called by browser when an upload process needs to be canceled. Currently this
- * class does not return anything. For the moment it can safely be assumed canceling
- * the process goes well.
+ * @author lobo Called by browser when an upload process needs to be canceled. Currently this class does
+ *         not return anything. For the moment it can safely be assumed canceling the process goes well.
  */
 public class EasyUploadCancelCommand extends EasyUploadCommand
 {
@@ -34,7 +32,7 @@ public class EasyUploadCancelCommand extends EasyUploadCommand
         {
             try
             {
-                Integer[] uploadIds = getUploadProcessIds();//NOPMD;
+                Integer[] uploadIds = getUploadProcessIds();// NOPMD;
 
                 // log incoming request
                 String ids = "";

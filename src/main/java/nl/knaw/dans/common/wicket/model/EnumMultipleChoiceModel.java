@@ -8,13 +8,12 @@ import nl.knaw.dans.common.wicket.EnumChoiceRenderer;
 import org.apache.wicket.model.Model;
 
 /**
- * An example with one of the options initially checked. For more context see
- * {@link EnumChoiceRenderer}
- *
+ * An example with one of the options initially checked. For more context see {@link EnumChoiceRenderer}
+ * 
  * <pre>
- *         final List<String> choiceList = Arrays.asList(Foo.values());
- *         final List<Foo> checkedValues = Arrays.asList(new Foo[]{Foo.bar});
- *         add(new CheckBoxMultipleChoice("selectFoo",checkedValues,choiceList,renderer));
+ * final List&lt;String&gt; choiceList = Arrays.asList(Foo.values());
+ * final List&lt;Foo&gt; checkedValues = Arrays.asList(new Foo[] {Foo.bar});
+ * add(new CheckBoxMultipleChoice(&quot;selectFoo&quot;, checkedValues, choiceList, renderer));
  * </pre>
  */
 public class EnumMultipleChoiceModel extends Model

@@ -7,7 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.model.IModel;
 
 /**
- * A simple search criterium based on a text based search query. 
+ * A simple search criterium based on a text based search query.
  * 
  * @author lobo
  */

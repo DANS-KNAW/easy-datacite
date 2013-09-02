@@ -188,7 +188,8 @@ public class ExplorerPanel extends Panel
         IColumn<?>[] columns = new IColumn[1];
         columns[0] = new PropertyColumn<Object>(new Model<String>("name"), "name", "name");
 
-        // GK: note: couldn't find a function to disable paging therefor the Integer.MAX_VALUE as a workaround
+        // GK: note: couldn't find a function to disable paging therefor the Integer.MAX_VALUE as a
+        // workaround
         table = new DefaultDataTable("datatable", columns, tableProvider, Integer.MAX_VALUE);
         table.setOutputMarkupId(true);
         add(table);

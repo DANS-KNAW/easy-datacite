@@ -12,8 +12,8 @@ import nl.knaw.dans.common.wicket.components.search.facets.CollapsedFacetValue;
 import org.apache.wicket.model.IModel;
 
 /**
- * Selects a facet by using a field filter on the selected facet value. Also 
- * compatible with CollapsedFacetValues.
+ * Selects a facet by using a field filter on the selected facet value. Also compatible with
+ * CollapsedFacetValues.
  * 
  * @author lobo
  */

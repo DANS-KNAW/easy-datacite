@@ -4,9 +4,9 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 
 /**
- * A panel that works with a generic model. The normal panel of Wicket does not
- * have a generic model object, but a default model object that needs casting.
- * Apparently the Wicket community voted against making Panel generic.
+ * A panel that works with a generic model. The normal panel of Wicket does not have a generic model
+ * object, but a default model object that needs casting. Apparently the Wicket community voted against
+ * making Panel generic.
  * 
  * @author lobo
  */

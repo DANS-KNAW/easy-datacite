@@ -117,7 +117,8 @@ public class UploadPostProcessThread extends Thread
 
     /**
      * The cancel functions cancels the post processing. It must of course be called from another thread
-     * because this thread will not be able to interrupt into the execution process of the post processing.
+     * because this thread will not be able to interrupt into the execution process of the post
+     * processing.
      */
     public void cancel()
     {
@@ -178,16 +179,16 @@ public class UploadPostProcessThread extends Thread
     }
 
     /**
-     * This method is called when the thread has finished execution (no matter for what reason). Override it to gain
-     * event access.
+     * This method is called when the thread has finished execution (no matter for what reason). Override
+     * it to gain event access.
      */
     public void onFinished()
     {
     }
 
     /**
-     * This method is called when the thread has finished execution successfully (no error/ no cancel). Override it to gain
-     * event access.
+     * This method is called when the thread has finished execution successfully (no error/ no cancel).
+     * Override it to gain event access.
      */
     public void onSuccess(File basePath, List<File> files)
     {

@@ -9,10 +9,8 @@ import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.model.Model;
 
 /**
- * @author lobo
- * The upload is submitted to an iframe, which is a trick for not holding up the whole
- * page while uploading.
- *
+ * @author lobo The upload is submitted to an iframe, which is a trick for not holding up the whole page
+ *         while uploading.
  */
 public class EasyUploadIFrame extends WebPage
 {

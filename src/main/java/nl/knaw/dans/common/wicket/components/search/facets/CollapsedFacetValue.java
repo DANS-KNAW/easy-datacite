@@ -7,15 +7,13 @@ import nl.knaw.dans.common.lang.search.FacetValue;
 import nl.knaw.dans.common.lang.search.simple.SimpleFacetValue;
 
 /**
- * A collapsed facet value contains one or more other facet values that
- * have been collapsed into it. It can be used to create a hierarchy of
- * facet values.
+ * A collapsed facet value contains one or more other facet values that have been collapsed into it. It
+ * can be used to create a hierarchy of facet values.
  * 
  * @see FacetValueCollapser
- *
  * @author lobo
- *
- * @param <T> the type of the facet value 
+ * @param <T>
+ *        the type of the facet value
  */
 public class CollapsedFacetValue<T> extends SimpleFacetValue<T>
 {

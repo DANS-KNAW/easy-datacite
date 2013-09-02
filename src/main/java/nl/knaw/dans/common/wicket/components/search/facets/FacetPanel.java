@@ -34,19 +34,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Shows a single facet. Configure the facet panel with the FacetConfig object.
- * The facet panel works directly with the SearchModel. It uses the search model
- * for reading the facet results and updates the search model's request builder
- * when a facet is clicked with a FacetCriterium. 
- * 
- * The facet panel is meant to be used by another component, because the facet panel does
- * not execute a search when the search model gets dirty. The onFacetClick method 
- * can be component by that component to catch facet click events. 
+ * Shows a single facet. Configure the facet panel with the FacetConfig object. The facet panel works
+ * directly with the SearchModel. It uses the search model for reading the facet results and updates the
+ * search model's request builder when a facet is clicked with a FacetCriterium. The facet panel is meant
+ * to be used by another component, because the facet panel does not execute a search when the search
+ * model gets dirty. The onFacetClick method can be component by that component to catch facet click
+ * events.
  * 
  * @see FacetConfig
  * @see SearchModel
  * @see FacetCriterium
- * 
  * @author lobo
  */
 public class FacetPanel extends BaseSearchPanel

@@ -109,7 +109,7 @@ public abstract class SimpleUploadPanel extends Panel
     {
         super(id);
 
-        //Folder uploadFolder = getUploadFolder();
+        // Folder uploadFolder = getUploadFolder();
         final FeedbackPanel uploadFeedback = new FeedbackPanel("uploadFeedback");
         add(uploadFeedback);
 
@@ -151,7 +151,7 @@ public abstract class SimpleUploadPanel extends Panel
         File uploadDir = new File(tmpDir, Session.get().getId());
         uploadDir.mkdirs();
         Folder folder = new Folder(uploadDir);
-        return folder;//((UploadApplication)Application.get()).getUploadFolder();
+        return folder;// ((UploadApplication)Application.get()).getUploadFolder();
     }
 
     protected abstract void onUpload(File file);

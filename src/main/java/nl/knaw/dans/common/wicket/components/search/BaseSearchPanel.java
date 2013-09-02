@@ -8,14 +8,12 @@ import nl.knaw.dans.common.wicket.components.search.model.SearchModel;
 import nl.knaw.dans.common.wicket.components.search.model.SearchRequestBuilder;
 
 /**
- * Panels that work with the SearchModel and SearchResources extend 
- * this class. The extending panel should be used by a SearchPanel
- * or any other component that has the power to provide an updated
+ * Panels that work with the SearchModel and SearchResources extend this class. The extending panel
+ * should be used by a SearchPanel or any other component that has the power to provide an updated
  * SearchModel.
  * 
  * @see SearchPanel
  * @see SearchModel
- *
  * @author lobo
  */
 public class BaseSearchPanel extends CommonPanel implements SearchResources

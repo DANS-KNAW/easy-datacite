@@ -14,9 +14,9 @@ import org.apache.wicket.protocol.http.WebRequest;
 import org.apache.wicket.protocol.http.WicketURLEncoder;
 
 /**
- * Extending this class gives the extender access to common Wicket
- * methods like the WicketUtil.redirectToLastVisitedPage()
- *  
+ * Extending this class gives the extender access to common Wicket methods like the
+ * WicketUtil.redirectToLastVisitedPage()
+ * 
  * @author lobo
  */
 public class CommonPage extends WebPage

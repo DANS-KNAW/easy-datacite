@@ -14,15 +14,12 @@ import nl.knaw.dans.common.wicket.components.search.facets.FacetConfig;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * The search request builder holds all information on how to create a search
- * request. First and foremost it uses a sequence of SearchCriterium objects to 
- * create a search request. Secondly it has some properties on how to sort and
- * paginate, etc. If any of these properties change this object is set to dirty.
- * This object does not reset its own dirty property, but relies on its users
- * to do so.
+ * The search request builder holds all information on how to create a search request. First and foremost
+ * it uses a sequence of SearchCriterium objects to create a search request. Secondly it has some
+ * properties on how to sort and paginate, etc. If any of these properties change this object is set to
+ * dirty. This object does not reset its own dirty property, but relies on its users to do so.
  * 
  * @see SearchCriterium
- * 
  * @author lobo
  */
 public class SearchRequestBuilder implements Serializable

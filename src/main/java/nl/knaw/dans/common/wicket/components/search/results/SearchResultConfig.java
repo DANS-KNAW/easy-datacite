@@ -20,13 +20,13 @@ public class SearchResultConfig implements Serializable
     private static final long serialVersionUID = -9131907959762403710L;
 
     /**
-     * This factory creates the (probably clickable) panels that show single
-     * search hits. Required.
+     * This factory creates the (probably clickable) panels that show single search hits. Required.
      */
     private SearchHitPanelFactory hitPanelFactory;
 
     /**
-     * Definitions for the fields that need to be made sortable. Optional. 
+     * Definitions for the fields that need to be made sortable. Optional.
+     * 
      * @see SortLinkConfig
      */
     private List<SortLinkConfig> sortLinks = new ArrayList<SortLinkConfig>();;

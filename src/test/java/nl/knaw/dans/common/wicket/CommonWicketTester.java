@@ -20,12 +20,12 @@ public class CommonWicketTester extends WicketTester
     }
 
     /**
-     * Asserts Easy error-level feedback messages.  This method functions the same as 
-     * 'assertErrorMessages' in 'WicketTester', but it strips off the time value from 
-     * the beginning of the error message.
+     * Asserts Easy error-level feedback messages. This method functions the same as
+     * 'assertErrorMessages' in 'WicketTester', but it strips off the time value from the beginning of
+     * the error message.
      * 
      * @param expectedErrorMessages
-     *            expected error messages
+     *        expected error messages
      */
     public void assertEasyErrorMessages(String[] expectedErrorMessages)
     {

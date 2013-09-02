@@ -24,9 +24,8 @@ public abstract class DMOModel<T extends DataModelObject> implements IModel<T>
     private DmoStoreId dmoStoreId;
 
     /**
-     * Dynamic reloading
-     * of a DMO means that when the DMO gets invalidated the 
-     * DMO held in memory is reloaded.
+     * Dynamic reloading of a DMO means that when the DMO gets invalidated the DMO held in memory is
+     * reloaded.
      */
     private boolean dynamicReload = true;
 
@@ -118,9 +117,9 @@ public abstract class DMOModel<T extends DataModelObject> implements IModel<T>
     }
 
     /**
-     * Enable or disable dynamic reloading. Dynamic reloading
-     * of a DMO means that when the DMO gets invalidated the 
-     * DMO held in memory is reloaded. 
+     * Enable or disable dynamic reloading. Dynamic reloading of a DMO means that when the DMO gets
+     * invalidated the DMO held in memory is reloaded.
+     * 
      * @param enable
      */
     public void setDynamicReload(boolean enable)

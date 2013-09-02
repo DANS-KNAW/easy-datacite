@@ -9,19 +9,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
- * @author lobo
- * This class acts as a pool of UploadProcess classes. After creating a new UploadProces
- * others may access it only by getting the process from this pool. It is a singleton;
- * one needs only one of these pools per WicketApplication.
- * This class also removes UploadProcesses after a certain time-out period.
+ * @author lobo This class acts as a pool of UploadProcess classes. After creating a new UploadProces
+ *         others may access it only by getting the process from this pool. It is a singleton; one needs
+ *         only one of these pools per WicketApplication. This class also removes UploadProcesses after a
+ *         certain time-out period.
  */
 public class EasyUploadProcesses
 {
-    //TODO: get from properties
+    // TODO: get from properties
     /**
-     * After how many minutes of no contact with the client should an uploadprocess be removed
-     * from the list?
+     * After how many minutes of no contact with the client should an uploadprocess be removed from the
+     * list?
      */
     private static final Integer TIMEOUT_MINS = 60;
 
@@ -55,8 +53,8 @@ public class EasyUploadProcesses
     private Integer lastUploadId = 1;
 
     /**
-     * This number is arbitrary, it may even be generated on the client side. As long
-     * as it is unique.
+     * This number is arbitrary, it may even be generated on the client side. As long as it is unique.
+     * 
      * @return
      */
     public Integer generateUploadId()
@@ -129,8 +127,8 @@ public class EasyUploadProcesses
     }
 
     /**
-     * Throw away all upload process objects that have not been accessed for
-     * a certain amount of time (TIMEOUT_MIS)
+     * Throw away all upload process objects that have not been accessed for a certain amount of time
+     * (TIMEOUT_MIS)
      */
     private void cleanupOldProcesses()
     {
@@ -173,12 +171,9 @@ public class EasyUploadProcesses
     }
 
     /**
-     *
-     * @author lobo
-     * Wrapper class around UploadProcess that allows one to store a last accessed
-     * time with the UploadProcess object. This comes in handy when trying to
-     * determine if an upload process should be removed after considerable amount
-     * of idle time from the client's side.
+     * @author lobo Wrapper class around UploadProcess that allows one to store a last accessed time with
+     *         the UploadProcess object. This comes in handy when trying to determine if an upload
+     *         process should be removed after considerable amount of idle time from the client's side.
      */
     static class UploadProcessTimed
     {

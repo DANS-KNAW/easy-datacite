@@ -12,21 +12,15 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.Model;
 
 /**
- * A text input field with a search button that hopefully leads to a page with
- * search results on it.  
- * 
- * The search bar can be used in two ways:
- * 1. It can be used for a new search. A result page then needs to be supplied
- * to the constructor of this component. A 'q' parameter will then be send 
- * to the page using the PageParameters mechanism of Wicket. You are then 
- * responsible for reading this q parameter and creating a TextSearchCriterium
- * which can be send to a SearchResultPanel.
- * 2. It can be used to more freely by implementing the onSearch method. This
- * is used by the SearchResultPanel to refine the search results by adding a
- * TextSearchCriterium to the existing criteria.
+ * A text input field with a search button that hopefully leads to a page with search results on it. The
+ * search bar can be used in two ways: 1. It can be used for a new search. A result page then needs to be
+ * supplied to the constructor of this component. A 'q' parameter will then be send to the page using the
+ * PageParameters mechanism of Wicket. You are then responsible for reading this q parameter and creating
+ * a TextSearchCriterium which can be send to a SearchResultPanel. 2. It can be used to more freely by
+ * implementing the onSearch method. This is used by the SearchResultPanel to refine the search results
+ * by adding a TextSearchCriterium to the existing criteria.
  * 
  * @see nl.knaw.dans.common.wicket.components.search.criteria.TextSearchCriterium
- * 
  * @author lobo
  */
 public class SearchBar extends BaseSearchPanel

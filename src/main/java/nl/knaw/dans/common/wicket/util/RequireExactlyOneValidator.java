@@ -21,7 +21,9 @@ public class RequireExactlyOneValidator extends AbstractRelatedFormFieldsValidat
 
     /**
      * Constructor
-     * @param components FormComponents of which just one must be filled.
+     * 
+     * @param components
+     *        FormComponents of which just one must be filled.
      */
     public RequireExactlyOneValidator(final FormComponent... components)
     {
@@ -31,7 +33,8 @@ public class RequireExactlyOneValidator extends AbstractRelatedFormFieldsValidat
     /**
      * Validate the form.
      * 
-     * @param form The form to validate.
+     * @param form
+     *        The form to validate.
      * @see org.apache.wicket.markup.html.form.validation.IFormValidator#validate(org.apache.wicket.markup.html.form.Form)
      */
     public void validate(Form form)

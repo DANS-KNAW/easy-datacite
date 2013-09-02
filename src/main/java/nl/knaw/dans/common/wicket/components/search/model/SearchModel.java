@@ -9,10 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The model for the search related components. This model contains SearchData
- * and a few convenience methods for working with SearchData. See the javadoc 
- * of SearchData for more info. 
- *
+ * The model for the search related components. This model contains SearchData and a few convenience
+ * methods for working with SearchData. See the javadoc of SearchData for more info.
+ * 
  * @see SearchData
  * @author lobo
  */
