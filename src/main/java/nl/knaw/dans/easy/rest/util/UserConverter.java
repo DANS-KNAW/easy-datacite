@@ -12,11 +12,10 @@ public class UserConverter extends SimpleXmlWriter
 {
 
     /**
-     * A simple method that returns a XML String containing the information from
-     * the given EasyUser.
+     * A simple method that returns a XML String containing the information from the given EasyUser.
      * 
      * @param user
-     *            The EasyUser from which to extract the information.
+     *        The EasyUser from which to extract the information.
      * @return A String containing the user information in XML format.
      */
     public static String convert(EasyUser user)

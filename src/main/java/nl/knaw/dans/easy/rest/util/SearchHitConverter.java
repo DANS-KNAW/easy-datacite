@@ -18,7 +18,7 @@ public class SearchHitConverter extends SimpleXmlWriter
      * Create a XML representation of a list of search hits.
      * 
      * @param hits
-     *            A list of search hits.
+     *        A list of search hits.
      * @return A String containing XML representing the hits.
      */
     public static String convert(List<?> hits)
@@ -37,7 +37,7 @@ public class SearchHitConverter extends SimpleXmlWriter
      * Convert a single search hit to XML.
      * 
      * @param hit
-     *            The search hit.
+     *        The search hit.
      * @return A String containing XML representing the hit.
      */
     public static String convert(SimpleSearchHit<?> hit)

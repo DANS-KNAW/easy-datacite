@@ -14,8 +14,7 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 
 /**
- * A utility class for retrieving information about image thumbnails from
- * datasets.
+ * A utility class for retrieving information about image thumbnails from datasets.
  * 
  * @author Georgi Khomeriki
  * @author Roshan Timal
@@ -31,14 +30,14 @@ public class ThumbnailUtil extends SimpleXmlWriter
      * A function to check whether a FileItem is an image thumbnail.
      * 
      * @param user
-     *            The EasyUser.
+     *        The EasyUser.
      * @param d
-     *            The Dataset.
+     *        The Dataset.
      * @param file
-     *            The FileItem that you want to check.
+     *        The FileItem that you want to check.
      * @return True iff file is within a thumbnails folder.
      * @throws ServiceException
-     *             Thrown if something goes wrong internally.
+     *         Thrown if something goes wrong internally.
      */
     public static boolean isThumbnail(EasyUser user, Dataset d, FileItemVO file) throws ServiceException
     {
@@ -52,12 +51,12 @@ public class ThumbnailUtil extends SimpleXmlWriter
      * Returns a list of ID's of thumbnails.
      * 
      * @param user
-     *            the EasyUser.
+     *        the EasyUser.
      * @param datasetSid
-     *            Store ID of the dataset.
+     *        Store ID of the dataset.
      * @return A list of ID's of the thumbnails.
      * @throws ServiceException
-     *             If something goes wrong.
+     *         If something goes wrong.
      */
     public static String getThumbnailIdsXml(EasyUser user, String datasetSid) throws ServiceException
     {

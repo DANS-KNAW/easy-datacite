@@ -24,16 +24,14 @@ public class DisciplineConverter extends SimpleXmlWriter
      * Returns a XML String of disciplines with depth=recursionDepth.
      * 
      * @param recursionDepth
-     *            Depth of recursion for subdisciplines.
+     *        Depth of recursion for subdisciplines.
      * @return A String containing a XML list of disciplines.
      * @throws DomainException
-     *             Thrown if something goes wrong in the domain model.
+     *         Thrown if something goes wrong in the domain model.
      * @throws ServiceException
-     *             Thrown if something goes wrong while retrieving
-     *             subdisciplines.
+     *         Thrown if something goes wrong while retrieving subdisciplines.
      * @throws RepositoryException
-     *             Thrown if something goes wrong while getting parent Sid's of
-     *             a discipline.
+     *         Thrown if something goes wrong while getting parent Sid's of a discipline.
      */
     public static String getDisciplineList(int recursionDepth) throws DomainException, ServiceException, RepositoryException
     {
@@ -43,22 +41,20 @@ public class DisciplineConverter extends SimpleXmlWriter
     }
 
     /**
-     * Returns a XML String of disciplines starting at disciplines in the given
-     * List. The depth of the list is given in recursionDepth.
+     * Returns a XML String of disciplines starting at disciplines in the given List. The depth of the
+     * list is given in recursionDepth.
      * 
      * @param disciplines
-     *            List of 'root' disciplines.
+     *        List of 'root' disciplines.
      * @param recursionDepth
-     *            Depth of recursion for subdisciplines.
+     *        Depth of recursion for subdisciplines.
      * @return A String containing a XML list of disciplines.
      * @throws DomainException
-     *             Thrown if something goes wrong in the domain model.
+     *         Thrown if something goes wrong in the domain model.
      * @throws ServiceException
-     *             Thrown if something goes wrong while retrieving
-     *             subdisciplines.
+     *         Thrown if something goes wrong while retrieving subdisciplines.
      * @throws RepositoryException
-     *             Thrown if something goes wrong while getting parent Sid's of
-     *             a discipline.
+     *         Thrown if something goes wrong while getting parent Sid's of a discipline.
      */
     public static String getDisciplineList(List<DisciplineContainer> disciplines, int recursionDepth) throws DomainException, ServiceException,
             RepositoryException
@@ -72,19 +68,18 @@ public class DisciplineConverter extends SimpleXmlWriter
     }
 
     /**
-     * Returns a XML String of a specific discipline. Also goes on recursively
-     * (while recursionDepth > 0) to add subdisciplines.
+     * Returns a XML String of a specific discipline. Also goes on recursively (while recursionDepth > 0)
+     * to add subdisciplines.
      * 
      * @param discipline
-     *            The discipline to parse to XML.
+     *        The discipline to parse to XML.
      * @param recursionDepth
-     *            Depth of recursion for subdisciplines.
+     *        Depth of recursion for subdisciplines.
      * @return A String containing XMl for the given discipline.
      * @throws DomainException
-     *             Thrown if something goes wrong in the domain model.
+     *         Thrown if something goes wrong in the domain model.
      * @throws RepositoryException
-     *             Thrown if something goes wrong while getting parent Sid's of
-     *             a discipline.
+     *         Thrown if something goes wrong while getting parent Sid's of a discipline.
      */
     public static String getDiscipline(DisciplineContainer discipline, int recursionDepth) throws DomainException, RepositoryException
     {

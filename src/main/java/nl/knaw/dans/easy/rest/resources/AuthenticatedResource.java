@@ -26,12 +26,12 @@ public class AuthenticatedResource extends Resource
     protected static final String AUTHENTICATION_TYPE = "Basic ";
 
     /**
-     * Fetches authentication data from the request headers and tries to
-     * authenticate. Authentication is done with the HTTP Basic method for now.
+     * Fetches authentication data from the request headers and tries to authenticate. Authentication is
+     * done with the HTTP Basic method for now.
      * 
      * @return EasyUser The authenticated user or an anonymous user.
      * @throws ServiceException
-     *             Thrown if something goes wrong.
+     *         Thrown if something goes wrong.
      */
     protected EasyUser authenticate() throws ServiceException
     {

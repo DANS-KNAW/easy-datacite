@@ -24,15 +24,15 @@ public class SearchResource extends AuthenticatedResource
 {
 
     /**
-     * Executes a simple search on the metadata using the query parameter 'q' as
-     * input for the search term.
+     * Executes a simple search on the metadata using the query parameter 'q' as input for the search
+     * term.
      * 
      * @param searchTerm
-     *            Search term taken from the query parameter 'q'
+     *        Search term taken from the query parameter 'q'
      * @param offset
-     *            Offset index of result list.
+     *        Offset index of result list.
      * @param limit
-     *            Max number of hits to be returned.
+     *        Max number of hits to be returned.
      * @return Response containing the hits to the search query.
      */
     @GET

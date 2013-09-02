@@ -9,8 +9,8 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
 
 /**
- * Abstract class for resources. This class wraps HTTP request information and
- * methods that are injected by JAX-RS.
+ * Abstract class for resources. This class wraps HTTP request information and methods that are injected
+ * by JAX-RS.
  * 
  * @author Georgi Khomeriki
  * @author Roshan Timal
@@ -18,8 +18,7 @@ import javax.ws.rs.core.UriInfo;
 public abstract class AbstractResource
 {
     /**
-     * With each request the headers of that request are injected into the
-     * requestHeaders parameter.
+     * With each request the headers of that request are injected into the requestHeaders parameter.
      */
     @Context
     private HttpHeaders requestHeaders;
@@ -84,11 +83,10 @@ public abstract class AbstractResource
     }
 
     /**
-     * Setter for the request headers. This is practical for testing in
-     * particular.
+     * Setter for the request headers. This is practical for testing in particular.
      * 
      * @param requestHeaders
-     *            The new request headers.
+     *        The new request headers.
      */
     protected void setRequestHeaders(HttpHeaders requestHeaders)
     {

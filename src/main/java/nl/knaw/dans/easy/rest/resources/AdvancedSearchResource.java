@@ -33,13 +33,12 @@ public class AdvancedSearchResource extends AuthenticatedResource
     private static final String QUERY_SEPERATOR = " OR ";
 
     /**
-     * Executes an advanced search on the metadata using the given search
-     * parameters.
+     * Executes an advanced search on the metadata using the given search parameters.
      * 
      * @param offset
-     *            Offset index of result list.
+     *        Offset index of result list.
      * @param limit
-     *            Max number of hits to be returned.
+     *        Max number of hits to be returned.
      * @return Response containing the hits to the search query.
      */
     @GET
@@ -64,7 +63,7 @@ public class AdvancedSearchResource extends AuthenticatedResource
         }
     }
 
-    @SuppressWarnings( {"unchecked", "rawtypes"})
+    @SuppressWarnings({"unchecked", "rawtypes"})
     private FieldSet constructFieldSet()
     {
         MultivaluedMap<String, String> parameters = getQueryParameters();

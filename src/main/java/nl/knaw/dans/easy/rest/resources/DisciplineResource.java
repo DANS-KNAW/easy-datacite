@@ -91,7 +91,7 @@ public class DisciplineResource extends Resource
      * Get a specific discipline by sid.
      * 
      * @param sid
-     *            Store ID of the discipline.
+     *        Store ID of the discipline.
      * @return A response containing the data about the given discipline.
      */
     @GET
@@ -126,7 +126,7 @@ public class DisciplineResource extends Resource
      * Returns a list of subdisciplines of the given discipline.
      * 
      * @param sid
-     *            Store ID of the parent discipline.
+     *        Store ID of the parent discipline.
      * @return A response containing a list of subdisciplines.
      */
     @GET

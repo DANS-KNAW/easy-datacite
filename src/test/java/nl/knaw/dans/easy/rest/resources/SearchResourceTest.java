@@ -19,7 +19,7 @@ import org.mockito.Mockito;
 
 import com.sun.jersey.api.client.WebResource;
 
-@SuppressWarnings( {"unchecked", "rawtypes"})
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class SearchResourceTest extends RestTest
 {
     private SearchService searchServiceMock;

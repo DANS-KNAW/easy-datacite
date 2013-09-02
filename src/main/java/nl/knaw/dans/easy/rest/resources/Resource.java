@@ -15,9 +15,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A class that contains convenient methods for Resource classes. The methods
- * defined by this class add facilities for response generation. Other Resource
- * classes should extend this class.
+ * A class that contains convenient methods for Resource classes. The methods defined by this class add
+ * facilities for response generation. Other Resource classes should extend this class.
  * 
  * @author Georgi Khomeriki
  * @author Roshan Timal
@@ -46,7 +45,7 @@ public class Resource extends AbstractResource
      * Translates a content byte array to a proper response.
      * 
      * @param content
-     *            The content byte array.
+     *        The content byte array.
      * @return The proper Response containing the content.
      */
     protected Response responseXmlOrJson(byte[] content)
@@ -58,7 +57,7 @@ public class Resource extends AbstractResource
      * Translates a content String to a proper response.
      * 
      * @param content
-     *            The content String.
+     *        The content String.
      * @return The proper Response containing the content.
      */
     protected Response responseXmlOrJson(String content)
@@ -95,8 +94,7 @@ public class Resource extends AbstractResource
     /**
      * Generates a simple response for a OPTIONS request.
      * 
-     * @return A simple response (containing OPTIONS,GET,HEAD) for an OPTIONS
-     *         request.
+     * @return A simple response (containing OPTIONS,GET,HEAD) for an OPTIONS request.
      */
     protected Response optionsResponse()
     {
@@ -107,7 +105,7 @@ public class Resource extends AbstractResource
      * Generates a simple response with no body.
      * 
      * @param status
-     *            Status code of the response.
+     *        Status code of the response.
      * @return Simple response with no body.
      */
     protected Response simpleResponse(int status)
@@ -116,11 +114,10 @@ public class Resource extends AbstractResource
     }
 
     /**
-     * Generates a simple 200 OK response that contains a String message in the
-     * response body.
+     * Generates a simple 200 OK response that contains a String message in the response body.
      * 
      * @param msg
-     *            Message that goes in the body of the response.
+     *        Message that goes in the body of the response.
      * @return Simple response with the given message in the body.
      */
     protected Response simpleResponse(String msg)
@@ -132,9 +129,9 @@ public class Resource extends AbstractResource
      * Generates a simple response that contains a String message in the body.
      * 
      * @param status
-     *            Status code of the response.
+     *        Status code of the response.
      * @param msg
-     *            Message that goes in the body of the response.
+     *        Message that goes in the body of the response.
      * @return Simple response with the given message in the body.
      */
     protected Response simpleResponse(int status, String msg)
@@ -143,8 +140,7 @@ public class Resource extends AbstractResource
     }
 
     /**
-     * Generates a 404 NOT FOUND response, a standard message will be added to
-     * the body.
+     * Generates a 404 NOT FOUND response, a standard message will be added to the body.
      * 
      * @return Simple 404 response with a simple message in the body.
      */
@@ -157,7 +153,7 @@ public class Resource extends AbstractResource
      * Generates a 404 NOT FOUND response, a message can be added to the body.
      * 
      * @param msg
-     *            Message that goes in the body of the response.
+     *        Message that goes in the body of the response.
      * @return Simple 404 response with a message in the body.
      */
     protected Response notFound(String msg)
@@ -166,11 +162,10 @@ public class Resource extends AbstractResource
     }
 
     /**
-     * Generates a 500 INTERNAL SERVER ERROR response without a body. Also logs
-     * the exception.
+     * Generates a 500 INTERNAL SERVER ERROR response without a body. Also logs the exception.
      * 
      * @param t
-     *            The exception that was thrown.
+     *        The exception that was thrown.
      * @return Simple 500 response, with no body.
      */
     protected Response internalServerError(Throwable t)

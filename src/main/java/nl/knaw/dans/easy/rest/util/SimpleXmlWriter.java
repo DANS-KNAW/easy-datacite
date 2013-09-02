@@ -10,8 +10,7 @@ public class SimpleXmlWriter
 {
 
     /**
-     * Throw an AssertionError if this class or one of it's subclasses is ever
-     * instantiated.
+     * Throw an AssertionError if this class or one of it's subclasses is ever instantiated.
      */
     protected SimpleXmlWriter()
     {
@@ -22,7 +21,7 @@ public class SimpleXmlWriter
      * Create a start node.
      * 
      * @param name
-     *            Node name.
+     *        Node name.
      * @return Starting node.
      */
     public static String startNode(String name)
@@ -34,7 +33,7 @@ public class SimpleXmlWriter
      * Create an ending node.
      * 
      * @param name
-     *            Node name.
+     *        Node name.
      * @return Ending node.
      */
     public static String endNode(String name)
@@ -46,9 +45,9 @@ public class SimpleXmlWriter
      * Create a simple node with the given node name and value.
      * 
      * @param nodeName
-     *            Name of the node.
+     *        Name of the node.
      * @param value
-     *            Value of the node.
+     *        Value of the node.
      * @return The node with it's value.
      */
     public static String addNode(String nodeName, String value)

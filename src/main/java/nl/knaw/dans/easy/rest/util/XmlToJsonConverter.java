@@ -24,8 +24,7 @@ public class XmlToJsonConverter
 {
 
     /**
-     * Throw an AssertionError if this class or one of it's subclasses is ever
-     * instantiated.
+     * Throw an AssertionError if this class or one of it's subclasses is ever instantiated.
      */
     protected XmlToJsonConverter()
     {
@@ -36,12 +35,12 @@ public class XmlToJsonConverter
      * Converts a byte array containing XML to JSON.
      * 
      * @param xml
-     *            The byte array containing XML.
+     *        The byte array containing XML.
      * @return String containing JSON representation of the given XML.
      * @throws IOException
-     *             Thrown if reading input as InputStream goes wrong.
+     *         Thrown if reading input as InputStream goes wrong.
      * @throws XMLStreamException
-     *             Thrown if XML parsing goes wrong.
+     *         Thrown if XML parsing goes wrong.
      */
     public static String convert(byte[] xml) throws IOException, XMLStreamException
     {
@@ -52,12 +51,12 @@ public class XmlToJsonConverter
      * Converts a String containing XML to JSON.
      * 
      * @param xml
-     *            The XML containing String.
+     *        The XML containing String.
      * @return String containing JSON representation of the given XML.
      * @throws IOException
-     *             Thrown if reading input as InputStream goes wrong.
+     *         Thrown if reading input as InputStream goes wrong.
      * @throws XMLStreamException
-     *             Thrown if XML parsing goes wrong.
+     *         Thrown if XML parsing goes wrong.
      */
     public static String convert(String xml) throws IOException, XMLStreamException
     {

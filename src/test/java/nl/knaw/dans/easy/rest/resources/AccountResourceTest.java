@@ -108,7 +108,7 @@ public class AccountResourceTest extends RestTest
         assertEquals("<hits></hits>", response.getEntity(String.class));
     }
 
-    @SuppressWarnings( {"rawtypes", "unchecked"})
+    @SuppressWarnings({"rawtypes", "unchecked"})
     private void setUpSearchService() throws ServiceException
     {
         SearchService searchServiceMock = mock(SearchService.class);

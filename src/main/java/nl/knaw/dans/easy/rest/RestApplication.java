@@ -14,9 +14,8 @@ import nl.knaw.dans.easy.rest.resources.SearchResource;
 import nl.knaw.dans.easy.rest.resources.TestResource;
 
 /**
- * The Application class that locates all the resource classes to initialize the
- * REST service. This can be achieved without such a class but the other methods
- * are not compatible with Spring injection.
+ * The Application class that locates all the resource classes to initialize the REST service. This can
+ * be achieved without such a class but the other methods are not compatible with Spring injection.
  * 
  * @author Georgi Khomeriki
  * @author Roshan Timal

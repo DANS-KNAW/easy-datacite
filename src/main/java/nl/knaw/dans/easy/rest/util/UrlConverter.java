@@ -26,12 +26,12 @@ public class UrlConverter
      * Given an URL and size (in bytes) this method will return the byte array.
      * 
      * @param url
-     *            The URL that points to a file.
+     *        The URL that points to a file.
      * @param size
-     *            The size of the file (in bytes).
+     *        The size of the file (in bytes).
      * @return An byte array that represents the file.
      * @throws IOException
-     *             If something goes wrong while parsing the URL.
+     *         If something goes wrong while parsing the URL.
      */
     public static byte[] toByteArray(URL url, long size) throws IOException
     {

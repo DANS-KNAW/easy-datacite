@@ -22,7 +22,7 @@ import org.mockito.Mockito;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
-@SuppressWarnings( {"unchecked", "rawtypes"})
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class AdvancedSearchResourceTest extends RestTest
 {
 

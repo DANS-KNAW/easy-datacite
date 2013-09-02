@@ -66,7 +66,6 @@ public class DatasetMetadataResourceTest extends RestTest
     {
         when(datasetServiceMock.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).thenReturn(datasetMock);
         String metadataXml = "<metadata><title>TEST</title></metadata>";
-        //        when(metadataMock.asXMLString()).thenReturn(metadataXml);
 
         WebResource webResource = resource().path("dataset/easy-dataset:1/metadata");
 

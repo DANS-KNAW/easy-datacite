@@ -29,8 +29,7 @@ public class AccountResource extends AuthenticatedResource
 {
 
     /**
-     * Returns a response that contains the account information of the
-     * authenticated user.
+     * Returns a response that contains the account information of the authenticated user.
      * 
      * @return A response containing account information.
      */
@@ -54,10 +53,9 @@ public class AccountResource extends AuthenticatedResource
     /**
      * Returns all (published) datasets that are deposited by the user.
      * 
-     * @return A list of search hits containing all published datasets that are
-     *         deposited by the user.
+     * @return A list of search hits containing all published datasets that are deposited by the user.
      */
-    @SuppressWarnings( {"rawtypes", "unchecked"})
+    @SuppressWarnings({"rawtypes", "unchecked"})
     @GET
     @Path("/datasets")
     public Response getDatasets()

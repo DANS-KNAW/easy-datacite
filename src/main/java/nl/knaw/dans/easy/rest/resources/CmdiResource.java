@@ -38,7 +38,7 @@ public class CmdiResource extends AuthenticatedResource
      * 
      * @return Date of the last time CMDI metadata was modified in EASY.
      */
-    @SuppressWarnings( {"rawtypes", "unchecked"})
+    @SuppressWarnings({"rawtypes", "unchecked"})
     @GET
     @Path("/last-modified")
     public Response getLastModified()

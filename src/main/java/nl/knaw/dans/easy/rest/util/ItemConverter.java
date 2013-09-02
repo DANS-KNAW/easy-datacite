@@ -16,11 +16,10 @@ public class ItemConverter extends SimpleXmlWriter
 {
 
     /**
-     * Returns a XML string that represents the items provided in the given
-     * list.
+     * Returns a XML string that represents the items provided in the given list.
      * 
      * @param items
-     *            The list of items to parse.
+     *        The list of items to parse.
      * @return A String containing XML info about the given items.
      */
     public static String convert(List<ItemVO> items)
@@ -37,7 +36,7 @@ public class ItemConverter extends SimpleXmlWriter
      * Parses a single item to a XML string.
      * 
      * @param item
-     *            The item to parse.
+     *        The item to parse.
      * @return An XML string containing info about the given item.
      */
     public static String convert(ItemVO item)
