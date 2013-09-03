@@ -16,7 +16,6 @@ public abstract class Fixture
     private static Services services;
     public static final File META_DATA_FILE = new File("src/test/resources/input/metadata.xml");
     protected static final File ZIP_FILE = new File("src/test/resources/input/datasetPictures.zip");
-    private final OutputUtil testOutput = new OutputUtil(this.getClass());
 
     @BeforeClass
     public static void setDepositService() throws Exception
@@ -28,11 +27,5 @@ public abstract class Fixture
             services = new Services();
             services.setDepositService(service);
         }
-    }
-
-    /** See {@link OutputUtil#assertAsExpected(String, String)} */
-    public void assertAsExpected(final String actualResults, final String baseFileName) throws Exception
-    {
-        testOutput.assertAsExpected(actualResults, baseFileName);
     }
 }

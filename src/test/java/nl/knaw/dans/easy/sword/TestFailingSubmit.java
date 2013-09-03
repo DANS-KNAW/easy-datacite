@@ -13,7 +13,7 @@ import org.junit.Test;
 import org.purl.sword.base.Deposit;
 import org.purl.sword.base.SWORDAuthenticationException;
 import org.purl.sword.base.SWORDErrorException;
-import org.purl.sword.base.SwordValidationInfo;
+import org.purl.sword.base.SWORDException;
 
 public class TestFailingSubmit extends SubmitFixture
 //maven should not run this test therefore the name should not start or end with test.
@@ -140,7 +140,20 @@ public class TestFailingSubmit extends SubmitFixture
         execute("", MockUtil.PASSWORD, LOCATION);
     }
 
-    private SwordValidationInfo execute(String userId, String password, String location) throws Exception
+    private void execute(boolean verbose, boolean noOp, final String zip) throws Exception, SWORDException
+    {
+        final Deposit deposit = new Deposit();
+        deposit.setUsername(MockUtil.VALID_USER_ID);
+        deposit.setPassword(MockUtil.PASSWORD);
+        deposit.setLocation(LOCATION);
+        deposit.setVerbose(verbose);
+        deposit.setNoOp(noOp);
+        deposit.setFile(new FileInputStream(zip));
+
+        execute(deposit, "_" + new File(zip).getName().replace(".zip", ""));
+    }
+
+    private void execute(String userId, String password, String location) throws Exception
     {
         final Deposit deposit = new Deposit();
         deposit.setUsername(userId);
@@ -150,6 +163,6 @@ public class TestFailingSubmit extends SubmitFixture
         deposit.setNoOp(true);
         deposit.setFile(new FileInputStream(PROPER_ZIP));
 
-        return execute(deposit, location.replaceAll("\\/", "_"));
+        execute(deposit, location.replaceAll("\\/", "_"));
     }
 }
