@@ -171,7 +171,7 @@ public class EasyBusinessFacade
         // from now on, treat any error as a bad request to return the ID of the created draft dataset
 
         final Dataset dataset = createEmptyDataset(mdFormat);
-        final DatasetSubmission submission = new DatasetSubmissionImpl(formDefinition, dataset, user);
+        final DatasetSubmissionImpl submission = new DatasetSubmissionImpl(formDefinition, dataset, user);
 
         ((DatasetImpl) dataset).setEasyMetadata(metadata);
         dataset.setOwnerId(user.getId());
@@ -201,7 +201,7 @@ public class EasyBusinessFacade
     }
 
     /** Wraps exceptions thrown by Services.getDatasetService().submitDataset */
-    private static void submit(final DatasetSubmission submission) throws SWORDException, SWORDErrorException
+    private static void submit(final DatasetSubmissionImpl submission) throws SWORDException, SWORDErrorException
     {
         final Dataset dataset = submission.getDataset();
         final EasyUser user = submission.getSessionUser();
@@ -218,19 +218,10 @@ public class EasyBusinessFacade
         {
             throw createSubmitException(submission, exception);
         }
-        if (submission.hasMetadataErrors() || submission.hasGlobalMessages())
+        if (!submission.isSubmitted())
             throw createSubmitException(submission, gatherSubmissionMessages(submission));
         if (!submission.isMailSend())
-            logger.warn("no submission mail sent for " + dataset.getStoreId() + " " + user.getId());
-        if (!submission.isCompleted())
-        {
-            // For unit tests we use mocked datasets
-            if (!Services.getDatasetService().getClass().getName().contains("$Proxy"))
-            {
-                // FIXME a mocked dataset does not set the submission conditions, nor sends a mail
-                throw createSubmitException(submission, "submission not completed");
-            }
-        }
+            logger.warn("submission OK but no confirmation mail sent for " + dataset.getStoreId() + " " + user.getId());
     }
 
     private static String gatherSubmissionMessages(final DatasetSubmission submission)

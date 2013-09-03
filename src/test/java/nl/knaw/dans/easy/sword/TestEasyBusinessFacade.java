@@ -63,11 +63,6 @@ public class TestEasyBusinessFacade extends Fixture
             throw new Exception("got no exception but expected " + expectedCause.getName());
     }
 
-    @Test
-    public void submit() throws Exception
-    {
-        executeSubmit(ZIP_FILE, META_DATA_FILE, null);
-    }
 
     @Test(expected = SWORDErrorException.class)
     public void invalidMetadataByMM() throws Throwable
