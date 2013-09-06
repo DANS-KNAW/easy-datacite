@@ -22,12 +22,14 @@ public class ItemIngester extends DefaultDelegator
     {
         super(dataset);
         this.dataset = dataset;
+        logger.info("creating custom ItemIngestor for " + dataset.getStoreId() );
     }
 
     @Override
     public void addAdditionalRDF(final FileItem fileItem)
     {
         final String withoutExtension = fileItem.getPath().replaceAll("[.][^.]*$", "");
+        logger.debug("checking if file is DDM/EDM: " + fileItem.getPath() );
         if (DDM.equals(withoutExtension) || EMD.equals(withoutExtension))
         {
             logger.info("connecting metadata file " + fileItem.getStoreId() + " with dataset " + dataset.getStoreId());
