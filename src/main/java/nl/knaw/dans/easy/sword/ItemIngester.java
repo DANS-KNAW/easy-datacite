@@ -22,7 +22,7 @@ public class ItemIngester extends DefaultDelegator
     {
         super(dataset);
         this.dataset = dataset;
-        logger.info("creating custom ItemIngestor for " + dataset.getStoreId());
+        logger.debug("creating custom ItemIngestor for " + dataset.getStoreId());
     }
 
     @Override
