@@ -12,8 +12,8 @@ import org.slf4j.LoggerFactory;
 
 public class ItemIngester extends DefaultDelegator
 {
-    private static final String DDM = "original/" + RequestContent.MDFileName.DansDatasetMetadata;
-    private static final String EMD = "original/" + RequestContent.MDFileName.easyMetadata;
+    private static final String DDM = buildPattern(RequestContent.MDFileName.DansDatasetMetadata).toLowerCase();
+    private static final String EMD = buildPattern(RequestContent.MDFileName.easyMetadata).toLowerCase();
     private static final String FO_DDM = FileOntology.MetadataFormat.DDM.toString();
     private static Logger logger = LoggerFactory.getLogger(ItemIngester.class);
     private final Dataset dataset;
@@ -29,8 +29,8 @@ public class ItemIngester extends DefaultDelegator
     public void addAdditionalRDF(final FileItem fileItem)
     {
         logger.debug("checking if file is DDM/EDM: " + fileItem.getPath());
-        final String withoutExtension = fileItem.getPath().replaceAll("[.][^.]*$", "");
-        if (DDM.equals(withoutExtension) || EMD.equals(withoutExtension))
+        final String lowerCasePath = fileItem.getPath().toLowerCase();
+        if (lowerCasePath.matches(DDM) || lowerCasePath.matches(EMD))
         {
             logger.info("connecting metadata file " + fileItem.getStoreId() + " with dataset " + dataset.getStoreId());
             @SuppressWarnings("rawtypes")
@@ -42,5 +42,10 @@ public class ItemIngester extends DefaultDelegator
             // type van de metadata
             relations.addRelation(fo.hasMetadataFormat().get(), FO_DDM, RelsConstants.RDF_LITERAL);
         }
+    }
+
+    private static String buildPattern(final RequestContent.MDFileName fileName)
+    {
+        return "(" + nl.knaw.dans.easy.business.item.ItemIngester.DEPOSITOR_FOLDER_NAME + "/" + ")?" + fileName.name() + ".xml";
     }
 }

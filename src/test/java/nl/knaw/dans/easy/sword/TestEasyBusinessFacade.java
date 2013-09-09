@@ -63,7 +63,6 @@ public class TestEasyBusinessFacade extends Fixture
             throw new Exception("got no exception but expected " + expectedCause.getName());
     }
 
-
     @Test(expected = SWORDErrorException.class)
     public void invalidMetadataByMM() throws Throwable
     {

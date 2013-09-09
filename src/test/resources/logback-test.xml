@@ -10,7 +10,12 @@
 		</encoder>
 	</appender>
 
-	<root level="info">
+	<root level="warn">
 		<appender-ref ref="CONSOLE" />
 	</root>
+	<logger name="nl.knaw.dans" level="info">
+	</logger>
+	<logger name="nl.knaw.dans.easy.sword" level="debug">
+	</logger>
+
 </configuration>
