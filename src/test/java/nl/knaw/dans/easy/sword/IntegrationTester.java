@@ -269,7 +269,7 @@ public class IntegrationTester
         String response = getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
         assertResponseCode(method, HttpStatus.SC_BAD_REQUEST);
         assertThat(response, containsString("href=\"http://purl.org/net/sword/error/ErrorBadRequest\""));
-        assertThat(response, containsString("submission failed"));//TODO prevent this type of error
+        assertThat(response, containsString("999 not found"));
     }
 
     @Test

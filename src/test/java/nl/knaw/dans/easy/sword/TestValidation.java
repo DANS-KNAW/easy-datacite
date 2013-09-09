@@ -5,9 +5,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import nl.knaw.dans.common.lang.RepositoryException;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
+import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
 import nl.knaw.dans.common.lang.util.FileUtil;
+import nl.knaw.dans.easy.data.Data;
+import nl.knaw.dans.easy.data.store.EasyStore;
+import nl.knaw.dans.easy.domain.exceptions.DomainException;
+import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer;
+import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainerImpl;
 import nl.knaw.dans.easy.sword.util.Fixture;
 
+import org.easymock.EasyMock;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeUtils;
 import org.junit.BeforeClass;
@@ -15,6 +24,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
+import org.powermock.api.easymock.PowerMock;
 import org.purl.sword.base.SWORDErrorException;
 
 @RunWith(Parameterized.class)
@@ -23,7 +33,7 @@ public class TestValidation extends Fixture
     private final String metadataFileName;
     private final String messageContent;
 
-    public TestValidation(String metadataFileName, final String messageContent)
+    public TestValidation(final String metadataFileName, final String messageContent)
     {
         this.metadataFileName = metadataFileName;
         this.messageContent = messageContent;
@@ -33,6 +43,13 @@ public class TestValidation extends Fixture
     public static void mockNow()
     {
         DateTimeUtils.setCurrentMillisFixed(new DateTime("2012-10-29T14:42:08").getMillis());
+    }
+
+    @BeforeClass
+    public static void mockService() throws Exception
+    {
+        mockEasyStore(mockRootDiscipline(mockSubDisciplines()));
+        PowerMock.replayAll();
     }
 
     /**
@@ -48,8 +65,10 @@ public class TestValidation extends Fixture
 
         constructorSignatureInstances.add(new String[] {"invalidAccessRights.xml", " is not a valid key in the list "});
 
-        // no longer causes a draft dataset after refactoring nl.knaw.dans.easy.business.dataset.MetadataValidator
-        // TODO no complaint about neither dc.creator nor eas.creator being specified, but wait for the external XML
+        // no longer causes a draft dataset after refactoring
+        // nl.knaw.dans.easy.business.dataset.MetadataValidator
+        // TODO no complaint about neither dc.creator nor eas.creator being specified, but wait for the
+        // external XML
         constructorSignatureInstances.add(new String[] {"missingMetadata.xml", "Missing required field dc.title"});
 
         // used to cause a draft dataset because the notification message could not be created
@@ -66,12 +85,13 @@ public class TestValidation extends Fixture
         constructorSignatureInstances.add(new String[] {"SpatialPointWithoutX.xml", "invalid"});
         constructorSignatureInstances.add(new String[] {"SpatialPointWithoutY.xml", "invalid"});
 
-        constructorSignatureInstances.add(new String[] {"InvalidDiscipline.xml", "Value 'nonsense' is not facet-valid"});
+        constructorSignatureInstances.add(new String[] {"InvalidFormat.xml", "Value 'nonsense' is not facet-valid"});
+        constructorSignatureInstances.add(new String[] {"InvalidDiscipline.xml", "999 not found"});
         constructorSignatureInstances.add(new String[] {"SaxError.xml", "must be terminated by the matching end-tag"});
 
         // TODO mock the system date for more precise boundary checks
-        //        constructorSignatureInstances.add(new String[] {"embargoPast.xml", "in the past"});
-        //        constructorSignatureInstances.add(new String[] {"embargoFuture.xml", "more than two years"});
+        // constructorSignatureInstances.add(new String[] {"embargoPast.xml", "in the past"});
+        // constructorSignatureInstances.add(new String[] {"embargoFuture.xml", "more than two years"});
 
         return constructorSignatureInstances;
     }
@@ -102,5 +122,27 @@ public class TestValidation extends Fixture
         if (messageContent != null)
             throw new Exception("\n" + metadataFileName + " expected " + SWORDErrorException.class.getName() + " with a message containing: " + messageContent
                     + "\nbut got no exception");
+    }
+
+    private static void mockEasyStore(final DisciplineContainerImpl value) throws ObjectNotInStoreException, RepositoryException
+    {
+        final EasyStore easyStore = PowerMock.createMock(EasyStore.class);
+        new Data().setEasyStore(easyStore);
+        EasyMock.expect(easyStore.retrieve(EasyMock.isA(DmoStoreId.class))).andStubReturn(value);
+    }
+
+    private static DisciplineContainerImpl mockRootDiscipline(final List<DisciplineContainer> list) throws DomainException, RepositoryException
+    {
+        final DisciplineContainerImpl value = PowerMock.createMock(DisciplineContainerImpl.class);
+        EasyMock.expect(value.getSubDisciplines()).andStubReturn(list);
+        EasyMock.expect(value.isInvalidated()).andStubReturn(true);
+        return value;
+    }
+
+    private static List<DisciplineContainer> mockSubDisciplines()
+    {
+        final List<DisciplineContainer> list = new ArrayList<DisciplineContainer>();
+        list.add(new DisciplineContainerImpl("easy-discipline:2"));
+        return list;
     }
 }

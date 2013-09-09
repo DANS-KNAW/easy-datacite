@@ -6,18 +6,23 @@ import java.util.Arrays;
 import java.util.List;
 
 import nl.knaw.dans.common.jibx.JiBXObjectFactory;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.xml.XMLDeserializationException;
 import nl.knaw.dans.common.lang.xml.XMLErrorHandler;
 import nl.knaw.dans.common.lang.xml.XMLErrorHandler.Reporter;
 import nl.knaw.dans.easy.domain.emd.validation.FormatValidator;
+import nl.knaw.dans.easy.domain.exceptions.DomainException;
+import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
 import nl.knaw.dans.easy.domain.form.FormDefinition;
 import nl.knaw.dans.easy.domain.form.FormPage;
 import nl.knaw.dans.easy.domain.form.PanelDefinition;
 import nl.knaw.dans.easy.domain.form.SubHeadingDefinition;
 import nl.knaw.dans.easy.domain.form.TermPanelDefinition;
+import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineCollectionImpl;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.EasyMetadataImpl;
 import nl.knaw.dans.pf.language.emd.Term;
+import nl.knaw.dans.pf.language.emd.types.BasicString;
 import nl.knaw.dans.pf.language.emd.types.MetadataItem;
 import nl.knaw.dans.pf.language.emd.validation.EMDValidator;
 
@@ -58,6 +63,19 @@ public class EasyMetadataFacade
         final EasyMetadata unmarshalled = unmarshallEasyMetaData(easyMetaData);
         validateControlledVocabulairies(unmarshalled);
         validateMandatoryFields(unmarshalled);
+        for (BasicString audience : unmarshalled.getEmdAudience().getTermsAudience())
+            try
+            {
+                DisciplineCollectionImpl.getInstance().getDisciplineBySid(new DmoStoreId(audience.getValue()));
+            }
+            catch (ObjectNotFoundException e)
+            {
+                throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, "Audience " + audience.toString()+" not found "+e.getMessage());
+            }
+            catch (DomainException e)
+            {
+                throw new SWORDException("discipline validation problem: "+e.getMessage(),e);
+            }
         return unmarshalled;
     }
 

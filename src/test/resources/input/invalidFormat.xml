@@ -32,11 +32,11 @@
     <dcterms:license>accept</dcterms:license>
   </emd:rights>
   <emd:audience>
-    <dcterms:audience eas:schemeId="custom.disciplines">easy-discipline:999</dcterms:audience>
+    <dcterms:audience eas:schemeId="custom.disciplines">easy-discipline:2</dcterms:audience>
   </emd:audience>
   <emd:other>
     <eas:application-specific>
-      <eas:metadataformat>SOCIOLOGY</eas:metadataformat>
+      <eas:metadataformat>nonsense</eas:metadataformat>
     </eas:application-specific>
     <eas:etc></eas:etc>
   </emd:other>
