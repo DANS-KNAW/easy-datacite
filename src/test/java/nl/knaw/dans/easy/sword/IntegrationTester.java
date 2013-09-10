@@ -1,55 +1,31 @@
 package nl.knaw.dans.easy.sword;
 
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 import static org.junit.internal.matchers.StringContains.containsString;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 
 import javax.servlet.http.HttpServletResponse;
 
-import nl.knaw.dans.easy.sword.jetty.Start;
 import nl.knaw.dans.easy.sword.util.SubmitFixture;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
-import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.methods.InputStreamRequestEntity;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.mortbay.jetty.Server;
 import org.purl.sword.base.ErrorCodes;
 import org.purl.sword.base.SWORDAuthenticationException;
 import org.purl.sword.base.SWORDException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-public class IntegrationTester
+public class IntegrationTester extends IntegrationFixture
 {
     private static final File VALID_FILE = SubmitFixture.getFile("data-plus-meta.zip");
-    private static String URL;
-    private static final UsernamePasswordCredentials DEPOSITOR = new UsernamePasswordCredentials("user", "dev");
     private static final UsernamePasswordCredentials ANONYMOUS = new UsernamePasswordCredentials("anonymous", "password");
-    private static final int SECOND = 1000;
-
-    private static Server server;
-
-    private static Logger log = LoggerFactory.getLogger(EasySwordServer.class);
-
     static
     {
         // mash up of SWORDErrorException for documentational reasons
@@ -79,26 +55,6 @@ public class IntegrationTester
         new SWORDException("");
         new NoSuchAlgorithmException();// security
         i = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
-    }
-
-    @BeforeClass
-    public static void start() throws Exception
-    {
-        // zero implies a random port and allows the test to run along with an active server on port 8083
-        server = Start.createServer(0, 0);
-        server.start();
-        URL = "http://localhost:" + server.getConnectors()[0].getLocalPort() + "/";
-        log.debug("started " + URL.toString());
-    }
-
-    @AfterClass
-    public static void stop() throws Exception
-    {
-        if (server == null)
-            return;
-        server.stop();
-        server.join();
-        log.debug("stopped " + URL.toString());
     }
 
     @Test
@@ -226,8 +182,6 @@ public class IntegrationTester
         assertResponseCode(method, HttpStatus.SC_PRECONDITION_FAILED);
     }
 
-    //@Ignore
-    // TODO reduce path length, fits nog longer
     @Test
     public void maxPathLength() throws Throwable
     {
@@ -235,9 +189,6 @@ public class IntegrationTester
         final PostMethod method = createPostMethod(request, false, false);
         getResponse(method, createClient(DEPOSITOR, (150 * SECOND)));
         assertResponseCode(method, HttpStatus.SC_ACCEPTED);
-        /*
-        original/datafolder/abcdefghijklmnopqr/abcdefghijklmnopqrstuvwxyz/abcdefghijklmnopqrstuvwxyz/abcdefghijklmnopqrstuvwxyz/abcdefghijklmnopqrstuvwxyz/abcdefghijklmnopqrstuvwxyz/abcdefghijklmnopqrstuvwxyz/abcdefghijklmnopqrstuvwxyz/abcdefghijklmn/abc/test.txt
-         */
     }
 
     @Test
@@ -279,81 +230,5 @@ public class IntegrationTester
         final PostMethod method = createPostMethod(request, false, false);
         getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
         assertResponseCode(method, HttpStatus.SC_UNSUPPORTED_MEDIA_TYPE);
-    }
-
-    private static void assertResponseCode(final HttpMethod method, final int expectedResponseCode)
-    {
-        if (method.getStatusCode() == expectedResponseCode)
-            return;
-        if (method.getStatusCode() == HttpStatus.SC_UNAUTHORIZED)
-            fail("please register EASY user to make the tests work. ID:" + DEPOSITOR.getUserName() + " with password: " + DEPOSITOR.getPassword());
-        fail("Unexpected response code: " + method.getStatusLine().toString());
-    }
-
-    private String getResponse(final HttpMethod method, final HttpClient client) throws IOException, HttpException
-    {
-        String responseBody = null;
-        try
-        {
-            client.executeMethod(method);
-            switch (method.getStatusCode())
-            {
-            case HttpStatus.SC_ACCEPTED:
-                ;// already logged by org.purl.sword.base.DepositResponse
-            case HttpStatus.SC_OK:
-                ;// already logged
-                break;
-            default:
-                responseBody = method.getResponseBodyAsString();
-                log.info("\n" + responseBody + "\n\t");
-            }
-        }
-        finally
-        {
-            method.releaseConnection();
-        }
-        final StringBuffer message = new StringBuffer();
-        message.append("======== " + Thread.currentThread().getStackTrace()[2].getMethodName());
-        message.append("\n");
-        message.append(method.getName() + method.getPath());
-        message.append("\n");
-        message.append("client timeout: " + client.getParams().getSoTimeout());
-        message.append("\n");
-        message.append("client state: " + client.getState());
-        message.append("\n");
-        message.append("host auth state: " + method.getHostAuthState());
-        message.append("\n");
-        message.append(Arrays.deepToString(method.getRequestHeaders()));
-        message.append("\n");
-        message.append(method.getStatusLine());
-        message.append("\n\t");
-        log.info(message.toString());
-        return responseBody;
-    }
-
-    private static PostMethod createPostMethod(final RequestEntity request, final Boolean noOp, final Boolean verbose)
-    {
-        final PostMethod method = new PostMethod(URL + "deposit");
-        method.setRequestEntity(request);
-        if (noOp != null)
-            method.addRequestHeader("X-No-Op", noOp.toString());
-        if (noOp != null)
-            method.addRequestHeader("X-Verbose", verbose.toString());
-        return method;
-    }
-
-    private static HttpClient createClient(final UsernamePasswordCredentials credentials, final Integer timeout)
-    {
-        final HttpClient client = new HttpClient();
-        client.getState().setCredentials(AuthScope.ANY, credentials);
-        if (timeout != null)
-            client.getParams().setSoTimeout(timeout);
-        return client;
-    }
-
-    private static RequestEntity createRequest(final File file) throws FileNotFoundException
-    {
-        log.info("======== creating request with " + file);
-        return new InputStreamRequestEntity(new FileInputStream(file));
     }
 }
