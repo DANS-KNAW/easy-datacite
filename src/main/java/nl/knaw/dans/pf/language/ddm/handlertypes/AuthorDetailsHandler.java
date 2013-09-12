@@ -34,7 +34,7 @@ public abstract class AuthorDetailsHandler extends DaiAuthorHandler
             else if ("DAI".equals(localName))
                 setDAI(author, value); // TODO dai system as attribute?
             else if ("insertions".equals(localName))
-                warning("skipped, not supported by EMD");
+                author.setPrefix(value);
         }
     }
 }
