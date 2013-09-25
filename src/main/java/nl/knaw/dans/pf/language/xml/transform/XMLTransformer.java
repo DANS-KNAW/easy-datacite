@@ -139,12 +139,12 @@ public class XMLTransformer implements ErrorListener
         stylesheetName = xsltFile.getPath();
         logger.info("Using TransformerFactory: {}", this.transformerFactory.getClass().getName());
     }
-    
+
     public XMLTransformer(URL url) throws TransformerException
     {
         this(url, TF_XALAN);
     }
-    
+
     public XMLTransformer(URL url, String transformerFactoryName) throws TransformerException
     {
         if (transformerFactoryName == null)
@@ -197,6 +197,16 @@ public class XMLTransformer implements ErrorListener
         }
         stylesheetName = xsltFile.getPath();
         logger.info("Using TransformerFactory: {}", this.transformerFactory.getClass().getName());
+    }
+
+    /**
+     * Get the TransformerFactory in use.
+     * 
+     * @return the TransformerFactory in use.
+     */
+    public TransformerFactory getTransformerFactory()
+    {
+        return transformerFactory;
     }
 
     /**
@@ -283,7 +293,7 @@ public class XMLTransformer implements ErrorListener
             }
         }
     }
-    
+
     public void transform(InputStream in, OutputStream out) throws TransformerException
     {
         transform(new StreamSource(in), new StreamResult(out));
