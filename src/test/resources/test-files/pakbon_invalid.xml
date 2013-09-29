@@ -7,7 +7,7 @@
 		<sikb:startdatum>2012-03-19</sikb:startdatum>
 		<sikb:einddatum>2012-03-20</sikb:einddatum>
 		<sikb:onderzoeksmeldingsnummer>50931</sikb:onderzoeksmeldingsnummer>
-		<sikb:onderzoektype>ABE</sikb:onderzoektype>
+		<sikb:onderzoektype>XXX</sikb:onderzoektype>
 		<sikb:omschrijving>Archeologisch Onderzoek Leiden heeft in opdracht van de gemeente Katwijk een archeologische begeleiding uitgevoerd aan Voorstraat 59 te Katwijk. Aanleiding voor het onderzoek was de geplande nieuwbouw met diepe kelders. De afgravingen vormden een bedreiging voor eventuele archeologisch waardevolle resten in deze ondergrond. Vooronderzoek had namelijk reeds uitgewezen dat er resten uit de prehistorie (3,6 m onder maaiveld) tot en met de nieuwe tijd (0,8m onder maaiveld) aanwezig kunnen zijn. De graafwerkzaamheden van de kelder bleken zich uiteindelijk te beperken tot een diepte van 2,25 m onder maaiveld, buiten het bereik van het oudste voornoemde niveau. Tijdens de archeologische begeleiding zijn in de top van het ongeroerde duinzand wel afvalkuilen uit de 18e eeuw gevonden op de verwachte diepte van 80 cm onder maaiveld. Ze behoren toe aan het achtererf van de historische bebouwing langs de Voorstraat.</sikb:omschrijving>
 		<sikb:projectlocatieId>d2433745-1667-4df1-a067-b49cba95a6a5</sikb:projectlocatieId>
 		<sikb:bevoegdGezag>
@@ -59,7 +59,7 @@
 		<sikb:email>y.taverne@archol.nl</sikb:email>
 	</sikb:persoon>
 	<sikb:projectlocatie sikb:id="d2433745-1667-4df1-a067-b49cba95a6a5">
-		<sikb:provinciecode>28</sikb:provinciecode>
+		<sikb:provinciecode>280</sikb:provinciecode>
 		<sikb:gemeentecode>0537</sikb:gemeentecode>
 		<sikb:plaatscode>1707</sikb:plaatscode>
 		<sikb:toponiem>Voorstraat 59</sikb:toponiem>
@@ -1931,9 +1931,9 @@
 		<sikb:naam>KVO1344</sikb:naam>
 		<sikb:vondstmeldingsnummer>422147</sikb:vondstmeldingsnummer>
 		<sikb:waarnemingsnummer>437059</sikb:waarnemingsnummer>
-		<sikb:beginperiode>PALEOLA</sikb:beginperiode>
+		<sikb:beginperiode>NTM</sikb:beginperiode>
 		<sikb:eindperiode>NTM</sikb:eindperiode>
-		<sikb:vindplaatstype>NEXT</sikb:vindplaatstype>
+		<sikb:vindplaatstype>XXX</sikb:vindplaatstype>
 	</sikb:vindplaats>
 	<!--Vullingen-->
 </sikb:sikb0102>

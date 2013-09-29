@@ -29,10 +29,9 @@ public class PakbonValidator
     private static final String WSSE_USERNAMETOKEN = "UsernameToken";
     private static final String WSSE_USERNAME = "Username";
     private static final String WSSE_PASSWORD = "Password";
-    
-    private static final Sikb0102ServiceLocator SERVICE = new Sikb0102ServiceLocator();    
-    
-    
+
+    private static final Sikb0102ServiceLocator SERVICE = new Sikb0102ServiceLocator();
+
     public String getUsername()
     {
         return PakbonValidatorCredentials.instance().getUsername();
@@ -42,7 +41,7 @@ public class PakbonValidator
     {
         return PakbonValidatorCredentials.instance().getPassword();
     }
-    
+
     public ValidateXmlResponse validateXml(File file) throws ValidatorException, SOAPException, IOException
     {
         try
@@ -82,35 +81,35 @@ public class PakbonValidator
         }
         return validateXml(xml);
     }
-    
+
     public ValidateXmlResponse validateXml(String xml) throws ValidatorException, SOAPException, IOException
     {
         BasicHttpBinding_ISikb0102ServiceStub stub = null;
         try
         {
             stub = (BasicHttpBinding_ISikb0102ServiceStub) SERVICE.getBasicHttpBinding_ISikb0102Service();
-            
+
             // build up security header
             SOAPHeaderElement security = new SOAPHeaderElement(new QName(WSSE_NS, WSSE_SECURITY, WSSE_PREFIX));
             MessageElement usernameToken = new MessageElement(WSSE_NS, WSSE_USERNAMETOKEN);
             security.addChildElement(usernameToken);
-            
+
             MessageElement uname = new MessageElement(WSSE_NS, WSSE_USERNAME);
             uname.addTextNode(getUsername());
             usernameToken.addChildElement(uname);
-            
+
             MessageElement passw = new MessageElement(WSSE_NS, WSSE_PASSWORD);
             passw.addTextNode(getPassword());
             usernameToken.addChildElement(passw);
-            
+
             stub.setHeader(security);
-            
+
             // build request
             ValidateXmlRequest request = new ValidateXmlRequest(xml);
-            
+
             // validate
             ValidateXmlResponse response = stub.validate(request);
-            
+
             return response;
         }
         catch (ServiceException e)

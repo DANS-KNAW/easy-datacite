@@ -2,9 +2,9 @@ package nl.knaw.dans.platform.language.pakbon;
 
 public class PakbonValidatorCredentials
 {
-    
+
     private static PakbonValidatorCredentials INSTANCE;
-    
+
     public static PakbonValidatorCredentials instance()
     {
         if (INSTANCE == null)
@@ -13,10 +13,15 @@ public class PakbonValidatorCredentials
         }
         return INSTANCE;
     }
-    
+
+    protected static void reset()
+    {
+        INSTANCE = null;
+    }
+
     private final String username;
     private final String password;
-    
+
     public PakbonValidatorCredentials(String username, String password)
     {
         this.username = username;

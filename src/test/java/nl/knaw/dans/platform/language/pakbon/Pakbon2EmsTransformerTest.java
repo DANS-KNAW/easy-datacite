@@ -14,9 +14,9 @@ import org.junit.Test;
 
 public class Pakbon2EmsTransformerTest
 {
-    
+
     private static final String PB_VALID = "src/test/resources/test-files/pakbon_valid.xml";
-    
+
     @Test
     public void transformToString() throws Exception
     {
@@ -25,7 +25,7 @@ public class Pakbon2EmsTransformerTest
         String out = p2e.transformToString(xml);
         System.err.println(out);
     }
-    
+
     @Test
     public void transformToEmd() throws Exception
     {
