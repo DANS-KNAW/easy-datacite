@@ -66,7 +66,7 @@ public class ConverterTest extends TestHelper
     @Test(expected = IllegalArgumentException.class)
     public void testDeserializeDateTime3()
     {
-        //2006-05-01T00:00:00+02:00  is a Jaxb contraption from old easy. It is not a legal date.
+        // 2006-05-01T00:00:00+02:00 is a Jaxb contraption from old easy. It is not a legal date.
         String dateString = "2006-05-01T00:00:00+02:00";
         Converter.deSerializeDateTime(dateString);
     }

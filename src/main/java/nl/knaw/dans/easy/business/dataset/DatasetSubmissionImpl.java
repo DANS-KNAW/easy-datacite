@@ -35,7 +35,7 @@ public class DatasetSubmissionImpl implements DatasetSubmission
 
     /**
      * Construct a shallow copy for (limited) threaded use.
-     *
+     * 
      * @param submission
      *        submission to copy
      */

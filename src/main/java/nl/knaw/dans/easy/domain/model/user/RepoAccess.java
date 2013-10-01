@@ -6,12 +6,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Domain classes sometimes need access to store or repository data access points, in order to lazily create attributes.
- * For instance: a User wants to instantiate the Groups it belongs to, a Dataset wants to instantiate the user that is
- * the depositor of the dataset.
+ * Domain classes sometimes need access to store or repository data access points, in order to lazily
+ * create attributes. For instance: a User wants to instantiate the Groups it belongs to, a Dataset wants
+ * to instantiate the user that is the depositor of the dataset.
  * <p/>
- * The overall logic of business processes remains situated in the business layer so the RepoAccessDelegator should be
- * confined to simple getter-methods like 'getUser', 'getGroups', etc.
+ * The overall logic of business processes remains situated in the business layer so the
+ * RepoAccessDelegator should be confined to simple getter-methods like 'getUser', 'getGroups', etc.
  * 
  * @author ecco Nov 19, 2009
  */

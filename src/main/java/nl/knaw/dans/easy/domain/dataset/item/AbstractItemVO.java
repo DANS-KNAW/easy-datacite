@@ -29,7 +29,6 @@ public abstract class AbstractItemVO implements java.io.Serializable, ItemVO, Cl
 
     /*
      * (non-Javadoc)
-     * 
      * @see nl.knaw.dans.easy.domain.dataset.IItemVO#getSid()
      */
     public String getSid()
@@ -39,7 +38,6 @@ public abstract class AbstractItemVO implements java.io.Serializable, ItemVO, Cl
 
     /*
      * (non-Javadoc)
-     * 
      * @see nl.knaw.dans.easy.domain.dataset.IItemVO#setSid(java.lang.String)
      */
     public void setSid(String pid)
@@ -49,7 +47,6 @@ public abstract class AbstractItemVO implements java.io.Serializable, ItemVO, Cl
 
     /*
      * (non-Javadoc)
-     * 
      * @see nl.knaw.dans.easy.domain.dataset.IItemVO#getParentSid()
      */
     public String getParentSid()
@@ -59,9 +56,7 @@ public abstract class AbstractItemVO implements java.io.Serializable, ItemVO, Cl
 
     /*
      * (non-Javadoc)
-     * 
-     * @see
-     * nl.knaw.dans.easy.domain.dataset.IItemVO#setParentSid(java.lang.String)
+     * @see nl.knaw.dans.easy.domain.dataset.IItemVO#setParentSid(java.lang.String)
      */
     public void setParentSid(String parentSid)
     {
@@ -70,7 +65,6 @@ public abstract class AbstractItemVO implements java.io.Serializable, ItemVO, Cl
 
     /*
      * (non-Javadoc)
-     * 
      * @see nl.knaw.dans.easy.domain.dataset.IItemVO#getName()
      */
     public String getName()
@@ -80,7 +74,6 @@ public abstract class AbstractItemVO implements java.io.Serializable, ItemVO, Cl
 
     /*
      * (non-Javadoc)
-     * 
      * @see nl.knaw.dans.easy.domain.dataset.IItemVO#setName(java.lang.String)
      */
     public void setName(String name)
@@ -90,7 +83,6 @@ public abstract class AbstractItemVO implements java.io.Serializable, ItemVO, Cl
 
     /*
      * (non-Javadoc)
-     * 
      * @see nl.knaw.dans.easy.domain.dataset.IItemVO#getDatasetSid()
      */
     public String getDatasetSid()
@@ -100,9 +92,7 @@ public abstract class AbstractItemVO implements java.io.Serializable, ItemVO, Cl
 
     /*
      * (non-Javadoc)
-     * 
-     * @see
-     * nl.knaw.dans.easy.domain.dataset.IItemVO#setDatasetSid(java.lang.String)
+     * @see nl.knaw.dans.easy.domain.dataset.IItemVO#setDatasetSid(java.lang.String)
      */
     public void setDatasetSid(String datasetSid)
     {

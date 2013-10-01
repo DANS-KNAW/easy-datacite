@@ -1,9 +1,9 @@
 package nl.knaw.dans.easy.domain.exceptions;
 
 /**
- * Signals that the data layer is inaccessible. This is a runtime exception so it should be used with care. This
- * exception should only be used under well known conditions, where a failure to access the data layer can only be
- * caused by a failing connection exception or other technical causes.
+ * Signals that the data layer is inaccessible. This is a runtime exception so it should be used with
+ * care. This exception should only be used under well known conditions, where a failure to access the
+ * data layer can only be caused by a failing connection exception or other technical causes.
  * 
  * @see DataAccessException
  * @author ecco Aug 28, 2009

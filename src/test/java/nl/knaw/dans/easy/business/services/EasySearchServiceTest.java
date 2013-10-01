@@ -233,8 +233,8 @@ public class EasySearchServiceTest extends TestHelper
     }
 
     /**
-     * compares if the expected fields are in filterQueries. filterQueries should have the expected fields
-     * but may have more filter queries.
+     * compares if the expected fields are in filterQueries. filterQueries should have the expected
+     * fields but may have more filter queries.
      */
     private void compareFieldQueries(FieldSet<?> expected, FieldSet<?> filterQueries)
     {

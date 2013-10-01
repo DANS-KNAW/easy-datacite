@@ -690,7 +690,8 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
         boolean represented = false;
         for (DisciplineContainer dcChild : dc.getSubDisciplines())
         {
-            // cannot trust dcList.contains(dcChild). equals on DisciplineContainer not fully implemented.
+            // cannot trust dcList.contains(dcChild). equals on DisciplineContainer not fully
+            // implemented.
             boolean dcListContainsChild = false;
             String childId = dcChild.getStoreId();
             for (DisciplineContainer dcL : dcList)

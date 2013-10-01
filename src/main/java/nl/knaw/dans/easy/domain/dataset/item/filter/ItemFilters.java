@@ -19,9 +19,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A simple container for all the item filters. This class is not made to be very dynamic, so be
- * careful when adding filters that you should also update some of the methods: like clear and
- * getFilters.
+ * A simple container for all the item filters. This class is not made to be very dynamic, so be careful
+ * when adding filters that you should also update some of the methods: like clear and getFilters.
  */
 public class ItemFilters
 {
@@ -53,10 +52,13 @@ public class ItemFilters
 
     /**
      * Create a filter from desired values.
-     *
-     * @param visibleTos comma separated values
-     * @param creators comma separated values
-     * @param accessibleTos comma separated values
+     * 
+     * @param visibleTos
+     *        comma separated values
+     * @param creators
+     *        comma separated values
+     * @param accessibleTos
+     *        comma separated values
      */
     public ItemFilters(String visibleTos, String creators, String accessibleTos)
     {
@@ -174,15 +176,17 @@ public class ItemFilters
     }
 
     /**
-     * @param sessionUser the logged in user or null
-     * @param dataset the examined data set or null
+     * @param sessionUser
+     *        the logged in user or null
+     * @param dataset
+     *        the examined data set or null
      * @return this filter enhanced with business rules
      */
     public static ItemFilters get(EasyUser sessionUser, Dataset dataset, ItemFilters filters)
     {
-        //        boolean isPublished = dataset != null && // TODO ???
-        //                //AdministrativeState.valueOf(dataset.getState()) == AdministrativeState.PUBLISHED;
-        //                AdministrativeState.PUBLISHED.equals(dataset.getAdministrativeState());
+        // boolean isPublished = dataset != null && // TODO ???
+        // //AdministrativeState.valueOf(dataset.getState()) == AdministrativeState.PUBLISHED;
+        // AdministrativeState.PUBLISHED.equals(dataset.getAdministrativeState());
         if (sessionUser == null || sessionUser.isAnonymous())
             return FILTERS_FOR_ANONYMUS;
         if (isPowerUser(sessionUser.getRoles()))

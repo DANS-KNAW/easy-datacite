@@ -21,8 +21,8 @@ public class AdministrativeMetadataImpl extends AbstractTimestampedJiBXObject<Ad
 {
 
     /**
-     * The version - when newly instantiated. The actual version of an instance as read from an xml-stream might be
-     * obtained by {@link #getVersion()}.
+     * The version - when newly instantiated. The actual version of an instance as read from an
+     * xml-stream might be obtained by {@link #getVersion()}.
      */
     public static final String VERSION = "0.1";
 
@@ -135,14 +135,14 @@ public class AdministrativeMetadataImpl extends AbstractTimestampedJiBXObject<Ad
 
         if (administrativeState.equals(previousState))
         {
-            //TODO: remove this. It has become redundant since all state changes are saved
+            // TODO: remove this. It has become redundant since all state changes are saved
             // in stateChangeDates
             lastStateChange = previousStateChange;
             previousState = this.administrativeState;
         }
         else
         {
-            //TODO: remove this. It has become redundant since all state changes are saved
+            // TODO: remove this. It has become redundant since all state changes are saved
             // in stateChangeDates
             previousState = this.administrativeState;
             previousStateChange = lastStateChange;
@@ -245,7 +245,7 @@ public class AdministrativeMetadataImpl extends AbstractTimestampedJiBXObject<Ad
      */
     public int hashCode()
     {
-        return new HashCodeBuilder(-284466127, 1724715273).appendSuper(super.hashCode()).append(this.administrativeState).append(this.versionable).append(
-                this.depositorId).append(this.groupIds).append(this.workflowData).append(this.stateChangeDates).toHashCode();
+        return new HashCodeBuilder(-284466127, 1724715273).appendSuper(super.hashCode()).append(this.administrativeState).append(this.versionable)
+                .append(this.depositorId).append(this.groupIds).append(this.workflowData).append(this.stateChangeDates).toHashCode();
     }
 }

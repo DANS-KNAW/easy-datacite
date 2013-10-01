@@ -74,7 +74,7 @@ public class EasyDatasetSB extends DatasetSB
     public List<String> daiContributors;
 
     public static final String DEPOSITOR_ID_FIELD = "amd_depositor_id";
-    //TODO: should be required=true!
+    // TODO: should be required=true!
     @SearchField(name = DEPOSITOR_ID_FIELD)
     private String depositorId;
 

@@ -181,10 +181,10 @@ public abstract class AbstractDatasetAutzStrategy implements AuthzStrategy
     /**
      * UserProfile addapted on key-abstraction {@link AccessCategory}:
      * <ul>
-     * <li>1  ANONYMOUS_ACCESS,</li> 
-     * <li>2  OPEN_ACCESS,</li>
-     * <li>4  GROUP_ACCESS,</li>
-     * <li>8  REQUEST_PERMISSION,</li>
+     * <li>1 ANONYMOUS_ACCESS,</li>
+     * <li>2 OPEN_ACCESS,</li>
+     * <li>4 GROUP_ACCESS,</li>
+     * <li>8 REQUEST_PERMISSION,</li>
      * <li>16 ACCESS_ELSEWHERE,</li>
      * <li>32 NO_ACCESS</li>
      * <li>64 FREELY_AVAILABLE</li>
@@ -207,7 +207,8 @@ public abstract class AbstractDatasetAutzStrategy implements AuthzStrategy
             else
             // known user
             {
-                userProfile = AccessCategory.MASK_KNOWN; // FREELY_AVAILABLE + ANONYMOUS_ACCESS + OPEN_ACCESS
+                userProfile = AccessCategory.MASK_KNOWN; // FREELY_AVAILABLE + ANONYMOUS_ACCESS +
+                                                         // OPEN_ACCESS
                 if (dataset.isGroupAccessGrantedTo(easyUser))
                 {
                     userProfile |= AccessCategory.SINGLE_GROUP_ACCESS; // + GROUP_ACCESS
@@ -294,13 +295,15 @@ public abstract class AbstractDatasetAutzStrategy implements AuthzStrategy
         {
             if (dataset.getAdministrativeState().equals(DatasetState.DRAFT))
             {
-                // Note: you are able to view all files, because you are the depositor of this dataset. 
-                // You are however not allowed to access any file, to prevent abuse of this system for file storage.
+                // Note: you are able to view all files, because you are the depositor of this dataset.
+                // You are however not allowed to access any file, to prevent abuse of this system for
+                // file storage.
                 messages.add(new AuthzMessage(MSG_DEPOSITOR_DRAFT));
             }
             else
             {
-                // Note: you are able to view/access all files, because you are the depositor of this dataset.
+                // Note: you are able to view/access all files, because you are the depositor of this
+                // dataset.
                 messages.add(new AuthzMessage(MSG_DEPOSITOR));
             }
             return messages;
@@ -326,7 +329,7 @@ public abstract class AbstractDatasetAutzStrategy implements AuthzStrategy
 
         if (dataset.hasPermissionRestrictedItems())
         {
-            // You need to have special permission to be able to access (some of) the files. 
+            // You need to have special permission to be able to access (some of) the files.
             messages.add(new AuthzMessage(MSG_PERMISSION));
 
             try
@@ -384,15 +387,16 @@ public abstract class AbstractDatasetAutzStrategy implements AuthzStrategy
 
         if (dataset.hasGroupRestrictedItems() && !easyUser.isMemberOf(new GroupImpl(Group.ID_ARCHEOLOGY)))
         {
-            // You need to be a '<group>' group member to be able to access (some of) the files. 
+            // You need to be a '<group>' group member to be able to access (some of) the files.
             // Please contact <group e-mail address>.
             messages.add(new AuthzMessage(MSG_GROUP));
         }
 
         if (dataset.getAccessCategory().equals(AccessCategory.NO_ACCESS) || dataset.getAccessCategory().equals(AccessCategory.ACCESS_ELSEWHERE))
         {
-            // Note: (some of) the files are not available via Easy. They may be accessible elsewhere 
-            // (please refer to the 'relation' field in the description) or accessible in another way(please contact info@…)
+            // Note: (some of) the files are not available via Easy. They may be accessible elsewhere
+            // (please refer to the 'relation' field in the description) or accessible in another
+            // way(please contact info@…)
             messages.add(new AuthzMessage(MSG_OTHER));
         }
 

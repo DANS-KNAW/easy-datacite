@@ -93,8 +93,8 @@ public class ValidationReport implements Serializable
     {
         StringBuilder sb = new StringBuilder();
         sb.append(super.toString()).append("\n").append("message=").append(message).append("\n").append("messageCode=").append(messageCode).append("\n")
-                .append("xpathExpression=").append(xpathExpression).append("\n").append("panelId=").append(panelId).append("\n").append("sourceLink=").append(
-                        getSourceLink()).append("\n");
+                .append("xpathExpression=").append(xpathExpression).append("\n").append("panelId=").append(panelId).append("\n").append("sourceLink=")
+                .append(getSourceLink()).append("\n");
         return sb.toString();
     }
 

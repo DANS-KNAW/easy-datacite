@@ -195,12 +195,12 @@ public class WorkReporter extends DefaultWorkListener
     public String toString()
     {
         StringBuilder sb = new StringBuilder();
-        sb.append(super.toString()).append("\n").append("ingestedDatasetCount=").append(ingestedDatasetCount).append(" ingestedFolderItemCount=").append(
-                ingestedFolderItemCount).append(" ingestedFileItemCount=").append(ingestedFileItemCount).append("\n").append("updatedDatasetCount=").append(
-                updatedDatasetCount).append(" updatedFolderItemCount=").append(updatedFolderItemCount).append(" updatedFileItemCount=").append(
-                updatedFileItemCount).append(" updatedMetadataUnitCount=").append(getUpdatedMetadataUnitCount()).append("\n").append("retrievedObjectCount=")
-                .append(getRetrievedObjectCount()).append(" purgedObjectCount=").append(getPurgedObjectCount()).append("\nTotalActionCount=").append(
-                        getTotalActionCount());
+        sb.append(super.toString()).append("\n").append("ingestedDatasetCount=").append(ingestedDatasetCount).append(" ingestedFolderItemCount=")
+                .append(ingestedFolderItemCount).append(" ingestedFileItemCount=").append(ingestedFileItemCount).append("\n").append("updatedDatasetCount=")
+                .append(updatedDatasetCount).append(" updatedFolderItemCount=").append(updatedFolderItemCount).append(" updatedFileItemCount=")
+                .append(updatedFileItemCount).append(" updatedMetadataUnitCount=").append(getUpdatedMetadataUnitCount()).append("\n")
+                .append("retrievedObjectCount=").append(getRetrievedObjectCount()).append(" purgedObjectCount=").append(getPurgedObjectCount())
+                .append("\nTotalActionCount=").append(getTotalActionCount());
         return sb.toString();
     }
 

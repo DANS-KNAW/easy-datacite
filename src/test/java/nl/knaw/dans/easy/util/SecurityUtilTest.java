@@ -8,7 +8,7 @@ import org.junit.Test;
 
 /**
  * Security utils for Easy.
- *
+ * 
  * @author Herman Suijs
  */
 public class SecurityUtilTest
@@ -65,6 +65,6 @@ public class SecurityUtilTest
         final String randomString = SecurityUtil.getRandomString();
         @SuppressWarnings("unused")
         final String token = Integer.valueOf(SecurityUtil.generateHashCode("foo", null, "bar", randomString)).toString();
-        //System.out.println(token);
+        // System.out.println(token);
     }
 }

@@ -94,7 +94,9 @@ public class FileItemVO extends AbstractItemVO implements java.io.Serializable, 
     }
 
     /**
-     * Hack needed because there is no unification of key abstractions in the DANS software development process. 
+     * Hack needed because there is no unification of key abstractions in the DANS software development
+     * process.
+     * 
      * @return the AccessCategory of the file item in respect to visibility
      */
     public AccessCategory getViewAccessCategory()
@@ -103,7 +105,9 @@ public class FileItemVO extends AbstractItemVO implements java.io.Serializable, 
     }
 
     /**
-     * Hack needed because there is no unification of key abstractions in the DANS software development process. 
+     * Hack needed because there is no unification of key abstractions in the DANS software development
+     * process.
+     * 
      * @return the AccessCategory of the file item in respect to accessibility
      */
     public AccessCategory getReadAccessCategory()

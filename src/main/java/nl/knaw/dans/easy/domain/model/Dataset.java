@@ -101,8 +101,9 @@ public interface Dataset extends DatasetItemContainer
      * Usually the meta data is changed by making changes to the object. This method allows to replace
      * the entire object. For example for general spelling corrections at data stream level.
      * 
-     * @param xml an UTF-8 encoded XML string
-     * @throws DomainException 
+     * @param xml
+     *        an UTF-8 encoded XML string
+     * @throws DomainException
      */
     void replaceEasyMetadata(String xml) throws DomainException;
 }

@@ -205,14 +205,14 @@ public class DatasetRelations extends DmoContainerItemRelations<Dataset>
 
     // Digital Author Ids
     /**
-     * Adds relations {@link DansOntologyNamespace#HAS_CREATOR_DAI} 
-     * and {@link DansOntologyNamespace#HAS_CONTRIBUTOR_DAI} to the relations of the subject dataset.
+     * Adds relations {@link DansOntologyNamespace#HAS_CREATOR_DAI} and
+     * {@link DansOntologyNamespace#HAS_CONTRIBUTOR_DAI} to the relations of the subject dataset.
      * Relations can be queried, f.i. with sparql:
+     * 
      * <pre>
      * select ?dataset ?daiCreator from <#ri> where {?dataset <http://dans.knaw.nl/ontologies/relations#hasCreatorDAI> ?daiCreator . }
      * select ?dataset ?daiContributor from <#ri> where {?dataset <http://dans.knaw.nl/ontologies/relations#hasContributorDAI> ?daiContributor . }
      * </pre>
-     * 
      */
     public void addDAIRelations()
     {
@@ -231,8 +231,8 @@ public class DatasetRelations extends DmoContainerItemRelations<Dataset>
     }
 
     /**
-     * Removes relations {@link DansOntologyNamespace#HAS_CREATOR_DAI} 
-     * and {@link DansOntologyNamespace#HAS_CONTRIBUTOR_DAI} from the relations of the subject dataset.
+     * Removes relations {@link DansOntologyNamespace#HAS_CREATOR_DAI} and
+     * {@link DansOntologyNamespace#HAS_CONTRIBUTOR_DAI} from the relations of the subject dataset.
      */
     public void removeDAIRelations()
     {

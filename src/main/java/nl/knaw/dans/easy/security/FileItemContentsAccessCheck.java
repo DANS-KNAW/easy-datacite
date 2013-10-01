@@ -77,9 +77,10 @@ public class FileItemContentsAccessCheck extends AbstractCheck
             int profile = dataset.getAccessProfileFor(sessionUser);
             AccessCategory fileItemAccessCat = fileItem.getReadAccessCategory();
             int mask = AccessCategory.UTIL.getBitMask(fileItemAccessCat);
-            sb.append("\n\tsessionUser=").append(sessionUser).append("\n\tprofile of sessionUser=").append(profile).append(" (").append(
-                    AccessCategory.UTIL.getStates(profile)).append(") ").append("\n\tfileItem id=").append(fileItem.getStoreId()).append(" fileItem mask=")
-                    .append(mask).append(" (").append(fileItemAccessCat).append(") ").append("\n\t((mask & profile) > 0)=").append((mask & profile) > 0);
+            sb.append("\n\tsessionUser=").append(sessionUser).append("\n\tprofile of sessionUser=").append(profile).append(" (")
+                    .append(AccessCategory.UTIL.getStates(profile)).append(") ").append("\n\tfileItem id=").append(fileItem.getStoreId())
+                    .append(" fileItem mask=").append(mask).append(" (").append(fileItemAccessCat).append(") ").append("\n\t((mask & profile) > 0)=")
+                    .append((mask & profile) > 0);
         }
 
         sb.append("\n\tcondition met = ");

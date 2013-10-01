@@ -6,8 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Fall back implementation for methods that want to comply to the security framework but have, for the time being, no
- * restrictions regarding security.
+ * Fall back implementation for methods that want to comply to the security framework but have, for the
+ * time being, no restrictions regarding security.
  * 
  * @author ecco Nov 16, 2009
  */

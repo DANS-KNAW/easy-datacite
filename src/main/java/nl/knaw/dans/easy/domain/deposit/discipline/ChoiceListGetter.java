@@ -32,12 +32,15 @@ public class ChoiceListGetter
     }
 
     /**
-     * Gets a choicelist object based on a listId 
-     * @param listId the id of the chocielist
-     * @param locale the locale in which the choicelist should be returned
+     * Gets a choicelist object based on a listId
+     * 
+     * @param listId
+     *        the id of the chocielist
+     * @param locale
+     *        the locale in which the choicelist should be returned
      * @return a choicelist object
-     * @throws DomainException 
-     * @throws ObjectNotFoundException 
+     * @throws DomainException
+     * @throws ObjectNotFoundException
      */
     public ChoiceList getChoiceList(String listId, Locale locale) throws CacheException, ResourceNotFoundException, DomainException, ObjectNotFoundException
     {
@@ -53,9 +56,9 @@ public class ChoiceListGetter
             return ChoiceListCache.getInstance().getList(listId, locale);
     }
 
-    /* --------------------------------
-     * DISCIPLINES CUSTOM CHOICE GETTER 
-     * -------------------------------- */
+    /*
+     * -------------------------------- DISCIPLINES CUSTOM CHOICE GETTER --------------------------------
+     */
 
     private ChoiceList getDisciplinesChoiceList(String listId, Locale locale) throws DomainException, ObjectNotFoundException
     {

@@ -59,10 +59,10 @@ public abstract class AbstractAuditRecord<T> implements AuditRecord<T>
 
     public String getRecord()
     {
-        StringBuilder sb = new StringBuilder(date.toString()).append(SEPARATOR).append(getTracedType()).append(SEPARATOR).append(
-                sessionUser.isAnonymous() ? "anonymous" : sessionUser.getId()).append(SEPARATOR).append(
-                sessionUser.isAnonymous() ? "anonymous" : sessionUser.getEmail()).append(SEPARATOR).append(getTracedObjectId()).append(SEPARATOR).append(
-                methodSignature).append(SEPARATOR);
+        StringBuilder sb = new StringBuilder(date.toString()).append(SEPARATOR).append(getTracedType()).append(SEPARATOR)
+                .append(sessionUser.isAnonymous() ? "anonymous" : sessionUser.getId()).append(SEPARATOR)
+                .append(sessionUser.isAnonymous() ? "anonymous" : sessionUser.getEmail()).append(SEPARATOR).append(getTracedObjectId()).append(SEPARATOR)
+                .append(methodSignature).append(SEPARATOR);
         return sb.toString();
     }
 

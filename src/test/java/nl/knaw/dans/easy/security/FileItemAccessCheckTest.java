@@ -71,12 +71,13 @@ public class FileItemAccessCheckTest
         }
 
         // for output of states and explanations to disc.
-        //        FileOutputStream out = new FileOutputStream("src/test/resources/output/fileItemAccessCheck.txt");
-        //        out.write(explanations.toString().getBytes());
-        //        out.close();
+        // FileOutputStream out = new
+        // FileOutputStream("src/test/resources/output/fileItemAccessCheck.txt");
+        // out.write(explanations.toString().getBytes());
+        // out.close();
 
         // grabbed in constant TEST_COUNT
-        //        System.err.println("\n" + testCounter);
+        // System.err.println("\n" + testCounter);
 
         assertEquals(TEST_COUNT, testCounter);
     }

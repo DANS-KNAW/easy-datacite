@@ -44,15 +44,18 @@ public class DisciplineMetadataImpl extends AbstractTimestampedJiBXObject<EasyMe
     {
     }
 
-    /* (non-Javadoc)
-     * @see nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineMetadata#setOICode(java.lang.String)
+    /*
+     * (non-Javadoc)
+     * @see
+     * nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineMetadata#setOICode(java.lang.String)
      */
     public void setOICode(String oICode)
     {
         OICode = oICode;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineMetadata#getOICode()
      */
     public String getOICode()
@@ -60,7 +63,8 @@ public class DisciplineMetadataImpl extends AbstractTimestampedJiBXObject<EasyMe
         return OICode;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineMetadata#setOrder(int)
      */
     public void setOrder(int order)
@@ -68,7 +72,8 @@ public class DisciplineMetadataImpl extends AbstractTimestampedJiBXObject<EasyMe
         this.order = order;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineMetadata#getOrder()
      */
     public int getOrder()

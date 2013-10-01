@@ -33,7 +33,7 @@ import org.joda.time.DateTime;
 public interface DatasetService extends EasyService
 {
 
-    //Method not used and no security with this signature possible
+    // Method not used and no security with this signature possible
     CommonDataset getCommonDataset(DmoStoreId dmoStoreId) throws ServiceException;
 
     /**
@@ -50,8 +50,8 @@ public interface DatasetService extends EasyService
     Dataset newDataset(EasyMetadata emd, AdministrativeMetadata amd) throws ServiceException;
 
     /**
-     * Get the Dataset with the given id. If the parameter <code>storeId == null</code> a new (empty) Dataset will be
-     * returned.
+     * Get the Dataset with the given id. If the parameter <code>storeId == null</code> a new (empty)
+     * Dataset will be returned.
      * 
      * @param sessionUser
      *        the user that initiates this action, can be <code>null</code>
@@ -97,8 +97,8 @@ public interface DatasetService extends EasyService
     Dataset cloneDataset(final EasyUser sessionUser, final Dataset dataset) throws ServiceException;
 
     /**
-     * Save the EasyMetadata unit of the dataset. Note there is a potential security hazard in the implementation,
-     * because any component of the dataset that has changed will be saved.
+     * Save the EasyMetadata unit of the dataset. Note there is a potential security hazard in the
+     * implementation, because any component of the dataset that has changed will be saved.
      * 
      * @param sessionUser
      *        the user that initiates this action
@@ -112,8 +112,8 @@ public interface DatasetService extends EasyService
     void saveEasyMetadata(EasyUser sessionUser, Dataset dataset, WorkListener... workListeners) throws ServiceException, DataIntegrityException;
 
     /**
-     * Save the AdministrativeMetadata unit of the dataset. Note there is a potential security hazard in the
-     * implementation, because any component of the dataset that has changed will be saved.
+     * Save the AdministrativeMetadata unit of the dataset. Note there is a potential security hazard in
+     * the implementation, because any component of the dataset that has changed will be saved.
      * 
      * @param sessionUser
      *        the user that initiates this action
@@ -258,7 +258,8 @@ public interface DatasetService extends EasyService
             throws ServiceException, DataIntegrityException;
 
     /**
-     * Save a request for permission. If the request is valid, an email is send to the depositor of the dataset.
+     * Save a request for permission. If the request is valid, an email is send to the depositor of the
+     * dataset.
      * 
      * @param sessionUser
      *        the user that initiates this action
@@ -277,7 +278,8 @@ public interface DatasetService extends EasyService
             throws ServiceException, DataIntegrityException;
 
     /**
-     * Save a reply on a request for permission. If the reply is valid, an email is send to the requester of permission.
+     * Save a reply on a request for permission. If the reply is valid, an email is send to the requester
+     * of permission.
      * 
      * @param sessionUser
      *        the user that initiates this action
@@ -296,7 +298,8 @@ public interface DatasetService extends EasyService
             DataIntegrityException;
 
     /**
-     * Obtain a read-only instance of DownloadHistory for the given dataset and the period indicated by date.
+     * Obtain a read-only instance of DownloadHistory for the given dataset and the period indicated by
+     * date.
      * 
      * @param sessionUser
      *        the user that initiates this action
@@ -304,7 +307,8 @@ public interface DatasetService extends EasyService
      *        the dataset for which download history is to be obtained
      * @param date
      *        indicates the period of download history that is to be obtained
-     * @return download history for the given dataset and period, or <code>null</code> if no history exists
+     * @return download history for the given dataset and period, or <code>null</code> if no history
+     *         exists
      * @throws ServiceException
      *         wrapper for exceptions
      */
@@ -324,20 +328,20 @@ public interface DatasetService extends EasyService
 
     URL getAdditionalLicenseURL(Dataset dataset) throws ServiceException;
 
-    //    /**
-    //     * Obtain a list of read-only instances of DownloadHistory for the given dataset and time interval.
-    //     * 
-    //     * @param sessionUser
-    //     *        the user that initiates this action
-    //     * @param dataset
-    //     *        the dataset for which download history is to be obtained
-    //     * @param interval
-    //     *        the time interval for which download history is to be obtained
-    //     * @return a list of read-only instances of DownloadHistory
-    //     * @throws ServiceException
-    //     *         wrapper for exceptions
-    //     */
-    //    List<DownloadHistory> getDownloadHistoryFor(Dataset dataset, ReadableInterval interval)
-    //            throws ServiceException;
+    // /**
+    // * Obtain a list of read-only instances of DownloadHistory for the given dataset and time interval.
+    // *
+    // * @param sessionUser
+    // * the user that initiates this action
+    // * @param dataset
+    // * the dataset for which download history is to be obtained
+    // * @param interval
+    // * the time interval for which download history is to be obtained
+    // * @return a list of read-only instances of DownloadHistory
+    // * @throws ServiceException
+    // * wrapper for exceptions
+    // */
+    // List<DownloadHistory> getDownloadHistoryFor(Dataset dataset, ReadableInterval interval)
+    // throws ServiceException;
 
 }

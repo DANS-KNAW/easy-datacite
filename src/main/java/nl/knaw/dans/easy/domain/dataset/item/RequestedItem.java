@@ -12,9 +12,9 @@ public class RequestedItem
 
     /**
      * @param item
-     *        storeId collected by the client, id's for folders may be extended with "/*".
-     *        The extension indicates just the files of the folder are desired. without this
-     *        extensions both files and folders are desired.
+     *        storeId collected by the client, id's for folders may be extended with "/*". The extension
+     *        indicates just the files of the folder are desired. without this extensions both files and
+     *        folders are desired.
      */
     public RequestedItem(final String item)
     {

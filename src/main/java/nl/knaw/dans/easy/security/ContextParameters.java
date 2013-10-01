@@ -32,11 +32,10 @@ public class ContextParameters implements Serializable
 
     /**
      * Construct new ContextParameters. The second -optional- parameter of this constructor takes an
-     * array of objects. The fist {@link Dataset} thrown in is retrievable by {@link #getDataset()}. The 
-     * first {@link FileItem} can be retrieved by {@link #getFileItem()}. The
-     * first {@link EasyUser} in the array can be obtained by {@link #getUserUnderEdit()}. Other objects
-     * in the array are stored under their implementation class name and can be recalled by
-     * {@link #getObject(Class, int)}.
+     * array of objects. The fist {@link Dataset} thrown in is retrievable by {@link #getDataset()}. The
+     * first {@link FileItem} can be retrieved by {@link #getFileItem()}. The first {@link EasyUser} in
+     * the array can be obtained by {@link #getUserUnderEdit()}. Other objects in the array are stored
+     * under their implementation class name and can be recalled by {@link #getObject(Class, int)}.
      * 
      * @param sessionUser
      *        the user of the session, might be <code>null</code>

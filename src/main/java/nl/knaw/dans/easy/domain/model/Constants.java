@@ -32,8 +32,10 @@ public interface Constants
 
     /**
      * The prefix for OAI identifiers. A complete OAI identifier complies to:
+     * 
      * <pre>
-     *   oai-identifier = scheme ":" namespace-identifier ":" local-identifier
+     * oai-identifier = scheme ":" namespace-identifier ":" local-identifier
+     * 
      * <pre>
      * 
      * @see http://www.openarchives.org/OAI/2.0/guidelines-oai-identifier.htm

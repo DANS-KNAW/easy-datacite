@@ -58,7 +58,7 @@ public class Remark extends AbstractJiBXObject<Remark>
         return remarkDate;
     }
 
-    public EasyUser getRemarker() //throws UnknownIdentifierException, DataLayerInAccessableException
+    public EasyUser getRemarker() // throws UnknownIdentifierException, DataLayerInAccessableException
     {
         if (remarker == null && remarkerId != null)
         {

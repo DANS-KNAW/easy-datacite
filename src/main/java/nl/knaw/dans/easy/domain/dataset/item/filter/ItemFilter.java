@@ -14,11 +14,10 @@ public interface ItemFilter
 {
 
     /**
-     * Applies filtering on a list of items. Items are filtered out
-     * on the itemList parameter.
+     * Applies filtering on a list of items. Items are filtered out on the itemList parameter.
      * 
      * @param itemList
-     *            input list
+     *        input list
      * @return filtered list
      */
     List<? extends ItemVO> apply(final List<? extends ItemVO> itemList) throws DomainException;

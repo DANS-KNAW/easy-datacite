@@ -3,12 +3,10 @@ package nl.knaw.dans.easy.data.store;
 import nl.knaw.dans.common.lang.RepositoryException;
 
 /**
- * Signals an exception while manipulating objects in a store.
+ * Signals an exception while manipulating objects in a store. deprecated use
+ * nl.knaw.dans.common.lang.repo.exception.RepositoryException
  * 
- * deprecated use nl.knaw.dans.common.lang.repo.exception.RepositoryException
- *
  * @author ecco
- * 
  */
 public class StoreAccessException extends RepositoryException
 {

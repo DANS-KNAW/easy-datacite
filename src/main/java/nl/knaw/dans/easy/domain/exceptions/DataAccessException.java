@@ -4,8 +4,8 @@ import nl.knaw.dans.common.lang.RepositoryException;
 
 /**
  * General Exception that signals an exception in accessing data from a repository.
+ * 
  * @author ecco Feb 2, 2009
- *
  */
 public class DataAccessException extends RepositoryException
 {

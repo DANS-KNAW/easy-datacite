@@ -104,8 +104,8 @@ public abstract class AbstractNotification
             throw new ServiceException(new NullPointerException("no mail office available"));
         try
         {
-            mailOffice.sendMail(getSubject(), new String[] {getReceiverEmail()}, getText(), getHtml(), attachments.toArray(new EasyMailerAttachment[attachments
-                    .size()]));
+            mailOffice.sendMail(getSubject(), new String[] {getReceiverEmail()}, getText(), getHtml(),
+                    attachments.toArray(new EasyMailerAttachment[attachments.size()]));
         }
         catch (final EasyMailerException e)
         {

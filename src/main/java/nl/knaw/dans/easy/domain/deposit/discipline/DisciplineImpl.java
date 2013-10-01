@@ -11,7 +11,7 @@ public class DisciplineImpl implements DepositDiscipline
 
     private final FormDescriptor emdFromDescriptor;
 
-    //private String formDefinition = EMD_DEPOSITFORM_WIZARD; //default value
+    // private String formDefinition = EMD_DEPOSITFORM_WIZARD; //default value
 
     public DisciplineImpl(FormDescriptor formDescriptor)
     {

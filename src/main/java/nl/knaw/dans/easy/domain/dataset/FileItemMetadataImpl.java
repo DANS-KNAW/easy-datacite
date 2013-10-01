@@ -13,8 +13,8 @@ public class FileItemMetadataImpl extends AbstractItemMetadataImpl<FileItemMetad
 {
 
     /**
-     * The version - when newly instantiated. The actual version of an instance as read from an xml-stream might be
-     * obtained by {@link #getVersion()}.
+     * The version - when newly instantiated. The actual version of an instance as read from an
+     * xml-stream might be obtained by {@link #getVersion()}.
      */
     public static final String VERSION = "0.1";
 

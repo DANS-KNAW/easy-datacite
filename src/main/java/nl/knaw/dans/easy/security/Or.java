@@ -21,7 +21,8 @@ public class Or implements SecurityOfficer
      * a &#8744; b &#8594; q
      * </pre>
      * 
-     * @param officers the operands
+     * @param officers
+     *        the operands
      */
     public Or(SecurityOfficer... officers)
     {

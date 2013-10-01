@@ -10,8 +10,9 @@ public class Security
     private static Authz AUTHZ;
 
     /**
-     * DO NOT USE - called by the application context. The class we are going to proxy using CGLib has to provide a
-     * default constructor. Alternatively switch to JDK dynamic proxies (if that's configurable for annotations).
+     * DO NOT USE - called by the application context. The class we are going to proxy using CGLib has to
+     * provide a default constructor. Alternatively switch to JDK dynamic proxies (if that's configurable
+     * for annotations).
      */
     protected Security()
     {

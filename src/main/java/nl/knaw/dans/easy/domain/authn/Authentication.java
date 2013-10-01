@@ -5,15 +5,15 @@ import nl.knaw.dans.easy.util.Messenger;
 
 /**
  * Messenger object for user authentication.
- *
+ * 
  * @author ecco Feb 18, 2009
  */
 public class Authentication extends Messenger<Authentication.State>
 {
     /**
      * State of the authentication.
+     * 
      * @author ecco Mar 14, 2009
-     *
      */
     public enum State
     {
@@ -43,6 +43,7 @@ public class Authentication extends Messenger<Authentication.State>
         NotFound,
         /**
          * User is not qualified.
+         * 
          * @see User.State
          */
         NotQualified,

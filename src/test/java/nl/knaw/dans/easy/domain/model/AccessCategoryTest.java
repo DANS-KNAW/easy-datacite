@@ -18,7 +18,7 @@ public class AccessCategoryTest
         for (int i = 0; i < 64; i++)
         {
             List<AccessCategory> categories = AccessCategory.UTIL.getStates(i);
-            //System.out.println(i + " " + categories);
+            // System.out.println(i + " " + categories);
             assertEquals(i, AccessCategory.UTIL.getBitMask(categories));
         }
     }
@@ -28,7 +28,7 @@ public class AccessCategoryTest
     {
         for (AccessCategory ac : AccessCategory.values())
         {
-            //System.out.println(ac + " " + AccessCategory.isAccessible(ac));
+            // System.out.println(ac + " " + AccessCategory.isAccessible(ac));
         }
     }
 

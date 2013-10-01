@@ -11,8 +11,8 @@ import com.lowagie.text.html.simpleparser.StyleSheet;
 import com.lowagie.text.pdf.PdfWriter;
 
 /**
- * Small test to ask questions on iText mailing list
- * see http://news.gmane.org/gmane.comp.java.lib.itext.general 
+ * Small test to ask questions on iText mailing list see
+ * http://news.gmane.org/gmane.comp.java.lib.itext.general
  * http://article.gmane.org/gmane.comp.java.lib.itext.general/50972
  */
 public class TinyTable

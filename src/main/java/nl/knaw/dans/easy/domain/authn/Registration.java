@@ -15,8 +15,8 @@ public class Registration extends Messenger<Registration.State>
 
     /**
      * Indicates the state of the registration.
+     * 
      * @author ecco Feb 17, 2009
-     *
      */
     public enum State
     {

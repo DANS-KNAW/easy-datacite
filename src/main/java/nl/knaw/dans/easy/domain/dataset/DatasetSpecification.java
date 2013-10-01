@@ -21,8 +21,8 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Minimum check on validity of a dataset.
+ * 
  * @author ecco Aug 11, 2009
- *
  */
 public class DatasetSpecification
 {

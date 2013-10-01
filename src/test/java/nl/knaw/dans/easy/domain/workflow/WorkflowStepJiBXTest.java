@@ -34,7 +34,7 @@ public class WorkflowStepJiBXTest extends AbstractJibxTest<WorkflowStep>
     public void testEmpty() throws IOException, JiBXException, XMLSerializationException
     {
         WorkflowStep wfs = new WorkflowStep("x");
-        //log().debug("\n" + wfs.asXMLString(4));
+        // log().debug("\n" + wfs.asXMLString(4));
         String filename = marshal(wfs, "_empty");
 
         WorkflowStep wfs2 = unmarshal(filename);
@@ -58,7 +58,7 @@ public class WorkflowStepJiBXTest extends AbstractJibxTest<WorkflowStep>
 
         subA.setCompleted(true);
 
-        //log().debug("\n" + wfs.asXMLString(4));
+        // log().debug("\n" + wfs.asXMLString(4));
         String filename = marshal(wfs, "_full");
 
         WorkflowStep wfs2 = unmarshal(filename);
@@ -72,7 +72,7 @@ public class WorkflowStepJiBXTest extends AbstractJibxTest<WorkflowStep>
     public void read() throws IOException, JiBXException
     {
         WorkflowStep wfs = unmarshal(getFile("read.xml").getPath());
-        //log.debug("\n" + wfs.asXMLString(4));
+        // log.debug("\n" + wfs.asXMLString(4));
         assertEquals("dasa_10000", wfs.getId());
         assertTrue(wfs.isRequired());
     }

@@ -48,7 +48,8 @@ public final class SecurityUtil
     /**
      * Create hashCode.
      * 
-     * @param strings memberStrings for the hashCode.
+     * @param strings
+     *        memberStrings for the hashCode.
      * @return integer hash
      */
     public static int generateHashCode(final String... strings)
@@ -64,7 +65,8 @@ public final class SecurityUtil
     /**
      * Create hashCode string.
      * 
-     * @param strings memberStrings for the hashCode
+     * @param strings
+     *        memberStrings for the hashCode
      * @return String hash
      */
     public static String generateHashCodeString(final String... strings)

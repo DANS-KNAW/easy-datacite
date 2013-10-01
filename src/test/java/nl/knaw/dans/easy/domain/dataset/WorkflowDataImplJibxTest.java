@@ -33,7 +33,7 @@ public class WorkflowDataImplJibxTest extends AbstractJibxTest<WorkflowDataImpl>
     {
         WorkflowDataImpl wfd = new WorkflowDataImpl();
 
-        //log().debug("\n" + wfd.asXMLString(4));
+        // log().debug("\n" + wfd.asXMLString(4));
 
         String filename = marshal(wfd, "_empty");
         WorkflowDataImpl wfd2 = unmarshal(filename);
@@ -46,7 +46,7 @@ public class WorkflowDataImplJibxTest extends AbstractJibxTest<WorkflowDataImpl>
         WorkflowDataImpl wfd = new WorkflowDataImpl();
         wfd.setAssigneeId("willem");
 
-        //log().debug("\n" + wfd.asXMLString(4));
+        // log().debug("\n" + wfd.asXMLString(4));
 
         String filename = marshal(wfd, "_full");
         WorkflowDataImpl wfd2 = unmarshal(filename);

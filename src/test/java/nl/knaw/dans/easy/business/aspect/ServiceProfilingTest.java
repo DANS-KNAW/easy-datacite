@@ -12,27 +12,27 @@ package nl.knaw.dans.easy.business.aspect;
 //
 // public class ServiceProfilingTest
 // {
-//    
+//
 // @Test
 // public void testAdvice() throws ServiceException
 // {
 // DatasetService service = new EasyDatasetService();
 // Logger mock = EasyMock.createMock(Logger.class);
 // Logger real = ServiceProfiling.setLogger(mock);
-//        
+//
 // mock.info(EasyMock.isA(String.class)); EasyMock.expectLastCall().times(1);
-//        
+//
 // EasyMock.replay(mock);
 // service.doBeanPostProcessing();
 // EasyMock.verify(mock);
-//        
+//
 // ServiceProfiling.setLogger(real);
-//        
+//
 // real.info("Next INFO from " + service.getClass().getSimpleName() +
 // " is the log statement we were testing:");
 // service.doBeanPostProcessing();
 // }
-//    
-//    
 //
-//}
+//
+//
+// }

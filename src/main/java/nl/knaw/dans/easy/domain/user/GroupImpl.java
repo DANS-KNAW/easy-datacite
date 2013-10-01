@@ -62,7 +62,7 @@ public class GroupImpl implements Group
 
     /**
      * Test if object is equal.
-     *
+     * 
      * @param obj
      *        object to test
      * @return true if object is equal.
@@ -82,8 +82,8 @@ public class GroupImpl implements Group
                 if (obj.getClass() == this.getClass())
                 {
                     final GroupImpl otherGroup = (GroupImpl) obj;
-                    equals = new EqualsBuilder().append(this.groupId, otherGroup.groupId).append(this.state, otherGroup.state).append(this.description,
-                            otherGroup.description).isEquals();
+                    equals = new EqualsBuilder().append(this.groupId, otherGroup.groupId).append(this.state, otherGroup.state)
+                            .append(this.description, otherGroup.description).isEquals();
                 }
             }
         }
@@ -93,7 +93,7 @@ public class GroupImpl implements Group
 
     /**
      * Return hashCode.
-     *
+     * 
      * @return hashcode
      */
     @Override
