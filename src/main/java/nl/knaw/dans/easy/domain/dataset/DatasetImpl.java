@@ -768,4 +768,17 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
     {
         return "nl.knaw.dans.easy.security.authz.EasyItemContainerAuthzStrategy";
     }
+
+    @Override
+    public void replaceEasyMetadata(String xml) throws DomainException
+    {
+        try
+        {
+            easyMetadata = new EmdUnmarshaller<EasyMetadata>(EasyMetadataImpl.class).unmarshal(xml);
+        }
+        catch (XMLDeserializationException e)
+        {
+            throw new DomainException("desarialisation problem of Easy Metadata: " + e.getMessage(), e);
+        }
+    }
 }

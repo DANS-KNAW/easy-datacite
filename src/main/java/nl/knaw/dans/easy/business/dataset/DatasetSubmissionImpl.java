@@ -83,7 +83,7 @@ public class DatasetSubmissionImpl implements DatasetSubmission
         this.mailSend = mailSend;
     }
 
-    protected boolean isSubmitted()
+    public boolean isSubmitted()
     {
         return submitted;
     }
