@@ -70,11 +70,11 @@ public class EasyMetadataFacade
             }
             catch (ObjectNotFoundException e)
             {
-                throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, "Audience " + audience.toString()+" not found "+e.getMessage());
+                throw new SWORDErrorException(ErrorCodes.ERROR_BAD_REQUEST, "Audience " + audience.toString() + " not found " + e.getMessage());
             }
             catch (DomainException e)
             {
-                throw new SWORDException("discipline validation problem: "+e.getMessage(),e);
+                throw new SWORDException("discipline validation problem: " + e.getMessage(), e);
             }
         return unmarshalled;
     }

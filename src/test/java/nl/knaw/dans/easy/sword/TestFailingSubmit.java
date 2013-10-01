@@ -16,7 +16,7 @@ import org.purl.sword.base.SWORDErrorException;
 import org.purl.sword.base.SWORDException;
 
 public class TestFailingSubmit extends SubmitFixture
-//maven should not run this test therefore the name should not start or end with test.
+// maven should not run this test therefore the name should not start or end with test.
 {
     @Before
     public void setupMocking() throws Exception

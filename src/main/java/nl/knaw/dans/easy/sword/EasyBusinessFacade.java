@@ -127,7 +127,7 @@ public class EasyBusinessFacade
         try
         {
             if (userId == null || password == null)
-                throw newBadRequestException( "missing username [" + userId + "] or password");
+                throw newBadRequestException("missing username [" + userId + "] or password");
             else if (!Data.getUserRepo().authenticate(userId, password))
                 throw newSWORDAuthenticationException("invalid username [" + userId + "] or password", null);
             logger.info(userId + " authenticated");
@@ -233,7 +233,7 @@ public class EasyBusinessFacade
         final DmoStoreId dmoStoreId = dataset.getDmoStoreId();
         final IngestReporter ingestReporter = new IngestReporter();
         logIngest(directory, fileList, dmoStoreId);
-        String message = "Problem with ingesting files. "+dmoStoreId + " might be created with a draft state.";
+        String message = "Problem with ingesting files. " + dmoStoreId + " might be created with a draft state.";
         try
         {
             Services.getItemService().addDirectoryContents(user, dataset, dmoStoreId, directory, new ItemIngester(dataset), ingestReporter);
@@ -411,7 +411,7 @@ public class EasyBusinessFacade
         }
         catch (final DataIntegrityException exception)
         {
-            throw newBadRequestException( Arrays.deepToString(exception.getErrorMessages().toArray()));
+            throw newBadRequestException(Arrays.deepToString(exception.getErrorMessages().toArray()));
         }
         catch (final ServiceException exception)
         {
@@ -423,7 +423,7 @@ public class EasyBusinessFacade
     {
         final MetadataFormat mdFormat = emd.getEmdOther().getEasApplicationSpecific().getMetadataFormat();
         if (mdFormat == null)
-            throw newBadRequestException( "meta data format not specified.");
+            throw newBadRequestException("meta data format not specified.");
         final DepositDiscipline discipline;
         try
         {
@@ -434,7 +434,7 @@ public class EasyBusinessFacade
             throw newSWORDException("Cannot get deposit discipline.", e);
         }
         if (discipline == null)
-            throw newBadRequestException( "Cannot get deposit discipline.");
+            throw newBadRequestException("Cannot get deposit discipline.");
         final FormDefinition formDefinition = discipline.getEmdFormDescriptor().getFormDefinition(DepositDiscipline.EMD_DEPOSITFORM_ARCHIVIST);
         if (formDefinition == null)
             throw newBadRequestException("Cannot get formdefinition for MetadataFormat " + mdFormat.toString());

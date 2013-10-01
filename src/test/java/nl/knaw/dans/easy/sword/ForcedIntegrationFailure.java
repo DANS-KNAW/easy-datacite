@@ -36,7 +36,8 @@ public class ForcedIntegrationFailure extends IntegrationFixture
         ItemService mocked = PowerMock.createMock(ItemService.class);
         new Services().setItemService(mocked);
 
-        mocked.addDirectoryContents(isA(EasyUserImpl.class), isA(DatasetImpl.class), isA(DmoStoreId.class), isA(File.class), isA( ItemIngester.class), isA(IngestReporter.class));
+        mocked.addDirectoryContents(isA(EasyUserImpl.class), isA(DatasetImpl.class), isA(DmoStoreId.class), isA(File.class), isA(ItemIngester.class),
+                isA(IngestReporter.class));
         expectLastCall().andThrow(new ServiceException("mocked exception"));
         PowerMock.replayAll();
 

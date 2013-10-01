@@ -1,7 +1,8 @@
 package nl.knaw.dans.easy.sword;
 
-import static org.junit.Assert.assertThat;
-import static org.junit.internal.matchers.StringContains.containsString;
+import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 import java.io.File;
 import java.security.NoSuchAlgorithmException;
