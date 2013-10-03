@@ -76,7 +76,6 @@ public class AdministrativeMetadataImplJibxTest extends AbstractJibxTest<Adminis
         List<WorkflowStep> steps = amd.getWorkflowData().getWorkflow().getSteps();
         fillSteps(steps);
 
-        // if (verbose)
         logger.debug("\n" + amd.asXMLString(4));
 
         String filename = marshal(amd, "_full");

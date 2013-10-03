@@ -24,7 +24,6 @@ public class TermPanelDefinitionTest
         tpDef.setShortHelpResourceKey("shortHelpResourceKey");
 
         TermPanelDefinition clone = tpDef.clone();
-        // System.out.println(clone.asXMLString(4));
         assertEquals(tpDef.asXMLString(), clone.asXMLString());
     }
 

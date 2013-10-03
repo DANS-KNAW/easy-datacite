@@ -63,7 +63,7 @@ public class EasyFederativeUserService extends AbstractEasyService implements Fe
         {
             // Maybe the mapping is wrong, because if it refers to a easy user, the uid should be OK
             logger.debug("Easy user Object not found. userId='" + uid + "'");
-            // throw new ObjectNotAvailableException("Object not found. userId='" + uid + "' :", e);
+            //throw new ObjectNotAvailableException("Object not found. userId='" + uid + "' :", e);
             throw new ServiceException("Easy user Object not found. userId='" + uid + "' :", e);
         }
         catch (final RepositoryException e)

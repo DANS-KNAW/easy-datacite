@@ -119,8 +119,6 @@ public class EasyDatasetServiceTest extends TestHelper
         // we are archivist so we can discover and read the unpublished dataset.
         assertTrue(strategy.canBeDiscovered());
         assertTrue(strategy.canBeRead());
-
-        // System.err.println(strategy.explainCanChildrenBeDiscovered());
     }
 
     @Test(expected = DataIntegrityException.class)

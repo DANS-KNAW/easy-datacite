@@ -41,7 +41,6 @@ public class DisciplineMetadataImplTest
         DisciplineMetadata dmd2 = (DisciplineMetadata) JiBXObjectFactory.unmarshal(DisciplineMetadataImpl.class, dmd.asObjectXML());
         assertEquals(dmd.asXMLString(), dmd2.asXMLString());
 
-        // if (verbose)
         logger.debug("\n" + dmd2.asXMLString(4) + "\n");
     }
 

@@ -65,6 +65,5 @@ public class SecurityUtilTest
         final String randomString = SecurityUtil.getRandomString();
         @SuppressWarnings("unused")
         final String token = Integer.valueOf(SecurityUtil.generateHashCode("foo", null, "bar", randomString)).toString();
-        // System.out.println(token);
     }
 }

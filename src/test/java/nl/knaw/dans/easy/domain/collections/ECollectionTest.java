@@ -24,9 +24,6 @@ public class ECollectionTest
         assertTrue(iter.hasNext());
         assertEquals(ECollection.EasyInterestArea, iter.next());
 
-        // assertTrue(iter.hasNext());
-        // assertEquals(ECollection.EasyDiscipline, iter.next());
-
         assertTrue(iter.hasNext());
         assertEquals(ECollection.EasyResearchArea, iter.next());
 

@@ -49,7 +49,7 @@ public class MetadataPidGenerator implements SubmissionProcessor
             ((DatasetRelations) submission.getDataset().getRelations()).setPersistentIdentifier(pid);
             logger.debug("Generated new Pid. pid=" + pid);
         }
-        // TODO: catch all prevents normal error handling for all callers.
+        // TODO: catch all prevents normal error handling for all callers. 
         catch (final Exception exception)
         {
             return reportError("Can't generate persistent identifier", submission, exception);

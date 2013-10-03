@@ -94,7 +94,7 @@ public class PermissionWorker extends AbstractWorker
         }
         catch (UnitOfWorkInterruptException e)
         {
-            // rollBack(e.getMessage());
+            //rollBack(e.getMessage());
             throw new UnsupportedOperationException("Rollback not implemented");
         }
         catch (RepositoryException e)

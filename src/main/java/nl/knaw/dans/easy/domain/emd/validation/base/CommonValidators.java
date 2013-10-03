@@ -23,6 +23,7 @@ public class CommonValidators
          * (ChoiceListValidator.java:78)
          */
         // VALIDATORS.add(new RelationsValidator(EmdScheme.COMMON_DCTERMS_RELATION.getId()));
+        // @formatter:on
     }
 
     /**

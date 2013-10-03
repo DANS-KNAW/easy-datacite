@@ -327,21 +327,4 @@ public interface DatasetService extends EasyService
     URL getUnitMetadataURL(EasyUser sessionUser, Dataset dataset, UnitMetadata unitMetadata) throws ServiceException, CommonSecurityException;
 
     URL getAdditionalLicenseURL(Dataset dataset) throws ServiceException;
-
-    // /**
-    // * Obtain a list of read-only instances of DownloadHistory for the given dataset and time interval.
-    // *
-    // * @param sessionUser
-    // * the user that initiates this action
-    // * @param dataset
-    // * the dataset for which download history is to be obtained
-    // * @param interval
-    // * the time interval for which download history is to be obtained
-    // * @return a list of read-only instances of DownloadHistory
-    // * @throws ServiceException
-    // * wrapper for exceptions
-    // */
-    // List<DownloadHistory> getDownloadHistoryFor(Dataset dataset, ReadableInterval interval)
-    // throws ServiceException;
-
 }

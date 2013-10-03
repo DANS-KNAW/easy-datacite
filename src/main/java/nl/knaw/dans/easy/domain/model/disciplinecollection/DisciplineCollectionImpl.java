@@ -78,7 +78,6 @@ public class DisciplineCollectionImpl extends AbstractDmoCollection implements D
     {
         try
         {
-            //
             if (rootDiscipline == null || rootDiscipline.isInvalidated())
             {
                 rootDiscipline = (DisciplineContainer) Data.getEasyStore().retrieve(EASY_DISCIPLINE_ROOT_DMO_STORE_ID);

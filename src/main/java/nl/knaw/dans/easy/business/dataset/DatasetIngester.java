@@ -50,7 +50,7 @@ public class DatasetIngester implements SubmissionProcessor
             // submission date is already set while generating the license.
             dataset.getAdministrativeMetadata().setAdministrativeState(DatasetState.SUBMITTED);
             AccessCategory accessCategory = dataset.getAccessCategory();
-            // Provisional implementation of assigning groups
+            //  Provisional implementation of assigning groups
             boolean hasMDFarchaeology = MetadataFormat.ARCHAEOLOGY.equals(dataset.getMetadataFormat());
             if (AccessCategory.GROUP_ACCESS.equals(accessCategory) && hasMDFarchaeology)
             {
@@ -61,12 +61,11 @@ public class DatasetIngester implements SubmissionProcessor
             {
                 dataset.removeGroup(new GroupImpl(Group.ID_ARCHEOLOGY));
             }
-            // End provisional implementation of assigning groups
+            //  End provisional implementation of assigning groups
 
             if (updateFileRights)
             {
-                VisibleTo vt = VisibleTo.ANONYMOUS; // all files are visible, unless an archivist decides
-                                                    // differently.
+                VisibleTo vt = VisibleTo.ANONYMOUS; // all files are visible, unless an archivist decides differently.
                 AccessibleTo at = AccessibleTo.translate(accessCategory);
                 UpdateInfo updateInfo = new UpdateInfo();
                 updateInfo.updateAccessibleTo(at);

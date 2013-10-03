@@ -244,8 +244,7 @@ public class RegistrationService extends AbstractTokenList
 
     /*
      * (non-Javadoc)
-     * @see
-     * nl.knaw.dans.easy.business.services.RegistrationService#validateRegistration(java.lang.String,
+     * @see nl.knaw.dans.easy.business.services.RegistrationService#validateRegistration(java.lang.String,
      * java.lang.String, java.lang.String)
      */
     public boolean validateRegistration(final String userId, final String dateTime, final String token)

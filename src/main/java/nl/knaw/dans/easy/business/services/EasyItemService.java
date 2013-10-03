@@ -244,7 +244,7 @@ public class EasyItemService extends AbstractEasyService implements ItemService
 
     }
 
-    // old fashioned additional metadata
+    // old fashioned additional metadata 
     @MutatesDataset
     @Deprecated
     public void saveDescriptiveMetadata(EasyUser sessionUser, final Dataset dataset, final Map<String, Element> descriptiveMetadataMap) throws ServiceException

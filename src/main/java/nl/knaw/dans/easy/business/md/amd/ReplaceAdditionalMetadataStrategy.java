@@ -4,6 +4,7 @@ import nl.knaw.dans.easy.xml.AdditionalMetadata;
 
 /**
  * Replaces {@link AdditionalMetadata} completely.
+ *
  */
 public class ReplaceAdditionalMetadataStrategy implements AdditionalMetadataUpdateStrategy
 {

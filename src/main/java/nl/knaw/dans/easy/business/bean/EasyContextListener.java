@@ -8,8 +8,8 @@ import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.ContextRefreshedEvent;
 
 /**
- * @see http
- *      ://static.springsource.org/spring/docs/2.5.x/reference/beans.html#context-functionality-events
+ * @see http://static.springsource.org/spring/docs/2.5.x/reference/beans.html#context-functionality-events
+ * 
  * @author henkb
  */
 public class EasyContextListener implements ApplicationListener
@@ -32,19 +32,19 @@ public class EasyContextListener implements ApplicationListener
     }
 
     /**
-     * !!WARNING!! <br/>
-     * <b> Never use this method if back-end services are called in your method! </b><br/>
+     * !!WARNING!!
+     * <br/><b>
+     * Never use this method if back-end services are called in your method!
+     * </b><br/>
      * Example: call to Fedora at application startup --> deadlock at full server restart
-     * 
      * <pre>
      * 
      * If Fedora not yet running,
      *      this method never returns
      *      Tomcat keeps waiting....
      *      ... and Fedora never starts.
-     * 
+     *      
      * </pre>
-     * 
      * Published when the ApplicationContext is initialized or refreshed, e.g. using the refresh() method
      * on the ConfigurableApplicationContext interface. "Initialized" here means that all beans are
      * loaded, post-processor beans are detected and activated, singletons are pre-instantiated, and the
@@ -64,8 +64,8 @@ public class EasyContextListener implements ApplicationListener
      * Published when the ApplicationContext is closed, using the close() method on the
      * ConfigurableApplicationContext interface. "Closed" here means that all singleton beans are
      * destroyed. A closed context has reached its end of life; it cannot be refreshed or restarted.
-     * Alternatively you can define a destroy-method in your bean declaration:
      * 
+     * Alternatively you can define a destroy-method in your bean declaration:
      * <pre>
      *    &lt;bean name="myBean" class="org.foo.bar.MyBean" destroy-method="close" />
      * </pre>

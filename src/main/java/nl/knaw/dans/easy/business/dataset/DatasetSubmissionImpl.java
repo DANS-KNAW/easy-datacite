@@ -35,7 +35,7 @@ public class DatasetSubmissionImpl implements DatasetSubmission
 
     /**
      * Construct a shallow copy for (limited) threaded use.
-     * 
+     *
      * @param submission
      *        submission to copy
      */
@@ -83,7 +83,7 @@ public class DatasetSubmissionImpl implements DatasetSubmission
         this.mailSend = mailSend;
     }
 
-    public boolean isSubmitted()
+    protected boolean isSubmitted()
     {
         return submitted;
     }

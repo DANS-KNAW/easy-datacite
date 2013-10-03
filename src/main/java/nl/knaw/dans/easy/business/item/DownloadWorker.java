@@ -54,8 +54,7 @@ public class DownloadWorker
     private static final String METADATA_PATH = "meta/";
     static final String DESCRIPTIVE_METADATA_FILE_NAME = "file_metadata.xml";
 
-    // TODO eliminate duplicate file for the wicket link, note that we needed to switch of filtering
-    // resources in the pom file
+    // TODO eliminate duplicate file for the wicket link, note that we needed to switch of filtering resources in the pom file
     static final String GENERAL_CONDITIONS_FILE_NAME = "general_conditions_DANS.pdf";
 
     private static final int MAX_FILENAME_LENGTH = 25;
@@ -187,7 +186,7 @@ public class DownloadWorker
         return zipFile;
     }
 
-    // Note: could determine total size of files before trying to zip them
+    // Note: could determine total size of files before trying to zip them 
     private List<ZipItem> toZipItems(final List<? extends ItemVO> items) throws ZipFileLengthException, TooManyFilesException
     {
         if (items.size() > MAX_NUMBER_OF_FILES)
@@ -250,7 +249,7 @@ public class DownloadWorker
      *        files selected by the user that have download permission
      * @return a temporary file containing the metatdata
      * @throws IOException
-     * @throws RepositoryException
+     * @throws RepositoryException 
      */
     File createDescriptiveFileMetadataFile(final List<? extends ItemVO> items) throws IOException, RepositoryException
     {
@@ -272,7 +271,7 @@ public class DownloadWorker
                 }
 
                 // NB: the left part of the expression is our primary objective, so keep it on the left!
-                // hasMetaData = collectMetadata(metaOutputStream, item) || hasMetaData;
+                //hasMetaData = collectMetadata(metaOutputStream, item) || hasMetaData;
             }
         }
         metaOutputStream.println("</metadata>");
@@ -311,8 +310,7 @@ public class DownloadWorker
     private static List<ItemVO> getRequestedItemVOs(final Collection<RequestedItem> requestedItems) throws StoreAccessException
     {
         // TODO move fedoraFileStoreAccess: saves transactions
-        // TODO merge with FileMetadataPanel.getFileItemsRecursively and
-        // FileExplorerUpdateCommand.createSidList
+        // TODO merge with FileMetadataPanel.getFileItemsRecursively and FileExplorerUpdateCommand.createSidList
         final List<ItemVO> itemVOs = new ArrayList<ItemVO>();
         final List<DmoStoreId> leaves = new ArrayList<DmoStoreId>();
         for (final RequestedItem requestItem : requestedItems)

@@ -7,13 +7,13 @@ import nl.knaw.dans.easy.servicelayer.services.EasyService;
 
 /**
  * Class implementing general methods of Easy services.
- * 
+ *
  * @author ecco
  */
 public abstract class AbstractEasyService implements EasyService
 {
     /**
-     * {@inheritDoc}
+     * {@inheritDoc} 
      */
     public String getServiceTypeName()
     {
@@ -21,9 +21,9 @@ public abstract class AbstractEasyService implements EasyService
     }
 
     /**
-     * Get a short description of this service. Implementers of this abstract class should override the
-     * method 'getServiceDescription:String'.
-     * 
+     * Get a short description of this service. Implementers of this abstract class should override the method
+     * 'getServiceDescription:String'.
+     *
      * @return a dummy description
      */
     public String getServiceDescription()

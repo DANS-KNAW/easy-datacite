@@ -18,7 +18,6 @@ import nl.knaw.dans.easy.domain.model.ECollectionEntry;
  * {@link ECollection#values()}.
  * <p/>
  * The working can be illustrated with set mathematics.
- * 
  * <pre>
  * Let original    o = {1, 2, 3, 4, 5}<br/>
  * Let update      u = {3, 4, 6, 7}<br/>

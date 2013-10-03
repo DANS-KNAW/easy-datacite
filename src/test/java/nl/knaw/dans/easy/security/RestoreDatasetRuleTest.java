@@ -43,7 +43,6 @@ public class RestoreDatasetRuleTest
     {
         EasyMock.reset(dataset, user);
         EasyMock.expect(user.isActive()).andReturn(true).times(2);
-        // EasyMock.expect(dataset.getAdministrativeState()).andReturn(AdministrativeState.DELETED).times(2);
         EasyMock.expect(user.hasRole(Role.ADMIN)).andReturn(false).times(2);
         EasyMock.expect(user.isAnonymous()).andReturn(false).anyTimes();
 

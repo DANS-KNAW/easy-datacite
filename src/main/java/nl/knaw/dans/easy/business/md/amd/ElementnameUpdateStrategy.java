@@ -9,10 +9,12 @@ import org.dom4j.Element;
 import org.dom4j.tree.DefaultElement;
 
 /**
- * Replace or add {@link AdditionalContent} with a certain id. Implementation of
- * {@link AdditionalMetadataUpdateStrategy} that adds or replaces additional metadata contained in a flat
- * list of name-value pairs where element-name is name. This type of additional FileItem metadata is used
+ * Replace or add {@link AdditionalContent} with a certain id.
+ * Implementation of {@link AdditionalMetadataUpdateStrategy} that adds or replaces additional metadata contained in
+ * a flat list of name-value pairs where element-name is name. This type of additional FileItem metadata is used
  * by archaeologists.
+ * 
+ *
  */
 public class ElementnameUpdateStrategy implements AdditionalMetadataUpdateStrategy
 {
@@ -36,8 +38,7 @@ public class ElementnameUpdateStrategy implements AdditionalMetadataUpdateStrate
         AdditionalContent oldAdditionalContent = originalAddMd.getAdditionalContent(additionalId);
         if (oldAdditionalContent == null)
         {
-            originalAddMd.addAdditionalContent(newAdditionalContent); // add everything, nothing to
-                                                                      // replace
+            originalAddMd.addAdditionalContent(newAdditionalContent); // add everything, nothing to replace
         }
         else
         {

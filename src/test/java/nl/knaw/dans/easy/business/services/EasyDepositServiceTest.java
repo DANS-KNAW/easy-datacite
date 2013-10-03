@@ -36,20 +36,9 @@ public class EasyDepositServiceTest extends TestHelper
         DepositDiscipline discipline = eds.getDiscipline("sociology");
 
         FormDescriptor fd = discipline.getEmdFormDescriptor();
-        // System.out.println(fd.asXMLString(4));
-        // element has value:
-        // <shortHelpResourceKey>descriptor.shortHelpResourceKey</shortHelpResourceKey>
-        // assertEquals("descriptor.shortHelpResourceKey", fd.getShortHelpResourceKey());
 
         TermPanelDefinition dcCreator = fd.getTermPanelDefinition("dc.creator");
         assertSame(fd, dcCreator.getParent());
-        // element is empty: <shortHelpResourceKey></shortHelpResourceKey>
-        // assertEquals("", dcCreator.getShortHelpResourceKey());
-
-        // ChoiceListDefinition clDef = dcCreator.getChoiceListDefinition("listId");
-        // assertSame(dcCreator, clDef.getParent());
-        // // element is not there: inherit from parent.
-        // assertEquals("", clDef.getShortHelpResourceKey());
 
         // test MetadataFormat
         assertEquals(ApplicationSpecific.MetadataFormat.SOCIOLOGY, discipline.getMetadataFormat());

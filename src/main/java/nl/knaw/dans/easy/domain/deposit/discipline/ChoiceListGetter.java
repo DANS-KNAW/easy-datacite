@@ -56,10 +56,6 @@ public class ChoiceListGetter
             return ChoiceListCache.getInstance().getList(listId, locale);
     }
 
-    /*
-     * -------------------------------- DISCIPLINES CUSTOM CHOICE GETTER --------------------------------
-     */
-
     private ChoiceList getDisciplinesChoiceList(String listId, Locale locale) throws DomainException, ObjectNotFoundException
     {
         DisciplineContainer rootDiscipline = DisciplineCollectionImpl.getInstance().getRootDiscipline();

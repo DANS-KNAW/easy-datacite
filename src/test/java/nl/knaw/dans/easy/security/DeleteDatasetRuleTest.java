@@ -47,11 +47,13 @@ public class DeleteDatasetRuleTest
         assertEquals(proposition, rule.getProposition());
     }
 
+    // @formatter:off
     /*
      * Because of efficient equation have to test following table: 0x0x --> false, false 100x --> false,
      * false 11xx --> true, true 0x10 --> false, false 0x11 --> true, true where 0: partial proposition
      * is 'false', 1: partial proposition is 'true' and x: partial proposition 'does not matter'.
      */
+    // @formatter:on
 
     @Test
     public void test0x0x()

@@ -33,8 +33,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Note: If an existing FolderItem with name 'X' during an update is replaced by a file (not a directory)
- * with name 'X' an exception will be thrown.
+ * Note: If an existing FolderItem with name 'X' during an update is replaced by a file (not a directory) with name 'X'
+ * an exception will be thrown.
  * 
  * @author ecco Oct 26, 2009
  */
@@ -147,7 +147,7 @@ public class ItemIngester extends AbstractWorker
         }
         catch (UnitOfWorkInterruptException e)
         {
-            // rollBack(e.getMessage());
+            //rollBack(e.getMessage());
             throw new UnsupportedOperationException("Rollback not implemented");
         }
         catch (RepositoryException e)
@@ -325,8 +325,7 @@ public class ItemIngester extends AbstractWorker
         public DefaultDelegator(Dataset dataset)
         {
             AccessCategory accessCategory = dataset.getAccessCategory();
-            visibleToOnIngest = VisibleTo.ANONYMOUS; // all files are visible, unless an archivist
-                                                     // decides differently.
+            visibleToOnIngest = VisibleTo.ANONYMOUS; // all files are visible, unless an archivist decides differently.
             accesibleTonIngest = AccessibleTo.translate(accessCategory);
         }
 

@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
 public class EasyDepositService extends AbstractEasyService implements DepositService
 {
 
-    // public static final String CONF_LOCATION = "easy-business/discipline/emd/form-description";
+    //public static final String                CONF_LOCATION     = "easy-business/discipline/emd/form-description";
 
     private static Logger logger = LoggerFactory.getLogger(EasyDepositService.class);
 

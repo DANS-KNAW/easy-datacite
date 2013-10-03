@@ -141,8 +141,6 @@ public class ArchisCollector
 
     private void addElement(Element element)
     {
-        // logger.debug("element.name=" + element.getName() + " element.value=" +
-        // element.getTextNormalize());
         String value = element.getTextNormalize();
         if (StringUtils.isBlank(value) || "Onbekend".equalsIgnoreCase(value) || "Niet van toepassing".equalsIgnoreCase(value))
         {
@@ -272,14 +270,6 @@ public class ArchisCollector
     @SuppressWarnings("unused")
     private void addX_COORD(String value)
     {
-        // try
-        // {
-        // currentX = Double.valueOf(value);
-        // }
-        // catch (NumberFormatException e)
-        // {
-        // logger.warn("Unexpected number format for Double: " + value);
-        // }
         currentX = value;
     }
 
@@ -291,15 +281,10 @@ public class ArchisCollector
         {
             if (currentX != null)
             {
-                // Double yPoint = Double.valueOf(value);
                 String yPoint = value;
                 easyMetadata.getEmdCoverage().getEasSpatial().add(new Spatial(currentPlace, new Spatial.Point(SPATIAL_POINT_SCHEME, currentX, yPoint)));
             }
         }
-        // catch (NumberFormatException e)
-        // {
-        // logger.warn("Unexpected number format for Double: " + value);
-        // }
         finally
         {
             currentX = null;
