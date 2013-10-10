@@ -1,0 +1,3354 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<foxml:digitalObject xmlns:foxml="info:fedora/fedora-system:def/foxml#" VERSION="1.1" PID="easy-sdep:oai-item1">
+    <foxml:objectProperties>
+        <foxml:property NAME="info:fedora/fedora-system:def/model#label" VALUE="Deployment of easy-sdef:oai-item1"/>
+        <foxml:property NAME="info:fedora/fedora-system:def/model#state" VALUE="Active"/>
+    </foxml:objectProperties>
+    <foxml:datastream ID="DC" CONTROL_GROUP="X" STATE="A" VERSIONABLE="true">
+        <foxml:datastreamVersion ID="DC1.0" LABEL="Dublin Core Record for this object" CREATED="2012-04-19T16:20:17.138+02:00" MIMETYPE="text/xml" FORMAT_URI="http://www.openarchives.org/OAI/2.0/oai_dc/" SIZE="655">
+            <foxml:xmlContent>
+            <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+  <dc:title>Deployment of easy-sdef:oai-item1</dc:title>
+  <dc:creator>henk van den berg</dc:creator>
+  <dc:description>This is a Service Deployment object that defines
+						the bindings for the operations defined in easy-sdef:oai-item1.</dc:description>
+  <dc:contributor>Milco Wansleben</dc:contributor>
+  <dc:identifier>easy-sdep:oai-item1</dc:identifier>
+</oai_dc:dc>
+            </foxml:xmlContent>
+        </foxml:datastreamVersion>
+    </foxml:datastream>
+    <foxml:datastream ID="RELS-EXT" CONTROL_GROUP="X" STATE="A" VERSIONABLE="true">
+        <foxml:datastreamVersion ID="RELS-EXT1.0" LABEL="RDF Statements about this object" CREATED="2008-07-21T19:25:07.250+02:00" MIMETYPE="application/rdf+xml" FORMAT_URI="info:fedora/fedora-system:FedoraRELSExt-1.0" SIZE="575">
+            <foxml:xmlContent>
+            <rdf:RDF xmlns:fedora-model="info:fedora/fedora-system:def/model#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+					<rdf:Description rdf:about="info:fedora/easy-sdep:oai-item1">
+						<fedora-model:hasModel rdf:resource="info:fedora/fedora-system:ServiceDeployment-3.0"/>
+						<fedora-model:isDeploymentOf rdf:resource="info:fedora/easy-sdef:oai-item1"/>
+						<fedora-model:isContractorOf rdf:resource="info:fedora/easy-model:oai-item1"/>
+					</rdf:Description>
+				</rdf:RDF>
+            </foxml:xmlContent>
+        </foxml:datastreamVersion>
+    </foxml:datastream>
+    <foxml:datastream ID="METHODMAP" CONTROL_GROUP="X" STATE="A" VERSIONABLE="true">
+        <foxml:datastreamVersion ID="METHODMAP1.0" LABEL="Deployment Method Map" CREATED="2008-07-21T13:49:35.703+02:00" MIMETYPE="text/xml" FORMAT_URI="info:fedora/fedora-system:FedoraSDepMethodMap-1.1" SIZE="1629">
+            <foxml:xmlContent>
+            <fmm:MethodMap xmlns:fmm="http://fedora.comm.nsdlib.org/service/methodmap" name="MethodMap">
+					<fmm:Method operationLabel="Get metadata formatted as OAI_DC" operationName="getOAI_DC" wsdlMsgName="getOAI_DCRequest" wsdlMsgOutput="dissemResponse">
+						<fmm:DatastreamInputParm parmName="DC" passBy="URL_REF" required="true"/>
+						<fmm:DatastreamInputParm parmName="DC_OAI_DC.xsl" passBy="URL_REF" required="true"/>
+						<fmm:MethodReturnType wsdlMsgName="dissemResponse" wsdlMsgTOMIME="text/xml"/>
+					</fmm:Method>
+					<fmm:Method operationLabel="Get metadata formatted as didl" operationName="getDidl" wsdlMsgName="getDidlRequest" wsdlMsgOutput="dissemResponse">
+						<fmm:DatastreamInputParm parmName="EMD" passBy="URL_REF" required="true"/>
+						<fmm:DatastreamInputParm parmName="EMD_didl.xsl" passBy="URL_REF" required="true"/>
+						<fmm:MethodReturnType wsdlMsgName="dissemResponse" wsdlMsgTOMIME="text/xml"/>
+					</fmm:Method>
+					
+					<fmm:Method operationLabel="Get metadata formatted as Carare" operationName="getCarare" wsdlMsgName="getCarareRequest" wsdlMsgOutput="dissemResponse">
+						<fmm:DatastreamInputParm parmName="EMD" passBy="URL_REF" required="true"/>
+						<fmm:DatastreamInputParm parmName="EMD_carare.xsl" passBy="URL_REF" required="true"/>
+						<fmm:MethodReturnType wsdlMsgName="dissemResponse" wsdlMsgTOMIME="text/xml"/>
+					</fmm:Method>
+					
+				</fmm:MethodMap>
+            </foxml:xmlContent>
+        </foxml:datastreamVersion>
+    </foxml:datastream>
+    <foxml:datastream ID="DSINPUTSPEC" CONTROL_GROUP="X" STATE="A" VERSIONABLE="true">
+        <foxml:datastreamVersion ID="DSINPUTSPEC1.0" LABEL="Datastream Input Specification" CREATED="2008-07-21T13:49:35.703+02:00" MIMETYPE="text/xml" FORMAT_URI="info:fedora/fedora-system:FedoraDSInputSpec-1.1" SIZE="1531">
+            <foxml:xmlContent>
+            <fbs:DSInputSpec xmlns:fbs="http://fedora.comm.nsdlib.org/service/bindspec" label="Datastream Input Specification">
+					<fbs:DSInput DSMax="1" DSMin="1" DSOrdinality="false" wsdlMsgPartName="DC">
+						<fbs:DSInputLabel>Source XML</fbs:DSInputLabel>
+						<fbs:DSMIME>text/xml</fbs:DSMIME>
+						<fbs:DSInputInstruction/>
+					</fbs:DSInput>
+					<fbs:DSInput DSMax="1" DSMin="1" DSOrdinality="false" wsdlMsgPartName="DC_OAI_DC.xsl" pid="easy-sdep:oai-item1">
+						<fbs:DSInputLabel>XSL Stylesheet</fbs:DSInputLabel>
+						<fbs:DSMIME>text/xml</fbs:DSMIME>
+						<fbs:DSInputInstruction/>
+					</fbs:DSInput>
+					<fbs:DSInput DSMax="1" DSMin="1" DSOrdinality="false" wsdlMsgPartName="EMD">
+						<fbs:DSInputLabel>Source XML</fbs:DSInputLabel>
+						<fbs:DSMIME>text/xml</fbs:DSMIME>
+						<fbs:DSInputInstruction/>
+					</fbs:DSInput>
+					<fbs:DSInput DSMax="1" DSMin="1" DSOrdinality="false" wsdlMsgPartName="EMD_didl.xsl" pid="easy-sdep:oai-item1">
+						<fbs:DSInputLabel>XSL Stylesheet</fbs:DSInputLabel>
+						<fbs:DSMIME>text/xml</fbs:DSMIME>
+						<fbs:DSInputInstruction/>
+					</fbs:DSInput>
+					
+					<fbs:DSInput DSMax="1" DSMin="1" DSOrdinality="false" wsdlMsgPartName="EMD_carare.xsl" pid="easy-sdep:oai-item1">
+						<fbs:DSInputLabel>XSL Stylesheet</fbs:DSInputLabel>
+						<fbs:DSMIME>text/xml</fbs:DSMIME>
+						<fbs:DSInputInstruction/>
+					</fbs:DSInput>
+					
+				</fbs:DSInputSpec>
+            </foxml:xmlContent>
+        </foxml:datastreamVersion>
+    </foxml:datastream>
+    <foxml:datastream ID="WSDL" CONTROL_GROUP="X" STATE="A" VERSIONABLE="true">
+        <foxml:datastreamVersion ID="WSDL1.0" LABEL="WSDL Bindings" CREATED="2012-04-19T16:20:17.145+02:00" MIMETYPE="text/xml" FORMAT_URI="http://schemas.xmlsoap.org/wsdl/" SIZE="3860">
+            <foxml:xmlContent>
+            <wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap" xmlns:soapenc="http://schemas.xmlsoap.org/wsdl/soap/encoding" xmlns:this="urn:thisNamespace" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Operations on NSDL metadata objects" targetNamespace="urn:thisNamespace">
+					<wsdl:types>
+						<xsd:schema targetNamespace="urn:thisNamespace">
+							<xsd:simpleType name="inputType">
+								<xsd:restriction base="xsd:string">
+								</xsd:restriction>
+							</xsd:simpleType>
+							<xsd:simpleType name="sourceType">
+								<xsd:restriction base="xsd:string"/>
+							</xsd:simpleType>
+							<xsd:simpleType name="styleType">
+								<xsd:restriction base="xsd:string"/>
+							</xsd:simpleType>
+						</xsd:schema>
+					</wsdl:types>
+					<wsdl:message name="getOAI_DCRequest">
+						<wsdl:part name="DC" type="this:inputType"/>
+						<wsdl:part name="DC_OAI_DC.xsl" type="this:inputType"/>
+					</wsdl:message>
+					<wsdl:message name="getDidlRequest">
+						<wsdl:part name="EMD" type="this:inputType"/>
+						<wsdl:part name="EMD_didl.xsl" type="this:inputType"/>
+					</wsdl:message>
+					
+					<wsdl:message name="getCarareRequest">
+						<wsdl:part name="EMD" type="this:inputType"/>
+						<wsdl:part name="EMD_carare.xsl" type="this:inputType"/>
+					</wsdl:message>
+					
+					<wsdl:message name="response">
+						<wsdl:part name="response" type="xsd:base64Binary"/>
+					</wsdl:message>
+					<wsdl:portType name="portType">
+						<wsdl:operation name="getOAI_DC">
+							<wsdl:input message="this:getOAI_DCRequest"/>
+							<wsdl:output message="this:response"/>
+						</wsdl:operation>
+						<wsdl:operation name="getDidl">
+							<wsdl:input message="this:getDidlRequest"/>
+							<wsdl:output message="this:response"/>
+						</wsdl:operation>
+						
+						<wsdl:operation name="getCarare">
+							<wsdl:input message="this:getCarareRequest"/>
+							<wsdl:output message="this:response"/>
+						</wsdl:operation>
+						
+					</wsdl:portType>
+					<wsdl:service name="N/A">
+						<wsdl:port binding="this:binding" name="port">
+							<http:address location="http://local.fedora.server/"/>
+						</wsdl:port>
+					</wsdl:service>
+					<wsdl:binding name="binding" type="this:portType">
+						<http:binding verb="GET"/>
+						<wsdl:operation name="getOAI_DC">
+							<http:operation location="saxon/SaxonServlet?source=(DC)&amp;style=(DC_OAI_DC.xsl)&amp;clear-stylesheet-cache=true"/>
+							<wsdl:input>
+								<http:urlReplacement/>
+							</wsdl:input>
+							<wsdl:output>
+								<mime:content type="text/xml"/>
+							</wsdl:output>
+						</wsdl:operation>
+						<wsdl:operation name="getDidl">
+							<http:operation location="saxon/SaxonServlet?source=(EMD)&amp;style=(EMD_didl.xsl)&amp;clear-stylesheet-cache=true"/>
+							<wsdl:input>
+								<http:urlReplacement/>
+							</wsdl:input>
+							<wsdl:output>
+								<mime:content type="text/xml"/>
+							</wsdl:output>
+						</wsdl:operation>
+						
+						<wsdl:operation name="getCarare">
+							<http:operation location="saxon/SaxonServlet?source=(EMD)&amp;style=(EMD_carare.xsl)&amp;clear-stylesheet-cache=true"/>
+							<wsdl:input>
+								<http:urlReplacement/>
+							</wsdl:input>
+							<wsdl:output>
+								<mime:content type="text/xml"/>
+							</wsdl:output>
+						</wsdl:operation>
+						
+					</wsdl:binding>
+				</wsdl:definitions>
+            </foxml:xmlContent>
+        </foxml:datastreamVersion>
+    </foxml:datastream>
+    <foxml:datastream ID="DC_OAI_DC.xsl" CONTROL_GROUP="X" STATE="A" VERSIONABLE="true">
+        <foxml:datastreamVersion ID="DC_OAI_DC.xsl1.0" LABEL="Stylesheet for transformation from DC to OAI_DC" CREATED="2012-04-19T16:20:17.146+02:00" MIMETYPE="text/xml" SIZE="726">
+            <foxml:xmlContent>
+            <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
+					<xsl:output method="xml" indent="yes" encoding="UTF-8"/>
+					<xsl:template match="/">
+						<oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+							<xsl:text>
+</xsl:text>
+							<xsl:for-each select="*">
+								<xsl:for-each select="*">
+									<xsl:copy-of select="."/>
+								</xsl:for-each>
+							</xsl:for-each>
+						</oai_dc:dc>
+					</xsl:template>
+				</xsl:stylesheet>
+            </foxml:xmlContent>
+        </foxml:datastreamVersion>
+    </foxml:datastream>
+    <foxml:datastream ID="EMD_didl.xsl" CONTROL_GROUP="X" STATE="A" VERSIONABLE="true">
+        <foxml:datastreamVersion ID="EMD_didl.xsl.3" LABEL="Stylesheet for transformation from EMD to didl" CREATED="2012-05-10T16:02:35.783+02:00" MIMETYPE="text/xml" SIZE="8639">
+            <foxml:xmlContent>
+            <xsl:stylesheet xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:didl="urn:mpeg:mpeg21:2002:02-DIDL-NS" xmlns:dii="urn:mpeg:mpeg21:2002:01-DII-NS" xmlns:dip="urn:mpeg:mpeg21:2005:01-DIP-NS" xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/" xmlns:emd="http://easy.dans.knaw.nl/easy/easymetadata/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" exclude-result-prefixes="emd eas dc" version="2.0">
+  <xsl:output encoding="UTF-8" indent="yes" method="xml"/>
+  <xsl:variable name="fedoraURL" select="'http://localhost:8080/fedora/'"/>
+  <xsl:variable name="viewDatasetURL" select="'http://easy.dans.knaw.nl/rest/datasets/'"/>
+  <xsl:template match="emd:easymetadata">
+    <didl:DIDL>
+      <xsl:attribute name="xsi:schemaLocation">
+        <xsl:call-template name="schema-locations"/>
+      </xsl:attribute>
+      <xsl:call-template name="item0"/>
+    </didl:DIDL>
+  </xsl:template>
+  <xsl:template name="schema-locations">
+    <xsl:text>urn:mpeg:mpeg21:2002:02-DIDL-NS </xsl:text>
+    <xsl:text>http://standards.iso.org/ittf/PubliclyAvailableStandards/MPEG-21_schema_files/did/didl.xsd </xsl:text>
+    <xsl:text>urn:mpeg:mpeg21:2002:01-DII-NS </xsl:text>
+    <xsl:text>http://standards.iso.org/ittf/PubliclyAvailableStandards/MPEG-21_schema_files/dii/dii.xsd </xsl:text>
+    <xsl:text>urn:mpeg:mpeg21:2005:01-DIP-NS </xsl:text>
+    <xsl:text>http://standards.iso.org/ittf/PubliclyAvailableStandards/MPEG-21_schema_files/dip/dip.xsd </xsl:text>
+    <xsl:text>http://purl.org/dc/terms/ </xsl:text>
+    <xsl:text>http://dublincore.org/schemas/xmls/qdc/dcterms.xsd</xsl:text>
+  </xsl:template>
+  <xsl:template name="item0">
+    <xsl:variable name="datasetId" select="//emd:identifier/dc:identifier[@eas:scheme='DMO_ID']/text()"/>
+    <xsl:variable name="datasetPage" select="concat($viewDatasetURL, $datasetId)"/>
+    <xsl:element name="didl:Item">
+      <xsl:element name="didl:Descriptor">
+        <xsl:element name="didl:Statement">
+          <xsl:attribute name="mimeType" select="'application/xml'"/>
+          <xsl:element name="dii:Identifier">
+            <xsl:value-of select="//emd:identifier/dc:identifier[@eas:scheme='PID']/text()"/>
+          </xsl:element>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="didl:Descriptor">
+        <xsl:element name="didl:Statement">
+          <xsl:attribute name="mimeType" select="'text/xml'"/>
+          <xsl:element name="dcterms:modified">
+            <xsl:value-of select="//emd:easymetadata/emd:date/eas:dateSubmitted[1]/text()"/>
+          </xsl:element>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="didl:Component">
+        <xsl:element name="didl:Resource">
+          <xsl:attribute name="mimeType" select="'application/html'"/>
+          <xsl:attribute name="ref">
+            <xsl:value-of select="$datasetPage"/>
+          </xsl:attribute>
+        </xsl:element>
+      </xsl:element>
+      <xsl:call-template name="oai_dc">
+        <xsl:with-param name="datasetId" select="$datasetId"/>
+      </xsl:call-template>
+      <xsl:call-template name="mods"/>
+      <xsl:call-template name="humanStartpage">
+        <xsl:with-param name="datasetPage" select="$datasetPage"/>
+      </xsl:call-template>
+      <xsl:call-template name="objectFile">
+        <xsl:with-param name="datasetPage" select="$datasetPage"/>
+      </xsl:call-template>
+    </xsl:element>
+  </xsl:template>
+  <xsl:template name="oai_dc">
+    <xsl:param name="datasetId"/>
+    <xsl:element name="didl:Item">
+      <xsl:element name="didl:Descriptor">
+        <xsl:element name="didl:Statement">
+          <xsl:attribute name="mimeType" select="'application/xml'"/>
+          <xsl:element name="dip:ObjectType">
+            <xsl:value-of select="'info:eu-repo/semantics/descriptiveMetadata'"/>
+          </xsl:element>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="didl:Component">
+        <xsl:element name="didl:Resource">
+          <xsl:attribute name="mimeType" select="'application/xml'"/>
+          <xsl:variable name="dcUrl" select="concat($fedoraURL, 'get/', $datasetId, '/easy-sdef:oai-item1/getOAI_DC')"/>
+          <xsl:copy-of select="document($dcUrl)/*"/>
+        </xsl:element>
+      </xsl:element>
+    </xsl:element>
+  </xsl:template>
+  <xsl:template name="mods">
+    <xsl:element name="didl:Item">
+      <xsl:element name="didl:Descriptor">
+        <xsl:element name="didl:Statement">
+          <xsl:attribute name="mimeType" select="'application/xml'"/>
+          <xsl:element name="dip:ObjectType">
+            <xsl:value-of select="'info:eu-repo/semantics/descriptiveMetadata'"/>
+          </xsl:element>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="didl:Component">
+        <xsl:element name="didl:Resource">
+          <xsl:attribute name="mimeType" select="'application/xml'"/>
+          <xsl:element name="mods">
+            <xsl:attribute name="version" select="3.4"/>
+            <xsl:attribute name="xsi:schemaLocation" select="'http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-4.xsd'"/>
+            <xsl:element name="titleInfo">
+              <xsl:for-each select="//emd:easymetadata/emd:title/dc:title">
+                <xsl:element name="title">
+                  <xsl:call-template name="extract"/>
+                </xsl:element>
+              </xsl:for-each>
+            </xsl:element>
+            <xsl:if test="//emd:easymetadata/emd:title/dcterms:alternative">
+              <xsl:element name="titleInfo">
+                <xsl:attribute name="type" select="'alternative'"/>
+                <xsl:for-each select="//emd:easymetadata/emd:title/dcterms:alternative">
+                  <xsl:element name="title">
+                    <xsl:call-template name="extract"/>
+                  </xsl:element>
+                </xsl:for-each>
+              </xsl:element>
+            </xsl:if>
+          </xsl:element>
+        </xsl:element>
+      </xsl:element>
+    </xsl:element>
+  </xsl:template>
+  <xsl:template name="extract">
+    <xsl:if test="@xml:lang">
+      <xsl:attribute name="xml:lang" select="@xml:lang"/>
+    </xsl:if>
+    <xsl:value-of select="text()"/>
+  </xsl:template>
+  <xsl:template name="humanStartpage">
+    <xsl:param name="datasetPage"/>
+    <xsl:element name="didl:Item">
+      <xsl:element name="didl:Descriptor">
+        <xsl:element name="didl:Statement">
+          <xsl:attribute name="mimeType" select="'application/html'"/>
+          <xsl:element name="dip:ObjectType">
+            <xsl:value-of select="'info:eu-repo/semantics/humanStartPage'"/>
+          </xsl:element>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="didl:Component">
+        <xsl:element name="didl:Resource">
+          <xsl:attribute name="ref" select="$datasetPage"/>
+          <xsl:attribute name="mimeType" select="'application/html'"/>
+        </xsl:element>
+      </xsl:element>
+    </xsl:element>
+  </xsl:template>
+  <xsl:template name="objectFile">
+    <xsl:param name="datasetPage"/>
+    <xsl:element name="didl:Item">
+      <xsl:element name="didl:Descriptor">
+        <xsl:element name="didl:Statement">
+          <xsl:attribute name="mimeType" select="'application/html'"/>
+          <xsl:element name="dip:ObjectType">
+            <xsl:value-of select="'info:eu-repo/semantics/objectFile'"/>
+          </xsl:element>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="didl:Component">
+        <xsl:element name="didl:Resource">
+          <xsl:attribute name="ref" select="$datasetPage"/>
+          <xsl:attribute name="mimeType" select="'application/html'"/>
+        </xsl:element>
+      </xsl:element>
+    </xsl:element>
+  </xsl:template>
+</xsl:stylesheet>
+            </foxml:xmlContent>
+        </foxml:datastreamVersion>
+        <foxml:datastreamVersion ID="EMD_didl.xsl1.0" LABEL="Stylesheet for transformation from EMD to didl" CREATED="2012-04-19T16:20:17.146+02:00" MIMETYPE="text/xml" SIZE="8707">
+            <foxml:xmlContent>
+            <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:didl="urn:mpeg:mpeg21:2002:02-DIDL-NS" xmlns:dii="urn:mpeg:mpeg21:2002:01-DII-NS" xmlns:dip="urn:mpeg:mpeg21:2002:01-DIP-NS" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:emd="http://easy.dans.knaw.nl/easy/easymetadata/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0">
+					<xsl:output method="xml" indent="yes" encoding="UTF-8"/>
+
+					
+					<xsl:variable name="fedoraURL" select="'http://localhost:8080/fedora/'"/>
+					<xsl:variable name="viewDatasetURL" select="'http://easy.dans.knaw.nl/rest/datasets/'"/>
+
+					<xsl:template match="emd:easymetadata">
+						<xsl:result-document exclude-result-prefixes="emd eas">
+							<didl:DIDL>
+								<xsl:attribute name="xsi:schemaLocation">
+				                    <xsl:call-template name="schema-locations"/>
+				                </xsl:attribute>
+								<xsl:call-template name="item0"/>
+							</didl:DIDL>
+						</xsl:result-document>
+					</xsl:template>
+
+					<xsl:template name="schema-locations">
+						<xsl:text>urn:mpeg:mpeg21:2002:02-DIDL-NS </xsl:text>
+						<xsl:text>http://standards.iso.org/ittf/PubliclyAvailableStandards/MPEG-21_schema_files/did/didl.xsd </xsl:text>
+
+						<xsl:text>urn:mpeg:mpeg21:2002:01-DII-NS </xsl:text>
+						<xsl:text>http://standards.iso.org/ittf/PubliclyAvailableStandards/MPEG-21_schema_files/dii/dii.xsd </xsl:text>
+
+						<xsl:text>urn:mpeg:mpeg21:2005:01-DIP-NS </xsl:text>
+						<xsl:text>http://standards.iso.org/ittf/PubliclyAvailableStandards/MPEG-21_schema_files/dip/dip.xsd</xsl:text>
+					</xsl:template>
+
+					<xsl:template name="item0">
+						<xsl:variable name="datasetId" select="//emd:identifier/dc:identifier[@eas:scheme='DMO_ID']/text()"/>
+						<xsl:variable name="datasetPage" select="concat($viewDatasetURL, $datasetId)"/>
+
+						<xsl:element name="didl:Item">
+							<xsl:element name="didl:Descriptor">
+								<xsl:element name="didl:Statement">
+									<xsl:attribute name="mimeType" select="'application/xml'"/>
+									<xsl:element name="dii:Identifier">
+										<xsl:value-of select="//emd:identifier/dc:identifier[@eas:scheme='PID']/text()"/>
+									</xsl:element>
+								</xsl:element>
+							</xsl:element>
+							<xsl:element name="didl:Descriptor">
+								<xsl:element name="didl:Statement">
+									<xsl:attribute name="mimeType" select="'text/xml'"/>
+									<xsl:element name="dcterms:modified">
+										<xsl:value-of select="//emd:easymetadata/emd:date/eas:dateSubmitted[1]/text()"/>
+									</xsl:element>
+								</xsl:element>
+							</xsl:element>
+							<xsl:element name="didl:Component">
+								<xsl:element name="didl:Resource">
+									<xsl:attribute name="mimeType" select="'application/html'"/>
+									<xsl:attribute name="ref">
+				                        <xsl:value-of select="$datasetPage"/>
+				                    </xsl:attribute>
+								</xsl:element>
+							</xsl:element>
+							<xsl:call-template name="oai_dc">
+								<xsl:with-param name="datasetId" select="$datasetId"/>
+							</xsl:call-template>
+							<xsl:call-template name="mods"/>
+							<xsl:call-template name="humanStartpage">
+								<xsl:with-param name="datasetPage" select="$datasetPage"/>
+							</xsl:call-template>
+							<xsl:call-template name="objectFile">
+								<xsl:with-param name="datasetPage" select="$datasetPage"/>
+							</xsl:call-template>
+						</xsl:element>
+					</xsl:template>
+
+					<xsl:template name="oai_dc">
+						<xsl:param name="datasetId"/>
+						<xsl:element name="didl:Item">
+							<xsl:element name="didl:Descriptor">
+								<xsl:element name="didl:Statement">
+									<xsl:attribute name="mimeType" select="'application/xml'"/>
+									<xsl:element name="dip:ObjectType">
+										<xsl:value-of select="'info:eu-repo/semantics/descriptiveMetadata'"/>
+									</xsl:element>
+								</xsl:element>
+							</xsl:element>
+							<xsl:element name="didl:Component">
+								<xsl:element name="didl:Resource ">
+									<xsl:attribute name="mimeType" select="'application/xml'"/>
+									
+									
+									<xsl:variable name="dcUrl" select="concat($fedoraURL, 'get/', $datasetId, '/easy-sdef:oai-item1/getOAI_DC')"/>
+									<xsl:copy-of select="document($dcUrl)/*"/>
+								</xsl:element>
+							</xsl:element>
+						</xsl:element>
+					</xsl:template>
+
+					<xsl:template name="mods">
+						<xsl:element name="didl:Item">
+							<xsl:element name="didl:Descriptor">
+								<xsl:element name="didl:Statement">
+									<xsl:attribute name="mimeType" select="'application/xml'"/>
+									<xsl:element name="dip:ObjectType">
+										<xsl:value-of select="'info:eu-repo/semantics/descriptiveMetadata'"/>
+									</xsl:element>
+								</xsl:element>
+							</xsl:element>
+							<xsl:element name="didl:Component">
+								<xsl:element name="didl:Resource">
+									<xsl:attribute name="mimeType" select="'application/xml'"/>
+									<xsl:element name="mods">
+										<xsl:attribute name="version" select="3.4"/>
+										<xsl:attribute name="xsi:schemaLocation" select="'http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-4.xsd'"/>
+										<xsl:element name="titleInfo">
+											<xsl:for-each select="//emd:easymetadata/emd:title/dc:title">
+												<xsl:element name="title">
+													<xsl:call-template name="extract"/>
+												</xsl:element>
+											</xsl:for-each>
+										</xsl:element>
+										<xsl:if test="//emd:easymetadata/emd:title/dcterms:alternative">
+											<xsl:element name="titleInfo">
+												<xsl:attribute name="type" select="'alternative'"/>
+												<xsl:for-each select="//emd:easymetadata/emd:title/dcterms:alternative">
+													<xsl:element name="title">
+														<xsl:call-template name="extract"/>
+													</xsl:element>
+												</xsl:for-each>
+											</xsl:element>
+										</xsl:if>
+									</xsl:element>
+								</xsl:element>
+							</xsl:element>
+						</xsl:element>
+					</xsl:template>
+
+					<xsl:template name="extract">
+						<xsl:if test="@xml:lang">
+							<xsl:attribute name="xml:lang" select="@xml:lang"/>
+						</xsl:if>
+						<xsl:value-of select="text()"/>
+					</xsl:template>
+
+					<xsl:template name="humanStartpage">
+						<xsl:param name="datasetPage"/>
+						<xsl:element name="didl:Item">
+							<xsl:element name="didl:Descriptor">
+								<xsl:element name="didl:Statement">
+									<xsl:attribute name="mimeType" select="'application/html'"/>
+									<xsl:element name="dip:ObjectType">
+										<xsl:value-of select="'info:eu-repo/semantics/humanStartPage'"/>
+									</xsl:element>
+								</xsl:element>
+							</xsl:element>
+							<xsl:element name="didl:Component">
+								<xsl:element name="didl:Resource">
+									<xsl:attribute name="ref" select="$datasetPage"/>
+									<xsl:attribute name="mimeType" select="'application/html'"/>
+								</xsl:element>
+							</xsl:element>
+						</xsl:element>
+					</xsl:template>
+
+					<xsl:template name="objectFile">
+						<xsl:param name="datasetPage"/>
+						<xsl:element name="didl:Item">
+							<xsl:element name="didl:Descriptor">
+								<xsl:element name="didl:Statement">
+									<xsl:attribute name="mimeType" select="'application/html'"/>
+									<xsl:element name="dip:ObjectType">										
+<xsl:value-of select="'info:eu-repo/semantics/objectFile'"/>
+									</xsl:element>
+								</xsl:element>
+							</xsl:element>
+							<xsl:element name="didl:Component">
+								<xsl:element name="didl:Resource">
+									<xsl:attribute name="ref" select="$datasetPage"/>
+									<xsl:attribute name="mimeType" select="'application/html'"/>
+								</xsl:element>
+							</xsl:element>
+						</xsl:element>
+					</xsl:template>
+
+				</xsl:stylesheet>
+            </foxml:xmlContent>
+        </foxml:datastreamVersion>
+        <foxml:datastreamVersion ID="EMD_didl.xsl.1" LABEL="Stylesheet for transformation from EMD to didl" CREATED="2012-04-20T09:57:41.597+02:00" MIMETYPE="text/xml" SIZE="8573">
+            <foxml:xmlContent>
+            <xsl:stylesheet xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:didl="urn:mpeg:mpeg21:2002:02-DIDL-NS" xmlns:dii="urn:mpeg:mpeg21:2002:01-DII-NS" xmlns:dip="urn:mpeg:mpeg21:2002:01-DIP-NS" xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/" xmlns:emd="http://easy.dans.knaw.nl/easy/easymetadata/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
+  <xsl:output encoding="UTF-8" indent="yes" method="xml"/>
+  <xsl:variable name="fedoraURL" select="'http://localhost:8080/fedora/'"/>
+  <xsl:variable name="viewDatasetURL" select="'http://easy.dans.knaw.nl/rest/datasets/'"/>
+  <xsl:template match="emd:easymetadata">
+    <xsl:result-document exclude-result-prefixes="emd eas">
+      <didl:DIDL>
+        <xsl:attribute name="xsi:schemaLocation">
+          <xsl:call-template name="schema-locations"/>
+        </xsl:attribute>
+        <xsl:call-template name="item0"/>
+      </didl:DIDL>
+    </xsl:result-document>
+  </xsl:template>
+  <xsl:template name="schema-locations">
+    <xsl:text>urn:mpeg:mpeg21:2002:02-DIDL-NS </xsl:text>
+    <xsl:text>http://standards.iso.org/ittf/PubliclyAvailableStandards/MPEG-21_schema_files/did/didl.xsd </xsl:text>
+    <xsl:text>urn:mpeg:mpeg21:2002:01-DII-NS </xsl:text>
+    <xsl:text>http://standards.iso.org/ittf/PubliclyAvailableStandards/MPEG-21_schema_files/dii/dii.xsd </xsl:text>
+    <xsl:text>urn:mpeg:mpeg21:2005:01-DIP-NS </xsl:text>
+    <xsl:text>http://standards.iso.org/ittf/PubliclyAvailableStandards/MPEG-21_schema_files/dip/dip.xsd</xsl:text>
+  </xsl:template>
+  <xsl:template name="item0">
+    <xsl:variable name="datasetId" select="//emd:identifier/dc:identifier[@eas:scheme='DMO_ID']/text()"/>
+    <xsl:variable name="datasetPage" select="concat($viewDatasetURL, $datasetId)"/>
+    <xsl:element name="didl:Item">
+      <xsl:element name="didl:Descriptor">
+        <xsl:element name="didl:Statement">
+          <xsl:attribute name="mimeType" select="'application/xml'"/>
+          <xsl:element name="dii:Identifier">
+            <xsl:value-of select="//emd:identifier/dc:identifier[@eas:scheme='PID']/text()"/>
+          </xsl:element>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="didl:Descriptor">
+        <xsl:element name="didl:Statement">
+          <xsl:attribute name="mimeType" select="'text/xml'"/>
+          <xsl:element name="dcterms:modified">
+            <xsl:value-of select="//emd:easymetadata/emd:date/eas:dateSubmitted[1]/text()"/>
+          </xsl:element>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="didl:Component">
+        <xsl:element name="didl:Resource">
+          <xsl:attribute name="mimeType" select="'application/html'"/>
+          <xsl:attribute name="ref">
+            <xsl:value-of select="$datasetPage"/>
+          </xsl:attribute>
+        </xsl:element>
+      </xsl:element>
+      <xsl:call-template name="oai_dc">
+        <xsl:with-param name="datasetId" select="$datasetId"/>
+      </xsl:call-template>
+      <xsl:call-template name="mods"/>
+      <xsl:call-template name="humanStartpage">
+        <xsl:with-param name="datasetPage" select="$datasetPage"/>
+      </xsl:call-template>
+      <xsl:call-template name="objectFile">
+        <xsl:with-param name="datasetPage" select="$datasetPage"/>
+      </xsl:call-template>
+    </xsl:element>
+  </xsl:template>
+  <xsl:template name="oai_dc">
+    <xsl:param name="datasetId"/>
+    <xsl:element name="didl:Item">
+      <xsl:element name="didl:Descriptor">
+        <xsl:element name="didl:Statement">
+          <xsl:attribute name="mimeType" select="'application/xml'"/>
+          <xsl:element name="dip:ObjectType">
+            <xsl:value-of select="'info:eu-repo/semantics/descriptiveMetadata'"/>
+          </xsl:element>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="didl:Component">
+        <xsl:element name="didl:Resource ">
+          <xsl:attribute name="mimeType" select="'application/xml'"/>
+          <xsl:variable name="dcUrl" select="concat($fedoraURL, 'get/', $datasetId, '/easy-sdef:oai-item1/getOAI_DC')"/>
+          <xsl:copy-of select="document($dcUrl)/*"/>
+        </xsl:element>
+      </xsl:element>
+    </xsl:element>
+  </xsl:template>
+  <xsl:template name="mods">
+    <xsl:element name="didl:Item">
+      <xsl:element name="didl:Descriptor">
+        <xsl:element name="didl:Statement">
+          <xsl:attribute name="mimeType" select="'application/xml'"/>
+          <xsl:element name="dip:ObjectType">
+            <xsl:value-of select="'info:eu-repo/semantics/descriptiveMetadata'"/>
+          </xsl:element>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="didl:Component">
+        <xsl:element name="didl:Resource">
+          <xsl:attribute name="mimeType" select="'application/xml'"/>
+          <xsl:element name="mods">
+            <xsl:attribute name="version" select="3.4"/>
+            <xsl:attribute name="xsi:schemaLocation" select="'http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-4.xsd'"/>
+            <xsl:element name="titleInfo">
+              <xsl:for-each select="//emd:easymetadata/emd:title/dc:title">
+                <xsl:element name="title">
+                  <xsl:call-template name="extract"/>
+                </xsl:element>
+              </xsl:for-each>
+            </xsl:element>
+            <xsl:if test="//emd:easymetadata/emd:title/dcterms:alternative">
+              <xsl:element name="titleInfo">
+                <xsl:attribute name="type" select="'alternative'"/>
+                <xsl:for-each select="//emd:easymetadata/emd:title/dcterms:alternative">
+                  <xsl:element name="title">
+                    <xsl:call-template name="extract"/>
+                  </xsl:element>
+                </xsl:for-each>
+              </xsl:element>
+            </xsl:if>
+          </xsl:element>
+        </xsl:element>
+      </xsl:element>
+    </xsl:element>
+  </xsl:template>
+  <xsl:template name="extract">
+    <xsl:if test="@xml:lang">
+      <xsl:attribute name="xml:lang" select="@xml:lang"/>
+    </xsl:if>
+    <xsl:value-of select="text()"/>
+  </xsl:template>
+  <xsl:template name="humanStartpage">
+    <xsl:param name="datasetPage"/>
+    <xsl:element name="didl:Item">
+      <xsl:element name="didl:Descriptor">
+        <xsl:element name="didl:Statement">
+          <xsl:attribute name="mimeType" select="'application/html'"/>
+          <xsl:element name="dip:ObjectType">
+            <xsl:value-of select="'info:eu-repo/semantics/humanStartPage'"/>
+          </xsl:element>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="didl:Component">
+        <xsl:element name="didl:Resource">
+          <xsl:attribute name="ref" select="$datasetPage"/>
+          <xsl:attribute name="mimeType" select="'application/html'"/>
+        </xsl:element>
+      </xsl:element>
+    </xsl:element>
+  </xsl:template>
+  <xsl:template name="objectFile">
+    <xsl:param name="datasetPage"/>
+    <xsl:element name="didl:Item">
+      <xsl:element name="didl:Descriptor">
+        <xsl:element name="didl:Statement">
+          <xsl:attribute name="mimeType" select="'application/html'"/>
+          <xsl:element name="dip:ObjectType">
+            <xsl:value-of select="'info:eu-repo/semantics/objectFile'"/>
+          </xsl:element>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="didl:Component">
+        <xsl:element name="didl:Resource">
+          <xsl:attribute name="ref" select="$datasetPage"/>
+          <xsl:attribute name="mimeType" select="'application/html'"/>
+        </xsl:element>
+      </xsl:element>
+    </xsl:element>
+  </xsl:template>
+</xsl:stylesheet>
+            </foxml:xmlContent>
+        </foxml:datastreamVersion>
+        <foxml:datastreamVersion ID="EMD_didl.xsl.2" LABEL="Stylesheet for transformation from EMD to didl" CREATED="2012-05-09T13:11:50.430+02:00" MIMETYPE="text/xml" SIZE="8640">
+            <foxml:xmlContent>
+            <xsl:stylesheet xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:didl="urn:mpeg:mpeg21:2002:02-DIDL-NS" xmlns:dii="urn:mpeg:mpeg21:2002:01-DII-NS" xmlns:dip="urn:mpeg:mpeg21:2005:01-DIP-NS" xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/" xmlns:emd="http://easy.dans.knaw.nl/easy/easymetadata/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" exclude-result-prefixes="emd eas dc" version="2.0">
+  <xsl:output encoding="UTF-8" indent="yes" method="xml"/>
+  <xsl:variable name="fedoraURL" select="'http://localhost:8080/fedora/'"/>
+  <xsl:variable name="viewDatasetURL" select="'http://easy.dans.knaw.nl/rest/datasets/'"/>
+  <xsl:template match="emd:easymetadata">
+    <didl:DIDL>
+      <xsl:attribute name="xsi:schemaLocation">
+        <xsl:call-template name="schema-locations"/>
+      </xsl:attribute>
+      <xsl:call-template name="item0"/>
+    </didl:DIDL>
+  </xsl:template>
+  <xsl:template name="schema-locations">
+    <xsl:text>urn:mpeg:mpeg21:2002:02-DIDL-NS </xsl:text>
+    <xsl:text>http://standards.iso.org/ittf/PubliclyAvailableStandards/MPEG-21_schema_files/did/didl.xsd </xsl:text>
+    <xsl:text>urn:mpeg:mpeg21:2002:01-DII-NS </xsl:text>
+    <xsl:text>http://standards.iso.org/ittf/PubliclyAvailableStandards/MPEG-21_schema_files/dii/dii.xsd </xsl:text>
+    <xsl:text>urn:mpeg:mpeg21:2005:01-DIP-NS </xsl:text>
+    <xsl:text>http://standards.iso.org/ittf/PubliclyAvailableStandards/MPEG-21_schema_files/dip/dip.xsd </xsl:text>
+    <xsl:text>http://purl.org/dc/terms/ </xsl:text>
+    <xsl:text>http://dublincore.org/schemas/xmls/qdc/dcterms.xsd</xsl:text>
+  </xsl:template>
+  <xsl:template name="item0">
+    <xsl:variable name="datasetId" select="//emd:identifier/dc:identifier[@eas:scheme='DMO_ID']/text()"/>
+    <xsl:variable name="datasetPage" select="concat($viewDatasetURL, $datasetId)"/>
+    <xsl:element name="didl:Item">
+      <xsl:element name="didl:Descriptor">
+        <xsl:element name="didl:Statement">
+          <xsl:attribute name="mimeType" select="'application/xml'"/>
+          <xsl:element name="dii:Identifier">
+            <xsl:value-of select="//emd:identifier/dc:identifier[@eas:scheme='PID']/text()"/>
+          </xsl:element>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="didl:Descriptor">
+        <xsl:element name="didl:Statement">
+          <xsl:attribute name="mimeType" select="'text/xml'"/>
+          <xsl:element name="dcterms:modified">
+            <xsl:value-of select="//emd:easymetadata/emd:date/eas:dateSubmitted[1]/text()"/>
+          </xsl:element>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="didl:Component">
+        <xsl:element name="didl:Resource">
+          <xsl:attribute name="mimeType" select="'application/html'"/>
+          <xsl:attribute name="ref">
+            <xsl:value-of select="$datasetPage"/>
+          </xsl:attribute>
+        </xsl:element>
+      </xsl:element>
+      <xsl:call-template name="oai_dc">
+        <xsl:with-param name="datasetId" select="$datasetId"/>
+      </xsl:call-template>
+      <xsl:call-template name="mods"/>
+      <xsl:call-template name="humanStartpage">
+        <xsl:with-param name="datasetPage" select="$datasetPage"/>
+      </xsl:call-template>
+      <xsl:call-template name="objectFile">
+        <xsl:with-param name="datasetPage" select="$datasetPage"/>
+      </xsl:call-template>
+    </xsl:element>
+  </xsl:template>
+  <xsl:template name="oai_dc">
+    <xsl:param name="datasetId"/>
+    <xsl:element name="didl:Item">
+      <xsl:element name="didl:Descriptor">
+        <xsl:element name="didl:Statement">
+          <xsl:attribute name="mimeType" select="'application/xml'"/>
+          <xsl:element name="dip:ObjectType">
+            <xsl:value-of select="'info:eu-repo/semantics/descriptiveMetadata'"/>
+          </xsl:element>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="didl:Component">
+        <xsl:element name="didl:Resource">
+          <xsl:attribute name="mimeType" select="'application/xml'"/>
+          <xsl:variable name="dcUrl" select="concat($fedoraURL, 'get/', $datasetId, '/easy-sdef:oai-item1/getOAI_DC')"/>
+          <xsl:copy-of select="document($dcUrl)/*"/>
+        </xsl:element>
+      </xsl:element>
+    </xsl:element>
+  </xsl:template>
+  <xsl:template name="mods">
+    <xsl:element name="didl:Item">
+      <xsl:element name="didl:Descriptor">
+        <xsl:element name="didl:Statement">
+          <xsl:attribute name="mimeType" select="'application/xml'"/>
+          <xsl:element name="dip:ObjectType">
+            <xsl:value-of select="'info:eu-repo/semantics/descriptiveMetadata'"/>
+          </xsl:element>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="didl:Component">
+        <xsl:element name="didl:Resource">
+          <xsl:attribute name="mimeType" select="'application/xml'"/>
+          <xsl:element name="mods">
+            <xsl:attribute name="version" select="3.4"/>
+            <xsl:attribute name="xsi:schemaLocation" select="'http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-4.xsd'"/>
+            <xsl:element name="titleInfo">
+              <xsl:for-each select="//emd:easymetadata/emd:title/dc:title">
+                <xsl:element name="title">
+                  <xsl:call-template name="extract"/>
+                </xsl:element>
+              </xsl:for-each>
+            </xsl:element>
+            <xsl:if test="//emd:easymetadata/emd:title/dcterms:alternative">
+              <xsl:element name="titleInfo">
+                <xsl:attribute name="type" select="'alternative'"/>
+                <xsl:for-each select="//emd:easymetadata/emd:title/dcterms:alternative">
+                  <xsl:element name="title">
+                    <xsl:call-template name="extract"/>
+                  </xsl:element>
+                </xsl:for-each>
+              </xsl:element>
+            </xsl:if>
+          </xsl:element>
+        </xsl:element>
+      </xsl:element>
+    </xsl:element>
+  </xsl:template>
+  <xsl:template name="extract">
+    <xsl:if test="@xml:lang">
+      <xsl:attribute name="xml:lang" select="@xml:lang"/>
+    </xsl:if>
+    <xsl:value-of select="text()"/>
+  </xsl:template>
+  <xsl:template name="humanStartpage">
+    <xsl:param name="datasetPage"/>
+    <xsl:element name="didl:Item">
+      <xsl:element name="didl:Descriptor">
+        <xsl:element name="didl:Statement">
+          <xsl:attribute name="mimeType" select="'application/html'"/>
+          <xsl:element name="dip:ObjectType">
+            <xsl:value-of select="'info:eu-repo/semantics/humanStartPage'"/>
+          </xsl:element>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="didl:Component">
+        <xsl:element name="didl:Resource">
+          <xsl:attribute name="ref" select="$datasetPage"/>
+          <xsl:attribute name="mimeType" select="'application/html'"/>
+        </xsl:element>
+      </xsl:element>
+    </xsl:element>
+  </xsl:template>
+  <xsl:template name="objectFile">
+    <xsl:param name="datasetPage"/>
+    <xsl:element name="didl:Item">
+      <xsl:element name="didl:Descriptor">
+        <xsl:element name="didl:Statement">
+          <xsl:attribute name="mimeType" select="'application/html'"/>
+          <xsl:element name="dip:ObjectType">
+            <xsl:value-of select="'info:eu-repo/semantics/objectFile'"/>
+          </xsl:element>
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="didl:Component">
+        <xsl:element name="didl:Resource">
+          <xsl:attribute name="ref" select="$datasetPage"/>
+          <xsl:attribute name="mimeType" select="'application/html'"/>
+        </xsl:element>
+      </xsl:element>
+    </xsl:element>
+  </xsl:template>
+</xsl:stylesheet>
+            </foxml:xmlContent>
+        </foxml:datastreamVersion>
+    </foxml:datastream>
+    <foxml:datastream ID="EMD_carare.xsl" CONTROL_GROUP="X" STATE="A" VERSIONABLE="true">
+        <foxml:datastreamVersion ID="EMD_carare.xsl.2" LABEL="Stylesheet for transformation from EMD to Carare" CREATED="2012-05-29T10:10:28.723+02:00" MIMETYPE="text/xml" SIZE="28238">
+            <foxml:xmlContent>
+            <xsl:stylesheet xmlns:car="http://www.carare.eu/carareSchema" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/" xmlns:emd="http://easy.dans.knaw.nl/easy/easymetadata/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" exclude-result-prefixes="emd dc dcterms eas" version="1.0">
+  <xsl:output encoding="UTF-8" indent="yes" method="xml" version="1.0"/>
+  <xsl:template match="/">
+    
+    
+    
+    
+    <xsl:variable name="archaeological_aip" select="emd:easymetadata/emd:other/eas:application-specific/eas:metadataformat[.='ARCHAEOLOGY']"/>
+    <xsl:variable name="text_aip" select="emd:easymetadata/emd:type/dc:type[.='Text' and @eas:scheme='DCMI']"/>
+    <xsl:variable name="open_toegang" select="emd:easymetadata/emd:rights/dcterms:accessRights[.='OPEN_ACCESS']"/>
+    <xsl:variable name="pointX" select="emd:easymetadata/emd:coverage/eas:spatial/eas:point/eas:x"/>
+    <xsl:variable name="boxX" select="emd:easymetadata/emd:coverage/eas:spatial/eas:box/eas:west"/>
+    <xsl:if test="$archaeological_aip and $text_aip and $open_toegang and (string($pointX) or string($boxX))">
+      <xsl:apply-templates select="emd:easymetadata"/>
+    </xsl:if>
+  </xsl:template>
+  <xsl:template match="emd:easymetadata">
+    <car:carareWrap xsi:schemaLocation="http://www.carare.eu/carareSchema http://www.carare.eu/carareSchema">
+      <xsl:variable name="pid" select="emd:identifier/dc:identifier[@eas:scheme='PID' or @eas:identification-system='http://www.persistent-identifier.nl']"/>
+      <car:carare>
+        <xsl:attribute name="id">
+          <xsl:value-of select="$pid"/>
+        </xsl:attribute>
+        <car:collectionInformation>
+          <car:title lang="en">e-archive Dutch Archaeology (DANS-EDNA)</car:title>
+          <car:title lang="nl" preferred="true">e-depot Nederlandse archeologie (DANS-EDNA)</car:title>
+          <car:keywords lang="en">data archive; datasets; publications; archaeological research; the
+            Netherlands</car:keywords>
+          <car:contacts>
+            <car:name>Drs. Hella Hollander</car:name>
+            <car:role>data archivist archaeology</car:role>
+            <car:organization>Data Archiving and Networked Services (DANS)</car:organization>
+            <car:address>Anna van Saksenlaan 10, 2593 HT The Hague, the Netherlands</car:address>
+            <car:phone>+31 70 3446484 </car:phone>
+            <car:fax>+31 70 3446482</car:fax>
+            <car:email>hella.hollander@dans.knaw.nl</car:email>
+            <car:email>info@dans.knaw.nl</car:email>
+          </car:contacts>
+          <car:rights>
+            <car:reproductionRights>
+              <car:statement>allowed for research and educational use only</car:statement>
+              <car:statement>for personal reuse only, reproduction or redistribution in any form is not
+                allowed, no commercial use allowed</car:statement>
+              <car:statement>attribution compulsory</car:statement>
+            </car:reproductionRights>
+            <car:licence>http://www.dans.knaw.nl/en/content/data-archive/terms-and-conditions</car:licence>
+          </car:rights>
+          <car:source>DANS-KNAW</car:source>
+          <car:language>nl</car:language>
+          <car:coverage>
+            <car:spatial>
+              <car:locationSet>
+                <car:geopoliticalArea>
+                  <car:geopoliticalAreaName>the Netherlands</car:geopoliticalAreaName>
+                  <car:geopoliticalAreaType>country</car:geopoliticalAreaType>
+                </car:geopoliticalArea>
+              </car:locationSet>
+            </car:spatial>
+          </car:coverage>
+        </car:collectionInformation>
+        
+        <xsl:variable name="dataset_taal" select="emd:language/dc:language[@eas:scheme='ISO 639']"/>
+        <xsl:variable name="meta_taal">
+          <xsl:choose>
+            <xsl:when test="$dataset_taal='dut/nld'">nl</xsl:when>
+            <xsl:when test="$dataset_taal='eng'">en</xsl:when>
+            <xsl:when test="$dataset_taal='fre/fra'">fr</xsl:when>
+            <xsl:when test="$dataset_taal='ger/deu'">de</xsl:when>
+            <xsl:otherwise>nl</xsl:otherwise>
+          </xsl:choose>
+        </xsl:variable>
+        <car:digitalResource>
+          <car:recordInformation>
+            <car:id>
+              <xsl:value-of select="$pid"/>
+            </car:id>
+            <car:source>DANS-KNAW</car:source>
+            <car:country>NLD</car:country>
+            <car:creation>
+              <car:date>
+                <xsl:value-of select="substring(emd:date/eas:dateSubmitted,1,10)"/>
+              </car:date>
+              <car:actor>
+                <car:name>dataset depositor (locally known)</car:name>
+                <car:actorType>individual</car:actorType>
+                <car:roles>depositor</car:roles>
+              </car:actor>
+            </car:creation>
+            <car:language>
+              <xsl:value-of select="$meta_taal"/>
+            </car:language>
+            <car:rights>
+              <car:accessRights>
+                <car:grantedTo>everyone</car:grantedTo>
+                <car:statement>metadata of the archived dataset is freely available to everyone (open
+                    access)</car:statement>
+              </car:accessRights>
+            </car:rights>
+          </car:recordInformation>
+          <car:appellation>
+            
+            <xsl:for-each select="emd:title/dc:title">
+              <car:name lang="nl">
+                <xsl:value-of select="."/>
+              </car:name>
+            </xsl:for-each>
+            <xsl:for-each select="emd:title/dcterms:alternative">
+              <car:name lang="nl">
+                <xsl:value-of select="."/>
+              </car:name>
+            </xsl:for-each>
+            <car:id>
+              <xsl:value-of select="$pid"/>
+            </car:id>
+          </car:appellation>
+          
+          
+          <xsl:for-each select="emd:creator/dc:creator">
+            <car:actors>
+              <car:name>
+                <xsl:value-of select="."/>
+              </car:name>
+              <car:actorType>individual</car:actorType>
+              <car:roles>creator</car:roles>
+            </car:actors>
+          </xsl:for-each>
+          
+          <xsl:for-each select="emd:contributor/dc:contributor">
+            <car:actors>
+              <car:name>
+                <xsl:value-of select="."/>
+              </car:name>
+              <car:actorType>individual</car:actorType>
+              <car:roles>contributor</car:roles>
+            </car:actors>
+          </xsl:for-each>
+          
+          <car:format>text</car:format>
+          <xsl:for-each select="emd:format/dc:format[@eas:scheme='IMT']">
+            <car:format>
+              <xsl:value-of select="."/>
+            </car:format>
+          </xsl:for-each>
+          
+          <car:medium>webresource</car:medium>
+          <car:extent>one or more digital files</car:extent>
+          
+          <car:spatial>
+            <car:locationSet>
+              <xsl:for-each select="emd:coverage/dcterms:spatial">
+                <car:namedLocation>
+                  <xsl:value-of select="."/>
+                </car:namedLocation>
+              </xsl:for-each>
+              <car:geopoliticalArea>
+                <car:geopoliticalAreaName>the Netherlands</car:geopoliticalAreaName>
+                <car:geopoliticalAreaType>country</car:geopoliticalAreaType>
+              </car:geopoliticalArea>
+            </car:locationSet>
+            
+            <xsl:variable name="point" select="emd:coverage/eas:spatial/eas:point/eas:x"/>
+            <xsl:if test="not ($point)">
+              <xsl:variable name="box" select="emd:coverage/eas:spatial/eas:box/eas:west"/>
+              <xsl:if test="$box">
+                
+                <car:spatialReferenceSystem>WGS84</car:spatialReferenceSystem>
+                <car:geometry>
+                  <xsl:variable name="boxprojection" select="emd:coverage/eas:spatial/eas:box/@eas:scheme"/>
+                  <xsl:if test="$boxprojection='RD'">
+                    <xsl:variable name="n" select="number(emd:coverage/eas:spatial/eas:box/eas:north)"/>
+                    <xsl:variable name="e" select="number(emd:coverage/eas:spatial/eas:box/eas:east)"/>
+                    <xsl:variable name="s" select="number(emd:coverage/eas:spatial/eas:box/eas:south)"/>
+                    <xsl:variable name="w" select="number(emd:coverage/eas:spatial/eas:box/eas:west)"/>
+                    <xsl:variable name="x" select="round(($w+$e) div 2)"/>
+                    <xsl:variable name="y" select="round(($n+$s) div 2)"/>
+                    <xsl:variable name="dx" select="(-155000.00+$x) div 100000"/>
+                    <xsl:variable name="dy" select="(-463000.00+$y) div 100000"/>
+                    
+                    <xsl:variable name="df" select="(($dy*3235.65389)+($dx*$dx*-32.58297)+($dy*$dy*-0.24750)+($dx*$dx*$dy*-0.84978)+($dy*$dy*$dy*-0.06550)+($dx*$dx*$dy*$dy*-0.01709)+($dx*-0.00738)) div 3600"/>
+                    <xsl:variable name="dl" select="(($dx*5260.52916)+($dx*$dy*105.94684)+($dx*$dy*$dy*2.45656)+($dx*$dx*$dx*-0.81885)+($dx*$dy*$dy*$dy*0.05594)+($dx*$dx*$dx*$dy*-0.05606)) div 3600"/>
+                    <xsl:variable name="f" select="52.15517440+$df"/>
+                    <xsl:variable name="l" select="5.38720621+$dl"/>
+                    
+                    <car:quickpoint>
+                      <car:x>
+                        <xsl:value-of select="$l"/>
+                      </car:x>
+                      <car:y>
+                        <xsl:value-of select="$f"/>
+                      </car:y>
+                    </car:quickpoint>
+                    <car:storedprecision>10</car:storedprecision>
+                  </xsl:if>
+                </car:geometry>
+                <car:representations>point</car:representations>
+              </xsl:if>
+            </xsl:if>
+            <xsl:if test="$point">
+              
+              <car:spatialReferenceSystem>WGS84</car:spatialReferenceSystem>
+              <car:geometry>
+                <xsl:variable name="projection" select="emd:coverage/eas:spatial/eas:point/@eas:scheme"/>
+                <xsl:if test="$projection='RD'">
+                  <xsl:variable name="x" select="number(emd:coverage/eas:spatial/eas:point/eas:x)"/>
+                  <xsl:variable name="y" select="number(emd:coverage/eas:spatial/eas:point/eas:y)"/>
+                  <xsl:variable name="dx" select="(-155000.00+$x) div 100000"/>
+                  <xsl:variable name="dy" select="(-463000.00+$y) div 100000"/>
+                  
+                  <xsl:variable name="df" select="(($dy*3235.65389)+($dx*$dx*-32.58297)+($dy*$dy*-0.24750)+($dx*$dx*$dy*-0.84978)+($dy*$dy*$dy*-0.06550)+($dx*$dx*$dy*$dy*-0.01709)+($dx*-0.00738)) div 3600"/>
+                  <xsl:variable name="dl" select="(($dx*5260.52916)+($dx*$dy*105.94684)+($dx*$dy*$dy*2.45656)+($dx*$dx*$dx*-0.81885)+($dx*$dy*$dy*$dy*0.05594)+($dx*$dx*$dx*$dy*-0.05606)) div 3600"/>
+                  <xsl:variable name="f" select="52.15517440+$df"/>
+                  <xsl:variable name="l" select="5.38720621+$dl"/>
+                  
+                  <car:quickpoint>
+                    <car:x>                
+      <xsl:value-of select="$l"/>
+                    </car:x>
+                    <car:y>
+                      <xsl:value-of select="$f"/>
+                    </car:y>
+                  </car:quickpoint>
+                  <car:storedPrecision>10</car:storedPrecision>
+                </xsl:if>
+              </car:geometry>
+              <car:representations>point</car:representations>
+            </xsl:if>
+          </car:spatial>
+          
+          <xsl:for-each select="emd:subject/dc:subject">
+            <xsl:variable name="abrsubject" select="@eas:scheme"/>
+            <xsl:if test="not ($abrsubject) or $abrsubject != 'ABR'">
+              <car:subject>
+                <xsl:value-of select="."/>
+              </car:subject>
+            </xsl:if>
+          </xsl:for-each>
+          
+          
+          <xsl:variable name="ind" select="emd:subject/dc:subject[@eas:scheme='ABR' and (substring(.,1,2)='EI' or substring(.,1,2)='EG')]"/>
+          <xsl:if test="$ind">
+            <car:subject>INDUSTRIAL</car:subject>
+          </xsl:if>
+          <xsl:variable name="aas" select="emd:subject/dc:subject[@eas:scheme='ABR' and (substring(.,1,2)='EX' or substring(.,1,2)='EL')]"/>
+          <xsl:if test="$aas">
+            <car:subject>AGRICULTURE_AND_SUBSISTENCE</car:subject>
+          </xsl:if>
+          <xsl:variable name="def" select="emd:subject/dc:subject[@eas:scheme='ABR' and (substring(.,1,1)='V')]"/>
+          <xsl:if test="$def">
+            <car:subject>DEFENCE</car:subject>
+          </xsl:if>
+          <xsl:variable name="dom" select="emd:subject/dc:subject[@eas:scheme='ABR' and (substring(.,1,1)='N')]"/>
+          <xsl:if test="$dom">
+            <car:subject>DOMESTIC</car:subject>
+          </xsl:if>
+          <xsl:variable name="rel" select="emd:subject/dc:subject[@eas:scheme='ABR' and (.='DEPO' or substring(.,1,1)='G' or substring(.,1,1)='R')]"/>
+          <xsl:if test="$rel">
+            <car:subject>RELIGIOUS_RITUAL_AND_FUNERARY</car:subject>
+          </xsl:if>
+          <xsl:variable name="mar" select="emd:subject/dc:subject[@eas:scheme='ABR' and (.='EVX' or .='ESCH')]"/>
+          <xsl:if test="$mar">
+            <car:subject>MARITIME</car:subject>
+          </xsl:if>
+          <xsl:variable name="mbf" select="emd:subject/dc:subject[@eas:scheme='ABR' and (.='GMEG' or substring(.,1,2)='RK')]"/>
+          <xsl:if test="$mbf">
+            <car:subject>MONUMENT_BY_FORM</car:subject>
+          </xsl:if>
+          <xsl:variable name="trans" select="emd:subject/dc:subject[@eas:scheme='ABR' and (substring(.,1,1)='I')]"/>
+          <xsl:if test="$trans">
+            <car:subject>TRANSPORT</car:subject>
+          </xsl:if>
+          <xsl:variable name="unk" select="emd:subject/dc:subject[@eas:scheme='ABR' and (.='XXX')]"/>
+          <xsl:if test="$unk">
+            <car:subject>UNASSIGNED</car:subject>
+          </xsl:if>
+          
+          <car:temporal>
+            
+            <xsl:variable name="xxx" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (.='XXX')]"/>
+            <xsl:if test="$xxx">
+              <car:periodName>UNCERTAIN</car:periodName>
+            </xsl:if>
+            <xsl:variable name="paleolithicum" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,5)='PALEO')]"/>
+            <xsl:if test="$paleolithicum">
+              <car:periodName>PALAEOLITHIC</car:periodName>
+            </xsl:if>
+            <xsl:variable name="mesolithicum" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,4)='MESO')]"/>
+            <xsl:if test="$mesolithicum">
+              <car:periodName>MESOLITHIC</car:periodName>
+            </xsl:if>
+            <xsl:variable name="neolithicum" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,3)='NEO')]"/>
+            <xsl:if test="$neolithicum">
+              <car:periodName>NEOLITHIC</car:periodName>
+            </xsl:if>
+            <xsl:variable name="bronstijd" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,5)='BRONS')]"/>
+            <xsl:if test="$bronstijd">
+              <car:periodName>BRONZE_AGE</car:periodName>
+            </xsl:if>
+            <xsl:variable name="ijzertijd" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,3)='IJZ')]"/>
+            <xsl:if test="$ijzertijd">
+              <car:periodName>IRON_AGE</car:periodName>
+            </xsl:if>
+            <xsl:variable name="romeins" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,3)='ROM')]"/>
+            <xsl:if test="$romeins">
+              <car:periodName>ROMAN</car:periodName>
+            </xsl:if>
+            <xsl:variable name="me" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,2,2)='ME')]"/>
+            <xsl:if test="$me">
+              <car:periodName>MEDIEVAL</car:periodName>
+            </xsl:if>
+            <xsl:variable name="nieuwetijd" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,2)='NT')]"/>
+            <xsl:if test="$nieuwetijd">
+              <car:periodName>MODERN</car:periodName>
+            </xsl:if>
+            <xsl:for-each select="emd:coverage/dcterms:temporal">
+              <xsl:variable name="abrtemporal" select="@eas:scheme"/>
+              <xsl:if test="not ($abrtemporal) or $abrtemporal != 'ABR'">
+                <car:displayDate lang="nl">
+                  <xsl:value-of select="."/>
+                </car:displayDate>
+              </xsl:if>
+            </xsl:for-each>
+            
+            <xsl:variable name="t_paleolithicum" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,5)='PALEO')]"/>
+            <xsl:if test="$t_paleolithicum">
+              <car:displayDate>Paleolithic (before 8800 BP)</car:displayDate>
+            </xsl:if>
+            <xsl:variable name="t_mesolithicum" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,4)='MESO')]"/>
+            <xsl:if test="$t_mesolithicum">
+              <car:displayDate>Mesolithic (8800 BP - 4900 BP)</car:displayDate>
+            </xsl:if>
+            <xsl:variable name="t_neolithicum" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,3)='NEO')]"/>
+            <xsl:if test="$t_neolithicum">
+              <car:displayDate>Neolithic (4900 BP - 2000 BP)</car:displayDate>
+            </xsl:if>
+            <xsl:variable name="t_bronstijd" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,5)='BRONS')]"/>
+            <xsl:if test="$t_bronstijd">
+              <car:displayDate>Bronze Age (2000 BP - 800 BP)</car:displayDate>
+            </xsl:if>
+            <xsl:variable name="t_ijzertijd" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,3)='IJZ')]"/>
+            <xsl:if test="$t_ijzertijd">
+              <car:displayDate>Iron Age (800 BP - 12 BP)</car:displayDate>
+            </xsl:if>
+            <xsl:variable name="t_romeins" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,3)='ROM')]"/>
+            <xsl:if test="$t_romeins">
+              <car:displayDate>Roman Era (12 BP - 450)</car:displayDate>
+            </xsl:if>
+            <xsl:variable name="t_me" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,2,2)='ME')]"/>
+            <xsl:if test="$t_me">
+              <car:displayDate>Middle Ages (450 - 1500)</car:displayDate>
+            </xsl:if>
+            <xsl:variable name="t_nieuwetijd" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,2)='NT')]"/>
+            <xsl:if test="$t_nieuwetijd">
+              <car:displayDate>Modern Era (after 1500)</car:displayDate>
+            </xsl:if>
+          </car:temporal>
+          
+          <car:publicationStatement>            
+<xsl:for-each select="emd:publisher/dc:publisher">
+              <car:publisher>
+                <xsl:value-of select="."/>
+              </car:publisher>
+            </xsl:for-each>
+            <xsl:if test="not (emd:publisher/dc:publisher)">
+              <xsl:for-each select="emd:rights/dc:rights">
+                <car:publisher>
+                  <xsl:value-of select="."/>
+                </car:publisher>
+              </xsl:for-each>
+            </xsl:if>
+            
+            <car:date>
+              <xsl:variable name="jaar" select="emd:date/eas:created"/>
+              <xsl:value-of select="substring($jaar,1,10)"/>
+            </car:date>
+          </car:publicationStatement>
+          
+          <xsl:variable name="Ntypes" select="count(emd:type/dc:type[@eas:scheme='DCMI'])"/>
+          <xsl:choose>
+            <xsl:when test="$Ntypes>0">
+              <car:type namespace="http://purl.org/dc/dcmitype/">
+                
+                <xsl:for-each select="emd:type/dc:type[@eas:scheme='DCMI']">
+                  <xsl:value-of select="."/>
+                  <xsl:if test="position() != $Ntypes">
+                    <xsl:text/>
+                  </xsl:if>
+                </xsl:for-each>
+              </car:type>
+            </xsl:when>
+            <xsl:otherwise>
+              <car:type namespace="http://purl.org/dc/dcmitype/">Dataset</car:type>
+            </xsl:otherwise>
+          </xsl:choose>
+          
+          <xsl:variable name="Ndescriptions" select="count(emd:description/dc:description)"/>
+          <car:description lang="nl">
+            <xsl:for-each select="emd:description/dc:description">
+              <xsl:value-of select="."/>
+              <xsl:if test="position() != $Ndescriptions">
+                <xsl:text/>
+              </xsl:if>
+            </xsl:for-each>
+          </car:description>
+          
+          <car:created>
+            <xsl:variable name="creatiedatum" select="emd:date/eas:created"/>
+            <xsl:variable name="datumvorm" select="emd:date/eas:created/@eas:format"/>
+            <xsl:choose>
+              <xsl:when test="$datumvorm='DAY'">
+                <xsl:value-of select="substring($creatiedatum,1,10)"/>
+              </xsl:when>
+              <xsl:when test="$datumvorm='MONTH'">
+                <xsl:value-of select="substring($creatiedatum,1,7)"/>
+              </xsl:when>
+              <xsl:when test="$datumvorm='YEAR'">
+                <xsl:value-of select="substring($creatiedatum,1,4)"/>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:value-of select="$creatiedatum"/>
+              </xsl:otherwise>
+            </xsl:choose>
+          </car:created>
+          
+          <xsl:for-each select="emd:language/dc:language[@eas:scheme='ISO 639']">
+            <xsl:choose>
+              <xsl:when test=".='dut/nld'">
+                <car:language>nl</car:language>
+              </xsl:when>
+              <xsl:when test=".='eng'">
+                <car:language>en</car:language>
+              </xsl:when>
+              <xsl:when test=".='fre/fra'">
+                <car:language>fr</car:language>
+              </xsl:when>
+              <xsl:when test=".='ger/deu'">
+                <car:language>de</car:language>
+              </xsl:when>
+            </xsl:choose>
+          </xsl:for-each>
+          <xsl:if test="not (emd:language/dc:language[@eas:scheme='ISO 639'])">
+            <car:language>nl</car:language>
+          </xsl:if>
+          <car:link>
+            <xsl:value-of select="emd:identifier/dc:identifier[@eas:scheme='PID' or @eas:identification-system='http://www.persistent-identifier.nl']/@eas:identification-system"/>
+            <xsl:text>/?identifier=</xsl:text>
+            <xsl:value-of select="emd:identifier/dc:identifier[@eas:scheme='PID' or @eas:identification-system='http://www.persistent-identifier.nl']"/>
+          </car:link>
+          <car:relations>
+            <xsl:for-each select="emd:identifier/dc:identifier[@eas:identification-system='http://archis2.archis.nl']">
+              <car:sourceOfRelation>Archis - Research Notification</car:sourceOfRelation>
+              <car:typeOfRelation>hasEvent</car:typeOfRelation>
+              <car:targetOfRelation>
+                <xsl:value-of select="."/>
+              </car:targetOfRelation>
+            </xsl:for-each>
+          </car:relations>
+          <car:rights>
+            <car:copyright>
+              <xsl:for-each select="emd:rights/dc:rights">
+                <car:rightsHolder>
+                  <xsl:value-of select="."/>
+                </car:rightsHolder>
+              </xsl:for-each>
+              <xsl:if test="not (emd:rights/dc:rights)">
+                <xsl:for-each select="emd:publisher/dc:publisher">
+                  <car:rightsHolder>
+                    <xsl:value-of select="."/>
+                  </car:rightsHolder>
+                </xsl:for-each>
+              </xsl:if>
+            </car:copyright>
+            <car:accessRights>
+              <xsl:variable name="accessrights" select="emd:rights/dcterms:accessRights[@eas:schemeId='common.dcterms.accessrights' or @eas:schemeId='archaeology.dcterms.accessrights']"/>
+              <car:grantedTo>
+                <xsl:choose>
+                  <xsl:when test="$accessrights='OPEN_ACCESS'">Registered EASY users</xsl:when>
+                  <xsl:when test="$accessrights='GROUP_ACCESS'">Registered EASY users, but
+                      belonging to the group of professional Dutch archaeologists only</xsl:when>
+                  <xsl:when test="$accessrights='REQUEST_PERMISSION'">Registered EASY users, but
+                      after permission is granted by the depositor </xsl:when>
+                  <xsl:when test="$accessrights='NO_ACCESS'">Registered EASY users, permission is
+                      granted occasionally after special mediation</xsl:when>
+                </xsl:choose>
+              </car:grantedTo>
+              <car:conditions>Allowed for research and educational use, no commercial use allowed,
+                  attribution compulsory</car:conditions>
+              
+              <car:dateFrom>
+                <xsl:value-of select="substring(emd:date/eas:available,1,10)"/>
+              </car:dateFrom>
+            </car:accessRights>
+            <car:reproductionRights>
+              <car:statement>for personal use only, reproduction or redistribution in any form is not
+                  allowed, no commercial use is allowed</car:statement>
+            </car:reproductionRights>
+          </car:rights>
+        </car:digitalResource>
+      </car:carare>
+    </car:carareWrap>
+  </xsl:template>
+</xsl:stylesheet>
+            </foxml:xmlContent>
+        </foxml:datastreamVersion>
+        <foxml:datastreamVersion ID="EMD_carare.xsl.3" LABEL="Stylesheet for transformation from EMD to Carare" CREATED="2012-07-17T16:15:19.520+02:00" MIMETYPE="text/xml" SIZE="29093">
+            <foxml:xmlContent>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:car="http://www.carare.eu/carareSchema"
+  xmlns:emd="http://easy.dans.knaw.nl/easy/easymetadata/"
+  xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/"
+  xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/" 
+  exclude-result-prefixes="emd dc dcterms eas">
+  <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes"/>
+
+  <xsl:template match="/">
+    <!-- alleen archeologische datasets worden aan Carare aangeboden, -->
+    <!-- alleen datsets met TEXT documenten (eerste dc:type _DCMI) worden aan Carare aangeboden, -->
+    <!-- alleen datasets met Open Access (dcterms:accessRights) worden aan Carare aangeboden -->
+    <!-- en alleen met coordinaten (eas:point of eas:box) worden aan Carare aangeboden -->
+    <xsl:variable name="archaeological_aip" 
+      select="emd:easymetadata/emd:other/eas:application-specific/eas:metadataformat[.='ARCHAEOLOGY']"/>
+    <xsl:variable name="text_aip"
+      select="emd:easymetadata/emd:type/dc:type[.='Text' and @eas:scheme='DCMI']"/>
+    <xsl:variable name="open_toegang"
+      select="emd:easymetadata/emd:rights/dcterms:accessRights[.='OPEN_ACCESS']"/>
+    <xsl:variable name="pointX" select="emd:easymetadata/emd:coverage/eas:spatial/eas:point/eas:x"/>
+    <xsl:variable name="boxX" select="emd:easymetadata/emd:coverage/eas:spatial/eas:box/eas:west"/>
+
+   <xsl:if test="$archaeological_aip and $text_aip and $open_toegang and (string($pointX) or string($boxX))">
+      <xsl:apply-templates select="emd:easymetadata"/>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template match="emd:easymetadata">
+
+    <car:carareWrap xmlns:car="http://www.carare.eu/carareSchema" xsi:schemaLocation="http://www.carare.eu/carareSchema http://www.carare.eu/carareSchema">
+      <xsl:variable name="pid" 
+        select="emd:identifier/dc:identifier[@eas:scheme='PID' or @eas:identification-system='http://www.persistent-identifier.nl']"/>
+      <car:carare>
+        <xsl:attribute name="id">
+          <xsl:value-of
+            select="$pid"/>
+        </xsl:attribute>
+        <car:collectionInformation>
+          <car:title lang="en">e-archive Dutch Archaeology (DANS-EDNA)</car:title>
+          <car:title lang="nl" preferred="true">e-depot Nederlandse archeologie (DANS-EDNA)</car:title>
+          <car:keywords lang="en">data archive; datasets; publications; archaeological research; the
+            Netherlands</car:keywords>
+          <car:contacts>
+            <car:name>Drs. Hella Hollander</car:name>
+            <car:role>data archivist archaeology</car:role>
+            <car:organization>Data Archiving and Networked Services (DANS)</car:organization>
+            <car:address>Anna van Saksenlaan 10, 2593 HT The Hague, the Netherlands</car:address>
+            <car:phone>+31 70 3446484 </car:phone>
+            <car:fax>+31 70 3446482</car:fax>
+            <car:email>hella.hollander@dans.knaw.nl</car:email>
+            <car:email>info@dans.knaw.nl</car:email>
+          </car:contacts>
+          <car:rights>
+            <car:reproductionRights>
+              <car:statement>allowed for research and educational use only</car:statement>
+              <car:statement>for personal reuse only, reproduction or redistribution in any form is not
+                allowed, no commercial use allowed</car:statement>
+              <car:statement>attribution compulsory</car:statement>
+            </car:reproductionRights>
+            <car:licence>http://www.dans.knaw.nl/en/content/data-archive/terms-and-conditions</car:licence>
+          </car:rights>
+          <car:source>DANS-KNAW</car:source>
+          <car:language>nl</car:language>
+          <car:coverage>
+            <car:spatial>
+              <car:locationSet>
+                <car:geopoliticalArea>
+                  <car:geopoliticalAreaName>the Netherlands</car:geopoliticalAreaName>
+                  <car:geopoliticalAreaType>country</car:geopoliticalAreaType>
+                </car:geopoliticalArea>
+              </car:locationSet>
+            </car:spatial>
+          </car:coverage>
+        </car:collectionInformation>
+
+
+          <!-- metadata_taal variable, default nl, since currently all datasets with RD coordinates have language nl -->
+          <xsl:variable name="dataset_taal" select="emd:language/dc:language[@eas:scheme='ISO 639']"/>
+          <xsl:variable name="meta_taal">
+            <xsl:choose>
+              <xsl:when test="$dataset_taal='dut/nld'">nl</xsl:when>
+              <xsl:when test="$dataset_taal='eng'">en</xsl:when>
+              <xsl:when test="$dataset_taal='fre/fra'">fr</xsl:when>
+              <xsl:when test="$dataset_taal='ger/deu'">de</xsl:when>
+              <xsl:otherwise>nl</xsl:otherwise>
+            </xsl:choose>
+          </xsl:variable>
+
+          <car:digitalResource>
+
+            <car:recordInformation>
+              <car:id>
+                <xsl:value-of select="$pid"/>
+              </car:id>
+              <car:source>DANS-KNAW</car:source>
+              <car:country>NLD</car:country>
+              <car:creation>
+                <car:date>
+                  <xsl:value-of select="substring(emd:date/eas:dateSubmitted,1,10)"/>
+                </car:date>
+                <car:actor>
+                  <car:name>dataset depositor (locally known)</car:name>
+                  <car:actorType>individual</car:actorType>
+                  <car:roles>depositor</car:roles>
+                </car:actor>
+              </car:creation>
+              <car:language>
+                <xsl:value-of select="$meta_taal"/>
+              </car:language>
+              <car:rights>
+                <car:accessRights>
+                  <car:grantedTo>everyone</car:grantedTo>
+                  <car:statement>metadata of the archived dataset is freely available to everyone (open
+                    access)</car:statement>
+                </car:accessRights>
+              </car:rights>
+            </car:recordInformation>
+
+            <car:appellation>
+              <!-- dataset title(s) -->
+              <xsl:for-each select="emd:title/dc:title">
+                <car:name lang="nl">
+                  <xsl:value-of select="."/>
+                </car:name>
+              </xsl:for-each>
+              <xsl:for-each select="emd:title/dcterms:alternative">
+                <car:name lang="nl">
+                  <xsl:value-of select="."/>
+                </car:name>
+              </xsl:for-each>
+              <car:id><xsl:value-of select="$pid"/></car:id>
+            </car:appellation>
+
+            <!-- actors -->
+            <!-- dc:creator -->
+            <xsl:for-each select="emd:creator/dc:creator">
+              <car:actors>
+                <car:name>
+                  <xsl:value-of select="."/>
+                </car:name>
+                <car:actorType>individual</car:actorType>
+                <car:roles>creator</car:roles>
+              </car:actors>
+            </xsl:for-each>
+            <!-- eas:creator -->
+            <xsl:for-each select="emd:creator/eas:creator">
+              <car:actors>
+                
+                <!-- displayForm -->
+                <xsl:variable name="titles">
+                  <xsl:choose>
+                    <xsl:when test="eas:title = ''">
+                      <xsl:value-of select="''"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                      <xsl:value-of select="concat(' ', eas:title)"/>
+                    </xsl:otherwise>
+                  </xsl:choose>
+                </xsl:variable>
+                <!--  -->
+                <xsl:variable name="initials">
+                  <xsl:choose>
+                    <xsl:when test="eas:initials = ''">
+                      <xsl:value-of select="''"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                      <xsl:value-of select="concat(' ', eas:initials)"/>
+                    </xsl:otherwise>
+                  </xsl:choose>
+                </xsl:variable>
+                <!--  -->
+                <xsl:variable name="prefix">
+                  <xsl:choose>
+                    <xsl:when test="eas:prefix=''">
+                      <xsl:value-of select="''"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                      <xsl:value-of select="concat(' ', eas:prefix)"/>
+                    </xsl:otherwise>
+                  </xsl:choose>
+                </xsl:variable>
+                <!--  -->
+                <xsl:variable name="organization">
+                  <xsl:choose>
+                    <xsl:when test="eas:organization = ''">
+                      <xsl:value-of select="''"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                      <xsl:value-of select="concat(' (', eas:organization, ')')"/>
+                    </xsl:otherwise>
+                  </xsl:choose>
+                </xsl:variable>
+                <!--  -->
+                
+                <xsl:choose>
+                  <xsl:when test="eas:surname = ''">
+                    <car:name>
+                      <xsl:value-of select="eas:organization"/>
+                    </car:name>
+                    <car:actorType>
+                      <xsl:value-of select="'organization'"/>
+                    </car:actorType>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <car:name>
+                      <xsl:value-of select="concat(eas:surname, ',', $titles, $initials, $prefix, $organization)"/>
+                    </car:name>
+                    <car:actorType>
+                      <xsl:value-of select="'individual'"/>
+                    </car:actorType>
+                  </xsl:otherwise>
+                </xsl:choose>
+                 
+                <car:roles>creator</car:roles>
+              </car:actors>
+            </xsl:for-each>
+            <!-- dc:contributor -->
+            <xsl:for-each select="emd:contributor/dc:contributor">
+              <car:actors>
+                <car:name>
+                  <xsl:value-of select="."/>
+                </car:name>
+                <car:actorType>individual</car:actorType>
+                <car:roles>contributor</car:roles>
+              </car:actors>
+            </xsl:for-each>
+            <!-- eas:contributor -->
+            <xsl:for-each select="emd:contributor/eas:contributor">
+              <car:actors>
+                
+                <!-- displayForm -->
+                <xsl:variable name="titles">
+                  <xsl:choose>
+                    <xsl:when test="eas:title = ''">
+                      <xsl:value-of select="''"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                      <xsl:value-of select="concat(' ', eas:title)"/>
+                    </xsl:otherwise>
+                  </xsl:choose>
+                </xsl:variable>
+                <!--  -->
+                <xsl:variable name="initials">
+                  <xsl:choose>
+                    <xsl:when test="eas:initials = ''">
+                      <xsl:value-of select="''"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                      <xsl:value-of select="concat(' ', eas:initials)"/>
+                    </xsl:otherwise>
+                  </xsl:choose>
+                </xsl:variable>
+                <!--  -->
+                <xsl:variable name="prefix">
+                  <xsl:choose>
+                    <xsl:when test="eas:prefix=''">
+                      <xsl:value-of select="''"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                      <xsl:value-of select="concat(' ', eas:prefix)"/>
+                    </xsl:otherwise>
+                  </xsl:choose>
+                </xsl:variable>
+                <!--  -->
+                <xsl:variable name="organization">
+                  <xsl:choose>
+                    <xsl:when test="eas:organization = ''">
+                      <xsl:value-of select="''"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                      <xsl:value-of select="concat(' (', eas:organization, ')')"/>
+                    </xsl:otherwise>
+                  </xsl:choose>
+                </xsl:variable>
+                <!--  -->
+                
+                <xsl:choose>
+                  <xsl:when test="eas:surname = ''">
+                    <car:name>
+                      <xsl:value-of select="eas:organization"/>
+                    </car:name>
+                    <car:actorType>
+                      <xsl:value-of select="'organization'"/>
+                    </car:actorType>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <car:name>
+                      <xsl:value-of select="concat(eas:surname, ',', $titles, $initials, $prefix, $organization)"/>
+                    </car:name>
+                    <car:actorType>
+                      <xsl:value-of select="'individual'"/>
+                    </car:actorType>
+                  </xsl:otherwise>
+                </xsl:choose>
+                
+                <car:roles>contributor</car:roles>
+              </car:actors>
+            </xsl:for-each>
+
+            <!-- dc:format, IMT, multiple --> 
+            <car:format>text</car:format>
+            <xsl:for-each select="emd:format/dc:format[@eas:scheme='IMT']">
+              <car:format><xsl:value-of select="."/></car:format>
+             </xsl:for-each>
+            
+
+            <!-- medium and extent -->
+            <car:medium>webresource</car:medium>
+            <car:extent>one or more digital files</car:extent>
+
+            <!-- coverage spatial van de dataset vertaald naar  spatial van de digitalResource -->
+            <car:spatial>
+              <car:locationSet>
+                <xsl:for-each select="emd:coverage/dcterms:spatial">
+                  <xsl:variable name="topografie" select="."/>
+                  <xsl:if test="not (contains($topografie,'aartblad'))">
+                    <xsl:if
+                      test="not (((string-length($topografie)=2 or string-length($topografie)=3) and number(substring($topografie,1,string-length($topografie)-1))!='NaN'))">
+                      <car:namedLocation>
+                        <xsl:value-of select="."/>
+                      </car:namedLocation>
+                    </xsl:if>
+                  </xsl:if>
+                </xsl:for-each>
+
+                <!-- kaartblad is geen onderdeel van Carare -->
+                <!--
+ <xsl:for-each select="emd:coverage/dcterms:spatial">
+  <xsl:variable name="grid" select="."/>
+  <xsl:if test="contains($grid,'aartblad')">
+     <gridReference namespace="NL1to25000"><xsl:value-of select="normalize-space(translate(.,'abcdefghijklmnopqrstuvwxyz():IJKLMNPQRSTUVXYZ',''))"/></gridReference>
+  </xsl:if>
+  <xsl:if test="((string-length($grid)=2 or string-length($grid)=3) and number(substring($grid,1,string-length($grid)-1))!='NaN')">
+    <gridReference namespace="NL1to25000"><xsl:value-of select="."/></gridReference>  
+  </xsl:if>
+ </xsl:for-each>
+ -->
+                <car:geopoliticalArea>
+                  <car:geopoliticalAreaName>the Netherlands</car:geopoliticalAreaName>
+                  <car:geopoliticalAreaType>country</car:geopoliticalAreaType>
+                </car:geopoliticalArea>
+
+              </car:locationSet>
+
+              <!-- spatial location - first documented point (preferred) or box -->
+              <xsl:variable name="point" select="emd:coverage/eas:spatial/eas:point/eas:x"/>
+              <xsl:if test="not ($point)">
+                <xsl:variable name="box" select="emd:coverage/eas:spatial/eas:box/eas:west"/>
+                <xsl:if test="$box">
+
+                  <!-- spatialBox -->
+                  <car:spatialReferenceSystem>WGS84</car:spatialReferenceSystem>
+
+                  <car:geometry>
+                    <xsl:variable name="boxprojection"
+                      select="emd:coverage/eas:spatial/eas:box/@eas:scheme"/>
+                    <xsl:if test="$boxprojection='RD'">
+                      <xsl:variable name="n"
+                        select="number(emd:coverage/eas:spatial/eas:box/eas:north)"/>
+                      <xsl:variable name="e"
+                        select="number(emd:coverage/eas:spatial/eas:box/eas:east)"/>
+                      <xsl:variable name="s"
+                        select="number(emd:coverage/eas:spatial/eas:box/eas:south)"/>
+                      <xsl:variable name="w"
+                        select="number(emd:coverage/eas:spatial/eas:box/eas:west)"/>
+                      <xsl:variable name="x" select="round(($w+$e) div 2)"/>
+                      <xsl:variable name="y" select="round(($n+$s) div 2)"/>
+
+
+                      <xsl:variable name="dx" select="(-155000.00+$x) div 100000"/>
+                      <xsl:variable name="dy" select="(-463000.00+$y) div 100000"/>
+                      <!-- df en dl -->
+                      <xsl:variable name="df"
+                        select="(($dy*3235.65389)+($dx*$dx*-32.58297)+($dy*$dy*-0.24750)+($dx*$dx*$dy*-0.84978)+($dy*$dy*$dy*-0.06550)+($dx*$dx*$dy*$dy*-0.01709)+($dx*-0.00738)) div 3600"/>
+                      <xsl:variable name="dl"
+                        select="(($dx*5260.52916)+($dx*$dy*105.94684)+($dx*$dy*$dy*2.45656)+($dx*$dx*$dx*-0.81885)+($dx*$dy*$dy*$dy*0.05594)+($dx*$dx*$dx*$dy*-0.05606)) div 3600"/>
+                      <xsl:variable name="f" select="52.15517440+$df"/>
+                      <xsl:variable name="l" select="5.38720621+$dl"/>
+
+                      <!-- Spatial quickpoint in WGS 84-->
+                      <car:quickpoint>
+                        <car:x>
+                          <xsl:value-of select="$l"/>
+                        </car:x>
+                        <car:y>
+                          <xsl:value-of select="$f"/>
+                        </car:y>
+                      </car:quickpoint>
+                      <!-- car:entity is of type xs:string -->
+                      <!--car:entity>
+                        <gml:Point srsName="http://www.opengis.net/def/crs/EPSG/0/28992">
+                          <gml:pos dimension="2">
+                            <xsl:value-of select="$x"/>
+                            <xsl:text> </xsl:text>
+                            <xsl:value-of select="$y"/>
+                          </gml:pos>
+                        </gml:Point>
+                        </car:entity-->
+                      <!-- GML, Well-known text (WKT) = POINT (30 10) ? -->
+                      <!--car:entity>
+                        <xsl:value-of select="concat('POINT (', $l, ' ', $f, ')')"/>
+                      </car:entity-->
+                      <car:storedprecision>10</car:storedprecision>
+                    </xsl:if>
+                  </car:geometry>
+                  <car:representations>point</car:representations>
+                </xsl:if>
+              </xsl:if>
+
+              <xsl:if test="$point">
+                <!--  spatialPoint -->
+                <car:spatialReferenceSystem>WGS84</car:spatialReferenceSystem>
+
+                <car:geometry>
+                  <xsl:variable name="projection"
+                    select="emd:coverage/eas:spatial/eas:point/@eas:scheme"/>
+                  <xsl:if test="$projection='RD'">
+                    <xsl:variable name="x" select="number(emd:coverage/eas:spatial/eas:point/eas:x)"/>
+                    <xsl:variable name="y" select="number(emd:coverage/eas:spatial/eas:point/eas:y)"/>
+                    <xsl:variable name="dx" select="(-155000.00+$x) div 100000"/>
+                    <xsl:variable name="dy" select="(-463000.00+$y) div 100000"/>
+                    <!-- df en dl -->
+                    <xsl:variable name="df"
+                      select="(($dy*3235.65389)+($dx*$dx*-32.58297)+($dy*$dy*-0.24750)+($dx*$dx*$dy*-0.84978)+($dy*$dy*$dy*-0.06550)+($dx*$dx*$dy*$dy*-0.01709)+($dx*-0.00738)) div 3600"/>
+                    <xsl:variable name="dl"
+                      select="(($dx*5260.52916)+($dx*$dy*105.94684)+($dx*$dy*$dy*2.45656)+($dx*$dx*$dx*-0.81885)+($dx*$dy*$dy*$dy*0.05594)+($dx*$dx*$dx*$dy*-0.05606)) div 3600"/>
+                    <xsl:variable name="f" select="52.15517440+$df"/>
+                    <xsl:variable name="l" select="5.38720621+$dl"/>
+
+                    <!-- Spatial quickpoint in WGS 84-->
+                    <car:quickpoint>
+                      <car:x>
+                        <xsl:value-of select="$l"/>
+                      </car:x>
+                      <car:y>
+                        <xsl:value-of select="$f"/>
+                      </car:y>
+                    </car:quickpoint>
+                    <!-- car:entity is of type xs:string -->
+                    <!--car:entity>
+                      <gml:Point srsName="http://www.opengis.net/def/crs/EPSG/0/28992">
+                        <gml:pos dimension="2">
+                          <xsl:value-of select="$x"/>
+                          <xsl:text> </xsl:text>
+                          <xsl:value-of select="$y"/>
+                        </gml:pos>
+                      </gml:Point>
+                      </car:entity-->
+                    <!-- GML, Well-known text (WKT) = POINT (30 10) ? -->
+                    <!--car:entity>
+                      <xsl:value-of select="concat('POINT (', $l, ' ', $f, ')')"/>
+                    </car:entity-->
+                    <car:storedPrecision>10</car:storedPrecision>
+                  </xsl:if>
+                </car:geometry>
+                <car:representations>point</car:representations>
+              </xsl:if>
+            </car:spatial>
+
+            <!-- dc:subject  -->
+            <xsl:for-each select="emd:subject/dc:subject">
+              <xsl:variable name="abrsubject" select="@eas:scheme"/>
+              <xsl:if test="not ($abrsubject) or $abrsubject != 'ABR'">
+                <car:subject>
+                  <xsl:value-of select="."/>
+                </car:subject>
+              </xsl:if>
+            </xsl:for-each>
+
+            <!-- dc:subject scheme=ABR_Complex naar English Heritage  top level Monument type-->
+            <!-- vereenvoudigd tot één hoofdniveau vermelding -->
+            <xsl:variable name="aas"
+              select="emd:subject/dc:subject[@eas:scheme='ABR' and (substring(.,1,2)='EX' or substring(.,1,2)='EL')]"/>
+            <xsl:if test="$aas">
+              <car:subject>AGRICULTURE_AND_SUBSISTENCE</car:subject>
+            </xsl:if>
+            <xsl:variable name="def"
+              select="emd:subject/dc:subject[@eas:scheme='ABR' and (substring(.,1,1)='V')]"/>
+            <xsl:if test="$def">
+              <car:subject>DEFENCE</car:subject>
+            </xsl:if>
+            <xsl:variable name="dom"
+              select="emd:subject/dc:subject[@eas:scheme='ABR' and (substring(.,1,1)='N')]"/>
+            <xsl:if test="$dom">
+              <car:subject>DOMESTIC</car:subject>
+            </xsl:if>
+            <xsl:variable name="rel"
+              select="emd:subject/dc:subject[@eas:scheme='ABR' and (.='DEPO' or substring(.,1,1)='G' or substring(.,1,1)='R')]"/>
+            <xsl:if test="$rel">
+              <car:subject>RELIGIOUS_RITUAL_AND_FUNARARY</car:subject>
+            </xsl:if>
+            <xsl:variable name="mar"
+              select="emd:subject/dc:subject[@eas:scheme='ABR' and (.='EVX' or .='ESCH')]"/>
+            <xsl:if test="$mar">
+              <car:subject>MARTIME</car:subject>
+            </xsl:if>
+            <xsl:variable name="mbf"
+              select="emd:subject/dc:subject[@eas:scheme='ABR' and (.='GMEG' or substring(.,1,2)='RK')]"/>
+            <xsl:if test="$mbf">
+              <car:subject>MONUMENT_BY_FORM</car:subject>
+            </xsl:if>
+            <xsl:variable name="trans"
+              select="emd:subject/dc:subject[@eas:scheme='ABR' and (substring(.,1,1)='I')]"/>
+            <xsl:if test="$trans">
+              <car:subject>TRANSPORT</car:subject>
+            </xsl:if>
+            <xsl:variable name="unk"
+              select="emd:subject/dc:subject[@eas:scheme='ABR' and (.='XXX')]"/>
+            <xsl:if test="$unk">
+              <car:subject>UNASSIGNED</car:subject>
+            </xsl:if>
+
+            <!-- dcterms:temporal  -->
+            <car:temporal>
+              <xsl:for-each select="emd:coverage/dcterms:temporal">
+                <xsl:variable name="abrtemporal" select="@eas:scheme"/>
+                <xsl:if test="not ($abrtemporal) or $abrtemporal != 'ABR'">
+                  <car:displayDate lang="nl">
+                    <xsl:value-of select="."/>
+                  </car:displayDate>
+                </xsl:if>
+              </xsl:for-each>
+
+              <!-- dcterms:temporal scheme=ABR Periode mapped to one unique timeSpan-->
+              <xsl:variable name="t_paleolithicum"
+                select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,5)='PALEO')]"/>
+              <xsl:if test="$t_paleolithicum">
+                <car:timeSpan>
+                  <car:endDate>-8800</car:endDate>
+                </car:timeSpan>
+              </xsl:if>
+              <xsl:variable name="t_mesolithicum"
+                select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,4)='MESO')]"/>
+              <xsl:if test="$t_mesolithicum">
+                <car:timeSpan>
+                  <car:startDate>-8800</car:startDate>
+                  <car:endDate>-4900</car:endDate>
+                </car:timeSpan>
+              </xsl:if>
+              <xsl:variable name="t_neolithicum"
+                select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,3)='NEO')]"/>
+              <xsl:if test="$t_neolithicum">
+                <car:timeSpan>
+                  <car:startDate>-4900</car:startDate>
+                  <car:endDate>-2000</car:endDate>
+                </car:timeSpan>
+              </xsl:if>
+              <xsl:variable name="t_bronstijd"
+                select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,5)='BRONS')]"/>
+              <xsl:if test="$t_bronstijd">
+                <car:timeSpan>
+                  <car:startDate>-2000</car:startDate>
+                  <car:endDate>-800</car:endDate>
+                </car:timeSpan>
+              </xsl:if>
+              <xsl:variable name="t_ijzertijd"
+                select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,3)='IJZ')]"/>
+              <xsl:if test="$t_ijzertijd">
+                <car:timeSpan>
+                  <car:startDate>-800</car:startDate>
+                  <car:endDate>-12</car:endDate>
+                </car:timeSpan>
+              </xsl:if>
+              <xsl:variable name="t_romeins"
+                select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,3)='ROM')]"/>
+              <xsl:if test="$t_romeins">
+                <car:timeSpan>
+                  <car:startDate>-12</car:startDate>
+                  <car:endDate>450</car:endDate>
+                </car:timeSpan>
+              </xsl:if>
+              <xsl:variable name="t_me"
+                select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,2,2)='ME')]"/>
+              <xsl:if test="$t_me">
+                <car:timeSpan>
+                  <car:startDate>450</car:startDate>
+                  <car:endDate>1500</car:endDate>
+                </car:timeSpan>
+              </xsl:if>
+              <xsl:variable name="t_nieuwetijd"
+                select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,2)='NT')]"/>
+              <xsl:if test="$t_nieuwetijd">
+                <car:timeSpan>
+                  <car:startDate>1500</car:startDate>
+                  <car:endDate>2010</car:endDate>
+                </car:timeSpan>
+              </xsl:if>
+
+              <!-- dcterms:temporal scheme=ABR Periode mapped to one unique periodName-->
+              <xsl:variable name="xxx"
+                select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (.='XXX')]"/>
+              <xsl:if test="$xxx">
+                <car:periodName>UNCERTAIN</car:periodName>
+              </xsl:if>
+              <xsl:variable name="paleolithicum"
+                select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,5)='PALEO')]"/>
+              <xsl:if test="$paleolithicum">
+                <car:periodName>PALAEOLITHIC</car:periodName>
+              </xsl:if>
+              <xsl:variable name="mesolithicum"
+                select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,4)='MESO')]"/>
+              <xsl:if test="$mesolithicum">
+                <car:periodName>MESOLITHIC</car:periodName>
+              </xsl:if>
+              <xsl:variable name="neolithicum"
+                select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,3)='NEO')]"/>
+              <xsl:if test="$neolithicum">
+                <car:periodName>NEOLITHIC</car:periodName>
+              </xsl:if>
+              <xsl:variable name="bronstijd"
+                select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,5)='BRONS')]"/>
+              <xsl:if test="$bronstijd">
+                <car:periodName>BRONZE_AGE</car:periodName>
+              </xsl:if>
+              <xsl:variable name="ijzertijd"
+                select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,3)='IJZ')]"/>
+              <xsl:if test="$ijzertijd">
+                <car:periodName>IRON_AGE</car:periodName>
+              </xsl:if>
+              <xsl:variable name="romeins"
+                select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,3)='ROM')]"/>
+              <xsl:if test="$romeins">
+                <car:periodName>ROMAN</car:periodName>
+              </xsl:if>
+              <xsl:variable name="me"
+                select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,2,2)='ME')]"/>
+              <xsl:if test="$me">
+                <car:periodName>MEDIEVAL</car:periodName>
+              </xsl:if>
+              <xsl:variable name="nieuwetijd"
+                select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,2)='NT')]"/>
+              <xsl:if test="$nieuwetijd">
+                <car:periodName>MODERN</car:periodName>
+              </xsl:if>
+
+            </car:temporal>
+
+            <!-- publication statements -->
+            <car:publicationStatement>
+              <xsl:for-each select="emd:publisher/dc:publisher">
+                <car:publisher>
+                  <xsl:value-of select="."/>
+                </car:publisher>
+              </xsl:for-each>
+              <xsl:if test="not (emd:publisher/dc:publisher)">
+                <xsl:for-each select="emd:rights/dc:rights">
+                  <car:publisher>
+                    <xsl:value-of select="."/>
+                  </car:publisher>
+                </xsl:for-each>
+              </xsl:if>
+              <!-- dc:date_created digits 1-4 -->
+              <car:date>
+                <xsl:variable name="jaar" select="emd:date/eas:created"/>
+                <xsl:value-of select="substring($jaar,1,10)"/>
+              </car:date>
+            </car:publicationStatement>
+
+            <!-- alleen dc:type DCMI, multiple types not allowed -->
+            <xsl:variable name="Ntypes" select="count(emd:type/dc:type[@eas:scheme='DCMI'])"/>
+            <xsl:choose>
+              <xsl:when test="$Ntypes>0">
+                <car:type namespace="http://purl.org/dc/dcmitype/">
+                  <!-- Note that the legacy DCMIType in Easy has false entries like
+                    'Interactive_Resource' instead of the proper 'InteractiveResource' -->
+                  <xsl:for-each select="emd:type/dc:type[@eas:scheme='DCMI']">
+                    <xsl:value-of select="."/>
+                    <xsl:if test="position() != $Ntypes">
+                      <xsl:text> </xsl:text>
+                    </xsl:if>
+                  </xsl:for-each>
+                </car:type>
+              </xsl:when>
+              <xsl:otherwise>
+                <car:type namespace="http://purl.org/dc/dcmitype/">Dataset</car:type>
+              </xsl:otherwise>
+            </xsl:choose>
+
+            <!-- dc:description -->
+            <xsl:variable name="Ndescriptions" select="count(emd:description/dc:description)"/>
+            <car:description lang="nl">
+              <xsl:for-each select="emd:description/dc:description">
+                <xsl:value-of select="."/>
+                <xsl:if test="position() != $Ndescriptions">
+                  <xsl:text>&#13;</xsl:text>
+                </xsl:if>
+              </xsl:for-each>
+            </car:description>
+
+            <!-- dcterms:created -->
+            <car:created>
+              <xsl:variable name="creatiedatum" select="emd:date/eas:created"/>
+              <xsl:variable name="datumvorm" select="emd:date/eas:created/@eas:format"/>
+              <xsl:choose>
+                <xsl:when test="$datumvorm='DAY'">
+                  <xsl:value-of select="substring($creatiedatum,1,10)"/>
+                </xsl:when>
+                <xsl:when test="$datumvorm='MONTH'">
+                  <xsl:value-of select="substring($creatiedatum,1,7)"/>
+                </xsl:when>
+                <xsl:when test="$datumvorm='YEAR'">
+                  <xsl:value-of select="substring($creatiedatum,1,4)"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:value-of select="$creatiedatum"/>
+                </xsl:otherwise>
+              </xsl:choose>
+            </car:created>
+
+            <!-- dc:language -->
+            <xsl:for-each select="emd:language/dc:language[@eas:scheme='ISO 639']">
+              <xsl:choose>
+                <xsl:when test=".='dut/nld'">
+                  <car:language>nl</car:language>
+                </xsl:when>
+                <xsl:when test=".='eng'">
+                  <car:language>en</car:language>
+                </xsl:when>
+                <xsl:when test=".='fre/fra'">
+                  <car:language>fr</car:language>
+                </xsl:when>
+                <xsl:when test=".='ger/deu'">
+                  <car:language>de</car:language>
+                </xsl:when>
+              </xsl:choose>
+            </xsl:for-each>
+            <xsl:if test="not (emd:language/dc:language[@eas:scheme='ISO 639'])">
+              <car:language>nl</car:language>
+            </xsl:if>
+
+            <car:link>
+              <xsl:value-of
+                select="emd:identifier/dc:identifier[@eas:scheme='PID' or @eas:identification-system='http://www.persistent-identifier.nl']/@eas:identification-system"/>
+              <xsl:text>/?identifier=</xsl:text>
+              <xsl:value-of
+                select="emd:identifier/dc:identifier[@eas:scheme='PID' or @eas:identification-system='http://www.persistent-identifier.nl']"
+              />
+            </car:link>
+
+            <car:relations>
+              <xsl:for-each
+                select="emd:identifier/dc:identifier[@eas:identification-system='http://archis2.archis.nl']">
+                <car:sourceOfRelation>Archis - Research Notification</car:sourceOfRelation>
+                <car:typeOfRelation>hasEvent</car:typeOfRelation>
+                <car:targetOfRelation>
+                  <xsl:value-of select="."/>
+                </car:targetOfRelation>
+              </xsl:for-each>
+            </car:relations>
+
+            <car:rights>
+              <car:copyright>
+                <xsl:for-each select="emd:rights/dc:rights">
+                  <car:rightsHolder>
+                    <xsl:value-of select="."/>
+                  </car:rightsHolder>
+                </xsl:for-each>
+                <xsl:if test="not (emd:rights/dc:rights)">
+                  <xsl:for-each select="emd:publisher/dc:publisher">
+                    <car:rightsHolder>
+                      <xsl:value-of select="."/>
+                    </car:rightsHolder>
+                  </xsl:for-each>
+                </xsl:if>
+              </car:copyright>
+
+              <car:accessRights>
+                <xsl:variable name="accessrights"
+                  select="emd:rights/dcterms:accessRights[@eas:schemeId='common.dcterms.accessrights' or @eas:schemeId='archaeology.dcterms.accessrights']"/>
+                <car:grantedTo>
+                  <xsl:choose>
+                    <xsl:when test="$accessrights='OPEN_ACCESS'">Registered EASY users</xsl:when>
+                    <xsl:when test="$accessrights='GROUP_ACCESS'">Registered EASY users, but
+                      belonging to the group of professional Dutch archaeologists only</xsl:when>
+                    <xsl:when test="$accessrights='REQUEST_PERMISSION'">Registered EASY users, but
+                      after permission is granted by the depositor </xsl:when>
+                    <xsl:when test="$accessrights='NO_ACCESS'">Registered EASY users, permission is
+                      granted occasionally after special mediation</xsl:when>
+                  </xsl:choose>
+                </car:grantedTo>
+
+                <car:conditions>Allowed for research and educational use, no commercial use allowed,
+                  attribution compulsory</car:conditions>
+
+                <!-- dcterms:date_available -->
+                <car:dateFrom>
+                  <xsl:value-of select="substring(emd:date/eas:available,1,10)"/>
+                </car:dateFrom>
+              </car:accessRights>
+
+              <car:reproductionRights>
+                <car:statement>for personal use only, reproduction or redistribution in any form is not
+                  allowed, no commercial use is allowed</car:statement>
+              </car:reproductionRights>
+
+            </car:rights>
+
+          </car:digitalResource>
+
+      </car:carare>
+    </car:carareWrap>
+  </xsl:template>
+  
+</xsl:stylesheet>
+
+            </foxml:xmlContent>
+        </foxml:datastreamVersion>
+        <foxml:datastreamVersion ID="EMD_carare.xsl.1" LABEL="Stylesheet for transformation from EMD to Carare" CREATED="2012-05-09T13:13:37.155+02:00" MIMETYPE="text/xml" SIZE="28551">
+            <foxml:xmlContent>
+            <xsl:stylesheet xmlns:car="http://www.carare.eu/carareSchema" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/" xmlns:emd="http://easy.dans.knaw.nl/easy/easymetadata/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" exclude-result-prefixes="emd dc dcterms eas" version="1.0">
+  <xsl:output encoding="UTF-8" indent="yes" method="xml" version="1.0"/>
+  <xsl:template match="/">
+    
+    
+    
+    
+    <xsl:variable name="archaeological_aip" select="emd:easymetadata/emd:other/eas:application-specific/eas:metadataformat[.='ARCHAEOLOGY']"/>
+    <xsl:variable name="text_aip" select="emd:easymetadata/emd:type/dc:type[.='Text' and @eas:scheme='DCMI']"/>
+    <xsl:variable name="open_toegang" select="emd:easymetadata/emd:rights/dcterms:accessRights[.='OPEN_ACCESS']"/>
+    <xsl:variable name="pointX" select="emd:easymetadata/emd:coverage/eas:spatial/eas:point/eas:x"/>
+    <xsl:variable name="boxX" select="emd:easymetadata/emd:coverage/eas:spatial/eas:box/eas:west"/>
+    <xsl:if test="$archaeological_aip and $text_aip and $open_toegang and (string($pointX) or string($boxX))">
+      <xsl:apply-templates select="emd:easymetadata"/>
+    </xsl:if>
+  </xsl:template>
+  <xsl:template match="emd:easymetadata">
+    <car:carareWrap xsi:schemaLocation="http://www.carare.eu/carareSchema http://www.carare.eu/carareSchema">
+      <xsl:variable name="pid" select="emd:identifier/dc:identifier[@eas:scheme='PID' or @eas:identification-system='http://www.persistent-identifier.nl']"/>
+      <car:carare>
+        <xsl:attribute name="id">
+          <xsl:value-of select="$pid"/>
+        </xsl:attribute>
+        <car:collectionInformation>
+          <car:title lang="en">e-archive Dutch Archaeology (DANS-EDNA)</car:title>
+          <car:title lang="nl" preferred="true">e-depot Nederlandse archeologie (DANS-EDNA)</car:title>
+          <car:keywords lang="en">data archive; datasets; publications; archaeological research; the
+            Netherlands</car:keywords>
+          <car:contacts>
+            <car:name>Drs. Hella Hollander</car:name>
+            <car:role>data archivist archaeology</car:role>
+            <car:organization>Data Archiving and Networked Services (DANS)</car:organization>
+            <car:address>Anna van Saksenlaan 10, 2593 HT The Hague, the Netherlands</car:address>
+            <car:phone>+31 70 3446484 </car:phone>
+            <car:fax>+31 70 3446482</car:fax>
+            <car:email>hella.hollander@dans.knaw.nl</car:email>
+            <car:email>info@dans.knaw.nl</car:email>
+          </car:contacts>
+          <car:rights>
+            <car:reproductionRights>
+              <car:statement>allowed for research and educational use only</car:statement>
+              <car:statement>for personal reuse only, reproduction or redistribution in any form is not
+                allowed, no commercial use allowed</car:statement>
+              <car:statement>attribution compulsory</car:statement>
+            </car:reproductionRights>
+            <car:licence>http://www.dans.knaw.nl/en/content/data-archive/terms-and-conditions</car:licence>
+          </car:rights>
+          <car:source>DANS-KNAW</car:source>
+          <car:language>nl</car:language>
+          <car:coverage>
+            <car:spatial>
+              <car:locationSet>
+                <car:geopoliticalArea>
+                  <car:geopoliticalAreaName>the Netherlands</car:geopoliticalAreaName>
+                  <car:geopoliticalAreaType>country</car:geopoliticalAreaType>
+                </car:geopoliticalArea>
+              </car:locationSet>
+            </car:spatial>
+          </car:coverage>
+        </car:collectionInformation>
+        
+        <xsl:variable name="dataset_taal" select="emd:language/dc:language[@eas:scheme='ISO 639']"/>
+        <xsl:variable name="meta_taal">
+          <xsl:choose>
+            <xsl:when test="$dataset_taal='dut/nld'">nl</xsl:when>
+            <xsl:when test="$dataset_taal='eng'">en</xsl:when>
+            <xsl:when test="$dataset_taal='fre/fra'">fr</xsl:when>
+            <xsl:when test="$dataset_taal='ger/deu'">de</xsl:when>
+            <xsl:otherwise>nl</xsl:otherwise>
+          </xsl:choose>
+        </xsl:variable>
+        <car:digitalResource>
+          <car:recordInformation>
+            <car:id>
+              <xsl:value-of select="$pid"/>
+            </car:id>
+            <car:source>DANS-KNAW</car:source>
+            <car:country>NLD</car:country>
+            <car:creation>
+              <car:date>
+                <xsl:value-of select="substring(emd:date/eas:dateSubmitted,1,10)"/>
+              </car:date>
+              <car:actor>
+                <car:name>dataset depositor (locally known)</car:name>
+                <car:actorType>individual</car:actorType>
+                <car:roles>depositor</car:roles>
+              </car:actor>
+            </car:creation>
+            <car:language>
+              <xsl:value-of select="$meta_taal"/>
+            </car:language>
+            <car:rights>
+              <car:accessRights>
+                <car:grantedTo>everyone</car:grantedTo>
+                <car:statement>metadata of the archived dataset is freely available to everyone (open
+                    access)</car:statement>
+              </car:accessRights>
+            </car:rights>
+          </car:recordInformation>
+          <car:appellation>
+            
+            <xsl:for-each select="emd:title/dc:title">
+              <car:name lang="nl">
+                <xsl:value-of select="."/>
+              </car:name>
+            </xsl:for-each>
+            <xsl:for-each select="emd:title/dcterms:alternative">
+              <car:name lang="nl">
+                <xsl:value-of select="."/>
+              </car:name>
+            </xsl:for-each>
+            <car:id>
+              <xsl:value-of select="$pid"/>
+            </car:id>
+          </car:appellation>
+          
+          
+          <xsl:for-each select="emd:creator/dc:creator">
+            <car:actors>
+              <car:name>
+                <xsl:value-of select="."/>
+              </car:name>
+              <car:actorType>individual</car:actorType>
+              <car:roles>creator</car:roles>
+            </car:actors>
+          </xsl:for-each>
+          
+          <xsl:for-each select="emd:contributor/dc:contributor">
+            <car:actors>
+              <car:name>
+                <xsl:value-of select="."/>
+              </car:name>
+              <car:actorType>individual</car:actorType>
+              <car:roles>contributor</car:roles>
+            </car:actors>
+          </xsl:for-each>
+          
+          <car:format>text</car:format>
+          <xsl:for-each select="emd:format/dc:format[@eas:scheme='IMT']">
+            <car:format>
+              <xsl:value-of select="."/>
+            </car:format>
+          </xsl:for-each>
+          
+          <car:medium>webresource</car:medium>
+          <car:extent>one or more digital files</car:extent>
+          
+          <car:spatial>
+            <car:locationSet>
+              <xsl:for-each select="emd:coverage/dcterms:spatial">
+                <xsl:variable name="topografie" select="."/>
+                <xsl:if test="not (contains($topografie,'aartblad'))">
+                  <xsl:if test="not (((string-length($topografie)=2 or string-length($topografie)=3) and number(substring($topografie,1,string-length($topografie)-1))!='NaN'))">
+                    <car:namedLocation>
+                      <xsl:value-of select="."/>
+                    </car:namedLocation>
+                  </xsl:if>
+                </xsl:if>
+              </xsl:for-each>
+              
+              
+              <car:geopoliticalArea>
+                <car:geopoliticalAreaName>the Netherlands</car:geopoliticalAreaName>
+                <car:geopoliticalAreaType>country</car:geopoliticalAreaType>
+              </car:geopoliticalArea>
+            </car:locationSet>
+            
+            <xsl:variable name="point" select="emd:coverage/eas:spatial/eas:point/eas:x"/>
+            <xsl:if test="not ($point)">
+              <xsl:variable name="box" select="emd:coverage/eas:spatial/eas:box/eas:west"/>
+              <xsl:if test="$box">
+                
+                <car:spatialReferenceSystem>WGS84</car:spatialReferenceSystem>
+                <car:geometry>
+                  <xsl:variable name="boxprojection" select="emd:coverage/eas:spatial/eas:box/@eas:scheme"/>
+                  <xsl:if test="$boxprojection='RD'">
+                    <xsl:variable name="n" select="number(emd:coverage/eas:spatial/eas:box/eas:north)"/>
+                    <xsl:variable name="e" select="number(emd:coverage/eas:spatial/eas:box/eas:east)"/>
+                    <xsl:variable name="s" select="number(emd:coverage/eas:spatial/eas:box/eas:south)"/>
+                    <xsl:variable name="w" select="number(emd:coverage/eas:spatial/eas:box/eas:west)"/>
+                    <xsl:variable name="x" select="round(($w+$e) div 2)"/>
+                    <xsl:variable name="y" select="round(($n+$s) div 2)"/>
+                    <xsl:variable name="dx" select="(-155000.00+$x) div 100000"/>
+                    <xsl:variable name="dy" select="(-463000.00+$y) div 100000"/>
+                    
+                    <xsl:variable name="df" select="(($dy*3235.65389)+($dx*$dx*-32.58297)+($dy*$dy*-0.24750)+($dx*$dx*$dy*-0.84978)+($dy*$dy*$dy*-0.06550)+($dx*$dx*$dy*$dy*-0.01709)+($dx*-0.00738)) div 3600"/>
+                    <xsl:variable name="dl" select="(($dx*5260.52916)+($dx*$dy*105.94684)+($dx*$dy*$dy*2.45656)+($dx*$dx*$dx*-0.81885)+($dx*$dy*$dy*$dy*0.05594)+($dx*$dx*$dx*$dy*-0.05606)) div 3600"/>
+                    <xsl:variable name="f" select="52.15517440+$df"/>
+                    <xsl:variable name="l" select="5.38720621+$dl"/>
+                    
+                    <car:quickpoint>
+                      <car:x>
+                        <xsl:value-of select="$l"/>
+                      </car:x>
+                      <car:y>
+                        <xsl:value-of select="$f"/>
+                      </car:y>
+                    </car:quickpoint>
+                    
+                    
+                    
+                    
+                    <car:storedprecision>10</car:storedprecision>
+                  </xsl:if>
+                </car:geometry>
+                <car:representations>point</car:representations>
+              </xsl:if>
+            </xsl:if>
+            <xsl:if test="$point">
+              
+              <car:spatialReferenceSystem>WGS84</car:spatialReferenceSystem>
+              <car:geometry>
+                <xsl:variable name="projection" select="emd:coverage/eas:spatial/eas:point/@eas:scheme"/>
+                <xsl:if test="$projection='RD'">
+                  <xsl:variable name="x" select="number(emd:coverage/eas:spatial/eas:point/eas:x)"/>
+                  <xsl:variable name="y" select="number(emd:coverage/eas:spatial/eas:point/eas:y)"/>
+                  <xsl:variable name="dx" select="(-155000.00+$x) div 100000"/>
+                  <xsl:variable name="dy" select="(-463000.00+$y) div 100000"/>
+                  
+                  <xsl:variable name="df" select="(($dy*3235.65389)+($dx*$dx*-32.58297)+($dy*$dy*-0.24750)+($dx*$dx*$dy*-0.84978)+($dy*$dy*$dy*-0.06550)+($dx*$dx*$dy*$dy*-0.01709)+($dx*-0.00738)) div 3600"/>
+                  <xsl:variable name="dl" select="(($dx*5260.52916)+($dx*$dy*105.94684)+($dx*$dy*$dy*2.45656)+($dx*$dx*$dx*-0.81885)+($dx*$dy*$dy*$dy*0.05594)+($dx*$dx*$dx*$dy*-0.05606)) div 3600"/>
+                  <xsl:variable name="f" select="52.15517440+$df"/>
+                  <xsl:variable name="l" select="5.38720621+$dl"/>
+                  
+                  <car:quickpoint>
+                    <car:x>
+                      <xsl:value-of select="$l"/>
+                    </car:x>
+                    <car:y>
+                      <xsl:value-of select="$f"/>
+                    </car:y>
+                  </car:quickpoint>
+                  
+                  
+                  
+                  
+                  <car:storedPrecision>10</car:storedPrecision>
+                </xsl:if>
+              </car:geometry>
+              <car:representations>point</car:representations>
+            </xsl:if>
+          </car:spatial>
+          
+          <xsl:for-each select="emd:subject/dc:subject">
+            <xsl:variable name="abrsubject" select="@eas:scheme"/>
+            <xsl:if test="not ($abrsubject) or $abrsubject != 'ABR'">
+              <car:subject>
+                <xsl:value-of select="."/>
+              </car:subject>
+            </xsl:if>
+          </xsl:for-each>
+          
+          
+          <xsl:variable name="aas" select="emd:subject/dc:subject[@eas:scheme='ABR' and (substring(.,1,2)='EX' or substring(.,1,2)='EL')]"/>
+          <xsl:if test="$aas">
+            <car:subject>AGRICULTURE_AND_SUBSISTENCE</car:subject>
+          </xsl:if>
+          <xsl:variable name="def" select="emd:subject/dc:subject[@eas:scheme='ABR' and (substring(.,1,1)='V')]"/>
+          <xsl:if test="$def">
+            <car:subject>DEFENCE</car:subject>
+          </xsl:if>
+          <xsl:variable name="dom" select="emd:subject/dc:subject[@eas:scheme='ABR' and (substring(.,1,1)='N')]"/>
+          <xsl:if test="$dom">
+            <car:subject>DOMESTIC</car:subject>
+          </xsl:if>
+          <xsl:variable name="rel" select="emd:subject/dc:subject[@eas:scheme='ABR' and (.='DEPO' or substring(.,1,1)='G' or substring(.,1,1)='R')]"/>
+          <xsl:if test="$rel">
+            <car:subject>RELIGIOUS_RITUAL_AND_FUNARARY</car:subject>
+          </xsl:if>
+          <xsl:variable name="mar" select="emd:subject/dc:subject[@eas:scheme='ABR' and (.='EVX' or .='ESCH')]"/>
+          <xsl:if test="$mar">
+            <car:subject>MARTIME</car:subject>
+          </xsl:if>
+          <xsl:variable name="mbf" select="emd:subject/dc:subject[@eas:scheme='ABR' and (.='GMEG' or substring(.,1,2)='RK')]"/>
+          <xsl:if test="$mbf">
+            <car:subject>MONUMENT_BY_FORM</car:subject>
+          </xsl:if>
+          <xsl:variable name="trans" select="emd:subject/dc:subject[@eas:scheme='ABR' and (substring(.,1,1)='I')]"/>
+          <xsl:if test="$trans">
+            <car:subject>TRANSPORT</car:subject>
+          </xsl:if>
+          <xsl:variable name="unk" select="emd:subject/dc:subject[@eas:scheme='ABR' and (.='XXX')]"/>
+          <xsl:if test="$unk">
+            <car:subject>UNASSIGNED</car:subject>
+          </xsl:if>
+          
+          <car:temporal>
+            
+            <xsl:variable name="xxx" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (.='XXX')]"/>
+            <xsl:if test="$xxx">
+              <car:periodName>UNCERTAIN</car:periodName>
+            </xsl:if>
+            <xsl:variable name="paleolithicum" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,5)='PALEO')]"/>
+            <xsl:if test="$paleolithicum">
+              <car:periodName>PALAEOLITHIC</car:periodName>
+            </xsl:if>
+            <xsl:variable name="mesolithicum" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,4)='MESO')]"/>
+            <xsl:if test="$mesolithicum">
+              <car:periodName>MESOLITHIC</car:periodName>
+            </xsl:if>
+            <xsl:variable name="neolithicum" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,3)='NEO')]"/>
+            <xsl:if test="$neolithicum">
+              <car:periodName>NEOLITHIC</car:periodName>
+            </xsl:if>
+            <xsl:variable name="bronstijd" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,5)='BRONS')]"/>
+            <xsl:if test="$bronstijd">
+              <car:periodName>BRONZE_AGE</car:periodName>
+            </xsl:if>
+            <xsl:variable name="ijzertijd" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,3)='IJZ')]"/>
+            <xsl:if test="$ijzertijd">
+              <car:periodName>IRON_AGE</car:periodName>
+            </xsl:if>
+            <xsl:variable name="romeins" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,3)='ROM')]"/>
+            <xsl:if test="$romeins">
+              <car:periodName>ROMAN</car:periodName>
+            </xsl:if>
+            <xsl:variable name="me" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,2,2)='ME')]"/>
+            <xsl:if test="$me">
+              <car:periodName>MEDIEVAL</car:periodName>
+            </xsl:if>
+            <xsl:variable name="nieuwetijd" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,2)='NT')]"/>
+            <xsl:if test="$nieuwetijd">
+              <car:periodName>MODERN</car:periodName>
+            </xsl:if>
+            <xsl:for-each select="emd:coverage/dcterms:temporal">
+              <xsl:variable name="abrtemporal" select="@eas:scheme"/>
+              <xsl:if test="not ($abrtemporal) or $abrtemporal != 'ABR'">
+                <car:displayDate lang="nl">
+                  <xsl:value-of select="."/>
+                </car:displayDate>
+              </xsl:if>
+            </xsl:for-each>
+            
+            <xsl:variable name="t_paleolithicum" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,5)='PALEO')]"/>
+            <xsl:if test="$t_paleolithicum">
+              <car:displayDate>Paleolithic (before 8800 BP)</car:displayDate>
+            </xsl:if>
+            <xsl:variable name="t_mesolithicum" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,4)='MESO')]"/>
+            <xsl:if test="$t_mesolithicum">
+              <car:displayDate>Mesolithic (8800 BP - 4900 BP)</car:displayDate>
+            </xsl:if>
+            <xsl:variable name="t_neolithicum" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,3)='NEO')]"/>
+            <xsl:if test="$t_neolithicum">
+              <car:displayDate>Neolithic (4900 BP - 2000 BP)</car:displayDate>
+            </xsl:if>
+            <xsl:variable name="t_bronstijd" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,5)='BRONS')]"/>
+            <xsl:if test="$t_bronstijd">
+              <car:displayDate>Bronze Age (2000 BP - 800 BP)</car:displayDate>
+            </xsl:if>
+            <xsl:variable name="t_ijzertijd" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,3)='IJZ')]"/>
+            <xsl:if test="$t_ijzertijd">
+              <car:displayDate>Iron Age (800 BP - 12 BP)</car:displayDate>
+            </xsl:if>
+            <xsl:variable name="t_romeins" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,3)='ROM')]"/>
+            <xsl:if test="$t_romeins">
+              <car:displayDate>Roman Era (12 BP - 450)</car:displayDate>
+            </xsl:if>
+            <xsl:variable name="t_me" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,2,2)='ME')]"/>
+            <xsl:if test="$t_me">
+              <car:displayDate>Middle Ages (450 - 1500)</car:displayDate>
+            </xsl:if>
+            <xsl:variable name="t_nieuwetijd" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,2)='NT')]"/>
+            <xsl:if test="$t_nieuwetijd">
+              <car:displayDate>Modern Era (after 1500)</car:displayDate>
+            </xsl:if>
+          </car:temporal>
+          
+          <car:publicationStatement>
+            <xsl:for-each select="emd:publisher/dc:publisher">
+              <car:publisher>
+                <xsl:value-of select="."/>
+              </car:publisher>
+            </xsl:for-each>
+            <xsl:if test="not (emd:publisher/dc:publisher)">
+              <xsl:for-each select="emd:rights/dc:rights">
+                <car:publisher>
+                  <xsl:value-of select="."/>
+                </car:publisher>
+              </xsl:for-each>
+            </xsl:if>
+            
+            <car:date>
+              <xsl:variable name="jaar" select="emd:date/eas:created"/>
+              <xsl:value-of select="substring($jaar,1,10)"/>
+            </car:date>
+          </car:publicationStatement>
+          
+          <xsl:variable name="Ntypes" select="count(emd:type/dc:type[@eas:scheme='DCMI'])"/>
+          <xsl:choose>
+            <xsl:when test="$Ntypes>0">
+              <car:type namespace="http://purl.org/dc/dcmitype/">
+                
+                <xsl:for-each select="emd:type/dc:type[@eas:scheme='DCMI']">
+                  <xsl:value-of select="."/>
+                  <xsl:if test="position() != $Ntypes">
+                    <xsl:text/>
+                  </xsl:if>
+                </xsl:for-each>
+              </car:type>
+            </xsl:when>
+            <xsl:otherwise>
+              <car:type namespace="http://purl.org/dc/dcmitype/">Dataset</car:type>
+            </xsl:otherwise>
+          </xsl:choose>
+          
+          <xsl:variable name="Ndescriptions" select="count(emd:description/dc:description)"/>
+          <car:description lang="nl">  
+          <xsl:for-each select="emd:description/dc:description">
+              <xsl:value-of select="."/>
+              <xsl:if test="position() != $Ndescriptions">
+                <xsl:text/>
+              </xsl:if>
+            </xsl:for-each>
+          </car:description>
+          
+          <car:created>
+            <xsl:variable name="creatiedatum" select="emd:date/eas:created"/>
+            <xsl:variable name="datumvorm" select="emd:date/eas:created/@eas:format"/>
+            <xsl:choose>
+              <xsl:when test="$datumvorm='DAY'">
+                <xsl:value-of select="substring($creatiedatum,1,10)"/>
+              </xsl:when>
+              <xsl:when test="$datumvorm='MONTH'">
+                <xsl:value-of select="substring($creatiedatum,1,7)"/>
+              </xsl:when>
+              <xsl:when test="$datumvorm='YEAR'">
+                <xsl:value-of select="substring($creatiedatum,1,4)"/>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:value-of select="$creatiedatum"/>
+              </xsl:otherwise>
+            </xsl:choose>
+          </car:created>
+          
+          <xsl:for-each select="emd:language/dc:language[@eas:scheme='ISO 639']">
+            <xsl:choose>
+              <xsl:when test=".='dut/nld'">
+                <car:language>nl</car:language>
+              </xsl:when>
+              <xsl:when test=".='eng'">
+                <car:language>en</car:language>
+              </xsl:when>
+              <xsl:when test=".='fre/fra'">
+                <car:language>fr</car:language>
+              </xsl:when>
+              <xsl:when test=".='ger/deu'">
+                <car:language>de</car:language>
+              </xsl:when>
+            </xsl:choose>
+          </xsl:for-each>
+          <xsl:if test="not (emd:language/dc:language[@eas:scheme='ISO 639'])">
+            <car:language>nl</car:language>
+          </xsl:if>
+          <car:link>
+            <xsl:value-of select="emd:identifier/dc:identifier[@eas:scheme='PID' or @eas:identification-system='http://www.persistent-identifier.nl']/@eas:identification-system"/>
+            <xsl:text>/?identifier=</xsl:text>
+            <xsl:value-of select="emd:identifier/dc:identifier[@eas:scheme='PID' or @eas:identification-system='http://www.persistent-identifier.nl']"/>
+          </car:link>
+          <car:relations>
+            <xsl:for-each select="emd:identifier/dc:identifier[@eas:identification-system='http://archis2.archis.nl']">
+              <car:sourceOfRelation>Archis - Research Notification</car:sourceOfRelation>
+              <car:typeOfRelation>hasEvent</car:typeOfRelation>
+              <car:targetOfRelation>
+                <xsl:value-of select="."/>
+              </car:targetOfRelation>
+            </xsl:for-each>
+          </car:relations>
+          <car:rights>
+            <car:copyright>
+              <xsl:for-each select="emd:rights/dc:rights">
+                <car:rightsHolder>
+                  <xsl:value-of select="."/>
+                </car:rightsHolder>
+              </xsl:for-each>
+              <xsl:if test="not (emd:rights/dc:rights)">
+                <xsl:for-each select="emd:publisher/dc:publisher">
+                  <car:rightsHolder>
+                    <xsl:value-of select="."/>
+                  </car:rightsHolder>
+                </xsl:for-each>
+              </xsl:if>
+            </car:copyright>
+            <car:accessRights>
+              <xsl:variable name="accessrights" select="emd:rights/dcterms:accessRights[@eas:schemeId='common.dcterms.accessrights' or @eas:schemeId='archaeology.dcterms.accessrights']"/>
+              <car:grantedTo>
+                <xsl:choose>
+                  <xsl:when test="$accessrights='OPEN_ACCESS'">Registered EASY users</xsl:when>
+                  <xsl:when test="$accessrights='GROUP_ACCESS'">Registered EASY users, but
+                      belonging to the group of professional Dutch archaeologists only</xsl:when>
+                  <xsl:when test="$accessrights='REQUEST_PERMISSION'">Registered EASY users, but                      
+after permission is granted by the depositor </xsl:when>
+                  <xsl:when test="$accessrights='NO_ACCESS'">Registered EASY users, permission is
+                      granted occasionally after special mediation</xsl:when>
+                </xsl:choose>
+              </car:grantedTo>
+              <car:conditions>Allowed for research and educational use, no commercial use allowed,
+                  attribution compulsory</car:conditions>
+              
+              <car:dateFrom>
+                <xsl:value-of select="substring(emd:date/eas:available,1,10)"/>
+              </car:dateFrom>
+            </car:accessRights>
+            <car:reproductionRights>
+              <car:statement>for personal use only, reproduction or redistribution in any form is not
+                  allowed, no commercial use is allowed</car:statement>
+            </car:reproductionRights>
+          </car:rights>
+        </car:digitalResource>
+      </car:carare>
+    </car:carareWrap>
+  </xsl:template>
+</xsl:stylesheet>
+            </foxml:xmlContent>
+        </foxml:datastreamVersion>
+        <foxml:datastreamVersion ID="EMD_carare.xsl1.0" LABEL="Stylesheet for transformation from EMD to Carare" CREATED="2012-04-19T16:20:17.148+02:00" MIMETYPE="text/xml" SIZE="28239">
+            <foxml:xmlContent>
+            <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:car="http://www.carare.eu/carareSchema" xmlns:emd="http://easy.dans.knaw.nl/easy/easymetadata/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/" version="1.0" exclude-result-prefixes="emd dc dcterms eas">
+					<xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes"/>
+
+					<xsl:template match="/">
+						
+						
+						
+						
+						<xsl:variable name="archaeological_aip" select="emd:easymetadata/emd:other/eas:application-specific/eas:metadataformat[.='ARCHAEOLOGY']"/>
+						<xsl:variable name="text_aip" select="emd:easymetadata/emd:type/dc:type[.='Text' and @eas:scheme='DCMI']"/>
+						<xsl:variable name="open_toegang" select="emd:easymetadata/emd:rights/dcterms:accessRights[.='OPEN_ACCESS']"/>
+						<xsl:variable name="pointX" select="emd:easymetadata/emd:coverage/eas:spatial/eas:point/eas:x"/>
+						<xsl:variable name="boxX" select="emd:easymetadata/emd:coverage/eas:spatial/eas:box/eas:west"/>
+
+						<xsl:if test="$archaeological_aip and $text_aip and $open_toegang and (string($pointX) or string($boxX))">
+							<xsl:apply-templates select="emd:easymetadata"/>
+						</xsl:if>
+					</xsl:template>
+
+					<xsl:template match="emd:easymetadata">
+
+						<car:carareWrap xsi:schemaLocation="http://www.carare.eu/carareSchema http://www.carare.eu/carareSchema">
+							<xsl:variable name="pid" select="emd:identifier/dc:identifier[@eas:scheme='PID' or @eas:identification-system='http://www.persistent-identifier.nl']"/>
+							<car:carare>
+								<xsl:attribute name="id">
+          <xsl:value-of select="$pid"/>
+        </xsl:attribute>
+								<car:collectionInformation>
+									<car:title lang="en">e-archive Dutch Archaeology
+										(DANS-EDNA)</car:title>
+									<car:title lang="nl" preferred="true">e-depot Nederlandse
+										archeologie (DANS-EDNA)</car:title>
+									<car:keywords lang="en">data archive; datasets;
+										publications; archaeological research; the
+										Netherlands</car:keywords>
+									<car:contacts>
+										<car:name>Drs. Hella Hollander</car:name>
+										<car:role>data archivist archaeology</car:role>
+										<car:organization>Data Archiving and Networked Services (DANS)
+										</car:organization>
+										<car:address>Anna van Saksenlaan 10, 2593 HT The Hague, the
+											Netherlands</car:address>
+										<car:phone>+31 70 3446484 </car:phone>
+										<car:fax>+31 70 3446482</car:fax>
+										<car:email>hella.hollander@dans.knaw.nl</car:email>
+										<car:email>info@dans.knaw.nl</car:email>
+									</car:contacts>
+									<car:rights>
+										<car:reproductionRights>
+											<car:statement>allowed for research and educational use only
+											</car:statement>
+											<car:statement>for personal reuse only, reproduction or
+												redistribution in any form is not
+												allowed, no commercial use allowed</car:statement>
+											<car:statement>attribution compulsory</car:statement>
+										</car:reproductionRights>
+										<car:licence>http://www.dans.knaw.nl/en/content/data-archive/terms-and-conditions
+										</car:licence>
+									</car:rights>
+									<car:source>DANS-KNAW</car:source>
+									<car:language>nl</car:language>
+									<car:coverage>
+										<car:spatial>
+											<car:locationSet>
+												<car:geopoliticalArea>
+													<car:geopoliticalAreaName>the Netherlands
+													</car:geopoliticalAreaName>
+													<car:geopoliticalAreaType>country
+													</car:geopoliticalAreaType>
+												</car:geopoliticalArea>
+											</car:locationSet>
+										</car:spatial>
+									</car:coverage>
+								</car:collectionInformation>
+
+
+								
+								<xsl:variable name="dataset_taal" select="emd:language/dc:language[@eas:scheme='ISO 639']"/>
+								<xsl:variable name="meta_taal">
+									<xsl:choose>
+										<xsl:when test="$dataset_taal='dut/nld'">
+											nl
+										</xsl:when>
+										<xsl:when test="$dataset_taal='eng'">
+											en
+										</xsl:when>
+										<xsl:when test="$dataset_taal='fre/fra'">
+											fr
+										</xsl:when>
+										<xsl:when test="$dataset_taal='ger/deu'">
+											de
+										</xsl:when>
+										<xsl:otherwise>
+											nl
+										</xsl:otherwise>
+									</xsl:choose>
+								</xsl:variable>
+
+								<car:digitalResource>
+
+									<car:recordInformation>
+										<car:id>
+											<xsl:value-of select="$pid"/>
+										</car:id>
+										<car:source>DANS-KNAW</car:source>
+										<car:country>NLD</car:country>
+										<car:creation>
+											<car:date>
+												<xsl:value-of select="substring(emd:date/eas:dateSubmitted,1,10)"/>
+											</car:date>
+											<car:actor>
+												<car:name>dataset depositor (locally known)</car:name>
+												<car:actorType>individual</car:actorType>
+												<car:roles>depositor</car:roles>
+											</car:actor>
+										</car:creation>
+										<car:language>
+											<xsl:value-of select="$meta_taal"/>
+										</car:language>
+										<car:rights>
+											<car:accessRights>
+												<car:grantedTo>everyone</car:grantedTo>
+												<car:statement>metadata of the archived dataset is freely
+													available to everyone (open
+													access)</car:statement>
+											</car:accessRights>
+										</car:rights>
+									</car:recordInformation>
+
+									<car:appellation>
+										
+										<xsl:for-each select="emd:title/dc:title">
+											<car:name lang="nl">
+												<xsl:value-of select="."/>
+											</car:name>
+										</xsl:for-each>
+										<xsl:for-each select="emd:title/dcterms:alternative">
+											<car:name lang="nl">
+												<xsl:value-of select="."/>
+											</car:name>
+										</xsl:for-each>
+										<car:id>
+											<xsl:value-of select="$pid"/>
+										</car:id>
+									</car:appellation>
+
+									
+									
+									<xsl:for-each select="emd:creator/dc:creator">
+										<car:actors>
+											<car:name>
+												<xsl:value-of select="."/>
+											</car:name>
+											<car:actorType>individual</car:actorType>
+											<car:roles>creator</car:roles>
+										</car:actors>
+									</xsl:for-each>
+									
+									<xsl:for-each select="emd:contributor/dc:contributor">
+										<car:actors>
+											<car:name>
+												<xsl:value-of select="."/>
+											</car:name>
+											<car:actorType>individual</car:actorType>
+											<car:roles>contributor</car:roles>
+										</car:actors>
+									</xsl:for-each>
+
+									
+									<car:format>text</car:format>
+									<xsl:for-each select="emd:format/dc:format[@eas:scheme='IMT']">
+										<car:format>
+											<xsl:value-of select="."/>
+										</car:format>
+									</xsl:for-each>
+
+
+									
+									<car:medium>webresource</car:medium>
+									<car:extent>one or more digital files</car:extent>
+
+									
+									<car:spatial>
+										<car:locationSet>
+											<xsl:for-each select="emd:coverage/dcterms:spatial">
+												<xsl:variable name="topografie" select="."/>
+												<xsl:if test="not (contains($topografie,'aartblad'))">
+													<xsl:if test="not (((string-length($topografie)=2 or string-length($topografie)=3) and number(substring($topografie,1,string-length($topografie)-1))!='NaN'))">
+														<car:namedLocation>
+															<xsl:value-of select="."/>
+														</car:namedLocation>
+													</xsl:if>
+												</xsl:if>
+											</xsl:for-each>				
+
+											
+											
+							<car:geopoliticalArea>
+												<car:geopoliticalAreaName>the Netherlands
+												</car:geopoliticalAreaName>
+												<car:geopoliticalAreaType>country</car:geopoliticalAreaType>
+											</car:geopoliticalArea>
+
+										</car:locationSet>
+
+										
+										<xsl:variable name="point" select="emd:coverage/eas:spatial/eas:point/eas:x"/>
+										<xsl:if test="not ($point)">
+											<xsl:variable name="box" select="emd:coverage/eas:spatial/eas:box/eas:west"/>
+											<xsl:if test="$box">
+
+												
+												<car:spatialReferenceSystem>WGS84
+												</car:spatialReferenceSystem>
+
+												<car:geometry>
+													<xsl:variable name="boxprojection" select="emd:coverage/eas:spatial/eas:box/@eas:scheme"/>
+													<xsl:if test="$boxprojection='RD'">
+														<xsl:variable name="n" select="number(emd:coverage/eas:spatial/eas:box/eas:north)"/>
+														<xsl:variable name="e" select="number(emd:coverage/eas:spatial/eas:box/eas:east)"/>
+														<xsl:variable name="s" select="number(emd:coverage/eas:spatial/eas:box/eas:south)"/>
+														<xsl:variable name="w" select="number(emd:coverage/eas:spatial/eas:box/eas:west)"/>
+														<xsl:variable name="x" select="round(($w+$e) div 2)"/>
+														<xsl:variable name="y" select="round(($n+$s) div 2)"/>
+
+
+														<xsl:variable name="dx" select="(-155000.00+$x) div 100000"/>
+														<xsl:variable name="dy" select="(-463000.00+$y) div 100000"/>
+														
+														<xsl:variable name="df" select="(($dy*3235.65389)+($dx*$dx*-32.58297)+($dy*$dy*-0.24750)+($dx*$dx*$dy*-0.84978)+($dy*$dy*$dy*-0.06550)+($dx*$dx*$dy*$dy*-0.01709)+($dx*-0.00738)) div 3600"/>
+														<xsl:variable name="dl" select="(($dx*5260.52916)+($dx*$dy*105.94684)+($dx*$dy*$dy*2.45656)+($dx*$dx*$dx*-0.81885)+($dx*$dy*$dy*$dy*0.05594)+($dx*$dx*$dx*$dy*-0.05606)) div 3600"/>
+														<xsl:variable name="f" select="52.15517440+$df"/>
+														<xsl:variable name="l" select="5.38720621+$dl"/>
+
+														
+														<car:quickpoint>
+															<car:x>
+																<xsl:value-of select="$l"/>
+															</car:x>
+															<car:y>
+																<xsl:value-of select="$f"/>
+															</car:y>
+														</car:quickpoint>
+														
+														
+														
+														
+														<car:storedprecision>10</car:storedprecision>
+													</xsl:if>
+												</car:geometry>
+												<car:representations>point</car:representations>
+											</xsl:if>
+										</xsl:if>
+
+										<xsl:if test="$point">
+											
+											<car:spatialReferenceSystem>WGS84
+											</car:spatialReferenceSystem>
+
+											<car:geometry>
+												<xsl:variable name="projection" select="emd:coverage/eas:spatial/eas:point/@eas:scheme"/>
+												<xsl:if test="$projection='RD'">
+													<xsl:variable name="x" select="number(emd:coverage/eas:spatial/eas:point/eas:x)"/>
+													<xsl:variable name="y" select="number(emd:coverage/eas:spatial/eas:point/eas:y)"/>
+													<xsl:variable name="dx" select="(-155000.00+$x) div 100000"/>
+													<xsl:variable name="dy" select="(-463000.00+$y) div 100000"/>
+													
+													<xsl:variable name="df" select="(($dy*3235.65389)+($dx*$dx*-32.58297)+($dy*$dy*-0.24750)+($dx*$dx*$dy*-0.84978)+($dy*$dy*$dy*-0.06550)+($dx*$dx*$dy*$dy*-0.01709)+($dx*-0.00738)) div 3600"/>
+													<xsl:variable name="dl" select="(($dx*5260.52916)+($dx*$dy*105.94684)+($dx*$dy*$dy*2.45656)+($dx*$dx*$dx*-0.81885)+($dx*$dy*$dy*$dy*0.05594)+($dx*$dx*$dx*$dy*-0.05606)) div 3600"/>
+													<xsl:variable name="f" select="52.15517440+$df"/>
+													<xsl:variable name="l" select="5.38720621+$dl"/>
+
+													
+													<car:quickpoint>
+														<car:x>
+															<xsl:value-of select="$l"/>
+														</car:x>
+														<car:y>
+															<xsl:value-of select="$f"/>
+														</car:y>
+													</car:quickpoint>
+													
+													
+													
+													
+													<car:storedPrecision>10</car:storedPrecision>
+												</xsl:if>
+											</car:geometry>
+											<car:representations>point</car:representations>
+										</xsl:if>
+									</car:spatial>
+
+									
+									<xsl:for-each select="emd:subject/dc:subject">
+										<xsl:variable name="abrsubject" select="@eas:scheme"/>
+										<xsl:if test="not ($abrsubject) or $abrsubject != 'ABR'">
+											<car:subject>
+												<xsl:value-of select="."/>
+											</car:subject>
+										</xsl:if>
+									</xsl:for-each>
+
+									
+									
+									<xsl:variable name="aas" select="emd:subject/dc:subject[@eas:scheme='ABR' and (substring(.,1,2)='EX' or substring(.,1,2)='EL')]"/>
+									<xsl:if test="$aas">
+										<car:subject>AGRICULTURE_AND_SUBSISTENCE</car:subject>
+									</xsl:if>
+									<xsl:variable name="def" select="emd:subject/dc:subject[@eas:scheme='ABR' and (substring(.,1,1)='V')]"/>
+									<xsl:if test="$def">
+										<car:subject>DEFENCE</car:subject>
+									</xsl:if>
+									<xsl:variable name="dom" select="emd:subject/dc:subject[@eas:scheme='ABR' and (substring(.,1,1)='N')]"/>
+									<xsl:if test="$dom">
+										<car:subject>DOMESTIC</car:subject>
+									</xsl:if>
+									<xsl:variable name="rel" select="emd:subject/dc:subject[@eas:scheme='ABR' and (.='DEPO' or substring(.,1,1)='G' or substring(.,1,1)='R')]"/>
+									<xsl:if test="$rel">
+										<car:subject>RELIGIOUS_RITUAL_AND_FUNARARY</car:subject>
+									</xsl:if>
+									<xsl:variable name="mar" select="emd:subject/dc:subject[@eas:scheme='ABR' and (.='EVX' or .='ESCH')]"/>
+									<xsl:if test="$mar">
+										<car:subject>MARTIME</car:subject>
+									</xsl:if>
+									<xsl:variable name="mbf" select="emd:subject/dc:subject[@eas:scheme='ABR' and (.='GMEG' or substring(.,1,2)='RK')]"/>
+									<xsl:if test="$mbf">
+										<car:subject>MONUMENT_BY_FORM</car:subject>
+									</xsl:if>
+									<xsl:variable name="trans" select="emd:subject/dc:subject[@eas:scheme='ABR' and (substring(.,1,1)='I')]"/>
+									<xsl:if test="$trans">
+										<car:subject>TRANSPORT</car:subject>
+									</xsl:if>
+									<xsl:variable name="unk" select="emd:subject/dc:subject[@eas:scheme='ABR' and (.='XXX')]"/>
+									<xsl:if test="$unk">
+										<car:subject>UNASSIGNED</car:subject>
+									</xsl:if>
+
+									
+									<car:temporal>
+										<xsl:for-each select="emd:coverage/dcterms:temporal">
+											<xsl:variable name="abrtemporal" select="@eas:scheme"/>
+											<xsl:if test="not ($abrtemporal) or $abrtemporal != 'ABR'">
+												<car:displayDate lang="nl">
+													<xsl:value-of select="."/>
+												</car:displayDate>
+											</xsl:if>
+										</xsl:for-each>
+
+										
+										<xsl:variable name="t_paleolithicum" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,5)='PALEO')]"/>
+										<xsl:if test="$t_paleolithicum">
+											<car:timeSpan>
+												<car:endDate>-8800</car:endDate>
+											</car:timeSpan>
+										</xsl:if>
+										<xsl:variable name="t_mesolithicum" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,4)='MESO')]"/>
+										<xsl:if test="$t_mesolithicum">
+											<car:timeSpan>
+												<car:startDate>-8800</car:startDate>
+												<car:endDate>-4900</car:endDate>
+											</car:timeSpan>
+										</xsl:if>
+										<xsl:variable name="t_neolithicum" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,3)='NEO')]"/>
+										<xsl:if test="$t_neolithicum">
+											<car:timeSpan>
+												<car:startDate>-4900</car:startDate>
+												<car:endDate>-2000</car:endDate>
+											</car:timeSpan>
+										</xsl:if>
+										<xsl:variable name="t_bronstijd" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,5)='BRONS')]"/>
+										<xsl:if test="$t_bronstijd">
+											<car:timeSpan>
+												<car:startDate>-2000</car:startDate>
+												<car:endDate>-0800</car:endDate>
+											</car:timeSpan>
+										</xsl:if>
+										<xsl:variable name="t_ijzertijd" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,3)='IJZ')]"/>
+										<xsl:if test="$t_ijzertijd">
+											<car:timeSpan>
+												<car:startDate>-0800</car:startDate>
+												<car:endDate>-0012</car:endDate>
+											</car:timeSpan>
+										</xsl:if>
+										<xsl:variable name="t_romeins" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,3)='ROM')]"/>
+										<xsl:if test="$t_romeins">
+											<car:timeSpan>
+												<car:startDate>-0012</car:startDate>
+												<car:endDate>0450</car:endDate>
+											</car:timeSpan>
+										</xsl:if>
+										<xsl:variable name="t_me" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,2,2)='ME')]"/>
+										<xsl:if test="$t_me">
+											<car:timeSpan>
+												<car:startDate>0450</car:startDate>
+												<car:endDate>1500</car:endDate>
+											</car:timeSpan>
+										</xsl:if>
+										<xsl:variable name="t_nieuwetijd" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,2)='NT')]"/>
+										<xsl:if test="$t_nieuwetijd">
+											<car:timeSpan>
+												<car:startDate>1500</car:startDate>
+												<car:endDate>2010</car:endDate>
+											</car:timeSpan>
+										</xsl:if>
+
+										
+										<xsl:variable name="xxx" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (.='XXX')]"/>
+										<xsl:if test="$xxx">
+											<car:periodName>UNCERTAIN</car:periodName>
+										</xsl:if>
+										<xsl:variable name="paleolithicum" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,5)='PALEO')]"/>
+										<xsl:if test="$paleolithicum">
+											<car:periodName>PALAEOLITHIC</car:periodName>
+										</xsl:if>
+										<xsl:variable name="mesolithicum" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,4)='MESO')]"/>
+										<xsl:if test="$mesolithicum">
+											<car:periodName>MESOLITHIC</car:periodName>
+										</xsl:if>
+										<xsl:variable name="neolithicum" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,3)='NEO')]"/>
+										<xsl:if test="$neolithicum">
+											<car:periodName>NEOLITHIC</car:periodName>
+										</xsl:if>
+										<xsl:variable name="bronstijd" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,5)='BRONS')]"/>
+										<xsl:if test="$bronstijd">
+											<car:periodName>BRONZE_AGE</car:periodName>
+										</xsl:if>
+										<xsl:variable name="ijzertijd" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,3)='IJZ')]"/>
+										<xsl:if test="$ijzertijd">
+											<car:periodName>IRON_AGE</car:periodName>
+										</xsl:if>
+										<xsl:variable name="romeins" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,3)='ROM')]"/>
+										<xsl:if test="$romeins">
+											<car:periodName>ROMAN</car:periodName>
+										</xsl:if>
+										<xsl:variable name="me" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,2,2)='ME')]"/>
+										<xsl:if test="$me">
+											<car:periodName>MEDIEVAL</car:periodName>
+										</xsl:if>
+										<xsl:variable name="nieuwetijd" select="emd:coverage/dcterms:temporal[@eas:scheme='ABR' and (substring(.,1,2)='NT')]"/>
+										<xsl:if test="$nieuwetijd">
+											<car:periodName>MODERN</car:periodName>
+										</xsl:if>
+
+									</car:temporal>
+
+									
+									<car:publicationStatement>
+										<xsl:for-each select="emd:publisher/dc:publisher">
+											<car:publisher>
+												<xsl:value-of select="."/>
+											</car:publisher>
+										</xsl:for-each>
+										<xsl:if test="not (emd:publisher/dc:publisher)">
+											<xsl:for-each select="emd:rights/dc:rights">
+												<car:publisher>
+													<xsl:value-of select="."/>
+												</car:publisher>
+											</xsl:for-each>
+										</xsl:if>
+										
+										<car:date>
+											<xsl:variable name="jaar" select="emd:date/eas:created"/>
+											<xsl:value-of select="substring($jaar,1,10)"/>
+										</car:date>
+									</car:publicationStatement>
+
+									
+									<xsl:variable name="Ntypes" select="count(emd:type/dc:type[@eas:scheme='DCMI'])"/>
+									<xsl:choose>
+										<xsl:when test="$Ntypes>0">
+											<car:type namespace="http://purl.org/dc/dcmitype/">
+												
+												<xsl:for-each select="emd:type/dc:type[@eas:scheme='DCMI']">
+													<xsl:value-of select="."/>
+													<xsl:if test="position() != $Ntypes">
+														<xsl:text> </xsl:text>
+													</xsl:if>
+												</xsl:for-each>
+											</car:type>
+										</xsl:when>
+										<xsl:otherwise>
+											<car:type namespace="http://purl.org/dc/dcmitype/">Dataset</car:type>
+										</xsl:otherwise>
+									</xsl:choose>
+
+									
+									<xsl:variable name="Ndescriptions" select="count(emd:description/dc:description)"/>
+									<car:description lang="nl">
+										<xsl:for-each select="emd:description/dc:description">
+											<xsl:value-of select="."/>
+											<xsl:if test="position() != $Ndescriptions">
+												<xsl:text>
+</xsl:text>
+											</xsl:if>
+										</xsl:for-each>
+									</car:description>
+
+									
+									<car:created>
+										<xsl:variable name="creatiedatum" select="emd:date/eas:created"/>
+										<xsl:variable name="datumvorm" select="emd:date/eas:created/@eas:format"/>
+										<xsl:choose>
+											<xsl:when test="$datumvorm='DAY'">
+												<xsl:value-of select="substring($creatiedatum,1,10)"/>
+											</xsl:when>
+											<xsl:when test="$datumvorm='MONTH'">
+												<xsl:value-of select="substring($creatiedatum,1,7)"/>
+											</xsl:when>
+											<xsl:when test="$datumvorm='YEAR'">
+												<xsl:value-of select="substring($creatiedatum,1,4)"/>
+											</xsl:when>
+											<xsl:otherwise>
+												<xsl:value-of select="$creatiedatum"/>
+											</xsl:otherwise>
+										</xsl:choose>
+									</car:created>
+
+									
+									<xsl:for-each select="emd:language/dc:language[@eas:scheme='ISO 639']">
+										<xsl:choose>
+											<xsl:when test=".='dut/nld'">
+												<car:language>nl</car:language>
+											</xsl:when>
+											<xsl:when test=".='eng'">
+												<car:language>en</car:language>
+											</xsl:when>
+											<xsl:when test=".='fre/fra'">
+												<car:language>fr</car:language>
+											</xsl:when>
+											<xsl:when test=".='ger/deu'">
+												<car:language>de</car:language>
+											</xsl:when>
+										</xsl:choose>
+									</xsl:for-each>
+									<xsl:if test="not (emd:language/dc:language[@eas:scheme='ISO 639'])">
+										<car:language>nl</car:language>
+									</xsl:if>
+
+									<car:link>
+										<xsl:value-of select="emd:identifier/dc:identifier[@eas:scheme='PID' or @eas:identification-system='http://www.persistent-identifier.nl']/@eas:identification-system"/>
+										<xsl:text>/?identifier=</xsl:text>
+										<xsl:value-of select="emd:identifier/dc:identifier[@eas:scheme='PID' or @eas:identification-system='http://www.persistent-identifier.nl']"/>
+									</car:link>
+
+									<car:relations>
+										<xsl:for-each select="emd:identifier/dc:identifier[@eas:identification-system='http://archis2.archis.nl']">
+											<car:sourceOfRelation>Archis - Research Notification
+											</car:sourceOfRelation>
+											<car:typeOfRelation>hasEvent</car:typeOfRelation>
+											<car:targetOfRelation>
+												<xsl:value-of select="."/>
+											</car:targetOfRelation>
+										</xsl:for-each>
+									</car:relations>
+
+									<car:rights>
+										<car:copyright>
+											<xsl:for-each select="emd:rights/dc:rights">
+												<car:rightsHolder>
+													<xsl:value-of select="."/>
+												</car:rightsHolder>
+											</xsl:for-each>
+											<xsl:if test="not (emd:rights/dc:rights)">
+												<xsl:for-each select="emd:publisher/dc:publisher">
+													<car:rightsHolder>
+														<xsl:value-of select="."/>
+													</car:rightsHolder>
+												</xsl:for-each>
+											</xsl:if>
+										</car:copyright>
+
+										<car:accessRights>
+											<xsl:variable name="accessrights" select="emd:rights/dcterms:accessRights[@eas:schemeId='common.dcterms.accessrights' or @eas:schemeId='archaeology.dcterms.accessrights']"/>
+											<car:grantedTo>
+												<xsl:choose>
+													<xsl:when test="$accessrights='OPEN_ACCESS'">
+														Registered EASY users
+													</xsl:when>
+													<xsl:when test="$accessrights='GROUP_ACCESS'">
+														Registered EASY users, but
+														belonging to the group of professional Dutch archaeologists only
+													</xsl:when>
+													<xsl:when test="$accessrights='REQUEST_PERMISSION'">
+														Registered EASY users, but
+														after permission is granted by the depositor
+													</xsl:when>
+													<xsl:when test="$accessrights='NO_ACCESS'">
+														Registered EASY users, permission is
+														granted occasionally after special mediation
+													</xsl:when>
+												</xsl:choose>
+											</car:grantedTo>
+
+											<car:conditions>Allowed for research and educational use, no
+												commercial use allowed,
+												attribution compulsory</car:conditions>
+
+											
+											<car:dateFrom>
+												<xsl:value-of select="substring(emd:date/eas:available,1,10)"/>
+											</car:dateFrom>
+										</car:accessRights>
+
+										<car:reproductionRights>
+											<car:statement>for personal use only, reproduction or
+												redistribution in any form is not
+												allowed, no commercial use is allowed</car:statement>
+										</car:reproductionRights>
+
+									</car:rights>
+
+								</car:digitalResource>
+
+							</car:carare>
+						</car:carareWrap>
+					</xsl:template>
+				</xsl:stylesheet>
+            </foxml:xmlContent>
+        </foxml:datastreamVersion>
+    </foxml:datastream>
+</foxml:digitalObject>

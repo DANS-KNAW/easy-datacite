@@ -1,4 +1,4 @@
-dn: uid=root,ou=users,ou=easy,dc=dans,dc=knaw,dc=nl
+dn: uid=easyadmin,ou=users,ou=easy,dc=dans,dc=knaw,dc=nl
 changetype: modify
 replace: userPassword
 userPassword: {SSHA}VzBuoiJKS46ZIiTmvAHkj4C92qE749YR

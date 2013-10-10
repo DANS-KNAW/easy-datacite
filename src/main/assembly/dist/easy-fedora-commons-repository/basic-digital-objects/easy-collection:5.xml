@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<foxml:digitalObject xmlns:foxml="info:fedora/fedora-system:def/foxml#" VERSION="1.1" PID="easy-collection:5">
+    <foxml:objectProperties>
+        <foxml:property NAME="info:fedora/fedora-system:def/model#ownerId" VALUE="FedoraAdmin"/>
+        <foxml:property NAME="info:fedora/fedora-system:def/model#label" VALUE="Common Language Resources and Technology Infrastructure"/>
+        <foxml:property NAME="info:fedora/fedora-system:def/model#state" VALUE="Active"/>
+    </foxml:objectProperties>
+    <foxml:datastream ID="DC" CONTROL_GROUP="X" STATE="A" VERSIONABLE="false">
+        <foxml:datastreamVersion ID="DC.0" LABEL="Dublin Core Record for this object" CREATED="2012-08-02T11:51:25.584+02:00" MIMETYPE="text/xml" SIZE="509">
+            <foxml:xmlContent>
+            <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+  <dc:title>Common Language Resources and Technology Infrastructure</dc:title>
+  <dc:creator>henkb</dc:creator>
+  <dc:date>2012-08-02T11:51:19.713+02:00</dc:date>
+  <dc:identifier>easy-collection:5</dc:identifier>
+</oai_dc:dc>
+            </foxml:xmlContent>
+        </foxml:datastreamVersion>
+    </foxml:datastream>
+    <foxml:datastream ID="RELS-EXT" CONTROL_GROUP="X" STATE="A" VERSIONABLE="false">
+        <foxml:datastreamVersion ID="RELS-EXT.0" LABEL="rels-ext" CREATED="2012-08-02T11:51:25.584+02:00" MIMETYPE="text/xml" SIZE="519">
+            <foxml:xmlContent>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+
+<rdf:Description rdf:about="info:fedora/easy-collection:5">
+	<hasModel xmlns="info:fedora/fedora-system:def/model#" rdf:resource="info:fedora/easy-model:CM_DMO_COLLECTION_1"/>
+	<hasShortName xmlns="http://dans.knaw.nl/ontologies/relations#" rdf:parseType="Literal">CLARIN</hasShortName>
+	<hasParent xmlns="http://dans.knaw.nl/ontologies/relations#" rdf:resource="info:fedora/easy-collection:root"/>
+</rdf:Description>
+
+</rdf:RDF>
+            </foxml:xmlContent>
+        </foxml:datastreamVersion>
+    </foxml:datastream>
+</foxml:digitalObject>

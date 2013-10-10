@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<foxml:digitalObject xmlns:foxml="info:fedora/fedora-system:def/foxml#" VERSION="1.1" PID="easy-data:oai-driverset1">
+    <foxml:objectProperties>
+        <foxml:property NAME="info:fedora/fedora-system:def/model#label" VALUE="OAI set: Open Access DRIVERset"/>
+        <foxml:property NAME="info:fedora/fedora-system:def/model#state" VALUE="Active"/>
+    </foxml:objectProperties>
+    <foxml:datastream ID="DC" CONTROL_GROUP="X" STATE="A" VERSIONABLE="true">
+        <foxml:datastreamVersion ID="DC1.0" LABEL="Dublin Core Record for this object" CREATED="2012-04-19T16:20:16.413+02:00" MIMETYPE="text/xml" FORMAT_URI="http://www.openarchives.org/OAI/2.0/oai_dc/" SIZE="700">
+            <foxml:xmlContent>
+            <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+  <dc:title>OAI set: Open Access DRIVERset</dc:title>
+  <dc:description>The DRIVER set is flat and does not have any hierarchical structure. The content of the DRIVER set is Open Access, Freely available resources.</dc:description>
+  <dc:identifier>easy-data:oai-driverset1</dc:identifier>
+  <dc:relation>http://wiki.surffoundation.nl/display/DRIVERguidelines/DRIVER+Set+Content+definitions</dc:relation>
+</oai_dc:dc>
+            </foxml:xmlContent>
+        </foxml:datastreamVersion>
+    </foxml:datastream>
+    <foxml:datastream ID="RELS-EXT" CONTROL_GROUP="X" STATE="A" VERSIONABLE="true">
+        <foxml:datastreamVersion ID="RELS-EXT.0" LABEL="RDF Statements about this object" CREATED="2012-04-19T16:20:16.413+02:00" MIMETYPE="application/rdf+xml" FORMAT_URI="info:fedora/fedora-system:FedoraRELSExt-1.0" SIZE="575">
+            <foxml:xmlContent>
+            <rdf:RDF xmlns:oai="http://www.openarchives.org/OAI/2.0/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rel="info:fedora/fedora-system:def/relations-external#" xmlns:fedora-model="info:fedora/fedora-system:def/model#">
+          <rdf:Description rdf:about="info:fedora/easy-data:oai-driverset1">
+            <fedora-model:hasModel rdf:resource="info:fedora/easy-model:oai-set1"/>
+            <oai:setSpec>driver</oai:setSpec>
+            <oai:setName>Open Access DRIVERset</oai:setName>
+          </rdf:Description>
+        </rdf:RDF>
+            </foxml:xmlContent>
+        </foxml:datastreamVersion>
+    </foxml:datastream>
+    <foxml:datastream ID="SetInfo.xml" CONTROL_GROUP="X" STATE="A" VERSIONABLE="true">
+        <foxml:datastreamVersion ID="SetInfo.xml1.0" LABEL="Description of this set" CREATED="2012-04-19T16:20:16.413+02:00" MIMETYPE="text/xml" SIZE="374">
+            <foxml:xmlContent>
+            <setDescriptions>
+          <setDescription>
+            <oai_dc:dc xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/">
+              <dc:description>The content of the DRIVER set is Open Access, Freely available resources.</dc:description>
+            </oai_dc:dc>
+          </setDescription>
+        </setDescriptions>
+            </foxml:xmlContent>
+        </foxml:datastreamVersion>
+    </foxml:datastream>
+</foxml:digitalObject>
