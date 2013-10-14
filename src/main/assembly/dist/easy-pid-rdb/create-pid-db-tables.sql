@@ -3,7 +3,7 @@ CREATE TABLE pid_counter (
 	pid_last_generated integer 
 ) WITH  ( OIDS=FALSE );
 
-ALTER TABLE public.pid_counter OWNER TO easy_admin;
+ALTER TABLE public.pid_counter OWNER TO easy_db_admin;
 
 CREATE INDEX pid_prefix_index ON pid_counter USING btree (pid_prefix); 
   
