@@ -1,0 +1,65 @@
+div.navbar {
+font-family:Verdana, Geneva, sans-serif;
+line-height:1.3em;
+}
+div.top-bar {
+position:absolute;
+margin-left:3em;
+width:100%; /* Safari */
+}
+div.top-bar a {
+min-width:7em;
+}
+div.floating-bar {
+position:fixed;
+bottom:10px;
+right:20px;
+font-size:110%;
+}
+div.navbar span, a, .menu {
+display:block;
+float:left;
+padding:2px 9px 2px 9px;
+border-left:1px solid white;
+}
+div.navbar span {
+color:#FFFFFF;
+background-color:#0090B3;
+}
+div.navbar .verb {
+color:#102020;
+background-color:#EDDA74;
+}
+div.navbar .error {
+background-color:red;
+}
+div.navbar a, .menu {
+color:#FFFFFF;
+background-color:#848484;
+text-decoration:none !important;
+}
+div.navbar .requested {
+background-color:#0090B3;
+}
+div.navbar a:active {
+background-color:red;
+}
+div.navbar .menu a:hover {
+color:#102020;
+background-color:#EDEDED;
+}
+div.navbar .menu a:active {
+background-color:red;
+}
+div.navbar .menu {
+min-width:10em;
+}
+div.navbar .menu a {
+display:none;
+float:none;
+border-top:1px solid white;
+margin:0px -9px 0px -9px;
+}
+div.navbar .menu:hover a, div.navbar .menu.hover a {
+display:block;
+}   

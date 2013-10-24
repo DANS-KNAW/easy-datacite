@@ -1,0 +1,307 @@
+#content {
+padding-top:2em;
+margin:0em 1em 1em 1em;
+font-family:Verdana, Geneva, sans-serif;
+color:#102020;
+}
+a.url {
+padding:0;
+color:#00A7D4;
+font-size:95%;
+text-decoration:none !important;
+}
+a.url:hover {
+text-decoration:none !important;
+color:#156083;
+}
+a.url:visited {
+color: #3C987E;
+}
+a.oai {
+display:block;
+clear:right;
+color:#FFFFFF;
+background-color:#BDBDBD; /* #848484; */
+padding:4px 9px 4px 9px;
+border-left:1px solid white;
+border-bottom:1px solid white;
+text-align:center;
+text-decoration:none !important;
+min-width:7em;
+}
+a.oai:hover {
+color:#102020;
+background-color:#EDEDED; /* #EDEDED; */
+}
+a.oai:active {
+background-color:red;
+}
+span.identifier {
+font-weight:bold;
+background-color:#F0F0F3;
+padding:0px 7px 0px 7px;
+border:1px solid silver;
+}
+span.prefix {
+display:block;
+float:left;
+background-color:#EDDA74;
+padding:4px 7px 4px 7px;
+min-width:7em;
+}
+td.key, td.value {
+vertical-align:top;
+padding:4px 7px 4px 7px;
+}
+p.message {
+font-size:70%;
+padding:2px;
+}
+/* div page header - all pages */
+#header {
+margin-top:2em;
+}
+#header table {
+border-spacing:2px;
+}
+#header td.key {
+color:#FFFFFF;
+background-color:#0090B3;
+}
+/* div response - all pages */
+#response {
+margin-top:0.5em;
+margin-bottom:0.5em;
+padding-top:1em;
+padding-bottom:1em;
+border-top:1px solid gray;
+border-bottom:1px solid gray;
+font-size:90%;
+}
+/* response error */
+#responseError table {
+border-spacing:2px;
+}
+#responseError td.key {
+color:#FFFFFF;
+font-weight:bold;
+background-color:red;
+}
+#responseError td.value {
+color:red;
+font-weight:bold;
+}
+/* response Identify */ 
+#identify h3 {
+font-size:110%;
+font-weight:bold;
+color:#8090B3;
+padding:2px 7px 2px 7px;
+margin-top:0.6em;
+margin-bottom:0.2em;
+}
+#identify td.key {
+color:#8090B3;
+}
+/* response ListMetadataFormats */
+#list-mdfs td.key {
+color:#8090B3;
+}
+#list-mdfs table {
+margin-bottom:0.5em;
+margin-top:1em;
+}
+#list-mdfs a.oai {
+color:#FFFFFF;
+background-color:#848484;
+}
+#list-mdfs a.oai:hover {
+color:#102020;
+background-color:#EDEDED;
+}
+#list-mdfs a.oai:active {
+background-color:red;
+}
+/* response ListSets */
+#list-sets {
+width:45em;
+}
+#list-sets div.oai-set {
+margin-top:0.5em;
+/*
+let bottom margin take effect: */
+border-bottom:1px solid #FFFFFF;
+}
+#list-sets div.depth1 {
+margin-left:2em;
+}
+#list-sets div.depth2 {
+margin-left:4em;
+}
+#list-sets h2 {
+padding:2px 7px 2px 7px;
+margin-bottom:0.2em;
+}
+#list-sets .depth0 h2 {
+color:#FFFFFF;
+background-color:#0090B3; /*#41627E;*/
+font-size:120%; 
+font-weight:bold;
+line-height:1.5em;
+}
+#list-sets .depth1 h2 {
+color:#21425E;
+border:1px solid #41627E;
+font-size:110%; 
+font-weight:bold;
+line-height:1.3em;
+}
+#list-sets .depth2 h2 {
+color:#41627E;
+border:1px solid #889FB7;
+font-size:110%;
+}
+#list-sets .container {
+margin-bottom:1.9em;
+}
+#list-sets .setSpec {
+float:right;
+padding:2px 7px 2px 7px;
+color:#41627E;
+}
+#list-sets .links {
+float:right;
+}
+#list-sets p.description {
+background-color:#EFEFEF;
+padding:5px;
+margin-bottom:0.3em;
+}
+/*
+#list-sets a.oai {
+color:#102020;
+background-color:#EDEDED;
+}
+#list-sets a.oai:hover {
+color:#FFFFFF;
+background-color:#848484;
+}
+#list-sets a.oai:active {
+background-color:red;
+}
+*/
+
+#list-ids {
+width:45em;
+}
+/* oai header is both on ListIdentifiers and on ListRecords */
+.oai-header {
+clear:both;
+margin-top:1.5em;
+border-bottom:1px solid #E3E4FA;
+	
+}
+.oai-header h2 {
+padding:2px 7px 2px 7px;
+margin-bottom:0.2em;
+color:#FFFFFF;
+background-color:#0090B3; /* #41627E; */
+font-size:120%; 
+line-height:1.5em;
+}
+.oai-header .buttons {
+clear:both;
+float:right;
+margin-bottom:0.5em;
+}
+.oai-header .setSpecs {
+clear:both;
+}
+.oai-header .deleted {
+margin-bottom:0.5em;
+clear:both;
+color:red;
+padding:2px 5px 2px 5px;
+}
+.oai-header .dateStamp {
+margin-bottom:0.5em;
+clear:both;
+}
+.oai-header span.key {
+color:#8090B3;
+padding:2px 5px 2px 5px;
+}
+.oai-header span.value {
+padding:2px 5px 2px 5px;
+font-family:"Courier New", Monospace;
+}
+.oai-header table {
+float:right;
+margin-bottom:0.5em;
+}
+.oai-header td.setSpec {
+vertical-align:top;
+}
+.oai-header td.links {
+
+}
+.oai-header span.set {
+display:block;
+clear:right;
+font-size:90%;
+padding:4px 9px 4px 9px;
+text-align:left;
+}
+/* response ListRecords */
+#list-records .oai-header {
+max-width:60em;
+}
+#list-records .oai-metadata {
+margin-top:1em;
+}
+/* response GetRecord */
+#get-record .oai-header {
+max-width:60em;
+}
+#get-record .oai-metadata {
+margin-top:1em;
+}
+/* metadata of type oai_dc:dc */
+.oai-dc {
+max-width:60em;
+}
+.oai-dc table {
+border-spacing:1px;
+}
+.oai-dc td.key {
+color:#8090B3;
+line-height:1.2em;
+}
+.oai-dc td.value {
+line-height:1.2em;
+border-bottom:1px solid #E3E4FA;
+}
+/* Every td.value in oai-dc has the dc-element name as an extra class */
+.oai-dc .title {
+font-weight:bold;
+background-color: #EDDA74;
+}
+.oai-dc .description {
+background-color:#DFDFDF;
+}
+/* Line breaks in xml of dc:description are translated to paragraphs */
+.oai-dc p {
+margin-bottom:0.5em;
+}
+/* div surrounding value of dc-element has a lang-attribute if there 
+	was a xml:lang attribute on the dc-element */
+.oai-dc :lang(en) {
+font-style:italic;
+}
+.oai-dc .dcvalue {
+float:left;
+clear:right;
+}
+.oai-dc a.url {
+margin-left:1em;
+}

@@ -1,0 +1,45 @@
+/* metadata rendered as xml */
+.xml-doc {
+font-size:90%;
+line-height:1.2em;
+background-color:rgb(249,249,249);
+}
+.xml-doc .xml-declaration {
+color:#8D38C9;
+padding-left: 1em;
+}
+.xml-doc .xml {
+padding-left: 1em;
+}
+.xml-doc .element-name {
+color:#2554C7;
+}
+.xml-doc .element-text {
+color:#102020;
+}
+.xml-doc .attr-name {
+color:#F87431;
+}
+.xml-doc .attr-text {
+color:#506080;
+}
+.xml-doc .ns-name {
+color:#7E2217;
+}
+.xml-doc .ns-text {
+color:#736AFF;
+}
+.xml-doc p {
+padding-left:2em;
+}
+.xml-doc .schemaLocation {
+padding-left:2em;
+color:#F87431;
+}
+.xml-doc .sl-text {
+color:#506080;
+}
+.xml-doc p.comment {
+color:#4AA02C;
+padding-left:1em;
+}
