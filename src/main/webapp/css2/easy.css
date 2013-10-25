@@ -1,0 +1,301 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+html {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+q, blockquote {
+  quotes: none;
+}
+q:before, q:after, blockquote:before, blockquote:after {
+  content: "";
+  content: none;
+}
+
+a img {
+  border: none;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
+  display: block;
+}
+
+body {
+  background: #213729;
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 1em;
+  color: #575756;
+}
+
+a {
+  color: #00a7d4;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+h2 {
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 1em;
+  font-weight: bold;
+  margin: 1.5em 0 0.75em 0;
+}
+
+ul {
+  margin-left: 2em;
+  list-style: square outside;
+}
+
+p {
+  margin: 1em 0;
+}
+
+input {
+  font-family: Verdana, Geneva, sans-serif;
+}
+
+#container {
+  background: #e6e6e6;
+  border: 1px solid #ababab;
+  min-width: 920px;
+  width: 90%;
+  margin: 60px auto 0 auto;
+  padding: 0;
+}
+
+.content {
+  clear: both;
+  background: white;
+  margin: 1em 4px 0 4px;
+  border-left: 1px solid #e0e0e0;
+  border-right: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.header {
+  margin: 0 4px;
+}
+
+.footer {
+  margin: 0 4px;
+  border-top: 1px solid white;
+}
+
+.header {
+  font-size: 0.67em;
+}
+.header .h1 img {
+  width: 231px;
+  margin-top: -21px;
+}
+.header .h2 {
+  position: relative;
+  top: -93px;
+  left: 28px;
+  font-size: 1.25em;
+  font-weight: bold;
+  font-style: italic;
+  color: white;
+}
+.header .h2 a {
+  color: white;
+}
+.header .nav ul {
+  list-style-type: none;
+}
+.header .nav ul.main-nav {
+  margin-top: -37px;
+}
+.header .nav ul.main-nav li.child-1, .header .nav ul.main-nav li.child-2, .header .nav ul.main-nav li.child-3 {
+  display: inline;
+  background: #efefef;
+  border-top: 1px solid #bbbbbb;
+  border-bottom: 1px solid #bbbbbb;
+  margin: 0 -0.5em 0 0;
+  padding: 0.75em 0.5em;
+}
+.header .nav ul.main-nav li.child-1 a, .header .nav ul.main-nav li.child-2 a {
+  border-right: 1px solid #bbbbbb;
+  padding-right: 0.5em;
+}
+.header .nav ul.main-nav li.child-1 {
+  border-left: 1px solid #bbbbbb;
+  margin-left: 260px;
+}
+.header .nav ul.main-nav li.child-3 {
+  border-right: 1px solid #bbbbbb;
+}
+.header .nav ul.main-nav li.search-panel {
+  margin-top: 1.2em;
+  margin-left: 260px;
+}
+.header .nav ul.main-nav li.search-panel form {
+  display: inline;
+}
+.header .nav ul.main-nav li.search-panel input.bar {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  width: 20em;
+  height: 30px;
+  margin: 0;
+  padding: 0.5em 5.3px;
+  background: #f4f4f4;
+  border: 1px solid #bbbbbb;
+  border-right: none;
+  font-size: 1.2em;
+}
+.header .nav ul.main-nav li.search-panel img {
+  position: relative;
+  top: 3px;
+}
+.header .nav ul.main-nav li.deposit {
+  float: right;
+  margin-top: -19px;
+}
+.header .nav ul.admin-nav {
+  float: right;
+  height: 1em;
+  overflow: visible;
+  margin-top: -56px;
+}
+.header .nav ul.admin-nav li {
+  display: inline;
+  padding: 0 0.5em;
+  border-right: 1px solid #bbbbbb;
+}
+.header .nav ul.admin-nav li.last-child {
+  border: none;
+  padding-right: 0;
+}
+.header .nav ul.admin-nav li.datasets {
+  float: right;
+  margin: 2.4em 11.5em 0 -17.7em;
+}
+.header .nav .management-bar {
+  float: right;
+  margin: 1em 0;
+}
+.header .nav .management-bar ul {
+  border: 1px solid #bbbbbb;
+  background: #efefef;
+  padding: 0.75em;
+}
+.header .nav .management-bar ul li {
+  display: inline;
+  padding: 0 0.5em;
+  border-right: 1px solid #bbbbbb;
+}
+.header .nav .management-bar ul li.last-child {
+  border: none;
+  padding-right: 0;
+}
+.header .nav .admin-banner {
+  position: relative;
+  top: 20px;
+  width: 400px;
+}
+
+.footer {
+  padding-top: 1em;
+  font-size: 0.67em;
+  color: #6e6e6e;
+  height: 57px;
+}
+.footer .footer-nav {
+  float: left;
+}
+.footer .footer-nav ul {
+  margin: 0;
+}
+.footer .footer-nav ul li {
+  display: inline;
+  border-right: 1px solid #bbbbbb;
+  margin-right: 0.5em;
+  padding-right: 0.25em;
+}
+.footer .footer-nav ul li.last-child {
+  border: none;
+}
+.footer .version {
+  float: right;
+  text-align: right;
+}
+.footer .easy-DSA-link {
+  clear: both;
+  text-align: center;
+}
+
+.button {
+  font-weight: bold;
+  background: #00a7d4;
+  color: white;
+  border: 1px solid #bbbbbb;
+}
+.button:hover {
+  background: #156083;
+  text-decoration: none;
+}
+
+a.button {
+  padding: 9px 1.5em 5px 1.5em;
+}
+
+input.button {
+  height: 30px;
+  padding: 0 1.5em;
+  margin: 0;
+}
+input.button:hover {
+  cursor: pointer;
+}
+
+.bd {
+  max-width: 700px;
+  font-size: 1.1em;
+  line-height: 1.2em;
+}
+
+.header .nav .bd ul {
+  list-style-type: square;
+}
+
+.controlBar {
+  font-weight: bold;
+}
