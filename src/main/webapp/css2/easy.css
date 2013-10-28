@@ -69,6 +69,14 @@ a:hover {
   text-decoration: underline;
 }
 
+h1 {
+  background: #00a7d4 url('../images/title-shade.png?1380184178') repeat-x;
+  color: white;
+  font-size: 1.52em;
+  font-weight: bold;
+  padding: 0.5em 15px;
+}
+
 h2 {
   font-family: Verdana, Geneva, sans-serif;
   font-size: 1em;
@@ -260,6 +268,24 @@ input {
 .footer .easy-DSA-link {
   clear: both;
   text-align: center;
+}
+
+.content {
+  padding: 1em;
+}
+.content h1 {
+  margin: -0.67em -0.67em 0 -0.67em;
+}
+.content table {
+  border: 1px solid #bbbbbb;
+}
+.content table tr td {
+  padding: 0.75em;
+  border: 1px solid #bbbbbb;
+}
+.content table thead tr td {
+  font-weight: bold;
+  border-bottom: 2px solid #bbbbbb;
 }
 
 .button {
