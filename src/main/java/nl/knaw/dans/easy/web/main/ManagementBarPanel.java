@@ -9,7 +9,7 @@ import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.admin.EditableContentPage;
-import nl.knaw.dans.easy.web.admin.UsersOverviewPage;
+import nl.knaw.dans.easy.web.admin.UsersOverviewPage2;
 import nl.knaw.dans.easy.web.search.pages.AllWorkSearchResultPage;
 import nl.knaw.dans.easy.web.search.pages.MyWorkSearchResultPage;
 import nl.knaw.dans.easy.web.search.pages.OurWorkSearchResultPage;
@@ -51,7 +51,7 @@ public class ManagementBarPanel extends AbstractEasyStatelessPanel
         trashCanLink.add(new Label("numberOfItemsInTrashcan", new PropertyModel(this, "numberOfItemsInTrashcan")));
         add(trashCanLink);
 
-        add(new SecureEasyPageLink(USER_INFO, UsersOverviewPage.class));
+        add(new SecureEasyPageLink(USER_INFO, UsersOverviewPage2.class));
         add(new SecureEasyPageLink(EDITABLE_CONTENT, EditableContentPage.class));
     }
 
