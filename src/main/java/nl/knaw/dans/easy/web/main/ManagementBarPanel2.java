@@ -36,48 +36,48 @@ public class ManagementBarPanel2 extends AbstractEasyStatelessPanel
 
         RepeatingView listItems = new RepeatingView("listItems");
         RepeatingView listItems2 = new RepeatingView("listItems2");
-        
+
         WebMarkupContainer item1 = new WebMarkupContainer(listItems.newChildId());
         SecureEasyPageLink link1 = new SecureEasyPageLink("link", AllWorkSearchResultPage.class);
         link1.add(new Label("text", getString("page.allwork")));
         link1.add(new Label("numberOf", new PropertyModel(this, "numberOfItemsInAllWork")));
         item1.add(link1);
         listItems.add(item1);
-        
+
         WebMarkupContainer item2 = new WebMarkupContainer(listItems.newChildId());
         SecureEasyPageLink link2 = new SecureEasyPageLink("link", OurWorkSearchResultPage.class);
         link2.add(new Label("text", getString("page.ourwork")));
         link2.add(new Label("numberOf", new PropertyModel(this, "numberOfItemsInOurWork")));
         item2.add(link2);
         listItems.add(item2);
-        
+
         WebMarkupContainer item3 = new WebMarkupContainer(listItems.newChildId());
         SecureEasyPageLink link3 = new SecureEasyPageLink("link", MyWorkSearchResultPage.class);
         link3.add(new Label("text", getString("page.mywork")));
         link3.add(new Label("numberOf", new PropertyModel(this, "numberOfItemsInMyWork")));
         item3.add(link3);
         listItems.add(item3);
-        
+
         WebMarkupContainer item4 = new WebMarkupContainer(listItems.newChildId());
         SecureEasyPageLink link4 = new SecureEasyPageLink("link", TrashCanSearchResultPage.class);
         link4.add(new Label("text", getString("page.trashcan")));
         link4.add(new Label("numberOf", new PropertyModel(this, "numberOfItemsInTrashcan")));
         item4.add(link4);
         listItems.add(item4);
-        
+
         WebMarkupContainer item5 = new WebMarkupContainer(listItems2.newChildId());
         SecureEasyPageLink link5 = new SecureEasyPageLink("link", UsersOverviewPage2.class);
         link5.add(new Label("text", getString("page.users")));
         item5.add(link5);
         listItems2.add(item5);
-        
+
         WebMarkupContainer item6 = new WebMarkupContainer(listItems2.newChildId());
         item6.add(new SimpleAttributeModifier("class", "last-child"));
         SecureEasyPageLink link6 = new SecureEasyPageLink("link", EditableContentPage.class);
         link6.add(new Label("text", getString("page.editableContent")));
         item6.add(link6);
         listItems2.add(item6);
-        
+
         add(listItems);
         add(listItems2);
     }
