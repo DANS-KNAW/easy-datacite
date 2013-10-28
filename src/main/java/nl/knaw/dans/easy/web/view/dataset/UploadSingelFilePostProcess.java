@@ -66,7 +66,7 @@ public abstract class UploadSingelFilePostProcess implements IUploadPostProcess
 
     String buildMessage(final List<File> files)
     {
-        return "to few or too many files to upload: " + Arrays.deepToString(files.toArray());
+        return "too few or too many files to upload: " + Arrays.deepToString(files.toArray());
     }
 
     @Override

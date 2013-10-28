@@ -17,6 +17,12 @@
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>easy-business</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>xml</artifactId>
+					<groupId>nl.knaw.dans.platform.language</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>nl.knaw.dans.common</groupId>
@@ -127,6 +133,11 @@
 		<dependency>
 			<groupId>org.mortbay.jetty</groupId>
 			<artifactId>jetty-plus</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>nl.knaw.dans.platform.language</groupId>
+			<artifactId>pakbon</artifactId>
+			<version>1.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 	<build>
