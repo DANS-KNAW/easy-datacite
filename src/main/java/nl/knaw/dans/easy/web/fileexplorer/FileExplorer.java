@@ -389,7 +389,8 @@ public class FileExplorer extends AbstractDatasetModelPanel
             public void onClick(AjaxRequestTarget target)
             {
                 // show download popup
-                modalDownloadWindow.setContent(new ModalDownload(modalDownloadWindow, (ITreeItem) rowModel.getObject(), datasetModel));
+                ITreeItem treeItem = (ITreeItem) rowModel.getObject();
+                modalDownloadWindow.setContent(new ModalDownload(modalDownloadWindow, treeItem, datasetModel));
                 modalDownloadWindow.show(target);
             }
         });
