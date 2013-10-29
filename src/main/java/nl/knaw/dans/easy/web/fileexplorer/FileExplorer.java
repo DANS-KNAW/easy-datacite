@@ -103,28 +103,28 @@ public class FileExplorer extends AbstractDatasetModelPanel
         published = datasetModel.getObject().getAdministrativeState().equals(DatasetState.PUBLISHED);
 
         // initialize a ModalWindow for file details
-        final ModalWindow modalFileDetails = Util.createModalWindow("modalFileDetails", 400, "File details");
-        add(modalFileDetails);
+        final ModalWindow modalFileDetailsWindow = Util.createModalWindow("modalFileDetails", 400, "File details");
+        add(modalFileDetailsWindow);
 
         // initialize a ModalWindow for downloads
-        final ModalWindow modalDownload = Util.createModalWindow("modalDownload", 400, "Notice: Download");
-        add(modalDownload);
+        final ModalWindow modalDownloadWindow = Util.createModalWindow("modalDownload", 400, "Notice: Download");
+        add(modalDownloadWindow);
 
         // initialize a ModalWindow for delete files
-        final ModalWindow modalDelete = Util.createModalWindow("modalDelete", 450, "Delete file(s)/folder(s)");
-        add(modalDelete);
+        final ModalWindow modalDeleteWindow = Util.createModalWindow("modalDelete", 450, "Delete file(s)/folder(s)");
+        add(modalDeleteWindow);
 
         // initialize a ModalWindow for importing file metadata
-        final ModalWindow modalImport = Util.createModalWindow("modalImport", 450, "Import file metadata");
-        add(modalImport);
+        final ModalWindow modalImportWindow = Util.createModalWindow("modalImport", 450, "Import file metadata");
+        add(modalImportWindow);
 
         // initialize a ModalWindow for uploads
-        final ModalWindow modalUpload = createModalUploadWindow("modalUpload", 450, "Upload files");
-        add(modalUpload);
+        final ModalWindow modalUploadWindow = createModalUploadWindow("modalUpload", 450, "Upload files");
+        add(modalUploadWindow);
 
         // initialize a ModalWindow for messages
-        final ModalWindow modalMessage = Util.createModalWindow("modalMessage", 450, "Message");
-        add(modalMessage);
+        final ModalWindow modalMessageWindow = Util.createModalWindow("modalMessage", 450, "Message");
+        add(modalMessageWindow);
 
         Form<Void> filterForm = new Form<Void>("filterForm");
         final HashMap<Enum<?>, CheckBox> filterMap = new HashMap<Enum<?>, CheckBox>();
@@ -280,8 +280,8 @@ public class FileExplorer extends AbstractDatasetModelPanel
                                 public void onClick(AjaxRequestTarget target)
                                 {
                                     // show download popup
-                                    modalDownload.setContent(new ModalDownload(modalDownload, (ITreeItem) rowModel.getObject(), datasetModel));
-                                    modalDownload.show(target);
+                                    modalDownloadWindow.setContent(new ModalDownload(modalDownloadWindow, (ITreeItem) rowModel.getObject(), datasetModel));
+                                    modalDownloadWindow.show(target);
                                 }
                             }));
                 }
@@ -351,8 +351,8 @@ public class FileExplorer extends AbstractDatasetModelPanel
             @Override
             public void onClick(AjaxRequestTarget target)
             {
-                modalFileDetails.setContent(new ModalFileDetails(modalFileDetails, selectedFiles, datasetModel));
-                modalFileDetails.show(target);
+                modalFileDetailsWindow.setContent(new ModalFileDetails(modalFileDetailsWindow, selectedFiles, datasetModel));
+                modalFileDetailsWindow.show(target);
             }
         });
 
@@ -388,17 +388,17 @@ public class FileExplorer extends AbstractDatasetModelPanel
                     {
                         logger.info("Too many files requested for download (" + e.getAmount() + "). Limit is " + e.getLimit() + " files.", e.getMessage());
                         // download can't be handled so show a message
-                        modalMessage.setContent(new ModalPopup(modalMessage, new StringResourceModel(MSG_TOO_MANY_FILES, this,
+                        modalMessageWindow.setContent(new ModalPopup(modalMessageWindow, new StringResourceModel(MSG_TOO_MANY_FILES, this,
                                 new Model<TooManyFilesException>(e)).getObject()));
-                        modalMessage.show(target);
+                        modalMessageWindow.show(target);
                     }
                     catch (ZipFileLengthException e)
                     {
                         logger.info("File size too large for download!", e.getMessage());
                         // download can't be handled so show a message
-                        modalMessage.setContent(new ModalPopup(modalMessage, new StringResourceModel(MSG_ZIP_SIZE_TOLARGE, this,
+                        modalMessageWindow.setContent(new ModalPopup(modalMessageWindow, new StringResourceModel(MSG_ZIP_SIZE_TOLARGE, this,
                                 new Model<ZipFileLengthException>(e)).getObject()));
-                        modalMessage.show(target);
+                        modalMessageWindow.show(target);
                     }
                     catch (ServiceRuntimeException e)
                     {
@@ -426,8 +426,8 @@ public class FileExplorer extends AbstractDatasetModelPanel
                         items = ((TreeItemProvider) treeProvider).getRoot().getChildrenWithFiles();
                     }
 
-                    modalDownload.setContent(new ModalDownload(modalDownload, items, datasetModel));
-                    modalDownload.show(target);
+                    modalDownloadWindow.setContent(new ModalDownload(modalDownloadWindow, items, datasetModel));
+                    modalDownloadWindow.show(target);
                 }
             }
         });
@@ -439,7 +439,7 @@ public class FileExplorer extends AbstractDatasetModelPanel
             @Override
             public void onClick(AjaxRequestTarget target)
             {
-                modalUpload.setContent(new ModalUpload(modalUpload, datasetModel, explorer.getContent().getSelected().getObject())
+                modalUploadWindow.setContent(new ModalUpload(modalUploadWindow, datasetModel, explorer.getContent().getSelected().getObject())
                 {
                     private static final long serialVersionUID = 1L;
 
@@ -449,7 +449,7 @@ public class FileExplorer extends AbstractDatasetModelPanel
                         refreshCurrentFolder(target);
                     }
                 });
-                modalUpload.show(target);
+                modalUploadWindow.show(target);
             }
 
             @Override
@@ -466,8 +466,8 @@ public class FileExplorer extends AbstractDatasetModelPanel
             @Override
             public void onClick(AjaxRequestTarget target)
             {
-                modalImport.setContent(new ModalImport(modalImport, datasetModel));
-                modalImport.show(target);
+                modalImportWindow.setContent(new ModalImport(modalImportWindow, datasetModel));
+                modalImportWindow.show(target);
             }
 
             @Override
@@ -487,7 +487,7 @@ public class FileExplorer extends AbstractDatasetModelPanel
                 ArrayList<ITreeItem> items = new ArrayList<ITreeItem>();
                 items.addAll(selectedFiles);
                 items.addAll(selectedFolders);
-                modalDelete.setContent(new ModalDelete(modalDelete, items, datasetModel)
+                modalDeleteWindow.setContent(new ModalDelete(modalDeleteWindow, items, datasetModel)
                 {
                     private static final long serialVersionUID = 1L;
 
@@ -508,7 +508,7 @@ public class FileExplorer extends AbstractDatasetModelPanel
                         target.addComponent(explorer);
                     }
                 });
-                modalDelete.show(target);
+                modalDeleteWindow.show(target);
             }
 
             @Override
