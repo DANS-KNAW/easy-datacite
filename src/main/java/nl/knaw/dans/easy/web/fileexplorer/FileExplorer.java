@@ -653,7 +653,7 @@ public class FileExplorer extends AbstractDatasetModelPanel
         try
         {
             final ZipFileContentWrapper zfcw = Services.getItemService().getZippedContent(sessionUser, dataset, requestedItems);
-            final AJAXDownload download = createZippedAjaxDownload(zfcw);
+            final AJAXDownload download = AJAXDownload.create(zfcw);
             add(download);
             download.initiate(target);
             // register this download action
@@ -685,27 +685,6 @@ public class FileExplorer extends AbstractDatasetModelPanel
         {
             logger.error("Error creating direct download link for zip file.", e);
         }
-    }
-
-    private AJAXDownload createZippedAjaxDownload(final ZipFileContentWrapper zfcw)
-    {
-        final AJAXDownload download = new AJAXDownload()
-        {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            protected IResourceStream getResourceStream()
-            {
-                return new FileResourceStream(zfcw.getZipFile());
-            }
-
-            @Override
-            protected String getFileName()
-            {
-                return zfcw.getFilename();
-            }
-        };
-        return download;
     }
 
     // returns the current selection as a List of RequestedItems

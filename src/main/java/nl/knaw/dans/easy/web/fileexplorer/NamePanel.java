@@ -153,7 +153,7 @@ public class NamePanel extends Panel
                             downloadList.add(fcw.getFileItemVO());
                             Services.getItemService().registerDownload(EasySession.getSessionUser(), datasetModel.getObject(), downloadList);
 
-                            final AJAXDownload download = createSingleAjaxDownload(fcw);
+                            final AJAXDownload download = AJAXDownload.create(fcw);
                             add(download);
                             download.initiate(target);
                             StatisticsLogger.getInstance().logEvent(StatisticsEvent.DOWNLOAD_FILE_REQUEST, new DatasetStatistics(datasetModel.getObject()),
@@ -197,25 +197,5 @@ public class NamePanel extends Panel
         }
 
         add(link);
-    }
-
-    private AJAXDownload createSingleAjaxDownload(final FileContentWrapper fcw)
-    {
-        return new AJAXDownload()
-        {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            protected IResourceStream getResourceStream()
-            {
-                return new UrlResourceStream(fcw.getURL());
-            }
-
-            @Override
-            protected String getFileName()
-            {
-                return fcw.getFileName();
-            }
-        };
     }
 }

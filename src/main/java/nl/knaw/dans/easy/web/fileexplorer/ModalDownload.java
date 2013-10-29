@@ -349,7 +349,7 @@ public class ModalDownload extends Panel
             @Override
             public void onClick(AjaxRequestTarget target)
             {
-                final AJAXDownload download = createZippedAjaxDownload(zfcw);
+                final AJAXDownload download = AJAXDownload.create(zfcw);
                 window.getParent().add(download);
                 download.initiate(target);
                 // register this download action
@@ -358,26 +358,6 @@ public class ModalDownload extends Panel
                 window.close(target);
                 StatisticsLogger.getInstance().logEvent(StatisticsEvent.DOWNLOAD_DATASET_REQUEST, new DatasetStatistics(dataset), new DownloadStatistics(zfcw),
                         new DisciplineStatistics(dataset));
-            }
-        };
-    }
-
-    private AJAXDownload createZippedAjaxDownload(final ZipFileContentWrapper zfcw)
-    {
-        return new AJAXDownload()
-        {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            protected IResourceStream getResourceStream()
-            {
-                return new FileResourceStream(zfcw.getZipFile());
-            }
-
-            @Override
-            protected String getFileName()
-            {
-                return zfcw.getFilename();
             }
         };
     }
@@ -391,7 +371,7 @@ public class ModalDownload extends Panel
             @Override
             public void onClick(AjaxRequestTarget target)
             {
-                final AJAXDownload download = createSingleAjaxDownload(fcw);
+                final AJAXDownload download = AJAXDownload.create(fcw);
                 window.getParent().add(download);
                 download.initiate(target);
                 // register this download action
@@ -402,26 +382,6 @@ public class ModalDownload extends Panel
                 window.close(target);
                 StatisticsLogger.getInstance().logEvent(StatisticsEvent.DOWNLOAD_FILE_REQUEST, new DatasetStatistics(dataset), new DownloadStatistics(fcw),
                         new DisciplineStatistics(dataset));
-            }
-        };
-    }
-
-    private AJAXDownload createSingleAjaxDownload(final FileContentWrapper fcw)
-    {
-        return new AJAXDownload()
-        {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            protected IResourceStream getResourceStream()
-            {
-                return new UrlResourceStream(fcw.getURL());
-            }
-
-            @Override
-            protected String getFileName()
-            {
-                return fcw.getFileName();
             }
         };
     }
