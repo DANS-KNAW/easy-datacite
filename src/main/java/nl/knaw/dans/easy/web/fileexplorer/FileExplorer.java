@@ -625,67 +625,66 @@ public class FileExplorer extends AbstractDatasetModelPanel
                     showDownloadPopup(datasetModel, modalDownloadWindow, target);
                 }
             }
-
-            private void showDownloadPopup(final DatasetModel datasetModel, final ModalWindow modalDownloadWindow, AjaxRequestTarget target)
-            {
-                ArrayList<ITreeItem> items;
-                if (selectedFiles.size() > 0 || selectedFolders.size() > 0)
-                {
-                    // download whatever is selected
-                    items = new ArrayList<ITreeItem>();
-                    items.addAll(selectedFiles);
-                    items.addAll(selectedFolders);
-                }
-                else
-                {
-                    // nothing is selected so download everything in current dataset
-                    items = ((TreeItemProvider) treeProvider).getRoot().getChildrenWithFiles();
-                }
-
-                modalDownloadWindow.setContent(new ModalDownload(modalDownloadWindow, items, datasetModel));
-                modalDownloadWindow.show(target);
-            }
-
-            private void streamDownloadDirectly(final ModalWindow modalMessageWindow, AjaxRequestTarget target, ArrayList<RequestedItem> requestedItems, Dataset dataset,
-                    EasyUser sessionUser)
-            {
-                try
-                {
-                    final ZipFileContentWrapper zfcw = Services.getItemService().getZippedContent(sessionUser, dataset, requestedItems);
-                    final AJAXDownload download = createDownload(zfcw);
-                    add(download);
-                    download.initiate(target);
-                    // register this download action
-                    Services.getItemService().registerDownload(getSessionUser(), dataset, zfcw.getDownloadedItemVOs());
-                    StatisticsLogger.getInstance().logEvent(StatisticsEvent.DOWNLOAD_DATASET_REQUEST, new DatasetStatistics(dataset),
-                            new DownloadStatistics(zfcw), new DisciplineStatistics(dataset));
-                }
-                catch (TooManyFilesException e)
-                {
-                    logger.info("Too many files requested for download (" + e.getAmount() + "). Limit is " + e.getLimit() + " files.", e.getMessage());
-                    // download can't be handled so show a message
-                    modalMessageWindow.setContent(new ModalPopup(modalMessageWindow, new StringResourceModel(MSG_TOO_MANY_FILES, this,
-                            new Model<TooManyFilesException>(e)).getObject()));
-                    modalMessageWindow.show(target);
-                }
-                catch (ZipFileLengthException e)
-                {
-                    logger.info("File size too large for download!", e.getMessage());
-                    // download can't be handled so show a message
-                    modalMessageWindow.setContent(new ModalPopup(modalMessageWindow, new StringResourceModel(MSG_ZIP_SIZE_TOLARGE, this,
-                            new Model<ZipFileLengthException>(e)).getObject()));
-                    modalMessageWindow.show(target);
-                }
-                catch (ServiceRuntimeException e)
-                {
-                    logger.error("Error creating direct download link for zip file.", e);
-                }
-                catch (ServiceException e)
-                {
-                    logger.error("Error creating direct download link for zip file.", e);
-                }
-            }
         };
+    }
+    
+    private void showDownloadPopup(final DatasetModel datasetModel, final ModalWindow modalDownloadWindow, AjaxRequestTarget target)
+    {
+        ArrayList<ITreeItem> items;
+        if (selectedFiles.size() > 0 || selectedFolders.size() > 0)
+        {
+            // download whatever is selected
+            items = new ArrayList<ITreeItem>();
+            items.addAll(selectedFiles);
+            items.addAll(selectedFolders);
+        }
+        else
+        {
+            // nothing is selected so download everything in current dataset
+            items = ((TreeItemProvider) treeProvider).getRoot().getChildrenWithFiles();
+        }
+        modalDownloadWindow.setContent(new ModalDownload(modalDownloadWindow, items, datasetModel));
+        modalDownloadWindow.show(target);
+    }
+
+    private void streamDownloadDirectly(final ModalWindow modalMessageWindow, AjaxRequestTarget target, ArrayList<RequestedItem> requestedItems, Dataset dataset,
+            EasyUser sessionUser)
+    {
+        try
+        {
+            final ZipFileContentWrapper zfcw = Services.getItemService().getZippedContent(sessionUser, dataset, requestedItems);
+            final AJAXDownload download = createDownload(zfcw);
+            add(download);
+            download.initiate(target);
+            // register this download action
+            Services.getItemService().registerDownload(getSessionUser(), dataset, zfcw.getDownloadedItemVOs());
+            StatisticsLogger.getInstance().logEvent(StatisticsEvent.DOWNLOAD_DATASET_REQUEST, new DatasetStatistics(dataset),
+                    new DownloadStatistics(zfcw), new DisciplineStatistics(dataset));
+        }
+        catch (TooManyFilesException e)
+        {
+            logger.info("Too many files requested for download (" + e.getAmount() + "). Limit is " + e.getLimit() + " files.", e.getMessage());
+            // download can't be handled so show a message
+            modalMessageWindow.setContent(new ModalPopup(modalMessageWindow, new StringResourceModel(MSG_TOO_MANY_FILES, this,
+                    new Model<TooManyFilesException>(e)).getObject()));
+            modalMessageWindow.show(target);
+        }
+        catch (ZipFileLengthException e)
+        {
+            logger.info("File size too large for download!", e.getMessage());
+            // download can't be handled so show a message
+            modalMessageWindow.setContent(new ModalPopup(modalMessageWindow, new StringResourceModel(MSG_ZIP_SIZE_TOLARGE, this,
+                    new Model<ZipFileLengthException>(e)).getObject()));
+            modalMessageWindow.show(target);
+        }
+        catch (ServiceRuntimeException e)
+        {
+            logger.error("Error creating direct download link for zip file.", e);
+        }
+        catch (ServiceException e)
+        {
+            logger.error("Error creating direct download link for zip file.", e);
+        }
     }
 
     private AJAXDownload createDownload(final ZipFileContentWrapper zfcw)
