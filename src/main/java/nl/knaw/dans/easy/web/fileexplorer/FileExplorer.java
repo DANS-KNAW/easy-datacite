@@ -1,5 +1,6 @@
 package nl.knaw.dans.easy.web.fileexplorer;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -23,8 +24,10 @@ import nl.knaw.dans.easy.domain.dataset.item.RequestedItem;
 import nl.knaw.dans.easy.domain.dataset.item.UpdateInfo;
 import nl.knaw.dans.easy.domain.download.ZipFileContentWrapper;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
+import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
+import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasySession;
@@ -357,43 +360,29 @@ public class FileExplorer extends AbstractDatasetModelPanel
         {
             private static final long serialVersionUID = 1L;
 
-            @SuppressWarnings("unchecked")
             @Override
             public void onClick(AjaxRequestTarget target)
             {
                 // check if we should stream download directly or open a popup
                 ArrayList<RequestedItem> requestedItems = getSelectionAsRequestedItems();
-                boolean canAllChildrenBeRead = datasetModel.getObject().getAuthzStrategy().canChildrenBeRead().equals(TriState.ALL);
-                if (requestedItems.size() != 0 && (canAllChildrenBeRead || requestedItems.size() == (selectedFiles.size() + selectedFolders.size()))
-                        && !hasAdditionalLicense && EasySession.getSessionUser().hasAcceptedGeneralConditions())
+                Dataset dataset = datasetModel.getObject();
+                EasyUser sessionUser = EasySession.getSessionUser();
+                boolean canAllChildrenBeRead = dataset.getAuthzStrategy().canChildrenBeRead().equals(TriState.ALL);
+                boolean requestedEqualsSelected = requestedItems.size() == (selectedFiles.size() + selectedFolders.size());
+                if (requestedItems.size() != 0 && (canAllChildrenBeRead || requestedEqualsSelected) && !hasAdditionalLicense
+                        && sessionUser.hasAcceptedGeneralConditions())
                 {
                     // stream download directly
                     try
                     {
-                        final ZipFileContentWrapper zfcw = Services.getItemService().getZippedContent(EasySession.getSessionUser(), datasetModel.getObject(),
-                                requestedItems);
-                        final AJAXDownload download = new AJAXDownload()
-                        {
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            protected IResourceStream getResourceStream()
-                            {
-                                return new FileResourceStream(zfcw.getZipFile());
-                            }
-
-                            @Override
-                            protected String getFileName()
-                            {
-                                return zfcw.getFilename();
-                            }
-                        };
+                        final ZipFileContentWrapper zfcw = Services.getItemService().getZippedContent(sessionUser, dataset, requestedItems);
+                        final AJAXDownload download = createDownload(zfcw);
                         add(download);
                         download.initiate(target);
                         // register this download action
-                        Services.getItemService().registerDownload(getSessionUser(), datasetModel.getObject(), zfcw.getDownloadedItemVOs());
-                        StatisticsLogger.getInstance().logEvent(StatisticsEvent.DOWNLOAD_DATASET_REQUEST, new DatasetStatistics(datasetModel.getObject()),
-                                new DownloadStatistics(zfcw), new DisciplineStatistics(datasetModel.getObject()));
+                        Services.getItemService().registerDownload(getSessionUser(), dataset, zfcw.getDownloadedItemVOs());
+                        StatisticsLogger.getInstance().logEvent(StatisticsEvent.DOWNLOAD_DATASET_REQUEST, new DatasetStatistics(dataset),
+                                new DownloadStatistics(zfcw), new DisciplineStatistics(dataset));
                     }
                     catch (TooManyFilesException e)
                     {
@@ -607,6 +596,27 @@ public class FileExplorer extends AbstractDatasetModelPanel
 
         add(rightsForm);
 
+    }
+
+    private AJAXDownload createDownload(final ZipFileContentWrapper zfcw)
+    {
+        final AJAXDownload download = new AJAXDownload()
+        {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            protected IResourceStream getResourceStream()
+            {
+                return new FileResourceStream(zfcw.getZipFile());
+            }
+
+            @Override
+            protected String getFileName()
+            {
+                return zfcw.getFilename();
+            }
+        };
+        return download;
     }
 
     // returns the current selection as a List of RequestedItems
