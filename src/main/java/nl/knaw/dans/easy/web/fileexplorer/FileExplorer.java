@@ -309,13 +309,13 @@ public class FileExplorer extends AbstractDatasetModelPanel
             }
         };
     }
-    
+
     private CheckboxPanel createFileCheckBoxPanel(String componentId, final ITreeItem item, Model<Boolean> checked)
     {
         return new CheckboxPanel(componentId, checked)
         {
             private static final long serialVersionUID = 1L;
-            
+
             @Override
             public void onSelectionChange(AjaxRequestTarget target)
             {
@@ -502,13 +502,13 @@ public class FileExplorer extends AbstractDatasetModelPanel
             }
         };
     }
-    
+
     private ModalDelete cerateModalDeleteContent(final DatasetModel datasetModel, final ModalWindow modalDeleteWindow, ArrayList<ITreeItem> items)
     {
         return new ModalDelete(modalDeleteWindow, items, datasetModel)
         {
             private static final long serialVersionUID = 1L;
-            
+
             @Override
             public void updateAfterDelete(AjaxRequestTarget target)
             {
@@ -569,13 +569,13 @@ public class FileExplorer extends AbstractDatasetModelPanel
             }
         };
     }
-    
+
     private ModalUpload createModalUploadContent(final DatasetModel datasetModel, final ModalWindow modalUploadWindow)
     {
         return new ModalUpload(modalUploadWindow, datasetModel, explorer.getContent().getSelected().getObject())
         {
             private static final long serialVersionUID = 1L;
-            
+
             @Override
             protected void onCustomCloseButtonClick(AjaxRequestTarget target)
             {
@@ -599,8 +599,8 @@ public class FileExplorer extends AbstractDatasetModelPanel
         };
     }
 
-    private IndicatingAjaxLink<Void> createDownloadLink(final DatasetModel datasetModel, final ModalWindow modalDownloadWindow, final ModalWindow modalMessageWindow,
-            final boolean hasAdditionalLicense)
+    private IndicatingAjaxLink<Void> createDownloadLink(final DatasetModel datasetModel, final ModalWindow modalDownloadWindow,
+            final ModalWindow modalMessageWindow, final boolean hasAdditionalLicense)
     {
         return new IndicatingAjaxLink<Void>("downloadLink")
         {
@@ -627,7 +627,7 @@ public class FileExplorer extends AbstractDatasetModelPanel
             }
         };
     }
-    
+
     private void showDownloadPopup(final DatasetModel datasetModel, final ModalWindow modalDownloadWindow, AjaxRequestTarget target)
     {
         ArrayList<ITreeItem> items;
@@ -647,8 +647,8 @@ public class FileExplorer extends AbstractDatasetModelPanel
         modalDownloadWindow.show(target);
     }
 
-    private void streamDownloadDirectly(final ModalWindow modalMessageWindow, AjaxRequestTarget target, ArrayList<RequestedItem> requestedItems, Dataset dataset,
-            EasyUser sessionUser)
+    private void streamDownloadDirectly(final ModalWindow modalMessageWindow, AjaxRequestTarget target, ArrayList<RequestedItem> requestedItems,
+            Dataset dataset, EasyUser sessionUser)
     {
         try
         {
@@ -658,8 +658,8 @@ public class FileExplorer extends AbstractDatasetModelPanel
             download.initiate(target);
             // register this download action
             Services.getItemService().registerDownload(getSessionUser(), dataset, zfcw.getDownloadedItemVOs());
-            StatisticsLogger.getInstance().logEvent(StatisticsEvent.DOWNLOAD_DATASET_REQUEST, new DatasetStatistics(dataset),
-                    new DownloadStatistics(zfcw), new DisciplineStatistics(dataset));
+            StatisticsLogger.getInstance().logEvent(StatisticsEvent.DOWNLOAD_DATASET_REQUEST, new DatasetStatistics(dataset), new DownloadStatistics(zfcw),
+                    new DisciplineStatistics(dataset));
         }
         catch (TooManyFilesException e)
         {
