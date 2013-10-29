@@ -18,6 +18,7 @@ import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.RequestedItem;
 import nl.knaw.dans.easy.domain.download.FileContentWrapper;
 import nl.knaw.dans.easy.domain.download.ZipFileContentWrapper;
+import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasySession;
@@ -150,49 +151,16 @@ public class ModalDownload extends Panel
 
             if (downloadAllowed)
             {
+                final Dataset dataset = datasetModel.getObject();
                 if (!zipped && requestedItems.size() == 1 && requestedItems.get(0).isFile())
                 {
                     // SINGLE FILE DOWNLOAD
                     try
                     {
-                        final FileContentWrapper fcw = Services.getItemService().getContent(EasySession.getSessionUser(), datasetModel.getObject(),
+                        final FileContentWrapper fcw = Services.getItemService().getContent(EasySession.getSessionUser(), dataset,
                                 new DmoStoreId(requestedItems.get(0).getStoreId()));
 
-                        link = new IndicatingAjaxLink<Void>("downloadLink")
-                        {
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            public void onClick(AjaxRequestTarget target)
-                            {
-                                final AJAXDownload download = new AJAXDownload()
-                                {
-                                    private static final long serialVersionUID = 1L;
-
-                                    @Override
-                                    protected IResourceStream getResourceStream()
-                                    {
-                                        return new UrlResourceStream(fcw.getURL());
-                                    }
-
-                                    @Override
-                                    protected String getFileName()
-                                    {
-                                        return fcw.getFileName();
-                                    }
-                                };
-                                window.getParent().add(download);
-                                download.initiate(target);
-                                // register this download action
-                                List<ItemVO> downloadList = new ArrayList<ItemVO>();
-                                downloadList.add(fcw.getFileItemVO());
-                                Services.getItemService().registerDownload(EasySession.getSessionUser(), datasetModel.getObject(), downloadList);
-                                // close download popup
-                                window.close(target);
-                                StatisticsLogger.getInstance().logEvent(StatisticsEvent.DOWNLOAD_FILE_REQUEST, new DatasetStatistics(datasetModel.getObject()),
-                                        new DownloadStatistics(fcw), new DisciplineStatistics(datasetModel.getObject()));
-                            }
-                        };
+                        link = createSingleDownloadLink(window, dataset, fcw);
                     }
                     catch (FileSizeException e)
                     {
@@ -207,42 +175,8 @@ public class ModalDownload extends Panel
                     // ZIP FILE DOWNLOAD
                     try
                     {
-                        final ZipFileContentWrapper zfcw = Services.getItemService().getZippedContent(EasySession.getSessionUser(), datasetModel.getObject(),
-                                requestedItems);
-                        link = new IndicatingAjaxLink<Void>("downloadLink")
-                        {
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            public void onClick(AjaxRequestTarget target)
-                            {
-                                final AJAXDownload download = new AJAXDownload()
-                                {
-                                    private static final long serialVersionUID = 1L;
-
-                                    @Override
-                                    protected IResourceStream getResourceStream()
-                                    {
-                                        return new FileResourceStream(zfcw.getZipFile());
-                                    }
-
-                                    @Override
-                                    protected String getFileName()
-                                    {
-                                        return zfcw.getFilename();
-                                    }
-                                };
-                                window.getParent().add(download);
-                                download.initiate(target);
-                                // register this download action
-                                Services.getItemService().registerDownload(EasySession.getSessionUser(), datasetModel.getObject(), zfcw.getDownloadedItemVOs());
-                                // close download popup
-                                window.close(target);
-                                StatisticsLogger.getInstance().logEvent(StatisticsEvent.DOWNLOAD_DATASET_REQUEST,
-                                        new DatasetStatistics(datasetModel.getObject()), new DownloadStatistics(zfcw),
-                                        new DisciplineStatistics(datasetModel.getObject()));
-                            }
-                        };
+                        final ZipFileContentWrapper zfcw = Services.getItemService().getZippedContent(EasySession.getSessionUser(), dataset, requestedItems);
+                        link = createZipDownloadLink(window, dataset, zfcw);
                     }
                     catch (TooManyFilesException e)
                     {
@@ -283,17 +217,7 @@ public class ModalDownload extends Panel
         link.setOutputMarkupId(true);
         add(link);
 
-        IndicatingAjaxLink<Void> cancel = new IndicatingAjaxLink<Void>("cancel")
-        {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void onClick(AjaxRequestTarget target)
-            {
-                window.close(target);
-            }
-
-        };
+        IndicatingAjaxLink<Void> cancel = createCancelLink(window);
 
         add(cancel);
 
@@ -307,25 +231,7 @@ public class ModalDownload extends Panel
 
         link.setEnabled(conditionsAccepted.getObject() && additionalAccepted.getObject());
 
-        final AjaxCheckBox dontShowBox = new AjaxCheckBox("dontShowAgain", new Model<Boolean>(false))
-        {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            protected void onUpdate(AjaxRequestTarget target)
-            {
-                EasyUser user = EasySession.getSessionUser();
-                user.setAcceptedGeneralConditions(this.getModelObject() && conditionsAccepted.getObject());
-                try
-                {
-                    Services.getUserService().update(user, EasySession.getSessionUser());
-                }
-                catch (ServiceException e)
-                {
-                    logger.error("Error while updating don't show again.", e);
-                }
-            }
-        };
+        final AjaxCheckBox dontShowBox = createDontShowAgainLink(conditionsAccepted);
 
         final Label dontShowBoxLabel = new Label("dontShowAgainLabel", new ResourceModel(MSG_DONT_SHOW));
         dontShowBox.setVisible(!EasySession.getSessionUser().isAnonymous() && downloadAllowed && !EasySession.getSessionUser().hasAcceptedGeneralConditions());
@@ -333,7 +239,41 @@ public class ModalDownload extends Panel
         add(dontShowBox);
         add(dontShowBoxLabel);
 
-        final AjaxCheckBox acceptBox = new AjaxCheckBox("accept", new Model<Boolean>(false))
+        final AjaxCheckBox acceptBox = createAcceptCheckBox(linkModel, conditionsAccepted, additionalAccepted, dontShowBox);
+
+        final Label acceptBoxLabel = new Label("acceptLabel", new ResourceModel(MSG_ACCEPT));
+        acceptBox.setVisible(downloadAllowed && !EasySession.getSessionUser().hasAcceptedGeneralConditions());
+        acceptBoxLabel.setVisible(downloadAllowed && !EasySession.getSessionUser().hasAcceptedGeneralConditions());
+        add(acceptBox);
+        add(acceptBoxLabel);
+
+        final AjaxCheckBox acceptAdditionalBox = createAcceptAdditionalCheckBox(linkModel, conditionsAccepted, additionalAccepted);
+        add(acceptAdditionalBox);
+        final Label acceptAdditionalBoxLabel = new Label("acceptAdditionalLabel", new ResourceModel(MSG_ACCEPT_ADDITIONAL));
+        add(acceptAdditionalBoxLabel);
+    }
+
+    private AjaxCheckBox createAcceptAdditionalCheckBox(final Model<AbstractLink> linkModel, final Model<Boolean> conditionsAccepted,
+            final Model<Boolean> additionalAccepted)
+    {
+        return new AjaxCheckBox("acceptAdditional", new Model<Boolean>(false))
+        {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            protected void onUpdate(AjaxRequestTarget target)
+            {
+                additionalAccepted.setObject(this.getModelObject());
+                linkModel.getObject().setEnabled(conditionsAccepted.getObject() && additionalAccepted.getObject());
+                target.addComponent(linkModel.getObject());
+            }
+        };
+    }
+
+    private AjaxCheckBox createAcceptCheckBox(final Model<AbstractLink> linkModel, final Model<Boolean> conditionsAccepted,
+            final Model<Boolean> additionalAccepted, final AjaxCheckBox dontShowBox)
+    {
+        return new AjaxCheckBox("accept", new Model<Boolean>(false))
         {
             private static final long serialVersionUID = 1L;
 
@@ -360,28 +300,130 @@ public class ModalDownload extends Panel
                 }
             }
         };
+    }
 
-        final Label acceptBoxLabel = new Label("acceptLabel", new ResourceModel(MSG_ACCEPT));
-        acceptBox.setVisible(downloadAllowed && !EasySession.getSessionUser().hasAcceptedGeneralConditions());
-        acceptBoxLabel.setVisible(downloadAllowed && !EasySession.getSessionUser().hasAcceptedGeneralConditions());
-        add(acceptBox);
-        add(acceptBoxLabel);
-
-        final AjaxCheckBox acceptAdditionalBox = new AjaxCheckBox("acceptAdditional", new Model<Boolean>(false))
+    private AjaxCheckBox createDontShowAgainLink(final Model<Boolean> conditionsAccepted)
+    {
+        return new AjaxCheckBox("dontShowAgain", new Model<Boolean>(false))
         {
             private static final long serialVersionUID = 1L;
 
             @Override
             protected void onUpdate(AjaxRequestTarget target)
             {
-                additionalAccepted.setObject(this.getModelObject());
-                linkModel.getObject().setEnabled(conditionsAccepted.getObject() && additionalAccepted.getObject());
-                target.addComponent(linkModel.getObject());
+                EasyUser user = EasySession.getSessionUser();
+                user.setAcceptedGeneralConditions(this.getModelObject() && conditionsAccepted.getObject());
+                try
+                {
+                    Services.getUserService().update(user, EasySession.getSessionUser());
+                }
+                catch (ServiceException e)
+                {
+                    logger.error("Error while updating don't show again.", e);
+                }
             }
         };
-        add(acceptAdditionalBox);
-        final Label acceptAdditionalBoxLabel = new Label("acceptAdditionalLabel", new ResourceModel(MSG_ACCEPT_ADDITIONAL));
-        add(acceptAdditionalBoxLabel);
+    }
+
+    private IndicatingAjaxLink<Void> createCancelLink(final ModalWindow window)
+    {
+        return new IndicatingAjaxLink<Void>("cancel")
+        {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void onClick(AjaxRequestTarget target)
+            {
+                window.close(target);
+            }
+
+        };
+    }
+
+    private IndicatingAjaxLink<Void> createZipDownloadLink(final ModalWindow window, final Dataset dataset, final ZipFileContentWrapper zfcw)
+    {
+        return new IndicatingAjaxLink<Void>("downloadLink")
+        {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void onClick(AjaxRequestTarget target)
+            {
+                final AJAXDownload download = createZippedAjaxDownload(zfcw);
+                window.getParent().add(download);
+                download.initiate(target);
+                // register this download action
+                Services.getItemService().registerDownload(EasySession.getSessionUser(), dataset, zfcw.getDownloadedItemVOs());
+                // close download popup
+                window.close(target);
+                StatisticsLogger.getInstance().logEvent(StatisticsEvent.DOWNLOAD_DATASET_REQUEST, new DatasetStatistics(dataset), new DownloadStatistics(zfcw),
+                        new DisciplineStatistics(dataset));
+            }
+        };
+    }
+
+    private AJAXDownload createZippedAjaxDownload(final ZipFileContentWrapper zfcw)
+    {
+        return new AJAXDownload()
+        {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            protected IResourceStream getResourceStream()
+            {
+                return new FileResourceStream(zfcw.getZipFile());
+            }
+
+            @Override
+            protected String getFileName()
+            {
+                return zfcw.getFilename();
+            }
+        };
+    }
+
+    private IndicatingAjaxLink<Void> createSingleDownloadLink(final ModalWindow window, final Dataset dataset, final FileContentWrapper fcw)
+    {
+        return new IndicatingAjaxLink<Void>("downloadLink")
+        {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void onClick(AjaxRequestTarget target)
+            {
+                final AJAXDownload download = createSingleAjaxDownload(fcw);
+                window.getParent().add(download);
+                download.initiate(target);
+                // register this download action
+                List<ItemVO> downloadList = new ArrayList<ItemVO>();
+                downloadList.add(fcw.getFileItemVO());
+                Services.getItemService().registerDownload(EasySession.getSessionUser(), dataset, downloadList);
+                // close download popup
+                window.close(target);
+                StatisticsLogger.getInstance().logEvent(StatisticsEvent.DOWNLOAD_FILE_REQUEST, new DatasetStatistics(dataset), new DownloadStatistics(fcw),
+                        new DisciplineStatistics(dataset));
+            }
+        };
+    }
+
+    private AJAXDownload createSingleAjaxDownload(final FileContentWrapper fcw)
+    {
+        return new AJAXDownload()
+        {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            protected IResourceStream getResourceStream()
+            {
+                return new UrlResourceStream(fcw.getURL());
+            }
+
+            @Override
+            protected String getFileName()
+            {
+                return fcw.getFileName();
+            }
+        };
     }
 
     /*

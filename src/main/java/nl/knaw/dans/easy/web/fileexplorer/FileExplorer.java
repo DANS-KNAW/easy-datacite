@@ -653,7 +653,7 @@ public class FileExplorer extends AbstractDatasetModelPanel
         try
         {
             final ZipFileContentWrapper zfcw = Services.getItemService().getZippedContent(sessionUser, dataset, requestedItems);
-            final AJAXDownload download = createDownload(zfcw);
+            final AJAXDownload download = createZippedAjaxDownload(zfcw);
             add(download);
             download.initiate(target);
             // register this download action
@@ -687,7 +687,7 @@ public class FileExplorer extends AbstractDatasetModelPanel
         }
     }
 
-    private AJAXDownload createDownload(final ZipFileContentWrapper zfcw)
+    private AJAXDownload createZippedAjaxDownload(final ZipFileContentWrapper zfcw)
     {
         final AJAXDownload download = new AJAXDownload()
         {
