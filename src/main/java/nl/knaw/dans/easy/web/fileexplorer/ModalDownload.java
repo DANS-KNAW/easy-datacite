@@ -47,9 +47,6 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.model.StringResourceModel;
-import org.apache.wicket.util.resource.FileResourceStream;
-import org.apache.wicket.util.resource.IResourceStream;
-import org.apache.wicket.util.resource.UrlResourceStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
