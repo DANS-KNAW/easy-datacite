@@ -26,8 +26,7 @@ import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 
 /**
- * An example that demonstrates how HttpClient APIs can be used to perform
- * form-based logon.
+ * An example that demonstrates how HttpClient APIs can be used to perform form-based logon.
  */
 public class ClientFormLogin
 {
@@ -55,7 +54,7 @@ public class ClientFormLogin
             System.out.println("------------------response 1-------------");
             System.out.println("Login form get: " + response.getStatusLine());
 
-            //System.out.println(IOUtils.toString(entity.getContent()));
+            // System.out.println(IOUtils.toString(entity.getContent()));
             EntityUtils.consume(entity);
 
             System.out.println("Initial set of cookies:");
@@ -88,7 +87,7 @@ public class ClientFormLogin
             System.out.println("------------------response 2-------------");
             System.out.println("Login form post: " + response.getStatusLine());
 
-            //System.out.println(IOUtils.toString(entity.getContent()));
+            // System.out.println(IOUtils.toString(entity.getContent()));
             EntityUtils.consume(entity);
 
             System.out.println("Post logon cookies:");
@@ -107,14 +106,14 @@ public class ClientFormLogin
 
             if (status == 302)
             {
-                //                httpget = new HttpGet("https://tools.sikb.nl/sikb0102/Validation/Validate");
-                //                response = httpclient.execute(httpget, localContext);
-                //                entity = response.getEntity();
+                // httpget = new HttpGet("https://tools.sikb.nl/sikb0102/Validation/Validate");
+                // response = httpclient.execute(httpget, localContext);
+                // entity = response.getEntity();
                 //
-                //                System.out.println("------------------response 3-------------");
-                //                System.out.println("validation form get: " + response.getStatusLine());
-                //                System.out.println(IOUtils.toString(entity.getContent()));
-                //                EntityUtils.consume(entity);
+                // System.out.println("------------------response 3-------------");
+                // System.out.println("validation form get: " + response.getStatusLine());
+                // System.out.println(IOUtils.toString(entity.getContent()));
+                // EntityUtils.consume(entity);
 
                 //
                 httpost = new HttpPost("https://tools.sikb.nl/sikb0102/Validation/Validate");

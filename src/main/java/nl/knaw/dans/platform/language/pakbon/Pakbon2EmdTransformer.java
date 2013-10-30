@@ -45,7 +45,8 @@ public class Pakbon2EmdTransformer
 
     private XMLTransformer getTransformer() throws TransformerException
     {
-        // Xalan: "Branch target offset too large for short". Milco's style of writing stylesheets too much for Xalan...
+        // Xalan: "Branch target offset too large for short". Milco's style of writing stylesheets too
+        // much for Xalan...
         XMLTransformer transformer = new XMLTransformer(getStylesheet(), XMLTransformer.TF_SAXON);
         transformer.getTransformerFactory().setURIResolver(new XsltUriResolver());
         logger.info("UriResolver added for resources at class path " + XsltUriResolver.CLASS_PATH_DIR);

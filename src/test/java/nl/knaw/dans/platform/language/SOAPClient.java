@@ -27,10 +27,11 @@ public class SOAPClient
         BasicHttpBinding_ISikb0102ServiceStub stub = (BasicHttpBinding_ISikb0102ServiceStub) service.getBasicHttpBinding_ISikb0102Service();
 
         QName securityHeader = new QName(WSSE, "Security", "wsse");
-        SOAPHeaderElement secu = new SOAPHeaderElement(securityHeader);// new SOAPHeaderElement(WSSE, "Security");
-        //secu.addNamespaceDeclaration("wsse", WSSE);
-        //secu.setMustUnderstand(true);
-        //secu.setActor(null);
+        SOAPHeaderElement secu = new SOAPHeaderElement(securityHeader);// new SOAPHeaderElement(WSSE,
+                                                                       // "Security");
+        // secu.addNamespaceDeclaration("wsse", WSSE);
+        // secu.setMustUnderstand(true);
+        // secu.setActor(null);
 
         MessageElement unt = new MessageElement(WSSE, "UsernameToken");
         secu.addChildElement(unt);
@@ -60,9 +61,9 @@ public class SOAPClient
             e.printStackTrace();
         }
 
-        //System.err.println("endpoint=" + stub._getCall().getTargetEndpointAddress());
-        //String req = stub._getCall().getUsername();
-        //System.err.println(req);
+        // System.err.println("endpoint=" + stub._getCall().getTargetEndpointAddress());
+        // String req = stub._getCall().getUsername();
+        // System.err.println(req);
         stub._getCall().getMessageContext().getRequestMessage().writeTo(System.err);
 
         System.err.println();
@@ -96,10 +97,10 @@ public class SOAPClient
     private static String getXml() throws FileNotFoundException, IOException
     {
         return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-        //        InputStream in = new FileInputStream("src/test/resources/test-files/pakbon_valid.xml");
-        //        String xml = IOUtils.toString(in);
-        //        in.close();
-        //        return xml;
+        // InputStream in = new FileInputStream("src/test/resources/test-files/pakbon_valid.xml");
+        // String xml = IOUtils.toString(in);
+        // in.close();
+        // return xml;
     }
 
 }
