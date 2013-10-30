@@ -5,7 +5,7 @@
 
 	<groupId>nl.knaw.dans.platform.language</groupId>
 	<artifactId>emd</artifactId>
-	<version>1.2-SNAPSHOT</version>
+	<version>1.2</version>
 	<packaging>jar</packaging>
 
 	<name>emd</name>
@@ -34,7 +34,7 @@
 		<dependency>
 			<groupId>nl.knaw.dans.platform.language</groupId>
 			<artifactId>xml</artifactId>
-			<version>1.2-SNAPSHOT</version>
+			<version>1.2</version>
 		</dependency>
 
 		<dependency>
