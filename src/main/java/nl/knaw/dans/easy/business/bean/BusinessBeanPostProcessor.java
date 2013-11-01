@@ -1,6 +1,5 @@
 package nl.knaw.dans.easy.business.bean;
 
-import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.servicelayer.services.EasyService;
 
 import org.slf4j.Logger;
@@ -21,11 +20,6 @@ public class BusinessBeanPostProcessor implements BeanPostProcessor
 
     public Object postProcessAfterInitialization(Object bean, String beanname) throws BeansException
     {
-        if (bean instanceof Data)
-        {
-            GroupCreator.createGroups();
-            MigrationArchivistCreator.createMigrationArchivist();
-        }
         if (bean instanceof EasyService)
         {
             EasyService service = (EasyService) bean;

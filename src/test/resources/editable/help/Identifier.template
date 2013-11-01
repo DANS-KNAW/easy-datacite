@@ -1,5 +1,0 @@
-<h2>Identifier</h2>
-<p>Unique combination of figures and letters in order to make it possible to identify the research project or the files.<br /><br />The agencies concerned usually assign a short code to each research project, excavation, and publication in order to make it possible to identify the project uniquely. There are currently still multiple identifiers for the same research project. This may vary from an internal project number within the executive organization to the international ISBN number for publications.<br /><br />After depositing, EASY automatically assigns the Persistent Identifier to the dataset.<br /><br />Click the [+] button behind a field to add an additional field.</p>
-<h2>Examples</h2>
-<p>90-77287-02-6 (ISBN)<br />1836 (Archis Onderzoeksmeldingsnummer)<br />52189 (Archis Waarnemingsnummer)<br />NHDA: R0214<br />0925-6229 (RAAP projectnummer)<br />STAR: P1233</p>
-<hr />

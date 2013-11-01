@@ -1,7 +1,0 @@
-Dear ~EasyUser.getDisplayName~,
-
-This E-mail concerns the following dataset you deposited with DANS:
-Title: ~Dataset.getPreferredTitle~
-Link: ~UnsubmitNotification.getDatasetUrl~
-
-The status of the dataset was changed from "submitted" back to "draft". This means you can alter it and then submit it again.
