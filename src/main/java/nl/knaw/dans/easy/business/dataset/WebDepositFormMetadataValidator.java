@@ -17,12 +17,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * SubmissionProcessor that validates metadata and reports in a web-ui-specific manner.
- * If you want to do metadata validating and report in another medium-specific manner
- * (xml-specific for instance) than write your own.
+ * SubmissionProcessor that validates metadata and reports in a web-ui-specific manner. If you want to do
+ * metadata validating and report in another medium-specific manner (xml-specific for instance) than
+ * write your own.
  * 
  * @author henkb
- *
  */
 public class WebDepositFormMetadataValidator implements SubmissionProcessor
 {
@@ -30,7 +29,8 @@ public class WebDepositFormMetadataValidator implements SubmissionProcessor
     public static final String MSG_REQUIRED = "deposit.field_required";
     public static final String MSG_INCOMPLETE = "deposit.field_incomplete";
 
-    // To complete the form model, alongside a TermPanel, a ContainerPanel should be implemented. As for now we do not validate containers.
+    // To complete the form model, alongside a TermPanel, a ContainerPanel should be implemented. As for
+    // now we do not validate containers.
     private static final String CONTAINERPANEL_NOT_IMPLEMENTED = "containerPanel not implemented";
 
     private static final Logger logger = LoggerFactory.getLogger(WebDepositFormMetadataValidator.class);
