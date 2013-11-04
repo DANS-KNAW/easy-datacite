@@ -9,6 +9,17 @@
 	<ordinal>1</ordinal>
 	<panelDefinitions>
 	
+         <standardPanel>
+			<properties>
+				<id>pakbon.import</id>
+				<labelResourceKey>label.pakbon.info</labelResourceKey>
+				<shortHelpResourceKey></shortHelpResourceKey>
+				<helpItem>Pakbon</helpItem>
+			</properties>
+            <modelClass>EasyMetadata</modelClass>
+            <panelClass>UploadPakbonPanel</panelClass>
+		</standardPanel>
+ 
 		<standardPanel>
             <properties>
                 <id>archis2.view</id>
@@ -801,6 +812,7 @@
                     </properties>
                     <cssContainerClassName>depositForm</cssContainerClassName>
                     <panels>
+                    	<ref-panelId>pakbon.import</ref-panelId>
                     	<ref-panelId>archis2.edit</ref-panelId>
                         <ref-panelId>dc.title</ref-panelId>
                         <ref-panelId>dcterms.alternative</ref-panelId>
@@ -891,6 +903,7 @@
                     </properties>
                     <cssContainerClassName>depositForm</cssContainerClassName>
                     <panels>
+                    	<ref-panelId>pakbon.import</ref-panelId>
                     	<ref-panelId>archis2.edit</ref-panelId>
                         <ref-panelId>dc.title</ref-panelId>
                         <ref-panelId>dcterms.alternative</ref-panelId>
