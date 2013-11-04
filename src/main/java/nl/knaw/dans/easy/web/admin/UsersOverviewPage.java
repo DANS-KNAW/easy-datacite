@@ -7,7 +7,7 @@ import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasyResources;
-import nl.knaw.dans.easy.web.main.AbstractEasyNavPage;
+import nl.knaw.dans.easy.web.main.AbstractEasyNavPage2;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
@@ -18,7 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @RequireHttps
-public class UsersOverviewPage extends AbstractEasyNavPage implements EasyResources
+public class UsersOverviewPage extends AbstractEasyNavPage2 implements EasyResources
 {
     private static final String WI_USER_OVERVIEW_PANEL = "userOverviewPanel";
 
