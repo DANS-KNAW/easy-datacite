@@ -58,14 +58,9 @@ public class DepositUploadPakbonPanel extends AbstractDatasetModelPanel
 
                 IUploadPostProcess rtn = super.createPostProcess(pclass);
 
-                if (rtn instanceof IngestPostProcess)
-                {
-                    ((IngestPostProcess) rtn).setModel(model);
-                }
-                else if (rtn instanceof TransformPakbonPostProcess)
+                if (rtn instanceof TransformPakbonPostProcess)
                 {
                     ((TransformPakbonPostProcess) rtn).setModel(model);
- //                   model.getObject().setEasyMetadata("");
                 }
 
                 return rtn;
@@ -73,12 +68,7 @@ public class DepositUploadPakbonPanel extends AbstractDatasetModelPanel
         };
 
         // register the post processes (order is important, because it is kept!)
-        easyUpload.registerPostProcess(UnzipPostProcess.class);
-        easyUpload.registerPostProcess(IngestPostProcess.class);
         easyUpload.registerPostProcess(TransformPakbonPostProcess.class);
-//        easyUpload.registerPostProcess(UploadFileMetadataProcess.class);
-        // deposit ingest post process takes care of the files, so let's delete the files
-        // after they have been ingested
 
         add(easyUpload);
 
@@ -96,7 +86,6 @@ public class DepositUploadPakbonPanel extends AbstractDatasetModelPanel
         final ModalWindow popup = new ModalWindow("popup");
         popup.setUseInitialHeight(false);
         popup.setInitialWidth(width);
-        // popup.setInitialHeight(height);
         popup.setTitle("Files");
         popup.add(CSSPackageResource.getHeaderContribution(FileExplorer.class, "style/modal.css"));
         uploadPanelHolder.add(popup);
