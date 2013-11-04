@@ -1,7 +1,10 @@
 package nl.knaw.dans.easy.business.aspect;
 
+import nl.knaw.dans.common.lang.exception.ReadOnlyException;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.jumpoff.JumpoffDmo;
+import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
+import nl.knaw.dans.easy.business.bean.SystemStatus;
 import nl.knaw.dans.easy.data.audit.Audit;
 import nl.knaw.dans.easy.data.audit.DatasetAuditRecord;
 import nl.knaw.dans.easy.data.audit.JumpoffAuditRecord;
@@ -24,11 +27,11 @@ public aspect DataMutation
         execution(@MutatesUser * *(..))
         && args(sessionUser, userUnderEdit, ..);
     
-    pointcut jumpoffDmoMutation(EasyUser sessionUser, JumpoffDmo jumpoffDmo) :
+    pointcut jumpoffDmoMutationAfter(EasyUser sessionUser, JumpoffDmo jumpoffDmo) :
         execution(@MutatesJumpoffDmo * *(..))
         && args(sessionUser, jumpoffDmo, ..);
     
-    pointcut jumpoffDmoMutation2(EasyUser sessionUser, DmoStoreId storeId) :
+    pointcut jumpoffDmoMutationBefore(EasyUser sessionUser, DmoStoreId storeId) :
         execution(@MutatesJumpoffDmo * *(..))
         && args(sessionUser, storeId, ..);
     
@@ -45,23 +48,29 @@ public aspect DataMutation
     declare error : invalidMutatesUser() : "Invalid use of annotation @MutatesUser. "
         + "Expected parameters: 0. EasyUser, ..";
      
-    before(EasyUser sessionUser, Dataset dataset) : datasetMutation(sessionUser, dataset)
+    before(EasyUser sessionUser, Dataset dataset) throws ServiceException : datasetMutation(sessionUser, dataset)
     {
+        if (SystemStatus.instance().getReadOnly())
+            throw new ServiceException("At the moment only read access is allowed",new ReadOnlyException());
         Audit.storeAuditRecord(new DatasetAuditRecord(sessionUser, dataset, thisJoinPoint));
     }
 
-    before(EasyUser sessionUser, EasyUser userUnderEdit) : userMutation(sessionUser, userUnderEdit)
+    before(EasyUser sessionUser, EasyUser userUnderEdit) throws ServiceException : userMutation(sessionUser, userUnderEdit)
     {
+        if (SystemStatus.instance().getReadOnly())
+            throw new ServiceException("At the moment only read access is allowed",new ReadOnlyException());
         Audit.storeAuditRecord(new UserAuditRecord(sessionUser, userUnderEdit, thisJoinPoint));
     }
     
-    after(EasyUser sessionUser, JumpoffDmo jumpoffDmo) : jumpoffDmoMutation(sessionUser, jumpoffDmo)
+    after(EasyUser sessionUser, JumpoffDmo jumpoffDmo) : jumpoffDmoMutationAfter(sessionUser, jumpoffDmo)
     {
         Audit.storeAuditRecord(new JumpoffAuditRecord(sessionUser, jumpoffDmo, thisJoinPoint));
     }
     
-    before(EasyUser sessionUser, DmoStoreId storeId) : jumpoffDmoMutation2(sessionUser, storeId)
+    before(EasyUser sessionUser, DmoStoreId storeId) throws ServiceException : jumpoffDmoMutationBefore(sessionUser, storeId)
     {
+        if (SystemStatus.instance().getReadOnly())
+            throw new ServiceException("At the moment only read access is allowed",new ReadOnlyException());
         Audit.storeAuditRecord(new JumpoffAuditRecord(sessionUser, storeId, thisJoinPoint));
     }
     
