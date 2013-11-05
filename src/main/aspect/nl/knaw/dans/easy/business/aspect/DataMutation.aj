@@ -55,10 +55,12 @@ public aspect DataMutation
         Audit.storeAuditRecord(new DatasetAuditRecord(sessionUser, dataset, thisJoinPoint));
     }
 
-    before(EasyUser sessionUser, EasyUser userUnderEdit) throws ServiceException : userMutation(sessionUser, userUnderEdit)
+    before(EasyUser sessionUser, EasyUser userUnderEdit) : userMutation(sessionUser, userUnderEdit)
     {
+        // some throw repository exception (PasswordService,RegistrationService), some throw ServiceException (EasyUserService)
+        // so we just throw a runtime exception
         if (SystemStatus.instance().getReadOnly())
-            throw new ServiceException("At the moment only read access is allowed",new ReadOnlyException());
+            new ReadOnlyException();
         Audit.storeAuditRecord(new UserAuditRecord(sessionUser, userUnderEdit, thisJoinPoint));
     }
     
