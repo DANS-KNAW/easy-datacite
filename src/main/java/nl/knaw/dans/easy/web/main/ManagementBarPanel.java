@@ -16,6 +16,7 @@ import nl.knaw.dans.easy.web.wicket.SecureEasyPageLink;
 import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.PropertyModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,7 +56,17 @@ public class ManagementBarPanel extends AbstractEasyStatelessPanel
         trashCanLink.add(new Label("numberOfItemsInTrashcan", new PropertyModel<Integer>(this, "numberOfItemsInTrashcan")));
         add(trashCanLink);
 
-        Link<Page> readOnlyLink = new Link<Page>(READ_ONLY)
+        Link<Page> readOnlyLink = createReadOnlyLink();
+        readOnlyLink.add(new Label("readOnly", createReadOnlyModel()));
+        add(readOnlyLink);
+
+        add(new SecureEasyPageLink(USER_INFO, UsersOverviewPage2.class));
+        add(new SecureEasyPageLink(EDITABLE_CONTENT, EditableContentPage.class));
+    }
+
+    private Link<Page> createReadOnlyLink()
+    {
+        return new Link<Page>(READ_ONLY)
         {
             private static final long serialVersionUID = 1L;
 
@@ -66,11 +77,23 @@ public class ManagementBarPanel extends AbstractEasyStatelessPanel
                 setResponsePage(this.getPage());
             }
         };
-        readOnlyLink.add(new Label("readOnly", new PropertyModel<SystemStatus>(SystemStatus.instance(), "readOnly")));
-        add(readOnlyLink);
+    }
 
-        add(new SecureEasyPageLink(USER_INFO, UsersOverviewPage2.class));
-        add(new SecureEasyPageLink(EDITABLE_CONTENT, EditableContentPage.class));
+    /**
+     * @return a model that shows the value when someone else changed it.
+     */
+    private LoadableDetachableModel<Boolean> createReadOnlyModel()
+    {
+        return new LoadableDetachableModel<Boolean>()
+        {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            protected Boolean load()
+            {
+                return SystemStatus.instance().getReadOnly();
+            }
+        };
     }
 
     // Note: the following members are much alike, maybe we can refactor this
