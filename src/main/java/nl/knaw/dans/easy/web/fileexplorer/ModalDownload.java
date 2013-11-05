@@ -292,7 +292,7 @@ public class ModalDownload extends Panel
                     }
                     catch (ServiceException e)
                     {
-                        logger.error("Error while updating don't show again.", e);
+                        logger.error("Error while updating accept.", e);
                     }
                 }
             }
