@@ -26,7 +26,7 @@ CREATE TABLE easy_files (
 );
 
 
-ALTER TABLE public.easy_files OWNER TO easy_admin;
+ALTER TABLE public.easy_files OWNER TO easy_db_admin;
 
 CREATE TABLE easy_folder_accessibility_status (
     id bigserial NOT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE easy_folder_accessibility_status (
     accessible_to character varying(32)
 );
 
-ALTER TABLE public.easy_folder_accessibility_status OWNER TO easy_admin;
+ALTER TABLE public.easy_folder_accessibility_status OWNER TO easy_db_admin;
 
 CREATE TABLE easy_folder_creator (
     id bigserial NOT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE easy_folder_creator (
 );
 
 
-ALTER TABLE public.easy_folder_creator OWNER TO easy_admin;
+ALTER TABLE public.easy_folder_creator OWNER TO easy_db_admin;
 
 CREATE TABLE easy_folder_visibility_status (
     id bigserial NOT NULL,
@@ -52,7 +52,7 @@ CREATE TABLE easy_folder_visibility_status (
 );
 
 
-ALTER TABLE public.easy_folder_visibility_status OWNER TO easy_admin;
+ALTER TABLE public.easy_folder_visibility_status OWNER TO easy_db_admin;
 
 CREATE TABLE easy_folders (
     pid character varying(64) NOT NULL,
@@ -63,7 +63,7 @@ CREATE TABLE easy_folders (
 );
 
 
-ALTER TABLE public.easy_folders OWNER TO easy_admin;
+ALTER TABLE public.easy_folders OWNER TO easy_db_admin;
 
 --
 -- Primary keys
