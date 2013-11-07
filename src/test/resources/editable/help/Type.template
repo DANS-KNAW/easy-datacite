@@ -1,5 +1,0 @@
-<h2>Type</h2>
-General characteristic of the dataset deposited.<br /><br />The field &#8216;Type' can be used to indicate the form of the dataset in general terms. You can opt for both an archaeological description of the contents and a technical description of the contents. If you opt for a technical description, it is recommended that you do this in conformity with the international thesaurus called &#8216;DCMI resource type'. The default value will then be &#8216;Dataset' (the set of different files on one research project that belong to each other).<br /><br />Click the [+] button behind a field to add an additional field.<br /><br />
-<h2>Examples</h2>
-Dataset<br />Resultaten en gegevens van een geologisch booronderzoek<br />Materiaalstudie: artefactbeschrijvingen en ruimtelijke analyse<br />Eindrapport<br />Text<br />Image<br />
-<hr />

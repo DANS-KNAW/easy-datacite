@@ -19,19 +19,9 @@ import org.junit.Test;
 
 public class FileItemImplTest
 {
-
-    private boolean verbose = Tester.isVerbose();
-
     @Test
     public void dirtyChecking()
     {
-        if (verbose)
-            Tester.printClassAndFieldHierarchy(FileItemImpl.class);
-        // fields affected by dirtyChecking:
-        // label:java.lang.String
-        // ownerId:java.lang.String
-        // state:java.lang.String
-
         FileItemImpl fi = new FileItemImpl("dummy-file:1");
         assertTrue(fi.isDirty());
 
@@ -70,42 +60,13 @@ public class FileItemImplTest
         List<AccessCategory> categories = new ArrayList<AccessCategory>();
 
         int profile = AccessCategory.UTIL.getBitMask(categories);
-        if (verbose)
-            System.err.println(profile);
         assertFalse(fi.isAccessibleFor(profile));
 
         categories.add(AccessCategory.ANONYMOUS_ACCESS);
         profile = AccessCategory.UTIL.getBitMask(categories);
-        if (verbose)
-            System.err.println(profile);
         assertTrue(fi.isAccessibleFor(profile));
 
         fi.setAccessibleTo(null);
         assertFalse(fi.isAccessibleFor(profile));
     }
-
-    @Test
-    public void accessCategory()
-    {
-        List<AccessCategory> categories = new ArrayList<AccessCategory>();
-        System.err.println(AccessCategory.UTIL.getBitMask(categories) + " " + categories);
-
-        categories.add(AccessCategory.ANONYMOUS_ACCESS);
-        System.err.println(AccessCategory.UTIL.getBitMask(categories) + " " + categories);
-
-        categories.add(AccessCategory.OPEN_ACCESS);
-        System.err.println(AccessCategory.UTIL.getBitMask(categories) + " " + categories);
-    }
-
-    @Test
-    public void getAccessProfile()
-    {
-        FileItemImpl fi = new FileItemImpl("dummy-file:1");
-        fi.setAccessibleTo(AccessibleTo.KNOWN);
-        for (int i = 0; i < 128; i++)
-        {
-            System.err.println(i + " > " + fi.getAccessProfile(i));
-        }
-    }
-
 }

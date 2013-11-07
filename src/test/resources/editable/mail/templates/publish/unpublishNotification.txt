@@ -1,7 +1,0 @@
-Dear ~EasyUser.getDisplayName~,
-
-This E-mail concerns the following dataset you deposited with DANS:
-Title: ~Dataset.getPreferredTitle~
-Link: ~UnpublishNotification.getDatasetUrl~
-
-The status of the dataset was changed from "published" back to "submitted". This is the same status it had when first deposited, which means it is no longer publicly available and will be handled by the DANS staff.

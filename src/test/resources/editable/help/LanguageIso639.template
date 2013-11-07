@@ -1,6 +1,0 @@
-<h2>Language</h2>
-<p>The language in which the data and the documents have been written.<br /><br />The language that is used to describe the contents of the files in the dataset is important to potential re-users. A database (names of variables and remarks) or a CAD drawing (nomenclature of the layers) is also language dependent and is usually in Dutch. Foreign researchers will therefore appreciate it if this is clearly mentioned in the metadata. Use the free text field or the ISO 639-2 code for the description.<br /><br />Click the [+] button behind a field to add an additional field.<br /></p>
-<h2>Examples</h2>
-<p>Nederlands en Engels<br />Dutch and English<br />dut / nld<br />eng<br />deu</p>
-<p>&#160;</p>
-<hr />
