@@ -46,67 +46,83 @@ public class TransformPakbonPostProcess implements IUploadPostProcess
 
     private DatasetModel datasetModel;
     private String parentSid = "";
-    
+
     public List<File> execute(final List<File> fileList, final File destPath, final Map<String, String> clientParams) throws UploadPostProcessException
-    {  
-    	try {
-			String filePath = fileList.get(0).getPath();
-			setStatus("Validating the xml-file...");
-			if (isValidPakbon(new File(filePath))){
-				setStatus("Transforming into Easy metadata...");
-				byte [] result = new Pakbon2EmdTransformer().transform(new FileInputStream(filePath));
+    {
+        try
+        {
+            String filePath = fileList.get(0).getPath();
+            setStatus("Validating the pakbon file...");
+            if (isValidPakbon(new File(filePath)))
+            {
+                setStatus("Transforming pakbon into EASY metadata...");
+                byte[] result = new Pakbon2EmdTransformer().transform(new FileInputStream(filePath));
 
-				setStatus("Writing Easy metadata...");
-		        getDataset().replaceEasyMetadata(new String(result));
-		        
-				setStatus("Ingesting the xml-file...");
-				ingestFile(fileList, destPath,clientParams);
-				return fileList;
-			}
-			else {
-				throwError(new TransformPakbonPostProcessException("Pakbon file is not valid"), "Error in validating pakbon xml-file");
-			}
-		} catch (TransformerException e) {
-			throwError(e, "Error in transforming into Easy metadata");
-		} catch (FileNotFoundException e) {
-			throwError(e, "Error in transforming into Easy metadata");
-		} catch (DomainException e) {
-			throwError(e, "Error in writing Easy metadata");
-		} catch (ServiceException e) {
-			throwError(e, "Error in ingesting the xml-file");
-		} catch (ValidatorException e) {
-			throwError(e, "Error in validating pakbon xml-file");
-		} catch (SOAPException e) {
-			throwError(e, "Error in validating pakbon xml-file");
-		} catch (IOException e) {
-			throwError(e, "Error in validating pakbon xml-file");
-		}
-    	return null;
-   }
+                setStatus("Writing EASY metadata...");
+                getDataset().replaceEasyMetadata(new String(result));
 
-    private void throwError(Exception error, String message) throws UploadPostProcessException {
-    	
-		setStatus(message);
-    	cancel();
-    	status.setError(true);
-		LOG.error(error.getMessage());
-    	throw new UploadPostProcessException(error);
+                setStatus("Ingesting the pakbon file...");
+                ingestFile(fileList, destPath, clientParams);
+                return fileList;
+            }
+            else
+            {
+                throwError(new TransformPakbonPostProcessException("Pakbon file is not valid"), "Error in validating pakbon xml-file");
+            }
+        }
+        catch (TransformerException e)
+        {
+            throwError(e, "Error in transforming into Easy metadata");
+        }
+        catch (FileNotFoundException e)
+        {
+            throwError(e, "Error in transforming into Easy metadata");
+        }
+        catch (DomainException e)
+        {
+            throwError(e, "Error in writing Easy metadata");
+        }
+        catch (ServiceException e)
+        {
+            throwError(e, "Error in ingesting the xml-file");
+        }
+        catch (ValidatorException e)
+        {
+            throwError(e, "Error in validating pakbon xml-file");
+        }
+        catch (SOAPException e)
+        {
+            throwError(e, "Error in validating pakbon xml-file");
+        }
+        catch (IOException e)
+        {
+            throwError(e, "Error in validating pakbon xml-file");
+        }
+        return null;
     }
-    
-    
+
+    private void throwError(Exception error, String message) throws UploadPostProcessException
+    {
+
+        setStatus(message);
+        status.setError(true);
+        LOG.error(error.getMessage());
+        throw new UploadPostProcessException(error);
+    }
+
     public void cancel()
     {
         canceled = true;
     }
 
-   public void rollBack() throws UploadPostProcessException
+    public void rollBack() throws UploadPostProcessException
     {
         LOG.error("Programming error: processing code should be in business services and/or domain objects.");
     }
 
-    
-  private void ingestFile(final List<File> fileList, final File destPath, final Map<String, String> clientParams) throws ServiceException {
-    	
+    private void ingestFile(final List<File> fileList, final File destPath, final Map<String, String> clientParams) throws ServiceException
+    {
+
         Dataset dataset = getDataset();
 
         if (parentSid.equals(""))
@@ -159,7 +175,7 @@ public class TransformPakbonPostProcess implements IUploadPostProcess
             StatisticsLogger.getInstance().logEvent(StatisticsEvent.FILE_DEPOSIT, new DatasetStatistics(dataset), new UploadFileStatistics(fileList));
         }
     }
-    
+
     private boolean isValidPakbon(File xml) throws ValidatorException, SOAPException, IOException
     {
         final String DEFAULT_USERNAME = "bergh";
@@ -168,13 +184,14 @@ public class TransformPakbonPostProcess implements IUploadPostProcess
         PakbonValidator validator = new PakbonValidator();
         ValidateXmlResponse response;
         new PakbonValidatorCredentials(DEFAULT_USERNAME, DEFAULT_PASSWORD);
-		response = validator.validateXml(xml);
-		if (!response.getValidation().getValidXml()){
-			System.out.println("Validation of the pakbon xml-file failed.");
-		}
+        response = validator.validateXml(xml);
+        if (!response.getValidation().getValidXml())
+        {
+            System.out.println("Validation of the pakbon xml-file failed.");
+        }
         return response.getValidation().getValidXml();
     }
-    
+
     public void setStatus(String statusMessage)
     {
         status.setMessage(statusMessage);

@@ -33,13 +33,13 @@ public class UploadPakbonPanel extends AbstractCustomPanel
     private static Logger logger = LoggerFactory.getLogger(UploadPakbonPanel.class);
 
     private final DatasetModel datasetModel;
-    
+
     public UploadPakbonPanel(String id, DatasetModel datasetModel)
     {
         super(id);
         this.datasetModel = datasetModel;
-        setOutputMarkupId(true);        
-   }
+        setOutputMarkupId(true);
+    }
 
     @Override
     protected Panel getCustomComponentPanel()
@@ -63,12 +63,12 @@ public class UploadPakbonPanel extends AbstractCustomPanel
         {
             for (String s : list)
             {
-//                if (s.endsWith("xml") && isValidPakbon(new File(s)))
+                // if (s.endsWith("xml") && isValidPakbon(new File(s)))
                 if (s.endsWith("xml"))
                 {
-            		return new ViewModePanel(s);
+                    return new ViewModePanel(s);
                 }
-            } 
+            }
             return new UploadModePanel();
         }
         else
@@ -86,7 +86,7 @@ public class UploadPakbonPanel extends AbstractCustomPanel
         {
             super(CUSTOM_PANEL_ID);
             this.add(new DepositUploadPakbonPanel("uploadPanel", datasetModel));
-            
+
             AjaxSubmitLink refreshPageLink = new AjaxSubmitLink("refreshPageLink")
             {
 
@@ -129,32 +129,32 @@ public class UploadPakbonPanel extends AbstractCustomPanel
         }
     }
 
-    
-//    /* Notice: We keep the option open here for more than one file.  At the moment it is not possible to upload more than one pakbon file. */
-//    class ViewModePanel extends Panel
-//    {
-//
-//        private static final long serialVersionUID = -1141097831590702485L;
-//
-//        public ViewModePanel(List<String> list)
-//        {
-//            super(CUSTOM_PANEL_ID);
-//            String values = "";
-//            for (String s : list)
-//            {
-//                if (s.endsWith("xml"))
-//                {
-//                    values += s + "\n";
-//                    // just the first xml-file is shown
-//                    break;
-//                }
-//            }
-//            MultiLineLabel label = new MultiLineLabel("noneditable", values);
-//            add(label);
-//
-//        }
-//
-//    }
+    // /* Notice: We keep the option open here for more than one file. At the moment it is not possible
+    // to upload more than one pakbon file. */
+    // class ViewModePanel extends Panel
+    // {
+    //
+    // private static final long serialVersionUID = -1141097831590702485L;
+    //
+    // public ViewModePanel(List<String> list)
+    // {
+    // super(CUSTOM_PANEL_ID);
+    // String values = "";
+    // for (String s : list)
+    // {
+    // if (s.endsWith("xml"))
+    // {
+    // values += s + "\n";
+    // // just the first xml-file is shown
+    // break;
+    // }
+    // }
+    // MultiLineLabel label = new MultiLineLabel("noneditable", values);
+    // add(label);
+    //
+    // }
+    //
+    // }
 
     private boolean isValidPakbon(File xml)
     {
@@ -163,21 +163,29 @@ public class UploadPakbonPanel extends AbstractCustomPanel
 
         PakbonValidator validator = new PakbonValidator();
         ValidateXmlResponse response;
-		try {
-	        new PakbonValidatorCredentials(DEFAULT_USERNAME, DEFAULT_PASSWORD);
-			response = validator.validateXml(xml);
-			if (!response.getSuccess()){
-				System.out.println("NOT VALID XML!");
-			}
-	        return response.getSuccess();
-		} catch (ValidatorException e) {
-			logger.error(e.getMessage());
-		} catch (SOAPException e) {
-			logger.error(e.getMessage());
-		} catch (IOException e) {
-			logger.error(e.getMessage());
-		}
-		return false;
+        try
+        {
+            new PakbonValidatorCredentials(DEFAULT_USERNAME, DEFAULT_PASSWORD);
+            response = validator.validateXml(xml);
+            if (!response.getSuccess())
+            {
+                System.out.println("NOT VALID XML!");
+            }
+            return response.getSuccess();
+        }
+        catch (ValidatorException e)
+        {
+            logger.error(e.getMessage());
+        }
+        catch (SOAPException e)
+        {
+            logger.error(e.getMessage());
+        }
+        catch (IOException e)
+        {
+            logger.error(e.getMessage());
+        }
+        return false;
     }
 
 }
