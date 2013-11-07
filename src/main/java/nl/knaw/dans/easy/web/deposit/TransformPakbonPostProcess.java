@@ -165,15 +165,14 @@ public class TransformPakbonPostProcess implements IUploadPostProcess
         final String DEFAULT_USERNAME = "bergh";
         final String DEFAULT_PASSWORD = "cC!XzlKK";
 
-//        PakbonValidator validator = new PakbonValidator();
-//        ValidateXmlResponse response;
-//        new PakbonValidatorCredentials(DEFAULT_USERNAME, DEFAULT_PASSWORD);
-//		response = validator.validateXml(xml);
-//		if (!response.getValidation().getValidXml()){
-//			System.out.println("Validation of the pakbon xml-file failed.");
-//		}
-//        return response.getValidation().getValidXml();
-        return true;
+        PakbonValidator validator = new PakbonValidator();
+        ValidateXmlResponse response;
+        new PakbonValidatorCredentials(DEFAULT_USERNAME, DEFAULT_PASSWORD);
+		response = validator.validateXml(xml);
+		if (!response.getValidation().getValidXml()){
+			System.out.println("Validation of the pakbon xml-file failed.");
+		}
+        return response.getValidation().getValidXml();
     }
     
     public void setStatus(String statusMessage)
