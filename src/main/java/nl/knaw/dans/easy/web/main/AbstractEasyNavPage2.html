@@ -1,0 +1,142 @@
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html 
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:wicket="http://wicket.sourceforge.net/" 
+	xml:lang="en" 
+	lang="en">
+	
+<head>
+	<wicket:head>
+		<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+		<link rel="shortcut icon" type="image/x-icon" href="images/easy.ico" />
+		<link rel="stylesheet" type="text/css" href="css2/easy.css" />
+	</wicket:head>
+</head>
+
+<body>
+<wicket:extend>
+	<div id="container">
+		<div class="header no-print">
+		<!-- HEADER -->
+			<div class="hgroup">
+				<div class="h1"><a wicket:id="easyLogoLink"><img src="images/easy_logo.png" alt="DANS"/></a></div>
+				<div class="h2"><a href="http://www.dans.knaw.nl/" title="Data Archiving and Networked Services">Data Archiving and Networked Services</a></div>
+			</div>
+			<div class="nav">
+				<ul class="main-nav">
+				<!-- MAIN NAVIGATION -->
+					<li class="child-1"><a href="#" wicket:id="homePage"><wicket:message key="page.home">[HOME]</wicket:message></a></li>
+					<li class="child-2"><a href="#" wicket:id="browsePage"><wicket:message key="page.browse">[BROWSE]</wicket:message></a></li>
+					<li class="child-3"><a href="#" wicket:id="advancedSearchPage"><wicket:message key="page.advancedsearch">[ADVANCED SEARCH]</wicket:message></a></li>
+					<li class="search-panel">
+						<span wicket:id="navSearchPanel">[SEARCH PANEL]</span>
+						<span wicket:id="searchHelpPopup"></span>
+					</li>
+					<li class="deposit"><a href="#" wicket:id="navDeposit" class="button"><wicket:message key="page.deposit">New Deposit</wicket:message></a></li>
+				</ul>
+				<ul class="admin-nav">
+					<wicket:enclosure child="login">
+						<li>
+							<a href="#" wicket:id="register" alt="Register" title="Register to get access to EASY">
+								<wicket:message key="page.register">Register</wicket:message>
+							</a>
+							<wicket:message key="or">or</wicket:message>
+							<a href="#" wicket:id="login" alt="Login" title="Login to EASY">
+								<wicket:message key="page.login">Login</wicket:message>
+							</a>
+						</li>
+					</wicket:enclosure>
+					<wicket:enclosure child="logoff">
+						<li><span wicket:id="displayName">[displayName]</span></li>
+						<wicket:enclosure child="myRequests">
+						<li>
+							<a href="#" wicket:id="myRequests" class="requests">
+								<wicket:message key="page.myrequests">My Requests</wicket:message>
+							</a>
+						</li>
+						</wicket:enclosure>
+						<li>
+							<a href="#" wicket:id="myPersonalInfoLink" class="sprite settings" alt="My personal settings" title="My personal settings">
+								<wicket:message key="login.mysettings">My Settings</wicket:message>
+							</a>
+						</li>
+						<li class="last-child">
+							<a href="#" wicket:id="logoff" class="logoff" alt="Log out" title="Log out">
+								<wicket:message key="login.logoff">[LOGOFF]</wicket:message>
+							</a>
+						</li>
+					</wicket:enclosure>
+					<wicket:enclosure child="myDatasets">
+					<li class="datasets last-child">
+						<a href="#" wicket:id="myDatasets"><wicket:message key="page.mydatasets">My Datasets</wicket:message></a>
+					</li>
+					</wicket:enclosure>
+				</ul>
+				<div class="management-bar" wicket:id="managementBarPanel2">[MANAGEMENT BAR]</div>
+				<div class="admin-banner" wicket:id="adminBanner">[ADMIN BANNER]</div>
+				<!-- END MAIN NAVIGATION -->
+			</div>
+		<!-- END HEADER -->
+		</div>
+		
+		<div class="content">	
+			<wicket:child />
+		</div>
+		
+		<div class="footer no-print">
+		<!-- FOOTER -->
+			<div class="footer-nav">
+				<ul>
+				<!-- Footer navigation: terms and conditions, etc. -->	
+				<!-- Note: these links require title attributes. -->
+					<li>
+						<a class="external" href="http://www.dans.knaw.nl/en/content/data-archive" target="_blank">
+							<wicket:message key="page.dansRef">[Using EASY]</wicket:message>
+						</a>
+					</li>
+					<li>
+						<a class="external" href="http://www.dans.knaw.nl/en/content/data-archive/help-and-support" target="_blank">
+							<wicket:message key="page.dansContact">[Contact]</wicket:message>
+						</a>
+					</li>
+					<li>
+						<a class="external" wicket:id="disclaimerLink" title="View the disclaimer" href="#" target="_blank">
+							[Disclaimer]
+						</a>
+					</li>
+					<li>
+						<a class="external" href="http://www.dans.knaw.nl/en/content/data-archive/legal-information" target="_blank">
+							<wicket:message key="page.legalInfoRef">[Legal Info]</wicket:message>
+						</a>
+					</li>
+					<li>
+						<a class="external" href="http://www.dans.knaw.nl/content/property-rights-statement-easy-website" target="_blank">
+							<wicket:message key="page.propertyRightsRef">[Property rights]</wicket:message>
+						</a>
+					</li>
+					<li class="last-child">
+						<a class="external" href="https://assessment.datasealofapproval.org/assessment_47/seal/html/" target="_blank">
+							<wicket:message key="page.easyDSALink">[DSA]</wicket:message>			
+						</a>
+					</li>
+				<!-- End footer navigation -->
+				</ul>
+			</div>			
+			<div class="version">
+				<span wicket:id="easyVersion">[EASY VERSION]</span>
+			</div>
+			<!-- Note: please use either the text link above (and add the external link icon) or the image link below for the Data Seal of Approval link. 
+				 This is not semantically or interaction-design logical. -->
+			<div class="easy-DSA-link">
+				<a href="https://assessment.datasealofapproval.org/assessment_47/seal/html/" target="_blank" wicket:message="alt:page.easyDSALink.alt,title:page.easyDSALink.title">
+					<img src="images/DSA-logo-tiny.gif" />
+				</a>
+			</div>
+		<!-- END FOOTER -->
+		</div>
+	</div>
+</wicket:extend>
+</body>
+</html>

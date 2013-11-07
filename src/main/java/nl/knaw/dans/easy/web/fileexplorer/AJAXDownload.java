@@ -1,9 +1,17 @@
 package nl.knaw.dans.easy.web.fileexplorer;
 
+import java.io.IOException;
+
+import nl.knaw.dans.easy.domain.download.FileContentWrapper;
+import nl.knaw.dans.easy.domain.download.ZipFileContentWrapper;
+
+import org.apache.wicket.RequestCycle;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.behavior.AbstractAjaxBehavior;
 import org.apache.wicket.request.target.resource.ResourceStreamRequestTarget;
+import org.apache.wicket.util.resource.FileResourceStream;
 import org.apache.wicket.util.resource.IResourceStream;
+import org.apache.wicket.util.resource.UrlResourceStream;
 
 public abstract class AJAXDownload extends AbstractAjaxBehavior
 {
@@ -19,9 +27,30 @@ public abstract class AJAXDownload extends AbstractAjaxBehavior
         target.appendJavascript("window.location.href='" + url + "'");
     }
 
+    @Override
     public void onRequest()
     {
-        getComponent().getRequestCycle().setRequestTarget(new ResourceStreamRequestTarget(getResourceStream(), getFileName()));
+        getComponent().getRequestCycle().setRequestTarget(createTarget());
+    }
+
+    private ResourceStreamRequestTarget createTarget()
+    {
+        return new ResourceStreamRequestTarget(getResourceStream(), getFileName())
+        {
+            @Override
+            public void detach(RequestCycle requestCycle)
+            {
+                super.detach(requestCycle);
+                detachResourceStream();
+            }
+        };
+    }
+
+    /**
+     * Hook method to remove a temporary file created for the download.
+     */
+    protected void detachResourceStream()
+    {
     }
 
     /**
@@ -36,4 +65,57 @@ public abstract class AJAXDownload extends AbstractAjaxBehavior
      * Hook method providing the actual resource stream.
      */
     protected abstract IResourceStream getResourceStream();
+
+    public static AJAXDownload create(final FileContentWrapper fcw)
+    {
+        return new AJAXDownload()
+        {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            protected IResourceStream getResourceStream()
+            {
+                return new UrlResourceStream(fcw.getURL());
+            }
+
+            @Override
+            protected String getFileName()
+            {
+                return fcw.getFileName();
+            }
+        };
+    }
+
+    public static AJAXDownload create(final ZipFileContentWrapper zfcw)
+    {
+        return new AJAXDownload()
+        {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            protected IResourceStream getResourceStream()
+            {
+                return new FileResourceStream(zfcw.getZipFile());
+            }
+
+            @Override
+            protected String getFileName()
+            {
+                return zfcw.getFilename();
+            }
+
+            @Override
+            protected void detachResourceStream()
+            {
+                try
+                {
+                    zfcw.deleteZipFile();
+                }
+                catch (IOException e)
+                {
+                    // already logged, no reason to bother the client
+                }
+            }
+        };
+    }
 }

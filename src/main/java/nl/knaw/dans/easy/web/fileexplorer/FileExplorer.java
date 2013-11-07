@@ -23,8 +23,10 @@ import nl.knaw.dans.easy.domain.dataset.item.RequestedItem;
 import nl.knaw.dans.easy.domain.dataset.item.UpdateInfo;
 import nl.knaw.dans.easy.domain.download.ZipFileContentWrapper;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
+import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
+import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasySession;
@@ -100,28 +102,28 @@ public class FileExplorer extends AbstractDatasetModelPanel
         published = datasetModel.getObject().getAdministrativeState().equals(DatasetState.PUBLISHED);
 
         // initialize a ModalWindow for file details
-        final ModalWindow modalFileDetails = Util.createModalWindow("modalFileDetails", 400, "File details");
-        add(modalFileDetails);
+        final ModalWindow modalFileDetailsWindow = Util.createModalWindow("modalFileDetails", 400, "File details");
+        add(modalFileDetailsWindow);
 
         // initialize a ModalWindow for downloads
-        final ModalWindow modalDownload = Util.createModalWindow("modalDownload", 400, "Notice: Download");
-        add(modalDownload);
+        final ModalWindow modalDownloadWindow = Util.createModalWindow("modalDownload", 400, "Notice: Download");
+        add(modalDownloadWindow);
 
         // initialize a ModalWindow for delete files
-        final ModalWindow modalDelete = Util.createModalWindow("modalDelete", 450, "Delete file(s)/folder(s)");
-        add(modalDelete);
+        final ModalWindow modalDeleteWindow = Util.createModalWindow("modalDelete", 450, "Delete file(s)/folder(s)");
+        add(modalDeleteWindow);
 
         // initialize a ModalWindow for importing file metadata
-        final ModalWindow modalImport = Util.createModalWindow("modalImport", 450, "Import file metadata");
-        add(modalImport);
+        final ModalWindow modalImportWindow = Util.createModalWindow("modalImport", 450, "Import file metadata");
+        add(modalImportWindow);
 
         // initialize a ModalWindow for uploads
-        final ModalWindow modalUpload = createModalUploadWindow("modalUpload", 450, "Upload files");
-        add(modalUpload);
+        final ModalWindow modalUploadWindow = createModalUploadWindow("modalUpload", 450, "Upload files");
+        add(modalUploadWindow);
 
         // initialize a ModalWindow for messages
-        final ModalWindow modalMessage = Util.createModalWindow("modalMessage", 450, "Message");
-        add(modalMessage);
+        final ModalWindow modalMessageWindow = Util.createModalWindow("modalMessage", 450, "Message");
+        add(modalMessageWindow);
 
         Form<Void> filterForm = new Form<Void>("filterForm");
         final HashMap<Enum<?>, CheckBox> filterMap = new HashMap<Enum<?>, CheckBox>();
@@ -129,7 +131,100 @@ public class FileExplorer extends AbstractDatasetModelPanel
         createFilterCheckboxes(filterForm, filterMap, VisibleTo.values(), "visible");
         createFilterCheckboxes(filterForm, filterMap, AccessibleTo.values(), "access");
         filterForm.setVisible(archivistView);
-        filterForm.add(new AjaxSubmitLink("filtersSubmitLink")
+        filterForm.add(createFilterSubmitLink(filterMap));
+        add(filterForm);
+
+        treeProvider = new TreeItemProvider(datasetModel.getDmoStoreId(), filterMap);
+        explorer = createExplorerPanel();
+
+        // create legend
+        final Label legend = new Label("legend");
+        legend.setVisible(false);
+        add(legend);
+
+        // initialize columns, archivist has 6 columns, depositor has 5 columns, normal user has 4
+        // columns
+        IColumn<?>[] columns;
+        if (archivistView)
+        {
+            columns = new IColumn[6];
+        }
+        else if (depositorView)
+        {
+            columns = new IColumn[5];
+            // also show legend in depositor's case
+            legend.setVisible(true);
+        }
+        else
+        {
+            columns = new IColumn[4];
+        }
+
+        columns[0] = createFileFolderColumn();
+
+        // a small check to see if this dataset has an Additional License
+        final boolean hasAdditionalLicense = Util.getAdditionalLicenseResource(datasetModel) != null;
+
+        columns[1] = createNameColumn(datasetModel, modalDownloadWindow, hasAdditionalLicense);
+        columns[2] = createSizeColumn();
+
+        if (archivistView)
+        {
+            columns[3] = new PropertyColumn<Void>(new Model<String>("Creator"), "creator", "creator");
+            columns[4] = new PropertyColumn<Void>(new Model<String>("Visible to"), "visibleTo", "visibleTo");
+            columns[5] = new PropertyColumn<Void>(new Model<String>("Accessible to"), "accessibleTo", "accessibleTo");
+        }
+        else if (depositorView)
+        {
+            columns[3] = new PropertyColumn<Void>(new Model<String>("Visible to"), "visibleTo", "visibleTo");
+            columns[4] = new PropertyColumn<Void>(new Model<String>("Accessible to"), "accessibleTo", "accessibleTo");
+        }
+        else
+        {
+            columns[3] = createAccessibleToColumn(datasetModel);
+        }
+        explorer.setColumns(columns);
+        explorer.setOutputMarkupId(true);
+        add(explorer);
+
+        add(creatFileDetailsLinks(datasetModel, modalFileDetailsWindow));
+        add(createDownloadLink(datasetModel, modalDownloadWindow, modalMessageWindow, hasAdditionalLicense));
+        add(createUploadLink(datasetModel, modalUploadWindow));
+        add(createImportLink(datasetModel, modalImportWindow));
+        add(createDeleteLink(datasetModel, modalDeleteWindow));
+
+        ArrayList<VisibleTo> visibleToList = new ArrayList<VisibleTo>(Arrays.asList(VisibleTo.values()));
+        visibleToList.remove(VisibleTo.RESTRICTED_REQUEST); // GK: milco requested to turn off the
+                                                            // possibility of group and request on the
+                                                            // visibility of files
+        visibleToList.remove(VisibleTo.RESTRICTED_GROUP);
+        final EnumChoiceRenderer<VisibleTo> visibleToRenderer = new EnumChoiceRenderer<VisibleTo>(this, "Rights");
+        final DropDownChoice<VisibleTo> viewRights = new DropDownChoice<VisibleTo>("viewRights", new Model<VisibleTo>(), visibleToList, visibleToRenderer);
+        final EnumChoiceRenderer<AccessibleTo> accessibleToRenderer = new EnumChoiceRenderer<AccessibleTo>(this, "Rights");
+        final DropDownChoice<AccessibleTo> accessRights = new DropDownChoice<AccessibleTo>("accessRights", new Model<AccessibleTo>(),
+                Arrays.asList(AccessibleTo.values()), accessibleToRenderer);
+        viewRights.setNullValid(true);
+        accessRights.setNullValid(true);
+
+        Form<Void> rightsForm = createRightsForm();
+
+        // GK: these behaviours make sure AJAX round trips are made to the server whenever the value
+        // changes.
+        // Should AjaxFormComponentUpdatingBehavior be used instead maybe?
+        viewRights.add(getAjaxFormSubmitBehavior(rightsForm));
+        accessRights.add(getAjaxFormSubmitBehavior(rightsForm));
+
+        rightsForm.add(viewRights);
+        rightsForm.add(accessRights);
+        rightsForm.add(createApplyFileRightsLink(datasetModel, viewRights, accessRights));
+
+        add(rightsForm);
+
+    }
+
+    private AjaxSubmitLink createFilterSubmitLink(final HashMap<Enum<?>, CheckBox> filterMap)
+    {
+        return new AjaxSubmitLink("filtersSubmitLink")
         {
             private static final long serialVersionUID = 1L;
 
@@ -151,11 +246,12 @@ public class FileExplorer extends AbstractDatasetModelPanel
                 target.addComponent(explorer);
             }
 
-        });
-        add(filterForm);
+        };
+    }
 
-        treeProvider = new TreeItemProvider(datasetModel.getDmoStoreId(), filterMap);
-        explorer = new ExplorerPanel("explorer", null, treeProvider)
+    private ExplorerPanel createExplorerPanel()
+    {
+        return new ExplorerPanel("explorer", null, treeProvider)
         {
             private static final long serialVersionUID = 1L;
 
@@ -195,31 +291,11 @@ public class FileExplorer extends AbstractDatasetModelPanel
             }
 
         };
+    }
 
-        // create legend
-        final Label legend = new Label("legend");
-        legend.setVisible(false);
-        add(legend);
-
-        // initialize columns, archivist has 6 columns, depositor has 5 columns, normal user has 4
-        // columns
-        IColumn<?>[] columns;
-        if (archivistView)
-        {
-            columns = new IColumn[6];
-        }
-        else if (depositorView)
-        {
-            columns = new IColumn[5];
-            // also show legend in depositor's case
-            legend.setVisible(true);
-        }
-        else
-        {
-            columns = new IColumn[4];
-        }
-
-        columns[0] = new AbstractColumn<Void>(new Model<String>(""))
+    private AbstractColumn<Void> createFileFolderColumn()
+    {
+        return new AbstractColumn<Void>(new Model<String>(""))
         {
             private static final long serialVersionUID = 1L;
 
@@ -229,39 +305,58 @@ public class FileExplorer extends AbstractDatasetModelPanel
                 Model<Boolean> checked = new Model<Boolean>();
                 checked.setObject(selectedFiles.contains(item) || selectedFolders.contains(item)); // selection
                                                                                                    // memoization
-                cellItem.add(new CheckboxPanel(componentId, checked)
-                {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void onSelectionChange(AjaxRequestTarget target)
-                    {
-                        ArrayList<ITreeItem> list;
-                        if (item.getType().equals(Type.FILE))
-                        {
-                            list = selectedFiles;
-                        }
-                        else
-                        {
-                            list = selectedFolders;
-                        }
-                        if (list.contains(item))
-                        {
-                            list.remove(item);
-                        }
-                        else
-                        {
-                            list.add(item);
-                        }
-                    }
-                });
+                cellItem.add(createFileCheckBoxPanel(componentId, item, checked));
             }
         };
+    }
 
-        // a small check to see if this dataset has an Additional License
-        final boolean hasAdditionalLicense = Util.getAdditionalLicenseResource(datasetModel) != null;
+    private CheckboxPanel createFileCheckBoxPanel(String componentId, final ITreeItem item, Model<Boolean> checked)
+    {
+        return new CheckboxPanel(componentId, checked)
+        {
+            private static final long serialVersionUID = 1L;
 
-        columns[1] = new AbstractColumn<Void>(new Model<String>("Name"), "name")
+            @Override
+            public void onSelectionChange(AjaxRequestTarget target)
+            {
+                ArrayList<ITreeItem> list;
+                if (item.getType().equals(Type.FILE))
+                {
+                    list = selectedFiles;
+                }
+                else
+                {
+                    list = selectedFolders;
+                }
+                if (list.contains(item))
+                {
+                    list.remove(item);
+                }
+                else
+                {
+                    list.add(item);
+                }
+            }
+        };
+    }
+
+    private AbstractColumn<Void> createSizeColumn()
+    {
+        return new AbstractColumn<Void>(new Model<String>("Size"), "size")
+        {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void populateItem(Item cellItem, String componentId, final IModel rowModel)
+            {
+                cellItem.add(new SizePanel(componentId, ((TreeItem) (rowModel.getObject())).getSizeAsString()));
+            }
+        };
+    }
+
+    private AbstractColumn<Void> createNameColumn(final DatasetModel datasetModel, final ModalWindow modalDownloadWindow, final boolean hasAdditionalLicense)
+    {
+        return new AbstractColumn<Void>(new Model<String>("Name"), "name")
         {
             private static final long serialVersionUID = 1L;
 
@@ -269,18 +364,7 @@ public class FileExplorer extends AbstractDatasetModelPanel
             {
                 try
                 {
-                    cellItem.add(new NamePanel(componentId, rowModel, explorer.getTree(), datasetModel, explorer.getContent(), hasAdditionalLicense,
-                            new AjaxLink<Void>("link")
-                            {
-                                private static final long serialVersionUID = 1L;
-
-                                public void onClick(AjaxRequestTarget target)
-                                {
-                                    // show download popup
-                                    modalDownload.setContent(new ModalDownload(modalDownload, (ITreeItem) rowModel.getObject(), datasetModel));
-                                    modalDownload.show(target);
-                                }
-                            }));
+                    cellItem.add(cerateNamePanel(datasetModel, modalDownloadWindow, hasAdditionalLicense, componentId, rowModel));
                 }
                 catch (ServiceRuntimeException e)
                 {
@@ -291,258 +375,30 @@ public class FileExplorer extends AbstractDatasetModelPanel
                     logger.error("Error creating direct download link for single file.", e);
                 }
             }
+
         };
+    }
 
-        columns[2] = new AbstractColumn<Void>(new Model<String>("Size"), "size")
+    private NamePanel cerateNamePanel(final DatasetModel datasetModel, final ModalWindow modalDownloadWindow, final boolean hasAdditionalLicense,
+            String componentId, final IModel rowModel) throws ServiceException
+    {
+        return new NamePanel(componentId, rowModel, explorer.getTree(), datasetModel, explorer.getContent(), hasAdditionalLicense, new AjaxLink<Void>("link")
         {
             private static final long serialVersionUID = 1L;
 
-            @Override
-            public void populateItem(Item cellItem, String componentId, final IModel rowModel)
-            {
-                cellItem.add(new SizePanel(componentId, ((TreeItem) (rowModel.getObject())).getSizeAsString()));
-            }
-        };
-
-        if (archivistView)
-        {
-            columns[3] = new PropertyColumn<Void>(new Model<String>("Creator"), "creator", "creator");
-            columns[4] = new PropertyColumn<Void>(new Model<String>("Visible to"), "visibleTo", "visibleTo");
-            columns[5] = new PropertyColumn<Void>(new Model<String>("Accessible to"), "accessibleTo", "accessibleTo");
-        }
-        else if (depositorView)
-        {
-            columns[3] = new PropertyColumn<Void>(new Model<String>("Visible to"), "visibleTo", "visibleTo");
-            columns[4] = new PropertyColumn<Void>(new Model<String>("Accessible to"), "accessibleTo", "accessibleTo");
-        }
-        else
-        {
-            columns[3] = new AbstractColumn<Void>(new Model<String>("Accessible"), "accessibleTo")
-            {
-                private static final long serialVersionUID = 1L;
-
-                public void populateItem(Item cellItem, String componentId, final IModel rowModel)
-                {
-                    TreeItem item = (TreeItem) (rowModel.getObject());
-                    AuthzStrategy strategy = item.getItemVO().getAuthzStrategy();
-                    if (item.getType().equals(Type.FILE))
-                    {
-                        AuthzMessage message = strategy.getSingleReadMessage();
-                        cellItem.add(new Label(componentId, new StringResourceModel(message.getMessageCode(), datasetModel)));
-                    }
-                    else
-                    {
-                        cellItem.add(new Label(componentId, new ResourceModel(strategy.canChildrenBeRead().toString())));
-                    }
-                }
-            };
-        }
-        explorer.setColumns(columns);
-        explorer.setOutputMarkupId(true);
-        add(explorer);
-
-        add(new IndicatingAjaxLink<Void>("fileDetailsLink")
-        {
-            private static final long serialVersionUID = 1L;
-
-            @Override
             public void onClick(AjaxRequestTarget target)
             {
-                modalFileDetails.setContent(new ModalFileDetails(modalFileDetails, selectedFiles, datasetModel));
-                modalFileDetails.show(target);
+                // show download popup
+                ITreeItem treeItem = (ITreeItem) rowModel.getObject();
+                modalDownloadWindow.setContent(new ModalDownload(modalDownloadWindow, treeItem, datasetModel));
+                modalDownloadWindow.show(target);
             }
         });
+    }
 
-        add(new IndicatingAjaxLink<Void>("downloadLink")
-        {
-            private static final long serialVersionUID = 1L;
-
-            @SuppressWarnings("unchecked")
-            @Override
-            public void onClick(AjaxRequestTarget target)
-            {
-                // check if we should stream download directly or open a popup
-                ArrayList<RequestedItem> requestedItems = getSelectionAsRequestedItems();
-                boolean canAllChildrenBeRead = datasetModel.getObject().getAuthzStrategy().canChildrenBeRead().equals(TriState.ALL);
-                if (requestedItems.size() != 0 && (canAllChildrenBeRead || requestedItems.size() == (selectedFiles.size() + selectedFolders.size()))
-                        && !hasAdditionalLicense && EasySession.getSessionUser().hasAcceptedGeneralConditions())
-                {
-                    // stream download directly
-                    try
-                    {
-                        final ZipFileContentWrapper zfcw = Services.getItemService().getZippedContent(EasySession.getSessionUser(), datasetModel.getObject(),
-                                requestedItems);
-                        final AJAXDownload download = new AJAXDownload()
-                        {
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            protected IResourceStream getResourceStream()
-                            {
-                                return new FileResourceStream(zfcw.getZipFile());
-                            }
-
-                            @Override
-                            protected String getFileName()
-                            {
-                                return zfcw.getFilename();
-                            }
-                        };
-                        add(download);
-                        download.initiate(target);
-                        // register this download action
-                        Services.getItemService().registerDownload(getSessionUser(), datasetModel.getObject(), zfcw.getDownloadedItemVOs());
-                        StatisticsLogger.getInstance().logEvent(StatisticsEvent.DOWNLOAD_DATASET_REQUEST, new DatasetStatistics(datasetModel.getObject()),
-                                new DownloadStatistics(zfcw), new DisciplineStatistics(datasetModel.getObject()));
-                    }
-                    catch (TooManyFilesException e)
-                    {
-                        logger.info("Too many files requested for download (" + e.getAmount() + "). Limit is " + e.getLimit() + " files.", e.getMessage());
-                        // download can't be handled so show a message
-                        modalMessage.setContent(new ModalPopup(modalMessage, new StringResourceModel(MSG_TOO_MANY_FILES, this,
-                                new Model<TooManyFilesException>(e)).getObject()));
-                        modalMessage.show(target);
-                    }
-                    catch (ZipFileLengthException e)
-                    {
-                        logger.info("File size too large for download!", e.getMessage());
-                        // download can't be handled so show a message
-                        modalMessage.setContent(new ModalPopup(modalMessage, new StringResourceModel(MSG_ZIP_SIZE_TOLARGE, this,
-                                new Model<ZipFileLengthException>(e)).getObject()));
-                        modalMessage.show(target);
-                    }
-                    catch (ServiceRuntimeException e)
-                    {
-                        logger.error("Error creating direct download link for zip file.", e);
-                    }
-                    catch (ServiceException e)
-                    {
-                        logger.error("Error creating direct download link for zip file.", e);
-                    }
-                }
-                else
-                {
-                    // show download popup
-                    ArrayList<ITreeItem> items;
-                    if (selectedFiles.size() > 0 || selectedFolders.size() > 0)
-                    {
-                        // download whatever is selected
-                        items = new ArrayList<ITreeItem>();
-                        items.addAll(selectedFiles);
-                        items.addAll(selectedFolders);
-                    }
-                    else
-                    {
-                        // nothing is selected so download everything in current dataset
-                        items = ((TreeItemProvider) treeProvider).getRoot().getChildrenWithFiles();
-                    }
-
-                    modalDownload.setContent(new ModalDownload(modalDownload, items, datasetModel));
-                    modalDownload.show(target);
-                }
-            }
-        });
-
-        add(new IndicatingAjaxLink<Void>("uploadLink")
-        {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void onClick(AjaxRequestTarget target)
-            {
-                modalUpload.setContent(new ModalUpload(modalUpload, datasetModel, explorer.getContent().getSelected().getObject())
-                {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    protected void onCustomCloseButtonClick(AjaxRequestTarget target)
-                    {
-                        refreshCurrentFolder(target);
-                    }
-                });
-                modalUpload.show(target);
-            }
-
-            @Override
-            public boolean isVisible()
-            {
-                return showTools && !published;
-            }
-        });
-
-        add(new AjaxLink<Void>("importLink")
-        {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void onClick(AjaxRequestTarget target)
-            {
-                modalImport.setContent(new ModalImport(modalImport, datasetModel));
-                modalImport.show(target);
-            }
-
-            @Override
-            public boolean isVisible()
-            {
-                return archivistView && !published;
-            }
-        });
-
-        add(new IndicatingAjaxLink<Void>("deleteLink")
-        {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void onClick(AjaxRequestTarget target)
-            {
-                ArrayList<ITreeItem> items = new ArrayList<ITreeItem>();
-                items.addAll(selectedFiles);
-                items.addAll(selectedFolders);
-                modalDelete.setContent(new ModalDelete(modalDelete, items, datasetModel)
-                {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void updateAfterDelete(AjaxRequestTarget target)
-                    {
-                        ITreeItem currentFolder = (ITreeItem) explorer.getContent().getSelected().getObject();
-                        for (ITreeItem file : selectedFiles)
-                        {
-                            currentFolder.removeChild(file);
-                        }
-                        for (ITreeItem folder : selectedFolders)
-                        {
-                            currentFolder.removeChild(folder);
-                        }
-                        selectedFiles.clear();
-                        selectedFolders.clear();
-                        target.addComponent(explorer);
-                    }
-                });
-                modalDelete.show(target);
-            }
-
-            @Override
-            public boolean isVisible()
-            {
-                return showTools && !published;
-            }
-        });
-
-        ArrayList<VisibleTo> visibleToList = new ArrayList<VisibleTo>(Arrays.asList(VisibleTo.values()));
-        visibleToList.remove(VisibleTo.RESTRICTED_REQUEST); // GK: milco requested to turn off the
-                                                            // possibility of group and request on the
-                                                            // visibility of files
-        visibleToList.remove(VisibleTo.RESTRICTED_GROUP);
-        final EnumChoiceRenderer<VisibleTo> visibleToRenderer = new EnumChoiceRenderer<VisibleTo>(this, "Rights");
-        final DropDownChoice<VisibleTo> viewRights = new DropDownChoice<VisibleTo>("viewRights", new Model<VisibleTo>(), visibleToList, visibleToRenderer);
-        final EnumChoiceRenderer<AccessibleTo> accessibleToRenderer = new EnumChoiceRenderer<AccessibleTo>(this, "Rights");
-        final DropDownChoice<AccessibleTo> accessRights = new DropDownChoice<AccessibleTo>("accessRights", new Model<AccessibleTo>(),
-                Arrays.asList(AccessibleTo.values()), accessibleToRenderer);
-        viewRights.setNullValid(true);
-        accessRights.setNullValid(true);
-
-        Form<Void> rightsForm = new Form<Void>("rightsForm")
+    private Form<Void> createRightsForm()
+    {
+        return new Form<Void>("rightsForm")
         {
             private static final long serialVersionUID = 1L;
 
@@ -552,17 +408,12 @@ public class FileExplorer extends AbstractDatasetModelPanel
                 return archivistView && !published;
             }
         };
+    }
 
-        // GK: these behaviours make sure AJAX round trips are made to the server whenever the value
-        // changes.
-        // Should AjaxFormComponentUpdatingBehavior be used instead maybe?
-        viewRights.add(getAjaxFormSubmitBehavior(rightsForm));
-        accessRights.add(getAjaxFormSubmitBehavior(rightsForm));
-
-        rightsForm.add(viewRights);
-        rightsForm.add(accessRights);
-
-        rightsForm.add(new IndicatingAjaxLink<Void>("applyFileRightsLink")
+    private IndicatingAjaxLink<Void> createApplyFileRightsLink(final DatasetModel datasetModel, final DropDownChoice<VisibleTo> viewRights,
+            final DropDownChoice<AccessibleTo> accessRights)
+    {
+        return new IndicatingAjaxLink<Void>("applyFileRightsLink")
         {
             private static final long serialVersionUID = 1L;
 
@@ -603,10 +454,238 @@ public class FileExplorer extends AbstractDatasetModelPanel
             {
                 return archivistView && !published;
             }
-        });
+        };
+    }
 
-        add(rightsForm);
+    private AbstractColumn<Void> createAccessibleToColumn(final DatasetModel datasetModel)
+    {
+        return new AbstractColumn<Void>(new Model<String>("Accessible"), "accessibleTo")
+        {
+            private static final long serialVersionUID = 1L;
 
+            public void populateItem(Item cellItem, String componentId, final IModel rowModel)
+            {
+                TreeItem item = (TreeItem) (rowModel.getObject());
+                AuthzStrategy strategy = item.getItemVO().getAuthzStrategy();
+                if (item.getType().equals(Type.FILE))
+                {
+                    AuthzMessage message = strategy.getSingleReadMessage();
+                    cellItem.add(new Label(componentId, new StringResourceModel(message.getMessageCode(), datasetModel)));
+                }
+                else
+                {
+                    cellItem.add(new Label(componentId, new ResourceModel(strategy.canChildrenBeRead().toString())));
+                }
+            }
+        };
+    }
+
+    private IndicatingAjaxLink<Void> createDeleteLink(final DatasetModel datasetModel, final ModalWindow modalDeleteWindow)
+    {
+        return new IndicatingAjaxLink<Void>("deleteLink")
+        {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void onClick(AjaxRequestTarget target)
+            {
+                ArrayList<ITreeItem> items = new ArrayList<ITreeItem>();
+                items.addAll(selectedFiles);
+                items.addAll(selectedFolders);
+                modalDeleteWindow.setContent(cerateModalDeleteContent(datasetModel, modalDeleteWindow, items));
+                modalDeleteWindow.show(target);
+            }
+
+            @Override
+            public boolean isVisible()
+            {
+                return showTools && !published;
+            }
+        };
+    }
+
+    private ModalDelete cerateModalDeleteContent(final DatasetModel datasetModel, final ModalWindow modalDeleteWindow, ArrayList<ITreeItem> items)
+    {
+        return new ModalDelete(modalDeleteWindow, items, datasetModel)
+        {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void updateAfterDelete(AjaxRequestTarget target)
+            {
+                ITreeItem currentFolder = (ITreeItem) explorer.getContent().getSelected().getObject();
+                for (ITreeItem file : selectedFiles)
+                {
+                    currentFolder.removeChild(file);
+                }
+                for (ITreeItem folder : selectedFolders)
+                {
+                    currentFolder.removeChild(folder);
+                }
+                selectedFiles.clear();
+                selectedFolders.clear();
+                target.addComponent(explorer);
+            }
+        };
+    }
+
+    private AjaxLink<Void> createImportLink(final DatasetModel datasetModel, final ModalWindow modalImportWindow)
+    {
+        return new AjaxLink<Void>("importLink")
+        {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void onClick(AjaxRequestTarget target)
+            {
+                modalImportWindow.setContent(new ModalImport(modalImportWindow, datasetModel));
+                modalImportWindow.show(target);
+            }
+
+            @Override
+            public boolean isVisible()
+            {
+                return archivistView && !published;
+            }
+        };
+    }
+
+    private IndicatingAjaxLink<Void> createUploadLink(final DatasetModel datasetModel, final ModalWindow modalUploadWindow)
+    {
+        return new IndicatingAjaxLink<Void>("uploadLink")
+        {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void onClick(AjaxRequestTarget target)
+            {
+                modalUploadWindow.setContent(createModalUploadContent(datasetModel, modalUploadWindow));
+                modalUploadWindow.show(target);
+            }
+
+            @Override
+            public boolean isVisible()
+            {
+                return showTools && !published;
+            }
+        };
+    }
+
+    private ModalUpload createModalUploadContent(final DatasetModel datasetModel, final ModalWindow modalUploadWindow)
+    {
+        return new ModalUpload(modalUploadWindow, datasetModel, explorer.getContent().getSelected().getObject())
+        {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            protected void onCustomCloseButtonClick(AjaxRequestTarget target)
+            {
+                refreshCurrentFolder(target);
+            }
+        };
+    }
+
+    private IndicatingAjaxLink<Void> creatFileDetailsLinks(final DatasetModel datasetModel, final ModalWindow modalFileDetailsWindow)
+    {
+        return new IndicatingAjaxLink<Void>("fileDetailsLink")
+        {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void onClick(AjaxRequestTarget target)
+            {
+                modalFileDetailsWindow.setContent(new ModalFileDetails(modalFileDetailsWindow, selectedFiles, datasetModel));
+                modalFileDetailsWindow.show(target);
+            }
+        };
+    }
+
+    private IndicatingAjaxLink<Void> createDownloadLink(final DatasetModel datasetModel, final ModalWindow modalDownloadWindow,
+            final ModalWindow modalMessageWindow, final boolean hasAdditionalLicense)
+    {
+        return new IndicatingAjaxLink<Void>("downloadLink")
+        {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void onClick(AjaxRequestTarget target)
+            {
+                // check if we should stream download directly or open a popup
+                ArrayList<RequestedItem> requestedItems = getSelectionAsRequestedItems();
+                Dataset dataset = datasetModel.getObject();
+                EasyUser sessionUser = EasySession.getSessionUser();
+                boolean canAllChildrenBeRead = dataset.getAuthzStrategy().canChildrenBeRead().equals(TriState.ALL);
+                boolean requestedEqualsSelected = requestedItems.size() == (selectedFiles.size() + selectedFolders.size());
+                if (requestedItems.size() != 0 && (canAllChildrenBeRead || requestedEqualsSelected) && !hasAdditionalLicense
+                        && sessionUser.hasAcceptedGeneralConditions())
+                {
+                    streamDownloadDirectly(modalMessageWindow, target, requestedItems, dataset, sessionUser);
+                }
+                else
+                {
+                    showDownloadPopup(datasetModel, modalDownloadWindow, target);
+                }
+            }
+        };
+    }
+
+    private void showDownloadPopup(final DatasetModel datasetModel, final ModalWindow modalDownloadWindow, AjaxRequestTarget target)
+    {
+        ArrayList<ITreeItem> items;
+        if (selectedFiles.size() > 0 || selectedFolders.size() > 0)
+        {
+            // download whatever is selected
+            items = new ArrayList<ITreeItem>();
+            items.addAll(selectedFiles);
+            items.addAll(selectedFolders);
+        }
+        else
+        {
+            // nothing is selected so download everything in current dataset
+            items = ((TreeItemProvider) treeProvider).getRoot().getChildrenWithFiles();
+        }
+        modalDownloadWindow.setContent(new ModalDownload(modalDownloadWindow, items, datasetModel));
+        modalDownloadWindow.show(target);
+    }
+
+    private void streamDownloadDirectly(final ModalWindow modalMessageWindow, AjaxRequestTarget target, ArrayList<RequestedItem> requestedItems,
+            Dataset dataset, EasyUser sessionUser)
+    {
+        try
+        {
+            final ZipFileContentWrapper zfcw = Services.getItemService().getZippedContent(sessionUser, dataset, requestedItems);
+            final AJAXDownload download = AJAXDownload.create(zfcw);
+            add(download);
+            download.initiate(target);
+            // register this download action
+            Services.getItemService().registerDownload(getSessionUser(), dataset, zfcw.getDownloadedItemVOs());
+            StatisticsLogger.getInstance().logEvent(StatisticsEvent.DOWNLOAD_DATASET_REQUEST, new DatasetStatistics(dataset), new DownloadStatistics(zfcw),
+                    new DisciplineStatistics(dataset));
+        }
+        catch (TooManyFilesException e)
+        {
+            logger.info("Too many files requested for download (" + e.getAmount() + "). Limit is " + e.getLimit() + " files.", e.getMessage());
+            // download can't be handled so show a message
+            modalMessageWindow.setContent(new ModalPopup(modalMessageWindow, new StringResourceModel(MSG_TOO_MANY_FILES, this,
+                    new Model<TooManyFilesException>(e)).getObject()));
+            modalMessageWindow.show(target);
+        }
+        catch (ZipFileLengthException e)
+        {
+            logger.info("File size too large for download!", e.getMessage());
+            // download can't be handled so show a message
+            modalMessageWindow.setContent(new ModalPopup(modalMessageWindow, new StringResourceModel(MSG_ZIP_SIZE_TOLARGE, this,
+                    new Model<ZipFileLengthException>(e)).getObject()));
+            modalMessageWindow.show(target);
+        }
+        catch (ServiceRuntimeException e)
+        {
+            logger.error("Error creating direct download link for zip file.", e);
+        }
+        catch (ServiceException e)
+        {
+            logger.error("Error creating direct download link for zip file.", e);
+        }
     }
 
     // returns the current selection as a List of RequestedItems
@@ -667,7 +746,13 @@ public class FileExplorer extends AbstractDatasetModelPanel
         modal.setInitialWidth(initialWidth);
         modal.setTitle(title);
         modal.add(CSSPackageResource.getHeaderContribution(FileExplorer.class, "style/modal.css"));
-        modal.setCloseButtonCallback(new CloseButtonCallback()
+        modal.setCloseButtonCallback(createCloseButtonCallback());
+        return modal;
+    }
+
+    private CloseButtonCallback createCloseButtonCallback()
+    {
+        return new CloseButtonCallback()
         {
             private static final long serialVersionUID = 1L;
 
@@ -678,8 +763,7 @@ public class FileExplorer extends AbstractDatasetModelPanel
                 refreshCurrentFolder(target);
                 return true;
             }
-        });
-        return modal;
+        };
     }
 
     private void refreshCurrentFolder(AjaxRequestTarget target)
