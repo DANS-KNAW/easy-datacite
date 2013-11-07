@@ -15,7 +15,6 @@ import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.components.upload.UploadStatus;
 import nl.knaw.dans.common.wicket.components.upload.postprocess.IUploadPostProcess;
-import nl.knaw.dans.common.wicket.components.upload.postprocess.TransformPakbonPostProcessException;
 import nl.knaw.dans.common.wicket.components.upload.postprocess.UploadPostProcessException;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.model.Dataset;
@@ -67,7 +66,7 @@ public class TransformPakbonPostProcess implements IUploadPostProcess
             }
             else
             {
-                throwError(new TransformPakbonPostProcessException("Pakbon file is not valid"), "Error in validating pakbon xml-file");
+                throwError(null, "Error in validating pakbon xml-file");
             }
         }
         catch (TransformerException e)
@@ -103,10 +102,8 @@ public class TransformPakbonPostProcess implements IUploadPostProcess
 
     private void throwError(Exception error, String message) throws UploadPostProcessException
     {
-
         setStatus(message);
         status.setError(true);
-        LOG.error(error.getMessage());
         throw new UploadPostProcessException(error);
     }
 
