@@ -2,6 +2,7 @@ package nl.knaw.dans.platform.language.pakbon;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.net.URL;
 
 import javax.xml.transform.TransformerException;
@@ -28,6 +29,14 @@ public class Pakbon2EmdTransformer
         ByteArrayInputStream in = new ByteArrayInputStream(pakbonXml.getBytes());
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         transformer.transform(in, out);
+        return out.toByteArray();
+    }
+
+    public byte[] transform(InputStream pakbonByteStream) throws TransformerException
+    {
+        XMLTransformer transformer = getTransformer();
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        transformer.transform(pakbonByteStream, out);
         return out.toByteArray();
     }
 
@@ -66,3 +75,5 @@ public class Pakbon2EmdTransformer
     }
 
 }
+
+
