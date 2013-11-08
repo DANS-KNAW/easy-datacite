@@ -182,7 +182,7 @@ public class EasyMailerImpl implements EasyMailer
 
     public void setBccs(String bccs)
     {
-        if (bccs == null)
+        if (bccs == null || "".equals(bccs.trim()))
         {
             this.bccs = null;
         }

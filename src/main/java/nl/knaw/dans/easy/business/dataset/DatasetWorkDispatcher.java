@@ -71,7 +71,8 @@ public class DatasetWorkDispatcher
             // property lists contain (a sort of) audit trail on the cloned dataset. remove them.
             clonedEmd.getEmdOther().getPropertyListCollection().clear();
 
-            // single property dc.creator cannot be converted to multiple properties of eas,creator. remove dc.creator
+            // single property dc.creator cannot be converted to multiple properties of eas,creator.
+            // remove dc.creator
             clonedEmd.getEmdCreator().getDcCreator().clear();
             clonedEmd.getEmdContributor().getDcContributor().clear();
 
