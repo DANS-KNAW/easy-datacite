@@ -64,12 +64,12 @@ public class TransformPakbonPostProcess implements IUploadPostProcess
 
                 setStatus("Ingesting pakbon file...");
                 ingestFile(fileList, destPath, clientParams);
-                
+
                 getDataset().getEasyMetadata().getEmdOther().getEasApplicationSpecific().setPakbonStatus(PakbonStatus.IMPORTED);
-                
+
                 setStatus("Updating pakbon status ...");
                 saveEasyMetadata();
-                
+
                 return fileList;
             }
             else
@@ -180,8 +180,9 @@ public class TransformPakbonPostProcess implements IUploadPostProcess
             StatisticsLogger.getInstance().logEvent(StatisticsEvent.FILE_DEPOSIT, new DatasetStatistics(dataset), new UploadFileStatistics(fileList));
         }
     }
-    
-    private void saveEasyMetadata() throws UploadPostProcessException {
+
+    private void saveEasyMetadata() throws UploadPostProcessException
+    {
         try
         {
             Services.getDatasetService().saveEasyMetadata(EasySession.getSessionUser(), getDataset());
