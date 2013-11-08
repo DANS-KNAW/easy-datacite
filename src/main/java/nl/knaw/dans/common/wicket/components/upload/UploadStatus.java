@@ -1,10 +1,12 @@
 package nl.knaw.dans.common.wicket.components.upload;
 
+import java.io.Serializable;
+
 /**
  * @author lobo This class contains the information concerning the upload process. It is being held by an
  *         UploadProcess class.
  */
-public class UploadStatus
+public class UploadStatus implements Serializable
 {
     private Integer percentComplete = 0;
 

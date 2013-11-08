@@ -1,6 +1,7 @@
 package nl.knaw.dans.common.wicket.components.upload.postprocess;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +16,7 @@ import nl.knaw.dans.common.wicket.components.upload.UploadStatus;
  * 
  * @author lobo
  */
-public interface IUploadPostProcess
+public interface IUploadPostProcess extends Serializable
 {
     boolean needsProcessing(List<File> files);
 

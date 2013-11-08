@@ -3,6 +3,7 @@ package nl.knaw.dans.common.wicket.components.upload;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -211,16 +212,18 @@ public class EasyUpload extends Panel
      * List holding code for the post-processes
      *------------------------------------------------*/
 
-    private ArrayList<Class<? extends IUploadPostProcess>> postProcesses = new ArrayList<Class<? extends IUploadPostProcess>>();
+    //private ArrayList<Class<? extends IUploadPostProcess>> postProcesses = new ArrayList<Class<? extends IUploadPostProcess>>();
+    private List<IUploadPostProcess> postProcesses = new LinkedList<IUploadPostProcess>(); 
+   
 
-    public void registerPostProcess(Class<? extends IUploadPostProcess> postProcessClass)
+    public void registerPostProcess(IUploadPostProcess postProcess)
     {
-        postProcesses.add(postProcessClass);
+        postProcesses.add(postProcess);
     }
 
-    public void unregisterPostProcess(Class<? extends IUploadPostProcess> postProcessClass)
+    public void unregisterPostProcess(IUploadPostProcess postProcess)
     {
-        postProcesses.remove(postProcessClass);
+        postProcesses.remove(postProcess);
     }
 
     public List<IUploadPostProcess> getPostProcesses(String filename)
@@ -235,31 +238,11 @@ public class EasyUpload extends Panel
         List<IUploadPostProcess> rtn = new ArrayList<IUploadPostProcess>();
         for (int i = 0; i < postProcesses.size(); i++)
         {
-            IUploadPostProcess postProcess = createPostProcess(postProcesses.get(i));
+            IUploadPostProcess postProcess = postProcesses.get(i);
             if (postProcess.needsProcessing(files))
                 rtn.add(postProcess);
         }
         return rtn;
-    }
-
-    public IUploadPostProcess createPostProcess(Class<? extends IUploadPostProcess> pclass)
-    {
-        try
-        {
-            return pclass.newInstance();
-        }
-        catch (InstantiationException e)
-        {
-            LOG.error("cannot instantiate postProcess");
-            error("cannot instantiate postProcess");
-            throw new AbortException();
-        }
-        catch (IllegalAccessException e)
-        {
-            LOG.error("cannot instantiate postProcess through constructor");
-            error("cannot instantiate postProcess through constructor");
-            throw new AbortException();
-        }
     }
 
     public void setConfig(EasyUploadConfig config)
