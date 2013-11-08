@@ -2,8 +2,10 @@ package nl.knaw.dans.easy.web.authn;
 
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
+import nl.knaw.dans.easy.business.bean.SystemStatus;
 import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
+import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.ErrorPage;
@@ -140,6 +142,9 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
             changePasswordLink.setVisible(false);
             userIdLabel.setVisible(false);
         }
+
+        if (SystemStatus.instance().getReadOnly() && !user.hasRole(Role.ADMIN, Role.ARCHIVIST))
+            changePasswordLink.setVisible(false);
     }
 
     private String getDisciplineString(String id)

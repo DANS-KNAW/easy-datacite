@@ -1,6 +1,10 @@
 package nl.knaw.dans.easy.web.authn;
 
+import javax.mail.Session;
+
+import nl.knaw.dans.easy.business.bean.SystemStatus;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
+import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.web.EasySession;
 import nl.knaw.dans.easy.web.HomePage;
 import nl.knaw.dans.easy.web.main.AbstractEasyNavPage;
@@ -57,7 +61,12 @@ public class UserInfoPage extends AbstractEasyNavPage
      */
     public UserInfoPage()
     {
-        this(true, true);
+        this(true, !isReadOnly());
+    }
+
+    private static boolean isReadOnly()
+    {
+        return SystemStatus.instance().getReadOnly() && !getSessionUser().hasRole(Role.ADMIN, Role.ARCHIVIST);
     }
 
     /**
@@ -82,7 +91,7 @@ public class UserInfoPage extends AbstractEasyNavPage
         {
             displayedUserId = currentUser.getId();
             isFirstLogin = currentUser.isFirstLogin();
-            init(inEditMode, enableModeSwitch);
+            init(inEditMode && !isReadOnly(), enableModeSwitch && !isReadOnly());
         }
     }
 
