@@ -17,6 +17,8 @@ import nl.knaw.dans.pf.language.emd.types.Spatial;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.PakbonStatus.*;
+
 // ecco: CHECKSTYLE: OFF
 
 public class EmdHelper
@@ -56,6 +58,8 @@ public class EmdHelper
                 propertyList.addProperty("key 2", "value 2");
                 emdOther.add(propertyList);
             }
+            
+            emdOther.getEasApplicationSpecific().setPakbonStatus(IMPORTED);
         }
     }
 

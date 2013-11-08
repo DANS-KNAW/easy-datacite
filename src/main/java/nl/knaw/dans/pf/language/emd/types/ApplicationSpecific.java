@@ -9,21 +9,15 @@ public class ApplicationSpecific implements Serializable
     {
         UNSPECIFIED, SOCIOLOGY, HISTORY, ARCHAEOLOGY, LIFESCIENCE, LANGUAGE_LITERATURE
     }
+    
+    public enum PakbonStatus {
+        NOT_IMPORTED, IMPORTED;
+    }
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -7645674090791579101L;
 
     private MetadataFormat metadataFormat = MetadataFormat.UNSPECIFIED;
-
-    /**
-     * Constructs a new ApplicationSpecific.
-     */
-    public ApplicationSpecific()
-    {
-        super();
-    }
+    private PakbonStatus pakbonStatus = PakbonStatus.NOT_IMPORTED;
 
     public MetadataFormat getMetadataFormat()
     {
@@ -33,6 +27,18 @@ public class ApplicationSpecific implements Serializable
     public void setMetadataFormat(MetadataFormat metadataFormat)
     {
         this.metadataFormat = metadataFormat;
+    }
+
+    public void setPakbonStatus(PakbonStatus status)
+    {
+        if(metadataFormat.equals(MetadataFormat.ARCHAEOLOGY)) {
+            pakbonStatus = status;
+        }
+    }
+
+    public PakbonStatus getPakbonStatus()
+    {
+        return pakbonStatus;
     }
 
     public static MetadataFormat formatForName(String name)

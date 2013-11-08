@@ -8,6 +8,7 @@
 		<namespace uri="http://easy.dans.knaw.nl/easy/easymetadata/eas/" prefix="eas" />
 
 		<value ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="metadataformat" field="metadataFormat" usage="optional" />
+		<value ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="pakbon-status" field="pakbonStatus" usage="optional" />
 		
 
 	</mapping>
