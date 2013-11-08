@@ -13,7 +13,7 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasySession;
 
-public class UploadFileMetadataProcess extends UploadSingelFilePostProcess
+public class UploadFileMetadataProcess extends UploadSingleFilePostProcess
 {
     private UploadStatus status = new UploadStatus("Processing file metadata");
 

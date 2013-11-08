@@ -14,7 +14,7 @@ import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasySession;
 
-public class UploadLicenseProcess extends UploadSingelFilePostProcess implements IUploadPostProcess
+public class UploadLicenseProcess extends UploadSingleFilePostProcess
 {
 
     void processUploadedFile(final File file, final Dataset dataset) throws UploadPostProcessException

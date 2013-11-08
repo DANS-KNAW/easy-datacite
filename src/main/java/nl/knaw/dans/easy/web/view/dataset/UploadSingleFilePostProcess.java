@@ -13,9 +13,9 @@ import nl.knaw.dans.easy.domain.model.Dataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class UploadSingelFilePostProcess implements IUploadPostProcess
+public abstract class UploadSingleFilePostProcess implements IUploadPostProcess
 {
-    protected static final Logger logger = LoggerFactory.getLogger(UploadSingelFilePostProcess.class);
+    protected static final Logger logger = LoggerFactory.getLogger(UploadSingleFilePostProcess.class);
 
     private final UploadStatus status = new UploadStatus("Initializing upload process");
 

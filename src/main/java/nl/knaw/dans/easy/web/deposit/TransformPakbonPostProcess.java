@@ -16,6 +16,7 @@ import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.components.upload.UploadStatus;
 import nl.knaw.dans.common.wicket.components.upload.postprocess.IUploadPostProcess;
 import nl.knaw.dans.common.wicket.components.upload.postprocess.UploadPostProcessException;
+import nl.knaw.dans.easy.domain.exceptions.DataIntegrityException;
 import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.worker.WorkReporter;
@@ -26,6 +27,7 @@ import nl.knaw.dans.easy.web.statistics.DatasetStatistics;
 import nl.knaw.dans.easy.web.statistics.StatisticsEvent;
 import nl.knaw.dans.easy.web.statistics.StatisticsLogger;
 import nl.knaw.dans.easy.web.statistics.UploadFileStatistics;
+import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.PakbonStatus;
 import nl.knaw.dans.pf.language.xml.exc.ValidatorException;
 import nl.knaw.dans.platform.language.pakbon.Pakbon2EmdTransformer;
 import nl.knaw.dans.platform.language.pakbon.PakbonValidator;
@@ -58,10 +60,16 @@ public class TransformPakbonPostProcess implements IUploadPostProcess
                 byte[] result = new Pakbon2EmdTransformer().transform(new FileInputStream(filePath));
 
                 setStatus("Writing EASY metadata...");
-                getDataset().replaceEasyMetadata(new String(result));
+                getDataset().replaceEasyMetadata(new String(result, "UTF-8"));
 
-                setStatus("Ingesting the pakbon file...");
+                setStatus("Ingesting pakbon file...");
                 ingestFile(fileList, destPath, clientParams);
+                
+                getDataset().getEasyMetadata().getEmdOther().getEasApplicationSpecific().setPakbonStatus(PakbonStatus.IMPORTED);
+                
+                setStatus("Updating pakbon status ...");
+                saveEasyMetadata();
+                
                 return fileList;
             }
             else
@@ -170,6 +178,21 @@ public class TransformPakbonPostProcess implements IUploadPostProcess
         {
             // logging for statistics
             StatisticsLogger.getInstance().logEvent(StatisticsEvent.FILE_DEPOSIT, new DatasetStatistics(dataset), new UploadFileStatistics(fileList));
+        }
+    }
+    
+    private void saveEasyMetadata() throws UploadPostProcessException {
+        try
+        {
+            Services.getDatasetService().saveEasyMetadata(EasySession.getSessionUser(), getDataset());
+        }
+        catch (DataIntegrityException e)
+        {
+            throwError(e, "Could not save IMPORTED status to Easy metadata");
+        }
+        catch (ServiceException e)
+        {
+            throwError(e, "Could not save IMPORTED status to Easy metadata");
         }
     }
 

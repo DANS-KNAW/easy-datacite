@@ -44,34 +44,14 @@ public class DepositUploadPakbonPanel extends AbstractDatasetModelPanel
     public DepositUploadPakbonPanel(final String id, final DatasetModel model)
     {
         super(id, model);
-
         model.setDynamicReload(true);
-
         EasyUploadConfig uploadConfig = new EasyUploadConfig();
-        EasyUpload easyUpload = new EasyUpload("uploadPanel", uploadConfig)
-        {
-            private static final long serialVersionUID = 0L;
-
-            @Override
-            public IUploadPostProcess createPostProcess(Class<? extends IUploadPostProcess> pclass)
-            {
-
-                IUploadPostProcess rtn = super.createPostProcess(pclass);
-
-                if (rtn instanceof TransformPakbonPostProcess)
-                {
-                    ((TransformPakbonPostProcess) rtn).setModel(model);
-                }
-
-                return rtn;
-            }
-        };
-
-        // register the post processes (order is important, because it is kept!)
-        easyUpload.registerPostProcess(TransformPakbonPostProcess.class);
-
+        uploadConfig.setAutoRemoveFiles(true);
+        EasyUpload easyUpload = new EasyUpload("uploadPanel", uploadConfig);
+        TransformPakbonPostProcess tppp = new TransformPakbonPostProcess();
+        tppp.setModel(model);
+        easyUpload.registerPostProcess(tppp);
         add(easyUpload);
-
         uploadPanelHolder = new WebMarkupContainer("depositUploadPanelbuttonsPanel");
 
         int width = 600;

@@ -48,33 +48,12 @@ public class DepositUploadPanel extends AbstractDatasetModelPanel
 
         EasyUploadConfig uploadConfig = new EasyUploadConfig();
         uploadConfig.setAutoRemoveFiles(true);
-        EasyUpload easyUpload = new EasyUpload("uploadPanel", uploadConfig)
-        {
-            private static final long serialVersionUID = 0L;
-
-            @Override
-            public IUploadPostProcess createPostProcess(Class<? extends IUploadPostProcess> pclass)
-            {
-
-                IUploadPostProcess rtn = super.createPostProcess(pclass);
-
-                if (rtn instanceof IngestPostProcess)
-                {
-                    ((IngestPostProcess) rtn).setModel(model);
-                }
-
-                return rtn;
-            }
-        };
-
-        // register the post processes (order is important, because it is kept!)
-        easyUpload.registerPostProcess(UnzipPostProcess.class);
-        easyUpload.registerPostProcess(IngestPostProcess.class);
-        // deposit ingest post process takes care of the files, so let's delete the files
-        // after they have been ingested
-
+        EasyUpload easyUpload = new EasyUpload("uploadPanel", uploadConfig);
+        easyUpload.registerPostProcess(new UnzipPostProcess());
+        IngestPostProcess ipp = new IngestPostProcess();
+        ipp.setModel(model);
+        easyUpload.registerPostProcess(ipp);
         add(easyUpload);
-
         uploadPanelHolder = new WebMarkupContainer("depositUploadPanelbuttonsPanel");
 
         int width = 600;
