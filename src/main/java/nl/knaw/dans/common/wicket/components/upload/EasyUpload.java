@@ -212,9 +212,9 @@ public class EasyUpload extends Panel
      * List holding code for the post-processes
      *------------------------------------------------*/
 
-    //private ArrayList<Class<? extends IUploadPostProcess>> postProcesses = new ArrayList<Class<? extends IUploadPostProcess>>();
-    private List<IUploadPostProcess> postProcesses = new LinkedList<IUploadPostProcess>(); 
-   
+    // private ArrayList<Class<? extends IUploadPostProcess>> postProcesses = new ArrayList<Class<?
+    // extends IUploadPostProcess>>();
+    private List<IUploadPostProcess> postProcesses = new LinkedList<IUploadPostProcess>();
 
     public void registerPostProcess(IUploadPostProcess postProcess)
     {
