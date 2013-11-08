@@ -14,6 +14,7 @@ import nl.knaw.dans.easy.domain.annotations.MutatesJumpoffDmo;
 import nl.knaw.dans.easy.domain.annotations.MutatesUser;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
+import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 
 public aspect DataMutation
 {
@@ -50,7 +51,7 @@ public aspect DataMutation
      
     before(EasyUser sessionUser, Dataset dataset) throws ServiceException : datasetMutation(sessionUser, dataset)
     {
-        if (SystemStatus.instance().getReadOnly())
+        if (isReadOnly(sessionUser))
             throw new ServiceException("At the moment only read access is allowed",new ReadOnlyException());
         Audit.storeAuditRecord(new DatasetAuditRecord(sessionUser, dataset, thisJoinPoint));
     }
@@ -59,7 +60,7 @@ public aspect DataMutation
     {
         // some throw repository exception (PasswordService,RegistrationService), some throw ServiceException (EasyUserService)
         // so we just throw a runtime exception
-        if (SystemStatus.instance().getReadOnly())
+        if (isReadOnly(sessionUser))
             new ReadOnlyException();
         Audit.storeAuditRecord(new UserAuditRecord(sessionUser, userUnderEdit, thisJoinPoint));
     }
@@ -71,7 +72,7 @@ public aspect DataMutation
     
     before(EasyUser sessionUser, DmoStoreId storeId) throws ServiceException : jumpoffDmoMutationBefore(sessionUser, storeId)
     {
-        if (SystemStatus.instance().getReadOnly())
+        if (isReadOnly(sessionUser))
             throw new ServiceException("At the moment only read access is allowed",new ReadOnlyException());
         Audit.storeAuditRecord(new JumpoffAuditRecord(sessionUser, storeId, thisJoinPoint));
     }
@@ -79,5 +80,10 @@ public aspect DataMutation
     before() : invalidMutatesJumpoffDmo()
     {
         throw new RuntimeException("Invalid use of annotation @MutatesJumpoffDmo");
+    }
+
+    private boolean isReadOnly(EasyUser sessionUser)
+    {
+        return SystemStatus.instance().getReadOnly() && !sessionUser.hasRole(Role.ARCHIVIST, Role.ADMIN);
     }
 }

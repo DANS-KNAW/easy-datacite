@@ -171,11 +171,11 @@ public class CodedAuthz extends AbstractEasyService implements Authz
             rules.put("nl.knaw.dans.easy.web.search.pages.AllWorkSearchResultPage", getEnableToArchivistRule());
             rules.put("nl.knaw.dans.easy.web.search.pages.SearchAllSearchResultPage", getEnableToArchivistOrAdminRule());
             rules.put("nl.knaw.dans.easy.web.search.pages.TrashCanSearchResultPage", getEnableToArchivistOrAdminRule());
-            rules.put("nl.knaw.dans.easy.web.permission.PermissionReplyPage", getEnableToDepositorOrArchivistRule());
-            rules.put("nl.knaw.dans.easy.web.permission.PermissionRequestPage", getEnableToLoggedInUserRule());
+            rules.put("nl.knaw.dans.easy.web.permission.PermissionReplyPage", getPermissionReplyRule());
+            rules.put("nl.knaw.dans.easy.web.permission.PermissionRequestPage", getPermissionRequestRule());
 
             rules.put("nl.knaw.dans.easy.web.deposit.DepositIntroPage", getEnableToLoggedInUserRule());
-            rules.put("nl.knaw.dans.easy.web.deposit.DepositPage", getEnableToLoggedInUserRule());
+            rules.put("nl.knaw.dans.easy.web.deposit.DepositPage", getDepositRule());
 
             // nl.knaw.dans.easy.web.admin.UserDetailsPage components
             rules.put("nl.knaw.dans.easy.web.admin.UserDetailsPage:userDetailsPanel:switchPanel:userInfoForm:state", getEditProtectedUserAttributesRule());
@@ -210,15 +210,17 @@ public class CodedAuthz extends AbstractEasyService implements Authz
                     getEnableToArchivistRule());
 
             // JumpoffPanel
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:toggleEditorButton", getUpdateJumpOffRule());
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:addButton", getUpdateJumpOffRule());
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:editButton", getUpdateJumpOffRule());
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:deleteButton", getUpdateJumpOffRule());
+            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:toggleEditorButton", getEnableToArchivistOrAdminRule());
+            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:addButton", getEnableToArchivistOrAdminRule());
+            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:editButton", getEnableToArchivistOrAdminRule());
+            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:deleteButton", getEnableToArchivistOrAdminRule());
 
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:viewEditJumpoffPanel:editForm", getUpdateJumpOffRule());
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:viewEditJumpoffPanel:editForm", getUpdateJumpOffRule());
+            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:viewEditJumpoffPanel:editForm",
+                    getEnableToArchivistOrAdminRule());
+            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:viewEditJumpoffPanel:editForm",
+                    getEnableToArchivistOrAdminRule());
             rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:viewEditJumpoffPanel:jumpoffMetadataPanel",
-                    getUpdateJumpOffRule());
+                    getEnableToArchivistOrAdminRule());
 
             // Description tab
             rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:editLink", getEnableToArchivistRule());
@@ -330,9 +332,19 @@ public class CodedAuthz extends AbstractEasyService implements Authz
         return rules;
     }
 
-    protected SecurityOfficer getUpdateJumpOffRule()
+    protected SecurityOfficer getPermissionRequestRule()
     {
-        return getEnableToArchivistOrAdminRule();
+        return getEnableToLoggedInUserRule();
+    }
+
+    protected SecurityOfficer getPermissionReplyRule()
+    {
+        return getEnableToDepositorOrArchivistRule();
+    }
+
+    protected SecurityOfficer getDepositRule()
+    {
+        return getEnableToLoggedInUserRule();
     }
 
     protected SecurityOfficer getNoSecurityOfficer()

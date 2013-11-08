@@ -1,20 +1,20 @@
+import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.security.And;
 import nl.knaw.dans.easy.security.CodedAuthz;
+import nl.knaw.dans.easy.security.HasRoleCheck;
+import nl.knaw.dans.easy.security.Or;
 import nl.knaw.dans.easy.security.SecurityOfficer;
 import nl.knaw.dans.easy.security.UpdateEnabledCheck;
 
 public aspect ReadOnlyAspect
 {
-    pointcut updateRules() :
-        execution(protected SecurityOfficer CodedAuthz.getEnableToLoggedInUserRule())||
-        execution(protected SecurityOfficer CodedAuthz.*Update*()) ||
-        execution(protected SecurityOfficer CodedAuthz.*Edit*()) ||
-        execution(public SecurityOfficer CodedAuthz.*Update*()) ||
-        execution(public SecurityOfficer CodedAuthz.*Edit*()) 
-        ;
+    pointcut readOnlyRules() :
+        execution(protected SecurityOfficer CodedAuthz.getDepositRule())||
+        execution(protected SecurityOfficer CodedAuthz.getPermissionRequestRule())||
+        execution(protected SecurityOfficer CodedAuthz.getPermissionReplyRule());
 
-    SecurityOfficer around() : updateRules()
+    SecurityOfficer around() : readOnlyRules()
     {
-        return new And(proceed(), new UpdateEnabledCheck());
+        return new And(proceed(), new Or(new UpdateEnabledCheck(), new HasRoleCheck(Role.ARCHIVIST, Role.ADMIN)));
     }
 }
