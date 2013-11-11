@@ -143,7 +143,7 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
             userIdLabel.setVisible(false);
         }
 
-        if (SystemStatus.instance().getReadOnly() && !user.hasRole(Role.ADMIN, Role.ARCHIVIST))
+        if (SystemStatus.INSTANCE.getReadOnly() && !user.hasRole(Role.ADMIN, Role.ARCHIVIST))
             changePasswordLink.setVisible(false);
     }
 

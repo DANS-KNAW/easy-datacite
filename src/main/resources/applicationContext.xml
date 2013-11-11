@@ -28,6 +28,15 @@
 
 	</bean>
 
+	<bean
+		class="nl.knaw.dans.easy.business.bean.SystemStatus"
+		factory-method="getInstance">
+		<property name="file">
+			<!-- exchange system status (read only mode) between easy-business instances (e.g. web-ui, sword) -->
+			<value type="java.io.File">${easy.business.system.status.file}</value>
+		</property>
+	</bean>
+	
 	<bean name="jumpoffService"
 		class="nl.knaw.dans.easy.business.services.EasyJumpoffService" />
 

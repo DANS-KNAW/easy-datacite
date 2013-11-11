@@ -66,7 +66,7 @@ public class UserInfoPage extends AbstractEasyNavPage
 
     private static boolean isReadOnly()
     {
-        return SystemStatus.instance().getReadOnly() && !getSessionUser().hasRole(Role.ADMIN, Role.ARCHIVIST);
+        return SystemStatus.INSTANCE.getReadOnly() && !getSessionUser().hasRole(Role.ADMIN, Role.ARCHIVIST);
     }
 
     /**

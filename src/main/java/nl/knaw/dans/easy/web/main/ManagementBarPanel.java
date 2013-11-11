@@ -69,8 +69,7 @@ public class ManagementBarPanel extends AbstractEasyStatelessPanel
 
             public void onClick()
             {
-                SystemStatus systemStatus = SystemStatus.instance();
-                systemStatus.setReadOnly(!systemStatus.getReadOnly());
+                SystemStatus.INSTANCE.setReadOnly(!SystemStatus.INSTANCE.getReadOnly());
                 setResponsePage(this.getPage());
             }
         };
@@ -88,7 +87,7 @@ public class ManagementBarPanel extends AbstractEasyStatelessPanel
             @Override
             protected Boolean load()
             {
-                return SystemStatus.instance().getReadOnly();
+                return SystemStatus.INSTANCE.getReadOnly();
             }
         };
     }
