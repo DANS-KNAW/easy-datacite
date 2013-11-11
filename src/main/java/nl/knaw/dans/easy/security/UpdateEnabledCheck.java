@@ -8,13 +8,13 @@ public class UpdateEnabledCheck extends AbstractCheck
     @Override
     public String getProposition()
     {
-        return PropositionBuilder.buildOrProposition("read only mode is", new Object[] {SystemStatus.instance().getReadOnly()});
+        return PropositionBuilder.buildOrProposition("read only mode is", new Object[] {SystemStatus.INSTANCE.getReadOnly()});
     }
 
     @Override
     public boolean evaluate(ContextParameters ctxParameters)
     {
-        return !SystemStatus.instance().getReadOnly();
+        return !SystemStatus.INSTANCE.getReadOnly();
     }
 
     @Override

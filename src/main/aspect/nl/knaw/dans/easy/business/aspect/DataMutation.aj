@@ -85,6 +85,6 @@ public aspect DataMutation
 
     private boolean isReadOnly(EasyUser sessionUser)
     {
-        return SystemStatus.instance().getReadOnly() && !sessionUser.hasRole(Role.ARCHIVIST, Role.ADMIN);
+        return SystemStatus.INSTANCE.getReadOnly() && !sessionUser.hasRole(Role.ARCHIVIST, Role.ADMIN);
     }
 }
