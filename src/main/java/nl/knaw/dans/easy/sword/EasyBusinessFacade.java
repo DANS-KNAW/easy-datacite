@@ -11,6 +11,7 @@ import nl.knaw.dans.common.lang.mail.MailComposerException;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
+import nl.knaw.dans.easy.business.bean.SystemStatus;
 import nl.knaw.dans.easy.business.dataset.DatasetSubmissionImpl;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.StoreAccessException;
@@ -128,7 +129,7 @@ public class EasyBusinessFacade
         {
             if (userId == null || password == null)
                 throw newBadRequestException("missing username [" + userId + "] or password");
-            else if (!Data.getUserRepo().authenticate(userId, password))
+            else if (!Data.getUserRepo().authenticate(userId, password)||SystemStatus.INSTANCE.getReadOnly())
                 throw newSWORDAuthenticationException("invalid username [" + userId + "] or password", null);
             logger.info(userId + " authenticated");
         }
