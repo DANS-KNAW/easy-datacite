@@ -25,7 +25,7 @@ public class TestFailingSubmit extends SubmitFixture
     }
 
     @After
-    public void cleaTmp() throws Exception
+    public void clearTmp() throws Exception
     {
         new File(Context.getUnzip()).delete();
     }
