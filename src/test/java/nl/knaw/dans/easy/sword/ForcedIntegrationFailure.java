@@ -1,6 +1,9 @@
 package nl.knaw.dans.easy.sword;
 
-import java.awt.List;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.expectLastCall;
+import static org.easymock.EasyMock.isA;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -10,7 +13,6 @@ import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
 import nl.knaw.dans.easy.domain.dataset.DatasetSubmission;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
-import nl.knaw.dans.easy.domain.worker.WorkListener;
 import nl.knaw.dans.easy.servicelayer.services.DatasetService;
 import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
@@ -21,9 +23,6 @@ import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
-import org.easymock.EasyMock;
-
-import static org.easymock.EasyMock.*;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 

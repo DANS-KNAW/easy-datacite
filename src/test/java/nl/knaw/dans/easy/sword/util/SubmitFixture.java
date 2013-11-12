@@ -1,14 +1,12 @@
 package nl.knaw.dans.easy.sword.util;
 
 import java.io.File;
-import java.io.FileInputStream;
 
 import nl.knaw.dans.easy.sword.Context;
 import nl.knaw.dans.easy.sword.EasyBusinessFacade;
 
 import org.junit.BeforeClass;
 import org.purl.sword.base.Deposit;
-import org.purl.sword.base.SWORDException;
 
 public class SubmitFixture extends EasySwordServerTester
 {
