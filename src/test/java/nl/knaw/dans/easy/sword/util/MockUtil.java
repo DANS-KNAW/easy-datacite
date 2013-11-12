@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
+import nl.knaw.dans.easy.business.bean.SystemStatus;
 import nl.knaw.dans.easy.business.dataset.DatasetSubmissionImpl;
 import nl.knaw.dans.easy.business.item.ItemIngesterDelegator;
 import nl.knaw.dans.easy.data.Data;
@@ -79,6 +80,9 @@ public class MockUtil
         context.setProviderURL("http://mockedhost:8080/");
         context.setServletName("servlet/request");
         context.setEasyHome("http://mockedhost:8080/ui/");
+        
+        SystemStatus.INSTANCE.setFile(new File("target/SystemStatus.properties"));
+        SystemStatus.INSTANCE.setReadOnly(false);
     }
 
     private static void mockNow()
