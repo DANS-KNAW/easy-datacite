@@ -47,11 +47,15 @@ public class TransformPakbonPostProcess implements IUploadPostProcess
     private final UploadStatus status = new UploadStatus("Initializing pakbon transform process");
 
     private final DatasetModel datasetModel;
+    private final PakbonValidatorCredentials validatorCredentials;
+    
     private String parentSid = "";
 
-    public TransformPakbonPostProcess(DatasetModel datasetModel)
+
+    public TransformPakbonPostProcess(DatasetModel datasetModel, PakbonValidatorCredentials validatorCredentials)
     {
         this.datasetModel = datasetModel;
+        this.validatorCredentials = validatorCredentials;
     }
 
     public List<File> execute(final List<File> fileList, final File destPath, final Map<String, String> clientParams) throws UploadPostProcessException
@@ -196,13 +200,8 @@ public class TransformPakbonPostProcess implements IUploadPostProcess
 
     private boolean isValidPakbon(File xml) throws ValidatorException, SOAPException, IOException
     {
-        final String DEFAULT_USERNAME = "bergh";
-        final String DEFAULT_PASSWORD = "cC!XzlKK";
-
-        PakbonValidator validator = new PakbonValidator();
-        ValidateXmlResponse response;
-        new PakbonValidatorCredentials(DEFAULT_USERNAME, DEFAULT_PASSWORD);
-        response = validator.validateXml(xml);
+        PakbonValidator validator = new PakbonValidator(validatorCredentials);
+         ValidateXmlResponse response = validator.validateXml(xml);
         if (!response.getValidation().getValidXml())
         {
             System.out.println("Validation of the pakbon xml-file failed.");
