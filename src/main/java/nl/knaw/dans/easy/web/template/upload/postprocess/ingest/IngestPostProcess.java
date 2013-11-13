@@ -108,11 +108,6 @@ public class IngestPostProcess implements IUploadPostProcess
         return fileList;
     }
 
-    public void rollBack() throws UploadPostProcessException
-    {
-        LOG.error("Programming error: processing code should be in business services and/or domain objects.");
-    }
-
     public void setStatus(int percent, String filename)
     {
         if (percent < 0)

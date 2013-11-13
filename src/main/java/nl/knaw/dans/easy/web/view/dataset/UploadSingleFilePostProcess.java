@@ -69,12 +69,6 @@ public abstract class UploadSingleFilePostProcess implements IUploadPostProcess
         return "too few or too many files to upload: " + Arrays.deepToString(files.toArray());
     }
 
-    @Override
-    public void rollBack() throws UploadPostProcessException
-    {
-        throw new UploadPostProcessException(new UnsupportedOperationException(this.getClass().getName() + ".rollBack"));
-    }
-
     public void setDataset(final Dataset dataset)
     {
         this.dataset = dataset;

@@ -48,9 +48,8 @@ public class DepositUploadPakbonPanel extends AbstractDatasetModelPanel
         EasyUploadConfig uploadConfig = new EasyUploadConfig();
         uploadConfig.setAutoRemoveFiles(true);
         EasyUpload easyUpload = new EasyUpload("uploadPanel", uploadConfig);
-        TransformPakbonPostProcess tppp = new TransformPakbonPostProcess();
-        tppp.setModel(model);
-        easyUpload.registerPostProcess(tppp);
+
+        easyUpload.registerPostProcess(new TransformPakbonPostProcess(model));
         add(easyUpload);
         uploadPanelHolder = new WebMarkupContainer("depositUploadPanelbuttonsPanel");
 

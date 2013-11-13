@@ -1,9 +1,12 @@
 package nl.knaw.dans.easy.web.deposit;
 
+import static nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.PakbonStatus.IMPORTED;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.deposit.repeater.AbstractCustomPanel;
 import nl.knaw.dans.easy.web.template.emd.atomic.DepositUploadPakbonPanel;
+import nl.knaw.dans.pf.language.emd.EmdOther;
+import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
@@ -12,18 +15,18 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import static nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.PakbonStatus.*;
 
+@SuppressWarnings("serial")
 public class UploadPakbonPanel extends AbstractCustomPanel
 {
-    private static final long serialVersionUID = -9132574510082841750L;
-    private static Logger log = LoggerFactory.getLogger(UploadPakbonPanel.class);
+    private static final Logger log = LoggerFactory.getLogger(UploadPakbonPanel.class);
 
     private final DatasetModel datasetModel;
 
     public UploadPakbonPanel(String id, DatasetModel datasetModel)
     {
         super(id);
+        assert datasetModel != null : "DatasetModel argument may not be null";
         this.datasetModel = datasetModel;
         setOutputMarkupId(true);
     }
@@ -31,64 +34,48 @@ public class UploadPakbonPanel extends AbstractCustomPanel
     @Override
     protected Panel getCustomComponentPanel()
     {
-        Dataset dataset = datasetModel.getObject();
-        if (IMPORTED.equals(dataset.getEasyMetadata().getEmdOther().getEasApplicationSpecific().getPakbonStatus()))
-        {
-            return new ViewModePanel();
-        }
-        else
-        {
-            return new UploadModePanel();
-        }
+        return isPakbonImported() ? new ViewModePanel() : new UploadModePanel();
     }
 
-    class UploadModePanel extends Panel
+    private boolean isPakbonImported()
     {
+        assert getDataset() != null : "Null datatset in UploadPakbonPanel";
+        assert getDataset().getEasyMetadata() != null : "Null EMD in UploadPakbonPanel";
+        EmdOther emdOther = getDataset().getEasyMetadata().getEmdOther();
+        if (emdOther == null)
+        {
+            return false;
+        }
+        ApplicationSpecific eas = emdOther.getEasApplicationSpecific();
+        if (eas == null)
+        {
+            return false;
+        }
+        return IMPORTED.equals(eas.getPakbonStatus());
+    }
 
-        private static final long serialVersionUID = -1141097831590702485L;
+    private Dataset getDataset()
+    {
+        return datasetModel.getObject();
+    }
 
+    private class UploadModePanel extends Panel
+    {
         public UploadModePanel()
         {
             super(CUSTOM_PANEL_ID);
+            log.debug("Creating UploadPakbonPanel.UploadModePanel");
             this.add(new DepositUploadPakbonPanel("uploadPanel", datasetModel));
-
-            AjaxSubmitLink refreshPageLink = new AjaxSubmitLink("refreshPageLink")
-            {
-
-                private static final long serialVersionUID = 4529821897686007980L;
-
-                @Override
-                protected void onSubmit(AjaxRequestTarget target, Form<?> form)
-                {
-                    ((DepositPanel) form.getParent()).setInitiated(false);
-                    target.addComponent(form.getParent());
-                }
-
-                @Override
-                public boolean isVisible()
-                {
-                    return true;
-                }
-
-                @Override
-                public boolean isEnabled()
-                {
-                    return true;
-                }
-            };
-            add(refreshPageLink);
         }
 
     }
 
-    class ViewModePanel extends Panel
+    private static class ViewModePanel extends Panel
     {
-
-        private static final long serialVersionUID = -1141097831590702485L;
-
         public ViewModePanel()
         {
             super(CUSTOM_PANEL_ID);
+            log.debug("Creating UploadPakbonPanel.ViewModePanel");
             Label label = new Label("noneditable", "PAKBON IMPORTED");
             add(label);
         }

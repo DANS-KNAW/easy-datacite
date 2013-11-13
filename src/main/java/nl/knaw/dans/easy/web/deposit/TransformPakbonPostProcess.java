@@ -38,15 +38,21 @@ import org.datacontract.schemas._2004._07.Sikb0102_WebService.ValidateXmlRespons
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@SuppressWarnings("serial")
 public class TransformPakbonPostProcess implements IUploadPostProcess
 {
-    private static final Logger LOG = LoggerFactory.getLogger(TransformPakbonPostProcess.class);
+    private static final Logger log = LoggerFactory.getLogger(TransformPakbonPostProcess.class);
 
     private boolean canceled = false;
     private final UploadStatus status = new UploadStatus("Initializing pakbon transform process");
 
-    private DatasetModel datasetModel;
+    private final DatasetModel datasetModel;
     private String parentSid = "";
+
+    public TransformPakbonPostProcess(DatasetModel datasetModel)
+    {
+        this.datasetModel = datasetModel;
+    }
 
     public List<File> execute(final List<File> fileList, final File destPath, final Map<String, String> clientParams) throws UploadPostProcessException
     {
@@ -120,21 +126,12 @@ public class TransformPakbonPostProcess implements IUploadPostProcess
         canceled = true;
     }
 
-    public void rollBack() throws UploadPostProcessException
-    {
-        LOG.error("Programming error: processing code should be in business services and/or domain objects.");
-    }
-
     private void ingestFile(final List<File> fileList, final File destPath, final Map<String, String> clientParams) throws ServiceException
     {
-
         Dataset dataset = getDataset();
-
         if (parentSid.equals(""))
             parentSid = clientParams.get("parentSid");
-
         final double totalSize = fileList.size();
-
         try
         {
             DmoStoreId parentDmoStoreId = parentSid == null ? null : new DmoStoreId(parentSid);
@@ -236,11 +233,6 @@ public class TransformPakbonPostProcess implements IUploadPostProcess
     public boolean needsProcessing(List<File> files)
     {
         return true;
-    }
-
-    public void setModel(DatasetModel datasetModel)
-    {
-        this.datasetModel = datasetModel;
     }
 
     private Dataset getDataset()
