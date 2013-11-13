@@ -16,7 +16,7 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
-@Ignore("On-line test")
+//@Ignore("On-line test")
 public class PakbonValidatorTest
 {
     private static final String DEFAULT_USERNAME = "bergh";
@@ -24,16 +24,10 @@ public class PakbonValidatorTest
     private static final String PB_VALID = "src/test/resources/test-files/pakbon_valid.xml";
     private static final String PB_INVALID = "src/test/resources/test-files/pakbon_invalid.xml";
 
-    @BeforeClass
-    public static void beforeClass()
-    {
-        new PakbonValidatorCredentials(DEFAULT_USERNAME, DEFAULT_PASSWORD);
-    }
-
     @Test
     public void testInvalid() throws Exception
     {
-        PakbonValidator pbs = new PakbonValidator();
+        PakbonValidator pbs = new PakbonValidator(new PakbonValidatorCredentials(DEFAULT_USERNAME, DEFAULT_PASSWORD));
         ValidateXmlResponse response = pbs.validateXml(new File(PB_INVALID));
 
         if (response.getValidation().getMessages() != null)
@@ -81,7 +75,7 @@ public class PakbonValidatorTest
 
     private boolean doValidTest() throws ValidatorException, SOAPException, IOException
     {
-        PakbonValidator pbs = new PakbonValidator();
+        PakbonValidator pbs = new PakbonValidator(new PakbonValidatorCredentials(DEFAULT_USERNAME, DEFAULT_PASSWORD));
         ValidateXmlResponse response = pbs.validateXml(new File(PB_VALID));
 
         assertThat(response.getVersion(), is("2.1.0"));

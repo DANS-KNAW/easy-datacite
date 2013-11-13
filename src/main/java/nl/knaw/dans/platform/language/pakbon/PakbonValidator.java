@@ -31,15 +31,11 @@ public class PakbonValidator
     private static final String WSSE_PASSWORD = "Password";
 
     private static final Sikb0102ServiceLocator SERVICE = new Sikb0102ServiceLocator();
-
-    public String getUsername()
-    {
-        return PakbonValidatorCredentials.instance().getUsername();
-    }
-
-    public String getPassword()
-    {
-        return PakbonValidatorCredentials.instance().getPassword();
+    
+    private final PakbonValidatorCredentials credentials;
+    
+    public PakbonValidator(PakbonValidatorCredentials credentials) {
+        this.credentials = credentials;
     }
 
     public ValidateXmlResponse validateXml(File file) throws ValidatorException, SOAPException, IOException
@@ -95,11 +91,11 @@ public class PakbonValidator
             security.addChildElement(usernameToken);
 
             MessageElement uname = new MessageElement(WSSE_NS, WSSE_USERNAME);
-            uname.addTextNode(getUsername());
+            uname.addTextNode(credentials.getUsername());
             usernameToken.addChildElement(uname);
 
             MessageElement passw = new MessageElement(WSSE_NS, WSSE_PASSWORD);
-            passw.addTextNode(getPassword());
+            passw.addTextNode(credentials.getPassword());
             usernameToken.addChildElement(passw);
 
             stub.setHeader(security);
