@@ -20,18 +20,17 @@ public class Pakbon2EmsTransformerTest
     @Test
     public void transformToString() throws Exception
     {
-        String xml = IOUtils.toString(new FileInputStream(PB_VALID));
         Pakbon2EmdTransformer p2e = new Pakbon2EmdTransformer();
-        String out = p2e.transformToString(xml);
+        // Note that the xslt used by transform specifies that the output is UTF-8
+        String out = new String(p2e.transform(new FileInputStream(PB_VALID)), "UTF-8");
         System.err.println(out);
     }
 
     @Test
     public void transformToEmd() throws Exception
     {
-        String xml = IOUtils.toString(new FileInputStream(PB_VALID));
         Pakbon2EmdTransformer p2e = new Pakbon2EmdTransformer();
-        EasyMetadata emd = p2e.transformToEmd(xml);
+        EasyMetadata emd = p2e.transformToEmd(new FileInputStream(PB_VALID));
         XMLErrorHandler handler = EMDValidator.instance().validate(emd);
         assertThat(handler.passed(), is(true));
     }

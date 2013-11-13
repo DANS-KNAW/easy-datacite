@@ -23,15 +23,6 @@ public class Pakbon2EmdTransformer
 
     private static final String XSL_PAKBON2EMD = "xslt-files/pakbon2emd.xslt";
 
-    public byte[] transform(String pakbonXml) throws TransformerException
-    {
-        XMLTransformer transformer = getTransformer();
-        ByteArrayInputStream in = new ByteArrayInputStream(pakbonXml.getBytes());
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        transformer.transform(in, out);
-        return out.toByteArray();
-    }
-
     public byte[] transform(InputStream pakbonByteStream) throws TransformerException
     {
         XMLTransformer transformer = getTransformer();
@@ -40,15 +31,10 @@ public class Pakbon2EmdTransformer
         return out.toByteArray();
     }
 
-    public String transformToString(String pakbonXml) throws TransformerException
-    {
-        return new String(transform(pakbonXml));
-    }
-
-    public EasyMetadata transformToEmd(String pakbonXml) throws XMLDeserializationException, TransformerException
+    public EasyMetadata transformToEmd(InputStream pakbonByteStream) throws XMLDeserializationException, TransformerException
     {
         EmdUnmarshaller<EasyMetadata> um = new EmdUnmarshaller<EasyMetadata>(EasyMetadataImpl.class);
-        EasyMetadata emd = um.unmarshal(transform(pakbonXml));
+        EasyMetadata emd = um.unmarshal(transform(pakbonByteStream));
         return emd;
     }
 
