@@ -38,7 +38,7 @@ public class EasyUploadProcess
 
     private Map<String, String> clientParams;
 
-    protected final EasyUploadStatus status;
+    private EasyUploadStatus status;
 
     private EasyUpload easyUpload;
 
@@ -54,12 +54,6 @@ public class EasyUploadProcess
 
     private UploadPostProcessThread postProcessorThread = null;
 
-    /**
-     * This boolean determines if the postprocessing will block the wicket operation. The only use for
-     * this is debugging and stress testing.
-     */
-    private final boolean POSTPROCESSORS_BLOCKING = false;
-
     public EasyUploadProcess(Integer uploadId, String filename, Map<String, String> clientParams, EasyUpload easyUpload)
     {
         this.uploadId = uploadId;
@@ -73,7 +67,7 @@ public class EasyUploadProcess
 
         // get post processes and induce number of steps from that
         postProcessesors = easyUpload.getPostProcesses(filename);
-        steps = postProcessesors.size() + 1;
+        steps = postProcessesors.size();
     }
 
     public EasyUploadStatus getStatus()
@@ -99,14 +93,14 @@ public class EasyUploadProcess
         return status;
     }
 
-    protected String getStepMessage()
+    private String getStepMessage()
     {
-        if (steps <= 1)
-            return "";
-
         int currentStep = 1;
         if (postProcessorThread != null)
-            currentStep = postProcessorThread.getCurrentStep() + 1;
+            currentStep = postProcessorThread.getCurrentStep();
+
+        if (currentStep == 0)
+            currentStep = 1;
 
         return "(step " + currentStep + "/" + steps + ")";
     }
@@ -237,11 +231,7 @@ public class EasyUploadProcess
                     setUploadCompleted(files);
                 }
             };
-
-            if (POSTPROCESSORS_BLOCKING)
-                postProcessorThread.run();
-            else
-                postProcessorThread.start();
+            postProcessorThread.start();
         }
         else
         {

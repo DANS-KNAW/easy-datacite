@@ -29,8 +29,6 @@ public class UnzipPostProcess implements IUploadPostProcess, UnzipListener
 
     private File unzipDestPath = new File("");
 
-    private UnzipUtil unzip;
-
     private Boolean canceled = false;
 
     private File file = new File("");
@@ -50,7 +48,7 @@ public class UnzipPostProcess implements IUploadPostProcess, UnzipListener
 
             LOG.info("Unzipping '" + file.getName() + "' to '" + unzipDestPath.getAbsolutePath() + "'");
 
-            unzip = new UnzipUtil(file, unzipDestPath.getPath(), this);
+            UnzipUtil unzip = new UnzipUtil(file, unzipDestPath.getPath(), this);
             List<File> unzippedFiles = unzip.run();
             return unzippedFiles;
         }
@@ -117,13 +115,4 @@ public class UnzipPostProcess implements IUploadPostProcess, UnzipListener
         setPercentage(100);
         status.setFinished(true);
     }
-
-    public void rollBack() throws UploadPostProcessException
-    {
-        // rollback of unzipping process is not necessary, because
-        // the files that are unzipped are unzipped in the upload folder
-        // created by the EasyUploadProcess which gets cleaned automatically
-        // when rollback is called.
-    }
-
 }

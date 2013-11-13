@@ -39,6 +39,4 @@ public interface IUploadPostProcess extends Serializable
     UploadStatus getStatus();
 
     void cancel() throws UploadPostProcessException;
-
-    void rollBack() throws UploadPostProcessException;
 }

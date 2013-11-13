@@ -13,29 +13,18 @@ import org.slf4j.LoggerFactory;
 
 public class UploadPostProcessThread extends Thread
 {
-
-    private List<IUploadPostProcess> postProcessors;
-
-    private boolean canceled = false;
-
-    private List<File> files;
-
-    private File basePath;
-
-    private IUploadPostProcess currentPostProcess = null;
-
-    private Integer currentStep = 0;
-
-    private String errorMsg = "";
-
-    private Map<String, String> clientParams;
-
     private static final Logger LOG = LoggerFactory.getLogger(UploadPostProcessThread.class);
 
+    private List<IUploadPostProcess> postProcessors;
+    private boolean canceled = false;
+    private List<File> files;
+    private File basePath;
+    private IUploadPostProcess currentPostProcess = null;
+    private Integer currentStep = 0;
+    private String errorMsg = "";
+    private Map<String, String> clientParams;
     private boolean finished = false;
-
     private Object currentStepLock = new Object();
-
     private Session session;
 
     public UploadPostProcessThread(List<IUploadPostProcess> postProcessesors, List<File> files, File basePath, Map<String, String> clientParams, Session session)
@@ -48,7 +37,7 @@ public class UploadPostProcessThread extends Thread
         this.session = session;
     }
 
-    public void error(String errorMsg, Throwable e)
+    private void error(String errorMsg, Throwable e)
     {
         this.errorMsg = errorMsg;
         LOG.error(e.getMessage(), e);
@@ -57,10 +46,7 @@ public class UploadPostProcessThread extends Thread
     @Override
     public void run()
     {
-        // attach the session to the current thread
         Session.set(session);
-
-        // start the upload postprocessors
         Iterator<IUploadPostProcess> i = postProcessors.iterator();
         currentStep = 0;
         currentPostProcess = null;
@@ -73,46 +59,25 @@ public class UploadPostProcessThread extends Thread
                     if (canceled)
                         break;
                     currentPostProcess = i.next();
-                    currentStep++;
+                    if (i.hasNext())
+                        currentStep++;
                 }
                 files = currentPostProcess.execute(files, basePath, clientParams);
             }
-
             if (!canceled)
             {
-                // set this before onSuccess
                 finished = true;
-                // successfully completed all steps!
                 onSuccess(basePath, files);
             }
-            else
-            {
-                // don't set finished until after rollback
-                synchronized (currentStepLock)
-                {
-                    LOG.info("Rolling back post processors.");
-
-                    // call rollback on all post processors in reverse order
-                    if (currentStep >= 1)
-                    {
-                        for (int j = currentStep - 1; j >= 0; j--)
-                        {
-                            postProcessors.get(j).rollBack();
-                        }
-                    }
-                }
-            }
         }
-        catch (Exception e)
+        catch (UploadPostProcessException e)
         {
             String processErrorMsg = "Error during postprocessing.";
             if (currentPostProcess.getStatus().isError())
                 processErrorMsg = currentPostProcess.getStatus().getMessage();
             error(processErrorMsg, e);
         }
-
         finished = true;
-        onFinished();
     }
 
     /**
@@ -149,16 +114,16 @@ public class UploadPostProcessThread extends Thread
     {
         synchronized (currentStepLock)
         {
-            if (currentStep <= 0)
-                return new UploadStatus("Postprocessing initializing");
-
             if (errorMsg.length() > 0)
             {
                 UploadStatus errorStatus = new UploadStatus(errorMsg);
                 errorStatus.setError(true);
                 return errorStatus;
             }
-
+            if (currentPostProcess == null)
+            {
+                return new UploadStatus("Initializing ...");
+            }
             return currentPostProcess.getStatus();
         }
     }
@@ -168,22 +133,9 @@ public class UploadPostProcessThread extends Thread
         return currentStep;
     }
 
-    public Integer getStepCount()
-    {
-        return postProcessors.size();
-    }
-
     public boolean isFinished()
     {
         return finished;
-    }
-
-    /**
-     * This method is called when the thread has finished execution (no matter for what reason). Override
-     * it to gain event access.
-     */
-    public void onFinished()
-    {
     }
 
     /**
