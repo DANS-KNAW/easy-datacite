@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 
+import nl.knaw.dans.easy.business.bean.SystemStatus;
 import nl.knaw.dans.easy.sword.jetty.Start;
 
 import org.apache.commons.httpclient.HttpClient;
@@ -19,6 +20,7 @@ import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.InputStreamRequestEntity;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.mortbay.jetty.Server;
@@ -34,6 +36,12 @@ public class IntegrationFixture
     private static Server server;
     private static Logger log = LoggerFactory.getLogger(EasySwordServer.class);
 
+    @After
+    public void reset()
+    {
+        SystemStatus.INSTANCE.setReadOnly(false);
+    }
+
     @BeforeClass
     public static void start() throws Exception
     {
@@ -42,6 +50,7 @@ public class IntegrationFixture
         server.start();
         URL = "http://localhost:" + server.getConnectors()[0].getLocalPort() + "/";
         log.debug("started " + URL.toString());
+
     }
 
     @AfterClass

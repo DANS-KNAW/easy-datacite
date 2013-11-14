@@ -6,12 +6,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.RepositoryException;
+import nl.knaw.dans.common.lang.exception.ReadOnlyException;
 import nl.knaw.dans.common.lang.mail.MailComposer;
 import nl.knaw.dans.common.lang.mail.MailComposerException;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
-import nl.knaw.dans.easy.business.bean.SystemStatus;
 import nl.knaw.dans.easy.business.dataset.DatasetSubmissionImpl;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.StoreAccessException;
@@ -47,6 +47,9 @@ public class EasyBusinessFacade
 {
     private static int noOpSumbitCounter = 0;
     public static final String NO_OP_STORE_ID_DOMAIN = "mockedStoreID:";
+    
+    /** Exception exposed to the client while easy is shutting down */
+    public static final ReadOnlyException READ_ONLY_EXCEPTION = new ReadOnlyException("service temporarily not available");
 
     private static Logger logger = LoggerFactory.getLogger(EasyBusinessFacade.class);
 
@@ -129,7 +132,7 @@ public class EasyBusinessFacade
         {
             if (userId == null || password == null)
                 throw newBadRequestException("missing username [" + userId + "] or password");
-            else if (!Data.getUserRepo().authenticate(userId, password)||SystemStatus.INSTANCE.getReadOnly())
+            else if (!Data.getUserRepo().authenticate(userId, password))
                 throw newSWORDAuthenticationException("invalid username [" + userId + "] or password", null);
             logger.info(userId + " authenticated");
         }
@@ -176,9 +179,17 @@ public class EasyBusinessFacade
         ((DatasetImpl) dataset).setEasyMetadata(metadata);
         dataset.setOwnerId(user.getId());
         dataset.getAdministrativeMetadata().setDepositor(user);
-
-        ingestFiles(submission, folder, files);
-        submit(submission);
+        try
+        {
+            ingestFiles(submission, folder, files);
+            submit(submission);
+        }
+        catch (final ServiceException exception)
+        {
+            if (exception.getCause() instanceof ReadOnlyException)
+                throw READ_ONLY_EXCEPTION;
+            throw newSWORDException(exception.getMessage(), exception);
+        }
 
         return dataset;
     }
@@ -201,7 +212,7 @@ public class EasyBusinessFacade
     }
 
     /** Wraps exceptions thrown by Services.getDatasetService().submitDataset */
-    private static void submit(final DatasetSubmissionImpl submission) throws SWORDException, SWORDErrorException
+    private static void submit(final DatasetSubmissionImpl submission) throws SWORDException, ServiceException
     {
         final Dataset dataset = submission.getDataset();
         final EasyUser user = submission.getSessionUser();
@@ -210,10 +221,6 @@ public class EasyBusinessFacade
         try
         {
             Services.getDatasetService().submitDataset(submission);
-        }
-        catch (final ServiceException exception)
-        {
-            throw newSWORDException(msg, exception);
         }
         catch (final DataIntegrityException exception)
         {
@@ -227,7 +234,7 @@ public class EasyBusinessFacade
 
     /** Wraps exceptions thrown by Services.getItemService().addDirectoryContents() */
     private static void ingestFiles(final DatasetSubmission submission, final File directory, final List<File> fileList) throws SWORDException,
-            SWORDErrorException
+            ServiceException
     {
         final Dataset dataset = submission.getDataset();
         final EasyUser user = submission.getSessionUser();
@@ -235,14 +242,7 @@ public class EasyBusinessFacade
         final IngestReporter ingestReporter = new IngestReporter();
         logIngest(directory, fileList, dmoStoreId);
         String message = "Problem with ingesting files. " + dmoStoreId + " might be created with a draft state.";
-        try
-        {
-            Services.getItemService().addDirectoryContents(user, dataset, dmoStoreId, directory, new ItemIngester(dataset), ingestReporter);
-        }
-        catch (final ServiceException exception)
-        {
-            throw newSWORDException(message, exception);
-        }
+        Services.getItemService().addDirectoryContents(user, dataset, dmoStoreId, directory, new ItemIngester(dataset), ingestReporter);
         if (ingestReporter.catchedExceptions())
             throw newSWORDException(message, null);
     }

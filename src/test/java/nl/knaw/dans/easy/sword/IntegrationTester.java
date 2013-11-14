@@ -9,6 +9,7 @@ import java.security.NoSuchAlgorithmException;
 
 import javax.servlet.http.HttpServletResponse;
 
+import nl.knaw.dans.easy.business.bean.SystemStatus;
 import nl.knaw.dans.easy.sword.util.SubmitFixture;
 
 import org.apache.commons.httpclient.HttpStatus;
@@ -141,6 +142,18 @@ public class IntegrationTester extends IntegrationFixture
         final PostMethod method = createPostMethod(request, false, false);
         getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
         assertResponseCode(method, HttpStatus.SC_ACCEPTED);
+    }
+
+    @Test
+    public void depositAfterReadOnly() throws Exception
+    {
+        SystemStatus.INSTANCE.setReadOnly(true);
+        final RequestEntity request = createRequest(SubmitFixture.getFile("data-plus-ddm.zip"));
+        final PostMethod method = createPostMethod(request, false, false);
+        String response = getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
+        assertResponseCode(method, HttpStatus.SC_INTERNAL_SERVER_ERROR);
+        assertThat(response, containsString("ReadOnly"));
+        assertThat(response, containsString("temporarily not available"));
     }
 
     @Test
