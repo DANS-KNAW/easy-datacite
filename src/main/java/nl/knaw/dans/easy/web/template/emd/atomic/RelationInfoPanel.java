@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import nl.knaw.dans.easy.domain.model.Dataset;
-import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
 import nl.knaw.dans.pf.language.emd.types.Relation;
 
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -15,7 +14,6 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.RepeatingView;
-import org.apache.wicket.model.PropertyModel;
 
 /**
  * @author akmi
@@ -45,23 +43,23 @@ public class RelationInfoPanel extends Panel
 
         for (String key : map.keySet())
         {
-            for (Relation basicIdentifier : map.get(key))
+            for (Relation relation : map.get(key))
             {
-                String relTitle = basicIdentifier.getSubjectTitle().getValue();
-                String relUrl = basicIdentifier.getSubjectLink().toString();
-                boolean emphasis = new PropertyModel<Boolean>(basicIdentifier, "emphasis").getObject();
-                if (emphasis)
+                if (relation.hasEmphasis())
                 {
-                    WebMarkupContainer item = new WebMarkupContainer(view.newChildId());
-                    view.add(item);
+                    String relTitle = relation.getSubjectTitle().getValue();
+                    String relUrl = relation.getSubjectLink().toString();
+
                     ExternalLink link = new ExternalLink("relationLink", relUrl);
                     link.setVisible(relUrl != null);
                     link.add(new Label("relationTitle", relTitle).setVisible(relTitle != null));
+
+                    WebMarkupContainer item = new WebMarkupContainer(view.newChildId());
+                    view.add(item);
                     item.add(link);
                 }
             }
         }
-        view.setVisible(view.size() != 0);
         this.add(view);
         this.setVisible(view.size() != 0);
     }
