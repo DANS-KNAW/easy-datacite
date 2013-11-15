@@ -31,10 +31,11 @@ public class PakbonValidator
     private static final String WSSE_PASSWORD = "Password";
 
     private static final Sikb0102ServiceLocator SERVICE = new Sikb0102ServiceLocator();
-    
+
     private final PakbonValidatorCredentials credentials;
-    
-    public PakbonValidator(PakbonValidatorCredentials credentials) {
+
+    public PakbonValidator(PakbonValidatorCredentials credentials)
+    {
         this.credentials = credentials;
     }
 

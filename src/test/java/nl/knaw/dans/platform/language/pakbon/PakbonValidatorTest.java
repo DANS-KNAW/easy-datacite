@@ -16,7 +16,7 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
-//@Ignore("On-line test")
+// @Ignore("On-line test")
 public class PakbonValidatorTest
 {
     private static final String DEFAULT_USERNAME = "bergh";
