@@ -3,10 +3,11 @@
  */
 package nl.knaw.dans.easy.web.template.emd.atomic;
 
-import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import nl.knaw.dans.easy.domain.model.Dataset;
+import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
 import nl.knaw.dans.pf.language.emd.types.Relation;
 
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -39,17 +40,16 @@ public class RelationInfoPanel extends Panel
     private void init()
     {
 
-        List<Relation> list = dataset.getEasyMetadata().getEmdRelation().getEasRelation();
+        Map<String, List<Relation>> map = dataset.getEasyMetadata().getEmdRelation().getRelationMap();
         RepeatingView view = new RepeatingView("repeatingRelation");
 
-        if (list != null && !list.isEmpty())
+        for (String key : map.keySet())
         {
-            for (Iterator<Relation> i = list.iterator(); i.hasNext();)
+            for (Relation basicIdentifier : map.get(key))
             {
-                Object obj = i.next();
-                String relTitle = (String) new PropertyModel(obj, "subjectTitle.value").getObject();
-                String relUrl = (String) new PropertyModel(obj, "subjectLink.string").getObject();
-                boolean emphasis = (Boolean) new PropertyModel(obj, "emphasis").getObject();
+                String relTitle = basicIdentifier.getSubjectTitle().getValue();
+                String relUrl = basicIdentifier.getSubjectLink().toString();
+                boolean emphasis = new PropertyModel<Boolean>(basicIdentifier, "emphasis").getObject();
                 if (emphasis)
                 {
                     WebMarkupContainer item = new WebMarkupContainer(view.newChildId());
@@ -65,5 +65,4 @@ public class RelationInfoPanel extends Panel
         this.add(view);
         this.setVisible(view.size() != 0);
     }
-
 }
