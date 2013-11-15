@@ -44,7 +44,7 @@ public class DepositUploadPakbonPanel extends AbstractDatasetModelPanel
         EasyUploadConfig uploadConfig = new EasyUploadConfig();
         uploadConfig.setAutoRemoveFiles(true);
         EasyUpload easyUpload = new EasyUpload("uploadPanel", uploadConfig);
-        ApplicationContext context = ((EasyWicketApplication)getApplication()).getApplicationContext();
+        ApplicationContext context = ((EasyWicketApplication) getApplication()).getApplicationContext();
         easyUpload.registerPostProcess(new TransformPakbonPostProcess(model, (PakbonValidatorCredentials) context.getBean("pakbonValidatorCredentials")));
         add(easyUpload);
         uploadPanelHolder = new WebMarkupContainer("depositUploadPanelbuttonsPanel");

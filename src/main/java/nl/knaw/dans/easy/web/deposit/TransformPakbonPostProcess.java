@@ -48,9 +48,8 @@ public class TransformPakbonPostProcess implements IUploadPostProcess
 
     private final DatasetModel datasetModel;
     private final PakbonValidatorCredentials validatorCredentials;
-    
-    private String parentSid = "";
 
+    private String parentSid = "";
 
     public TransformPakbonPostProcess(DatasetModel datasetModel, PakbonValidatorCredentials validatorCredentials)
     {
@@ -201,7 +200,7 @@ public class TransformPakbonPostProcess implements IUploadPostProcess
     private boolean isValidPakbon(File xml) throws ValidatorException, SOAPException, IOException
     {
         PakbonValidator validator = new PakbonValidator(validatorCredentials);
-         ValidateXmlResponse response = validator.validateXml(xml);
+        ValidateXmlResponse response = validator.validateXml(xml);
         if (!response.getValidation().getValidXml())
         {
             System.out.println("Validation of the pakbon xml-file failed.");
