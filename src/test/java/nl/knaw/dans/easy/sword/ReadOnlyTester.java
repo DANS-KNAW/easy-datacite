@@ -36,8 +36,12 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
-public class ForcedIntegrationFailure extends IntegrationFixture
+public class ReadOnlyTester extends IntegrationFixture
 {
+    // static mocking of SystemStatus seems to conflict
+    // with AspectJ annotations in the business layer (or something else)
+    // as a workaround we test methods guarded by SystemStatus.getReadOnly
+
     private static EasySearchService searchService;
     private static EasyUserImpl user;
 
@@ -62,8 +66,11 @@ public class ForcedIntegrationFailure extends IntegrationFixture
     }
 
     @Test
-    public void exceptionByIngest() throws Exception
+    public void noDraftCausedByReadOnlyExceptionOnIngest() throws Exception
     {
+        // temporarily logging stack traces by SystemStatus.getReadOnly proved
+        // that currently the method is only called at the start of addDirectoryContents
+        // and not for individual items
         int oldNumberOfDatasets = searchService.getNumberOfDatasets(user);
 
         ItemService saved = Services.getItemService();
@@ -78,7 +85,7 @@ public class ForcedIntegrationFailure extends IntegrationFixture
                     isA(File.class), //
                     isA(ItemIngester.class),//
                     isA(IngestReporter.class));
-            expectLastCall().andThrow(new ServiceException("mocked exception"));
+            expectLastCall().andThrow(new ServiceException(new ReadOnlyException()));
             execute();
         }
         finally
@@ -89,9 +96,8 @@ public class ForcedIntegrationFailure extends IntegrationFixture
     }
 
     @Test
-    public void exceptionBySubmitLeavesDraft() throws Exception
+    public void readOnlyBeforeSubmitLeavesDraft() throws Exception
     {
-        // for example when read only was switched on during/after ingest
         int oldNumberOfDatasets = searchService.getNumberOfDatasets(user);
 
         DatasetService saved = Services.getDatasetService();
