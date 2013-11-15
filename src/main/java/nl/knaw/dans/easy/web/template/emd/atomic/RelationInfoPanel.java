@@ -37,12 +37,12 @@ public class RelationInfoPanel extends Panel
 
     private void init()
     {
-
         Map<String, List<Relation>> map = dataset.getEasyMetadata().getEmdRelation().getRelationMap();
-        RepeatingView view = new RepeatingView("repeatingRelation");
 
+        RepeatingView typesView = new RepeatingView("repeatingRelationType");
         for (String key : map.keySet())
         {
+            RepeatingView instancesView = new RepeatingView("repeatingRelation");
             for (Relation relation : map.get(key))
             {
                 if (relation.hasEmphasis())
@@ -54,13 +54,20 @@ public class RelationInfoPanel extends Panel
                     link.setVisible(relUrl != null);
                     link.add(new Label("relationTitle", relTitle).setVisible(relTitle != null));
 
-                    WebMarkupContainer item = new WebMarkupContainer(view.newChildId());
-                    view.add(item);
+                    WebMarkupContainer item = new WebMarkupContainer(instancesView.newChildId());
+                    instancesView.add(item);
                     item.add(link);
                 }
             }
+            if (instancesView.size() != 0)
+            {
+                WebMarkupContainer item = new WebMarkupContainer(typesView.newChildId());
+                typesView.add(item);
+                item.add(instancesView);
+                item.add(new Label("relationType", key));
+            }
         }
-        this.add(view);
-        this.setVisible(view.size() != 0);
+        this.add(typesView);
+        this.setVisible(typesView.size() != 0);
     }
 }
