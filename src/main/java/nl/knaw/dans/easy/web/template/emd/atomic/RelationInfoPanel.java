@@ -8,9 +8,9 @@ import java.util.Map;
 
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceList;
-import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.deposit.RelationViewPanel;
+import nl.knaw.dans.pf.language.emd.EmdRelation;
 import nl.knaw.dans.pf.language.emd.types.Relation;
 
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -33,10 +33,10 @@ public class RelationInfoPanel extends Panel
      * @param id
      * @param model
      */
-    public RelationInfoPanel(String id, Dataset dataset)
+    public RelationInfoPanel(String id, EmdRelation emdRelation)
     {
         super(id);
-        Map<String, List<Relation>> map = dataset.getEasyMetadata().getEmdRelation().getRelationMap();
+        Map<String, List<Relation>> map = emdRelation.getRelationMap();
         ChoiceList qualifierLabels = retrieveQualifierLabels();
 
         RepeatingView qualifiersView = new RepeatingView("repeatingQualifier");

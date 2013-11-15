@@ -43,7 +43,7 @@ public class OverviewPanel extends AbstractEasyPanel
     private void init()
     {
         add(new SummaryPanel(SUMMARY, dataset));
-        add(new RelationInfoPanel("relationInfo", dataset));
+        add(new RelationInfoPanel("relationInfo", dataset.getEasyMetadata().getEmdRelation()));
         add(new JumpoffPanel("jumpoffPanel", dataset, EasyWicketApplication.WICKET_APPLICATION_ALIAS)
         {
 
