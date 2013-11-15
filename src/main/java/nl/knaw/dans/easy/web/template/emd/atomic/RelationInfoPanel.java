@@ -37,9 +37,9 @@ public class RelationInfoPanel extends Panel
     {
         super(id);
         Map<String, List<Relation>> map = dataset.getEasyMetadata().getEmdRelation().getRelationMap();
-        ChoiceList qualifierLabels = getQualifierLabels();
+        ChoiceList qualifierLabels = retrieveQualifierLabels();
 
-        RepeatingView qualifierView = new RepeatingView("repeatingQualifier");
+        RepeatingView qualifiersView = new RepeatingView("repeatingQualifier");
         for (String key : map.keySet())
         {
             RepeatingView relationsView = new RepeatingView("repeatingRelation");
@@ -47,23 +47,26 @@ public class RelationInfoPanel extends Panel
             {
                 if (relation.hasEmphasis())
                 {
-                    ExternalLink link = createLink(relation);
-
-                    WebMarkupContainer item = new WebMarkupContainer(relationsView.newChildId());
-                    relationsView.add(item);
-                    item.add(link);
+                    WebMarkupContainer item = addNewItemTo(relationsView);
+                    item.add(createLink(relation));
                 }
             }
             if (relationsView.size() != 0)
             {
-                WebMarkupContainer item = new WebMarkupContainer(qualifierView.newChildId());
-                qualifierView.add(item);
+                WebMarkupContainer item = addNewItemTo(qualifiersView);
                 item.add(relationsView);
                 item.add(new Label("qualifier", qualifierLabels == null ? key : qualifierLabels.getValue(key)));
             }
         }
-        this.add(qualifierView);
-        this.setVisible(qualifierView.size() != 0);
+        this.add(qualifiersView);
+        this.setVisible(qualifiersView.size() != 0);
+    }
+
+    private WebMarkupContainer addNewItemTo(RepeatingView view)
+    {
+        WebMarkupContainer item = new WebMarkupContainer(view.newChildId());
+        view.add(item);
+        return item;
     }
 
     private ExternalLink createLink(Relation relation)
@@ -77,7 +80,7 @@ public class RelationInfoPanel extends Panel
         return link;
     }
 
-    private ChoiceList getQualifierLabels()
+    private ChoiceList retrieveQualifierLabels()
     {
         ChoiceList choiceList = null;
         try
