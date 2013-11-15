@@ -49,6 +49,7 @@ public class FedoraRecord implements Record
         for (int i = 0; i < setSpecs.length; i++)
         {
             String setSpec = setSpecs[i].replace(' ', '_');
+            setSpec = setSpec.replace("\"", "");
             buf.append(" " + setSpec);
         }
         m_sourceInfo = buf.toString();
