@@ -42,7 +42,7 @@ public class RelationInfoPanel extends Panel
         RepeatingView qualifierView = new RepeatingView("repeatingQualifier");
         for (String key : map.keySet())
         {
-            RepeatingView instancesView = new RepeatingView("repeatingRelation");
+            RepeatingView relationsView = new RepeatingView("repeatingRelation");
             for (Relation relation : map.get(key))
             {
                 if (relation.hasEmphasis())
@@ -54,16 +54,16 @@ public class RelationInfoPanel extends Panel
                     link.setVisible(relUrl != null);
                     link.add(new Label("relationTitle", relTitle).setVisible(relTitle != null));
 
-                    WebMarkupContainer item = new WebMarkupContainer(instancesView.newChildId());
-                    instancesView.add(item);
+                    WebMarkupContainer item = new WebMarkupContainer(relationsView.newChildId());
+                    relationsView.add(item);
                     item.add(link);
                 }
             }
-            if (instancesView.size() != 0)
+            if (relationsView.size() != 0)
             {
                 WebMarkupContainer item = new WebMarkupContainer(qualifierView.newChildId());
                 qualifierView.add(item);
-                item.add(instancesView);
+                item.add(relationsView);
                 item.add(new Label("qualifier", key));
             }
         }
