@@ -10,18 +10,20 @@
 				<td>
 					<table class="users">
 						<tbody>
-							<tr wicket:id="repeatingRelationType">
-								<td>
-									<p>
-										<span wicket:id="relationType"></span>
-									</p>
+							<tr wicket:id="repeatingQualifier">
+								<td class="qualifierCell">
+										<span wicket:id="qualifier"></span>
 								</td>
 								<td>
-									<p wicket:id="repeatingRelation">
-										<a wicket:id="relationLink">
-											<span wicket:id="relationTitle"></span>
-										</a>
-									</p>
+									<div class="qualifiedList">
+										<ul>
+											<li wicket:id="repeatingRelation">
+												<a wicket:id="relationLink">
+													<span wicket:id="relationTitle"></span>
+												</a>
+											</li>
+										</ul>
+									</div>
 								</td>
 							</tr>
 						</tbody>
