@@ -13,6 +13,7 @@ import nl.knaw.dans.pf.language.emd.EmdRelation;
 import nl.knaw.dans.pf.language.emd.types.EmdScheme;
 import nl.knaw.dans.pf.language.emd.types.Relation;
 
+import org.apache.wicket.Component;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.ExternalLink;
@@ -48,8 +49,12 @@ public class RelationInfoPanel extends Panel
             {
                 if (relation.hasEmphasis())
                 {
-                    WebMarkupContainer item = addNewItemTo(relationsView);
-                    item.add(createLink(relation));
+                    Component link = createLink(relation);
+                    if (link.isVisible())
+                    {
+                        WebMarkupContainer item = addNewItemTo(relationsView);
+                        item.add(link);
+                    }
                 }
             }
             if (relationsView.size() != 0)
@@ -70,16 +75,16 @@ public class RelationInfoPanel extends Panel
         return item;
     }
 
-    private ExternalLink createLink(Relation relation)
+    private Component createLink(Relation relation)
     {
+        String title = relation.getSubjectTitle() == null ? null : relation.getSubjectTitle().getValue();
+        String url = relation.getSubjectLink() == null ? null : relation.getSubjectLink().toString();
+        if (title == null || title.trim().length() == 0)
+            title = url;
 
-        String relTitle = relation.getSubjectTitle()==null?null:relation.getSubjectTitle().getValue();
-        String relUrl = relation.getSubjectLink()==null?null:relation.getSubjectLink().toString();
-
-        ExternalLink link = new ExternalLink("relationLink", relUrl);
-        link.setVisible(relUrl != null);
-        link.add(new Label("relationTitle", relTitle).setVisible(relTitle != null));
-        return link;
+        boolean enabled = url != null && url.trim().length() != 0;
+        boolean visible = title != null && title.trim().length() != 0;
+        return new ExternalLink("relation", url, title).setEnabled(enabled).setVisible(visible);
     }
 
     private Label createQualifier(String key)
