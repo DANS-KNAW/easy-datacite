@@ -12,6 +12,7 @@ import nl.knaw.dans.easy.web.deposit.repeater.AbstractCustomPanel;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.EmdRelation;
 import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
+import nl.knaw.dans.pf.language.emd.types.EmdScheme;
 import nl.knaw.dans.pf.language.emd.types.Relation;
 
 import org.apache.commons.lang.StringUtils;
@@ -27,9 +28,6 @@ import org.slf4j.LoggerFactory;
 
 public class RelationViewPanel extends AbstractCustomPanel
 {
-
-    public static final String CHOICE_LIST_ID = "common.dcterms.relation";
-
     private static final long serialVersionUID = 4767608404968347974L;
     private static final Logger logger = LoggerFactory.getLogger(RelationViewPanel.class);
 
@@ -57,9 +55,10 @@ public class RelationViewPanel extends AbstractCustomPanel
         public CustomPanel()
         {
             super(CUSTOM_PANEL_ID);
+            final ChoiceList choiceList;
             try
             {
-                final ChoiceList choiceList = Services.getDepositService().getChoices(CHOICE_LIST_ID, getLocale());
+                choiceList = Services.getDepositService().getChoices(EmdScheme.COMMON_DCTERMS_RELATION.getId(), getLocale());
                 final Map<String, List<BasicIdentifier>> plainRelations = emdRelations.getBasicIdentifierMap();
                 final Map<String, List<Relation>> linkedRelations = emdRelations.getRelationMap();
                 final List<String> keyList = EmdRelation.getQualifierList();

@@ -9,8 +9,8 @@ import java.util.Map;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceList;
 import nl.knaw.dans.easy.servicelayer.services.Services;
-import nl.knaw.dans.easy.web.deposit.RelationViewPanel;
 import nl.knaw.dans.pf.language.emd.EmdRelation;
+import nl.knaw.dans.pf.language.emd.types.EmdScheme;
 import nl.knaw.dans.pf.language.emd.types.Relation;
 
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -28,6 +28,7 @@ public class RelationInfoPanel extends Panel
 {
     private static final long serialVersionUID = -5703756567092947861L;
     private static final Logger logger = LoggerFactory.getLogger(RelationInfoPanel.class);
+    private ChoiceList qualifierLabels;
 
     /**
      * @param id
@@ -36,14 +37,14 @@ public class RelationInfoPanel extends Panel
     public RelationInfoPanel(String id, EmdRelation emdRelation)
     {
         super(id);
-        Map<String, List<Relation>> map = emdRelation.getRelationMap();
-        ChoiceList qualifierLabels = retrieveQualifierLabels();
+        Map<String, List<Relation>> relationMap = emdRelation.getRelationMap();
+        qualifierLabels = retrieveLabels(EmdScheme.COMMON_DCTERMS_RELATION);
 
-        RepeatingView qualifiersView = new RepeatingView("repeatingQualifier");
-        for (String key : map.keySet())
+        RepeatingView qualifiedView = new RepeatingView("repeatingQualifier");
+        for (String key : relationMap.keySet())
         {
             RepeatingView relationsView = new RepeatingView("repeatingRelation");
-            for (Relation relation : map.get(key))
+            for (Relation relation : relationMap.get(key))
             {
                 if (relation.hasEmphasis())
                 {
@@ -53,13 +54,13 @@ public class RelationInfoPanel extends Panel
             }
             if (relationsView.size() != 0)
             {
-                WebMarkupContainer item = addNewItemTo(qualifiersView);
+                WebMarkupContainer item = addNewItemTo(qualifiedView);
                 item.add(relationsView);
-                item.add(new Label("qualifier", qualifierLabels == null ? key : qualifierLabels.getValue(key)));
+                item.add(createQualifier(key));
             }
         }
-        this.add(qualifiersView);
-        this.setVisible(qualifiersView.size() != 0);
+        this.add(qualifiedView);
+        this.setVisible(qualifiedView.size() != 0);
     }
 
     private WebMarkupContainer addNewItemTo(RepeatingView view)
@@ -71,8 +72,9 @@ public class RelationInfoPanel extends Panel
 
     private ExternalLink createLink(Relation relation)
     {
-        String relTitle = relation.getSubjectTitle().getValue();
-        String relUrl = relation.getSubjectLink().toString();
+
+        String relTitle = relation.getSubjectTitle()==null?null:relation.getSubjectTitle().getValue();
+        String relUrl = relation.getSubjectLink()==null?null:relation.getSubjectLink().toString();
 
         ExternalLink link = new ExternalLink("relationLink", relUrl);
         link.setVisible(relUrl != null);
@@ -80,18 +82,24 @@ public class RelationInfoPanel extends Panel
         return link;
     }
 
-    private ChoiceList retrieveQualifierLabels()
+    private Label createQualifier(String key)
     {
-        ChoiceList choiceList = null;
+        String label = qualifierLabels.getValue(key);
+        if (label == null)
+            label = key; // fall back to less user friendly value
+        return new Label("qualifier", label);
+    }
+
+    private ChoiceList retrieveLabels(EmdScheme list)
+    {
         try
         {
-            // TODO code smell: wrong dependency for constant
-            choiceList = Services.getDepositService().getChoices(RelationViewPanel.CHOICE_LIST_ID, getLocale());
+            return Services.getDepositService().getChoices(list.getId(), getLocale());
         }
         catch (ServiceException e)
         {
-            logger.warn("could not get user friendly versions for qualifiers", e);
+            logger.warn("can not get user friendly values for " + list.getId(), e);
         }
-        return choiceList;
+        return null;
     }
 }
