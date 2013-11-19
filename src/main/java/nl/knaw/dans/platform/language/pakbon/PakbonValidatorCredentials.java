@@ -1,32 +1,24 @@
 package nl.knaw.dans.platform.language.pakbon;
 
-public class PakbonValidatorCredentials
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class PakbonValidatorCredentials implements Serializable
 {
+    private String username;
+    private String password;
 
-    private static PakbonValidatorCredentials INSTANCE;
-
-    public static PakbonValidatorCredentials instance()
+    /*
+     * A default constructor is required by Wicket Spring to be able to create a proxy for this class.
+     */
+    public PakbonValidatorCredentials()
     {
-        if (INSTANCE == null)
-        {
-            throw new IllegalStateException(PakbonValidatorCredentials.class.getSimpleName() + " not initialized.");
-        }
-        return INSTANCE;
     }
-
-    protected static void reset()
-    {
-        INSTANCE = null;
-    }
-
-    private final String username;
-    private final String password;
 
     public PakbonValidatorCredentials(String username, String password)
     {
         this.username = username;
         this.password = password;
-        INSTANCE = this;
     }
 
     public String getUsername()
