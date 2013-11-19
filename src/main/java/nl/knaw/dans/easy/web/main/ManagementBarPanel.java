@@ -3,6 +3,7 @@ package nl.knaw.dans.easy.web.main;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.business.bean.SystemStatus;
+import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.admin.EditableContentPage;
 import nl.knaw.dans.easy.web.admin.UsersOverviewPage2;
@@ -55,7 +56,8 @@ public class ManagementBarPanel extends AbstractEasyStatelessPanel
         trashCanLink.add(new Label("numberOfItemsInTrashcan", createTrashCanModel()));
         add(trashCanLink);
 
-        add(createReadOnlyLink().add(new Label("readOnly", createReadOnlyModel())));
+        boolean isAdmin = getEasySession().getUser().hasRole(Role.ADMIN);
+        add(createReadOnlyLink().add(new Label("readOnly", createReadOnlyModel())).setVisible(isAdmin));
 
         add(new SecureEasyPageLink(USER_INFO, UsersOverviewPage2.class));
         add(new SecureEasyPageLink(EDITABLE_CONTENT, EditableContentPage.class));
@@ -75,19 +77,19 @@ public class ManagementBarPanel extends AbstractEasyStatelessPanel
         };
     }
 
-    /**
-     * @return a model that shows the value when someone else changed it.
-     */
-    private LoadableDetachableModel<Boolean> createReadOnlyModel()
+    private LoadableDetachableModel<String> createReadOnlyModel()
     {
-        return new LoadableDetachableModel<Boolean>()
+        return new LoadableDetachableModel<String>()
         {
             private static final long serialVersionUID = 1L;
 
             @Override
-            protected Boolean load()
+            protected String load()
             {
-                return SystemStatus.INSTANCE.getReadOnly();
+                if (SystemStatus.INSTANCE.getReadOnly())
+                    return getLocalizer().getString("adminSwitch.readOnly", ManagementBarPanel.this, "[SYSTEM IS IN READ ONLY MODE]");
+                else
+                    return getLocalizer().getString("adminSwitch.readWrite", ManagementBarPanel.this, "[system allows read and write]");
             }
         };
     }
