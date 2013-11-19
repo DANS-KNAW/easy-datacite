@@ -8,10 +8,7 @@ import nl.knaw.dans.easy.web.template.emd.atomic.DepositUploadPakbonPanel;
 import nl.knaw.dans.pf.language.emd.EmdOther;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific;
 
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

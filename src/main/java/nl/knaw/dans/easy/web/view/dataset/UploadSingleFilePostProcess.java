@@ -9,17 +9,23 @@ import nl.knaw.dans.common.wicket.components.upload.UploadStatus;
 import nl.knaw.dans.common.wicket.components.upload.postprocess.IUploadPostProcess;
 import nl.knaw.dans.common.wicket.components.upload.postprocess.UploadPostProcessException;
 import nl.knaw.dans.easy.domain.model.Dataset;
+import nl.knaw.dans.easy.web.common.DatasetModel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@SuppressWarnings("serial")
 public abstract class UploadSingleFilePostProcess implements IUploadPostProcess
 {
     protected static final Logger logger = LoggerFactory.getLogger(UploadSingleFilePostProcess.class);
 
     private final UploadStatus status = new UploadStatus("Initializing upload process");
+    private final DatasetModel datasetModel;
 
-    private Dataset dataset = null;
+    protected UploadSingleFilePostProcess(DatasetModel datasetModel)
+    {
+        this.datasetModel = datasetModel;
+    }
 
     @Override
     public void cancel() throws UploadPostProcessException
@@ -37,11 +43,11 @@ public abstract class UploadSingleFilePostProcess implements IUploadPostProcess
         final File file = files.get(0);
         final String fileName = file.toString();
         status.setMessage(fileName);
-        processUploadedFile(file, dataset);
+        processUploadedFile(file);
         return files;
     }
 
-    abstract void processUploadedFile(File file, Dataset dataset) throws UploadPostProcessException;
+    protected abstract void processUploadedFile(File file) throws UploadPostProcessException;
 
     @Override
     public UploadStatus getStatus()
@@ -69,9 +75,9 @@ public abstract class UploadSingleFilePostProcess implements IUploadPostProcess
         return "too few or too many files to upload: " + Arrays.deepToString(files.toArray());
     }
 
-    public void setDataset(final Dataset dataset)
+    protected Dataset getDataset()
     {
-        this.dataset = dataset;
+        return datasetModel.getObject();
     }
 
 }

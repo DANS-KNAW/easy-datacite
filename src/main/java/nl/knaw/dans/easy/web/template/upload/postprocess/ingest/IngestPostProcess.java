@@ -59,7 +59,6 @@ public class IngestPostProcess implements IUploadPostProcess
             DmoStoreId parentDmoStoreId = parentSid == null ? null : new DmoStoreId(parentSid);
             Services.getItemService().addDirectoryContents(EasySession.get().getUser(), dataset, parentDmoStoreId, destPath, fileList, new WorkReporter()
             {
-
                 private double actionCount;
 
                 @Override
@@ -92,7 +91,6 @@ public class IngestPostProcess implements IUploadPostProcess
                     double percentage = actionCount / totalSize;
                     setStatus((int) (percentage * 100D), nameToDisplay);
                 }
-
             });
 
         }

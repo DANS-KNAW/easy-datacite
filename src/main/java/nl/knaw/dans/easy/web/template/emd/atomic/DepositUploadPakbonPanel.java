@@ -6,12 +6,10 @@ import nl.knaw.dans.common.wicket.components.upload.EasyUpload;
 import nl.knaw.dans.common.wicket.components.upload.EasyUploadConfig;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.servicelayer.services.Services;
-import nl.knaw.dans.easy.web.EasyWicketApplication;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.deposit.TransformPakbonPostProcess;
 import nl.knaw.dans.easy.web.fileexplorer.FileExplorer;
 import nl.knaw.dans.easy.web.template.AbstractDatasetModelPanel;
-import nl.knaw.dans.platform.language.pakbon.PakbonValidatorCredentials;
 
 import org.apache.wicket.MarkupContainer;
 import org.apache.wicket.behavior.SimpleAttributeModifier;
@@ -21,7 +19,6 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.model.StringResourceModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
 
 @SuppressWarnings("serial")
 public class DepositUploadPakbonPanel extends AbstractDatasetModelPanel
@@ -44,8 +41,7 @@ public class DepositUploadPakbonPanel extends AbstractDatasetModelPanel
         EasyUploadConfig uploadConfig = new EasyUploadConfig();
         uploadConfig.setAutoRemoveFiles(true);
         EasyUpload easyUpload = new EasyUpload("uploadPanel", uploadConfig);
-        ApplicationContext context = ((EasyWicketApplication) getApplication()).getApplicationContext();
-        easyUpload.registerPostProcess(new TransformPakbonPostProcess(model, (PakbonValidatorCredentials) context.getBean("pakbonValidatorCredentials")));
+        easyUpload.registerPostProcess(new TransformPakbonPostProcess(model));
         add(easyUpload);
         uploadPanelHolder = new WebMarkupContainer("depositUploadPanelbuttonsPanel");
 
