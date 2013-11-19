@@ -1,9 +1,9 @@
 package nl.knaw.dans.common.wicket.components.upload.postprocess;
 
+
+@SuppressWarnings("serial")
 public class UploadPostProcessException extends Exception
 {
-    private static final long serialVersionUID = 1769153762647134647L;
-
     public UploadPostProcessException()
     {
         super();
@@ -17,5 +17,10 @@ public class UploadPostProcessException extends Exception
     public UploadPostProcessException(String msg)
     {
         super(msg);
+    }
+
+    public UploadPostProcessException(String msg, Throwable e)
+    {
+        super(msg, e);
     }
 }
