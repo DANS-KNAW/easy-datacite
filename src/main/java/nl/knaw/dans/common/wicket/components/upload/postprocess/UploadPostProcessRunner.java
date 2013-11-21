@@ -7,13 +7,12 @@ import java.util.Map;
 
 import nl.knaw.dans.common.wicket.components.upload.UploadStatus;
 
-import org.apache.wicket.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class UploadPostProcessThread extends Thread
+public class UploadPostProcessRunner 
 {
-    private static final Logger LOG = LoggerFactory.getLogger(UploadPostProcessThread.class);
+    private static final Logger LOG = LoggerFactory.getLogger(UploadPostProcessRunner.class);
 
     private List<IUploadPostProcess> postProcessors;
     private boolean canceled = false;
@@ -25,16 +24,14 @@ public class UploadPostProcessThread extends Thread
     private Map<String, String> clientParams;
     private boolean finished = false;
     private Object currentStepLock = new Object();
-    private Session session;
 
-    public UploadPostProcessThread(List<IUploadPostProcess> postProcessesors, List<File> files, File basePath, Map<String, String> clientParams, Session session)
+    public UploadPostProcessRunner(List<IUploadPostProcess> postProcessesors, List<File> files, File basePath, Map<String, String> clientParams)
     {
         super();
         this.postProcessors = postProcessesors;
         this.basePath = basePath;
         this.files = files;
         this.clientParams = clientParams;
-        this.session = session;
     }
 
     private void error(String errorMsg, Throwable e)
@@ -43,10 +40,8 @@ public class UploadPostProcessThread extends Thread
         LOG.error(e.getMessage(), e);
     }
 
-    @Override
     public void run()
     {
-        Session.set(session);
         Iterator<IUploadPostProcess> i = postProcessors.iterator();
         currentStep = 0;
         currentPostProcess = null;
@@ -138,10 +133,6 @@ public class UploadPostProcessThread extends Thread
         return finished;
     }
 
-    /**
-     * This method is called when the thread has finished execution successfully (no error/ no cancel).
-     * Override it to gain event access.
-     */
     public void onSuccess(File basePath, List<File> files)
     {
     }
