@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
  * @author lobo This class contains the information concerning the upload process. It is being held by an
  *         UploadProcess class.
  */
+@SuppressWarnings("serial")
 public class EasyUploadStatus extends UploadStatus
 {
     /** Log. */
@@ -45,5 +46,11 @@ public class EasyUploadStatus extends UploadStatus
     public Integer getUploadId()
     {
         return uploadId;
+    }
+    
+    @Override
+    public String toString()
+    {
+        return "JSON = " + toJSONObject().toString();
     }
 }
