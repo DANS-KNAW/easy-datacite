@@ -1,11 +1,13 @@
 package nl.knaw.dans.easy.util;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import nl.knaw.dans.common.lang.FileSystemHomeDirectory;
 import nl.knaw.dans.common.lang.ResourceLocator;
+import nl.knaw.dans.easy.business.bean.SystemStatus;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -43,6 +45,17 @@ public abstract class TestHelper
     {
         new ResourceLocator(new FileSystemHomeDirectory(new File("src/test/resources/editable")));
         log().info("EasyHome-value has been set");
+    }
+
+    @BeforeClass
+    public static void initReadOnly() throws Exception
+    {
+        File file = new File("target/SystemStatus.properties");
+        file.getParentFile().mkdirs();
+        FileOutputStream fileOutputStream = new FileOutputStream(file);
+        fileOutputStream.write(new byte[0]);
+        fileOutputStream.close();
+        SystemStatus.INSTANCE.setFile(file);
     }
 
     public TestHelper()

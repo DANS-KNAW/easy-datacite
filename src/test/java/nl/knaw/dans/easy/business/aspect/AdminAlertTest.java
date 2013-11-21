@@ -1,12 +1,17 @@
 package nl.knaw.dans.easy.business.aspect;
 
 import static org.junit.Assert.assertTrue;
+
+import java.io.File;
+import java.io.FileOutputStream;
+
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.mail.AdminMailer;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.test.Tester;
 import nl.knaw.dans.common.lang.user.User.State;
+import nl.knaw.dans.easy.business.bean.SystemStatus;
 import nl.knaw.dans.easy.business.services.EasyDatasetService;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.ext.ExternalServices;
@@ -46,6 +51,17 @@ public class AdminAlertTest
         extServices.setAdminMailer(mailer);
 
         new Security(new CodedAuthz());
+    }
+
+    @BeforeClass
+    public static void initReadOnly() throws Exception
+    {
+        File file = new File("target/SystemStatus.properties");
+        file.getParentFile().mkdirs();
+        FileOutputStream fileOutputStream = new FileOutputStream(file);
+        fileOutputStream.write(new byte[0]);
+        fileOutputStream.close();
+        SystemStatus.INSTANCE.setFile(file);
     }
 
     @Test
