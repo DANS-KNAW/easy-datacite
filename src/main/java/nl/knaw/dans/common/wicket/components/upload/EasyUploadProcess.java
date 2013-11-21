@@ -12,9 +12,9 @@ import java.util.Map;
 
 import nl.knaw.dans.common.lang.util.FileUtil;
 import nl.knaw.dans.common.wicket.components.upload.postprocess.IUploadPostProcess;
-import nl.knaw.dans.common.wicket.components.upload.postprocess.UploadPostProcessThread;
+import nl.knaw.dans.common.wicket.components.upload.postprocess.UploadPostProcessRunner;
 
-import org.apache.wicket.Session;
+import org.apache.commons.io.FileUtils;
 import org.apache.wicket.util.upload.DiskFileItem;
 import org.apache.wicket.util.upload.FileItem;
 import org.slf4j.Logger;
@@ -52,7 +52,7 @@ public class EasyUploadProcess
 
     private File basePath = null;
 
-    private UploadPostProcessThread postProcessorThread = null;
+    private UploadPostProcessRunner postProcessorThread = null;
 
     public EasyUploadProcess(Integer uploadId, String filename, Map<String, String> clientParams, EasyUpload easyUpload)
     {
@@ -223,7 +223,7 @@ public class EasyUploadProcess
         if (postProcessesors.size() > 0)
         {
             // start post processor thread
-            postProcessorThread = new UploadPostProcessThread(postProcessesors, files, basePath, clientParams, Session.get())
+            postProcessorThread = new UploadPostProcessRunner(postProcessesors, files, basePath, clientParams)
             {
                 @Override
                 public void onSuccess(File basePath, List<File> files)
@@ -231,7 +231,7 @@ public class EasyUploadProcess
                     setUploadCompleted(files);
                 }
             };
-            postProcessorThread.start();
+            postProcessorThread.run();
         }
         else
         {
@@ -268,7 +268,7 @@ public class EasyUploadProcess
         LOG.info("Deleting directory '" + basePath + "'");
         try
         {
-            FileUtil.deleteDirectory(basePath);
+            FileUtils.deleteDirectory(basePath);
             basePath = null;
         }
         catch (IOException e)
@@ -291,50 +291,11 @@ public class EasyUploadProcess
             cleanFiles();
     }
 
-    public boolean killPostProcessorThread(int timeoutSeconds)
-    {
-        postProcessorThread.cancel();
-        if (timeoutSeconds == -1)
-            return true;
-
-        boolean threadIsAlive = postProcessorThread.isAlive();
-        try
-        {
-            for (int i = 0; i < timeoutSeconds * 10 && threadIsAlive; i++)
-            {
-                threadIsAlive = postProcessorThread.isAlive();
-                Thread.sleep(100);
-            }
-        }
-        catch (InterruptedException e)
-        {
-            threadIsAlive = postProcessorThread.isAlive();
-        }
-
-        // return threadIsDead;
-        return !threadIsAlive;
-    }
-
-    @SuppressWarnings("deprecation")
     public void cancel()
     {
         if (status.isFinished())
             // too late
             return;
-
-        if (postProcessorThread != null && postProcessorThread.isFinished() == false)
-        {
-            if (!killPostProcessorThread(-1))
-            {
-                LOG.error("postProcessorThread does not want to die. Trying deprecated bullets.");
-                postProcessorThread.stop();
-                // last chance (another 3 seconds)
-                killPostProcessorThread(3);
-
-                if (postProcessorThread.isAlive())
-                    LOG.error("postProcessorThread not responding to bullets. This is serious. Why don't you die you son of a thr##@d!");
-            }
-        }
 
         canceled = true;
         rollBack();
