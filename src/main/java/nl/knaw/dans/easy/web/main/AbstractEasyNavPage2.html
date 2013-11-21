@@ -37,6 +37,11 @@
 					<li class="deposit"><a href="#" wicket:id="navDeposit" class="button"><wicket:message key="page.deposit">New Deposit</wicket:message></a></li>
 				</ul>
 				<ul class="admin-nav">
+					<wicket:enclosure child="systemIsReadOnly">
+					<li>
+						<a href="#" wicket:id="systemIsReadOnly"><span wicket:id="readOnly">read/write?</span></a>
+					</li>
+					</wicket:enclosure>
 					<wicket:enclosure child="login">
 						<li>
 							<a href="#" wicket:id="register" alt="Register" title="Register to get access to EASY">

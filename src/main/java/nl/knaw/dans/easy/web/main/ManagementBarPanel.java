@@ -56,42 +56,8 @@ public class ManagementBarPanel extends AbstractEasyStatelessPanel
         trashCanLink.add(new Label("numberOfItemsInTrashcan", createTrashCanModel()));
         add(trashCanLink);
 
-        boolean isAdmin = getEasySession().getUser().hasRole(Role.ADMIN);
-        add(createReadOnlyLink().add(new Label("readOnly", createReadOnlyModel())).setVisible(isAdmin));
-
         add(new SecureEasyPageLink(USER_INFO, UsersOverviewPage2.class));
         add(new SecureEasyPageLink(EDITABLE_CONTENT, EditableContentPage.class));
-    }
-
-    private Link<Page> createReadOnlyLink()
-    {
-        return new Link<Page>(READ_ONLY)
-        {
-            private static final long serialVersionUID = 1L;
-
-            public void onClick()
-            {
-                SystemStatus.INSTANCE.setReadOnly(!SystemStatus.INSTANCE.getReadOnly());
-                setResponsePage(this.getPage());
-            }
-        };
-    }
-
-    private LoadableDetachableModel<String> createReadOnlyModel()
-    {
-        return new LoadableDetachableModel<String>()
-        {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            protected String load()
-            {
-                if (SystemStatus.INSTANCE.getReadOnly())
-                    return getLocalizer().getString("adminSwitch.readOnly", ManagementBarPanel.this, "[SYSTEM IS IN READ ONLY MODE]");
-                else
-                    return getLocalizer().getString("adminSwitch.readWrite", ManagementBarPanel.this, "[system allows read and write]");
-            }
-        };
     }
 
     // Note: the following members are much alike, maybe we can refactor this
