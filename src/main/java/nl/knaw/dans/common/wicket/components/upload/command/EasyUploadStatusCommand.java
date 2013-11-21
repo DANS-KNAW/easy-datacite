@@ -1,22 +1,26 @@
 package nl.knaw.dans.common.wicket.components.upload.command;
 
+import java.util.Arrays;
+
 import nl.knaw.dans.common.wicket.components.upload.EasyUploadProcess;
 import nl.knaw.dans.common.wicket.components.upload.EasyUploadProcesses;
 import nl.knaw.dans.common.wicket.components.upload.EasyUploadStatus;
 
 import org.apache.wicket.markup.html.DynamicWebResource;
 import org.json.JSONArray;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author lobo This dynamic web resource is being called by the Ajax polling mechanism of the browser
  *         that request an update on the status of one or more uploads. The return value is serialized in
  *         JSON.
  */
+@SuppressWarnings("serial")
 public class EasyUploadStatusCommand extends EasyUploadCommand
 {
-    private static final long serialVersionUID = 1L;
-
     public static final String RESOURCE_NAME = "uploadStatus";
+    private static final Logger log = LoggerFactory.getLogger(EasyUploadStatusCommand.class);
 
     protected ResourceState getResourceState()
     {
@@ -33,26 +37,19 @@ public class EasyUploadStatusCommand extends EasyUploadCommand
         {
             try
             {
-                Integer[] uploadIds = getUploadProcessIds();// NOPMD;
-
-                // log incoming request
-                String ids = "";
-                for (int i = 0; i < uploadIds.length; i++)
-                    ids += uploadIds[i].toString() + ", ";
-                // LOG.debug("Upload STATUS request for upload process ids: "+ ids);
-
-                // create JSON response
+                Integer[] uploadIds = getUploadProcessIds();
+                log.debug("Creating new upload status object for the following upload ID(s): '{}'", Arrays.toString(uploadIds));
                 for (int i = 0; i < uploadIds.length; i++)
                 {
                     EasyUploadProcess process = EasyUploadProcesses.getInstance().getUploadProcessById(uploadIds[i]);
                     if (process != null)
                     {
                         EasyUploadStatus status = process.getStatus();
+                        log.debug("Status of upload process '{}' is: '{}'", uploadIds[i], status);
                         responseWriter.put(status.toJSONObject());
                         if (status.isFinished())
                         {
-                            // unregister the upload process after the finished result has been send back
-                            // to the client.
+                            log.debug("Unregister upload process: '{}'", uploadIds[i]);
                             EasyUploadProcesses.getInstance().unregister(process);
                         }
                     }
@@ -60,7 +57,6 @@ public class EasyUploadStatusCommand extends EasyUploadCommand
             }
             catch (Exception e)
             {
-                // write error status to new responseWriter
                 responseWriter = new JSONArray();
                 EasyUploadStatus us = new EasyUploadStatus(-1, e.getMessage());
                 us.setError(true);
@@ -89,7 +85,6 @@ public class EasyUploadStatusCommand extends EasyUploadCommand
          */
         public byte[] getData()
         {
-            // LOG.debug("Send upload status update = "+ responseWriter.toString());
             return responseWriter.toString().getBytes();
         }
     }
