@@ -101,7 +101,12 @@ public class DatasetViewPage extends AbstractEasyNavPage
     public static final String RI_TAB_RELATIONS = "tab.relations";
 
     /**
-     * Wicket id.
+     * Resource id.
+     */
+    public static final String RI_TAB_VIDEO = "tab.video";
+
+    /**
+     * /** Wicket id.
      */
     public static final String WI_VIEW_TABS = "tabs";
 
@@ -347,6 +352,7 @@ public class DatasetViewPage extends AbstractEasyNavPage
         tabs.add(getPermissionsTab());
         tabs.add(getActivityLogTab());
         // tabs.add(getRelationsTab());
+        tabs.add(getVideoTab());
         TabbedPanel tabbedPanel = new TabbedPanel(WI_VIEW_TABS, tabs)
         {
 
@@ -556,6 +562,22 @@ public class DatasetViewPage extends AbstractEasyNavPage
 
         };
         return tab;
+    }
+
+    private SimpleTab getVideoTab()
+    {
+        return new SimpleTab(new ResourceModel(RI_TAB_VIDEO))
+        {
+
+            private static final long serialVersionUID = -1486720240988923158L;
+
+            @Override
+            public Panel getPanel(final String panelId)
+            {
+                return new VideoPanel(panelId, datasetModel, new PageParameters());
+            }
+
+        };
     }
 
     @Override
