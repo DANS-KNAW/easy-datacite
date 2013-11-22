@@ -99,7 +99,12 @@ public class CodedAuthz extends AbstractEasyService implements Authz
     {
         synchronized (syncRules)
         {
-            return getRules().containsKey(item);
+            boolean hasOfficer = getRules().containsKey(item);
+            // TODO should't all buttons have a security officer? might require wild cards for signatures
+            // if (logger.isDebugEnabled() && !hasOfficer &&
+            // item.matches("nl.knaw.dans.easy.web.*Page2?(:[^_].*)?"))
+            // logger.debug("No SecurityOfficer set for signature: " + item);
+            return hasOfficer;
         }
     }
 
@@ -116,34 +121,67 @@ public class CodedAuthz extends AbstractEasyService implements Authz
         if (officer == null)
         {
             logger.warn("No SecurityOfficer set for signature '" + signature + "'. Returning default SecurityOfficer");
-            officer = new AbstractCheck()
-            {
-                public boolean evaluate(ContextParameters ctxParameters)
-                {
-                    return false;
-                }
-
-                public String getProposition()
-                {
-                    return NO_SIGNATURE_OFFICER_PROPOSITION;
-                }
-
-                public String explain(ContextParameters ctxParameters)
-                {
-                    return "\nNo SecurityOfficer set for signature '" + signature + "'";
-                }
-
-                @Override
-                public boolean getHints(ContextParameters ctxParameters, List<Object> hints)
-                {
-                    hints.add(NO_SIGNATURE_OFFICER_PROPOSITION);
-                    return false;
-                }
-            };
+            officer = createDefaultOfficer(signature);
         }
         if (signature.equals("nl.knaw.dans.easy.web.search.pages.MyDatasetsSearchResultPage"))
             logger.info(officer.getProposition());
-        return officer;
+
+        return addCheckForReadOnlyMode(signature, officer);
+    }
+
+    private AbstractCheck createDefaultOfficer(final String signature)
+    {
+        return new AbstractCheck()
+        {
+            public boolean evaluate(ContextParameters ctxParameters)
+            {
+                return false;
+            }
+
+            public String getProposition()
+            {
+                return NO_SIGNATURE_OFFICER_PROPOSITION;
+            }
+
+            public String explain(ContextParameters ctxParameters)
+            {
+                return "\nNo SecurityOfficer set for signature '" + signature + "'";
+            }
+
+            @Override
+            public boolean getHints(ContextParameters ctxParameters, List<Object> hints)
+            {
+                hints.add(NO_SIGNATURE_OFFICER_PROPOSITION);
+                return false;
+            }
+        };
+    }
+
+    private SecurityOfficer addCheckForReadOnlyMode(final String signature, SecurityOfficer officer)
+    {
+        // first return what is allowed in read-only mode
+
+        if (signature.matches("nl.knaw.dans.easy.web.search.pages.\\w+SearchResultPage"))
+            return officer;
+        if (signature.matches("nl.knaw.dans.easy.web.search.AdvancedSearchPage:.*"))
+            return officer;
+        if (signature.equals("nl.knaw.dans.easy.web.main.AbstractEasyNavPage:managementBarPanel"))
+            return officer;
+        // if (signature.equals("nl.knaw.dans.easy.web.permission.PermissionRequestPage"))
+        // return officer;
+        if (signature.matches("nl.knaw.dans.easy.web.admin.User\\w*"))
+            return officer;
+        if (signature.matches("nl.knaw.dans.easy.web.admin.UserDetailsPage:userDetailsPanel:switchPanel:userInfoForm:\\w*"))
+            return officer;
+        if (signature.equals("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel"))
+            return officer;
+        if (signature.equals("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel:statusPanel"))
+            return officer;
+        if (signature.matches("\\w* nl.knaw.dans.easy.business.*"))
+            return officer;
+
+        // finally return what is not allowed in read-only mode with an additional constraint
+        return new And(officer, new UpdateEnabledCheck());
     }
 
     /**
@@ -171,13 +209,14 @@ public class CodedAuthz extends AbstractEasyService implements Authz
             rules.put("nl.knaw.dans.easy.web.search.pages.AllWorkSearchResultPage", getEnableToArchivistRule());
             rules.put("nl.knaw.dans.easy.web.search.pages.SearchAllSearchResultPage", getEnableToArchivistOrAdminRule());
             rules.put("nl.knaw.dans.easy.web.search.pages.TrashCanSearchResultPage", getEnableToArchivistOrAdminRule());
-            rules.put("nl.knaw.dans.easy.web.permission.PermissionReplyPage", getPermissionReplyRule());
-            rules.put("nl.knaw.dans.easy.web.permission.PermissionRequestPage", getPermissionRequestRule());
+            rules.put("nl.knaw.dans.easy.web.permission.PermissionReplyPage", getEnableToDepositorOrArchivistRule());
+            rules.put("nl.knaw.dans.easy.web.permission.PermissionRequestPage", getEnableToLoggedInUserRule());
 
             rules.put("nl.knaw.dans.easy.web.deposit.DepositIntroPage", getEnableToLoggedInUserRule());
-            rules.put("nl.knaw.dans.easy.web.deposit.DepositPage", getDepositRule());
+            rules.put("nl.knaw.dans.easy.web.deposit.DepositPage", getEnableToLoggedInUserRule());
 
             // nl.knaw.dans.easy.web.admin.UserDetailsPage components
+            rules.put("nl.knaw.dans.easy.web.admin.UserDetailsPage:userDetailsPanel:switchPanel:editLink", getNoSecurityOfficer());
             rules.put("nl.knaw.dans.easy.web.admin.UserDetailsPage:userDetailsPanel:switchPanel:userInfoForm:state", getEditProtectedUserAttributesRule());
             rules.put("nl.knaw.dans.easy.web.admin.UserDetailsPage:userDetailsPanel:switchPanel:userInfoForm:roles", getEditProtectedUserAttributesRule());
 
@@ -186,7 +225,7 @@ public class CodedAuthz extends AbstractEasyService implements Authz
             rules.put("nl.knaw.dans.easy.web.search.AdvancedSearchPage:advancedSearchForm:archivistOptions", getEnableToArchivistRule());
 
             // nl.knaw.dans.easy.web.view.dataset.DatasetViewPage components
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:reuseLink", getEnableToDepositorOfDatasetRule());
+            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel:statusPanel:reuseLink", getEnableToDepositorOfDatasetRule());
 
             // info segment panel
             rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel", getEnableToLoggedInUserRule());
@@ -225,6 +264,12 @@ public class CodedAuthz extends AbstractEasyService implements Authz
             // Description tab
             rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:editLink", getEnableToArchivistRule());
 
+            // file explorer tab TODO replace switches in FileExplorer by security officers?
+            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:fe:deleteLink", getEnableToArchivistOrAdminRule());
+            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:fe:uploadLink", getEnableToArchivistOrAdminRule());
+            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:fe:importLink", getEnableToArchivistOrAdminRule());
+            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:fe:rightsForm", getEnableToArchivistOrAdminRule());
+
             // Metadata download buttons are visible to all users now
             // rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:downloadPanel",
             // getEnableToArchivistOrAdminRule());
@@ -233,6 +278,8 @@ public class CodedAuthz extends AbstractEasyService implements Authz
             // tab
             // rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:tabs-container:tabs:3:link",
             // getEnableToArchivistRule());
+            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:workflowForm", getEnableToArchivistOrAdminRule());
+            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:licenseUploadPanel", getEnableToArchivistOrAdminRule());
 
             // WorkDispatchers
             // ===============
@@ -330,21 +377,6 @@ public class CodedAuthz extends AbstractEasyService implements Authz
             rules.put("nl.knaw.dans.easy.servicelayer.services.CollectionService.updateCollectionMemberships", getEnableToArchivistOrAdminRule());
         }
         return rules;
-    }
-
-    protected SecurityOfficer getPermissionRequestRule()
-    {
-        return getEnableToLoggedInUserRule();
-    }
-
-    protected SecurityOfficer getPermissionReplyRule()
-    {
-        return getEnableToDepositorOrArchivistRule();
-    }
-
-    protected SecurityOfficer getDepositRule()
-    {
-        return getEnableToLoggedInUserRule();
     }
 
     protected SecurityOfficer getNoSecurityOfficer()
