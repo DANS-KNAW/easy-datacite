@@ -180,7 +180,8 @@ public class CodedAuthz extends AbstractEasyService implements Authz
         if (signature.matches("\\w* nl.knaw.dans.easy.business.*"))
             return officer;
 
-        // finally return what is not allowed in read-only mode with an additional constraint
+        // finally add a check to what is not allowed in read-only mode
+        
         return new And(officer, new UpdateEnabledCheck());
     }
 
