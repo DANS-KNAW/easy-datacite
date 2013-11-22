@@ -49,6 +49,9 @@ public class ItemIngester extends AbstractWorker
 
     public static final String DEPOSITOR_FOLDER_NAME = "original";
 
+    // CHANGE THIS!!!
+    public static final String VIDEO_EXTENSION = ".xml";
+
     private final ItemIngesterDelegator delegator;
 
     private final Dataset dataset;
@@ -211,6 +214,11 @@ public class ItemIngester extends AbstractWorker
 
             kidFile.setFile(file);
             kidFile.setCreatorRole(creatorRole);
+            // CHANGE THIS!!!
+            if (file.getName().endsWith(VIDEO_EXTENSION))
+            {
+                kidFile.setStreamingUrl("http://www.koe.com/video/" + file.getName());
+            }
             kidFile.setDatasetId(dataset.getDmoStoreId());
             kidFile.setOwnerId(sessionUser.getId());
             // order of next statements is of importance for migration
