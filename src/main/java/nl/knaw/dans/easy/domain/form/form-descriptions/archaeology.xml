@@ -9,6 +9,17 @@
 	<ordinal>1</ordinal>
 	<panelDefinitions>
 	
+         <standardPanel>
+			<properties>
+				<id>pakbon.import</id>
+				<labelResourceKey>label.pakbon.info</labelResourceKey>
+				<shortHelpResourceKey>shortHelp.pakbon</shortHelpResourceKey>
+				<helpItem>Pakbon</helpItem>
+			</properties>
+            <modelClass>EasyMetadata</modelClass>
+            <panelClass>UploadPakbonPanel</panelClass>
+		</standardPanel>
+ 
 		<standardPanel>
             <properties>
                 <id>archis2.view</id>
@@ -24,7 +35,7 @@
 			<properties>
 				<id>archis2.edit</id>
 				<labelResourceKey>label.archis.info</labelResourceKey>
-				<shortHelpResourceKey></shortHelpResourceKey>
+				<shortHelpResourceKey>shortHelp.archis</shortHelpResourceKey>
 				<helpItem>Archis</helpItem>
 			</properties>
 			<modelClass>Archis2ListWrapper</modelClass>
@@ -794,14 +805,24 @@
                 <id>emd-deposit-wizard</id>
             </properties>
             <formPages>
-           		<formPage>
+            	<formPage>
                     <properties>
                         <id>emd-deposit-form.page.1</id>
                         <labelResourceKey>discipline.archaeology.page.1.title</labelResourceKey>
                     </properties>
                     <cssContainerClassName>depositForm</cssContainerClassName>
                     <panels>
+                    	<ref-panelId>pakbon.import</ref-panelId>
                     	<ref-panelId>archis2.edit</ref-panelId>
+					</panels>            	
+            	</formPage>
+           		<formPage>
+                    <properties>
+                        <id>emd-deposit-form.page.2</id>
+                        <labelResourceKey>discipline.archaeology.page.2.title</labelResourceKey>
+                    </properties>
+                    <cssContainerClassName>depositForm</cssContainerClassName>
+                    <panels>
                         <ref-panelId>dc.title</ref-panelId>
                         <ref-panelId>dcterms.alternative</ref-panelId>
                         <ref-panelId>dc.creator</ref-panelId>
@@ -815,8 +836,8 @@
                 </formPage>
                 <formPage>
                     <properties>
-                        <id>emd-deposit-form.page.2</id>
-                        <labelResourceKey>discipline.archaeology.page.2.title</labelResourceKey>
+                        <id>emd-deposit-form.page.3</id>
+                        <labelResourceKey>discipline.archaeology.page.3.title</labelResourceKey>
                     </properties>
                     <cssContainerClassName>depositForm</cssContainerClassName>
                     <panels>
@@ -830,8 +851,8 @@
                 </formPage>
                 <formPage>
                     <properties>
-                        <id>emd-deposit-form.page.3</id>
-                        <labelResourceKey>discipline.archaeology.page.3.title</labelResourceKey>
+                        <id>emd-deposit-form.page.4</id>
+                        <labelResourceKey>discipline.archaeology.page.4.title</labelResourceKey>
                     </properties>
                     <cssContainerClassName>depositForm</cssContainerClassName>
                     <panels>
@@ -844,8 +865,8 @@
                 </formPage>
                 <formPage>
                     <properties>
-                        <id>emd-deposit-form.page.4</id>
-                        <labelResourceKey>discipline.archaeology.page.4.title</labelResourceKey>
+                        <id>emd-deposit-form.page.5</id>
+                        <labelResourceKey>discipline.archaeology.page.5.title</labelResourceKey>
                     </properties>
                     <cssContainerClassName>depositForm</cssContainerClassName>
                     <panels>
@@ -854,8 +875,8 @@
                 </formPage>
                 <formPage>
                     <properties>
-                        <id>emd-deposit-form.page.5</id>
-                        <labelResourceKey>discipline.archaeology.page.5.title</labelResourceKey>
+                        <id>emd-deposit-form.page.6</id>
+                        <labelResourceKey>discipline.archaeology.page.6.title</labelResourceKey>
                     </properties>
                     <cssContainerClassName>depositForm</cssContainerClassName>
                     <panels>
@@ -866,8 +887,8 @@
                 
                 <formPage>
                     <properties>
-                        <id>emd-deposit-form.page.6</id>
-                        <labelResourceKey>discipline.archaeology.page.6.title</labelResourceKey>
+                        <id>emd-deposit-form.page.7</id>
+                        <labelResourceKey>discipline.archaeology.page.7.title</labelResourceKey>
                     </properties>
                     <editable>false</editable>
                     <cssContainerClassName>depositForm</cssContainerClassName>
@@ -891,6 +912,7 @@
                     </properties>
                     <cssContainerClassName>depositForm</cssContainerClassName>
                     <panels>
+                    	<ref-panelId>pakbon.import</ref-panelId>
                     	<ref-panelId>archis2.edit</ref-panelId>
                         <ref-panelId>dc.title</ref-panelId>
                         <ref-panelId>dcterms.alternative</ref-panelId>
