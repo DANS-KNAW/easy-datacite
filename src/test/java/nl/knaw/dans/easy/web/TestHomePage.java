@@ -45,6 +45,7 @@ public class TestHomePage
         SystemStatus.INSTANCE.setFile(new File("target/SystemStatus.properties"));
         SystemStatus.INSTANCE.setReadOnly(false);
     }
+
     private WicketTester tester;
     private EasyUser normalUser;
     private EasyUser archivistUser;
