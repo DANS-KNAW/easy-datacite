@@ -80,7 +80,7 @@ public class MockUtil
         context.setProviderURL("http://mockedhost:8080/");
         context.setServletName("servlet/request");
         context.setEasyHome("http://mockedhost:8080/ui/");
-        
+
         SystemStatus.INSTANCE.setFile(new File("target/SystemStatus.properties"));
         SystemStatus.INSTANCE.setReadOnly(false);
     }

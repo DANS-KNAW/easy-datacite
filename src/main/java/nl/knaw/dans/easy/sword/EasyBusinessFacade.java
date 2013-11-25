@@ -47,7 +47,7 @@ public class EasyBusinessFacade
 {
     private static int noOpSumbitCounter = 0;
     public static final String NO_OP_STORE_ID_DOMAIN = "mockedStoreID:";
-    
+
     /** Exception exposed to the client while easy is shutting down */
     public static final ReadOnlyException READ_ONLY_EXCEPTION = new ReadOnlyException("service temporarily not available");
 
