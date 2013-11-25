@@ -181,7 +181,7 @@ public class CodedAuthz extends AbstractEasyService implements Authz
             return officer;
 
         // finally add a check to what is not allowed in read-only mode
-        
+
         return new And(officer, new UpdateEnabledCheck());
     }
 

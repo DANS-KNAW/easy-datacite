@@ -9,13 +9,20 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Map;
 
+import nl.knaw.dans.easy.business.bean.SystemStatus;
+
 import org.joda.time.DateTime;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
 public class CodedAuthzTest
 {
-
+    @BeforeClass
+    public static void init()
+    {
+        SystemStatus.INSTANCE.setFile(new File("target/SystemStatus.properties"));
+    }
     @Test
     public void testGetSecurityOfficer()
     {
@@ -23,7 +30,7 @@ public class CodedAuthzTest
         SecurityOfficer na = authz.getSecurityOfficer("foo");
         assertFalse(na.isComponentVisible(null));
         assertFalse(na.isEnableAllowed(null));
-        assertEquals(CodedAuthz.NO_SIGNATURE_OFFICER_PROPOSITION, na.getProposition());
+        assertEquals("("+CodedAuthz.NO_SIGNATURE_OFFICER_PROPOSITION+" AND [read only mode is false])", na.getProposition());
     }
 
     @Test
@@ -32,7 +39,7 @@ public class CodedAuthzTest
         String item = "nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel:statusPanel:republish";
         Authz authz = new CodedAuthz();
         assertTrue(authz.hasSecurityOfficer(item));
-        assertEquals("([SessionUser has role ARCHIVIST] AND [Dataset state is MAINTENANCE] AND [Required steps of workflow are completed])", authz
+        assertEquals("(([SessionUser has role ARCHIVIST] AND [Dataset state is MAINTENANCE] AND [Required steps of workflow are completed]) AND [read only mode is false])", authz
                 .getSecurityOfficer(item).getProposition());
     }
 
