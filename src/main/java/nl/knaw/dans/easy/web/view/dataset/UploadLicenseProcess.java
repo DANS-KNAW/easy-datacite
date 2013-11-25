@@ -7,22 +7,26 @@ import java.io.File;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
-import nl.knaw.dans.common.wicket.components.upload.postprocess.IUploadPostProcess;
 import nl.knaw.dans.common.wicket.components.upload.postprocess.UploadPostProcessException;
 import nl.knaw.dans.easy.domain.exceptions.DataIntegrityException;
-import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasySession;
+import nl.knaw.dans.easy.web.common.DatasetModel;
 
-public class UploadLicenseProcess extends UploadSingelFilePostProcess implements IUploadPostProcess
+@SuppressWarnings("serial")
+public class UploadLicenseProcess extends UploadSingleFilePostProcess
 {
-
-    void processUploadedFile(final File file, final Dataset dataset) throws UploadPostProcessException
+    public UploadLicenseProcess(DatasetModel datasetModel)
     {
-        dataset.setAdditionalLicenseContent(file);
+        super(datasetModel);
+    }
+
+    protected void processUploadedFile(final File file) throws UploadPostProcessException
+    {
+        getDataset().setAdditionalLicenseContent(file);
         try
         {
-            Services.getDatasetService().saveAdditionalLicense(EasySession.get().getUser(), dataset);
+            Services.getDatasetService().saveAdditionalLicense(EasySession.get().getUser(), getDataset());
         }
         catch (final ServiceException e)
         {

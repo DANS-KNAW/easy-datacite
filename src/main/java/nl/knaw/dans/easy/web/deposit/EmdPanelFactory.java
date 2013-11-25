@@ -44,6 +44,13 @@ public class EmdPanelFactory extends RepeaterPanelFactory
         return panel;
     }
 
+    public Panel createUploadPakbonPanel(StandardPanelDefinition spDef, IModel<?> model)
+    {
+        UploadPakbonPanel panel = new UploadPakbonPanel(getPanelWicketId(), datasetModel);
+        panel.setPanelDefinition(spDef);
+        return panel;
+    }
+
     public Panel createLicensePanel(StandardPanelDefinition spDef, IModel<EasyMetadata> model)
     {
         LicensePanel panel = new LicensePanel(getPanelWicketId(), model);

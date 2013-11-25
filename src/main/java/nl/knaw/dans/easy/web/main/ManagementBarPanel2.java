@@ -12,7 +12,7 @@ import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.admin.EditableContentPage;
-import nl.knaw.dans.easy.web.admin.UsersOverviewPage2;
+import nl.knaw.dans.easy.web.admin.UsersOverviewPage;
 import nl.knaw.dans.easy.web.search.pages.AllWorkSearchResultPage;
 import nl.knaw.dans.easy.web.search.pages.MyWorkSearchResultPage;
 import nl.knaw.dans.easy.web.search.pages.OurWorkSearchResultPage;
@@ -66,7 +66,7 @@ public class ManagementBarPanel2 extends AbstractEasyStatelessPanel
         listItems.add(item4);
 
         WebMarkupContainer item5 = new WebMarkupContainer(listItems2.newChildId());
-        SecureEasyPageLink link5 = new SecureEasyPageLink("link", UsersOverviewPage2.class);
+        SecureEasyPageLink link5 = new SecureEasyPageLink("link", UsersOverviewPage.class);
         link5.add(new Label("text", getString("page.users")));
         item5.add(link5);
         listItems2.add(item5);

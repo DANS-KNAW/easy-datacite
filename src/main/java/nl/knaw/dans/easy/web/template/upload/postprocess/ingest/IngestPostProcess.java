@@ -59,7 +59,6 @@ public class IngestPostProcess implements IUploadPostProcess
             DmoStoreId parentDmoStoreId = parentSid == null ? null : new DmoStoreId(parentSid);
             Services.getItemService().addDirectoryContents(EasySession.get().getUser(), dataset, parentDmoStoreId, destPath, fileList, new WorkReporter()
             {
-
                 private double actionCount;
 
                 @Override
@@ -92,8 +91,8 @@ public class IngestPostProcess implements IUploadPostProcess
                     double percentage = actionCount / totalSize;
                     setStatus((int) (percentage * 100D), nameToDisplay);
                 }
-
             });
+
         }
         catch (ServiceException e)
         {
@@ -105,11 +104,6 @@ public class IngestPostProcess implements IUploadPostProcess
             StatisticsLogger.getInstance().logEvent(StatisticsEvent.FILE_DEPOSIT, new DatasetStatistics(dataset), new UploadFileStatistics(fileList));
         }
         return fileList;
-    }
-
-    public void rollBack() throws UploadPostProcessException
-    {
-        LOG.error("Programming error: processing code should be in business services and/or domain objects.");
     }
 
     public void setStatus(int percent, String filename)

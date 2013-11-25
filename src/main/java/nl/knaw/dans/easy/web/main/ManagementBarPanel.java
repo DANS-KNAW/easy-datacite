@@ -6,7 +6,7 @@ import nl.knaw.dans.easy.business.bean.SystemStatus;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.admin.EditableContentPage;
-import nl.knaw.dans.easy.web.admin.UsersOverviewPage2;
+import nl.knaw.dans.easy.web.admin.UsersOverviewPage;
 import nl.knaw.dans.easy.web.search.pages.AllWorkSearchResultPage;
 import nl.knaw.dans.easy.web.search.pages.MyWorkSearchResultPage;
 import nl.knaw.dans.easy.web.search.pages.OurWorkSearchResultPage;
@@ -56,7 +56,7 @@ public class ManagementBarPanel extends AbstractEasyStatelessPanel
         trashCanLink.add(new Label("numberOfItemsInTrashcan", createTrashCanModel()));
         add(trashCanLink);
 
-        add(new SecureEasyPageLink(USER_INFO, UsersOverviewPage2.class));
+        add(new SecureEasyPageLink(USER_INFO, UsersOverviewPage.class));
         add(new SecureEasyPageLink(EDITABLE_CONTENT, EditableContentPage.class));
     }
 

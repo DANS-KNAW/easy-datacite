@@ -2,7 +2,6 @@ package nl.knaw.dans.easy.web.fileexplorer;
 
 import nl.knaw.dans.common.wicket.components.explorer.ITreeItem;
 import nl.knaw.dans.common.wicket.components.upload.EasyUpload;
-import nl.knaw.dans.common.wicket.components.upload.postprocess.IUploadPostProcess;
 import nl.knaw.dans.common.wicket.components.upload.postprocess.unzip.UnzipPostProcess;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.template.upload.postprocess.ingest.IngestPostProcess;
@@ -46,35 +45,13 @@ public abstract class ModalUpload extends Panel
     private WebMarkupContainer buildUploadPanel(final DatasetModel model, final String folderSid)
     {
         final WebMarkupContainer uploadPanelContainer = new WebMarkupContainer("uploadPanel");
-
-        final EasyUpload easyUpload = new EasyUpload("easyUploadPanel")
-        {
-
-            private static final long serialVersionUID = -8966163487482572856L;
-
-            @Override
-            public IUploadPostProcess createPostProcess(final Class<? extends IUploadPostProcess> pclass)
-            {
-
-                final IUploadPostProcess rtn = super.createPostProcess(pclass);
-
-                if (rtn instanceof IngestPostProcess)
-                {
-                    ((IngestPostProcess) rtn).setParentSid(folderSid);
-                    ((IngestPostProcess) rtn).setModel(model);
-                }
-
-                return rtn;
-            }
-        };
-        // uploadPanelContainer.easyUpload.setVisible((sid != null && !sid.trim().equals("")));
-        easyUpload.registerPostProcess(UnzipPostProcess.class);
-        easyUpload.registerPostProcess(IngestPostProcess.class);
-        // deposit ingest post process takes care of the files, so let's delete the files
-        // after they have been ingested
-
+        final EasyUpload easyUpload = new EasyUpload("easyUploadPanel");
+        easyUpload.registerPostProcess(new UnzipPostProcess());
+        IngestPostProcess ipp = new IngestPostProcess();
+        ipp.setParentSid(folderSid);
+        ipp.setModel(model);
+        easyUpload.registerPostProcess(ipp);
         uploadPanelContainer.add(easyUpload);
-
         final WebMarkupContainer uploadPanelHolder = new WebMarkupContainer("depositUploadPanelbuttonsPanel");
         uploadPanelHolder.add(new SimpleAttributeModifier("style", "display: none"));
         uploadPanelContainer.add(uploadPanelHolder);

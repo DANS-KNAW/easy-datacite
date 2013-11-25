@@ -8,14 +8,20 @@ import nl.knaw.dans.common.wicket.components.upload.UploadStatus;
 import nl.knaw.dans.common.wicket.components.upload.postprocess.UploadPostProcessException;
 import nl.knaw.dans.easy.business.md.amd.AdditionalMetadataUpdateStrategy;
 import nl.knaw.dans.easy.business.md.amd.ReplaceAdditionalMetadataStrategy;
-import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasySession;
+import nl.knaw.dans.easy.web.common.DatasetModel;
 
-public class UploadFileMetadataProcess extends UploadSingelFilePostProcess
+@SuppressWarnings("serial")
+public class UploadFileMetadataProcess extends UploadSingleFilePostProcess
 {
     private UploadStatus status = new UploadStatus("Processing file metadata");
+
+    public UploadFileMetadataProcess(DatasetModel dataset)
+    {
+        super(dataset);
+    }
 
     @Override
     public boolean needsProcessing(final List<File> files)
@@ -24,13 +30,13 @@ public class UploadFileMetadataProcess extends UploadSingelFilePostProcess
     }
 
     @Override
-    void processUploadedFile(final File file, final Dataset dataset) throws UploadPostProcessException
+    protected void processUploadedFile(final File file) throws UploadPostProcessException
     {
         AdditionalMetadataUpdateStrategy strategy = new ReplaceAdditionalMetadataStrategy();
         EasyUser sessionUser = EasySession.getSessionUser();
         try
         {
-            Services.getItemService().updateFileItemMetadata(sessionUser, dataset, file, strategy);
+            Services.getItemService().updateFileItemMetadata(sessionUser, getDataset(), file, strategy);
         }
         catch (final ServiceException e)
         {

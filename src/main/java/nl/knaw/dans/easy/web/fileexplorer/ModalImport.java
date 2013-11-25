@@ -37,19 +37,9 @@ public class ModalImport extends Panel
 
     private void addFileMetaDataUploadPanel(final ModalWindow window, final DatasetModel dataset)
     {
-        final EasyUpload upload = new EasyUpload("fileMetadataUploadPanel", configureFileMetadataUpload())
-        {
-            private static final long serialVersionUID = 0L;
-
-            @Override
-            public IUploadPostProcess createPostProcess(final Class<? extends IUploadPostProcess> pclass)
-            {
-                final IUploadPostProcess result = super.createPostProcess(pclass);
-                ((UploadFileMetadataProcess) result).setDataset(dataset.getObject());
-                return result;
-            }
-        };
-        upload.registerPostProcess(UploadFileMetadataProcess.class);
+        final EasyUpload upload = new EasyUpload("fileMetadataUploadPanel", configureFileMetadataUpload());
+        UploadFileMetadataProcess ufmp = new UploadFileMetadataProcess(dataset);
+        upload.registerPostProcess(ufmp);
         add(upload);
         add(new ComponentFeedbackPanel("fileMetadataUploadPanel-componentFeedback", upload));
     }

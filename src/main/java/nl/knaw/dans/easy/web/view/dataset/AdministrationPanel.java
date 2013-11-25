@@ -64,19 +64,9 @@ public class AdministrationPanel extends AbstractDatasetModelPanel
 
     private void addLicenseUploadPanel()
     {
-        final EasyUpload upload = new EasyUpload("licenseUploadPanel", configureUpload())
-        {
-            private static final long serialVersionUID = 0L;
-
-            @Override
-            public IUploadPostProcess createPostProcess(final Class<? extends IUploadPostProcess> pclass)
-            {
-                final IUploadPostProcess result = super.createPostProcess(pclass);
-                ((UploadLicenseProcess) result).setDataset(getDataset());
-                return result;
-            }
-        };
-        upload.registerPostProcess(UploadLicenseProcess.class);
+        final EasyUpload upload = new EasyUpload("licenseUploadPanel", configureUpload());
+        UploadLicenseProcess ulp = new UploadLicenseProcess(getDatasetModel());
+        upload.registerPostProcess(ulp);
         add(upload);
         add(new ComponentFeedbackPanel("licenseUploadPanel-componentFeedback", upload));
     }
