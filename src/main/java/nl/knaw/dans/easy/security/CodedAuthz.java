@@ -11,13 +11,13 @@ import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.business.services.AbstractEasyService;
 import nl.knaw.dans.easy.domain.dataset.item.UpdateInfo.Action;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
+import nl.knaw.dans.easy.servicelayer.SystemReadonlyStatus;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class CodedAuthz extends AbstractEasyService implements Authz
 {
-
     public static final String NO_SIGNATURE_OFFICER_PROPOSITION = "NO SECURITYOFFICER SET FOR THIS SIGNATURE! ADJUST SIGNATURE IN CODEDAUTHZ.JAVA!";
 
     private static final Logger logger = LoggerFactory.getLogger(CodedAuthz.class);
@@ -63,6 +63,29 @@ public class CodedAuthz extends AbstractEasyService implements Authz
 
     private SecurityOfficer noSecurityOfficer;
 
+    /** Spring bean property */
+    private SystemReadonlyStatus systemReadonlyStatus;
+    private AbstractCheck systemInUpdateModeCheck = new AbstractCheck()
+    {
+        @Override
+        public String getProposition()
+        {
+            return PropositionBuilder.buildOrProposition("read only mode is", new Object[] {getSystemReadonlyStatus().getReadOnly()});
+        }
+
+        @Override
+        public boolean evaluate(ContextParameters ctxParameters)
+        {
+            return !getSystemReadonlyStatus().getReadOnly();
+        }
+
+        @Override
+        protected String explain(ContextParameters ctxParameters)
+        {
+            return super.startExplain(ctxParameters) + "\n\tCondition met = " + evaluate(ctxParameters);
+        }
+    };
+
     @Override
     public String getServiceDescription()
     {
@@ -95,15 +118,20 @@ public class CodedAuthz extends AbstractEasyService implements Authz
         }
     }
 
+    // List<String> missing = new ArrayList<String>();
+
     public boolean hasSecurityOfficer(String item)
     {
         synchronized (syncRules)
         {
             boolean hasOfficer = getRules().containsKey(item);
             // TODO should't all buttons have a security officer? might require wild cards for signatures
-            // if (logger.isDebugEnabled() && !hasOfficer &&
-            // item.matches("nl.knaw.dans.easy.web.*Page2?(:[^_].*)?"))
+            // if (logger.isDebugEnabled() && !hasOfficer && !missing.contains(item) &&
+            // item.matches("nl.knaw.dans.easy.web.*Page2?(:[^_]*)?"))
+            // {
+            // missing.add(item);
             // logger.debug("No SecurityOfficer set for signature: " + item);
+            // }
             return hasOfficer;
         }
     }
@@ -126,7 +154,7 @@ public class CodedAuthz extends AbstractEasyService implements Authz
         if (signature.equals("nl.knaw.dans.easy.web.search.pages.MyDatasetsSearchResultPage"))
             logger.info(officer.getProposition());
 
-        return addCheckForReadOnlyMode(signature, officer);
+        return addSystemInUpdateModeCheck(signature, officer);
     }
 
     private AbstractCheck createDefaultOfficer(final String signature)
@@ -157,7 +185,7 @@ public class CodedAuthz extends AbstractEasyService implements Authz
         };
     }
 
-    private SecurityOfficer addCheckForReadOnlyMode(final String signature, SecurityOfficer officer)
+    private SecurityOfficer addSystemInUpdateModeCheck(final String signature, SecurityOfficer officer)
     {
         // first return what is allowed in read-only mode
 
@@ -179,10 +207,12 @@ public class CodedAuthz extends AbstractEasyService implements Authz
             return officer;
         if (signature.matches("\\w* nl.knaw.dans.easy.business.*"))
             return officer;
+        if (signature.matches(".*:systemIsReadOnly"))
+            return officer;
 
         // finally add a check to what is not allowed in read-only mode
 
-        return new And(officer, new UpdateEnabledCheck());
+        return new And(officer, systemInUpdateModeCheck);
     }
 
     /**
@@ -194,10 +224,33 @@ public class CodedAuthz extends AbstractEasyService implements Authz
     {
         if (rules == null)
         {
-            rules = Collections.synchronizedMap(new LinkedHashMap<String, SecurityOfficer>());
+            rules = Collections.synchronizedMap(new LinkedHashMap<String, SecurityOfficer>()
+            {
+                private static final long serialVersionUID = 1L;
+
+                public boolean containsKey(Object key)
+                {
+                    return super.containsKey(key) || super.containsKey(stripWicketPageQualifier(key));
+                }
+
+                public SecurityOfficer get(Object key)
+                {
+                    if (super.containsKey(key))
+                        return super.get(key);
+                    else
+                        return super.get(stripWicketPageQualifier(key));
+                }
+
+                private String stripWicketPageQualifier(Object key)
+                {
+                    return key.toString().replaceAll("^[^:]+:", ":");
+                }
+            });
 
             // easy navigation
-            rules.put("nl.knaw.dans.easy.web.main.AbstractEasyNavPage:managementBarPanel", getEnableToArchivistOrAdminRule());
+            rules.put(":systemIsReadOnly", getEnableToAdminRule());
+            rules.put(":managementBarPanel", getEnableToArchivistOrAdminRule());
+            rules.put(":managementBarPanel2", getEnableToArchivistOrAdminRule());
 
             // pages
             rules.put("nl.knaw.dans.easy.web.admin.UsersOverviewPage", getEnableToArchivistOrAdminRule());
@@ -217,9 +270,12 @@ public class CodedAuthz extends AbstractEasyService implements Authz
             rules.put("nl.knaw.dans.easy.web.deposit.DepositPage", getEnableToLoggedInUserRule());
 
             // nl.knaw.dans.easy.web.admin.UserDetailsPage components
-            rules.put("nl.knaw.dans.easy.web.admin.UserDetailsPage:userDetailsPanel:switchPanel:editLink", getNoSecurityOfficer());
             rules.put("nl.knaw.dans.easy.web.admin.UserDetailsPage:userDetailsPanel:switchPanel:userInfoForm:state", getEditProtectedUserAttributesRule());
             rules.put("nl.knaw.dans.easy.web.admin.UserDetailsPage:userDetailsPanel:switchPanel:userInfoForm:roles", getEditProtectedUserAttributesRule());
+            // TODO move switches in wicket components to a real SecurityOfficer
+            rules.put(":userDetailsPanel:switchPanel:editLink", getNoSecurityOfficer());
+            rules.put(":userInfoPanel:switchPanel:editLink", getNoSecurityOfficer());
+            rules.put(":userInfoPanel:switchPanel:changePasswordLink", getNoSecurityOfficer());
 
             // advanced search
             rules.put("nl.knaw.dans.easy.web.search.AdvancedSearchPage:advancedSearchForm:depositorOptions", getEnableToNormalUserRule());
@@ -903,4 +959,13 @@ public class CodedAuthz extends AbstractEasyService implements Authz
         return userByIdRule;
     }
 
+    public SystemReadonlyStatus getSystemReadonlyStatus()
+    {
+        return systemReadonlyStatus;
+    }
+
+    public void setSystemReadonlyStatus(SystemReadonlyStatus readOnlyStatus)
+    {
+        this.systemReadonlyStatus = readOnlyStatus;
+    }
 }

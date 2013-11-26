@@ -2,6 +2,7 @@ package nl.knaw.dans.easy.business.services;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -17,6 +18,7 @@ import nl.knaw.dans.easy.domain.model.ECollectionEntry;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.security.CodedAuthz;
 import nl.knaw.dans.easy.security.Security;
+import nl.knaw.dans.easy.servicelayer.SystemReadonlyStatus;
 import nl.knaw.dans.easy.servicelayer.services.CollectionService;
 import nl.knaw.dans.i.dmo.collections.DmoCollection;
 import nl.knaw.dans.i.security.annotations.SecuredOperationUtil;
@@ -63,8 +65,17 @@ public class EasyCollectionServiceTest extends EasyMock
     @Test(expected = CommonSecurityException.class)
     public void testSecurityOnUpdateCollectionMembershipsNoUser() throws Exception
     {
-        new Security(new CodedAuthz());
+        new Security(createCodedAuthz());
         service.updateCollectionMemberships(null, null, null);
+    }
+
+    private CodedAuthz createCodedAuthz()
+    {
+        CodedAuthz codedAuthz = new CodedAuthz();
+        SystemReadonlyStatus systemReadonlyStatus = new SystemReadonlyStatus();
+        systemReadonlyStatus.setFile(new File("target/SystemReadOnlyStatus.properties"));
+        codedAuthz.setSystemReadonlyStatus(systemReadonlyStatus);
+        return codedAuthz;
     }
 
     @SuppressWarnings("serial")

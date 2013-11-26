@@ -11,7 +11,6 @@ import nl.knaw.dans.common.lang.mail.AdminMailer;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.test.Tester;
 import nl.knaw.dans.common.lang.user.User.State;
-import nl.knaw.dans.easy.business.bean.SystemStatus;
 import nl.knaw.dans.easy.business.services.EasyDatasetService;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.ext.ExternalServices;
@@ -23,6 +22,7 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.security.CodedAuthz;
 import nl.knaw.dans.easy.security.Security;
+import nl.knaw.dans.easy.servicelayer.SystemReadonlyStatus;
 import nl.knaw.dans.easy.servicelayer.services.DatasetService;
 
 import org.easymock.EasyMock;
@@ -51,17 +51,6 @@ public class AdminAlertTest
         extServices.setAdminMailer(mailer);
 
         new Security(new CodedAuthz());
-    }
-
-    @BeforeClass
-    public static void initReadOnly() throws Exception
-    {
-        File file = new File("target/SystemStatus.properties");
-        file.getParentFile().mkdirs();
-        FileOutputStream fileOutputStream = new FileOutputStream(file);
-        fileOutputStream.write(new byte[0]);
-        fileOutputStream.close();
-        SystemStatus.INSTANCE.setFile(file);
     }
 
     @Test

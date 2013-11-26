@@ -1,41 +1,29 @@
-package nl.knaw.dans.easy.business.bean;
+package nl.knaw.dans.easy.servicelayer;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.Properties;
-
-import nl.knaw.dans.common.lang.exception.ConfigurationException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public enum SystemStatus implements Serializable
+public class SystemReadonlyStatus
 {
-    INSTANCE;
     private static final String REFRESH_FREQUENCY = "refresh.frequency";
     private static final String IS_READ_ONLY = "is.read.only";
-    private static final Logger logger = LoggerFactory.getLogger(SystemStatus.class);
-    private static final long serialVersionUID = 1L;
+    private static final Logger logger = LoggerFactory.getLogger(SystemReadonlyStatus.class);
     private static final String DEFAULT_FREQUENCY = (1000 * 60 * 2) + "";
-    private static final Properties properties = new Properties();
-    private File file = null;
+    private final Properties properties = new Properties();
+    private File file;
     private long lastCheck = 0L;
-
-    /** factory-method for spring */
-    public static SystemStatus getInstance()
-    {
-        return INSTANCE;
-    }
 
     public boolean getReadOnly()
     {
-        fetch();
-        String defaultValue = "false";
-        String value = properties.getProperty(IS_READ_ONLY, defaultValue);
+        mandatoryFetch();
+        String value = properties.getProperty(IS_READ_ONLY);
         return Boolean.parseBoolean(value);
     }
 
@@ -47,6 +35,8 @@ public enum SystemStatus implements Serializable
 
     public long getRefreshFrequency()
     {
+        // fetch here would cause a stack overflow
+        // changes will be read along with other properties
         String value = properties.getProperty(REFRESH_FREQUENCY, DEFAULT_FREQUENCY);
         return Integer.parseInt(value);
     }
@@ -57,20 +47,22 @@ public enum SystemStatus implements Serializable
         flush();
     }
 
-    public File getFile() throws ConfigurationException
+    public File getFile()
     {
-        if (file == null)
-        {
-            String msg = "no file name configured to hold the SystemStatus (read-only flag)";
-            logger.error(msg);
-            throw new ConfigurationException(msg);
-        }
         return file;
     }
 
+    // TODO should only be called by spring or perhaps before[class]
     public void setFile(File file)
     {
         this.file = file;
+
+        // get the refresh frequency from a previous configuration
+        optionalFetch();
+
+        // start the system in update mode
+        properties.setProperty(IS_READ_ONLY, "false");
+        flush();
     }
 
     private void flush()
@@ -80,7 +72,7 @@ public enum SystemStatus implements Serializable
             properties.setProperty(REFRESH_FREQUENCY, DEFAULT_FREQUENCY);
         try
         {
-            FileOutputStream outputStream = new FileOutputStream(getFile());
+            FileOutputStream outputStream = new FileOutputStream(file);
             try
             {
                 properties.store(outputStream, "exchange system status (read only mode) between easy-business instances (e.g. web-ui, sword)");
@@ -100,13 +92,34 @@ public enum SystemStatus implements Serializable
             logger.error(e.getMessage(), e);
             throw new IllegalStateException(e);
         }
-        catch (ConfigurationException e)
+    }
+
+    private void optionalFetch()
+    {
+        try
         {
+            fetch();
+        }
+        catch (FileNotFoundException e)
+        {
+            ;// settle for the defaults
+        }
+    }
+
+    private void mandatoryFetch()
+    {
+        try
+        {
+            fetch();
+        }
+        catch (FileNotFoundException e)
+        {
+            logger.error("file not found " + file, e);
             throw new IllegalStateException(e);
         }
     }
 
-    private void fetch()
+    private void fetch() throws FileNotFoundException
     {
         // each WebApp has its own instance of the singleton
         // so we synchronize SWORD, web-ui and the rest interfaces via the file system
@@ -114,7 +127,7 @@ public enum SystemStatus implements Serializable
             return;
         try
         {
-            FileInputStream inputStream = new FileInputStream(getFile());
+            FileInputStream inputStream = new FileInputStream(file);
             try
             {
                 properties.clear();
@@ -128,15 +141,11 @@ public enum SystemStatus implements Serializable
         catch (FileNotFoundException e)
         {
             logger.error("file not found " + file, e);
-            throw new IllegalStateException(e);
+            throw e;
         }
         catch (IOException e)
         {
             logger.error(e.getMessage(), e);
-            throw new IllegalStateException(e);
-        }
-        catch (ConfigurationException e)
-        {
             throw new IllegalStateException(e);
         }
         lastCheck = System.currentTimeMillis();

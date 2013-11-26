@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Map;
 
-import nl.knaw.dans.easy.business.bean.SystemStatus;
+import nl.knaw.dans.easy.servicelayer.SystemReadonlyStatus;
 
 import org.joda.time.DateTime;
 import org.junit.BeforeClass;
@@ -19,26 +19,35 @@ import org.junit.Test;
 public class CodedAuthzTest
 {
     @BeforeClass
-    public static void init()
+    public static void initReadOnly()
     {
-        SystemStatus.INSTANCE.setFile(new File("target/SystemStatus.properties"));
+
     }
 
     @Test
     public void testGetSecurityOfficer()
     {
-        Authz authz = new CodedAuthz();
+        Authz authz = createCodedAuthz();
         SecurityOfficer na = authz.getSecurityOfficer("foo");
         assertFalse(na.isComponentVisible(null));
         assertFalse(na.isEnableAllowed(null));
         assertEquals("(" + CodedAuthz.NO_SIGNATURE_OFFICER_PROPOSITION + " AND [read only mode is false])", na.getProposition());
     }
 
+    private CodedAuthz createCodedAuthz()
+    {
+        CodedAuthz codedAuthz = new CodedAuthz();
+        SystemReadonlyStatus systemReadonlyStatus = new SystemReadonlyStatus();
+        systemReadonlyStatus.setFile(new File("target/SystemReadOnlyStatus.properties"));
+        codedAuthz.setSystemReadonlyStatus(systemReadonlyStatus);
+        return codedAuthz;
+    }
+
     @Test
     public void testGetItem()
     {
         String item = "nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel:statusPanel:republish";
-        Authz authz = new CodedAuthz();
+        Authz authz = createCodedAuthz();
         assertTrue(authz.hasSecurityOfficer(item));
         assertEquals(
                 "(([SessionUser has role ARCHIVIST] AND [Dataset state is MAINTENANCE] AND [Required steps of workflow are completed]) AND [read only mode is false])",
@@ -59,7 +68,7 @@ public class CodedAuthzTest
             file.delete();
         }
 
-        CodedAuthz authz = new CodedAuthz();
+        CodedAuthz authz = createCodedAuthz();
         RandomAccessFile ram = new RandomAccessFile(filename, "rw");
         ram.writeBytes("Rules;" + new DateTime().toString("yyyy-MM-dd HH:mm") + "\n");
         ram.writeBytes(";\n");
