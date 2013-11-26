@@ -1,6 +1,5 @@
 package nl.knaw.dans.common.wicket.components.upload.postprocess;
 
-
 @SuppressWarnings("serial")
 public class UploadPostProcessException extends Exception
 {

@@ -47,7 +47,7 @@ public class EasyUploadStatus extends UploadStatus
     {
         return uploadId;
     }
-    
+
     @Override
     public String toString()
     {

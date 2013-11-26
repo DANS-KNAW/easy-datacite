@@ -10,7 +10,7 @@ import nl.knaw.dans.common.wicket.components.upload.UploadStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class UploadPostProcessRunner 
+public class UploadPostProcessRunner
 {
     private static final Logger LOG = LoggerFactory.getLogger(UploadPostProcessRunner.class);
 
