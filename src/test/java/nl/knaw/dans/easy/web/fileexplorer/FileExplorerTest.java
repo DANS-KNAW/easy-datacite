@@ -23,7 +23,6 @@ import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.service.exceptions.TooManyFilesException;
 import nl.knaw.dans.common.lang.service.exceptions.ZipFileLengthException;
 import nl.knaw.dans.common.lang.user.User.State;
-import nl.knaw.dans.easy.business.bean.SystemStatus;
 import nl.knaw.dans.easy.domain.dataset.PermissionSequenceListImpl;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.ItemOrder;
@@ -47,6 +46,7 @@ import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.security.CodedAuthz;
 import nl.knaw.dans.easy.security.ContextParameters;
 import nl.knaw.dans.easy.security.Security;
+import nl.knaw.dans.easy.servicelayer.SystemReadonlyStatus;
 import nl.knaw.dans.easy.servicelayer.services.DatasetService;
 import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.servicelayer.services.SearchService;
@@ -63,7 +63,6 @@ import org.apache.wicket.util.tester.WicketTester;
 import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
@@ -85,13 +84,6 @@ public class FileExplorerTest
     private String datasetSid = "test-dataset:1";
     private DmoStoreId datasetDmoStoreId = new DmoStoreId(datasetSid);
 
-    @BeforeClass
-    public static void init()
-    {
-        SystemStatus.INSTANCE.setFile(new File("target/SystemStatus.properties"));
-        SystemStatus.INSTANCE.setReadOnly(false);
-    }
-
     @Before
     public void setUp() throws Exception
     {
@@ -109,7 +101,16 @@ public class FileExplorerTest
     private void setUpAuthz()
     {
         mockStatic(Security.class);
-        expect(Security.getAuthz()).andReturn(new CodedAuthz()).anyTimes();
+        expect(Security.getAuthz()).andReturn(createCodedAuthz()).anyTimes();
+    }
+
+    private CodedAuthz createCodedAuthz()
+    {
+        CodedAuthz codedAuthz = new CodedAuthz();
+        SystemReadonlyStatus systemReadonlyStatus = new SystemReadonlyStatus();
+        systemReadonlyStatus.setFile(new File("target/SystemReadOnlyStatus.properties"));
+        codedAuthz.setSystemReadonlyStatus(systemReadonlyStatus);
+        return codedAuthz;
     }
 
     private void setUpEasySessionMock()

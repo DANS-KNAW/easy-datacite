@@ -2,8 +2,6 @@ package nl.knaw.dans.easy.web.main;
 
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
-import nl.knaw.dans.easy.business.bean.SystemStatus;
-import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.admin.EditableContentPage;
 import nl.knaw.dans.easy.web.admin.UsersOverviewPage;
@@ -14,9 +12,7 @@ import nl.knaw.dans.easy.web.search.pages.TrashCanSearchResultPage;
 import nl.knaw.dans.easy.web.template.AbstractEasyStatelessPanel;
 import nl.knaw.dans.easy.web.wicket.SecureEasyPageLink;
 
-import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +33,6 @@ public class ManagementBarPanel extends AbstractEasyStatelessPanel
     public static final String TRASH_CAN = "trashCan";
     public static final String USER_INFO = "userInfo";
     public static final String EDITABLE_CONTENT = "editableContent";
-    private static final String READ_ONLY = "systemIsReadOnly";
 
     public ManagementBarPanel(final String wicketId)
     {

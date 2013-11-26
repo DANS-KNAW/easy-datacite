@@ -11,7 +11,6 @@ import java.io.File;
 
 import nl.knaw.dans.common.lang.FileSystemHomeDirectory;
 import nl.knaw.dans.common.lang.user.User.State;
-import nl.knaw.dans.easy.business.bean.SystemStatus;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.domain.user.EasyUserAnonymous;
@@ -19,6 +18,7 @@ import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.security.CodedAuthz;
 import nl.knaw.dans.easy.security.ContextParameters;
 import nl.knaw.dans.easy.security.Security;
+import nl.knaw.dans.easy.servicelayer.SystemReadonlyStatus;
 import nl.knaw.dans.easy.servicelayer.services.SearchService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.statistics.StatisticsEvent;
@@ -28,7 +28,6 @@ import org.apache.wicket.spring.test.ApplicationContextMock;
 import org.apache.wicket.util.tester.WicketTester;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
@@ -39,12 +38,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @PrepareForTest({Services.class, Security.class, StatisticsLogger.class, EasySession.class})
 public class TestHomePage
 {
-    @BeforeClass
-    public static void init()
-    {
-        SystemStatus.INSTANCE.setFile(new File("target/SystemStatus.properties"));
-        SystemStatus.INSTANCE.setReadOnly(false);
-    }
 
     private WicketTester tester;
     private EasyUser normalUser;
@@ -183,6 +176,7 @@ public class TestHomePage
     {
         ApplicationContextMock ctx = new ApplicationContextMock();
         ctx.putBean("editableContentHome", new FileSystemHomeDirectory(new File("src/main/assembly/dist/res/example/editable")));
+        ctx.putBean("systemReadonlyStatus", createSystemReadonlyBean());
         EasyWicketApplication app = new EasyWicketApplication();
         app.setApplicationContext(ctx);
         tester = new WicketTester(app);
@@ -201,7 +195,21 @@ public class TestHomePage
          * authorization rules used in production as well.
          */
         mockStatic(Security.class);
-        expect(Security.getAuthz()).andReturn(new CodedAuthz()).anyTimes();
+        expect(Security.getAuthz()).andReturn(createCodedAuthz()).anyTimes();
+    }
+
+    private CodedAuthz createCodedAuthz()
+    {
+        CodedAuthz codedAuthz = new CodedAuthz();
+        codedAuthz.setSystemReadonlyStatus(createSystemReadonlyBean());
+        return codedAuthz;
+    }
+
+    private SystemReadonlyStatus createSystemReadonlyBean()
+    {
+        SystemReadonlyStatus systemReadonlyStatus = new SystemReadonlyStatus();
+        systemReadonlyStatus.setFile(new File("target/SystemReadOnlyStatus.properties"));
+        return systemReadonlyStatus;
     }
 
     private void setUpUsers()

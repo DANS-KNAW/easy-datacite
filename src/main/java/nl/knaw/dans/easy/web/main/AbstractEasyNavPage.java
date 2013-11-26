@@ -8,16 +8,15 @@ import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.components.popup.HelpPopup;
 import nl.knaw.dans.common.wicket.components.search.SearchBar;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
-import nl.knaw.dans.easy.business.bean.SystemStatus;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasySession;
 import nl.knaw.dans.easy.web.HomePage;
-import nl.knaw.dans.easy.web.authn.login.LoginPage;
 import nl.knaw.dans.easy.web.authn.LogoffLink;
 import nl.knaw.dans.easy.web.authn.RegistrationPage;
 import nl.knaw.dans.easy.web.authn.UserInfoPage;
+import nl.knaw.dans.easy.web.authn.login.LoginPage;
 import nl.knaw.dans.easy.web.common.HelpFileReader;
 import nl.knaw.dans.easy.web.deposit.DepositIntroPage;
 import nl.knaw.dans.easy.web.editabletexts.EasyEditablePanel;
@@ -28,12 +27,12 @@ import nl.knaw.dans.easy.web.search.pages.MyRequestsSearchResultPage;
 import nl.knaw.dans.easy.web.search.pages.PublicSearchResultPage;
 import nl.knaw.dans.easy.web.search.pages.SearchAllSearchResultPage;
 import nl.knaw.dans.easy.web.template.AbstractEasyPage;
+import nl.knaw.dans.easy.web.template.SystemReadonlyLink;
 import nl.knaw.dans.easy.web.template.VersionPanel;
 import nl.knaw.dans.easy.web.wicket.SecureEasyPageLink;
 
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.IPageMap;
-import org.apache.wicket.Page;
 import org.apache.wicket.PageMap;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
@@ -42,7 +41,6 @@ import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.link.PageLink;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.PropertyModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -285,43 +283,11 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage
         ManagementBarPanel mgmBar = new ManagementBarPanel(MANAGEMENT_BAR_PANEL);
         add(mgmBar);
 
-        boolean isAdmin = getEasySession().getUser().hasRole(Role.ADMIN);
-        add(createReadOnlyLink().add(new Label("readOnly", createReadOnlyModel())).setVisible(isAdmin));
+        add(new SystemReadonlyLink());
 
         // footer
         add(createDisclaimerLink());
         add(new VersionPanel(EASY_VERSION));
-    }
-
-    private Link<Page> createReadOnlyLink()
-    {
-        return new Link<Page>("systemIsReadOnly")
-        {
-            private static final long serialVersionUID = 1L;
-
-            public void onClick()
-            {
-                SystemStatus.INSTANCE.setReadOnly(!SystemStatus.INSTANCE.getReadOnly());
-                setResponsePage(this.getPage());
-            }
-        };
-    }
-
-    private LoadableDetachableModel<String> createReadOnlyModel()
-    {
-        return new LoadableDetachableModel<String>()
-        {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            protected String load()
-            {
-                if (SystemStatus.INSTANCE.getReadOnly())
-                    return getLocalizer().getString("adminSwitch.readOnly", AbstractEasyNavPage.this, "[SYSTEM IS IN READ ONLY MODE]");
-                else
-                    return getLocalizer().getString("adminSwitch.readWrite", AbstractEasyNavPage.this, "[system allows read and write]");
-            }
-        };
     }
 
     @Override
