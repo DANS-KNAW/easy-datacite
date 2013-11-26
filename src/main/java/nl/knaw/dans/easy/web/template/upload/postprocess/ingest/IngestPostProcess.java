@@ -47,13 +47,10 @@ public class IngestPostProcess implements IUploadPostProcess
 
         if (fileList.size() == 0)
             throw new UploadPostProcessException("Nothing to ingest.");
-
         Dataset dataset = getDataset();
-        if (parentSid.equals(""))
+        if ("".equals(parentSid) || parentSid == null)
             parentSid = clientParams.get("parentSid");
-
         final double totalSize = fileList.size();
-
         try
         {
             DmoStoreId parentDmoStoreId = parentSid == null ? null : new DmoStoreId(parentSid);

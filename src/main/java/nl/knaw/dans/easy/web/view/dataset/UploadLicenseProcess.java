@@ -16,7 +16,8 @@ import nl.knaw.dans.easy.web.common.DatasetModel;
 @SuppressWarnings("serial")
 public class UploadLicenseProcess extends UploadSingleFilePostProcess
 {
-    public UploadLicenseProcess(DatasetModel datasetModel) {
+    public UploadLicenseProcess(DatasetModel datasetModel)
+    {
         super(datasetModel);
     }
 

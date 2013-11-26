@@ -13,7 +13,7 @@ public abstract class AbstractDatasetModelPanel extends AbstractEasyPanel<Datase
 
     protected Dataset getDataset()
     {
-       return  (Dataset) getDefaultModelObject();
+        return (Dataset) getDefaultModelObject();
     }
 
     protected DatasetModel getDatasetModel()
