@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
-import nl.knaw.dans.easy.business.bean.SystemStatus;
 import nl.knaw.dans.easy.business.dataset.DatasetSubmissionImpl;
 import nl.knaw.dans.easy.business.item.ItemIngesterDelegator;
 import nl.knaw.dans.easy.data.Data;
@@ -27,6 +26,7 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.domain.worker.WorkListener;
 import nl.knaw.dans.easy.domain.worker.WorkReporter;
+import nl.knaw.dans.easy.servicelayer.SystemReadonlyStatus;
 import nl.knaw.dans.easy.servicelayer.services.DatasetService;
 import nl.knaw.dans.easy.servicelayer.services.DisciplineCollectionService;
 import nl.knaw.dans.easy.servicelayer.services.ItemService;
@@ -38,6 +38,7 @@ import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 import org.easymock.EasyMock;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeUtils;
+import org.purl.sword.base.SWORDException;
 
 public class MockUtil
 {
@@ -67,7 +68,7 @@ public class MockUtil
         mockContext();
     }
 
-    private static void mockContext()
+    private static void mockContext() throws Exception
     {
         final Context context = new Context();
         context.setCollectionPolicy("No guarantee of service, or that deposits will be retained for any length of time.");
@@ -81,8 +82,9 @@ public class MockUtil
         context.setServletName("servlet/request");
         context.setEasyHome("http://mockedhost:8080/ui/");
 
-        SystemStatus.INSTANCE.setFile(new File("target/SystemStatus.properties"));
-        SystemStatus.INSTANCE.setReadOnly(false);
+        SystemReadonlyStatus systemReadonlyStatus = new SystemReadonlyStatus();
+        context.setSystemReadonlyStatus(systemReadonlyStatus);
+        systemReadonlyStatus.setFile(new File("target/SystemStatus.properties"));
     }
 
     private static void mockNow()

@@ -1,15 +1,14 @@
 package nl.knaw.dans.easy.sword;
 
-import static org.junit.Assert.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.containsString;
 
 import java.io.File;
 import java.security.NoSuchAlgorithmException;
 
 import javax.servlet.http.HttpServletResponse;
 
-import nl.knaw.dans.easy.business.bean.SystemStatus;
+import nl.knaw.dans.easy.servicelayer.SystemReadonlyStatus;
 import nl.knaw.dans.easy.sword.util.SubmitFixture;
 
 import org.apache.commons.httpclient.HttpStatus;
@@ -147,7 +146,7 @@ public class IntegrationTester extends IntegrationFixture
     @Test
     public void depositAfterReadOnly() throws Exception
     {
-        SystemStatus.INSTANCE.setReadOnly(true);
+        Context.getSystemReadonlyStatus().setReadOnly(true);
         final RequestEntity request = createRequest(SubmitFixture.getFile("data-plus-ddm.zip"));
         final PostMethod method = createPostMethod(request, false, false);
         String response = getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));

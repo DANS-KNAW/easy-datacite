@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import nl.knaw.dans.easy.business.bean.SystemStatus;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
@@ -127,7 +126,7 @@ public class EasySwordServer implements SWORDServer
          * http://htmlhelp.com/reference/html40/forms/form.html
          */
         final EasyUser user = EasyBusinessFacade.getUser(deposit.getUsername(), deposit.getPassword());
-        if (SystemStatus.INSTANCE.getReadOnly())
+        if (Context.getSystemReadonlyStatus().getReadOnly())
             throw EasyBusinessFacade.READ_ONLY_EXCEPTION;
         checkOnBehalfOf(deposit);
 

@@ -1,5 +1,7 @@
 package nl.knaw.dans.easy.sword;
 
+import nl.knaw.dans.easy.servicelayer.SystemReadonlyStatus;
+
 import org.purl.sword.base.SWORDException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +24,7 @@ public class Context
     private static String providerURL = null;
     private static String servletName = null;
     private static String easyHome = null;
+    private static SystemReadonlyStatus systemReadonlyStatus = null;
 
     public void setUnzip(String unzip)
     {
@@ -164,5 +167,17 @@ public class Context
         msg = MessageFormatter.format(msg, args).toString();
         log.error(msg);
         throw new SWORDException(msg);
+    }
+
+    public static SystemReadonlyStatus getSystemReadonlyStatus() throws SWORDException
+    {
+        if (systemReadonlyStatus == null)
+            throw new SWORDException("missing configuration: systemReadonlyStatus");
+        return systemReadonlyStatus;
+    }
+
+    public void setSystemReadonlyStatus(SystemReadonlyStatus readOnlyStatus)
+    {
+        systemReadonlyStatus = readOnlyStatus;
     }
 }
