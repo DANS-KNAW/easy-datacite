@@ -52,6 +52,8 @@ public class SystemReadOnlyLinkTest
         }
     }
 
+    // http://www.infoq.com/articles/modular-wicket/
+    // TODO @MountPath(path = "")
     public static class TestPage extends WebPage
     {
         public TestPage()
@@ -84,6 +86,22 @@ public class SystemReadOnlyLinkTest
         WicketTester tester = createTester();
         tester.startPage(TestPage.class);
         tester.assertInvisible(WID_LINK);
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void mustOverride()
+    {
+        WicketTester tester = createTester();
+        tester.startComponent(new SystemReadonlyLink()
+        {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void onBeforeRender()
+            {
+                // attempt to override the check for a SecurityOfficer
+            }
+        });
     }
 
     @Test
@@ -122,7 +140,13 @@ public class SystemReadOnlyLinkTest
     {
         EasyWicketApplication application = new EasyWicketApplication();
         application.setApplicationContext(applicationContext);
-        return new WicketTester(application);
+        WicketTester tester = new WicketTester(application);
+
+        // TODO logs empty arrays for folders and webapppaths and cannot find the markup
+        // HTML files are copied into target/test-classes/nl/knaw/dans/easy/web/template
+        tester.getApplication().getMarkupSettings().getMarkupCache();
+
+        return tester;
     }
 
     @BeforeClass
