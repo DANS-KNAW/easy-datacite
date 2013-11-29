@@ -1,6 +1,5 @@
 package nl.knaw.dans.easy.web.template;
 
-import nl.knaw.dans.easy.security.CodedAuthz;
 import nl.knaw.dans.easy.servicelayer.SystemReadonlyStatus;
 
 import org.apache.wicket.Page;
@@ -13,19 +12,31 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 public class SystemReadonlyLink extends Link<Page>
 {
     private static final long serialVersionUID = 1L;
+    public static final String WID_LINK = "systemIsReadOnly";
+    public static final String WID_LABEL = "readOnly";
 
     @SpringBean(name = "systemReadonlyStatus")
     private SystemReadonlyStatus systemReadonlyStatus;
 
+    /**
+     * Creates a toggle for a system administrator to set the system in read only mode for a safe
+     * shutdown. Requires some HTML like:
+     * 
+     * <pre>&lt;a wicket:id="systemIsReadOnly">&lt;span wicket:id="readOnly">read/write?&lt;/span>&lt;/a>
+     * 
+     * <pre>
+     */
     public SystemReadonlyLink()
     {
-        super(CodedAuthz.SYSTEM_IS_READ_ONLY);
-        add(new Label("readOnly", createReadOnlyModel()));
+        super(WID_LINK);
+        add(new Label(WID_LABEL, createReadOnlyModel()));
     }
 
     @Override
     public void onBeforeRender()
     {
+        // TODO rather: if (! CodedAuthz.hasSecurityOfficer(getPath()))
+        // but the synchronized clause disrupts the stack and throws an IllegalStateException
         if (!(getParent() instanceof WebPage))
             throw new SecurityException(getClass().getName() + " must be added directly to a WebPage");
         super.onBeforeRender();
