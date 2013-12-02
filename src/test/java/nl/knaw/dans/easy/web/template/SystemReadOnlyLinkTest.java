@@ -52,8 +52,6 @@ public class SystemReadOnlyLinkTest
         }
     }
 
-    // http://www.infoq.com/articles/modular-wicket/
-    // TODO @MountPath(path = "")
     public static class TestPage extends WebPage
     {
         public TestPage()
@@ -128,6 +126,7 @@ public class SystemReadOnlyLinkTest
         tester.assertVisible(linkPath);
         tester.assertEnabled(labelPath);
         tester.assertLabel(labelPath, "system allows read and write");
+
         tester.clickLink(linkPath);
         tester.assertLabel(labelPath, "SYSTEM IS READ IN ONLY MODE");
 
@@ -141,10 +140,9 @@ public class SystemReadOnlyLinkTest
         EasyWicketApplication application = new EasyWicketApplication();
         application.setApplicationContext(applicationContext);
         WicketTester tester = new WicketTester(application);
-
-        // TODO logs empty arrays for folders and webapppaths and cannot find the markup
-        // HTML files are copied into target/test-classes/nl/knaw/dans/easy/web/template
-        tester.getApplication().getMarkupSettings().getMarkupCache();
+        
+        // tell resource locator were to find test HTML
+        tester.getApplication().getResourceSettings().addResourceFolder("src/test/java/");
 
         return tester;
     }
