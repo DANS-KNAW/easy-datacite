@@ -141,7 +141,7 @@ public class SystemReadOnlyLinkTest
         EasyWicketApplication application = new EasyWicketApplication();
         application.setApplicationContext(applicationContext);
         WicketTester tester = new WicketTester(application);
-        
+
         // tell resource locator were to find test HTML
         tester.getApplication().getResourceSettings().addResourceFolder("src/test/java/");
 
