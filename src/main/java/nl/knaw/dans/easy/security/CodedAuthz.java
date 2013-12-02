@@ -193,7 +193,7 @@ public class CodedAuthz extends AbstractEasyService implements Authz
 
         // finally add a check to what is not allowed in read-only mode
 
-        if (isSystemInUpdateModeCheck==null)
+        if (isSystemInUpdateModeCheck == null)
             throw new IllegalStateException("systemReadOnlyStatus not configured");
         return new And(officer, isSystemInUpdateModeCheck);
     }
@@ -209,15 +209,20 @@ public class CodedAuthz extends AbstractEasyService implements Authz
         {
             rules = Collections.synchronizedMap(new LinkedHashMap<String, SecurityOfficer>()
             {
+                // Some Wicket components are used on many pages via an abstract WebPage
+                // a rule without the page as qualifier defines a default rule
+
                 private static final long serialVersionUID = 1L;
 
                 public boolean containsKey(Object key)
                 {
+                    // if not found with the page as qualifier, try without
                     return super.containsKey(key) || super.containsKey(stripWicketPageQualifier(key));
                 }
 
                 public SecurityOfficer get(Object key)
                 {
+                    // if not found with the page as qualifier, try without
                     if (super.containsKey(key))
                         return super.get(key);
                     else
