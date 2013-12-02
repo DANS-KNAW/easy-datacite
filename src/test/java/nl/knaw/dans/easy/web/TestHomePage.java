@@ -21,6 +21,7 @@ import nl.knaw.dans.easy.security.Security;
 import nl.knaw.dans.easy.servicelayer.SystemReadonlyStatus;
 import nl.knaw.dans.easy.servicelayer.services.SearchService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.easy.web.main.SystemReadonlyLink;
 import nl.knaw.dans.easy.web.statistics.StatisticsEvent;
 import nl.knaw.dans.easy.web.statistics.StatisticsLogger;
 
@@ -55,6 +56,7 @@ public class TestHomePage
 
         renderHomePage();
         assertLinkVisibilityConformsToLoggedOffStatus();
+        tester.assertInvisible(SystemReadonlyLink.WID_LINK);
         assertHomeBrowseAdvSearchVisible();
         assertNavDepositVisible();
         assertPersonalBarItemsNotRendered();
@@ -123,6 +125,7 @@ public class TestHomePage
         renderHomePage();
         assertLinkVisibilityConformsToLoggedInStatus();
         assertHomeBrowseAdvSearchVisible();
+        tester.assertInvisible(SystemReadonlyLink.WID_LINK);
         assertNavDepositVisible();
         assertPersonalBarItemsVisible();
         assertManagementPanelNotRendered();
@@ -150,6 +153,7 @@ public class TestHomePage
         renderHomePage();
         assertLinkVisibilityConformsToLoggedInStatus();
         assertHomeBrowseAdvSearchVisible();
+        tester.assertInvisible(SystemReadonlyLink.WID_LINK);
         assertNavDepositVisible();
         assertPersonalBarItemsVisible();
         assertArchivistManagementPanelVisible();
@@ -165,6 +169,7 @@ public class TestHomePage
         renderHomePage();
         assertLinkVisibilityConformsToLoggedInStatus();
         assertHomeBrowseAdvSearchVisible();
+        tester.assertVisible(SystemReadonlyLink.WID_LINK);
         assertNavDepositVisible();
         assertPersonalBarItemsVisible();
         assertAdminManagementPanelVisible();
