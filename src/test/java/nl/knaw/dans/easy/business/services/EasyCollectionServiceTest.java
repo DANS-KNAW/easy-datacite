@@ -1,5 +1,9 @@
 package nl.knaw.dans.easy.business.services;
 
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.reset;
+import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
@@ -28,7 +32,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class EasyCollectionServiceTest extends EasyMock
+public class EasyCollectionServiceTest
 {
 
     private static CollectionService service;
@@ -40,7 +44,7 @@ public class EasyCollectionServiceTest extends EasyMock
     @BeforeClass
     public static void beforeClass()
     {
-        access = createMock(DmoCollectionsAccess.class);
+        access = EasyMock.createMock(DmoCollectionsAccess.class);
 
         Data data = new Data();
         data.setCollectionAccess(access);
@@ -82,7 +86,7 @@ public class EasyCollectionServiceTest extends EasyMock
     @Test(expected = NullPointerException.class)
     public void testSecurityOnUpdateCollectionMemberships() throws Exception
     {
-        new Security(new CodedAuthz());
+        initSecurity();
         service.updateCollectionMemberships(new EasyUserImpl()
         {
             @Override
@@ -98,6 +102,15 @@ public class EasyCollectionServiceTest extends EasyMock
             }
 
         }, null, null);
+    }
+
+    private void initSecurity()
+    {
+        SystemReadonlyStatus readOnlyStatus = new SystemReadonlyStatus();
+        readOnlyStatus.setFile(new File("target/SystemReadonlyStatus.properties"));
+        CodedAuthz authz = new CodedAuthz();
+        authz.setSystemReadonlyStatus(readOnlyStatus);
+        new Security(authz);
     }
 
     @Test
