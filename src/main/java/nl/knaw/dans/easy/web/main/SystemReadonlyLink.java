@@ -1,4 +1,4 @@
-package nl.knaw.dans.easy.web.template;
+package nl.knaw.dans.easy.web.main;
 
 import nl.knaw.dans.easy.servicelayer.SystemReadonlyStatus;
 

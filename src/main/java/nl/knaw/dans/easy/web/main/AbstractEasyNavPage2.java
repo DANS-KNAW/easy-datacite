@@ -27,7 +27,6 @@ import nl.knaw.dans.easy.web.search.pages.MyRequestsSearchResultPage;
 import nl.knaw.dans.easy.web.search.pages.PublicSearchResultPage;
 import nl.knaw.dans.easy.web.search.pages.SearchAllSearchResultPage;
 import nl.knaw.dans.easy.web.template.AbstractEasyPage;
-import nl.knaw.dans.easy.web.template.SystemReadonlyLink;
 import nl.knaw.dans.easy.web.template.VersionPanel;
 import nl.knaw.dans.easy.web.wicket.SecureEasyPageLink;
 

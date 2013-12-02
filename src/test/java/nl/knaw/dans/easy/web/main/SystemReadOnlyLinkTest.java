@@ -1,7 +1,7 @@
-package nl.knaw.dans.easy.web.template;
+package nl.knaw.dans.easy.web.main;
 
-import static nl.knaw.dans.easy.web.template.SystemReadonlyLink.WID_LABEL;
-import static nl.knaw.dans.easy.web.template.SystemReadonlyLink.WID_LINK;
+import static nl.knaw.dans.easy.web.main.SystemReadonlyLink.WID_LABEL;
+import static nl.knaw.dans.easy.web.main.SystemReadonlyLink.WID_LINK;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -15,6 +15,7 @@ import nl.knaw.dans.easy.security.CodedAuthz;
 import nl.knaw.dans.easy.security.Security;
 import nl.knaw.dans.easy.servicelayer.SystemReadonlyStatus;
 import nl.knaw.dans.easy.web.EasyWicketApplication;
+import nl.knaw.dans.easy.web.main.SystemReadonlyLink;
 
 import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.markup.html.WebPage;
