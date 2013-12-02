@@ -65,26 +65,7 @@ public class CodedAuthz extends AbstractEasyService implements Authz
 
     /** Spring bean property */
     private SystemReadonlyStatus systemReadonlyStatus;
-    private AbstractCheck systemInUpdateModeCheck = new AbstractCheck()
-    {
-        @Override
-        public String getProposition()
-        {
-            return PropositionBuilder.buildOrProposition("read only mode is", new Object[] {getSystemReadonlyStatus().getReadOnly()});
-        }
-
-        @Override
-        public boolean evaluate(ContextParameters ctxParameters)
-        {
-            return !getSystemReadonlyStatus().getReadOnly();
-        }
-
-        @Override
-        protected String explain(ContextParameters ctxParameters)
-        {
-            return super.startExplain(ctxParameters) + "\n\tCondition met = " + evaluate(ctxParameters);
-        }
-    };
+    private AbstractCheck isSystemInUpdateModeCheck;
 
     @Override
     public String getServiceDescription()
@@ -212,7 +193,9 @@ public class CodedAuthz extends AbstractEasyService implements Authz
 
         // finally add a check to what is not allowed in read-only mode
 
-        return new And(officer, systemInUpdateModeCheck);
+        if (isSystemInUpdateModeCheck==null)
+            throw new IllegalStateException("systemReadOnlyStatus not configured");
+        return new And(officer, isSystemInUpdateModeCheck);
     }
 
     /**
@@ -967,5 +950,6 @@ public class CodedAuthz extends AbstractEasyService implements Authz
     public void setSystemReadonlyStatus(SystemReadonlyStatus readOnlyStatus)
     {
         this.systemReadonlyStatus = readOnlyStatus;
+        isSystemInUpdateModeCheck = new IsSystemInUpdateModeCheck(systemReadonlyStatus);
     }
 }
