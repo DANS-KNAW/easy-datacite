@@ -15,22 +15,22 @@
     		var flashvars;
 
 			// this added, do we need to check ticket?
-			var ticket_value;
 		    if (ticket_value != undefined) {
-        		alert("Did we give a ticket?");
+        		//alert("ticket = " + ticket_value);
 				flashvars = {presentationXML : presentation, ticket : ticket_value };
     		} else {
     			flashvars = { presentationXML : presentation };
     		}
     		var params = { AllowScriptAccess : "always", allowFullScreen : "true",wmode : "direct" };
     		//swfobject.embedSWF("http://dans.noterik.com/site/swf/krusty2.swf", "player", "800", "600", "10.2.0","http://dans.noterik.com/site/swf/expressInstall.swf", flashvars, params);
-    		swfobject.embedSWF("../../../../swf/krusty2.swf", "player", "800", "600", "10.2.0","../../../../swf/expressInstall.swf", flashvars, params);
+    		swfobject.embedSWF("../../../../swf/krusty2.swf", "player", "400", "300", "10.2.0","../../../../swf/expressInstall.swf", flashvars, params);
+
 		}
 	</script>
 </head>
 
 <body style="margin: auto; padding: 0;">
-	<div style="background-color:#FFEAD4">
+	<div <!--style="background-color:#FFEAD4"--> >
 		filename:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<label wicket:id="fileName" ></label><br>
 		streaming url:&nbsp<label wicket:id="streamingUrl" ></label>
 		<center>

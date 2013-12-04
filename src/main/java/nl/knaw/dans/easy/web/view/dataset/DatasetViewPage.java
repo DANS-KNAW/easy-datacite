@@ -3,18 +3,22 @@ package nl.knaw.dans.easy.web.view.dataset;
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.knaw.dans.common.lang.security.authz.AuthzStrategy;
 import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.service.exceptions.TemporaryUnAvailableException;
 import nl.knaw.dans.common.wicket.components.SimpleTab;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
+import nl.knaw.dans.easy.domain.dataset.EasyFile;
+import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.PermissionSequence.State;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.security.ContextParameters;
+import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.EasySession;
 import nl.knaw.dans.easy.web.EasyWicketApplication;
@@ -116,6 +120,8 @@ public class DatasetViewPage extends AbstractEasyNavPage
     public static final String PM_REDIRECT_TO_LOGIN = "rd";
 
     private static final Logger logger = LoggerFactory.getLogger(DatasetViewPage.class);
+    // CHANGE THIS!!!
+    private static final String VIDEO_EXTENSION = ".mpeg";
 
     private final Mode mode;
 
@@ -352,7 +358,8 @@ public class DatasetViewPage extends AbstractEasyNavPage
         tabs.add(getPermissionsTab());
         tabs.add(getActivityLogTab());
         // tabs.add(getRelationsTab());
-        tabs.add(getVideoTab());
+        addPossibleVideoTab(tabs);
+
         TabbedPanel tabbedPanel = new TabbedPanel(WI_VIEW_TABS, tabs)
         {
 
@@ -564,7 +571,7 @@ public class DatasetViewPage extends AbstractEasyNavPage
         return tab;
     }
 
-    private SimpleTab getVideoTab()
+    private SimpleTab getVideoTab(final List<ItemVO> videoFiles)
     {
         return new SimpleTab(new ResourceModel(RI_TAB_VIDEO))
         {
@@ -574,10 +581,41 @@ public class DatasetViewPage extends AbstractEasyNavPage
             @Override
             public Panel getPanel(final String panelId)
             {
-                return new VideoPanel(panelId, datasetModel, new PageParameters());
+                return new VideoPanel(panelId, datasetModel, videoFiles, new PageParameters());
             }
 
         };
+    }
+
+    private void addPossibleVideoTab(final List<ITab> tabs) {
+    	
+        try {
+            List<ItemVO> items = Services.getItemService().getFilesAndFolders(getEasySession().getUser(), getDataset(), datasetModel.getDmoStoreId(), -1, -1, null, null);
+    		List<ItemVO> videoFiles = getVideoFiles(items);
+    		if (videoFiles.size() > 0){
+    	        tabs.add(getVideoTab(videoFiles));
+    		}
+    	} catch (ServiceException e) {
+            logger.error("Error while trying to load files for video tab.", e);
+            throw new InternalWebError();
+		}
+    }
+
+    private List<ItemVO> getVideoFiles(final List<ItemVO> datasetFiles)
+    {
+
+        List<ItemVO> videoFiles = new ArrayList<ItemVO>();
+        for (ItemVO fileitem : datasetFiles)
+        {
+            if (fileitem.getName().endsWith(VIDEO_EXTENSION))
+            {
+                AuthzStrategy strategy = fileitem.getAuthzStrategy();
+                if (strategy.canUnitBeRead(EasyFile.UNIT_ID)){
+                    videoFiles.add(fileitem);
+                }
+            }
+        }
+        return videoFiles;
     }
 
     @Override
@@ -587,5 +625,4 @@ public class DatasetViewPage extends AbstractEasyNavPage
         String pageTitlePostfix = super.getPageTitlePostfix();
         return String.format(pageTitlePostfix, datasetTitle);
     }
-
 }
