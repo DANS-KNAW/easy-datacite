@@ -50,7 +50,7 @@ public class ItemIngester extends AbstractWorker
     public static final String DEPOSITOR_FOLDER_NAME = "original";
 
     // CHANGE THIS!!!
-    public static final String VIDEO_EXTENSION = ".xml";
+    public static final String VIDEO_EXTENSION = ".mpeg";
 
     private final ItemIngesterDelegator delegator;
 
