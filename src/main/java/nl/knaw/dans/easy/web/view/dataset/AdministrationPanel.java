@@ -65,8 +65,7 @@ public class AdministrationPanel extends AbstractDatasetModelPanel
     private void addLicenseUploadPanel()
     {
         final EasyUpload upload = new EasyUpload("licenseUploadPanel", configureUpload());
-        UploadLicenseProcess ulp = new UploadLicenseProcess();
-        ulp.setDataset(getDataset());
+        UploadLicenseProcess ulp = new UploadLicenseProcess(getDatasetModel());
         upload.registerPostProcess(ulp);
         add(upload);
         add(new ComponentFeedbackPanel("licenseUploadPanel-componentFeedback", upload));

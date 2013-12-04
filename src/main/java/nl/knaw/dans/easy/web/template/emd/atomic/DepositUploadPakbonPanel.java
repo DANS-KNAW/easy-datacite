@@ -4,17 +4,12 @@ import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.components.upload.EasyUpload;
 import nl.knaw.dans.common.wicket.components.upload.EasyUploadConfig;
-import nl.knaw.dans.common.wicket.components.upload.postprocess.IUploadPostProcess;
-import nl.knaw.dans.common.wicket.components.upload.postprocess.unzip.UnzipPostProcess;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.common.DatasetModel;
-import nl.knaw.dans.easy.web.deposit.DepositPage;
 import nl.knaw.dans.easy.web.deposit.TransformPakbonPostProcess;
 import nl.knaw.dans.easy.web.fileexplorer.FileExplorer;
 import nl.knaw.dans.easy.web.template.AbstractDatasetModelPanel;
-import nl.knaw.dans.easy.web.template.upload.postprocess.ingest.IngestPostProcess;
-import nl.knaw.dans.easy.web.view.dataset.UploadFileMetadataProcess;
 
 import org.apache.wicket.MarkupContainer;
 import org.apache.wicket.behavior.SimpleAttributeModifier;
@@ -25,12 +20,10 @@ import org.apache.wicket.model.StringResourceModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@SuppressWarnings("serial")
 public class DepositUploadPakbonPanel extends AbstractDatasetModelPanel
 {
-    private static final long serialVersionUID = -1386346983739904268L;
-
     private static final Logger logger = LoggerFactory.getLogger(DepositUploadPakbonPanel.class);
-
     private MarkupContainer uploadPanelHolder;
 
     /**
@@ -48,7 +41,6 @@ public class DepositUploadPakbonPanel extends AbstractDatasetModelPanel
         EasyUploadConfig uploadConfig = new EasyUploadConfig();
         uploadConfig.setAutoRemoveFiles(true);
         EasyUpload easyUpload = new EasyUpload("uploadPanel", uploadConfig);
-
         easyUpload.registerPostProcess(new TransformPakbonPostProcess(model));
         add(easyUpload);
         uploadPanelHolder = new WebMarkupContainer("depositUploadPanelbuttonsPanel");
@@ -99,5 +91,4 @@ public class DepositUploadPakbonPanel extends AbstractDatasetModelPanel
             throw new InternalWebError();
         }
     }
-
 }

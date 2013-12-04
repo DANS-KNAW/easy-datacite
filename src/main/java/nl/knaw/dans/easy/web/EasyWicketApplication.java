@@ -245,4 +245,9 @@ public class EasyWicketApplication extends CommonWicketApplication implements Ap
         this.applicationContext = applicationContext;
     }
 
+    public ApplicationContext getApplicationContext()
+    {
+        return applicationContext;
+    }
+
 }

@@ -386,5 +386,15 @@
 		<constructor-arg type="java.lang.String"
 			value="${easy.depositinstructions.baseUrl}" />
 	</bean>
+
+	<bean id="pakbonValidatorCredentials"
+		class="nl.knaw.dans.platform.language.pakbon.PakbonValidatorCredentials">
+		<constructor-arg index="0" type="java.lang.String">
+			<value>${pakbon.validator.username}</value>
+		</constructor-arg>
+		<constructor-arg index="1" type="java.lang.String">
+			<value>${pakbon.validator.password}</value>
+		</constructor-arg>
+	</bean>
 </beans>
  
