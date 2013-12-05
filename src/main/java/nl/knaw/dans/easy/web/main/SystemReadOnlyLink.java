@@ -1,9 +1,9 @@
 package nl.knaw.dans.easy.web.main;
 
+import nl.knaw.dans.easy.security.Authz;
 import nl.knaw.dans.easy.servicelayer.SystemReadOnlyStatus;
 
 import org.apache.wicket.Page;
-import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.LoadableDetachableModel;
@@ -17,6 +17,9 @@ public class SystemReadOnlyLink extends Link<Page>
 
     @SpringBean(name = "systemReadOnlyStatus")
     private SystemReadOnlyStatus systemReadOnlyStatus;
+
+    @SpringBean(name = "authz")
+    private Authz authz;
 
     /**
      * Creates a toggle for a system administrator to set the system in read only mode for a safe
@@ -35,10 +38,8 @@ public class SystemReadOnlyLink extends Link<Page>
     @Override
     public void onBeforeRender()
     {
-        // TODO rather: if (! CodedAuthz.hasSecurityOfficer(getPath()))
-        // but the synchronized clause disrupts the stack and throws an IllegalStateException
-        if (!(getParent() instanceof WebPage))
-            throw new SecurityException(getClass().getName() + " must be added directly to a WebPage");
+        if (! authz.hasSecurityOfficer(getPath()))
+            throw new SecurityException(getClass().getName() + " no rule defined for "+getPath());
         super.onBeforeRender();
     }
 
