@@ -26,7 +26,7 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.domain.worker.WorkListener;
 import nl.knaw.dans.easy.domain.worker.WorkReporter;
-import nl.knaw.dans.easy.servicelayer.SystemReadonlyStatus;
+import nl.knaw.dans.easy.servicelayer.SystemReadOnlyStatus;
 import nl.knaw.dans.easy.servicelayer.services.DatasetService;
 import nl.knaw.dans.easy.servicelayer.services.DisciplineCollectionService;
 import nl.knaw.dans.easy.servicelayer.services.ItemService;
@@ -82,8 +82,8 @@ public class MockUtil
         context.setServletName("servlet/request");
         context.setEasyHome("http://mockedhost:8080/ui/");
 
-        SystemReadonlyStatus systemReadonlyStatus = new SystemReadonlyStatus();
-        context.setSystemReadonlyStatus(systemReadonlyStatus);
+        SystemReadOnlyStatus systemReadonlyStatus = new SystemReadOnlyStatus();
+        context.setSystemReadOnlyStatus(systemReadonlyStatus);
         systemReadonlyStatus.setFile(new File("target/SystemStatus.properties"));
     }
 

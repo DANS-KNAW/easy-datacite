@@ -8,7 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 
-import nl.knaw.dans.easy.servicelayer.SystemReadonlyStatus;
+import nl.knaw.dans.easy.servicelayer.SystemReadOnlyStatus;
 import nl.knaw.dans.easy.sword.jetty.Start;
 
 import org.apache.commons.httpclient.HttpClient;
@@ -39,13 +39,13 @@ public class IntegrationFixture
     @After
     public void reset() throws Exception
     {
-        Context.getSystemReadonlyStatus().setReadOnly(false);
+        Context.getSystemReadOnlyStatus().setReadOnly(false);
     }
 
     @BeforeClass
     public static void start() throws Exception
     {
-        new Context().setSystemReadonlyStatus(createSystemReadonlyBean());
+        new Context().setSystemReadOnlyStatus(createSystemReadonlyBean());
         // zero implies a random port and allows the test to run along with an active server on port 8083
         server = Start.createServer(0, 0);
         server.start();
@@ -54,9 +54,9 @@ public class IntegrationFixture
 
     }
 
-    private static SystemReadonlyStatus createSystemReadonlyBean()
+    private static SystemReadOnlyStatus createSystemReadonlyBean()
     {
-        SystemReadonlyStatus systemReadonlyStatus = new SystemReadonlyStatus();
+        SystemReadOnlyStatus systemReadonlyStatus = new SystemReadOnlyStatus();
         systemReadonlyStatus.setFile(new File("target/SystemReadOnlyStatus.properties"));
         return systemReadonlyStatus;
     }

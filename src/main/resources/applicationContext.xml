@@ -43,11 +43,11 @@
 		<!-- ATTENTION: This is the EASY Web UI Homepage. It has nothing to do 
 			with the home directory of EASY on the server! -->
 		<property name="easyHome" value="${easy.sword.server.easy.home}" />
-		<property name="systemReadonlyStatus" ref="systemReadonlyStatus" />
+		<property name="systemReadOnlyStatus" ref="systemReadOnlyStatus" />
 	</bean>
 
 	<bean name="systemReadonlyStatus"
-		class="nl.knaw.dans.easy.servicelayer.SystemReadonlyStatus">
+		class="nl.knaw.dans.easy.servicelayer.SystemReadOnlyStatus">
 		<property name="file">
 			<!-- exchange system status (read only mode) between easy-business instances (e.g. web-ui, sword) -->
 			<value type="java.io.File">${easy.business.system.status.file}</value>

@@ -126,7 +126,7 @@ public class EasySwordServer implements SWORDServer
          * http://htmlhelp.com/reference/html40/forms/form.html
          */
         final EasyUser user = EasyBusinessFacade.getUser(deposit.getUsername(), deposit.getPassword());
-        if (Context.getSystemReadonlyStatus().getReadOnly())
+        if (Context.getSystemReadOnlyStatus().getReadOnly())
             throw EasyBusinessFacade.READ_ONLY_EXCEPTION;
         checkOnBehalfOf(deposit);
 

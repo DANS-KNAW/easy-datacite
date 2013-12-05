@@ -8,7 +8,7 @@ import java.security.NoSuchAlgorithmException;
 
 import javax.servlet.http.HttpServletResponse;
 
-import nl.knaw.dans.easy.servicelayer.SystemReadonlyStatus;
+import nl.knaw.dans.easy.servicelayer.SystemReadOnlyStatus;
 import nl.knaw.dans.easy.sword.util.SubmitFixture;
 
 import org.apache.commons.httpclient.HttpStatus;
@@ -146,7 +146,7 @@ public class IntegrationTester extends IntegrationFixture
     @Test
     public void depositAfterReadOnly() throws Exception
     {
-        Context.getSystemReadonlyStatus().setReadOnly(true);
+        Context.getSystemReadOnlyStatus().setReadOnly(true);
         final RequestEntity request = createRequest(SubmitFixture.getFile("data-plus-ddm.zip"));
         final PostMethod method = createPostMethod(request, false, false);
         String response = getResponse(method, createClient(DEPOSITOR, (15 * SECOND)));
