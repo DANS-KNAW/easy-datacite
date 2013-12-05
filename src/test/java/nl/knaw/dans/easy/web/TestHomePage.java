@@ -18,7 +18,7 @@ import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.security.CodedAuthz;
 import nl.knaw.dans.easy.security.ContextParameters;
 import nl.knaw.dans.easy.security.Security;
-import nl.knaw.dans.easy.servicelayer.SystemReadonlyStatus;
+import nl.knaw.dans.easy.servicelayer.SystemReadonlyStatusCamelCaseChangePreparation;
 import nl.knaw.dans.easy.servicelayer.services.SearchService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.main.SystemReadOnlyLink;
@@ -210,9 +210,9 @@ public class TestHomePage
         return codedAuthz;
     }
 
-    private SystemReadonlyStatus createSystemReadonlyBean()
+    private SystemReadonlyStatusCamelCaseChangePreparation createSystemReadonlyBean()
     {
-        SystemReadonlyStatus systemReadonlyStatus = new SystemReadonlyStatus();
+        SystemReadonlyStatusCamelCaseChangePreparation systemReadonlyStatus = new SystemReadonlyStatusCamelCaseChangePreparation();
         systemReadonlyStatus.setFile(new File("target/SystemReadOnlyStatus.properties"));
         return systemReadonlyStatus;
     }
