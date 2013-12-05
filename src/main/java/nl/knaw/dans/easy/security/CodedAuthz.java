@@ -24,8 +24,6 @@ public class CodedAuthz extends AbstractEasyService implements Authz
 
     private Map<String, SecurityOfficer> rules;
 
-    private Object syncRules = new Object();
-
     private SecurityOfficer enableToLoggedInUserRule;
     private SecurityOfficer enableToNormalUserRule;
     private SecurityOfficer enableToArchivistRule;
@@ -76,10 +74,7 @@ public class CodedAuthz extends AbstractEasyService implements Authz
     @Override
     public void doBeanPostProcessing() throws ServiceException
     {
-        synchronized (syncRules)
-        {
-            getRules();
-        }
+        getRules();
     }
 
     /**
@@ -93,27 +88,21 @@ public class CodedAuthz extends AbstractEasyService implements Authz
      */
     public boolean isProtectedPage(String pageName)
     {
-        synchronized (syncRules)
-        {
-            return getRules().containsKey(pageName);
-        }
+        return getRules().containsKey(pageName);
     }
 
     // List<String> missing = new ArrayList<String>();
 
     public boolean hasSecurityOfficer(String item)
     {
-        synchronized (syncRules)
-        {
-            boolean hasOfficer = getRules().containsKey(item);
-            // if (logger.isDebugEnabled() && !hasOfficer && !missing.contains(item) &&
-            // item.matches("nl.knaw.dans.easy.web.*Page2?(:[^_]*)?"))
-            // {
-            // missing.add(item);
-            // logger.debug("No SecurityOfficer set for signature: " + item);
-            // }
-            return hasOfficer;
-        }
+        boolean hasOfficer = getRules().containsKey(item);
+        // if (logger.isDebugEnabled() && !hasOfficer && !missing.contains(item) &&
+        // item.matches("nl.knaw.dans.easy.web.*Page2?(:[^_]*)?"))
+        // {
+        // missing.add(item);
+        // logger.debug("No SecurityOfficer set for signature: " + item);
+        // }
+        return hasOfficer;
     }
 
     public SecurityOfficer getSecurityOfficer(final String signature)
@@ -122,10 +111,7 @@ public class CodedAuthz extends AbstractEasyService implements Authz
             logger.debug("Getting SecurityOfficer for '" + signature + "'");
 
         SecurityOfficer officer = null;
-        synchronized (syncRules)
-        {
-            officer = getRules().get(signature);
-        }
+        officer = getRules().get(signature);
         if (officer == null)
         {
             logger.warn("No SecurityOfficer set for signature '" + signature + "'. Returning default SecurityOfficer");
@@ -204,222 +190,231 @@ public class CodedAuthz extends AbstractEasyService implements Authz
      */
     protected Map<String, SecurityOfficer> getRules()
     {
+        // A synchronized clause disrupts the stack in SystemReadOnlyLink.onBeforeRender.
+        // Assign after building the list prevents examining an incomplete list.
+        // The worst that can happen is building the list in multiple threads short after startup.
+        // As long as the SecurityOfficers added to the list are immutable, that should not be a problem.
         if (rules == null)
         {
-            rules = Collections.synchronizedMap(new LinkedHashMap<String, SecurityOfficer>()
-            {
-                // Some Wicket components are used on many pages via an abstract WebPage
-                // a rule without the page as qualifier defines a default rule
-
-                private static final long serialVersionUID = 1L;
-
-                public boolean containsKey(Object key)
-                {
-                    // if not found with the page as qualifier, try without
-                    return super.containsKey(key) || super.containsKey(stripWicketPageQualifier(key));
-                }
-
-                public SecurityOfficer get(Object key)
-                {
-                    // if not found with the page as qualifier, try without
-                    if (super.containsKey(key))
-                        return super.get(key);
-                    else
-                        return super.get(stripWicketPageQualifier(key));
-                }
-
-                private String stripWicketPageQualifier(Object key)
-                {
-                    return key.toString().replaceAll("^[^:]+:", ":");
-                }
-            });
-
-            // easy navigation
-            rules.put(":systemIsReadOnly", getEnableToAdminRule());
-            rules.put(":managementBarPanel", getEnableToArchivistOrAdminRule());
-            rules.put(":managementBarPanel2", getEnableToArchivistOrAdminRule());
-
-            // pages
-            rules.put("nl.knaw.dans.easy.web.admin.UsersOverviewPage", getEnableToArchivistOrAdminRule());
-            rules.put("nl.knaw.dans.easy.web.admin.UserDetailsPage", getEnableToArchivistOrAdminRule());
-            rules.put("nl.knaw.dans.easy.web.admin.EditableContentPage", getEnableToArchivistOrAdminRule());
-
-            rules.put("nl.knaw.dans.easy.web.search.pages.MyDatasetsSearchResultPage", getEnableToLoggedInUserRule());
-            rules.put("nl.knaw.dans.easy.web.search.pages.MyWorkSearchResultPage", getEnableToArchivistRule());
-            rules.put("nl.knaw.dans.easy.web.search.pages.OurWorkSearchResultPage", getEnableToArchivistRule());
-            rules.put("nl.knaw.dans.easy.web.search.pages.AllWorkSearchResultPage", getEnableToArchivistRule());
-            rules.put("nl.knaw.dans.easy.web.search.pages.SearchAllSearchResultPage", getEnableToArchivistOrAdminRule());
-            rules.put("nl.knaw.dans.easy.web.search.pages.TrashCanSearchResultPage", getEnableToArchivistOrAdminRule());
-            rules.put("nl.knaw.dans.easy.web.permission.PermissionReplyPage", getEnableToDepositorOrArchivistRule());
-            rules.put("nl.knaw.dans.easy.web.permission.PermissionRequestPage", getEnableToLoggedInUserRule());
-
-            rules.put("nl.knaw.dans.easy.web.deposit.DepositIntroPage", getEnableToLoggedInUserRule());
-            rules.put("nl.knaw.dans.easy.web.deposit.DepositPage", getEnableToLoggedInUserRule());
-
-            // nl.knaw.dans.easy.web.admin.UserDetailsPage components
-            rules.put("nl.knaw.dans.easy.web.admin.UserDetailsPage:userDetailsPanel:switchPanel:userInfoForm:state", getEditProtectedUserAttributesRule());
-            rules.put("nl.knaw.dans.easy.web.admin.UserDetailsPage:userDetailsPanel:switchPanel:userInfoForm:roles", getEditProtectedUserAttributesRule());
-            rules.put(":userDetailsPanel:switchPanel:editLink", getNoSecurityOfficer());
-            rules.put(":userInfoPanel:switchPanel:editLink", getNoSecurityOfficer());
-            rules.put(":userInfoPanel:switchPanel:changePasswordLink", getNoSecurityOfficer());
-
-            // advanced search
-            rules.put("nl.knaw.dans.easy.web.search.AdvancedSearchPage:advancedSearchForm:depositorOptions", getEnableToNormalUserRule());
-            rules.put("nl.knaw.dans.easy.web.search.AdvancedSearchPage:advancedSearchForm:archivistOptions", getEnableToArchivistRule());
-
-            // nl.knaw.dans.easy.web.view.dataset.DatasetViewPage components
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel:statusPanel:reuseLink", getEnableToDepositorOfDatasetRule());
-
-            // info segment panel
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel", getEnableToLoggedInUserRule());
-
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel:changeDepositorLink", getEnableToArchivistRule());
-
-            // status panel
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel:statusPanel", getEnableToDepositorOrArchivistOrAdminRule());
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel:statusPanel:continueDeposit", getSubmitDatasetRule());
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel:statusPanel:deleteDataset", getDeleteDatasetRule());
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel:statusPanel:restoreDeleted", getRestoreDatasetRule());
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel:statusPanel:unsubmit", getUnsubmitDatasetRule());
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel:statusPanel:publish", getPublishDatasetRule());
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel:statusPanel:unpublish", getUnpublishDatasetRule());
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel:statusPanel:maintain", getMaintainDatasetRule());
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel:statusPanel:republish", getRepublishDatasetRule());
-
-            // PublicationProgresPanel
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel:statusPanel:pubProgressPanel", getEnableToDepositorOrArchivistRule());
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel:statusPanel:pubProgressPanel:assignToForm",
-                    getEnableToArchivistRule());
-
-            // JumpoffPanel
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:toggleEditorButton", getEnableToArchivistOrAdminRule());
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:addButton", getEnableToArchivistOrAdminRule());
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:editButton", getEnableToArchivistOrAdminRule());
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:deleteButton", getEnableToArchivistOrAdminRule());
-
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:viewEditJumpoffPanel:editForm",
-                    getEnableToArchivistOrAdminRule());
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:viewEditJumpoffPanel:editForm",
-                    getEnableToArchivistOrAdminRule());
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:viewEditJumpoffPanel:jumpoffMetadataPanel",
-                    getEnableToArchivistOrAdminRule());
-
-            // Description tab
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:editLink", getEnableToArchivistRule());
-
-            // file explorer tab
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:fe:deleteLink", getEnableToArchivistOrAdminRule());
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:fe:uploadLink", getEnableToArchivistOrAdminRule());
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:fe:importLink", getEnableToArchivistOrAdminRule());
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:fe:rightsForm", getEnableToArchivistOrAdminRule());
-
-            // Metadata download buttons are visible to all users now
-            // rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:downloadPanel",
-            // getEnableToArchivistOrAdminRule());
-
-            // Administration tab !! the order of tabs is not constant. tabs:3 could be the permissions
-            // tab
-            // rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:tabs-container:tabs:3:link",
-            // getEnableToArchivistRule());
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:workflowForm", getEnableToArchivistOrAdminRule());
-            rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:licenseUploadPanel", getEnableToArchivistOrAdminRule());
-
-            // WorkDispatchers
-            // ===============
-            // ItemWorkDispatcher
-            rules.put(
-                    "void nl.knaw.dans.easy.business.item.ItemWorkDispatcher.addDirectoryContents(EasyUser, Dataset, DatasetItemContainer, File, FileFilter, UnitOfWork, ItemIngesterDelegator, WorkListener[])",
-                    getEnableToDepositorOrArchivistIfDraftRule());
-
-            rules.put(
-                    "void nl.knaw.dans.easy.business.item.ItemWorkDispatcher.updateObjects(EasyUser, Dataset, List, UpdateInfo, ItemFilters, UnitOfWork, WorkListener[])",
-                    getUpdateItemRule());
-            rules.put(
-                    "void nl.knaw.dans.easy.business.item.ItemWorkDispatcher.updateFileItemMetadata(EasyUser, Dataset, ResourceMetadataList, AdditionalMetadataUpdateStrategy, WorkListener[])",
-                    getEnableToArchivistRule());
-
-            rules.put("void nl.knaw.dans.easy.business.item.ItemWorkDispatcher.saveDescriptiveMetadata(EasyUser, UnitOfWork, Dataset, Map, WorkListener[])",
-                    getEnableToArchivistRule()); // TODO but not if published or deleted?
-            rules.put("FileItemDescription nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFileItemDescription(EasyUser, Dataset, FileItem)",
-                    getFileItemDescriptionAccessRule());
-
-            rules.put("FileItem nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFileItem(EasyUser, Dataset, DmoStoreId)", getFileItemContentsAccessRule());
-            rules.put("FileItem nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFileItemByPath(EasyUser, Dataset, String)", getNoSecurityOfficer());
-
-            rules.put("FolderItem nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFolderItem(EasyUser, Dataset, DmoStoreId)", getNoSecurityOfficer());
-            rules.put("FolderItem nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFolderItemByPath(EasyUser, Dataset, String)", getNoSecurityOfficer());
-
-            rules.put("URL nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFileContentURL(EasyUser, Dataset, FileItem)", getFreelyAvailableContentRule());
-
-            // Not that strong, because FileItem is represented by id, due to mishap in FileItemVO
-            // design.
-            rules.put("URL nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getDescriptiveMetadataURL(EasyUser, Dataset, DmoStoreId)", getViewDatasetRule());
-
-            // DownloadWorkDispatcher
-            rules.put("FileContentWrapper nl.knaw.dans.easy.business.item.DownloadWorkDispatcher.prepareFileContent(EasyUser, Dataset, DmoStoreId)",
-                    getDownloadRule());
-            rules.put("ZipFileContentWrapper nl.knaw.dans.easy.business.item.DownloadWorkDispatcher.prepareZippedContent(EasyUser, Dataset, Collection)",
-                    getDownloadRule());
-
-            // DatasetWorkDispatcher
-            rules.put("DataModelObject nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.getDataModelObject(EasyUser, DmoStoreId)", getViewDatasetRule());
-
-            rules.put("byte[] nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.getObjectXml(EasyUser, Dataset)",
-                    getEnableToDepositorOrArchivistOrAdminRule());
-            rules.put("Dataset nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.cloneDataset(EasyUser, Dataset)", getEnableToLoggedInUserRule());
-            rules.put("void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.saveEasyMetadata(EasyUser, Dataset, WorkListener[])",
-                    getEnableToDepositorOrArchivistIfDraftRule());
-            rules.put("void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.saveAdministrativeMetadata(EasyUser, Dataset, WorkListener[])",
-                    getEnableToArchivistOrAdminRule());
-            rules.put("void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.submitDataset(EasyUser, Dataset, DatasetSubmission, WorkListener[])",
-                    getSubmitDatasetRule());
-            rules.put("void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.unsubmitDataset(EasyUser, Dataset, boolean)", getUnsubmitDatasetRule());
-            rules.put("void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.publishDataset(EasyUser, Dataset, boolean, boolean)",
-                    getPublishDatasetRule());
-            rules.put("void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.unpublishDataset(EasyUser, Dataset, boolean)", getUnpublishDatasetRule());
-            rules.put("void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.maintainDataset(EasyUser, Dataset, boolean)", getMaintainDatasetRule());
-            rules.put("void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.republishDataset(EasyUser, Dataset, boolean, boolean)",
-                    getRepublishDatasetRule());
-            rules.put("void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.changeDepositor(EasyUser, Dataset, EasyUser, boolean, boolean)",
-                    getEnableToArchivistRule());
-            rules.put("void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.deleteDataset(EasyUser, Dataset)", getDeleteDatasetRule());
-            rules.put("void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.restoreDataset(EasyUser, Dataset)", getEnableToAdminRule());
-            rules.put("void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.purgeDataset(EasyUser, Dataset, WorkListener[])", getPurgeDatasetRule());
-
-            rules.put(
-                    "void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.savePermissionRequest(EasyUser, Dataset, PermissionRequestModel, WorkListener[])",
-                    getEnableToLoggedInUserRule());
-            rules.put(
-                    "void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.savePermissionReply(EasyUser, Dataset, PermissionReplyModel, WorkListener[])",
-                    getEnableToDepositorOfDatasetRule());
-            rules.put("DownloadHistory nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.getDownloadHistoryFor(EasyUser, Dataset, DateTime)",
-                    getEnableToLoggedInUserRule());
-            rules.put("URL nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.getUnitMetadataURL(EasyUser, Dataset, UnitMetadata)",
-                    getEnableToArchivistOrAdminRule());
-            rules.put(
-                    "void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.deleteAdditionalLicense(EasyUser, DmoStoreId, DsUnitId, DateTime, String)",
-                    getEnableToArchivistOrAdminRule());
-
-            // JumpoffWorkDispatcher
-            rules.put("void nl.knaw.dans.easy.business.jumpoff.JumpoffWorkDispatcher.saveJumpoffDmo(EasyUser, JumpoffDmo, DataModelObject)",
-                    getEnableToArchivistOrAdminRule());
-            rules.put("void nl.knaw.dans.easy.business.jumpoff.JumpoffWorkDispatcher.deleteJumpoff(EasyUser, JumpoffDmo, DataModelObject, String)",
-                    getEnableToArchivistOrAdminRule());
-            rules.put("void nl.knaw.dans.easy.business.jumpoff.JumpoffWorkDispatcher.deleteUnit(EasyUser, DmoStoreId, DsUnitId, String)",
-                    getEnableToArchivistOrAdminRule());
-            rules.put("void nl.knaw.dans.easy.business.jumpoff.JumpoffWorkDispatcher.toggleEditorMode(EasyUser, JumpoffDmo)", getEnableToArchivistOrAdminRule());
-            rules.put("List nl.knaw.dans.easy.business.jumpoff.JumpoffWorkDispatcher.retrieveUnitMetadata(EasyUser, DmoStoreId, DsUnitId)",
-                    getJumpoffDmoNameSpaceRule());
-            rules.put("URL nl.knaw.dans.easy.business.jumpoff.JumpoffWorkDispatcher.retrieveURL(DmoStoreId, DsUnitId)", getJumpoffDmoNameSpaceRule());
-
-            // EasyUserService
-            // used to be getUserByIdRule() but changed to loggedInUser for activity log panel
-            rules.put("EasyUser nl.knaw.dans.easy.business.services.EasyUserService.getUserById(EasyUser, String)", getEnableToLoggedInUserRule());
-
-            // new! operations annotated with @SecuredOperation
-            rules.put("nl.knaw.dans.easy.servicelayer.services.CollectionService.updateCollectionMemberships", getEnableToArchivistOrAdminRule());
+            rules = createRules();
         }
         return rules;
+    }
+
+    private Map<String, SecurityOfficer> createRules()
+    {
+        Map<String, SecurityOfficer> newRules = Collections.synchronizedMap(new LinkedHashMap<String, SecurityOfficer>()
+        {
+            // Some Wicket components are used on many pages via an abstract WebPage
+            // a rule without the page as qualifier defines a default rule
+
+            private static final long serialVersionUID = 1L;
+
+            public boolean containsKey(Object key)
+            {
+                // if not found with the page as qualifier, try without
+                return super.containsKey(key) || super.containsKey(stripWicketPageQualifier(key));
+            }
+
+            public SecurityOfficer get(Object key)
+            {
+                // if not found with the page as qualifier, try without
+                if (super.containsKey(key))
+                    return super.get(key);
+                else
+                    return super.get(stripWicketPageQualifier(key));
+            }
+
+            private String stripWicketPageQualifier(Object key)
+            {
+                return key.toString().replaceAll("^[^:]+:", ":");
+            }
+        });
+
+        // easy navigation
+        newRules.put(":systemIsReadOnly", getEnableToAdminRule());
+        newRules.put(":managementBarPanel", getEnableToArchivistOrAdminRule());
+        newRules.put(":managementBarPanel2", getEnableToArchivistOrAdminRule());
+
+        // pages
+        newRules.put("nl.knaw.dans.easy.web.admin.UsersOverviewPage", getEnableToArchivistOrAdminRule());
+        newRules.put("nl.knaw.dans.easy.web.admin.UserDetailsPage", getEnableToArchivistOrAdminRule());
+        newRules.put("nl.knaw.dans.easy.web.admin.EditableContentPage", getEnableToArchivistOrAdminRule());
+
+        newRules.put("nl.knaw.dans.easy.web.search.pages.MyDatasetsSearchResultPage", getEnableToLoggedInUserRule());
+        newRules.put("nl.knaw.dans.easy.web.search.pages.MyWorkSearchResultPage", getEnableToArchivistRule());
+        newRules.put("nl.knaw.dans.easy.web.search.pages.OurWorkSearchResultPage", getEnableToArchivistRule());
+        newRules.put("nl.knaw.dans.easy.web.search.pages.AllWorkSearchResultPage", getEnableToArchivistRule());
+        newRules.put("nl.knaw.dans.easy.web.search.pages.SearchAllSearchResultPage", getEnableToArchivistOrAdminRule());
+        newRules.put("nl.knaw.dans.easy.web.search.pages.TrashCanSearchResultPage", getEnableToArchivistOrAdminRule());
+        newRules.put("nl.knaw.dans.easy.web.permission.PermissionReplyPage", getEnableToDepositorOrArchivistRule());
+        newRules.put("nl.knaw.dans.easy.web.permission.PermissionRequestPage", getEnableToLoggedInUserRule());
+
+        newRules.put("nl.knaw.dans.easy.web.deposit.DepositIntroPage", getEnableToLoggedInUserRule());
+        newRules.put("nl.knaw.dans.easy.web.deposit.DepositPage", getEnableToLoggedInUserRule());
+
+        // nl.knaw.dans.easy.web.admin.UserDetailsPage components
+        newRules.put("nl.knaw.dans.easy.web.admin.UserDetailsPage:userDetailsPanel:switchPanel:userInfoForm:state", getEditProtectedUserAttributesRule());
+        newRules.put("nl.knaw.dans.easy.web.admin.UserDetailsPage:userDetailsPanel:switchPanel:userInfoForm:roles", getEditProtectedUserAttributesRule());
+        newRules.put(":userDetailsPanel:switchPanel:editLink", getNoSecurityOfficer());
+        newRules.put(":userInfoPanel:switchPanel:editLink", getNoSecurityOfficer());
+        newRules.put(":userInfoPanel:switchPanel:changePasswordLink", getNoSecurityOfficer());
+
+        // advanced search
+        newRules.put("nl.knaw.dans.easy.web.search.AdvancedSearchPage:advancedSearchForm:depositorOptions", getEnableToNormalUserRule());
+        newRules.put("nl.knaw.dans.easy.web.search.AdvancedSearchPage:advancedSearchForm:archivistOptions", getEnableToArchivistRule());
+
+        // nl.knaw.dans.easy.web.view.dataset.DatasetViewPage components
+        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel:statusPanel:reuseLink", getEnableToDepositorOfDatasetRule());
+
+        // info segment panel
+        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel", getEnableToLoggedInUserRule());
+
+        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel:changeDepositorLink", getEnableToArchivistRule());
+
+        // status panel
+        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel:statusPanel", getEnableToDepositorOrArchivistOrAdminRule());
+        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel:statusPanel:continueDeposit", getSubmitDatasetRule());
+        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel:statusPanel:deleteDataset", getDeleteDatasetRule());
+        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel:statusPanel:restoreDeleted", getRestoreDatasetRule());
+        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel:statusPanel:unsubmit", getUnsubmitDatasetRule());
+        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel:statusPanel:publish", getPublishDatasetRule());
+        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel:statusPanel:unpublish", getUnpublishDatasetRule());
+        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel:statusPanel:maintain", getMaintainDatasetRule());
+        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel:statusPanel:republish", getRepublishDatasetRule());
+
+        // PublicationProgresPanel
+        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel:statusPanel:pubProgressPanel", getEnableToDepositorOrArchivistRule());
+        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:infosegmentPanel:statusPanel:pubProgressPanel:assignToForm",
+                getEnableToArchivistRule());
+
+        // JumpoffPanel
+        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:toggleEditorButton", getEnableToArchivistOrAdminRule());
+        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:addButton", getEnableToArchivistOrAdminRule());
+        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:editButton", getEnableToArchivistOrAdminRule());
+        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:deleteButton", getEnableToArchivistOrAdminRule());
+
+        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:viewEditJumpoffPanel:editForm",
+                getEnableToArchivistOrAdminRule());
+        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:viewEditJumpoffPanel:editForm",
+                getEnableToArchivistOrAdminRule());
+        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:jumpoffPanel:viewEditJumpoffPanel:jumpoffMetadataPanel",
+                getEnableToArchivistOrAdminRule());
+
+        // Description tab
+        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:editLink", getEnableToArchivistRule());
+
+        // file explorer tab
+        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:fe:deleteLink", getEnableToArchivistOrAdminRule());
+        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:fe:uploadLink", getEnableToArchivistOrAdminRule());
+        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:fe:importLink", getEnableToArchivistOrAdminRule());
+        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:fe:rightsForm", getEnableToArchivistOrAdminRule());
+
+        // Metadata download buttons are visible to all users now
+        // rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:downloadPanel",
+        // getEnableToArchivistOrAdminRule());
+
+        // Administration tab !! the order of tabs is not constant. tabs:3 could be the permissions
+        // tab
+        // rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:tabs-container:tabs:3:link",
+        // getEnableToArchivistRule());
+        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:workflowForm", getEnableToArchivistOrAdminRule());
+        newRules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:licenseUploadPanel", getEnableToArchivistOrAdminRule());
+
+        // WorkDispatchers
+        // ===============
+        // ItemWorkDispatcher
+        newRules.put(
+                "void nl.knaw.dans.easy.business.item.ItemWorkDispatcher.addDirectoryContents(EasyUser, Dataset, DatasetItemContainer, File, FileFilter, UnitOfWork, ItemIngesterDelegator, WorkListener[])",
+                getEnableToDepositorOrArchivistIfDraftRule());
+
+        newRules.put(
+                "void nl.knaw.dans.easy.business.item.ItemWorkDispatcher.updateObjects(EasyUser, Dataset, List, UpdateInfo, ItemFilters, UnitOfWork, WorkListener[])",
+                getUpdateItemRule());
+        newRules.put(
+                "void nl.knaw.dans.easy.business.item.ItemWorkDispatcher.updateFileItemMetadata(EasyUser, Dataset, ResourceMetadataList, AdditionalMetadataUpdateStrategy, WorkListener[])",
+                getEnableToArchivistRule());
+
+        newRules.put("void nl.knaw.dans.easy.business.item.ItemWorkDispatcher.saveDescriptiveMetadata(EasyUser, UnitOfWork, Dataset, Map, WorkListener[])",
+                getEnableToArchivistRule()); // TODO but not if published or deleted?
+        newRules.put("FileItemDescription nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFileItemDescription(EasyUser, Dataset, FileItem)",
+                getFileItemDescriptionAccessRule());
+
+        newRules.put("FileItem nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFileItem(EasyUser, Dataset, DmoStoreId)", getFileItemContentsAccessRule());
+        newRules.put("FileItem nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFileItemByPath(EasyUser, Dataset, String)", getNoSecurityOfficer());
+
+        newRules.put("FolderItem nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFolderItem(EasyUser, Dataset, DmoStoreId)", getNoSecurityOfficer());
+        newRules.put("FolderItem nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFolderItemByPath(EasyUser, Dataset, String)", getNoSecurityOfficer());
+
+        newRules.put("URL nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getFileContentURL(EasyUser, Dataset, FileItem)", getFreelyAvailableContentRule());
+
+        // Not that strong, because FileItem is represented by id, due to mishap in FileItemVO
+        // design.
+        newRules.put("URL nl.knaw.dans.easy.business.item.ItemWorkDispatcher.getDescriptiveMetadataURL(EasyUser, Dataset, DmoStoreId)", getViewDatasetRule());
+
+        // DownloadWorkDispatcher
+        newRules.put("FileContentWrapper nl.knaw.dans.easy.business.item.DownloadWorkDispatcher.prepareFileContent(EasyUser, Dataset, DmoStoreId)",
+                getDownloadRule());
+        newRules.put("ZipFileContentWrapper nl.knaw.dans.easy.business.item.DownloadWorkDispatcher.prepareZippedContent(EasyUser, Dataset, Collection)",
+                getDownloadRule());
+
+        // DatasetWorkDispatcher
+        newRules.put("DataModelObject nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.getDataModelObject(EasyUser, DmoStoreId)", getViewDatasetRule());
+
+        newRules.put("byte[] nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.getObjectXml(EasyUser, Dataset)",
+                getEnableToDepositorOrArchivistOrAdminRule());
+        newRules.put("Dataset nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.cloneDataset(EasyUser, Dataset)", getEnableToLoggedInUserRule());
+        newRules.put("void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.saveEasyMetadata(EasyUser, Dataset, WorkListener[])",
+                getEnableToDepositorOrArchivistIfDraftRule());
+        newRules.put("void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.saveAdministrativeMetadata(EasyUser, Dataset, WorkListener[])",
+                getEnableToArchivistOrAdminRule());
+        newRules.put("void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.submitDataset(EasyUser, Dataset, DatasetSubmission, WorkListener[])",
+                getSubmitDatasetRule());
+        newRules.put("void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.unsubmitDataset(EasyUser, Dataset, boolean)", getUnsubmitDatasetRule());
+        newRules.put("void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.publishDataset(EasyUser, Dataset, boolean, boolean)",
+                getPublishDatasetRule());
+        newRules.put("void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.unpublishDataset(EasyUser, Dataset, boolean)", getUnpublishDatasetRule());
+        newRules.put("void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.maintainDataset(EasyUser, Dataset, boolean)", getMaintainDatasetRule());
+        newRules.put("void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.republishDataset(EasyUser, Dataset, boolean, boolean)",
+                getRepublishDatasetRule());
+        newRules.put("void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.changeDepositor(EasyUser, Dataset, EasyUser, boolean, boolean)",
+                getEnableToArchivistRule());
+        newRules.put("void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.deleteDataset(EasyUser, Dataset)", getDeleteDatasetRule());
+        newRules.put("void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.restoreDataset(EasyUser, Dataset)", getEnableToAdminRule());
+        newRules.put("void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.purgeDataset(EasyUser, Dataset, WorkListener[])", getPurgeDatasetRule());
+
+        newRules.put(
+                "void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.savePermissionRequest(EasyUser, Dataset, PermissionRequestModel, WorkListener[])",
+                getEnableToLoggedInUserRule());
+        newRules.put(
+                "void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.savePermissionReply(EasyUser, Dataset, PermissionReplyModel, WorkListener[])",
+                getEnableToDepositorOfDatasetRule());
+        newRules.put("DownloadHistory nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.getDownloadHistoryFor(EasyUser, Dataset, DateTime)",
+                getEnableToLoggedInUserRule());
+        newRules.put("URL nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.getUnitMetadataURL(EasyUser, Dataset, UnitMetadata)",
+                getEnableToArchivistOrAdminRule());
+        newRules.put("void nl.knaw.dans.easy.business.dataset.DatasetWorkDispatcher.deleteAdditionalLicense(EasyUser, DmoStoreId, DsUnitId, DateTime, String)",
+                getEnableToArchivistOrAdminRule());
+
+        // JumpoffWorkDispatcher
+        newRules.put("void nl.knaw.dans.easy.business.jumpoff.JumpoffWorkDispatcher.saveJumpoffDmo(EasyUser, JumpoffDmo, DataModelObject)",
+                getEnableToArchivistOrAdminRule());
+        newRules.put("void nl.knaw.dans.easy.business.jumpoff.JumpoffWorkDispatcher.deleteJumpoff(EasyUser, JumpoffDmo, DataModelObject, String)",
+                getEnableToArchivistOrAdminRule());
+        newRules.put("void nl.knaw.dans.easy.business.jumpoff.JumpoffWorkDispatcher.deleteUnit(EasyUser, DmoStoreId, DsUnitId, String)",
+                getEnableToArchivistOrAdminRule());
+        newRules.put("void nl.knaw.dans.easy.business.jumpoff.JumpoffWorkDispatcher.toggleEditorMode(EasyUser, JumpoffDmo)", getEnableToArchivistOrAdminRule());
+        newRules.put("List nl.knaw.dans.easy.business.jumpoff.JumpoffWorkDispatcher.retrieveUnitMetadata(EasyUser, DmoStoreId, DsUnitId)",
+                getJumpoffDmoNameSpaceRule());
+        newRules.put("URL nl.knaw.dans.easy.business.jumpoff.JumpoffWorkDispatcher.retrieveURL(DmoStoreId, DsUnitId)", getJumpoffDmoNameSpaceRule());
+
+        // EasyUserService
+        // used to be getUserByIdRule() but changed to loggedInUser for activity log panel
+        newRules.put("EasyUser nl.knaw.dans.easy.business.services.EasyUserService.getUserById(EasyUser, String)", getEnableToLoggedInUserRule());
+
+        // new! operations annotated with @SecuredOperation
+        newRules.put("nl.knaw.dans.easy.servicelayer.services.CollectionService.updateCollectionMemberships", getEnableToArchivistOrAdminRule());
+        return newRules;
     }
 
     protected SecurityOfficer getNoSecurityOfficer()
