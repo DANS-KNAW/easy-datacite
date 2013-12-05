@@ -64,7 +64,7 @@ public class CodedAuthz extends AbstractEasyService implements Authz
     private SecurityOfficer noSecurityOfficer;
 
     /** Spring bean property */
-    private SystemReadOnlyStatus systemReadonlyStatus;
+    private SystemReadOnlyStatus systemReadOnlyStatus;
     private AbstractCheck isSystemInUpdateModeCheck;
 
     @Override
@@ -947,14 +947,14 @@ public class CodedAuthz extends AbstractEasyService implements Authz
         return userByIdRule;
     }
 
-    public SystemReadOnlyStatus getSystemReadonlyStatus()
+    public SystemReadOnlyStatus getSystemReadOnlyStatus()
     {
-        return systemReadonlyStatus;
+        return systemReadOnlyStatus;
     }
 
-    public void setSystemReadonlyStatus(SystemReadOnlyStatus readOnlyStatus)
+    public void setSystemReadOnlyStatus(SystemReadOnlyStatus readOnlyStatus)
     {
-        this.systemReadonlyStatus = readOnlyStatus;
-        isSystemInUpdateModeCheck = new IsSystemInUpdateModeCheck(systemReadonlyStatus);
+        this.systemReadOnlyStatus = readOnlyStatus;
+        isSystemInUpdateModeCheck = new IsSystemInUpdateModeCheck(systemReadOnlyStatus);
     }
 }

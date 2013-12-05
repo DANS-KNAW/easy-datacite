@@ -78,7 +78,7 @@ public class EasyCollectionServiceTest
         CodedAuthz codedAuthz = new CodedAuthz();
         SystemReadOnlyStatus systemReadonlyStatus = new SystemReadOnlyStatus();
         systemReadonlyStatus.setFile(new File("target/SystemReadOnlyStatus.properties"));
-        codedAuthz.setSystemReadonlyStatus(systemReadonlyStatus);
+        codedAuthz.setSystemReadOnlyStatus(systemReadonlyStatus);
         return codedAuthz;
     }
 
@@ -107,9 +107,9 @@ public class EasyCollectionServiceTest
     private void initSecurity()
     {
         SystemReadOnlyStatus readOnlyStatus = new SystemReadOnlyStatus();
-        readOnlyStatus.setFile(new File("target/SystemReadonlyStatus.properties"));
+        readOnlyStatus.setFile(new File("target/SystemReadOnlyStatus.properties"));
         CodedAuthz authz = new CodedAuthz();
-        authz.setSystemReadonlyStatus(readOnlyStatus);
+        authz.setSystemReadOnlyStatus(readOnlyStatus);
         new Security(authz);
     }
 
