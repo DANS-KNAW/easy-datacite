@@ -1,6 +1,6 @@
 package nl.knaw.dans.easy.web.main;
 
-import nl.knaw.dans.easy.servicelayer.SystemReadonlyStatusCamelCaseChangePreparation;
+import nl.knaw.dans.easy.servicelayer.SystemReadOnlyStatus;
 
 import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.WebPage;
@@ -16,7 +16,7 @@ public class SystemReadOnlyLink extends Link<Page>
     public static final String WICKET_ID_LABEL = "readOnly";
 
     @SpringBean(name = "systemReadonlyStatus")
-    private SystemReadonlyStatusCamelCaseChangePreparation systemReadonlyStatus;
+    private SystemReadOnlyStatus systemReadonlyStatus;
 
     /**
      * Creates a toggle for a system administrator to set the system in read only mode for a safe

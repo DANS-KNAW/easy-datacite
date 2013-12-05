@@ -13,7 +13,7 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.domain.user.EasyUserAnonymous;
 import nl.knaw.dans.easy.security.CodedAuthz;
 import nl.knaw.dans.easy.security.Security;
-import nl.knaw.dans.easy.servicelayer.SystemReadonlyStatusCamelCaseChangePreparation;
+import nl.knaw.dans.easy.servicelayer.SystemReadOnlyStatus;
 import nl.knaw.dans.easy.web.EasyWicketApplication;
 import nl.knaw.dans.easy.web.main.SystemReadOnlyLink;
 
@@ -151,7 +151,7 @@ public class SystemReadOnlyLinkTest
     @BeforeClass
     public static void init()
     {
-        SystemReadonlyStatusCamelCaseChangePreparation systemReadonlyStatus = new SystemReadonlyStatusCamelCaseChangePreparation();
+        SystemReadOnlyStatus systemReadonlyStatus = new SystemReadOnlyStatus();
         systemReadonlyStatus.setFile(new File("target/systemReadonlyStatus.propeties"));
 
         CodedAuthz codedAuthz = new CodedAuthz();
