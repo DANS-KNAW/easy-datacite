@@ -15,8 +15,8 @@ public class SystemReadOnlyLink extends Link<Page>
     public static final String WICKET_ID_LINK = "systemIsReadOnly";
     public static final String WICKET_ID_LABEL = "readOnly";
 
-    @SpringBean(name = "systemReadonlyStatus")
-    private SystemReadOnlyStatus systemReadonlyStatus;
+    @SpringBean(name = "systemReadOnlyStatus")
+    private SystemReadOnlyStatus systemReadOnlyStatus;
 
     /**
      * Creates a toggle for a system administrator to set the system in read only mode for a safe
@@ -45,7 +45,7 @@ public class SystemReadOnlyLink extends Link<Page>
     @Override
     public void onClick()
     {
-        systemReadonlyStatus.setReadOnly(!systemReadonlyStatus.getReadOnly());
+        systemReadOnlyStatus.setReadOnly(!systemReadOnlyStatus.getReadOnly());
         setResponsePage(this.getPage());
     }
 
@@ -58,7 +58,7 @@ public class SystemReadOnlyLink extends Link<Page>
             @Override
             protected String load()
             {
-                if (systemReadonlyStatus.getReadOnly())
+                if (systemReadOnlyStatus.getReadOnly())
                     return getLocalizer().getString("adminSwitch.readOnly", getPage(), "[SYSTEM IS IN READ ONLY MODE]");
                 else
                     return getLocalizer().getString("adminSwitch.readWrite", getPage(), "[system allows read and write]");

@@ -151,14 +151,14 @@ public class SystemReadOnlyLinkTest
     @BeforeClass
     public static void init()
     {
-        SystemReadOnlyStatus systemReadonlyStatus = new SystemReadOnlyStatus();
-        systemReadonlyStatus.setFile(new File("target/systemReadonlyStatus.propeties"));
+        SystemReadOnlyStatus systemReadOnlyStatus = new SystemReadOnlyStatus();
+        systemReadOnlyStatus.setFile(new File("target/systemReadonlyStatus.propeties"));
 
         CodedAuthz codedAuthz = new CodedAuthz();
-        codedAuthz.setSystemReadOnlyStatus(systemReadonlyStatus);
+        codedAuthz.setSystemReadOnlyStatus(systemReadOnlyStatus);
 
         applicationContext = new ApplicationContextMock();
-        applicationContext.putBean("systemReadonlyStatus", systemReadonlyStatus);
+        applicationContext.putBean("systemReadOnlyStatus", systemReadOnlyStatus);
         applicationContext.putBean("authz", codedAuthz);
         applicationContext.putBean("security", new Security(codedAuthz));
 
