@@ -82,9 +82,9 @@ public class MockUtil
         context.setServletName("servlet/request");
         context.setEasyHome("http://mockedhost:8080/ui/");
 
-        SystemReadOnlyStatus systemReadonlyStatus = new SystemReadOnlyStatus();
-        context.setSystemReadOnlyStatus(systemReadonlyStatus);
-        systemReadonlyStatus.setFile(new File("target/SystemStatus.properties"));
+        SystemReadOnlyStatus systemReadOnlyStatus = new SystemReadOnlyStatus();
+        context.setSystemReadOnlyStatus(systemReadOnlyStatus);
+        systemReadOnlyStatus.setFile(new File("target/SystemStatus.properties"));
     }
 
     private static void mockNow()

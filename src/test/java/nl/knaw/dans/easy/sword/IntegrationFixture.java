@@ -45,7 +45,7 @@ public class IntegrationFixture
     @BeforeClass
     public static void start() throws Exception
     {
-        new Context().setSystemReadOnlyStatus(createSystemReadonlyBean());
+        new Context().setSystemReadOnlyStatus(createSystemReadOnlyBean());
         // zero implies a random port and allows the test to run along with an active server on port 8083
         server = Start.createServer(0, 0);
         server.start();
@@ -54,11 +54,11 @@ public class IntegrationFixture
 
     }
 
-    private static SystemReadOnlyStatus createSystemReadonlyBean()
+    private static SystemReadOnlyStatus createSystemReadOnlyBean()
     {
-        SystemReadOnlyStatus systemReadonlyStatus = new SystemReadOnlyStatus();
-        systemReadonlyStatus.setFile(new File("target/SystemReadOnlyStatus.properties"));
-        return systemReadonlyStatus;
+        SystemReadOnlyStatus systemReadOnlyStatus = new SystemReadOnlyStatus();
+        systemReadOnlyStatus.setFile(new File("target/SystemReadOnlyStatus.properties"));
+        return systemReadOnlyStatus;
     }
 
     @AfterClass

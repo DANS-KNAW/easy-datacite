@@ -46,7 +46,7 @@
 		<property name="systemReadOnlyStatus" ref="systemReadOnlyStatus" />
 	</bean>
 
-	<bean name="systemReadonlyStatus"
+	<bean name="systemReadOnlyStatus"
 		class="nl.knaw.dans.easy.servicelayer.SystemReadOnlyStatus">
 		<property name="file">
 			<!-- exchange system status (read only mode) between easy-business instances (e.g. web-ui, sword) -->
