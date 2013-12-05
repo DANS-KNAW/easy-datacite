@@ -22,7 +22,7 @@ import nl.knaw.dans.easy.domain.model.ECollectionEntry;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.security.CodedAuthz;
 import nl.knaw.dans.easy.security.Security;
-import nl.knaw.dans.easy.servicelayer.SystemReadonlyStatusCamelCaseChangePreparation;
+import nl.knaw.dans.easy.servicelayer.SystemReadOnlyStatus;
 import nl.knaw.dans.easy.servicelayer.services.CollectionService;
 import nl.knaw.dans.i.dmo.collections.DmoCollection;
 import nl.knaw.dans.i.security.annotations.SecuredOperationUtil;
@@ -76,7 +76,7 @@ public class EasyCollectionServiceTest
     private CodedAuthz createCodedAuthz()
     {
         CodedAuthz codedAuthz = new CodedAuthz();
-        SystemReadonlyStatusCamelCaseChangePreparation systemReadonlyStatus = new SystemReadonlyStatusCamelCaseChangePreparation();
+        SystemReadOnlyStatus systemReadonlyStatus = new SystemReadOnlyStatus();
         systemReadonlyStatus.setFile(new File("target/SystemReadOnlyStatus.properties"));
         codedAuthz.setSystemReadonlyStatus(systemReadonlyStatus);
         return codedAuthz;
@@ -106,7 +106,7 @@ public class EasyCollectionServiceTest
 
     private void initSecurity()
     {
-        SystemReadonlyStatusCamelCaseChangePreparation readOnlyStatus = new SystemReadonlyStatusCamelCaseChangePreparation();
+        SystemReadOnlyStatus readOnlyStatus = new SystemReadOnlyStatus();
         readOnlyStatus.setFile(new File("target/SystemReadonlyStatus.properties"));
         CodedAuthz authz = new CodedAuthz();
         authz.setSystemReadonlyStatus(readOnlyStatus);

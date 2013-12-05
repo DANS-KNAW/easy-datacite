@@ -1,12 +1,12 @@
 package nl.knaw.dans.easy.security;
 
-import nl.knaw.dans.easy.servicelayer.SystemReadonlyStatusCamelCaseChangePreparation;
+import nl.knaw.dans.easy.servicelayer.SystemReadOnlyStatus;
 
 public class IsSystemInUpdateModeCheck extends AbstractCheck
 {
-    private SystemReadonlyStatusCamelCaseChangePreparation systemReadonlyStatus;
+    private SystemReadOnlyStatus systemReadonlyStatus;
 
-    public IsSystemInUpdateModeCheck(SystemReadonlyStatusCamelCaseChangePreparation systemReadonlyStatus)
+    public IsSystemInUpdateModeCheck(SystemReadOnlyStatus systemReadonlyStatus)
     {
         this.systemReadonlyStatus = systemReadonlyStatus;
     }
