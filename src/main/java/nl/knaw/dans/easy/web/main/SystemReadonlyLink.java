@@ -12,8 +12,8 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 public class SystemReadonlyLink extends Link<Page>
 {
     private static final long serialVersionUID = 1L;
-    public static final String WID_LINK = "systemIsReadOnly";
-    public static final String WID_LABEL = "readOnly";
+    public static final String WICKET_ID_LINK = "systemIsReadOnly";
+    public static final String WICKET_ID_LABEL = "readOnly";
 
     @SpringBean(name = "systemReadonlyStatus")
     private SystemReadonlyStatus systemReadonlyStatus;
@@ -28,8 +28,8 @@ public class SystemReadonlyLink extends Link<Page>
      */
     public SystemReadonlyLink()
     {
-        super(WID_LINK);
-        add(new Label(WID_LABEL, createReadOnlyModel()));
+        super(WICKET_ID_LINK);
+        add(new Label(WICKET_ID_LABEL, createReadOnlyModel()));
     }
 
     @Override

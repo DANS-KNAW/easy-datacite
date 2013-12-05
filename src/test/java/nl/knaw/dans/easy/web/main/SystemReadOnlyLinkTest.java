@@ -1,7 +1,7 @@
 package nl.knaw.dans.easy.web.main;
 
-import static nl.knaw.dans.easy.web.main.SystemReadonlyLink.WID_LABEL;
-import static nl.knaw.dans.easy.web.main.SystemReadonlyLink.WID_LINK;
+import static nl.knaw.dans.easy.web.main.SystemReadonlyLink.WICKET_ID_LABEL;
+import static nl.knaw.dans.easy.web.main.SystemReadonlyLink.WICKET_ID_LINK;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -84,7 +84,7 @@ public class SystemReadOnlyLinkTest
     {
         WicketTester tester = createTester();
         tester.startPage(TestPage.class);
-        tester.assertInvisible(WID_LINK);
+        tester.assertInvisible(WICKET_ID_LINK);
     }
 
     @Test(expected = IllegalStateException.class)
@@ -111,7 +111,7 @@ public class SystemReadOnlyLinkTest
         PowerMock.replayAll();
 
         tester.startPage(TestPage.class);
-        tester.assertInvisible(WID_LINK);
+        tester.assertInvisible(WICKET_ID_LINK);
     }
 
     @Test
@@ -121,8 +121,8 @@ public class SystemReadOnlyLinkTest
         Whitebox.setInternalState(tester.getWicketSession(), EasyUser.class, mockAnonymousAsActiveUser(true));
         PowerMock.replayAll();
 
-        String linkPath = WID_LINK;
-        String labelPath = linkPath + ":" + WID_LABEL;
+        String linkPath = WICKET_ID_LINK;
+        String labelPath = linkPath + ":" + WICKET_ID_LABEL;
         tester.startPage(TestPage.class);
         tester.assertVisible(linkPath);
         tester.assertEnabled(labelPath);

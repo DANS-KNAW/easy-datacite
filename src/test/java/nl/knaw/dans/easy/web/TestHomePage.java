@@ -56,7 +56,7 @@ public class TestHomePage
 
         renderHomePage();
         assertLinkVisibilityConformsToLoggedOffStatus();
-        tester.assertInvisible(SystemReadonlyLink.WID_LINK);
+        tester.assertInvisible(SystemReadonlyLink.WICKET_ID_LINK);
         assertHomeBrowseAdvSearchVisible();
         assertNavDepositVisible();
         assertPersonalBarItemsNotRendered();
@@ -125,7 +125,7 @@ public class TestHomePage
         renderHomePage();
         assertLinkVisibilityConformsToLoggedInStatus();
         assertHomeBrowseAdvSearchVisible();
-        tester.assertInvisible(SystemReadonlyLink.WID_LINK);
+        tester.assertInvisible(SystemReadonlyLink.WICKET_ID_LINK);
         assertNavDepositVisible();
         assertPersonalBarItemsVisible();
         assertManagementPanelNotRendered();
@@ -153,7 +153,7 @@ public class TestHomePage
         renderHomePage();
         assertLinkVisibilityConformsToLoggedInStatus();
         assertHomeBrowseAdvSearchVisible();
-        tester.assertInvisible(SystemReadonlyLink.WID_LINK);
+        tester.assertInvisible(SystemReadonlyLink.WICKET_ID_LINK);
         assertNavDepositVisible();
         assertPersonalBarItemsVisible();
         assertArchivistManagementPanelVisible();
@@ -169,7 +169,7 @@ public class TestHomePage
         renderHomePage();
         assertLinkVisibilityConformsToLoggedInStatus();
         assertHomeBrowseAdvSearchVisible();
-        tester.assertVisible(SystemReadonlyLink.WID_LINK);
+        tester.assertVisible(SystemReadonlyLink.WICKET_ID_LINK);
         assertNavDepositVisible();
         assertPersonalBarItemsVisible();
         assertAdminManagementPanelVisible();
