@@ -9,7 +9,7 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-public class SystemReadonlyLink extends Link<Page>
+public class SystemReadonlyLinkCaseChangePreparation extends Link<Page>
 {
     private static final long serialVersionUID = 1L;
     public static final String WICKET_ID_LINK = "systemIsReadOnly";
@@ -26,7 +26,7 @@ public class SystemReadonlyLink extends Link<Page>
      * 
      * <pre>
      */
-    public SystemReadonlyLink()
+    public SystemReadonlyLinkCaseChangePreparation()
     {
         super(WICKET_ID_LINK);
         add(new Label(WICKET_ID_LABEL, createReadOnlyModel()));

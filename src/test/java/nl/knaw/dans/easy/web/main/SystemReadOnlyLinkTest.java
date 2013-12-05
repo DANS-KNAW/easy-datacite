@@ -1,7 +1,7 @@
 package nl.knaw.dans.easy.web.main;
 
-import static nl.knaw.dans.easy.web.main.SystemReadonlyLink.WICKET_ID_LABEL;
-import static nl.knaw.dans.easy.web.main.SystemReadonlyLink.WICKET_ID_LINK;
+import static nl.knaw.dans.easy.web.main.SystemReadonlyLinkCaseChangePreparation.WICKET_ID_LABEL;
+import static nl.knaw.dans.easy.web.main.SystemReadonlyLinkCaseChangePreparation.WICKET_ID_LINK;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -15,7 +15,7 @@ import nl.knaw.dans.easy.security.CodedAuthz;
 import nl.knaw.dans.easy.security.Security;
 import nl.knaw.dans.easy.servicelayer.SystemReadonlyStatus;
 import nl.knaw.dans.easy.web.EasyWicketApplication;
-import nl.knaw.dans.easy.web.main.SystemReadonlyLink;
+import nl.knaw.dans.easy.web.main.SystemReadonlyLinkCaseChangePreparation;
 
 import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.markup.html.WebPage;
@@ -41,7 +41,7 @@ public class SystemReadOnlyLinkTest
         public TestPanel(String id)
         {
             super(id);
-            add(new SystemReadonlyLink());
+            add(new SystemReadonlyLinkCaseChangePreparation());
         }
     }
 
@@ -57,7 +57,7 @@ public class SystemReadOnlyLinkTest
     {
         public TestPage()
         {
-            add(new SystemReadonlyLink());
+            add(new SystemReadonlyLinkCaseChangePreparation());
         }
     }
 
@@ -91,7 +91,7 @@ public class SystemReadOnlyLinkTest
     public void mustOverride()
     {
         WicketTester tester = createTester();
-        tester.startComponent(new SystemReadonlyLink()
+        tester.startComponent(new SystemReadonlyLinkCaseChangePreparation()
         {
             private static final long serialVersionUID = 1L;
 
