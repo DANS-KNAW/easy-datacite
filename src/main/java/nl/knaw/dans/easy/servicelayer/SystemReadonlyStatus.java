@@ -10,6 +10,10 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Maintains the flag whether easy is in read only mode in preparation for a shutdown.
+ *
+ */
 public class SystemReadonlyStatus
 {
     private static final String REFRESH_FREQUENCY = "refresh.frequency";
@@ -52,7 +56,14 @@ public class SystemReadonlyStatus
         return file;
     }
 
-    // TODO should only be called by spring or perhaps before[class]
+    /**
+     * Sets the file that communicates the status between the WebUI, sword or any other instance of easy.
+     * It should be the first action performed on the object before setting or retrieving another
+     * property. If the file does not exist, it is created with default values. Despite the content of
+     * the file the readOnly property is set to false, so the system will startup in update mode. <br>
+     * A constructor argument would have been more logical, but that doesn't marry well with SpringBean
+     * injection by wicket.
+     */
     public void setFile(File file)
     {
         this.file = file;

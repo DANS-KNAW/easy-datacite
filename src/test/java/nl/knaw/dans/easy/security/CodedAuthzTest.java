@@ -12,18 +12,11 @@ import java.util.Map;
 import nl.knaw.dans.easy.servicelayer.SystemReadonlyStatus;
 
 import org.joda.time.DateTime;
-import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
 public class CodedAuthzTest
 {
-    @BeforeClass
-    public static void initReadOnly()
-    {
-
-    }
-
     @Test
     public void testGetSecurityOfficer()
     {
