@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Maintains the flag whether easy is in read only mode in preparation for a shutdown.
- *
  */
 public class SystemReadOnlyStatus
 {
