@@ -4,23 +4,23 @@ import nl.knaw.dans.easy.servicelayer.SystemReadOnlyStatus;
 
 public class IsSystemInUpdateModeCheck extends AbstractCheck
 {
-    private SystemReadOnlyStatus systemReadonlyStatus;
+    private SystemReadOnlyStatus systemReadOnlyStatus;
 
-    public IsSystemInUpdateModeCheck(SystemReadOnlyStatus systemReadonlyStatus)
+    public IsSystemInUpdateModeCheck(SystemReadOnlyStatus systemReadOnlyStatus)
     {
-        this.systemReadonlyStatus = systemReadonlyStatus;
+        this.systemReadOnlyStatus = systemReadOnlyStatus;
     }
 
     @Override
     public String getProposition()
     {
-        return PropositionBuilder.buildOrProposition("read only mode is", new Object[] {systemReadonlyStatus.getReadOnly()});
+        return PropositionBuilder.buildOrProposition("read only mode is", new Object[] {systemReadOnlyStatus.getReadOnly()});
     }
 
     @Override
     public boolean evaluate(ContextParameters ctxParameters)
     {
-        return !systemReadonlyStatus.getReadOnly();
+        return !systemReadOnlyStatus.getReadOnly();
     }
 
     @Override

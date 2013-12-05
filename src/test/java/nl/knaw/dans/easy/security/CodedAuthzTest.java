@@ -30,9 +30,9 @@ public class CodedAuthzTest
     private CodedAuthz createCodedAuthz()
     {
         CodedAuthz codedAuthz = new CodedAuthz();
-        SystemReadOnlyStatus systemReadonlyStatus = new SystemReadOnlyStatus();
-        systemReadonlyStatus.setFile(new File("target/SystemReadOnlyStatus.properties"));
-        codedAuthz.setSystemReadOnlyStatus(systemReadonlyStatus);
+        SystemReadOnlyStatus systemReadOnlyStatus = new SystemReadOnlyStatus();
+        systemReadOnlyStatus.setFile(new File("target/SystemReadOnlyStatus.properties"));
+        codedAuthz.setSystemReadOnlyStatus(systemReadOnlyStatus);
         return codedAuthz;
     }
 
