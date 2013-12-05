@@ -106,7 +106,6 @@ public class CodedAuthz extends AbstractEasyService implements Authz
         synchronized (syncRules)
         {
             boolean hasOfficer = getRules().containsKey(item);
-            // TODO should't all buttons have a security officer? might require wild cards for signatures
             // if (logger.isDebugEnabled() && !hasOfficer && !missing.contains(item) &&
             // item.matches("nl.knaw.dans.easy.web.*Page2?(:[^_]*)?"))
             // {
@@ -260,7 +259,6 @@ public class CodedAuthz extends AbstractEasyService implements Authz
             // nl.knaw.dans.easy.web.admin.UserDetailsPage components
             rules.put("nl.knaw.dans.easy.web.admin.UserDetailsPage:userDetailsPanel:switchPanel:userInfoForm:state", getEditProtectedUserAttributesRule());
             rules.put("nl.knaw.dans.easy.web.admin.UserDetailsPage:userDetailsPanel:switchPanel:userInfoForm:roles", getEditProtectedUserAttributesRule());
-            // TODO move switches in wicket components to a real SecurityOfficer
             rules.put(":userDetailsPanel:switchPanel:editLink", getNoSecurityOfficer());
             rules.put(":userInfoPanel:switchPanel:editLink", getNoSecurityOfficer());
             rules.put(":userInfoPanel:switchPanel:changePasswordLink", getNoSecurityOfficer());
@@ -309,7 +307,7 @@ public class CodedAuthz extends AbstractEasyService implements Authz
             // Description tab
             rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:editLink", getEnableToArchivistRule());
 
-            // file explorer tab TODO replace switches in FileExplorer by security officers?
+            // file explorer tab
             rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:fe:deleteLink", getEnableToArchivistOrAdminRule());
             rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:fe:uploadLink", getEnableToArchivistOrAdminRule());
             rules.put("nl.knaw.dans.easy.web.view.dataset.DatasetViewPage:tabs:panel:fe:importLink", getEnableToArchivistOrAdminRule());
