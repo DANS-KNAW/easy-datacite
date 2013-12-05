@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Map;
 
-import nl.knaw.dans.easy.servicelayer.SystemReadonlyStatus;
+import nl.knaw.dans.easy.servicelayer.SystemReadonlyStatusCamelCaseChangePreparation;
 
 import org.joda.time.DateTime;
 import org.junit.Ignore;
@@ -30,7 +30,7 @@ public class CodedAuthzTest
     private CodedAuthz createCodedAuthz()
     {
         CodedAuthz codedAuthz = new CodedAuthz();
-        SystemReadonlyStatus systemReadonlyStatus = new SystemReadonlyStatus();
+        SystemReadonlyStatusCamelCaseChangePreparation systemReadonlyStatus = new SystemReadonlyStatusCamelCaseChangePreparation();
         systemReadonlyStatus.setFile(new File("target/SystemReadOnlyStatus.properties"));
         codedAuthz.setSystemReadonlyStatus(systemReadonlyStatus);
         return codedAuthz;

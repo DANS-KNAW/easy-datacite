@@ -11,7 +11,7 @@ import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.business.services.AbstractEasyService;
 import nl.knaw.dans.easy.domain.dataset.item.UpdateInfo.Action;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
-import nl.knaw.dans.easy.servicelayer.SystemReadonlyStatus;
+import nl.knaw.dans.easy.servicelayer.SystemReadonlyStatusCamelCaseChangePreparation;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,7 +64,7 @@ public class CodedAuthz extends AbstractEasyService implements Authz
     private SecurityOfficer noSecurityOfficer;
 
     /** Spring bean property */
-    private SystemReadonlyStatus systemReadonlyStatus;
+    private SystemReadonlyStatusCamelCaseChangePreparation systemReadonlyStatus;
     private AbstractCheck isSystemInUpdateModeCheck;
 
     @Override
@@ -947,12 +947,12 @@ public class CodedAuthz extends AbstractEasyService implements Authz
         return userByIdRule;
     }
 
-    public SystemReadonlyStatus getSystemReadonlyStatus()
+    public SystemReadonlyStatusCamelCaseChangePreparation getSystemReadonlyStatus()
     {
         return systemReadonlyStatus;
     }
 
-    public void setSystemReadonlyStatus(SystemReadonlyStatus readOnlyStatus)
+    public void setSystemReadonlyStatus(SystemReadonlyStatusCamelCaseChangePreparation readOnlyStatus)
     {
         this.systemReadonlyStatus = readOnlyStatus;
         isSystemInUpdateModeCheck = new IsSystemInUpdateModeCheck(systemReadonlyStatus);

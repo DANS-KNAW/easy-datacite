@@ -14,11 +14,11 @@ import org.slf4j.LoggerFactory;
  * Maintains the flag whether easy is in read only mode in preparation for a shutdown.
  *
  */
-public class SystemReadonlyStatus
+public class SystemReadonlyStatusCamelCaseChangePreparation
 {
     private static final String REFRESH_FREQUENCY = "refresh.frequency";
     private static final String IS_READ_ONLY = "is.read.only";
-    private static final Logger logger = LoggerFactory.getLogger(SystemReadonlyStatus.class);
+    private static final Logger logger = LoggerFactory.getLogger(SystemReadonlyStatusCamelCaseChangePreparation.class);
     private static final String DEFAULT_FREQUENCY = (1000 * 60 * 2) + "";
     private final Properties properties = new Properties();
     private File file;
