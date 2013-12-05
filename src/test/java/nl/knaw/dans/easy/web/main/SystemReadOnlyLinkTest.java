@@ -155,7 +155,7 @@ public class SystemReadOnlyLinkTest
         systemReadonlyStatus.setFile(new File("target/systemReadonlyStatus.propeties"));
 
         CodedAuthz codedAuthz = new CodedAuthz();
-        codedAuthz.setSystemReadonlyStatus(systemReadonlyStatus);
+        codedAuthz.setSystemReadOnlyStatus(systemReadonlyStatus);
 
         applicationContext = new ApplicationContextMock();
         applicationContext.putBean("systemReadonlyStatus", systemReadonlyStatus);

@@ -181,7 +181,7 @@ public class TestHomePage
     {
         ApplicationContextMock ctx = new ApplicationContextMock();
         ctx.putBean("editableContentHome", new FileSystemHomeDirectory(new File("src/main/assembly/dist/res/example/editable")));
-        ctx.putBean("systemReadonlyStatus", createSystemReadonlyBean());
+        ctx.putBean("systemReadOnlyStatus", createSystemReadonlyBean());
         EasyWicketApplication app = new EasyWicketApplication();
         app.setApplicationContext(ctx);
         tester = new WicketTester(app);
@@ -206,15 +206,15 @@ public class TestHomePage
     private CodedAuthz createCodedAuthz()
     {
         CodedAuthz codedAuthz = new CodedAuthz();
-        codedAuthz.setSystemReadonlyStatus(createSystemReadonlyBean());
+        codedAuthz.setSystemReadOnlyStatus(createSystemReadonlyBean());
         return codedAuthz;
     }
 
     private SystemReadOnlyStatus createSystemReadonlyBean()
     {
-        SystemReadOnlyStatus systemReadonlyStatus = new SystemReadOnlyStatus();
-        systemReadonlyStatus.setFile(new File("target/SystemReadOnlyStatus.properties"));
-        return systemReadonlyStatus;
+        SystemReadOnlyStatus systemReadOnlyStatus = new SystemReadOnlyStatus();
+        systemReadOnlyStatus.setFile(new File("target/SystemReadOnlyStatus.properties"));
+        return systemReadOnlyStatus;
     }
 
     private void setUpUsers()

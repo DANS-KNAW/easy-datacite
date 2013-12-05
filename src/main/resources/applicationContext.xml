@@ -28,8 +28,8 @@
 
 	</bean>
 
-	<bean name="systemReadonlyStatus"
-		class="nl.knaw.dans.easy.servicelayer.SystemReadonlyStatus">
+	<bean name="systemReadOnlyStatus"
+		class="nl.knaw.dans.easy.servicelayer.SystemReadOnlyStatus">
 		<property name="file" value="${easy.business.system.status.file}" />
 	</bean>
 	
@@ -119,8 +119,8 @@
 		name="authz"
 		class="nl.knaw.dans.easy.security.CodedAuthz">
 		<property
-			name="systemReadonlyStatus"
-			ref="systemReadonlyStatus"/>
+			name="systemReadOnlyStatus"
+			ref="systemReadOnlyStatus"/>
 	</bean>
 
 	<!-- ================= -->

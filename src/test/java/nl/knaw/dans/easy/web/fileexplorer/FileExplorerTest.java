@@ -109,7 +109,7 @@ public class FileExplorerTest
         CodedAuthz codedAuthz = new CodedAuthz();
         SystemReadOnlyStatus systemReadonlyStatus = new SystemReadOnlyStatus();
         systemReadonlyStatus.setFile(new File("target/SystemReadOnlyStatus.properties"));
-        codedAuthz.setSystemReadonlyStatus(systemReadonlyStatus);
+        codedAuthz.setSystemReadOnlyStatus(systemReadonlyStatus);
         return codedAuthz;
     }
 
