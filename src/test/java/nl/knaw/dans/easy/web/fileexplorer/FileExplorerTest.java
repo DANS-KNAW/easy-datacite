@@ -46,7 +46,7 @@ import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.security.CodedAuthz;
 import nl.knaw.dans.easy.security.ContextParameters;
 import nl.knaw.dans.easy.security.Security;
-import nl.knaw.dans.easy.servicelayer.SystemReadonlyStatus;
+import nl.knaw.dans.easy.servicelayer.SystemReadOnlyStatus;
 import nl.knaw.dans.easy.servicelayer.services.DatasetService;
 import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.servicelayer.services.SearchService;
@@ -107,9 +107,8 @@ public class FileExplorerTest
     private CodedAuthz createCodedAuthz()
     {
         CodedAuthz codedAuthz = new CodedAuthz();
-        SystemReadonlyStatus systemReadonlyStatus = new SystemReadonlyStatus();
-        systemReadonlyStatus.setFile(new File("target/SystemReadOnlyStatus.properties"));
-        codedAuthz.setSystemReadonlyStatus(systemReadonlyStatus);
+        SystemReadOnlyStatus systemReadOnlyStatus = new SystemReadOnlyStatus(new File("target/SystemReadOnlyStatus.properties"));
+        codedAuthz.setSystemReadOnlyStatus(systemReadOnlyStatus);
         return codedAuthz;
     }
 

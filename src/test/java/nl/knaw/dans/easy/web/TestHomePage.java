@@ -15,12 +15,14 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.domain.user.EasyUserAnonymous;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
+import nl.knaw.dans.easy.security.Authz;
 import nl.knaw.dans.easy.security.CodedAuthz;
 import nl.knaw.dans.easy.security.ContextParameters;
 import nl.knaw.dans.easy.security.Security;
-import nl.knaw.dans.easy.servicelayer.SystemReadonlyStatus;
+import nl.knaw.dans.easy.servicelayer.SystemReadOnlyStatus;
 import nl.knaw.dans.easy.servicelayer.services.SearchService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.easy.web.main.SystemReadOnlyLink;
 import nl.knaw.dans.easy.web.statistics.StatisticsEvent;
 import nl.knaw.dans.easy.web.statistics.StatisticsLogger;
 
@@ -55,6 +57,7 @@ public class TestHomePage
 
         renderHomePage();
         assertLinkVisibilityConformsToLoggedOffStatus();
+        tester.assertInvisible(SystemReadOnlyLink.WICKET_ID_LINK);
         assertHomeBrowseAdvSearchVisible();
         assertNavDepositVisible();
         assertPersonalBarItemsNotRendered();
@@ -123,6 +126,7 @@ public class TestHomePage
         renderHomePage();
         assertLinkVisibilityConformsToLoggedInStatus();
         assertHomeBrowseAdvSearchVisible();
+        tester.assertInvisible(SystemReadOnlyLink.WICKET_ID_LINK);
         assertNavDepositVisible();
         assertPersonalBarItemsVisible();
         assertManagementPanelNotRendered();
@@ -150,6 +154,7 @@ public class TestHomePage
         renderHomePage();
         assertLinkVisibilityConformsToLoggedInStatus();
         assertHomeBrowseAdvSearchVisible();
+        tester.assertInvisible(SystemReadOnlyLink.WICKET_ID_LINK);
         assertNavDepositVisible();
         assertPersonalBarItemsVisible();
         assertArchivistManagementPanelVisible();
@@ -165,6 +170,7 @@ public class TestHomePage
         renderHomePage();
         assertLinkVisibilityConformsToLoggedInStatus();
         assertHomeBrowseAdvSearchVisible();
+        tester.assertVisible(SystemReadOnlyLink.WICKET_ID_LINK);
         assertNavDepositVisible();
         assertPersonalBarItemsVisible();
         assertAdminManagementPanelVisible();
@@ -174,13 +180,19 @@ public class TestHomePage
     @Before
     public void setUp() throws Exception
     {
+        SystemReadOnlyStatus systemReadOnlyStatus = createSystemReadOnlyStatus();
+        Authz authz = createCodedAuthz(systemReadOnlyStatus);
+
         ApplicationContextMock ctx = new ApplicationContextMock();
         ctx.putBean("editableContentHome", new FileSystemHomeDirectory(new File("src/main/assembly/dist/res/example/editable")));
-        ctx.putBean("systemReadonlyStatus", createSystemReadonlyBean());
+        ctx.putBean("systemReadOnlyStatus", systemReadOnlyStatus);
+        ctx.putBean("authz", authz);
         EasyWicketApplication app = new EasyWicketApplication();
         app.setApplicationContext(ctx);
+
         tester = new WicketTester(app);
-        setUpAuthz();
+
+        mockSecurity(authz);
         setUpUsers();
         setUpEasySessionMock();
         setUpStatisticsLoggerMock();
@@ -188,28 +200,27 @@ public class TestHomePage
         setupSearchServiceMock();
     }
 
-    private void setUpAuthz()
+    private void mockSecurity(Authz authz)
     {
         /*
          * Attention! We are not mocking Authz, but using the CodedAuthz class. This class contains the
          * authorization rules used in production as well.
          */
         mockStatic(Security.class);
-        expect(Security.getAuthz()).andReturn(createCodedAuthz()).anyTimes();
+        expect(Security.getAuthz()).andReturn(authz).anyTimes();
     }
 
-    private CodedAuthz createCodedAuthz()
+    private CodedAuthz createCodedAuthz(SystemReadOnlyStatus createSystemReadOnlyStatus)
     {
         CodedAuthz codedAuthz = new CodedAuthz();
-        codedAuthz.setSystemReadonlyStatus(createSystemReadonlyBean());
+        codedAuthz.setSystemReadOnlyStatus(createSystemReadOnlyStatus);
         return codedAuthz;
     }
 
-    private SystemReadonlyStatus createSystemReadonlyBean()
+    private SystemReadOnlyStatus createSystemReadOnlyStatus()
     {
-        SystemReadonlyStatus systemReadonlyStatus = new SystemReadonlyStatus();
-        systemReadonlyStatus.setFile(new File("target/SystemReadOnlyStatus.properties"));
-        return systemReadonlyStatus;
+        SystemReadOnlyStatus systemReadOnlyStatus = new SystemReadOnlyStatus(new File("target/SystemReadOnlyStatus.properties"));
+        return systemReadOnlyStatus;
     }
 
     private void setUpUsers()

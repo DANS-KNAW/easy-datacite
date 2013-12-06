@@ -7,6 +7,18 @@
 <body>
 	<wicket:extend>
 		<div wicket:enclosure="registration">
+			<!--
+			Reason for the enclosure:
+			 
+			Authorization problems result in showing a login page. 
+			Under circumstances (e.g. the system is in read only mode) 
+			the user might be logged in anyway.
+			
+			In that case the user should rather get an almost empty page
+			than a page with a partial login form.
+			In case of the read only mode the banner announcing the shutdown
+			should be clear enough for the user to explain the otherwise empty page.
+			-->
 			<h1>
 				<wicket:message key="login.header">Login header</wicket:message>
 			</h1>

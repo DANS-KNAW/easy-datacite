@@ -1,22 +1,22 @@
 package nl.knaw.dans.easy.web.main;
 
-import nl.knaw.dans.easy.servicelayer.SystemReadonlyStatus;
+import nl.knaw.dans.easy.servicelayer.SystemReadOnlyStatus;
+import nl.knaw.dans.easy.web.ComponentWithSecurityOfficer;
 
 import org.apache.wicket.Page;
-import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-public class SystemReadonlyLink extends Link<Page>
+public class SystemReadOnlyLink extends Link<Page> implements ComponentWithSecurityOfficer
 {
     private static final long serialVersionUID = 1L;
-    public static final String WID_LINK = "systemIsReadOnly";
-    public static final String WID_LABEL = "readOnly";
+    public static final String WICKET_ID_LINK = "systemIsReadOnly";
+    public static final String WICKET_ID_LABEL = "readOnly";
 
-    @SpringBean(name = "systemReadonlyStatus")
-    private SystemReadonlyStatus systemReadonlyStatus;
+    @SpringBean(name = "systemReadOnlyStatus")
+    private SystemReadOnlyStatus systemReadOnlyStatus;
 
     /**
      * Creates a toggle for a system administrator to set the system in read only mode for a safe
@@ -26,26 +26,16 @@ public class SystemReadonlyLink extends Link<Page>
      * 
      * <pre>
      */
-    public SystemReadonlyLink()
+    public SystemReadOnlyLink()
     {
-        super(WID_LINK);
-        add(new Label(WID_LABEL, createReadOnlyModel()));
-    }
-
-    @Override
-    public void onBeforeRender()
-    {
-        // TODO rather: if (! CodedAuthz.hasSecurityOfficer(getPath()))
-        // but the synchronized clause disrupts the stack and throws an IllegalStateException
-        if (!(getParent() instanceof WebPage))
-            throw new SecurityException(getClass().getName() + " must be added directly to a WebPage");
-        super.onBeforeRender();
+        super(WICKET_ID_LINK);
+        add(new Label(WICKET_ID_LABEL, createReadOnlyModel()));
     }
 
     @Override
     public void onClick()
     {
-        systemReadonlyStatus.setReadOnly(!systemReadonlyStatus.getReadOnly());
+        systemReadOnlyStatus.setReadOnly(!systemReadOnlyStatus.getReadOnly());
         setResponsePage(this.getPage());
     }
 
@@ -58,7 +48,7 @@ public class SystemReadonlyLink extends Link<Page>
             @Override
             protected String load()
             {
-                if (systemReadonlyStatus.getReadOnly())
+                if (systemReadOnlyStatus.getReadOnly())
                     return getLocalizer().getString("adminSwitch.readOnly", getPage(), "[SYSTEM IS IN READ ONLY MODE]");
                 else
                     return getLocalizer().getString("adminSwitch.readWrite", getPage(), "[system allows read and write]");
