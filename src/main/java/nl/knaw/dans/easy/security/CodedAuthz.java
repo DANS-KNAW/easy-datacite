@@ -190,7 +190,7 @@ public class CodedAuthz extends AbstractEasyService implements Authz
      * 
      * @return all security rules
      */
-    protected Map<String, SecurityOfficer> getRules()
+    final Map<String, SecurityOfficer> getRules()
     {
         synchronized (syncRules)
         {
@@ -202,7 +202,14 @@ public class CodedAuthz extends AbstractEasyService implements Authz
         }
     }
 
-    private Map<String, SecurityOfficer> createRules()
+    /**
+     * Performs lazy initialization in a thread safe environment.
+     * 
+     * @return a map with security officers, keys are method signatures or PageRelativePath's of wicket
+     *         components: arguments for {@link #getSecurityOfficer(String)},
+     *         {@link #hasSecurityOfficer(String) or {@link #isProtectedPage(String)}.
+     */
+    protected Map<String, SecurityOfficer> createRules()
     {
         Map<String, SecurityOfficer> newRules = new LinkedHashMap<String, SecurityOfficer>();
 
