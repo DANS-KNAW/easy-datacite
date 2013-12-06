@@ -76,8 +76,7 @@ public class EasyCollectionServiceTest
     private CodedAuthz createCodedAuthz()
     {
         CodedAuthz codedAuthz = new CodedAuthz();
-        SystemReadOnlyStatus systemReadOnlyStatus = new SystemReadOnlyStatus();
-        systemReadOnlyStatus.setFile(new File("target/SystemReadOnlyStatus.properties"));
+        SystemReadOnlyStatus systemReadOnlyStatus = new SystemReadOnlyStatus(new File("target/SystemReadOnlyStatus.properties"));
         codedAuthz.setSystemReadOnlyStatus(systemReadOnlyStatus);
         return codedAuthz;
     }
@@ -86,7 +85,7 @@ public class EasyCollectionServiceTest
     @Test(expected = NullPointerException.class)
     public void testSecurityOnUpdateCollectionMemberships() throws Exception
     {
-        initSecurity();
+        new Security(createCodedAuthz());
         service.updateCollectionMemberships(new EasyUserImpl()
         {
             @Override
@@ -102,15 +101,6 @@ public class EasyCollectionServiceTest
             }
 
         }, null, null);
-    }
-
-    private void initSecurity()
-    {
-        SystemReadOnlyStatus readOnlyStatus = new SystemReadOnlyStatus();
-        readOnlyStatus.setFile(new File("target/SystemReadOnlyStatus.properties"));
-        CodedAuthz authz = new CodedAuthz();
-        authz.setSystemReadOnlyStatus(readOnlyStatus);
-        new Security(authz);
     }
 
     @Test

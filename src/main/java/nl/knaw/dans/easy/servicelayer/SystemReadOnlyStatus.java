@@ -20,12 +20,41 @@ public class SystemReadOnlyStatus
     private static final Logger logger = LoggerFactory.getLogger(SystemReadOnlyStatus.class);
     private static final String DEFAULT_FREQUENCY = (1000 * 60 * 2) + "";
     private final Properties properties = new Properties();
+
+    /** File that communicates the status between the WebUI, sword or any other instance of easy. */
     private File file;
+
     private long lastCheck = 0L;
+
+    /** Required for wicket's SpringBean annotation, do not use otherwise. */
+    public SystemReadOnlyStatus()
+    {
+    }
+
+    /**
+     * Creates a bean to set the easy system in read only mode in preparation for a shutdown.
+     * 
+     * @param file
+     *        communicates the status between the WebUI, sword or any other instance of easy that has the
+     *        same file configured.
+     */
+    public SystemReadOnlyStatus(File file)
+    {
+        this.file = file;
+
+        // get the refresh frequency from a previous configuration
+        if (file.isFile())
+            fetch();
+
+        // start the system in update mode
+        properties.setProperty(IS_READ_ONLY, "false");
+
+        flush();
+    }
 
     public boolean getReadOnly()
     {
-        mandatoryFetch();
+        fetch();
         String value = properties.getProperty(IS_READ_ONLY);
         return Boolean.parseBoolean(value);
     }
@@ -50,29 +79,11 @@ public class SystemReadOnlyStatus
         flush();
     }
 
-    public File getFile()
+    private File getFile()
     {
+        if (file == null)
+            throw new IllegalStateException("call the constructor with arguments, the default constructor is for wicket's SpringBean annotation");
         return file;
-    }
-
-    /**
-     * Sets the file that communicates the status between the WebUI, sword or any other instance of easy.
-     * It should be the first action performed on the object before setting or retrieving another
-     * property. If the file does not exist, it is created with default values. Despite the content of
-     * the file the readOnly property is set to false, so the system will startup in update mode. <br>
-     * A constructor argument would have been more logical, but that doesn't marry well with SpringBean
-     * injection by wicket.
-     */
-    public void setFile(File file)
-    {
-        this.file = file;
-
-        // get the refresh frequency from a previous configuration
-        optionalFetch();
-
-        // start the system in update mode
-        properties.setProperty(IS_READ_ONLY, "false");
-        flush();
     }
 
     private void flush()
@@ -82,7 +93,7 @@ public class SystemReadOnlyStatus
             properties.setProperty(REFRESH_FREQUENCY, DEFAULT_FREQUENCY);
         try
         {
-            FileOutputStream outputStream = new FileOutputStream(file);
+            FileOutputStream outputStream = new FileOutputStream(getFile());
             try
             {
                 properties.store(outputStream, "exchange system status (read only mode) between easy-business instances (e.g. web-ui, sword)");
@@ -94,7 +105,7 @@ public class SystemReadOnlyStatus
         }
         catch (FileNotFoundException e)
         {
-            logger.error("file not found " + file, e);
+            logger.error("file not found " + getFile(), e);
             throw new IllegalStateException(e);
         }
         catch (IOException e)
@@ -104,32 +115,7 @@ public class SystemReadOnlyStatus
         }
     }
 
-    private void optionalFetch()
-    {
-        try
-        {
-            fetch();
-        }
-        catch (FileNotFoundException e)
-        {
-            ;// settle for the defaults
-        }
-    }
-
-    private void mandatoryFetch()
-    {
-        try
-        {
-            fetch();
-        }
-        catch (FileNotFoundException e)
-        {
-            logger.error("file not found " + file, e);
-            throw new IllegalStateException(e);
-        }
-    }
-
-    private void fetch() throws FileNotFoundException
+    private void fetch()
     {
         // each WebApp has its own instance of the singleton
         // so we synchronize SWORD, web-ui and the rest interfaces via the file system
@@ -137,7 +123,7 @@ public class SystemReadOnlyStatus
             return;
         try
         {
-            FileInputStream inputStream = new FileInputStream(file);
+            FileInputStream inputStream = new FileInputStream(getFile());
             try
             {
                 properties.clear();
@@ -147,11 +133,6 @@ public class SystemReadOnlyStatus
             {
                 inputStream.close();
             }
-        }
-        catch (FileNotFoundException e)
-        {
-            logger.error("file not found " + file, e);
-            throw e;
         }
         catch (IOException e)
         {
