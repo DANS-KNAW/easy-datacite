@@ -1,6 +1,7 @@
 package nl.knaw.dans.easy.web;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import nl.knaw.dans.common.lang.ClassUtil;
@@ -57,7 +58,6 @@ final class EasyAuthorizationStrategy implements IAuthorizationStrategy
             }
         }
 
-        boolean authorized = true;
         for (final String item : items)
         {
             if (Security.getAuthz().hasSecurityOfficer(item))
@@ -75,18 +75,20 @@ final class EasyAuthorizationStrategy implements IAuthorizationStrategy
                 }
                 if (Component.RENDER.equals(action))
                 {
-                    authorized = officer.isComponentVisible(ctxParameters);
+                    return officer.isComponentVisible(ctxParameters);
                 }
                 else if (Component.ENABLE.equals(action))
                 {
-                    authorized = officer.isEnableAllowed(ctxParameters);
+                    return officer.isEnableAllowed(ctxParameters);
                 }
-
-                return authorized;
+                return true;
             }
         }
+        if (component instanceof ComponentWithSecurityManager)
+            throw new SecurityException(component.getClass().getName() + " should have a SecurityOfficer for at least one of "
+                    + Arrays.deepToString(items.toArray()));
 
-        return authorized;
+        return true;
     }
 
     public boolean isInstantiationAuthorized(@SuppressWarnings("rawtypes")

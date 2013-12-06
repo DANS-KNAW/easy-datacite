@@ -2,9 +2,6 @@ package nl.knaw.dans.easy.web.main;
 
 import static nl.knaw.dans.easy.web.main.SystemReadOnlyLink.WICKET_ID_LABEL;
 import static nl.knaw.dans.easy.web.main.SystemReadOnlyLink.WICKET_ID_LINK;
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
@@ -16,7 +13,6 @@ import nl.knaw.dans.easy.security.Security;
 import nl.knaw.dans.easy.servicelayer.SystemReadOnlyStatus;
 import nl.knaw.dans.easy.web.EasyWicketApplication;
 
-import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.spring.test.ApplicationContextMock;
@@ -60,22 +56,10 @@ public class SystemReadOnlyLinkTest
         }
     }
 
-    @Test
-    public void linkOnPanelNotAllowed()
+    @Test(expected = SecurityException.class)
+    public void noSecurityOfficerForPanel()
     {
-        try
-        {
-            createTester().startPage(TestNestedPage.class);
-        }
-        catch (WicketRuntimeException e)
-        {
-            // TODO rather something like:
-            // assertThat(e.getCause().getClass(), isThrowable(SecurityException.class));
-            String message = "expected cause " + SecurityException.class.getName() + " but got " + e.getCause().getClass().getName();
-            assertTrue(message, e.getCause() instanceof SecurityException);
-
-            assertThat(e.getCause().getMessage(), containsString("WebPage"));
-        }
+        createTester().startPage(TestNestedPage.class);
     }
 
     @Test
@@ -84,22 +68,6 @@ public class SystemReadOnlyLinkTest
         WicketTester tester = createTester();
         tester.startPage(TestPage.class);
         tester.assertInvisible(WICKET_ID_LINK);
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void mustOverride()
-    {
-        WicketTester tester = createTester();
-        tester.startComponent(new SystemReadOnlyLink()
-        {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void onBeforeRender()
-            {
-                // attempt to override the check for a SecurityOfficer
-            }
-        });
     }
 
     @Test
@@ -135,7 +103,7 @@ public class SystemReadOnlyLinkTest
         tester.assertLabel(labelPath, "system allows read and write");
     }
 
-    public WicketTester createTester()
+    private WicketTester createTester()
     {
         EasyWicketApplication application = new EasyWicketApplication();
         application.setApplicationContext(applicationContext);
@@ -148,7 +116,7 @@ public class SystemReadOnlyLinkTest
     }
 
     @BeforeClass
-    public static void init()
+    public static void mockApplicationContext()
     {
         SystemReadOnlyStatus systemReadOnlyStatus = new SystemReadOnlyStatus();
         systemReadOnlyStatus.setFile(new File("target/systemReadonlyStatus.propeties"));
