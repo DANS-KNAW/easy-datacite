@@ -28,8 +28,18 @@
 
 	</bean>
 
-	<bean name="jumpoffService"
-		class="nl.knaw.dans.easy.business.services.EasyJumpoffService" />
+	<bean
+		name="systemReadOnlyStatus"
+		class="nl.knaw.dans.easy.servicelayer.SystemReadOnlyStatus">
+		<!-- exchange system status (read only mode) between easy-business instances (e.g. web-ui, sword) -->
+		<constructor-arg
+			index="0"
+			value="${easy.business.system.status.file}"/>
+	</bean>
+	
+	<bean name="
+			jumpoffService "
+			class="nl.knaw.dans.easy.business.services.EasyJumpoffService"/>
 
 	<bean name="disciplineService"
 		class="nl.knaw.dans.easy.business.services.EasyDisciplineCollectionService"></bean>
@@ -110,7 +120,13 @@
 		<constructor-arg ref="authz" />
 	</bean>
 
-	<bean name="authz" class="nl.knaw.dans.easy.security.CodedAuthz" />
+	<bean
+		name="authz"
+		class="nl.knaw.dans.easy.security.CodedAuthz">
+		<property
+			name="systemReadOnlyStatus"
+			ref="systemReadOnlyStatus"/>
+	</bean>
 
 	<!-- ================= -->
 	<!-- Business Audit -->

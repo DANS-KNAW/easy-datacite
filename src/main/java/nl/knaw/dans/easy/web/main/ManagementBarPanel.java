@@ -1,10 +1,5 @@
 package nl.knaw.dans.easy.web.main;
 
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.model.PropertyModel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.servicelayer.services.Services;
@@ -16,6 +11,11 @@ import nl.knaw.dans.easy.web.search.pages.OurWorkSearchResultPage;
 import nl.knaw.dans.easy.web.search.pages.TrashCanSearchResultPage;
 import nl.knaw.dans.easy.web.template.AbstractEasyStatelessPanel;
 import nl.knaw.dans.easy.web.wicket.SecureEasyPageLink;
+
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Management Panel
@@ -39,16 +39,16 @@ public class ManagementBarPanel extends AbstractEasyStatelessPanel
         super(wicketId);
 
         SecureEasyPageLink allWorkLink = new SecureEasyPageLink(ALL_WORK, AllWorkSearchResultPage.class);
-        allWorkLink.add(new Label("numberOfItemsInAllWork", new PropertyModel(this, "numberOfItemsInAllWork")));
+        allWorkLink.add(new Label("numberOfItemsInAllWork", createAllWorkModel()));
         add(allWorkLink);
         SecureEasyPageLink ourWorkLink = new SecureEasyPageLink(OUR_WORK, OurWorkSearchResultPage.class);
-        ourWorkLink.add(new Label("numberOfItemsInOurWork", new PropertyModel(this, "numberOfItemsInOurWork")));
+        ourWorkLink.add(new Label("numberOfItemsInOurWork", createOurWorkModel()));
         add(ourWorkLink);
         SecureEasyPageLink myWorkLink = new SecureEasyPageLink(MY_WORK, MyWorkSearchResultPage.class);
-        myWorkLink.add(new Label("numberOfItemsInMyWork", new PropertyModel(this, "numberOfItemsInMyWork")));
+        myWorkLink.add(new Label("numberOfItemsInMyWork", createMyWorkModel()));
         add(myWorkLink);
         SecureEasyPageLink trashCanLink = new SecureEasyPageLink(TRASH_CAN, TrashCanSearchResultPage.class);
-        trashCanLink.add(new Label("numberOfItemsInTrashcan", new PropertyModel(this, "numberOfItemsInTrashcan")));
+        trashCanLink.add(new Label("numberOfItemsInTrashcan", createTrashCanModel()));
         add(trashCanLink);
 
         add(new SecureEasyPageLink(USER_INFO, UsersOverviewPage.class));
@@ -57,68 +57,103 @@ public class ManagementBarPanel extends AbstractEasyStatelessPanel
 
     // Note: the following members are much alike, maybe we can refactor this
 
-    public int getNumberOfItemsInAllWork()
+    private LoadableDetachableModel<Integer> createAllWorkModel()
     {
-        try
+        return new LoadableDetachableModel<Integer>()
         {
-            int numberOfItems = Services.getSearchService().getNumberOfItemsInAllWork(getSessionUser());
-            logger.debug("The number of items in 'all work': " + numberOfItems);
+            private static final long serialVersionUID = 1L;
 
-            return numberOfItems;
-        }
-        catch (ServiceException e)
-        {
-            logger.error("Could not retrieve the number of items in 'all work'.", e);
-            throw new InternalWebError();
-        }
+            @Override
+            protected Integer load()
+            {
+                try
+                {
+                    int numberOfItems = Services.getSearchService().getNumberOfItemsInAllWork(getSessionUser());
+                    logger.debug("The number of items in 'all work': " + numberOfItems);
+                    return numberOfItems;
+                }
+                catch (ServiceException e)
+                {
+                    logger.error("Could not retrieve the number of items in 'all work'.", e);
+                    throw new InternalWebError();
+                }
+            }
+        };
     }
 
-    public int getNumberOfItemsInOurWork()
+    private LoadableDetachableModel<Integer> createOurWorkModel()
     {
-        try
+        return new LoadableDetachableModel<Integer>()
         {
-            int numberOfItems = Services.getSearchService().getNumberOfItemsInOurWork(getSessionUser());
-            logger.debug("The number of items in 'our work': " + numberOfItems);
+            private static final long serialVersionUID = 1L;
 
-            return numberOfItems;
-        }
-        catch (ServiceException e)
-        {
-            logger.error("Could not retrieve the number of items in 'our work'.", e);
-            throw new InternalWebError();
-        }
+            @Override
+            protected Integer load()
+            {
+                try
+                {
+                    int numberOfItems = Services.getSearchService().getNumberOfItemsInOurWork(getSessionUser());
+                    logger.debug("The number of items in 'our work': " + numberOfItems);
+
+                    return numberOfItems;
+                }
+                catch (ServiceException e)
+                {
+                    logger.error("Could not retrieve the number of items in 'our work'.", e);
+                    throw new InternalWebError();
+                }
+            }
+        };
     }
 
-    public int getNumberOfItemsInMyWork()
+    private LoadableDetachableModel<Integer> createMyWorkModel()
     {
-        try
+        return new LoadableDetachableModel<Integer>()
         {
-            int numberOfItems = Services.getSearchService().getNumberOfItemsInMyWork(getSessionUser());
-            logger.debug("The number of items in 'my work': " + numberOfItems);
+            private static final long serialVersionUID = 1L;
 
-            return numberOfItems;
-        }
-        catch (ServiceException e)
-        {
-            logger.error("Could not retrieve the number of items in 'my work'.", e);
-            throw new InternalWebError();
-        }
+            @Override
+            protected Integer load()
+            {
+                try
+                {
+                    int numberOfItems = Services.getSearchService().getNumberOfItemsInMyWork(getSessionUser());
+                    logger.debug("The number of items in 'my work': " + numberOfItems);
+
+                    return numberOfItems;
+                }
+                catch (ServiceException e)
+                {
+                    logger.error("Could not retrieve the number of items in 'my work'.", e);
+                    throw new InternalWebError();
+                }
+            }
+        };
     }
 
-    public int getNumberOfItemsInTrashcan()
+    private LoadableDetachableModel<Integer> createTrashCanModel()
     {
-        try
+        return new LoadableDetachableModel<Integer>()
         {
-            int numberOfItems = Services.getSearchService().getNumberOfItemsInTrashcan(getSessionUser());
-            logger.debug("The number of items in 'trashcan': " + numberOfItems);
+            private static final long serialVersionUID = 1L;
 
-            return numberOfItems;
-        }
-        catch (ServiceException e)
-        {
-            logger.error("Could not retrieve the number of items in 'trashcan'.", e);
-            throw new InternalWebError();
-        }
+            @Override
+            protected Integer load()
+            {
+                try
+                {
+                    int numberOfItems = Services.getSearchService().getNumberOfItemsInTrashcan(getSessionUser());
+                    logger.debug("The number of items in 'trashcan': " + numberOfItems);
+
+                    return numberOfItems;
+                }
+                catch (ServiceException e)
+                {
+                    logger.error("Could not retrieve the number of items in 'trashcan'.", e);
+                    throw new InternalWebError();
+                }
+            }
+        };
     }
 
 }

@@ -13,10 +13,10 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasySession;
 import nl.knaw.dans.easy.web.HomePage;
-import nl.knaw.dans.easy.web.authn.login.LoginPage;
 import nl.knaw.dans.easy.web.authn.LogoffLink;
 import nl.knaw.dans.easy.web.authn.RegistrationPage;
 import nl.knaw.dans.easy.web.authn.UserInfoPage;
+import nl.knaw.dans.easy.web.authn.login.LoginPage;
 import nl.knaw.dans.easy.web.common.HelpFileReader;
 import nl.knaw.dans.easy.web.deposit.DepositIntroPage;
 import nl.knaw.dans.easy.web.editabletexts.EasyEditablePanel;
@@ -281,6 +281,8 @@ public abstract class AbstractEasyNavPage2 extends AbstractEasyPage
         // management bar
         ManagementBarPanel2 mgmBar = new ManagementBarPanel2(MANAGEMENT_BAR_PANEL);
         add(mgmBar);
+
+        add(new SystemReadOnlyLink());
 
         // footer
         add(createDisclaimerLink());

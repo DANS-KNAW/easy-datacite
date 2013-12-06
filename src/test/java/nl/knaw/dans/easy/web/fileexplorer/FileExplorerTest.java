@@ -46,6 +46,7 @@ import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.security.CodedAuthz;
 import nl.knaw.dans.easy.security.ContextParameters;
 import nl.knaw.dans.easy.security.Security;
+import nl.knaw.dans.easy.servicelayer.SystemReadOnlyStatus;
 import nl.knaw.dans.easy.servicelayer.services.DatasetService;
 import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.servicelayer.services.SearchService;
@@ -100,7 +101,15 @@ public class FileExplorerTest
     private void setUpAuthz()
     {
         mockStatic(Security.class);
-        expect(Security.getAuthz()).andReturn(new CodedAuthz()).anyTimes();
+        expect(Security.getAuthz()).andReturn(createCodedAuthz()).anyTimes();
+    }
+
+    private CodedAuthz createCodedAuthz()
+    {
+        CodedAuthz codedAuthz = new CodedAuthz();
+        SystemReadOnlyStatus systemReadOnlyStatus = new SystemReadOnlyStatus(new File("target/SystemReadOnlyStatus.properties"));
+        codedAuthz.setSystemReadOnlyStatus(systemReadOnlyStatus);
+        return codedAuthz;
     }
 
     private void setUpEasySessionMock()

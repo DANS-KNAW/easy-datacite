@@ -22,6 +22,7 @@ import nl.knaw.dans.easy.domain.user.EasyUserAnonymous;
 import nl.knaw.dans.easy.security.CodedAuthz;
 import nl.knaw.dans.easy.security.ContextParameters;
 import nl.knaw.dans.easy.security.Security;
+import nl.knaw.dans.easy.servicelayer.SystemReadOnlyStatus;
 import nl.knaw.dans.easy.servicelayer.services.DepositService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.servicelayer.services.UserService;
@@ -79,7 +80,20 @@ public class TestRegistrationPage
          * authorization rules used in production as well.
          */
         mockStatic(Security.class);
-        expect(Security.getAuthz()).andReturn(new CodedAuthz()).anyTimes();
+        expect(Security.getAuthz()).andReturn(createCodedAuthz()).anyTimes();
+    }
+
+    private CodedAuthz createCodedAuthz()
+    {
+        CodedAuthz codedAuthz = new CodedAuthz();
+        codedAuthz.setSystemReadOnlyStatus(createSystemReadOnlyBean());
+        return codedAuthz;
+    }
+
+    private SystemReadOnlyStatus createSystemReadOnlyBean()
+    {
+        SystemReadOnlyStatus systemReadOnlyStatus = new SystemReadOnlyStatus(new File("target/SystemReadOnlyStatus.properties"));
+        return systemReadOnlyStatus;
     }
 
     private void setUpEasySessionMock()
