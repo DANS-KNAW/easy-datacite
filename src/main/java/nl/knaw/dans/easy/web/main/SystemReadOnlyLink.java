@@ -1,7 +1,7 @@
 package nl.knaw.dans.easy.web.main;
 
 import nl.knaw.dans.easy.servicelayer.SystemReadOnlyStatus;
-import nl.knaw.dans.easy.web.ComponentWithSecurityManager;
+import nl.knaw.dans.easy.web.ComponentWithSecurityOfficer;
 
 import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.basic.Label;
@@ -9,7 +9,7 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-public class SystemReadOnlyLink extends Link<Page> implements ComponentWithSecurityManager
+public class SystemReadOnlyLink extends Link<Page> implements ComponentWithSecurityOfficer
 {
     private static final long serialVersionUID = 1L;
     public static final String WICKET_ID_LINK = "systemIsReadOnly";
