@@ -46,15 +46,18 @@
 		<property name="systemReadOnlyStatus" ref="systemReadOnlyStatus" />
 	</bean>
 
-	<bean name="systemReadOnlyStatus"
+	<bean
+		name="systemReadOnlyStatus"
 		class="nl.knaw.dans.easy.servicelayer.SystemReadOnlyStatus">
-		<property name="file">
-			<!-- exchange system status (read only mode) between easy-business instances (e.g. web-ui, sword) -->
-			<value type="java.io.File">${easy.business.system.status.file}</value>
-		</property>
+		<!-- exchange system status (read only mode) between easy-business instances (e.g. web-ui, sword) -->
+		<constructor-arg
+			index="0"
+			value="${easy.business.system.status.file}"/>
 	</bean>
 
-	<bean name="services" class="nl.knaw.dans.easy.servicelayer.services.Services">
+	<bean name="
+			services "
+			class="nl.knaw.dans.easy.servicelayer.services.Services">
 		<property name="userService" ref="userService" />
 		<property name="federativeUserService" ref="federativeUserService" />
 		<property name="datasetService" ref="datasetService" />

@@ -38,7 +38,6 @@ import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 import org.easymock.EasyMock;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeUtils;
-import org.purl.sword.base.SWORDException;
 
 public class MockUtil
 {
@@ -82,9 +81,8 @@ public class MockUtil
         context.setServletName("servlet/request");
         context.setEasyHome("http://mockedhost:8080/ui/");
 
-        SystemReadOnlyStatus systemReadOnlyStatus = new SystemReadOnlyStatus();
+        SystemReadOnlyStatus systemReadOnlyStatus = new SystemReadOnlyStatus(new File("target/SystemStatus.properties"));
         context.setSystemReadOnlyStatus(systemReadOnlyStatus);
-        systemReadOnlyStatus.setFile(new File("target/SystemStatus.properties"));
     }
 
     private static void mockNow()
