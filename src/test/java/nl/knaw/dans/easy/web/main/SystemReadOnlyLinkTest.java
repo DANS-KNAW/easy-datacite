@@ -2,6 +2,7 @@ package nl.knaw.dans.easy.web.main;
 
 import static nl.knaw.dans.easy.web.main.SystemReadOnlyLink.WICKET_ID_LABEL;
 import static nl.knaw.dans.easy.web.main.SystemReadOnlyLink.WICKET_ID_LINK;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
@@ -12,8 +13,9 @@ import nl.knaw.dans.easy.security.CodedAuthz;
 import nl.knaw.dans.easy.security.Security;
 import nl.knaw.dans.easy.servicelayer.SystemReadOnlyStatus;
 import nl.knaw.dans.easy.web.EasyWicketApplication;
+import nl.knaw.dans.easy.web.template.AbstractEasyPage;
 
-import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.spring.test.ApplicationContextMock;
 import org.apache.wicket.util.tester.WicketTester;
@@ -40,7 +42,7 @@ public class SystemReadOnlyLinkTest
         }
     }
 
-    public static class TestNestedPage extends WebPage
+    public static class TestNestedPage extends AbstractEasyPage
     {
         public TestNestedPage()
         {
@@ -48,7 +50,7 @@ public class SystemReadOnlyLinkTest
         }
     }
 
-    public static class TestPage extends WebPage
+    public static class TestPage extends AbstractEasyPage
     {
         public TestPage()
         {
@@ -56,10 +58,20 @@ public class SystemReadOnlyLinkTest
         }
     }
 
-    @Test(expected = SecurityException.class)
+    @Test
     public void noSecurityOfficerForPanel()
     {
-        createTester().startPage(TestNestedPage.class);
+        try
+        {
+            createTester().startPage(TestNestedPage.class);
+        }
+        catch (WicketRuntimeException e)
+        {
+            // TODO rather something like:
+            // assertThat(e.getCause().getClass(), isThrowable(SecurityException.class));
+            String message = "expected cause " + SecurityException.class.getName() + " but got " + e.getCause().getClass().getName();
+            assertTrue(message, e.getCause() instanceof SecurityException);
+        }
     }
 
     @Test
