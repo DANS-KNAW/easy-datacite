@@ -24,6 +24,8 @@ public class CodedAuthz extends AbstractEasyService implements Authz
 
     private Map<String, SecurityOfficer> rules;
 
+    private Object syncRules = new Object();
+
     private SecurityOfficer enableToLoggedInUserRule;
     private SecurityOfficer enableToNormalUserRule;
     private SecurityOfficer enableToArchivistRule;
@@ -184,26 +186,25 @@ public class CodedAuthz extends AbstractEasyService implements Authz
     }
 
     /**
-     * Get all security rules - THIS METHOD IS NOT THREADSAFE -.
+     * Get all security rules.
      * 
      * @return all security rules
      */
     protected Map<String, SecurityOfficer> getRules()
     {
-        // A synchronized clause disrupts the stack in SystemReadOnlyLink.onBeforeRender.
-        // Assign after building the list prevents examining an incomplete list.
-        // The worst that can happen is building the list in multiple threads short after startup.
-        // As long as the SecurityOfficers added to the list are immutable, that should not be a problem.
-        if (rules == null)
+        synchronized (syncRules)
         {
-            rules = createRules();
+            if (rules == null)
+            {
+                rules = Collections.synchronizedMap(createRules());
+            }
+            return rules;
         }
-        return rules;
     }
 
     private Map<String, SecurityOfficer> createRules()
     {
-        Map<String, SecurityOfficer> newRules = Collections.synchronizedMap(new LinkedHashMap<String, SecurityOfficer>()
+        Map<String, SecurityOfficer> newRules = new LinkedHashMap<String, SecurityOfficer>()
         {
             // Some Wicket components are used on many pages via an abstract WebPage
             // a rule without the page as qualifier defines a default rule
@@ -229,7 +230,7 @@ public class CodedAuthz extends AbstractEasyService implements Authz
             {
                 return key.toString().replaceAll("^[^:]+:", ":");
             }
-        });
+        };
 
         // easy navigation
         newRules.put(":systemIsReadOnly", getEnableToAdminRule());
