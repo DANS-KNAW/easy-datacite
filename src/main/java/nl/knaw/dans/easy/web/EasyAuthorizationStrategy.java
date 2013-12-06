@@ -86,8 +86,7 @@ final class EasyAuthorizationStrategy implements IAuthorizationStrategy
         }
         if (component instanceof ComponentWithSecurityOfficer)
         {
-            LOGGER.error(component.getClass().getName() + " should have a SecurityOfficer for at least one of "
-                    + Arrays.deepToString(items.toArray()));
+            LOGGER.error(component.getClass().getName() + " should have a SecurityOfficer for at least one of " + Arrays.deepToString(items.toArray()));
             return false;
         }
         return true;

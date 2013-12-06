@@ -219,8 +219,7 @@ public class TestHomePage
 
     private SystemReadOnlyStatus createSystemReadOnlyStatus()
     {
-        SystemReadOnlyStatus systemReadOnlyStatus = new SystemReadOnlyStatus();
-        systemReadOnlyStatus.setFile(new File("target/SystemReadOnlyStatus.properties"));
+        SystemReadOnlyStatus systemReadOnlyStatus = new SystemReadOnlyStatus(new File("target/SystemReadOnlyStatus.properties"));
         return systemReadOnlyStatus;
     }
 

@@ -128,10 +128,9 @@ public class SystemReadOnlyLinkTest
     }
 
     @BeforeClass
-    public static void mockApplicationContext()
+    public static void mockApplicationContext() throws Exception
     {
-        SystemReadOnlyStatus systemReadOnlyStatus = new SystemReadOnlyStatus();
-        systemReadOnlyStatus.setFile(new File("target/systemReadonlyStatus.propeties"));
+        SystemReadOnlyStatus systemReadOnlyStatus = new SystemReadOnlyStatus(new File("target/systemReadonlyStatus.propeties"));
 
         CodedAuthz codedAuthz = new CodedAuthz();
         codedAuthz.setSystemReadOnlyStatus(systemReadOnlyStatus);

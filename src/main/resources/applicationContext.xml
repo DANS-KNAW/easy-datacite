@@ -28,13 +28,18 @@
 
 	</bean>
 
-	<bean name="systemReadOnlyStatus"
+	<bean
+		name="systemReadOnlyStatus"
 		class="nl.knaw.dans.easy.servicelayer.SystemReadOnlyStatus">
-		<property name="file" value="${easy.business.system.status.file}" />
+		<!-- exchange system status (read only mode) between easy-business instances (e.g. web-ui, sword) -->
+		<constructor-arg
+			index="0"
+			value="${easy.business.system.status.file}"/>
 	</bean>
 	
-	<bean name="jumpoffService"
-		class="nl.knaw.dans.easy.business.services.EasyJumpoffService" />
+	<bean name="
+			jumpoffService "
+			class="nl.knaw.dans.easy.business.services.EasyJumpoffService"/>
 
 	<bean name="disciplineService"
 		class="nl.knaw.dans.easy.business.services.EasyDisciplineCollectionService"></bean>
