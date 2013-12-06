@@ -204,38 +204,12 @@ public class CodedAuthz extends AbstractEasyService implements Authz
 
     private Map<String, SecurityOfficer> createRules()
     {
-        Map<String, SecurityOfficer> newRules = new LinkedHashMap<String, SecurityOfficer>()
-        {
-            // Some Wicket components are used on many pages via an abstract WebPage
-            // a rule without the page as qualifier defines a default rule
-
-            private static final long serialVersionUID = 1L;
-
-            public boolean containsKey(Object key)
-            {
-                // if not found with the page as qualifier, try without
-                return super.containsKey(key) || super.containsKey(stripWicketPageQualifier(key));
-            }
-
-            public SecurityOfficer get(Object key)
-            {
-                // if not found with the page as qualifier, try without
-                if (super.containsKey(key))
-                    return super.get(key);
-                else
-                    return super.get(stripWicketPageQualifier(key));
-            }
-
-            private String stripWicketPageQualifier(Object key)
-            {
-                return key.toString().replaceAll("^[^:]+:", ":");
-            }
-        };
+        Map<String, SecurityOfficer> newRules = new LinkedHashMap<String, SecurityOfficer>();
 
         // easy navigation
-        newRules.put(":systemIsReadOnly", getEnableToAdminRule());
-        newRules.put(":managementBarPanel", getEnableToArchivistOrAdminRule());
-        newRules.put(":managementBarPanel2", getEnableToArchivistOrAdminRule());
+        newRules.put("nl.knaw.dans.easy.web.template.AbstractEasyPage:systemIsReadOnly", getEnableToAdminRule());
+        newRules.put("nl.knaw.dans.easy.web.template.AbstractEasyPage:managementBarPanel", getEnableToArchivistOrAdminRule());
+        newRules.put("nl.knaw.dans.easy.web.template.AbstractEasyPage:managementBarPanel2", getEnableToArchivistOrAdminRule());
 
         // pages
         newRules.put("nl.knaw.dans.easy.web.admin.UsersOverviewPage", getEnableToArchivistOrAdminRule());
@@ -257,9 +231,9 @@ public class CodedAuthz extends AbstractEasyService implements Authz
         // nl.knaw.dans.easy.web.admin.UserDetailsPage components
         newRules.put("nl.knaw.dans.easy.web.admin.UserDetailsPage:userDetailsPanel:switchPanel:userInfoForm:state", getEditProtectedUserAttributesRule());
         newRules.put("nl.knaw.dans.easy.web.admin.UserDetailsPage:userDetailsPanel:switchPanel:userInfoForm:roles", getEditProtectedUserAttributesRule());
-        newRules.put(":userDetailsPanel:switchPanel:editLink", getNoSecurityOfficer());
-        newRules.put(":userInfoPanel:switchPanel:editLink", getNoSecurityOfficer());
-        newRules.put(":userInfoPanel:switchPanel:changePasswordLink", getNoSecurityOfficer());
+        newRules.put("nl.knaw.dans.easy.web.template.AbstractEasyPage:userDetailsPanel:switchPanel:editLink", getNoSecurityOfficer());
+        newRules.put("nl.knaw.dans.easy.web.template.AbstractEasyPage:userInfoPanel:switchPanel:editLink", getNoSecurityOfficer());
+        newRules.put("nl.knaw.dans.easy.web.template.AbstractEasyPage:userInfoPanel:switchPanel:changePasswordLink", getNoSecurityOfficer());
 
         // advanced search
         newRules.put("nl.knaw.dans.easy.web.search.AdvancedSearchPage:advancedSearchForm:depositorOptions", getEnableToNormalUserRule());
