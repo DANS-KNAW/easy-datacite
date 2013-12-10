@@ -1,6 +1,8 @@
 package nl.knaw.dans.easy.web.view.dataset;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
@@ -17,6 +19,15 @@ import nl.knaw.dans.easy.web.EasySession;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.template.AbstractDatasetModelPanel;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.ParseException;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.IHeaderContributor;
 import org.apache.wicket.markup.html.IHeaderResponse;
@@ -89,8 +100,13 @@ public class VideoPanel extends AbstractDatasetModelPanel implements IHeaderCont
 		        if (kvp.getKey().toLowerCase().equals("streamingurl"))
 		        {
 		            replace(new Label("streamingUrl", kvp.getValue()));
-		            streamingUrls = kvp.getValue();
+//		            final String ticket = UUID.randomUUID().toString();
+//		            final String ticketResponse = sendTicketRequest(ticket);
+//		            if (ticketResponse != null) {
+//			            streamingUrls = kvp.getValue();
+//		            }
 		            ticketValue = "lippu1";
+		            streamingUrls = kvp.getValue();
 //		            streamingUrls += kvp.getValue() + ";";
 		            break;
 		        }
@@ -114,5 +130,51 @@ public class VideoPanel extends AbstractDatasetModelPanel implements IHeaderCont
             logger.error(message, e);
             throw new InternalWebError();
         }
+    }
+
+	private String sendTicketRequest(final String ticket) {
+		try {
+			CloseableHttpClient httpclient = HttpClients.createDefault();
+			HttpGet httpget = new HttpGet("http://www.noterik....");
+
+			// Create a custom response handler
+			ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
+
+				public String handleResponse(final HttpResponse response) {
+					try {
+						int status = response.getStatusLine().getStatusCode();
+						if (status >= 200 && status < 300) {
+							HttpEntity entity = response.getEntity();
+							return entity != null ? EntityUtils
+									.toString(entity) : null;
+						} else {
+							throw new ClientProtocolException(
+									"Unexpected response status: " + status);
+						}
+					} catch (ClientProtocolException e) {
+						errorMessage(EasyResources.DEFAULT_ERROR_MESSAGE);
+						logger.error("Video file ticket http-request failed: ",e);
+						throw new InternalWebError();
+					} catch (ParseException e) {
+						errorMessage(EasyResources.DEFAULT_ERROR_MESSAGE);
+						logger.error("Video file ticket http-request failed: ",e);
+						throw new InternalWebError();
+					} catch (IOException e) {
+						errorMessage(EasyResources.DEFAULT_ERROR_MESSAGE);
+						logger.error("Video file ticket http-request failed: ",e);
+						throw new InternalWebError();
+					}
+				}
+			};
+
+			String responseBody = httpclient.execute(httpget, responseHandler);
+//            System.out.println(responseBody);
+			httpclient.close();
+			return responseBody;
+		} catch (IOException e) {
+			errorMessage(EasyResources.INTERNAL_ERROR);
+			logger.error("Closing httpclient instance failed: ",e);
+			throw new InternalWebError();
+		}
     }
 }

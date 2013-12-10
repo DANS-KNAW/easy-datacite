@@ -125,10 +125,6 @@ public class ModalFileDetails extends Panel
                     {
                         kvp.setValue(new StringResourceModel("Creator." + kvp.getValue(), this, null).getString());
                     }
-                    if (kvp.getKey().toLowerCase().equals("streamingurl"))
-                    {
-                        kvp.setValue(new StringResourceModel("StreamingUrl." + kvp.getValue(), this, null).getString());
-                    }
                     if (kvp.getKey().toLowerCase().equals("accessible"))
                     {
                         kvp.setValue(new StringResourceModel(strategy.getSingleReadMessage().getMessageCode(), this, null).getString());
