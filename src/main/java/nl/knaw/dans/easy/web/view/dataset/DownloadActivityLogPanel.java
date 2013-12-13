@@ -1,7 +1,5 @@
 package nl.knaw.dans.easy.web.view.dataset;
 
-import java.util.List;
-
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.domain.download.DownloadHistory;
@@ -10,12 +8,14 @@ import nl.knaw.dans.easy.domain.download.DownloadRecord;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
-import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.easy.servicelayer.services.DatasetService;
+import nl.knaw.dans.easy.servicelayer.services.UserService;
 
 import org.apache.wicket.markup.html.WebResource;
 import org.apache.wicket.markup.html.link.ResourceLink;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.protocol.http.WebResponse;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.resource.IResourceStream;
 import org.apache.wicket.util.resource.StringResourceStream;
 import org.joda.time.DateTime;
@@ -30,13 +30,17 @@ public class DownloadActivityLogPanel extends Panel
 
     private static final long serialVersionUID = 9110250938647271835L;
 
-    private final Dataset dataset;
+    @SpringBean(name = "datasetService")
+    private DatasetService datasetService;
 
+    @SpringBean(name = "userService")
+    private UserService userService;
+
+    private final Dataset dataset;
     private final EasyUser easyUser;
 
     private boolean downloadHistoryAvailable;
 
-    private boolean initiated = false;
     private DownloadList downloadList = null;
 
     public DownloadActivityLogPanel(final String id, final Dataset dataset, final EasyUser easyUser)
@@ -44,22 +48,7 @@ public class DownloadActivityLogPanel extends Panel
         super(id);
         this.dataset = dataset;
         this.easyUser = easyUser;
-    }
-
-    @Override
-    protected void onBeforeRender()
-    {
-        if (!initiated)
-        {
-            init();
-            initiated = true;
-        }
-        super.onBeforeRender();
-    }
-
-    private void init()
-    {
-        add(new ResourceLink(DOWNLOAD_CSV, getCSVWebResource(dataset)));
+        add(new ResourceLink<WebResource>(DOWNLOAD_CSV, createCSVWebResource(dataset)));
         DateTime now = DateTime.now();
         makeDownloadList(now.getYear(), now.getMonthOfYear());
         setVisibility();
@@ -70,11 +59,11 @@ public class DownloadActivityLogPanel extends Panel
         DateTime pDate = new DateTime(year, month, 1, 0, 0, 0, 0);
         try
         {
-            DownloadHistory downloadHistory = Services.getDatasetService().getDownloadHistoryFor(easyUser, dataset, pDate);
+            DownloadHistory downloadHistory = datasetService.getDownloadHistoryFor(easyUser, dataset, pDate);
             if (downloadHistory != null)
             {
-                downloadHistoryAvailable = true;
                 downloadList = downloadHistory.getDownloadList();
+                downloadHistoryAvailable = downloadList.getDownloadCount() != 0;
             }
             else
             {
@@ -93,7 +82,7 @@ public class DownloadActivityLogPanel extends Panel
         this.setVisible(isDownloadHistoryAvailableAvailable() && easyUser.hasRole(Role.ARCHIVIST));
     }
 
-    private WebResource getCSVWebResource(final Dataset dataset)
+    private WebResource createCSVWebResource(final Dataset dataset)
     {
         WebResource export = new WebResource()
         {
@@ -104,56 +93,45 @@ public class DownloadActivityLogPanel extends Panel
             public IResourceStream getResourceStream()
             {
                 StringBuffer sb = new StringBuffer();
-
-                final List<DownloadRecord> downloadRecord = downloadList.getRecords();
-
-                if (downloadRecord != null)
+                for (DownloadRecord dr : downloadList.getRecords())
                 {
-                    for (DownloadRecord dr : downloadRecord)
-                    {
-                        EasyUser downloader;
-                        try
-                        {
-                            downloader = Services.getUserService().getUserById(easyUser, dr.getDownloaderId());
-                            if (downloader != null && downloader.isLogMyActions() || downloader == null)
-                            {
-                                sb.append(dr.getDownloadTime());
-                                sb.append(";");
-                                sb.append(downloader.getId());
-                                sb.append(";");
-                                sb.append(downloader.getEmail());
-                                sb.append(";");
-                                if (downloader.getOrganization() != null)
-                                {
-                                    sb.append(downloader.getOrganization());
-                                }
-                                else
-                                {
-                                    sb.append(" ");
-                                }
-                                sb.append(";");
-                                if (downloader.getFunction() != null)
-                                {
-                                    sb.append(downloader.getFunction());
-                                }
-                                else
-                                {
-                                    sb.append(" ");
-                                }
-                                sb.append(";\n");
-                            }
-                        }
-                        catch (ObjectNotAvailableException e)
-                        {
-                            LOGGER.error("error getting downloader object for activity log.", e);
-                        }
-                        catch (ServiceException e)
-                        {
-                            LOGGER.error("error getting user service for activity log.", e);
-                        }
-                    }
+                    EasyUser downloader = fetchDownloader(dr);
+                    if (downloader != null && !downloader.isLogMyActions())
+                        downloader = null;
+                    sb.append(dr.getDownloadTime());
+                    sb.append(";");
+                    sb.append(downloader == null ? "anonymous" : downloader.getId());
+                    sb.append(";");
+                    sb.append(downloader == null ? " " : downloader.getEmail());
+                    sb.append(";");
+                    sb.append(downloader == null ? " " : downloader.getOrganization());
+                    sb.append(";");
+                    sb.append(downloader == null ? " " : downloader.getFunction());
+                    sb.append(";");
+                    sb.append(dr.getPath());
+                    sb.append(";\n");
                 }
                 return new StringResourceStream(sb.toString(), "text/csv");
+            }
+
+            private EasyUser fetchDownloader(DownloadRecord dr)
+            {
+                if (dr.getDownloaderId() != null && dr.getDownloaderId().trim().length() != 0)
+                {
+                    try
+                    {
+                        return userService.getUserById(easyUser, dr.getDownloaderId());
+                    }
+                    catch (ObjectNotAvailableException e)
+                    {
+                        LOGGER.error("error getting downloader object for activity log.", e);
+                    }
+                    catch (ServiceException e)
+                    {
+                        LOGGER.error("error getting user service for activity log.", e);
+                    }
+                }
+                return null;
             }
 
             @Override
