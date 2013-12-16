@@ -17,7 +17,8 @@ import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.domain.user.EasyUserAnonymous;
-import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.easy.servicelayer.services.DatasetService;
+import nl.knaw.dans.easy.servicelayer.services.UserService;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.template.AbstractEasyPanel;
 
@@ -36,6 +37,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.ResourceModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,6 +55,12 @@ public class ActivityLogPanel extends AbstractEasyPanel
     private boolean initiated;
 
     private DownloadActivityLogPanel downloadActivityLogPanel;
+
+    @SpringBean(name = "datasetService")
+    private DatasetService datasetService;
+
+    @SpringBean(name = "userService")
+    private UserService userService;
 
     public ActivityLogPanel(final String id, final Dataset dataset)
     {
@@ -115,7 +123,7 @@ public class ActivityLogPanel extends AbstractEasyPanel
 
             try
             {
-                final DownloadHistory dlh = Services.getDatasetService().getDownloadHistoryFor(getSessionUser(), dataset, pDate);
+                final DownloadHistory dlh = datasetService.getDownloadHistoryFor(getSessionUser(), dataset, pDate);
                 if (dlh == null)
                 {
                     downloadList = new DownloadList(DownloadHistory.LIST_TYPE_DATASET);
@@ -225,7 +233,7 @@ public class ActivityLogPanel extends AbstractEasyPanel
         if (downloaderId == null)
             return EasyUserAnonymous.getInstance();
         else
-            return Services.getUserService().getUserById(getSessionUser(), downloaderId);
+            return userService.getUserById(getSessionUser(), downloaderId);
     }
 
     private Model<DateTime> createDateTimeModel(final ListItem<DateTime> item)
