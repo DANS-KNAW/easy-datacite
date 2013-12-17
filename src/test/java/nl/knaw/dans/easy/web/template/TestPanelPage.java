@@ -1,4 +1,4 @@
-package nl.knaw.dans.easy.web;
+package nl.knaw.dans.easy.web.template;
 
 import nl.knaw.dans.easy.web.template.AbstractEasyPage;
 

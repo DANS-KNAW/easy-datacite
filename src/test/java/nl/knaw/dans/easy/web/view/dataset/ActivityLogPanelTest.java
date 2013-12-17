@@ -10,7 +10,7 @@ import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
-import nl.knaw.dans.easy.web.TestPanelPage;
+import nl.knaw.dans.easy.web.template.TestPanelPage;
 
 import org.apache.wicket.Session;
 import org.apache.wicket.markup.html.panel.Panel;
