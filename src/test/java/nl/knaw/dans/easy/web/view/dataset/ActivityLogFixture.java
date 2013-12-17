@@ -1,12 +1,15 @@
 package nl.knaw.dans.easy.web.view.dataset;
 
+import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.isA;
 
 import java.io.File;
 
+import nl.knaw.dans.common.jibx.JiBXObjectFactory;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
+import nl.knaw.dans.common.lang.util.FileUtil;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
 import nl.knaw.dans.easy.domain.download.DownloadHistory;
@@ -17,14 +20,18 @@ import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
+import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.security.CodedAuthz;
 import nl.knaw.dans.easy.security.Security;
 import nl.knaw.dans.easy.servicelayer.SystemReadOnlyStatus;
 import nl.knaw.dans.easy.servicelayer.services.DatasetService;
 import nl.knaw.dans.easy.servicelayer.services.UserService;
+import nl.knaw.dans.easy.web.EasyWicketApplication;
 
+import org.apache.wicket.Session;
 import org.apache.wicket.spring.test.ApplicationContextMock;
+import org.apache.wicket.util.tester.WicketTester;
 import org.easymock.EasyMock;
 import org.joda.time.DateTime;
 import org.junit.After;
@@ -41,8 +48,7 @@ public class ActivityLogFixture
     protected static final FolderItemVO FOLDER_ITEM_VO = new FolderItemVO("file:sid", "foler:sid", "dataset:sid", "name", 256);
     protected static ApplicationContextMock applicationContext;
     protected static DatasetService datasetService;
-    private static UserService userService;
-    protected DownloadList downloadList;
+    protected static UserService userService;
 
     @BeforeClass
     public static void mockApplicationContext() throws Exception
@@ -66,7 +72,6 @@ public class ActivityLogFixture
     public void resetAll()
     {
         PowerMock.resetAll();
-        downloadList = new DownloadList(DownloadList.TYPE_MONTH, Level.FILE_ITEM, DOWNLOAD_DATE_TIME);
     }
 
     @After
@@ -75,6 +80,10 @@ public class ActivityLogFixture
         PowerMock.verifyAll();
     }
 
+    protected DownloadList createDownloadList()
+    {
+        return new DownloadList(DownloadList.TYPE_MONTH, Level.FILE_ITEM, DOWNLOAD_DATE_TIME);
+    }
     protected EasyUserImpl mockUser(final boolean logMyActions) throws Exception
     {
         final EasyUserImpl user = new EasyUserImpl("userid");
@@ -108,7 +117,7 @@ public class ActivityLogFixture
         return new EasyUserImpl("notFoundUser");
     }
 
-    protected Dataset mockDataset() throws ServiceException
+    protected Dataset mockDataset(DownloadList downloadList) throws ServiceException
     {
         final DownloadHistory dlh;
         if (downloadList == null)
@@ -123,5 +132,40 @@ public class ActivityLogFixture
         final Dataset dataset = PowerMock.createMock(Dataset.class);
         EasyMock.expect(dataset.getDmoStoreId()).andStubReturn(new DmoStoreId("dataset:sid"));
         return dataset;
+    }
+
+    protected DownloadList mockDownloadList36028() throws Exception
+    {
+        // user IDs are altered, but the LogMyActions flags match with 
+        // http://easy.dans.knaw.nl:8080/fedora/objects/easy-dlh:36028/datastreams/DLHL/content
+        // files are visible for anonymous so no further need for scrambling the data
+        final byte[] data = FileUtil.readFile(new File("src/test/resources/mock-xml/issue560-dlh36028.xml"));
+        final EasyUserImpl user = new EasyUserImpl(Role.USER);
+        final EasyUserImpl userNoLog = new EasyUserImpl(Role.USER);
+        userNoLog.setLogMyActions(false);
+        EasyMock.expect(userService.getUserById(isA(EasyUser.class), eq("s1234567"))).andStubReturn(user);
+        EasyMock.expect(userService.getUserById(isA(EasyUser.class), eq("laalbers"))).andStubReturn(userNoLog);
+        EasyMock.expect(userService.getUserById(isA(EasyUser.class), eq("pschilder"))).andStubReturn(user);
+        EasyMock.expect(userService.getUserById(isA(EasyUser.class), eq("juulesengel"))).andStubReturn(userNoLog);
+        EasyMock.expect(userService.getUserById(isA(EasyUser.class), eq("warejacob"))).andStubReturn(user);
+        EasyMock.expect(userService.getUserById(isA(EasyUser.class), eq("hvanleeuwen"))).andStubReturn(userNoLog);
+        EasyMock.expect(userService.getUserById(isA(EasyUser.class), eq("theodorus"))).andStubReturn(userNoLog);
+        return (DownloadList) JiBXObjectFactory.unmarshal(DownloadList.class, data);
+    }
+
+    protected Session mockSessionFor_Component_isActionAuthourized()
+    {
+        final Session session = PowerMock.createMock(Session.class);
+        EasyMock.expect(session.getAuthorizationStrategy()).andStubReturn(null);
+        return session;
+    }
+
+    protected WicketTester createWicketTester()
+    {
+        final EasyWicketApplication application = new EasyWicketApplication();
+        application.setApplicationContext(applicationContext);
+    
+        final WicketTester tester = new WicketTester(application);
+        return tester;
     }
 }
