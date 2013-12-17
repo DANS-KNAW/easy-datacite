@@ -46,7 +46,7 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
     @Test
     public void byUser() throws Exception
     {
-        DownloadList downloadList = createDownloadList();
+        final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, null, DOWNLOAD_DATE_TIME);
         expectInvisible(downloadList, new EasyUserImpl(Role.USER));
     }
@@ -54,7 +54,7 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
     @Test
     public void byAdmin() throws Exception
     {
-        DownloadList downloadList = createDownloadList();
+        final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, null, DOWNLOAD_DATE_TIME);
         expectInvisible(downloadList, new EasyUserImpl(Role.ADMIN));
     }
@@ -62,7 +62,7 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
     @Test
     public void withoutUser() throws Exception
     {
-        DownloadList downloadList = createDownloadList();
+        final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, null, DOWNLOAD_DATE_TIME);
         expect(downloadList, ANONYMOUS_DOWNLOAD_LINE);
     }
@@ -70,7 +70,7 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
     @Test
     public void withAnonymous() throws Exception
     {
-        DownloadList downloadList = createDownloadList();
+        final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, EasyUserAnonymous.getInstance(), DOWNLOAD_DATE_TIME);
         expect(downloadList, ANONYMOUS_DOWNLOAD_LINE);
     }
@@ -78,7 +78,7 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
     @Test
     public void userWantsNoActionLog() throws Exception
     {
-        DownloadList downloadList = createDownloadList();
+        final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, mockUser(false), DOWNLOAD_DATE_TIME);
         expect(downloadList, ANONYMOUS_DOWNLOAD_LINE);
     }
@@ -86,7 +86,7 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
     @Test
     public void withKnownUser() throws Exception
     {
-        DownloadList downloadList = createDownloadList();
+        final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, mockUser(true), DOWNLOAD_DATE_TIME);
         expect(downloadList, "2013-12-13T00:00:00.000+01:00;userid;email;organization;function;null;\n");
     }
@@ -94,7 +94,7 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
     @Test
     public void withNotFoundUser() throws Exception
     {
-        DownloadList downloadList = createDownloadList();
+        final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, mockNotFoundUser(), DOWNLOAD_DATE_TIME);
         expect(downloadList, ANONYMOUS_DOWNLOAD_LINE);
     }
@@ -102,7 +102,7 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
     @Test
     public void withEmptyUserValues() throws Exception
     {
-        DownloadList downloadList = createDownloadList();
+        final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, mockUserWithEmptyValues(), DOWNLOAD_DATE_TIME);
         expect(downloadList, "2013-12-13T00:00:00.000+01:00;userid;null;null;null;null;\n");
     }
@@ -110,7 +110,7 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
     @Test
     public void withEmptyDownloaderID() throws Exception
     {
-        DownloadList downloadList = createDownloadList();
+        final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, new EasyUserImpl(""), DOWNLOAD_DATE_TIME);
         expect(downloadList, ANONYMOUS_DOWNLOAD_LINE);
     }
@@ -118,7 +118,7 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
     @Test
     public void withNotFoundUserService() throws Exception
     {
-        DownloadList downloadList = createDownloadList();
+        final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, mockNotFoundUserService(), DOWNLOAD_DATE_TIME);
         expect(downloadList, ANONYMOUS_DOWNLOAD_LINE);
     }
@@ -134,33 +134,17 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
     @Test
     public void feb2013issue560() throws Exception
     {
-        expect(mockDownloadList36028(), "2013-02-05T14:40:06.700+01:00;null;null;null;null;original/CV 2008 data en documentatiefiles/SCP_CV2008_juli.pdf;\n"
-                + "2013-02-05T14:47:22.715+01:00;null;null;null;null;original/CV 2008 data en documentatiefiles/SCP_CV2008.pdf;\n"
-                + "2013-02-05T18:44:51.846+01:00;anonymous; ; ; ;original/CV 2008 data en documentatiefiles/SCP_Culturele_Veranderingen_2008_DANS.sav;\n"
-                + "2013-02-11T10:55:19.434+01:00;null;null;null;null;original/CV 2008 data en documentatiefiles/SCP_CV2008.pdf;\n"
-                + "2013-02-11T10:55:31.976+01:00;null;null;null;null;original/CV 2008 data en documentatiefiles/SCP_CV2008.pdf;\n"
-                + "2013-02-11T11:01:16.151+01:00;null;null;null;null;original/CV 2008 data en documentatiefiles/SCP_CV20089.pdf;\n"
-                + "2013-02-12T13:51:29.008+01:00;anonymous; ; ; ;original/CV 2008 data en documentatiefiles/SCP_CV20089_augustus.pdf;\n"
-                + "2013-02-21T14:31:01.962+01:00;null;null;null;null;original/CV 2008 data en documentatiefiles/SCP_CV20089_augustus.pdf;\n"
-                + "2013-02-21T14:31:01.962+01:00;null;null;null;null;original/CV 2008 data en documentatiefiles/SCP_CV2008_juli.pdf;\n"
-                + "2013-02-21T14:31:01.962+01:00;null;null;null;null;original/CV 2008 data en documentatiefiles/SCP_CV2008.pdf;\n"
-                + "2013-02-21T14:31:01.962+01:00;null;null;null;null;original/CV 2008 data en documentatiefiles/SCP_CV20089.pdf;\n"
-                + "2013-02-21T14:34:03.198+01:00;null;null;null;null;original/CV 2008 data en documentatiefiles/SCP_CV_2008.por;\n"
-                + "2013-02-22T11:36:28.861+01:00;anonymous; ; ; ;original/CV 2008 data en documentatiefiles/SCP_Culturele_Veranderingen_2008_DANS.sav;\n"
-                + "2013-02-22T11:36:28.861+01:00;anonymous; ; ; ;original/CV 2008 data en documentatiefiles/SCP_CV_2008.por;\n"
-                + "2013-02-22T11:36:28.861+01:00;anonymous; ; ; ;original/CV 2008 data en documentatiefiles/SCP_CV2008.pdf;\n"
-                + "2013-02-23T11:29:40.653+01:00;anonymous; ; ; ;original/CV 2008 data en documentatiefiles/SCP_CV2008.pdf;\n"
-                + "2013-02-23T11:33:00.059+01:00;anonymous; ; ; ;original/CV 2008 data en documentatiefiles/SCP_Culturele_Veranderingen_2008_DANS.sav;\n");
+        expect(mockDownloadList36028(), expectedDownloadFor36028());
     }
 
-    private void expectInvisible(DownloadList downloadList, final EasyUserImpl easyUser) throws Exception
+    private void expectInvisible(final DownloadList downloadList, final EasyUserImpl easyUser) throws Exception
     {
         final WicketTester tester = run(downloadList, easyUser);
         tester.assertInvisible(PANEL);
         tester.assertInvisible(PANEL_DOWNLOAD_CSV);
     }
 
-    private void expect(DownloadList downloadList, final String lines) throws Exception
+    private void expect(final DownloadList downloadList, final String lines) throws Exception
     {
         final WicketTester tester = run(downloadList, new EasyUserImpl(Role.ARCHIVIST));
         tester.assertVisible(PANEL);
@@ -170,7 +154,7 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
         assertThat(tester.getServletResponse().getDocument(), is(lines));
     }
 
-    private WicketTester run(DownloadList downloadList, final EasyUser easyUser) throws Exception
+    private WicketTester run(final DownloadList downloadList, final EasyUser easyUser) throws Exception
     {
         final Dataset dataset = mockDataset(downloadList);
         final Session session = mockSessionFor_Component_isActionAuthourized();
@@ -190,10 +174,9 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
                     @Override
                     public Session getSession()
                     {
-                        return session; 
+                        return session;
                     }
-                }
-                ;
+                };
             }
         });
         return tester;

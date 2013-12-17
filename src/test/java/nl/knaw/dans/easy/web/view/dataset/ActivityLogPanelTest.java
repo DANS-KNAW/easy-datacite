@@ -72,13 +72,32 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
     public void feb2013issue560() throws Exception
     {
         final WicketTester tester = run(mockDownloadList36028(), new EasyUserImpl(Role.ARCHIVIST));
-        assertRows(tester, 12, 1, 1, 1, 1, 1, 1, 1, 4, 1, 3, 1, 1);
+        final Integer[] filesPerRow = expectedNrOfFilesPerRowFor36028();
+        final String[] rows = expectedDownloadFor36028().split("\n");
+        assertPanelEqualsDownload(tester, filesPerRow, rows);
     }
 
-    private void assertRows(final WicketTester tester, final int numberOfDownloads, final Integer... filesPerRow)
+    private void assertPanelEqualsDownload(final WicketTester tester, final Integer[] filesPerRow, final String[] rows)
     {
-        // tester.debugComponentTrees();
-        // tester.dumpPage();
+        for (int i = 0, j = 0; j < rows.length; j += filesPerRow[i++])
+        {
+            final String[] cols = rows[j].replace(";anonymous; ; ; ;", ";;;;;").replace(";null;null;null;null;", ";;;;;").split(";");
+            final String path = "panel:downloadListPanel:timeViewContainer:timeView:" + i;
+            tester.assertLabel(path + ":downloadTime", cols[0].split("T")[0]);//shown as a date
+            tester.assertLabel(path + ":displayName", cols[1]);
+            tester.assertLabel(path + ":organization", cols[2]);
+            tester.assertLabel(path + ":function", cols[3]);
+            tester.assertLabel(path + ":fileCount", filesPerRow[i] + "");
+            // cover both branches for DetailsViewPanel.toggleDisplay()
+            tester.clickLink(path + ":detailsLink");
+            tester.clickLink(path + ":detailsLink");
+        }
+    }
+
+    private void assertRows(final WicketTester tester, final int numberOfRows, final Integer... filesPerRow)
+    {
+        tester.debugComponentTrees();
+        tester.dumpPage();
         int expectedComponentCount = (filesPerRow.length * 9) + 15;
         for (int i = 0; i < filesPerRow.length; i++)
         {
@@ -92,7 +111,7 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
             }
         }
         assertThat(WicketTesterHelper.getComponentData(tester.getLastRenderedPage()).size(), is(expectedComponentCount));
-        tester.assertLabel("panel:downloadListPanel:downloadCount", numberOfDownloads + "");
+        tester.assertLabel("panel:downloadListPanel:downloadCount", numberOfRows + "");
     }
 
     private WicketTester run(final DownloadList downloadList, final EasyUser easyUser) throws Exception
@@ -117,10 +136,11 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
                     {
                         return easyUser;
                     }
+
                     @Override
                     public Session getSession()
                     {
-                        return session; 
+                        return session;
                     }
                 };
             }
