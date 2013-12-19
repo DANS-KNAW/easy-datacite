@@ -16,13 +16,13 @@ import nl.knaw.dans.easy.servicelayer.services.UserService;
 import org.easymock.EasyMock;
 
 /**
- * Mock http://easy.dans.knaw.nl:8080/fedora/objects/easy-dlh:36028/datastreams/DLHL/content <br>
+ * Mocks http://easy.dans.knaw.nl:8080/fedora/objects/easy-dlh:36028/datastreams/DLHL/content <br>
  * to replicate https://drivenbydata.atlassian.net/browse/EASY-560 <br>
  * <br>
  * User IDs are altered, but the LogMyActions flags match. Files are visible for anonymous anyway so no
- * further need for scrambling the data
+ * further need for scrambling the data.
  */
-public class MockDLH36028
+public class MockedDLHL36028
 {
 
     static final Integer[] NR_OF_FILE_PER_ROW = {1, 1, 1, 1, 1, 1, 1, 4, 1, 3, 1, 1};

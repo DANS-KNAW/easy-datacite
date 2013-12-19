@@ -71,8 +71,8 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
     @Test
     public void feb2013issue560() throws Exception
     {
-        final WicketTester tester = run(MockDLH36028.getList(userService), new EasyUserImpl(Role.ARCHIVIST));
-        assertPanelEqualsDownload(tester, MockDLH36028.NR_OF_FILE_PER_ROW, MockDLH36028.EXPECTED_DOWNLOAD.split("\n"));
+        final WicketTester tester = run(MockedDLHL36028.getList(userService), new EasyUserImpl(Role.ARCHIVIST));
+        assertPanelEqualsDownload(tester, MockedDLHL36028.NR_OF_FILE_PER_ROW, MockedDLHL36028.EXPECTED_DOWNLOAD.split("\n"));
     }
 
     private void assertPanelEqualsDownload(final WicketTester tester, final Integer[] filesPerRow, final String[] rows)
