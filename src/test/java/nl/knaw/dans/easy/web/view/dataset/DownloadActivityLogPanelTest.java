@@ -134,7 +134,7 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
     @Test
     public void feb2013issue560() throws Exception
     {
-        expect(MockedDLHL36028.getList(userService), MockedDLHL36028.EXPECTED_DOWNLOAD);
+        expect(new MockedDLHL36028(userService).getList(), MockedDLHL36028.getExpectedDownload());
     }
 
     private void expectInvisible(final DownloadList downloadList, final EasyUserImpl easyUser) throws Exception

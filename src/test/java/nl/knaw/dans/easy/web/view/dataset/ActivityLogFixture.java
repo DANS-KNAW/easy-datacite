@@ -26,8 +26,8 @@ import nl.knaw.dans.easy.servicelayer.services.DatasetService;
 import nl.knaw.dans.easy.servicelayer.services.UserService;
 import nl.knaw.dans.easy.web.EasyWicketApplication;
 
+import org.apache.wicket.Component;
 import org.apache.wicket.Session;
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.spring.test.ApplicationContextMock;
 import org.apache.wicket.util.tester.WicketTester;
 import org.easymock.EasyMock;
@@ -47,6 +47,7 @@ public class ActivityLogFixture
     protected static DatasetService datasetService;
     protected static UserService userService;
     private static ApplicationContextMock applicationContext;
+    private StringBuffer labelErrors;
 
     @BeforeClass
     public static void mockApplicationContext() throws Exception
@@ -69,12 +70,14 @@ public class ActivityLogFixture
     @Before
     public void resetAll()
     {
+        labelErrors = new StringBuffer();
         PowerMock.resetAll();
     }
 
     @After
     public void verifyAll()
     {
+        assertTrue (labelErrors.toString(),labelErrors.length()==0);
         PowerMock.verifyAll();
     }
 
@@ -147,13 +150,15 @@ public class ActivityLogFixture
 
         final WicketTester tester = new WicketTester(application)
         {
+
             @Override
             public void assertLabel(final String path, final String expected)
             {
-                // clearer failure messages simplify debugging
-                final Label component = (Label) getComponentFromLastRenderedPage(path);
+                // failure messages become clearer with a path; collect all label assertions
+                final Component component = getComponentFromLastRenderedPage(path);
                 final String label = component.getDefaultModelObjectAsString();
-                assertTrue(path+"\n"+"expected ["+expected+"]\ngot ["+label+"]", label.equals(expected));
+                if (!expected.equals(label))
+                    labelErrors.append("\nexpected ["+expected+"]\tgot ["+label+"]\t"+path);
             }
         };
         return tester;
