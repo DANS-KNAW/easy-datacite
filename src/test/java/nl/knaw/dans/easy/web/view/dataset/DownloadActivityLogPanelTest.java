@@ -25,6 +25,9 @@ import org.powermock.api.easymock.PowerMock;
 
 public class DownloadActivityLogPanelTest extends ActivityLogFixture implements Serializable
 {
+    private static final EasyUserImpl ARCHIVIST = new EasyUserImpl(Role.ARCHIVIST);
+    private static final EasyUserImpl USER = new EasyUserImpl(Role.USER);
+
     private static final long serialVersionUID = 1L;
 
     private static final String ANONYMOUS_DOWNLOAD_LINE = "2013-12-13T00:00:00.000+01:00;anonymous; ; ; ;null;\n";
@@ -34,13 +37,13 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
     @Test
     public void noDLH() throws Exception
     {
-        expectInvisible(null, new EasyUserImpl(Role.ARCHIVIST));
+        expectInvisible(null, ARCHIVIST);
     }
 
     @Test
     public void emptyDLH() throws Exception
     {
-        expectInvisible(createDownloadList(), new EasyUserImpl(Role.ARCHIVIST));
+        expectInvisible(createDownloadList(), ARCHIVIST);
     }
 
     @Test
@@ -64,7 +67,7 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
     {
         final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, null, DOWNLOAD_DATE_TIME);
-        expect(downloadList, ANONYMOUS_DOWNLOAD_LINE);
+        expect(downloadList, ARCHIVIST, ANONYMOUS_DOWNLOAD_LINE);
     }
 
     @Test
@@ -72,7 +75,7 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
     {
         final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, EasyUserAnonymous.getInstance(), DOWNLOAD_DATE_TIME);
-        expect(downloadList, ANONYMOUS_DOWNLOAD_LINE);
+        expect(downloadList, ARCHIVIST, ANONYMOUS_DOWNLOAD_LINE);
     }
 
     @Test
@@ -80,7 +83,7 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
     {
         final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, mockUser(false), DOWNLOAD_DATE_TIME);
-        expect(downloadList, "2013-12-13T00:00:00.000+01:00;userid;email;organization;function;null;\n");
+        expect(downloadList, ARCHIVIST, "2013-12-13T00:00:00.000+01:00;userid;email;organization;function;null;\n");
     }
 
     @Test
@@ -88,7 +91,7 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
     {
         final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, mockUser(true), DOWNLOAD_DATE_TIME);
-        expect(downloadList, "2013-12-13T00:00:00.000+01:00;userid;email;organization;function;null;\n");
+        expect(downloadList, ARCHIVIST, "2013-12-13T00:00:00.000+01:00;userid;email;organization;function;null;\n");
     }
 
     @Test
@@ -96,7 +99,7 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
     {
         final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, mockNotFoundUser(), DOWNLOAD_DATE_TIME);
-        expect(downloadList, ANONYMOUS_DOWNLOAD_LINE);
+        expect(downloadList, ARCHIVIST, ANONYMOUS_DOWNLOAD_LINE);
     }
 
     @Test
@@ -104,7 +107,7 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
     {
         final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, mockUserWithEmptyValues(), DOWNLOAD_DATE_TIME);
-        expect(downloadList, "2013-12-13T00:00:00.000+01:00;userid;null;null;null;null;\n");
+        expect(downloadList, ARCHIVIST, "2013-12-13T00:00:00.000+01:00;userid;null;null;null;null;\n");
     }
 
     @Test
@@ -112,7 +115,7 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
     {
         final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, new EasyUserImpl(""), DOWNLOAD_DATE_TIME);
-        expect(downloadList, ANONYMOUS_DOWNLOAD_LINE);
+        expect(downloadList, ARCHIVIST, ANONYMOUS_DOWNLOAD_LINE);
     }
 
     @Test
@@ -120,7 +123,7 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
     {
         final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, mockNotFoundUserService(), DOWNLOAD_DATE_TIME);
-        expect(downloadList, ANONYMOUS_DOWNLOAD_LINE);
+        expect(downloadList, ARCHIVIST, ANONYMOUS_DOWNLOAD_LINE);
     }
 
     @Test
@@ -134,13 +137,14 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
     @Test
     public void archivistFeb2013issue560() throws Exception
     {
-        expect(new MockedDLHL36028(userService).getList(), MockedDLHL36028.getArchivistExpectation());
+        expect(new MockedDLHL36028(userService,ARCHIVIST).getList(), ARCHIVIST, MockedDLHL36028.getArchivistExpectation());
     }
 
     @Test
     public void datasetOwnerFeb2013issue560() throws Exception
     {
-        expect(new MockedDLHL36028(userService).getList(), MockedDLHL36028.getArchivistExpectation());
+        // code smell: ActivityLogPanel makes download invisible
+        expect(new MockedDLHL36028(userService,USER).getList(), USER, MockedDLHL36028.getArchivistExpectation());
     }
 
     private void expectInvisible(final DownloadList downloadList, final EasyUserImpl easyUser) throws Exception
@@ -150,9 +154,9 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
         tester.assertInvisible(PANEL_DOWNLOAD_CSV);
     }
 
-    private void expect(final DownloadList downloadList, final String lines) throws Exception
+    private void expect(final DownloadList downloadList, EasyUser sessionUser, final String lines) throws Exception
     {
-        final WicketTester tester = run(downloadList, new EasyUserImpl(Role.ARCHIVIST));
+        final WicketTester tester = run(downloadList, sessionUser);
         tester.assertVisible(PANEL);
         tester.assertVisible(PANEL_DOWNLOAD_CSV);
         tester.assertEnabled(PANEL_DOWNLOAD_CSV);

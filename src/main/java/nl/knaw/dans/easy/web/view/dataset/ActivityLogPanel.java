@@ -52,8 +52,6 @@ public class ActivityLogPanel extends AbstractEasyPanel
 
     private final Dataset dataset;
 
-    private boolean initiated;
-
     private DownloadActivityLogPanel downloadActivityLogPanel;
 
     @SpringBean(name = "datasetService")
@@ -66,31 +64,6 @@ public class ActivityLogPanel extends AbstractEasyPanel
     {
         super(id);
         this.dataset = dataset;
-    }
-
-    public Dataset getDataset()
-    {
-        return dataset;
-    }
-
-    public boolean isInitiated()
-    {
-        return initiated;
-    }
-
-    @Override
-    protected void onBeforeRender()
-    {
-        if (!initiated)
-        {
-            init();
-            initiated = true;
-        }
-        super.onBeforeRender();
-    }
-
-    private void init()
-    {
         final ActivityLogForm activityLogForm = new ActivityLogForm("choiceForm");
         add(activityLogForm);
         displayDownloads(activityLogForm.getYear(), activityLogForm.getMonth());

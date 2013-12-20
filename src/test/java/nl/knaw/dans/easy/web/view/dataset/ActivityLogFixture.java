@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Locale;
 
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
@@ -92,6 +93,7 @@ public class ActivityLogFixture
     {
         final EasyUserImpl user = new EasyUserImpl("userid");
         user.setFunction("function");
+        user.setSurname("surname");
         user.setEmail("email");
         user.setOrganization("organization");
         user.setLogMyActions(logMyActions);
@@ -144,6 +146,9 @@ public class ActivityLogFixture
     {
         final Session session = PowerMock.createMock(Session.class);
         EasyMock.expect(session.getAuthorizationStrategy()).andStubReturn(null);
+        
+        // in case of exceptions catched by wicket
+        EasyMock.expect(session.getLocale()).andStubReturn(Locale.ENGLISH);
         return session;
     }
 
@@ -157,8 +162,7 @@ public class ActivityLogFixture
             @Override
             public void dumpPage()
             {
-                super.dumpPage();
-                try
+               try
                 {
                     final StackTraceElement caller = new Exception().getStackTrace()[1];
                     final String testClass = caller.getClassName().replaceAll(".*[.]", "");
@@ -178,8 +182,10 @@ public class ActivityLogFixture
                 // failure messages become clearer with a path; collect all label assertions
                 final Component component = getComponentFromLastRenderedPage(path);
                 final String label = component.getDefaultModelObjectAsString();
+                if (label==null && expected !=null)
+                    labelErrors.append("\nexpected [" + expected + "] but did not find " + path);
                 if (!expected.equals(label))
-                    labelErrors.append("\nexpected [" + expected + "]\tgot [" + label + "]\t" + path);
+                    labelErrors.append("\nexpected [" + expected + "] got [" + label + "] " + path);
             }
         };
         return tester;

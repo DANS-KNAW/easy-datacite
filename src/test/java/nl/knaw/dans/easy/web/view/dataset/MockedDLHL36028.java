@@ -66,10 +66,12 @@ public class MockedDLHL36028
             + /* 12 */"2013-02-23T11:33:00.059+01:00;Anonymous;;;;original/CV 2008 data en documentatiefiles/SCP_Culturele_Veranderingen_2008_DANS.sav;\n";
 
     private final UserService userService;
+    private EasyUser sessionUser;
 
-    public MockedDLHL36028(final UserService userService)
+    public MockedDLHL36028(final UserService userService, final EasyUser sessionUser)
     {
         this.userService = userService;
+        this.sessionUser = sessionUser;
     }
 
     public DownloadList getList() throws Exception
@@ -100,7 +102,7 @@ public class MockedDLHL36028
         user.setSurname(displayName.split("^.*\\.")[1]);
         user.setFunction(function);
         user.setLogMyActions(logMyActions);
-        EasyMock.expect(userService.getUserById(isA(EasyUser.class), eq(id))).andStubReturn(user);
+        EasyMock.expect(userService.getUserById(eq(sessionUser), eq(id))).andStubReturn(user);
     }
 
     public static Integer[] getNrOfFilesPerRow()
