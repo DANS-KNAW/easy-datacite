@@ -14,7 +14,6 @@ import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
-import nl.knaw.dans.easy.servicelayer.services.UserService;
 import nl.knaw.dans.easy.web.template.TestPanelPage;
 
 import org.apache.wicket.Session;
@@ -37,9 +36,19 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
     private static final String PATH_DOWNLOAD = "panel:downloadActivityLogPanel:download_csv";
 
     @Test
-    public void noRows() throws Exception
+    public void noList() throws Exception
+    {
+        final WicketTester tester = run(null, ARCHIVIST, false);
+        tester.assertInvisible("panel:downloadListPanel");
+        tester.assertInvisible(PATH_DOWNLOAD);
+    }
+
+    @Test
+    public void emptyList() throws Exception
     {
         final WicketTester tester = run(createDownloadList(), ARCHIVIST, false);
+        tester.assertVisible("panel:downloadListPanel");
+        tester.assertInvisible(PATH_DOWNLOAD);
         assertRows(tester, 0, new Integer[0]);
     }
 
@@ -50,6 +59,7 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
         downloadList.addDownload(FILE_ITEM_VO, mockUser(false), DOWNLOAD_DATE_TIME);
 
         final WicketTester tester = run(downloadList, ARCHIVIST, false);
+        tester.assertVisible(PATH_DOWNLOAD);
         assertRows(tester, 1, (Integer) null);
         tester.assertLabel(PATH_VIEW + "0:displayName", "surname");
     }
@@ -59,16 +69,31 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
     {
         final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, null, DOWNLOAD_DATE_TIME);
+
         final WicketTester tester = run(downloadList, ARCHIVIST, false);
         tester.assertLabel(PATH_VIEW + "0:displayName", "Anonymous");
     }
 
     @Test
-    public void noList() throws Exception
+    public void noUserFound() throws Exception
     {
-        final WicketTester tester = run(null, ARCHIVIST, false);
-        tester.assertInvisible("panel:downloadListPanel");
-        tester.assertInvisible(PATH_DOWNLOAD);
+        EasyMock.expect(userService.getUserById(isA(EasyUser.class), isA(String.class))).andStubThrow(new ObjectNotAvailableException(""));
+        final DownloadList downloadList = createDownloadList();
+        downloadList.addDownload(FILE_ITEM_VO, mockUser(false), DOWNLOAD_DATE_TIME);
+
+        final WicketTester tester = run(downloadList, ARCHIVIST, false);
+        tester.assertLabel(PATH_VIEW + "0:displayName", "");
+    }
+
+    @Test
+    public void noUserService() throws Exception
+    {
+        EasyMock.expect(userService.getUserById(isA(EasyUser.class), isA(String.class))).andStubThrow(new ServiceException(""));
+        final DownloadList downloadList = createDownloadList();
+        downloadList.addDownload(FILE_ITEM_VO, mockUser(false), DOWNLOAD_DATE_TIME);
+
+        final WicketTester tester = run(downloadList, ARCHIVIST, false);
+        tester.assertLabel(PATH_VIEW + "0:displayName", "");
     }
 
     @Test(expected = InternalWebError.class)
@@ -80,63 +105,20 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
     }
 
     @Test
-    public void twoDetailRows() throws Exception
-    {
-        final DownloadList downloadList = createDownloadList();
-        downloadList.addDownload(FILE_ITEM_VO, mockUser(true), DOWNLOAD_DATE_TIME);
-        downloadList.addDownload(FILE_ITEM_VO, mockUser(true), DOWNLOAD_DATE_TIME);
-
-        downloadList.getRecords().get(0).setFileItemId("fileItem:0");
-        downloadList.getRecords().get(0).setPath("path0");
-        downloadList.getRecords().get(1).setFileItemId("fileItem:1");
-        downloadList.getRecords().get(1).setPath("path1");
-
-        final WicketTester tester = run(downloadList, ARCHIVIST, false);
-        assertRows(tester, 2, 2);
-    }
-
-    @Test
-    public void twoRows() throws Exception
-    {
-        final DownloadList downloadList = createDownloadList();
-        downloadList.addDownload(FILE_ITEM_VO, mockUser(false), DOWNLOAD_DATE_TIME);
-        downloadList.addDownload(FILE_ITEM_VO, mockUser(true), DOWNLOAD_DATE_TIME.minusDays(2));
-
-        final WicketTester tester = run(downloadList, ARCHIVIST, false);
-        assertRows(tester, 2, (Integer) null, (Integer) null);
-    }
-
-    @Test
     public void formActions() throws Exception
     {
         final DownloadList downloadList = createDownloadList();
         final WicketTester tester = run(downloadList, ARCHIVIST, false);
-        FormTester formTester = tester.newFormTester("panel:choiceForm");
+
+        final FormTester formTester = tester.newFormTester("panel:choiceForm");
         formTester.select("yearChoice", 0);
         formTester.select("monthChoice", 0);
+
+        tester.assertLabel("panel:choiceForm:yearChoice", "2013");
+        tester.assertLabel("panel:choiceForm:monthChoice", "12");
         formTester.submit("submitLink");
-    }
-
-    @Test
-    public void noUserService() throws Exception
-    {
-        EasyMock.expect(userService.getUserById(isA(EasyUser.class), isA(String.class))).andStubThrow(new ServiceException(""));
-        DownloadList list = new MockedDLHL36028(userService, ARCHIVIST).getList();
-        final WicketTester tester = run(list, ARCHIVIST, false);
-        tester.assertVisible(PATH_DOWNLOAD);
-        tester.assertEnabled(PATH_DOWNLOAD);
-        // TODO what's different?
-    }
-
-    @Test
-    public void noUserFound() throws Exception
-    {
-        EasyMock.expect(userService.getUserById(isA(EasyUser.class), isA(String.class))).andStubThrow(new ObjectNotAvailableException(""));
-        DownloadList list = new MockedDLHL36028(userService, ARCHIVIST).getList();
-        final WicketTester tester = run(list, ARCHIVIST, false);
-        tester.assertVisible(PATH_DOWNLOAD);
-        tester.assertEnabled(PATH_DOWNLOAD);
-        // TODO what's different?
+        tester.assertLabel("panel:choiceForm:yearChoice", "2006");
+        tester.assertLabel("panel:choiceForm:monthChoice", "1");
     }
 
     @Test

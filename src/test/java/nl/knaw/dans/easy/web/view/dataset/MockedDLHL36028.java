@@ -1,7 +1,6 @@
 package nl.knaw.dans.easy.web.view.dataset;
 
 import static org.easymock.EasyMock.eq;
-import static org.easymock.EasyMock.isA;
 
 import java.io.File;
 

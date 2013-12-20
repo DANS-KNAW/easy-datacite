@@ -35,6 +35,7 @@ import org.apache.wicket.spring.test.ApplicationContextMock;
 import org.apache.wicket.util.tester.WicketTester;
 import org.easymock.EasyMock;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -68,6 +69,12 @@ public class ActivityLogFixture
         applicationContext.putBean("security", new Security(codedAuthz));
         applicationContext.putBean("datasetService", datasetService);
         applicationContext.putBean("userService", userService);
+    }
+
+    @BeforeClass
+    public static void mockNow()
+    {
+        DateTimeUtils.setCurrentMillisFixed(new DateTime("2013-12-11").getMillis());
     }
 
     @Before
