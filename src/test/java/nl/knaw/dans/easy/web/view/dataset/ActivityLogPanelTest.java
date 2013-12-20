@@ -12,11 +12,11 @@ import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.domain.download.DownloadList;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
-import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.web.template.TestPanelPage;
 
 import org.apache.wicket.Session;
+import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.util.tester.FormTester;
 import org.apache.wicket.util.tester.ITestPanelSource;
@@ -38,7 +38,7 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
     @Test
     public void noList() throws Exception
     {
-        final WicketTester tester = run(null, ARCHIVIST, false);
+        final WicketTester tester = run(null, ARCHIVIST, false, false);
         tester.assertInvisible("panel:downloadListPanel");
         tester.assertInvisible(PATH_DOWNLOAD);
     }
@@ -46,22 +46,103 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
     @Test
     public void emptyList() throws Exception
     {
-        final WicketTester tester = run(createDownloadList(), ARCHIVIST, false);
+        final WicketTester tester = run(createDownloadList(), ARCHIVIST, false, false);
         tester.assertVisible("panel:downloadListPanel");
         tester.assertInvisible(PATH_DOWNLOAD);
         assertRows(tester, 0, new Integer[0]);
     }
 
     @Test
-    public void singleRow() throws Exception
+    public void singleRow1() throws Exception
     {
         final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, mockUser(false), DOWNLOAD_DATE_TIME);
 
-        final WicketTester tester = run(downloadList, ARCHIVIST, false);
+        final WicketTester tester = run(downloadList, ARCHIVIST, false, false);
         tester.assertVisible(PATH_DOWNLOAD);
         assertRows(tester, 1, (Integer) null);
         tester.assertLabel(PATH_VIEW + "0:displayName", "surname");
+    }
+    @Test
+    public void singleRow6() throws Exception
+    {
+        final DownloadList downloadList = createDownloadList();
+        downloadList.addDownload(FILE_ITEM_VO, mockUser(false), DOWNLOAD_DATE_TIME);
+
+        final WicketTester tester = run(downloadList, ARCHIVIST, true, false);
+        tester.assertVisible(PATH_DOWNLOAD);
+        assertRows(tester, 1, (Integer) null);
+        tester.assertLabel(PATH_VIEW + "0:displayName", "surname");
+    }
+    @Test
+    public void singleRow7() throws Exception
+    {
+        final DownloadList downloadList = createDownloadList();
+        downloadList.addDownload(FILE_ITEM_VO, mockUser(false), DOWNLOAD_DATE_TIME);
+
+        final WicketTester tester = run(downloadList, ARCHIVIST, false, true);
+        tester.assertVisible(PATH_DOWNLOAD);
+        assertRows(tester, 1, (Integer) null);
+        tester.assertLabel(PATH_VIEW + "0:displayName", "surname");
+    }
+    @Test
+    public void singleRow8() throws Exception
+    {
+        final DownloadList downloadList = createDownloadList();
+        downloadList.addDownload(FILE_ITEM_VO, mockUser(false), DOWNLOAD_DATE_TIME);
+
+        final WicketTester tester = run(downloadList, ARCHIVIST, true, true);
+        tester.assertVisible(PATH_DOWNLOAD);
+        assertRows(tester, 1, (Integer) null);
+        tester.assertLabel(PATH_VIEW + "0:displayName", "surname");
+    }
+
+    @Test
+    public void singleRow2() throws Exception
+    {
+        final DownloadList downloadList = createDownloadList();
+        downloadList.addDownload(FILE_ITEM_VO, mockUser(false), DOWNLOAD_DATE_TIME);
+
+        final WicketTester tester = run(downloadList, USER, false, false);
+        tester.assertInvisible(PATH_DOWNLOAD);
+        assertRows(tester, 1, (Integer) null);
+        tester.assertLabel(PATH_VIEW + "0:displayName", "Anonymous");
+    }
+
+    @Test
+    public void singleRow3() throws Exception
+    {
+        final DownloadList downloadList = createDownloadList();
+        downloadList.addDownload(FILE_ITEM_VO, mockUser(false), DOWNLOAD_DATE_TIME);
+
+        final WicketTester tester = run(downloadList, USER, true, false);
+        tester.assertInvisible(PATH_DOWNLOAD);
+        assertRows(tester, 1, (Integer) null);
+        tester.assertLabel(PATH_VIEW + "0:displayName", "Anonymous");
+    }
+
+    @Test
+    public void singleRow4() throws Exception
+    {
+        final DownloadList downloadList = createDownloadList();
+        downloadList.addDownload(FILE_ITEM_VO, mockUser(false), DOWNLOAD_DATE_TIME);
+
+        final WicketTester tester = run(downloadList, USER, false, true);
+        tester.assertInvisible(PATH_DOWNLOAD);
+        assertRows(tester, 1, (Integer) null);
+        tester.assertLabel(PATH_VIEW + "0:displayName", "Anonymous");
+    }
+
+    @Test
+    public void singleRow5() throws Exception
+    {
+        final DownloadList downloadList = createDownloadList();
+        downloadList.addDownload(FILE_ITEM_VO, mockUser(false), DOWNLOAD_DATE_TIME);
+
+        final WicketTester tester = run(downloadList, USER, true, true);
+        tester.assertInvisible(PATH_DOWNLOAD);
+        assertRows(tester, 1, (Integer) null);
+        tester.assertLabel(PATH_VIEW + "0:displayName", "Anonymous");
     }
 
     @Test
@@ -70,7 +151,7 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
         final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, null, DOWNLOAD_DATE_TIME);
 
-        final WicketTester tester = run(downloadList, ARCHIVIST, false);
+        final WicketTester tester = run(downloadList, ARCHIVIST, false, false);
         tester.assertLabel(PATH_VIEW + "0:displayName", "Anonymous");
     }
 
@@ -81,7 +162,7 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
         final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, mockUser(false), DOWNLOAD_DATE_TIME);
 
-        final WicketTester tester = run(downloadList, ARCHIVIST, false);
+        final WicketTester tester = run(downloadList, ARCHIVIST, false, false);
         tester.assertLabel(PATH_VIEW + "0:displayName", "");
     }
 
@@ -92,7 +173,7 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
         final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, mockUser(false), DOWNLOAD_DATE_TIME);
 
-        final WicketTester tester = run(downloadList, ARCHIVIST, false);
+        final WicketTester tester = run(downloadList, ARCHIVIST, false, false);
         tester.assertLabel(PATH_VIEW + "0:displayName", "");
     }
 
@@ -101,14 +182,14 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
     {
         EasyMock.expect(datasetService.getDownloadHistoryFor(isA(EasyUser.class), isA(Dataset.class), isA(DateTime.class)))//
                 .andStubThrow(new ServiceException(""));
-        run(null, ARCHIVIST, false);
+        run(null, ARCHIVIST, false, false);
     }
 
     @Test
     public void formActions() throws Exception
     {
         final DownloadList downloadList = createDownloadList();
-        final WicketTester tester = run(downloadList, ARCHIVIST, false);
+        final WicketTester tester = run(downloadList, ARCHIVIST, false, false);
 
         final FormTester formTester = tester.newFormTester("panel:choiceForm");
         formTester.select("yearChoice", 0);
@@ -124,7 +205,7 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
     @Test
     public void archivistFeb2013issue560() throws Exception
     {
-        final WicketTester tester = run(new MockedDLHL36028(userService, ARCHIVIST).getList(), ARCHIVIST, false);
+        final WicketTester tester = run(new MockedDLHL36028(userService, ARCHIVIST).getList(), ARCHIVIST, false, false);
         tester.clickLink("panel:choiceForm:submitLink");
         tester.debugComponentTrees();
         tester.dumpPage();
@@ -136,7 +217,7 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
     @Test
     public void datasetOwnerFeb2013issue560() throws Exception
     {
-        final WicketTester tester = run(new MockedDLHL36028(userService, USER).getList(), USER, true);
+        final WicketTester tester = run(new MockedDLHL36028(userService, USER).getList(), USER, true, false);
         tester.clickLink("panel:choiceForm:submitLink");
         tester.debugComponentTrees();
         tester.dumpPage();
@@ -184,10 +265,11 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
         tester.assertLabel("panel:downloadListPanel:downloadCount", numberOfRows + "");
     }
 
-    private WicketTester run(final DownloadList downloadList, final EasyUser sessionUser, final boolean isDepositor) throws Exception
+    private WicketTester run(final DownloadList downloadList, final EasyUser sessionUser, final boolean isDepositor, final boolean hasPermissionRestrictedItems)
+            throws Exception
     {
         final Session session = mockSessionFor_Component_isActionAuthourized();
-        final Dataset dataset = mockDataset(downloadList, sessionUser, isDepositor);
+        final Dataset dataset = mockDataset(downloadList, sessionUser, isDepositor, hasPermissionRestrictedItems);
         PowerMock.replayAll();
 
         final WicketTester tester = createWicketTester();

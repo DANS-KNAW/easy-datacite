@@ -130,7 +130,8 @@ public class ActivityLogFixture
         return new EasyUserImpl("notFoundUser");
     }
 
-    protected Dataset mockDataset(final DownloadList downloadList, final EasyUser user, final boolean isDepositor) throws ServiceException
+    protected Dataset mockDataset(final DownloadList downloadList, final EasyUser user, final boolean isDepositor, final boolean hasPermissionRestrictedItems)
+            throws ServiceException
     {
         final DownloadHistory dlh;
         if (downloadList == null)
@@ -145,7 +146,8 @@ public class ActivityLogFixture
         final Dataset dataset = PowerMock.createMock(Dataset.class);
         EasyMock.expect(dataset.getDmoStoreId()).andStubReturn(new DmoStoreId("dataset:sid"));
         EasyMock.expect(dataset.hasDepositor(user)).andStubReturn(isDepositor);
-        EasyMock.expect(dataset.hasPermissionRestrictedItems()).andStubReturn(false);
+        EasyMock.expect(dataset.hasPermissionRestrictedItems()).andStubReturn(hasPermissionRestrictedItems);
+        EasyMock.expect(dataset.isPermissionGrantedTo(isA(EasyUser.class))).andStubReturn(true);
         return dataset;
     }
 
@@ -153,7 +155,7 @@ public class ActivityLogFixture
     {
         final Session session = PowerMock.createMock(Session.class);
         EasyMock.expect(session.getAuthorizationStrategy()).andStubReturn(null);
-        
+
         // in case of exceptions catched by wicket
         EasyMock.expect(session.getLocale()).andStubReturn(Locale.ENGLISH);
         return session;
@@ -169,7 +171,7 @@ public class ActivityLogFixture
             @Override
             public void dumpPage()
             {
-               try
+                try
                 {
                     final StackTraceElement caller = new Exception().getStackTrace()[1];
                     final String testClass = caller.getClassName().replaceAll(".*[.]", "");
@@ -189,7 +191,7 @@ public class ActivityLogFixture
                 // failure messages become clearer with a path; collect all label assertions
                 final Component component = getComponentFromLastRenderedPage(path);
                 final String label = component.getDefaultModelObjectAsString();
-                if (label==null && expected !=null)
+                if (label == null && expected != null)
                     labelErrors.append("\nexpected [" + expected + "] but did not find " + path);
                 if (!expected.equals(label))
                     labelErrors.append("\nexpected [" + expected + "] got [" + label + "] " + path);

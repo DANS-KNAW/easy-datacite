@@ -166,7 +166,7 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
 
     private WicketTester run(final DownloadList downloadList, final EasyUser user) throws Exception
     {
-        final Dataset dataset = mockDataset(downloadList, user, false);
+        final Dataset dataset = mockDataset(downloadList, user, false, false);
         final Session session = mockSessionFor_Component_isActionAuthourized();
         PowerMock.replayAll();
 
