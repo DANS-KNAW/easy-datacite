@@ -80,7 +80,7 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
     {
         final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, mockUser(false), DOWNLOAD_DATE_TIME);
-        expect(downloadList, ANONYMOUS_DOWNLOAD_LINE);
+        expect(downloadList, "2013-12-13T00:00:00.000+01:00;userid;email;organization;function;null;\n");
     }
 
     @Test
@@ -132,9 +132,15 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
     }
 
     @Test
-    public void feb2013issue560() throws Exception
+    public void archivistFeb2013issue560() throws Exception
     {
-        expect(new MockedDLHL36028(userService).getList(), MockedDLHL36028.getExpectedDownload());
+        expect(new MockedDLHL36028(userService).getList(), MockedDLHL36028.getArchivistExpectation());
+    }
+
+    @Test
+    public void datasetOwnerFeb2013issue560() throws Exception
+    {
+        expect(new MockedDLHL36028(userService).getList(), MockedDLHL36028.getArchivistExpectation());
     }
 
     private void expectInvisible(final DownloadList downloadList, final EasyUserImpl easyUser) throws Exception
@@ -154,9 +160,9 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
         assertThat(tester.getServletResponse().getDocument(), is(lines));
     }
 
-    private WicketTester run(final DownloadList downloadList, final EasyUser easyUser) throws Exception
+    private WicketTester run(final DownloadList downloadList, final EasyUser user) throws Exception
     {
-        final Dataset dataset = mockDataset(downloadList);
+        final Dataset dataset = mockDataset(downloadList, user, false);
         final Session session = mockSessionFor_Component_isActionAuthourized();
         PowerMock.replayAll();
 
@@ -167,7 +173,7 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
 
             public Panel getTestPanel(final String panelId)
             {
-                return new DownloadActivityLogPanel(panelId, dataset, easyUser)
+                return new DownloadActivityLogPanel(panelId, dataset, user)
                 {
                     private static final long serialVersionUID = 1L;
 

@@ -96,8 +96,6 @@ public class DownloadActivityLogPanel extends Panel
                 for (DownloadRecord dr : downloadList.getRecords())
                 {
                     EasyUser downloader = fetchDownloader(dr);
-                    if (downloader != null && !downloader.isLogMyActions())
-                        downloader = null;
                     sb.append(dr.getDownloadTime());
                     sb.append(";");
                     sb.append(downloader == null ? "anonymous" : downloader.getId());

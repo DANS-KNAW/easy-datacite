@@ -4,6 +4,7 @@ import static org.easymock.EasyMock.isA;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.io.IOException;
 
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
@@ -26,6 +27,7 @@ import nl.knaw.dans.easy.servicelayer.services.DatasetService;
 import nl.knaw.dans.easy.servicelayer.services.UserService;
 import nl.knaw.dans.easy.web.EasyWicketApplication;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.wicket.Component;
 import org.apache.wicket.Session;
 import org.apache.wicket.spring.test.ApplicationContextMock;
@@ -77,7 +79,7 @@ public class ActivityLogFixture
     @After
     public void verifyAll()
     {
-        assertTrue (labelErrors.toString(),labelErrors.length()==0);
+        assertTrue(labelErrors.toString(), labelErrors.length() == 0);
         PowerMock.verifyAll();
     }
 
@@ -119,7 +121,7 @@ public class ActivityLogFixture
         return new EasyUserImpl("notFoundUser");
     }
 
-    protected Dataset mockDataset(final DownloadList downloadList) throws ServiceException
+    protected Dataset mockDataset(final DownloadList downloadList, final EasyUser user, final boolean isDepositor) throws ServiceException
     {
         final DownloadHistory dlh;
         if (downloadList == null)
@@ -133,6 +135,8 @@ public class ActivityLogFixture
 
         final Dataset dataset = PowerMock.createMock(Dataset.class);
         EasyMock.expect(dataset.getDmoStoreId()).andStubReturn(new DmoStoreId("dataset:sid"));
+        EasyMock.expect(dataset.hasDepositor(user)).andStubReturn(isDepositor);
+        EasyMock.expect(dataset.hasPermissionRestrictedItems()).andStubReturn(false);
         return dataset;
     }
 
@@ -150,6 +154,23 @@ public class ActivityLogFixture
 
         final WicketTester tester = new WicketTester(application)
         {
+            @Override
+            public void dumpPage()
+            {
+                super.dumpPage();
+                try
+                {
+                    final StackTraceElement caller = new Exception().getStackTrace()[1];
+                    final String testClass = caller.getClassName().replaceAll(".*[.]", "");
+                    final String testMethod = caller.getMethodName();
+                    final File file = new File("target/" + testClass + "/" + testMethod + ".html");
+                    FileUtils.write(file, getServletResponse().getDocument());
+                }
+                catch (final IOException e)
+                {
+                    super.dumpPage();
+                }
+            }
 
             @Override
             public void assertLabel(final String path, final String expected)
@@ -158,7 +179,7 @@ public class ActivityLogFixture
                 final Component component = getComponentFromLastRenderedPage(path);
                 final String label = component.getDefaultModelObjectAsString();
                 if (!expected.equals(label))
-                    labelErrors.append("\nexpected ["+expected+"]\tgot ["+label+"]\t"+path);
+                    labelErrors.append("\nexpected [" + expected + "]\tgot [" + label + "]\t" + path);
             }
         };
         return tester;
