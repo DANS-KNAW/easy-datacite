@@ -271,7 +271,14 @@ public class ActivityLogPanel extends AbstractEasyPanel
 
     private boolean hasPerrmissionToViewDownloader(final EasyUser downloader)
     {
-        return isSessionUserArchivist() || isLogMyActionsOnFor(downloader) || isDepositorViewingGrantedRestrictedDownloadBy(downloader);
+        if (isSessionUserArchivist())
+            return true;
+        else if (isLogMyActionsOnFor(downloader))
+            return true;
+        else if (isDepositorViewingGrantedRestrictedDownloadBy(downloader))
+            return true;
+        else
+            return false;
     }
 
     private boolean isSessionUserArchivist()
@@ -281,20 +288,24 @@ public class ActivityLogPanel extends AbstractEasyPanel
 
     private boolean isLogMyActionsOnFor(final EasyUser downloader)
     {
-        if (!downloader.isAnonymous())
-        {
-            if (downloader.isLogMyActions())
-                return true;
-            else
-                return false;
-        }
+        if (downloader.isAnonymous())
+            return false;
+        else if (downloader.isLogMyActions())
+            return true;
         else
             return false;
     }
 
     private boolean hasPermissionForDetails()
     {
-        return getSessionUser().hasRole(Role.ARCHIVIST) || getSessionUser().hasRole(Role.ADMIN) || dataset.hasDepositor(getSessionUser());
+        if (getSessionUser().hasRole(Role.ARCHIVIST))
+            return true;
+        else if (getSessionUser().hasRole(Role.ADMIN))
+            return true;
+        else if (dataset.hasDepositor(getSessionUser()))
+            return true;
+        else
+            return false;
     }
 
     private boolean isDepositorViewingGrantedRestrictedDownloadBy(final EasyUser downloader)

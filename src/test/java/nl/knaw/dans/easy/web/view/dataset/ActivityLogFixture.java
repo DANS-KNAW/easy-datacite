@@ -130,7 +130,7 @@ public class ActivityLogFixture
         return new EasyUserImpl("notFoundUser");
     }
 
-    protected Dataset mockDataset(final DownloadList downloadList, final EasyUser user, final boolean isDepositor, final boolean hasPermissionRestrictedItems)
+    protected Dataset mockDataset(final DownloadList downloadList, final EasyUser user, final boolean isDepositor, final boolean hasPermissionRestrictedItems, boolean isPermissionGranted)
             throws ServiceException
     {
         final DownloadHistory dlh;
@@ -147,7 +147,7 @@ public class ActivityLogFixture
         EasyMock.expect(dataset.getDmoStoreId()).andStubReturn(new DmoStoreId("dataset:sid"));
         EasyMock.expect(dataset.hasDepositor(user)).andStubReturn(isDepositor);
         EasyMock.expect(dataset.hasPermissionRestrictedItems()).andStubReturn(hasPermissionRestrictedItems);
-        EasyMock.expect(dataset.isPermissionGrantedTo(isA(EasyUser.class))).andStubReturn(true);
+        EasyMock.expect(dataset.isPermissionGrantedTo(isA(EasyUser.class))).andStubReturn(isPermissionGranted);
         return dataset;
     }
 
