@@ -273,7 +273,7 @@ public class ActivityLogPanel extends AbstractEasyPanel
     {
         if (isSessionUserArchivist())
             return true;
-        else if (isLogMyActionsOnFor(downloader))
+        else if (downloader.isLogMyActions())
             return true;
         else if (isDepositorViewingGrantedRestrictedDownloadBy(downloader))
             return true;
@@ -284,16 +284,6 @@ public class ActivityLogPanel extends AbstractEasyPanel
     private boolean isSessionUserArchivist()
     {
         return getSessionUser().hasRole(Role.ARCHIVIST);
-    }
-
-    private boolean isLogMyActionsOnFor(final EasyUser downloader)
-    {
-        if (downloader.isAnonymous())
-            return false;
-        else if (downloader.isLogMyActions())
-            return true;
-        else
-            return false;
     }
 
     private boolean hasPermissionForDetails()
