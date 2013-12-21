@@ -28,41 +28,41 @@ public class MockedDLHL36028
 
     private static final Integer[] NR_OF_FILE_PER_ROW = {1, 1, 1, 1, 1, 1, 1, 4, 1, 3, 1, 1};
     private static final String ARCHIVIST_EXPECTATION = ""
-            + /* 1 */"2013-02-05T14:40:06.700+01:00;s1234567;n.erd@x.y;;;original/CV 2008 data en documentatiefiles/SCP_CV2008_juli.pdf;\n"
-            + /* 2 */"2013-02-05T14:47:22.715+01:00;s1234567;n.erd@x.y;;;original/CV 2008 data en documentatiefiles/SCP_CV2008.pdf;\n"
-            + /* 3 */"2013-02-05T18:44:51.846+01:00;laalbers;l.aalbers@y.x;;;original/CV 2008 data en documentatiefiles/SCP_Culturele_Veranderingen_2008_DANS.sav;\n"
-            + /* 4 */"2013-02-11T10:55:19.434+01:00;pschilder;p.schilder@eu.x;een universiteit;ass. professor;original/CV 2008 data en documentatiefiles/SCP_CV2008.pdf;\n"
-            + /* 5 */"2013-02-11T10:55:31.976+01:00;pschilder;p.schilder@eu.x;een universiteit;ass. professor;original/CV 2008 data en documentatiefiles/SCP_CV2008.pdf;\n"
-            + /* 6 */"2013-02-11T11:01:16.151+01:00;pschilder;p.schilder@eu.x;een universiteit;ass. professor;original/CV 2008 data en documentatiefiles/SCP_CV20089.pdf;\n"
-            + /* 7 */"2013-02-12T13:51:29.008+01:00;juulesengel;j.engel@u.x;universiteit;;original/CV 2008 data en documentatiefiles/SCP_CV20089_augustus.pdf;\n"
-            + /* 8 */"2013-02-21T14:31:01.962+01:00;warejacob;w.jacob@eu.x;een universiteit;promovendus;original/CV 2008 data en documentatiefiles/SCP_CV20089_augustus.pdf;\n"
-            + /* 8 */"2013-02-21T14:31:01.962+01:00;warejacob;w.jacob@eu.x;een universiteit;promovendus;original/CV 2008 data en documentatiefiles/SCP_CV2008_juli.pdf;\n"
-            + /* 8 */"2013-02-21T14:31:01.962+01:00;warejacob;w.jacob@eu.x;een universiteit;promovendus;original/CV 2008 data en documentatiefiles/SCP_CV2008.pdf;\n"
-            + /* 8 */"2013-02-21T14:31:01.962+01:00;warejacob;w.jacob@eu.x;een universiteit;promovendus;original/CV 2008 data en documentatiefiles/SCP_CV20089.pdf;\n"
-            + /* 9 */"2013-02-21T14:34:03.198+01:00;warejacob;w.jacob@eu.x;een universiteit;promovendus;original/CV 2008 data en documentatiefiles/SCP_CV_2008.por;\n"
-            + /* 10 */"2013-02-22T11:36:28.861+01:00;hvanleeuwen;h-van.leewen@au.x;andere universiteit;;original/CV 2008 data en documentatiefiles/SCP_Culturele_Veranderingen_2008_DANS.sav;\n"
-            + /* 10 */"2013-02-22T11:36:28.861+01:00;hvanleeuwen;h-van.leewen@au.x;andere universiteit;;original/CV 2008 data en documentatiefiles/SCP_CV_2008.por;\n"
-            + /* 10 */"2013-02-22T11:36:28.861+01:00;hvanleeuwen;h-van.leewen@au.x;andere universiteit;;original/CV 2008 data en documentatiefiles/SCP_CV2008.pdf;\n"
-            + /* 11 */"2013-02-23T11:29:40.653+01:00;theodorus;theo.dorus@eu.x;een universitet;student;original/CV 2008 data en documentatiefiles/SCP_CV2008.pdf;\n"
-            + /* 12 */"2013-02-23T11:33:00.059+01:00;theodorus;theo.dorus@eu.x;een universitet;student;original/CV 2008 data en documentatiefiles/SCP_Culturele_Veranderingen_2008_DANS.sav;\n";
+            + /* 1 */"2013-02-05T14:40:06.700+01:00;s1234567;n erd;n.erd@x.y;;;original/CV 2008 data en documentatiefiles/SCP_CV2008_juli.pdf;\n"
+            + /* 2 */"2013-02-05T14:47:22.715+01:00;s1234567;n erd;n.erd@x.y;;;original/CV 2008 data en documentatiefiles/SCP_CV2008.pdf;\n"
+            + /* 3 */"2013-02-05T18:44:51.846+01:00;laalbers;l aalbers;l.aalbers@y.x;;;original/CV 2008 data en documentatiefiles/SCP_Culturele_Veranderingen_2008_DANS.sav;\n"
+            + /* 4 */"2013-02-11T10:55:19.434+01:00;pschilder;p schilder;p.schilder@eu.x;een universiteit;ass. professor;original/CV 2008 data en documentatiefiles/SCP_CV2008.pdf;\n"
+            + /* 5 */"2013-02-11T10:55:31.976+01:00;pschilder;p schilder;p.schilder@eu.x;een universiteit;ass. professor;original/CV 2008 data en documentatiefiles/SCP_CV2008.pdf;\n"
+            + /* 6 */"2013-02-11T11:01:16.151+01:00;pschilder;p schilder;p.schilder@eu.x;een universiteit;ass. professor;original/CV 2008 data en documentatiefiles/SCP_CV20089.pdf;\n"
+            + /* 7 */"2013-02-12T13:51:29.008+01:00;juulesengel;j engel;j.engel@u.x;universiteit;;original/CV 2008 data en documentatiefiles/SCP_CV20089_augustus.pdf;\n"
+            + /* 8 */"2013-02-21T14:31:01.962+01:00;warejacob;w jacob;w.jacob@eu.x;een universiteit;promovendus;original/CV 2008 data en documentatiefiles/SCP_CV20089_augustus.pdf;\n"
+            + /* 8 */"2013-02-21T14:31:01.962+01:00;warejacob;w jacob;w.jacob@eu.x;een universiteit;promovendus;original/CV 2008 data en documentatiefiles/SCP_CV2008_juli.pdf;\n"
+            + /* 8 */"2013-02-21T14:31:01.962+01:00;warejacob;w jacob;w.jacob@eu.x;een universiteit;promovendus;original/CV 2008 data en documentatiefiles/SCP_CV2008.pdf;\n"
+            + /* 8 */"2013-02-21T14:31:01.962+01:00;warejacob;w jacob;w.jacob@eu.x;een universiteit;promovendus;original/CV 2008 data en documentatiefiles/SCP_CV20089.pdf;\n"
+            + /* 9 */"2013-02-21T14:34:03.198+01:00;warejacob;w jacob;w.jacob@eu.x;een universiteit;promovendus;original/CV 2008 data en documentatiefiles/SCP_CV_2008.por;\n"
+            + /* 10 */"2013-02-22T11:36:28.861+01:00;hvanleeuwen;h.van leewen;h.van.leewen@au.x;andere universiteit;;original/CV 2008 data en documentatiefiles/SCP_Culturele_Veranderingen_2008_DANS.sav;\n"
+            + /* 10 */"2013-02-22T11:36:28.861+01:00;hvanleeuwen;h.van leewen;h.van.leewen@au.x;andere universiteit;;original/CV 2008 data en documentatiefiles/SCP_CV_2008.por;\n"
+            + /* 10 */"2013-02-22T11:36:28.861+01:00;hvanleeuwen;h.van leewen;h.van.leewen@au.x;andere universiteit;;original/CV 2008 data en documentatiefiles/SCP_CV2008.pdf;\n"
+            + /* 11 */"2013-02-23T11:29:40.653+01:00;theodorus;theo dorus;theo.dorus@eu.x;een universitet;student;original/CV 2008 data en documentatiefiles/SCP_CV2008.pdf;\n"
+            + /* 12 */"2013-02-23T11:33:00.059+01:00;theodorus;theo dorus;theo.dorus@eu.x;een universitet;student;original/CV 2008 data en documentatiefiles/SCP_Culturele_Veranderingen_2008_DANS.sav;\n";
     private static final String DEPOSITOR_EXPECTATION = ""
-            + /* 1 */"2013-02-05T14:40:06.700+01:00;s1234567;n.erd@x.y;;;original/CV 2008 data en documentatiefiles/SCP_CV2008_juli.pdf;\n"
-            + /* 2 */"2013-02-05T14:47:22.715+01:00;s1234567;n.erd@x.y;;;original/CV 2008 data en documentatiefiles/SCP_CV2008.pdf;\n"
-            + /* 3 */"2013-02-05T18:44:51.846+01:00;Anonymous;;;;original/CV 2008 data en documentatiefiles/SCP_Culturele_Veranderingen_2008_DANS.sav;\n"
-            + /* 4 */"2013-02-11T10:55:19.434+01:00;pschilder;p.schilder@eu.x;een universiteit;ass. professor;original/CV 2008 data en documentatiefiles/SCP_CV2008.pdf;\n"
-            + /* 5 */"2013-02-11T10:55:31.976+01:00;pschilder;p.schilder@eu.x;een universiteit;ass. professor;original/CV 2008 data en documentatiefiles/SCP_CV2008.pdf;\n"
-            + /* 6 */"2013-02-11T11:01:16.151+01:00;pschilder;p.schilder@eu.x;een universiteit;ass. professor;original/CV 2008 data en documentatiefiles/SCP_CV20089.pdf;\n"
-            + /* 7 */"2013-02-12T13:51:29.008+01:00;Anonymous;;;;original/CV 2008 data en documentatiefiles/SCP_CV20089_augustus.pdf;\n"
-            + /* 8 */"2013-02-21T14:31:01.962+01:00;warejacob;w.jacob@eu.x;een universiteit;promovendus;original/CV 2008 data en documentatiefiles/SCP_CV20089_augustus.pdf;\n"
-            + /* 8 */"2013-02-21T14:31:01.962+01:00;warejacob;w.jacob@eu.x;een universiteit;promovendus;original/CV 2008 data en documentatiefiles/SCP_CV2008_juli.pdf;\n"
-            + /* 8 */"2013-02-21T14:31:01.962+01:00;warejacob;w.jacob@eu.x;een universiteit;promovendus;original/CV 2008 data en documentatiefiles/SCP_CV2008.pdf;\n"
-            + /* 8 */"2013-02-21T14:31:01.962+01:00;warejacob;w.jacob@eu.x;een universiteit;promovendus;original/CV 2008 data en documentatiefiles/SCP_CV20089.pdf;\n"
-            + /* 9 */"2013-02-21T14:34:03.198+01:00;warejacob;w.jacob@eu.x;een universiteit;promovendus;original/CV 2008 data en documentatiefiles/SCP_CV_2008.por;\n"
-            + /* 10 */"2013-02-22T11:36:28.861+01:00;Anonymous;;;;original/CV 2008 data en documentatiefiles/SCP_Culturele_Veranderingen_2008_DANS.sav;\n"
-            + /* 10 */"2013-02-22T11:36:28.861+01:00;Anonymous;;;;original/CV 2008 data en documentatiefiles/SCP_CV_2008.por;\n"
-            + /* 10 */"2013-02-22T11:36:28.861+01:00;Anonymous;;;;original/CV 2008 data en documentatiefiles/SCP_CV2008.pdf;\n"
-            + /* 11 */"2013-02-23T11:29:40.653+01:00;Anonymous;;;;original/CV 2008 data en documentatiefiles/SCP_CV2008.pdf;\n"
-            + /* 12 */"2013-02-23T11:33:00.059+01:00;Anonymous;;;;original/CV 2008 data en documentatiefiles/SCP_Culturele_Veranderingen_2008_DANS.sav;\n";
+            + /* 1 */"2013-02-05T14:40:06.700+01:00;s1234567;n erd;n. erd@x.y;;;original/CV 2008 data en documentatiefiles/SCP_CV2008_juli.pdf;\n"
+            + /* 2 */"2013-02-05T14:47:22.715+01:00;s1234567;n erd;n. erd@x.y;;;original/CV 2008 data en documentatiefiles/SCP_CV2008.pdf;\n"
+            + /* 3 */"2013-02-05T18:44:51.846+01:00;Anonymous;;;;;original/CV 2008 data en documentatiefiles/SCP_Culturele_Veranderingen_2008_DANS.sav;\n"
+            + /* 4 */"2013-02-11T10:55:19.434+01:00;pschilder;p schilder;p.schilder@eu.x;een universiteit;ass. professor;original/CV 2008 data en documentatiefiles/SCP_CV2008.pdf;\n"
+            + /* 5 */"2013-02-11T10:55:31.976+01:00;pschilder;p schilder;p.schilder@eu.x;een universiteit;ass. professor;original/CV 2008 data en documentatiefiles/SCP_CV2008.pdf;\n"
+            + /* 6 */"2013-02-11T11:01:16.151+01:00;pschilder;p schilder;p.schilder@eu.x;een universiteit;ass. professor;original/CV 2008 data en documentatiefiles/SCP_CV20089.pdf;\n"
+            + /* 7 */"2013-02-12T13:51:29.008+01:00;Anonymous;;;;;original/CV 2008 data en documentatiefiles/SCP_CV20089_augustus.pdf;\n"
+            + /* 8 */"2013-02-21T14:31:01.962+01:00;warejacob;w jacob;w.jacob@eu.x;een universiteit;promovendus;original/CV 2008 data en documentatiefiles/SCP_CV20089_augustus.pdf;\n"
+            + /* 8 */"2013-02-21T14:31:01.962+01:00;warejacob;w jacob;w.jacob@eu.x;een universiteit;promovendus;original/CV 2008 data en documentatiefiles/SCP_CV2008_juli.pdf;\n"
+            + /* 8 */"2013-02-21T14:31:01.962+01:00;warejacob;w jacob;w.jacob@eu.x;een universiteit;promovendus;original/CV 2008 data en documentatiefiles/SCP_CV2008.pdf;\n"
+            + /* 8 */"2013-02-21T14:31:01.962+01:00;warejacob;w jacob;w.jacob@eu.x;een universiteit;promovendus;original/CV 2008 data en documentatiefiles/SCP_CV20089.pdf;\n"
+            + /* 9 */"2013-02-21T14:34:03.198+01:00;warejacob;w jacob;w.jacob@eu.x;een universiteit;promovendus;original/CV 2008 data en documentatiefiles/SCP_CV_2008.por;\n"
+            + /* 10 */"2013-02-22T11:36:28.861+01:00;Anonymous;;;;;original/CV 2008 data en documentatiefiles/SCP_Culturele_Veranderingen_2008_DANS.sav;\n"
+            + /* 10 */"2013-02-22T11:36:28.861+01:00;Anonymous;;;;;original/CV 2008 data en documentatiefiles/SCP_CV_2008.por;\n"
+            + /* 10 */"2013-02-22T11:36:28.861+01:00;Anonymous;;;;;original/CV 2008 data en documentatiefiles/SCP_CV2008.pdf;\n"
+            + /* 11 */"2013-02-23T11:29:40.653+01:00;Anonymous;;;;;original/CV 2008 data en documentatiefiles/SCP_CV2008.pdf;\n"
+            + /* 12 */"2013-02-23T11:33:00.059+01:00;Anonymous;;;;;original/CV 2008 data en documentatiefiles/SCP_Culturele_Veranderingen_2008_DANS.sav;\n";
 
     private final UserService userService;
     private EasyUser sessionUser;
@@ -83,7 +83,7 @@ public class MockedDLHL36028
         mockUser("pschilder", "p.schilder@eu.x", "een universiteit", "ass. professor", true); // line 4-6
         mockUser("juulesengel", "j.engel@u.x", "universiteit", "", false); // line 7
         mockUser("warejacob", "w.jacob@eu.x", "een universiteit", "promovendus", true);// line 8-9
-        mockUser("hvanleeuwen", "h-van.leewen@au.x", "andere universiteit", "", false); // line 10
+        mockUser("hvanleeuwen", "h.van.leewen@au.x", "andere universiteit", "", false); // line 10
         mockUser("theodorus", "theo.dorus@eu.x", "een universitet", "student", false); // line 11-12
         return (DownloadList) JiBXObjectFactory.unmarshal(DownloadList.class, data);
     }

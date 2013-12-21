@@ -93,12 +93,15 @@ public class DownloadActivityLogPanel extends Panel
             public IResourceStream getResourceStream()
             {
                 StringBuffer sb = new StringBuffer();
+                sb.append("download time;user id;display name;e-mail;organization;function;file details\n");
                 for (DownloadRecord dr : downloadList.getRecords())
                 {
                     EasyUser downloader = fetchDownloader(dr);
                     sb.append(dr.getDownloadTime());
                     sb.append(";");
                     sb.append(downloader == null ? "anonymous" : downloader.getId());
+                    sb.append(";");
+                    sb.append(downloader == null ? " " : downloader.getDisplayName());
                     sb.append(";");
                     sb.append(downloader == null ? " " : downloader.getEmail());
                     sb.append(";");

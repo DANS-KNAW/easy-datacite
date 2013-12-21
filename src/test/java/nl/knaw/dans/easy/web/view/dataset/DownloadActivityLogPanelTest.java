@@ -30,7 +30,7 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
 
     private static final long serialVersionUID = 1L;
 
-    private static final String ANONYMOUS_DOWNLOAD_LINE = "2013-12-13T00:00:00.000+01:00;anonymous; ; ; ;null;\n";
+    private static final String ANONYMOUS_DOWNLOAD_LINE = "2013-12-13T00:00:00.000+01:00;anonymous; ; ; ; ;null;\n";
     private static final String PANEL = "panel";
     private static final String PANEL_DOWNLOAD_CSV = PANEL + ":" + DownloadActivityLogPanel.DOWNLOAD_CSV;
 
@@ -83,7 +83,7 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
     {
         final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, mockUser(false), DOWNLOAD_DATE_TIME);
-        expect(downloadList, ARCHIVIST, "2013-12-13T00:00:00.000+01:00;userid;email;organization;function;null;\n");
+        expect(downloadList, ARCHIVIST, "2013-12-13T00:00:00.000+01:00;userid;surname;email;organization;function;null;\n");
     }
 
     @Test
@@ -91,7 +91,7 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
     {
         final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, mockUser(true), DOWNLOAD_DATE_TIME);
-        expect(downloadList, ARCHIVIST, "2013-12-13T00:00:00.000+01:00;userid;email;organization;function;null;\n");
+        expect(downloadList, ARCHIVIST, "2013-12-13T00:00:00.000+01:00;userid;surname;email;organization;function;null;\n");
     }
 
     @Test
@@ -107,7 +107,7 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
     {
         final DownloadList downloadList = createDownloadList();
         downloadList.addDownload(FILE_ITEM_VO, mockUserWithEmptyValues(), DOWNLOAD_DATE_TIME);
-        expect(downloadList, ARCHIVIST, "2013-12-13T00:00:00.000+01:00;userid;null;null;null;null;\n");
+        expect(downloadList, ARCHIVIST, "2013-12-13T00:00:00.000+01:00;userid;;null;null;null;null;\n");
     }
 
     @Test
@@ -137,14 +137,17 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
     @Test
     public void archivistFeb2013issue560() throws Exception
     {
-        expect(new MockedDLHL36028(userService,ARCHIVIST).getList(), ARCHIVIST, MockedDLHL36028.getArchivistExpectation());
+        expect(new MockedDLHL36028(userService, ARCHIVIST).getList(), ARCHIVIST, MockedDLHL36028.getArchivistExpectation());
     }
 
     @Test
     public void datasetOwnerFeb2013issue560() throws Exception
     {
-        // code smell: ActivityLogPanel makes download invisible
-        expect(new MockedDLHL36028(userService,USER).getList(), USER, MockedDLHL36028.getArchivistExpectation());
+        WicketTester tester = run(new MockedDLHL36028(userService, USER).getList(), USER);
+        tester.assertInvisible(PANEL);
+        tester.assertInvisible(PANEL_DOWNLOAD_CSV);
+        tester.assertEnabled(PANEL_DOWNLOAD_CSV);
+        //code smell: invisible but enabled
     }
 
     private void expectInvisible(final DownloadList downloadList, final EasyUserImpl easyUser) throws Exception
@@ -161,13 +164,16 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
         tester.assertVisible(PANEL_DOWNLOAD_CSV);
         tester.assertEnabled(PANEL_DOWNLOAD_CSV);
         tester.clickLink(PANEL_DOWNLOAD_CSV);
-        assertThat(tester.getServletResponse().getDocument(), is(lines));
+        String download = tester.getServletResponse().getDocument();
+        String downloadWithoutHeaderLine = download.replaceFirst("^[^\\n]*\\n","");
+        assertThat(downloadWithoutHeaderLine, is(lines));
     }
 
-    private WicketTester run(final DownloadList downloadList, final EasyUser user) throws Exception
+    private WicketTester run(final DownloadList downloadList, final EasyUser sessionUser) throws Exception
     {
-        final Dataset dataset = mockDataset(downloadList, user, false, false, true);
-        final Session session = mockSessionFor_Component_isActionAuthourized();
+        // the boolean arguments are for dataset owners viewing the web page, hence not important here
+        final Dataset mockedDataset = mockDataset(downloadList, sessionUser, false, false, true);
+        final Session mockedSession = mockSessionFor_Component_isActionAuthourized();
         PowerMock.replayAll();
 
         final WicketTester tester = createWicketTester();
@@ -177,14 +183,14 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
 
             public Panel getTestPanel(final String panelId)
             {
-                return new DownloadActivityLogPanel(panelId, dataset, user)
+                return new DownloadActivityLogPanel(panelId, mockedDataset, sessionUser)
                 {
                     private static final long serialVersionUID = 1L;
 
                     @Override
                     public Session getSession()
                     {
-                        return session;
+                        return mockedSession;
                     }
                 };
             }

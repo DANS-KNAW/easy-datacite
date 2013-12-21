@@ -325,9 +325,12 @@ public class ActivityLogPanelTest extends ActivityLogFixture implements Serializ
             final String path = PATH_VIEW + i;
             tester.assertLabel(path + ":downloadTime", cols[0].split("T")[0]);// shown as a date
 
-            tester.assertLabel(path + ":displayName", cols[2].equals("") ? "Anonymous" : cols[2].replaceAll("@.*", "").replaceAll("\\.", " "));
-            tester.assertLabel(path + ":organization", cols[3]);
-            tester.assertLabel(path + ":function", cols[4]);
+            if (cols[1].equals("Anonymous"))
+                tester.assertLabel(path + ":displayName", "Anonymous");
+            else
+                tester.assertLabel(path + ":displayName", cols[2]);
+            tester.assertLabel(path + ":organization", cols[4]);
+            tester.assertLabel(path + ":function", cols[5]);
             tester.assertLabel(path + ":fileCount", filesPerRow[i] + "");
 
             // cover both branches for DetailsViewPanel.toggleDisplay()

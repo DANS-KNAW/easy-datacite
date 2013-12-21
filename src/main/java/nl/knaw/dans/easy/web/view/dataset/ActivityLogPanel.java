@@ -156,19 +156,22 @@ public class ActivityLogPanel extends AbstractEasyPanel
                 boolean detailsAvailable = false;
                 try
                 {
-                    if (records != null && records.get(0) != null)
+                    if (records != null)
                     {
-                        detailsAvailable = records.get(0).getFileItemId() != null;
-                        final EasyUser downloader = getDownloader(records.get(0).getDownloaderId());
-                        if (!downloader.isAnonymous() && hasPerrmissionToViewDownloader(downloader))
+                        if (records.get(0) != null)
                         {
-                            displayName = downloader.getDisplayName();
-                            organization = downloader.getOrganization();
-                            function = downloader.getFunction();
-                        }
-                        else
-                        {
-                            displayName = "Anonymous";
+                            detailsAvailable = records.get(0).getFileItemId() != null;
+                            final EasyUser downloader = getDownloader(records.get(0).getDownloaderId());
+                            if (!downloader.isAnonymous() && hasPerrmissionToViewDownloader(downloader))
+                            {
+                                displayName = downloader.getDisplayName();
+                                organization = downloader.getOrganization();
+                                function = downloader.getFunction();
+                            }
+                            else
+                            {
+                                displayName = "Anonymous";
+                            }
                         }
                     }
                 }
