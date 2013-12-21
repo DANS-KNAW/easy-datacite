@@ -130,8 +130,21 @@ public class ActivityLogFixture
         return new EasyUserImpl("notFoundUser");
     }
 
-    protected Dataset mockDataset(final DownloadList downloadList, final EasyUser user, final boolean isDepositor, final boolean hasPermissionRestrictedItems, boolean isPermissionGranted)
-            throws ServiceException
+    protected Dataset mockDataset(final DownloadList downloadList, final EasyUser user, final boolean isDepositor, final boolean hasPermissionRestrictedItems,
+            boolean isPermissionGranted) throws ServiceException
+    {
+        EasyMock.expect(datasetService.getDownloadHistoryFor(isA(EasyUser.class), isA(Dataset.class), isA(DateTime.class)))//
+                .andStubReturn(mockDownloadHistory(downloadList));
+
+        final Dataset dataset = PowerMock.createMock(Dataset.class);
+        EasyMock.expect(dataset.getDmoStoreId()).andStubReturn(new DmoStoreId("dataset:sid"));
+        EasyMock.expect(dataset.hasDepositor(user)).andStubReturn(isDepositor);
+        EasyMock.expect(dataset.hasPermissionRestrictedItems()).andStubReturn(hasPermissionRestrictedItems);
+        EasyMock.expect(dataset.isPermissionGrantedTo(isA(EasyUser.class))).andStubReturn(isPermissionGranted);
+        return dataset;
+    }
+
+    private DownloadHistory mockDownloadHistory(final DownloadList downloadList)
     {
         final DownloadHistory dlh;
         if (downloadList == null)
@@ -141,14 +154,7 @@ public class ActivityLogFixture
             dlh = PowerMock.createMock(DownloadHistory.class);
             EasyMock.expect(dlh.getDownloadList()).andStubReturn(downloadList);
         }
-        EasyMock.expect(datasetService.getDownloadHistoryFor(isA(EasyUser.class), isA(Dataset.class), isA(DateTime.class))).andStubReturn(dlh);
-
-        final Dataset dataset = PowerMock.createMock(Dataset.class);
-        EasyMock.expect(dataset.getDmoStoreId()).andStubReturn(new DmoStoreId("dataset:sid"));
-        EasyMock.expect(dataset.hasDepositor(user)).andStubReturn(isDepositor);
-        EasyMock.expect(dataset.hasPermissionRestrictedItems()).andStubReturn(hasPermissionRestrictedItems);
-        EasyMock.expect(dataset.isPermissionGrantedTo(isA(EasyUser.class))).andStubReturn(isPermissionGranted);
-        return dataset;
+        return dlh;
     }
 
     protected Session mockSessionFor_Component_isActionAuthourized()
@@ -197,6 +203,9 @@ public class ActivityLogFixture
                     labelErrors.append("\nexpected [" + expected + "] got [" + label + "] " + path);
             }
         };
+
+        // tell resource locator were to find HTML of TestHomePage
+        tester.getApplication().getResourceSettings().addResourceFolder("src/test/java/");
         return tester;
     }
 }

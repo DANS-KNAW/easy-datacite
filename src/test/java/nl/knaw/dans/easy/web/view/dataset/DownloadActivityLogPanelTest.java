@@ -147,7 +147,7 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
         tester.assertInvisible(PANEL);
         tester.assertInvisible(PANEL_DOWNLOAD_CSV);
         tester.assertEnabled(PANEL_DOWNLOAD_CSV);
-        //code smell: invisible but enabled
+        // code smell: invisible but enabled
     }
 
     private void expectInvisible(final DownloadList downloadList, final EasyUserImpl easyUser) throws Exception
@@ -165,7 +165,7 @@ public class DownloadActivityLogPanelTest extends ActivityLogFixture implements 
         tester.assertEnabled(PANEL_DOWNLOAD_CSV);
         tester.clickLink(PANEL_DOWNLOAD_CSV);
         String download = tester.getServletResponse().getDocument();
-        String downloadWithoutHeaderLine = download.replaceFirst("^[^\\n]*\\n","");
+        String downloadWithoutHeaderLine = download.replaceFirst("^[^\\n]*\\n", "");
         assertThat(downloadWithoutHeaderLine, is(lines));
     }
 
