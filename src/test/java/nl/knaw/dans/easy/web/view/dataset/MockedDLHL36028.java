@@ -26,7 +26,7 @@ import org.easymock.EasyMock;
 public class MockedDLHL36028
 {
 
-    private static final Integer[] NR_OF_FILE_PER_ROW = {1, 1, 1, 1, 1, 1, 1, 4, 1, 3, 1, 1};
+    private static final Integer[] NR_OF_FILES_PER_ROW = {1, 1, 1, 1, 1, 1, 1, 4, 1, 3, 1, 1};
     private static final String ARCHIVIST_EXPECTATION = ""
             + /* 1 */"2013-02-05T14:40:06.700+01:00;s1234567;n erd;n.erd@x.y;;;original/CV 2008 data en documentatiefiles/SCP_CV2008_juli.pdf;\n"
             + /* 2 */"2013-02-05T14:47:22.715+01:00;s1234567;n erd;n.erd@x.y;;;original/CV 2008 data en documentatiefiles/SCP_CV2008.pdf;\n"
@@ -106,8 +106,7 @@ public class MockedDLHL36028
 
     public static Integer[] getNrOfFilesPerRow()
     {
-        // a getter prevents the need for recompiling (clear project) when the value changes
-        return NR_OF_FILE_PER_ROW;
+        return NR_OF_FILES_PER_ROW;
     }
 
     public static String getArchivistExpectation()
@@ -118,7 +117,7 @@ public class MockedDLHL36028
 
     public static String getDepositorExpectation()
     {
-        // a getter prevents the need for recompiling (clear project) when the value changes
+        // expectations are formatted as download but is also used to test the panel content
         return DEPOSITOR_EXPECTATION;
     }
 }
