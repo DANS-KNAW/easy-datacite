@@ -2,10 +2,13 @@ package nl.knaw.dans.easy.business.item;
 
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 import static org.powermock.api.easymock.PowerMock.replayAll;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,10 +17,10 @@ import nl.knaw.dans.common.lang.repo.AbstractDmoFactory;
 import nl.knaw.dans.common.lang.repo.DataModelObject;
 import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
+import nl.knaw.dans.easy.business.item.ItemIngester.ListFilter;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.EasyUnitOfWork;
 import nl.knaw.dans.easy.data.store.FileStoreAccess;
-import nl.knaw.dans.easy.domain.dataset.FileItemImpl;
 import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
@@ -39,6 +42,12 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @PrepareForTest({ItemIngester.class, Data.class})
 public class ItemIngesterTest
 {
+    private static final String ACCENT_XML = //
+    new String(new byte[] {109, 101, 116, 45, 97, 99, 99, -61, -87, 110, 116, 46, 120, 109, 108});
+    private static final String DIACRITIC_ACCENT_XML = //
+    new String(new byte[] {109, 101, 116, 45, 97, 99, 99, 101, -52, -127, 110, 116, 46, 120, 109, 108});
+    private static final String GREEK_FOLDER_NAME = "src/test/resources/test-files/greekMixed";
+    private static final File GREEK_FOLDER = new File(GREEK_FOLDER_NAME);
     private Dataset datasetMock;
     private EasyUser userMock;
     private File rootFileMock;
@@ -121,6 +130,62 @@ public class ItemIngesterTest
     private void expectCreatorRole(CreatorRole role)
     {
         expect(userMock.getCreatorRole()).andReturn(role).anyTimes();
+    }
+
+    @Test
+    public void issue700a() throws Exception
+    {
+        normalUserLoggedIn();
+        creatorRoleIsDepositor();
+        datasetHasStoreId("easy-dataset:1");
+        datasetHasAccessCategory(AccessCategory.OPEN_ACCESS);
+        parentContainerHasStoreId();
+        uowMethodsCalled();
+        noFilesAndFoldersUnderParentContainer();
+        fileItemMock.setFile(EasyMock.isA(File.class));
+        EasyMock.expectLastCall().times(2);
+        fileItemMock.setCreatorRole(CreatorRole.DEPOSITOR);
+        EasyMock.expectLastCall().times(2);
+        fileItemMock.setDatasetId(new DmoStoreId("easy-dataset:1"));
+        EasyMock.expectLastCall().times(2);
+        fileItemMock.setOwnerId("normal");
+        EasyMock.expectLastCall().times(2);
+        fileItemMock.setParent(parentContainerMock);
+        EasyMock.expectLastCall().times(2);
+        fileItemMock.setVisibleTo(VisibleTo.ANONYMOUS);
+        EasyMock.expectLastCall().times(2);
+        fileItemMock.setAccessibleTo(AccessibleTo.KNOWN);
+        EasyMock.expectLastCall().times(2);
+        EasyMock.expect(unitOfWorkMock.saveAndDetach(fileItemMock)).andReturn(fileItemMock);
+        EasyMock.expectLastCall().times(2);
+
+        replayAll();
+
+        ItemIngester ii = new ItemIngester(datasetMock, userMock, null);
+        ii.workAddDirectoryContents(parentContainerMock, GREEK_FOLDER, createFilter(ACCENT_XML));
+
+        PowerMock.verifyAll();
+    }
+
+    /**
+     * Illustrates correct filter processing by
+     * {@link ItemIngester#workAddDirectoryContents(DatasetItemContainer, File, FileFilter).
+     */
+    @Test
+    public void issue700b()
+    {
+        System.out.println(ACCENT_XML);
+        System.out.println(DIACRITIC_ACCENT_XML);
+        assertThat(GREEK_FOLDER.listFiles(createFilter(ACCENT_XML)).length, is(2));
+        assertThat(GREEK_FOLDER.listFiles(createFilter(DIACRITIC_ACCENT_XML)).length, is(1));
+    }
+
+    private ListFilter createFilter(String fileNameWithAccent)
+    {
+        List<File> fileList = new ArrayList<File>();
+        fileList.add(new File(GREEK_FOLDER_NAME + "/" + fileNameWithAccent));
+        fileList.add(new File(GREEK_FOLDER_NAME + "/πῶϋ.xml"));
+        return new ItemIngester.ListFilter(fileList);
     }
 
     @Test

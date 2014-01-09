@@ -1,0 +1,30 @@
+<!DOCTYPE contLem SYSTEM "../../hulpdocumenten/dtd/lemma.dtd">
+ <?xml-stylesheet type="text/xsl" href="../../hulpdocumenten/xslt/lemma-html.xslt"?> 
+ <?xml-stylesheet type="text/css" href="../../hulpdocumenten/css/lemma-blok.css"?> 
+<contLem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../hulpdocumenten/xsd/lemma.xsd">
+  <metadata>
+    <naam id="">πῶϋ-1</naam>
+    <volgN>1</volgN>
+    <indexI>
+      <item>πῶϋ</item>
+    </indexI>
+    <type>lem</type>
+    <alfaSl>πῶϋ-1</alfaSl>
+    <woordS woordS="subst."></woordS>
+    <status status="xml ok"/>
+    <migratedFrom>Migrated on 2013-02-28 18:33 from file 'PI.15.2 v8.1.xml'</migratedFrom>
+    <migrateWarnings></migrateWarnings>
+    <commentaar></commentaar>
+    <label></label>
+  </metadata>
+  <lem>
+    <vorm>
+      <hoofdW>πῶϋ -εος, τό </hoofdW>
+      <etym>[~ <link target="">ποιμήν</link>] </etym>
+      <morfI>plur. <r>πώεα</r> </morfI>
+    </vorm>
+    <bet>
+      <vertM>schaapskudde.</vertM>
+    </bet>
+  </lem>
+</contLem>
