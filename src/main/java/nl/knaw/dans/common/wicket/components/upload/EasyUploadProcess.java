@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -161,7 +162,9 @@ public class EasyUploadProcess
             error("Could not write to disk.", "createUniquePath failed");
             return;
         }
-        uploadedFile = new File(basePath.getAbsolutePath() + File.separatorChar + uploadedFilename);
+        String uploadFilename = basePath.getAbsolutePath() + File.separatorChar + uploadedFilename;
+        // we need the same normalizer as File.listFiles
+        uploadedFile = new File(Normalizer.normalize(uploadFilename, Normalizer.Form.NFC));
 
         // try to move the uploaded file
         boolean fileMoved = false;
