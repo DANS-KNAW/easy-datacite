@@ -1,5 +1,7 @@
 package nl.knaw.dans.common.wicket.components.upload;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -90,34 +92,17 @@ public class EasyUploadWebRequest extends ServletWebRequest
             // upload is still in progress. Only AFTER the upload has finished
             // are the form model properties updated. This means there is no
             // use in trying to send the filename as a POST property.
-            filename = this.getParameter("filename");
-            try
-            {
-                uploadId = Integer.parseInt(this.getParameter("uploadId"));
-            }
-            catch (NumberFormatException e)
-            {
-                uploadId = -1;
-            }
+            // new
+            // MultipartServletWebRequest(request,maxsize).getFiles().values().iterator().next().getName();
+            extractFilenameFromRequest();
+            extractUploadIdFromRequest();
 
             if (uploadId < 0 || filename.equals(""))
                 return getDefaultMultipartWebRequest(maxsize);
 
-            // get the clientParams
-            Map<String, String[]> params = this.getParameterMap();
-            HashMap<String, String> clientParams = new HashMap<String, String>();
-            for (String key : params.keySet())
-            {
-                if (key.equals("filename") || key.equals("uploadId"))
-                    continue;
-                String[] val = params.get(key);
-                if (val.length > 0)
-                    clientParams.put(key, val[0]);
-            }
-
             LOG.info("Received upload for file " + filename + ", now starting new EasyUploadProcess for uploadId " + uploadId.toString());
 
-            uploadProcess = new EasyUploadProcess(uploadId, filename, clientParams, uploadForm.getEasyUpload());
+            uploadProcess = new EasyUploadProcess(uploadId, filename, getClientParams(), uploadForm.getEasyUpload());
             EasyUploadProcesses.getInstance().register(uploadProcess);
 
             return new EasyUploadRequest(request, maxsize);
@@ -140,6 +125,56 @@ public class EasyUploadWebRequest extends ServletWebRequest
             }
 
             throw new WicketRuntimeException(e);
+        }
+    }
+
+    private HashMap<String, String> getClientParams()
+    {
+        @SuppressWarnings("unchecked")
+        Map<String, String[]> params = getParameterMap();
+        HashMap<String, String> clientParams = new HashMap<String, String>();
+        for (String key : params.keySet())
+        {
+            if (key.equals("filename") || key.equals("uploadId"))
+                continue;
+            String[] val = params.get(key);
+            if (val.length > 0)
+                clientParams.put(key, val[0]);
+        }
+        return clientParams;
+    }
+
+    private void extractUploadIdFromRequest()
+    {
+        try
+        {
+            uploadId = Integer.parseInt(request.getParameter("uploadId"));
+        }
+        catch (NumberFormatException e)
+        {
+            uploadId = -1;
+        }
+    }
+
+    private void extractFilenameFromRequest()
+    {
+        String message = "URL decoding of filename failed. Trying to continue with: ";
+        String encoded = request.getParameter("filename");
+        try
+        {
+            filename = URLDecoder.decode(encoded, request.getCharacterEncoding());
+            // we need the same normalizer as File.listFiles
+            // filename = Normalizer.normalize(decoded, Normalizer.Form.NFC);
+        }
+        catch (IllegalArgumentException e)
+        {
+            filename = encoded;
+            LOG.error(message + filename, e);
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            filename = encoded;
+            LOG.error(message + filename, e);
         }
     }
 
@@ -265,6 +300,7 @@ class EasyUploadRequest extends MultipartServletWebRequest
         if (uploadProcess == null)
             return;
 
+        @SuppressWarnings("rawtypes")
         Iterator it = this.getFiles().values().iterator();
         if (!it.hasNext())
         {

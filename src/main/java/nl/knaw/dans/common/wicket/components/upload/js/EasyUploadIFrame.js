@@ -61,9 +61,9 @@ function setUploadFilename(filename)
 	var path = filename.lastIndexOf('/');
 	if (path < 0) path = filename.lastIndexOf('\\');
 	if (path >= 0)
-		uploadFilename = filename.substring(path+1);
+		uploadFilename = encodeURIComponent(filename.substring(path+1));
 	else
-		uploadFilename = filename;
+		uploadFilename = encodeURIComponent(filename);
 }
 
 function startUpload(form)
@@ -124,7 +124,7 @@ function startUpload(form)
 				componentId, // support multiple upload components on a web page
 				iframe,
 				uploadId,
-				uploadFilename
+				decodeURIComponent(uploadFilename)
 			);
 
 			// This makes sure that after the upload is finished this iframe will

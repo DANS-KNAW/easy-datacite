@@ -418,7 +418,7 @@ Upload.prototype.init = function()
 	// create progress message
 	this.progressMessage = document.createElement('SPAN');
 	this.progressMessage.className = "upload-text-message";
-	this.progressMessage.innerHTML = "Initializing upload for "+ this.filename;
+	this.progressMessage.innerHTML = "Initializing upload for "+ decodeURIComponent(this.filename);
 
 	// create the progress bar
 	this.progressBarContainer = document.createElement('DIV');
@@ -497,7 +497,7 @@ Upload.prototype.updateStatus = function(uploadStatus)
 		if (uploadStatus.message)
 			this.progressMessage.innerHTML  = uploadStatus.message;
 		else
-			this.progressMessage.innerHTML = "Upload of '"+ this.filename +"' complete.";
+			this.progressMessage.innerHTML = "Upload of '"+ decodeURIComponent(this.filename) +"' complete.";
 
 		this.fireEvent(UPLOAD_EVENT_COMPLETED);
 
