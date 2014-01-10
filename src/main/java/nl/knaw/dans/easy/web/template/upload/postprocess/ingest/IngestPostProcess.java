@@ -1,6 +1,7 @@
 package nl.knaw.dans.easy.web.template.upload.postprocess.ingest;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.components.upload.UploadStatus;
 import nl.knaw.dans.common.wicket.components.upload.postprocess.IUploadPostProcess;
 import nl.knaw.dans.common.wicket.components.upload.postprocess.UploadPostProcessException;
+import nl.knaw.dans.easy.business.item.ItemIngester;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.worker.WorkReporter;
 import nl.knaw.dans.easy.servicelayer.services.Services;
@@ -21,13 +23,10 @@ import nl.knaw.dans.easy.web.statistics.StatisticsLogger;
 import nl.knaw.dans.easy.web.statistics.UploadFileStatistics;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class IngestPostProcess implements IUploadPostProcess
 {
-
-    private static final Logger LOG = LoggerFactory.getLogger(IngestPostProcess.class);
+    private static final long serialVersionUID = 1L;
 
     private boolean canceled = false;
 
@@ -45,8 +44,26 @@ public class IngestPostProcess implements IUploadPostProcess
     public List<File> execute(final List<File> fileList, final File destPath, final Map<String, String> clientParams) throws UploadPostProcessException
     {
 
-        if (fileList.size() == 0)
+        if (fileList.size() == 0 )
             throw new UploadPostProcessException("Nothing to ingest.");
+        if (destPath.listFiles(new ItemIngester.ListFilter(fileList)).length==0)
+        {
+            String s1 = Arrays.deepToString(destPath.listFiles());
+            String s2 = Arrays.deepToString(fileList.toArray());
+            StringBuffer message = new StringBuffer();
+            message.append("Filter skips " + Arrays.toString(ItemIngester.SKIPPED_FILENAMES) + " and leaves nothing to ingest.");
+            if (s2.length()!=s2.toCharArray().length)
+                message.append( "\ndiacritics in uploaded file names?");
+            if (s2.length()!=s2.toCharArray().length)
+                message.append( "\ndiacritics in filtered file names?");
+            message.append( "\n" + s1);
+            message.append( "\n" + s2);
+            message.append( "\n"+Arrays.toString(s1.toCharArray()));
+            message.append( "\n"+Arrays.toString(s2.toCharArray()));
+            message.append( "\n" + s1 + Arrays.toString(s1.getBytes()));
+            message.append( "\n" + s1 + Arrays.toString(s2.getBytes()));
+            throw new UploadPostProcessException(message.toString());
+        }
         Dataset dataset = getDataset();
         if ("".equals(parentSid) || parentSid == null)
             parentSid = clientParams.get("parentSid");
