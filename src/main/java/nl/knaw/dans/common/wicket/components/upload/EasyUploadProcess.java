@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -131,6 +132,11 @@ public class EasyUploadProcess
         setPercentage(percent);
     }
 
+    private String dump(String s)
+    {
+        return s + Arrays.toString(s.toCharArray()) + Arrays.toString(s.getBytes());
+    }
+
     public void onUploadCompleted(FileItem file)
     {
         if (canceled)
@@ -143,12 +149,14 @@ public class EasyUploadProcess
         setPercentage(100);
 
         // do check on the filename
-        String uploadedFilename = FileUtil.getBasicFilename(file.getName());
+        // from wicket's normalization (accents as a separate character)
+        // to java.io.File normalization (accents integrated into a single character)
+        String uploadedFilename = Normalizer.normalize(FileUtil.getBasicFilename(file.getName()), Normalizer.Form.NFC);
         if (!uploadedFilename.equals(filename))
         {
             LOG.warn("UploadProcess.filename != uploadedFilename");
-            LOG.warn("UploadProcess.filename = \"" + filename + "\"");
-            LOG.warn("uploadedFilename       = \"" + uploadedFilename + "\"");
+            LOG.warn("UploadProcess.filename = " + dump(filename));
+            LOG.warn("uploadedFilename       = " + dump(uploadedFilename));
             // try to continue anyway
         }
 
@@ -163,8 +171,7 @@ public class EasyUploadProcess
             return;
         }
         String uploadFilename = basePath.getAbsolutePath() + File.separatorChar + uploadedFilename;
-        // we need the same normalizer as File.listFiles
-        uploadedFile = new File(Normalizer.normalize(uploadFilename, Normalizer.Form.NFC));
+        uploadedFile = new File(uploadFilename);
 
         // try to move the uploaded file
         boolean fileMoved = false;

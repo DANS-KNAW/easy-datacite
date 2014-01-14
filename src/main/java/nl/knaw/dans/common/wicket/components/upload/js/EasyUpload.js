@@ -495,9 +495,9 @@ Upload.prototype.updateStatus = function(uploadStatus)
 	{
 		// upload finished
 		if (uploadStatus.message)
-			this.progressMessage.innerHTML  = uploadStatus.message;
+			this.progressMessage.innerHTML  = decodeURI(uploadStatus.message).replace(/[+]/g," ");
 		else
-			this.progressMessage.innerHTML = "Upload of '"+ decodeURIComponent(this.filename) +"' complete.";
+			this.progressMessage.innerHTML = "Upload of '"+ decodeURI(this.filename).replace(/[+]/g," ") +"' complete.";
 
 		this.fireEvent(UPLOAD_EVENT_COMPLETED);
 
@@ -507,7 +507,7 @@ Upload.prototype.updateStatus = function(uploadStatus)
 	}
 
 	if (typeof uploadStatus.message == "string")
-		this.progressMessage.innerHTML = uploadStatus.message;
+		this.progressMessage.innerHTML = decodeURI(uploadStatus.message).replace(/[+]/g," ");
 
 	if (typeof uploadStatus.percentComplete == "number")
 		this.progressBar.setPercentage(uploadStatus.percentComplete);

@@ -2,6 +2,7 @@ package nl.knaw.dans.common.wicket.components.upload;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.text.Normalizer;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -162,9 +163,10 @@ public class EasyUploadWebRequest extends ServletWebRequest
         String encoded = request.getParameter("filename");
         try
         {
-            filename = URLDecoder.decode(encoded, request.getCharacterEncoding());
-            // we need the same normalizer as File.listFiles
-            // filename = Normalizer.normalize(decoded, Normalizer.Form.NFC);
+            String decoded = URLDecoder.decode(encoded, request.getCharacterEncoding());
+            // from wicket's normalization (accents as a separate character)
+            // to java.io.File normalization (accents integrated into a single character)
+            filename = Normalizer.normalize(decoded, Normalizer.Form.NFC);
         }
         catch (IllegalArgumentException e)
         {
