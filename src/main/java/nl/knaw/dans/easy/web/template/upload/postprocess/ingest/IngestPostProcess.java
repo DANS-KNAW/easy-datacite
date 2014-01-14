@@ -40,6 +40,11 @@ public class IngestPostProcess implements IUploadPostProcess
     {
         canceled = true;
     }
+    private String dump(Object[] files)
+    {
+        String s = Arrays.deepToString(files);
+        return s + Arrays.toString(s.toCharArray()) + Arrays.toString(s.getBytes());
+    }
 
     public List<File> execute(final List<File> fileList, final File destPath, final Map<String, String> clientParams) throws UploadPostProcessException
     {
@@ -48,20 +53,10 @@ public class IngestPostProcess implements IUploadPostProcess
             throw new UploadPostProcessException("Nothing to ingest.");
         if (destPath.listFiles(new ItemIngester.ListFilter(fileList)).length==0)
         {
-            String s1 = Arrays.deepToString(destPath.listFiles());
-            String s2 = Arrays.deepToString(fileList.toArray());
             StringBuffer message = new StringBuffer();
             message.append("Filter skips " + Arrays.toString(ItemIngester.SKIPPED_FILENAMES) + " and leaves nothing to ingest.");
-            if (s2.length()!=s2.toCharArray().length)
-                message.append( "\ndiacritics in uploaded file names?");
-            if (s2.length()!=s2.toCharArray().length)
-                message.append( "\ndiacritics in filtered file names?");
-            message.append( "\n" + s1);
-            message.append( "\n" + s2);
-            message.append( "\n"+Arrays.toString(s1.toCharArray()));
-            message.append( "\n"+Arrays.toString(s2.toCharArray()));
-            message.append( "\n" + s1 + Arrays.toString(s1.getBytes()));
-            message.append( "\n" + s1 + Arrays.toString(s2.getBytes()));
+            message.append( "\nfiles:  " + dump(destPath.listFiles()));
+            message.append( "\nfilter: " + dump(fileList.toArray()));
             throw new UploadPostProcessException(message.toString());
         }
         Dataset dataset = getDataset();
