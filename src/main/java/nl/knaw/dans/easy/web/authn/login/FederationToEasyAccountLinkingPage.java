@@ -25,8 +25,7 @@ public class FederationToEasyAccountLinkingPage extends AbstractAuthenticationPa
         add(new IncludeJsOrCssBehavior(LoginPage.class, "styles.css"));
         add(new FederationUserInfoPanel("federationUserInfoPanel", user));
         final UsernamePasswordAuthentication authentication = createUsernamePasswordAuthentication();
-        add(new LoginPanelRegular("loginPanelRegular", new LoginAndLinkForm("loginForm", authentication, user.getUserId(), user.getUserDescription(),
-                user.getHomeOrg())));
+        add(new LoginPanelRegular("loginPanelRegular", new LoginAndLinkForm("loginForm", authentication, user.getUserId(), user.getHomeOrg())));
         final WebMarkupContainer registrationSection = new WebMarkupContainer("registration_and_linking");
         add(registrationSection);
         final Link<Void> registrationLink = new Link<Void>("registration")

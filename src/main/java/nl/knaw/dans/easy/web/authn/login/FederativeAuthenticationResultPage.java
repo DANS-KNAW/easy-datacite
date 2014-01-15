@@ -1,5 +1,7 @@
 package nl.knaw.dans.easy.web.authn.login;
 
+import java.io.File;
+
 import javax.servlet.http.HttpServletRequest;
 
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
@@ -15,6 +17,7 @@ import nl.knaw.dans.easy.web.statistics.StatisticsLogger;
 
 import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.apache.wicket.protocol.https.RequireHttps;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +27,12 @@ public class FederativeAuthenticationResultPage extends AbstractEasyNavPage
     private static final String SHIB_SESSION_ID = Services.getFederativeUserService().getPropertyNameShibSessionId();
     private static Logger logger = LoggerFactory.getLogger(FederativeAuthenticationResultPage.class);
     private String federativeUserId = null;
+
+    @SpringBean(name = "federationLoginDebugEnabled")
+    private Boolean federationLoginDebugEnabled;
+    
+    @SpringBean(name = "federationLoginDebugUserFile")
+    private String federationLoginDebugFileName;
 
     public String getFederativeUserId()
     {
@@ -48,7 +57,7 @@ public class FederativeAuthenticationResultPage extends AbstractEasyNavPage
         else
         {
             HttpServletRequest request = getWebRequestCycle().getWebRequest().getHttpServletRequest();
-            if (!hasShibbolethSession(request))
+            if (!hasShibbolethSession(request) && !federationLoginDebugEnabled)
             {
                 logger.error("Shibboleth does not appear to have sent a session ID");
                 infoPageWithError();
@@ -57,7 +66,23 @@ public class FederativeAuthenticationResultPage extends AbstractEasyNavPage
             {
                 try
                 {
-                    fedUser = FederationUser.fromHttpRequest(request);
+                    if (federationLoginDebugEnabled)
+                    {
+                        logger.debug("Federation login debug enabled");
+                        File federationLoginDebugFile = new File(federationLoginDebugFileName);
+                        if (federationLoginDebugFile.exists())
+                        {
+                            fedUser = FederationUser.fromFile(federationLoginDebugFile);
+                        }
+                        else
+                        {
+                            logger.error("No federation login debug file found at {}. Cannot proceed.", federationLoginDebugFile);
+                        }
+                    }
+                    else
+                    {
+                        fedUser = FederationUser.fromHttpRequest(request);
+                    }
                 }
                 catch (IllegalArgumentException e)
                 {
@@ -88,7 +113,6 @@ public class FederativeAuthenticationResultPage extends AbstractEasyNavPage
                     setResponsePage(new InfoPage(getString("federative.error_during_federation_login")));
                 }
             }
-
         }
     }
 
