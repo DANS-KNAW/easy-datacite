@@ -30,7 +30,7 @@ public class FederativeAuthenticationResultPage extends AbstractEasyNavPage
 
     @SpringBean(name = "federationLoginDebugEnabled")
     private Boolean federationLoginDebugEnabled;
-    
+
     @SpringBean(name = "federationLoginDebugUserFile")
     private String federationLoginDebugFileName;
 
