@@ -95,11 +95,24 @@ public class FederativeAuthenticationResultPage extends AbstractEasyNavPage
                     Authentication authentication = new Authentication();
                     authentication.setState(Authentication.State.Authenticated);
                     authentication.setUser(easyUser);
-                    getEasySession().setLoggedIn(authentication);
-                    StatisticsLogger.getInstance().logEvent(StatisticsEvent.USER_LOGIN);
+                    if (easyUser.isActive())
+                    {
+                        getEasySession().setLoggedIn(authentication);
+                        // TODO why no statistics for a normal login?
+                        StatisticsLogger.getInstance().logEvent(StatisticsEvent.USER_LOGIN);
 
-                    logger.info("login via the federation was succesfull");
-                    throw new RestartResponseAtInterceptPageException(HomePage.class);
+                        logger.info("login via the federation was succesfull");
+                        throw new RestartResponseAtInterceptPageException(HomePage.class);
+                    }
+                    else
+                    {
+                        // TODO proper error message
+                        if (!easyUser.isBlocked())
+                            warningMessage("state.NotBlocked");
+                        else
+                            errorMessage("state.Blocked");
+                        setResponsePage(new LoginPage());
+                    }
                 }
                 catch (ObjectNotAvailableException e)
                 {
