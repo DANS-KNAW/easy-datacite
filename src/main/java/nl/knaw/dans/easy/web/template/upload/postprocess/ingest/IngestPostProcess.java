@@ -44,6 +44,7 @@ public class IngestPostProcess implements IUploadPostProcess
     {
         canceled = true;
     }
+
     private String dump(Object[] files)
     {
         String s = Arrays.deepToString(files);
@@ -53,10 +54,10 @@ public class IngestPostProcess implements IUploadPostProcess
     public List<File> execute(final List<File> fileList, final File destPath, final Map<String, String> clientParams) throws UploadPostProcessException
     {
 
-        if (destPath.listFiles(new ItemIngester.ListFilter(fileList)).length==0)
+        if (destPath.listFiles(new ItemIngester.ListFilter(fileList)).length == 0)
         {
-            logger.debug( "\nfiles:  " + dump(destPath.listFiles()));
-            logger.debug( "\nfilter: " + dump(fileList.toArray()));
+            logger.debug("\nfiles:  " + dump(destPath.listFiles()));
+            logger.debug("\nfilter: " + dump(fileList.toArray()));
             throw new UploadPostProcessException("Noting to ingest. The following files are allways skipped " + Arrays.toString(ItemIngester.SKIPPED_FILENAMES));
         }
         Dataset dataset = getDataset();
