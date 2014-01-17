@@ -80,7 +80,6 @@ public class TestLoginPage
         tester.assertVisible(REG_LOGIN_SUBMIT);
         tester.assertVisible(FORGOTTEN_LINK);
         tester.assertVisible(REGISTRATION_LINK);
-        tester.assertLabelContains(CREDENTIALS_FEEDBACK, "required");
         tester.dumpPage();
         tester.verify();
     }
