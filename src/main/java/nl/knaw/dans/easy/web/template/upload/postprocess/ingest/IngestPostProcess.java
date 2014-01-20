@@ -16,7 +16,6 @@ import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.worker.WorkReporter;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasySession;
-import nl.knaw.dans.easy.web.authn.login.FederativeAuthenticationResultPage;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.statistics.DatasetStatistics;
 import nl.knaw.dans.easy.web.statistics.StatisticsEvent;
@@ -27,10 +26,10 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@SuppressWarnings("serial")
 public class IngestPostProcess implements IUploadPostProcess
 {
-    private static Logger logger = LoggerFactory.getLogger(FederativeAuthenticationResultPage.class);
-    private static final long serialVersionUID = 1L;
+    private static Logger logger = LoggerFactory.getLogger(IngestPostProcess.class);
 
     private boolean canceled = false;
 
