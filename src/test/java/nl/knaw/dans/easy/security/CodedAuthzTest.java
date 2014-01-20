@@ -45,32 +45,4 @@ public class CodedAuthzTest
                 "(([SessionUser has role ARCHIVIST] AND [Dataset state is MAINTENANCE] AND [Required steps of workflow are completed]) AND [read only mode is false])",
                 authz.getSecurityOfficer(item).getProposition());
     }
-
-    @Ignore("Lists the rules. This is not a test.")
-    @Test
-    public void listRules() throws IOException
-    {
-        String dirname = "doc/rules/";
-        File dir = new File(dirname);
-        dir.mkdirs();
-        String filename = dirname + "rules.csv";
-        File file = new File(filename);
-        if (file.exists())
-        {
-            file.delete();
-        }
-
-        CodedAuthz authz = createCodedAuthz();
-        RandomAccessFile ram = new RandomAccessFile(filename, "rw");
-        ram.writeBytes("Rules;" + new DateTime().toString("yyyy-MM-dd HH:mm") + "\n");
-        ram.writeBytes(";\n");
-        ram.writeBytes("ITEM;PROPOSITION\n");
-        Map<String, SecurityOfficer> rules = authz.getRules();
-        for (String item : rules.keySet())
-        {
-            ram.writeBytes(item + ";" + rules.get(item).getProposition() + "\n");
-        }
-        ram.close();
-    }
-
 }

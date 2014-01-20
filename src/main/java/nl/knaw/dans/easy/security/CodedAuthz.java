@@ -190,7 +190,7 @@ public class CodedAuthz extends AbstractEasyService implements Authz
      * 
      * @return all security rules
      */
-    final Map<String, SecurityOfficer> getRules()
+    private Map<String, SecurityOfficer> getRules()
     {
         synchronized (syncRules)
         {
@@ -209,7 +209,7 @@ public class CodedAuthz extends AbstractEasyService implements Authz
      *         components: arguments for {@link #getSecurityOfficer(String)},
      *         {@link #hasSecurityOfficer(String) or {@link #isProtectedPage(String)}.
      */
-    protected Map<String, SecurityOfficer> createRules()
+    private Map<String, SecurityOfficer> createRules()
     {
         Map<String, SecurityOfficer> newRules = new LinkedHashMap<String, SecurityOfficer>();
 
