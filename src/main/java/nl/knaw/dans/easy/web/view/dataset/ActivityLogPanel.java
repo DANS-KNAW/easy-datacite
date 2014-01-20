@@ -274,14 +274,7 @@ public class ActivityLogPanel extends AbstractEasyPanel
 
     private boolean hasPerrmissionToViewDownloader(final EasyUser downloader)
     {
-        if (isSessionUserArchivist())
-            return true;
-        else if (downloader.isLogMyActions())
-            return true;
-        else if (isDepositorViewingGrantedRestrictedDownloadBy(downloader))
-            return true;
-        else
-            return false;
+        return isSessionUserArchivist() || isLogMyActionsOnFor(downloader) || isDepositorViewingGrantedRestrictedDownloadBy(downloader);
     }
 
     private boolean isSessionUserArchivist()
@@ -289,34 +282,19 @@ public class ActivityLogPanel extends AbstractEasyPanel
         return getSessionUser().hasRole(Role.ARCHIVIST);
     }
 
+    private boolean isLogMyActionsOnFor(final EasyUser downloader)
+    {
+        return !downloader.isAnonymous() && downloader.isLogMyActions();
+    }
+
     private boolean hasPermissionForDetails()
     {
-        if (getSessionUser().hasRole(Role.ARCHIVIST))
-            return true;
-        else if (getSessionUser().hasRole(Role.ADMIN))
-            return true;
-        else if (dataset.hasDepositor(getSessionUser()))
-            return true;
-        else
-            return false;
+        return getSessionUser().hasRole(Role.ARCHIVIST) || getSessionUser().hasRole(Role.ADMIN) || dataset.hasDepositor(getSessionUser());
     }
 
     private boolean isDepositorViewingGrantedRestrictedDownloadBy(final EasyUser downloader)
     {
-        if (dataset.hasDepositor(getSessionUser()))
-        {
-            if (dataset.hasPermissionRestrictedItems())
-            {
-                if (dataset.isPermissionGrantedTo(downloader))
-                    return true;
-                else
-                    return false;
-            }
-            else
-                return false;
-        }
-        else
-            return false;
+        return dataset.hasDepositor(getSessionUser()) && dataset.hasPermissionRestrictedItems() && dataset.isPermissionGrantedTo(downloader);
     }
 
     private class DetailsViewPanel extends Panel
