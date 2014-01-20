@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 @RequireHttps
 public class FederativeAuthenticationResultPage extends AbstractEasyNavPage
 {
-    private static final String SHIB_SESSION_ID = Services.getFederativeUserService().getPropertyNameShibSessionId();
+    private static String propertyNameShibSessionID;
     private static Logger logger = LoggerFactory.getLogger(FederativeAuthenticationResultPage.class);
     private String federativeUserId = null;
 
@@ -129,9 +129,11 @@ public class FederativeAuthenticationResultPage extends AbstractEasyNavPage
         }
     }
 
-    private boolean hasShibbolethSession(HttpServletRequest request)
+     boolean hasShibbolethSession(HttpServletRequest request)
     {
-        return request.getAttribute(SHIB_SESSION_ID) != null;
+        if (propertyNameShibSessionID == null)
+            Services.getFederativeUserService().getPropertyNameShibSessionId();
+        return request.getAttribute(propertyNameShibSessionID) != null;
     }
 
     private void infoPageWithError()
