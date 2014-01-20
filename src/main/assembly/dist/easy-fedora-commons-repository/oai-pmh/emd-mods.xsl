@@ -13,7 +13,7 @@
       exclude-result-prefixes="xs dai dc dcterms eas emd"
       version="2.0">
     
-    <!-- version 2013-01-11T12:41 -->
+    <!-- version 2014-01-16T11:23 -->
     <!-- ==================================================== -->
     <xsl:output encoding="UTF-8" indent="yes" method="xml" omit-xml-declaration="yes"/>
     <!-- ==================================================== -->
@@ -67,12 +67,8 @@
         </xsl:element>
         <!-- mods:language -->
         <xsl:apply-templates select="emd:language/dc:language"/>
-        <!-- mods:physicalDescription | a wrapper element -->
-        <xsl:element name="mods:physicalDescription">
-            <xsl:apply-templates select="emd:type/dc:type"/>
-            <xsl:apply-templates select="emd:format"/>
-            <xsl:apply-templates select="emd:other/eas:remark"/>
-        </xsl:element>
+        <!-- mods:physicalDescription -->
+        <xsl:call-template name="mods-physicalDescription"/>
         <!-- mods:abstract -->
         <xsl:apply-templates select="emd:description/dc:description | emd:description/dcterms:abstract"/>
         <!-- mods:tableOfContents -->
@@ -143,7 +139,7 @@
     <xsl:template name="mods-genre">
         <xsl:element name="mods:genre">
             <xsl:attribute name="xml:lang" select="'en'"/>
-            <xsl:value-of select="'scientific research data'"/>
+            <xsl:value-of select="'info:eu-repo/semantics/other'"/><!-- Modified for issue 645 -->
         </xsl:element>
     </xsl:template>
     <!-- ==================================================== -->
@@ -338,6 +334,9 @@
                 <xsl:call-template name="w3cdtfEncoding"/>
             </xsl:element>
         </xsl:for-each>
+        <!-- Modified for issue 645 -->
+         <!-- mods:dateIssued is mandatory, so call this template when mods:dateIssued is empty -->
+        <xsl:call-template name="mods-use-available-date-as-default"/>
         <xsl:for-each select="dcterms:created | eas:created">
             <xsl:element name="mods:dateCreated">
                 <xsl:call-template name="w3cdtfEncoding"/>
@@ -370,6 +369,28 @@
                 <xsl:call-template name="w3cdtfEncoding"/>
             </xsl:element>
         </xsl:for-each>
+    </xsl:template>
+    <!-- Modified for issue 645 -->
+    <!-- mods:dateIssued is mandatory, so call this template when mods:dateIssued is empty and use the date available as default-->
+    <xsl:template name="mods-use-available-date-as-default">
+      <xsl:choose>
+        <xsl:when test="string-length(mods:dateIssued) = 0">
+        	<xsl:for-each select="dcterms:available | eas:available">
+	            <xsl:element name="mods:dateIssued">
+	                <xsl:attribute name="keyDate" select="'yes'"/>
+	                <xsl:call-template name="w3cdtfEncoding"/>
+	            </xsl:element>
+        	</xsl:for-each>
+        </xsl:when>
+        <xsl:when test="string-length(mods:dateIssued) = 0">
+        	<xsl:for-each select="dcterms:created | eas:created">
+	            <xsl:element name="mods:dateIssued">
+	                <xsl:attribute name="keyDate" select="'yes'"/>
+	                <xsl:call-template name="w3cdtfEncoding"/>
+	            </xsl:element>
+        	</xsl:for-each>
+        </xsl:when>
+        </xsl:choose>	
     </xsl:template>
     <!-- mods:originInfo:dateType -->
     <xsl:template name="w3cdtfEncoding">
@@ -430,6 +451,19 @@
         </xsl:element>
     </xsl:template>
     <!-- =================================================================================== -->
+    <!-- mods:physicalDescription | a wrapper element -->
+    <xsl:template name="mods-physicalDescription">
+      <xsl:choose>
+        <xsl:when test="string-length(emd:type/dc:type) != 0 or string-length(emd:format) != 0 or string-length(emd:other/eas:remark) != 0">
+        <xsl:element name="mods:physicalDescription">
+            <xsl:apply-templates select="emd:type/dc:type"/>
+            <xsl:apply-templates select="emd:format"/>
+            <xsl:apply-templates select="emd:other/eas:remark"/>
+        </xsl:element>
+        </xsl:when>
+        </xsl:choose>	
+    </xsl:template>
+
     <!-- dc:type to mods:physicalDescription/mods:form -->
     <xsl:template match="emd:type/dc:type">
         <xsl:element name="mods:form">
