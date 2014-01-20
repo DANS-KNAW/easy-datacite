@@ -493,11 +493,16 @@ Upload.prototype.updateStatus = function(uploadStatus)
 
 	if (uploadStatus.finished)
 	{
-		// upload finished
+		/*
+		 * decodeURI is used rather than decodeURIComponent because on the server the encoding is done with Java's 
+		 * java.net.URLEncoder which is similar to JavaScript's encodeURI.
+		 * 
+		 * + is replaced by %20 before decoding, because java.net.URLEncoder replaces spaces by + instead of %20. 
+		 */
 		if (uploadStatus.message)
-			this.progressMessage.innerHTML  = decodeURI(uploadStatus.message).replace(/[+]/g," ");
+			this.progressMessage.innerHTML  = decodeURI(uploadStatus.message.replace(/[+]/g,"%20"));
 		else
-			this.progressMessage.innerHTML = "Upload of '"+ decodeURI(this.filename).replace(/[+]/g," ") +"' complete.";
+			this.progressMessage.innerHTML = "Upload of '"+ decodeURI(this.filename.replace(/[+]/g,"%20")) +"' complete.";
 
 		this.fireEvent(UPLOAD_EVENT_COMPLETED);
 
@@ -507,7 +512,7 @@ Upload.prototype.updateStatus = function(uploadStatus)
 	}
 
 	if (typeof uploadStatus.message == "string")
-		this.progressMessage.innerHTML = decodeURI(uploadStatus.message).replace(/[+]/g," ");
+		this.progressMessage.innerHTML = decodeURI(uploadStatus.message.replace(/[+]/g,"%20"));
 
 	if (typeof uploadStatus.percentComplete == "number")
 		this.progressBar.setPercentage(uploadStatus.percentComplete);
