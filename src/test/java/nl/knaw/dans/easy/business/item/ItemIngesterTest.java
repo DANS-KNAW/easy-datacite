@@ -32,6 +32,7 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 
 import org.easymock.EasyMock;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
@@ -133,6 +134,7 @@ public class ItemIngesterTest
     }
 
     @Test
+    @Ignore
     public void issue700a() throws Exception
     {
         normalUserLoggedIn();
@@ -172,6 +174,7 @@ public class ItemIngesterTest
      * {@link ItemIngester#workAddDirectoryContents(DatasetItemContainer, File, FileFilter).
      */
     @Test
+    @Ignore
     public void issue700b()
     {
         System.out.println(ACCENT_XML);
