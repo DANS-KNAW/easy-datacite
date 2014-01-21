@@ -33,7 +33,7 @@ public class EasyUploadStatus extends UploadStatus
         JSONObject jobj = new JSONObject();
         try
         {
-            LOG.debug("response: {}\n{}", getMessage(),Arrays.toString(getMessage().toCharArray()));
+            LOG.debug("response: {}\n{}", getMessage(), Arrays.toString(getMessage().toCharArray()));
             try
             {
                 String encoded = URLEncoder.encode(getMessage(), "UTF-8");
