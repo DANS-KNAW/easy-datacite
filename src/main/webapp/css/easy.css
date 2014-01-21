@@ -657,6 +657,14 @@ ul li {
 	border: 1px solid #C0C0C0;
 }
 
+div.recursive-panel-item li.feedbackPanelERROR {
+	list-style-image: url(../images/icons/messages/cross-circle-frame.png);
+	list-style-type: square;
+	padding: 3px;
+	list-style-position: inside;
+	margin-left: -10px;
+}
+
 li.feedbackPanelERROR {
 	list-style-image: url(../images/icons/messages/cross-circle-frame.png);
 	list-style-type: square;
