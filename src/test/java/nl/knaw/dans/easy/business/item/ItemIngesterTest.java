@@ -171,7 +171,7 @@ public class ItemIngesterTest
         PowerMock.verifyAll();
     }
 
-    @Ignore("fails on the command line, keep method for documentational reasons")
+    @Ignore("Fails on the command line, succeeds in eclipse. Keep method for documentational reasons")
     @Test
     public void issue700b()
     {
@@ -187,7 +187,7 @@ public class ItemIngesterTest
         assertThat(files.length, not(equalTo(2)));
     }
 
-    @Ignore("fails on the command line, keep method for documentational reasons")
+    @Ignore("Fails on the command line, succeeds in eclipse. Keep method for documentational reasons")
     @Test
     public void issue700d()
     {
