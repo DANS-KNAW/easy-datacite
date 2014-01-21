@@ -1,6 +1,7 @@
 package nl.knaw.dans.easy.web.template.upload.postprocess.ingest;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.components.upload.UploadStatus;
 import nl.knaw.dans.common.wicket.components.upload.postprocess.IUploadPostProcess;
 import nl.knaw.dans.common.wicket.components.upload.postprocess.UploadPostProcessException;
+import nl.knaw.dans.easy.business.item.ItemIngester;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.worker.WorkReporter;
 import nl.knaw.dans.easy.servicelayer.services.Services;
@@ -24,10 +26,10 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@SuppressWarnings("serial")
 public class IngestPostProcess implements IUploadPostProcess
 {
-
-    private static final Logger LOG = LoggerFactory.getLogger(IngestPostProcess.class);
+    private static Logger logger = LoggerFactory.getLogger(IngestPostProcess.class);
 
     private boolean canceled = false;
 
@@ -42,11 +44,21 @@ public class IngestPostProcess implements IUploadPostProcess
         canceled = true;
     }
 
+    private String dump(Object[] files)
+    {
+        String s = Arrays.deepToString(files);
+        return s + Arrays.toString(s.toCharArray()) + Arrays.toString(s.getBytes());
+    }
+
     public List<File> execute(final List<File> fileList, final File destPath, final Map<String, String> clientParams) throws UploadPostProcessException
     {
 
-        if (fileList.size() == 0)
-            throw new UploadPostProcessException("Nothing to ingest.");
+        if (destPath.listFiles(new ItemIngester.ListFilter(fileList)).length == 0)
+        {
+            logger.debug("\nfiles:  " + dump(destPath.listFiles()));
+            logger.debug("\nfilter: " + dump(fileList.toArray()));
+            throw new UploadPostProcessException("Noting to ingest. The following files are allways skipped " + Arrays.toString(ItemIngester.SKIPPED_FILENAMES));
+        }
         Dataset dataset = getDataset();
         if ("".equals(parentSid) || parentSid == null)
             parentSid = clientParams.get("parentSid");

@@ -1,8 +1,16 @@
 package nl.knaw.dans.easy.web.authn.login;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 
 import nl.knaw.dans.easy.servicelayer.services.Services;
 
@@ -99,7 +107,7 @@ public class FederationUser implements Serializable
         return userId;
     }
 
-    private void setUserId(String userId)
+    public void setUserId(String userId)
     {
         this.userId = userId;
     }
@@ -132,5 +140,26 @@ public class FederationUser implements Serializable
             }
         }
         return n;
+    }
+
+    public static FederationUser fromFile(File debugFile)
+    {
+        FederationUser u = new FederationUser();
+        BeanWrapper w = new BeanWrapperImpl(u);
+        Properties p = new Properties();
+        try
+        {
+            p.load(new FileInputStream(debugFile));
+        }
+        catch (FileNotFoundException e)
+        {
+            throw new RuntimeException("Could not find the FederationUser debug file", e);
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException("Could not read the FederationUser debug file", e);
+        }
+        w.setPropertyValues(p);
+        return u;
     }
 }

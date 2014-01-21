@@ -108,6 +108,14 @@
 		<property name="propertyNameShibSessionId"
 			value="${easy.federationLogin.propertyMapping.shibSessionId}" />
 	</bean>
+	
+	<bean name="federationLoginDebugEnabled" class="java.lang.Boolean" factory-method="parseBoolean">
+		<constructor-arg value="${easy.federationLogin.debug.enabled}" />
+	</bean>
+	
+	<bean name="federationLoginDebugUserFile" class="java.lang.String">
+		<constructor-arg value="${easy.federationLogin.debug.user.file}" />
+	</bean>
 
 	<bean name="collectionService"
 		class="nl.knaw.dans.easy.business.services.EasyCollectionService" />
