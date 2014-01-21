@@ -3,12 +3,13 @@ package nl.knaw.dans.easy.business.item;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
 import static org.powermock.api.easymock.PowerMock.replayAll;
 
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,7 +33,6 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 
 import org.easymock.EasyMock;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
@@ -135,7 +135,6 @@ public class ItemIngesterTest
     }
 
     @Test
-    @Ignore
     public void issue700a() throws Exception
     {
         normalUserLoggedIn();
@@ -146,21 +145,21 @@ public class ItemIngesterTest
         uowMethodsCalled();
         noFilesAndFoldersUnderParentContainer();
         fileItemMock.setFile(EasyMock.isA(File.class));
-        EasyMock.expectLastCall().times(2);
+        EasyMock.expectLastCall().times(1, 2);
         fileItemMock.setCreatorRole(CreatorRole.DEPOSITOR);
-        EasyMock.expectLastCall().times(2);
+        EasyMock.expectLastCall().times(1, 2);
         fileItemMock.setDatasetId(new DmoStoreId("easy-dataset:1"));
-        EasyMock.expectLastCall().times(2);
+        EasyMock.expectLastCall().times(1, 2);
         fileItemMock.setOwnerId("normal");
-        EasyMock.expectLastCall().times(2);
+        EasyMock.expectLastCall().times(1, 2);
         fileItemMock.setParent(parentContainerMock);
-        EasyMock.expectLastCall().times(2);
+        EasyMock.expectLastCall().times(1, 2);
         fileItemMock.setVisibleTo(VisibleTo.ANONYMOUS);
-        EasyMock.expectLastCall().times(2);
+        EasyMock.expectLastCall().times(1, 2);
         fileItemMock.setAccessibleTo(AccessibleTo.KNOWN);
-        EasyMock.expectLastCall().times(2);
+        EasyMock.expectLastCall().times(1, 2);
         EasyMock.expect(unitOfWorkMock.saveAndDetach(fileItemMock)).andReturn(fileItemMock);
-        EasyMock.expectLastCall().times(2);
+        EasyMock.expectLastCall().times(1, 2);
 
         replayAll();
 
@@ -177,10 +176,18 @@ public class ItemIngesterTest
     @Test
     public void issue700b()
     {
-        System.out.println(ACCENT_XML);
-        System.out.println(DIACRITIC_ACCENT_XML);
-        assertThat(GREEK_FOLDER.listFiles(createFilter(ACCENT_XML)).length, is(2));
-        assertThat(GREEK_FOLDER.listFiles(createFilter(DIACRITIC_ACCENT_XML)).length, is(1));
+        System.out.println(ACCENT_XML + Arrays.toString(ACCENT_XML.toCharArray()));
+        System.out.println(DIACRITIC_ACCENT_XML + Arrays.toString(DIACRITIC_ACCENT_XML.toCharArray()));
+        File[] files1 = GREEK_FOLDER.listFiles(createFilter(ACCENT_XML));
+        File[] files2 = GREEK_FOLDER.listFiles(createFilter(DIACRITIC_ACCENT_XML));
+        String fileNames1 = Arrays.toString(files1);
+        String fileNames2 = Arrays.toString(files2);
+        String allFiles = Arrays.toString(GREEK_FOLDER.listFiles());
+        System.out.println("filtered: " + fileNames1 + Arrays.toString(fileNames1.toCharArray()));
+        System.out.println("filtered: " + fileNames2 + Arrays.toString(fileNames2.toCharArray()));
+        System.out.println("all files: " + allFiles + Arrays.toString(allFiles.toCharArray()) + Arrays.toString(allFiles.getBytes()));
+        assertThat(files1.length, is(2));
+        assertThat(files2.length, is(1));
     }
 
     private ListFilter createFilter(String fileNameWithAccent)
