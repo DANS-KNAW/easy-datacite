@@ -61,6 +61,7 @@ public class ItemIngesterTest
     @Before
     public void setUp() throws Exception
     {
+        PowerMock.resetAll();
         datasetMock = PowerMock.createMock(Dataset.class);
         userMock = PowerMock.createMock(EasyUser.class);
         rootFileMock = PowerMock.createMock(File.class);
@@ -174,7 +175,6 @@ public class ItemIngesterTest
      * {@link ItemIngester#workAddDirectoryContents(DatasetItemContainer, File, FileFilter).
      */
     @Test
-    @Ignore
     public void issue700b()
     {
         System.out.println(ACCENT_XML);
