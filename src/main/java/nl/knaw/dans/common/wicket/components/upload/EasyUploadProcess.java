@@ -157,6 +157,9 @@ public class EasyUploadProcess
             LOG.warn("UploadProcess.filename != uploadedFilename");
             LOG.warn("UploadProcess.filename = " + dump(filename));
             LOG.warn("uploadedFilename       = " + dump(uploadedFilename));
+            String s = Normalizer.normalize(FileUtil.getBasicFilename(file.getName()), Normalizer.Form.NFD);
+            if (!s.equals(filename))
+                LOG.warn("normalisation mismatch (treatment of accents), it varies by JVM and/or OS");
             // try to continue anyway
         }
 
