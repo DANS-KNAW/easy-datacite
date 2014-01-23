@@ -163,10 +163,7 @@ public class EasyUploadWebRequest extends ServletWebRequest
         String encoded = request.getParameter("filename");
         try
         {
-            String decoded = URLDecoder.decode(encoded, request.getCharacterEncoding());
-            // from wicket's normalization (accents as a separate character)
-            // to java.io.File normalization (accents integrated into a single character)
-            filename = Normalizer.normalize(decoded, Normalizer.Form.NFC);
+            filename = URLDecoder.decode(encoded, request.getCharacterEncoding());
         }
         catch (IllegalArgumentException e)
         {

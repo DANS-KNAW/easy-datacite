@@ -151,15 +151,18 @@ public class EasyUploadProcess
         // do check on the filename
         // from wicket's normalization (accents as a separate character)
         // to java.io.File normalization (accents integrated into a single character)
-        String uploadedFilename = Normalizer.normalize(FileUtil.getBasicFilename(file.getName()), Normalizer.Form.NFC);
+        String uploadedFilename = FileUtil.getBasicFilename(file.getName());
+        // String uploadedFilename = Normalizer.normalize(FileUtil.getBasicFilename(file.getName()),
+        // Normalizer.Form.NFC);
         if (!uploadedFilename.equals(filename))
         {
             LOG.warn("UploadProcess.filename != uploadedFilename");
             LOG.warn("UploadProcess.filename = " + dump(filename));
             LOG.warn("uploadedFilename       = " + dump(uploadedFilename));
-            String s = Normalizer.normalize(FileUtil.getBasicFilename(file.getName()), Normalizer.Form.NFD);
-            if (!s.equals(filename))
-                LOG.warn("normalisation mismatch (treatment of accents), it varies by JVM and/or OS");
+            // String s = Normalizer.normalize(FileUtil.getBasicFilename(file.getName()),
+            // Normalizer.Form.NFD);
+            // if (!s.equals(filename))
+            // LOG.warn("normalisation mismatch (treatment of accents), it varies by JVM and/or OS");
             // try to continue anyway
         }
 
@@ -231,8 +234,11 @@ public class EasyUploadProcess
 
         LOG.info("Received file " + uploadedFile.getAbsolutePath());
 
-        List<File> files = new ArrayList<File>(1);
-        files.add(uploadedFile);
+        List<File> files = new ArrayList<File>(2);
+        if (!hasDiacritics())
+            files.add(uploadedFile);
+        else
+            addDiacriticVariants(files);
         if (postProcessesors.size() > 0)
         {
             // start post processor thread
@@ -293,8 +299,11 @@ public class EasyUploadProcess
     protected void setUploadCompleted(List<File> files)
     {
         String msg = "Upload of '" + filename + "' complete";
-        if (files.size() > 1)
-            msg += " (" + files.size() + " files and folders)";
+        if (files.size() > 1 && !files.get(0).getName().equals(filename))
+        {
+            if (!hasDiacritics() || !hasInitialDiacriticFileNames(files))
+                msg += " (" + files.size() + " files and folders)";
+        }
         status.setMessage(msg);
         status.setFinished(true);
 
@@ -302,6 +311,37 @@ public class EasyUploadProcess
 
         if (easyUpload.getConfig().autoRemoveFiles())
             cleanFiles();
+    }
+
+    private boolean hasInitialDiacriticFileNames(List<File> files)
+    {
+        return files.size() == 2 && files.get(0).getName().equals(toNFC(filename)) && files.get(1).getName().equals(toNFD(filename));
+    }
+
+    private void addDiacriticVariants(List<File> files)
+    {
+        // depending on JVM/OS Files.listFiles() may use different normalization
+        // we add both variants
+        // thus the filter of ItemIngester.workAddDirectoryContents() finds the uploaded file
+        files.add(new File(toNFC(uploadedFile.getPath())));
+        files.add(new File(toNFD(uploadedFile.getPath())));
+    }
+
+    private String toNFD(String path)
+    {
+        return Normalizer.normalize(path, Normalizer.Form.NFD);
+    }
+
+    private String toNFC(String path)
+    {
+        return Normalizer.normalize(path, Normalizer.Form.NFC);
+    }
+
+    private boolean hasDiacritics()
+    {
+        String s2 = Normalizer.normalize(uploadedFile.getPath(), Normalizer.Form.NFD);
+        boolean matches = s2.matches("(?s).*\\p{InCombiningDiacriticalMarks}.*");
+        return matches;
     }
 
     public void cancel()
