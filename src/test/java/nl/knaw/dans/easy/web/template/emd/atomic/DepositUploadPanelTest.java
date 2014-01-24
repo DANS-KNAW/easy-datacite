@@ -58,17 +58,17 @@ public class DepositUploadPanelTest
         tester.debugComponentTrees();
         tester.assertVisible("panel:uploadPanel:uploadIframe");
         tester.assertVisible("panel:uploadPanel:uploadProgress");
-        InlineFrame iFrame = (InlineFrame)tester.getComponentFromLastRenderedPage("panel:uploadPanel:uploadIframe");
+        InlineFrame iFrame = (InlineFrame) tester.getComponentFromLastRenderedPage("panel:uploadPanel:uploadIframe");
         Component component = iFrame.get("uploadForm:file");
-        FileUtils.write(new File("target/DepositUploadPanel-smokeTest.html"),tester.getServletResponse().getDocument());
+        FileUtils.write(new File("target/DepositUploadPanel-smokeTest.html"), tester.getServletResponse().getDocument());
 
         // How to get into the IFrameto hit the submit button?
-        
+
         // rendered as test:
         // src="?wicket:interface=:1:panel:uploadPanel:uploadIframe::ILinkListener::"
         // in situ:
         // src="?wicket:interface=:2:depositPanel:depositForm:recursivePanel:levelContainer:recursivePanelContainer:recursivePanels:6:recursivePanel:customPanel:uploadPanel:uploadPanel:uploadIframe::ILinkListener::"
-        
+
         // FormTester formTester = iframeTester.newFormTester("uploadForm");
         // formTester.setValue("file", ACCENT_XML);
         // formTester.setValue("uploadId", "123");
