@@ -163,7 +163,7 @@ public class FederationUser implements Serializable
 
     public static FederativeUserService getFederativeUserService()
     {
-        if (federatveUserService==null)
+        if (federatveUserService == null)
             federatveUserService = Services.getFederativeUserService();
         return federatveUserService;
     }

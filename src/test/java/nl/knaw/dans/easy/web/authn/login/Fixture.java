@@ -43,10 +43,10 @@ public class Fixture
         EasyMock.expect(userService.newUsernamePasswordAuthentication()).andStubReturn(new UsernamePasswordAuthentication());
 
         final HomeDirectory homeDir = new FileSystemHomeDirectory(new File("src/main/assembly/dist/res/example/editable/"));
-        
+
         final SystemReadOnlyStatus systemReadOnlyStatus = PowerMock.createMock(SystemReadOnlyStatus.class);
         EasyMock.expect(systemReadOnlyStatus.getReadOnly()).andStubReturn(false);
-        
+
         final CodedAuthz codedAuthz = new CodedAuthz();
         codedAuthz.setSystemReadOnlyStatus(systemReadOnlyStatus);
 
@@ -56,8 +56,8 @@ public class Fixture
         applicationContext.putBean("security", new Security(codedAuthz));
         applicationContext.putBean("editableContentHome", homeDir);
         applicationContext.putBean("userService", userService);
-        applicationContext.putBean("federationLoginDebugEnabled",false);
-        applicationContext.putBean("federationLoginDebugUserFile","");
+        applicationContext.putBean("federationLoginDebugEnabled", false);
+        applicationContext.putBean("federationLoginDebugUserFile", "");
     }
 
     @After

@@ -40,6 +40,7 @@ public class IngestPostProcess implements IUploadPostProcess
     {
         canceled = true;
     }
+
     private String dump(Object[] files)
     {
         String s = Arrays.deepToString(files);
@@ -49,14 +50,14 @@ public class IngestPostProcess implements IUploadPostProcess
     public List<File> execute(final List<File> fileList, final File destPath, final Map<String, String> clientParams) throws UploadPostProcessException
     {
 
-        if (fileList.size() == 0 )
+        if (fileList.size() == 0)
             throw new UploadPostProcessException("Nothing to ingest.");
-        if (destPath.listFiles(new ItemIngester.ListFilter(fileList)).length==0)
+        if (destPath.listFiles(new ItemIngester.ListFilter(fileList)).length == 0)
         {
             StringBuffer message = new StringBuffer();
             message.append("Filter skips " + Arrays.toString(ItemIngester.SKIPPED_FILENAMES) + " and leaves nothing to ingest.");
-            message.append( "\nfiles:  " + dump(destPath.listFiles()));
-            message.append( "\nfilter: " + dump(fileList.toArray()));
+            message.append("\nfiles:  " + dump(destPath.listFiles()));
+            message.append("\nfilter: " + dump(fileList.toArray()));
             throw new UploadPostProcessException(message.toString());
         }
         Dataset dataset = getDataset();

@@ -31,7 +31,7 @@ public class LoginPage extends AbstractAuthenticationPage
 
     @SpringBean(name = "userService")
     private UserService userService;
-    
+
     @SpringBean(name = "federativeUserService")
     private FederativeUserService federativeUserService;
 

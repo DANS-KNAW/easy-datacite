@@ -129,7 +129,7 @@ public class FederativeAuthenticationResultPage extends AbstractEasyNavPage
         }
     }
 
-     boolean hasShibbolethSession(HttpServletRequest request)
+    boolean hasShibbolethSession(HttpServletRequest request)
     {
         if (propertyNameShibSessionID == null)
             Services.getFederativeUserService().getPropertyNameShibSessionId();

@@ -34,7 +34,7 @@ public class EasyWicketTester extends WicketTester
             final StackTraceElement caller = new Exception().getStackTrace()[1];
             final String testClass = caller.getClassName().replaceAll(".*[.]", "");
             final String testMethod = caller.getMethodName();
-            final File file = new File("target/pageDumps/" +  testClass + "/" + testMethod + ".html");
+            final File file = new File("target/pageDumps/" + testClass + "/" + testMethod + ".html");
             file.getParentFile().mkdirs();
             FileUtils.write(file, getServletResponse().getDocument());
         }
