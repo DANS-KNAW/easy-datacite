@@ -7,8 +7,6 @@ import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
-
 import nl.knaw.dans.common.lang.user.User.State;
 import nl.knaw.dans.easy.EasyWicketTester;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
@@ -20,8 +18,6 @@ import nl.knaw.dans.easy.servicelayer.services.SearchService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.HomePage;
 
-import org.apache.wicket.Page;
-import org.apache.wicket.util.tester.ITestPageSource;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,30 +25,7 @@ import org.powermock.api.easymock.PowerMock;
 
 public class TestFederativeAuthenticationResultPage extends Fixture implements Serializable
 {
-    private final class PartiallyMockedPage extends FederativeAuthenticationResultPage
-    {
-        public boolean hasShibbolethSession(final HttpServletRequest request)
-        {
-            // wicket 1.5 has a addRequestHeader(String, String) on the tester class
-            request.setAttribute("shibSessionId", "mockedSessionID");
-            request.setAttribute("email", "mockeEmail");
-            request.setAttribute("firstName", "mockedFirstName");
-            request.setAttribute("surname", "mockedSurname");
-            request.setAttribute("remoteUser", "mockedRemoteUser");
-            request.setAttribute("organization", "mockedOrganization");
-            return true;
-        }
-
-        @Override
-        public boolean isBookmarkable()
-        {
-            // allows: setStatelessHint(true);
-            return true;
-        }
-    }
-
     private static final long serialVersionUID = 1L;
-    private static FederativeUserService federativeUserService;
     private EasyUserImpl easyUser;
 
     @Before
@@ -60,7 +33,7 @@ public class TestFederativeAuthenticationResultPage extends Fixture implements S
     {
         easyUser = createUser();
 
-        federativeUserService = PowerMock.createMock(FederativeUserService.class);
+        final FederativeUserService federativeUserService = PowerMock.createMock(FederativeUserService.class);
         new Services().setFederativeUserService(federativeUserService);
         EasyMock.expect(federativeUserService.getUserById(isA(EasyUser.class), isA(String.class))).andStubReturn(easyUser);
         EasyMock.expect(federativeUserService.getPropertyNameShibSessionId()).andStubReturn("shibSessionId");
@@ -77,7 +50,7 @@ public class TestFederativeAuthenticationResultPage extends Fixture implements S
         EasyMock.expect(searchService.getNumberOfDatasets(isA(EasyUser.class))).andStubReturn(0);
         EasyMock.expect(searchService.getNumberOfRequests(isA(EasyUser.class))).andStubReturn(0);
         applicationContext.putBean("searchService", searchService);
- }
+    }
 
     @Test
     public void activeUser() throws Exception
@@ -93,7 +66,10 @@ public class TestFederativeAuthenticationResultPage extends Fixture implements S
     {
         easyUser.setState(State.BLOCKED);
         tester = init();
-        tester.assertRenderedPage(PartiallyMockedPage.class);
+        tester.assertRenderedPage(LoginPage.class);
+        tester.assertLabelContains(COMMON_FEEDBACK, "The account is blocked");
+        tester.assertInvisible(CREDENTIALS_FEEDBACK);
+        tester.assertInvisible(USER_FEEDBACK);
     }
 
     @Test
@@ -101,7 +77,10 @@ public class TestFederativeAuthenticationResultPage extends Fixture implements S
     {
         easyUser.setState(State.REGISTERED);
         tester = init();
-        tester.assertRenderedPage(PartiallyMockedPage.class);
+        tester.assertRenderedPage(LoginPage.class);
+        tester.assertLabelContains(COMMON_FEEDBACK, "This account is not active.");
+        tester.assertInvisible(CREDENTIALS_FEEDBACK);
+        tester.assertInvisible(USER_FEEDBACK);
     }
 
     @Test
@@ -109,7 +88,10 @@ public class TestFederativeAuthenticationResultPage extends Fixture implements S
     {
         easyUser.setState(State.CONFIRMED_REGISTRATION);
         tester = init();
-        tester.assertRenderedPage(PartiallyMockedPage.class);
+        tester.assertRenderedPage(LoginPage.class);
+        tester.assertLabelContains(COMMON_FEEDBACK, "This account is not active.");
+        tester.assertInvisible(CREDENTIALS_FEEDBACK);
+        tester.assertInvisible(USER_FEEDBACK);
     }
 
     private EasyUserImpl createUser()
@@ -131,16 +113,7 @@ public class TestFederativeAuthenticationResultPage extends Fixture implements S
     {
         PowerMock.replayAll();
         final EasyWicketTester tester = EasyWicketTester.create(applicationContext);
-        tester.startPage(new ITestPageSource()
-        {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public Page getTestPage()
-            {
-                return new PartiallyMockedPage();
-            }
-        });
+        tester.startPage(PartiallyMockedResultPage.class);
         return tester;
     }
 }
