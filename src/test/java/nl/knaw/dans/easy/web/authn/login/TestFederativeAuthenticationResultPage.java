@@ -5,7 +5,6 @@ import static org.easymock.EasyMock.isA;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,9 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import nl.knaw.dans.common.lang.user.User.State;
 import nl.knaw.dans.easy.EasyWicketTester;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
-import nl.knaw.dans.easy.domain.model.user.RepoAccess;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.domain.model.user.Group;
+import nl.knaw.dans.easy.domain.user.EasyUserAnonymous;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.servicelayer.services.FederativeUserService;
 import nl.knaw.dans.easy.servicelayer.services.SearchService;
@@ -25,7 +24,7 @@ import nl.knaw.dans.easy.web.HomePage;
 import org.apache.wicket.Page;
 import org.apache.wicket.util.tester.ITestPageSource;
 import org.easymock.EasyMock;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
@@ -54,8 +53,8 @@ public class TestFederativeAuthenticationResultPage extends Fixture implements S
     private static final long serialVersionUID = 1L;
     private static FederativeUserService federativeUserService;
 
-    @BeforeClass
-    public static void mockFederationUser() throws Exception
+    @Before
+    public void mockFederationUser() throws Exception
     {
         federativeUserService = PowerMock.createMock(FederativeUserService.class);
         new Services().setFederativeUserService(federativeUserService);
@@ -67,10 +66,11 @@ public class TestFederativeAuthenticationResultPage extends Fixture implements S
         EasyMock.expect(federativeUserService.getPopertyNameOrganization()).andStubReturn("organization");
         EasyMock.expect(federativeUserService.getFederationUrl()).andStubReturn(new URL("https://mock.dans.knaw.nl/Shibboleth.sso/Login"));
         EasyMock.expect(federativeUserService.isFederationLoginEnabled()).andStubReturn(true);
+        EasyMock.expect(federativeUserService.getUserById(null, null)).andStubReturn(EasyUserAnonymous.getInstance());
         applicationContext.putBean("federativeUserService", federativeUserService);
 
         SearchService searchService = PowerMock.createMock(SearchService.class);
-        new Services().setSearchService(searchService );
+        new Services().setSearchService(searchService);
         EasyMock.expect(searchService.getNumberOfDatasets(isA(EasyUser.class))).andStubReturn(0);
         EasyMock.expect(searchService.getNumberOfRequests(isA(EasyUser.class))).andStubReturn(0);
     }
@@ -101,7 +101,8 @@ public class TestFederativeAuthenticationResultPage extends Fixture implements S
 
     private EasyUserImpl createUser()
     {
-        EasyUserImpl easyUser = new EasyUserImpl(Role.USER){
+        EasyUserImpl easyUser = new EasyUserImpl(Role.USER)
+        {
             private static final long serialVersionUID = 1L;
 
             public Set<Group> getGroups()

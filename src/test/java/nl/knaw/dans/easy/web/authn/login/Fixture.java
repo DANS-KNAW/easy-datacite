@@ -16,7 +16,7 @@ import org.apache.wicket.spring.test.ApplicationContextMock;
 import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.powermock.api.easymock.PowerMock;
 
 public class Fixture
@@ -34,11 +34,9 @@ public class Fixture
     private static UserService userService;
     protected EasyWicketTester tester;
 
-    @BeforeClass
-    public static void mockApplicationContext() throws Exception
+    @Before
+    public void mockApplicationContext() throws Exception
     {
-        PowerMock.resetAll();
-
         userService = PowerMock.createMock(UserService.class);
         EasyMock.expect(userService.newUsernamePasswordAuthentication()).andStubReturn(new UsernamePasswordAuthentication());
 
@@ -65,6 +63,7 @@ public class Fixture
     {
         PowerMock.verifyAll();
         tester.verify();
+        PowerMock.resetAll();
     }
 
     @AfterClass

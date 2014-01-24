@@ -6,7 +6,7 @@ import nl.knaw.dans.easy.EasyWicketTester;
 import nl.knaw.dans.easy.servicelayer.services.FederativeUserService;
 
 import org.easymock.EasyMock;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
@@ -16,8 +16,8 @@ public class TestLoginPage extends Fixture
     private static final String FED_LOGIN_SUBMIT = "loginPanelFederation:federationLink";
     private static FederativeUserService federativeUserService;
 
-    @BeforeClass
-    public static void mockFederativeUserService() throws Exception
+    @Before
+    public void mockFederativeUserService() throws Exception
     {
         federativeUserService = PowerMock.createMock(FederativeUserService.class);
         applicationContext.putBean("federativeUserService", federativeUserService);

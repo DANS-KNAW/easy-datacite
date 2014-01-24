@@ -5,7 +5,7 @@ import nl.knaw.dans.easy.EasyWicketTester;
 import org.apache.wicket.Page;
 import org.apache.wicket.util.tester.ITestPageSource;
 import org.easymock.EasyMock;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
@@ -13,8 +13,8 @@ public class TestFederationToEasyAccountLinkingPage extends Fixture
 {
     private static FederationUser federationUser;
 
-    @BeforeClass
-    public static void mockFederationUser() throws Exception
+    @Before
+    public void mockFederationUser() throws Exception
     {
         federationUser = PowerMock.createMock(FederationUser.class);
         EasyMock.expect(federationUser.getUserDescription()).andStubReturn("mocked user description");
