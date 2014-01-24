@@ -9,11 +9,10 @@ import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 
+import nl.knaw.dans.easy.servicelayer.services.Services;
+
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
-
-import nl.knaw.dans.easy.servicelayer.services.FederativeUserService;
-import nl.knaw.dans.easy.servicelayer.services.Services;
 
 public class FederationUser implements Serializable
 {
@@ -25,33 +24,31 @@ public class FederationUser implements Serializable
     private String surName;
     private String homeOrg;
 
-    private static FederativeUserService federatveUserService;
-
     public static FederationUser fromHttpRequest(HttpServletRequest request)
     {
         FederationUser appUser = new FederationUser();
-        String userId = (String) request.getAttribute(getFederativeUserService().getPropertyNameRemoteUser());
+        String userId = (String) request.getAttribute(Services.getFederativeUserService().getPropertyNameRemoteUser());
         if (!isSet(userId))
         {
-            throw new IllegalArgumentException(String.format("Attribute %s must be present", getFederativeUserService().getPropertyNameRemoteUser()));
+            throw new IllegalArgumentException(String.format("Attribute %s must be present", Services.getFederativeUserService().getPropertyNameRemoteUser()));
         }
         appUser.setUserId(userId);
-        String mail = (String) request.getAttribute(getFederativeUserService().getPropertyNameEmail());
+        String mail = (String) request.getAttribute(Services.getFederativeUserService().getPropertyNameEmail());
         if (isSet(mail))
         {
             appUser.setEmail(mail);
         }
-        String givenName = (String) request.getAttribute(getFederativeUserService().getPropertyNameFirstName());
+        String givenName = (String) request.getAttribute(Services.getFederativeUserService().getPropertyNameFirstName());
         if (isSet(givenName))
         {
             appUser.setGivenName(givenName);
         }
-        String surName = (String) request.getAttribute(getFederativeUserService().getPropertyNameSurname());
+        String surName = (String) request.getAttribute(Services.getFederativeUserService().getPropertyNameSurname());
         if (isSet(surName))
         {
             appUser.setSurName(surName);
         }
-        String homeOrg = (String) request.getAttribute(getFederativeUserService().getPopertyNameOrganization());
+        String homeOrg = (String) request.getAttribute(Services.getFederativeUserService().getPopertyNameOrganization());
         if (isSet(homeOrg))
         {
             appUser.setHomeOrg(homeOrg);
@@ -159,12 +156,5 @@ public class FederationUser implements Serializable
         }
         w.setPropertyValues(p);
         return u;
-    }
-
-    public static FederativeUserService getFederativeUserService()
-    {
-        if (federatveUserService == null)
-            federatveUserService = Services.getFederativeUserService();
-        return federatveUserService;
     }
 }
