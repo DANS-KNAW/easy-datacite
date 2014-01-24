@@ -25,20 +25,23 @@ public class Fixture
     protected static final String TOKEN_FIELD = "loginPanelRegular:loginForm:token";
     protected static final String PASSWORD_FIELD = "loginPanelRegular:loginForm:credentials";
     protected static final String USER_ID_FIELD = "loginPanelRegular:loginForm:userId";
+    protected static final String LOGIN_FORM = "loginPanelRegular:loginForm";
     protected static final String REG_LOGIN_SUBMIT = "loginPanelRegular:loginForm:login";
     protected static final String COMMON_FEEDBACK = "loginPanelRegular:loginForm:commonFeedbackPanel:feedbackul:messages";
     protected static final String USER_FEEDBACK = "loginPanelRegular:loginForm:userId-componentFeedback:feedbackul:messages";
     protected static final String CREDENTIALS_FEEDBACK = "loginPanelRegular:loginForm:credentials-componentFeedback:feedbackul:messages";
 
-    protected static ApplicationContextMock applicationContext;
-    private static UserService userService;
+    protected ApplicationContextMock applicationContext;
+    protected UserService userService;
     protected EasyWicketTester tester;
+    protected UsernamePasswordAuthentication authentication;
 
     @Before
     public void mockApplicationContext() throws Exception
     {
         userService = PowerMock.createMock(UserService.class);
-        EasyMock.expect(userService.newUsernamePasswordAuthentication()).andStubReturn(new UsernamePasswordAuthentication());
+        authentication = new UsernamePasswordAuthentication();
+        EasyMock.expect(userService.newUsernamePasswordAuthentication()).andStubReturn(authentication);
 
         final HomeDirectory homeDir = new FileSystemHomeDirectory(new File("src/main/assembly/dist/res/example/editable/"));
 

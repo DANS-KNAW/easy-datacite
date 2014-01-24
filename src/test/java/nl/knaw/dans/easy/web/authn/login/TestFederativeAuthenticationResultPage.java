@@ -14,7 +14,6 @@ import nl.knaw.dans.easy.EasyWicketTester;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.domain.model.user.Group;
-import nl.knaw.dans.easy.domain.user.EasyUserAnonymous;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.servicelayer.services.FederativeUserService;
 import nl.knaw.dans.easy.servicelayer.services.SearchService;
@@ -30,10 +29,11 @@ import org.powermock.api.easymock.PowerMock;
 
 public class TestFederativeAuthenticationResultPage extends Fixture implements Serializable
 {
-    private final class MockedFederativeAuthenticationResultPage extends FederativeAuthenticationResultPage
+    private final class PartiallyMockedPage extends FederativeAuthenticationResultPage
     {
-        public boolean hasShibbolethSession(HttpServletRequest request)
+        public boolean hasShibbolethSession(final HttpServletRequest request)
         {
+            // wicket 1.5 has a addRequestHeader(String, String) on the tester class
             request.setAttribute("shibSessionId", "mockedSessionID");
             request.setAttribute("email", "mockeEmail");
             request.setAttribute("firstName", "mockedFirstName");
@@ -46,18 +46,23 @@ public class TestFederativeAuthenticationResultPage extends Fixture implements S
         @Override
         public boolean isBookmarkable()
         {
+            // allows: setStatelessHint(true);
             return true;
         }
     }
 
     private static final long serialVersionUID = 1L;
     private static FederativeUserService federativeUserService;
+    private EasyUserImpl easyUser;
 
     @Before
     public void mockFederationUser() throws Exception
     {
+        easyUser = createUser();
+
         federativeUserService = PowerMock.createMock(FederativeUserService.class);
         new Services().setFederativeUserService(federativeUserService);
+        EasyMock.expect(federativeUserService.getUserById(isA(EasyUser.class), isA(String.class))).andStubReturn(easyUser);
         EasyMock.expect(federativeUserService.getPropertyNameShibSessionId()).andStubReturn("shibSessionId");
         EasyMock.expect(federativeUserService.getPropertyNameEmail()).andStubReturn("email");
         EasyMock.expect(federativeUserService.getPropertyNameFirstName()).andStubReturn("firstName");
@@ -66,22 +71,18 @@ public class TestFederativeAuthenticationResultPage extends Fixture implements S
         EasyMock.expect(federativeUserService.getPopertyNameOrganization()).andStubReturn("organization");
         EasyMock.expect(federativeUserService.getFederationUrl()).andStubReturn(new URL("https://mock.dans.knaw.nl/Shibboleth.sso/Login"));
         EasyMock.expect(federativeUserService.isFederationLoginEnabled()).andStubReturn(true);
-        EasyMock.expect(federativeUserService.getUserById(null, null)).andStubReturn(EasyUserAnonymous.getInstance());
         applicationContext.putBean("federativeUserService", federativeUserService);
 
-        SearchService searchService = PowerMock.createMock(SearchService.class);
-        new Services().setSearchService(searchService);
+        final SearchService searchService = PowerMock.createMock(SearchService.class);
         EasyMock.expect(searchService.getNumberOfDatasets(isA(EasyUser.class))).andStubReturn(0);
         EasyMock.expect(searchService.getNumberOfRequests(isA(EasyUser.class))).andStubReturn(0);
-    }
+        applicationContext.putBean("searchService", searchService);
+ }
 
     @Test
     public void activeUser() throws Exception
     {
-        EasyUserImpl easyUser = createUser();
         easyUser.setState(State.ACTIVE);
-        EasyMock.expect(federativeUserService.getUserById(isA(EasyUser.class), isA(String.class))).andStubReturn(easyUser);
-
         tester = init();
         tester.dumpPage();
         tester.assertRenderedPage(HomePage.class);
@@ -90,18 +91,30 @@ public class TestFederativeAuthenticationResultPage extends Fixture implements S
     @Test
     public void blockedUser() throws Exception
     {
-        EasyUserImpl easyUser = createUser();
         easyUser.setState(State.BLOCKED);
-        EasyMock.expect(federativeUserService.getUserById(isA(EasyUser.class), isA(String.class))).andStubReturn(easyUser);
-
         tester = init();
-        tester.dumpPage();
-        tester.assertRenderedPage(MockedFederativeAuthenticationResultPage.class);
+        tester.assertRenderedPage(PartiallyMockedPage.class);
+    }
+
+    @Test
+    public void registeredUser() throws Exception
+    {
+        easyUser.setState(State.REGISTERED);
+        tester = init();
+        tester.assertRenderedPage(PartiallyMockedPage.class);
+    }
+
+    @Test
+    public void UserConfirmedRegistration() throws Exception
+    {
+        easyUser.setState(State.CONFIRMED_REGISTRATION);
+        tester = init();
+        tester.assertRenderedPage(PartiallyMockedPage.class);
     }
 
     private EasyUserImpl createUser()
     {
-        EasyUserImpl easyUser = new EasyUserImpl(Role.USER)
+        final EasyUserImpl easyUser = new EasyUserImpl(Role.USER)
         {
             private static final long serialVersionUID = 1L;
 
@@ -125,10 +138,9 @@ public class TestFederativeAuthenticationResultPage extends Fixture implements S
             @Override
             public Page getTestPage()
             {
-                return new MockedFederativeAuthenticationResultPage();
+                return new PartiallyMockedPage();
             }
         });
         return tester;
     }
-
 }
