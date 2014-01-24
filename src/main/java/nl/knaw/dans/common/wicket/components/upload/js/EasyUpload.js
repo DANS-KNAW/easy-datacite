@@ -418,7 +418,7 @@ Upload.prototype.init = function()
 	// create progress message
 	this.progressMessage = document.createElement('SPAN');
 	this.progressMessage.className = "upload-text-message";
-	this.progressMessage.innerHTML = "Initializing upload for "+ decodeURIComponent(this.filename);
+	this.progressMessage.innerHTML = "Initializing upload for "+ decodeURIComponent(this.filename.replace(/[+]/g,"%20"));
 
 	// create the progress bar
 	this.progressBarContainer = document.createElement('DIV');
@@ -512,7 +512,7 @@ Upload.prototype.updateStatus = function(uploadStatus)
 	}
 
 	if (typeof uploadStatus.message == "string")
-		this.progressMessage.innerHTML = decodeURI(uploadStatus.message.replace(/[+]/g,"%20"));
+		this.progressMessage.innerHTML = decodeURI(uploadStatus.message.replace(/[+]/g,"%20").replace(/%3A/,":").replace(/%2F/g,"/"));
 
 	if (typeof uploadStatus.percentComplete == "number")
 		this.progressBar.setPercentage(uploadStatus.percentComplete);
