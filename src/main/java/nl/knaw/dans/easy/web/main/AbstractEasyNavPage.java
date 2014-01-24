@@ -10,7 +10,7 @@ import nl.knaw.dans.common.wicket.components.search.SearchBar;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
-import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.easy.servicelayer.services.SearchService;
 import nl.knaw.dans.easy.web.EasySession;
 import nl.knaw.dans.easy.web.HomePage;
 import nl.knaw.dans.easy.web.authn.LogoffLink;
@@ -41,6 +41,7 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.link.PageLink;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -74,6 +75,9 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage
     public static final String EDITABLE_ADMIN_BANNER_TEMPLATE = "/pages/AdminBanner.template";
 
     private static final int MAX_NAME_LENGTH = 30;
+
+    @SpringBean(name = "searchService")
+    private SearchService searchService;
 
     // keep results, otherwise we have a search request for every isVisible call
     private int numDatasets = 0;
@@ -319,7 +323,7 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage
             // retrieve value
             try
             {
-                numRequests = Services.getSearchService().getNumberOfRequests(getSessionUser());
+                numRequests = searchService.getNumberOfRequests(getSessionUser());
                 if (numRequests == 0)
                     result = false;
 
@@ -360,7 +364,7 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage
 
             try
             {
-                numDatasets = Services.getSearchService().getNumberOfDatasets(getSessionUser());
+                numDatasets = searchService.getNumberOfDatasets(getSessionUser());
                 if (numDatasets == 0)
                     result = false;
 
