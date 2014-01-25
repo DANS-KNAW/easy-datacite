@@ -1,6 +1,7 @@
 package nl.knaw.dans.easy.web.authn.login;
 
 import java.io.File;
+import java.io.IOException;
 
 import nl.knaw.dans.common.lang.FileSystemHomeDirectory;
 import nl.knaw.dans.common.lang.HomeDirectory;
@@ -70,11 +71,19 @@ public class Fixture
     }
 
     @AfterClass
-    public static void cleanup() throws Exception
+    public static void cleanup()
     {
         // until someone sees any purpose to preserve these wicket files:
         final File folder = new File("target/work");
         if (folder.exists())
-            FileUtils.forceDelete(folder);
+            try
+            {
+                FileUtils.forceDelete(folder);
+            }
+            catch (IOException e)
+            {
+                // occasional bad luck; might succeed next time
+                // but don't make it fails the tests
+            }
     }
 }
