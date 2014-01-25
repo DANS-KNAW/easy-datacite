@@ -36,7 +36,12 @@ public class EasyWicketTester extends WicketTester
             final String testMethod = caller.getMethodName();
             final File file = new File("target/pageDumps/" + testClass + "/" + testMethod + ".html");
             file.getParentFile().mkdirs();
-            FileUtils.write(file, getServletResponse().getDocument());
+            String document = getServletResponse().getDocument()//
+                    .replace("href=\"../images/", "href=\"../../../src/main/webapp/images/")//
+                    .replace("href=\"../css/", "href=\"../../../src/main/webapp/css/")//
+                    .replace("href=\"../yui/", "href=\"../../../src/main/webapp/yui/")//
+                    .replace("src=\"../yui/", "src=\"../../../src/main/webapp/yui/");
+            FileUtils.write(file, document);
         }
         catch (final IOException e)
         {
