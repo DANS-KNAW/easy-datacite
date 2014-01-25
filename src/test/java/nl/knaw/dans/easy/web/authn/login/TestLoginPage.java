@@ -79,7 +79,7 @@ public class TestLoginPage extends Fixture
     {
         authentication.setState(State.Authenticated);
         authentication.setUser(EasyUserAnonymous.getInstance());
-        
+
         EasyMock.expect(userService.newUsernamePasswordAuthentication()).andStubReturn(authentication);
         userService.authenticate(authentication);
         EasyMock.expectLastCall();
@@ -107,7 +107,7 @@ public class TestLoginPage extends Fixture
         authentication.setState(State.NotAuthenticated);
         authentication.setUser(null);
         submitInvalidUser();
-        tester.assertLabelContains(COMMON_FEEDBACK,"Not authenticated");
+        tester.assertLabelContains(COMMON_FEEDBACK, "Not authenticated");
     }
 
     private void submitInvalidUser() throws ServiceException
