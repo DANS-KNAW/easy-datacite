@@ -4,6 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 
 public class PartiallyMockedResultPage extends FederativeAuthenticationResultPage
 {
+    static boolean hasShibolethSession = true;
+
     public boolean hasShibbolethSession(final HttpServletRequest request)
     {
         // wicket 1.5 has a addRequestHeader(String, String) on the tester class
@@ -14,7 +16,7 @@ public class PartiallyMockedResultPage extends FederativeAuthenticationResultPag
         request.setAttribute("surname", "mockedSurname");
         request.setAttribute("remoteUser", "mockedRemoteUser");
         request.setAttribute("organization", "mockedOrganization");
-        return true;
+        return hasShibolethSession;
     }
 
     @Override
