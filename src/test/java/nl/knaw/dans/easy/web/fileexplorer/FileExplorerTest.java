@@ -87,15 +87,16 @@ public class FileExplorerTest
     @Before
     public void setUp() throws Exception
     {
-        ApplicationContextMock ctx = new ApplicationContextMock();
-        ctx.putBean("editableContentHome", new FileSystemHomeDirectory(new File("src/main/assembly/dist/res/example/editable")));
-        EasyWicketApplication app = new EasyWicketApplication();
-        app.setApplicationContext(ctx);
-        tester = new WicketTester(app);
         setUpAuthz();
         setUpUsers();
         setUpEasySessionMock();
         setUpServices();
+        ApplicationContextMock ctx = new ApplicationContextMock();
+        ctx.putBean("editableContentHome", new FileSystemHomeDirectory(new File("src/main/assembly/dist/res/example/editable")));
+        ctx.putBean("searchService", searchServiceMock);
+        EasyWicketApplication app = new EasyWicketApplication();
+        app.setApplicationContext(ctx);
+        tester = new WicketTester(app);
     }
 
     private void setUpAuthz()
