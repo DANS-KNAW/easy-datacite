@@ -23,10 +23,13 @@ import nl.knaw.dans.easy.web.statistics.StatisticsLogger;
 import nl.knaw.dans.easy.web.statistics.UploadFileStatistics;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+@SuppressWarnings("serial")
 public class IngestPostProcess implements IUploadPostProcess
 {
-    private static final long serialVersionUID = 1L;
+    private static Logger logger = LoggerFactory.getLogger(IngestPostProcess.class);
 
     private boolean canceled = false;
 
@@ -49,16 +52,11 @@ public class IngestPostProcess implements IUploadPostProcess
 
     public List<File> execute(final List<File> fileList, final File destPath, final Map<String, String> clientParams) throws UploadPostProcessException
     {
-
-        if (fileList.size() == 0)
-            throw new UploadPostProcessException("Nothing to ingest.");
         if (destPath.listFiles(new ItemIngester.ListFilter(fileList)).length == 0)
         {
-            StringBuffer message = new StringBuffer();
-            message.append("Filter skips " + Arrays.toString(ItemIngester.SKIPPED_FILENAMES) + " and leaves nothing to ingest.");
-            message.append("\nfiles:  " + dump(destPath.listFiles()));
-            message.append("\nfilter: " + dump(fileList.toArray()));
-            throw new UploadPostProcessException(message.toString());
+            logger.debug("\nfiles:  " + dump(destPath.listFiles()));
+            logger.debug("\nfilter: " + dump(fileList.toArray()));
+            throw new UploadPostProcessException("Noting to ingest. The following files are allways skipped " + Arrays.toString(ItemIngester.SKIPPED_FILENAMES));
         }
         Dataset dataset = getDataset();
         if ("".equals(parentSid) || parentSid == null)
