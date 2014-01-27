@@ -3,7 +3,7 @@ package nl.knaw.dans.easy.web.authn.login;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.easy.servicelayer.services.FederativeUserService;
 import nl.knaw.dans.easy.web.template.AbstractEasyStatelessPanel;
 
 import org.apache.wicket.PageParameters;
@@ -20,6 +20,9 @@ class LoginPanelFederation extends AbstractEasyStatelessPanel
 {
     private static Logger logger = LoggerFactory.getLogger(LoginPanelFederation.class);
     private static final long serialVersionUID = 1L;
+
+    @SpringBean(name = "federativeUserService")
+    private FederativeUserService federativeUserService;
 
     public LoginPanelFederation(final String wicketId)
     {
@@ -45,7 +48,7 @@ class LoginPanelFederation extends AbstractEasyStatelessPanel
             }
         };
         add(federationLink);
-        federationLink.setVisible(Services.getFederativeUserService().isFederationLoginEnabled());
+        federationLink.setVisible(federativeUserService.isFederationLoginEnabled());
     }
 
     private String constructLinkToFederationLogin()
@@ -56,7 +59,7 @@ class LoginPanelFederation extends AbstractEasyStatelessPanel
             final String returnURLString = getUrlForReturnPage();
             // add the easy return page url as parameter to
             // the Shibboleth url
-            final String federationURLString = Services.getFederativeUserService().getFederationUrl().toString() + "?target=";
+            final String federationURLString = federativeUserService.getFederationUrl().toString() + "?target=";
             linkURLString = federationURLString + returnURLString;
             logger.debug("link URL: " + linkURLString);
         }

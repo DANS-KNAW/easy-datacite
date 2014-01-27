@@ -4,7 +4,8 @@ import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.behavior.IncludeJsOrCssBehavior;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.domain.authn.UsernamePasswordAuthentication;
-import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.easy.servicelayer.services.FederativeUserService;
+import nl.knaw.dans.easy.servicelayer.services.UserService;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.authn.AbstractAuthenticationPage;
 import nl.knaw.dans.easy.web.authn.RegistrationPage;
@@ -12,6 +13,7 @@ import nl.knaw.dans.easy.web.authn.RegistrationPage;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.protocol.https.RequireHttps;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,6 +29,12 @@ public class LoginPage extends AbstractAuthenticationPage
     private static final String LOGIN_PANEL_FEDERATION = "loginPanelFederation";
     private static final String REGISTRATION = "registration";
 
+    @SpringBean(name = "userService")
+    private UserService userService;
+
+    @SpringBean(name = "federativeUserService")
+    private FederativeUserService federativeUserService;
+
     private void init()
     {
         add(new IncludeJsOrCssBehavior(LoginPage.class, "styles.css"));
@@ -34,7 +42,7 @@ public class LoginPage extends AbstractAuthenticationPage
         UsernamePasswordAuthentication authentication;
         try
         {
-            authentication = Services.getUserService().newUsernamePasswordAuthentication();
+            authentication = userService.newUsernamePasswordAuthentication();
         }
         catch (ServiceException e)
         {
@@ -42,7 +50,7 @@ public class LoginPage extends AbstractAuthenticationPage
             logger.error(message, e);
             throw new InternalWebError();
         }
-        add(new LoginPanelFederation(LOGIN_PANEL_FEDERATION).setVisible(Services.getFederativeUserService().isFederationLoginEnabled()));
+        add(new LoginPanelFederation(LOGIN_PANEL_FEDERATION).setVisible(federativeUserService.isFederationLoginEnabled()));
         add(new LoginPanelRegular(LOGIN_PANEL_REGULAR, new LoginForm("loginForm", authentication)));
         addRegisterLink();
     }

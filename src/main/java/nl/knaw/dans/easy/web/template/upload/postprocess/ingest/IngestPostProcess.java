@@ -52,7 +52,6 @@ public class IngestPostProcess implements IUploadPostProcess
 
     public List<File> execute(final List<File> fileList, final File destPath, final Map<String, String> clientParams) throws UploadPostProcessException
     {
-
         if (destPath.listFiles(new ItemIngester.ListFilter(fileList)).length == 0)
         {
             logger.debug("\nfiles:  " + dump(destPath.listFiles()));
