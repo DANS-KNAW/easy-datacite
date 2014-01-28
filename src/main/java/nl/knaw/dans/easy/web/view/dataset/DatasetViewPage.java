@@ -578,7 +578,7 @@ public class DatasetViewPage extends AbstractEasyNavPage
         {
 
             private static final long serialVersionUID = -1486720240988923158L;
-        	private List<ItemVO> videoFiles;
+            private List<ItemVO> videoFiles;
 
             @Override
             public Panel getPanel(final String panelId)
@@ -589,38 +589,44 @@ public class DatasetViewPage extends AbstractEasyNavPage
             @Override
             public boolean isVisible()
             {
-            	if (getDataset().getEasyMetadata().getEmdFormat().toString().toLowerCase().contains("video") || 
-            		getDataset().getEasyMetadata().getEmdFormat().toString().toLowerCase().contains("audio")) {
-                	videoFiles = getAccessibleVideoFiles();
-                    return videoFiles.size() > 0 ;
-            	}
-            	return false;
+                if (getDataset().getEasyMetadata().getEmdFormat().toString().toLowerCase().contains("video")
+                        || getDataset().getEasyMetadata().getEmdFormat().toString().toLowerCase().contains("audio"))
+                {
+                    videoFiles = getAccessibleVideoFiles();
+                    return videoFiles.size() > 0;
+                }
+                return false;
             }
         };
     }
 
     private List<ItemVO> getAccessibleVideoFiles()
     {
-		List<ItemVO> videoFiles = new ArrayList<ItemVO>();
-		try {
-			List<ItemVO> items = Services.getItemService().getFilesAndFolders(
-					getEasySession().getUser(), getDataset(),
-					datasetModel.getDmoStoreId(), -1, -1, null, null);
+        List<ItemVO> videoFiles = new ArrayList<ItemVO>();
+        try
+        {
+            List<ItemVO> items = Services.getItemService().getFilesAndFolders(getEasySession().getUser(), getDataset(), datasetModel.getDmoStoreId(), -1, -1,
+                    null, null);
 
-			for (ItemVO fileitem : items) {
-				if (fileitem.getName().endsWith(VIDEO_EXTENSION)) {
-					AuthzStrategy strategy = fileitem.getAuthzStrategy();
-					if (strategy.canUnitBeRead(EasyFile.UNIT_ID)) {
-						videoFiles.add(fileitem);
-					}
-				}
-			}
-			return videoFiles;
-			
-		} catch (ServiceException e) {
+            for (ItemVO fileitem : items)
+            {
+                if (fileitem.getName().endsWith(VIDEO_EXTENSION))
+                {
+                    AuthzStrategy strategy = fileitem.getAuthzStrategy();
+                    if (strategy.canUnitBeRead(EasyFile.UNIT_ID))
+                    {
+                        videoFiles.add(fileitem);
+                    }
+                }
+            }
+            return videoFiles;
+
+        }
+        catch (ServiceException e)
+        {
             logger.error("Error while trying to load files for video tab.", e);
             throw new InternalWebError();
-		}
+        }
     }
 
     @Override

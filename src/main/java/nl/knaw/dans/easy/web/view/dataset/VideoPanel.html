@@ -16,14 +16,15 @@
 
 			// this added, do we need to check ticket?
 		    if (ticket_value != undefined) {
-        		//alert("ticket = " + ticket_value);
+        		alert("ticket = " + ticket_value);
 				flashvars = {presentationXML : presentation, ticket : ticket_value };
     		} else {
     			flashvars = { presentationXML : presentation };
     		}
     		var params = { AllowScriptAccess : "always", allowFullScreen : "true",wmode : "direct" };
+    		swfobject.embedSWF("http://tstreaming11.dans.knaw.nl/site/swf/krusty2.swf", "player", "400", "300", "10.2.0","http://tstreaming11.dans.knaw.nl/site/swf/expressInstall.swf", flashvars, params);
     		//swfobject.embedSWF("http://dans.noterik.com/site/swf/krusty2.swf", "player", "800", "600", "10.2.0","http://dans.noterik.com/site/swf/expressInstall.swf", flashvars, params);
-    		swfobject.embedSWF("../../../../swf/krusty2.swf", "player", "400", "300", "10.2.0","../../../../swf/expressInstall.swf", flashvars, params);
+    		//swfobject.embedSWF("../../../../swf/krusty2.swf", "player", "400", "300", "10.2.0","../../../../swf/expressInstall.swf", flashvars, params);
 
 		}
 	</script>
