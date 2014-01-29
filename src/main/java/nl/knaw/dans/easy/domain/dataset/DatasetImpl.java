@@ -497,6 +497,11 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
         getDatasetItemContainerMetadata().onChildStateChange(oldCreatorRole, newCreatorRole);
     }
 
+    public void onDescendantStateChange(String oldStreamingUrl, String newStreamingUrl)
+    {
+        getDatasetItemContainerMetadata().onChildStateChange(oldStreamingUrl, newStreamingUrl);
+    }
+
     public void onDescendantStateChange(VisibleTo oldVisibleTo, VisibleTo newVisibleTo)
     {
         getDatasetItemContainerMetadata().onChildStateChange(oldVisibleTo, newVisibleTo);

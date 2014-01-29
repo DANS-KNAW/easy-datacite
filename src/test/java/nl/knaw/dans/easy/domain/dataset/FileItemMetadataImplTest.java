@@ -57,6 +57,7 @@ public class FileItemMetadataImplTest
         fimd.setCreatorRole(CreatorRole.ARCHIVIST);
         fimd.setAccessibleTo(AccessibleTo.ANONYMOUS);
         fimd.setVisibleTo(VisibleTo.ANONYMOUS);
+        fimd.setStreamingUrl("http://koe.com/");
 
         AdditionalMetadata addmd = fimd.getAdditionalMetadata();
         Element content = getContent("src/test/resources/test-files/add-content.xml");
@@ -166,6 +167,13 @@ public class FileItemMetadataImplTest
         assertTrue(fimd.isDirty());
         fimd.setDirty(false);
         fimd.setVisibleTo(VisibleTo.ANONYMOUS);
+        assertFalse(fimd.isDirty());
+
+        fimd.setDirty(false);
+        fimd.setStreamingUrl("http://koe.com/");
+        assertTrue(fimd.isDirty());
+        fimd.setDirty(false);
+        fimd.setStreamingUrl("http://koe.com/");
         assertFalse(fimd.isDirty());
     }
 }
