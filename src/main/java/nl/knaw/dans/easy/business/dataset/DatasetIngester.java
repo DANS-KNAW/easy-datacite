@@ -46,28 +46,16 @@ public class DatasetIngester implements SubmissionProcessor
         try
         {
             uow.attach(dataset);
-
             // submission date is already set while generating the license.
             dataset.getAdministrativeMetadata().setAdministrativeState(DatasetState.SUBMITTED);
-            AccessCategory accessCategory = dataset.getAccessCategory();
-            // Provisional implementation of assigning groups
-            boolean hasMDFarchaeology = MetadataFormat.ARCHAEOLOGY.equals(dataset.getMetadataFormat());
-            if (AccessCategory.GROUP_ACCESS.equals(accessCategory) && hasMDFarchaeology)
-            {
-                dataset.addGroup(new GroupImpl(Group.ID_ARCHEOLOGY));
-                logger.info(">>>>>>>>>>> Provisional implementation of assigning groups to datasets. <<<<<<<<<<<<<<<");
-            }
-            else
-            {
-                dataset.removeGroup(new GroupImpl(Group.ID_ARCHEOLOGY));
-            }
-            // End provisional implementation of assigning groups
+            
+            addDatasetGroupByAccessRightsAndMetadataFormat(dataset);
 
             if (updateFileRights)
             {
                 VisibleTo vt = VisibleTo.ANONYMOUS; // all files are visible, unless an archivist decides
                                                     // differently.
-                AccessibleTo at = AccessibleTo.translate(accessCategory);
+                AccessibleTo at = AccessibleTo.translate(dataset.getAccessCategory());
                 UpdateInfo updateInfo = new UpdateInfo();
                 updateInfo.updateAccessibleTo(at);
                 updateInfo.updateVisibleTo(vt);
@@ -89,6 +77,25 @@ public class DatasetIngester implements SubmissionProcessor
             uow.close();
         }
         return submission.isSubmitted();
+    }
+
+    /*
+     * Provisional implementation of setting the group of the dataset. Currently the only supported group
+     * is archaeology and it is set on submission if: 1) de access category of the datase is GROUP_ACCESS
+     * and 2) the form used to submit the dataset is the archaeology form.
+     */
+    private void addDatasetGroupByAccessRightsAndMetadataFormat(Dataset dataset)
+    {
+        boolean hasMDFarchaeology = MetadataFormat.ARCHAEOLOGY.equals(dataset.getMetadataFormat());
+        if (AccessCategory.GROUP_ACCESS.equals(dataset.getAccessCategory()) && hasMDFarchaeology)
+        {
+            dataset.addGroup(new GroupImpl(Group.ID_ARCHEOLOGY));
+            logger.info(">>>>>>>>>>> Provisional implementation of assigning groups to datasets. <<<<<<<<<<<<<<<");
+        }
+        else
+        {
+            dataset.removeGroup(new GroupImpl(Group.ID_ARCHEOLOGY));
+        }
     }
 
     private static class ItemWorkerProxy extends ItemWorker
