@@ -77,12 +77,8 @@ public class TestFederativeAuthenticationResultPage extends Fixture implements S
                 .andStubReturn(easyUser);
         easyUser.setState(State.BLOCKED);
         tester = init();
-        tester.debugComponentTrees();
         tester.dumpPage();
-        tester.assertRenderedPage(LoginPage.class);
-        tester.assertLabelContains(COMMON_FEEDBACK, "The account is blocked");
-        tester.assertInvisible(CREDENTIALS_FEEDBACK);
-        tester.assertInvisible(USER_FEEDBACK);
+        assertNotActive();
     }
 
     @Test
@@ -92,12 +88,8 @@ public class TestFederativeAuthenticationResultPage extends Fixture implements S
                 .andStubReturn(easyUser);
         easyUser.setState(State.REGISTERED);
         tester = init();
-        tester.debugComponentTrees();
         tester.dumpPage();
-        tester.assertRenderedPage(LoginPage.class);
-        tester.assertLabelContains(COMMON_FEEDBACK, "This account is not active.");
-        tester.assertInvisible(CREDENTIALS_FEEDBACK);
-        tester.assertInvisible(USER_FEEDBACK);
+        assertNotActive();
     }
 
     @Test
@@ -107,8 +99,13 @@ public class TestFederativeAuthenticationResultPage extends Fixture implements S
                 .andStubReturn(easyUser);
         easyUser.setState(State.CONFIRMED_REGISTRATION);
         tester = init();
-        tester.debugComponentTrees();
         tester.dumpPage();
+        assertNotActive();
+    }
+
+    private void assertNotActive()
+    {
+        tester.debugComponentTrees();
         tester.assertRenderedPage(LoginPage.class);
         tester.assertLabelContains(COMMON_FEEDBACK, "This account is not active.");
         tester.assertInvisible(CREDENTIALS_FEEDBACK);
