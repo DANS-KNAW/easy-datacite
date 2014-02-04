@@ -6,6 +6,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.FolderItem;
@@ -14,6 +17,7 @@ import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 
 public class FolderItemVO extends AbstractItemVO implements Cloneable
 {
+    private static final Logger log = LoggerFactory.getLogger(FolderItemVO.class);
     private static final long serialVersionUID = 5833718449823501446L;
 
     private int childItemCount;
@@ -53,12 +57,20 @@ public class FolderItemVO extends AbstractItemVO implements Cloneable
 
     public void setCreatorRoles(Set<FolderItemCreatorRole> creatorRoles)
     {
+        if (log.isDebugEnabled())
+        {
+            log.debug("FolderItemVO for {}, setting creator roles: {}", getSid(), creatorRoles);
+        }
         this.creatorRolesOfChildren = creatorRoles;
     }
 
     // ... and yet another translation...
     private void setCreators(List<CreatorRole> creatorRoles)
     {
+        if (log.isDebugEnabled())
+        {
+            log.debug("FolderItemVO for {}, setting creator roles: {}", getSid(), creatorRoles);
+        }
         creatorRolesOfChildren.clear();
         String storeId = getSid();
         for (CreatorRole creatorRole : creatorRoles)
