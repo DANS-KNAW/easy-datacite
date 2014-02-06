@@ -284,4 +284,14 @@ public interface ItemService extends EasyService
     void saveDescriptiveMetadata(EasyUser sessionUser, final Dataset dataset, final Map<String, Element> fileMetadataMap) throws ServiceException;
 
     void registerDownload(EasyUser sessionUser, Dataset dataset, List<? extends ItemVO> downloads);
+
+    /**
+     * Returns the list of audio and video files that are accessible to the user. 
+     * 
+     * @param sessionUser the user to check against
+     * @param dataset the dataset to search
+     * @return list of audio and video files
+     * @throws ServiceException 
+     */
+    List<FileItemVO> getAccessibleAudioVideoFiles(EasyUser sessionUser, Dataset dataset) throws ServiceException;
 }
