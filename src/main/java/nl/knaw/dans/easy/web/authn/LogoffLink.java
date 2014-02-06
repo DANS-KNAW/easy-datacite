@@ -37,7 +37,7 @@ public class LogoffLink extends Link
 
     private static boolean isUserLoggedOn()
     {
-        return !EasySession.get().getUser().isAnonymous();
+        return !EasySession.getSessionUser().isAnonymous();
     }
 
     @Override

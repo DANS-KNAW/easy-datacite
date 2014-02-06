@@ -1,14 +1,12 @@
 package nl.knaw.dans.easy.web.authn.login;
 
-import java.io.File;
-
 import javax.servlet.http.HttpServletRequest;
 
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.domain.authn.Authentication;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
-import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.easy.servicelayer.services.FederativeUserService;
 import nl.knaw.dans.easy.web.HomePage;
 import nl.knaw.dans.easy.web.InfoPage;
 import nl.knaw.dans.easy.web.main.AbstractEasyNavPage;
@@ -24,15 +22,11 @@ import org.slf4j.LoggerFactory;
 @RequireHttps
 public class FederativeAuthenticationResultPage extends AbstractEasyNavPage
 {
-    private static String propertyNameShibSessionID;
     private static Logger logger = LoggerFactory.getLogger(FederativeAuthenticationResultPage.class);
     private String federativeUserId = null;
 
-    @SpringBean(name = "federationLoginDebugEnabled")
-    private Boolean federationLoginDebugEnabled;
-
-    @SpringBean(name = "federationLoginDebugUserFile")
-    private String federationLoginDebugFileName;
+    @SpringBean(name = "federativeUserService")
+    private FederativeUserService federativeUserService;
 
     public String getFederativeUserId()
     {
@@ -53,93 +47,61 @@ public class FederativeAuthenticationResultPage extends AbstractEasyNavPage
         if (((AbstractEasyNavPage) getPage()).isAuthenticated())
         {
             setResponsePage(HomePage.class);
+            return;
+        }
+        HttpServletRequest request = getWebRequestCycle().getWebRequest().getHttpServletRequest();
+        try
+        {
+            fedUser = new FederationUserFactory().create(request);
+        }
+        catch (IllegalArgumentException e)
+        {
+            logger.error(e.getMessage());
+            setInfoResponePage();
+            return;
+        }
+        EasyUser easyUser;
+        try
+        {
+            easyUser = federativeUserService.getUserById(getSessionUser(), fedUser.getUserId());
+        }
+        catch (ObjectNotAvailableException e)
+        {
+            logger.info("There is no mapping for the given federative user id: {}", fedUser.getUserId());
+            setResponsePage(new FederationToEasyAccountLinkingPage(fedUser));
+            return;
+        }
+        catch (ServiceException e)
+        {
+            logger.error("Could not get easy user with the given federative user id: {}", fedUser.getUserId(), e);
+            setInfoResponePage();
+            return;
+        }
+        Authentication authentication = new Authentication();
+        authentication.setState(Authentication.State.Authenticated);
+        authentication.setUser(easyUser);
+        if (easyUser.isActive())
+        {
+            getEasySession().setLoggedIn(authentication);
+            // TODO why no statistics for a normal login?
+            StatisticsLogger.getInstance().logEvent(StatisticsEvent.USER_LOGIN);
+
+            logger.info("login via the federation was succesfull");
+            throw new RestartResponseAtInterceptPageException(HomePage.class);
         }
         else
         {
-            HttpServletRequest request = getWebRequestCycle().getWebRequest().getHttpServletRequest();
-            if (!hasShibbolethSession(request) && !federationLoginDebugEnabled)
-            {
-                logger.error("Shibboleth does not appear to have sent a session ID");
-                infoPageWithError();
-            }
+            if (!easyUser.isBlocked())
+                warningMessage("state.NotBlocked");
             else
-            {
-                try
-                {
-                    if (federationLoginDebugEnabled)
-                    {
-                        logger.debug("Federation login debug enabled");
-                        File federationLoginDebugFile = new File(federationLoginDebugFileName);
-                        if (federationLoginDebugFile.exists())
-                        {
-                            fedUser = FederationUser.fromFile(federationLoginDebugFile);
-                        }
-                        else
-                        {
-                            logger.error("No federation login debug file found at {}. Cannot proceed.", federationLoginDebugFile);
-                        }
-                    }
-                    else
-                    {
-                        fedUser = FederationUser.fromHttpRequest(request);
-                    }
-                }
-                catch (IllegalArgumentException e)
-                {
-                    infoPageWithError();
-                    return;
-                }
-                try
-                {
-                    EasyUser easyUser = Services.getFederativeUserService().getUserById(getSessionUser(), fedUser.getUserId());
-                    Authentication authentication = new Authentication();
-                    authentication.setState(Authentication.State.Authenticated);
-                    authentication.setUser(easyUser);
-                    if (easyUser.isActive())
-                    {
-                        getEasySession().setLoggedIn(authentication);
-                        // TODO why no statistics for a normal login?
-                        StatisticsLogger.getInstance().logEvent(StatisticsEvent.USER_LOGIN);
-
-                        logger.info("login via the federation was succesfull");
-                        throw new RestartResponseAtInterceptPageException(HomePage.class);
-                    }
-                    else
-                    {
-                        // TODO proper error message
-                        if (!easyUser.isBlocked())
-                            warningMessage("state.NotBlocked");
-                        else
-                            errorMessage("state.Blocked");
-                        setResponsePage(new LoginPage());
-                    }
-                }
-                catch (ObjectNotAvailableException e)
-                {
-                    logger.info("There is no mapping for the given federative user id: {}", fedUser.getUserId());
-                    setResponsePage(new FederationToEasyAccountLinkingPage(fedUser));
-                }
-                catch (ServiceException e)
-                {
-                    logger.error("Could not get easy user with the given federative user id: {}", fedUser.getUserId(), e);
-                    errorMessage("federative.error_during_federation_login");
-                    setResponsePage(new InfoPage(getString("federative.error_during_federation_login")));
-                }
-            }
+                errorMessage("state.Blocked");
+            setResponsePage(new LoginPage());
         }
     }
 
-    boolean hasShibbolethSession(HttpServletRequest request)
-    {
-        if (propertyNameShibSessionID == null)
-            Services.getFederativeUserService().getPropertyNameShibSessionId();
-        return request.getAttribute(propertyNameShibSessionID) != null;
-    }
-
-    private void infoPageWithError()
+    private void setInfoResponePage()
     {
         warningMessage("federative.error_during_federation_login");
         setResponsePage(new InfoPage("Error during federation login"));
     }
-
 }

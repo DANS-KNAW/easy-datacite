@@ -1,7 +1,7 @@
 package nl.knaw.dans.easy.web.authn;
 
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
-import nl.knaw.dans.easy.web.EasySession;
+import nl.knaw.dans.easy.domain.user.EasyUserAnonymous;
 import nl.knaw.dans.easy.web.HomePage;
 import nl.knaw.dans.easy.web.main.AbstractEasyNavPage;
 import nl.knaw.dans.easy.web.wicket.SwitchPanel;
@@ -72,18 +72,14 @@ public class UserInfoPage extends AbstractEasyNavPage
     public UserInfoPage(boolean inEditMode, boolean enableModeSwitch)
     {
         super();
-        EasyUser currentUser = getSessionUser();
-        if (currentUser == null)
+        if (getSessionUser() == null || getSessionUser() instanceof EasyUserAnonymous)
         {
             logger.error(this.getClass().getName() + " called without the user being logged in. Redirecting to HomePage.");
             throw new RestartResponseException(HomePage.class);
         }
-        else
-        {
-            displayedUserId = currentUser.getId();
-            isFirstLogin = currentUser.isFirstLogin();
-            init(inEditMode, enableModeSwitch);
-        }
+        displayedUserId = getSessionUser().getId();
+        isFirstLogin = getSessionUser().isFirstLogin();
+        init(inEditMode, enableModeSwitch);
     }
 
     /**
@@ -120,6 +116,11 @@ public class UserInfoPage extends AbstractEasyNavPage
     public UserInfoPage(String userId, boolean inEditMode, boolean enableModeSwitch)
     {
         super();
+        if (getSessionUser() == null || getSessionUser() instanceof EasyUserAnonymous)
+        {
+            logger.error(this.getClass().getName() + " called without the user being logged in. Redirecting to HomePage.");
+            throw new RestartResponseException(HomePage.class);
+        }
         displayedUserId = userId;
         isFirstLogin = false;
         init(inEditMode, enableModeSwitch);
@@ -132,7 +133,7 @@ public class UserInfoPage extends AbstractEasyNavPage
     public String getPageTitlePostfix()
     {
         String pageTitlePostfix = "";
-        final EasyUser user = ((EasySession) getSession()).getUser();
+        final EasyUser user = getSessionUser();
         if (user.getId().equals(displayedUserId))
         {
             pageTitlePostfix = getLocalizer().getString(RI_PERSONAL_POSTFIX, this);
