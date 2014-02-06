@@ -55,6 +55,8 @@ import nl.knaw.dans.easy.web.EasySession;
 import nl.knaw.dans.easy.web.EasyWicketApplication;
 import nl.knaw.dans.easy.web.statistics.StatisticsLogger;
 import nl.knaw.dans.easy.web.view.dataset.DatasetViewPage;
+import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.EmdFormat;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 
 import org.apache.wicket.PageParameters;
@@ -81,13 +83,19 @@ public class FileExplorerTest
     private SearchService searchServiceMock;
     private ItemService itemServiceMock;
 
+    /*
+     * For now, support Services and Data "God-classes" along the preferred injected beans way of
+     * accessing services.
+     */
+    private ApplicationContextMock ctx;
+
     private String datasetSid = "test-dataset:1";
     private DmoStoreId datasetDmoStoreId = new DmoStoreId(datasetSid);
 
     @Before
     public void setUp() throws Exception
     {
-        ApplicationContextMock ctx = new ApplicationContextMock();
+        ctx = new ApplicationContextMock();
         ctx.putBean("editableContentHome", new FileSystemHomeDirectory(new File("src/main/assembly/dist/res/example/editable")));
         EasyWicketApplication app = new EasyWicketApplication();
         app.setApplicationContext(ctx);
@@ -141,6 +149,8 @@ public class FileExplorerTest
         setUpSearchServiceMock();
         expect(Services.getDatasetService()).andReturn(datasetServiceMock).anyTimes();
         expect(Services.getItemService()).andReturn(itemServiceMock).anyTimes();
+        ctx.putBean("itemService", itemServiceMock);
+
         expect(Services.getSearchService()).andReturn(searchServiceMock).anyTimes();
     }
 
@@ -219,6 +229,23 @@ public class FileExplorerTest
         expect(datasetMock.getLastModified()).andReturn(new DateTime()).anyTimes();
         expect(datasetMock.getTotalFileCount()).andReturn(1).anyTimes();
         expect(datasetMock.getTotalFolderCount()).andReturn(0).anyTimes();
+
+        EasyMetadata emd = PowerMock.createMock(EasyMetadata.class);
+        /*
+         * Poor man's mocking. You can't seem to mock toString, so I am using this hack (JvM) See:
+         * http://sourceforge.net/p/easymock/bugs/33/#b49f
+         */
+        EmdFormat emdFormat = new EmdFormat()
+        {
+            @Override
+            public String toString()
+            {
+                return "";
+            }
+        };
+        expect(datasetMock.getEasyMetadata()).andReturn(emd).anyTimes();
+        expect(emd.getEmdFormat()).andReturn(emdFormat).anyTimes();
+
     }
 
     private void setUpUsers()

@@ -3,15 +3,13 @@ package nl.knaw.dans.easy.web.view.dataset;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.knaw.dans.common.lang.security.authz.AuthzStrategy;
 import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.service.exceptions.TemporaryUnAvailableException;
 import nl.knaw.dans.common.wicket.components.SimpleTab;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
-import nl.knaw.dans.easy.domain.dataset.EasyFile;
-import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
+import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.PermissionSequence.State;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
@@ -33,7 +31,8 @@ import nl.knaw.dans.easy.web.statistics.StatisticsEvent;
 import nl.knaw.dans.easy.web.statistics.StatisticsLogger;
 import nl.knaw.dans.easy.web.template.AbstractEasyPage;
 import nl.knaw.dans.easy.web.view.dataset.relations.RelationsPanel;
-import nl.knaw.dans.pf.language.emd.EasyMetadata;
+import nl.knaw.dans.pf.language.emd.EmdFormat;
+import nl.knaw.dans.pf.language.emd.types.BasicString;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.Page;
@@ -572,13 +571,23 @@ public class DatasetViewPage extends AbstractEasyNavPage
         return tab;
     }
 
+    @SuppressWarnings("serial")
     private SimpleTab getVideoTab()
     {
         return new SimpleTab(new ResourceModel(RI_TAB_VIDEO))
         {
-
-            private static final long serialVersionUID = -1486720240988923158L;
-            private List<ItemVO> videoFiles;
+            private List<FileItemVO> videoFiles;
+            {
+                try
+                {
+                    videoFiles = Services.getItemService().getAccessibleAudioVideoFiles(getSessionUser(), getDataset());
+                }
+                catch (ServiceException e)
+                {
+                    // TODO: handle properly
+                       e.printStackTrace();
+                }
+            }
 
             @Override
             public Panel getPanel(final String panelId)
@@ -589,45 +598,51 @@ public class DatasetViewPage extends AbstractEasyNavPage
             @Override
             public boolean isVisible()
             {
-                if (getDataset().getEasyMetadata().getEmdFormat().toString().toLowerCase().contains("video")
-                        || getDataset().getEasyMetadata().getEmdFormat().toString().toLowerCase().contains("audio"))
+                return (datasetHasFormat("video") || datasetHasFormat("audio")) && videoFiles.size() > 0;
+            }
+
+            private boolean datasetHasFormat(String f)
+            {
+                EmdFormat emdFormat = getDataset().getEasyMetadata().getEmdFormat();
+                for (BasicString dcFormat : emdFormat.getDcFormat())
                 {
-                    videoFiles = getAccessibleVideoFiles();
-                    return videoFiles.size() > 0;
+                    if (dcFormat.toString().contains(f))
+                    {
+                        return true;
+                    }
                 }
                 return false;
             }
+
         };
     }
 
-    private List<ItemVO> getAccessibleVideoFiles()
-    {
-        List<ItemVO> videoFiles = new ArrayList<ItemVO>();
-        try
-        {
-            List<ItemVO> items = Services.getItemService().getFilesAndFolders(getEasySession().getUser(), getDataset(), datasetModel.getDmoStoreId(), -1, -1,
-                    null, null);
-
-            for (ItemVO fileitem : items)
-            {
-                if (fileitem.getName().endsWith(VIDEO_EXTENSION))
-                {
-                    AuthzStrategy strategy = fileitem.getAuthzStrategy();
-                    if (strategy.canUnitBeRead(EasyFile.UNIT_ID))
-                    {
-                        videoFiles.add(fileitem);
-                    }
-                }
-            }
-            return videoFiles;
-
-        }
-        catch (ServiceException e)
-        {
-            logger.error("Error while trying to load files for video tab.", e);
-            throw new InternalWebError();
-        }
-    }
+//    private List<ItemVO> getAccessibleVideoFiles()
+//    {
+//        List<ItemVO> videoFiles = new ArrayList<ItemVO>();
+//        try
+//        {
+//            List<ItemVO> items = Services.getItemService().getFileItemsRecursively(getSessionUser(), getDataset(), new LinkedList<FileItemVO>(), null, storeIds)
+//            for (ItemVO fileitem : items)
+//            {
+//                if (fileitem.getName().endsWith(VIDEO_EXTENSION))
+//                {
+//                    AuthzStrategy strategy = fileitem.getAuthzStrategy();
+//                    if (strategy.canUnitBeRead(EasyFile.UNIT_ID))
+//                    {
+//                        videoFiles.add(fileitem);
+//                    }
+//                }
+//            }
+//            return videoFiles;
+//
+//        }
+//        catch (ServiceException e)
+//        {
+//            logger.error("Error while trying to load files for video tab.", e);
+//            throw new InternalWebError();
+//        }
+//    }
 
     @Override
     public String getPageTitlePostfix()
