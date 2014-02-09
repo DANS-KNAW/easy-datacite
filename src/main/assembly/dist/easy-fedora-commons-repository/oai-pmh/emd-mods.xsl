@@ -334,14 +334,14 @@
                 <xsl:call-template name="w3cdtfEncoding"/>
             </xsl:element>
         </xsl:for-each>
-        <!-- Modified for issue 645 -->
-         <!-- mods:dateIssued is mandatory, so call this template when mods:dateIssued is empty -->
-        <xsl:call-template name="mods-use-available-date-as-default"/>
         <xsl:for-each select="dcterms:created | eas:created">
             <xsl:element name="mods:dateCreated">
                 <xsl:call-template name="w3cdtfEncoding"/>
             </xsl:element>
         </xsl:for-each>
+        <!-- Modified for issue 645 -->
+        <!-- mods:dateIssued is mandatory, so call this template when mods:dateIssued is empty -->
+        <xsl:call-template name="mods-dateIssued-default"/>
         <xsl:for-each select="dcterms:valid | eas:valid">
             <xsl:element name="mods:dateValid">
                 <xsl:call-template name="w3cdtfEncoding"/>
@@ -371,24 +371,33 @@
         </xsl:for-each>
     </xsl:template>
     <!-- Modified for issue 645 -->
-    <!-- mods:dateIssued is mandatory, so call this template when mods:dateIssued is empty and use the date available as default-->
-    <xsl:template name="mods-use-available-date-as-default">
+    <!-- mods:dateIssued is mandatory, so call this template when mods:dateIssued is empty and use the date available as default and 
+    if dateAvailable is empty, use date created -->
+    <xsl:template name="mods-dateIssued-default">
       <xsl:choose>
-        <xsl:when test="string-length(mods:dateIssued) = 0">
-        	<xsl:for-each select="dcterms:available | eas:available">
-	            <xsl:element name="mods:dateIssued">
-	                <xsl:attribute name="keyDate" select="'yes'"/>
-	                <xsl:call-template name="w3cdtfEncoding"/>
-	            </xsl:element>
-        	</xsl:for-each>
-        </xsl:when>
-        <xsl:when test="string-length(mods:dateIssued) = 0">
-        	<xsl:for-each select="dcterms:created | eas:created">
-	            <xsl:element name="mods:dateIssued">
-	                <xsl:attribute name="keyDate" select="'yes'"/>
-	                <xsl:call-template name="w3cdtfEncoding"/>
-	            </xsl:element>
-        	</xsl:for-each>
+          <xsl:when test="(not(eas:dateSubmitted[1]) or eas:dateSubmitted[1]='')
+              and (not(dcterms:issued) or  dcterms:issued='') 
+              and (not(eas:issued) or eas:issued='')
+              and (not(dcterms:dateSubmitted) or dcterms:dateSubmitted='')
+              and (not(eas:dateSubmitted[position()>1]) or eas:dateSubmitted[position()>1]='')">
+              <xsl:choose>
+                <xsl:when test="dcterms:available!='' or eas:available!=''">
+                  <xsl:for-each select="dcterms:available | eas:available">
+                      <xsl:element name="mods:dateIssued">
+                          <xsl:attribute name="keyDate" select="'yes'"/>
+                          <xsl:call-template name="w3cdtfEncoding"/>
+                      </xsl:element>
+                  </xsl:for-each>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:for-each select="dcterms:created | eas:created">
+	                   <xsl:element name="mods:dateIssued">
+	                       <xsl:attribute name="keyDate" select="'yes'"/>
+	                       <xsl:call-template name="w3cdtfEncoding"/>
+	                   </xsl:element>
+        	       </xsl:for-each>
+                </xsl:otherwise>
+            </xsl:choose>
         </xsl:when>
         </xsl:choose>	
     </xsl:template>
@@ -453,9 +462,12 @@
     <!-- =================================================================================== -->
     <!-- mods:physicalDescription | a wrapper element -->
     <xsl:template name="mods-physicalDescription">
-      <xsl:choose>
-        <xsl:when test="string-length(emd:type/dc:type) != 0 or string-length(emd:format) != 0 or string-length(emd:other/eas:remark) != 0">
-        <xsl:element name="mods:physicalDescription">
+      <xsl:choose> 
+		<!-- <xsl:when test="string-length(emd:type/dc:type) != 0 or string-length(emd:format) != 0 or string-length(emd:other/eas:remark) != 0"> -->
+            <xsl:when test="(not(emd:type/dc:type) = false()) or (emd:type/dc:type!='')
+                or (not(emd:format) = false()) or (emd:format!='') 
+                or (not(emd:other/eas:remark) = false()) or (emd:other/eas:remark!='')">	
+		<xsl:element name="mods:physicalDescription">
             <xsl:apply-templates select="emd:type/dc:type"/>
             <xsl:apply-templates select="emd:format"/>
             <xsl:apply-templates select="emd:other/eas:remark"/>
