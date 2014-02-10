@@ -464,14 +464,12 @@
     <xsl:template name="mods-physicalDescription">
       <xsl:choose> 
 		<!-- <xsl:when test="string-length(emd:type/dc:type) != 0 or string-length(emd:format) != 0 or string-length(emd:other/eas:remark) != 0"> -->
-            <xsl:when test="(not(emd:type/dc:type) = false()) or (emd:type/dc:type!='')
-                or (not(emd:format) = false()) or (emd:format!='') 
-                or (not(emd:other/eas:remark) = false()) or (emd:other/eas:remark!='')">	
-		<xsl:element name="mods:physicalDescription">
-            <xsl:apply-templates select="emd:type/dc:type"/>
-            <xsl:apply-templates select="emd:format"/>
-            <xsl:apply-templates select="emd:other/eas:remark"/>
-        </xsl:element>
+       	<xsl:when test="emd:type/dc:type!='' or emd:format!='' or emd:other/eas:remark!=''">
+			<xsl:element name="mods:physicalDescription">
+	            <xsl:apply-templates select="emd:type/dc:type"/>
+	            <xsl:apply-templates select="emd:format"/>
+	            <xsl:apply-templates select="emd:other/eas:remark"/>
+        	</xsl:element>
         </xsl:when>
         </xsl:choose>	
     </xsl:template>
