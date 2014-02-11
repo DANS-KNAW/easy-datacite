@@ -3,6 +3,7 @@ package nl.knaw.dans.easy.business.services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.servicelayer.services.SecuredStreamingService;
 import nl.knaw.dans.easy.util.HttpClientFacade;
 
@@ -15,7 +16,7 @@ public class WowzaSecuredStreamingService implements SecuredStreamingService
     private HttpClientFacade http;
 
     @Override
-    public void addSecurityTicketToResource(String ticket, String resource)
+    public void addSecurityTicketToResource(String ticket, String resource) throws ServiceException
     {
         String xmlMessage = createXmlMessage(ticket, resource);
         String url = baseUrl + "/acl/ticket";
@@ -23,8 +24,7 @@ public class WowzaSecuredStreamingService implements SecuredStreamingService
         int status = http.post(url, xmlMessage);
         if (!acceptableResponseToPost(status))
         {
-            // TODO: maak checked exception?
-            throw new RuntimeException(String.format("Failed to add security ticket %s to resource %s, status code: %d", ticket, resource, status));
+            throw new ServiceException(String.format("Failed to add security ticket %s to resource %s, status code: %d", ticket, resource, status));
         }
     }
 
@@ -55,13 +55,12 @@ public class WowzaSecuredStreamingService implements SecuredStreamingService
     }
 
     @Override
-    public void removeSecurityTicket(String ticket)
+    public void removeSecurityTicket(String ticket) throws ServiceException
     {
         int status = http.delete(baseUrl + "/acl/ticket");
         if (!acceptableResponseToDelete(status))
         {
-            // TODO: maak checked exception?
-            throw new RuntimeException(String.format("Failed to remoe security ticket %s, status code: %d", ticket, status));
+            throw new ServiceException(String.format("Failed to remoe security ticket %s, status code: %d", ticket, status));
         }
     }
 

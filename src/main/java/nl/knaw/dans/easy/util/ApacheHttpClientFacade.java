@@ -3,6 +3,8 @@ package nl.knaw.dans.easy.util;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
+import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -18,7 +20,7 @@ import org.apache.http.impl.client.HttpClients;
 public class ApacheHttpClientFacade implements HttpClientFacade
 {
     @Override
-    public int post(String url, String content)
+    public int post(String url, String content) throws ServiceException
     {
         CloseableHttpClient httpclient = HttpClients.createDefault();
         HttpPost httppost = new HttpPost(url);
@@ -30,13 +32,11 @@ public class ApacheHttpClientFacade implements HttpClientFacade
         }
         catch (ClientProtocolException e)
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new ServiceException("Client Protocol Exception during HTTP exchange", e);
         }
         catch (IOException e)
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new ServiceException("I/O Exception during HTTP exchange", e);
         }
         return response.getStatusLine().getStatusCode();
     }
@@ -54,7 +54,7 @@ public class ApacheHttpClientFacade implements HttpClientFacade
     }
 
     @Override
-    public int delete(String url)
+    public int delete(String url) throws ServiceException
     {
         CloseableHttpClient httpclient = HttpClients.createDefault();
         HttpDelete delete = new HttpDelete(url);
@@ -65,13 +65,11 @@ public class ApacheHttpClientFacade implements HttpClientFacade
         }
         catch (ClientProtocolException e)
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new ServiceException("Client Protocol Exception during HTTP exchange", e);
         }
         catch (IOException e)
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new ServiceException("I/O Exception during HTTP exchange", e);
         }
         return response.getStatusLine().getStatusCode();
     }
