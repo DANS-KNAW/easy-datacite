@@ -286,12 +286,14 @@ public interface ItemService extends EasyService
     void registerDownload(EasyUser sessionUser, Dataset dataset, List<? extends ItemVO> downloads);
 
     /**
-     * Returns the list of audio and video files that are accessible to the user. 
+     * Returns the list of audio and video files that are accessible to the user.
      * 
-     * @param sessionUser the user to check against
-     * @param dataset the dataset to search
+     * @param sessionUser
+     *        the user to check against
+     * @param dataset
+     *        the dataset to search
      * @return list of audio and video files
-     * @throws ServiceException 
+     * @throws ServiceException
      */
     List<FileItemVO> getAccessibleAudioVideoFiles(EasyUser sessionUser, Dataset dataset) throws ServiceException;
 }

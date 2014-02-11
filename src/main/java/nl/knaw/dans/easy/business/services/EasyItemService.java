@@ -501,7 +501,7 @@ public class EasyItemService extends AbstractEasyService implements ItemService
             // TODO: Gebruik een ander attribuut dan de extensie
             if (f.getSid().startsWith(FileItem.NAMESPACE.getValue()) && f.getName().endsWith(".mpeg") && f.getAuthzStrategy().canUnitBeRead(EasyFile.UNIT_ID))
             {
-                result.add((FileItemVO)f);
+                result.add((FileItemVO) f);
             }
         }
         return result;
