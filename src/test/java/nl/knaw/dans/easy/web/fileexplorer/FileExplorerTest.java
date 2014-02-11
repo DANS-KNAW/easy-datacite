@@ -165,6 +165,8 @@ public class FileExplorerTest
         expect(searchServiceMock.getNumberOfItemsInAllWork(isA(EasyUser.class))).andReturn(1).anyTimes();
         expect(searchServiceMock.getNumberOfItemsInOurWork(isA(EasyUser.class))).andReturn(1).anyTimes();
         expect(searchServiceMock.getNumberOfItemsInMyWork(isA(EasyUser.class))).andReturn(1).anyTimes();
+
+        expect(itemServiceMock.getAccessibleAudioVideoFiles(isA(EasyUser.class), isA(Dataset.class))).andReturn(new LinkedList<FileItemVO>()).anyTimes();
     }
 
     private void setUpItemServiceMock() throws ServiceException
