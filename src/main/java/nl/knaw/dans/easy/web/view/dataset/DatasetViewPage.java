@@ -584,8 +584,7 @@ public class DatasetViewPage extends AbstractEasyNavPage
                 }
                 catch (ServiceException e)
                 {
-                    // TODO: handle properly
-                       e.printStackTrace();
+                    logger.error("Exception when trying to get accessible audio and video files", e);
                 }
             }
 
@@ -616,33 +615,6 @@ public class DatasetViewPage extends AbstractEasyNavPage
 
         };
     }
-
-//    private List<ItemVO> getAccessibleVideoFiles()
-//    {
-//        List<ItemVO> videoFiles = new ArrayList<ItemVO>();
-//        try
-//        {
-//            List<ItemVO> items = Services.getItemService().getFileItemsRecursively(getSessionUser(), getDataset(), new LinkedList<FileItemVO>(), null, storeIds)
-//            for (ItemVO fileitem : items)
-//            {
-//                if (fileitem.getName().endsWith(VIDEO_EXTENSION))
-//                {
-//                    AuthzStrategy strategy = fileitem.getAuthzStrategy();
-//                    if (strategy.canUnitBeRead(EasyFile.UNIT_ID))
-//                    {
-//                        videoFiles.add(fileitem);
-//                    }
-//                }
-//            }
-//            return videoFiles;
-//
-//        }
-//        catch (ServiceException e)
-//        {
-//            logger.error("Error while trying to load files for video tab.", e);
-//            throw new InternalWebError();
-//        }
-//    }
 
     @Override
     public String getPageTitlePostfix()
