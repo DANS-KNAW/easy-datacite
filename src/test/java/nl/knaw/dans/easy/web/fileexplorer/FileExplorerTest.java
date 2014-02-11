@@ -97,14 +97,13 @@ public class FileExplorerTest
     {
         ctx = new ApplicationContextMock();
         ctx.putBean("editableContentHome", new FileSystemHomeDirectory(new File("src/main/assembly/dist/res/example/editable")));
-        ctx.putBean("searchService", searchServiceMock);
-        EasyWicketApplication app = new EasyWicketApplication();
-        app.setApplicationContext(ctx);
-        tester = new WicketTester(app);
         setUpAuthz();
         setUpUsers();
         setUpEasySessionMock();
         setUpServices();
+        EasyWicketApplication app = new EasyWicketApplication();
+        app.setApplicationContext(ctx);
+        tester = new WicketTester(app);
     }
 
     private void setUpAuthz()
@@ -152,6 +151,7 @@ public class FileExplorerTest
         expect(Services.getItemService()).andReturn(itemServiceMock).anyTimes();
         ctx.putBean("itemService", itemServiceMock);
         expect(Services.getSearchService()).andReturn(searchServiceMock).anyTimes();
+        ctx.putBean("searchService", searchServiceMock);
     }
 
     private void setUpSearchServiceMock() throws ServiceException
