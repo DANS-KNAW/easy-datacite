@@ -16,7 +16,7 @@ public interface HttpClientFacade
      * @param content
      *        the content to post as a {@link String}
      * @return status code received from server
-     * @throws ServiceException 
+     * @throws ServiceException
      */
     int post(String url, String content) throws ServiceException;
 

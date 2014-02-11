@@ -33,7 +33,7 @@ public interface SecuredStreamingService
      *        the new ticket
      * @param resource
      *        the resouce to grant access to
-     * @throws ServiceException 
+     * @throws ServiceException
      */
     void addSecurityTicketToResource(String ticket, String resource) throws ServiceException;
 
@@ -42,7 +42,7 @@ public interface SecuredStreamingService
      * requests based on the ticket must be denied by the streaming server.
      * 
      * @param ticket
-     * @throws ServiceException 
+     * @throws ServiceException
      */
     void removeSecurityTicket(String ticket) throws ServiceException;
 }
