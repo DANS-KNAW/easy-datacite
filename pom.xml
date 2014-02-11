@@ -131,7 +131,7 @@
 		<dependency>
 			<groupId>nl.knaw.dans.platform.language</groupId>
 			<artifactId>pakbon</artifactId>
-			<version>1.0-beta-3</version>
+			<version>1.0-beta-4</version>
 		</dependency>
 	</dependencies>
 	<build>
