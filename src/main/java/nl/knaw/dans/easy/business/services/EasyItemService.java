@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.net.URL;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +32,7 @@ import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.EasyUnitOfWork;
 import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.domain.annotations.MutatesDataset;
+import nl.knaw.dans.easy.domain.dataset.EasyFile;
 import nl.knaw.dans.easy.domain.dataset.FileItemDescription;
 import nl.knaw.dans.easy.domain.dataset.item.AbstractItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
@@ -487,6 +489,23 @@ public class EasyItemService extends AbstractEasyService implements ItemService
     {
         DownloadRegistration registration = new DownloadRegistration(sessionUser, dataset, downloads);
         registration.registerDownloads();
+    }
+
+    @Override
+    public List<FileItemVO> getAccessibleAudioVideoFiles(EasyUser sessionUser, Dataset dataset) throws ServiceException
+    {
+        Collection<ItemVO> files = getFilesAndFolders(sessionUser, dataset, dataset.getDmoStoreId(), -1, -1, null, null);
+        List<FileItemVO> result = new LinkedList<FileItemVO>();
+        for (ItemVO f : files)
+        {
+            // TODO: Gebruik een ander attribuut dan de extensie
+            if (f.getSid().startsWith(FileItem.NAMESPACE.getValue()) && f.getName().endsWith(".mpeg") && f.getAuthzStrategy().canUnitBeRead(EasyFile.UNIT_ID))
+            {
+                result.add((FileItemVO) f);
+            }
+        }
+        return result;
+
     }
 
 }

@@ -261,6 +261,11 @@ public class ItemContainerMetadataImpl extends AbstractItemMetadataImpl<DatasetI
         setDirty(true);
     }
 
+    public void onChildStateChange(String oldStreamingUrl, String newStreamingUrl)
+    {
+        setDirty(true);
+    }
+
     protected void onChildStateChange(VisibleTo oldVisibleTo, VisibleTo newVisibleTo)
     {
         if (oldVisibleTo != null)

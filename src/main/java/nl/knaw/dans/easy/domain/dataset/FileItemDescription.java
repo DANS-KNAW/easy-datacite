@@ -86,6 +86,12 @@ public class FileItemDescription implements Serializable
             creator.setName("Creator");
             props.add(new KeyValuePair(creator.getName(), creator.getText()));
         }
+        Element streamingUrl = getElement(metadata, "streamingUrl");
+        if (streamingUrl != null)
+        {
+            streamingUrl.setName("StreamingUrl");
+            props.add(new KeyValuePair(streamingUrl.getName(), streamingUrl.getText()));
+        }
         BaseElement accessible = new BaseElement("Accessible");
         if (accessible != null)
         {
@@ -143,6 +149,12 @@ public class FileItemDescription implements Serializable
         {
             creator.setName("Creator");
             props.add(new KeyValuePair(creator.getName(), creator.getText()));
+        }
+        Element streamingUrl = getElement(metadata, "streamingUrl");
+        if (streamingUrl != null)
+        {
+            streamingUrl.setName("Streaming url");
+            props.add(new KeyValuePair(streamingUrl.getName(), streamingUrl.getText()));
         }
         Element visibleTo = getElement(metadata, "visibleTo");
         if (visibleTo != null)

@@ -48,7 +48,7 @@ public class DatasetIngester implements SubmissionProcessor
             uow.attach(dataset);
             // submission date is already set while generating the license.
             dataset.getAdministrativeMetadata().setAdministrativeState(DatasetState.SUBMITTED);
-            
+
             addDatasetGroupByAccessRightsAndMetadataFormat(dataset);
 
             if (updateFileRights)
