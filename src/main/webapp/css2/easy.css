@@ -58,7 +58,7 @@ body {
   background: #213729;
   font-family: Verdana, Geneva, sans-serif;
   font-size: 0.67em;
-  color: #575756;
+  color: #575757;
 }
 
 a {
@@ -87,6 +87,33 @@ h2 {
 ul {
   margin-left: 2em;
   list-style: square outside;
+}
+
+table {
+  margin: 1em 0;
+}
+table thead tr td, table thead tr th {
+  font-weight: bold;
+  border-bottom: 2px solid #bbbbbb;
+}
+table tfoot tr td {
+  font-weight: bold;
+  border-top: 2px solid #bbbbbb;
+}
+table tr td, table tr th {
+  padding: 0.75em;
+}
+table tr th {
+  font-weight: bold;
+  font-size: 1.1em;
+  padding-top: 1.5em;
+  border-bottom: 2px solid #bbbbbb;
+}
+table.alternate-rows tr:nth-child(even) td {
+  background: #f4f4f4;
+}
+table input[type=text] {
+  width: 100%;
 }
 
 p {
@@ -272,17 +299,6 @@ input {
 .content h1 {
   margin: -0.67em -0.67em 0 -0.67em;
 }
-.content table {
-  border: 1px solid #bbbbbb;
-}
-.content table tr td {
-  padding: 0.75em;
-  border: 1px solid #bbbbbb;
-}
-.content table thead tr td {
-  font-weight: bold;
-  border-bottom: 2px solid #bbbbbb;
-}
 
 .button {
   font-weight: bold;
@@ -315,6 +331,40 @@ input.button:hover {
 
 .header .nav .bd ul {
   list-style-type: square;
+}
+
+.feedback ul {
+  margin: 1em 0;
+}
+.feedback ul li {
+  display: block;
+  margin: 1em 0;
+  padding: 1em;
+  border: 1px solid;
+}
+.feedback ul li.feedbackPanelERROR, .feedback ul li.feedbackPanelFATAL {
+  background-color: #f2dede;
+  border-color: #ebccd1;
+  color: #a94442;
+}
+.feedback ul li.feedbackPanelWARNING, .feedback ul li.feedbackPanelDEBUG {
+  background-color: #fcf8e3;
+  border-color: #faebcc;
+  color: #8a6d3b;
+}
+.feedback ul li.feedbackPanelSUCCESS {
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+  color: #3c763d;
+}
+.feedback ul li.feedbackPanelINFO, .feedback ul li.feedbackPanelUNDEFINED {
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+  color: #31708f;
+}
+
+tr.feedback li {
+  margin: 0;
 }
 
 .controlBar {
