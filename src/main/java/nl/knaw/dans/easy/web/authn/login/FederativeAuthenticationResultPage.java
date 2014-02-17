@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 @RequireHttps
 public class FederativeAuthenticationResultPage extends AbstractEasyNavPage
 {
-    private static final String SHIB_SESSION_ID = Services.getFederativeUserService().getPropertyNameShibSessionId();
+    private static String propertyNameShibSessionID;
     private static Logger logger = LoggerFactory.getLogger(FederativeAuthenticationResultPage.class);
     private String federativeUserId = null;
 
@@ -95,11 +95,24 @@ public class FederativeAuthenticationResultPage extends AbstractEasyNavPage
                     Authentication authentication = new Authentication();
                     authentication.setState(Authentication.State.Authenticated);
                     authentication.setUser(easyUser);
-                    getEasySession().setLoggedIn(authentication);
-                    StatisticsLogger.getInstance().logEvent(StatisticsEvent.USER_LOGIN);
+                    if (easyUser.isActive())
+                    {
+                        getEasySession().setLoggedIn(authentication);
+                        // TODO why no statistics for a normal login?
+                        StatisticsLogger.getInstance().logEvent(StatisticsEvent.USER_LOGIN);
 
-                    logger.info("login via the federation was succesfull");
-                    throw new RestartResponseAtInterceptPageException(HomePage.class);
+                        logger.info("login via the federation was succesfull");
+                        throw new RestartResponseAtInterceptPageException(HomePage.class);
+                    }
+                    else
+                    {
+                        // TODO proper error message
+                        if (!easyUser.isBlocked())
+                            warningMessage("state.NotBlocked");
+                        else
+                            errorMessage("state.Blocked");
+                        setResponsePage(new LoginPage());
+                    }
                 }
                 catch (ObjectNotAvailableException e)
                 {
@@ -116,9 +129,11 @@ public class FederativeAuthenticationResultPage extends AbstractEasyNavPage
         }
     }
 
-    private boolean hasShibbolethSession(HttpServletRequest request)
+    boolean hasShibbolethSession(HttpServletRequest request)
     {
-        return request.getAttribute(SHIB_SESSION_ID) != null;
+        if (propertyNameShibSessionID == null)
+            Services.getFederativeUserService().getPropertyNameShibSessionId();
+        return request.getAttribute(propertyNameShibSessionID) != null;
     }
 
     private void infoPageWithError()

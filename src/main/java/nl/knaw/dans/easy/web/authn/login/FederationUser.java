@@ -9,19 +9,14 @@ import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 
+import nl.knaw.dans.easy.servicelayer.services.Services;
+
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
-
-import nl.knaw.dans.easy.servicelayer.services.Services;
 
 public class FederationUser implements Serializable
 {
     private static final long serialVersionUID = 1L;
-    private static final String FEDUSER_ATTRIBUTE_NAME_REMOTE_USER = Services.getFederativeUserService().getPropertyNameRemoteUser();
-    private static final String FEDUSER_ATTRIBUTE_NAME_GIVENNAME = Services.getFederativeUserService().getPropertyNameFirstName();
-    private static final String FEDUSER_ATTRIBUTE_NAME_SURNAME = Services.getFederativeUserService().getPropertyNameSurname();
-    private static final String FEDUSER_ATTRIBUTE_NAME_HOMEORG = Services.getFederativeUserService().getPopertyNameOrganization();
-    private static final String FEDUSER_ATTRIBUTE_NAME_EMAIL = Services.getFederativeUserService().getPropertyNameEmail();
 
     private String userId;
     private String email;
@@ -32,28 +27,28 @@ public class FederationUser implements Serializable
     public static FederationUser fromHttpRequest(HttpServletRequest request)
     {
         FederationUser appUser = new FederationUser();
-        String userId = (String) request.getAttribute(FEDUSER_ATTRIBUTE_NAME_REMOTE_USER);
+        String userId = (String) request.getAttribute(Services.getFederativeUserService().getPropertyNameRemoteUser());
         if (!isSet(userId))
         {
-            throw new IllegalArgumentException(String.format("Attribute %s must be present", FEDUSER_ATTRIBUTE_NAME_REMOTE_USER));
+            throw new IllegalArgumentException(String.format("Attribute %s must be present", Services.getFederativeUserService().getPropertyNameRemoteUser()));
         }
         appUser.setUserId(userId);
-        String mail = (String) request.getAttribute(FEDUSER_ATTRIBUTE_NAME_EMAIL);
+        String mail = (String) request.getAttribute(Services.getFederativeUserService().getPropertyNameEmail());
         if (isSet(mail))
         {
             appUser.setEmail(mail);
         }
-        String givenName = (String) request.getAttribute(FEDUSER_ATTRIBUTE_NAME_GIVENNAME);
+        String givenName = (String) request.getAttribute(Services.getFederativeUserService().getPropertyNameFirstName());
         if (isSet(givenName))
         {
             appUser.setGivenName(givenName);
         }
-        String surName = (String) request.getAttribute(FEDUSER_ATTRIBUTE_NAME_SURNAME);
+        String surName = (String) request.getAttribute(Services.getFederativeUserService().getPropertyNameSurname());
         if (isSet(surName))
         {
             appUser.setSurName(surName);
         }
-        String homeOrg = (String) request.getAttribute(FEDUSER_ATTRIBUTE_NAME_HOMEORG);
+        String homeOrg = (String) request.getAttribute(Services.getFederativeUserService().getPopertyNameOrganization());
         if (isSet(homeOrg))
         {
             appUser.setHomeOrg(homeOrg);

@@ -420,5 +420,13 @@
 			<value>${pakbon.validator.password}</value>
 		</constructor-arg>
 	</bean>
+	
+	<bean id="securedStreamingService" class="nl.knaw.dans.easy.business.services.WowzaSecuredStreamingService">
+		<property name="baseUrl" value="http://tstreaming11.dans.knaw.nl" />
+		<property name="accessDurationInMilliseconds" value="60000" />
+		<property name="httpClientFacade">
+			<bean class="nl.knaw.dans.easy.util.ApacheHttpClientFacade" />
+		</property>
+	</bean>
 </beans>
  

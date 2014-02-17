@@ -183,21 +183,22 @@ public class TestHomePage
         SystemReadOnlyStatus systemReadOnlyStatus = createSystemReadOnlyStatus();
         Authz authz = createCodedAuthz(systemReadOnlyStatus);
 
+        mockSecurity(authz);
+        setUpUsers();
+        setUpEasySessionMock();
+        setUpStatisticsLoggerMock();
+        setupSearchServiceMock();
+
         ApplicationContextMock ctx = new ApplicationContextMock();
         ctx.putBean("editableContentHome", new FileSystemHomeDirectory(new File("src/main/assembly/dist/res/example/editable")));
         ctx.putBean("systemReadOnlyStatus", systemReadOnlyStatus);
+        ctx.putBean("searchService", searchServiceMock);
         ctx.putBean("authz", authz);
         EasyWicketApplication app = new EasyWicketApplication();
         app.setApplicationContext(ctx);
 
         tester = new WicketTester(app);
 
-        mockSecurity(authz);
-        setUpUsers();
-        setUpEasySessionMock();
-        setUpStatisticsLoggerMock();
-
-        setupSearchServiceMock();
     }
 
     private void mockSecurity(Authz authz)

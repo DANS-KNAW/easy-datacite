@@ -3,18 +3,22 @@ package nl.knaw.dans.easy.web.authn;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.domain.authn.Authentication;
-import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.easy.servicelayer.services.UserService;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.main.AbstractEasyNavPage;
 
 import org.apache.wicket.IPageMap;
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AbstractAuthenticationPage extends AbstractEasyNavPage
 {
     private static Logger LOGGER = LoggerFactory.getLogger(AbstractAuthenticationPage.class);
+
+    @SpringBean(name = "userService")
+    private UserService userService;
 
     public AbstractAuthenticationPage()
     {
@@ -36,7 +40,7 @@ public class AbstractAuthenticationPage extends AbstractEasyNavPage
         boolean signedIn;
         try
         {
-            Services.getUserService().authenticate(authentication);
+            userService.authenticate(authentication);
         }
         catch (ServiceException e)
         {

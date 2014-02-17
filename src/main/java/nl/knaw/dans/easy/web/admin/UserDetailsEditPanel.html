@@ -2,12 +2,11 @@
 <wicket:panel>
 
 	<form wicket:id="userInfoForm">
-	<div id="commonFeedbackPanel" wicket:id="commonFeedbackPanel"
-		class="feedback">Messages</div>
+	<div id="commonFeedbackPanel" wicket:id="commonFeedbackPanel" class="feedback">Messages</div>
 
 	<table class="panel">
 		<tr>
-			<td><h2>Account</h2></td>
+			<th colspan="3">Account</th>
 		</tr>
 		<wicket:enclosure child="userIdLabel">
 			<tr>
@@ -56,7 +55,7 @@
 
 
 		<tr>
-			<td><h2>Person</h2></td>
+			<th colspan="3">Person</th>
 		</tr>
 		<wicket:enclosure>
 			<tr class="feedback">
@@ -163,7 +162,7 @@
 		
 		
 		<tr>
-			<td><h2>Organisation</h2></td>
+			<th colspan="3">Organisation</th>
 		</tr>
 		<wicket:enclosure>
 			<tr class="feedback">
@@ -240,7 +239,7 @@
 		</tr>
 
 		<tr>
-			<td><h2>Settings</h2></td>
+			<th colspan="3">Settings</th>
 		</tr>
 
 		<tr>
@@ -301,11 +300,11 @@
 		
 
 	</table>
-	<p />
-	<input type="submit" style="display:none" />
-	<a wicket:id="update" class="button"><wicket:message key="update">Update</wicket:message></a>
-	<a wicket:id="cancel" class="button"><wicket:message key="cancel">Cancel</wicket:message></a>
+	<p>
+	<input type="submit" wicket:id="update" class="button" wicket:message="value:update" />
+	<input type="button" wicket:id="cancel" class="button" wicket:message="value:cancel" />
+	</p>
 	</form>
-	<p />
+	
 </wicket:panel>
 </html>
