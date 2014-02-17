@@ -5,7 +5,7 @@
 
 	<table class="panel">
 		<tr>
-			<td><h2>Account</h2></td>
+			<th colspan="2">Account</th>
 		</tr>
 		<tr>
 			<td><label for="userId"><wicket:message
@@ -24,7 +24,7 @@
 		</tr>
 
 		<tr>
-			<td><h2>Person</h2></td>
+			<th colspan="2">Person</th>
 		</tr>
 		<tr>
 			<td><label for="title"><wicket:message key="user.title">User titles</wicket:message></label></td>
@@ -81,7 +81,7 @@
 		
 
 		<tr>
-			<td><h2>Organisation</h2></td>
+			<th colspan="2">Organisation</th>
 		</tr>
 
 		<tr>
@@ -117,7 +117,7 @@
 
 
 		<tr>
-			<td><h2>Settings</h2></td>
+			<th colspan="2">Settings</th>
 		</tr>
 		<tr>
 			<td><label for="optsForNewsletter"><wicket:message
@@ -162,9 +162,9 @@
 
 	</table>
 
-	<p />
-	<a wicket:id="editLink" class="button"><wicket:message key="edit">Edit</wicket:message></a>
-	<a wicket:id="doneLink" class="button"><wicket:message key="done">Done</wicket:message></a>
-	<p/>
+	<p>
+		<a wicket:id="editLink" class="button"><wicket:message key="edit">Edit</wicket:message></a>
+		<a wicket:id="doneLink" class="button"><wicket:message key="done">Done</wicket:message></a>
+	</p>
 </wicket:panel>
 </html>
