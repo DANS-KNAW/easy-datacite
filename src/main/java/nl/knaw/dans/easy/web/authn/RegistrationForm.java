@@ -6,6 +6,7 @@ import java.util.Map;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.common.wicket.util.LettersAndDigitsValidator;
+import nl.knaw.dans.common.wicket.util.TelephoneNumberValidator;
 import nl.knaw.dans.easy.domain.authn.Registration;
 import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
 import nl.knaw.dans.easy.servicelayer.services.Services;
@@ -112,7 +113,9 @@ public class RegistrationForm extends AbstractEasyStatelessForm<ApplicationUser>
         addWithComponentFeedback(email.add(EmailAddressValidator.getInstance()), new ResourceModel(RegistrationPage.USER_EMAIL));
 
         addWithComponentFeedback(new TextField<String>(ApplicationUser.FUNCTION), new ResourceModel(RegistrationPage.USER_FUNCTION));
-        addWithComponentFeedback(new TextField<String>(ApplicationUser.TELEPHONE), new ResourceModel(RegistrationPage.USER_TELEPHONE));
+        TextField<String> userTelephoneTextField = new TextField<String>(ApplicationUser.TELEPHONE);
+        userTelephoneTextField.add(TelephoneNumberValidator.instance());
+        addWithComponentFeedback(userTelephoneTextField, new ResourceModel(RegistrationPage.USER_TELEPHONE));
 
         add(new DropDownChoice<KeyValuePair>(ApplicationUser.DISCIPLINE1, new PropertyModel<KeyValuePair>(appUser, ApplicationUser.DISCIPLINE1),
                 DisciplineUtils.getDisciplinesChoiceList().getChoices(), new KvpChoiceRenderer()));
