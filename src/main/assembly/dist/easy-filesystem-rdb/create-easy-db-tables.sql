@@ -134,6 +134,7 @@ ALTER TABLE ONLY easy_folder_visibility_status
 CREATE ROLE easy_webui WITH LOGIN;
 CREATE ROLE easy_sword WITH LOGIN;
 CREATE ROLE easy_rest WITH LOGIN;
+CREATE ROLE easy_ebiu WITH LOGIN;
     
 GRANT INSERT,SELECT,UPDATE,DELETE ON TABLE 
     easy_files, 
@@ -141,6 +142,6 @@ GRANT INSERT,SELECT,UPDATE,DELETE ON TABLE
     easy_folder_creator,
     easy_folder_visibility_status,
     easy_folders
-    TO easy_webui, easy_sword, easy_rest;
+    TO easy_webui, easy_sword, easy_rest, easy_ebiu;
 
 
