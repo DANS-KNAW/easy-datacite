@@ -16,7 +16,7 @@ CREATE TABLE easy_files (
     pid character varying(64) NOT NULL,
     parent_sid character varying(64) NOT NULL,
     dataset_sid character varying(64) NOT NULL,
-    path character varying(256),
+    path character varying(1024),
     filename character varying(256) NOT NULL,
     size integer NOT NULL,
     mimetype character varying(64) NOT NULL,
@@ -56,7 +56,7 @@ ALTER TABLE public.easy_folder_visibility_status OWNER TO easy_db_admin;
 
 CREATE TABLE easy_folders (
     pid character varying(64) NOT NULL,
-    path character varying(256),
+    path character varying(1024),
     name character varying(256) NOT NULL,
     parent_sid character varying(64) NOT NULL,
     dataset_sid character varying(64) NOT NULL
