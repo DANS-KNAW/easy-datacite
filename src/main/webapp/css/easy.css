@@ -24,7 +24,7 @@ body#easy {
 	width: 100%;  /* this is an IE 6 bugfix */
 	font-family: Verdana, Geneva, sans-serif;	
 	font-size: 100%; /* CUSTOM http://www.alistapart.com/articles/howtosizetextincss/ */
-	line-height: 1.125em; /* 16×1.125=18 */
+	line-height: 1.125em; /* 16x1.125=18 */
 	min-width: 920px;
 	min-height: 600px;
 }
@@ -636,164 +636,40 @@ table.users tbody tr td {
 /*-------------- feedbackPanel  ---------------------*/
 /*---------------------------------------------------*/
 
-ul li {
-	font-size: 100%!important;
+.feedback ul {
+  margin: 1em 0;
+  padding-left: 0;  /* added to make it work with the old (pre-2014) CSS, does not exist in new CSS */
+  font-size: 1em;  /* added to make it work with the old (pre-2014) CSS, does not exist in new CSS */
+}
+.feedback ul li {
+  display: block;
+  margin: 1em 0;
+  padding: 1em;
+  border: 1px solid;
+}
+.feedback ul li.feedbackPanelERROR, .feedback ul li.feedbackPanelFATAL {
+  background-color: #f2dede;
+  border-color: #ebccd1;
+  color: #a94442;
+}
+.feedback ul li.feedbackPanelWARNING, .feedback ul li.feedbackPanelDEBUG {
+  background-color: #fcf8e3;
+  border-color: #faebcc;
+  color: #8a6d3b;
+}
+.feedback ul li.feedbackPanelSUCCESS {
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+  color: #3c763d;
+}
+.feedback ul li.feedbackPanelINFO, .feedback ul li.feedbackPanelUNDEFINED {
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+  color: #31708f;
 }
 
-.feedbackPanel li {
-	font-size: 90%!important;
-}
-
-#commonFeedbackPanel {
-	padding-top: 0.5em;
-	padding-bottom: 0.5em;
-	margin-bottom: 1em;
-	font-size: 100%;
-}
-
-#commonFeedbackPanel ul {
-	margin: 0!important;
-	padding-left: 30px;
-	border: 1px solid #C0C0C0;
-}
-
-div.recursive-panel-item li.feedbackPanelERROR {
-	list-style-image: url(../images/icons/messages/cross-circle-frame.png);
-	list-style-type: square;
-	padding: 3px;
-	list-style-position: inside;
-	margin-left: -10px;
-}
-
-li.feedbackPanelERROR {
-	list-style-image: url(../images/icons/messages/cross-circle-frame.png);
-	list-style-type: square;
-	padding: 3px;
-	list-style-position: inside;
-	margin-left: -30px;
-}
-	
-#commonFeedbackPanel ul li.feedbackPanelERROR {
-	background: #EBCCCC;
-	border: 1px solid #DC241F;
-}
-	
-li.feedbackPanelERROR span.feedbackPanelERROR {
-	color: #000;
-	font-size: 95%!important;
-	position: relative;
-	top: -3px;
-}
-	
-li.feedbackPanelCONFIRM {
-    list-style-image: url(../images/icons/messages/tick-circle-frame.png);
-	list-style-type: square;
-	padding: 3px;
-	background: #E2EFD8!important;
-	border: 1px solid #357902;
-	list-style-position: inside; 
-	margin-left: -30px;
-}
-	
-li.feedbackPanelCONFIRM span.feedbackPanelCONFIRM {
-	color: green;
-	font-size: 95%!important;
-	position: relative;
-	top: -3px;
-}
-	
-li.feedbackPanelINFO {
-    list-style-image: url(../images/icons/messages/information-frame.png);
-	list-style-type: square;
-	padding: 3px;
-	background: #E6EEF6!important;
-	border: 1px solid #00A7D4;
-	list-style-position: inside; 
-	margin-left: -30px;
-}
-	
-li.feedbackPanelINFO span.feedbackPanelINFO {
-	color: #156083;
-	font-size: 95%!important;
-	position: relative;
-	top:-3px;
-}
-	
-li.feedbackPanelWARNING {
- 	list-style-image: url(../images/icons/messages/exclamation.png);
-	list-style-type: square;
-	padding: 3px;	
-	background: #F9E9C2!important;
-	border: 1px solid #D0960A;		
-	list-style-position: inside;
-	margin-left: -30px;
-}
-	
-li.feedbackPanelWARNING span.feedbackPanelWARNING {
-	color: black;
-	font-size: 95%!important;
-	position: relative;
-	top: -3px;
-}
-
-li.feedbackPanelFATAL {
-    list-style-image: url(../images/icons/messages/exclamation-red-frame.png);
-	list-style-type: square;
-	padding: 3px;
-	border: 1px solid #DC241F;
-	list-style-position: inside;
-	margin-left: -30px;
-}
-	
-li.feedbackPanelFATAL span.feedbackPanelFATAL {
-	color: red;
-	font-size: 95%!important;
-	position: relative;
-	top: -3px;
-}
-
-li.feedbackPanelQUESTION {
-    list-style-image: url(../images/icons/messages/question-frame.png);
-	list-style-type: square;
-	padding: 3px;
-	border: 1px solid #025398;
-	list-style-position: inside;
-	margin-left: -30px;
-}
-	
-li.feedbackPanelQUESTION span.feedbackPanelQUESTION {
-	color: #025398;
-	font-size: 95%!important;
-	position: relative;
-	top: -3px;
-}
-
-.feedback li {
-	list-style-type: none;
-}
-
-.panel.registration td input {
-	width: 95%; /* verzoek 17 mei voor 100% width - gelijk trekken registration */
-	border: 1px solid #999;
-	height: 14px;
-	padding: 2px 4px;
-	color: #666;	
-}
-
-.panel td input[type="radio"] {
-	width: 20px;
-}
-
-span.feedbackPanelUNDEFINED {
-}
-
-li.feedbackPanelUNDEFINED {
-}
-
-span.feedbackPanelDEBUG {
-}
-
-li.feedbackPanelDEBUG {
+tr.feedback li {
+  margin: 0;
 }
 
 /*---------------------------------------------------*/
