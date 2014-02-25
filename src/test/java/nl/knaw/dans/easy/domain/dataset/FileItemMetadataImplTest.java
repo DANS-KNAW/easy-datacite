@@ -170,12 +170,12 @@ public class FileItemMetadataImplTest
         fimd.setVisibleTo(VisibleTo.ANONYMOUS);
         assertFalse(fimd.isDirty());
 
-        fimd.setDirty(false);
         // COMMENTED OUT FOR RELEASE 2.8
-        //fimd.setStreamingUrl("http://koe.com/");
-        assertTrue(fimd.isDirty());
-        fimd.setDirty(false);
+        // fimd.setDirty(false);
         // fimd.setStreamingUrl("http://koe.com/");
-        assertFalse(fimd.isDirty());
+        // assertTrue(fimd.isDirty());
+        // fimd.setDirty(false);
+        // fimd.setStreamingUrl("http://koe.com/");
+        // assertFalse(fimd.isDirty());
     }
 }
