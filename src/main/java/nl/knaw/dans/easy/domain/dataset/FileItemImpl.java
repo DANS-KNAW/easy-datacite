@@ -224,6 +224,7 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem
         }
     }
 
+    /* COMMENTED OUT FOR RELEASE 2.8
     public String getStreamingUrl()
     {
         return getFileItemMetadata().getStreamingUrl();
@@ -242,6 +243,7 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem
             }
         }
     }
+    */
 
     public boolean isCreatedByArchivist()
     {

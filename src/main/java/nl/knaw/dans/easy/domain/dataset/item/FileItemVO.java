@@ -13,7 +13,8 @@ public class FileItemVO extends AbstractItemVO implements java.io.Serializable, 
     private int size;
     private String mimetype;
     private CreatorRole creatorRole;
-    private String streamingUrl;
+    // COMMENTED OUT FOR RELEASE 2.8
+    //private String streamingUrl;
     private VisibleTo visibleTo;
     private AccessibleTo accessibleTo;
 
@@ -28,7 +29,9 @@ public class FileItemVO extends AbstractItemVO implements java.io.Serializable, 
         size = (int) fileItem.getSize();
         mimetype = fileItem.getFileItemMetadata().getMimeType();
         creatorRole = fileItem.getCreatorRole();
-        streamingUrl = fileItem.getStreamingUrl();
+        // COMMENTED OUT FOR RELEASE 2.8
+        //streamingUrl = fileItem.getStreamingUrl();
+        
         visibleTo = fileItem.getVisibleTo();
         accessibleTo = fileItem.getAccessibleTo();
         setPath(fileItem.getPath());
@@ -41,7 +44,8 @@ public class FileItemVO extends AbstractItemVO implements java.io.Serializable, 
         this.size = size;
         this.mimetype = mimetype;
         this.creatorRole = creatorRole;
-        this.streamingUrl = streamingUrl;
+        // COMMENTED OUT FOR RELEASE 2.8
+        // this.streamingUrl = streamingUrl;
         this.visibleTo = visibleTo;
         this.setAccessibleTo(accessibleTo);
     }
@@ -75,7 +79,8 @@ public class FileItemVO extends AbstractItemVO implements java.io.Serializable, 
     {
         this.creatorRole = creatorRole;
     }
-
+// COMMENTED OUT FOR RELEASE 2.8
+    /*
     public String getStreamingUrl()
     {
         return this.streamingUrl;
@@ -85,6 +90,7 @@ public class FileItemVO extends AbstractItemVO implements java.io.Serializable, 
     {
         this.streamingUrl = streamingUrl;
     }
+    */
 
     public VisibleTo getVisibleTo()
     {
