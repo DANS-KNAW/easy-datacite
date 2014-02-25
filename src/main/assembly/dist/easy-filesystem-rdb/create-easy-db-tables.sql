@@ -143,5 +143,12 @@ GRANT INSERT,SELECT,UPDATE,DELETE ON TABLE
     easy_folder_visibility_status,
     easy_folders
     TO easy_webui, easy_sword, easy_rest, easy_ebiu;
+    
+GRANT USAGE, SELECT, UPDATE ON TABLE 
+	easy_folder_accessibility_status_id_seq,	
+	easy_folder_creator_id_seq,
+	easy_folder_visibility_status_id_seq
+	TO easy_webui, easy_sword, easy_rest, easy_ebiu;
+    
 
 
