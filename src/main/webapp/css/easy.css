@@ -671,6 +671,9 @@ table.users tbody tr td {
 tr.feedback li {
   margin: 0;
 }
+#bodyContent table ul.feedbackPanel li {  /* added to make it work with the old (pre-2014) CSS, does not exist in new CSS */
+	font-size: 91%;
+}
 
 /*---------------------------------------------------*/
 /*-------------- RecursivePanel -------------------- */
@@ -1532,18 +1535,6 @@ div.popupDialog {
 
 .marginbottom {
 	margin-bottom: 15px;	
-}
-
-/* MB 19-07-2011 - info message styling deposit submit button */
-.submitDatasetInfoMessage {
-	padding: 5px 5px 5px 27px;	
-	background-image: url(../images/icons/messages/information-frame.png);
-	background-position: 1%;
-	background-repeat: no-repeat;
-	background-color: #E6EEF6!important;
-	border: 1px solid #00A7D4;	
-	color: #156083;
-	vertical-align: middle;
 }
 
 .breatheDepositButtons {
