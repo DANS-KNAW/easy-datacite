@@ -170,6 +170,7 @@ public class EditableContentPage extends AbstractEasyNavPage
         addLink("RemarksEditLink", "/help/Remarks.template");
 
         addLink("AlternativeEditLink", "/help/Alternative.template");
+        addLink("PakbonEditLink", "/help/Pakbon.template");
         addLink("ArchisEditLink", "/help/Archis.template");
         addLink("DateEditLink", "/help/Date.template");
         addLink("DateIso8601EditLink", "/help/DateIso8601.template");

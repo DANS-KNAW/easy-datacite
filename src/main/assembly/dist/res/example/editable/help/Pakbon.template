@@ -1,0 +1,12 @@
+<h2>Pakbon</h2>
+<p>
+Met de digitale pakbon (SIKB0102 standaard) geven archeologen na afloop van het onderzoek aan wat waar is gedeponeerd. De gegevens over vondsten worden via een standaard set beschrijvingen bij de verschillende depothouders, waaronder DANS, aangeleverd. 
+</p>
+<p>
+De metadata wordt via de pakbon aangeleverd als een xml document.
+Gebruikers kunnen ervoor kiezen in EASY niet het Dublin Core formulier in te vullen, maar een dataset te deponeren via de button: 'upload pakbon". Alle DC gegevens worden uit de pakbon geëxtraheerd en in de juiste velden geplaatst. Het bestand wordt hierbij ook gelijk geupload en bij de bestanden van de dataset gezet.
+</p>
+<p>  
+DANS hoort graag uw ervaring met deze nieuwe stap in het deponeer proces.
+Heeft u vragen over het deponeren van een dataset met een pakbon? Neem contact op met <a href="mailto:Hella.hollander@dans.knaw.nl">.
+</p>
