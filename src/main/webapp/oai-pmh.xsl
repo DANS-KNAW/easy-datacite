@@ -26,6 +26,7 @@
     -->
     <format:prefixes>
         <prefix integral="true">oai_dc</prefix>
+        <prefix integral="true">oai_datacite</prefix>
         <prefix integral="true">nl_didl</prefix>
         <prefix integral="false">carare</prefix>
     </format:prefixes>
