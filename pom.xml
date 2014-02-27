@@ -10,8 +10,8 @@
 	<artifactId>easy-proai</artifactId>
 	<version>1.1</version>
 	<packaging>war</packaging>
-	<name>EASY Customized Proai Service</name>
-	<description>Customized version of Proai 1.2.2.c for EASY</description>
+	<name>EASY Customized PrOAI Service</name>
+	<description>Customized version of PrOAI 1.2.2.c for EASY</description>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
