@@ -484,7 +484,7 @@ Upload.prototype.updateStatus = function(uploadStatus)
 	{
 		// got error from server
 		if (uploadStatus.message)
-			this.setError(uploadStatus.message);
+			this.setError(decodeURIComponent(uploadStatus.message.replace(/[+]/g,"%20")));
 		else
 			this.setError('Got unknown error from server');
 
@@ -494,15 +494,12 @@ Upload.prototype.updateStatus = function(uploadStatus)
 	if (uploadStatus.finished)
 	{
 		/*
-		 * decodeURI is used rather than decodeURIComponent because on the server the encoding is done with Java's 
-		 * java.net.URLEncoder which is similar to JavaScript's encodeURI.
-		 * 
 		 * + is replaced by %20 before decoding, because java.net.URLEncoder replaces spaces by + instead of %20. 
 		 */
 		if (uploadStatus.message)
-			this.progressMessage.innerHTML  = decodeURI(uploadStatus.message.replace(/[+]/g,"%20"));
+			this.progressMessage.innerHTML  = decodeURIComponent(uploadStatus.message.replace(/[+]/g,"%20"));
 		else
-			this.progressMessage.innerHTML = "Upload of '"+ decodeURI(this.filename.replace(/[+]/g,"%20")) +"' complete.";
+			this.progressMessage.innerHTML = "Upload of '"+ decodeURIComponent(this.filename.replace(/[+]/g,"%20")) +"' complete.";
 
 		this.fireEvent(UPLOAD_EVENT_COMPLETED);
 
@@ -512,7 +509,7 @@ Upload.prototype.updateStatus = function(uploadStatus)
 	}
 
 	if (typeof uploadStatus.message == "string")
-		this.progressMessage.innerHTML = decodeURI(uploadStatus.message.replace(/[+]/g,"%20").replace(/%3A/,":").replace(/%2F/g,"/"));
+		this.progressMessage.innerHTML = decodeURIComponent(uploadStatus.message.replace(/[+]/g,"%20").replace(/%3A/,":").replace(/%2F/g,"/"));
 
 	if (typeof uploadStatus.percentComplete == "number")
 		this.progressBar.setPercentage(uploadStatus.percentComplete);
