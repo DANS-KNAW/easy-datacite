@@ -8,6 +8,12 @@
 			<Pattern>%highlight(%-5level [%thread]: %msg) %n</Pattern>
 		</encoder>
 	</appender>
+	
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<Pattern>%-5level [%thread]: %msg %n</Pattern>
+		</encoder>
+	</appender>	
 
 	<appender name="STATISTICS_ROLLING_FILE_LOG"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -76,7 +82,7 @@
 	</appender>
 
 	<root level="warn">
-		<appender-ref ref="COLOR_CONSOLE" />
+		<appender-ref ref="CONSOLE" />
 		<appender-ref ref="EASY_LOG" />
 	</root>
 
@@ -89,7 +95,7 @@
 
 	<logger name="statistics" level="info" additivity="false">
 		<appender-ref ref="STATISTICS_ROLLING_FILE_LOG" />
-		<appender-ref ref="COLOR_CONSOLE" />
+		<appender-ref ref="CONSOLE" />
 	</logger>
 
 </configuration>

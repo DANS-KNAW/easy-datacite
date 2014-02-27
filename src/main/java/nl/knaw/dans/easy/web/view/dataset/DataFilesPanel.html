@@ -1,104 +1,80 @@
 <html xmlns:wicket>
     <wicket:panel>
-    <div class="marginbottom">
-    	<wicket:enclosure child="explorer.message.noFiles">
-            <ul class="paddingtop">
-            	<li class="feedbackPanelINFO">
-                	<span wicket:id="explorer.message.noFiles">[no visible files]</span>
-            	</li>
-            </ul>
-        </wicket:enclosure>
-        <wicket:enclosure child="loginButton">
-            <ul class="paddingtop">
-            	<li class="feedbackPanelINFO">
-	                <wicket:message key="explorer.message.login">[Log in to see more]</wicket:message>
-					<a href="#" wicket:id="loginButton">Log In</a>
-				</li>
-			</ul>
-        </wicket:enclosure>
-        <wicket:enclosure child="explorer.message.embargo">
-            <ul class="paddingtop">
-            	<li class="feedbackPanelINFO">
-                	<span wicket:id="explorer.message.embargo">[embargo]</span>
-            	</li>
-            </ul>
-        </wicket:enclosure>
-        <wicket:enclosure child="explorer.message.permission">
-            <ul class="paddingtop">
-            	<li class="feedbackPanelINFO">
-	                <span wicket:id="explorer.message.permission">[permission]</span>
-	                <a wicket:id="explorer.message.permission.button">Request permission</a>
-	                <span wicket:id="explorer.message.permission.login">[permission after login]</span>
-            	</li>
-            </ul>
-        </wicket:enclosure>
-        <wicket:enclosure child="explorer.message.permission.submitted">
-            <ul class="paddingtop">
-            	<li class="feedbackPanelINFO">
-	                <span wicket:id="explorer.message.permission.submitted">[permission submitted]</span>
-	                <a wicket:id="explorer.message.permission.submitted.button">View request</a>
-            	</li>
-            </ul>
-        </wicket:enclosure>
-        <wicket:enclosure child="explorer.message.permission.returned">
-            <ul class="paddingtop">
-            	<li class="feedbackPanelINFO">
-	                <span wicket:id="explorer.message.permission.returned">[permission returned]</span>
-	                <a wicket:id="explorer.message.permission.returned.button">Review request</a>
-            	</li>
-            </ul>
-        </wicket:enclosure>
-        <wicket:enclosure child="explorer.message.permission.granted">
-            <ul class="paddingtop">
-            	<li class="feedbackPanelINFO">
-	                <span wicket:id="explorer.message.permission.granted">[permission granted]</span>
-	                <a wicket:id="explorer.message.permission.granted.button">View request</a>
-            	</li>
-            </ul>
-        </wicket:enclosure>
-        <wicket:enclosure child="explorer.message.permission.denied">
-            <ul class="paddingtop">
-            	<li class="feedbackPanelINFO">
-	                <span wicket:id="explorer.message.permission.denied">[permission denied]</span>
-	                <a wicket:id="explorer.message.permission.denied.button">View request</a>
-            	</li>
-            </ul>
-        </wicket:enclosure>
-        <wicket:enclosure child="explorer.message.permission.embargo">
-            <ul class="paddingtop">
-            	<li class="feedbackPanelINFO">
-                	<span wicket:id="explorer.message.permission.embargo">[permission embargo]</span>
-            	</li>
-            </ul>
-        </wicket:enclosure>
-        <wicket:enclosure child="explorer.message.group">
-            <ul class="paddingtop">
-            	<li class="feedbackPanelINFO">
-                	<wicket:message key="explorer.message.group">[group access]</wicket:message>
-            	</li>
-            </ul>
-        </wicket:enclosure>
-        <wicket:enclosure child="explorer.message.other">
-            <ul class="paddingtop">
-            	<li class="feedbackPanelINFO">
-                	<wicket:message key="explorer.message.other">[other access]</wicket:message>
-            	</li>
-            </ul>
-        </wicket:enclosure>
-        <wicket:enclosure child="explorer.message.depositor">
-            <ul class="paddingtop">
-            	<li class="feedbackPanelINFO">
-                	<wicket:message key="explorer.message.depositor">[depositor]</wicket:message>
-            	</li>
-            </ul>
-        </wicket:enclosure>
-        <wicket:enclosure child="explorer.message.depositor.draft">
-            <ul class="paddingtop">
-            	<li class="feedbackPanelINFO">
-                	<wicket:message key="explorer.message.depositor.draft">[depositor draft]</wicket:message>
-            	</li>
-            </ul>
-        </wicket:enclosure>
+    	<div class="feedback">
+        	<ul>
+	    		<wicket:enclosure child="explorer.message.noFiles">
+	            	<li class="feedbackPanelINFO">
+	                	<span wicket:id="explorer.message.noFiles">[no visible files]</span>
+	            	</li>
+	        	</wicket:enclosure>
+	        	<wicket:enclosure child="loginButton">
+	            	<li class="feedbackPanelINFO">
+		                <wicket:message key="explorer.message.login">[Log in to see more]</wicket:message>
+						<a href="#" wicket:id="loginButton">Log In</a>
+					</li>
+	        	</wicket:enclosure>
+	        	<wicket:enclosure child="explorer.message.embargo">
+	            	<li class="feedbackPanelINFO">
+	                	<span wicket:id="explorer.message.embargo">[embargo]</span>
+	            	</li>
+	        	</wicket:enclosure>
+	        	<wicket:enclosure child="explorer.message.permission">
+	            	<li class="feedbackPanelINFO">
+		                <span wicket:id="explorer.message.permission">[permission]</span>
+		                <a wicket:id="explorer.message.permission.button">Request permission</a>
+		                <span wicket:id="explorer.message.permission.login">[permission after login]</span>
+	            	</li>
+	        	</wicket:enclosure>
+	        	<wicket:enclosure child="explorer.message.permission.submitted">
+	            	<li class="feedbackPanelINFO">
+		                <span wicket:id="explorer.message.permission.submitted">[permission submitted]</span>
+		                <a wicket:id="explorer.message.permission.submitted.button">View request</a>
+	            	</li>
+	        	</wicket:enclosure>
+	        	<wicket:enclosure child="explorer.message.permission.returned">
+	            	<li class="feedbackPanelINFO">
+		                <span wicket:id="explorer.message.permission.returned">[permission returned]</span>
+		                <a wicket:id="explorer.message.permission.returned.button">Review request</a>
+	            	</li>
+	        	</wicket:enclosure>
+	        	<wicket:enclosure child="explorer.message.permission.granted">
+	            	<li class="feedbackPanelINFO">
+		                <span wicket:id="explorer.message.permission.granted">[permission granted]</span>
+		                <a wicket:id="explorer.message.permission.granted.button">View request</a>
+	            	</li>
+	        	</wicket:enclosure>
+	        	<wicket:enclosure child="explorer.message.permission.denied">
+	            	<li class="feedbackPanelINFO">
+		                <span wicket:id="explorer.message.permission.denied">[permission denied]</span>
+		                <a wicket:id="explorer.message.permission.denied.button">View request</a>
+	            	</li>
+	        	</wicket:enclosure>
+	        	<wicket:enclosure child="explorer.message.permission.embargo">
+	            	<li class="feedbackPanelINFO">
+	                	<span wicket:id="explorer.message.permission.embargo">[permission embargo]</span>
+	            	</li>
+	        	</wicket:enclosure>
+	        	<wicket:enclosure child="explorer.message.group">
+	            	<li class="feedbackPanelINFO">
+	                	<wicket:message key="explorer.message.group">[group access]</wicket:message>
+	            	</li>
+	        	</wicket:enclosure>
+	        	<wicket:enclosure child="explorer.message.other">
+	            	<li class="feedbackPanelINFO">
+	                	<wicket:message key="explorer.message.other">[other access]</wicket:message>
+	            	</li>
+	        	</wicket:enclosure>
+	        	<wicket:enclosure child="explorer.message.depositor">
+	            	<li class="feedbackPanelINFO">
+	                	<wicket:message key="explorer.message.depositor">[depositor]</wicket:message>
+	            	</li>
+	        	</wicket:enclosure>
+	        	<wicket:enclosure child="explorer.message.depositor.draft">
+	            	<li class="feedbackPanelINFO">
+	                	<wicket:message key="explorer.message.depositor.draft">[depositor draft]</wicket:message>
+	            	</li>
+	        	</wicket:enclosure>
+        	</ul>
         </div>
         <div wicket:id="fe" class="fileExplorerPanel">[File Explorer]</div>
     </wicket:panel>
