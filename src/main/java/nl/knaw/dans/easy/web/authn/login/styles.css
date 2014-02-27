@@ -34,7 +34,7 @@
 	clear: both;
 }
 #login-page .credential-or-information {
-	height: 11em;
+	min-height: 11em;
 }
 #login-page label {
 	width: 7em;
