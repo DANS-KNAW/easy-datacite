@@ -2,7 +2,6 @@ package nl.knaw.dans.easy.web.authn.login;
 
 import static org.easymock.EasyMock.isA;
 
-import java.io.Serializable;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,11 +27,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
-public class TestFederativeAuthenticationResultPage extends Fixture implements Serializable
+public class TestFederativeAuthenticationResultPage extends Fixture
 {
     private static final String MISSION_ACCOMPLISHED_MESSAGES = "missionAccomplishedFeedback:feedbackul:messages:0:message";
     private static final String SHIBOLET_ERROR_MESSAGE = "An error occurred while trying to log in with your federation account.  Please contact DANS (info@dans.knaw.nl) ";
-    private static final long serialVersionUID = 1L;
 
     private FederationUserFactory.Factory federationUserFactory;
     private FederativeUserService federativeUserService;
@@ -43,7 +41,6 @@ public class TestFederativeAuthenticationResultPage extends Fixture implements S
     public void mockFederationUser() throws Exception
     {
         easyUser = createUser();
-        PartiallyMockedResultPage.hasShibolethSession = true;
 
         federativeUserService = PowerMock.createMock(FederativeUserService.class);
         new Services().setFederativeUserService(federativeUserService);
@@ -79,7 +76,7 @@ public class TestFederativeAuthenticationResultPage extends Fixture implements S
         EasyMock.expect(federativeUserService.getUserById(isA(EasyUser.class), isA(String.class)))//
                 .andStubReturn(easyUser);
         easyUser.setState(State.ACTIVE);
-        tester = init();
+        final EasyWicketTester tester = init();
         tester.debugComponentTrees();
         tester.dumpPage();
         tester.assertRenderedPage(HomePage.class);
@@ -92,9 +89,9 @@ public class TestFederativeAuthenticationResultPage extends Fixture implements S
         EasyMock.expect(federativeUserService.getUserById(isA(EasyUser.class), isA(String.class)))//
                 .andStubReturn(easyUser);
         easyUser.setState(State.BLOCKED);
-        tester = init();
+        final EasyWicketTester tester = init();
         tester.dumpPage();
-        assertNotActive();
+        assertNotActive(tester);
     }
 
     @Test
@@ -104,9 +101,9 @@ public class TestFederativeAuthenticationResultPage extends Fixture implements S
         EasyMock.expect(federativeUserService.getUserById(isA(EasyUser.class), isA(String.class)))//
                 .andStubReturn(easyUser);
         easyUser.setState(State.REGISTERED);
-        tester = init();
+        final EasyWicketTester tester = init();
         tester.dumpPage();
-        assertNotActive();
+        assertNotActive(tester);
     }
 
     @Test
@@ -116,12 +113,12 @@ public class TestFederativeAuthenticationResultPage extends Fixture implements S
         EasyMock.expect(federativeUserService.getUserById(isA(EasyUser.class), isA(String.class)))//
                 .andStubReturn(easyUser);
         easyUser.setState(State.CONFIRMED_REGISTRATION);
-        tester = init();
+        final EasyWicketTester tester = init();
         tester.dumpPage();
-        assertNotActive();
+        assertNotActive(tester);
     }
 
-    private void assertNotActive()
+    private void assertNotActive(final EasyWicketTester tester)
     {
         tester.debugComponentTrees();
         tester.assertRenderedPage(LoginPage.class);
@@ -137,7 +134,7 @@ public class TestFederativeAuthenticationResultPage extends Fixture implements S
         EasyMock.expect(federativeUserService.getUserById(isA(EasyUser.class), isA(String.class)))//
                 .andStubThrow(new ObjectNotAvailableException("mockedException"));
         easyUser.setState(State.REGISTERED);
-        tester = init();
+        final EasyWicketTester tester = init();
         tester.assertRenderedPage(FederationToEasyAccountLinkingPage.class);
         tester.debugComponentTrees();
         tester.dumpPage();
@@ -155,7 +152,7 @@ public class TestFederativeAuthenticationResultPage extends Fixture implements S
         EasyMock.expect(federativeUserService.getUserById(isA(EasyUser.class), isA(String.class)))//
                 .andStubThrow(new ServiceException("mockedException"));
         easyUser.setState(State.REGISTERED);
-        tester = init();
+        final EasyWicketTester tester = init();
         tester.debugComponentTrees();
         tester.dumpPage();
         tester.assertRenderedPage(InfoPage.class);
@@ -167,9 +164,8 @@ public class TestFederativeAuthenticationResultPage extends Fixture implements S
     public void noShibolethSession() throws Exception
     {
         EasyMock.expect(federationUserFactory.create(EasyMock.isA(HttpServletRequest.class))).andThrow(new IllegalArgumentException("mockedException"));
-        PartiallyMockedResultPage.hasShibolethSession = false;
         easyUser.setState(State.REGISTERED);
-        tester = init();
+        final EasyWicketTester tester = init();
         tester.debugComponentTrees();
         tester.dumpPage();
         tester.assertRenderedPage(InfoPage.class);

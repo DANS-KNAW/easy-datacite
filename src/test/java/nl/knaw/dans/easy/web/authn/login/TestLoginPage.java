@@ -39,7 +39,7 @@ public class TestLoginPage extends Fixture
     @Test
     public void smokeTest() throws Exception
     {
-        tester = init();
+        EasyWicketTester tester = init();
         tester.assertRenderedPage(LoginPage.class);
         tester.assertInvisible(COMMON_FEEDBACK);
         tester.assertInvisible(USER_FEEDBACK);
@@ -57,7 +57,7 @@ public class TestLoginPage extends Fixture
     @Test
     public void emptyLogin() throws Exception
     {
-        tester = init();
+        EasyWicketTester tester = init();
         tester.clickLink(REG_LOGIN_SUBMIT);
         tester.assertRenderedPage(LoginPage.class);
 
@@ -69,7 +69,7 @@ public class TestLoginPage extends Fixture
     @Test
     public void forgottenPassword() throws Exception
     {
-        tester = init();
+        EasyWicketTester tester = init();
         tester.clickLink(FORGOTTEN_LINK);
         tester.assertRenderedPage(ForgottenPasswordPage.class);
     }
@@ -84,7 +84,7 @@ public class TestLoginPage extends Fixture
         userService.authenticate(authentication);
         EasyMock.expectLastCall();
 
-        tester = init();
+        EasyWicketTester tester = init();
 
         final FormTester formTester = tester.newFormTester(LOGIN_FORM);
         formTester.setValue("userId", VALID_USER_ID);
@@ -97,7 +97,7 @@ public class TestLoginPage extends Fixture
     @Test
     public void invalidLogin1() throws Exception
     {
-        submitInvalidUser();
+        EasyWicketTester tester = submitInvalidUser();
         tester.assertInvisible(COMMON_FEEDBACK);
     }
 
@@ -106,15 +106,15 @@ public class TestLoginPage extends Fixture
     {
         authentication.setState(State.NotAuthenticated);
         authentication.setUser(null);
-        submitInvalidUser();
+        EasyWicketTester tester = submitInvalidUser();
         tester.assertLabelContains(COMMON_FEEDBACK, "Not authenticated");
     }
 
-    private void submitInvalidUser() throws ServiceException
+    private EasyWicketTester submitInvalidUser() throws ServiceException
     {
         userService.authenticate(EasyMock.isA(Authentication.class));
         EasyMock.expectLastCall().anyTimes();
-        tester = init();
+        EasyWicketTester tester = init();
 
         final FormTester formTester = tester.newFormTester(LOGIN_FORM);
         formTester.setValue("userId", INVALID_USER_ID);
@@ -126,6 +126,7 @@ public class TestLoginPage extends Fixture
         tester.assertLabel(PASSWORD_FIELD, PASSWORD);
         tester.assertInvisible(CREDENTIALS_FEEDBACK);
         tester.assertInvisible(USER_FEEDBACK);
+        return tester;
     }
 
     protected EasyWicketTester init()
