@@ -87,6 +87,7 @@ public class FederativeAuthenticationResultPage extends AbstractEasyNavPage
                 catch (IllegalArgumentException e)
                 {
                     infoPageWithError();
+                    logger.debug(e.getMessage(), e);
                     return;
                 }
                 try
@@ -132,7 +133,8 @@ public class FederativeAuthenticationResultPage extends AbstractEasyNavPage
     boolean hasShibbolethSession(HttpServletRequest request)
     {
         if (propertyNameShibSessionID == null)
-            Services.getFederativeUserService().getPropertyNameShibSessionId();
+            propertyNameShibSessionID = Services.getFederativeUserService().getPropertyNameShibSessionId();
+        logger.debug("propertyNameShibSessionID = {}", propertyNameShibSessionID);
         return request.getAttribute(propertyNameShibSessionID) != null;
     }
 
