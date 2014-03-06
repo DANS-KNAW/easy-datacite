@@ -23,8 +23,8 @@ public class WizardNavigationPanel extends Panel
     private String labelResourceKey;
     private FormPage currentPage;
 
-    @SpringBean(name = "depositInstructionsBaseUrl")
-    private String depositInstructionsBaseUrl;
+    @SpringBean(name = "staticContentBaseUrl")
+    private String staticContentBaseUrl;
 
     public WizardNavigationPanel(String id, FormDefinition formDefinition, WizardNavigationListener listener)
     {
@@ -97,8 +97,8 @@ public class WizardNavigationPanel extends Panel
         add(new Label("label", new ResourceModel(labelResourceKey, "")));
         add(pageLinkContainer);
         String instructionFileNameBase = getInstructionFileNameBase();
-        add(new ExternalLink("instructionLink_EN", depositInstructionsBaseUrl + "/" + instructionFileNameBase + "UK.pdf" + "", "English"));
-        add(new ExternalLink("instructionLink_NL", depositInstructionsBaseUrl + "/" + instructionFileNameBase + "NL.pdf" + "", "Nederlands"));
+        add(new ExternalLink("instructionLink_EN", staticContentBaseUrl + "/" + instructionFileNameBase + "UK.pdf" + "", "English"));
+        add(new ExternalLink("instructionLink_NL", staticContentBaseUrl + "/" + instructionFileNameBase + "NL.pdf" + "", "Nederlands"));
     }
 
     private String getInstructionFileNameBase()

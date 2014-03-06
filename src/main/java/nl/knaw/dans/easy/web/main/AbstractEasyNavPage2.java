@@ -41,6 +41,7 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.link.PageLink;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,7 +71,6 @@ public abstract class AbstractEasyNavPage2 extends AbstractEasyPage
     private static final String HOME_PAGE = "homePage";
     private static final String BROWSE_PAGE = "browsePage";
     private static final String ADVANCED_SEARCH_PAGE = "advancedSearchPage";
-    private static final String DISCLAIMER_URL = "http://www.dans.knaw.nl/sites/default/files/file/archief/DisclaimerEASY.pdf";
     public static final String EDITABLE_ADMIN_BANNER_TEMPLATE = "/pages/AdminBanner.template";
 
     private static final int MAX_NAME_LENGTH = 30;
@@ -80,6 +80,9 @@ public abstract class AbstractEasyNavPage2 extends AbstractEasyPage
     private boolean isNumDatasetsRetrieved = false;
     private int numRequests = 0;
     private boolean isNumRequestsRetrieved = false;
+
+    @SpringBean(name = "staticContentBaseUrl")
+    private String staticContentBaseUrl;
 
     /**
      * Default constructor.
@@ -285,7 +288,11 @@ public abstract class AbstractEasyNavPage2 extends AbstractEasyPage
         add(new SystemReadOnlyLink());
 
         // footer
+        add(createUsingEASYLink());
+        add(createContactLink());
         add(createDisclaimerLink());
+        add(createLegalInformationLink());
+        add(createPropertyRightStatementLink());
         add(new VersionPanel(EASY_VERSION));
     }
 
@@ -458,11 +465,43 @@ public abstract class AbstractEasyNavPage2 extends AbstractEasyPage
             return false;
     }
 
+    private ExternalLink createUsingEASYLink()
+    {
+        String usingEASYLinkText = getLocalizer().getString("page.dansRef", this);
+        ExternalLink disclaimerLink = new ExternalLink("usingEASYLink", staticContentBaseUrl + "/" + "UsingEASY.html", usingEASYLinkText);
+        return disclaimerLink;
+    }
+
+    private ExternalLink createContactLink()
+    {
+        String contactLinkText = getLocalizer().getString("page.dansContact", this);
+        ExternalLink disclaimerLink = new ExternalLink("contactLink", staticContentBaseUrl + "/" + "Contact.html", contactLinkText);
+
+        return disclaimerLink;
+
+    }
+
+    private ExternalLink createLegalInformationLink()
+    {
+        String legalInformationLinkText = getLocalizer().getString("page.legalInfoRef", this);
+        ExternalLink disclaimerLink = new ExternalLink("legalInformationLink", staticContentBaseUrl + "/" + "LegalInformation.html", legalInformationLinkText);
+
+        return disclaimerLink;
+
+    }
+
     private ExternalLink createDisclaimerLink()
     {
         String disclaimerLinkText = getLocalizer().getString("page.disclaimerLinkText", this);
-        ExternalLink disclaimerLink = new ExternalLink("disclaimerLink", DISCLAIMER_URL, disclaimerLinkText);
+        ExternalLink disclaimerLink = new ExternalLink("disclaimerLink", staticContentBaseUrl + "/" + "DisclaimerEASY.pdf", disclaimerLinkText);
         return disclaimerLink;
+    }
 
+    private ExternalLink createPropertyRightStatementLink()
+    {
+        String propertyRightStatementLinkText = getLocalizer().getString("page.propertyRightsRef", this);
+        ExternalLink disclaimerLink = new ExternalLink("propertyRightStatementLink", staticContentBaseUrl + "/" + "PropertyRightStatement.html",
+                propertyRightStatementLinkText);
+        return disclaimerLink;
     }
 }

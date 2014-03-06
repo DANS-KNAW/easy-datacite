@@ -63,6 +63,7 @@ public class TestRegistrationPage
     {
         ApplicationContextMock ctx = new ApplicationContextMock();
         ctx.putBean("editableContentHome", new FileSystemHomeDirectory(new File("src/main/assembly/dist/res/example/editable")));
+        ctx.putBean("staticContentBaseUrl", "http://develop01.dans.knaw.nl/statics");
         EasyWicketApplication app = new EasyWicketApplication();
         app.setApplicationContext(ctx);
         tester = new WicketTester(app);

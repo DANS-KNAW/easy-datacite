@@ -60,6 +60,7 @@ public class Fixture
         applicationContext.putBean("userService", userService);
         applicationContext.putBean("federationLoginDebugEnabled", false);
         applicationContext.putBean("federationLoginDebugUserFile", "");
+        applicationContext.putBean("staticContentBaseUrl", "http://develop01.dans.knaw.nl/statics");
     }
 
     @After

@@ -30,8 +30,8 @@ public class DepositIntroPage extends AbstractEasyNavPage
     @SpringBean(name = "depositService")
     private DepositService depositService;
 
-    @SpringBean(name = "depositInstructionsBaseUrl")
-    private String depositInstructionsBaseUrl;
+    @SpringBean(name = "staticContentBaseUrl")
+    private String staticContentBaseUrl;
 
     @Override
     protected void onBeforeRender()
@@ -58,8 +58,8 @@ public class DepositIntroPage extends AbstractEasyNavPage
                 final FormDescriptor formDescriptor = discipline.getEmdFormDescriptor();
 
                 item.add(new Label("discipline.name", new ResourceModel(formDescriptor.getLabelResourceKey())));
-                item.add(new ExternalLink("instructionLink_EN", depositInstructionsBaseUrl + "/" + formDescriptor.getInstructionFile() + "UK.pdf", "English"));
-                item.add(new ExternalLink("instructionLink_NL", depositInstructionsBaseUrl + "/" + formDescriptor.getInstructionFile() + "NL.pdf", "Nederlands"));
+                item.add(new ExternalLink("instructionLink_EN", staticContentBaseUrl + "/" + formDescriptor.getInstructionFile() + "UK.pdf", "English"));
+                item.add(new ExternalLink("instructionLink_NL", staticContentBaseUrl + "/" + formDescriptor.getInstructionFile() + "NL.pdf", "Nederlands"));
 
                 Link<DepositDiscipline> startDepositLink = new Link<DepositDiscipline>("startDepositLink", item.getModel())
                 {

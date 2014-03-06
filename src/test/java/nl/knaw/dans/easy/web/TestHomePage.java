@@ -193,6 +193,7 @@ public class TestHomePage
         ctx.putBean("editableContentHome", new FileSystemHomeDirectory(new File("src/main/assembly/dist/res/example/editable")));
         ctx.putBean("systemReadOnlyStatus", systemReadOnlyStatus);
         ctx.putBean("searchService", searchServiceMock);
+        ctx.putBean("staticContentBaseUrl", "http://develop01.dans.knaw.nl/statics");
         ctx.putBean("authz", authz);
         EasyWicketApplication app = new EasyWicketApplication();
         app.setApplicationContext(ctx);
