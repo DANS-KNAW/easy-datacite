@@ -144,6 +144,6 @@ public abstract class DatasetNotification extends AbstractNotification
         attachments.clear();
         final URL url = Data.getEasyStore().getFileURL(dataset.getDmoStoreId(), new DsUnitId(LicenseUnit.UNIT_ID));
         final byte[] bytes = StreamUtil.getBytes(url.openStream());
-        attachments.add(new EasyMailerAttachmentImpl(new ByteArrayDataSource(bytes, LicenseUnit.MIME_TYPE), LicenseUnit.UNIT_LABEL, "The licence"));
+        attachments.add(new EasyMailerAttachmentImpl(new ByteArrayDataSource(bytes, LicenseUnit.MIME_TYPE), LicenseUnit.UNIT_LABEL, "license.pdf"));
     }
 }
