@@ -11,6 +11,17 @@
 	<fileSets>
 		<fileSet>
 			<directory>${project.basedir}/src/main/assembly/dist</directory>
+			<excludes>
+				<exclude>**/*.sh</exclude>
+			</excludes>
+			<outputDirectory>/</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>${project.basedir}/src/main/assembly/dist</directory>
+			<includes>
+				<include>**/*.sh</include>
+			</includes>
+			<fileMode>0755</fileMode>
 			<outputDirectory>/</outputDirectory>
 		</fileSet>
 	</fileSets>
