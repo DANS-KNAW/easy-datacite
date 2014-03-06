@@ -1,18 +1,6 @@
 package nl.knaw.dans.easy.web.authn.login;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.Serializable;
-import java.util.Properties;
-
-import javax.servlet.http.HttpServletRequest;
-
-import nl.knaw.dans.easy.servicelayer.services.Services;
-
-import org.springframework.beans.BeanWrapper;
-import org.springframework.beans.BeanWrapperImpl;
 
 public class FederationUser implements Serializable
 {
@@ -23,39 +11,6 @@ public class FederationUser implements Serializable
     private String givenName;
     private String surName;
     private String homeOrg;
-
-    public static FederationUser fromHttpRequest(HttpServletRequest request)
-    {
-        FederationUser appUser = new FederationUser();
-        String userId = (String) request.getAttribute(Services.getFederativeUserService().getPropertyNameRemoteUser());
-        if (!isSet(userId))
-        {
-            throw new IllegalArgumentException(String.format("Attribute %s must be present", Services.getFederativeUserService().getPropertyNameRemoteUser()));
-        }
-        appUser.setUserId(userId);
-        String mail = (String) request.getAttribute(Services.getFederativeUserService().getPropertyNameEmail());
-        if (isSet(mail))
-        {
-            appUser.setEmail(mail);
-        }
-        String givenName = (String) request.getAttribute(Services.getFederativeUserService().getPropertyNameFirstName());
-        if (isSet(givenName))
-        {
-            appUser.setGivenName(givenName);
-        }
-        String surName = (String) request.getAttribute(Services.getFederativeUserService().getPropertyNameSurname());
-        if (isSet(surName))
-        {
-            appUser.setSurName(surName);
-        }
-        String homeOrg = (String) request.getAttribute(Services.getFederativeUserService().getPopertyNameOrganization());
-        if (isSet(homeOrg))
-        {
-            appUser.setHomeOrg(homeOrg);
-        }
-
-        return appUser;
-    }
 
     public String getEmail()
     {
@@ -135,26 +90,5 @@ public class FederationUser implements Serializable
             }
         }
         return n;
-    }
-
-    public static FederationUser fromFile(File debugFile)
-    {
-        FederationUser u = new FederationUser();
-        BeanWrapper w = new BeanWrapperImpl(u);
-        Properties p = new Properties();
-        try
-        {
-            p.load(new FileInputStream(debugFile));
-        }
-        catch (FileNotFoundException e)
-        {
-            throw new RuntimeException("Could not find the FederationUser debug file", e);
-        }
-        catch (IOException e)
-        {
-            throw new RuntimeException("Could not read the FederationUser debug file", e);
-        }
-        w.setPropertyValues(p);
-        return u;
     }
 }

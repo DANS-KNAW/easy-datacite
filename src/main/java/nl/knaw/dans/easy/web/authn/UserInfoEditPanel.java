@@ -7,6 +7,7 @@ import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceList;
 import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.easy.servicelayer.services.UserService;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.ErrorPage;
 import nl.knaw.dans.easy.web.HomePage;
@@ -33,6 +34,7 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.ResourceModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.validation.validator.EmailAddressValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +52,9 @@ public class UserInfoEditPanel extends AbstractEasyStatelessPanel implements Eas
     private final boolean enableModeSwitch;
     private boolean hasPassword = false;
 
+    @SpringBean(name = "userService")
+    private UserService userService;
+
     public UserInfoEditPanel(final SwitchPanel parent, final String userId, final boolean enableModeSwitch)
     {
         super(SwitchPanel.SWITCH_PANEL_WI);
@@ -63,7 +68,7 @@ public class UserInfoEditPanel extends AbstractEasyStatelessPanel implements Eas
         EasyUser user = null;
         try
         {
-            user = Services.getUserService().getUserById(getSessionUser(), userId);
+            user = userService.getUserById(getSessionUser(), userId);
         }
         catch (ServiceException e)
         {
@@ -79,7 +84,7 @@ public class UserInfoEditPanel extends AbstractEasyStatelessPanel implements Eas
         // check if user has a password, federative users might not have it.
         try
         {
-            hasPassword = Services.getUserService().isUserWithStoredPassword(user);
+            hasPassword = userService.isUserWithStoredPassword(user);
         }
         catch (ServiceException e)
         {

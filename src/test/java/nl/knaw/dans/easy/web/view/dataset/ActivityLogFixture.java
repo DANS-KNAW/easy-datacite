@@ -3,13 +3,13 @@ package nl.knaw.dans.easy.web.view.dataset;
 import static org.easymock.EasyMock.isA;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Locale;
 
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
+import nl.knaw.dans.easy.EasyApplicationContextMock;
+import nl.knaw.dans.easy.EasyWicketTester;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
 import nl.knaw.dans.easy.domain.download.DownloadHistory;
@@ -21,17 +21,11 @@ import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
-import nl.knaw.dans.easy.security.CodedAuthz;
-import nl.knaw.dans.easy.security.Security;
-import nl.knaw.dans.easy.servicelayer.SystemReadOnlyStatus;
 import nl.knaw.dans.easy.servicelayer.services.DatasetService;
 import nl.knaw.dans.easy.servicelayer.services.UserService;
 import nl.knaw.dans.easy.web.EasyWicketApplication;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.wicket.Component;
 import org.apache.wicket.Session;
-import org.apache.wicket.spring.test.ApplicationContextMock;
 import org.apache.wicket.util.tester.WicketTester;
 import org.easymock.EasyMock;
 import org.joda.time.DateTime;
@@ -50,23 +44,16 @@ public class ActivityLogFixture
             CreatorRole.DEPOSITOR, null, VisibleTo.ANONYMOUS, AccessibleTo.ANONYMOUS);
     protected static DatasetService datasetService;
     protected static UserService userService;
-    private static ApplicationContextMock applicationContext;
+    private static EasyApplicationContextMock applicationContext;
     private StringBuffer labelErrors;
 
     @BeforeClass
     public static void mockApplicationContext() throws Exception
     {
-        final SystemReadOnlyStatus systemReadOnlyStatus = new SystemReadOnlyStatus(new File("target/systemReadonlyStatus.propeties"));
-        final CodedAuthz codedAuthz = new CodedAuthz();
-        codedAuthz.setSystemReadOnlyStatus(systemReadOnlyStatus);
-
         datasetService = PowerMock.createMock(DatasetService.class);
         userService = PowerMock.createMock(UserService.class);
 
-        applicationContext = new ApplicationContextMock();
-        applicationContext.putBean("systemReadOnlyStatus", systemReadOnlyStatus);
-        applicationContext.putBean("authz", codedAuthz);
-        applicationContext.putBean("security", new Security(codedAuthz));
+        applicationContext = new EasyApplicationContextMock(false);
         applicationContext.putBean("datasetService", datasetService);
         applicationContext.putBean("userService", userService);
     }
@@ -171,38 +158,7 @@ public class ActivityLogFixture
     {
         final EasyWicketApplication application = new EasyWicketApplication();
         application.setApplicationContext(applicationContext);
-
-        final WicketTester tester = new WicketTester(application)
-        {
-            @Override
-            public void dumpPage()
-            {
-                try
-                {
-                    final StackTraceElement caller = new Exception().getStackTrace()[1];
-                    final String testClass = caller.getClassName().replaceAll(".*[.]", "");
-                    final String testMethod = caller.getMethodName();
-                    final File file = new File("target/" + testClass + "/" + testMethod + ".html");
-                    FileUtils.write(file, getServletResponse().getDocument());
-                }
-                catch (final IOException e)
-                {
-                    super.dumpPage();
-                }
-            }
-
-            @Override
-            public void assertLabel(final String path, final String expected)
-            {
-                // failure messages become clearer with a path; collect all label assertions
-                final Component component = getComponentFromLastRenderedPage(path);
-                final String label = component.getDefaultModelObjectAsString();
-                if (label == null && expected != null)
-                    labelErrors.append("\nexpected [" + expected + "] but did not find " + path);
-                if (!expected.equals(label))
-                    labelErrors.append("\nexpected [" + expected + "] got [" + label + "] " + path);
-            }
-        };
+        final EasyWicketTester tester = EasyWicketTester.create(applicationContext);
 
         // tell resource locator were to find HTML of TestHomePage
         tester.getApplication().getResourceSettings().addResourceFolder("src/test/java/");

@@ -4,7 +4,7 @@ import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
-import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.easy.servicelayer.services.UserService;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.ErrorPage;
 import nl.knaw.dans.easy.web.common.DisciplineUtils;
@@ -18,6 +18,7 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +34,9 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
     private final boolean enableModeSwitch;
     private boolean hasPassword = false;
 
+    @SpringBean(name = "userService")
+    private UserService userService;
+
     public UserInfoDisplayPanel(final SwitchPanel parent, final String userId, final boolean enableModeSwitch)
     {
         super(SwitchPanel.SWITCH_PANEL_WI);
@@ -46,7 +50,7 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
         EasyUser user = null;
         try
         {
-            user = Services.getUserService().getUserById(getSessionUser(), userId);
+            user = userService.getUserById(getSessionUser(), userId);
         }
         catch (ServiceException e)
         {
@@ -63,7 +67,7 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
         // check if user has a password, federative users might not have it.
         try
         {
-            hasPassword = Services.getUserService().isUserWithStoredPassword(user);
+            hasPassword = userService.isUserWithStoredPassword(user);
         }
         catch (ServiceException e)
         {

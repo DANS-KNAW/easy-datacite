@@ -13,7 +13,15 @@ import ch.qos.logback.core.util.StatusPrinter;
 
 // CHECKSTYLE:OFF
 /**
- * Start tester.
+ * Start interactive tester. Recommended VM arguments:
+ * 
+ * <pre>
+ * -Xmx1g -DEASY_WEBUI_HOME=/YOUR_PATH_TO/easy-webui-home -Dlogback.configurationFile=/YOUR_PATH_TO/logback.xml -Dwicket.configuration=development
+ * </pre>
+ * 
+ * Examples of the logback.xml are available in src/main/resources/ as wel as src/main/assembly/dist/cfg/
+ * The folder easy-webui-home should contain a copy of the folders under src/main/assembly/dist please
+ * adjust cfg/application.properties
  */
 public final class Start // NOPMD
 {

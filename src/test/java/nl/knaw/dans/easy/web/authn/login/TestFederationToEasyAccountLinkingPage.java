@@ -1,8 +1,5 @@
 package nl.knaw.dans.easy.web.authn.login;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import nl.knaw.dans.easy.EasyWicketTester;
 
 import org.apache.wicket.Page;
@@ -32,7 +29,7 @@ public class TestFederationToEasyAccountLinkingPage extends Fixture
     @Test
     public void smokeTest() throws Exception
     {
-        tester = init();
+        final EasyWicketTester tester = init();
         tester.dumpPage();
 
         tester.assertRenderedPage(FederationToEasyAccountLinkingPage.class);
@@ -49,7 +46,7 @@ public class TestFederationToEasyAccountLinkingPage extends Fixture
     @Test
     public void emptyLogin() throws Exception
     {
-        tester = init();
+        final EasyWicketTester tester = init();
         tester.clickLink(REG_LOGIN_SUBMIT);
         tester.dumpPage();
 
@@ -77,8 +74,8 @@ public class TestFederationToEasyAccountLinkingPage extends Fixture
         // authentication.setCredentials(EasyMock.isA(String.class));
         // EasyMock.expectLastCall().anyTimes();
 
-        tester = init();
-        FormTester formTester = tester.newFormTester("loginPanelRegular:loginForm");
+        final EasyWicketTester tester = init();
+        final FormTester formTester = tester.newFormTester("loginPanelRegular:loginForm");
         formTester.setValue("userId", "wrongUser");
         formTester.setValue("credentials", "wrongPassword");
         tester.clickLink(REG_LOGIN_SUBMIT);
