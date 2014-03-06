@@ -57,7 +57,7 @@ public class FederativeAuthenticationResultPage extends AbstractEasyNavPage
         catch (IllegalArgumentException e)
         {
             logger.error(e.getMessage());
-            setInfoResponePage();
+            setInfoResponePage(e);
             return;
         }
         EasyUser easyUser;
@@ -74,7 +74,7 @@ public class FederativeAuthenticationResultPage extends AbstractEasyNavPage
         catch (ServiceException e)
         {
             logger.error("Could not get easy user with the given federative user id: {}", fedUser.getUserId(), e);
-            setInfoResponePage();
+            setInfoResponePage(e);
             return;
         }
         Authentication authentication = new Authentication();
@@ -99,9 +99,10 @@ public class FederativeAuthenticationResultPage extends AbstractEasyNavPage
         }
     }
 
-    private void setInfoResponePage()
+    private void setInfoResponePage(Exception e)
     {
         warningMessage("federative.error_during_federation_login");
+        logger.debug(e.getMessage(), e);
         setResponsePage(new InfoPage("Error during federation login"));
     }
 }
