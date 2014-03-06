@@ -10,7 +10,6 @@
 	</parent>
 	<artifactId>easy-webui</artifactId>
 	<name>EASY Web-UI Application</name>
-	<version>2.8-RC-3</version>
 	<packaging>war</packaging>
 	<description>Easy Web user interface application</description>
 	<dependencies>
