@@ -10,15 +10,6 @@
 	</formats>
 	<fileSets>
 		<fileSet>
-			<directory>${project.basedir}</directory>
-			<outputDirectory>/</outputDirectory>
-			<includes>
-				<include>README*</include>
-				<include>LICENSE*</include>
-				<include>NOTICE*</include>
-			</includes>
-		</fileSet>
-		<fileSet>
 			<directory>${project.build.directory}</directory>
 			<outputDirectory>/bin</outputDirectory>
 			<includes>
@@ -29,6 +20,17 @@
 		<fileSet>
 			<directory>${project.basedir}/src/main/assembly/dist</directory>
 			<outputDirectory>/</outputDirectory>
+			<excludes>
+				<exclude>**/*.sh</exclude>
+			</excludes>
+		</fileSet>
+		<fileSet>
+			<directory>${project.basedir}/src/main/assembly/dist</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>**/*.sh</include>
+			</includes>
+			<fileMode>0755</fileMode>
 		</fileSet>
 	</fileSets>
 </assembly>
