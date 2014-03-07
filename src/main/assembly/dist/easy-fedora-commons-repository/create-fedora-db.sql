@@ -1,0 +1,2 @@
+CREATE ROLE fedora_db_admin WITH LOGIN;
+CREATE DATABASE fedora3 WITH ENCODING='UTF8' OWNER=fedora_db_admin;

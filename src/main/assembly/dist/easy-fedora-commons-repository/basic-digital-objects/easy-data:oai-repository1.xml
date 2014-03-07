@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<foxml:digitalObject xmlns:foxml="info:fedora/fedora-system:def/foxml#" VERSION="1.1" PID="easy-data:oai-repository1">
+    <foxml:objectProperties>
+        <foxml:property NAME="info:fedora/fedora-system:def/model#label" VALUE="OAI Repository data"/>
+        <foxml:property NAME="info:fedora/fedora-system:def/model#state" VALUE="Active"/>
+    </foxml:objectProperties>
+    <foxml:datastream ID="DC" CONTROL_GROUP="X" STATE="A" VERSIONABLE="true">
+        <foxml:datastreamVersion ID="DC1.0" LABEL="Dublin Core Record for this object" CREATED="2012-04-19T16:20:16.797+02:00" MIMETYPE="text/xml" FORMAT_URI="http://www.openarchives.org/OAI/2.0/oai_dc/" SIZE="397">
+            <foxml:xmlContent>
+            <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+  <dc:title>OAI Repository data</dc:title>
+  <dc:identifier>easy-data:oai-repository1</dc:identifier>
+</oai_dc:dc>
+            </foxml:xmlContent>
+        </foxml:datastreamVersion>
+    </foxml:datastream>
+    <foxml:datastream ID="RELS-EXT" CONTROL_GROUP="X" STATE="A" VERSIONABLE="true">
+        <foxml:datastreamVersion ID="RELS-EXT.0" LABEL="RDF Statements about this object" CREATED="2012-04-19T16:20:16.797+02:00" MIMETYPE="application/rdf+xml" FORMAT_URI="info:fedora/fedora-system:FedoraRELSExt-1.0" SIZE="365">
+            <foxml:xmlContent>
+            <rdf:RDF xmlns:fedora-model="info:fedora/fedora-system:def/model#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+          <rdf:Description rdf:about="info:fedora/easy-data:oai-repository1">
+            <fedora-model:hasModel rdf:resource="info:fedora/easy-model:oai-repository1"/>
+          </rdf:Description>
+        </rdf:RDF>
+            </foxml:xmlContent>
+        </foxml:datastreamVersion>
+    </foxml:datastream>
+    <foxml:datastream ID="Identify.xml" CONTROL_GROUP="X" STATE="A" VERSIONABLE="true">
+        <foxml:datastreamVersion ID="Identify.xml.0" LABEL="OAI Identification Response for this repository" CREATED="2012-04-19T16:20:16.797+02:00" MIMETYPE="text/xml" SIZE="997">
+            <foxml:xmlContent>
+            <Identify>
+          <repositoryName>DANS Easy 2 Repository</repositoryName>
+          <baseURL>http://easy.dans.knaw.nl/oai</baseURL>
+          <protocolVersion>2.0</protocolVersion>
+          <adminEmail>mailto:info@dans.knaw.nl</adminEmail>
+          <earliestDatestamp>2005-07-01T12:00:00Z</earliestDatestamp>
+          <deletedRecord>transient</deletedRecord>
+          <granularity>YYYY-MM-DDThh:mm:ssZ</granularity>
+          <description>
+		    <oai-identifier xmlns="http://www.openarchives.org/OAI/2.0/oai-identifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai-identifier         http://www.openarchives.org/OAI/2.0/oai-identifier.xsd">
+		      <scheme>oai</scheme>
+		      <repositoryIdentifier>easy.dans.knaw.nl</repositoryIdentifier>
+		      <delimiter>:</delimiter>
+		      <sampleIdentifier>oai:easy.dans.knaw.nl:easy-dataset:1</sampleIdentifier>
+		    </oai-identifier>
+		  </description>
+        </Identify>
+            </foxml:xmlContent>
+        </foxml:datastreamVersion>
+    </foxml:datastream>
+</foxml:digitalObject>
