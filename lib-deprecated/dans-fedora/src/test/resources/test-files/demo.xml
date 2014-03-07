@@ -1,0 +1,1982 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<foxml:digitalObject PID="demo:123" VERSION="1.1" xmlns:foxml="info:fedora/fedora-system:def/foxml#"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/definitions/1/0/foxml1-1.xsd">
+  <foxml:objectProperties>
+    <foxml:property NAME="info:fedora/fedora-system:def/model#state" VALUE="Active"/>
+    <foxml:property NAME="info:fedora/fedora-system:def/model#label" VALUE="Test dataset"/>
+    <foxml:property NAME="info:fedora/fedora-system:def/model#ownerId" VALUE="test"/>
+    <foxml:property NAME="info:fedora/fedora-system:def/model#createdDate" VALUE="2009-08-18T08:37:27.260Z"/>
+    <foxml:property NAME="info:fedora/fedora-system:def/view#lastModifiedDate" VALUE="2009-08-31T10:08:11.806Z"/>
+  </foxml:objectProperties>
+  <foxml:datastream CONTROL_GROUP="X" ID="AUDIT" STATE="A" VERSIONABLE="false">
+    <foxml:datastreamVersion CREATED="2009-08-18T08:37:27.260Z"
+      FORMAT_URI="info:fedora/fedora-system:format/xml.fedora.audit" ID="AUDIT.0" LABEL="Audit Trail for this object" MIMETYPE="text/xml">
+      <foxml:xmlContent>
+        <audit:auditTrail xmlns:audit="info:fedora/fedora-system:def/audit#">
+          <audit:record ID="AUDREC1">
+            <audit:process type="Fedora API-M"/>
+            <audit:action>ingest</audit:action>
+            <audit:componentID/>
+            <audit:responsibility>fedoraAdmin</audit:responsibility>
+            <audit:date>2009-08-18T08:37:27.260Z</audit:date>
+            <audit:justification>bla bla</audit:justification>
+          </audit:record>
+          <audit:record ID="AUDREC2">
+            <audit:process type="Fedora API-M"/>
+            <audit:action>modifyDatastreamByValue</audit:action>
+            <audit:componentID>AMD</audit:componentID>
+            <audit:responsibility>fedoraAdmin</audit:responsibility>
+            <audit:date>2009-08-18T12:49:46.365Z</audit:date>
+            <audit:justification/>
+          </audit:record>
+          <audit:record ID="AUDREC3">
+            <audit:process type="Fedora API-M"/>
+            <audit:action>modifyDatastreamByValue</audit:action>
+            <audit:componentID>AMD</audit:componentID>
+            <audit:responsibility>fedoraAdmin</audit:responsibility>
+            <audit:date>2009-08-18T13:02:49.321Z</audit:date>
+            <audit:justification/>
+          </audit:record>
+          <audit:record ID="AUDREC4">
+            <audit:process type="Fedora API-M"/>
+            <audit:action>modifyDatastreamByValue</audit:action>
+            <audit:componentID>AMD</audit:componentID>
+            <audit:responsibility>fedoraAdmin</audit:responsibility>
+            <audit:date>2009-08-18T13:04:56.469Z</audit:date>
+            <audit:justification/>
+          </audit:record>
+          <audit:record ID="AUDREC5">
+            <audit:process type="Fedora API-M"/>
+            <audit:action>modifyDatastreamByValue</audit:action>
+            <audit:componentID>AMD</audit:componentID>
+            <audit:responsibility>fedoraAdmin</audit:responsibility>
+            <audit:date>2009-08-30T15:30:04.708Z</audit:date>
+            <audit:justification>AdministrativeMetadata modified by archivist</audit:justification>
+          </audit:record>
+          <audit:record ID="AUDREC6">
+            <audit:process type="Fedora API-M"/>
+            <audit:action>modifyDatastreamByValue</audit:action>
+            <audit:componentID>AMD</audit:componentID>
+            <audit:responsibility>fedoraAdmin</audit:responsibility>
+            <audit:date>2009-08-30T15:30:10.316Z</audit:date>
+            <audit:justification>AdministrativeMetadata modified by archivist</audit:justification>
+          </audit:record>
+          <audit:record ID="AUDREC7">
+            <audit:process type="Fedora API-M"/>
+            <audit:action>modifyDatastreamByValue</audit:action>
+            <audit:componentID>AMD</audit:componentID>
+            <audit:responsibility>fedoraAdmin</audit:responsibility>
+            <audit:date>2009-08-30T15:30:32.317Z</audit:date>
+            <audit:justification>AdministrativeMetadata modified by archivist</audit:justification>
+          </audit:record>
+          <audit:record ID="AUDREC8">
+            <audit:process type="Fedora API-M"/>
+            <audit:action>modifyDatastreamByValue</audit:action>
+            <audit:componentID>AMD</audit:componentID>
+            <audit:responsibility>fedoraAdmin</audit:responsibility>
+            <audit:date>2009-08-30T15:30:34.781Z</audit:date>
+            <audit:justification>AdministrativeMetadata modified by archivist</audit:justification>
+          </audit:record>
+          <audit:record ID="AUDREC9">
+            <audit:process type="Fedora API-M"/>
+            <audit:action>modifyDatastreamByValue</audit:action>
+            <audit:componentID>AMD</audit:componentID>
+            <audit:responsibility>fedoraAdmin</audit:responsibility>
+            <audit:date>2009-08-30T15:30:49.551Z</audit:date>
+            <audit:justification>AdministrativeMetadata modified by archivist</audit:justification>
+          </audit:record>
+          <audit:record ID="AUDREC10">
+            <audit:process type="Fedora API-M"/>
+            <audit:action>modifyDatastreamByValue</audit:action>
+            <audit:componentID>AMD</audit:componentID>
+            <audit:responsibility>fedoraAdmin</audit:responsibility>
+            <audit:date>2009-08-30T15:30:58.303Z</audit:date>
+            <audit:justification>AdministrativeMetadata modified by archivist</audit:justification>
+          </audit:record>
+          <audit:record ID="AUDREC11">
+            <audit:process type="Fedora API-M"/>
+            <audit:action>modifyDatastreamByValue</audit:action>
+            <audit:componentID>EMD</audit:componentID>
+            <audit:responsibility>fedoraAdmin</audit:responsibility>
+            <audit:date>2009-08-31T10:08:11.505Z</audit:date>
+            <audit:justification>EasyMetadata modified by archivist</audit:justification>
+          </audit:record>
+          <audit:record ID="AUDREC12">
+            <audit:process type="Fedora API-M"/>
+            <audit:action>modifyDatastreamByValue</audit:action>
+            <audit:componentID>DC</audit:componentID>
+            <audit:responsibility>fedoraAdmin</audit:responsibility>
+            <audit:date>2009-08-31T10:08:11.806Z</audit:date>
+            <audit:justification>EasyMetadata modified by archivist</audit:justification>
+          </audit:record>
+        </audit:auditTrail>
+      </foxml:xmlContent>
+    </foxml:datastreamVersion>
+  </foxml:datastream>
+  <foxml:datastream CONTROL_GROUP="X" ID="DC" STATE="A" VERSIONABLE="true">
+    <foxml:datastreamVersion CREATED="2009-08-18T08:37:27.357Z" FORMAT_URI="http://www.openarchives.org/OAI/2.0/oai_dc/"
+      ID="DC.0" LABEL="Dublin Core Record for this object" MIMETYPE="text/xml" SIZE="6729">
+      <foxml:xmlContent>
+        <oai_dc:dc xmlns:dc="http://purl.org/dc/elements/1.1/"
+          xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+          <dc:title>Test dataset</dc:title>
+          <dc:title>alternative 0</dc:title>
+          <dc:title>alternative 1</dc:title>
+          <dc:creator>creator 0</dc:creator>
+          <dc:creator>creator 1</dc:creator>
+          <dc:creator>Dr. creator 0, ABC van</dc:creator>
+          <dc:creator>Dr. creator 1, ABC van</dc:creator>
+          <dc:subject>subject 0</dc:subject>
+          <dc:subject>subject 1</dc:subject>
+          <dc:description>description 0</dc:description>
+          <dc:description>description 1</dc:description>
+          <dc:description>tableOfContents 0</dc:description>
+          <dc:description>tableOfContents 1</dc:description>
+          <dc:description>abstract 0</dc:description>
+          <dc:description>abstract 1</dc:description>
+          <dc:publisher>publisher 0</dc:publisher>
+          <dc:publisher>publisher 1</dc:publisher>
+          <dc:contributor>contributor 0</dc:contributor>
+          <dc:contributor>contributor 1</dc:contributor>
+          <dc:contributor>Dr. contributor 0, ABC van</dc:contributor>
+          <dc:contributor>Dr. contributor 1, ABC van</dc:contributor>
+          <dc:date>maart '98</dc:date>
+          <dc:date>maart '98</dc:date>
+          <dc:date>maart '98</dc:date>
+          <dc:date>maart '98</dc:date>
+          <dc:date>maart '98</dc:date>
+          <dc:date>maart '98</dc:date>
+          <dc:date>maart '98</dc:date>
+          <dc:date>maart '98</dc:date>
+          <dc:date>maart '98</dc:date>
+          <dc:date>maart '98</dc:date>
+          <dc:date>maart '98</dc:date>
+          <dc:date>maart '98</dc:date>
+          <dc:date>maart '98</dc:date>
+          <dc:date>maart '98</dc:date>
+          <dc:date>maart '98</dc:date>
+          <dc:date>maart '98</dc:date>
+          <dc:date>maart '98</dc:date>
+          <dc:date>maart '98</dc:date>
+          <dc:date>2009-08-18</dc:date>
+          <dc:date>2009-08-18</dc:date>
+          <dc:date>2009-08-18</dc:date>
+          <dc:date>2009-08-18</dc:date>
+          <dc:date>2009-08-18</dc:date>
+          <dc:date>2009-08-18</dc:date>
+          <dc:date>2009-08-18</dc:date>
+          <dc:date>2009-08-18</dc:date>
+          <dc:date>2009-08-18</dc:date>
+          <dc:date>2009-08-18</dc:date>
+          <dc:date>2009-08-18</dc:date>
+          <dc:date>2009-08-18</dc:date>
+          <dc:date>2009-08-18</dc:date>
+          <dc:date>2009-08-18</dc:date>
+          <dc:date>2009-08-18</dc:date>
+          <dc:date>2009-08-18</dc:date>
+          <dc:date>2009-08-18</dc:date>
+          <dc:date>2009-08-18</dc:date>
+          <dc:type>type 0</dc:type>
+          <dc:type>type 1</dc:type>
+          <dc:format>format 0</dc:format>
+          <dc:format>format 1</dc:format>
+          <dc:format>extent 0</dc:format>
+          <dc:format>extent 1</dc:format>
+          <dc:format>medium 0</dc:format>
+          <dc:format>medium 1</dc:format>
+          <dc:identifier>ABC0</dc:identifier>
+          <dc:identifier>ABC1</dc:identifier>
+          <dc:identifier>demo:123</dc:identifier>
+          <dc:source>ABC0</dc:source>
+          <dc:source>ABC1</dc:source>
+          <dc:language>language 0</dc:language>
+          <dc:language>language 1</dc:language>
+          <dc:relation>ABC0</dc:relation>
+          <dc:relation>ABC1</dc:relation>
+          <dc:relation>ABC0</dc:relation>
+          <dc:relation>ABC1</dc:relation>
+          <dc:relation>ABC0</dc:relation>
+          <dc:relation>ABC1</dc:relation>
+          <dc:relation>ABC0</dc:relation>
+          <dc:relation>ABC1</dc:relation>
+          <dc:relation>ABC0</dc:relation>
+          <dc:relation>ABC1</dc:relation>
+          <dc:relation>ABC0</dc:relation>
+          <dc:relation>ABC1</dc:relation>
+          <dc:relation>ABC0</dc:relation>
+          <dc:relation>ABC1</dc:relation>
+          <dc:relation>ABC0</dc:relation>
+          <dc:relation>ABC1</dc:relation>
+          <dc:relation>ABC0</dc:relation>
+          <dc:relation>ABC1</dc:relation>
+          <dc:relation>ABC0</dc:relation>
+          <dc:relation>ABC1</dc:relation>
+          <dc:relation>ABC0</dc:relation>
+          <dc:relation>ABC1</dc:relation>
+          <dc:relation>ABC0</dc:relation>
+          <dc:relation>ABC1</dc:relation>
+          <dc:relation>ABC0</dc:relation>
+          <dc:relation>ABC1</dc:relation>
+          <dc:relation>ABC0</dc:relation>
+          <dc:relation>ABC1</dc:relation>
+          <dc:relation>title=relation 0 URI=http://relation.com/sys0</dc:relation>
+          <dc:relation>title=relation 1 URI=http://relation.com/sys1</dc:relation>
+          <dc:relation>title=conformsTo 0 URI=http://relation.com/sys0</dc:relation>
+          <dc:relation>title=conformsTo 1 URI=http://relation.com/sys1</dc:relation>
+          <dc:relation>title=isVersionOf 0 URI=http://relation.com/sys0</dc:relation>
+          <dc:relation>title=isVersionOf 1 URI=http://relation.com/sys1</dc:relation>
+          <dc:relation>title=hasVersion 0 URI=http://relation.com/sys0</dc:relation>
+          <dc:relation>title=hasVersion 1 URI=http://relation.com/sys1</dc:relation>
+          <dc:relation>title=isReplacedBy 0 URI=http://relation.com/sys0</dc:relation>
+          <dc:relation>title=isReplacedBy 1 URI=http://relation.com/sys1</dc:relation>
+          <dc:relation>title=replaces 0 URI=http://relation.com/sys0</dc:relation>
+          <dc:relation>title=replaces 1 URI=http://relation.com/sys1</dc:relation>
+          <dc:relation>title=isRequiredBy 0 URI=http://relation.com/sys0</dc:relation>
+          <dc:relation>title=isRequiredBy 1 URI=http://relation.com/sys1</dc:relation>
+          <dc:relation>title=requires 0 URI=http://relation.com/sys0</dc:relation>
+          <dc:relation>title=requires 1 URI=http://relation.com/sys1</dc:relation>
+          <dc:relation>title=isPartOf 0 URI=http://relation.com/sys0</dc:relation>
+          <dc:relation>title=isPartOf 1 URI=http://relation.com/sys1</dc:relation>
+          <dc:relation>title=hasPart 0 URI=http://relation.com/sys0</dc:relation>
+          <dc:relation>title=hasPart 1 URI=http://relation.com/sys1</dc:relation>
+          <dc:relation>title=isReferencedBy 0 URI=http://relation.com/sys0</dc:relation>
+          <dc:relation>title=isReferencedBy 1 URI=http://relation.com/sys1</dc:relation>
+          <dc:relation>title=references 0 URI=http://relation.com/sys0</dc:relation>
+          <dc:relation>title=references 1 URI=http://relation.com/sys1</dc:relation>
+          <dc:relation>title=isFormatOf 0 URI=http://relation.com/sys0</dc:relation>
+          <dc:relation>title=isFormatOf 1 URI=http://relation.com/sys1</dc:relation>
+          <dc:relation>title=hasFormat 0 URI=http://relation.com/sys0</dc:relation>
+          <dc:relation>title=hasFormat 1 URI=http://relation.com/sys1</dc:relation>
+          <dc:coverage>coverage 0</dc:coverage>
+          <dc:coverage>coverage 1</dc:coverage>
+          <dc:coverage>spatial 0</dc:coverage>
+          <dc:coverage>spatial 1</dc:coverage>
+          <dc:coverage>temporal 0</dc:coverage>
+          <dc:coverage>temporal 1</dc:coverage>
+          <dc:coverage>name=spatial 0 scheme=POI0 x=123.45 y=456.78</dc:coverage>
+          <dc:coverage>name=spatial 1 scheme=BOX1 north=12.3 east=23.4 south=34.5 west=45.6</dc:coverage>
+          <dc:rights>rights 0</dc:rights>
+          <dc:rights>rights 1</dc:rights>
+          <dc:rights>accessRights 0</dc:rights>
+          <dc:rights>accessRights 1</dc:rights>
+          <dc:rights>license 0</dc:rights>
+          <dc:rights>license 1</dc:rights>
+        </oai_dc:dc>
+      </foxml:xmlContent>
+    </foxml:datastreamVersion>
+    <foxml:datastreamVersion CREATED="2009-08-31T10:08:11.806Z" FORMAT_URI="http://www.openarchives.org/OAI/2.0/oai_dc/"
+      ID="DC.1" LABEL="Dublin Core Record for this object" MIMETYPE="text/xml" SIZE="6600">
+      <foxml:xmlContent>
+        <oai_dc:dc xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/">
+          <dc:contributor>contributor 0</dc:contributor>
+          <dc:contributor>contributor 1</dc:contributor>
+          <dc:contributor>Dr. contributor 0, ABC van</dc:contributor>
+          <dc:contributor>Dr. contributor 1, ABC van</dc:contributor>
+          <dc:coverage>coverage 0</dc:coverage>
+          <dc:coverage>coverage 1</dc:coverage>
+          <dc:coverage>spatial 0</dc:coverage>
+          <dc:coverage>spatial 1</dc:coverage>
+          <dc:coverage>temporal 0</dc:coverage>
+          <dc:coverage>temporal 1</dc:coverage>
+          <dc:coverage>name=spatial 0 scheme=POI0 x=123.45 y=456.78</dc:coverage>
+          <dc:coverage>name=spatial 1 scheme=BOX1 north=12.3 east=23.4 south=34.5 west=45.6</dc:coverage>
+          <dc:creator>creator 0</dc:creator>
+          <dc:creator>creator 1</dc:creator>
+          <dc:creator>Dr. creator 0, ABC van</dc:creator>
+          <dc:creator>Dr. creator 1, ABC van</dc:creator>
+          <dc:date>maart '98</dc:date>
+          <dc:date>maart '98</dc:date>
+          <dc:date>maart '98</dc:date>
+          <dc:date>maart '98</dc:date>
+          <dc:date>maart '98</dc:date>
+          <dc:date>maart '98</dc:date>
+          <dc:date>maart '98</dc:date>
+          <dc:date>maart '98</dc:date>
+          <dc:date>maart '98</dc:date>
+          <dc:date>maart '98</dc:date>
+          <dc:date>maart '98</dc:date>
+          <dc:date>maart '98</dc:date>
+          <dc:date>maart '98</dc:date>
+          <dc:date>maart '98</dc:date>
+          <dc:date>maart '98</dc:date>
+          <dc:date>maart '98</dc:date>
+          <dc:date>maart '98</dc:date>
+          <dc:date>maart '98</dc:date>
+          <dc:date>2009-08-18</dc:date>
+          <dc:date>2009-08-18</dc:date>
+          <dc:date>2009-08-18</dc:date>
+          <dc:date>2009-08-18</dc:date>
+          <dc:date>2009-08-18</dc:date>
+          <dc:date>2009-08-18</dc:date>
+          <dc:date>2009-08-18</dc:date>
+          <dc:date>2009-08-18</dc:date>
+          <dc:date>2009-08-18</dc:date>
+          <dc:date>2009-08-18</dc:date>
+          <dc:date>2009-08-18</dc:date>
+          <dc:date>2009-08-18</dc:date>
+          <dc:date>2009-08-18</dc:date>
+          <dc:date>2009-08-18</dc:date>
+          <dc:date>2009-08-18</dc:date>
+          <dc:date>2009-08-18</dc:date>
+          <dc:date>2009-08-18</dc:date>
+          <dc:date>2009-08-18</dc:date>
+          <dc:description>description 0</dc:description>
+          <dc:description>description 1</dc:description>
+          <dc:description>tableOfContents 0</dc:description>
+          <dc:description>tableOfContents 1</dc:description>
+          <dc:description>abstract 0</dc:description>
+          <dc:description>abstract 1</dc:description>
+          <dc:format>format 0</dc:format>
+          <dc:format>format 1</dc:format>
+          <dc:format>extent 0</dc:format>
+          <dc:format>extent 1</dc:format>
+          <dc:format>medium 0</dc:format>
+          <dc:format>medium 1</dc:format>
+          <dc:identifier>ABC0</dc:identifier>
+          <dc:identifier>ABC1</dc:identifier>
+          <dc:identifier>demo:123</dc:identifier>
+          <dc:language>language 0</dc:language>
+          <dc:language>language 1</dc:language>
+          <dc:publisher>publisher 0</dc:publisher>
+          <dc:publisher>publisher 1</dc:publisher>
+          <dc:relation>ABC0</dc:relation>
+          <dc:relation>ABC1</dc:relation>
+          <dc:relation>ABC0</dc:relation>
+          <dc:relation>ABC1</dc:relation>
+          <dc:relation>ABC0</dc:relation>
+          <dc:relation>ABC1</dc:relation>
+          <dc:relation>ABC0</dc:relation>
+          <dc:relation>ABC1</dc:relation>
+          <dc:relation>ABC0</dc:relation>
+          <dc:relation>ABC1</dc:relation>
+          <dc:relation>ABC0</dc:relation>
+          <dc:relation>ABC1</dc:relation>
+          <dc:relation>ABC0</dc:relation>
+          <dc:relation>ABC1</dc:relation>
+          <dc:relation>ABC0</dc:relation>
+          <dc:relation>ABC1</dc:relation>
+          <dc:relation>ABC0</dc:relation>
+          <dc:relation>ABC1</dc:relation>
+          <dc:relation>ABC0</dc:relation>
+          <dc:relation>ABC1</dc:relation>
+          <dc:relation>ABC0</dc:relation>
+          <dc:relation>ABC1</dc:relation>
+          <dc:relation>ABC0</dc:relation>
+          <dc:relation>ABC1</dc:relation>
+          <dc:relation>ABC0</dc:relation>
+          <dc:relation>ABC1</dc:relation>
+          <dc:relation>ABC0</dc:relation>
+          <dc:relation>ABC1</dc:relation>
+          <dc:relation>title=relation 0 URI=http://relation.com/sys0</dc:relation>
+          <dc:relation>title=relation 1 URI=http://relation.com/sys1</dc:relation>
+          <dc:relation>title=conformsTo 0 URI=http://relation.com/sys0</dc:relation>
+          <dc:relation>title=conformsTo 1 URI=http://relation.com/sys1</dc:relation>
+          <dc:relation>title=isVersionOf 0 URI=http://relation.com/sys0</dc:relation>
+          <dc:relation>title=isVersionOf 1 URI=http://relation.com/sys1</dc:relation>
+          <dc:relation>title=hasVersion 0 URI=http://relation.com/sys0</dc:relation>
+          <dc:relation>title=hasVersion 1 URI=http://relation.com/sys1</dc:relation>
+          <dc:relation>title=isReplacedBy 0 URI=http://relation.com/sys0</dc:relation>
+          <dc:relation>title=isReplacedBy 1 URI=http://relation.com/sys1</dc:relation>
+          <dc:relation>title=replaces 0 URI=http://relation.com/sys0</dc:relation>
+          <dc:relation>title=replaces 1 URI=http://relation.com/sys1</dc:relation>
+          <dc:relation>title=isRequiredBy 0 URI=http://relation.com/sys0</dc:relation>
+          <dc:relation>title=isRequiredBy 1 URI=http://relation.com/sys1</dc:relation>
+          <dc:relation>title=requires 0 URI=http://relation.com/sys0</dc:relation>
+          <dc:relation>title=requires 1 URI=http://relation.com/sys1</dc:relation>
+          <dc:relation>title=isPartOf 0 URI=http://relation.com/sys0</dc:relation>
+          <dc:relation>title=isPartOf 1 URI=http://relation.com/sys1</dc:relation>
+          <dc:relation>title=hasPart 0 URI=http://relation.com/sys0</dc:relation>
+          <dc:relation>title=hasPart 1 URI=http://relation.com/sys1</dc:relation>
+          <dc:relation>title=isReferencedBy 0 URI=http://relation.com/sys0</dc:relation>
+          <dc:relation>title=isReferencedBy 1 URI=http://relation.com/sys1</dc:relation>
+          <dc:relation>title=references 0 URI=http://relation.com/sys0</dc:relation>
+          <dc:relation>title=references 1 URI=http://relation.com/sys1</dc:relation>
+          <dc:relation>title=isFormatOf 0 URI=http://relation.com/sys0</dc:relation>
+          <dc:relation>title=isFormatOf 1 URI=http://relation.com/sys1</dc:relation>
+          <dc:relation>title=hasFormat 0 URI=http://relation.com/sys0</dc:relation>
+          <dc:relation>title=hasFormat 1 URI=http://relation.com/sys1</dc:relation>
+          <dc:rights>rights 0</dc:rights>
+          <dc:rights>rights 1</dc:rights>
+          <dc:rights>accessRights 0</dc:rights>
+          <dc:rights>accessRights 1</dc:rights>
+          <dc:rights>ar_everyone</dc:rights>
+          <dc:rights>license 0</dc:rights>
+          <dc:rights>license 1</dc:rights>
+          <dc:source>ABC0</dc:source>
+          <dc:source>ABC1</dc:source>
+          <dc:subject>subject 0</dc:subject>
+          <dc:subject>subject 1</dc:subject>
+          <dc:title>Test dataset</dc:title>
+          <dc:title>alternative 0</dc:title>
+          <dc:title>alternative 1</dc:title>
+          <dc:type>type 0</dc:type>
+          <dc:type>type 1</dc:type>
+        </oai_dc:dc>
+      </foxml:xmlContent>
+    </foxml:datastreamVersion>
+  </foxml:datastream>
+  <foxml:datastream CONTROL_GROUP="X" ID="EMD" STATE="A" VERSIONABLE="true">
+    <foxml:datastreamVersion CREATED="2009-08-18T08:37:27.361Z" FORMAT_URI="http://easy.dans.knaw.nl/easy/easymetadata/"
+      ID="EMD.0" LABEL="EasyDataset metadata for this object" MIMETYPE="text/xml" SIZE="27438">
+      <foxml:xmlContent>
+        <emd:easymetadata emd:version="0.1" xmlns:dc="http://purl.org/dc/elements/1.1/"
+          xmlns:dcterms="http://purl.org/dc/terms/" xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/" xmlns:emd="http://easy.dans.knaw.nl/easy/easymetadata/">
+          <emd:title>
+            <dc:title>Test dataset</dc:title>
+            <dcterms:alternative eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">alternative 0</dcterms:alternative>
+            <dcterms:alternative eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">alternative 1</dcterms:alternative>
+          </emd:title>
+          <emd:creator>
+            <dc:creator eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">creator 0</dc:creator>
+            <dc:creator eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">creator 1</dc:creator>
+            <eas:creator>
+              <eas:title>Dr.</eas:title>
+              <eas:initials>ABC</eas:initials>
+              <eas:prefix>van</eas:prefix>
+              <eas:surname>creator 0</eas:surname>
+              <eas:entityId eas:identification-system="http://author.org/sys0" eas:scheme="DAI">1230</eas:entityId>
+            </eas:creator>
+            <eas:creator>
+              <eas:title>Dr.</eas:title>
+              <eas:initials>ABC</eas:initials>
+              <eas:prefix>van</eas:prefix>
+              <eas:surname>creator 1</eas:surname>
+              <eas:entityId eas:identification-system="http://author.org/sys1" eas:scheme="DAI">1231</eas:entityId>
+            </eas:creator>
+          </emd:creator>
+          <emd:subject>
+            <dc:subject eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">subject 0</dc:subject>
+            <dc:subject eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">subject 1</dc:subject>
+          </emd:subject>
+          <emd:description>
+            <dc:description eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">description 0</dc:description>
+            <dc:description eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">description 1</dc:description>
+            <dcterms:tableOfContents eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">tableOfContents 0</dcterms:tableOfContents>
+            <dcterms:tableOfContents eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">tableOfContents 1</dcterms:tableOfContents>
+            <dcterms:abstract eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">abstract 0</dcterms:abstract>
+            <dcterms:abstract eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">abstract 1</dcterms:abstract>
+          </emd:description>
+          <emd:publisher>
+            <dc:publisher eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">publisher 0</dc:publisher>
+            <dc:publisher eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">publisher 1</dc:publisher>
+          </emd:publisher>
+          <emd:contributor>
+            <dc:contributor eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">contributor 0</dc:contributor>
+            <dc:contributor eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">contributor 1</dc:contributor>
+            <eas:contributor>
+              <eas:title>Dr.</eas:title>
+              <eas:initials>ABC</eas:initials>
+              <eas:prefix>van</eas:prefix>
+              <eas:surname>contributor 0</eas:surname>
+              <eas:entityId eas:identification-system="http://author.org/sys0" eas:scheme="DAI">1230</eas:entityId>
+            </eas:contributor>
+            <eas:contributor>
+              <eas:title>Dr.</eas:title>
+              <eas:initials>ABC</eas:initials>
+              <eas:prefix>van</eas:prefix>
+              <eas:surname>contributor 1</eas:surname>
+              <eas:entityId eas:identification-system="http://author.org/sys1" eas:scheme="DAI">1231</eas:entityId>
+            </eas:contributor>
+          </emd:contributor>
+          <emd:date>
+            <dc:date eas:schemeId="basic.date.bla0" xml:lang="eng-USA">maart '98</dc:date>
+            <dc:date eas:schemeId="basic.date.bla1" xml:lang="eng-USA">maart '98</dc:date>
+            <dcterms:created eas:schemeId="basic.date.bla0" xml:lang="eng-USA">maart '98</dcterms:created>
+            <dcterms:created eas:schemeId="basic.date.bla1" xml:lang="eng-USA">maart '98</dcterms:created>
+            <dcterms:valid eas:schemeId="basic.date.bla0" xml:lang="eng-USA">maart '98</dcterms:valid>
+            <dcterms:valid eas:schemeId="basic.date.bla1" xml:lang="eng-USA">maart '98</dcterms:valid>
+            <dcterms:available eas:schemeId="basic.date.bla0" xml:lang="eng-USA">maart '98</dcterms:available>
+            <dcterms:available eas:schemeId="basic.date.bla1" xml:lang="eng-USA">maart '98</dcterms:available>
+            <dcterms:issued eas:schemeId="basic.date.bla0" xml:lang="eng-USA">maart '98</dcterms:issued>
+            <dcterms:issued eas:schemeId="basic.date.bla1" xml:lang="eng-USA">maart '98</dcterms:issued>
+            <dcterms:modified eas:schemeId="basic.date.bla0" xml:lang="eng-USA">maart '98</dcterms:modified>
+            <dcterms:modified eas:schemeId="basic.date.bla1" xml:lang="eng-USA">maart '98</dcterms:modified>
+            <dcterms:dateAccepted eas:schemeId="basic.date.bla0" xml:lang="eng-USA">maart '98</dcterms:dateAccepted>
+            <dcterms:dateAccepted eas:schemeId="basic.date.bla1" xml:lang="eng-USA">maart '98</dcterms:dateAccepted>
+            <dcterms:dateCopyrighted eas:schemeId="basic.date.bla0" xml:lang="eng-USA">maart '98</dcterms:dateCopyrighted>
+            <dcterms:dateCopyrighted eas:schemeId="basic.date.bla1" xml:lang="eng-USA">maart '98</dcterms:dateCopyrighted>
+            <dcterms:dateSubmitted eas:schemeId="basic.date.bla0" xml:lang="eng-USA">maart '98</dcterms:dateSubmitted>
+            <dcterms:dateSubmitted eas:schemeId="basic.date.bla1" xml:lang="eng-USA">maart '98</dcterms:dateSubmitted>
+            <eas:date eas:format="DAY" eas:scheme="W3CDTF" eas:schemeId="iso.date.bla0">2009-08-18T10:37:26.249+02:00</eas:date>
+            <eas:date eas:format="DAY" eas:scheme="W3CDTF" eas:schemeId="iso.date.bla1">2009-08-18T10:37:26.249+02:00</eas:date>
+            <eas:created eas:format="DAY" eas:scheme="W3CDTF" eas:schemeId="iso.date.bla0">2009-08-18T10:37:26.249+02:00</eas:created>
+            <eas:created eas:format="DAY" eas:scheme="W3CDTF" eas:schemeId="iso.date.bla1">2009-08-18T10:37:26.249+02:00</eas:created>
+            <eas:valid eas:format="DAY" eas:scheme="W3CDTF" eas:schemeId="iso.date.bla0">2009-08-18T10:37:26.251+02:00</eas:valid>
+            <eas:valid eas:format="DAY" eas:scheme="W3CDTF" eas:schemeId="iso.date.bla1">2009-08-18T10:37:26.251+02:00</eas:valid>
+            <eas:available eas:format="DAY" eas:scheme="W3CDTF" eas:schemeId="iso.date.bla0">2009-08-18T10:37:26.251+02:00</eas:available>
+            <eas:available eas:format="DAY" eas:scheme="W3CDTF" eas:schemeId="iso.date.bla1">2009-08-18T10:37:26.251+02:00</eas:available>
+            <eas:issued eas:format="DAY" eas:scheme="W3CDTF" eas:schemeId="iso.date.bla0">2009-08-18T10:37:26.251+02:00</eas:issued>
+            <eas:issued eas:format="DAY" eas:scheme="W3CDTF" eas:schemeId="iso.date.bla1">2009-08-18T10:37:26.251+02:00</eas:issued>
+            <eas:modified eas:format="DAY" eas:scheme="W3CDTF" eas:schemeId="iso.date.bla0">2009-08-18T10:37:26.251+02:00</eas:modified>
+            <eas:modified eas:format="DAY" eas:scheme="W3CDTF" eas:schemeId="iso.date.bla1">2009-08-18T10:37:26.251+02:00</eas:modified>
+            <eas:dateAccepted eas:format="DAY" eas:scheme="W3CDTF" eas:schemeId="iso.date.bla0">2009-08-18T10:37:26.251+02:00</eas:dateAccepted>
+            <eas:dateAccepted eas:format="DAY" eas:scheme="W3CDTF" eas:schemeId="iso.date.bla1">2009-08-18T10:37:26.251+02:00</eas:dateAccepted>
+            <eas:dateCopyrighted eas:format="DAY" eas:scheme="W3CDTF" eas:schemeId="iso.date.bla0">2009-08-18T10:37:26.251+02:00</eas:dateCopyrighted>
+            <eas:dateCopyrighted eas:format="DAY" eas:scheme="W3CDTF" eas:schemeId="iso.date.bla1">2009-08-18T10:37:26.251+02:00</eas:dateCopyrighted>
+            <eas:dateSubmitted eas:format="DAY" eas:scheme="W3CDTF" eas:schemeId="iso.date.bla0">2009-08-18T10:37:26.251+02:00</eas:dateSubmitted>
+            <eas:dateSubmitted eas:format="DAY" eas:scheme="W3CDTF" eas:schemeId="iso.date.bla1">2009-08-18T10:37:26.251+02:00</eas:dateSubmitted>
+          </emd:date>
+          <emd:type>
+            <dc:type eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">type 0</dc:type>
+            <dc:type eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">type 1</dc:type>
+          </emd:type>
+          <emd:format>
+            <dc:format eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">format 0</dc:format>
+            <dc:format eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">format 1</dc:format>
+            <dcterms:extent eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">extent 0</dcterms:extent>
+            <dcterms:extent eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">extent 1</dcterms:extent>
+            <dcterms:medium eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">medium 0</dcterms:medium>
+            <dcterms:medium eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">medium 1</dcterms:medium>
+          </emd:format>
+          <emd:identifier>
+            <dc:identifier eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+              eas:schemeId="basic.identifier.bla0" xml:lang="deu-DEU">ABC0</dc:identifier>
+            <dc:identifier eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+              eas:schemeId="basic.identifier.bla1" xml:lang="deu-DEU">ABC1</dc:identifier>
+            <dc:identifier eas:identification-system="http://localhost:8082/fedora" eas:scheme="Fedora sid">demo:123</dc:identifier>
+          </emd:identifier>
+          <emd:source>
+            <dc:source eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+              eas:schemeId="basic.identifier.bla0" xml:lang="deu-DEU">ABC0</dc:source>
+            <dc:source eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+              eas:schemeId="basic.identifier.bla1" xml:lang="deu-DEU">ABC1</dc:source>
+          </emd:source>
+          <emd:language>
+            <dc:language eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">language 0</dc:language>
+            <dc:language eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">language 1</dc:language>
+          </emd:language>
+          <emd:relation>
+            <dc:relation eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+              eas:schemeId="basic.identifier.bla0" xml:lang="deu-DEU">ABC0</dc:relation>
+            <dc:relation eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+              eas:schemeId="basic.identifier.bla1" xml:lang="deu-DEU">ABC1</dc:relation>
+            <dcterms:conformsTo eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+              eas:schemeId="basic.identifier.bla0" xml:lang="deu-DEU">ABC0</dcterms:conformsTo>
+            <dcterms:conformsTo eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+              eas:schemeId="basic.identifier.bla1" xml:lang="deu-DEU">ABC1</dcterms:conformsTo>
+            <dcterms:isVersionOf eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+              eas:schemeId="basic.identifier.bla0" xml:lang="deu-DEU">ABC0</dcterms:isVersionOf>
+            <dcterms:isVersionOf eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+              eas:schemeId="basic.identifier.bla1" xml:lang="deu-DEU">ABC1</dcterms:isVersionOf>
+            <dcterms:hasVersion eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+              eas:schemeId="basic.identifier.bla0" xml:lang="deu-DEU">ABC0</dcterms:hasVersion>
+            <dcterms:hasVersion eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+              eas:schemeId="basic.identifier.bla1" xml:lang="deu-DEU">ABC1</dcterms:hasVersion>
+            <dcterms:isReplacedBy eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+              eas:schemeId="basic.identifier.bla0" xml:lang="deu-DEU">ABC0</dcterms:isReplacedBy>
+            <dcterms:isReplacedBy eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+              eas:schemeId="basic.identifier.bla1" xml:lang="deu-DEU">ABC1</dcterms:isReplacedBy>
+            <dcterms:replaces eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+              eas:schemeId="basic.identifier.bla0" xml:lang="deu-DEU">ABC0</dcterms:replaces>
+            <dcterms:replaces eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+              eas:schemeId="basic.identifier.bla1" xml:lang="deu-DEU">ABC1</dcterms:replaces>
+            <dcterms:isRequiredBy eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+              eas:schemeId="basic.identifier.bla0" xml:lang="deu-DEU">ABC0</dcterms:isRequiredBy>
+            <dcterms:isRequiredBy eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+              eas:schemeId="basic.identifier.bla1" xml:lang="deu-DEU">ABC1</dcterms:isRequiredBy>
+            <dcterms:requires eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+              eas:schemeId="basic.identifier.bla0" xml:lang="deu-DEU">ABC0</dcterms:requires>
+            <dcterms:requires eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+              eas:schemeId="basic.identifier.bla1" xml:lang="deu-DEU">ABC1</dcterms:requires>
+            <dcterms:isPartOf eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+              eas:schemeId="basic.identifier.bla0" xml:lang="deu-DEU">ABC0</dcterms:isPartOf>
+            <dcterms:isPartOf eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+              eas:schemeId="basic.identifier.bla1" xml:lang="deu-DEU">ABC1</dcterms:isPartOf>
+            <dcterms:hasPart eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+              eas:schemeId="basic.identifier.bla0" xml:lang="deu-DEU">ABC0</dcterms:hasPart>
+            <dcterms:hasPart eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+              eas:schemeId="basic.identifier.bla1" xml:lang="deu-DEU">ABC1</dcterms:hasPart>
+            <dcterms:isReferencedBy eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+              eas:schemeId="basic.identifier.bla0" xml:lang="deu-DEU">ABC0</dcterms:isReferencedBy>
+            <dcterms:isReferencedBy eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+              eas:schemeId="basic.identifier.bla1" xml:lang="deu-DEU">ABC1</dcterms:isReferencedBy>
+            <dcterms:references eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+              eas:schemeId="basic.identifier.bla0" xml:lang="deu-DEU">ABC0</dcterms:references>
+            <dcterms:references eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+              eas:schemeId="basic.identifier.bla1" xml:lang="deu-DEU">ABC1</dcterms:references>
+            <dcterms:isFormatOf eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+              eas:schemeId="basic.identifier.bla0" xml:lang="deu-DEU">ABC0</dcterms:isFormatOf>
+            <dcterms:isFormatOf eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+              eas:schemeId="basic.identifier.bla1" xml:lang="deu-DEU">ABC1</dcterms:isFormatOf>
+            <dcterms:hasFormat eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+              eas:schemeId="basic.identifier.bla0" xml:lang="deu-DEU">ABC0</dcterms:hasFormat>
+            <dcterms:hasFormat eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+              eas:schemeId="basic.identifier.bla1" xml:lang="deu-DEU">ABC1</dcterms:hasFormat>
+            <eas:relation eas:emphasis="true">
+              <eas:subject-title eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">relation 0</eas:subject-title>
+              <eas:subject-identifier eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+                eas:schemeId="BID.bla.foo0" xml:lang="deu-DEU">ABC0</eas:subject-identifier>
+              <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+            </eas:relation>
+            <eas:relation>
+              <eas:subject-title eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">relation 1</eas:subject-title>
+              <eas:subject-identifier eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+                eas:schemeId="BID.bla.foo1" xml:lang="deu-DEU">ABC1</eas:subject-identifier>
+              <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+            </eas:relation>
+            <eas:conformsTo eas:emphasis="true">
+              <eas:subject-title eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">conformsTo 0</eas:subject-title>
+              <eas:subject-identifier eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+                eas:schemeId="BID.bla.foo0" xml:lang="deu-DEU">ABC0</eas:subject-identifier>
+              <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+            </eas:conformsTo>
+            <eas:conformsTo>
+              <eas:subject-title eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">conformsTo 1</eas:subject-title>
+              <eas:subject-identifier eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+                eas:schemeId="BID.bla.foo1" xml:lang="deu-DEU">ABC1</eas:subject-identifier>
+              <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+            </eas:conformsTo>
+            <eas:isVersionOf eas:emphasis="true">
+              <eas:subject-title eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">isVersionOf 0</eas:subject-title>
+              <eas:subject-identifier eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+                eas:schemeId="BID.bla.foo0" xml:lang="deu-DEU">ABC0</eas:subject-identifier>
+              <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+            </eas:isVersionOf>
+            <eas:isVersionOf>
+              <eas:subject-title eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">isVersionOf 1</eas:subject-title>
+              <eas:subject-identifier eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+                eas:schemeId="BID.bla.foo1" xml:lang="deu-DEU">ABC1</eas:subject-identifier>
+              <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+            </eas:isVersionOf>
+            <eas:hasVersion eas:emphasis="true">
+              <eas:subject-title eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">hasVersion 0</eas:subject-title>
+              <eas:subject-identifier eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+                eas:schemeId="BID.bla.foo0" xml:lang="deu-DEU">ABC0</eas:subject-identifier>
+              <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+            </eas:hasVersion>
+            <eas:hasVersion>
+              <eas:subject-title eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">hasVersion 1</eas:subject-title>
+              <eas:subject-identifier eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+                eas:schemeId="BID.bla.foo1" xml:lang="deu-DEU">ABC1</eas:subject-identifier>
+              <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+            </eas:hasVersion>
+            <eas:isReplacedBy eas:emphasis="true">
+              <eas:subject-title eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">isReplacedBy 0</eas:subject-title>
+              <eas:subject-identifier eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+                eas:schemeId="BID.bla.foo0" xml:lang="deu-DEU">ABC0</eas:subject-identifier>
+              <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+            </eas:isReplacedBy>
+            <eas:isReplacedBy>
+              <eas:subject-title eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">isReplacedBy 1</eas:subject-title>
+              <eas:subject-identifier eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+                eas:schemeId="BID.bla.foo1" xml:lang="deu-DEU">ABC1</eas:subject-identifier>
+              <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+            </eas:isReplacedBy>
+            <eas:replaces eas:emphasis="true">
+              <eas:subject-title eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">replaces 0</eas:subject-title>
+              <eas:subject-identifier eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+                eas:schemeId="BID.bla.foo0" xml:lang="deu-DEU">ABC0</eas:subject-identifier>
+              <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+            </eas:replaces>
+            <eas:replaces>
+              <eas:subject-title eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">replaces 1</eas:subject-title>
+              <eas:subject-identifier eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+                eas:schemeId="BID.bla.foo1" xml:lang="deu-DEU">ABC1</eas:subject-identifier>
+              <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+            </eas:replaces>
+            <eas:isRequiredBy eas:emphasis="true">
+              <eas:subject-title eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">isRequiredBy 0</eas:subject-title>
+              <eas:subject-identifier eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+                eas:schemeId="BID.bla.foo0" xml:lang="deu-DEU">ABC0</eas:subject-identifier>
+              <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+            </eas:isRequiredBy>
+            <eas:isRequiredBy>
+              <eas:subject-title eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">isRequiredBy 1</eas:subject-title>
+              <eas:subject-identifier eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+                eas:schemeId="BID.bla.foo1" xml:lang="deu-DEU">ABC1</eas:subject-identifier>
+              <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+            </eas:isRequiredBy>
+            <eas:requires eas:emphasis="true">
+              <eas:subject-title eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">requires 0</eas:subject-title>
+              <eas:subject-identifier eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+                eas:schemeId="BID.bla.foo0" xml:lang="deu-DEU">ABC0</eas:subject-identifier>
+              <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+            </eas:requires>
+            <eas:requires>
+              <eas:subject-title eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">requires 1</eas:subject-title>
+              <eas:subject-identifier eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+                eas:schemeId="BID.bla.foo1" xml:lang="deu-DEU">ABC1</eas:subject-identifier>
+              <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+            </eas:requires>
+            <eas:isPartOf eas:emphasis="true">
+              <eas:subject-title eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">isPartOf 0</eas:subject-title>
+              <eas:subject-identifier eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+                eas:schemeId="BID.bla.foo0" xml:lang="deu-DEU">ABC0</eas:subject-identifier>
+              <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+            </eas:isPartOf>
+            <eas:isPartOf>
+              <eas:subject-title eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">isPartOf 1</eas:subject-title>
+              <eas:subject-identifier eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+                eas:schemeId="BID.bla.foo1" xml:lang="deu-DEU">ABC1</eas:subject-identifier>
+              <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+            </eas:isPartOf>
+            <eas:hasPart eas:emphasis="true">
+              <eas:subject-title eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">hasPart 0</eas:subject-title>
+              <eas:subject-identifier eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+                eas:schemeId="BID.bla.foo0" xml:lang="deu-DEU">ABC0</eas:subject-identifier>
+              <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+            </eas:hasPart>
+            <eas:hasPart>
+              <eas:subject-title eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">hasPart 1</eas:subject-title>
+              <eas:subject-identifier eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+                eas:schemeId="BID.bla.foo1" xml:lang="deu-DEU">ABC1</eas:subject-identifier>
+              <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+            </eas:hasPart>
+            <eas:isReferencedBy eas:emphasis="true">
+              <eas:subject-title eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">isReferencedBy 0</eas:subject-title>
+              <eas:subject-identifier eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+                eas:schemeId="BID.bla.foo0" xml:lang="deu-DEU">ABC0</eas:subject-identifier>
+              <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+            </eas:isReferencedBy>
+            <eas:isReferencedBy>
+              <eas:subject-title eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">isReferencedBy 1</eas:subject-title>
+              <eas:subject-identifier eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+                eas:schemeId="BID.bla.foo1" xml:lang="deu-DEU">ABC1</eas:subject-identifier>
+              <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+            </eas:isReferencedBy>
+            <eas:references eas:emphasis="true">
+              <eas:subject-title eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">references 0</eas:subject-title>
+              <eas:subject-identifier eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+                eas:schemeId="BID.bla.foo0" xml:lang="deu-DEU">ABC0</eas:subject-identifier>
+              <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+            </eas:references>
+            <eas:references>
+              <eas:subject-title eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">references 1</eas:subject-title>
+              <eas:subject-identifier eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+                eas:schemeId="BID.bla.foo1" xml:lang="deu-DEU">ABC1</eas:subject-identifier>
+              <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+            </eas:references>
+            <eas:isFormatOf eas:emphasis="true">
+              <eas:subject-title eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">isFormatOf 0</eas:subject-title>
+              <eas:subject-identifier eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+                eas:schemeId="BID.bla.foo0" xml:lang="deu-DEU">ABC0</eas:subject-identifier>
+              <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+            </eas:isFormatOf>
+            <eas:isFormatOf>
+              <eas:subject-title eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">isFormatOf 1</eas:subject-title>
+              <eas:subject-identifier eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+                eas:schemeId="BID.bla.foo1" xml:lang="deu-DEU">ABC1</eas:subject-identifier>
+              <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+            </eas:isFormatOf>
+            <eas:hasFormat eas:emphasis="true">
+              <eas:subject-title eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">hasFormat 0</eas:subject-title>
+              <eas:subject-identifier eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+                eas:schemeId="BID.bla.foo0" xml:lang="deu-DEU">ABC0</eas:subject-identifier>
+              <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+            </eas:hasFormat>
+            <eas:hasFormat>
+              <eas:subject-title eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">hasFormat 1</eas:subject-title>
+              <eas:subject-identifier eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+                eas:schemeId="BID.bla.foo1" xml:lang="deu-DEU">ABC1</eas:subject-identifier>
+              <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+            </eas:hasFormat>
+          </emd:relation>
+          <emd:coverage>
+            <dc:coverage eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">coverage 0</dc:coverage>
+            <dc:coverage eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">coverage 1</dc:coverage>
+            <dcterms:spatial eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">spatial 0</dcterms:spatial>
+            <dcterms:spatial eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">spatial 1</dcterms:spatial>
+            <dcterms:temporal eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">temporal 0</dcterms:temporal>
+            <dcterms:temporal eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">temporal 1</dcterms:temporal>
+            <eas:spatial>
+              <eas:place eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">spatial 0</eas:place>
+              <eas:point eas:scheme="POI0" eas:schemeId="point.bla0">
+                <eas:x>123.45</eas:x>
+                <eas:y>456.78</eas:y>
+              </eas:point>
+            </eas:spatial>
+            <eas:spatial>
+              <eas:place eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">spatial 1</eas:place>
+              <eas:box eas:scheme="BOX1" eas:schemeId="bax.bla1">
+                <eas:north>12.3</eas:north>
+                <eas:east>23.4</eas:east>
+                <eas:south>34.5</eas:south>
+                <eas:west>45.6</eas:west>
+              </eas:box>
+            </eas:spatial>
+          </emd:coverage>
+          <emd:rights>
+            <dc:rights eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">rights 0</dc:rights>
+            <dc:rights eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">rights 1</dc:rights>
+            <dcterms:accessRights eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">accessRights 0</dcterms:accessRights>
+            <dcterms:accessRights eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">accessRights 1</dcterms:accessRights>
+            <dcterms:license eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">license 0</dcterms:license>
+            <dcterms:license eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">license 1</dcterms:license>
+          </emd:rights>
+          <emd:audience>
+            <dcterms:audience eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">audience 0</dcterms:audience>
+            <dcterms:audience eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">audience 1</dcterms:audience>
+          </emd:audience>
+          <emd:other>
+            <eas:remark eas:author="Author von Bar" eas:scheme="REM0" eas:schemeId="remark.bal.bal0" xml:lang="nl-NL">remarks 0</eas:remark>
+            <eas:remark eas:author="Author von Bar" eas:scheme="REM1" eas:schemeId="remark.bal.bal1" xml:lang="nl-NL">remarks 1</eas:remark>
+            <eas:application-specific>
+              <eas:metadataformat>UNSPECIFIED</eas:metadataformat>
+            </eas:application-specific>
+          </emd:other>
+        </emd:easymetadata>
+      </foxml:xmlContent>
+    </foxml:datastreamVersion>
+    <foxml:datastreamVersion CREATED="2009-08-31T10:08:11.505Z" FORMAT_URI="http://easy.dans.knaw.nl/easy/easymetadata/"
+      ID="EMD.1" LABEL="EasyDataset metadata for this object" MIMETYPE="text/xml" SIZE="21937">
+      <foxml:xmlContent>
+        <emd:easymetadata emd:version="0.1" xmlns:dc="http://purl.org/dc/elements/1.1/"
+          xmlns:dcterms="http://purl.org/dc/terms/" xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/" xmlns:emd="http://easy.dans.knaw.nl/easy/easymetadata/">
+          <emd:title>
+            <dc:title>Test dataset</dc:title>
+            <dcterms:alternative eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">alternative 0</dcterms:alternative>
+            <dcterms:alternative eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">alternative 1</dcterms:alternative>
+          </emd:title>
+          <emd:creator>
+            <dc:creator eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">creator 0</dc:creator>
+            <dc:creator eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">creator 1</dc:creator>
+            <eas:creator>
+              <eas:title>Dr.</eas:title>
+              <eas:initials>ABC</eas:initials>
+              <eas:prefix>van</eas:prefix>
+              <eas:surname>creator 0</eas:surname>
+              <eas:entityId eas:identification-system="http://author.org/sys0" eas:scheme="DAI">1230</eas:entityId>
+            </eas:creator>
+            <eas:creator>
+              <eas:title>Dr.</eas:title>
+              <eas:initials>ABC</eas:initials>
+              <eas:prefix>van</eas:prefix>
+              <eas:surname>creator 1</eas:surname>
+              <eas:entityId eas:identification-system="http://author.org/sys1" eas:scheme="DAI">1231</eas:entityId>
+            </eas:creator>
+          </emd:creator>
+          <emd:subject>
+            <dc:subject eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">subject 0</dc:subject>
+            <dc:subject eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">subject 1</dc:subject>
+          </emd:subject>
+          <emd:description>
+            <dc:description eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">description 0</dc:description>
+            <dc:description eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">description 1</dc:description>
+            <dcterms:tableOfContents eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">tableOfContents 0</dcterms:tableOfContents>
+            <dcterms:tableOfContents eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">tableOfContents 1</dcterms:tableOfContents>
+            <dcterms:abstract eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">abstract 0</dcterms:abstract>
+            <dcterms:abstract eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">abstract 1</dcterms:abstract>
+          </emd:description>
+          <emd:publisher>
+            <dc:publisher eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">publisher 0</dc:publisher>
+            <dc:publisher eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">publisher 1</dc:publisher>
+          </emd:publisher>
+          <emd:contributor>
+            <dc:contributor eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">contributor 0</dc:contributor>
+            <dc:contributor eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">contributor 1</dc:contributor>
+            <eas:contributor>
+              <eas:title>Dr.</eas:title>
+              <eas:initials>ABC</eas:initials>
+              <eas:prefix>van</eas:prefix>
+              <eas:surname>contributor 0</eas:surname>
+              <eas:entityId eas:identification-system="http://author.org/sys0" eas:scheme="DAI">1230</eas:entityId>
+            </eas:contributor>
+            <eas:contributor>
+              <eas:title>Dr.</eas:title>
+              <eas:initials>ABC</eas:initials>
+              <eas:prefix>van</eas:prefix>
+              <eas:surname>contributor 1</eas:surname>
+              <eas:entityId eas:identification-system="http://author.org/sys1" eas:scheme="DAI">1231</eas:entityId>
+            </eas:contributor>
+          </emd:contributor>
+          <emd:date>
+            <dc:date eas:schemeId="basic.date.bla0" xml:lang="eng-USA">maart '98</dc:date>
+            <dc:date eas:schemeId="basic.date.bla1" xml:lang="eng-USA">maart '98</dc:date>
+            <dcterms:created eas:schemeId="basic.date.bla0" xml:lang="eng-USA">maart '98</dcterms:created>
+            <dcterms:created eas:schemeId="basic.date.bla1" xml:lang="eng-USA">maart '98</dcterms:created>
+            <dcterms:valid eas:schemeId="basic.date.bla0" xml:lang="eng-USA">maart '98</dcterms:valid>
+            <dcterms:valid eas:schemeId="basic.date.bla1" xml:lang="eng-USA">maart '98</dcterms:valid>
+            <dcterms:available eas:schemeId="basic.date.bla0" xml:lang="eng-USA">maart '98</dcterms:available>
+            <dcterms:available eas:schemeId="basic.date.bla1" xml:lang="eng-USA">maart '98</dcterms:available>
+            <dcterms:issued eas:schemeId="basic.date.bla0" xml:lang="eng-USA">maart '98</dcterms:issued>
+            <dcterms:issued eas:schemeId="basic.date.bla1" xml:lang="eng-USA">maart '98</dcterms:issued>
+            <dcterms:modified eas:schemeId="basic.date.bla0" xml:lang="eng-USA">maart '98</dcterms:modified>
+            <dcterms:modified eas:schemeId="basic.date.bla1" xml:lang="eng-USA">maart '98</dcterms:modified>
+            <dcterms:dateAccepted eas:schemeId="basic.date.bla0" xml:lang="eng-USA">maart '98</dcterms:dateAccepted>
+            <dcterms:dateAccepted eas:schemeId="basic.date.bla1" xml:lang="eng-USA">maart '98</dcterms:dateAccepted>
+            <dcterms:dateCopyrighted eas:schemeId="basic.date.bla0" xml:lang="eng-USA">maart '98</dcterms:dateCopyrighted>
+            <dcterms:dateCopyrighted eas:schemeId="basic.date.bla1" xml:lang="eng-USA">maart '98</dcterms:dateCopyrighted>
+            <dcterms:dateSubmitted eas:schemeId="basic.date.bla0" xml:lang="eng-USA">maart '98</dcterms:dateSubmitted>
+            <dcterms:dateSubmitted eas:schemeId="basic.date.bla1" xml:lang="eng-USA">maart '98</dcterms:dateSubmitted>
+            <eas:date eas:format="DAY" eas:scheme="W3CDTF" eas:schemeId="iso.date.bla0">2009-08-18T10:37:26.249+02:00</eas:date>
+            <eas:date eas:format="DAY" eas:scheme="W3CDTF" eas:schemeId="iso.date.bla1">2009-08-18T10:37:26.249+02:00</eas:date>
+            <eas:created eas:format="DAY" eas:scheme="W3CDTF">2009-08-18T00:00:00.000+02:00</eas:created>
+            <eas:created eas:format="DAY" eas:scheme="W3CDTF">2009-08-18T00:00:00.000+02:00</eas:created>
+            <eas:valid eas:format="DAY" eas:scheme="W3CDTF" eas:schemeId="iso.date.bla0">2009-08-18T10:37:26.251+02:00</eas:valid>
+            <eas:valid eas:format="DAY" eas:scheme="W3CDTF" eas:schemeId="iso.date.bla1">2009-08-18T10:37:26.251+02:00</eas:valid>
+            <eas:available eas:format="DAY" eas:scheme="W3CDTF">2009-08-18T00:00:00.000+02:00</eas:available>
+            <eas:available eas:format="DAY" eas:scheme="W3CDTF">2009-08-18T00:00:00.000+02:00</eas:available>
+            <eas:issued eas:format="DAY" eas:scheme="W3CDTF" eas:schemeId="iso.date.bla0">2009-08-18T10:37:26.251+02:00</eas:issued>
+            <eas:issued eas:format="DAY" eas:scheme="W3CDTF" eas:schemeId="iso.date.bla1">2009-08-18T10:37:26.251+02:00</eas:issued>
+            <eas:modified eas:format="DAY" eas:scheme="W3CDTF" eas:schemeId="iso.date.bla0">2009-08-18T10:37:26.251+02:00</eas:modified>
+            <eas:modified eas:format="DAY" eas:scheme="W3CDTF" eas:schemeId="iso.date.bla1">2009-08-18T10:37:26.251+02:00</eas:modified>
+            <eas:dateAccepted eas:format="DAY" eas:scheme="W3CDTF" eas:schemeId="iso.date.bla0">2009-08-18T10:37:26.251+02:00</eas:dateAccepted>
+            <eas:dateAccepted eas:format="DAY" eas:scheme="W3CDTF" eas:schemeId="iso.date.bla1">2009-08-18T10:37:26.251+02:00</eas:dateAccepted>
+            <eas:dateCopyrighted eas:format="DAY" eas:scheme="W3CDTF" eas:schemeId="iso.date.bla0">2009-08-18T10:37:26.251+02:00</eas:dateCopyrighted>
+            <eas:dateCopyrighted eas:format="DAY" eas:scheme="W3CDTF" eas:schemeId="iso.date.bla1">2009-08-18T10:37:26.251+02:00</eas:dateCopyrighted>
+            <eas:dateSubmitted eas:format="DAY" eas:scheme="W3CDTF" eas:schemeId="iso.date.bla0">2009-08-18T10:37:26.251+02:00</eas:dateSubmitted>
+            <eas:dateSubmitted eas:format="DAY" eas:scheme="W3CDTF" eas:schemeId="iso.date.bla1">2009-08-18T10:37:26.251+02:00</eas:dateSubmitted>
+          </emd:date>
+          <emd:type>
+            <dc:type eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">type 0</dc:type>
+            <dc:type eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">type 1</dc:type>
+          </emd:type>
+          <emd:format>
+            <dc:format eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">format 0</dc:format>
+            <dc:format eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">format 1</dc:format>
+            <dcterms:extent eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">extent 0</dcterms:extent>
+            <dcterms:extent eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">extent 1</dcterms:extent>
+            <dcterms:medium eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">medium 0</dcterms:medium>
+            <dcterms:medium eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">medium 1</dcterms:medium>
+          </emd:format>
+          <emd:identifier>
+            <dc:identifier eas:scheme="BID0" xml:lang="deu-DEU">ABC0</dc:identifier>
+            <dc:identifier eas:scheme="BID1" xml:lang="deu-DEU">ABC1</dc:identifier>
+            <dc:identifier eas:scheme="Fedora sid">demo:123</dc:identifier>
+          </emd:identifier>
+          <emd:source>
+            <dc:source eas:scheme="BID0" xml:lang="deu-DEU">ABC0</dc:source>
+            <dc:source eas:scheme="BID1" xml:lang="deu-DEU">ABC1</dc:source>
+          </emd:source>
+          <emd:language>
+            <dc:language eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">language 0</dc:language>
+            <dc:language eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">language 1</dc:language>
+          </emd:language>
+          <emd:relation>
+            <dc:relation eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+              eas:schemeId="basic.identifier.bla0" xml:lang="deu-DEU">ABC0</dc:relation>
+            <dc:relation eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+              eas:schemeId="basic.identifier.bla1" xml:lang="deu-DEU">ABC1</dc:relation>
+            <dcterms:conformsTo eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+              eas:schemeId="basic.identifier.bla0" xml:lang="deu-DEU">ABC0</dcterms:conformsTo>
+            <dcterms:conformsTo eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+              eas:schemeId="basic.identifier.bla1" xml:lang="deu-DEU">ABC1</dcterms:conformsTo>
+            <dcterms:isVersionOf eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+              eas:schemeId="basic.identifier.bla0" xml:lang="deu-DEU">ABC0</dcterms:isVersionOf>
+            <dcterms:isVersionOf eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+              eas:schemeId="basic.identifier.bla1" xml:lang="deu-DEU">ABC1</dcterms:isVersionOf>
+            <dcterms:hasVersion eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+              eas:schemeId="basic.identifier.bla0" xml:lang="deu-DEU">ABC0</dcterms:hasVersion>
+            <dcterms:hasVersion eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+              eas:schemeId="basic.identifier.bla1" xml:lang="deu-DEU">ABC1</dcterms:hasVersion>
+            <dcterms:isReplacedBy eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+              eas:schemeId="basic.identifier.bla0" xml:lang="deu-DEU">ABC0</dcterms:isReplacedBy>
+            <dcterms:isReplacedBy eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+              eas:schemeId="basic.identifier.bla1" xml:lang="deu-DEU">ABC1</dcterms:isReplacedBy>
+            <dcterms:replaces eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+              eas:schemeId="basic.identifier.bla0" xml:lang="deu-DEU">ABC0</dcterms:replaces>
+            <dcterms:replaces eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+              eas:schemeId="basic.identifier.bla1" xml:lang="deu-DEU">ABC1</dcterms:replaces>
+            <dcterms:isRequiredBy eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+              eas:schemeId="basic.identifier.bla0" xml:lang="deu-DEU">ABC0</dcterms:isRequiredBy>
+            <dcterms:isRequiredBy eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+              eas:schemeId="basic.identifier.bla1" xml:lang="deu-DEU">ABC1</dcterms:isRequiredBy>
+            <dcterms:requires eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+              eas:schemeId="basic.identifier.bla0" xml:lang="deu-DEU">ABC0</dcterms:requires>
+            <dcterms:requires eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+              eas:schemeId="basic.identifier.bla1" xml:lang="deu-DEU">ABC1</dcterms:requires>
+            <dcterms:isPartOf eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+              eas:schemeId="basic.identifier.bla0" xml:lang="deu-DEU">ABC0</dcterms:isPartOf>
+            <dcterms:isPartOf eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+              eas:schemeId="basic.identifier.bla1" xml:lang="deu-DEU">ABC1</dcterms:isPartOf>
+            <dcterms:hasPart eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+              eas:schemeId="basic.identifier.bla0" xml:lang="deu-DEU">ABC0</dcterms:hasPart>
+            <dcterms:hasPart eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+              eas:schemeId="basic.identifier.bla1" xml:lang="deu-DEU">ABC1</dcterms:hasPart>
+            <dcterms:isReferencedBy eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+              eas:schemeId="basic.identifier.bla0" xml:lang="deu-DEU">ABC0</dcterms:isReferencedBy>
+            <dcterms:isReferencedBy eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+              eas:schemeId="basic.identifier.bla1" xml:lang="deu-DEU">ABC1</dcterms:isReferencedBy>
+            <dcterms:references eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+              eas:schemeId="basic.identifier.bla0" xml:lang="deu-DEU">ABC0</dcterms:references>
+            <dcterms:references eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+              eas:schemeId="basic.identifier.bla1" xml:lang="deu-DEU">ABC1</dcterms:references>
+            <dcterms:isFormatOf eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+              eas:schemeId="basic.identifier.bla0" xml:lang="deu-DEU">ABC0</dcterms:isFormatOf>
+            <dcterms:isFormatOf eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+              eas:schemeId="basic.identifier.bla1" xml:lang="deu-DEU">ABC1</dcterms:isFormatOf>
+            <dcterms:hasFormat eas:identification-system="http://pid.org/sys0" eas:scheme="BID0"
+              eas:schemeId="basic.identifier.bla0" xml:lang="deu-DEU">ABC0</dcterms:hasFormat>
+            <dcterms:hasFormat eas:identification-system="http://pid.org/sys1" eas:scheme="BID1"
+              eas:schemeId="basic.identifier.bla1" xml:lang="deu-DEU">ABC1</dcterms:hasFormat>
+            <eas:relation eas:emphasis="true">
+              <eas:subject-title>relation 0</eas:subject-title>
+              <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+            </eas:relation>
+            <eas:relation>
+              <eas:subject-title>relation 1</eas:subject-title>
+              <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+            </eas:relation>
+            <eas:conformsTo eas:emphasis="true">
+              <eas:subject-title>conformsTo 0</eas:subject-title>
+              <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+            </eas:conformsTo>
+            <eas:conformsTo>
+              <eas:subject-title>conformsTo 1</eas:subject-title>
+              <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+            </eas:conformsTo>
+            <eas:isVersionOf eas:emphasis="true">
+              <eas:subject-title>isVersionOf 0</eas:subject-title>
+              <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+            </eas:isVersionOf>
+            <eas:isVersionOf>
+              <eas:subject-title>isVersionOf 1</eas:subject-title>
+              <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+            </eas:isVersionOf>
+            <eas:hasVersion eas:emphasis="true">
+              <eas:subject-title>hasVersion 0</eas:subject-title>
+              <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+            </eas:hasVersion>
+            <eas:hasVersion>
+              <eas:subject-title>hasVersion 1</eas:subject-title>
+              <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+            </eas:hasVersion>
+            <eas:isReplacedBy eas:emphasis="true">
+              <eas:subject-title>isReplacedBy 0</eas:subject-title>
+              <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+            </eas:isReplacedBy>
+            <eas:isReplacedBy>
+              <eas:subject-title>isReplacedBy 1</eas:subject-title>
+              <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+            </eas:isReplacedBy>
+            <eas:replaces eas:emphasis="true">
+              <eas:subject-title>replaces 0</eas:subject-title>
+              <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+            </eas:replaces>
+            <eas:replaces>
+              <eas:subject-title>replaces 1</eas:subject-title>
+              <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+            </eas:replaces>
+            <eas:isRequiredBy eas:emphasis="true">
+              <eas:subject-title>isRequiredBy 0</eas:subject-title>
+              <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+            </eas:isRequiredBy>
+            <eas:isRequiredBy>
+              <eas:subject-title>isRequiredBy 1</eas:subject-title>
+              <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+            </eas:isRequiredBy>
+            <eas:requires eas:emphasis="true">
+              <eas:subject-title>requires 0</eas:subject-title>
+              <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+            </eas:requires>
+            <eas:requires>
+              <eas:subject-title>requires 1</eas:subject-title>
+              <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+            </eas:requires>
+            <eas:isPartOf eas:emphasis="true">
+              <eas:subject-title>isPartOf 0</eas:subject-title>
+              <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+            </eas:isPartOf>
+            <eas:isPartOf>
+              <eas:subject-title>isPartOf 1</eas:subject-title>
+              <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+            </eas:isPartOf>
+            <eas:hasPart eas:emphasis="true">
+              <eas:subject-title>hasPart 0</eas:subject-title>
+              <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+            </eas:hasPart>
+            <eas:hasPart>
+              <eas:subject-title>hasPart 1</eas:subject-title>
+              <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+            </eas:hasPart>
+            <eas:isReferencedBy eas:emphasis="true">
+              <eas:subject-title>isReferencedBy 0</eas:subject-title>
+              <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+            </eas:isReferencedBy>
+            <eas:isReferencedBy>
+              <eas:subject-title>isReferencedBy 1</eas:subject-title>
+              <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+            </eas:isReferencedBy>
+            <eas:references eas:emphasis="true">
+              <eas:subject-title>references 0</eas:subject-title>
+              <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+            </eas:references>
+            <eas:references>
+              <eas:subject-title>references 1</eas:subject-title>
+              <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+            </eas:references>
+            <eas:isFormatOf eas:emphasis="true">
+              <eas:subject-title>isFormatOf 0</eas:subject-title>
+              <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+            </eas:isFormatOf>
+            <eas:isFormatOf>
+              <eas:subject-title>isFormatOf 1</eas:subject-title>
+              <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+            </eas:isFormatOf>
+            <eas:hasFormat eas:emphasis="true">
+              <eas:subject-title>hasFormat 0</eas:subject-title>
+              <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+            </eas:hasFormat>
+            <eas:hasFormat>
+              <eas:subject-title>hasFormat 1</eas:subject-title>
+              <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+            </eas:hasFormat>
+          </emd:relation>
+          <emd:coverage>
+            <dc:coverage eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">coverage 0</dc:coverage>
+            <dc:coverage eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">coverage 1</dc:coverage>
+            <dcterms:spatial eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">spatial 0</dcterms:spatial>
+            <dcterms:spatial eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">spatial 1</dcterms:spatial>
+            <dcterms:temporal eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">temporal 0</dcterms:temporal>
+            <dcterms:temporal eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">temporal 1</dcterms:temporal>
+            <eas:spatial>
+              <eas:place eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">spatial 0</eas:place>
+              <eas:point eas:scheme="POI0" eas:schemeId="point.bla0">
+                <eas:x>123.45</eas:x>
+                <eas:y>456.78</eas:y>
+              </eas:point>
+            </eas:spatial>
+            <eas:spatial>
+              <eas:place eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">spatial 1</eas:place>
+              <eas:box eas:scheme="BOX1" eas:schemeId="bax.bla1">
+                <eas:north>12.3</eas:north>
+                <eas:east>23.4</eas:east>
+                <eas:south>34.5</eas:south>
+                <eas:west>45.6</eas:west>
+              </eas:box>
+            </eas:spatial>
+          </emd:coverage>
+          <emd:rights>
+            <dc:rights eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">rights 0</dc:rights>
+            <dc:rights eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">rights 1</dc:rights>
+            <dcterms:accessRights eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">accessRights 0</dcterms:accessRights>
+            <dcterms:accessRights eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">accessRights 1</dcterms:accessRights>
+            <dcterms:accessRights eas:schemeId="common.dcterms.accessrights">ar_everyone</dcterms:accessRights>
+            <dcterms:license eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">license 0</dcterms:license>
+            <dcterms:license eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">license 1</dcterms:license>
+          </emd:rights>
+          <emd:audience>
+            <dcterms:audience eas:scheme="BSS0" eas:schemeId="common.dc.type0" xml:lang="nld-NLD">audience 0</dcterms:audience>
+            <dcterms:audience eas:scheme="BSS1" eas:schemeId="common.dc.type1" xml:lang="nld-NLD">audience 1</dcterms:audience>
+          </emd:audience>
+          <emd:other>
+            <eas:remark>remarks 0</eas:remark>
+            <eas:remark>remarks 1</eas:remark>
+            <eas:application-specific>
+              <eas:metadataformat>UNSPECIFIED</eas:metadataformat>
+            </eas:application-specific>
+          </emd:other>
+        </emd:easymetadata>
+      </foxml:xmlContent>
+    </foxml:datastreamVersion>
+  </foxml:datastream>
+  <foxml:datastream CONTROL_GROUP="X" ID="AMD" STATE="A" VERSIONABLE="true">
+    <foxml:datastreamVersion CREATED="2009-08-18T08:37:27.361Z"
+      FORMAT_URI="http://easy.dans.knaw.nl/easy/dataset-administrative-metadata/" ID="AMD.0"
+      LABEL="Administrative metadata for this object" MIMETYPE="text/xml" SIZE="360">
+      <foxml:xmlContent>
+        <damd:administrative-md version="0.1" xmlns:damd="http://easy.dans.knaw.nl/easy/dataset-administrative-metadata/">
+          <datasetState>MAINTENANCE</datasetState>
+          <lastStateChange>2009-08-18T10:37:26.270+02:00</lastStateChange>
+          <depositorId>test</depositorId>
+          <damd:workflowData version="0.1">
+            <assigneeId>testId</assigneeId>
+          </damd:workflowData>
+        </damd:administrative-md>
+      </foxml:xmlContent>
+    </foxml:datastreamVersion>
+    <foxml:datastreamVersion CREATED="2009-08-18T12:49:46.365Z"
+      FORMAT_URI="http://easy.dans.knaw.nl/easy/dataset-administrative-metadata/" ID="AMD.1"
+      LABEL="Administrative metadata for this object" MIMETYPE="text/xml" SIZE="379">
+      <foxml:xmlContent>
+        <damd:administrative-md version="0.1" xmlns:damd="http://easy.dans.knaw.nl/easy/dataset-administrative-metadata/">
+          <datasetState>MAINTENANCE</datasetState>
+          <lastStateChange>2009-08-18T10:37:26.270+02:00</lastStateChange>
+          <depositorId>test</depositorId>
+          <damd:workflowData version="0.1">
+            <assigneeId>user</assigneeId>
+          </damd:workflowData>
+        </damd:administrative-md>
+      </foxml:xmlContent>
+    </foxml:datastreamVersion>
+    <foxml:datastreamVersion CREATED="2009-08-18T13:02:49.321Z"
+      FORMAT_URI="http://easy.dans.knaw.nl/easy/dataset-administrative-metadata/" ID="AMD.2"
+      LABEL="Administrative metadata for this object" MIMETYPE="text/xml" SIZE="377">
+      <foxml:xmlContent>
+        <damd:administrative-md version="0.1" xmlns:damd="http://easy.dans.knaw.nl/easy/dataset-administrative-metadata/">
+          <datasetState>SUBMITTED</datasetState>
+          <lastStateChange>2009-08-18T10:37:26.270+02:00</lastStateChange>
+          <depositorId>test</depositorId>
+          <damd:workflowData version="0.1">
+            <assigneeId>user</assigneeId>
+          </damd:workflowData>
+        </damd:administrative-md>
+      </foxml:xmlContent>
+    </foxml:datastreamVersion>
+    <foxml:datastreamVersion CREATED="2009-08-18T13:04:56.469Z"
+      FORMAT_URI="http://easy.dans.knaw.nl/easy/dataset-administrative-metadata/" ID="AMD.3"
+      LABEL="Administrative metadata for this object" MIMETYPE="text/xml" SIZE="377">
+      <foxml:xmlContent>
+        <damd:administrative-md version="0.1" xmlns:damd="http://easy.dans.knaw.nl/easy/dataset-administrative-metadata/">
+          <datasetState>SUBMITTED</datasetState>
+          <lastStateChange>2009-08-18T10:37:26.270+02:00</lastStateChange>
+          <depositorId>user</depositorId>
+          <damd:workflowData version="0.1">
+            <assigneeId>user</assigneeId>
+          </damd:workflowData>
+        </damd:administrative-md>
+      </foxml:xmlContent>
+    </foxml:datastreamVersion>
+    <foxml:datastreamVersion CREATED="2009-08-30T15:30:04.708Z"
+      FORMAT_URI="http://easy.dans.knaw.nl/easy/dataset-administrative-metadata/" ID="AMD.4"
+      LABEL="Administrative metadata for this object" MIMETYPE="text/xml" SIZE="4092">
+      <foxml:xmlContent>
+        <damd:administrative-md version="0.1" xmlns:damd="http://easy.dans.knaw.nl/easy/dataset-administrative-metadata/">
+          <datasetState>SUBMITTED</datasetState>
+          <lastStateChange>2009-08-18T10:37:26.270+02:00</lastStateChange>
+          <depositorId>user</depositorId>
+          <damd:workflowData version="0.1">
+            <assigneeId>archivist</assigneeId>
+            <wfs:workflow xmlns:wfs="http://easy.dans.knaw.nl/easy/workflow/">
+              <id>dataset</id>
+              <remarks/>
+              <steps>
+                <wfs:workflow>
+                  <id>dataset.sip</id>
+                  <timeSpentWritable>true</timeSpentWritable>
+                  <remarks/>
+                  <steps>
+                    <wfs:workflow>
+                      <id>dataset.sip.files</id>
+                      <remarks/>
+                      <steps>
+                        <wfs:workflow>
+                          <id>dataset.sip.files.completeness</id>
+                          <required>true</required>
+                          <remarks/>
+                          <steps/>
+                        </wfs:workflow>
+                        <wfs:workflow>
+                          <id>dataset.sip.files.accessibility</id>
+                          <required>true</required>
+                          <remarks/>
+                          <steps/>
+                        </wfs:workflow>
+                        <wfs:workflow>
+                          <id>dataset.sip.files.privacy</id>
+                          <required>true</required>
+                          <remarks/>
+                          <steps/>
+                        </wfs:workflow>
+                      </steps>
+                    </wfs:workflow>
+                    <wfs:workflow>
+                      <id>dataset.sip.file-list</id>
+                      <remarks/>
+                      <steps>
+                        <wfs:workflow>
+                          <id>dataset.sip.file-list.file-metadata</id>
+                          <remarks/>
+                          <steps/>
+                        </wfs:workflow>
+                      </steps>
+                    </wfs:workflow>
+                    <wfs:workflow>
+                      <id>dataset.sip.descriptive-metadata</id>
+                      <remarks/>
+                      <steps>
+                        <wfs:workflow>
+                          <id>dataset.sip.descriptive-metadata.completeness</id>
+                          <required>true</required>
+                          <remarks/>
+                          <steps/>
+                        </wfs:workflow>
+                        <wfs:workflow>
+                          <id>dataset.sip.descriptive-metadata.identifiers</id>
+                          <remarks/>
+                          <steps/>
+                        </wfs:workflow>
+                      </steps>
+                    </wfs:workflow>
+                  </steps>
+                </wfs:workflow>
+                <wfs:workflow>
+                  <id>dataset.aip</id>
+                  <timeSpentWritable>true</timeSpentWritable>
+                  <remarks/>
+                  <steps>
+                    <wfs:workflow>
+                      <id>dataset.aip.file-conversion</id>
+                      <remarks/>
+                      <steps/>
+                    </wfs:workflow>
+                    <wfs:workflow>
+                      <id>dataset.aip.file-metadata</id>
+                      <remarks/>
+                      <steps/>
+                    </wfs:workflow>
+                    <wfs:workflow>
+                      <id>dataset.aip.structure</id>
+                      <remarks/>
+                      <steps/>
+                    </wfs:workflow>
+                  </steps>
+                </wfs:workflow>
+                <wfs:workflow>
+                  <id>dataset.dip</id>
+                  <timeSpentWritable>true</timeSpentWritable>
+                  <remarks/>
+                  <steps>
+                    <wfs:workflow>
+                      <id>dataset.dip.publish-files</id>
+                      <required>true</required>
+                      <remarks/>
+                      <steps/>
+                    </wfs:workflow>
+                    <wfs:workflow>
+                      <id>dataset.dip.jumpoff</id>
+                      <remarks/>
+                      <steps/>
+                    </wfs:workflow>
+                    <wfs:workflow>
+                      <id>dataset.dip.relations</id>
+                      <remarks/>
+                      <steps/>
+                    </wfs:workflow>
+                  </steps>
+                </wfs:workflow>
+              </steps>
+            </wfs:workflow>
+          </damd:workflowData>
+        </damd:administrative-md>
+      </foxml:xmlContent>
+    </foxml:datastreamVersion>
+    <foxml:datastreamVersion CREATED="2009-08-30T15:30:10.316Z"
+      FORMAT_URI="http://easy.dans.knaw.nl/easy/dataset-administrative-metadata/" ID="AMD.5"
+      LABEL="Administrative metadata for this object" MIMETYPE="text/xml" SIZE="4095">
+      <foxml:xmlContent>
+        <damd:administrative-md version="0.1" xmlns:damd="http://easy.dans.knaw.nl/easy/dataset-administrative-metadata/">
+          <datasetState>SUBMITTED</datasetState>
+          <lastStateChange>2009-08-18T10:37:26.270+02:00</lastStateChange>
+          <depositorId>user</depositorId>
+          <damd:workflowData version="0.1">
+            <assigneeId>NOT_ASSIGNED</assigneeId>
+            <wfs:workflow xmlns:wfs="http://easy.dans.knaw.nl/easy/workflow/">
+              <id>dataset</id>
+              <remarks/>
+              <steps>
+                <wfs:workflow>
+                  <id>dataset.sip</id>
+                  <timeSpentWritable>true</timeSpentWritable>
+                  <remarks/>
+                  <steps>
+                    <wfs:workflow>
+                      <id>dataset.sip.files</id>
+                      <remarks/>
+                      <steps>
+                        <wfs:workflow>
+                          <id>dataset.sip.files.completeness</id>
+                          <required>true</required>
+                          <remarks/>
+                          <steps/>
+                        </wfs:workflow>
+                        <wfs:workflow>
+                          <id>dataset.sip.files.accessibility</id>
+                          <required>true</required>
+                          <remarks/>
+                          <steps/>
+                        </wfs:workflow>
+                        <wfs:workflow>
+                          <id>dataset.sip.files.privacy</id>
+                          <required>true</required>
+                          <remarks/>
+                          <steps/>
+                        </wfs:workflow>
+                      </steps>
+                    </wfs:workflow>
+                    <wfs:workflow>
+                      <id>dataset.sip.file-list</id>
+                      <remarks/>
+                      <steps>
+                        <wfs:workflow>
+                          <id>dataset.sip.file-list.file-metadata</id>
+                          <remarks/>
+                          <steps/>
+                        </wfs:workflow>
+                      </steps>
+                    </wfs:workflow>
+                    <wfs:workflow>
+                      <id>dataset.sip.descriptive-metadata</id>
+                      <remarks/>
+                      <steps>
+                        <wfs:workflow>
+                          <id>dataset.sip.descriptive-metadata.completeness</id>
+                          <required>true</required>
+                          <remarks/>
+                          <steps/>
+                        </wfs:workflow>
+                        <wfs:workflow>
+                          <id>dataset.sip.descriptive-metadata.identifiers</id>
+                          <remarks/>
+                          <steps/>
+                        </wfs:workflow>
+                      </steps>
+                    </wfs:workflow>
+                  </steps>
+                </wfs:workflow>
+                <wfs:workflow>
+                  <id>dataset.aip</id>
+                  <timeSpentWritable>true</timeSpentWritable>
+                  <remarks/>
+                  <steps>
+                    <wfs:workflow>
+                      <id>dataset.aip.file-conversion</id>
+                      <remarks/>
+                      <steps/>
+                    </wfs:workflow>
+                    <wfs:workflow>
+                      <id>dataset.aip.file-metadata</id>
+                      <remarks/>
+                      <steps/>
+                    </wfs:workflow>
+                    <wfs:workflow>
+                      <id>dataset.aip.structure</id>
+                      <remarks/>
+                      <steps/>
+                    </wfs:workflow>
+                  </steps>
+                </wfs:workflow>
+                <wfs:workflow>
+                  <id>dataset.dip</id>
+                  <timeSpentWritable>true</timeSpentWritable>
+                  <remarks/>
+                  <steps>
+                    <wfs:workflow>
+                      <id>dataset.dip.publish-files</id>
+                      <required>true</required>
+                      <remarks/>
+                      <steps/>
+                    </wfs:workflow>
+                    <wfs:workflow>
+                      <id>dataset.dip.jumpoff</id>
+                      <remarks/>
+                      <steps/>
+                    </wfs:workflow>
+                    <wfs:workflow>
+                      <id>dataset.dip.relations</id>
+                      <remarks/>
+                      <steps/>
+                    </wfs:workflow>
+                  </steps>
+                </wfs:workflow>
+              </steps>
+            </wfs:workflow>
+          </damd:workflowData>
+        </damd:administrative-md>
+      </foxml:xmlContent>
+    </foxml:datastreamVersion>
+    <foxml:datastreamVersion CREATED="2009-08-30T15:30:32.317Z"
+      FORMAT_URI="http://easy.dans.knaw.nl/easy/dataset-administrative-metadata/" ID="AMD.6"
+      LABEL="Administrative metadata for this object" MIMETYPE="text/xml" SIZE="4088">
+      <foxml:xmlContent>
+        <damd:administrative-md version="0.1" xmlns:damd="http://easy.dans.knaw.nl/easy/dataset-administrative-metadata/">
+          <datasetState>SUBMITTED</datasetState>
+          <lastStateChange>2009-08-18T10:37:26.270+02:00</lastStateChange>
+          <depositorId>user</depositorId>
+          <damd:workflowData version="0.1">
+            <assigneeId>henkb</assigneeId>
+            <wfs:workflow xmlns:wfs="http://easy.dans.knaw.nl/easy/workflow/">
+              <id>dataset</id>
+              <remarks/>
+              <steps>
+                <wfs:workflow>
+                  <id>dataset.sip</id>
+                  <timeSpentWritable>true</timeSpentWritable>
+                  <remarks/>
+                  <steps>
+                    <wfs:workflow>
+                      <id>dataset.sip.files</id>
+                      <remarks/>
+                      <steps>
+                        <wfs:workflow>
+                          <id>dataset.sip.files.completeness</id>
+                          <required>true</required>
+                          <remarks/>
+                          <steps/>
+                        </wfs:workflow>
+                        <wfs:workflow>
+                          <id>dataset.sip.files.accessibility</id>
+                          <required>true</required>
+                          <remarks/>
+                          <steps/>
+                        </wfs:workflow>
+                        <wfs:workflow>
+                          <id>dataset.sip.files.privacy</id>
+                          <required>true</required>
+                          <remarks/>
+                          <steps/>
+                        </wfs:workflow>
+                      </steps>
+                    </wfs:workflow>
+                    <wfs:workflow>
+                      <id>dataset.sip.file-list</id>
+                      <remarks/>
+                      <steps>
+                        <wfs:workflow>
+                          <id>dataset.sip.file-list.file-metadata</id>
+                          <remarks/>
+                          <steps/>
+                        </wfs:workflow>
+                      </steps>
+                    </wfs:workflow>
+                    <wfs:workflow>
+                      <id>dataset.sip.descriptive-metadata</id>
+                      <remarks/>
+                      <steps>
+                        <wfs:workflow>
+                          <id>dataset.sip.descriptive-metadata.completeness</id>
+                          <required>true</required>
+                          <remarks/>
+                          <steps/>
+                        </wfs:workflow>
+                        <wfs:workflow>
+                          <id>dataset.sip.descriptive-metadata.identifiers</id>
+                          <remarks/>
+                          <steps/>
+                        </wfs:workflow>
+                      </steps>
+                    </wfs:workflow>
+                  </steps>
+                </wfs:workflow>
+                <wfs:workflow>
+                  <id>dataset.aip</id>
+                  <timeSpentWritable>true</timeSpentWritable>
+                  <remarks/>
+                  <steps>
+                    <wfs:workflow>
+                      <id>dataset.aip.file-conversion</id>
+                      <remarks/>
+                      <steps/>
+                    </wfs:workflow>
+                    <wfs:workflow>
+                      <id>dataset.aip.file-metadata</id>
+                      <remarks/>
+                      <steps/>
+                    </wfs:workflow>
+                    <wfs:workflow>
+                      <id>dataset.aip.structure</id>
+                      <remarks/>
+                      <steps/>
+                    </wfs:workflow>
+                  </steps>
+                </wfs:workflow>
+                <wfs:workflow>
+                  <id>dataset.dip</id>
+                  <timeSpentWritable>true</timeSpentWritable>
+                  <remarks/>
+                  <steps>
+                    <wfs:workflow>
+                      <id>dataset.dip.publish-files</id>
+                      <required>true</required>
+                      <remarks/>
+                      <steps/>
+                    </wfs:workflow>
+                    <wfs:workflow>
+                      <id>dataset.dip.jumpoff</id>
+                      <remarks/>
+                      <steps/>
+                    </wfs:workflow>
+                    <wfs:workflow>
+                      <id>dataset.dip.relations</id>
+                      <remarks/>
+                      <steps/>
+                    </wfs:workflow>
+                  </steps>
+                </wfs:workflow>
+              </steps>
+            </wfs:workflow>
+          </damd:workflowData>
+        </damd:administrative-md>
+      </foxml:xmlContent>
+    </foxml:datastreamVersion>
+    <foxml:datastreamVersion CREATED="2009-08-30T15:30:34.781Z"
+      FORMAT_URI="http://easy.dans.knaw.nl/easy/dataset-administrative-metadata/" ID="AMD.7"
+      LABEL="Administrative metadata for this object" MIMETYPE="text/xml" SIZE="4095">
+      <foxml:xmlContent>
+        <damd:administrative-md version="0.1" xmlns:damd="http://easy.dans.knaw.nl/easy/dataset-administrative-metadata/">
+          <datasetState>SUBMITTED</datasetState>
+          <lastStateChange>2009-08-18T10:37:26.270+02:00</lastStateChange>
+          <depositorId>user</depositorId>
+          <damd:workflowData version="0.1">
+            <assigneeId>NOT_ASSIGNED</assigneeId>
+            <wfs:workflow xmlns:wfs="http://easy.dans.knaw.nl/easy/workflow/">
+              <id>dataset</id>
+              <remarks/>
+              <steps>
+                <wfs:workflow>
+                  <id>dataset.sip</id>
+                  <timeSpentWritable>true</timeSpentWritable>
+                  <remarks/>
+                  <steps>
+                    <wfs:workflow>
+                      <id>dataset.sip.files</id>
+                      <remarks/>
+                      <steps>
+                        <wfs:workflow>
+                          <id>dataset.sip.files.completeness</id>
+                          <required>true</required>
+                          <remarks/>
+                          <steps/>
+                        </wfs:workflow>
+                        <wfs:workflow>
+                          <id>dataset.sip.files.accessibility</id>
+                          <required>true</required>
+                          <remarks/>
+                          <steps/>
+                        </wfs:workflow>
+                        <wfs:workflow>
+                          <id>dataset.sip.files.privacy</id>
+                          <required>true</required>
+                          <remarks/>
+                          <steps/>
+                        </wfs:workflow>
+                      </steps>
+                    </wfs:workflow>
+                    <wfs:workflow>
+                      <id>dataset.sip.file-list</id>
+                      <remarks/>
+                      <steps>
+                        <wfs:workflow>
+                          <id>dataset.sip.file-list.file-metadata</id>
+                          <remarks/>
+                          <steps/>
+                        </wfs:workflow>
+                      </steps>
+                    </wfs:workflow>
+                    <wfs:workflow>
+                      <id>dataset.sip.descriptive-metadata</id>
+                      <remarks/>
+                      <steps>
+                        <wfs:workflow>
+                          <id>dataset.sip.descriptive-metadata.completeness</id>
+                          <required>true</required>
+                          <remarks/>
+                          <steps/>
+                        </wfs:workflow>
+                        <wfs:workflow>
+                          <id>dataset.sip.descriptive-metadata.identifiers</id>
+                          <remarks/>
+                          <steps/>
+                        </wfs:workflow>
+                      </steps>
+                    </wfs:workflow>
+                  </steps>
+                </wfs:workflow>
+                <wfs:workflow>
+                  <id>dataset.aip</id>
+                  <timeSpentWritable>true</timeSpentWritable>
+                  <remarks/>
+                  <steps>
+                    <wfs:workflow>
+                      <id>dataset.aip.file-conversion</id>
+                      <remarks/>
+                      <steps/>
+                    </wfs:workflow>
+                    <wfs:workflow>
+                      <id>dataset.aip.file-metadata</id>
+                      <remarks/>
+                      <steps/>
+                    </wfs:workflow>
+                    <wfs:workflow>
+                      <id>dataset.aip.structure</id>
+                      <remarks/>
+                      <steps/>
+                    </wfs:workflow>
+                  </steps>
+                </wfs:workflow>
+                <wfs:workflow>
+                  <id>dataset.dip</id>
+                  <timeSpentWritable>true</timeSpentWritable>
+                  <remarks/>
+                  <steps>
+                    <wfs:workflow>
+                      <id>dataset.dip.publish-files</id>
+                      <required>true</required>
+                      <remarks/>
+                      <steps/>
+                    </wfs:workflow>
+                    <wfs:workflow>
+                      <id>dataset.dip.jumpoff</id>
+                      <remarks/>
+                      <steps/>
+                    </wfs:workflow>
+                    <wfs:workflow>
+                      <id>dataset.dip.relations</id>
+                      <remarks/>
+                      <steps/>
+                    </wfs:workflow>
+                  </steps>
+                </wfs:workflow>
+              </steps>
+            </wfs:workflow>
+          </damd:workflowData>
+        </damd:administrative-md>
+      </foxml:xmlContent>
+    </foxml:datastreamVersion>
+    <foxml:datastreamVersion CREATED="2009-08-30T15:30:49.551Z"
+      FORMAT_URI="http://easy.dans.knaw.nl/easy/dataset-administrative-metadata/" ID="AMD.8"
+      LABEL="Administrative metadata for this object" MIMETYPE="text/xml" SIZE="4092">
+      <foxml:xmlContent>
+        <damd:administrative-md version="0.1" xmlns:damd="http://easy.dans.knaw.nl/easy/dataset-administrative-metadata/">
+          <datasetState>SUBMITTED</datasetState>
+          <lastStateChange>2009-08-18T10:37:26.270+02:00</lastStateChange>
+          <depositorId>user</depositorId>
+          <damd:workflowData version="0.1">
+            <assigneeId>archivist</assigneeId>
+            <wfs:workflow xmlns:wfs="http://easy.dans.knaw.nl/easy/workflow/">
+              <id>dataset</id>
+              <remarks/>
+              <steps>
+                <wfs:workflow>
+                  <id>dataset.sip</id>
+                  <timeSpentWritable>true</timeSpentWritable>
+                  <remarks/>
+                  <steps>
+                    <wfs:workflow>
+                      <id>dataset.sip.files</id>
+                      <remarks/>
+                      <steps>
+                        <wfs:workflow>
+                          <id>dataset.sip.files.completeness</id>
+                          <required>true</required>
+                          <remarks/>
+                          <steps/>
+                        </wfs:workflow>
+                        <wfs:workflow>
+                          <id>dataset.sip.files.accessibility</id>
+                          <required>true</required>
+                          <remarks/>
+                          <steps/>
+                        </wfs:workflow>
+                        <wfs:workflow>
+                          <id>dataset.sip.files.privacy</id>
+                          <required>true</required>
+                          <remarks/>
+                          <steps/>
+                        </wfs:workflow>
+                      </steps>
+                    </wfs:workflow>
+                    <wfs:workflow>
+                      <id>dataset.sip.file-list</id>
+                      <remarks/>
+                      <steps>
+                        <wfs:workflow>
+                          <id>dataset.sip.file-list.file-metadata</id>
+                          <remarks/>
+                          <steps/>
+                        </wfs:workflow>
+                      </steps>
+                    </wfs:workflow>
+                    <wfs:workflow>
+                      <id>dataset.sip.descriptive-metadata</id>
+                      <remarks/>
+                      <steps>
+                        <wfs:workflow>
+                          <id>dataset.sip.descriptive-metadata.completeness</id>
+                          <required>true</required>
+                          <remarks/>
+                          <steps/>
+                        </wfs:workflow>
+                        <wfs:workflow>
+                          <id>dataset.sip.descriptive-metadata.identifiers</id>
+                          <remarks/>
+                          <steps/>
+                        </wfs:workflow>
+                      </steps>
+                    </wfs:workflow>
+                  </steps>
+                </wfs:workflow>
+                <wfs:workflow>
+                  <id>dataset.aip</id>
+                  <timeSpentWritable>true</timeSpentWritable>
+                  <remarks/>
+                  <steps>
+                    <wfs:workflow>
+                      <id>dataset.aip.file-conversion</id>
+                      <remarks/>
+                      <steps/>
+                    </wfs:workflow>
+                    <wfs:workflow>
+                      <id>dataset.aip.file-metadata</id>
+                      <remarks/>
+                      <steps/>
+                    </wfs:workflow>
+                    <wfs:workflow>
+                      <id>dataset.aip.structure</id>
+                      <remarks/>
+                      <steps/>
+                    </wfs:workflow>
+                  </steps>
+                </wfs:workflow>
+                <wfs:workflow>
+                  <id>dataset.dip</id>
+                  <timeSpentWritable>true</timeSpentWritable>
+                  <remarks/>
+                  <steps>
+                    <wfs:workflow>
+                      <id>dataset.dip.publish-files</id>
+                      <required>true</required>
+                      <remarks/>
+                      <steps/>
+                    </wfs:workflow>
+                    <wfs:workflow>
+                      <id>dataset.dip.jumpoff</id>
+                      <remarks/>
+                      <steps/>
+                    </wfs:workflow>
+                    <wfs:workflow>
+                      <id>dataset.dip.relations</id>
+                      <remarks/>
+                      <steps/>
+                    </wfs:workflow>
+                  </steps>
+                </wfs:workflow>
+              </steps>
+            </wfs:workflow>
+          </damd:workflowData>
+        </damd:administrative-md>
+      </foxml:xmlContent>
+    </foxml:datastreamVersion>
+    <foxml:datastreamVersion CREATED="2009-08-30T15:30:58.303Z"
+      FORMAT_URI="http://easy.dans.knaw.nl/easy/dataset-administrative-metadata/" ID="AMD.9"
+      LABEL="Administrative metadata for this object" MIMETYPE="text/xml" SIZE="4095">
+      <foxml:xmlContent>
+        <damd:administrative-md version="0.1" xmlns:damd="http://easy.dans.knaw.nl/easy/dataset-administrative-metadata/">
+          <datasetState>SUBMITTED</datasetState>
+          <lastStateChange>2009-08-18T10:37:26.270+02:00</lastStateChange>
+          <depositorId>user</depositorId>
+          <damd:workflowData version="0.1">
+            <assigneeId>NOT_ASSIGNED</assigneeId>
+            <wfs:workflow xmlns:wfs="http://easy.dans.knaw.nl/easy/workflow/">
+              <id>dataset</id>
+              <remarks/>
+              <steps>
+                <wfs:workflow>
+                  <id>dataset.sip</id>
+                  <timeSpentWritable>true</timeSpentWritable>
+                  <remarks/>
+                  <steps>
+                    <wfs:workflow>
+                      <id>dataset.sip.files</id>
+                      <remarks/>
+                      <steps>
+                        <wfs:workflow>
+                          <id>dataset.sip.files.completeness</id>
+                          <required>true</required>
+                          <remarks/>
+                          <steps/>
+                        </wfs:workflow>
+                        <wfs:workflow>
+                          <id>dataset.sip.files.accessibility</id>
+                          <required>true</required>
+                          <remarks/>
+                          <steps/>
+                        </wfs:workflow>
+                        <wfs:workflow>
+                          <id>dataset.sip.files.privacy</id>
+                          <required>true</required>
+                          <remarks/>
+                          <steps/>
+                        </wfs:workflow>
+                      </steps>
+                    </wfs:workflow>
+                    <wfs:workflow>
+                      <id>dataset.sip.file-list</id>
+                      <remarks/>
+                      <steps>
+                        <wfs:workflow>
+                          <id>dataset.sip.file-list.file-metadata</id>
+                          <remarks/>
+                          <steps/>
+                        </wfs:workflow>
+                      </steps>
+                    </wfs:workflow>
+                    <wfs:workflow>
+                      <id>dataset.sip.descriptive-metadata</id>
+                      <remarks/>
+                      <steps>
+                        <wfs:workflow>
+                          <id>dataset.sip.descriptive-metadata.completeness</id>
+                          <required>true</required>
+                          <remarks/>
+                          <steps/>
+                        </wfs:workflow>
+                        <wfs:workflow>
+                          <id>dataset.sip.descriptive-metadata.identifiers</id>
+                          <remarks/>
+                          <steps/>
+                        </wfs:workflow>
+                      </steps>
+                    </wfs:workflow>
+                  </steps>
+                </wfs:workflow>
+                <wfs:workflow>
+                  <id>dataset.aip</id>
+                  <timeSpentWritable>true</timeSpentWritable>
+                  <remarks/>
+                  <steps>
+                    <wfs:workflow>
+                      <id>dataset.aip.file-conversion</id>
+                      <remarks/>
+                      <steps/>
+                    </wfs:workflow>
+                    <wfs:workflow>
+                      <id>dataset.aip.file-metadata</id>
+                      <remarks/>
+                      <steps/>
+                    </wfs:workflow>
+                    <wfs:workflow>
+                      <id>dataset.aip.structure</id>
+                      <remarks/>
+                      <steps/>
+                    </wfs:workflow>
+                  </steps>
+                </wfs:workflow>
+                <wfs:workflow>
+                  <id>dataset.dip</id>
+                  <timeSpentWritable>true</timeSpentWritable>
+                  <remarks/>
+                  <steps>
+                    <wfs:workflow>
+                      <id>dataset.dip.publish-files</id>
+                      <required>true</required>
+                      <remarks/>
+                      <steps/>
+                    </wfs:workflow>
+                    <wfs:workflow>
+                      <id>dataset.dip.jumpoff</id>
+                      <remarks/>
+                      <steps/>
+                    </wfs:workflow>
+                    <wfs:workflow>
+                      <id>dataset.dip.relations</id>
+                      <remarks/>
+                      <steps/>
+                    </wfs:workflow>
+                  </steps>
+                </wfs:workflow>
+              </steps>
+            </wfs:workflow>
+          </damd:workflowData>
+        </damd:administrative-md>
+      </foxml:xmlContent>
+    </foxml:datastreamVersion>
+  </foxml:datastream>
+  <foxml:datastream CONTROL_GROUP="X" ID="RELS-EXT" STATE="A" VERSIONABLE="true">
+    <foxml:datastreamVersion CREATED="2009-08-18T08:37:27.362Z" FORMAT_URI="info:fedora/fedora-system:FedoraRELSExt-1.0"
+      ID="RELS-EXT.0" LABEL="RDF Statements about this object" MIMETYPE="text/xml" SIZE="550">
+      <foxml:xmlContent>
+        <rdf:RDF xmlns:easy-rel="http://easy.dans.knaw.nl/easy/easy-rel#"
+          xmlns:fedora="info:fedora/fedora-system:def/relations-external#"
+          xmlns:fedora-model="info:fedora/fedora-system:def/model#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+          <rdf:Description rdf:about="info:fedora/demo:123">
+            <fedora-model:hasModel rdf:resource="info:fedora/fedora-system:EDM1DATASET"/>
+            <easy-rel:hasName>Test dataset</easy-rel:hasName>
+            <easy-rel:creationDate>2009-08-18T10:37:26.424+02:00</easy-rel:creationDate>
+          </rdf:Description>
+        </rdf:RDF>
+      </foxml:xmlContent>
+    </foxml:datastreamVersion>
+  </foxml:datastream>
+</foxml:digitalObject>

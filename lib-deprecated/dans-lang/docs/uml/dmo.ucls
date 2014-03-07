@@ -1,0 +1,143 @@
+<class-diagram version="0.9.86" automaticImage="JPEG" icons="true" always-add-relationships="true" 
+  generalizations="true" realizations="true" associations="true" dependencies="true" nesting-relationships="false">  
+  <interface corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.common.lang.repo.DataModelObject" 
+    project="dans-lang" file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/DataModelObject.java" 
+    binary="false">    
+    <position x="631" y="445" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="false" protected="false" private="false"/>    
+    </display>  
+  </interface>  
+  <interface corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.common.lang.TimestampedObject" project="dans-lang" 
+    file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/TimestampedObject.java" binary="false">    
+    <position x="607" y="82" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="false" protected="false" private="false"/>    
+    </display>  
+  </interface>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.common.lang.repo.AbstractTimestampedObject" 
+    project="dans-lang" file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/AbstractTimestampedObject.java" 
+    binary="false">    
+    <position x="365" y="92" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="false" protected="false" private="false"/>      
+      <operations public="true" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.common.lang.repo.AbstractStorableObject" 
+    project="dans-lang" file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/AbstractStorableObject.java" 
+    binary="false">    
+    <position x="360" y="369" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="true" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <interface corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.common.lang.repo.MetadataUnit" project="dans-lang" 
+    file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/MetadataUnit.java" binary="false">    
+    <position x="864" y="364" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="true" package="false" protected="false" private="false"/>    
+    </display>  
+  </interface>  
+  <interface corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.common.lang.repo.StorableObject" 
+    project="dans-lang" file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/StorableObject.java" binary="false">    
+    <position x="614" y="223" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </interface>  
+  <interface corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.common.lang.repo.BinaryUnit" project="dans-lang" 
+    file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/BinaryUnit.java" binary="false">    
+    <position x="864" y="473" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </interface>  
+  <enumeration corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.common.lang.repo.BinaryUnit.UnitControlGroup" 
+    project="dans-lang" file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/BinaryUnit.java" binary="false">    
+    <position x="864" y="556" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </enumeration>  
+  <interface corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.common.lang.repo.Unit" project="dans-lang" 
+    file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/Unit.java" binary="false">    
+    <position x="1076" y="390" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </interface>  
+  <dependency>    
+    <source project="dans-lang" name="nl.knaw.dans.common.lang.repo.DataModelObject" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/DataModelObject.java" binary="false"/>    
+    <target project="dans-lang" name="nl.knaw.dans.common.lang.repo.MetadataUnit" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/MetadataUnit.java" binary="false"/>  
+  </dependency>  
+  <generalization>    
+    <source project="dans-lang" name="nl.knaw.dans.common.lang.repo.DataModelObject" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/DataModelObject.java" binary="false"/>    
+    <target project="dans-lang" name="nl.knaw.dans.common.lang.repo.StorableObject" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/StorableObject.java" binary="false"/>  
+  </generalization>  
+  <generalization>    
+    <source project="dans-lang" name="nl.knaw.dans.common.lang.repo.MetadataUnit" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/MetadataUnit.java" binary="false"/>    
+    <target project="dans-lang" name="nl.knaw.dans.common.lang.repo.Unit" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/Unit.java" binary="false"/>  
+  </generalization>  
+  <generalization>    
+    <source project="dans-lang" name="nl.knaw.dans.common.lang.repo.StorableObject" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/StorableObject.java" binary="false"/>    
+    <target project="dans-lang" name="nl.knaw.dans.common.lang.TimestampedObject" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/TimestampedObject.java" binary="false"/>  
+  </generalization>  
+  <dependency>    
+    <source project="dans-lang" name="nl.knaw.dans.common.lang.repo.DataModelObject" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/DataModelObject.java" binary="false"/>    
+    <target project="dans-lang" name="nl.knaw.dans.common.lang.repo.BinaryUnit" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/BinaryUnit.java" binary="false"/>  
+  </dependency>  
+  <generalization>    
+    <source project="dans-lang" name="nl.knaw.dans.common.lang.repo.BinaryUnit" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/BinaryUnit.java" binary="false"/>    
+    <target project="dans-lang" name="nl.knaw.dans.common.lang.repo.Unit" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/Unit.java" binary="false"/>  
+  </generalization>  
+  <realization>    
+    <source project="dans-lang" name="nl.knaw.dans.common.lang.repo.AbstractTimestampedObject" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/AbstractTimestampedObject.java" binary="false"/>    
+    <target project="dans-lang" name="nl.knaw.dans.common.lang.TimestampedObject" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/TimestampedObject.java" binary="false"/>  
+  </realization>  
+  <realization>    
+    <source project="dans-lang" name="nl.knaw.dans.common.lang.repo.AbstractStorableObject" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/AbstractStorableObject.java" binary="false"/>    
+    <target project="dans-lang" name="nl.knaw.dans.common.lang.repo.StorableObject" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/StorableObject.java" binary="false"/>  
+  </realization>  
+  <generalization>    
+    <source project="dans-lang" name="nl.knaw.dans.common.lang.repo.AbstractStorableObject" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/AbstractStorableObject.java" binary="false"/>    
+    <target project="dans-lang" name="nl.knaw.dans.common.lang.repo.AbstractTimestampedObject" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/AbstractTimestampedObject.java" binary="false"/>  
+  </generalization>  
+  <dependency>    
+    <source project="dans-lang" name="nl.knaw.dans.common.lang.repo.BinaryUnit" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/BinaryUnit.java" binary="false"/>    
+    <target project="dans-lang" name="nl.knaw.dans.common.lang.repo.BinaryUnit.UnitControlGroup" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/BinaryUnit.java" binary="false"/>  
+  </dependency>  
+  <classifier-display autosize="true" package="true" initial-value="false" signature="true" visibility="true">    
+    <attributes public="false" package="false" protected="false" private="false"/>    
+    <operations public="false" package="false" protected="false" private="false"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

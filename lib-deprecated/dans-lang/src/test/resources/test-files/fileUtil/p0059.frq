@@ -1,0 +1,1006 @@
+
+18 Oct 94 SPSS Release 4.0 for Sun 4                                      Page 1
+11:25:26  SPSS for Unix -- STAR          Sun-4            SunOS 4.x.x
+
+
+For SunOS 4.x.x         SPSS for Unix -- STAR             License Number 62696
+This software is functional through June 30, 1996.
+
+Try the new SPSS Release 4.0 features:
+
+* LOGISTIC REGRESSION procedure                  * CATEGORIES Option:
+* EXAMINE procedure to explore data              *   conjoint analysis
+* FLIP to transpose data files                   *   correspondence analysis
+* MATRIX Transformations Language                * GRAPH interface to SPSS Graph
+
+See the new SPSS documentation for more information on these new features.
+
+->      import /file'p0059.por'.
+
+           Portable file:  p0059.por
+             File format:  Communications
+           Date and time:  1994/10/18   10:14:50
+    Originating software:  SPSS Release 4.0 for Sun 4
+Originating installation:  SPSS for Unix -- STAR
+               Precision:  9 base-30 digits - roughly 13 base-10 digits
+              File label:  TEXAS POLL
+               Variables:  49
+      Weighting variable:  CASWGT
+
+
+Number of cases read:  1,000
+Input file size:  1,306 records (104,480 bytes)
+The file is now weighted by:  CASWGT
+
+Preceding task required 1.69 seconds CPU time;  2.81 seconds elapsed.
+
+->      frequencies /variables = all / format limit(40).
+
+There are 8,385,464 bytes of memory available.
+The largest contiguous area has 8,385,320 bytes.
+
+Memory allows a total of 299,475 values accumulated across all variables.
+There may be up to 37,434 value labels for each variable.
+18 Oct 94 SPSS Release 4.0 for Sun 4                                      Page 2
+11:26:15  SPSS for Unix -- STAR          Sun-4            SunOS 4.x.x
+
+File:     TEXAS POLL
+
+CASWGT
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+                           1.0000      1000    100.0    100.0    100.0
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases    1000      Missing cases      0
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+VAR001    WORLD MOVING TO PEACE OR OTHER GENRL WAR
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+PEACE                           1       331     33.1     41.8     41.8
+WAR                             2       461     46.1     58.2    100.0
+DK                              8       208     20.8   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     792      Missing cases    208
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+VAR002    SHD SENATE APPROVE ATOMIC TESTBAN TREATY
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+APPROVE                         1       536     53.6     66.1     66.1
+REJECT                          2       275     27.5     33.9    100.0
+DK                              8       189     18.9   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     811      Missing cases    189
+18 Oct 94 SPSS Release 4.0 for Sun 4                                      Page 3
+11:26:15  SPSS for Unix -- STAR          Sun-4            SunOS 4.x.x
+
+File:     TEXAS POLL
+
+VAR003    OP.ON TEXAS TEENAGE DRIVING LAWS
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+TOO STRICT                      1        23      2.3      2.4      2.4
+NOT STRICT ENOUGH               2       525     52.5     55.4     57.8
+ABOUT RIGHT                     3       400     40.0     42.2    100.0
+DK,NA                           8        52      5.2   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     948      Missing cases     52
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+VAR004    AGE 16 TOO YOUNG FOR DRIVING LICENCE
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+TOO YOUNG                       1       372     37.2     38.5     38.5
+NOT TOO YOUNG                   2       594     59.4     61.5    100.0
+DK,NA                           8        34      3.4   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     966      Missing cases     34
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+VAR005    AGE 14 TOO YOUNG FOR DRIVING LICENCE
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+TOO YOUNG                       1       837     83.7     85.6     85.6
+NOT TOO YOUNG                   2       141     14.1     14.4    100.0
+DK,NA                           8        22      2.2   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     978      Missing cases     22
+18 Oct 94 SPSS Release 4.0 for Sun 4                                      Page 4
+11:26:15  SPSS for Unix -- STAR          Sun-4            SunOS 4.x.x
+
+File:     TEXAS POLL
+
+VAR006    GENERAL AGE FOR DRIVING LICENCE
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+                               14        21      2.1      2.2      2.2
+                               15        13      1.3      1.3      3.5
+                               16       506     50.6     51.8     55.3
+                               17        94      9.4      9.6     65.0
+                               18       287     28.7     29.4     94.4
+                               19        17      1.7      1.7     96.1
+                               20        21      2.1      2.2     98.3
+                               21        16      1.6      1.6     99.9
+                               22         1       .1       .1    100.0
+NA                             99        24      2.4   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     976      Missing cases     24
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+VAR007    SHD PARENTS PAY DRIVING FINES OF CHILDRN
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+PARENTS SHD PAY                 1       777     77.7     81.2     81.2
+PARENTS SHDNT PAY               2       180     18.0     18.8    100.0
+DK,NA                           8        43      4.3   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     957      Missing cases     43
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+VAR008    DO YOU HAVE ANY TEENAGERS
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+YES                             1       314     31.4     31.4     31.4
+NO                              2       686     68.6     68.6    100.0
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases    1000      Missing cases      0
+18 Oct 94 SPSS Release 4.0 for Sun 4                                      Page 5
+11:26:15  SPSS for Unix -- STAR          Sun-4            SunOS 4.x.x
+
+File:     TEXAS POLL
+
+VAR009    OP.ON CONNALLY AS GOVERNOR OF TEXAS
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+APPROVE                         1       607     60.7     82.0     82.0
+DISAPPROVE                      2       133     13.3     18.0    100.0
+DK,NA                           8       260     26.0   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     740      Missing cases    260
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+VAR010    OP.ON JOHNSON AS VICE-PRESIDENT
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+APPROVE                         1       499     49.9     61.2     61.2
+DISAPPROVE                      2       317     31.7     38.8    100.0
+DK,NA                           8       184     18.4   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     816      Missing cases    184
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+VAR011    OP.ON J.KENNEDY AS PRESIDENT
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+APPROVE                         1       499     49.9     54.1     54.1
+DISAPPROVE                      2       423     42.3     45.9    100.0
+DK,NA                           8        78      7.8   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     922      Missing cases     78
+18 Oct 94 SPSS Release 4.0 for Sun 4                                      Page 6
+11:26:15  SPSS for Unix -- STAR          Sun-4            SunOS 4.x.x
+
+File:     TEXAS POLL
+
+VAR012    OP.ON R.KENNEDY AS ATTORNEY-GENERAL
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+APPROVE                         1       320     32.0     38.8     38.8
+DISAPPROVE                      2       505     50.5     61.2    100.0
+DK,NA                           8       175     17.5   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     825      Missing cases    175
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+VAR013    IF.PRES.ELECTION NOW: KENNEDY GOLDWATER
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+KENNEDY                         1       471     47.1     55.5     55.5
+GOLDWATER                       2       378     37.8     44.5    100.0
+DK                              8       151     15.1   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     849      Missing cases    151
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+VAR014    IF.PRES.ELECTION NOW: KENNEDY ROCKEFELLR
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+KENNEDY                         1       507     50.7     64.7     64.7
+ROCKEFELLER                     2       277     27.7     35.3    100.0
+DK                              8       216     21.6   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     784      Missing cases    216
+18 Oct 94 SPSS Release 4.0 for Sun 4                                      Page 7
+11:26:15  SPSS for Unix -- STAR          Sun-4            SunOS 4.x.x
+
+File:     TEXAS POLL
+
+VAR015    IF.PRES.ELECTION NOW: KENNEDY ROMNEY
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+KENNEDY                         1       460     46.0     64.3     64.3
+ROMNEY                          2       255     25.5     35.7    100.0
+DK                              8       285     28.5   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     715      Missing cases    285
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+VAR016    IF.PRES.ELECTION NOW: KENNEDY STASSEN
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+KENNEDY                         1       485     48.5     67.5     67.5
+STASSEN                         2       233     23.3     32.5    100.0
+DK                              8       282     28.2   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     718      Missing cases    282
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+VAR017    VOTER REGISTRATION INSTD OF POLL-TAX
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+FAVOR                           1       553     55.3     59.8     59.8
+OPPOSE                          2       372     37.2     40.2    100.0
+DK,NA                           8        75      7.5   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     925      Missing cases     75
+18 Oct 94 SPSS Release 4.0 for Sun 4                                      Page 8
+11:26:15  SPSS for Unix -- STAR          Sun-4            SunOS 4.x.x
+
+File:     TEXAS POLL
+
+VAR018    HAVE A POLL-TAX RECEIPT OR EXEMPTION
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+YES                             1       620     62.0     62.6     62.6
+NO                              2       371     37.1     37.4    100.0
+DK,NA                           8         9       .9   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     991      Missing cases      9
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+VAR019    LAW THAT HOTELS ETC.MUST ADMIT NEGROES
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+SHD PASS LAW                    1       222     22.2     27.9     27.9
+SHDNT PASS LAW                  2       574     57.4     72.1    100.0
+                                .       130     13.0   Missing
+DK,NA                           8        74      7.4   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     796      Missing cases    204
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+VAR020    LAW TH.FEDRL LOANS NOT TO DISCRIM.FIRMS
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+APPROVE                         1       208     20.8     29.1     29.1
+DISAPPROVE                      2       508     50.8     70.9    100.0
+                                .       130     13.0   Missing
+DK,NA                           8       154     15.4   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     716      Missing cases    284
+18 Oct 94 SPSS Release 4.0 for Sun 4                                      Page 9
+11:26:15  SPSS for Unix -- STAR          Sun-4            SunOS 4.x.x
+
+File:     TEXAS POLL
+
+VAR021    LAW TH.PRIV.BUSNSS MUST HIRE NEGROES TOO
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+SHD BE REQUIRED                 1       138     13.8     17.1     17.1
+SHDNT BE REQUIRED               2       671     67.1     82.9    100.0
+                                .       130     13.0   Missing
+DK,NA                           8        61      6.1   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     809      Missing cases    191
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+VAR022    LAW TH.UNIONS ACCEPT NEGROES AS MEMBERS
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+SHD BE REQUIRED                 1       318     31.8     42.7     42.7
+SHDNT BE REQUIRED               2       427     42.7     57.3    100.0
+                                .       130     13.0   Missing
+DK,NA                           8       125     12.5   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     745      Missing cases    255
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+VAR023    MUST ATT.GEN.HV AUTH.TO SUE DISCR.SCHOOL
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+SHD HAVE AUTHORITY              1       240     24.0     31.1     31.1
+SHDNT HAVE AUTHORITY            2       531     53.1     68.9    100.0
+                                .       130     13.0   Missing
+DK,NA                           8        99      9.9   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     771      Missing cases    229
+18 Oct 94 SPSS Release 4.0 for Sun 4                                     Page 10
+11:26:15  SPSS for Unix -- STAR          Sun-4            SunOS 4.x.x
+
+File:     TEXAS POLL
+
+VAR024    OP.ON FED.GOVT PLACING POLL-WATCHERS
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+APPROVE                         1       472     47.2     61.0     61.0
+DISAPPROVE                      2       302     30.2     39.0    100.0
+                                .       130     13.0   Missing
+DK,NA                           8        96      9.6   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     774      Missing cases    226
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+VAR025    OP:NEGROES IN SAME SECTION OF TRAIN,BUS
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+REJECT COMPLETELY               1       239     23.9     28.7     28.7
+                                2        17      1.7      2.0     30.8
+                                3        34      3.4      4.1     34.9
+                                4        22      2.2      2.6     37.5
+                                5        43      4.3      5.2     42.7
+                                6        90      9.0     10.8     53.5
+                                7        36      3.6      4.3     57.8
+                                8        73      7.3      8.8     66.6
+                                9        26      2.6      3.1     69.7
+ACCEPT COMPLETELY              10       252     25.2     30.3    100.0
+NOT ASKED,NEGRO                 0       130     13.0   Missing
+NA                             99        38      3.8   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     832      Missing cases    168
+18 Oct 94 SPSS Release 4.0 for Sun 4                                     Page 11
+11:26:16  SPSS for Unix -- STAR          Sun-4            SunOS 4.x.x
+
+File:     TEXAS POLL
+
+VAR026    OP:NEGROES IN SAME RESTAURANT
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+REJECT COMPLETELY               1       302     30.2     36.2     36.2
+                                2        26      2.6      3.1     39.3
+                                3        40      4.0      4.8     44.1
+                                4        29      2.9      3.5     47.5
+                                5        44      4.4      5.3     52.8
+                                6        70      7.0      8.4     61.2
+                                7        23      2.3      2.8     64.0
+                                8        59      5.9      7.1     71.0
+                                9        28      2.8      3.4     74.4
+ACCEPT COMPLETELY              10       214     21.4     25.6    100.0
+NOT ASKED,NEGRO                 0       130     13.0   Missing
+NA                             99        35      3.5   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     835      Missing cases    165
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+VAR027    OP:NEGROES IN SAME HOTELS
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+REJECT COMPLETELY               1       338     33.8     40.7     40.7
+                                2        23      2.3      2.8     43.5
+                                3        45      4.5      5.4     48.9
+                                4        20      2.0      2.4     51.3
+                                5        43      4.3      5.2     56.5
+                                6        63      6.3      7.6     64.1
+                                7        31      3.1      3.7     67.8
+                                8        47      4.7      5.7     73.5
+                                9        24      2.4      2.9     76.4
+ACCEPT COMPLETELY              10       196     19.6     23.6    100.0
+NOT ASKED,NEGRO                 0       130     13.0   Missing
+NA                             99        40      4.0   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     830      Missing cases    170
+18 Oct 94 SPSS Release 4.0 for Sun 4                                     Page 12
+11:26:16  SPSS for Unix -- STAR          Sun-4            SunOS 4.x.x
+
+File:     TEXAS POLL
+
+VAR028    OP:NEGROES IN SAME SCHOOLS
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+REJECT COMPLETELY               1       325     32.5     38.9     38.9
+                                2        20      2.0      2.4     41.3
+                                3        28      2.8      3.4     44.7
+                                4        13      1.3      1.6     46.2
+                                5        46      4.6      5.5     51.7
+                                6        63      6.3      7.5     59.3
+                                7        27      2.7      3.2     62.5
+                                8        59      5.9      7.1     69.6
+                                9        25      2.5      3.0     72.6
+ACCEPT COMPLETELY              10       229     22.9     27.4    100.0
+NOT ASKED,NEGRO                 0       130     13.0   Missing
+NA                             99        35      3.5   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     835      Missing cases    165
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+VAR029    OP:NEGROES IN SAME CHURCH
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+REJECT COMPLETELY               1       264     26.4     31.8     31.8
+                                2        11      1.1      1.3     33.1
+                                3        30      3.0      3.6     36.7
+                                4        15      1.5      1.8     38.6
+                                5        56      5.6      6.7     45.3
+                                6        66      6.6      8.0     53.3
+                                7        29      2.9      3.5     56.7
+                                8        48      4.8      5.8     62.5
+                                9        29      2.9      3.5     66.0
+ACCEPT COMPLETELY              10       282     28.2     34.0    100.0
+NOT ASKED,NEGRO                 0       130     13.0   Missing
+NA                             99        40      4.0   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     830      Missing cases    170
+18 Oct 94 SPSS Release 4.0 for Sun 4                                     Page 13
+11:26:16  SPSS for Unix -- STAR          Sun-4            SunOS 4.x.x
+
+File:     TEXAS POLL
+
+VAR030    OP:NEGROES IN SAME PUBLIC SWIMMING POOL
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+REJECT COMPLETELY               1       518     51.8     62.5     62.5
+                                2        20      2.0      2.4     64.9
+                                3        22      2.2      2.7     67.6
+                                4         6       .6       .7     68.3
+                                5        51      5.1      6.2     74.4
+                                6        36      3.6      4.3     78.8
+                                7        15      1.5      1.8     80.6
+                                8        27      2.7      3.3     83.8
+                                9        11      1.1      1.3     85.2
+ACCEPT COMPLETELY              10       123     12.3     14.8    100.0
+NOT ASKED,NEGRO                 0       130     13.0   Missing
+NA                             99        41      4.1   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     829      Missing cases    171
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+VAR031    OP:NEGROES WORKING WITH YOU AT SAME JOB
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+REJECT COMPLETELY               1       185     18.5     22.2     22.2
+                                2        18      1.8      2.2     24.4
+                                3        42      4.2      5.0     29.4
+                                4        20      2.0      2.4     31.9
+                                5        41      4.1      4.9     36.8
+                                6        99      9.9     11.9     48.7
+                                7        29      2.9      3.5     52.2
+                                8        62      6.2      7.5     59.6
+                                9        37      3.7      4.4     64.1
+ACCEPT COMPLETELY              10       299     29.9     35.9    100.0
+NOT ASKED,NEGRO                 0       130     13.0   Missing
+NA                             99        38      3.8   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     832      Missing cases    168
+18 Oct 94 SPSS Release 4.0 for Sun 4                                     Page 14
+11:26:16  SPSS for Unix -- STAR          Sun-4            SunOS 4.x.x
+
+File:     TEXAS POLL
+
+VAR032    OP:NEGROES ATTEND SAME SOCIAL GATHERING
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+REJECT COMPLETELY               1       451     45.1     54.3     54.3
+                                2        17      1.7      2.0     56.4
+                                3        33      3.3      4.0     60.4
+                                4        16      1.6      1.9     62.3
+                                5        57      5.7      6.9     69.2
+                                6        43      4.3      5.2     74.3
+                                7        18      1.8      2.2     76.5
+                                8        35      3.5      4.2     80.7
+                                9        17      1.7      2.0     82.8
+ACCEPT COMPLETELY              10       143     14.3     17.2    100.0
+NOT ASKED,NEGRO                 0       130     13.0   Missing
+NA                             99        40      4.0   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     830      Missing cases    170
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+VAR033    OP:NEGROES ATTEND SOC.GATHRNG IN YR.HOME
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+REJECT COMPLETELY               1       593     59.3     70.9     70.9
+                                2        15      1.5      1.8     72.7
+                                3        18      1.8      2.2     74.9
+                                4         7       .7       .8     75.7
+                                5        42      4.2      5.0     80.7
+                                6        32      3.2      3.8     84.6
+                                7        10      1.0      1.2     85.8
+                                8        24      2.4      2.9     88.6
+                                9        11      1.1      1.3     90.0
+ACCEPT COMPLETELY              10        84      8.4     10.0    100.0
+NOT ASKED,NEGRO                 0       130     13.0   Missing
+NA                             99        34      3.4   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     836      Missing cases    164
+18 Oct 94 SPSS Release 4.0 for Sun 4                                     Page 15
+11:26:16  SPSS for Unix -- STAR          Sun-4            SunOS 4.x.x
+
+File:     TEXAS POLL
+
+VAR034    OP:NEGROES LIVING NEXTDOOR TO YOU
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+REJECT COMPLETELY               1       464     46.4     55.4     55.4
+                                2        31      3.1      3.7     59.1
+                                3        16      1.6      1.9     61.0
+                                4        22      2.2      2.6     63.6
+                                5        55      5.5      6.6     70.2
+                                6        54      5.4      6.4     76.6
+                                7        21      2.1      2.5     79.1
+                                8        35      3.5      4.2     83.3
+                                9        11      1.1      1.3     84.6
+ACCEPT COMPLETELY              10       129     12.9     15.4    100.0
+NOT ASKED,NEGRO                 0       130     13.0   Missing
+NA                             99        32      3.2   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     838      Missing cases    162
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+VAR035    OP:NEGROES AS ROOMMATE F.CHILD IN COLGE
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+REJECT COMPLETELY               1       639     63.9     76.7     76.7
+                                2        15      1.5      1.8     78.5
+                                3        13      1.3      1.6     80.1
+                                4        11      1.1      1.3     81.4
+                                5        34      3.4      4.1     85.5
+                                6        22      2.2      2.6     88.1
+                                7         5       .5       .6     88.7
+                                8        18      1.8      2.2     90.9
+                                9         7       .7       .8     91.7
+ACCEPT COMPLETELY              10        69      6.9      8.3    100.0
+NOT ASKED,NEGRO                 0       130     13.0   Missing
+NA                             99        37      3.7   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     833      Missing cases    167
+18 Oct 94 SPSS Release 4.0 for Sun 4                                     Page 16
+11:26:16  SPSS for Unix -- STAR          Sun-4            SunOS 4.x.x
+
+File:     TEXAS POLL
+
+VAR036    PARTY PREFERENCE
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+DEMOCRAT                        1       529     52.9     56.4     56.4
+REPUBLICAN                      2       106     10.6     11.3     67.7
+INDEPENDENT                     3       303     30.3     32.3    100.0
+DK,NA                           8        62      6.2   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     938      Missing cases     62
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+VAR037    CONSIDER YRSELF LIBERAL OR CONSERVATIVE
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+LIBERAL                         1       237     23.7     31.7     31.7
+CONSERVATIVE                    2       412     41.2     55.1     86.8
+SOMETHING ELSE                  3        99      9.9     13.2    100.0
+DK,NA                           8       252     25.2   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     748      Missing cases    252
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+VAR038    TRADE UNION MEMBER-RESP.OR IMMEDIATE FAM
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+YES                             1       237     23.7     24.1     24.1
+NO                              2       746     74.6     75.9    100.0
+DK,NA                           8        17      1.7   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     983      Missing cases     17
+18 Oct 94 SPSS Release 4.0 for Sun 4                                     Page 17
+11:26:16  SPSS for Unix -- STAR          Sun-4            SunOS 4.x.x
+
+File:     TEXAS POLL
+
+VAR039    OWN BUSINESS,PROFSSNL FIRM-RESP.OR FAM.
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+YES                             1       218     21.8     22.4     22.4
+NO                              2       754     75.4     77.6    100.0
+DK,NA                           8        28      2.8   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     972      Missing cases     28
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+VAR040    OWN STOCKS-RESP.OR FAMILY
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+YES                             1       257     25.7     29.3     29.3
+NO                              2       619     61.9     70.7    100.0
+DK,NA                           8       124     12.4   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     876      Missing cases    124
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+VAR041    LIVING IN TOWN OR COUNTRY
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+TOWN                            1       907     90.7     91.0     91.0
+COUNTRY                         2        90      9.0      9.0    100.0
+NA                              9         3       .3   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     997      Missing cases      3
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+VAR042    AGE EXACT
+
+
+Valid cases     998      Missing cases      2
+18 Oct 94 SPSS Release 4.0 for Sun 4                                     Page 18
+11:26:16  SPSS for Unix -- STAR          Sun-4            SunOS 4.x.x
+
+File:     TEXAS POLL
+
+VAR043    LAST SCHOOL ATTENDED
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+COLLEGE GRADUATE                1       109     10.9     11.1     11.1
+PART COLLEGE                    2       177     17.7     18.1     29.2
+HIGH SCHOOL GRAD.               3       297     29.7     30.3     59.6
+PART HIGH SCHOOL                4       192     19.2     19.6     79.2
+8TH GRADE OR LESS               5       196     19.6     20.0     99.2
+NO SCHOOLING                    6         8       .8       .8    100.0
+NA                              9        21      2.1   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     979      Missing cases     21
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+VAR044    HAVE A TELEPHONE
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+YES                             1       771     77.1     77.1     77.1
+NO                              2       229     22.9     22.9    100.0
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases    1000      Missing cases      0
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+VAR045    RACE
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+ANGLO                           1       713     71.3     71.3     71.3
+LATIN                           2       157     15.7     15.7     87.0
+NEGRO                           3       130     13.0     13.0    100.0
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases    1000      Missing cases      0
+18 Oct 94 SPSS Release 4.0 for Sun 4                                     Page 19
+11:26:16  SPSS for Unix -- STAR          Sun-4            SunOS 4.x.x
+
+File:     TEXAS POLL
+
+VAR046    SEX
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+MALE                            1       486     48.6     48.6     48.6
+FEMALE                          2       514     51.4     51.4    100.0
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases    1000      Missing cases      0
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+VAR047    ECONOMIC LEVEL--INTERVIEWER RATING
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+ABOVE AVERAGE                   1       116     11.6     11.6     11.6
+AVERAGE                         2       314     31.4     31.4     43.0
+LOW-PLUS                        3       342     34.2     34.2     77.2
+LOW                             4       228     22.8     22.8    100.0
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases    1000      Missing cases      0
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+VAR048    INTERVIEW CONDUCTED WHERE
+
+
+                                                        Valid     Cum
+Value Label                 Value  Frequency  Percent  Percent  Percent
+
+IN TOWN                         1       922     92.2     92.3     92.3
+FARM OR RANCH                   2        60      6.0      6.0     98.3
+OUTS.CITY,NOT FARM              3        17      1.7      1.7    100.0
+NA                              9         1       .1   Missing
+                                     -------  -------  -------
+                            Total      1000    100.0    100.0
+
+Valid cases     999      Missing cases      1
+18 Oct 94 SPSS Release 4.0 for Sun 4                                     Page 20
+11:26:16  SPSS for Unix -- STAR          Sun-4            SunOS 4.x.x
+
+
+Preceding task required 2.20 seconds CPU time;  6.82 seconds elapsed.
+

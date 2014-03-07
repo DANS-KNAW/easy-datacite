@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<mapping name="dc" class="nl.knaw.dans.common.jibx.bean.JiBXDublinCoreMetadata"
+		ns="http://www.openarchives.org/OAI/2.0/oai_dc/" ordered="false" allow-repeats="true">
+
+		<namespace uri="http://www.openarchives.org/OAI/2.0/oai_dc/" prefix="oai_dc"/>
+		<namespace uri="http://purl.org/dc/elements/1.1/" prefix="dc"/>
+
+		
+		<collection field="xlContributor" type="java.util.ArrayList" usage="optional">
+			<structure ns="http://purl.org/dc/elements/1.1/" name="contributor" 
+				type="nl.knaw.dans.common.jibx.bean.JiBXLangString" usage="optional" />	
+		</collection>
+
+		<collection field="xlCoverage" type="java.util.ArrayList" usage="optional">
+			<structure ns="http://purl.org/dc/elements/1.1/" name="coverage" 
+				type="nl.knaw.dans.common.jibx.bean.JiBXLangString" usage="optional" />
+		</collection>
+
+		<collection field="xlCreator" type="java.util.ArrayList" usage="optional">
+			<structure ns="http://purl.org/dc/elements/1.1/" name="creator" 
+				type="nl.knaw.dans.common.jibx.bean.JiBXLangString" usage="optional" />
+		</collection>
+
+		<collection field="xlDate" type="java.util.ArrayList" usage="optional">
+			<structure ns="http://purl.org/dc/elements/1.1/" name="date" 
+				type="nl.knaw.dans.common.jibx.bean.JiBXLangString" usage="optional" />
+		</collection>
+
+		<collection field="xlDescription" type="java.util.ArrayList" usage="optional">
+			<structure ns="http://purl.org/dc/elements/1.1/" name="description" 
+				type="nl.knaw.dans.common.jibx.bean.JiBXLangString" usage="optional" />
+		</collection>
+
+		<collection field="xlFormat" type="java.util.ArrayList" usage="optional">
+			<structure ns="http://purl.org/dc/elements/1.1/" name="format" 
+				type="nl.knaw.dans.common.jibx.bean.JiBXLangString" usage="optional" />
+		</collection>
+
+		<collection field="xlIdentifier" type="java.util.ArrayList" usage="optional">
+			<structure ns="http://purl.org/dc/elements/1.1/" name="identifier" 
+				type="nl.knaw.dans.common.jibx.bean.JiBXLangString" usage="optional" />
+		</collection>
+
+		<collection field="xlLanguage" type="java.util.ArrayList" usage="optional">
+			<structure ns="http://purl.org/dc/elements/1.1/" name="language" 
+				type="nl.knaw.dans.common.jibx.bean.JiBXLangString" usage="optional" />
+		</collection>
+
+		<collection field="xlPublisher" type="java.util.ArrayList" usage="optional">
+			<structure ns="http://purl.org/dc/elements/1.1/" name="publisher" 
+				type="nl.knaw.dans.common.jibx.bean.JiBXLangString" usage="optional" />
+		</collection>
+
+		<collection field="xlRelation" type="java.util.ArrayList" usage="optional">
+			<structure ns="http://purl.org/dc/elements/1.1/" name="relation" 
+				type="nl.knaw.dans.common.jibx.bean.JiBXLangString" usage="optional" />
+		</collection>
+
+		<collection field="xlRights" type="java.util.ArrayList" usage="optional">
+			<structure ns="http://purl.org/dc/elements/1.1/" name="rights" 
+				type="nl.knaw.dans.common.jibx.bean.JiBXLangString" usage="optional" />
+		</collection>
+
+		<collection field="xlSource" type="java.util.ArrayList" usage="optional">
+			<structure ns="http://purl.org/dc/elements/1.1/" name="source" 
+				type="nl.knaw.dans.common.jibx.bean.JiBXLangString" usage="optional" />
+		</collection>
+
+		<collection field="xlSubject" type="java.util.ArrayList" usage="optional">
+			<structure ns="http://purl.org/dc/elements/1.1/" name="subject" 
+				type="nl.knaw.dans.common.jibx.bean.JiBXLangString" usage="optional" />
+		</collection>
+
+		<collection field="xlTitle" type="java.util.ArrayList" usage="optional">
+			<structure ns="http://purl.org/dc/elements/1.1/" name="title" 
+				type="nl.knaw.dans.common.jibx.bean.JiBXLangString" usage="optional" />
+		</collection>
+
+		<collection field="xlType" type="java.util.ArrayList" usage="optional">
+			<structure ns="http://purl.org/dc/elements/1.1/" name="type" 
+				type="nl.knaw.dans.common.jibx.bean.JiBXLangString" usage="optional" />
+		</collection>
+
+	</mapping>
+	
+	<mapping class="nl.knaw.dans.common.jibx.bean.JiBXLangString" abstract="true">
+		<namespace uri="http://purl.org/dc/elements/1.1/" prefix="dc"/>
+		
+		<value style="attribute" ns="http://www.w3.org/XML/1998/namespace" name="lang" field="language" usage="optional"/>
+		<value style="text" field="value" usage="optional"/>
+	</mapping>
+
+</binding>

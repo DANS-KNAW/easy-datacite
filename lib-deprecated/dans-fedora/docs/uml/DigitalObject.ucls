@@ -1,0 +1,95 @@
+<class-diagram version="0.9.86" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="true" nesting-relationships="true">  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.common.fedora.fox.DigitalObject" project="dans-fedora" 
+    file="/dans-fedora/src/main/java/nl/knaw/dans/common/fedora/fox/DigitalObject.java" binary="false">    
+    <position x="414" y="206" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.common.jibx.AbstractTimestampedJiBXObject" 
+    project="dans-jibx" file="/dans-jibx/src/main/java/nl/knaw/dans/common/jibx/AbstractTimestampedJiBXObject.java" 
+    binary="false">    
+    <position x="415" y="114" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.common.jibx.AbstractJiBXObject" project="dans-jibx" 
+    file="/dans-jibx/src/main/java/nl/knaw/dans/common/jibx/AbstractJiBXObject.java" binary="false">    
+    <position x="419" y="33" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <enumeration corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.common.fedora.fox.Datastream.State" 
+    project="dans-fedora" file="/dans-fedora/src/main/java/nl/knaw/dans/common/fedora/fox/Datastream.java" 
+    binary="false">    
+    <position x="675" y="288" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </enumeration>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.common.fedora.fox.Datastream" project="dans-fedora" 
+    file="/dans-fedora/src/main/java/nl/knaw/dans/common/fedora/fox/Datastream.java" binary="false">    
+    <position x="675" y="205" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <generalization>    
+    <source project="dans-jibx" name="nl.knaw.dans.common.jibx.AbstractTimestampedJiBXObject" 
+      file="/dans-jibx/src/main/java/nl/knaw/dans/common/jibx/AbstractTimestampedJiBXObject.java" binary="false"/>    
+    <target project="dans-jibx" name="nl.knaw.dans.common.jibx.AbstractJiBXObject" 
+      file="/dans-jibx/src/main/java/nl/knaw/dans/common/jibx/AbstractJiBXObject.java" binary="false"/>  
+  </generalization>  
+  <generalization>    
+    <source project="dans-fedora" name="nl.knaw.dans.common.fedora.fox.Datastream" 
+      file="/dans-fedora/src/main/java/nl/knaw/dans/common/fedora/fox/Datastream.java" binary="false"/>    
+    <target project="dans-jibx" name="nl.knaw.dans.common.jibx.AbstractTimestampedJiBXObject" 
+      file="/dans-jibx/src/main/java/nl/knaw/dans/common/jibx/AbstractTimestampedJiBXObject.java" binary="false"/>  
+  </generalization>  
+  <generalization>    
+    <source project="dans-fedora" name="nl.knaw.dans.common.fedora.fox.DigitalObject" 
+      file="/dans-fedora/src/main/java/nl/knaw/dans/common/fedora/fox/DigitalObject.java" binary="false"/>    
+    <target project="dans-jibx" name="nl.knaw.dans.common.jibx.AbstractTimestampedJiBXObject" 
+      file="/dans-jibx/src/main/java/nl/knaw/dans/common/jibx/AbstractTimestampedJiBXObject.java" binary="false"/>  
+  </generalization>  
+  <association>    
+    <source project="dans-fedora" name="nl.knaw.dans.common.fedora.fox.Datastream" 
+      file="/dans-fedora/src/main/java/nl/knaw/dans/common/fedora/fox/Datastream.java" binary="false" navigable="false">      
+      <attribute name="state"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </source>    
+    <target project="dans-fedora" name="nl.knaw.dans.common.fedora.fox.Datastream.State" 
+      file="/dans-fedora/src/main/java/nl/knaw/dans/common/fedora/fox/Datastream.java" binary="false" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting>    
+    <source project="dans-fedora" name="nl.knaw.dans.common.fedora.fox.Datastream" 
+      file="/dans-fedora/src/main/java/nl/knaw/dans/common/fedora/fox/Datastream.java" binary="false"/>    
+    <target project="dans-fedora" name="nl.knaw.dans.common.fedora.fox.Datastream.State" 
+      file="/dans-fedora/src/main/java/nl/knaw/dans/common/fedora/fox/Datastream.java" binary="false"/>  
+  </nesting>  
+  <association>    
+    <source project="dans-fedora" name="nl.knaw.dans.common.fedora.fox.DigitalObject" 
+      file="/dans-fedora/src/main/java/nl/knaw/dans/common/fedora/fox/DigitalObject.java" binary="false" 
+      navigable="false">      
+      <attribute name="datastreams"/>      
+      <multiplicity minimum="0" maximum="2147483647"/>    
+    </source>    
+    <target project="dans-fedora" name="nl.knaw.dans.common.fedora.fox.Datastream" 
+      file="/dans-fedora/src/main/java/nl/knaw/dans/common/fedora/fox/Datastream.java" binary="false" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" package="true" initial-value="false" signature="true" visibility="true">    
+    <attributes public="false" package="false" protected="false" private="false"/>    
+    <operations public="false" package="false" protected="false" private="false"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

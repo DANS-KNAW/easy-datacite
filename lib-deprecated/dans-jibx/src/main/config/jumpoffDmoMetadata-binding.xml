@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<format type="org.joda.time.DateTime" serializer="nl.knaw.dans.common.jibx.util.Converter.serializeDateTime"
+        deserializer="nl.knaw.dans.common.jibx.util.Converter.deSerializeDateTime" />
+    
+    <!-- JiBXJumpoffDmoMetadata -->   
+    <mapping ns="http://easy.dans.knaw.nl/easy/jumpoffDmoMetadata/" name="jumpoff-md" 
+		class="nl.knaw.dans.common.jibx.bean.JiBXJumpoffDmoMetadata">
+		
+		<namespace uri="http://easy.dans.knaw.nl/easy/jumpoffDmoMetadata/" prefix="jomd"/>
+		
+		<value name="markupVersionId" field="markupVersionId" usage="optional"/>
+		<structure name="html-mu" field="htmlMarkupMetadata" usage="optional"/>
+		<structure name="text-mu" field="textMarkupMetadata" usage="optional"/>
+		 
+    </mapping>
+    
+    <!-- JiBXMarkupMetadata  -->   
+    <mapping ns="http://easy.dans.knaw.nl/easy/jumpoffDmoMetadata/" 
+		class="nl.knaw.dans.common.jibx.bean.JiBXMarkupMetadata" abstract="true">
+		
+		<namespace uri="http://easy.dans.knaw.nl/easy/jumpoffDmoMetadata/" prefix="jomd"/>
+		
+		<value name="markupVersionID" field="markupVersionID" usage="optional"/>
+		<value name="lastEdited" field="lastEdited" usage="optional"/>
+		<value name="lastEditedBy" field="lastEditedBy" usage="optional"/>
+		
+    </mapping>
+       
+</binding>

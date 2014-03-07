@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>nl.knaw.dans.platform.deprecated</groupId>
+		<artifactId>dans-deprecated-parent</artifactId>
+		<version>1.0</version>
+	</parent>
+	<artifactId>dans-lang</artifactId>
+	<packaging>jar</packaging>
+	<organization>
+		<name>DANS</name>
+		<url>http://www.dans.knaw.nl</url>
+	</organization>
+	<name>DANS Lang (Deprecated)</name>
+	<description>Common base classes and interfaces</description>
+	<dependencies>
+		<!-- spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring</artifactId>
+			<version>2.5</version>
+		</dependency>
+
+		<!-- Jodatime dependencies -->
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.1</version>
+		</dependency>
+
+		<!-- dom xml -->
+		<dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+
+		<!-- streaming xml -->
+		<dependency>
+			<groupId>stax</groupId>
+			<artifactId>stax-api</artifactId>
+			<version>1.0.1</version>
+		</dependency>
+
+		<!-- mimetype -->
+		<dependency>
+			<groupId>aperture</groupId>
+			<artifactId>aperture</artifactId>
+			<version>1.2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.semweb4j</groupId>
+			<artifactId>rdf2go.api</artifactId>
+			<version>4.6.2</version>
+			<exclusions>
+				<!-- We don't want log4j on the classpath, as we are using logback instead -->
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- utils -->
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.4</version>
+		</dependency>
+
+		<!-- mail -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4</version>
+		</dependency>
+
+		<!-- RDF relations -->
+		<dependency>
+			<groupId>duraspace</groupId>
+			<artifactId>trippi-1.4.1-core</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>jrdf</groupId>
+			<artifactId>jrdf</artifactId>
+			<version>0.5.5.4</version>
+		</dependency>
+
+		<dependency>
+			<!-- creates pdf/rtf/html documents -->
+			<groupId>com.lowagie</groupId>
+			<artifactId>itext</artifactId>
+			<version>2.0.7</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.jopt-simple</groupId>
+			<artifactId>jopt-simple</artifactId>
+			<version>3.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.jtidy</groupId>
+			<artifactId>jtidy</artifactId>
+			<version>r938</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.0.9</version>
+			<!-- Scope compile here, because this library exports test util classes -->
+		</dependency>
+	</dependencies>
+
+	<build>
+		<resources>
+			<resource>
+				<filtering>true</filtering>
+				<directory>src/main/resources</directory>
+			</resource>
+			<resource>
+				<filtering>false</filtering>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.html</include>
+					<include>**/*.properties</include>
+					<include>**/*.xml</include>
+					<include>**/*.pdf</include>
+					<include>**/*.*</include>
+				</includes>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+			</resource>
+		</resources>
+		<testResources>
+			<testResource>
+				<filtering>false</filtering>
+				<directory>src/test/java</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+			</testResource>
+			<testResource>
+				<filtering>true</filtering>
+				<directory>src/test/resources</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+				<excludes>
+					<exclude>**/*.doc</exclude>
+					<exclude>**/*.csv</exclude>
+					<exclude>**/*.txt</exclude>
+					<exclude>**/*.frq</exclude>
+					<exclude>**/*.xml</exclude>
+					<exclude>**/*.xsd</exclude>
+					<exclude>**/*.gif</exclude>
+					<exclude>**/*.png</exclude>
+					<exclude>**/*.jpg</exclude>
+					<exclude>**/*.pdf</exclude>
+					<exclude>**/*.sh</exclude>
+					<exclude>**/*.zip</exclude>
+				</excludes>
+			</testResource>
+			<testResource>
+				<filtering>false</filtering>
+				<directory>src/test/resources</directory>
+				<includes>
+					<include>**/*.doc</include>
+					<include>**/*.csv</include>
+					<include>**/*.txt</include>
+					<include>**/*.frq</include>
+					<include>**/*.xml</include>
+					<include>**/*.xsd</include>
+					<include>**/*.gif</include>
+					<include>**/*.png</include>
+					<include>**/*.jpg</include>
+					<include>**/*.pdf</include>
+					<include>**/*.sh</include>
+					<include>**/*.zip</include>
+				</includes>
+			</testResource>
+		</testResources>
+	</build>
+
+	<!-- When your project needs specific repositories, add them here -->
+	<repositories>
+		<repository>
+			<id>central</id>
+			<url>http://artifactory.dans.knaw.nl/repo</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>snapshots</id>
+			<url>http://artifactory.dans.knaw.nl/repo</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+		<repository>
+			<id>maven orig</id>
+			<url>http://repo1.maven.org/maven2</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+</project>

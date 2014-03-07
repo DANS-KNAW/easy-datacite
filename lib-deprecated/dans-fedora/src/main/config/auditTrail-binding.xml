@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<format type="org.joda.time.DateTime" serializer="nl.knaw.dans.common.jibx.util.Converter.serializeDateTime"
+		deserializer="nl.knaw.dans.common.jibx.util.Converter.deSerializeDateTime" />
+		
+	<mapping name="auditTrail" class="nl.knaw.dans.common.fedora.fox.AuditTrail"
+		ns="info:fedora/fedora-system:def/audit#">
+		
+		<namespace uri="info:fedora/fedora-system:def/audit#" prefix="audit"/>
+		
+		<collection field="records"
+			type="java.util.ArrayList" usage="optional">
+			<structure ns="info:fedora/fedora-system:def/audit#" type="nl.knaw.dans.common.fedora.fox.AuditRecord" usage="optional"/>
+		</collection>
+		
+	</mapping>
+	
+	<mapping name="record" class="nl.knaw.dans.common.fedora.fox.AuditRecord"
+		ns="info:fedora/fedora-system:def/audit#">
+		
+		<namespace uri="info:fedora/fedora-system:def/audit#" prefix="audit"/>
+		
+		<value style="attribute" name="ID" field="id" usage="optional"/>
+		<structure ns="info:fedora/fedora-system:def/audit#" name="process" usage="optional">
+			<value style="attribute" name="type" field="processType" usage="optional"/>
+		</structure>
+		<value ns="info:fedora/fedora-system:def/audit#" name="action" field="action" usage="optional"/>
+		<value ns="info:fedora/fedora-system:def/audit#" name="componentID" field="componentId" usage="optional"/>
+		<value ns="info:fedora/fedora-system:def/audit#" name="responsibility" field="responsibility" usage="optional"/>
+		<value ns="info:fedora/fedora-system:def/audit#" name="date" field="dateTime" usage="optional"/>
+		<value ns="info:fedora/fedora-system:def/audit#" name="justification" field="justification" usage="optional"/>
+
+	</mapping>
+
+</binding>

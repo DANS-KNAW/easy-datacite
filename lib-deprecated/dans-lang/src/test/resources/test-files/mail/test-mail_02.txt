@@ -1,0 +1,7 @@
+~TestObject.getThis~ ought to be done.
+
+And there is ~TestObject.getThat~: ~TestObject.getInteger~ > ~TestObject.getInt~.
+
+And that's ~TestObject.getBoolean~!
+
+greetings

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<format type="java.net.URI" serializer="nl.knaw.dans.common.jibx.util.Converter.serializeURI"
+		deserializer="nl.knaw.dans.common.jibx.util.Converter.deSerializeURI" />
+	<format type="org.joda.time.DateTime" serializer="nl.knaw.dans.common.jibx.util.Converter.serializeDateTime"
+		deserializer="nl.knaw.dans.common.jibx.util.Converter.deSerializeDateTime" />
+
+	<!-- DigitalObject -->
+	<mapping name="digitalObject" class="nl.knaw.dans.common.fedora.fox.DigitalObject"
+		ns="info:fedora/fedora-system:def/foxml#" post-set="postJiBXDeserialization">
+
+	<namespace uri="info:fedora/fedora-system:def/foxml#" prefix="foxml"/>
+
+	<value style="attribute" name="VERSION" get-method="getVersion" field="version"/>
+	<value style="attribute" name="PID" field="sid" usage="optional"/>
+	<value style="attribute" name="FEDORA_URI" field="fedoraURI" usage="optional"/>
+
+	<structure ns="info:fedora/fedora-system:def/foxml#" field="objectProperties"/>
+
+	<collection get-method="getDatastreams" set-method="setDatastreams"
+			type="java.util.ArrayList" usage="optional">
+			<structure type="nl.knaw.dans.common.fedora.fox.Datastream" usage="optional"/>
+	</collection>
+
+	</mapping>
+
+
+	<!-- DigitalObjectProperties -->
+	<mapping class="nl.knaw.dans.common.fedora.fox.DigitalObjectProperties" name="objectProperties"
+		ns="info:fedora/fedora-system:def/foxml#">
+	
+		<namespace uri="info:fedora/fedora-system:def/foxml#" prefix="foxml"/>
+		<collection usage="optional" get-method="getProperties" set-method="setProperties">
+			<structure ns="info:fedora/fedora-system:def/foxml#" name="property"
+				type="nl.knaw.dans.common.fedora.fox.DigitalObjectProperties$Property" usage="optional"/>
+		</collection>
+		<collection usage="optional" get-method="getExtProperties" set-method="setExtProperties">
+			<structure ns="info:fedora/fedora-system:def/foxml#" name="extproperty"
+				type="nl.knaw.dans.common.fedora.fox.DigitalObjectProperties$Property" usage="optional"/>
+		</collection>
+	</mapping>
+
+	<!-- Property -->
+	<mapping class="nl.knaw.dans.common.fedora.fox.DigitalObjectProperties$Property" abstract="true">
+		<value style="attribute" name="NAME" field="name"/>
+		<value style="attribute" name="VALUE" field="value"/>
+	</mapping>
+	
+	<mapping class="nl.knaw.dans.common.fedora.fox.Datastream" name="datastream"
+		ns="info:fedora/fedora-system:def/foxml#" >
+
+		<namespace uri="info:fedora/fedora-system:def/foxml#" prefix="foxml"/>
+
+		<value style="attribute" name="ID" field="streamId"/>
+		<value style="attribute" name="CONTROL_GROUP" field="controlGroup"/>
+		<value style="attribute" name="STATE" field="state" usage="optional"/>
+		<value style="attribute" name="FEDORA_URI" field="fedoraUri" usage="optional"/>
+		<value style="attribute" name="VERSIONABLE" field="versionable"/>
+ 
+		<collection field="versions" set-method="setDatastreamVersions" get-method="getDatastreamVersions"
+			type="java.util.ArrayList" usage="optional">
+			<structure type="nl.knaw.dans.common.fedora.fox.DatastreamVersion" usage="optional"/>
+		</collection>
+		
+	</mapping>
+	
+	<mapping class="nl.knaw.dans.common.fedora.fox.DatastreamVersion" name="datastreamVersion"
+		ns="info:fedora/fedora-system:def/foxml#">
+
+		<namespace uri="info:fedora/fedora-system:def/foxml#" prefix="foxml"/>
+
+		<value style="attribute" name="ID" field="versionId"/>
+		<value style="attribute" name="LABEL" field="label" usage="optional"/>
+		  
+		<value style="attribute" name="CREATED" field="created" usage="optional"/>
+		<value style="attribute" name="MIMETYPE" field="mimeType" usage="optional"/>
+		<value style="attribute" name="ALT_IDS" get-method="getAltIdString" set-method="setAltIdString" usage="optional"/>
+		<value style="attribute" name="FORMAT_URI" field="formatURI" usage="optional"/>
+		<value style="attribute" name="SIZE" field="size" usage="optional"/>
+		
+  
+		<structure name="contentDigest" ns="info:fedora/fedora-system:def/foxml#" field="contentDigest" usage="optional"/>
+		<structure name="xmlContent" ns="info:fedora/fedora-system:def/foxml#" field="xmlContent" usage="optional"/>		
+		<structure name="contentLocation" ns="info:fedora/fedora-system:def/foxml#" field="contentLocation" usage="optional"/>
+		<value name="binaryContent" ns="info:fedora/fedora-system:def/foxml#" field="binaryContent" usage="optional"/>
+
+	</mapping>
+
+ 
+	<mapping class="nl.knaw.dans.common.fedora.fox.DatastreamVersion$ContentDigest" abstract="true">
+		<value style="attribute" name="TYPE" field="typeCode" usage="optional"/>
+		<value style="attribute" name="DIGEST" field="digest" usage="optional"/>
+	</mapping>
+
+ 
+	<mapping class="nl.knaw.dans.common.fedora.fox.XMLContent" abstract="true">
+		<structure field="element" type="org.dom4j.Element" marshaller="org.jibx.extras.patch116a.Dom4JElementMapper"
+				unmarshaller="org.jibx.extras.patch116a.Dom4JElementMapper" usage="optional"/>
+	</mapping>
+
+	<mapping class="nl.knaw.dans.common.fedora.fox.ContentLocation" abstract="true">
+		<value style="attribute" name="TYPE" field="type"/>
+		<value style="attribute" name="REF" field="ref"/>
+	</mapping>
+
+</binding>

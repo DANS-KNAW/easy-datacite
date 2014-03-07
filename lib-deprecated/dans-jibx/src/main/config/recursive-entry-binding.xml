@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+		
+	<!-- recursive-list, root element -->
+	<mapping name="recursive-list" 
+		class="nl.knaw.dans.common.jibx.bean.JiBXRecursiveList">
+		
+		<value style="attribute" name="list-id" field="listId"/>
+		<collection field="recursiveEntries" type="java.util.ArrayList">
+			<structure type="nl.knaw.dans.common.jibx.bean.JiBXRecursiveEntry"/>
+		</collection>
+		
+	</mapping>
+	
+	<!-- recursive entry, can also be used as root element -->
+	<mapping name="entry" 
+		class="nl.knaw.dans.common.jibx.bean.JiBXRecursiveEntry">
+		
+		<value style="attribute" name="key" field="key" usage="optional"/>
+		<value style="attribute" name="shortname" field="shortname" usage="optional"/>
+		<value style="attribute" name="name" field="name" usage="optional"/>		
+		<value style="attribute" name="ordinal" field="ordinal" usage="optional"/>
+		
+		<collection field="children" type="java.util.ArrayList">
+			<structure type="nl.knaw.dans.common.jibx.bean.JiBXRecursiveEntry"/>
+		</collection>
+		
+	</mapping>
+	
+</binding>

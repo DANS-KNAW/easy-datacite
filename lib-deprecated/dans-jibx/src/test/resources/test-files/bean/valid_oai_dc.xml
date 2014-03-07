@@ -1,0 +1,44 @@
+<?xml version="1.0" standalone="yes"?>
+<oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+	<!-- test file for dublin core in other order and repeating elements -->
+	
+	<!-- repeating source element -->
+	<dc:source xml:lang="nld-NLD">Source 3</dc:source>
+	
+	<dc:title>Title 1</dc:title>
+    <dc:title xml:lang="nld-NLD">Title 2</dc:title>
+    
+    <dc:creator xml:lang="nl">Creator 1</dc:creator>
+    <dc:creator>Creator 2</dc:creator>
+    
+    <dc:description xml:lang="nl">Description 1</dc:description>
+    <dc:description>Description 2</dc:description>
+    
+    <dc:publisher xml:lang="nl">Publisher 1</dc:publisher>
+    <dc:publisher>Publisher 2</dc:publisher>
+    
+    <!-- repeating description element -->
+    <dc:description>Description 3</dc:description>
+    
+	<dc:contributor xml:lang="nl">Contributor 1</dc:contributor>
+    <dc:contributor>Contributor 2</dc:contributor>
+    
+    <!-- another repeating source element -->
+    <dc:source xml:lang="nld-NLD">Source 4</dc:source>
+    
+    <dc:identifier xml:lang="nl">Identifier 1</dc:identifier>
+    <dc:identifier>Identifier 2</dc:identifier>
+    
+    <dc:source>Source 1</dc:source>
+    <dc:source xml:lang="nld-NLD">Source 2</dc:source>
+    
+    <dc:language>Language 1</dc:language>
+    <dc:language xml:lang="nld-NLD">Language 2</dc:language>
+    
+    <dc:rights xml:lang="nl">Rights 1</dc:rights>
+    <dc:rights>Rights 2</dc:rights>
+    
+    <!-- repeating title element -->
+    <dc:title xml:lang="nld-NLD">Title 3</dc:title>
+    
+</oai_dc:dc>
