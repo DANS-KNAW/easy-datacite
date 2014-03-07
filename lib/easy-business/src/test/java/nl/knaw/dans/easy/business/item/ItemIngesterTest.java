@@ -44,12 +44,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @PrepareForTest({ItemIngester.class, Data.class})
 public class ItemIngesterTest
 {
-    private static final String ACCENT_XML = // [m, e, t, -, a, c, c, é, n, t, ., x, m, l]
-    new String(new byte[] {109, 101, 116, 45, 97, 99, 99, -61, -87, 110, 116, 46, 120, 109, 108});
-    private static final String DIACRITIC_ACCENT_XML = // [m, e, t, -, a, c, c, e, ́, n, t, ., x, m, l]
-    new String(new byte[] {109, 101, 116, 45, 97, 99, 99, 101, -52, -127, 110, 116, 46, 120, 109, 108});
-    private static final String GREEK_FOLDER_NAME = "src/test/resources/test-files/greekMixed";
-    private static final File GREEK_FOLDER = new File(GREEK_FOLDER_NAME);
     private Dataset datasetMock;
     private EasyUser userMock;
     private File rootFileMock;
@@ -133,73 +127,6 @@ public class ItemIngesterTest
     private void expectCreatorRole(CreatorRole role)
     {
         expect(userMock.getCreatorRole()).andReturn(role).anyTimes();
-    }
-
-    @Test
-    public void issue700a() throws Exception
-    {
-        normalUserLoggedIn();
-        creatorRoleIsDepositor();
-        datasetHasStoreId("easy-dataset:1");
-        datasetHasAccessCategory(AccessCategory.OPEN_ACCESS);
-        parentContainerHasStoreId();
-        uowMethodsCalled();
-        noFilesAndFoldersUnderParentContainer();
-        fileItemMock.setFile(EasyMock.isA(File.class));
-        EasyMock.expectLastCall().times(1, 2);
-        fileItemMock.setCreatorRole(CreatorRole.DEPOSITOR);
-        EasyMock.expectLastCall().times(1, 2);
-        fileItemMock.setDatasetId(new DmoStoreId("easy-dataset:1"));
-        EasyMock.expectLastCall().times(1, 2);
-        fileItemMock.setOwnerId("normal");
-        EasyMock.expectLastCall().times(1, 2);
-        fileItemMock.setParent(parentContainerMock);
-        EasyMock.expectLastCall().times(1, 2);
-        fileItemMock.setVisibleTo(VisibleTo.ANONYMOUS);
-        EasyMock.expectLastCall().times(1, 2);
-        fileItemMock.setAccessibleTo(AccessibleTo.KNOWN);
-        EasyMock.expectLastCall().times(1, 2);
-        EasyMock.expect(unitOfWorkMock.saveAndDetach(fileItemMock)).andReturn(fileItemMock);
-        EasyMock.expectLastCall().times(1, 2);
-
-        replayAll();
-
-        ItemIngester ii = new ItemIngester(datasetMock, userMock, null);
-        ii.workAddDirectoryContents(parentContainerMock, GREEK_FOLDER, createFilter(ACCENT_XML));
-
-        PowerMock.verifyAll();
-    }
-
-    @Ignore("Fails on the command line, succeeds in eclipse. Keep method for documentational reasons")
-    @Test
-    public void issue700b()
-    {
-        File[] files1 = GREEK_FOLDER.listFiles(createFilter(ACCENT_XML));
-        File[] files2 = GREEK_FOLDER.listFiles(createFilter(DIACRITIC_ACCENT_XML));
-        assertThat(files1.length, not(equalTo(files2.length)));
-    }
-
-    @Test
-    public void issue700c()
-    {
-        File[] files = GREEK_FOLDER.listFiles(createFilter(DIACRITIC_ACCENT_XML));
-        assertThat(files.length, not(equalTo(2)));
-    }
-
-    @Ignore("Fails on the command line, succeeds in eclipse. Keep method for documentational reasons")
-    @Test
-    public void issue700d()
-    {
-        File[] files = GREEK_FOLDER.listFiles(createFilter(ACCENT_XML));
-        assertThat(files.length, equalTo(2));
-    }
-
-    private ListFilter createFilter(String fileNameWithAccent)
-    {
-        List<File> fileList = new ArrayList<File>();
-        fileList.add(new File(GREEK_FOLDER_NAME + "/" + fileNameWithAccent));
-        fileList.add(new File(GREEK_FOLDER_NAME + "/πῶϋ.xml"));
-        return new ItemIngester.ListFilter(fileList);
     }
 
     @Test

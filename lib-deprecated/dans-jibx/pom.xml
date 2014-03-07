@@ -15,7 +15,7 @@
 		<url>http://www.dans.knaw.nl</url>
 	</organization>
 	<!-- Please provide more information here -->
-	<name>DANS JiBX Utilities (Deprecated)</name>
+	<name>DEPPRECATED DANS JiBX Utilities</name>
 	<description>JiBX utility library</description>
 	<dependencies>
 		<dependency>
@@ -30,7 +30,7 @@
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>dans-lang</artifactId>
-			<version>${project.version}</version>
+			<version>${easy.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>

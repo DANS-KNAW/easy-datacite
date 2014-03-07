@@ -23,7 +23,7 @@
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>dans-lang</artifactId>
-			<version>${project.version}</version>
+			<version>${easy.version}</version>
 			<scope>test</scope>
 			<exclusions>
 				<exclusion>

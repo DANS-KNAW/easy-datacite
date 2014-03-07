@@ -12,30 +12,30 @@
 	<artifactId>dmo-collections</artifactId>
 	<packaging>jar</packaging>
 
-	<name>DMO Collections</name>
+	<name>DEPPRECATED DMO Collections</name>
 	
 	<dependencies>
 
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>dans-jibx</artifactId>
-			<version>${project.version}</version>
+			<version>${easy.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>idmo-collections</artifactId>
-			<version>${project.version}</version>
+			<version>${easy.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>isecurity</artifactId>
-			<version>${project.version}</version>
+			<version>${easy.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>istore</artifactId>
-			<version>${project.version}</version>
+			<version>${easy.version}</version>
 		</dependency>
 
 		<!-- ASPECTJ -->

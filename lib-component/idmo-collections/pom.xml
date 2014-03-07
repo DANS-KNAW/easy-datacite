@@ -12,18 +12,18 @@
 	<artifactId>idmo-collections</artifactId>
 	<packaging>jar</packaging>
 
-	<name>DMO Collections Interfaces</name>
+	<name>DEPPRECATED DMO Collections Interfaces</name>
 
 	<dependencies>
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>isecurity</artifactId>
-			<version>${project.version}</version>
+			<version>${easy.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>dans-lang</artifactId>
-			<version>${project.version}</version>
+			<version>${easy.version}</version>
 		</dependency>
 	</dependencies>
 </project>

@@ -185,4 +185,5 @@
 			</plugin>
 		</plugins>
 	</build>
+	<version>2.9-beta-1</version>
 </project>

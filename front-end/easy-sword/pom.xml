@@ -98,7 +98,7 @@
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>dans-lang</artifactId>
-			<version>${project.version}</version>
+			<version>${easy.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>log4j</groupId>
@@ -165,4 +165,5 @@
 			</testResource>
 		</testResources>
 	</build>
+	<version>2.9-beta-1</version>
 </project>

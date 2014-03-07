@@ -14,8 +14,7 @@
 		<name>DANS</name>
 		<url>http://www.dans.knaw.nl</url>
 	</organization>
-	<name>DANS Fedora Utilities (Deprecated)</name>
-	<url>http://develop01.dans.knaw.nl/maven2/eof-open-source/fedora</url>
+	<name>DEPPRECATED DANS Fedora Utilities</name>
 	<description>Fedora access and management library</description>
 	<dependencies>
 		<dependency>
@@ -37,7 +36,7 @@
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>dans-jibx</artifactId>
-			<version>${project.version}</version>
+			<version>${easy.version}</version>
 			<exclusions>
 				<!-- The version of xpp3 included by Jibx gives build problems -->
 				<exclusion>
@@ -90,7 +89,7 @@
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>dans-lang</artifactId>
-			<version>${project.version}</version>
+			<version>${easy.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>trove</groupId>

@@ -13,6 +13,7 @@
 	<version>2.9-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<properties>
+		<easy.version>2.9-SNAPSHOT</easy.version>
 		<aspectj.version>1.7.2</aspectj.version>
 		<servlet-api.version>2.5</servlet-api.version>
 		<json.version>20080701</json.version>
@@ -57,42 +58,42 @@
 			<dependency>
 				<groupId>nl.knaw.dans.common</groupId>
 				<artifactId>dans-ldap</artifactId>
-				<version>${project.version}</version>
+				<version>${easy.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>nl.knaw.dans.common</groupId>
 				<artifactId>dans-pid</artifactId>
-				<version>${project.version}</version>
+				<version>${easy.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>nl.knaw.dans.common</groupId>
 				<artifactId>dans-solr</artifactId>
-				<version>${project.version}</version>
+				<version>${easy.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>nl.knaw.dans.common</groupId>
 				<artifactId>dans-wicket</artifactId>
-				<version>${project.version}</version>
+				<version>${easy.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>nl.knaw.dans.easy</groupId>
 				<artifactId>easy-business</artifactId>
-				<version>${project.version}</version>
+				<version>${easy.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>nl.knaw.dans.easy</groupId>
 				<artifactId>easy-fedora</artifactId>
-				<version>${project.version}</version>
+				<version>${easy.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>nl.knaw.dans.easy</groupId>
 				<artifactId>easy-ldap</artifactId>
-				<version>${project.version}</version>
+				<version>${easy.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>nl.knaw.dans.easy</groupId>
 				<artifactId>easy-business-mocking</artifactId>
-				<version>${project.version}</version>
+				<version>${easy.version}</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>

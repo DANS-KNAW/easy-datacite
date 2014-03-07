@@ -21,7 +21,7 @@
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>dans-jibx</artifactId>
-			<version>${project.version}</version>
+			<version>${easy.version}</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>spring</artifactId>
@@ -85,27 +85,27 @@
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>istore</artifactId>
-			<version>${project.version}</version>
+			<version>${easy.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>store</artifactId>
-			<version>${project.version}</version>
+			<version>${easy.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>isecurity</artifactId>
-			<version>${project.version}</version>
+			<version>${easy.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>idmo-collections</artifactId>
-			<version>${project.version}</version>
+			<version>${easy.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>dmo-collections</artifactId>
-			<version>${project.version}</version>
+			<version>${easy.version}</version>
 		</dependency>
 	</dependencies>
 	<build>

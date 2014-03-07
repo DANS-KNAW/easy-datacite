@@ -12,8 +12,8 @@
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>dans-lang</artifactId>
-			<version>${project.version}</version>
+			<version>${easy.version}</version>
 		</dependency>
 	</dependencies>
-	<name>Store Interfaces</name>
+	<name>DEPPRECATED Store Interfaces</name>
 </project>

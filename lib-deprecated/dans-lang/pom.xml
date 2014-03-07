@@ -14,7 +14,7 @@
 		<name>DANS</name>
 		<url>http://www.dans.knaw.nl</url>
 	</organization>
-	<name>DANS Lang (Deprecated)</name>
+	<name>DEPPRECATED DANS Lang</name>
 	<description>Common base classes and interfaces</description>
 	<dependencies>
 		<!-- spring -->

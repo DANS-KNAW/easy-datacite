@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>nl.knaw.dans.common</groupId>
 	<artifactId>dans-ldap</artifactId>
-	<name>DANS LDAP Library</name>
+	<name>DEPPRECATED DANS LDAP Library</name>
 	<packaging>jar</packaging>
 	<description>
 		Implementation of Data Access Point(s) in Easy business, using the Lightweight Directory Access Protocol
@@ -19,7 +19,7 @@
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>dans-lang</artifactId>
-			<version>${project.version}</version>
+			<version>${easy.version}</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>spring</artifactId>

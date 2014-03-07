@@ -12,7 +12,7 @@
 	<artifactId>isecurity</artifactId>
 	<packaging>jar</packaging>
 
-	<name>Security Interfaces</name>
+	<name>DEPPRECATED Security Interfaces</name>
 
 	<dependencies>
 		<dependency>
