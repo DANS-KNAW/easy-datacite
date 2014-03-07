@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<mapping name="dmo-collection" class="nl.knaw.dans.c.dmo.collections.xml.JiBXCollection">
+		
+		<value style="attribute" name="dmo-namespace" field="namespace" usage="optional"/>
+		<value style="attribute" name="id" field="id" usage="optional"/>
+		<value name="label" field="label" usage="optional"/>
+		<value name="short-name" field="shortName" usage="optional"/>
+		<value name="oai-set" field="publishedAsOAISet" usage="optional"/>
+		
+		<structure name="dc-metadata" usage="optional">
+			<structure type="org.dom4j.Element" 
+				marshaller="org.jibx.extras.patch116a.Dom4JElementMapper"
+				unmarshaller="org.jibx.extras.patch116a.Dom4JElementMapper"
+				set-method="setDcMetadataElement" get-method="getDcMetadataElement"
+				usage="optional"/>
+		</structure>
+						
+		<structure name="dmo-collections" usage="optional">
+			<collection field="children" type="java.util.ArrayList" usage="optional">
+				<structure type="nl.knaw.dans.c.dmo.collections.xml.JiBXCollection"/>
+			</collection>
+		</structure>
+		
+	</mapping>
+
+</binding>
