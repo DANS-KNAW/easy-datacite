@@ -1,0 +1,30 @@
+# dccd schema
+
+attributetype ( 1.3.6.1.4.1.33188.2.1.4
+	NAME 'dccdRoles'
+	DESC 'roles of a dccdUser'
+	EQUALITY caseIgnoreMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
+attributetype ( 1.3.6.1.4.1.33188.2.1.5
+	NAME 'dccdDAI'
+	DESC 'Digital Author Identifier'
+	EQUALITY caseIgnoreMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+	SINGLE-VALUE )
+
+objectclass ( 1.3.6.1.4.1.33188.2.2.1
+	NAME 'dccdUser'
+	DESC 'An entry which represents a user of DCCD'
+	SUP dansUser
+	STRUCTURAL
+	MUST ( uid $ objectclass )
+	MAY ( dccdRoles $ dccdDAI ) )
+
+objectclass ( 1.3.6.1.4.1.33188.2.2.2
+	NAME 'dccdUserOrganisation'
+	DESC 'An entry which represents an organisation in the dccd application'
+	SUP organizationalUnit
+	STRUCTURAL
+	MUST ( ou $ objectclass )
+	MAY ( dansState $ description $ postalAddress $ postalCode $ l $ st $ uniqueMember ) )
