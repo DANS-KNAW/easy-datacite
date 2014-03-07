@@ -4,23 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Aggregates the progress of compound processes and distributes the overall progress to interested listeners.
- * Weights indicate expected execution time of processes associated with ProgressSubjects.
+ * Aggregates the progress of compound processes and distributes the overall progress to interested
+ * listeners. Weights indicate expected execution time of processes associated with ProgressSubjects.
  * <p/>
- * <h3>Example</h3>
+ * <h3>Example</h3> We have {@link ProgressSubject}s A, B, C and D with respective weights of 1, 2, 3 and
+ * 4, indicating that process A will run in approximately 1/10 of total execution time, process B in
+ * 2/10, process C in 3/10 and process D in 4/10. If we execute these registered processes in the order
+ * A, B, C, D, this ProgressAggregator will distribute the overall progress according to the weight of
+ * the process being executed. At the end of each process the progress indicated will be
  * 
- * We have {@link ProgressSubject}s A, B, C and D with respective weights of 1, 2, 3 and 4, indicating that
- * process A will run in approximately 1/10 of total execution time, process B in 2/10, process C in 3/10 and
- * process D in 4/10. If we execute these registered processes in the order A, B, C, D, 
- * this ProgressAggregator will distribute the overall progress according to the weight of the 
- * process being executed. At the end of each process the progress indicated will be
  * <pre>
  *           0%  10%   30%     60%       100%
  *           | - | - - | - - - | - - - - |
  * end of:       A     B       C         D
  * </pre>
- * 
- * 
  */
 public class ProgressAggregator
 {
@@ -31,7 +28,6 @@ public class ProgressAggregator
     private String currentProcessId;
 
     /**
-     * 
      * @param listeners
      */
     public void addListeners(ProgressListener... listeners)

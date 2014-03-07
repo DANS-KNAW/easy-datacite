@@ -85,7 +85,8 @@ public enum AccessCategory
      * 
      * @param category
      *        AccessCategory to test
-     * @return <code>true</code> if <code>category</code> is ANONYMOUS_ACCESS or OPEN_ACCESS, <code>false</code> otherwise
+     * @return <code>true</code> if <code>category</code> is ANONYMOUS_ACCESS or OPEN_ACCESS,
+     *         <code>false</code> otherwise
      */
     public static boolean isOpenAccess(AccessCategory category)
     {

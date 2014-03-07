@@ -7,12 +7,10 @@ import nl.knaw.dans.common.lang.repo.exception.CouldNotGetStoreException;
 import nl.knaw.dans.common.lang.repo.exception.StoreNameNotUniqueException;
 
 /**
- * A singleton object that holds a list of uniquely named dmo stores. These dmo
- * currently register themselves during their creation process.
- * 
- * Note: This class does not store the stores with weak references, therefore once
- *  a store is created and registered it exists forever, because the singleton
- *  will keep the references forever.   
+ * A singleton object that holds a list of uniquely named dmo stores. These dmo currently register
+ * themselves during their creation process. Note: This class does not store the stores with weak
+ * references, therefore once a store is created and registered it exists forever, because the singleton
+ * will keep the references forever.
  * 
  * @author lobo
  */
@@ -38,7 +36,9 @@ public class DmoStores implements Serializable
 
     /**
      * Returns a store by its name.
-     * @throws CouldNotGetStoreException if the store does not exist
+     * 
+     * @throws CouldNotGetStoreException
+     *         if the store does not exist
      */
     public DmoStore getStoreByName(String name) throws CouldNotGetStoreException
     {
@@ -49,9 +49,10 @@ public class DmoStores implements Serializable
     }
 
     /**
-     * Package level method that gets called by the constructor of a data model 
-     * object store.
-     * @param store the store
+     * Package level method that gets called by the constructor of a data model object store.
+     * 
+     * @param store
+     *        the store
      */
     public synchronized void register(DmoStore store)
     {

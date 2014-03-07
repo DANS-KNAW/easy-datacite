@@ -3,9 +3,8 @@ package nl.knaw.dans.common.lang;
 import java.io.InputStream;
 
 /**
- * http://javatechniques.com/blog/faster-deep-copies-of-java-objects/
- * 
- * ByteArrayInputStream implementation that does not synchronize methods.
+ * http://javatechniques.com/blog/faster-deep-copies-of-java-objects/ ByteArrayInputStream implementation
+ * that does not synchronize methods.
  */
 public class FastByteArrayInputStream extends InputStream
 {

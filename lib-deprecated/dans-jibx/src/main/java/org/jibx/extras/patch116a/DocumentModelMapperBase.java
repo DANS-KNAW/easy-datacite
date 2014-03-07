@@ -24,10 +24,11 @@ import org.jibx.runtime.JiBXException;
 import org.jibx.runtime.impl.UnmarshallingContext;
 
 /**
- * <p>Base implementation for custom marshaller/unmarshallers to any document
- * model representation. This class just provides a few basic operations that
- * are used by the representation-specific subclasses.</p>
- *
+ * <p>
+ * Base implementation for custom marshaller/unmarshallers to any document model representation. This
+ * class just provides a few basic operations that are used by the representation-specific subclasses.
+ * </p>
+ * 
  * @author Dennis M. Sosnoski
  * @version 1.0
  */
@@ -48,8 +49,9 @@ public class DocumentModelMapperBase
 
     /**
      * Get namespace URI for index.
-     *
-     * @param index namespace index to look up
+     * 
+     * @param index
+     *        namespace index to look up
      * @return uri namespace URI at index position
      */
 
@@ -85,7 +87,7 @@ public class DocumentModelMapperBase
 
     /**
      * Get next namespace index.
-     *
+     * 
      * @return next namespace index
      */
 
@@ -104,11 +106,11 @@ public class DocumentModelMapperBase
     }
 
     /**
-     * Accumulate text content. This consolidates consecutive text and entities
-     * to a single string.
-     *
+     * Accumulate text content. This consolidates consecutive text and entities to a single string.
+     * 
      * @return consolidated text string
-     * @exception JiBXException on error in unmarshalling
+     * @exception JiBXException
+     *            on error in unmarshalling
      */
 
     protected String accumulateText() throws JiBXException
@@ -143,8 +145,9 @@ public class DocumentModelMapperBase
 
     /**
      * Check if a character is a space character.
-     *
-     * @param chr character to be checked
+     * 
+     * @param chr
+     *        character to be checked
      * @return <code>true</code> if whitespace, <code>false</code> if not
      */
     protected boolean isWhitespace(char chr)

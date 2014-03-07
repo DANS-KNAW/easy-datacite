@@ -13,10 +13,12 @@ import org.slf4j.LoggerFactory;
 import fedora.server.types.gen.RelationshipTuple;
 
 /**
- * Implements relationship management methods on the APIM interface. The relationship management methods manipulate the content of the RELS-EXT and RELS-INT
- * datastreams. The datastream to be modified is determined from the subject of the relationship, ie a subject of info:fedora/demo:333 will result in changes to
- * RELS-EXT in demo:333, and a subject of info:fedora/demo:333/DS1 will result in changes to RELS-INT in demo:333. These modifications will also be propagated
- * to the Resource Index if it is enabled.
+ * Implements relationship management methods on the APIM interface. The relationship management methods
+ * manipulate the content of the RELS-EXT and RELS-INT datastreams. The datastream to be modified is
+ * determined from the subject of the relationship, ie a subject of info:fedora/demo:333 will result in
+ * changes to RELS-EXT in demo:333, and a subject of info:fedora/demo:333/DS1 will result in changes to
+ * RELS-INT in demo:333. These modifications will also be propagated to the Resource Index if it is
+ * enabled.
  * <p/>
  * In defiance of http://fedora-commons.org/confluence/display/FCR30/API-M#API-M-RelationshipManagement
  * only valid form of subject is storeId of existing object i.e.: <code>test:123</code>.
@@ -42,8 +44,9 @@ public class RelationshipManager
     }
 
     /**
-     * Creates a new relationship in the object. Adds the specified relationship to the object's RELS-EXT or RELS-INT Datastream. If the Resource Index is
-     * enabled, the relationship will be added to the Resource Index.
+     * Creates a new relationship in the object. Adds the specified relationship to the object's RELS-EXT
+     * or RELS-INT Datastream. If the Resource Index is enabled, the relationship will be added to the
+     * Resource Index.
      * 
      * @param subject
      *        The subject. (Only valid form: storeId of existing object i.e. test:123)
@@ -80,7 +83,8 @@ public class RelationshipManager
     }
 
     /**
-     * Get the relationships asserted in the object's RELS-EXT or RELS-INT Datastream that match the given criteria.
+     * Get the relationships asserted in the object's RELS-EXT or RELS-INT Datastream that match the
+     * given criteria.
      * 
      * @param subject
      *        The subject. (Only valid form: storeId of existing object i.e. test:123)
@@ -88,12 +92,14 @@ public class RelationshipManager
      *        The predicate to match. A null value matches all predicates.
      * @return RelationshipTuple[]
      *         <ul>
-     *         <li>String subject - The subject of the relation. Either a Fedora object URI (eg info:fedora/demo:333) or a datastream URI (eg
-     *         info:fedora/demo:333/DS1).</li>
-     *         <li>String predicate - The predicate relating the subject and the object. Includes the namespace of the relation.</li>
+     *         <li>String subject - The subject of the relation. Either a Fedora object URI (eg
+     *         info:fedora/demo:333) or a datastream URI (eg info:fedora/demo:333/DS1).</li>
+     *         <li>String predicate - The predicate relating the subject and the object. Includes the
+     *         namespace of the relation.</li>
      *         <li>String object - The URI of the object (target) of the relation</li>
      *         <li>boolean isLiteral - If true, the subject should be read as a literal value, not a URI</li>
-     *         <li>String datatype - If the subject is a literal, the datatype to parse the value as. Optional.</li>
+     *         <li>String datatype - If the subject is a literal, the datatype to parse the value as.
+     *         Optional.</li>
      *         </ul>
      * @throws RepositoryException
      *         as the common base class for checked exceptions
@@ -126,8 +132,9 @@ public class RelationshipManager
     }
 
     /**
-     * Delete the specified relationship. This method will remove the specified relationship(s) from the RELS-EXT or RELS-INT datastream. If the Resource Index
-     * is enabled, this will also delete the corresponding triples from the Resource Index.
+     * Delete the specified relationship. This method will remove the specified relationship(s) from the
+     * RELS-EXT or RELS-INT datastream. If the Resource Index is enabled, this will also delete the
+     * corresponding triples from the Resource Index.
      * 
      * @param subject
      *        The subject. (Only valid form: storeId of existing object i.e. test:123)

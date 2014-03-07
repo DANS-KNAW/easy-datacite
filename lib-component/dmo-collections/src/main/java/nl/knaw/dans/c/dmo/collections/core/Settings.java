@@ -19,15 +19,14 @@ import org.slf4j.LoggerFactory;
 public class Settings
 {
     private static final Logger logger = LoggerFactory.getLogger(Settings.class);
-    
+
     private static Settings instance;
-    
-    private final Map<String, SecurityAgent> securityAgents = 
-        Collections.synchronizedMap(new HashMap<String, SecurityAgent>());
-    private  boolean securityEnabled = true;
+
+    private final Map<String, SecurityAgent> securityAgents = Collections.synchronizedMap(new HashMap<String, SecurityAgent>());
+    private boolean securityEnabled = true;
     private boolean allowSecuredMethods;
     private String contentModelOAISet;
-    
+
     public static Settings instance()
     {
         if (instance == null)
@@ -36,20 +35,20 @@ public class Settings
         }
         return instance;
     }
-    
+
     protected static void reset()
     {
         instance = null;
     }
-    
+
     private Settings()
     {
         // singleton
     }
-    
+
     public void configure(Configuration configuration)
     {
-        setContentModelOAISet(configuration.getOAISetContentModelId());        
+        setContentModelOAISet(configuration.getOAISetContentModelId());
 
         for (DmoNamespace namespace : configuration.getCollectionNamespaces())
         {
@@ -57,13 +56,13 @@ public class Settings
         }
         putSecurityAgents(configuration.getSecurityAgents());
     }
-    
+
     public void setContentModelOAISet(DmoStoreId dmoStoreId)
     {
         contentModelOAISet = dmoStoreId.getStoreId();
         logger.info("Content Model for OAI sets set to " + dmoStoreId.getStoreId());
     }
-    
+
     public String getContentModelOAISet()
     {
         if (contentModelOAISet == null)
@@ -72,14 +71,14 @@ public class Settings
         }
         return contentModelOAISet;
     }
-    
+
     public void registerDmoNamespace(DmoNamespace namespace)
     {
         DmoFactory<DmoCollection> factory = new DmoCollectionFactory(namespace);
         AbstractDmoFactory.register(factory);
         logger.info("Registered DmoFactory for DmoNamespace " + namespace);
     }
-    
+
     public void putSecurityAgents(List<SecurityAgent> agents)
     {
         synchronized (securityAgents)
@@ -92,7 +91,7 @@ public class Settings
         }
     }
 
-    public void putSecurityAgents(SecurityAgent...agents)
+    public void putSecurityAgents(SecurityAgent... agents)
     {
         synchronized (securityAgents)
         {
@@ -102,7 +101,7 @@ public class Settings
             }
         }
     }
-    
+
     public void setSecurityEnabled(boolean enabled)
     {
         securityEnabled = enabled;
@@ -134,13 +133,13 @@ public class Settings
             logger.info("SecurityAgent.isAllowed will return " + allowSecuredMethods);
             return new SecurityAgent()
             {
-                
+
                 @Override
                 public boolean isAllowed(String ownerId, Object... args)
                 {
                     return allowSecuredMethods;
                 }
-                
+
                 @Override
                 public String getSecurityId()
                 {

@@ -43,8 +43,8 @@ public class ZipUtilTest
         ZipItem zipFolderItem = new ZipItem("foo/bar/");
         zipItems.add(zipFolderItem);
 
-        ZipItem zipFileItem = new ZipItem("test1/Data/Databases/database_preservation.pdf", Tester
-                .getFile("test-files/zipFile/test1/Data/Databases/database_preservation.pdf"));
+        ZipItem zipFileItem = new ZipItem("test1/Data/Databases/database_preservation.pdf",
+                Tester.getFile("test-files/zipFile/test1/Data/Databases/database_preservation.pdf"));
 
         zipItems.add(zipFileItem);
 
@@ -68,8 +68,8 @@ public class ZipUtilTest
         File zipFile = new File(testOutput, "zip-test02.zip");
         List<ZipItem> zipItems = new ArrayList<ZipItem>();
 
-        ZipItem zipFileItem = new ZipItem("test1/Data/Databases/database_preservation.pdf", Tester
-                .getFile("test-files/zipFile/test1/Data/Databases/database_preservation.pdf"));
+        ZipItem zipFileItem = new ZipItem("test1/Data/Databases/database_preservation.pdf",
+                Tester.getFile("test-files/zipFile/test1/Data/Databases/database_preservation.pdf"));
 
         zipItems.add(zipFileItem);
 

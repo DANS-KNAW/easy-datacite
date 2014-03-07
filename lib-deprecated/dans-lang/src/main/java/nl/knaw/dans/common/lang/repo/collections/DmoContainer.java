@@ -7,11 +7,10 @@ import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 
 /**
- * A container object can contain and maintains relations with container items. This object
- * is the parent to the child container items. 
+ * A container object can contain and maintains relations with container items. This object is the parent
+ * to the child container items.
  * 
  * @author lobo
- *
  */
 public interface DmoContainer extends DmoCollectionMember
 {

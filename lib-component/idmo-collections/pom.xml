@@ -3,10 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>nl.knaw.dans.platform.interfaces</groupId>
-		<version>2.0</version>
-		<relativePath>../interfaces-build/pom.xml</relativePath>
-		<artifactId>interfaces-build</artifactId>
+		<groupId>nl.knaw.dans.easy</groupId>
+		<version>2.9-SNAPSHOT</version>
+		<relativePath>../../lib/easy-prototype</relativePath>
+		<artifactId>easy-prototype</artifactId>
 	</parent>
 
 	<artifactId>idmo-collections</artifactId>
@@ -16,14 +16,14 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>nl.knaw.dans.platform.interfaces</groupId>
+			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>isecurity</artifactId>
-			<version>1.0.1.b</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>nl.knaw.dans.platform.deprecated</groupId>
+			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>dans-lang</artifactId>
-			<version>1.0</version>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 </project>

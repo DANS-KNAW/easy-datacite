@@ -30,16 +30,16 @@ import org.jibx.runtime.JiBXException;
 import org.jibx.runtime.impl.UnmarshallingContext;
 
 /**
- * <p>Custom element marshaller/unmarshaller to dom4j representation. This
- * allows you to mix data binding and document model representations for XML
- * within the same application. You simply use this marshaller/unmarshaller with
- * a linked object type of <code>org.dom4j.Element</code> (the actual runtime
- * type - the declared type is ignored and can be anything). If a name is
- * supplied on a reference that element name will always be matched when
- * unmarshalling but will be ignored when marshalling (with the actual dom4j
- * element name used). If no name is supplied this will unmarshal a single
- * element with any name.</p>
- *
+ * <p>
+ * Custom element marshaller/unmarshaller to dom4j representation. This allows you to mix data binding
+ * and document model representations for XML within the same application. You simply use this
+ * marshaller/unmarshaller with a linked object type of <code>org.dom4j.Element</code> (the actual
+ * runtime type - the declared type is ignored and can be anything). If a name is supplied on a reference
+ * that element name will always be matched when unmarshalling but will be ignored when marshalling (with
+ * the actual dom4j element name used). If no name is supplied this will unmarshal a single element with
+ * any name.
+ * </p>
+ * 
  * @author Dennis M. Sosnoski
  * @version 1.0
  */
@@ -63,14 +63,15 @@ public class Dom4JElementMapper extends Dom4JMapperBase implements IMarshaller, 
     }
 
     /**
-     * Aliased constructor. This takes a name definition for the element. It'll
-     * be used by JiBX when a name is supplied by the mapping which references
-     * this custom marshaller/unmarshaller.
-     *
-     * @param uri namespace URI for the top-level element
-     * @param index namespace index corresponding to the defined URI within the
-     * marshalling context definitions
-     * @param name local name for the top-level element
+     * Aliased constructor. This takes a name definition for the element. It'll be used by JiBX when a
+     * name is supplied by the mapping which references this custom marshaller/unmarshaller.
+     * 
+     * @param uri
+     *        namespace URI for the top-level element
+     * @param index
+     *        namespace index corresponding to the defined URI within the marshalling context definitions
+     * @param name
+     *        local name for the top-level element
      */
 
     public Dom4JElementMapper(String uri, int index, String name)
@@ -81,7 +82,8 @@ public class Dom4JElementMapper extends Dom4JMapperBase implements IMarshaller, 
         m_name = name;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.jibx.runtime.IMarshaller#isExtension(int)
      */
 
@@ -90,9 +92,9 @@ public class Dom4JElementMapper extends Dom4JMapperBase implements IMarshaller, 
         return false;
     }
 
-    /* (non-Javadoc)
-     * @see org.jibx.runtime.IMarshaller#marshal(java.lang.Object,
-     *  org.jibx.runtime.IMarshallingContext)
+    /*
+     * (non-Javadoc)
+     * @see org.jibx.runtime.IMarshaller#marshal(java.lang.Object, org.jibx.runtime.IMarshallingContext)
      */
 
     public void marshal(Object obj, IMarshallingContext ictx) throws JiBXException
@@ -125,7 +127,8 @@ public class Dom4JElementMapper extends Dom4JMapperBase implements IMarshaller, 
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.jibx.runtime.IUnmarshaller#isPresent(org.jibx.runtime.IUnmarshallingContext)
      */
 
@@ -148,9 +151,10 @@ public class Dom4JElementMapper extends Dom4JMapperBase implements IMarshaller, 
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.jibx.runtime.IUnmarshaller#unmarshal(java.lang.Object,
-     *  org.jibx.runtime.IUnmarshallingContext)
+     * org.jibx.runtime.IUnmarshallingContext)
      */
 
     public Object unmarshal(Object obj, IUnmarshallingContext ictx) throws JiBXException

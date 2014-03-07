@@ -6,7 +6,7 @@ public interface Unit extends Serializable
 {
 
     /**
-     * Get the string representing the global id of the group of units this Unit is part of. 
+     * Get the string representing the global id of the group of units this Unit is part of.
      * 
      * @return the global id of the group of units this instance is part of
      */

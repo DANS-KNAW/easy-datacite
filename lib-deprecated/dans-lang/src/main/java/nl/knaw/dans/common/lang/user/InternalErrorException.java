@@ -1,7 +1,8 @@
 package nl.knaw.dans.common.lang.user;
 
-/** Use this when catching exceptions that are result of programming errors
- * and should be handled as runtime exceptions
+/**
+ * Use this when catching exceptions that are result of programming errors and should be handled as
+ * runtime exceptions
  */
 public class InternalErrorException extends RuntimeException
 {

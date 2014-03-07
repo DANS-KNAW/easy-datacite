@@ -2,7 +2,6 @@ package nl.knaw.dans.common.lang.exception;
 
 /**
  * Indicates an attempt has been made to modify a value that is read only.
- *
  */
 public class ReadOnlyException extends RuntimeException
 {

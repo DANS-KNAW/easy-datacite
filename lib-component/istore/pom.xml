@@ -1,27 +1,19 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-
-  <parent>
-    <groupId>nl.knaw.dans.platform.interfaces</groupId>
-    <artifactId>interfaces-build</artifactId>
-    <version>2.0</version>
-    <relativePath>../interfaces-build/pom.xml</relativePath>
-  </parent>
-
-  <artifactId>istore</artifactId>
-  <packaging>jar</packaging>
-
-
-  <dependencies> 
-  	
-  	<dependency>
-  		<groupId>nl.knaw.dans.platform.deprecated</groupId>
-        <artifactId>dans-lang</artifactId>
-        <version>1.0</version>
-  	</dependency>
-  	
-  </dependencies>
-  <name>Store Interfaces</name>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>nl.knaw.dans.easy</groupId>
+		<artifactId>easy-prototype</artifactId>
+		<version>2.9-SNAPSHOT</version>
+		<relativePath>../../lib/easy-prototype</relativePath>
+	</parent>
+	<artifactId>istore</artifactId>
+	<dependencies>
+		<dependency>
+			<groupId>nl.knaw.dans.easy</groupId>
+			<artifactId>dans-lang</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+	<name>Store Interfaces</name>
 </project>

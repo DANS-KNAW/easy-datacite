@@ -23,7 +23,7 @@ public class OSTest
     {
         File file = new File("/home/easy/batch/test/for/set/all/rwx");
         assertFalse(file.exists());
-        //file.mkdirs();
+        // file.mkdirs();
         try
         {
             OS.setAllRWX(file);
@@ -46,9 +46,9 @@ public class OSTest
         File folder3 = new File(os, "folder3");
         folder3.renameTo(folder1);
 
-        //String cmd = "mv " + testFolder + "folder2/ " + testFolder + "folder3";
+        // String cmd = "mv " + testFolder + "folder2/ " + testFolder + "folder3";
 
-        //OS.execAndWait(cmd, System.out, System.err);
+        // OS.execAndWait(cmd, System.out, System.err);
     }
 
     @Ignore("involves local environment")

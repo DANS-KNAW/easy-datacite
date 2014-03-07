@@ -52,7 +52,7 @@ public class SearchBeanTest
         // check if dummy has all properties set right
         checkAllProperties(dummy);
 
-        // convert the dummy back to document d2 
+        // convert the dummy back to document d2
         SearchBeanConverter converter = DummySearchBeanFactory.getInstance().getSearchBeanConverter(dummy.getClass());
         IndexDocument d2 = converter.toIndexDocument(dummy);
 
@@ -91,7 +91,7 @@ public class SearchBeanTest
         dummy.setId(2);
         dummy.setName(null);
 
-        // convert the dummy back to document d2 
+        // convert the dummy back to document d2
         SearchBeanConverter converter = DummySearchBeanFactory.getInstance().getSearchBeanConverter(dummy.getClass());
         converter.toIndexDocument(dummy);
     }
@@ -112,7 +112,7 @@ public class SearchBeanTest
         DummySB dummy = new DummySB();
         dummy.setName("hello");
 
-        // convert the dummy back to document d2 
+        // convert the dummy back to document d2
         SearchBeanConverter converter = DummySearchBeanFactory.getInstance().getSearchBeanConverter(dummy.getClass());
         converter.toIndexDocument(dummy);
     }
@@ -125,7 +125,7 @@ public class SearchBeanTest
         dummy.setId(2);
         dummy.setName("hello");
 
-        // convert the dummy back to document d2 
+        // convert the dummy back to document d2
         SearchBeanConverter converter = DummySearchBeanFactory.getInstance().getSearchBeanConverter(dummy.getClass());
         IndexDocument d = converter.toIndexDocument(dummy);
 

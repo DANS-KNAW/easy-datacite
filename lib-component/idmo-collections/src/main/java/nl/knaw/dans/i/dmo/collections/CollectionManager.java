@@ -173,7 +173,8 @@ public interface CollectionManager
      * Unpublish the given collection as OAI-set. All descendants of the given collection will be
      * unpublished as OAI-set as well.
      * <p>
-     * <b>NO GUARANTEE</b> is given that members of this collection will be unpublished as OAI-set-member.
+     * <b>NO GUARANTEE</b> is given that members of this collection will be unpublished as
+     * OAI-set-member.
      * </p>
      * {@literal @}SecuredOperation(id =
      * "nl.knaw.dans.i.dmo.collections.CollectionManager.unpublishAsOAISet")
@@ -214,11 +215,12 @@ public interface CollectionManager
      * @throws CollectionsException
      */
     XMLBean getXmlBean(DmoStoreId dmoStoreId) throws CollectionsException;
-    
+
     /**
      * Get a RecursiveList representing the collection tree of the given namespace.
      * <p/>
      * A RecursiveList can be used in language-aware applications.
+     * 
      * @param namespace
      * @return a RecursiveList
      * @throws CollectionsException

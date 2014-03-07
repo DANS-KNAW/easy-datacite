@@ -10,9 +10,10 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 /**
- * Collects validating errors and warnings and prints them to the log-facility. At which log-level messages will be
- * printed is dependent on the {@link XMLErrorHandler.Reporter} that was set on the handler at instantiation.
- *
+ * Collects validating errors and warnings and prints them to the log-facility. At which log-level
+ * messages will be printed is dependent on the {@link XMLErrorHandler.Reporter} that was set on the
+ * handler at instantiation.
+ * 
  * @author ecco
  */
 public class XMLErrorHandler implements ErrorHandler
@@ -20,7 +21,7 @@ public class XMLErrorHandler implements ErrorHandler
 
     /**
      * Decides at which log-level notification messages are logged.
-     *
+     * 
      * @author ecco
      */
     public enum Reporter
@@ -97,7 +98,7 @@ public class XMLErrorHandler implements ErrorHandler
 
         /**
          * Log at proper log-level.
-         *
+         * 
          * @param parseException
          *        the exception to log
          * @param severity
@@ -147,7 +148,7 @@ public class XMLErrorHandler implements ErrorHandler
 
     /**
      * Constructs a new XMLErrorHandler with the given Reporter.
-     *
+     * 
      * @param reporter
      *        the reporter to use
      */
@@ -197,7 +198,7 @@ public class XMLErrorHandler implements ErrorHandler
 
     /**
      * Get the list of warnings.
-     *
+     * 
      * @return the list with warnings
      */
     public List<SAXParseException> getWarnings()
@@ -207,7 +208,7 @@ public class XMLErrorHandler implements ErrorHandler
 
     /**
      * Get the list of errors.
-     *
+     * 
      * @return the list of errors
      */
     public List<SAXParseException> getErrors()
@@ -216,9 +217,9 @@ public class XMLErrorHandler implements ErrorHandler
     }
 
     /**
-     * Get the list of fatal errors. There can only be one fatal error in this list, since parsing stops after a fatal
-     * error.
-     *
+     * Get the list of fatal errors. There can only be one fatal error in this list, since parsing stops
+     * after a fatal error.
+     * 
      * @return the list of fatal errors
      */
     public List<SAXParseException> getFatalErrors()
@@ -228,7 +229,7 @@ public class XMLErrorHandler implements ErrorHandler
 
     /**
      * Get all notifications: warnings, errors and fatal errors.
-     *
+     * 
      * @return all the notifications
      */
     public List<SAXParseException> getNotifications()
@@ -241,7 +242,7 @@ public class XMLErrorHandler implements ErrorHandler
 
     /**
      * Get the total number of errors, warnings and fatal errors.
-     *
+     * 
      * @return the number of notifications this XMLErrorHandler received
      */
     public int getNotificationCount()
@@ -251,8 +252,9 @@ public class XMLErrorHandler implements ErrorHandler
 
     /**
      * Was this ErrorHandler free of notification of any errors?
-     *
-     * @return <code>false</code> if we did receive notification of validating errors, <code>true</code> otherwise
+     * 
+     * @return <code>false</code> if we did receive notification of validating errors, <code>true</code>
+     *         otherwise
      */
     public boolean passed()
     {
@@ -261,7 +263,7 @@ public class XMLErrorHandler implements ErrorHandler
 
     /**
      * Get all the SAXParseException messages this XMLErrorHandler encountered.
-     *
+     * 
      * @return all the SAXParseException messages as a string
      */
     public String getMessages()

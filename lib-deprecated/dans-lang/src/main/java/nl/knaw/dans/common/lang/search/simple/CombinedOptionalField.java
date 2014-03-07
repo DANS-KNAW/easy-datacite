@@ -6,12 +6,10 @@ import java.util.List;
 import nl.knaw.dans.common.lang.search.Field;
 
 /**
- * Combines optional fieldnames for a single value
- * When searching with fieldnames name1, name2 for value1 we
- * want the query equivalent: (name1=value1 OR name2=value1)
- *
+ * Combines optional fieldnames for a single value When searching with fieldnames name1, name2 for value1
+ * we want the query equivalent: (name1=value1 OR name2=value1)
+ * 
  * @author paulboon
- *
  * @param <T>
  */
 public class CombinedOptionalField<T> implements Field<T>

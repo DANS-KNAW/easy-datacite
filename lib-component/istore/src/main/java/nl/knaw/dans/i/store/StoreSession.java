@@ -15,6 +15,7 @@ import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
  * statement.
  * <p/>
  * Typical usage:
+ * 
  * <pre>
  *         ...
  *     (1) StoreSession session = storeManager.newStoreSession("ownerId");
@@ -32,14 +33,15 @@ import nl.knaw.dans.common.lang.repo.exception.ObjectNotInStoreException;
  *         }
  *         ...
  * </pre>
+ * 
  * <ol>
  * <li>An instance of StoreSession is obtained from an implementation of StoreManager.</li>
- * <li>DataModelObjects are deserializations of xml. Associations to other DataModelObjects are not concrete.
- * However, during the time a DataModelObject is attached to a StoreSession, you can traverse the
- * object graph of associated DataModelObjects, and let them interact.</li>
+ * <li>DataModelObjects are deserializations of xml. Associations to other DataModelObjects are not
+ * concrete. However, during the time a DataModelObject is attached to a StoreSession, you can traverse
+ * the object graph of associated DataModelObjects, and let them interact.</li>
  * <li>After the interaction, all affected DataModelObjects are committed to the repository.</li>
- * <li>In a final clause, the temporary association with the session is released. Associations from
- * one DataModelObject to another that were realized during the session, remain intact.</li>
+ * <li>In a final clause, the temporary association with the session is released. Associations from one
+ * DataModelObject to another that were realized during the session, remain intact.</li>
  * </ol>
  * <p/>
  */
@@ -105,7 +107,8 @@ public interface StoreSession
      * ready for reuse.
      * <p/>
      * <b>The close-method must be called to clear any references in attached DataModelObjects to this
-     * StoreSession or underlying classes.</b> So this method is preferably called in a finally-statement.
+     * StoreSession or underlying classes.</b> So this method is preferably called in a
+     * finally-statement.
      */
     void close();
 

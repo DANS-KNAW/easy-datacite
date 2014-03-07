@@ -46,8 +46,9 @@ public class JiBXCollectionConverter
         addChildrenToJiBX(jibxCollection, collection);
         return jibxCollection;
     }
-    
-    public static DmoCollectionImpl convert(JiBXCollection jibRoot, boolean idFromStore) throws XMLDeserializationException, RepositoryException, CollectionsException
+
+    public static DmoCollectionImpl convert(JiBXCollection jibRoot, boolean idFromStore) throws XMLDeserializationException, RepositoryException,
+            CollectionsException
     {
         DmoCollectionImpl root = new DmoCollectionImpl(getRootId(jibRoot));
         root.setLabel("Root of " + root.getDmoNamespace().getValue());
@@ -60,8 +61,9 @@ public class JiBXCollectionConverter
         addChildrenToDmo(root, jibRoot, idFromStore);
         return root;
     }
-    
-    public static DmoCollectionImpl convert(URL url, boolean idFromStore) throws IOException, XMLDeserializationException, RepositoryException, CollectionsException
+
+    public static DmoCollectionImpl convert(URL url, boolean idFromStore) throws IOException, XMLDeserializationException, RepositoryException,
+            CollectionsException
     {
         if (url == null)
         {
@@ -116,7 +118,7 @@ public class JiBXCollectionConverter
             DmoCollectionImpl dmoKid = new DmoCollectionImpl(dmoStoreId);
             dmoParent.addChild(dmoKid);
             setDcMetadata(jibKid, dmoKid);
-            
+
             if (StringUtils.isBlank(jibKid.getLabel()))
             {
                 throw new XMLDeserializationException("Element label cannot be blank: " + jibKid.getId() + " " + jibKid.getShortName());
@@ -131,7 +133,7 @@ public class JiBXCollectionConverter
             {
                 dmoKid.publishAsOAISet();
             }
-            
+
             addChildrenToDmo(dmoKid, jibKid, idFromStore);
         }
     }
@@ -156,8 +158,7 @@ public class JiBXCollectionConverter
         return rootId;
     }
 
-    private static DmoStoreId getDmoStoreId(DmoNamespace dmoNamespace, String id, boolean idFromStore) throws RepositoryException,
-            XMLDeserializationException
+    private static DmoStoreId getDmoStoreId(DmoNamespace dmoNamespace, String id, boolean idFromStore) throws RepositoryException, XMLDeserializationException
     {
         DmoStoreId dmoStoreId;
         if (idFromStore)
@@ -179,7 +180,7 @@ public class JiBXCollectionConverter
         }
         return new DmoStoreId(dmoNamespace, id);
     }
-    
+
     private static XMLErrorHandler validateXml(URL url) throws XMLDeserializationException
     {
         XMLErrorHandler handler;

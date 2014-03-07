@@ -125,7 +125,7 @@ public abstract class AbstractDobConverter<T extends DataModelObject> implements
     {
     };
 
-    @SuppressWarnings( {"unchecked", "rawtypes"})
+    @SuppressWarnings({"unchecked", "rawtypes"})
     protected void deserializeRelationships(DigitalObject dob, DataModelObject dmo) throws ObjectDeserializationException
     {
         Relations relObj = dmo.getRelations();

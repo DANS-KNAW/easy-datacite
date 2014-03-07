@@ -10,7 +10,7 @@ public class RepositoryException extends Exception
 
     private static final long serialVersionUID = 7465810880323799020L;
 
-    // CHECKSTYLE: OFF 
+    // CHECKSTYLE: OFF
 
     public RepositoryException()
     {

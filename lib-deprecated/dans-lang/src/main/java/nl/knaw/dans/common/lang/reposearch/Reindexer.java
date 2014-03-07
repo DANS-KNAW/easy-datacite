@@ -17,11 +17,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The reindexer can be used to get the dmo store and the search engine
- * into a synchronized state.
- *
- * Note: this class has not been properly tested nor is it complete.
- *
+ * The reindexer can be used to get the dmo store and the search engine into a synchronized state. Note:
+ * this class has not been properly tested nor is it complete.
+ * 
  * @author lobo
  */
 public class Reindexer

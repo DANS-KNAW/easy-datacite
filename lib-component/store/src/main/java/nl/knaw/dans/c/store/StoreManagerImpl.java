@@ -12,9 +12,9 @@ import org.slf4j.LoggerFactory;
 
 public class StoreManagerImpl implements StoreManager
 {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(StoreManagerImpl.class);
-    
+
     public StoreManagerImpl()
     {
         logger.info("Instantiated " + this.getClass().getName());
@@ -24,13 +24,13 @@ public class StoreManagerImpl implements StoreManager
     {
         return new StoreSessionImpl(ownerId);
     }
-    
+
     @Override
     public String nextStoreId(DmoNamespace dmoNamespace) throws RepositoryException
     {
         return Repository.getDmoStore().nextSid(dmoNamespace);
     }
-    
+
     @Override
     public DmoStoreId nextDmoStoreId(DmoNamespace dmoNamespace) throws RepositoryException
     {

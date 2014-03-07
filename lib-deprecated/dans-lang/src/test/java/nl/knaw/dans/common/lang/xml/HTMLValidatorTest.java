@@ -63,7 +63,7 @@ public class HTMLValidatorTest
     {
         String markup = "<div foo</div>bla<foo>bar</foo>";
         String tidied = validator.tidyPartialHtml(markup, false);
-        //if (verbose)
+        // if (verbose)
         {
             logger.debug("\n" + tidied + "\n");
 

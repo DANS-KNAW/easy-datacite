@@ -16,9 +16,9 @@ public class StringListCollapserConverterTest
     final static String testEmptyString = "";
     final static String testStringPart1 = "This is";
     final static String testStringPart2 = " a string";
-    final static String testSingleItemString = testStringPart1 + testStringPart2;//"This is a string";
-    final static String testDoubleItemString = testStringPart1 + "," + testStringPart2;//"This is, a string";
-    final static String testSingleItemStringEcsaped = testStringPart1 + "\\," + testStringPart2;//"This is\\, a string";
+    final static String testSingleItemString = testStringPart1 + testStringPart2;// "This is a string";
+    final static String testDoubleItemString = testStringPart1 + "," + testStringPart2;// "This is, a string";
+    final static String testSingleItemStringEcsaped = testStringPart1 + "\\," + testStringPart2;// "This is\\, a string";
 
     final static String testDoubleEmptyItemString = ",";
 

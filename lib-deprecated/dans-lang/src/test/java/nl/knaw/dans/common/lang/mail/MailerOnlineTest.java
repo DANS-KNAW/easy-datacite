@@ -12,7 +12,7 @@ import org.junit.Test;
 
 /**
  * Tests the classes {@link CommonMailer} and {@link DansMailerConfiguration}.
- *
+ * 
  * @author Joke Pol
  */
 public class MailerOnlineTest

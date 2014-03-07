@@ -4,10 +4,10 @@ import nl.knaw.dans.common.lang.WeakObjectRefPool;
 
 /**
  * A pool of weak-references DataModelObjects.
- *  
+ * 
  * @author lobo
- *
- * @param <T> an info object to keep with the dmos
+ * @param <T>
+ *        an info object to keep with the dmos
  */
 public class DmoPool<T> extends WeakObjectRefPool<DmoStoreId, DataModelObject, T>
 {

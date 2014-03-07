@@ -33,10 +33,11 @@ import org.jibx.runtime.IXMLReader;
 import org.jibx.runtime.JiBXException;
 
 /**
- * <p>Base implementation for custom marshaller/unmarshallers to dom4j
- * representation. This provides the basic code used for both single element and
- * content list handling.</p>
- *
+ * <p>
+ * Base implementation for custom marshaller/unmarshallers to dom4j representation. This provides the
+ * basic code used for both single element and content list handling.
+ * </p>
+ * 
  * @author Dennis M. Sosnoski
  * @version 1.0
  */
@@ -54,10 +55,10 @@ public class Dom4JMapperBase extends DocumentModelMapperBase
 
     /**
      * Get index number for declared namespace.
-     *
-     * @param ns namespace of interest
-     * @return namespace index number, or <code>-1</code> if not declared or
-     * masked
+     * 
+     * @param ns
+     *        namespace of interest
+     * @return namespace index number, or <code>-1</code> if not declared or masked
      */
 
     private int findNamespaceIndex(Namespace ns)
@@ -118,10 +119,13 @@ public class Dom4JMapperBase extends DocumentModelMapperBase
 
     /**
      * Marshal content list.
-     *
-     * @param content list of content items to marshal
-     * @exception JiBXException on error in marshalling
-     * @exception IOException on error writing to output
+     * 
+     * @param content
+     *        list of content items to marshal
+     * @exception JiBXException
+     *            on error in marshalling
+     * @exception IOException
+     *            on error writing to output
      */
 
     protected void marshalContent(List content) throws JiBXException, IOException
@@ -165,10 +169,13 @@ public class Dom4JMapperBase extends DocumentModelMapperBase
 
     /**
      * Marshal element with all attributes and content.
-     *
-     * @param element element to be marshalled
-     * @exception JiBXException on error in marshalling
-     * @exception IOException on error writing to output
+     * 
+     * @param element
+     *        element to be marshalled
+     * @exception JiBXException
+     *            on error in marshalling
+     * @exception IOException
+     *            on error writing to output
      */
 
     protected void marshalElement(Element element) throws JiBXException, IOException
@@ -281,13 +288,16 @@ public class Dom4JMapperBase extends DocumentModelMapperBase
     }
 
     /**
-     * Unmarshal element content. This unmarshals everything up to the
-     * containing element close tag, adding each component to the content list
-     * supplied. On return, the parse position will always be at an END_TAG.
-     *
-     * @param content list for unmarshalled content
-     * @exception JiBXException on error in unmarshalling
-     * @exception IOException on error reading input
+     * Unmarshal element content. This unmarshals everything up to the containing element close tag,
+     * adding each component to the content list supplied. On return, the parse position will always be
+     * at an END_TAG.
+     * 
+     * @param content
+     *        list for unmarshalled content
+     * @exception JiBXException
+     *            on error in unmarshalling
+     * @exception IOException
+     *            on error reading input
      */
 
     protected void unmarshalContent(List content) throws JiBXException, IOException
@@ -358,12 +368,14 @@ public class Dom4JMapperBase extends DocumentModelMapperBase
     }
 
     /**
-     * Unmarshal element with all attributes and content. This must be called
-     * with the unmarshalling context positioned at a START_TAG event.
-     *
+     * Unmarshal element with all attributes and content. This must be called with the unmarshalling
+     * context positioned at a START_TAG event.
+     * 
      * @return unmarshalled element
-     * @exception JiBXException on error in unmarshalling
-     * @exception IOException on error reading input
+     * @exception JiBXException
+     *            on error in unmarshalling
+     * @exception IOException
+     *            on error reading input
      */
 
     protected Element unmarshalElement() throws JiBXException, IOException

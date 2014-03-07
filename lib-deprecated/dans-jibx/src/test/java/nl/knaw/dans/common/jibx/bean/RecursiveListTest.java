@@ -55,7 +55,7 @@ public class RecursiveListTest
 
         rl.add(b);
 
-        //if (verbose)
+        // if (verbose)
         logger.debug("\n" + rl.asXMLString(4) + "\n");
         JiBXRecursiveList rl2 = (JiBXRecursiveList) JiBXObjectFactory.unmarshal(JiBXRecursiveList.class, rl.asObjectXML());
         assertEquals(rl.asXMLString(), rl2.asXMLString());

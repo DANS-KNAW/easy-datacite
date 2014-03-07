@@ -33,7 +33,7 @@ public class CollectionManagerImpl implements CollectionManager
 {
     private static final Logger logger = LoggerFactory.getLogger(CollectionManagerImpl.class);
 
-    private final String        ownerId;
+    private final String ownerId;
 
     protected CollectionManagerImpl(String ownerId)
     {
@@ -44,7 +44,7 @@ public class CollectionManagerImpl implements CollectionManager
     {
         return ownerId;
     }
-    
+
     @Override
     public boolean exists(DmoNamespace namespace) throws CollectionsException
     {
@@ -105,8 +105,7 @@ public class CollectionManagerImpl implements CollectionManager
         DmoCollection root = CollectionsCache.instance().getRoot(dmoNamespace);
         if (root != null)
         {
-            throw new NamespaceNotUniqueException(
-                    "The namespace '" + dmoNamespace + "' already exists and cannot be added.");
+            throw new NamespaceNotUniqueException("The namespace '" + dmoNamespace + "' already exists and cannot be added.");
         }
     }
 
@@ -193,7 +192,7 @@ public class CollectionManagerImpl implements CollectionManager
         }
         return collection;
     }
-    
+
     @Override
     @SecuredOperation(id = "nl.knaw.dans.i.dmo.collections.CollectionManager.update")
     public void update(DmoCollection collection) throws CollectionsException
@@ -284,7 +283,7 @@ public class CollectionManagerImpl implements CollectionManager
             throw new CollectionsException(e);
         }
     }
-    
+
     @Override
     @SecuredOperation(id = "nl.knaw.dans.i.dmo.collections.CollectionManager.purge")
     public void purge(DmoCollection collection) throws CollectionsException
@@ -293,12 +292,12 @@ public class CollectionManagerImpl implements CollectionManager
         {
             throw new CollectionsException("Purge not allowed: collection has parent.");
         }
-        
+
         if (collection.isPublishedAsOAISet())
         {
             throw new CollectionsException("Purge not allowed: collection is published as OAI-set.");
         }
-        
+
         StoreSession session = Store.newStoreSession(getOwnerId());
         List<DmoStoreId> storeIds = new ArrayList<DmoStoreId>();
         try
@@ -319,7 +318,7 @@ public class CollectionManagerImpl implements CollectionManager
             CollectionsCache.instance().remove(dmoStoreId);
         }
     }
-    
+
     private void purge(DmoCollectionImpl parent, StoreSession session, List<DmoStoreId> storeIds) throws RepositoryException, CollectionsException
     {
         parent.registerDeleted();
@@ -331,7 +330,7 @@ public class CollectionManagerImpl implements CollectionManager
             purge((DmoCollectionImpl) kid, session, storeIds);
         }
     }
-    
+
     @Override
     public XMLBean getXmlBean(DmoNamespace namespace) throws CollectionsException
     {
@@ -339,7 +338,7 @@ public class CollectionManagerImpl implements CollectionManager
         JiBXCollection jibRoot = JiBXCollectionConverter.convert(root, true);
         return jibRoot;
     }
-    
+
     @Override
     public XMLBean getXmlBean(DmoStoreId dmoStoreId) throws CollectionsException
     {
@@ -347,7 +346,7 @@ public class CollectionManagerImpl implements CollectionManager
         JiBXCollection jibCol = JiBXCollectionConverter.convert(collection, false);
         return jibCol;
     }
-    
+
     @Override
     public RecursiveList getRecursiveList(DmoNamespace namespace) throws CollectionsException
     {
@@ -379,7 +378,7 @@ public class CollectionManagerImpl implements CollectionManager
             storeDescending(session, kid);
         }
     }
-    
+
     private void store(DmoCollection... collections) throws RepositoryException
     {
         StoreSession session = Store.newStoreSession(getOwnerId());
@@ -400,7 +399,7 @@ public class CollectionManagerImpl implements CollectionManager
             session.close();
         }
     }
-    
+
     private void storeAscending(DmoCollection collection) throws RepositoryException
     {
         StoreSession session = Store.newStoreSession(getOwnerId());
@@ -420,6 +419,5 @@ public class CollectionManagerImpl implements CollectionManager
             session.close();
         }
     }
-    
 
 }

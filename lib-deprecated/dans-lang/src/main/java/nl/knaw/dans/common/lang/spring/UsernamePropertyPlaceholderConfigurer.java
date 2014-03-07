@@ -9,9 +9,9 @@ import org.springframework.core.io.ClassPathResource;
 
 /**
  * User name dependent PropertyPlaceholderConfigurer. This class looks for a property file <b>on the
- * classpath</b> under the name conf/app/[user.name].properties, where [user.name] is defined by the value of the
- * System property 'user.name'. If no user-specific file is found, this class uses the property file
- * under conf/app/application.properties.
+ * classpath</b> under the name conf/app/[user.name].properties, where [user.name] is defined by the
+ * value of the System property 'user.name'. If no user-specific file is found, this class uses the
+ * property file under conf/app/application.properties.
  * 
  * @see <a
  *      href="http://static.springsource.org/spring/docs/2.5.x/reference/beans.html#beans-factory-extension-factory-postprocessors">Customizing

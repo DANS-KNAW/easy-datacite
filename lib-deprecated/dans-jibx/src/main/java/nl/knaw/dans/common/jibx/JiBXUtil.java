@@ -52,8 +52,8 @@ public class JiBXUtil<T extends Object>
     }
 
     /**
-     * Marshal the <code>root</code>-object to the given output stream. The caller of this method has to handle proper
-     * closing of the stream.
+     * Marshal the <code>root</code>-object to the given output stream. The caller of this method has to
+     * handle proper closing of the stream.
      * 
      * @param root
      *        the object to be marshaled
@@ -76,15 +76,17 @@ public class JiBXUtil<T extends Object>
         {
             throw e;
         }
-        catch (Exception e) // also throws "java.io.IOException: Illegal character code 0xdbff in content text" for instance!
+        catch (Exception e) // also throws
+                            // "java.io.IOException: Illegal character code 0xdbff in content text" for
+                            // instance!
         {
             throw new JiBXException("Unable to marshal document: ", e);
         }
     }
 
     /**
-     * Marshal the <code>root</code>-object to the given output stream with no indent. The caller of this method has to
-     * handle proper closing of the stream.
+     * Marshal the <code>root</code>-object to the given output stream with no indent. The caller of this
+     * method has to handle proper closing of the stream.
      * 
      * @param root
      *        the object to be marshaled
@@ -122,7 +124,9 @@ public class JiBXUtil<T extends Object>
         {
             throw e;
         }
-        catch (Exception e) // also throws "java.io.IOException: Illegal character code 0xdbff in content text" for instance!
+        catch (Exception e) // also throws
+                            // "java.io.IOException: Illegal character code 0xdbff in content text" for
+                            // instance!
         {
             throw new JiBXException("Unable to marshal document: ", e);
         }
@@ -364,8 +368,8 @@ public class JiBXUtil<T extends Object>
     }
 
     /**
-     * Marshal the <code>root</code>-object to the given output stream without emitting an xml-declaration. The caller
-     * of this method has to handle proper closing of the stream.
+     * Marshal the <code>root</code>-object to the given output stream without emitting an
+     * xml-declaration. The caller of this method has to handle proper closing of the stream.
      * 
      * @param root
      *        the object to be marshaled
@@ -390,15 +394,17 @@ public class JiBXUtil<T extends Object>
         {
             throw e;
         }
-        catch (Exception e) // also throws "java.io.IOException: Illegal character code 0xdbff in content text" for instance!
+        catch (Exception e) // also throws
+                            // "java.io.IOException: Illegal character code 0xdbff in content text" for
+                            // instance!
         {
             throw new JiBXException("Unable to marshal document: ", e);
         }
     }
 
     /**
-     * Marshal the <code>root</code>-object to the given output stream with no indent and without emitting an
-     * xml-declaration. The caller of this method has to handle proper closing of the stream.
+     * Marshal the <code>root</code>-object to the given output stream with no indent and without
+     * emitting an xml-declaration. The caller of this method has to handle proper closing of the stream.
      * 
      * @param root
      *        the object to be marshaled
@@ -478,8 +484,8 @@ public class JiBXUtil<T extends Object>
     }
 
     /**
-     * Marshal the <code>root</code>-object to the given file with no xml-indenting and without emitting an
-     * xml-declaration.
+     * Marshal the <code>root</code>-object to the given file with no xml-indenting and without emitting
+     * an xml-declaration.
      * 
      * @param root
      *        the object to be marshaled
@@ -497,7 +503,8 @@ public class JiBXUtil<T extends Object>
     }
 
     /**
-     * Marshal the <code>root</code>-object to a file with the given filename and without emitting an xml-declaration.
+     * Marshal the <code>root</code>-object to a file with the given filename and without emitting an
+     * xml-declaration.
      * 
      * @param root
      *        the object to be marshaled
@@ -532,8 +539,8 @@ public class JiBXUtil<T extends Object>
     }
 
     /**
-     * Marshal the <code>root</code>-object to a file with the given filename with no xml-indenting and without emitting
-     * an xml-declaration.
+     * Marshal the <code>root</code>-object to a file with the given filename with no xml-indenting and
+     * without emitting an xml-declaration.
      * 
      * @param root
      *        the object to be marshaled
@@ -586,7 +593,8 @@ public class JiBXUtil<T extends Object>
     }
 
     /**
-     * Unmarshal from the given input stream. The caller of this method has to handle proper closing of the stream.
+     * Unmarshal from the given input stream. The caller of this method has to handle proper closing of
+     * the stream.
      * 
      * @param inStream
      *        the input stream to unmarshal from
@@ -729,8 +737,8 @@ public class JiBXUtil<T extends Object>
     }
 
     /**
-     * From "http://jibx.sourceforge.net/api/org/jibx/runtime/IBindingFactory.html": 'All binding factory instances are
-     * guaranteed to be threadsafe and reusable.'
+     * From "http://jibx.sourceforge.net/api/org/jibx/runtime/IBindingFactory.html": 'All binding factory
+     * instances are guaranteed to be threadsafe and reusable.'
      * 
      * @return BindingFactory for the type used by this class
      * @throws JiBXException

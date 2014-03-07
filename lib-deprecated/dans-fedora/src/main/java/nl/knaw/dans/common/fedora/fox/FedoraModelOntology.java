@@ -11,7 +11,7 @@ public class FedoraModelOntology extends OntologyNamespace
      */
     private static final long serialVersionUID = 1472419590583658143L;
 
-    // Properties 
+    // Properties
 
     public final RelationName ALT_IDS;
 
@@ -32,8 +32,7 @@ public class FedoraModelOntology extends OntologyNamespace
     public final RelationName DIGEST_TYPE;
 
     /**
-     * Deprecated as of Fedora 3.0. No replacement. This information is no
-     * longer recorded.
+     * Deprecated as of Fedora 3.0. No replacement. This information is no longer recorded.
      */
     @Deprecated
     public final RelationName DEPENDS_ON;
@@ -57,9 +56,9 @@ public class FedoraModelOntology extends OntologyNamespace
     public final RelationName STATE;
 
     /**
-     * Deprecated as of Fedora 3.0. No direct replacement. Objects now point to
-     * content models via HAS_CMODEL. Service Deployments used by an object are
-     * those that point to the content model of the object via IS_CONTRACTOR_OF.
+     * Deprecated as of Fedora 3.0. No direct replacement. Objects now point to content models via
+     * HAS_CMODEL. Service Deployments used by an object are those that point to the content model of the
+     * object via IS_CONTRACTOR_OF.
      */
     @Deprecated
     public final RelationName USES_BMECH;
@@ -87,9 +86,9 @@ public class FedoraModelOntology extends OntologyNamespace
     /**
      * Behavior Definition Object, in pre-3.0 terminology.
      * <p>
-     * In 3.0, an objects "typeness" is determined by its content model. What
-     * used to be known as BDef objects in Fedora 2.x are analogous to objects
-     * in the {@link SERVICE_DEFINITION_3_0} model in Fedora 3.0.
+     * In 3.0, an objects "typeness" is determined by its content model. What used to be known as BDef
+     * objects in Fedora 2.x are analogous to objects in the {@link SERVICE_DEFINITION_3_0} model in
+     * Fedora 3.0.
      * </p>
      * 
      * @deprecated
@@ -100,9 +99,9 @@ public class FedoraModelOntology extends OntologyNamespace
     /**
      * Behavior Mechanism Object, in pre-3.0 terminology.
      * <p>
-     * In 3.0, an objects "typeness" is determined by its content model. What
-     * used to be known as BMech objects in Fedora 2.x are analogous to objects
-     * in the {@link SERVICE_DEPLOYMENT_3_0} model in Fedora 3.0.
+     * In 3.0, an objects "typeness" is determined by its content model. What used to be known as BMech
+     * objects in Fedora 2.x are analogous to objects in the {@link SERVICE_DEPLOYMENT_3_0} model in
+     * Fedora 3.0.
      * </p>
      * 
      * @deprecated
@@ -113,9 +112,9 @@ public class FedoraModelOntology extends OntologyNamespace
     /**
      * Data Object, in pre-3.0 terminology.
      * <p>
-     * In 3.0, an objects "typeness" is determined by its content model. What
-     * used to be known as data objects in Fedora 2.x are analogous to objects
-     * in the {@link FEDORA_OBJECT_3_0} model in Fedora 3.0.
+     * In 3.0, an objects "typeness" is determined by its content model. What used to be known as data
+     * objects in Fedora 2.x are analogous to objects in the {@link FEDORA_OBJECT_3_0} model in Fedora
+     * 3.0.
      * </p>
      * 
      * @deprecated

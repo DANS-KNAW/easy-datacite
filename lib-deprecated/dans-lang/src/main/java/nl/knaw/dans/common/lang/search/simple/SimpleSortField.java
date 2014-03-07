@@ -9,7 +9,7 @@ public class SimpleSortField extends SimpleField<SortOrder> implements SortField
     private static final long serialVersionUID = -1932854592158278674L;
 
     /**
-     *  default sort type is BY_VALUE
+     * default sort type is BY_VALUE
      */
     private SortType sortType = SortType.BY_VALUE;
 

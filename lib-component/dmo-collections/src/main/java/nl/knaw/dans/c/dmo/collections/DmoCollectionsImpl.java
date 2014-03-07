@@ -27,23 +27,22 @@ import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 public class DmoCollectionsImpl implements DmoCollections
-{   
-    
+{
+
     private static final Logger logger = LoggerFactory.getLogger(DmoCollectionsImpl.class);
-    
-    
+
     public DmoCollectionsImpl()
     {
         logger.info("Instantiated " + this.getClass().getName());
     }
-    
+
     @Override
     public Set<String> getSecuredOperationIds()
     {
         Set<String> securityIds = new HashSet<String>(SecuredOperationUtil.getInterfaceSecurityIds(CollectionManagerImpl.class));
         return securityIds;
     }
-    
+
     @Override
     public void setConfiguration(Configuration configuration)
     {
@@ -98,7 +97,7 @@ public class DmoCollectionsImpl implements DmoCollections
     {
         Settings.instance().putSecurityAgents(agents);
     }
-    
+
     @Override
     public Set<DmoStoreId> filterOAIEndNodes(Set<DmoStoreId> memberIds) throws NoSuchCollectionException, CollectionsException
     {
@@ -113,7 +112,7 @@ public class DmoCollectionsImpl implements DmoCollections
                 memberCollections.add(collection);
             }
         }
-        
+
         for (DmoCollection collection : memberCollections)
         {
             if (collection.isOAIendNode(memberIds))

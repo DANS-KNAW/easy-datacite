@@ -28,14 +28,15 @@ import fedora.common.Constants;
 /**
  * Implements object management methods on the APIM interface.
  * <p/>
- * The Fedora Management service defines an open interface for administering the repository, including creating,
- * modifying, and deleting digital objects, or components within digital objects. The Management service interacts with
- * the underlying repository system to read content from and write content to the digital object and datastream storage
- * areas. The Management service exposes a set of operations that enable a client to view and manipulate digital objects
- * from an abstract perspective, meaning that a client does not need to know anything about underlying storage formats,
- * storage media, or storage management schemes for objects. Also, the underlying repository system handles the details
- * of storing datastream content within the repository, as well as mediating connectivity for datastreams that reference
- * external content.
+ * The Fedora Management service defines an open interface for administering the repository, including
+ * creating, modifying, and deleting digital objects, or components within digital objects. The
+ * Management service interacts with the underlying repository system to read content from and write
+ * content to the digital object and datastream storage areas. The Management service exposes a set of
+ * operations that enable a client to view and manipulate digital objects from an abstract perspective,
+ * meaning that a client does not need to know anything about underlying storage formats, storage media,
+ * or storage management schemes for objects. Also, the underlying repository system handles the details
+ * of storing datastream content within the repository, as well as mediating connectivity for datastreams
+ * that reference external content.
  * 
  * @see <a href="http://fedora-commons.org/confluence/display/FCR30/API-M">FedoraCommons APIM</a>
  * @author ecco Sep 6, 2009
@@ -87,12 +88,13 @@ public class ObjectManager
     }
 
     /**
-     * Gets the serialization of the digital object to XML appropriate for persistent storage in the repository,
-     * ensuring that any URLs that are relative to the local repository are stored with the Fedora local URL syntax. The
-     * Fedora local URL syntax consists of the string "local.fedora.server" standing in place of the actual
-     * "hostname:port" on the URL). Managed Content (M) datastreams are stored with internal identifiers in dsLocation.
-     * Also, within selected inline XML datastreams (i.e., WSDL and SERVICE_PROFILE) any URLs that are relative to the
-     * local repository will also be stored with the Fedora local URL syntax.
+     * Gets the serialization of the digital object to XML appropriate for persistent storage in the
+     * repository, ensuring that any URLs that are relative to the local repository are stored with the
+     * Fedora local URL syntax. The Fedora local URL syntax consists of the string "local.fedora.server"
+     * standing in place of the actual "hostname:port" on the URL). Managed Content (M) datastreams are
+     * stored with internal identifiers in dsLocation. Also, within selected inline XML datastreams
+     * (i.e., WSDL and SERVICE_PROFILE) any URLs that are relative to the local repository will also be
+     * stored with the Fedora local URL syntax.
      * 
      * @param sid
      *        The sid of the object
@@ -148,12 +150,13 @@ public class ObjectManager
     }
 
     /**
-     * Creates a new digital object in the repository. If the XML document does not specify the PID attribute of the
-     * root element, the repository will generate and return a new pid for the object resulting from this request. That
-     * pid will have the namespace of the repository. If the XML document specifies a pid, it will be assigned to the
-     * digital object provided that 1. it conforms to the Fedora pid Syntax, 2. it uses a namespace that matches the
-     * "retainPIDs" value configured for the repository, and 3. it does not collide with an existing pid of an object in
-     * the repository.
+     * Creates a new digital object in the repository. If the XML document does not specify the PID
+     * attribute of the root element, the repository will generate and return a new pid for the object
+     * resulting from this request. That pid will have the namespace of the repository. If the XML
+     * document specifies a pid, it will be assigned to the digital object provided that 1. it conforms
+     * to the Fedora pid Syntax, 2. it uses a namespace that matches the "retainPIDs" value configured
+     * for the repository, and 3. it does not collide with an existing pid of an object in the
+     * repository.
      * 
      * @param objectXML
      *        The digital object in an XML submission format
@@ -338,7 +341,8 @@ public class ObjectManager
      *        a log message
      * @return The timestamp of the operation according to the server
      * @throws ConcurrentUpdateException
-     *         if the timestamp of ObjectProperties is older than the last registered modification of the object
+     *         if the timestamp of ObjectProperties is older than the last registered modification of the
+     *         object
      * @throws RepositoryException
      *         as the common base class for checked exceptions
      */
@@ -378,8 +382,8 @@ public class ObjectManager
     }
 
     /**
-     * Exports the entire digital object in the specified XML format, and encoded appropriately for the specified export
-     * context.
+     * Exports the entire digital object in the specified XML format, and encoded appropriately for the
+     * specified export context.
      * 
      * @see #EXPORT_FORMAT_ATOM1_1
      * @see #EXPORT_FORMAT_ATOM_ZIP1_1

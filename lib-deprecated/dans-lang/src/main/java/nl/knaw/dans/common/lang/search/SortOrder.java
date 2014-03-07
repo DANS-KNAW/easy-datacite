@@ -2,8 +2,8 @@ package nl.knaw.dans.common.lang.search;
 
 /**
  * The order in which sorting should occur: ascending or descending.
+ * 
  * @author lobo
- *
  */
 public enum SortOrder
 {

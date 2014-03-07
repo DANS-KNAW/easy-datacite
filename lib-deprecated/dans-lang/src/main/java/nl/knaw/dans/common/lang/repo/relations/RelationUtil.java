@@ -30,9 +30,7 @@ import org.jrdf.graph.SubjectNode;
 import org.jrdf.graph.URIReference;
 
 /**
- * This class was gotten from the Fedora 3.2.1 source.
- * 
- * Utility methods for working with JRDF.
+ * This class was gotten from the Fedora 3.2.1 source. Utility methods for working with JRDF.
  * 
  * @author Chris Wilper
  */
@@ -42,8 +40,8 @@ public abstract class RelationUtil
     /**
      * Tells whether the given nodes are equivalent.
      * <p>
-     * Nodes are equivalent if they are both resources or both literals and they
-     * match according to the rules of those types.
+     * Nodes are equivalent if they are both resources or both literals and they match according to the
+     * rules of those types.
      * 
      * @param n1
      *        first node.
@@ -84,8 +82,7 @@ public abstract class RelationUtil
     }
 
     /**
-     * Tells whether the given resources are equivalent, with one given as a URI
-     * string.
+     * Tells whether the given resources are equivalent, with one given as a URI string.
      * 
      * @param u1
      *        first resource.
@@ -101,8 +98,8 @@ public abstract class RelationUtil
     /**
      * Tells whether the given literals are equivalent.
      * <p>
-     * Two literals are equivalent if they have the same lexical value, language
-     * (which may be unspecified), and datatype (which may be unspecified).
+     * Two literals are equivalent if they have the same lexical value, language (which may be
+     * unspecified), and datatype (which may be unspecified).
      * 
      * @param l1
      *        first literal.
@@ -122,8 +119,7 @@ public abstract class RelationUtil
     }
 
     /**
-     * Tells whether the given literals are equivalent, with one given as a set
-     * of simple values.
+     * Tells whether the given literals are equivalent, with one given as a set of simple values.
      * 
      * @param l1
      *        first literal.
@@ -157,8 +153,8 @@ public abstract class RelationUtil
     /**
      * Tells whether the given subjects are equivalent.
      * <p>
-     * Two subjects are equivalent if they are both resources and they match
-     * according to the rules for resources.
+     * Two subjects are equivalent if they are both resources and they match according to the rules for
+     * resources.
      * 
      * @param s1
      *        first subject.
@@ -179,8 +175,7 @@ public abstract class RelationUtil
     }
 
     /**
-     * Tells whether the given subjects are equivalent, with one given as a URI
-     * string.
+     * Tells whether the given subjects are equivalent, with one given as a URI string.
      * 
      * @param s1
      *        first subject.
@@ -203,8 +198,7 @@ public abstract class RelationUtil
     /**
      * Tells whether the given predicates are equivalent.
      * <p>
-     * Two predicates are equivalent if they match according to the rules for
-     * resources.
+     * Two predicates are equivalent if they match according to the rules for resources.
      * 
      * @param p1
      *        first predicate.
@@ -218,8 +212,7 @@ public abstract class RelationUtil
     }
 
     /**
-     * Tells whether the given predicates are equivalent, with one given as a
-     * URI string.
+     * Tells whether the given predicates are equivalent, with one given as a URI string.
      * 
      * @param p1
      *        first predicate.
@@ -235,8 +228,7 @@ public abstract class RelationUtil
     /**
      * Tells whether the given objects are equivalent.
      * <p>
-     * Two objects are equivalent if they match according to the rules for
-     * nodes.
+     * Two objects are equivalent if they match according to the rules for nodes.
      * 
      * @param o1
      *        first object.
@@ -250,14 +242,12 @@ public abstract class RelationUtil
     }
 
     /**
-     * Tells whether the given objects are equivalent, with one given as a set
-     * of simple values.
+     * Tells whether the given objects are equivalent, with one given as a set of simple values.
      * 
      * @param o1
      *        first node.
      * @param o2
-     *        second node URI (if isLiteral is false) or lexical value (if
-     *        isLiteral is true)
+     *        second node URI (if isLiteral is false) or lexical value (if isLiteral is true)
      * @param isLiteral
      *        whether the second node is a literal.
      * @param type

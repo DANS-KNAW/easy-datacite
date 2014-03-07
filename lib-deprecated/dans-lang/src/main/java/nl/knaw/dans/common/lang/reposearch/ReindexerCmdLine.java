@@ -17,7 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Implement this class to get a command line reindexing tool setup. 
+ * Implement this class to get a command line reindexing tool setup.
  * 
  * @author lobo
  */
@@ -74,8 +74,8 @@ public abstract class ReindexerCmdLine
                 accepts(OUTPUT_SIDLIST_FILE, "A filename to which the list of store IDs is written of the objects that were reindexed.").withRequiredArg()
                         .ofType(File.class).defaultsTo(new File("reindexed.csv"));
 
-                accepts(OUTPUT_ERROR_FILE, "A filename to which the list of encountered errors is written.").withRequiredArg().ofType(File.class).defaultsTo(
-                        new File("error.log"));
+                accepts(OUTPUT_ERROR_FILE, "A filename to which the list of encountered errors is written.").withRequiredArg().ofType(File.class)
+                        .defaultsTo(new File("error.log"));
 
                 acceptsAll(Arrays.asList("h", "?"), "show help");
             }
@@ -83,8 +83,7 @@ public abstract class ReindexerCmdLine
     }
 
     /**
-     * @return the option parser. You can extend the options through this
-     * parser object. 
+     * @return the option parser. You can extend the options through this parser object.
      */
     public OptionParser getParser()
     {
@@ -92,9 +91,8 @@ public abstract class ReindexerCmdLine
     }
 
     /**
-     * Execute the command line tool version of the reindexer tool. 
-     * 
-     * Run with -? to see a list of all parameters.
+     * Execute the command line tool version of the reindexer tool. Run with -? to see a list of all
+     * parameters.
      */
     public void execute(String[] args)
     {

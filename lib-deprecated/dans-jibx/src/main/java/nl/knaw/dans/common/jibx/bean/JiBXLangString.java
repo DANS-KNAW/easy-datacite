@@ -7,8 +7,8 @@ import java.util.regex.Pattern;
 import nl.knaw.dans.common.lang.repo.bean.XMLLangString;
 
 /**
- * Represents a string that can be localized with a language token. Methods in this class intermediate between the java
- * representation of a locale and the xml lang attribute.
+ * Represents a string that can be localized with a language token. Methods in this class intermediate
+ * between the java representation of a locale and the xml lang attribute.
  * 
  * @author ecco
  */
@@ -27,8 +27,8 @@ public class JiBXLangString implements XMLLangString
     private String value;
 
     /**
-     * Test if the given string is a valid language token. Does not say the given string belongs to any standard. See
-     * RFC 3066 at http://www.ietf.org/rfc/rfc3066.txt and the IANA registry at
+     * Test if the given string is a valid language token. Does not say the given string belongs to any
+     * standard. See RFC 3066 at http://www.ietf.org/rfc/rfc3066.txt and the IANA registry at
      * http://www.iana.org/assignments/lang-tag-apps.htm for further information, as well as
      * http://www.ietf.org/rfc/rfc4646.txt
      * <p>
@@ -44,7 +44,8 @@ public class JiBXLangString implements XMLLangString
      * </p>
      * 
      * @param token
-     *        two or three letter language code, optionally followed by a hyphen and a two or three letter country code
+     *        two or three letter language code, optionally followed by a hyphen and a two or three
+     *        letter country code
      * @return <code>true</code> if valid, <code>false</code> otherwise
      */
     public static synchronized boolean isValidLanguageToken(final String token)
@@ -53,7 +54,8 @@ public class JiBXLangString implements XMLLangString
     }
 
     /**
-     * Collects the 3-letter language code and, if appropriate, the 3-letter country code from the given locale.
+     * Collects the 3-letter language code and, if appropriate, the 3-letter country code from the given
+     * locale.
      * 
      * @param locale
      *        a locale constructed with 2-letter codes
@@ -137,8 +139,8 @@ public class JiBXLangString implements XMLLangString
     }
 
     /**
-     * Constructs a {@link JiBXLangString} with the given value; constructs a language token from the given
-     * locale.
+     * Constructs a {@link JiBXLangString} with the given value; constructs a language token from the
+     * given locale.
      * 
      * @param value
      *        the value of the string
@@ -154,7 +156,8 @@ public class JiBXLangString implements XMLLangString
         setLanguage(locale);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see nl.knaw.dans.common.jibx.bean.XMLLangString#getLanguage()
      */
     public String getLanguage()
@@ -162,7 +165,8 @@ public class JiBXLangString implements XMLLangString
         return language;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see nl.knaw.dans.common.jibx.bean.XMLLangString#setLanguage(java.lang.String)
      */
     public final void setLanguage(final String language) throws IllegalArgumentException
@@ -180,14 +184,15 @@ public class JiBXLangString implements XMLLangString
     /**
      * Save method to set the language token; it looks up 3-letter language and country codes.
      * <p>
-     * The Locale argument should be constructed according to the Locale API. Quoted from {@link Locale}: <blockquote>
+     * The Locale argument should be constructed according to the Locale API. Quoted from {@link Locale}:
+     * <blockquote>
      * <p>
-     * The language argument is a valid ISO Language Code. These codes are the lower-case, two-letter codes as defined
-     * by ISO-639.
+     * The language argument is a valid ISO Language Code. These codes are the lower-case, two-letter
+     * codes as defined by ISO-639.
      * </p>
      * <p>
-     * The country argument is a valid ISO Country Code. These codes are the upper-case, two-letter codes as defined by
-     * ISO-3166.
+     * The country argument is a valid ISO Country Code. These codes are the upper-case, two-letter codes
+     * as defined by ISO-3166.
      * </p>
      * </blockquote>
      * 
@@ -201,7 +206,8 @@ public class JiBXLangString implements XMLLangString
         this.language = getLanguageToken(locale);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see nl.knaw.dans.common.jibx.bean.XMLLangString#getValue()
      */
     public String getValue()
@@ -209,7 +215,8 @@ public class JiBXLangString implements XMLLangString
         return value;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see nl.knaw.dans.common.jibx.bean.XMLLangString#setValue(java.lang.String)
      */
     public void setValue(final String value)

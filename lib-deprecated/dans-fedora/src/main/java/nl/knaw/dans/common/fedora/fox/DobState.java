@@ -5,7 +5,7 @@ package nl.knaw.dans.common.fedora.fox;
 
 /**
  * Indicates the state of a Digital Object.
- *
+ * 
  * @author ecco
  */
 public enum DobState

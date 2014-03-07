@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Utility class for evaluating classes with methods annotated with {@link SecuredOperation}.
@@ -112,8 +112,9 @@ public class SecuredOperationUtil
     }
 
     /**
-     * Enforce a one-to-one relation of secured operations declared in an implementing class and in its interfaces.
-     * Typical usage in a unit test:
+     * Enforce a one-to-one relation of secured operations declared in an implementing class and in its
+     * interfaces. Typical usage in a unit test:
+     * 
      * <pre>
      *    {@literal @}Test
      *    public void checkSecuredOperationIds()
@@ -121,6 +122,7 @@ public class SecuredOperationUtil
      *        SecuredOperationUtil.checkSecurityIds(MyImplementing.class);
      *    }
      * </pre>
+     * 
      * This will throw a RuntimeException if {@link SecuredOperation} annotations are not properly used.
      * <p/>
      * Check validity and consistency of an implementing class against it's interface hierarchy.
@@ -170,7 +172,7 @@ public class SecuredOperationUtil
             throw new RuntimeException(_class.getName() + " has illegal or missing @SecuredOperation annotations." + foundErrors);
         }
     }
-    
+
     protected static void checkMissingAnnotations(StringBuilder sb, Class<?> implementation)
     {
         List<String> secIds = new ArrayList<String>();
@@ -192,7 +194,7 @@ public class SecuredOperationUtil
             sb.append(constructLink(implementation));
         }
     }
-    
+
     private static void listAllInterfaceAnnotations(Class<?> _interface, List<String> secIds)
     {
         secIds.addAll(getDeclaredSecurityIdsOnInterface(_interface));
@@ -231,7 +233,7 @@ public class SecuredOperationUtil
         StringBuilder sb = new StringBuilder().append(" (").append(_class.getSimpleName()).append(".java:1)");
         return sb.toString();
     }
-    
+
     public static String getSecurityId(Class<?> _class, String methodName)
     {
         String securityId = null;
@@ -243,7 +245,7 @@ public class SecuredOperationUtil
                 securityId = securedOperation.id();
                 break;
             }
-            
+
         }
         return securityId;
     }

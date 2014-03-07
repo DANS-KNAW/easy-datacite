@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Reports to {@link Logger}.
- *
  */
 public class LoggerReport implements Report
 {

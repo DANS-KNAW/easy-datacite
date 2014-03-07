@@ -9,13 +9,13 @@ import nl.knaw.dans.common.lang.repo.TimestampedMinimalXMLBean;
 import nl.knaw.dans.common.lang.xml.XMLBean;
 
 /**
- * XMLBean capable of containing the fifteen terms of the Dublin Core Metadata Element Set. The Dublin Core Metadata
- * Element Set is a vocabulary of fifteen properties for use in resource description. The name "Dublin" is due to its
- * origin at a 1995 invitational workshop in Dublin, Ohio; "core" because its elements are broad and generic, usable for
- * describing a wide range of resources.
+ * XMLBean capable of containing the fifteen terms of the Dublin Core Metadata Element Set. The Dublin
+ * Core Metadata Element Set is a vocabulary of fifteen properties for use in resource description. The
+ * name "Dublin" is due to its origin at a 1995 invitational workshop in Dublin, Ohio; "core" because its
+ * elements are broad and generic, usable for describing a wide range of resources.
  * <p/>
- * Each property can have a value and an xml-language attribute as in the definition of <code>elementType</code> in the
- * next schema fragment.
+ * Each property can have a value and an xml-language attribute as in the definition of
+ * <code>elementType</code> in the next schema fragment.
  * 
  * <pre>
  * &lt;xs:complexType name=&quot;elementType&quot;&gt;
@@ -27,8 +27,8 @@ import nl.knaw.dans.common.lang.xml.XMLBean;
  * &lt;/xs:complexType&gt;
  * </pre>
  * 
- * For convenience of use this interface constitutes methods for setting and getting properties of type {@link String}
- * as well as {@link XMLLangString}.
+ * For convenience of use this interface constitutes methods for setting and getting properties of type
+ * {@link String} as well as {@link XMLLangString}.
  * <p/>
  * 
  * @see <a href="http://dublincore.org/documents/dcmi-terms/">DCMI Metadata Terms</a>
@@ -43,7 +43,7 @@ public interface DublinCoreMetadata extends TimestampedMinimalXMLBean, MetadataU
      */
     public enum PropertyName
     {
-        // CHECKSTYLE: OFF 
+        // CHECKSTYLE: OFF
         Contributor, Coverage, Creator, Date, Description, Format, Identifier, Language, Publisher, Relation, Rights, Source, Subject, Title, Type
     }
 

@@ -271,7 +271,7 @@ public class IdSynchronizerTest
                 }
                 finally
                 {
-                    //	sync.releaseLock(idList);
+                    // sync.releaseLock(idList);
                 }
             }
         };

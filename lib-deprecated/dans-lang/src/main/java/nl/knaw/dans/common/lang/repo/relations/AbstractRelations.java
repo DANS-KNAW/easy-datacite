@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Simple relations object with setters and getters.
- *  
+ * 
  * @author lobo
  */
 public abstract class AbstractRelations<T extends DataModelObject> extends AbstractTimestampedObject implements Relations

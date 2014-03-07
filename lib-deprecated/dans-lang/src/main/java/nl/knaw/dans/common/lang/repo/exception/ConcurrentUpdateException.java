@@ -12,7 +12,7 @@ public class ConcurrentUpdateException extends RepositoryException
 
     private static final long serialVersionUID = 596910792885449651L;
 
-    // CHECKSTYLE: OFF 
+    // CHECKSTYLE: OFF
 
     public ConcurrentUpdateException()
     {

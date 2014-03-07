@@ -16,9 +16,9 @@ import org.dom4j.Element;
 
 public class DmoCollectionFactory extends AbstractDmoFactory<DmoCollection>
 {
-    
+
     private final DmoNamespace namespace;
-    
+
     public DmoCollectionFactory(DmoNamespace namespace)
     {
         this.namespace = namespace;
@@ -41,12 +41,11 @@ public class DmoCollectionFactory extends AbstractDmoFactory<DmoCollection>
     {
         if (!namespace.equals(DmoStoreId.getDmoNamespace(storeId)))
         {
-            throw new IllegalArgumentException(
-                    "Wrong factory: storeId " + storeId + " is not in namespace " + namespace.getValue());
+            throw new IllegalArgumentException("Wrong factory: storeId " + storeId + " is not in namespace " + namespace.getValue());
         }
         return new DmoCollectionImpl(new DmoStoreId(storeId));
     }
-    
+
     @Override
     public void setMetadataUnit(DataModelObject dmo, String unitId, Element element) throws ObjectDeserializationException
     {

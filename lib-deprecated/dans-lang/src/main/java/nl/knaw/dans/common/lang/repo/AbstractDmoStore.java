@@ -28,19 +28,16 @@ public abstract class AbstractDmoStore implements DmoStore
 {
 
     /**
-     * The time in milliseconds this DmoStore gets to try to acquire 
-     * a lock on a certain data model object. Since the locking 
-     * mechanism is currently being shared with the AbstractUnitOfWork
-     * this does not apply to single operations only, but also means
-     * waiting for transactions to finish.
+     * The time in milliseconds this DmoStore gets to try to acquire a lock on a certain data model
+     * object. Since the locking mechanism is currently being shared with the AbstractUnitOfWork this
+     * does not apply to single operations only, but also means waiting for transactions to finish.
      */
     private static final int DEFAULT_LOCK_TIMEOUT = 1000 * 5 * 60; // 5 mins
 
     private static final Logger logger = LoggerFactory.getLogger(AbstractDmoStore.class);
 
     /**
-     * Used for synchronizing concurrent operations on DMO's of a certain
-     * StoreId
+     * Used for synchronizing concurrent operations on DMO's of a certain StoreId
      */
     private final IdSynchronizer<DmoStoreId> sidSynchronizer = new IdSynchronizer<DmoStoreId>(DEFAULT_LOCK_TIMEOUT, true);
 
@@ -127,21 +124,20 @@ public abstract class AbstractDmoStore implements DmoStore
     }
 
     /**
-     * Update the entire DataModelObject and all of it's units indiscriminate of
-     * the state of dirty flags of the object and it's units. Notice that this
-     * operation may be time consuming and inefficient.
+     * Update the entire DataModelObject and all of it's units indiscriminate of the state of dirty flags
+     * of the object and it's units. Notice that this operation may be time consuming and inefficient.
      * 
      * @see #update(DataModelObject, boolean, String)
      * @param dmo
-     *            the DataModelObject to update
+     *        the DataModelObject to update
      * @param logMessage
-     *            a log message
-     * @return the timestamp of the update according to the store or
-     *         <code>null</code> if no update took place
+     *        a log message
+     * @return the timestamp of the update according to the store or <code>null</code> if no update took
+     *         place
      * @throws ConcurrentUpdateException
-     *             if a concurrent update took place
+     *         if a concurrent update took place
      * @throws RepositoryException
-     *             wrapper for exceptions
+     *         wrapper for exceptions
      */
     public DateTime update(DataModelObject dmo, String logMessage) throws ConcurrentUpdateException, RepositoryException
     {
@@ -253,7 +249,7 @@ public abstract class AbstractDmoStore implements DmoStore
 
             beforePurged(dmo);
 
-            //fedora.server.errors.GeneralException: Forced object removal is not yet supported.
+            // fedora.server.errors.GeneralException: Forced object removal is not yet supported.
             // therefore 'force' on this level always false.
             DateTime purgeTime = doPurge(dmo, false, logMessage);
 
@@ -353,8 +349,8 @@ public abstract class AbstractDmoStore implements DmoStore
     }
 
     /**
-     * Returns a copy of the listeners. This enables thread-safe iteration,
-     * without having to lock the calls on the listeners as well.
+     * Returns a copy of the listeners. This enables thread-safe iteration, without having to lock the
+     * calls on the listeners as well.
      */
     public List<DmoStoreEventListener> getListeners()
     {
@@ -365,11 +361,10 @@ public abstract class AbstractDmoStore implements DmoStore
     }
 
     /**
-     * Inform registered listeners of a DataModeObject ingest that is about to
-     * happen.
+     * Inform registered listeners of a DataModeObject ingest that is about to happen.
      * 
      * @param dmo
-     *            the ingested DataModelObject
+     *        the ingested DataModelObject
      * @throws DmoStoreEventListenerException
      */
     protected void beforeIngest(DataModelObject dmo) throws DmoStoreEventListenerException
@@ -387,7 +382,7 @@ public abstract class AbstractDmoStore implements DmoStore
      * Inform registered listeners of the successful ingest of a DataModeObject.
      * 
      * @param dmo
-     *            the ingested DataModelObject
+     *        the ingested DataModelObject
      * @throws DmoStoreEventListenerException
      */
     protected void informIngested(DataModelObject dmo) throws DmoStoreEventListenerException
@@ -402,11 +397,10 @@ public abstract class AbstractDmoStore implements DmoStore
     }
 
     /**
-     * Inform registered listeners of an update on a DataModeObject that is
-     * about to happen.
+     * Inform registered listeners of an update on a DataModeObject that is about to happen.
      * 
      * @param dmo
-     *            the updated DataModelObject
+     *        the updated DataModelObject
      * @throws DmoStoreEventListenerException
      */
     protected void beforeUpdate(DataModelObject dmo) throws DmoStoreEventListenerException
@@ -424,7 +418,7 @@ public abstract class AbstractDmoStore implements DmoStore
      * Inform registered listeners of the successful update of a DataModeObject.
      * 
      * @param dmo
-     *            the updated DataModelObject
+     *        the updated DataModelObject
      * @throws DmoStoreEventListenerException
      */
     protected void informUpdated(DataModelObject dmo) throws DmoStoreEventListenerException
@@ -439,11 +433,10 @@ public abstract class AbstractDmoStore implements DmoStore
     }
 
     /**
-     * Inform registered listeners of an erroneous, possibly partial update of a
-     * DataModeObject.
+     * Inform registered listeners of an erroneous, possibly partial update of a DataModeObject.
      * 
      * @param storeId
-     *            the storeId of the partially updated DataModelObject
+     *        the storeId of the partially updated DataModelObject
      * @throws DmoStoreEventListenerException
      */
     protected void informPartialUpdated(DataModelObject dmo) throws DmoStoreEventListenerException

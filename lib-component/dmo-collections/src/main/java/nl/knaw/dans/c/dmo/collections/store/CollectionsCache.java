@@ -17,15 +17,13 @@ import nl.knaw.dans.i.store.StoreSession;
 
 public class CollectionsCache
 {
-    
+
     private static CollectionsCache instance;
-    
+
     private static final String ownerId = CollectionsCache.class.getSimpleName();
-    
-    private final Map<DmoStoreId, DmoCollection> cache
-        = Collections.synchronizedMap(
-            new HashMap<DmoStoreId, DmoCollection>());
-    
+
+    private final Map<DmoStoreId, DmoCollection> cache = Collections.synchronizedMap(new HashMap<DmoStoreId, DmoCollection>());
+
     public static CollectionsCache instance()
     {
         if (instance == null)
@@ -34,14 +32,13 @@ public class CollectionsCache
         }
         return instance;
     }
-    
+
     private CollectionsCache()
     {
-        
+
     }
-    
+
     /**
-     * 
      * @param namespace
      * @return could be <code>null</code>
      * @throws RepositoryException
@@ -64,9 +61,8 @@ public class CollectionsCache
         }
         return root;
     }
-    
+
     /**
-     * 
      * @param dmoStoreId
      * @return could be <code>null</code>
      * @throws RepositoryException
@@ -88,7 +84,7 @@ public class CollectionsCache
         }
         return dmoCollection;
     }
-    
+
     public boolean contains(DmoStoreId dmoStoreId)
     {
         synchronized (cache)
@@ -96,7 +92,7 @@ public class CollectionsCache
             return cache.containsKey(dmoStoreId);
         }
     }
-    
+
     public boolean checkContainsAllInstances(boolean throwException, DmoCollection... collections) throws CollectionsException
     {
         boolean containsAllInstances = true;
@@ -113,7 +109,7 @@ public class CollectionsCache
         }
         return containsAllInstances;
     }
-    
+
     public void invalidate()
     {
         synchronized (cache)
@@ -121,7 +117,7 @@ public class CollectionsCache
             cache.clear();
         }
     }
-    
+
     public void invalidate(DmoNamespace namespace)
     {
         synchronized (cache)
@@ -142,12 +138,12 @@ public class CollectionsCache
             }
         }
     }
-    
+
     public int size()
     {
         return cache.size();
     }
-    
+
     public int size(DmoNamespace namespace)
     {
         int size = 0;
@@ -160,7 +156,7 @@ public class CollectionsCache
         }
         return size;
     }
-    
+
     public void putDescending(DmoCollection collection)
     {
         synchronized (cache)
@@ -177,7 +173,7 @@ public class CollectionsCache
             addToCacheDescending(kid);
         }
     }
-    
+
     public void put(DmoCollection collection)
     {
         synchronized (cache)
@@ -185,7 +181,7 @@ public class CollectionsCache
             cache.put(collection.getDmoStoreId(), collection);
         }
     }
-    
+
     public void putAscending(DmoCollection collection)
     {
         synchronized (cache)
@@ -198,7 +194,7 @@ public class CollectionsCache
             }
         }
     }
-    
+
     public void remove(DmoStoreId dmoStoreId)
     {
         synchronized (cache)
@@ -223,7 +219,7 @@ public class CollectionsCache
         {
             session.close();
         }
-        
+
         return root;
     }
 
@@ -249,6 +245,5 @@ public class CollectionsCache
             getChildrenFromStore(kid);
         }
     }
-
 
 }

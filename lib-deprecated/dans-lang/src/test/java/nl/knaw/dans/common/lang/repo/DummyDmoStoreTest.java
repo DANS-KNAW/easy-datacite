@@ -26,11 +26,11 @@ public class DummyDmoStoreTest
         repoTester = new RepoTester(dmoStore);
     }
 
-    //	@Test
-    //	public void constructor()
-    //	{
-    //	    assertNotNull(dmoStore.getContext());
-    //	}
+    // @Test
+    // public void constructor()
+    // {
+    // assertNotNull(dmoStore.getContext());
+    // }
 
     @Test
     public void testBasicFunctions() throws Exception
@@ -89,7 +89,7 @@ public class DummyDmoStoreTest
         DummyDmo dmo6 = (DummyDmo) repoTester.retrieve(new DmoStoreId("dummy-object:2"));
 
         // by serializing and deserializing the system cannot track
-        // the object via weakreferences, this will thus test the 
+        // the object via weakreferences, this will thus test the
         // secondary mechanism
         ByteArrayOutputStream sdmo5 = repoTester.serializeDmo(dmo5);
         ByteArrayOutputStream sdmo6 = repoTester.serializeDmo(dmo6);

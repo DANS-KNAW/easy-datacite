@@ -573,8 +573,8 @@ public class DatastreamManager
     {
         final String formatUri = version.getFormatURI() == null ? null : version.getFormatURI().toString();
 
-        return modifyDatastreamByReference(sid, version.getVersionId(), version.getAltIdArray(), version.getLabel(), version.getMimeType(), formatUri, version
-                .getDsLocation(), version.getChecksumType(), version.getContentDigest(), logMessage, force);
+        return modifyDatastreamByReference(sid, version.getVersionId(), version.getAltIdArray(), version.getLabel(), version.getMimeType(), formatUri,
+                version.getDsLocation(), version.getChecksumType(), version.getContentDigest(), logMessage, force);
     }
 
     /**

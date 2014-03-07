@@ -30,8 +30,9 @@ public interface DataModelObject extends StorableObject
     DmoNamespace getDmoNamespace();
 
     /**
-     * Get the {@link DmoStoreId} of this DataModelObject or <code>null</code>
-     * if this DataModelObject has no storeId.
+     * Get the {@link DmoStoreId} of this DataModelObject or <code>null</code> if this DataModelObject
+     * has no storeId.
+     * 
      * @return the DmoStoreId or <code>null</code>
      */
     DmoStoreId getDmoStoreId();

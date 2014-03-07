@@ -90,13 +90,13 @@ public interface DmoCollections
     XMLErrorHandler validateXml(URL xmlTreeUrl) throws ValidatorException;
 
     /**
-     * Filter the given list for OAI end nodes. A DmoCollection is an OAI end node if it is published
-     * as OAI set and none of its descendant id's are in the given set of <code>memeberIds</code>.
+     * Filter the given list for OAI end nodes. A DmoCollection is an OAI end node if it is published as
+     * OAI set and none of its descendant id's are in the given set of <code>memeberIds</code>.
      * 
      * @param memberIds
      *        set of DmoStoreIds
-     * @return set of DmoStoreIds of collections that are published as OAI set and are end nodes
-     *         relative to the given set of <code>memberIds</code>.
+     * @return set of DmoStoreIds of collections that are published as OAI set and are end nodes relative
+     *         to the given set of <code>memberIds</code>.
      * @throws NoSuchCollectionException
      * @throws CollectionsException
      */

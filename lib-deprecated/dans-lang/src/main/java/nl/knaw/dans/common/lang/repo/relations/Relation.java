@@ -23,12 +23,9 @@ import java.io.Serializable;
  */
 
 /**
- * This class was gotten from the Fedora 3.2.1 source.
- * 
- * A data structure for holding relationships.
- * 
- * AND YOU SHOULD NOT GET CODE OR WRITE CODE WITHOUT TESTING IT THOROUGHLY.
- * ESPECIALLY THE EQUALS AND HASHCODE METHODS! (HB)
+ * This class was gotten from the Fedora 3.2.1 source. A data structure for holding relationships. AND
+ * YOU SHOULD NOT GET CODE OR WRITE CODE WITHOUT TESTING IT THOROUGHLY. ESPECIALLY THE EQUALS AND
+ * HASHCODE METHODS! (HB)
  * 
  * @author Robert Haschart
  */

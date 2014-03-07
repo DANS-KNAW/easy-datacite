@@ -25,7 +25,7 @@ public interface Person extends Serializable
 
     /**
      * Setter for surname.
-     *
+     * 
      * @param surname
      *        lastname
      */
@@ -33,39 +33,37 @@ public interface Person extends Serializable
 
     /**
      * Get surname.
-     *
+     * 
      * @return lastname
      */
     String getSurname();
 
     /**
-     * Gets the common name of this Person. Returns the concatenation:
-     * <br/>
+     * Gets the common name of this Person. Returns the concatenation: <br/>
      * [surname, ][title ][initials ][prefixes] > Bruggen, Dr. Ir. PHT van
-     *
+     * 
      * @return commonName
      */
     String getCommonName();
 
     /**
-     * Gets the displayname of this Person. Returns the concatenation:
-     * <br/>
+     * Gets the displayname of this Person. Returns the concatenation: <br/>
      * [firstname ][prefixes ][surname] > Peter van Bruggen
-     *
+     * 
      * @return name displayed in views
      */
     String getDisplayName();
 
     /**
      * Getter for e-mail (mail).
-     *
+     * 
      * @return the email
      */
     String getEmail();
 
     /**
      * Setter for e-mail (mail).
-     *
+     * 
      * @param email
      *        the email to set
      */

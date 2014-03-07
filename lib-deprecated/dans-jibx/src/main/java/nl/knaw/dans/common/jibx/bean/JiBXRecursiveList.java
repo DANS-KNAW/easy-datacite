@@ -28,7 +28,8 @@ public class JiBXRecursiveList extends AbstractJiBXObject<JiBXRecursiveList> imp
         this.listId = listId;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see nl.knaw.dans.common.jibx.bean.RecursiveList#getListId()
      */
     @Override
@@ -37,7 +38,8 @@ public class JiBXRecursiveList extends AbstractJiBXObject<JiBXRecursiveList> imp
         return listId;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see nl.knaw.dans.common.jibx.bean.RecursiveList#setListId(java.lang.String)
      */
     @Override
@@ -46,7 +48,8 @@ public class JiBXRecursiveList extends AbstractJiBXObject<JiBXRecursiveList> imp
         this.listId = listId;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see nl.knaw.dans.common.jibx.bean.RecursiveList#getChildren()
      */
     @Override
@@ -55,7 +58,8 @@ public class JiBXRecursiveList extends AbstractJiBXObject<JiBXRecursiveList> imp
         return recursiveEntries;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see nl.knaw.dans.common.jibx.bean.RecursiveList#setChildren(java.util.List)
      */
     @Override
@@ -64,8 +68,10 @@ public class JiBXRecursiveList extends AbstractJiBXObject<JiBXRecursiveList> imp
         this.recursiveEntries = recursiveEntries;
     }
 
-    /* (non-Javadoc)
-     * @see nl.knaw.dans.common.jibx.bean.RecursiveList#add(nl.knaw.dans.common.jibx.bean.JiBXRecursiveEntry)
+    /*
+     * (non-Javadoc)
+     * @see
+     * nl.knaw.dans.common.jibx.bean.RecursiveList#add(nl.knaw.dans.common.jibx.bean.JiBXRecursiveEntry)
      */
     @Override
     public void add(RecursiveEntry re)

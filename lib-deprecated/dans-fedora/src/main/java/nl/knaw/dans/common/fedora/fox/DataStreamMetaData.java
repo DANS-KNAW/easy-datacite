@@ -32,7 +32,8 @@ public class DataStreamMetaData implements UnitMetadata
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see nl.knaw.dans.common.fedora.fox.UnitMetaData#getCreationDate()
      */
     public DateTime getCreationDate()
@@ -40,7 +41,8 @@ public class DataStreamMetaData implements UnitMetadata
         return creationDate;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see nl.knaw.dans.common.fedora.fox.UnitMetaData#getId()
      */
     public String getId()
@@ -48,7 +50,8 @@ public class DataStreamMetaData implements UnitMetadata
         return id;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see nl.knaw.dans.common.fedora.fox.UnitMetaData#getVersionId()
      */
     public String getVersionId()
@@ -56,7 +59,8 @@ public class DataStreamMetaData implements UnitMetadata
         return versionId;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see nl.knaw.dans.common.fedora.fox.UnitMetaData#getSize()
      */
     public long getSize()
@@ -64,7 +68,8 @@ public class DataStreamMetaData implements UnitMetadata
         return size;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see nl.knaw.dans.common.fedora.fox.UnitMetaData#getLabel()
      */
     public String getLabel()
@@ -72,7 +77,8 @@ public class DataStreamMetaData implements UnitMetadata
         return label;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see nl.knaw.dans.common.fedora.fox.UnitMetaData#getMimeType()
      */
     public String getMimeType()
@@ -80,7 +86,8 @@ public class DataStreamMetaData implements UnitMetadata
         return mimeType;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see nl.knaw.dans.common.fedora.fox.UnitMetaData#getLocation()
      */
     public String getLocation()

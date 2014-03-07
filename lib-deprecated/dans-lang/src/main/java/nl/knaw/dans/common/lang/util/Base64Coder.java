@@ -5,8 +5,8 @@ package nl.knaw.dans.common.lang.util;
  * <p>
  * This class is used to encode and decode data in Base64 format as described in RFC 1521.
  * <p>
- * This is "Open Source" software and released under the <a href="http://www.gnu.org/licenses/lgpl.html">GNU/LGPL</a>
- * license.<br>
+ * This is "Open Source" software and released under the <a
+ * href="http://www.gnu.org/licenses/lgpl.html">GNU/LGPL</a> license.<br>
  * It is provided "as is" without warranty of any kind.<br>
  * Copyright 2003: Christian d'Heureuse, Inventec Informatik AG, Switzerland.<br>
  * Home page: <a href="http://www.source-code.biz">www.source-code.biz</a><br>
@@ -169,7 +169,8 @@ public class Base64Coder
     }
 
     /**
-     * Decodes a byte array from Base64 format. No blanks or line breaks are allowed within the Base64 encoded data.
+     * Decodes a byte array from Base64 format. No blanks or line breaks are allowed within the Base64
+     * encoded data.
      * 
      * @param in
      *        a character array containing the Base64 encoded data.

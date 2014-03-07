@@ -53,7 +53,7 @@ public class RepoTester
     public DataModelObject retrieve(DmoStoreId dmoStoreId, Class dmoClass) throws ObjectNotInStoreException, ObjectDeserializationException,
             RepositoryException
     {
-        DataModelObject dmo = new DummyDmo(null); //getDmoStore().createDmo(dmoClass);
+        DataModelObject dmo = new DummyDmo(null); // getDmoStore().createDmo(dmoClass);
         if (dmoStoreId != null)
             dmo.setStoreId(dmoStoreId.getStoreId());
 
@@ -64,7 +64,7 @@ public class RepoTester
         assertTrue(result.isLoaded());
         assertEquals(getDmoStore(), result.getStore());
         // implementation has changed
-        //assertFalse(result.isInvalidated());
+        // assertFalse(result.isInvalidated());
 
         return result;
     }

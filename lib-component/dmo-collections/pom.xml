@@ -3,10 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>nl.knaw.dans.platform.components</groupId>
-		<artifactId>components-build</artifactId>
-		<version>2.0</version>
-		<relativePath>../components-build/pom.xml</relativePath>
+		<groupId>nl.knaw.dans.easy</groupId>
+		<artifactId>easy-prototype</artifactId>
+		<version>2.9-SNAPSHOT</version>
+		<relativePath>../../lib/easy-prototype</relativePath>
 	</parent>
 
 	<artifactId>dmo-collections</artifactId>
@@ -14,39 +14,34 @@
 
 	<name>DMO Collections</name>
 	
-	<properties>
-		<jibx.version>1.2.4.5</jibx.version>
-	</properties>
-
 	<dependencies>
 
 		<dependency>
-			<groupId>nl.knaw.dans.platform.deprecated</groupId>
+			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>dans-jibx</artifactId>
-			<version>1.0</version>
+			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
-			<groupId>nl.knaw.dans.platform.interfaces</groupId>
+			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>idmo-collections</artifactId>
-			<version>1.0</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>nl.knaw.dans.platform.interfaces</groupId>
+			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>isecurity</artifactId>
-			<version>1.0</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>nl.knaw.dans.platform.interfaces</groupId>
+			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>istore</artifactId>
-			<version>1.0</version>
+			<version>${project.version}</version>
 		</dependency>
 
 		<!-- ASPECTJ -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
-			<version>1.6.11</version>
 		</dependency>
 
 	</dependencies>
@@ -56,7 +51,6 @@
 			<plugin>
 				<groupId>org.jibx</groupId>
 				<artifactId>maven-jibx-plugin</artifactId>
-				<version>${jibx.version}</version>
 				<executions>
 					<execution>
 						<goals>
@@ -76,21 +70,6 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>aspectj-maven-plugin</artifactId>
-				<version>1.4</version>
-				<configuration>
-					<verbose>true</verbose>
-					<source>${source-code-version}</source>
-					<target>${byte-code-version}</target>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>compile</goal>
-							<goal>test-compile</goal>
-						</goals>
-					</execution>
-				</executions>
-
 			</plugin>
 		</plugins>
 

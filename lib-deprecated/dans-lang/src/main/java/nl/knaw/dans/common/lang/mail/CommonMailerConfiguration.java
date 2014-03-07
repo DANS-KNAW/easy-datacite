@@ -11,9 +11,8 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Configuration of a {@link Mailer} instance.
- *
+ * 
  * @author joke
- *
  */
 public abstract class CommonMailerConfiguration implements MailerConfiguration
 {
@@ -30,11 +29,13 @@ public abstract class CommonMailerConfiguration implements MailerConfiguration
 
     /**
      * Creates a customized instance.
-     *
-     * @param input The customized configuration values.
-     * @throws IOException IOException If an error occurred when reading from the input stream.
-     * @throws IllegalArgumentException If the input stream contains a malformed UniCode escape
-     *             sequence.
+     * 
+     * @param input
+     *        The customized configuration values.
+     * @throws IOException
+     *         IOException If an error occurred when reading from the input stream.
+     * @throws IllegalArgumentException
+     *         If the input stream contains a malformed UniCode escape sequence.
      */
     public CommonMailerConfiguration(final InputStream inputStream) throws IOException
     {

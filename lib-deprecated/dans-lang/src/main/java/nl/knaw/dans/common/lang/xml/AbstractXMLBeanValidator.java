@@ -6,8 +6,9 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 
 /**
- * Abstract XMLValidator for XMLBeans and their serialized manifestations. Implementations of this abstract class should
- * present themselves as Singleton in order to make economic use of resources (the internal versionMap is not static!).
+ * Abstract XMLValidator for XMLBeans and their serialized manifestations. Implementations of this
+ * abstract class should present themselves as Singleton in order to make economic use of resources (the
+ * internal versionMap is not static!).
  * 
  * @author ecco Apr 8, 2009
  * @param <T>

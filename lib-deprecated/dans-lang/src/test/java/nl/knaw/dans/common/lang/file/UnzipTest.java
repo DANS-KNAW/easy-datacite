@@ -16,12 +16,13 @@ import nl.knaw.dans.common.lang.util.FileUtil;
 
 /**
  * Tests unzipping class by unzipping files and comparing them with preunzipped directories
+ * 
  * @author lobo
  */
 public class UnzipTest
 {
 
-    //private static final Logger logger = LoggerFactory.getLogger(UnzipTest.class);
+    // private static final Logger logger = LoggerFactory.getLogger(UnzipTest.class);
 
     private boolean filesEqual(File file1, File file2)
     {
@@ -76,23 +77,23 @@ public class UnzipTest
         return files.length;
     }
 
-    //	private void listFiles(File path)
-    //	{
-    //	    File[] files = path.listFiles(new FilenameFilter()
-    //	    {
+    // private void listFiles(File path)
+    // {
+    // File[] files = path.listFiles(new FilenameFilter()
+    // {
     //
-    //            public boolean accept(File dir, String name)
-    //            {
-    //                return !name.equals(".svn") && !name.equals(".DS_Store");
-    //            }
+    // public boolean accept(File dir, String name)
+    // {
+    // return !name.equals(".svn") && !name.equals(".DS_Store");
+    // }
     //
-    //	    });
-    //	    System.out.println(path.getAbsolutePath());
-    //	    for (File file : files)
-    //	    {
-    //	        System.out.println(file.getName());
-    //	    }
-    //	}
+    // });
+    // System.out.println(path.getAbsolutePath());
+    // for (File file : files)
+    // {
+    // System.out.println(file.getName());
+    // }
+    // }
 
     private boolean directoriesEqual(File dir1, File dir2)
     {

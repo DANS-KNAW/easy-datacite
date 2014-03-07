@@ -9,12 +9,12 @@ public class ValidClass implements IB
     {
 
     }
-    
+
     @SecuredOperation(id = "nl.knaw.dans.i.security.annotations.IA.iASecuredOperation")
     @Override
     public void iASecuredOperation(String s)
     {
-        
+
     }
 
     @Override

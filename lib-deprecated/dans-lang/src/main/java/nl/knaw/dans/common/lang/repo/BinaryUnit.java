@@ -33,7 +33,7 @@ public interface BinaryUnit extends Unit
      * Set the given byte array as inline content. Careful! Only works on ingest! Not on update.
      * 
      * @param bytes
-     *        the byte array to be stored as managed content  
+     *        the byte array to be stored as managed content
      * @param label
      *        the label for the unit
      * @param mimeType

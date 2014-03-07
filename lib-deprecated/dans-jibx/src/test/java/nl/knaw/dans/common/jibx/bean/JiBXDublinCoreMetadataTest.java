@@ -45,7 +45,7 @@ public class JiBXDublinCoreMetadataTest
     public void serializeDeserializeFull() throws XMLException
     {
         DublinCoreMetadata dc = createFull();
-        //if (verbose)
+        // if (verbose)
         logger.debug("\n" + dc.asXMLString(4) + "\n");
 
         DublinCoreMetadata dc2 = (DublinCoreMetadata) JiBXObjectFactory.unmarshal(JiBXDublinCoreMetadata.class, dc.asObjectXML());
@@ -110,7 +110,7 @@ public class JiBXDublinCoreMetadataTest
     public void deserializeFromFile() throws XMLException, SAXException, SchemaCreationException, ResourceNotFoundException
     {
         DublinCoreMetadata dc = (DublinCoreMetadata) JiBXObjectFactory.unmarshal(JiBXDublinCoreMetadata.class, Tester.getFile("test-files/bean/oai_dc.xml"));
-        //assertTrue(DublinCoreMetadataValidator.instance().validate(dc).passed());
+        // assertTrue(DublinCoreMetadataValidator.instance().validate(dc).passed());
         if (verbose)
             logger.debug("\n" + dc.asXMLString(4) + "\n");
     }
@@ -118,9 +118,9 @@ public class JiBXDublinCoreMetadataTest
     @Test
     public void deserializeFromValidFile() throws XMLException, SAXException, SchemaCreationException, ResourceNotFoundException
     {
-        DublinCoreMetadata dc = (DublinCoreMetadata) JiBXObjectFactory.unmarshal(JiBXDublinCoreMetadata.class, Tester
-                .getFile("test-files/bean/valid_oai_dc.xml"));
-        //assertTrue(DublinCoreMetadataValidator.instance().validate(dc).passed());
+        DublinCoreMetadata dc = (DublinCoreMetadata) JiBXObjectFactory.unmarshal(JiBXDublinCoreMetadata.class,
+                Tester.getFile("test-files/bean/valid_oai_dc.xml"));
+        // assertTrue(DublinCoreMetadataValidator.instance().validate(dc).passed());
         if (verbose)
             logger.debug("\n" + dc.asXMLString(4) + "\n");
 

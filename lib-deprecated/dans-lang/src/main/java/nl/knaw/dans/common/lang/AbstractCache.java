@@ -14,9 +14,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Locale sensitive cache for temporary in-memory storage of objects. Once an object (<code>V</code>) is stored under
- * key (<code>K</code> ), it is kept in cache for at least <code>maxAge</code>. Each time the object is drawn from
- * cache, it's age is reset.
+ * Locale sensitive cache for temporary in-memory storage of objects. Once an object (<code>V</code>) is
+ * stored under key (<code>K</code> ), it is kept in cache for at least <code>maxAge</code>. Each time
+ * the object is drawn from cache, it's age is reset.
  * <p/>
  * Cache cleaning takes place at fixed intervals, know as <code>probeInterval</code>.
  * <p/>
@@ -98,8 +98,8 @@ public abstract class AbstractCache<K, V>
     }
 
     /**
-     * Cancel the {@link Timer} associated with this AbstractCache. In general, caches that live shorter than the live
-     * time of the application should call this method at the end of their live cycle.
+     * Cancel the {@link Timer} associated with this AbstractCache. In general, caches that live shorter
+     * than the live time of the application should call this method at the end of their live cycle.
      */
     public void destroy()
     {
@@ -156,8 +156,8 @@ public abstract class AbstractCache<K, V>
     }
 
     /**
-     * Subclasses are asked to provide the object for given key (if it was not available yet). Only if the returned
-     * object is not null, the object is stored in cache.
+     * Subclasses are asked to provide the object for given key (if it was not available yet). Only if
+     * the returned object is not null, the object is stored in cache.
      * 
      * @param key
      *        key for cached object
@@ -263,7 +263,8 @@ public abstract class AbstractCache<K, V>
             final long probeTime = System.currentTimeMillis() - maxAge;
             synchronized (cache)
             {
-                //LOGGER.debug("Start. Clean cache for " + cacheName + ". Size before = " + cache.size());
+                // LOGGER.debug("Start. Clean cache for " + cacheName + ". Size before = " +
+                // cache.size());
                 for (final String cacheKey : cache.keySet())
                 {
                     if (cache.get(cacheKey).isExpired(probeTime))
@@ -276,7 +277,8 @@ public abstract class AbstractCache<K, V>
                 {
                     cache.remove(expired);
                 }
-                //LOGGER.debug("Done. Cleaned cache for " + cacheName + ". Size after = " + cache.size());
+                // LOGGER.debug("Done. Cleaned cache for " + cacheName + ". Size after = " +
+                // cache.size());
             }
         }
 

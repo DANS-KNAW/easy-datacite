@@ -72,7 +72,7 @@ public class MailComposerTest
         InputStream inStream = new FileInputStream("src/test/resources/test-files/mail/test-mail_02.txt");
         String message = composer.compose(inStream);
         assertEquals("something ought to be done.\n\nAnd there is another thing: 42 > 6.\n\nAnd that's true!\n\ngreetings", message);
-        //System.out.println(message);
+        // System.out.println(message);
     }
 
     static class TestObject

@@ -74,11 +74,10 @@ public abstract class AbstractBinaryUnit implements BinaryUnit
     }
 
     /**
-     * <b>WARNING:</b> binary content can only be part of a datastream when it is part of a new digital object.
-     * Fedora allows ingesting foxml with datastreams with inline binary content. It stores the binary content
-     * as files. Updating inline binary content cannot be done using any method of the Fedora DatastreamManager.
-     * 
-     * Use {@link #setFileContent(byte[], String, String)} instead.
+     * <b>WARNING:</b> binary content can only be part of a datastream when it is part of a new digital
+     * object. Fedora allows ingesting foxml with datastreams with inline binary content. It stores the
+     * binary content as files. Updating inline binary content cannot be done using any method of the
+     * Fedora DatastreamManager. Use {@link #setFileContent(byte[], String, String)} instead.
      */
     @Override
     public void setBinaryContent(byte[] bytes, String label, String mimeType)

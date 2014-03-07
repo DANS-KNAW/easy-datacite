@@ -5,7 +5,7 @@ package nl.knaw.dans.common.lang.service.exceptions;
 
 /**
  * A not recoverable exception from the service layer.
- *
+ * 
  * @author Herman Suijs
  */
 public class ServiceException extends Exception
@@ -17,8 +17,9 @@ public class ServiceException extends Exception
 
     /**
      * Constructor with message.
-     *
-     * @param message Message with the exception
+     * 
+     * @param message
+     *        Message with the exception
      */
     public ServiceException(final String message)
     {
@@ -27,9 +28,11 @@ public class ServiceException extends Exception
 
     /**
      * Constructor with message and cause.
-     *
-     * @param message Message with the exception
-     * @param cause Cause of the exception
+     * 
+     * @param message
+     *        Message with the exception
+     * @param cause
+     *        Cause of the exception
      */
     public ServiceException(final String message, final Throwable cause)
     {

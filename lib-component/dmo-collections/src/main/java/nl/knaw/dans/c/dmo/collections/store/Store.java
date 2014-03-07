@@ -8,12 +8,11 @@ import nl.knaw.dans.i.store.StoreSession;
 
 public abstract class Store
 {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(Store.class);
-    
-    
+
     private static StoreManager storeManager;
-    
+
     public static StoreManager getStoreManager()
     {
         if (storeManager == null)
@@ -22,21 +21,21 @@ public abstract class Store
         }
         return storeManager;
     }
-    
+
     public static StoreSession newStoreSession(String ownerId)
     {
         return getStoreManager().newStoreSession(ownerId);
     }
-    
+
     public static void register(StoreManager storeManager)
     {
         Store.storeManager = storeManager;
         logger.info("Registered storeManager: " + storeManager.getClass().getName());
     }
-    
+
     public static class Registrator
     {
-        
+
         public void setStoreManager(StoreManager storeManager)
         {
             Store.register(storeManager);

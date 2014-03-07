@@ -21,7 +21,7 @@ public class ClassWithMissingAnnotationWithSameId implements IA, IB
     {
 
     }
-    
+
     @SecuredOperation(id = "nl.knaw.dans.i.security.annotations.IB.iBSecuredOperation")
     @Override
     public void iBSecuredOperation()
@@ -34,6 +34,5 @@ public class ClassWithMissingAnnotationWithSameId implements IA, IB
     {
 
     }
-
 
 }

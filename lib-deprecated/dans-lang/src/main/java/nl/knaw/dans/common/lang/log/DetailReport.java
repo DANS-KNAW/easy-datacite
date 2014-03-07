@@ -141,7 +141,7 @@ public class DetailReport implements Report
         {
             StringBuilder sb = new StringBuilder();
             sb //
-                    .append(event.getLevel()).append(SPACE) //
+            .append(event.getLevel()).append(SPACE) //
                     .append(event.getDate().toString("yyyy-MM-dd HH:mm:ss.SSS")).append(SPACE) //
                     .append(event.getEventName()).append(NL) //
                     .append("From: ").append(event.getSourceLink()).append(NL); //

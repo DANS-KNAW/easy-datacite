@@ -16,7 +16,7 @@ import java.io.OutputStream;
 
 /**
  * Provides utility methods for input and output streams.
- *
+ * 
  * @author Richard Wan
  */
 
@@ -25,34 +25,35 @@ import java.io.OutputStream;
 
 public abstract class StreamUtil
 {
-    //--------------------------------------------------------------------------
-    //   Constants:
-    //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Constants:
+    // --------------------------------------------------------------------------
 
     /**
      * Default value is 2048.
      */
     public static final int DEFAULT_BUFFER_SIZE = 2048;
 
-    //--------------------------------------------------------------------------
-    //   Protected Variables:
-    //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Protected Variables:
+    // --------------------------------------------------------------------------
 
-    //--------------------------------------------------------------------------
-    //   Private Variables:
-    //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Private Variables:
+    // --------------------------------------------------------------------------
 
-    //--------------------------------------------------------------------------
-    //   Constructors:
-    //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Constructors:
+    // --------------------------------------------------------------------------
 
-    //--------------------------------------------------------------------------
-    //   Public Methods:
-    //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Public Methods:
+    // --------------------------------------------------------------------------
 
     /**
-     * Copies information from the input stream to the output stream using
-     * a default buffer size of 2048 bytes.
+     * Copies information from the input stream to the output stream using a default buffer size of 2048
+     * bytes.
+     * 
      * @throws java.io.IOException
      */
     public static void copy(InputStream input, OutputStream output) throws IOException
@@ -61,8 +62,8 @@ public abstract class StreamUtil
     }
 
     /**
-     * Copies information from the input stream to the output stream using
-     * the specified buffer size
+     * Copies information from the input stream to the output stream using the specified buffer size
+     * 
      * @throws java.io.IOException
      */
     public static void copy(InputStream input, OutputStream output, int bufferSize) throws IOException
@@ -78,8 +79,8 @@ public abstract class StreamUtil
     }
 
     /**
-     * Copies information between specified streams and then closes
-     * both of the streams.
+     * Copies information between specified streams and then closes both of the streams.
+     * 
      * @throws java.io.IOException
      */
     public static void copyThenClose(InputStream input, OutputStream output) throws IOException
@@ -90,8 +91,7 @@ public abstract class StreamUtil
     }
 
     /**
-     * @returns a byte[] containing the information contained in the
-     * specified InputStream.
+     * @returns a byte[] containing the information contained in the specified InputStream.
      * @throws java.io.IOException
      */
     public static byte[] getBytes(InputStream input) throws IOException
@@ -102,16 +102,16 @@ public abstract class StreamUtil
         return result.toByteArray();
     }
 
-    //--------------------------------------------------------------------------
-    //   Protected Methods:
-    //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Protected Methods:
+    // --------------------------------------------------------------------------
 
-    //--------------------------------------------------------------------------
-    //   Private Methods:
-    //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Private Methods:
+    // --------------------------------------------------------------------------
 
-    //--------------------------------------------------------------------------
-    //   Nested Top-Level Classes or Interfaces
-    //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // Nested Top-Level Classes or Interfaces
+    // --------------------------------------------------------------------------
 
 }

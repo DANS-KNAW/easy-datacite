@@ -33,10 +33,10 @@ public abstract class AbstractDmoCollectionMember extends AbstractDataModelObjec
     }
 
     /**
-     * Checks if the relation between this object and the member object is possible. It throws
-     * an exception is not.
+     * Checks if the relation between this object and the member object is possible. It throws an
+     * exception is not.
      */
-    @SuppressWarnings( {"rawtypes"})
+    @SuppressWarnings({"rawtypes"})
     protected void checkDmoClassCompatible(Class memberClass) throws ObjectIsNotPartOfCollection
     {
         Set<DmoCollection> collections = getCollections();

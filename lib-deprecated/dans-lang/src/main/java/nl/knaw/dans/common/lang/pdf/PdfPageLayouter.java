@@ -67,17 +67,20 @@ public class PdfPageLayouter extends PdfPageEventHelper
 
     /**
      * Usage example
-     *
+     * 
      * <pre>
-     *   final Document document = new Document();
-     *   final PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("doc.pdf"));
-     *   writer.setPageEvent(new PdfPageLayouter(document,"footer", new URL("logo.png")));
+     * final Document document = new Document();
+     * final PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(&quot;doc.pdf&quot;));
+     * writer.setPageEvent(new PdfPageLayouter(document, &quot;footer&quot;, new URL(&quot;logo.png&quot;)));
      * </pre>
-     *
+     * 
      * @param document
-     * @param footerText optional text above the page number in the footer of the page
-     * @param headerImage optional image for the page header
-     * @throws HeaderImageException in case of problems with the image
+     * @param footerText
+     *        optional text above the page number in the footer of the page
+     * @param headerImage
+     *        optional image for the page header
+     * @throws HeaderImageException
+     *         in case of problems with the image
      */
     public PdfPageLayouter(final Document document, final String footerText, final URL headerImage) throws HeaderImageException
     {

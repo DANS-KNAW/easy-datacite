@@ -2,8 +2,8 @@ package nl.knaw.dans.common.lang;
 
 /**
  * Signals an exception due to programming errors or invalid configuration.
+ * 
  * @author ecco May 4, 2010
- *
  */
 public class ApplicationException extends RuntimeException
 {

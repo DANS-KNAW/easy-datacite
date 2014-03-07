@@ -59,11 +59,11 @@ public class CommonMailer implements Mailer
 
     /**
      * Creates an instance with a customized configuration.
-     *
+     * 
      * @param configuration
-     * @throws Mailer.MailerException in case of problems creating an address from
-     *             {@link MailerConfiguration#getSmtpUserName()} and
-     *             {@link MailerConfiguration#getSmtpPassword()}
+     * @throws Mailer.MailerException
+     *         in case of problems creating an address from {@link MailerConfiguration#getSmtpUserName()}
+     *         and {@link MailerConfiguration#getSmtpPassword()}
      */
     public CommonMailer(final MailerConfiguration configuration) throws MailerException
     {
@@ -91,7 +91,7 @@ public class CommonMailer implements Mailer
 
     /**
      * To be overridden in JUnit tests to prevent flooding mail boxes by nightly builds.
-     *
+     * 
      * @return false The default value for the test flag.
      */
     boolean skipSend()
@@ -101,9 +101,8 @@ public class CommonMailer implements Mailer
 
     /*
      * (non-Javadoc)
-     *
      * @see nl.knaw.dans.common.lang.mail.Mailer#sendSimpleMail(java.lang.String, java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
     public final void sendSimpleMail(final String subject, final String textContent, final String... receivers) throws MailerException
     {
@@ -118,9 +117,8 @@ public class CommonMailer implements Mailer
 
     /*
      * (non-Javadoc)
-     *
      * @see nl.knaw.dans.common.lang.mail.Mailer#sendSimpleAttachments(java.lang.String,
-     *      java.lang.String, nl.knaw.dans.common.lang.mail.Attachement[], java.lang.String)
+     * java.lang.String, nl.knaw.dans.common.lang.mail.Attachement[], java.lang.String)
      */
     public final void sendSimpleMail(final String subject, final String textContent, final Attachement[] attachments, final String... receivers)
             throws MailerException
@@ -130,9 +128,8 @@ public class CommonMailer implements Mailer
 
     /*
      * (non-Javadoc)
-     *
      * @see nl.knaw.dans.common.lang.mail.Mailer#sendHtml(java.lang.String, java.lang.String,
-     *      java.lang.String, java.lang.String)
+     * java.lang.String, java.lang.String)
      */
     public void sendMail(final String subject, final String textContent, final String htmlContent, final String... receivers) throws MailerException
     {
@@ -141,9 +138,8 @@ public class CommonMailer implements Mailer
 
     /*
      * (non-Javadoc)
-     *
      * @see nl.knaw.dans.common.lang.mail.Mailer#sendMail(java.lang.String, java.lang.String,
-     *      java.lang.String, nl.knaw.dans.common.lang.mail.Attachement[], java.lang.String)
+     * java.lang.String, nl.knaw.dans.common.lang.mail.Attachement[], java.lang.String)
      */
     public final void sendMail(final String subject, final String textContent, final String htmlContent, final Attachement[] attachments,
             final String... receivers) throws Mailer.MailerException

@@ -10,7 +10,7 @@ public class ObjectSerializationException extends ConverterException
 
     private static final long serialVersionUID = -2486810834396468739L;
 
-    // CHECKSTYLE: OFF 
+    // CHECKSTYLE: OFF
     public ObjectSerializationException()
     {
     }

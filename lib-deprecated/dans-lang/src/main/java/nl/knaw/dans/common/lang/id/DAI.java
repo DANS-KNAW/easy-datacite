@@ -7,9 +7,7 @@ import java.net.URI;
  * 
  * @see http://en.wikipedia.org/wiki/MSI_Barcode#Mod_11_Check_Digit
  * @see http://wiki.surf.nl/display/standards/DAI#DAI-Syntax
- * 
  * @author henkb
- *
  */
 public class DAI
 {
@@ -101,10 +99,13 @@ public class DAI
     }
 
     /**
-     * Digests a message and returns the mod 11 checksum character for the given mode.
-     * DAI uses {@value #MAX_NCR}.
-     * @param message message to digest
-     * @param modeMax either {@link #MAX_IBM} or {@link #MAX_NCR}
+     * Digests a message and returns the mod 11 checksum character for the given mode. DAI uses
+     * {@value #MAX_NCR}.
+     * 
+     * @param message
+     *        message to digest
+     * @param modeMax
+     *        either {@link #MAX_IBM} or {@link #MAX_NCR}
      * @return checksum
      */
     protected static char digest(String message, int modeMax)

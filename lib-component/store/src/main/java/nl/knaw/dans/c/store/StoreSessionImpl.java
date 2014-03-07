@@ -9,9 +9,9 @@ import nl.knaw.dans.i.store.StoreSession;
 
 public class StoreSessionImpl implements StoreSession
 {
-    
+
     private final UnitOfWorkAdapter uowa;
-    
+
     public StoreSessionImpl(String ownerId)
     {
         uowa = new UnitOfWorkAdapter(ownerId);

@@ -17,22 +17,23 @@ public class ZipUtil
     private static final Logger logger = LoggerFactory.getLogger(ZipUtil.class);
 
     /**
-     * Zip the given collection of <code>zipItems</code> to the file <code>zipFile</code>. The members of the collection
-     * <code>zipItems</code> can be of type {@link ZipItem} and {@link ZipFolderItem}.
+     * Zip the given collection of <code>zipItems</code> to the file <code>zipFile</code>. The members of
+     * the collection <code>zipItems</code> can be of type {@link ZipItem} and {@link ZipFolderItem}.
      * <p/>
-     * A ZipFileItem has a 'path' denoting the file name and -optional- the file path within the created zip file. Like
-     * so:
+     * A ZipFileItem has a 'path' denoting the file name and -optional- the file path within the created
+     * zip file. Like so:
      * 
      * <pre>
      *    &quot;myFile.txt&quot;
      *    &quot;foo/bar/myFile.txt&quot;
      * </pre>
      * 
-     * Above that, it must have an InputStream that will be written to the zipFile. After usage, the InputStream will be
-     * closed by this method.
+     * Above that, it must have an InputStream that will be written to the zipFile. After usage, the
+     * InputStream will be closed by this method.
      * <p/>
-     * A ZipFolderItem has a 'path' denoting the folder path. Mind that the last character in the 'path' should be a
-     * forward slash (/), otherwise the last part of the path will be zipped as a (empty) file.
+     * A ZipFolderItem has a 'path' denoting the folder path. Mind that the last character in the 'path'
+     * should be a forward slash (/), otherwise the last part of the path will be zipped as a (empty)
+     * file.
      * 
      * <pre>
      *    &quot;myEmptyFolder/&quot;
@@ -45,8 +46,8 @@ public class ZipUtil
      *        a collection of ZipItems to be zipped.
      * @return the given zipFile
      * @throws IOException
-     *         if the zipFile or one of the internally created and handled streams could not be opened, read, written or
-     *         closed.
+     *         if the zipFile or one of the internally created and handled streams could not be opened,
+     *         read, written or closed.
      */
     public static File zipFiles(File zipFile, Collection<ZipItem> zipItems) throws IOException
     {

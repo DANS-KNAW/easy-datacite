@@ -10,7 +10,7 @@ import nl.knaw.dans.common.lang.user.User;
 
 /**
  * A Data Access Point providing access to the domain object {@link User}.
- *
+ * 
  * @author ecco
  */
 public interface UserRepo<T extends User> extends GenericRepo<T>
@@ -18,7 +18,7 @@ public interface UserRepo<T extends User> extends GenericRepo<T>
 
     /**
      * Authenticate with userId and password.
-     *
+     * 
      * @param userId
      *        username
      * @param password
@@ -31,7 +31,7 @@ public interface UserRepo<T extends User> extends GenericRepo<T>
 
     /**
      * Find users by email.
-     *
+     * 
      * @param emailAddress
      *        email
      * @return a list of users with the given email address
@@ -43,9 +43,9 @@ public interface UserRepo<T extends User> extends GenericRepo<T>
     Map<String, String> findByCommonNameStub(String stub, long maxCount) throws RepositoryException;
 
     /**
-     * Determine if there is a password stored for the user with the given uid. 
-     * Some users might not need a password stored in this user repository, 
-     * for instance when authenticated by an external system (federation). 
+     * Determine if there is a password stored for the user with the given uid. Some users might not need
+     * a password stored in this user repository, for instance when authenticated by an external system
+     * (federation).
      * 
      * @param userId
      *        username

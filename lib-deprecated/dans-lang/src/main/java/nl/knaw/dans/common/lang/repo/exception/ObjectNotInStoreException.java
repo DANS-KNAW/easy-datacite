@@ -10,7 +10,7 @@ public class ObjectNotInStoreException extends RemoteException
 
     private static final long serialVersionUID = -1248056836633940446L;
 
-    // CHECKSTYLE: OFF 
+    // CHECKSTYLE: OFF
     public ObjectNotInStoreException()
     {
     }

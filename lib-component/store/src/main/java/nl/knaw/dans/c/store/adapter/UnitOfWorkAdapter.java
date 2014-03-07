@@ -14,7 +14,7 @@ public class UnitOfWorkAdapter extends AbstractUnitOfWork
      * 
      */
     private static final long serialVersionUID = 1888942403902490046L;
-    
+
     public UnitOfWorkAdapter(String updateOwner)
     {
         super(updateOwner);
@@ -24,7 +24,7 @@ public class UnitOfWorkAdapter extends AbstractUnitOfWork
     {
         return Repository.getDmoStore();
     }
-    
+
     @Override
     public void attach(DataModelObject dmo) throws RepositoryException
     {
@@ -35,12 +35,12 @@ public class UnitOfWorkAdapter extends AbstractUnitOfWork
         }
         super.attach(dmo);
     }
-    
+
     public DataModelObject getDataModelObject(DmoStoreId dmoStoreId) throws RepositoryException
     {
         return super.retrieveObject(dmoStoreId);
     }
-    
+
     public DataModelObject saveAndDetach(DataModelObject dmo) throws RepositoryException
     {
         try
@@ -53,7 +53,7 @@ public class UnitOfWorkAdapter extends AbstractUnitOfWork
             throw new RepositoryException(e);
         }
     }
-    
+
     public void commit() throws RepositoryException
     {
         try

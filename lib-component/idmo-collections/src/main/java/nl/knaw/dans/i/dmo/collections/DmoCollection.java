@@ -20,7 +20,7 @@ public interface DmoCollection extends DataModelObject
     /**
      * Id of a DmoCollection that is the root of a collection tree.
      */
-    String ROOT_ID       = "root";
+    String ROOT_ID = "root";
 
     /**
      * Is this DmoCollection the root of a collection tree.

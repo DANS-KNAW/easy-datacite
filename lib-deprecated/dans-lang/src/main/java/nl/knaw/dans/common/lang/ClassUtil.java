@@ -35,11 +35,14 @@ public class ClassUtil
     }
 
     /**
-     * A runtime version of the instanceof keyword. Instanceof cannot check the right hand 
-     * for run time classes. This function can. 
-     * @param object the left hand object (as in the instanceof keyword)
-     * @param clazz the right hand class (as in the instanceof keyword) 
-     * @return true if object is an instance of the clazz 
+     * A runtime version of the instanceof keyword. Instanceof cannot check the right hand for run time
+     * classes. This function can.
+     * 
+     * @param object
+     *        the left hand object (as in the instanceof keyword)
+     * @param clazz
+     *        the right hand class (as in the instanceof keyword)
+     * @return true if object is an instance of the clazz
      */
     public static boolean instanceOf(Object object, Class<?> clazz)
     {
@@ -57,9 +60,12 @@ public class ClassUtil
     }
 
     /**
-     * Checks if a class or one of its super classes implements a certain interface. 
-     * @param clazz the class to check 
-     * @param interfaces the interfaces to search for
+     * Checks if a class or one of its super classes implements a certain interface.
+     * 
+     * @param clazz
+     *        the class to check
+     * @param interfaces
+     *        the interfaces to search for
      * @return true if clazz implements one of the interfaces
      */
     public static boolean classImplements(Class<?> clazz, Class<?>... interfaces)

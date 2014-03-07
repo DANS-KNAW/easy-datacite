@@ -20,7 +20,7 @@ public class FileUtilTest
     public void getMimeType() throws ResourceNotFoundException, IOException
     {
         File docFile = Tester.getFile("test-files/fileUtil/kubler.doc");
-        //File docFile = new File("src/test/resources/test-files/fileUtil/kubler.doc");
+        // File docFile = new File("src/test/resources/test-files/fileUtil/kubler.doc");
         String mimeType = FileUtil.getMimeType(docFile);
         assertEquals("application/vnd.ms-word", mimeType);
 

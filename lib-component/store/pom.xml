@@ -4,10 +4,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>nl.knaw.dans.platform.components</groupId>
-    <artifactId>components-build</artifactId>
-    <version>2.0</version>
-    <relativePath>../components-build/pom.xml</relativePath>
+    <groupId>nl.knaw.dans.easy</groupId>
+    <artifactId>easy-prototype</artifactId>
+    <version>2.9-SNAPSHOT</version>
+    <relativePath>../../lib/easy-prototype</relativePath>
   </parent>
 
   <artifactId>store</artifactId>
@@ -18,15 +18,15 @@
   <dependencies> 
   	
   	<dependency>
-  		<groupId>nl.knaw.dans.platform.deprecated</groupId>
+  		<groupId>nl.knaw.dans.easy</groupId>
   		<artifactId>dans-lang</artifactId>
-  		<version>1.0</version>
+  		<version>${project.version}</version>
   	</dependency>
   	
   	<dependency>
-  		<groupId>nl.knaw.dans.platform.interfaces</groupId>
+  		<groupId>nl.knaw.dans.easy</groupId>
   		<artifactId>istore</artifactId>
-  		<version>1.0.1.b</version>
+  		<version>${project.version}</version>
   	</dependency>
   </dependencies>
 </project>

@@ -19,7 +19,8 @@ public class SimpleSearchQuery implements SearchQuery
     }
 
     /**
-     * Puts an OR operator between the values.  
+     * Puts an OR operator between the values.
+     * 
      * @param values
      * @return
      */

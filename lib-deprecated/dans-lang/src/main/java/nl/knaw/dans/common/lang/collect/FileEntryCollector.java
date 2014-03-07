@@ -14,15 +14,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A Collector that reads entries from file(s). It can operate on a single file, a directory or a directory tree.
+ * A Collector that reads entries from file(s). It can operate on a single file, a directory or a
+ * directory tree.
  * <p/>
  * Read actions executed upon {@link #collect()}:
  * <ul>
  * <li>If the given file is a single file --> will read that file.</li>
- * <li>If the given file is a directory and this
- * FileEntryCollector is not recursive --> will read all the files in the given directory.</li>
- * <li>If the given file is a directory and this
- * FileEntryCollector is recursive --> will read all the files in the given directory and child directories.</li>
+ * <li>If the given file is a directory and this FileEntryCollector is not recursive --> will read all
+ * the files in the given directory.</li>
+ * <li>If the given file is a directory and this FileEntryCollector is recursive --> will read all the
+ * files in the given directory and child directories.</li>
  * </ul>
  */
 public class FileEntryCollector extends ProgressSubject implements Collector<List<String>>
@@ -46,7 +47,7 @@ public class FileEntryCollector extends ProgressSubject implements Collector<Lis
     }
 
     /**
-     * Constructor that takes a {@link File} as parameter. 
+     * Constructor that takes a {@link File} as parameter.
      * 
      * @param file
      *        abstract pathname for file or directory

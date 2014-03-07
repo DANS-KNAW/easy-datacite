@@ -15,20 +15,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A DmoStore listener that keep data model objects that also implement the
- * HasIndexableObjects interface synchronized with the search index. Thus
- * when the dmo gets ingested, updated or purged the search index is updated
- * accordingly.
- *
- * This event listeners acts only AFTER the dmo has been changed by the
- * store.
- *
- * Note: if this event listener throws an exception it is the task of the
- * receiver of the exception to make sure that at some point in the future
- * the search index and the store are fully synchronized again.
- *
+ * A DmoStore listener that keep data model objects that also implement the HasIndexableObjects interface
+ * synchronized with the search index. Thus when the dmo gets ingested, updated or purged the search
+ * index is updated accordingly. This event listeners acts only AFTER the dmo has been changed by the
+ * store. Note: if this event listener throws an exception it is the task of the receiver of the
+ * exception to make sure that at some point in the future the search index and the store are fully
+ * synchronized again.
+ * 
  * @author lobo
- *
  */
 public class RepoSearchListener implements DmoStoreEventListener
 {
@@ -54,12 +48,13 @@ public class RepoSearchListener implements DmoStoreEventListener
     }
 
     /**
-     * override this method to provide fine grained control over which 
-     * search bean goes to which search engine. Returning null is a 
-     * valid value, which means the search bean will not be indexed.
-     * @param searchBean the search bean that will be indexed
-     * @return the search engine in which the search bean should be indexed
-     * or null if the search bean should not be indexed.
+     * override this method to provide fine grained control over which search bean goes to which search
+     * engine. Returning null is a valid value, which means the search bean will not be indexed.
+     * 
+     * @param searchBean
+     *        the search bean that will be indexed
+     * @return the search engine in which the search bean should be indexed or null if the search bean
+     *         should not be indexed.
      */
     public SearchEngine getSearchEngineBySearchBean(Object searchBean)
     {
@@ -67,16 +62,20 @@ public class RepoSearchListener implements DmoStoreEventListener
     }
 
     /**
-     * This method updates the index based on an incoming data model object. If the dmo
-     * implements the HaseSearchBeans interface then it will get try to get the searchbeans
-     * from the dmo. The searchbeans are then send to a searchengine for indexing (or deleting).
-     *  
-     * Searchbeans of the type RepoSearchBean are updated by the dmo. The method setPropertiesByDmo
-     * is called on the (repo)searchbean.
-     * @param store the store from which the event came
-     * @param dmo the data model object that needs to be indexed
-     * @param delete if set to true a delete will be executed, otherwise an index.
-     * @throws DmoStoreEventListenerException if something goes awry
+     * This method updates the index based on an incoming data model object. If the dmo implements the
+     * HaseSearchBeans interface then it will get try to get the searchbeans from the dmo. The
+     * searchbeans are then send to a searchengine for indexing (or deleting). Searchbeans of the type
+     * RepoSearchBean are updated by the dmo. The method setPropertiesByDmo is called on the
+     * (repo)searchbean.
+     * 
+     * @param store
+     *        the store from which the event came
+     * @param dmo
+     *        the data model object that needs to be indexed
+     * @param delete
+     *        if set to true a delete will be executed, otherwise an index.
+     * @throws DmoStoreEventListenerException
+     *         if something goes awry
      */
     protected void updateIndex(DmoStore store, DataModelObject dmo, boolean delete) throws DmoStoreEventListenerException
     {

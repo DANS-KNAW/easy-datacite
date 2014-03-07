@@ -4,7 +4,7 @@ import nl.knaw.dans.common.lang.repo.exception.InvalidSidException;
 
 /**
  * Repository util class.
- *
+ * 
  * @author lobo
  */
 public class RepoUtil

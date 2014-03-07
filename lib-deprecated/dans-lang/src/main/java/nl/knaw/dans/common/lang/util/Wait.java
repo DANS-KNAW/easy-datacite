@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Pause execution.
- * 
  */
 public class Wait
 {

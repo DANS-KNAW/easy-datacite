@@ -17,13 +17,17 @@ import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 /**
- * Basic implementation of a cache facility for {@link Schema}s. Schemas that have not yet been cached are created by
- * parsing the schema at an {@link URL} and are than stored under the cache key that equals the toString-representation
- * of this URL. <p/> Special notice has to be taken to the fact that "parsers may choose to ignore all but the first
+ * Basic implementation of a cache facility for {@link Schema}s. Schemas that have not yet been cached
+ * are created by parsing the schema at an {@link URL} and are than stored under the cache key that
+ * equals the toString-representation of this URL.
+ * <p/>
+ * Special notice has to be taken to the fact that "parsers may choose to ignore all but the first
  * &lt;import&gt; for a given namespace, regardless of information provided in schemaLocation". (From
- * {@link SchemaFactory}.) <p/> Errors during the parsing process are logged by an {@link XMLErrorHandler} and thrown
- * as {@link SchemaCreationException} to the caller.
- *
+ * {@link SchemaFactory}.)
+ * <p/>
+ * Errors during the parsing process are logged by an {@link XMLErrorHandler} and thrown as
+ * {@link SchemaCreationException} to the caller.
+ * 
  * @author ecco
  * @see Schema
  */
@@ -44,7 +48,7 @@ public final class SchemaCache
 
     /**
      * Get or create the schema under the given urlString.
-     *
+     * 
      * @param urlString
      *        string-representation of an URL pointing to the schema location
      * @return the schema parsed at said location
@@ -62,9 +66,9 @@ public final class SchemaCache
     }
 
     /**
-     * Get or create the schema at the given URL. If the schema was successfully created and cached, on subsequent calls
-     * it may be gotten with the string-representation of the URL.
-     *
+     * Get or create the schema at the given URL. If the schema was successfully created and cached, on
+     * subsequent calls it may be gotten with the string-representation of the URL.
+     * 
      * @param url
      *        the location of the schema
      * @return the schema parsed at said location

@@ -11,8 +11,7 @@ public class MockCollectionCreator
 {
     private static int idCounter;
     private static DmoStoreId contentModelOAISet;
-    
-    
+
     public static DmoStoreId getContentModelOAISet()
     {
         if (contentModelOAISet == null)
@@ -31,7 +30,7 @@ public class MockCollectionCreator
     {
         return createRoot(new DmoNamespace(namespace), wide, deep);
     }
-    
+
     public static DmoCollectionImpl createRoot(DmoNamespace namespace, int wide, int deep) throws CollectionsException
     {
         Settings.instance().setContentModelOAISet(getContentModelOAISet());
@@ -42,7 +41,7 @@ public class MockCollectionCreator
         root.setShortName("Shortname of " + root.getStoreId());
         root.publishAsOAISet();
         createTree(root, wide, deep);
-        
+
         return root;
     }
 
@@ -62,7 +61,7 @@ public class MockCollectionCreator
             }
         }
     }
-    
+
     /**
      * Calculate the number of nodes in a tree of given (regular) dimensions.
      * <ul>
@@ -70,8 +69,10 @@ public class MockCollectionCreator
      * <li>A tree of 5 wide and 3 deep, will create 781 collections.</li>
      * <li>A tree of 5 wide and 5 deep, will create 19531 collections.</li>
      * 
-     * @param wide width of the tree
-     * @param deep deepness of the tree
+     * @param wide
+     *        width of the tree
+     * @param deep
+     *        deepness of the tree
      * @return number of collections in the tree
      */
     public static int calculateItems(int wide, int deep)
@@ -83,7 +84,7 @@ public class MockCollectionCreator
         }
         return x;
     }
-    
+
     public static void print(DmoCollection collection, String indent)
     {
         System.out.println(indent + "[" + collection.getStoreId() + "] [" + collection.getLabel() + "]");

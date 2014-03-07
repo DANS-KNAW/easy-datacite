@@ -10,7 +10,7 @@ public class XMLSerializationException extends XMLException
 
     private static final long serialVersionUID = 1286634981933080257L;
 
-    // CHECKSTYLE: OFF 
+    // CHECKSTYLE: OFF
 
     public XMLSerializationException()
     {

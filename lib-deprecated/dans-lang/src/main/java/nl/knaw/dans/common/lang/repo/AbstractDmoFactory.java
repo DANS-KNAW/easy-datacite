@@ -11,13 +11,14 @@ import nl.knaw.dans.common.lang.repo.exception.ObjectDeserializationException;
 import org.dom4j.Element;
 
 /**
- * An abstract factory for creating DataModelObjects. Concrete factories can be registered at this
- * class. Which concrete factory is assigned to create the specific DataModelObject depends on the
- * namespace of the DataModelObject. Since the namespace is part of the storeId of a DataModelObject, 
- * the AbstractDmoFactory can create DataModelObjects of the correct type, if it is given either 
- * the namespace or the storeId of the concrete DataModelObject to instantiate.
- *
- * @param <T> The type of DataModelObject
+ * An abstract factory for creating DataModelObjects. Concrete factories can be registered at this class.
+ * Which concrete factory is assigned to create the specific DataModelObject depends on the namespace of
+ * the DataModelObject. Since the namespace is part of the storeId of a DataModelObject, the
+ * AbstractDmoFactory can create DataModelObjects of the correct type, if it is given either the
+ * namespace or the storeId of the concrete DataModelObject to instantiate.
+ * 
+ * @param <T>
+ *        The type of DataModelObject
  */
 public abstract class AbstractDmoFactory<T extends DataModelObject> implements DmoFactory<T>
 {
@@ -107,15 +108,17 @@ public abstract class AbstractDmoFactory<T extends DataModelObject> implements D
     }
 
     /**
-     * Create an new instance of the class associated with storeIdOrNamespace, with a newly obtained storeId. 
-     * The storeId of the returned object may be <code>null</code> if no
-     * SidDispenser is associated with the AbstractDmoFactory.
+     * Create an new instance of the class associated with storeIdOrNamespace, with a newly obtained
+     * storeId. The storeId of the returned object may be <code>null</code> if no SidDispenser is
+     * associated with the AbstractDmoFactory.
      * <p/>
      * <b>Use this method for dmo's not yet ingested.</b>
      * 
-     * @param namespace namespace
+     * @param namespace
+     *        namespace
      * @return new instance of class associated with storeIdOrNamespace
-     * @throws RepositoryException for exceptions while obtaining a new storeId
+     * @throws RepositoryException
+     *         for exceptions while obtaining a new storeId
      */
     public static DataModelObject newDmo(DmoNamespace namespace) throws RepositoryException
     {
@@ -127,7 +130,8 @@ public abstract class AbstractDmoFactory<T extends DataModelObject> implements D
      * <p/>
      * <b>Use this method for retrieved dmo's.</b>
      * 
-     * @param storeId storeId for returned instance
+     * @param storeId
+     *        storeId for returned instance
      * @return new instance of the class associated with the given storeId
      */
     public static DataModelObject dmoInstance(String storeId)
@@ -142,7 +146,8 @@ public abstract class AbstractDmoFactory<T extends DataModelObject> implements D
 
     /**
      * Does nothing. Subclasses may override.
-     * @throws ObjectDeserializationException 
+     * 
+     * @throws ObjectDeserializationException
      */
     @Override
     public void setMetadataUnit(DataModelObject dmo, String unitId, Element element) throws ObjectDeserializationException
@@ -152,6 +157,7 @@ public abstract class AbstractDmoFactory<T extends DataModelObject> implements D
 
     /**
      * Enables Spring injection into the abstract and static {@link AbstractDmoFactory}
+     * 
      * <pre>
      *  <bean class="nl.knaw.dans.common.lang.repo.AbstractDmoFactory$Registrator">
      *      <property name="factories">

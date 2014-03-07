@@ -11,9 +11,9 @@ import nl.knaw.dans.common.lang.ResourceLocator;
 import nl.knaw.dans.common.lang.ResourceNotFoundException;
 
 /**
- * A light weight test helper class. If picking up properties, a file <code>test.properties</code> should be on the
- * classPath, typically in the folder <code>src/test/resources</code>.
- *
+ * A light weight test helper class. If picking up properties, a file <code>test.properties</code> should
+ * be on the classPath, typically in the folder <code>src/test/resources</code>.
+ * 
  * @author ecco Sep 24, 2009
  */
 public final class Tester
@@ -42,7 +42,7 @@ public final class Tester
 
     /**
      * Get the property associated with the given key.
-     *
+     * 
      * @param key
      *        key in the file <code>test.properties</code>, somewhere on the classPath
      * @return value of given key
@@ -54,8 +54,9 @@ public final class Tester
 
     /**
      * Get the property {@link #KEY_VERBOSE} translated to a boolean.
-     *
-     * @return <code>true</code> if the value of {@link #KEY_VERBOSE} is 'true', <code>false</code> otherwise
+     * 
+     * @return <code>true</code> if the value of {@link #KEY_VERBOSE} is 'true', <code>false</code>
+     *         otherwise
      */
     public static boolean isVerbose()
     {
@@ -64,7 +65,7 @@ public final class Tester
 
     /**
      * Get the URL for the given location, or <code>null</code> if no resource exists on given location.
-     *
+     * 
      * @param location
      *        a relative path on the class path, separated with "/"
      * @return URL of the resource or <code>null</code>
@@ -76,7 +77,7 @@ public final class Tester
 
     /**
      * Get the file on the given location.
-     *
+     * 
      * @param location
      *        a relative path on the class path, separated with "/"
      * @return the file at the given location
@@ -89,8 +90,9 @@ public final class Tester
     }
 
     /**
-     * Get InputStream from given location. The caller is responsible for proper closing of the InputStream.
-     *
+     * Get InputStream from given location. The caller is responsible for proper closing of the
+     * InputStream.
+     * 
      * @param location
      *        a relative path on the class path, separated with "/"
      * @return InputStream from given location

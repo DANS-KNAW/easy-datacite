@@ -6,7 +6,6 @@ import nl.knaw.dans.common.lang.repo.exception.DmoStoreEventListenerException;
  * Does nothing. Subclasses can override methods.
  * 
  * @author ecco
- * 
  */
 public class DefaultDmoStoreEventListener implements DmoStoreEventListener
 {

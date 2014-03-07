@@ -64,7 +64,7 @@ public class UserImpl extends PersonVO implements User
 
     /**
      * Constructor with values.
-     *
+     * 
      * @param userId
      *        UserImpl id.
      * @param email
@@ -197,7 +197,7 @@ public class UserImpl extends PersonVO implements User
 
     /**
      * String representation.
-     *
+     * 
      * @return string representation
      */
     @Override
@@ -208,7 +208,7 @@ public class UserImpl extends PersonVO implements User
 
     /**
      * Test if object is equal.
-     *
+     * 
      * @param obj
      *        object to test
      * @return true if object is equal.
@@ -228,8 +228,8 @@ public class UserImpl extends PersonVO implements User
                 if (obj.getClass() == this.getClass())
                 {
                     final UserImpl otherUser = (UserImpl) obj;
-                    equals = new EqualsBuilder().append(this.userId, otherUser.userId).append(this.getEmail(), otherUser.getEmail()).append(
-                            this.getCommonName(), otherUser.getCommonName()).append(this.state, otherUser.state).isEquals();
+                    equals = new EqualsBuilder().append(this.userId, otherUser.userId).append(this.getEmail(), otherUser.getEmail())
+                            .append(this.getCommonName(), otherUser.getCommonName()).append(this.state, otherUser.state).isEquals();
                 }
             }
         }
@@ -239,7 +239,7 @@ public class UserImpl extends PersonVO implements User
 
     /**
      * Return hashCode.
-     *
+     * 
      * @return hashcode
      */
     @Override

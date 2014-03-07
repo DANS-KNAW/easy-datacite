@@ -176,7 +176,8 @@ public abstract class AbstractDmoContainer extends AbstractDmoCollectionMember i
                 tryAttachToUnitOfWork(dmo);
             }
 
-            // remove the loaded children from the added children (added children must have been comitted)
+            // remove the loaded children from the added children (added children must have been
+            // comitted)
             for (DmoContainerItem loadedChild : loadedChildren)
             {
                 removeFromList(addedChildren, loadedChild);

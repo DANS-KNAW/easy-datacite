@@ -5,22 +5,18 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 /**
- * http://javatechniques.com/blog/faster-deep-copies-of-java-objects/
- * 
- * Utility for making deep copies (vs. clone()'s shallow copies) of
- * objects. Objects are first serialized and then deserialized. Error
- * checking is fairly minimal in this implementation. If an object is
- * encountered that cannot be serialized (or that references an object
- * that cannot be serialized) an error is printed and
- * null is returned. Depending on your specific application, it might
- * make more sense to have copy(...) re-throw the exception.
+ * http://javatechniques.com/blog/faster-deep-copies-of-java-objects/ Utility for making deep copies (vs.
+ * clone()'s shallow copies) of objects. Objects are first serialized and then deserialized. Error
+ * checking is fairly minimal in this implementation. If an object is encountered that cannot be
+ * serialized (or that references an object that cannot be serialized) an error is printed and null is
+ * returned. Depending on your specific application, it might make more sense to have copy(...) re-throw
+ * the exception.
  */
 public class DeepCopy
 {
 
     /**
-     * Returns a copy of the object, or null if the object cannot
-     * be serialized.
+     * Returns a copy of the object, or null if the object cannot be serialized.
      */
     public static Object copy(Object orig)
     {

@@ -20,19 +20,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Maintains a list of
- * {@link DataModelObject}s (dmo's) affected by a business transaction and
- * coordinates the writing out of changes to the {@link DmoStore}. It is 
- * basically a transaction object, but it does not implement a real
- * rollback at the moment. A simple rollback exists for newly ingested objects.  
- * 
- * This AbstractUnitOfWork makes sure that simultaneous updates of
- * several objects are executed thread-safely. If one transaction needs 
- * objects of another transaction the other transaction needs to wait until
- * the first one has finished. This system works for single transaction done
- * on the DmoStore as well as for bulk transaction using this object. DmoStore
- * and UnitOfWork can be used interchangeably as the mutexes are shared between
- * these objects (a single IdSynchronizer is used).  
+ * Maintains a list of {@link DataModelObject}s (dmo's) affected by a business transaction and
+ * coordinates the writing out of changes to the {@link DmoStore}. It is basically a transaction object,
+ * but it does not implement a real rollback at the moment. A simple rollback exists for newly ingested
+ * objects. This AbstractUnitOfWork makes sure that simultaneous updates of several objects are executed
+ * thread-safely. If one transaction needs objects of another transaction the other transaction needs to
+ * wait until the first one has finished. This system works for single transaction done on the DmoStore
+ * as well as for bulk transaction using this object. DmoStore and UnitOfWork can be used interchangeably
+ * as the mutexes are shared between these objects (a single IdSynchronizer is used).
  * 
  * @author ecco Oct 29, 2009
  * @author lobo (thread safety)
@@ -102,9 +97,8 @@ public abstract class AbstractUnitOfWork implements UnitOfWork
     }
 
     /**
-     * Commits all attached DMO's to the DmoStore. Ingesting new objects,
-     * updating existing ones and deleting the DMO's that are registered
-     * for deletion.
+     * Commits all attached DMO's to the DmoStore. Ingesting new objects, updating existing ones and
+     * deleting the DMO's that are registered for deletion.
      */
     public void commit() throws RepositoryException, UnitOfWorkInterruptException
     {
@@ -129,7 +123,7 @@ public abstract class AbstractUnitOfWork implements UnitOfWork
         try
         {
 
-            // check in advance if all objects are ready to be 
+            // check in advance if all objects are ready to be
             // ingested, updated or purged
             DmoStore store = getStore();
             for (DataModelObject dmo : cloud.values())
@@ -192,23 +186,23 @@ public abstract class AbstractUnitOfWork implements UnitOfWork
         return detach(dmo);
     }
 
-    //	/**
-    //	 * WARNING: This is not a true rollback as it only purges objects, but does
-    //	 * not return objects to their original state if they were updated. True
-    //	 * rollback would be expensive as it would require the original objects to
-    //	 * be retrieved before commit.
-    //	 */
-    //	public void rollBack(String logMessage) throws RepositoryException
-    //	{
-    //		for (DataModelObject dmo : ingestedObjects)
-    //		{
-    //			getStore().purge(dmo, false, logMessage);
-    //			for (UnitOfWorkListener listener : listeners)
-    //			{
-    //				listener.afterPurge(dmo);
-    //			}
-    //		}
-    //	}
+    // /**
+    // * WARNING: This is not a true rollback as it only purges objects, but does
+    // * not return objects to their original state if they were updated. True
+    // * rollback would be expensive as it would require the original objects to
+    // * be retrieved before commit.
+    // */
+    // public void rollBack(String logMessage) throws RepositoryException
+    // {
+    // for (DataModelObject dmo : ingestedObjects)
+    // {
+    // getStore().purge(dmo, false, logMessage);
+    // for (UnitOfWorkListener listener : listeners)
+    // {
+    // listener.afterPurge(dmo);
+    // }
+    // }
+    // }
 
     public void close()
     {
@@ -268,7 +262,7 @@ public abstract class AbstractUnitOfWork implements UnitOfWork
         {
             listener.afterIngest(dmo);
         }
-        //ingestedObjects.add(dmo);
+        // ingestedObjects.add(dmo);
     }
 
     private void purge(DataModelObject dmo) throws RepositoryException, UnitOfWorkInterruptException

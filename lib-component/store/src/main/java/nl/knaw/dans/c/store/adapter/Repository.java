@@ -7,12 +7,11 @@ import nl.knaw.dans.common.lang.repo.DmoStore;
 
 public abstract class Repository
 {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(Repository.class);
-    
-    
+
     private static DmoStore dmoStore;
-    
+
     public static DmoStore getDmoStore()
     {
         if (dmoStore == null)
@@ -21,21 +20,21 @@ public abstract class Repository
         }
         return dmoStore;
     }
-    
+
     public static void register(DmoStore dmoStore)
     {
         Repository.dmoStore = dmoStore;
         logger.info("Registered " + dmoStore.getClass().getName());
     }
-    
+
     public static class Registrator
     {
-        
+
         public void setDmoStore(DmoStore dmoStore)
         {
             Repository.register(dmoStore);
         }
-        
+
     }
 
 }

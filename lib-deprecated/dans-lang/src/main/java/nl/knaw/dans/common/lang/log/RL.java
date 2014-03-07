@@ -68,6 +68,7 @@ public class RL
 
     /**
      * No public constructor, use {@link #initialize()}.
+     * 
      * @throws ConfigurationException
      */
     public RL(boolean dateLocation) throws ConfigurationException
@@ -82,6 +83,7 @@ public class RL
 
     /**
      * No public constructor, use {@link #initialize(String, boolean)}.
+     * 
      * @param reportLocationName
      * @param allReadWrite
      * @throws ConfigurationException
@@ -93,6 +95,7 @@ public class RL
 
     /**
      * No public constructor, use {@link #initialize(File, boolean)}.
+     * 
      * @param reportLocation
      * @param allReadWrite
      * @throws ConfigurationException

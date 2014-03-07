@@ -28,7 +28,7 @@ public class ArgsTest
         vmArgs.put("foo.bar", true);
         vmArgs.put(null, true);
 
-        //vmArgs.printArguments(System.out);
+        // vmArgs.printArguments(System.out);
         String argsAsString = vmArgs.asString();
         String[] args = vmArgs.asStringArray();
 
@@ -46,7 +46,7 @@ public class ArgsTest
         String[] args = {"single value", "this=that", "foo=bar", "other single value"};
         Args vmArgs = new Args(args);
 
-        //vmArgs.printArguments(System.out);
+        // vmArgs.printArguments(System.out);
 
         String argsAsString = vmArgs.asString();
 
@@ -54,7 +54,7 @@ public class ArgsTest
         assertTrue(vmArgs2.isReadOnly());
         assertEquals(argsAsString, vmArgs2.asString());
 
-        //vmArgs2.printArguments(System.out);
+        // vmArgs2.printArguments(System.out);
     }
 
     @Test

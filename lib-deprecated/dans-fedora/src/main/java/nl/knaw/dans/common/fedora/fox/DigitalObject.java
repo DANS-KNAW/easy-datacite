@@ -90,7 +90,8 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
     /**
      * Get the objectNamespace of this digital object.
      * 
-     * @return the objectNamespace or <code>null</code> if the objectNamespace is not set or cannot be derived
+     * @return the objectNamespace or <code>null</code> if the objectNamespace is not set or cannot be
+     *         derived
      */
     public String getObjectNamespace()
     {
@@ -347,7 +348,8 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
     /**
      * Get the date of last modification of this digital object.
      * 
-     * @return the date of last modification of this digital object or <code>null</code> if it is not known
+     * @return the date of last modification of this digital object or <code>null</code> if it is not
+     *         known
      */
     public DateTime getLastModifiedDate()
     {
@@ -384,8 +386,8 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      * 
      * @param datastream
      *        a datastream
-     * @return previous datastream associated with the streamId of the given datastream, or null if there was no mapping
-     *         for the streamId
+     * @return previous datastream associated with the streamId of the given datastream, or null if there
+     *         was no mapping for the streamId
      */
     public Datastream putDatastream(final Datastream datastream)
     {
@@ -397,7 +399,8 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      * 
      * @param streamId
      *        streamId of the datastream
-     * @return datastream associated with the given streamId, or null if there was no mapping for the given streamId
+     * @return datastream associated with the given streamId, or null if there was no mapping for the
+     *         given streamId
      */
     public Datastream getDatastream(final String streamId)
     {
@@ -409,7 +412,8 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      * 
      * @param streamId
      *        streamId of the datastream
-     * @return datastream associated with the given streamId, or null if there was no mapping for the given streamId
+     * @return datastream associated with the given streamId, or null if there was no mapping for the
+     *         given streamId
      */
     public Datastream removeDatastream(final String streamId)
     {
@@ -467,9 +471,9 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
     }
 
     /**
-     * Add a datastreamVersion to the datastream of the given streamId, consisting of the root element of given
-     * document. If a datastream associated with the given streamId did not exist it will be created. The
-     * datastreamVersion will be of {@link ControlGroup#X} and will have {@link State#A}.
+     * Add a datastreamVersion to the datastream of the given streamId, consisting of the root element of
+     * given document. If a datastream associated with the given streamId did not exist it will be
+     * created. The datastreamVersion will be of {@link ControlGroup#X} and will have {@link State#A}.
      * 
      * @param streamId
      *        streamId of the datastream
@@ -483,10 +487,10 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
     }
 
     /**
-     * Add a datastreamVersion to the datastream of the given streamId, consisting of the given element. If a datastream
-     * associated with the given streamId did not exist it will be created. The datastreamVersion will be of
-     * {@link ControlGroup#X} and will have {@link State#A}. Namespaces and prefixes not declared on the element must be
-     * added.
+     * Add a datastreamVersion to the datastream of the given streamId, consisting of the given element.
+     * If a datastream associated with the given streamId did not exist it will be created. The
+     * datastreamVersion will be of {@link ControlGroup#X} and will have {@link State#A}. Namespaces and
+     * prefixes not declared on the element must be added.
      * 
      * @see Element#addNamespace(String, String)
      * @see Element#add(org.dom4j.Namespace)
@@ -510,9 +514,9 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
     }
 
     /**
-     * Add a datastreamVersion to the datastream of the given streamId, consisting of the serialization of the given
-     * JiBXObject. If a datastream associated with the given streamId did not exist it will be created. The
-     * datastreamVersion will be of {@link ControlGroup#X} and will have {@link State#A}.
+     * Add a datastreamVersion to the datastream of the given streamId, consisting of the serialization
+     * of the given JiBXObject. If a datastream associated with the given streamId did not exist it will
+     * be created. The datastreamVersion will be of {@link ControlGroup#X} and will have {@link State#A}.
      * 
      * @param streamId
      *        streamId of the datastream
@@ -543,9 +547,9 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
     }
 
     /**
-     * Add a datastreamVersion to the datastream "DC", consisting of the serialization of the given DublinCoreMetadata.
-     * If a datastream associated with the streamId "DC" did not exist it will be created. The datastreamVersion will be
-     * of {@link ControlGroup#X} and will have {@link State#A}.
+     * Add a datastreamVersion to the datastream "DC", consisting of the serialization of the given
+     * DublinCoreMetadata. If a datastream associated with the streamId "DC" did not exist it will be
+     * created. The datastreamVersion will be of {@link ControlGroup#X} and will have {@link State#A}.
      * 
      * @param dcmd
      *        DublinCoreMetadata to add
@@ -566,8 +570,8 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      * 
      * @param streamId
      *        streamId of the datastream
-     * @return the latest datastreamVersion of the datastream associated with the given streamId or <code>null</code> if
-     *         the datastream does not exist
+     * @return the latest datastreamVersion of the datastream associated with the given streamId or
+     *         <code>null</code> if the datastream does not exist
      */
     public DatastreamVersion getLatestVersion(final String streamId)
     {
@@ -585,8 +589,8 @@ public class DigitalObject extends AbstractTimestampedJiBXObject<DigitalObject>
      * 
      * @param streamId
      *        streamId of the datastream
-     * @return the latest datastreamVersion of the datastream associated with the given streamId as element or
-     *         <code>null</code> if the datastream does not exist
+     * @return the latest datastreamVersion of the datastream associated with the given streamId as
+     *         element or <code>null</code> if the datastream does not exist
      */
     public Element getLatestVersionElement(final String streamId)
     {

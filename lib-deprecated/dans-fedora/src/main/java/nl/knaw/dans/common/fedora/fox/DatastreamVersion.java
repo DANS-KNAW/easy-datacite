@@ -53,9 +53,9 @@ public class DatastreamVersion extends AbstractTimestampedJiBXObject<DatastreamV
      * Constructs a new DatastreamVersion. A DatastreamVersion can also be obtained by method
      * {@link Datastream#addDatastreamVersion(String, String)}.
      * <p/>
-     * If a DatastreamVersion is not ingested as part of a DigitalObject, but is used stand-alone-wise to modify an
-     * existing Datastream, then the versionId will not be used entirely, only the streamId part of the versionId will
-     * be used, i.e the part of the versionId before the first period ('.').
+     * If a DatastreamVersion is not ingested as part of a DigitalObject, but is used stand-alone-wise to
+     * modify an existing Datastream, then the versionId will not be used entirely, only the streamId
+     * part of the versionId will be used, i.e the part of the versionId before the first period ('.').
      * 
      * @see Datastream#addDatastreamVersion(String, String)
      * @param versionId
@@ -111,16 +111,16 @@ public class DatastreamVersion extends AbstractTimestampedJiBXObject<DatastreamV
         return created;
     }
 
-    //    /**
-    //     * On Fedora the foxml datastreamVersion CREATED attribute is read only.
-    //     * 
-    //     * @param created
-    //     *        some date
-    //     */
-    //    protected void setCreated(DateTime created)
-    //    {
-    //        this.created = created;
-    //    }
+    // /**
+    // * On Fedora the foxml datastreamVersion CREATED attribute is read only.
+    // *
+    // * @param created
+    // * some date
+    // */
+    // protected void setCreated(DateTime created)
+    // {
+    // this.created = created;
+    // }
 
     public String getMimeType()
     {
@@ -242,7 +242,7 @@ public class DatastreamVersion extends AbstractTimestampedJiBXObject<DatastreamV
         return xmlContent;
     }
 
-    //TODO: here unnecessary of xml writing (and parsing) is taking place
+    // TODO: here unnecessary of xml writing (and parsing) is taking place
     // this should be replaced for performance reasons. This code is still
     // here, because everything was based on JiBX in the beginning
     public String getXmlContentString()
@@ -273,7 +273,7 @@ public class DatastreamVersion extends AbstractTimestampedJiBXObject<DatastreamV
         this.xmlContent = xmlContent;
     }
 
-    //TODO: the parsing here is completely unnecessary and should be replaced
+    // TODO: the parsing here is completely unnecessary and should be replaced
     // for performance reasons. This code is still
     // here, because everything was based on JiBX in the beginning
     public void setXmlContent(String xmlString) throws DocumentException
@@ -282,7 +282,7 @@ public class DatastreamVersion extends AbstractTimestampedJiBXObject<DatastreamV
         this.xmlContent = new XMLContent(document.getRootElement());
     }
 
-    //TODO: the parsing here is completely unnecessary and should be replaced
+    // TODO: the parsing here is completely unnecessary and should be replaced
     // for performance reasons. This code is still
     // here, because everything was based on JiBX in the beginning
     public void setXmlContent(byte[] xmlContent) throws DocumentException

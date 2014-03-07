@@ -7,8 +7,8 @@ import nl.knaw.dans.common.lang.repo.exception.NoStoreAttachedException;
 import nl.knaw.dans.common.lang.search.bean.annotation.SearchField;
 
 /**
- * Search beans that refer to data model object entities can use
- * this base class for uniform unique identification.  
+ * Search beans that refer to data model object entities can use this base class for uniform unique
+ * identification.
  * 
  * @author lobo
  */

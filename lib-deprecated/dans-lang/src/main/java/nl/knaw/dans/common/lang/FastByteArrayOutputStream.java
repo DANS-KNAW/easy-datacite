@@ -4,10 +4,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * http://javatechniques.com/blog/faster-deep-copies-of-java-objects/
- * 
- * ByteArrayOutputStream implementation that doesn't synchronize methods
- * and doesn't copy the data on toByteArray().
+ * http://javatechniques.com/blog/faster-deep-copies-of-java-objects/ ByteArrayOutputStream
+ * implementation that doesn't synchronize methods and doesn't copy the data on toByteArray().
  */
 public class FastByteArrayOutputStream extends OutputStream
 {
@@ -54,9 +52,8 @@ public class FastByteArrayOutputStream extends OutputStream
     }
 
     /**
-     * Returns the byte array containing the written data. Note that this
-     * array will almost always be larger than the amount of data actually
-     * written.
+     * Returns the byte array containing the written data. Note that this array will almost always be
+     * larger than the amount of data actually written.
      */
     public byte[] getByteArray()
     {

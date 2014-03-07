@@ -8,12 +8,12 @@ import java.lang.annotation.Target;
 /**
  * Denotes the intention that the annotated operation is secured.
  * <p/>
- * The implementation of promises given by Annotations cannot be enforced.
- * Check the validity and consistency of {@link SecuredOperation} annotations on an implementing class
- * against {@link SecuredOperation} annotations on its interfaces with 
+ * The implementation of promises given by Annotations cannot be enforced. Check the validity and
+ * consistency of {@link SecuredOperation} annotations on an implementing class against
+ * {@link SecuredOperation} annotations on its interfaces with
  * {@link SecuredOperationUtil#checkSecurityIds(Class)}.
- * @see SecuredOperationUtil
  * 
+ * @see SecuredOperationUtil
  * @author henkb
  */
 @Retention(RetentionPolicy.RUNTIME)

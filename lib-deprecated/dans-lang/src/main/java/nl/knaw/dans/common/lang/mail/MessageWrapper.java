@@ -14,9 +14,8 @@ import javax.mail.internet.MimeMultipart;
 
 /**
  * A utility class for the {@link CommonMailer}.
- *
+ * 
  * @author joke
- *
  */
 class MessageWrapper
 {
@@ -75,12 +74,14 @@ class MessageWrapper
     }
 
     /**
-     * Wraps the HTML content and images in a MultiPart as far as the images are mentioned in the
-     * HTML content.
-     *
-     * @param htmlContent will be wrapped in a BodyPart before it is added to the MultiPart
-     * @param images for each key mentioned as "<code>cid:<i>key</i></code>" in htmlContent,
-     *            the value is added to the MultiPart
+     * Wraps the HTML content and images in a MultiPart as far as the images are mentioned in the HTML
+     * content.
+     * 
+     * @param htmlContent
+     *        will be wrapped in a BodyPart before it is added to the MultiPart
+     * @param images
+     *        for each key mentioned as "<code>cid:<i>key</i></code>" in htmlContent, the value is added
+     *        to the MultiPart
      * @return a MultiPart with HTML and zero or more images
      * @throws MessagingException
      */

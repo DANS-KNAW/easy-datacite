@@ -14,17 +14,17 @@ import nl.knaw.dans.common.lang.RepositoryException;
 import org.joda.time.DateTime;
 
 /**
- * This class is responsible for keeping track of which data model object have been invalidated.
- * It is a package level class that works in close cooporation with AbstractDmoStore. It is not
- * to be used by the public, instead the public currently use the DmoStore. 
- *
+ * This class is responsible for keeping track of which data model object have been invalidated. It is a
+ * package level class that works in close cooporation with AbstractDmoStore. It is not to be used by the
+ * public, instead the public currently use the DmoStore.
+ * 
  * @author lobo
  */
 abstract class DmoInvalidator
 {
     /**
-     * A huge pool in which weak-references data model objects get stored and information
-     * about their invalidation status get stored. 
+     * A huge pool in which weak-references data model objects get stored and information about their
+     * invalidation status get stored.
      */
     private final DmoPool<DmoInvalidationInfo> dmoPool = new DmoPool<DmoInvalidationInfo>(10000);
 
@@ -38,18 +38,23 @@ abstract class DmoInvalidator
     }
 
     /**
-     * Abstract method that needs to be implemented to retrieve the last modified date
-     * from the server. 
-     * @param storeId the store id to retrieve the last modified date from
+     * Abstract method that needs to be implemented to retrieve the last modified date from the server.
+     * 
+     * @param storeId
+     *        the store id to retrieve the last modified date from
      * @return last modified date
-     * @throws RepositoryException wrapper exception
+     * @throws RepositoryException
+     *         wrapper exception
      */
     abstract protected DateTime getLastModified(DmoStoreId dmoStoreId) throws RepositoryException;
 
     /**
      * Invalidates all active objects of a certain sid with possible exceptions
-     * @param storeId the sid to invalidate
-     * @param exceptions objects to make exceptions for
+     * 
+     * @param storeId
+     *        the sid to invalidate
+     * @param exceptions
+     *        objects to make exceptions for
      */
     public void invalidate(DmoStoreId dmoStoreId, DataModelObject... exceptions)
     {
@@ -90,12 +95,11 @@ abstract class DmoInvalidator
     }
 
     /**
-     * Implements a three-fold mechanism. First of all it checks if the object
-     * is known in the weak referenced pool of active objects in which the 
-     * invalidation status is actively kept. Then it checks the last modified
-     * cache to see if the object has been changed recently. If that is not 
-     * possible, because the object is older than the cache, then the repository
-     * is queried for the last modified date. 
+     * Implements a three-fold mechanism. First of all it checks if the object is known in the weak
+     * referenced pool of active objects in which the invalidation status is actively kept. Then it
+     * checks the last modified cache to see if the object has been changed recently. If that is not
+     * possible, because the object is older than the cache, then the repository is queried for the last
+     * modified date.
      */
     public boolean isInvalidated(DataModelObject dmo) throws RepositoryException
     {
@@ -113,7 +117,7 @@ abstract class DmoInvalidator
         if (!dmo.isLoaded())
             return false;
 
-        // is the load time inside of the boundaries of what is stored in the 
+        // is the load time inside of the boundaries of what is stored in the
         // lastChangedTime map?
         long loadTime = dmo.getloadTime();
         long delta = System.nanoTime() - loadTime;
@@ -148,10 +152,10 @@ abstract class DmoInvalidator
     }
 
     /**
-     * Kept with each weak-referenced dmo in the pool. Stores a simple boolean on whether
-     * the dmo is invalidated.
+     * Kept with each weak-referenced dmo in the pool. Stores a simple boolean on whether the dmo is
+     * invalidated.
+     * 
      * @author lobo
-     *
      */
     public class DmoInvalidationInfo implements Serializable
     {

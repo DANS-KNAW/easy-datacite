@@ -3,9 +3,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>nl.knaw.dans.platform.deprecated</groupId>
-		<artifactId>dans-deprecated-parent</artifactId>
-		<version>1.0</version>
+		<groupId>nl.knaw.dans.easy</groupId>
+		<artifactId>easy-prototype</artifactId>
+		<version>2.9-SNAPSHOT</version>
+		<relativePath>../../lib/easy-prototype</relativePath>
 	</parent>
 	<artifactId>dans-fedora</artifactId>
 	<packaging>jar</packaging>
@@ -34,9 +35,9 @@
 		</dependency>
 		<!-- common jibx client library -->
 		<dependency>
-			<groupId>nl.knaw.dans.platform.deprecated</groupId>
+			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>dans-jibx</artifactId>
-			<version>1.0</version>
+			<version>${project.version}</version>
 			<exclusions>
 				<!-- The version of xpp3 included by Jibx gives build problems -->
 				<exclusion>
@@ -87,11 +88,9 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>nl.knaw.dans.platform.deprecated</groupId>
+			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>dans-lang</artifactId>
-			<version>1.0</version>
-			<classifier>tests</classifier>
-			<scope>test</scope>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>trove</groupId>
@@ -119,7 +118,6 @@
 			<plugin>
 				<groupId>org.jibx</groupId>
 				<artifactId>maven-jibx-plugin</artifactId>
-				<version>${jibx.version}</version>
 				<executions>
 					<execution>
 						<goals>

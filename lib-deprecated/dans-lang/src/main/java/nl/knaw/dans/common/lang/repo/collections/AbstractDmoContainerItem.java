@@ -47,17 +47,17 @@ public abstract class AbstractDmoContainerItem extends AbstractDmoCollectionMemb
         return contentModels;
     }
 
-    //---- ADD
+    // ---- ADD
 
     public void addParent(DmoContainer container) throws RepositoryException
     {
         checkDmoCompatible(container);
 
-        // store sid in relationships			
+        // store sid in relationships
         ((DmoContainerItemRelations) getRelations()).addParent(container.getDmoStoreId());
 
         // attach the object in the unit of work
-        //tryAttachToUnitOfWork(container);
+        // tryAttachToUnitOfWork(container);
 
         // cache added parent
         addedParents.add(container);
@@ -143,7 +143,7 @@ public abstract class AbstractDmoContainerItem extends AbstractDmoCollectionMemb
         return parents.size() > 0 ? parents.iterator().next() : null;
     }
 
-    //---- SET
+    // ---- SET
 
     private void clear()
     {
@@ -185,7 +185,7 @@ public abstract class AbstractDmoContainerItem extends AbstractDmoCollectionMemb
         }
     }
 
-    //---- REMOVE
+    // ---- REMOVE
 
     public void removeParent(DmoContainer container) throws RepositoryException
     {

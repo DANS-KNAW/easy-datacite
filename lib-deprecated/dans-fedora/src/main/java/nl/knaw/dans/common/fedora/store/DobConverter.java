@@ -12,17 +12,24 @@ public interface DobConverter<T extends DataModelObject>
 
     /**
      * Serialize the given dmo to a {@link DigitalObject}.
-     * @param dmo the dmo to serialize
+     * 
+     * @param dmo
+     *        the dmo to serialize
      * @return DigitalObject representation of the given dmo
-     * @throws ObjectSerializationException if the dmo could not be serialized
+     * @throws ObjectSerializationException
+     *         if the dmo could not be serialized
      */
     DigitalObject serialize(T dmo) throws ObjectSerializationException;
 
     /**
      * Deserialize the given DigitalObject to the given dmo.
-     * @param dob DigitalObject as input
-     * @param dmo DataModelObject as output
-     * @throws ObjectDeserializationException if the DigitalObject could not be deserialized
+     * 
+     * @param dob
+     *        DigitalObject as input
+     * @param dmo
+     *        DataModelObject as output
+     * @throws ObjectDeserializationException
+     *         if the DigitalObject could not be deserialized
      */
     void deserialize(DigitalObject dob, T dmo) throws ObjectDeserializationException;
 

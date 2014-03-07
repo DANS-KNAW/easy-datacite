@@ -45,14 +45,14 @@ public class DatastreamAccessor
      * @param streamId
      *        the datastream id
      * @param asOfDateTime
-     *        A dateTime indicating the version of the datastream to retrieve. If null, Fedora will use the most recent
-     *        version.
+     *        A dateTime indicating the version of the datastream to retrieve. If null, Fedora will use
+     *        the most recent version.
      * @return MIMETypedStream
      *         <ul>
      *         <li>String MIMEType The mimetype of the stream</li>
      *         <li>byte[] stream The contents of the Stream</li>
-     *         <li>Property[] header The header will be empty, or if applicable, contain the http header as name/value
-     *         pairs.</li>
+     *         <li>Property[] header The header will be empty, or if applicable, contain the http header
+     *         as name/value pairs.</li>
      *         <ul>
      *         <li>String name</li>
      *         <li>String value</li>
@@ -88,8 +88,8 @@ public class DatastreamAccessor
      * @param sid
      *        the sid of the object
      * @param asOfDateTime
-     *        A dateTime indicating the version of the datastream to retrieve. If null, Fedora will use the most recent
-     *        version.
+     *        A dateTime indicating the version of the datastream to retrieve. If null, Fedora will use
+     *        the most recent version.
      * @return DublinCoreMetadata
      * @throws RepositoryException
      *         as the common base class for checked exceptions
@@ -101,7 +101,7 @@ public class DatastreamAccessor
         try
         {
             dcMetadata = (DublinCoreMetadata) JiBXObjectFactory.unmarshal(JiBXDublinCoreMetadata.class, mts.getStream());
-            //dcMetadata.setTimestamp(repository.getServerDate()); lacks millisecond precision
+            // dcMetadata.setTimestamp(repository.getServerDate()); lacks millisecond precision
         }
         catch (XMLDeserializationException e)
         {

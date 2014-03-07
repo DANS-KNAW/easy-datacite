@@ -14,31 +14,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This object aids in synchronization of lists of objects by their ID. This
- * is especially handy for implementing thread-safe transaction handling. A
- * transaction involving several objects cannot start until another transaction
- * that is busy with one or more of the same objects. 
- * 
- * Example:
- * If one thread has several objects with the IDs A, B and C and wants to do
- * some operation on them, but another thread wants to do an operation on 
- * object C and D then the second thread cannot start until the first thread
- * finishes and if a third thread wants to do some operation on D then it has
- * to wait for the second thread to finish first, etc.   
+ * This object aids in synchronization of lists of objects by their ID. This is especially handy for
+ * implementing thread-safe transaction handling. A transaction involving several objects cannot start
+ * until another transaction that is busy with one or more of the same objects. Example: If one thread
+ * has several objects with the IDs A, B and C and wants to do some operation on them, but another thread
+ * wants to do an operation on object C and D then the second thread cannot start until the first thread
+ * finishes and if a third thread wants to do some operation on D then it has to wait for the second
+ * thread to finish first, etc.
  * 
  * @author lobo
  */
 public class IdSynchronizer<T>
 {
     /**
-     * key = ID
-     * value = the lock
+     * key = ID value = the lock
      */
     private Map<T, IdLock> idLocks = new HashMap<T, IdLock>();
 
     /**
-     * key = ID
-     * value = use count = how often a thread acquire a lock for this ID
+     * key = ID value = use count = how often a thread acquire a lock for this ID
      */
     private ThreadLocal<Map<T, Integer>> threadLocalIds = new ThreadLocal<Map<T, Integer>>();
 
@@ -87,7 +81,7 @@ public class IdSynchronizer<T>
                     }
                     catch (Throwable t)
                     {
-                        // god did not listen to your prayers 
+                        // god did not listen to your prayers
                         if (t instanceof InterruptedException)
                             throw (InterruptedException) t;
                         else
@@ -118,10 +112,12 @@ public class IdSynchronizer<T>
     }
 
     /**
-     * @param defaultLockTimeout the default timeout value for trying to acquire a lock in milliseconds.
-     * Set to -1 for no timeout, but possible infinite wait.
-     * @param useFairPolicy see {@see ReentrantLock}. It's basically that the first thread to try
-     * to acquire a lock gets it first (fifo).
+     * @param defaultLockTimeout
+     *        the default timeout value for trying to acquire a lock in milliseconds. Set to -1 for no
+     *        timeout, but possible infinite wait.
+     * @param useFairPolicy
+     *        see {@see ReentrantLock}. It's basically that the first thread to try to acquire a lock
+     *        gets it first (fifo).
      */
     public IdSynchronizer(int defaultLockTimeout, boolean useFairPolicy)
     {
@@ -156,16 +152,13 @@ public class IdSynchronizer<T>
     }
 
     /**
-     * Convenience method. 
-     * 
-     * Beware not to call this in a loop for multiple sids as that could 
-     * lead to dead locks. Think of thread 1 asking for a lock on A and
-     * B while thread 2 asking for a lock on B and A asking for one lock
-     * at a time, they might get stuck waiting on each other.
+     * Convenience method. Beware not to call this in a loop for multiple sids as that could lead to dead
+     * locks. Think of thread 1 asking for a lock on A and B while thread 2 asking for a lock on B and A
+     * asking for one lock at a time, they might get stuck waiting on each other.
      * 
      * @param id
      * @throws InterruptedException
-     * @throws LockAcquireTimeoutException 
+     * @throws LockAcquireTimeoutException
      */
     public void acquireLock(T id) throws InterruptedException, LockAcquireTimeoutException
     {
@@ -175,18 +168,17 @@ public class IdSynchronizer<T>
     }
 
     /**
-     * Locks on a list of IDs. If one of the IDs was already locked then
-     * this method will block until those locks are unlocked.
+     * Locks on a list of IDs. If one of the IDs was already locked then this method will block until
+     * those locks are unlocked. If an exception is thrown it can be assumed that no locks are held
+     * anymore. So either this method returns and all locks have been acquired or this method throws an
+     * exception and no locks are acquired.
      * 
-     * If an exception is thrown it can be assumed that no locks are held anymore. So
-     * either this method returns and all locks have been acquired or this method 
-     * throws an exception and no locks are acquired.
-     * 
-     * @param ids a list of IDs
-     * @throws InterruptedException thrown if the blocking thread got interrupted and had to abort
-     * trying to acquire the lock
-     * @throws LockAcquireTimeoutException thrown if the thread could not acquire the lock within
-     * the defaultLockTimeout time. 
+     * @param ids
+     *        a list of IDs
+     * @throws InterruptedException
+     *         thrown if the blocking thread got interrupted and had to abort trying to acquire the lock
+     * @throws LockAcquireTimeoutException
+     *         thrown if the thread could not acquire the lock within the defaultLockTimeout time.
      */
     public void acquireLock(final Collection<T> ids) throws InterruptedException, LockAcquireTimeoutException
     {
@@ -390,8 +382,7 @@ public class IdSynchronizer<T>
     }
 
     /**
-     * @return true if the attempt to get the lock will be based on a fair use policy
-     * (fifo).
+     * @return true if the attempt to get the lock will be based on a fair use policy (fifo).
      */
     public boolean isUsingFairPolicy()
     {

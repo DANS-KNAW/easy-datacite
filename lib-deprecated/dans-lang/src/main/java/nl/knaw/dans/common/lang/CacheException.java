@@ -10,7 +10,7 @@ public class CacheException extends Exception
 
     private static final long serialVersionUID = -6007198469837665263L;
 
-    // ecco (Sep 29, 2009): CHECKSTYLE: OFF 
+    // ecco (Sep 29, 2009): CHECKSTYLE: OFF
 
     public CacheException()
     {

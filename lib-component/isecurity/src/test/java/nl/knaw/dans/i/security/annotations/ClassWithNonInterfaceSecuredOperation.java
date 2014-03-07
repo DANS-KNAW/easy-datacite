@@ -1,6 +1,5 @@
 package nl.knaw.dans.i.security.annotations;
 
-
 public class ClassWithNonInterfaceSecuredOperation implements IB
 {
 
@@ -10,12 +9,12 @@ public class ClassWithNonInterfaceSecuredOperation implements IB
     {
 
     }
-    
+
     @SecuredOperation(id = "nl.knaw.dans.i.security.annotations.IA.iASecuredOperation")
     @Override
     public void iASecuredOperation(String s)
     {
-        
+
     }
 
     @Override
@@ -36,11 +35,11 @@ public class ClassWithNonInterfaceSecuredOperation implements IB
     {
 
     }
-    
+
     @SecuredOperation
     public void classCSecuredPublicMethod()
     {
-        
+
     }
 
 }

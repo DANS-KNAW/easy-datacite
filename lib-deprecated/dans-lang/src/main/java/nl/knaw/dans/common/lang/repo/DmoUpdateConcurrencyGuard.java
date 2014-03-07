@@ -13,17 +13,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This object saves the necessary info about dmo's, so that it can
- * determine if a dmo can be changed or not.
- * 
- * The main idea of this class is that a dmo can only be overwritten 
- * with an older version of itself if the user who decides to do this was
- * the same person who made the new version. This class also uses the
- * invalidation mechanism to check if a dmo is not already outdated.
+ * This object saves the necessary info about dmo's, so that it can determine if a dmo can be changed or
+ * not. The main idea of this class is that a dmo can only be overwritten with an older version of itself
+ * if the user who decides to do this was the same person who made the new version. This class also uses
+ * the invalidation mechanism to check if a dmo is not already outdated.
  * 
  * @author ecco (initial version)
- * @author lobo (refactored to work in combination with the invalidation
- * mechanism)
+ * @author lobo (refactored to work in combination with the invalidation mechanism)
  */
 public class DmoUpdateConcurrencyGuard
 {
@@ -127,9 +123,8 @@ public class DmoUpdateConcurrencyGuard
         }
 
         /**
-         * The main idea is that a dmo can only be overwritten 
-         * with an older version of itself IF the user who decides 
-         * to do this was the same person who made the new version. 
+         * The main idea is that a dmo can only be overwritten with an older version of itself IF the
+         * user who decides to do this was the same person who made the new version.
          */
         public boolean isUpdateable(long loadTime, String updater)
         {

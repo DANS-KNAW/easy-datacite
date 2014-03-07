@@ -6,9 +6,8 @@ import java.io.InputStream;
 
 /**
  * Configuration of a {@link Mailer} instance.
- *
+ * 
  * @author Joke Pol
- *
  */
 public final class DansMailerConfiguration extends CommonMailerConfiguration implements MailerConfiguration
 {
@@ -26,11 +25,13 @@ public final class DansMailerConfiguration extends CommonMailerConfiguration imp
 
     /**
      * Creates a customized instance.
-     *
-     * @param input The customized configuration values.
-     * @throws IOException IOException If an error occurred when reading from the input stream.
-     * @throws IllegalArgumentException If the input stream contains a malformed UniCode escape
-     *             sequence.
+     * 
+     * @param input
+     *        The customized configuration values.
+     * @throws IOException
+     *         IOException If an error occurred when reading from the input stream.
+     * @throws IllegalArgumentException
+     *         If the input stream contains a malformed UniCode escape sequence.
      */
     public DansMailerConfiguration(final InputStream inputStream) throws IOException
     {
@@ -44,14 +45,15 @@ public final class DansMailerConfiguration extends CommonMailerConfiguration imp
     }
 
     /**
-     * Creates a customized instance. Calls {@link #MailerProperties(InputStream)} with a wrapped
-     * string.
-     *
-     * @param input The customized configuration values. If {@link #SMTP_HOST_KEY} is not specified,
-     *            no host will be set and no mails will be sent.
+     * Creates a customized instance. Calls {@link #MailerProperties(InputStream)} with a wrapped string.
+     * 
+     * @param input
+     *        The customized configuration values. If {@link #SMTP_HOST_KEY} is not specified, no host
+     *        will be set and no mails will be sent.
      * @return A customized instance.
-     * @throws MailerConfiguration.Exception An unexpected {@link IOException} of
-     *             {@link #MailerProperties(InputStream)} is turned into a runtime exception.
+     * @throws MailerConfiguration.Exception
+     *         An unexpected {@link IOException} of {@link #MailerProperties(InputStream)} is turned into
+     *         a runtime exception.
      */
     public static MailerConfiguration createCustomized(final String input) throws Exception
     {
@@ -68,10 +70,11 @@ public final class DansMailerConfiguration extends CommonMailerConfiguration imp
 
     /**
      * Gets a default instance. Calls {@link #MailerProperties(InputStream)} with a null argument.
-     *
+     * 
      * @return A default instance.
-     * @throws MailerConfiguration.Exception An unexpected {@link IOException} of
-     *             {@link #MailerProperties(InputStream)} is turned into a runtime exception.
+     * @throws MailerConfiguration.Exception
+     *         An unexpected {@link IOException} of {@link #MailerProperties(InputStream)} is turned into
+     *         a runtime exception.
      */
     public static MailerConfiguration getDefaultInstance() throws Exception
     {

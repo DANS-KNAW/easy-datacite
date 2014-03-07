@@ -47,7 +47,7 @@ public class DmoUpdateConcurrencyGuardTest
         assertFalse(guard.isUpdateable(sessionAInstanceB, "A"));
 
         guard.onDmoUpdate(sessionAInstanceA, "A");
-        // session A now changeOwner, but instanceB was loaded before 
+        // session A now changeOwner, but instanceB was loaded before
         // session B updated it and therefore it cannot be changed
         // note: instance A of session A newer than instance of session B
         assertFalse(guard.isUpdateable(sessionAInstanceB, "A"));

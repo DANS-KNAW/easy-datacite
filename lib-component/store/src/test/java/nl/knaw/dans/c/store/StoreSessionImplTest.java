@@ -19,10 +19,10 @@ import org.junit.Test;
 // and that class does casts of DataModelObject to AbstractDataModelObject.
 public class StoreSessionImplTest extends EasyMock
 {
-    
+
     private static DataModelObject dmo;
     private static DmoStore dmoStore;
-    
+
     @BeforeClass
     public static void beforeClass()
     {
@@ -30,14 +30,14 @@ public class StoreSessionImplTest extends EasyMock
         dmoStore = createMock(DmoStore.class);
         Repository.register(dmoStore);
     }
-    
+
     @Test
     public void attach() throws Exception
     {
         StoreSession session = new StoreSessionImpl("foo1");
         DmoNamespace namespace = new DmoNamespace("bar-test");
         DmoStoreId dmoStoreId = new DmoStoreId("bar-test:1");
-        
+
         reset(dmo, dmoStore);
         expect(dmo.getDmoStoreId()).andReturn(null).times(1);
         expect(dmo.getDmoNamespace()).andReturn(namespace).times(1);
@@ -45,41 +45,41 @@ public class StoreSessionImplTest extends EasyMock
         dmo.setStoreId("bar-test:1");
         expect(dmo.getDmoStoreId()).andReturn(dmoStoreId).times(1);
         dmo.setUnitOfWork(EasyMock.isA(UnitOfWork.class));
-        
+
         replay(dmo, dmoStore);
         session.attach(dmo);
         DataModelObject dmoA = session.getDataModelObject(new DmoStoreId("bar-test:1"));
         verify(dmo, dmoStore);
-        
+
         assertEquals(dmo, dmoA);
     }
-    
+
     @Test
     public void getDataModelObject() throws Exception
     {
         StoreSession session = new StoreSessionImpl("foo2");
         DmoStoreId dmoStoreId = new DmoStoreId("bar-test:2");
-        
+
         reset(dmo, dmoStore);
         expect(dmoStore.retrieve(dmoStoreId)).andReturn(dmo);
         dmo.setUnitOfWork(EasyMock.isA(UnitOfWork.class));
-        
+
         replay(dmo, dmoStore);
         DataModelObject dmoR = session.getDataModelObject(dmoStoreId);
         verify(dmo, dmoStore);
-        
+
         assertEquals(dmo, dmoR);
     }
-    
+
     @Test(expected = ObjectNotInStoreException.class)
     public void getDataModelObjectAndNotFound() throws Exception
     {
         StoreSession session = new StoreSessionImpl("foo");
         DmoStoreId dmoStoreId = new DmoStoreId("bar-test:2");
-        
+
         reset(dmo, dmoStore);
         expect(dmoStore.retrieve(dmoStoreId)).andThrow(new ObjectNotInStoreException());
-        
+
         replay(dmo, dmoStore);
         session.getDataModelObject(dmoStoreId);
     }

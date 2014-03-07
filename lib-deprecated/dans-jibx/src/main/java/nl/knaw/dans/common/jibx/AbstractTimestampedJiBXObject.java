@@ -100,7 +100,7 @@ public abstract class AbstractTimestampedJiBXObject<T> extends AbstractJiBXObjec
         {
             try
             {
-                // put back original mvalues 
+                // put back original mvalues
                 if (saveOriginalMd5 != null)
                 {
                     originalMd5 = Arrays.copyOf(saveOriginalMd5, saveOriginalMd5.length);

@@ -87,19 +87,20 @@ public class MarkupUnit extends AbstractBinaryUnit
         setFileContent(getHtml().getBytes(), unitLabel, MIME_TYPE);
     }
 
-    //    /**
-    //     * Use only for deserialization, that is while reading from store.
-    //     * 
-    //     * @param html
-    //     *        the stored markup stream.
-    //     */
-    //    public void setStoredHtml(String html)
-    //    {
-    //        this.html = html;
-    //    }
+    // /**
+    // * Use only for deserialization, that is while reading from store.
+    // *
+    // * @param html
+    // * the stored markup stream.
+    // */
+    // public void setStoredHtml(String html)
+    // {
+    // this.html = html;
+    // }
 
     /**
      * Get the html content, stored or just set.
+     * 
      * @return content of this HtmlMarkupUnit
      */
     public String getHtml()

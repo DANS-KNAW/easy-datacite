@@ -10,10 +10,11 @@ import nl.knaw.dans.common.lang.search.SearchResult;
 import nl.knaw.dans.common.lang.search.exceptions.FieldNotFoundException;
 
 /**
- * An empty result place holder.  
- *
+ * An empty result place holder.
+ * 
  * @author lobo
- * @param <T> the type of the search hits
+ * @param <T>
+ *        the type of the search hits
  */
 public class EmptySearchResult<T> implements SearchResult<T>
 {

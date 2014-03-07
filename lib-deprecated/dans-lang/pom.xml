@@ -3,9 +3,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>nl.knaw.dans.platform.deprecated</groupId>
-		<artifactId>dans-deprecated-parent</artifactId>
-		<version>1.0</version>
+		<groupId>nl.knaw.dans.easy</groupId>
+		<artifactId>easy-prototype</artifactId>
+		<version>2.9-SNAPSHOT</version>
+		<relativePath>../../lib/easy-prototype</relativePath>
 	</parent>
 	<artifactId>dans-lang</artifactId>
 	<packaging>jar</packaging>

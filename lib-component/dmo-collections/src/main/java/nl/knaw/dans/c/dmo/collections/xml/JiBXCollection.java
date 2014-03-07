@@ -13,9 +13,9 @@ import nl.knaw.dans.common.lang.xml.XMLSerializationException;
 
 public class JiBXCollection extends AbstractJiBXObject<JiBXCollection>
 {
-    
+
     private static final long serialVersionUID = -1753385302725866794L;
-    
+
     private String namespace;
     private String id;
     private String label = "[no label]";
@@ -23,11 +23,10 @@ public class JiBXCollection extends AbstractJiBXObject<JiBXCollection>
     private boolean publishedAsOAISet;
     private JiBXDublinCoreMetadata dcMetadata;
     private List<JiBXCollection> children;
-    
-    
+
     public JiBXCollection()
     {
-        
+
     }
 
     public String getNamespace()
@@ -59,7 +58,7 @@ public class JiBXCollection extends AbstractJiBXObject<JiBXCollection>
     {
         this.label = label;
     }
-    
+
     public String getShortName()
     {
         return shortName;
@@ -98,11 +97,10 @@ public class JiBXCollection extends AbstractJiBXObject<JiBXCollection>
     {
         if (dcMetadataElement != null)
         {
-            dcMetadata = (JiBXDublinCoreMetadata) 
-                JiBXObjectFactory.unmarshal(JiBXDublinCoreMetadata.class, dcMetadataElement);
+            dcMetadata = (JiBXDublinCoreMetadata) JiBXObjectFactory.unmarshal(JiBXDublinCoreMetadata.class, dcMetadataElement);
         }
     }
-    
+
     public Element getDcMetadataElement() throws XMLSerializationException
     {
         if (dcMetadata == null)
@@ -128,7 +126,7 @@ public class JiBXCollection extends AbstractJiBXObject<JiBXCollection>
     {
         this.children = children;
     }
-    
+
     public void addChild(JiBXCollection child)
     {
         getChildren().add(child);

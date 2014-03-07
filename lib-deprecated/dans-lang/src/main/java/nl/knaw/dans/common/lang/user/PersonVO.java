@@ -25,8 +25,9 @@ public class PersonVO implements Person
     @LdapAttribute(id = "givenName")
     private String firstname;
 
-    /** used for words that are positioned between a person's first and last name.
-     * Surname prefix, in Dutch (tussenvoegsels) like "van den" or "de"
+    /**
+     * used for words that are positioned between a person's first and last name. Surname prefix, in
+     * Dutch (tussenvoegsels) like "van den" or "de"
      */
     @LdapAttribute(id = "dansPrefixes")
     private String prefixes;

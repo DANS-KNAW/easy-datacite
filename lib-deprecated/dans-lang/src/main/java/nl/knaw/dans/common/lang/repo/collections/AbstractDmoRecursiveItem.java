@@ -54,7 +54,7 @@ public abstract class AbstractDmoRecursiveItem extends AbstractDmoContainerItem 
     {
         Set<String> contentModels = super.getContentModels();
 
-        // replace container and containerItem content model with recursive item 
+        // replace container and containerItem content model with recursive item
         contentModels.remove(AbstractDmoContainer.CONTENTMODEL);
         contentModels.remove(AbstractDmoContainerItem.CONTENT_MODEL);
         contentModels.add(CONTENT_MODEL);

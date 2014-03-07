@@ -14,10 +14,8 @@ public abstract class AbstractDmoCollection extends AbstractDataModelObject impl
     private List<RelationConstraint> constraints = new ArrayList<RelationConstraint>();
 
     /*
-    public AbstractDmoCollection()
-    {
-    	super();
-    } */
+     * public AbstractDmoCollection() { super(); }
+     */
 
     public AbstractDmoCollection(String storeId)
     {

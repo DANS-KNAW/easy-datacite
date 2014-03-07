@@ -19,7 +19,7 @@ public interface Configuration
      * 
      * @return list of DmoNamespaces
      */
-    List<DmoNamespace> getCollectionNamespaces(); 
+    List<DmoNamespace> getCollectionNamespaces();
 
     /**
      * Get the identifier for the content model of OAI sets in use. F.i. 'easy-model:oai-set1'.

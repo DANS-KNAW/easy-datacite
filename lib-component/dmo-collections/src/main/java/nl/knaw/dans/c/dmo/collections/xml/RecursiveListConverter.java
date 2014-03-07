@@ -9,9 +9,9 @@ import nl.knaw.dans.i.dmo.collections.DmoCollection;
 
 public class RecursiveListConverter
 {
-    
+
     private static int ordinal;
-    
+
     public static synchronized RecursiveList convert(DmoCollection collection)
     {
         RecursiveList recursiveList = new JiBXRecursiveList(collection.getDmoNamespace().getValue());
@@ -32,8 +32,7 @@ public class RecursiveListConverter
         {
             doConvert(kid, entry);
         }
-        
-    }
 
+    }
 
 }

@@ -24,8 +24,8 @@ public interface XMLLangString extends Serializable
     String getLanguage();
 
     /**
-     * Set the language token. Acceptable values are <code>null</code>, the empty string and a string conforming to the
-     * regular expression of {@link #LANGUAGE_TOKEN}.
+     * Set the language token. Acceptable values are <code>null</code>, the empty string and a string
+     * conforming to the regular expression of {@link #LANGUAGE_TOKEN}.
      * 
      * @param language
      *        the language token
@@ -52,14 +52,15 @@ public interface XMLLangString extends Serializable
     /**
      * Save method to set the language token; it looks up 3-letter language and country codes.
      * <p>
-     * The Locale argument should be constructed according to the Locale API. Quoted from {@link Locale}: <blockquote>
+     * The Locale argument should be constructed according to the Locale API. Quoted from {@link Locale}:
+     * <blockquote>
      * <p>
-     * The language argument is a valid ISO Language Code. These codes are the lower-case, two-letter codes as defined
-     * by ISO-639.
+     * The language argument is a valid ISO Language Code. These codes are the lower-case, two-letter
+     * codes as defined by ISO-639.
      * </p>
      * <p>
-     * The country argument is a valid ISO Country Code. These codes are the upper-case, two-letter codes as defined by
-     * ISO-3166.
+     * The country argument is a valid ISO Country Code. These codes are the upper-case, two-letter codes
+     * as defined by ISO-3166.
      * </p>
      * </blockquote>
      * 

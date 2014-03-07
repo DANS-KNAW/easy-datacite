@@ -121,7 +121,7 @@ public abstract class AbstractTimestampedObject implements TimestampedObject
         {
             try
             {
-                // put back original mvalues 
+                // put back original mvalues
                 if (saveOriginalMd5 != null)
                 {
                     originalMd5 = Arrays.copyOf(saveOriginalMd5, saveOriginalMd5.length);
@@ -143,10 +143,10 @@ public abstract class AbstractTimestampedObject implements TimestampedObject
     }
 
     /**
-     * Evaluate if this TimestampedObject needs to be marked as changed in such a way that it is, or is not consistent
-     * with it's persisted state anymore, given an old attribute value and the new attribute value. This method can be
-     * used on setter-methods of classes that extend {@link AbstractTimestampedObject}. This method automatically sets
-     * the dirty flag.
+     * Evaluate if this TimestampedObject needs to be marked as changed in such a way that it is, or is
+     * not consistent with it's persisted state anymore, given an old attribute value and the new
+     * attribute value. This method can be used on setter-methods of classes that extend
+     * {@link AbstractTimestampedObject}. This method automatically sets the dirty flag.
      * 
      * @param value1
      *        value of attribute
@@ -183,8 +183,8 @@ public abstract class AbstractTimestampedObject implements TimestampedObject
      *        one of the objects recognized in <a
      *        href="http://joda-time.sourceforge.net/api-release/org/joda/time/convert/ConverterManager.html"
      *        >ConverterManager</a>
-     * @return negative value if date is less, 0 if equal, or positive value if greater. 0 if one of the parameters is
-     *         null.
+     * @return negative value if date is less, 0 if equal, or positive value if greater. 0 if one of the
+     *         parameters is null.
      * @throws IllegalArgumentException
      *         if date or compareDate could not be converted.
      */

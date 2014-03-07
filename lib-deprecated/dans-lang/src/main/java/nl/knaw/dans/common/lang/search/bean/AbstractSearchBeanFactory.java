@@ -115,7 +115,7 @@ public abstract class AbstractSearchBeanFactory implements SearchBeanFactory
                     {
                         // Don't change the type of value if we have a non-default converter
                         // instead, let the converter do it's work
-                        //if (ClassUtil.classImplements(fieldType, Collection.class) )
+                        // if (ClassUtil.classImplements(fieldType, Collection.class) )
                         if (ClassUtil.classImplements(fieldType, Collection.class) && converterClass.equals(DefaultSearchFieldConverter.class))
                         {
                             ArrayList listValue = new ArrayList(1);

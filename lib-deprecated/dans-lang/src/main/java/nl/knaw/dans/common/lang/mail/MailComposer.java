@@ -263,7 +263,7 @@ public class MailComposer
         }
         catch (InvocationTargetException e)
         {
-            //throw new MailComposerException(e); // GK: don't throw this!
+            // throw new MailComposerException(e); // GK: don't throw this!
         }
 
         return value;

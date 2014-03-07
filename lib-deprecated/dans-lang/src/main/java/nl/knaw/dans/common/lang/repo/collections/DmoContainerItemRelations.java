@@ -11,8 +11,7 @@ import nl.knaw.dans.common.lang.repo.relations.Relation;
 import nl.knaw.dans.common.lang.repo.relations.RelsConstants;
 
 /**
- * The relations object that is keeps track of the parents of 
- * a DmoContainerItem. 
+ * The relations object that is keeps track of the parents of a DmoContainerItem.
  * 
  * @author lobo
  */
@@ -59,9 +58,11 @@ public class DmoContainerItemRelations<T extends DataModelObject> extends Abstra
     }
 
     /**
-     * Express single relation: this subject is under the authority or control of the object denoted by superiorId.
+     * Express single relation: this subject is under the authority or control of the object denoted by
+     * superiorId.
      * 
-     * @param superiorId id of authority or control object
+     * @param superiorId
+     *        id of authority or control object
      */
     public void setSubordinateTo(DmoStoreId superiorId)
     {

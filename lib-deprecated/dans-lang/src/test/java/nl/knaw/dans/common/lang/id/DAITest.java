@@ -15,8 +15,8 @@ public class DAITest
     private static final String VSOI_DUMP = "src/test/resources/test-files/dai/vsoi-dump.csv";
 
     /**
-     * A DAI consists of 8 digits + a checksum character.
-     * Test the values in the test file VSOI_DUMP.
+     * A DAI consists of 8 digits + a checksum character. Test the values in the test file VSOI_DUMP.
+     * 
      * @throws Exception
      */
     @Test

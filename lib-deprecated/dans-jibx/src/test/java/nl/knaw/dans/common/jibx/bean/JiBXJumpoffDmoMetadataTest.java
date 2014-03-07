@@ -19,7 +19,7 @@ public class JiBXJumpoffDmoMetadataTest
     public void serializeDeserializeEmpty() throws Exception
     {
         JiBXJumpoffDmoMetadata jomd = new JiBXJumpoffDmoMetadata();
-        //if (verbose)
+        // if (verbose)
         logger.debug("\n" + jomd.asXMLString(4) + "\n");
 
         JiBXJumpoffDmoMetadata jomd2 = (JiBXJumpoffDmoMetadata) JiBXObjectFactory.unmarshal(JiBXJumpoffDmoMetadata.class, jomd.asObjectXML());
@@ -34,7 +34,7 @@ public class JiBXJumpoffDmoMetadataTest
         jomd.getHtmlMarkupMetadata().setLastEditedBy("html-author-id");
         jomd.getTextMarkupMetadata().setLastEditedBy("text-author-id");
 
-        //if (verbose)
+        // if (verbose)
         logger.debug("\n" + jomd.asXMLString(4) + "\n");
 
         JiBXJumpoffDmoMetadata jomd2 = (JiBXJumpoffDmoMetadata) JiBXObjectFactory.unmarshal(JiBXJumpoffDmoMetadata.class, jomd.asObjectXML());

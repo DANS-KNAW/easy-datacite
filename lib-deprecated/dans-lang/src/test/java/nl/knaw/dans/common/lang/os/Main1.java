@@ -7,7 +7,7 @@ public class Main1
 
     /**
      * @param args
-     * @throws IOException 
+     * @throws IOException
      */
     public static void main(String[] args) throws IOException
     {

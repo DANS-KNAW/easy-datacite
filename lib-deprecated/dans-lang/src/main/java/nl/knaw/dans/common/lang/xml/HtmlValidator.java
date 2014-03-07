@@ -38,7 +38,7 @@ public class HtmlValidator implements TidyMessageListener
         tidy = new Tidy();
         tidy.setMessageListener(this);
         tidy.setBreakBeforeBR(true);
-        //tidy.setSmartIndent(true);
+        // tidy.setSmartIndent(true);
         tidy.setForceOutput(true);
         tidy.setQuiet(true);
         resetMessages();

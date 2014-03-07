@@ -78,9 +78,10 @@ public class FedoraDmoStore extends AbstractDmoStore
     /**
      * Create a new FedoraStore.
      */
-    public FedoraDmoStore(final String name, final Fedora fedora)//, final DmoContext context, final DmoFactory factory)
+    public FedoraDmoStore(final String name, final Fedora fedora)// , final DmoContext context, final
+                                                                 // DmoFactory factory)
     {
-        super(name); //, context, factory);
+        super(name); // , context, factory);
         this.fedora = fedora;
         addConverters();
     }
@@ -213,7 +214,7 @@ public class FedoraDmoStore extends AbstractDmoStore
             // that are not in DmoContainerItemRelations.
             // TODO So get rid of this stupid multi inheritance DisciplineContainer.
             getConverter(dmo.getDmoNamespace()).prepareForUpdate(dmo);
-            ///
+            // /
 
             final Relations relations = dmo.getRelations();
             if (relations != null)
@@ -222,7 +223,7 @@ public class FedoraDmoStore extends AbstractDmoStore
                 {
 
                     final String rdf = FedoraRelationsConverter.generateRdf(dmo);
-                    //System.err.println("this is rdf generated\n" + rdf);
+                    // System.err.println("this is rdf generated\n" + rdf);
 
                     if (updateCount == 0)
                         beforeUpdate(dmo);
@@ -441,7 +442,8 @@ public class FedoraDmoStore extends AbstractDmoStore
     }
 
     /**
-     * Register the Converters listed in <code>converters</code> to the converters of this Store. Use this method for dependency injection by a framework.
+     * Register the Converters listed in <code>converters</code> to the converters of this Store. Use
+     * this method for dependency injection by a framework.
      * 
      * @param converters
      *        converters to register
@@ -455,10 +457,12 @@ public class FedoraDmoStore extends AbstractDmoStore
     }
 
     /**
-     * Add a converter capable of conversion to and from {@link DigitalObject} and a {@link DataModelObject} type.
+     * Add a converter capable of conversion to and from {@link DigitalObject} and a
+     * {@link DataModelObject} type.
      * 
      * @param converter
-     *        a converter who's converterId equals the objectNamespace of the DataModelObject type it is converting
+     *        a converter who's converterId equals the objectNamespace of the DataModelObject type it is
+     *        converting
      */
     public void addConverter(final DobConverter<?> converter)
     {
@@ -473,7 +477,8 @@ public class FedoraDmoStore extends AbstractDmoStore
      *        objectNamespace of DataModelObject corresponds to converterId of converter
      * @return converter for the DataModelObject type
      * @throws RepositoryException
-     *         if a converter with a converterId corresponding to the given objectNamespace is not available
+     *         if a converter with a converterId corresponding to the given objectNamespace is not
+     *         available
      */
     @SuppressWarnings("rawtypes")
     public DobConverter getConverter(final DmoNamespace objectNamespace) throws RepositoryException

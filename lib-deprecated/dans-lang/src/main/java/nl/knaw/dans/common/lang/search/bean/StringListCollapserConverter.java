@@ -7,11 +7,9 @@ import java.util.List;
 import nl.knaw.dans.common.lang.search.exceptions.SearchBeanConverterException;
 
 /**
- * The bean can have the list (multi valued),
- * while the index has a comma separated string (single value)
- *
+ * The bean can have the list (multi valued), while the index has a comma separated string (single value)
+ * 
  * @author paulboon
- *
  */
 public class StringListCollapserConverter implements SearchFieldConverter<List<String>>
 {
@@ -105,10 +103,9 @@ public class StringListCollapserConverter implements SearchFieldConverter<List<S
     }
 
     /**
-     * determine if a character is escaped by '\'
-     * because the escape char can be escaped  we
-     * determine if the position is preceded by an uneven number of slashes.
-     *
+     * determine if a character is escaped by '\' because the escape char can be escaped we determine if
+     * the position is preceded by an uneven number of slashes.
+     * 
      * @param str
      * @param pos
      * @return

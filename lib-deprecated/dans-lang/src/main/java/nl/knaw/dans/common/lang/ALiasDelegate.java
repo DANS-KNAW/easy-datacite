@@ -47,7 +47,8 @@ public class ALiasDelegate<T>
     }
 
     /**
-     * @return an {@link AliasInterface} such that {@link AliasInterface#getAliasClass()}.equals(aliasClass)
+     * @return an {@link AliasInterface} such that {@link AliasInterface#getAliasClass()}
+     *         .equals(aliasClass)
      */
     public AliasInterface<T> valueOf(final Class<? extends T> aliasClass)
     {

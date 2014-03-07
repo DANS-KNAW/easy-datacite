@@ -4,9 +4,8 @@ import java.util.Map;
 
 /**
  * Configuration of a {@link Mailer} instance.
- *
+ * 
  * @author joke
- *
  */
 public interface MailerConfiguration
 {
@@ -31,15 +30,12 @@ public interface MailerConfiguration
     public static final String FROM_ADDRESS_KEY = "mailer.sender.address";
 
     /**
-     * Prefix for property keys specifying images for HTML messages. The key-portion after the
-     * prefix should equal the content-id in the src attribute of the HTML message part. Images are
-     * only attached if the HTML message contains the content-ID. Example:
-     * </ul>
-     * <li>In the HTML variant of a message: <code>&lt;img src="cid:logo"></code></li>
-     * <li>In a configuration file: <code>mailer.sender.image.logo=image.gif</code>
-     * <li>In a hard coded configuration:
-     * <code>MailerConfiguration.IMAGE_KEY_PREFIX + "logo=image.gif\n"</code>
-     * </ul>
+     * Prefix for property keys specifying images for HTML messages. The key-portion after the prefix
+     * should equal the content-id in the src attribute of the HTML message part. Images are only
+     * attached if the HTML message contains the content-ID. Example: </ul> <li>In the HTML variant of a
+     * message: <code>&lt;img src="cid:logo"></code></li> <li>In a configuration file:
+     * <code>mailer.sender.image.logo=image.gif</code> <li>In a hard coded configuration:
+     * <code>MailerConfiguration.IMAGE_KEY_PREFIX + "logo=image.gif\n"</code> </ul>
      */
     public static final String IMAGE_KEY_PREFIX = "mailer.sender.image.";
 

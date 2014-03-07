@@ -269,7 +269,8 @@ public class DigitalObjectProperties extends AbstractTimestampedJiBXObject<Digit
     /**
      * Get the date of last modification of the digital object.
      * 
-     * @return the date of last modification of the digital object or <code>null</code> if it is not known
+     * @return the date of last modification of the digital object or <code>null</code> if it is not
+     *         known
      */
     public DateTime getLastModified()
     {

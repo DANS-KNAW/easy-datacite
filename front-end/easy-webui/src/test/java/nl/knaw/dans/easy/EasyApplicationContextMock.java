@@ -73,7 +73,7 @@ public class EasyApplicationContextMock extends ApplicationContextMock
         setSecurity(new Security(getCodedAuthz()));
         setEditableContentHome(new FileSystemHomeDirectory(editableFiles));
         setSystemReadOnlyStatus(PowerMock.createMock(SystemReadOnlyStatus.class));
-
+        setStaticContentBaseUrl("http://example/base/url");
         EasyMock.expect(getSystemReadOnlyStatus().getReadOnly()).andStubReturn(false);
         getCodedAuthz().setSystemReadOnlyStatus(getSystemReadOnlyStatus());
     }
@@ -211,6 +211,16 @@ public class EasyApplicationContextMock extends ApplicationContextMock
     public void setSystemReadOnlyStatus(final SystemReadOnlyStatus systemReadOnlyStatus)
     {
         putBean("systemReadOnlyStatus", systemReadOnlyStatus);
+    }
+
+    public void setStaticContentBaseUrl(String url)
+    {
+        putBean("staticContentBaseUrl", url);
+    }
+
+    public String getStaticContentBaseUrl()
+    {
+        return (String) getBean("staticContentBaseUrl");
     }
 
     public Security getSecurity()

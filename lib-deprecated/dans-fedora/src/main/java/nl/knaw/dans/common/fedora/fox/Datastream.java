@@ -176,7 +176,9 @@ public class Datastream extends AbstractTimestampedJiBXObject<Datastream>
 
     /**
      * Used by JiBX deserialization.
-     * @param list list with DatastreamVersions
+     * 
+     * @param list
+     *        list with DatastreamVersions
      */
     public void setDatastreamVersions(List<DatastreamVersion> list)
     {

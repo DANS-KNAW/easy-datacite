@@ -7,8 +7,8 @@ import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 
 /**
- * A container item may be child to one or more parent containers.  
- *
+ * A container item may be child to one or more parent containers.
+ * 
  * @author lobo
  */
 public interface DmoContainerItem extends DmoCollectionMember

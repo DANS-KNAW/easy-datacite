@@ -184,7 +184,8 @@ public abstract class AbstractDataModelObject extends AbstractStorableObject imp
     }
 
     /**
-     * @throws IllegalStateException if the authzStrategy was not set.
+     * @throws IllegalStateException
+     *         if the authzStrategy was not set.
      */
     @Override
     public AuthzStrategy getAuthzStrategy()

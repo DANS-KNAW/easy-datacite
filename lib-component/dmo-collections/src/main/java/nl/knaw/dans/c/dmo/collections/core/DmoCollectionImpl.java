@@ -28,16 +28,16 @@ import org.slf4j.LoggerFactory;
 
 public class DmoCollectionImpl extends AbstractDataModelObject implements DmoCollection, Observer
 {
-    
+
     private static final long serialVersionUID = -1334420292881968002L;
-    
+
     private static final Logger logger = LoggerFactory.getLogger(DmoCollectionImpl.class);
-    
+
     private final DmoNamespace dmoNamespace;
     private final List<DmoCollection> children = new ArrayList<DmoCollection>();
     private DmoCollectionImpl parent;
     private JiBXDublinCoreMetadata dcMetadata;
-    
+
     public DmoCollectionImpl(DmoStoreId dmoStoreId)
     {
         super(dmoStoreId);
@@ -53,29 +53,29 @@ public class DmoCollectionImpl extends AbstractDataModelObject implements DmoCol
         getDcMetadata().addDate(new DateTime().toString());
         getDcMetadata().addIdentifier(getStoreId());
     }
-    
+
     @Override
     public DmoNamespace getDmoNamespace()
     {
         return dmoNamespace;
     }
-    
+
     @Override
     public void setLabel(String label)
     {
         // label is updated by observable.notify. see #update(Observable, Object)
         getDcMetadata().set(PropertyName.Title, label);
     }
-    
+
     @Override
     public void update(Observable o, Object arg)
     {
         if (o instanceof JiBXDublinCoreMetadata)
         {
-            update((JiBXDublinCoreMetadata)o, ((PropertyName)arg));
+            update((JiBXDublinCoreMetadata) o, ((PropertyName) arg));
         }
     }
-    
+
     private void update(JiBXDublinCoreMetadata jibxDcMetadata, PropertyName propName)
     {
         if (PropertyName.Title.equals(propName))
@@ -83,11 +83,11 @@ public class DmoCollectionImpl extends AbstractDataModelObject implements DmoCol
             super.setLabel(jibxDcMetadata.getFirst(PropertyName.Title));
         }
     }
-    
+
     @Override
     public Set<String> getContentModels()
     {
-        Set<String> contentModels =  super.getContentModels();
+        Set<String> contentModels = super.getContentModels();
         contentModels.add(CONTENT_MODEL);
         return contentModels;
     }
@@ -97,28 +97,30 @@ public class DmoCollectionImpl extends AbstractDataModelObject implements DmoCol
     {
         return !hasParent() && !hasChildren();
     }
-    
+
     // in stead of using generics, return a typed relations object.
     @Override
     public DmoCollectionRelations getRelations()
     {
         return (DmoCollectionRelations) super.getRelations();
     }
-    
+
     @Override
     protected Relations newRelationsObject()
     {
         return new DmoCollectionRelations(this);
     }
-    
+
     public DublinCoreMetadata getDcMetadata()
     {
         return dcMetadata;
     }
-    
+
     /**
      * NO PUBLIC METHOD, used for deserialisation.
-     * @param jdc dcmd to set.
+     * 
+     * @param jdc
+     *        dcmd to set.
      */
     public void setDcMetadata(JiBXDublinCoreMetadata jdc)
     {
@@ -129,7 +131,7 @@ public class DmoCollectionImpl extends AbstractDataModelObject implements DmoCol
         dcMetadata = jdc;
         dcMetadata.addObserver(this);
     }
-    
+
     @Override
     public List<MetadataUnit> getMetadataUnits()
     {
@@ -143,7 +145,7 @@ public class DmoCollectionImpl extends AbstractDataModelObject implements DmoCol
     {
         return getRelations().hasOAISetRelation();
     }
-    
+
     public void publishAsOAISet()
     {
         DmoCollectionImpl parent = getParent();
@@ -154,7 +156,7 @@ public class DmoCollectionImpl extends AbstractDataModelObject implements DmoCol
         String setSpec = createOAISetSpec(getOAISetElement());
         getRelations().addOAISetRelation(setSpec, getLabel());
     }
-    
+
     public void unpublishAsOAISet()
     {
         for (DmoCollection child : getChildren())
@@ -163,7 +165,7 @@ public class DmoCollectionImpl extends AbstractDataModelObject implements DmoCol
         }
         getRelations().removeOAISetRelation();
     }
-    
+
     protected String createOAISetSpec(String setElements)
     {
         DmoCollectionImpl parent = getParent();
@@ -173,18 +175,18 @@ public class DmoCollectionImpl extends AbstractDataModelObject implements DmoCol
         }
         return setElements;
     }
-    
+
     protected String getOAISetElement()
     {
         return isRoot() ? getDmoNamespace().getValue() : getDmoStoreId().getId();
     }
-    
+
     @Override
     public String getShortName()
     {
         return getRelations().getShortName();
     }
-    
+
     @Override
     public void setShortName(String shortName)
     {
@@ -201,7 +203,7 @@ public class DmoCollectionImpl extends AbstractDataModelObject implements DmoCol
         }
         return parent;
     }
-    
+
     @Override
     public List<DmoCollection> getChildren()
     {
@@ -218,14 +220,14 @@ public class DmoCollectionImpl extends AbstractDataModelObject implements DmoCol
         }
         return Collections.unmodifiableList(children);
     }
-    
+
     @Override
     public boolean isRoot()
     {
         DmoStoreId dmoStoreId = getDmoStoreId();
         return !hasParent() && dmoStoreId != null && ROOT_ID.equals(dmoStoreId.getId());
     }
-    
+
     @Override
     public boolean isLeaf()
     {
@@ -237,7 +239,7 @@ public class DmoCollectionImpl extends AbstractDataModelObject implements DmoCol
     {
         return getParentId() != null;
     }
-    
+
     @Override
     public DmoStoreId getParentId()
     {
@@ -249,13 +251,13 @@ public class DmoCollectionImpl extends AbstractDataModelObject implements DmoCol
     {
         return !getChildIds().isEmpty();
     }
-    
+
     @Override
     public List<DmoStoreId> getChildIds()
     {
         return getRelations().getChildIds();
     }
-    
+
     public DmoCollectionImpl addChild(DmoCollection child) throws CollectionsException
     {
         if (getStoreId().equals(child.getStoreId()))
@@ -264,8 +266,8 @@ public class DmoCollectionImpl extends AbstractDataModelObject implements DmoCol
         }
         if (!getDmoNamespace().equals(child.getDmoNamespace()))
         {
-            throw new CollectionsException("Cannot add child with a different namespace." +
-            		" My namespace=" + getDmoNamespace() + ", child namespace=" + child.getDmoNamespace());
+            throw new CollectionsException("Cannot add child with a different namespace." + " My namespace=" + getDmoNamespace() + ", child namespace="
+                    + child.getDmoNamespace());
         }
         if (child.isPublishedAsOAISet())
         {
@@ -295,15 +297,14 @@ public class DmoCollectionImpl extends AbstractDataModelObject implements DmoCol
         }
         else if (hasParent())
         {
-            throw new CollectionsException("Cannot set parent. " +
-            		"Already got a parent. parentId=" + getParentId() + " " + this);
+            throw new CollectionsException("Cannot set parent. " + "Already got a parent. parentId=" + getParentId() + " " + this);
         }
         else if (isRoot())
         {
             throw new CollectionsException("Root of collection cannot be set as a child.");
         }
     }
-    
+
     public void removeChild(DmoCollection child) throws CollectionsException
     {
         DmoCollectionImpl childImpl;
@@ -315,19 +316,20 @@ public class DmoCollectionImpl extends AbstractDataModelObject implements DmoCol
         {
             throw new CollectionsException("Child is not a " + DmoCollectionImpl.class.getName());
         }
-        
+
         childImpl.removeParent(this);
         children.remove(child);
         getRelations().removeChild(child);
     }
-    
+
     @Override
     public boolean isOAIendNode(Set<DmoStoreId> memberIds)
     {
-        // removeAll "Returns true if this list changed as a result of the call.." (javadoc java.util.List)
+        // removeAll "Returns true if this list changed as a result of the call.." (javadoc
+        // java.util.List)
         return !getOAIPublishedDescendentIds().removeAll(memberIds);
     }
-    
+
     @Override
     public List<DmoCollection> getDescendants()
     {
@@ -339,7 +341,7 @@ public class DmoCollectionImpl extends AbstractDataModelObject implements DmoCol
         }
         return descendants;
     }
-    
+
     @Override
     public List<DmoStoreId> getDescendantIds()
     {
@@ -351,7 +353,7 @@ public class DmoCollectionImpl extends AbstractDataModelObject implements DmoCol
         }
         return descendantIds;
     }
-    
+
     @Override
     public List<DmoStoreId> getOAIPublishedDescendentIds()
     {
@@ -366,7 +368,7 @@ public class DmoCollectionImpl extends AbstractDataModelObject implements DmoCol
         }
         return descendantIds;
     }
-    
+
     private void removeParent(DmoCollection parent) throws CollectionsException
     {
         if (parent.getStoreId().equals(getParentId()))
@@ -378,11 +380,10 @@ public class DmoCollectionImpl extends AbstractDataModelObject implements DmoCol
         }
         else
         {
-            throw new CollectionsException("Parent '" + parent.getStoreId() 
-                    + "' cannot be removed, because my parent is '" + getParentId() + ". " + this);
+            throw new CollectionsException("Parent '" + parent.getStoreId() + "' cannot be removed, because my parent is '" + getParentId() + ". " + this);
         }
     }
-    
+
     private DmoCollection getObject(DmoStoreId dmoStoreId)
     {
         DmoCollection dmoCollection = null;
@@ -401,6 +402,5 @@ public class DmoCollectionImpl extends AbstractDataModelObject implements DmoCol
         }
         return dmoCollection;
     }
-
 
 }

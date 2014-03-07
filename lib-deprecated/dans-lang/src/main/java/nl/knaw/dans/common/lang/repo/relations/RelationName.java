@@ -27,9 +27,7 @@ import org.jrdf.graph.TypedNodeVisitor;
 import org.jrdf.graph.URIReference;
 
 /**
- *  This class was gotten from the Fedora 3.2.1 source.
- *  
- * A URIReference from a known namespace.
+ * This class was gotten from the Fedora 3.2.1 source. A URIReference from a known namespace.
  */
 public class RelationName implements URIReference
 {
@@ -63,10 +61,9 @@ public class RelationName implements URIReference
     }
 
     /**
-     * Does the given string loosely match this name? Either: 1) It matches
-     * localName (case insensitive) 2) It matches uri (case sensitive) if
-     * (firstLocalNameChar == true): 3) It is one character long, and that
-     * character matches the first character of localName (case insensitive)
+     * Does the given string loosely match this name? Either: 1) It matches localName (case insensitive)
+     * 2) It matches uri (case sensitive) if (firstLocalNameChar == true): 3) It is one character long,
+     * and that character matches the first character of localName (case insensitive)
      */
     public boolean looselyMatches(String in, boolean tryFirstLocalNameChar)
     {
