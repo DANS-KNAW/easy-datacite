@@ -3,9 +3,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>nl.knaw.dans.easy</groupId>
-	<artifactId>easy-build</artifactId>
+	<artifactId>easy-app</artifactId>
 	<version>2.9-SNAPSHOT</version>
-	<name>EASY Master Build</name>
+	<name>EASY Applications Master Build</name>
 	<packaging>pom</packaging>
 	<modules>
 		<!-- Front-end Modules -->
