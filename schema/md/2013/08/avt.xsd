@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:avt="http://easy.dans.knaw.nl/schemas/md/avt/"
+    xmlns:dct="http://purl.org/dc/terms/"
+    targetNamespace="http://easy.dans.knaw.nl/schemas/md/avt/"
+    elementFormDefault="qualified" attributeFormDefault="unqualified">
+    
+    <!-- =================================================================================== -->
+    <xs:annotation>
+        <xs:documentation xml:lang="en">Audio/Video File Transmission (AVT)
+            
+            This schema specifies a metadata-format for describing an audio visual dataset. 
+            An instance of this metadata-format can be used as descriptive metadata by an ingest
+            of audio/visual material via the Noterik dropboxmonitor.
+            
+            Created 2013-08-27
+            
+            Copyright (c) 2013 DANS-KNAW 
+        </xs:documentation>
+    </xs:annotation>
+    
+    <!-- =================================================================================== -->
+    <xs:import namespace="http://www.w3.org/XML/1998/namespace"
+        schemaLocation="http://www.w3.org/2001/03/xml.xsd"/>
+    <xs:import namespace="http://purl.org/dc/elements/1.1/"
+        schemaLocation="http://dublincore.org/schemas/xmls/qdc/dc.xsd"/>
+    <xs:import namespace="http://purl.org/dc/terms/"
+        schemaLocation="http://dublincore.org/schemas/xmls/qdc/dcterms.xsd"/>
+    
+    <!-- =================================================================================== -->
+    <xs:element name="AVT">
+        <xs:complexType>
+            <xs:all>
+                <xs:element name="dataset-list" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="dataset" type="avt:DatasetType" minOccurs="0" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:all>
+            <xs:attribute name="domain" fixed="DANS"/>
+        </xs:complexType>
+    </xs:element>
+    
+    <!-- =================================================================================== -->
+    <xs:complexType name="DatasetType">
+        <xs:complexContent>
+            <xs:extension base="avt:DigitalObjectType">
+                <xs:sequence>
+                    <xs:element name="project-list" minOccurs="0">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="project" type="avt:ProjectType" minOccurs="0" maxOccurs="unbounded"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <!-- =================================================================================== -->
+    <xs:complexType name="ProjectType">
+        <xs:complexContent>
+            <xs:extension base="avt:DigitalObjectType">
+                <xs:sequence>
+                    <xs:element name="presentation-list" minOccurs="0">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="presentation" type="avt:PresentationType" minOccurs="0" maxOccurs="unbounded"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <!-- =================================================================================== -->
+    <xs:complexType name="PresentationType">
+        <xs:complexContent>
+            <xs:extension base="avt:DigitalObjectType">
+                <xs:sequence>
+                    <xs:element name="reel-list" minOccurs="0">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="reel" type="avt:ReelType" minOccurs="0" maxOccurs="unbounded"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="confinement" type="avt:RestrictionType" default="restricted" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <!-- =================================================================================== -->
+    <xs:complexType name="ReelType">
+        <xs:complexContent>
+            <xs:extension base="avt:DigitalObjectType">
+               <xs:sequence>
+                   <xs:element name="file-name" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                   <xs:element name="order" type="xs:int" minOccurs="0" maxOccurs="1"/>
+               </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- =================================================================================== -->
+    <xs:complexType name="DigitalObjectType">
+        <xs:sequence>
+            <xs:element name="last-modified" type="xs:dateTime"/>
+            <xs:element name="state" type="avt:StateType"/>
+            <xs:element ref="avt:metadata" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="storeId" use="required"/>
+    </xs:complexType>
+    
+    <!-- =================================================================================== -->
+    <xs:element name="metadata">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="dct:elementOrRefinementContainer">
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    
+    <!-- =================================================================================== -->
+    <xs:simpleType name="RestrictionType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="public">
+                <xs:annotation>
+                    <xs:documentation>
+                        To obtain a media-stream, no ticket is needed.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="restricted">
+                <xs:annotation>
+                    <xs:documentation>
+                        To obtain a media-stream, a ticket is needed.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <!-- =================================================================================== -->
+    <xs:simpleType name="StateType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="active">
+                <xs:annotation>
+                    <xs:documentation>
+                        The object is published.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="inactive">
+                <xs:annotation>
+                    <xs:documentation>
+                        The object is in draft (not yet published) or temporary withdrawn.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="deleted">
+                <xs:annotation>
+                    <xs:documentation>
+                        The object is deleted.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <!-- =================================================================================== -->
+</xs:schema>
