@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>nl.knaw.dans.easy</groupId>
+		<artifactId>easy-prototype</artifactId>
+		<version>2.8</version>
+		<relativePath>../easy-prototype</relativePath>
+	</parent>
+	<artifactId>easy-ldap</artifactId>
+	<name>EASY LDAP Library</name>
+	<description>
+		Implementation of Data Access Point(s) in Easy business, using the Lightweight Directory Access Protocol
+	</description>
+	<packaging>jar</packaging>
+	<dependencies>
+		<dependency>
+			<groupId>nl.knaw.dans.easy</groupId>
+			<artifactId>easy-business</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>nl.knaw.dans.common</groupId>
+			<artifactId>dans-ldap</artifactId>
+		</dependency>
+	</dependencies>
+	<build>
+		<testResources>
+			<testResource>
+				<filtering>true</filtering>
+				<directory>src/test/resources</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+			</testResource>
+		</testResources>
+	</build>
+</project>
