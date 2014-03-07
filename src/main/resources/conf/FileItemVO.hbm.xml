@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    
+    <class name="nl.knaw.dans.easy.domain.dataset.item.FileItemVO" table="easy_files" schema="public">
+        <id name="sid" type="string">
+            <column name="pid" length="64" />
+            <generator class="assigned" />
+        </id>
+        <property name="parentSid" type="string">
+            <column name="parent_sid" length="64" not-null="true" />
+        </property>
+        <property name="datasetSid" type="string">
+            <column name="dataset_sid" length="64" not-null="true" />
+        </property>
+        <property name="path" type="string">
+            <column name="path" length="256" not-null="true" />
+        </property>        
+        <property name="name" type="string">
+            <column name="filename" length="256" not-null="true" />
+        </property>
+        <property name="size" type="int">
+            <column name="size" not-null="true" />
+        </property>
+        <property name="mimetype" type="string">
+            <column name="mimetype" length="64" not-null="true" />
+        </property>
+        <property name="creatorRole" type="nl.knaw.dans.easy.fedora.db.CreatorRoleEnumUserType">
+            <column name="creator_role" length="32" not-null="true" />
+        </property>
+        <property name="visibleTo" type="nl.knaw.dans.easy.fedora.db.VisibleToEnumUserType">
+            <column name="visible_to" length="32" not-null="true" />
+        </property>
+        <property name="accessibleTo" type="nl.knaw.dans.easy.fedora.db.AccessibleToEnumUserType">
+            <column name="accessible_to" length="32" not-null="true" />
+        </property>
+    </class>
+    
+</hibernate-mapping>

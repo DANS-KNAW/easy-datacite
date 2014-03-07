@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="nl.knaw.dans.easy.domain.dataset.item.FolderItemVisibleTo" table="easy_folder_visibility_status" schema="public">
+        <id name="id" type="long">
+            <column name="id" />
+            <generator class="sequence">
+				<param name="sequence">easy_folder_visibility_status_id_seq</param>
+            </generator>
+        </id>
+        <property name="folderSid" type="string">
+            <column name="pid" length="64" />
+        </property>
+        <property name="visibleTo" type="nl.knaw.dans.easy.fedora.db.VisibleToEnumUserType">
+            <column name="visible_to" length="32" />
+        </property>
+    </class>
+    
+</hibernate-mapping>

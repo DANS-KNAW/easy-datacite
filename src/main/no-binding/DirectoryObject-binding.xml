@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<format type="java.net.URI" serializer="nl.knaw.dans.easy.util.Converter.serializeURI"
+		deserializer="nl.knaw.dans.easy.util.Converter.deSerializeURI" />
+
+
+	<include path="Datastream-binding.xml" />
+
+	<!-- DigitalObject -->
+	<mapping name="digitalObject" class="nl.knaw.dans.easy.store.fox.DirectoryObject"
+		ns="info:fedora/fedora-system:def/foxml#">
+
+	<namespace uri="info:fedora/fedora-system:def/foxml#" prefix="foxml"/>
+
+	<value style="attribute" name="VERSION" get-method="getVersion" field="version"/>
+	<value style="attribute" name="PID" field="pid" usage="optional"/>
+	<value style="attribute" name="FEDORA_URI" field="fedoraURI" usage="optional"/>
+
+	<structure ns="info:fedora/fedora-system:def/foxml#" name="objectProperties" field="objectProperties"/>
+
+	<collection get-method="getDatastreams" set-method="setDatastreams"
+			type="java.util.ArrayList" usage="optional">
+			<structure type="nl.knaw.dans.easy.store.fox.Datastream" usage="optional"/>
+	</collection>
+	</mapping>
+
+
+	<!-- ObjectProperties -->
+	<mapping class="nl.knaw.dans.easy.store.fox.ObjectProperties" abstract="true">
+		<namespace uri="info:fedora/fedora-system:def/foxml#" prefix="foxml"/>
+		<collection usage="optional" get-method="getProperties" set-method="setProperties">
+			<structure ns="info:fedora/fedora-system:def/foxml#" name="property"
+				type="nl.knaw.dans.easy.store.fox.ObjectProperties$Property" usage="optional"/>
+		</collection>
+	</mapping>
+
+	<!-- Property -->
+	<mapping class="nl.knaw.dans.easy.store.fox.ObjectProperties$Property" abstract="true">
+		<value style="attribute" name="NAME" field="name"/>
+		<value style="attribute" name="VALUE" field="value"/>
+	</mapping>
+
+
+</binding>

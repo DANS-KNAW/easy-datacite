@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+  
+	<format type="org.joda.time.DateTime" serializer="nl.knaw.dans.easy.util.Converter.serializeDateTime"
+		deserializer="nl.knaw.dans.easy.util.Converter.deSerializeDateTime" />
+
+	<mapping class="nl.knaw.dans.easy.store.fox.DatastreamVersion" name="datastreamVersion"
+		ns="info:fedora/fedora-system:def/foxml#">
+
+		<namespace uri="info:fedora/fedora-system:def/foxml#" prefix="foxml"/>
+
+		<value style="attribute" name="ID" field="versionId"/>
+		<value style="attribute" name="LABEL" field="label" usage="optional"/>
+		  
+		<value style="attribute" name="CREATED" field="created" usage="optional"/>
+		<value style="attribute" name="MIMETYPE" field="mimeType" usage="optional"/>
+		<value style="attribute" name="ALT_IDS" get-method="getAltIdList" set-method="setAltIdList" usage="optional"/>
+		<value style="attribute" name="FORMAT_URI" field="formatURI" usage="optional"/>
+		<value style="attribute" name="SIZE" field="size" usage="optional"/>
+		
+  
+		<structure name="contentDigest" ns="info:fedora/fedora-system:def/foxml#" field="contentDigest" usage="optional"/>
+		<structure name="xmlContent" ns="info:fedora/fedora-system:def/foxml#" field="xmlContent" usage="optional"/>		
+		<structure name="contentLocation" ns="info:fedora/fedora-system:def/foxml#" field="contentLocation" usage="optional"/>
+		<value name="binaryContent" ns="info:fedora/fedora-system:def/foxml#" field="binaryContent" usage="optional"/>
+
+	</mapping>
+
+ 
+	<mapping class="nl.knaw.dans.easy.store.fox.DatastreamVersion$ContentDigest" abstract="true">
+		<value style="attribute" name="TYPE" field="typeCode" usage="optional"/>
+		<value style="attribute" name="DIGEST" field="digest" usage="optional"/>
+	</mapping>
+
+ 
+	<mapping class="nl.knaw.dans.easy.store.fox.XMLContent" abstract="true">
+		<structure field="element" type="org.dom4j.Element" marshaller="org.jibx.extras.patch.Dom4JElementMapper"
+				unmarshaller="org.jibx.extras.patch.Dom4JElementMapper" usage="optional"/>
+	</mapping>
+
+	<mapping class="nl.knaw.dans.easy.store.fox.ContentLocation" abstract="true">
+		<value style="attribute" name="TYPE" field="type"/>
+		<value style="attribute" name="REF" field="ref"/>
+	</mapping>
+
+</binding>
