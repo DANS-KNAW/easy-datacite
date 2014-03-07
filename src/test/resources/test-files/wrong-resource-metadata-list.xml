@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rmdl:resource-metadata-list xmlns:addmd="http://easy.dans.knaw.nl/easy/additional-metadata/"
+ xmlns:rmdl="http://easy.dans.knaw.nl/easy/resource-metadata-list/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://easy.dans.knaw.nl/easy/resource-metadata-list/ resource-metadata-list.xsd">
+    <resource-metadata>
+        <rmdl:identifier>
+<!--            <path>path0</path>-->
+            <sid>sid0</sid>
+        </rmdl:identifier>
+        <rmdl:rights>
+            <discover>ANONYMOUS_ACCESS</discover>
+            <read>ANONYMOUS_ACCESS</read>
+            <write>ANONYMOUS_ACCESS</write>
+            <delete>ANONYMOUS_ACCESS</delete>
+        </rmdl:rights>
+        <addmd:additional-metadata>
+            <properties>
+                <comment>comment0</comment>
+                <entry key="key0">entry0</entry>
+                <entry key="key1">entry1</entry>
+                <bla>foo bar</bla>
+            </properties>
+            <addmd:additional id="id0" label="label0">
+                <content>
+                    <thisCanBeAnyElement attr="any attribute">
+                        <orAnyComplexStructure>foo bar</orAnyComplexStructure>
+                    </thisCanBeAnyElement>
+                    <andMore>bla bla</andMore>
+                </content>
+            </addmd:additional>
+            <addmd:additional id="id1" label="label1">
+                <content>
+                </content>
+            </addmd:additional>
+            <nog>meer</nog>
+        </addmd:additional-metadata>
+    </resource-metadata>
+    <resource-metadata>
+        <rmdl:identifier>
+<!--            <path>path1</path>-->
+            <sid>sid1</sid>
+        </rmdl:identifier>
+        <rmdl:rights>
+            <discover>ANONYMOUS_ACCESS</discover>
+            <read>ANONYMOUS_ACCESS</read>
+            <write>ANONYMOUS_ACCESS</write>
+            <delete>ANONYMOUS_ACCESS</delete>
+        </rmdl:rights>
+        <addmd:additional-metadata>
+            <properties>
+                <comment>comment1</comment>
+                <entry key="key2">entry2</entry>
+                <entry key="key3">entry3</entry>
+            </properties>
+            <addmd:additional id="id2" label="label2">
+                <content>
+                </content>
+            </addmd:additional>
+            <addmd:additional id="id3" label="label3">
+                <content>
+                </content>
+            </addmd:additional>
+        </addmd:additional-metadata>
+    </resource-metadata>
+</rmdl:resource-metadata-list>

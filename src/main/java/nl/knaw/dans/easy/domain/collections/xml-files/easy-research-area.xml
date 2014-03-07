@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dmo-collection xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:oai-dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="https://easy.dans.knaw.nl/schemas/collections/dmo-collection.xsd"
+	dmo-namespace="easy-research-area" id="root">
+	<label>root of easy research area</label>
+	<short-name>research area</short-name>
+	<oai-set>false</oai-set>
+	
+</dmo-collection>

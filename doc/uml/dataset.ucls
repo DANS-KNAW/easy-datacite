@@ -1,0 +1,244 @@
+<class-diagram version="0.9.86" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="true" nesting-relationships="true">  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.domain.dataset.DatasetImpl" 
+    project="easy-business" file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/dataset/DatasetImpl.java" 
+    binary="false">    
+    <position x="460" y="611" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.common.lang.repo.collections.AbstractDmoRecursiveItem" 
+    project="dans-lang" 
+    file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/collections/AbstractDmoRecursiveItem.java" 
+    binary="false">    
+    <position x="124" y="535" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <interface corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.domain.model.Dataset" project="easy-business" 
+    file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/Dataset.java" binary="false">    
+    <position x="595" y="397" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </interface>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.domain.dataset.AdditionalLicenseUnit" 
+    project="easy-business" 
+    file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/dataset/AdditionalLicenseUnit.java" binary="false">    
+    <position x="101" y="470" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.domain.dataset.ItemContainerMetadataImpl" 
+    project="easy-business" 
+    file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/dataset/ItemContainerMetadataImpl.java" binary="false">    
+    <position x="112" y="402" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.domain.dataset.LicenseUnit" 
+    project="easy-business" file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/dataset/LicenseUnit.java" 
+    binary="false">    
+    <position x="102" y="334" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <interface corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.domain.model.AdministrativeMetadata" 
+    project="easy-business" 
+    file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/AdministrativeMetadata.java" binary="false">    
+    <position x="936" y="61" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </interface>  
+  <interface corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.domain.model.PermissionSequenceList" 
+    project="easy-business" 
+    file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/PermissionSequenceList.java" binary="false">    
+    <position x="836" y="161" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </interface>  
+  <interface corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.domain.model.emd.EasyMetadata" 
+    project="easy-business" file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/EasyMetadata.java" 
+    binary="false">    
+    <position x="462" y="276" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </interface>  
+  <interface corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.domain.model.user.Group" 
+    project="easy-business" file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/user/Group.java" 
+    binary="false">    
+    <position x="168" y="119" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </interface>  
+  <interface corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.easy.domain.model.DatasetItemContainer" 
+    project="easy-business" file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/DatasetItemContainer.java" 
+    binary="false">    
+    <position x="594" y="76" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </interface>  
+  <association>    
+    <bendpoint x="933" y="342"/>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.dataset.DatasetImpl" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/dataset/DatasetImpl.java" binary="false" 
+      navigable="false">      
+      <attribute name="administrativeMetadata"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </source>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.AdministrativeMetadata" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/AdministrativeMetadata.java" binary="false" 
+      navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.Dataset" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/Dataset.java" binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.DatasetItemContainer" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/DatasetItemContainer.java" binary="false"/>  
+  </generalization>  
+  <association>    
+    <bendpoint x="324" y="469"/>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.dataset.DatasetImpl" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/dataset/DatasetImpl.java" binary="false" 
+      navigable="false">      
+      <attribute name="additionalLicenseUnit"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </source>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.dataset.AdditionalLicenseUnit" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/dataset/AdditionalLicenseUnit.java" binary="false" 
+      navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association>    
+    <bendpoint x="322" y="259"/>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.dataset.DatasetImpl" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/dataset/DatasetImpl.java" binary="false" 
+      navigable="false">      
+      <attribute name="groups"/>      
+      <multiplicity minimum="0" maximum="2147483647"/>    
+    </source>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.user.Group" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/user/Group.java" binary="false" 
+      navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency>    
+    <bendpoint x="725" y="161"/>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.Dataset" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/Dataset.java" binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.PermissionSequenceList" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/PermissionSequenceList.java" binary="false"/>  
+  </dependency>  
+  <realization>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.dataset.DatasetImpl" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/dataset/DatasetImpl.java" binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.Dataset" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/Dataset.java" binary="false"/>  
+  </realization>  
+  <association>    
+    <bendpoint x="321" y="335"/>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.dataset.DatasetImpl" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/dataset/DatasetImpl.java" binary="false" 
+      navigable="false">      
+      <attribute name="licenseUnit"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </source>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.dataset.LicenseUnit" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/dataset/LicenseUnit.java" binary="false" 
+      navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency>    
+    <bendpoint x="742" y="62"/>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.Dataset" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/Dataset.java" binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.AdministrativeMetadata" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/AdministrativeMetadata.java" binary="false"/>  
+  </dependency>  
+  <dependency>    
+    <bendpoint x="543" y="120"/>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.Dataset" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/Dataset.java" binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.user.Group" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/user/Group.java" binary="false"/>  
+  </dependency>  
+  <association>    
+    <bendpoint x="835" y="298"/>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.dataset.DatasetImpl" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/dataset/DatasetImpl.java" binary="false" 
+      navigable="false">      
+      <attribute name="permissionSequenceList"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </source>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.PermissionSequenceList" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/PermissionSequenceList.java" binary="false" 
+      navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization>    
+    <bendpoint x="327" y="535"/>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.dataset.DatasetImpl" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/dataset/DatasetImpl.java" binary="false"/>    
+    <target project="dans-lang" name="nl.knaw.dans.common.lang.repo.collections.AbstractDmoRecursiveItem" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/collections/AbstractDmoRecursiveItem.java" 
+      binary="false"/>  
+  </generalization>  
+  <association>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.dataset.DatasetImpl" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/dataset/DatasetImpl.java" binary="false" 
+      navigable="false">      
+      <attribute name="easyMetadata"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </source>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.EasyMetadata" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/EasyMetadata.java" binary="false" 
+      navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association>    
+    <bendpoint x="322" y="403"/>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.dataset.DatasetImpl" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/dataset/DatasetImpl.java" binary="false" 
+      navigable="false">      
+      <attribute name="itemContainerMetadata"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </source>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.dataset.ItemContainerMetadataImpl" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/dataset/ItemContainerMetadataImpl.java" binary="false" 
+      navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.Dataset" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/Dataset.java" binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.emd.EasyMetadata" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/emd/EasyMetadata.java" binary="false"/>  
+  </dependency>  
+  <classifier-display autosize="true" package="true" initial-value="false" signature="true" visibility="true">    
+    <attributes public="false" package="false" protected="false" private="false"/>    
+    <operations public="false" package="false" protected="false" private="false"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+    <format type="org.joda.time.DateTime"
+        serializer="nl.knaw.dans.common.jibx.util.Converter.serializeDateTime"
+        deserializer="nl.knaw.dans.common.jibx.util.Converter.deSerializeDateTime" />
+
+    <mapping ns="http://easy.dans.knaw.nl/easy/download-list/"
+        name="download-list" class="nl.knaw.dans.easy.domain.download.DownloadList">
+
+        <namespace uri="http://easy.dans.knaw.nl/easy/download-list/"
+            prefix="dlhl" />
+        
+        <value name="level" field="level" usage="optional" /> 
+        <value name="listType"  field="listType" />
+        <value name="startDate"  field="startDate" /> 
+        <value name="year" field="year" usage="optional" />
+        <value name="month" field="month" usage="optional" />
+        <value name="week" field="week" usage="optional" />
+        <value name="downloadCount"  field="downloadCount" />
+        <value name="bytes-downloaded"  field="totalBytes" usage="optional" />
+            
+        <structure name="downloads" usage="optional">
+            <collection field="records" type="java.util.ArrayList">
+                <structure type="nl.knaw.dans.easy.domain.download.DownloadRecord"/>
+            </collection>
+        </structure>
+            
+    </mapping>
+    
+    <mapping class="nl.knaw.dans.easy.domain.download.DownloadRecord" name="download">
+        
+        <value name="datasetId" field="datasetId" usage="optional" />
+        <value name="fileItemId"  field="fileItemId" usage="optional" />
+        <value name="path" field="path" usage="optional" />
+        <value name="mimeType" field="mimeType" usage="optional" />
+        <value name="file-size" field="size" usage="optional" />
+        <value name="user-id" field="downloaderId" usage="optional" />
+        <value name="when" field="downloadTime" usage="optional" />
+        
+    </mapping>
+    
+</binding>

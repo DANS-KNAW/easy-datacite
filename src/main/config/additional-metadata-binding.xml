@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<format type="org.joda.time.DateTime" serializer="nl.knaw.dans.common.jibx.util.Converter.serializeDateTime"
+        deserializer="nl.knaw.dans.common.jibx.util.Converter.deSerializeDateTime" />
+        
+    <format type="java.net.URI" serializer="nl.knaw.dans.common.jibx.util.Converter.serializeURI"
+        deserializer="nl.knaw.dans.common.jibx.util.Converter.deSerializeURI" />
+        
+    <include path="propertyList-binding.xml" />
+	
+	<mapping ns="http://easy.dans.knaw.nl/easy/additional-metadata/" abstract="true" 
+		class="nl.knaw.dans.easy.xml.AdditionalMetadata">
+		<namespace uri="http://easy.dans.knaw.nl/easy/additional-metadata/" prefix="addmd"/>
+		<structure name="properties"> 
+			<structure type="nl.knaw.dans.easy.util.PropertyList" field="propertyList" usage="optional"/>
+		</structure>
+		<collection set-method="setAdditionalContentList" get-method="getAdditionalContentlist"
+			type="java.util.ArrayList">
+			<structure type="nl.knaw.dans.easy.xml.AdditionalContent"/>
+		</collection>
+	</mapping>
+	
+	<mapping ns="http://easy.dans.knaw.nl/easy/additional-metadata/"
+		class="nl.knaw.dans.easy.xml.AdditionalContent" name="additional">
+		<namespace uri="http://easy.dans.knaw.nl/easy/additional-metadata/" prefix="addmd"/>
+		<value style="attribute" name="id" field="id"/>
+		<value style="attribute" name="label" field="label" usage="optional"/> 
+		<structure field="content" type="org.dom4j.Element" marshaller="org.jibx.extras.patch116a.Dom4JElementMapper"
+				unmarshaller="org.jibx.extras.patch116a.Dom4JElementMapper" usage="optional"/>
+	</mapping>
+
+</binding>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+    <mapping class="nl.knaw.dans.easy.domain.dataset.AbstractItemMetadataImpl" abstract="true">
+    
+        <value name="sid" set-method="setSid" get-method="getSid"/>
+        <value name="name" field="name" usage="optional"/>
+        <value name="parentSid" set-method="setParentSid" get-method="getParentSid" usage="optional"/>
+        <value name="datasetSid" set-method="setDatasetSid" get-method="getDatasetSid" usage="optional"/>
+        <value name="path" field="path" usage="optional"/>
+        
+        
+    </mapping>
+
+</binding>

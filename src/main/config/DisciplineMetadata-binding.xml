@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<mapping class="nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineMetadataImpl" name="discipline-md"
+        ns="http://easy.dans.knaw.nl/easy/discipline-md/">
+
+        <namespace uri="http://easy.dans.knaw.nl/easy/discipline-md/" prefix="dmd"/>
+
+        <value name="order" field="order" usage="optional" />
+        <value name="OICode" field="OICode" usage="optional" />
+        <value name="Easy1BranchID" field="Easy1BranchID" usage="optional" />
+
+	</mapping>
+
+</binding>

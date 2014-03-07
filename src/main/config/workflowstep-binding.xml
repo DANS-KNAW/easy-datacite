@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<format type="org.joda.time.DateTime" serializer="nl.knaw.dans.common.jibx.util.Converter.serializeDateTime"
+        deserializer="nl.knaw.dans.common.jibx.util.Converter.deSerializeDateTime" />
+        
+    <format type="java.net.URI" serializer="nl.knaw.dans.common.jibx.util.Converter.serializeURI"
+        deserializer="nl.knaw.dans.common.jibx.util.Converter.deSerializeURI" />
+		
+	<!-- workflow, root element -->
+	<mapping ns="http://easy.dans.knaw.nl/easy/workflow/" name="workflow" 
+		class="nl.knaw.dans.easy.domain.workflow.WorkflowStep">
+		
+		<namespace uri="http://easy.dans.knaw.nl/easy/workflow/" prefix="wfs"/>
+		
+		<value style="attribute" name="template" field="template" get-method="isTemplate" usage="optional"/>
+				
+		<value name="id" field="id" get-method="getId"/>
+		<value name="required" field="required" usage="optional"/>
+		<value name="timeSpentWritable" field="timeSpentWritable" usage="optional"/>
+		<value name="completed" field="completed" usage="optional"/>
+		<value name="doneById" field="doneById" usage="optional"/>
+		<value name="completionTime" field="completionTime" usage="optional"/>
+		<value name="timeSpent" field="timeSpent" usage="optional"/>
+		
+		<structure name="remarks" usage="optional">
+			<collection field="remarks" type="java.util.ArrayList">
+				<structure type="nl.knaw.dans.easy.domain.workflow.Remark"/>
+			</collection>
+		</structure>
+		
+		<structure name="steps" usage="optional">
+			<collection field="steps" type="java.util.ArrayList" set-method="setSteps">
+				<structure type="nl.knaw.dans.easy.domain.workflow.WorkflowStep"/>
+			</collection>
+		</structure>
+		
+	</mapping>
+	
+	<mapping name="remark" class="nl.knaw.dans.easy.domain.workflow.Remark">
+		
+		<value name="text" field="text" usage="optional"/>
+		<value name="remarkerId" field="remarkerId" usage="optional"/>
+		<value name="remarkDate" field="remarkDate" usage="optional"/>
+	</mapping>
+	
+	
+</binding>

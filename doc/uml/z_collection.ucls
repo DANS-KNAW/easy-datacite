@@ -1,0 +1,343 @@
+<class-diagram version="0.9.86" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true">  
+  <interface corner="BOTTOM_RIGHT" language="java" 
+    name="nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer" project="easy-business" 
+    file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/disciplinecollection/DisciplineContainer.java" 
+    binary="false">    
+    <position x="417" y="497" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </interface>  
+  <interface corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.common.lang.repo.collections.DmoRecursiveItem" 
+    project="dans-lang" file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/collections/DmoRecursiveItem.java" 
+    binary="false">    
+    <position x="417" y="425" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </interface>  
+  <interface corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.common.lang.repo.collections.DmoContainer" 
+    project="dans-lang" file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/collections/DmoContainer.java" 
+    binary="false">    
+    <position x="540" y="306" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </interface>  
+  <interface corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.common.lang.repo.collections.DmoContainerItem" 
+    project="dans-lang" file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/collections/DmoContainerItem.java" 
+    binary="false">    
+    <position x="325" y="356" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </interface>  
+  <interface corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.common.lang.repo.collections.DmoCollectionMember" 
+    project="dans-lang" 
+    file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/collections/DmoCollectionMember.java" binary="false">    
+    <position x="417" y="243" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </interface>  
+  <interface corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.common.lang.repo.DataModelObject" 
+    project="dans-lang" file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/DataModelObject.java" 
+    binary="false">    
+    <position x="417" y="171" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </interface>  
+  <interface corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.common.lang.repo.StorableObject" 
+    project="dans-lang" file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/StorableObject.java" binary="false">    
+    <position x="417" y="105" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </interface>  
+  <interface corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.common.lang.TimestampedObject" project="dans-lang" 
+    file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/TimestampedObject.java" binary="false">    
+    <position x="417" y="36" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </interface>  
+  <class corner="BOTTOM_RIGHT" language="java" 
+    name="nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainerImpl" project="easy-business" 
+    file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/disciplinecollection/DisciplineContainerImpl.java" 
+    binary="false">    
+    <position x="841" y="497" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.common.lang.repo.collections.AbstractDmoRecursiveItem" 
+    project="dans-lang" 
+    file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/collections/AbstractDmoRecursiveItem.java" 
+    binary="false">    
+    <position x="841" y="427" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.common.lang.repo.collections.AbstractDmoContainerItem" 
+    project="dans-lang" 
+    file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/collections/AbstractDmoContainerItem.java" 
+    binary="false">    
+    <position x="841" y="356" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" 
+    name="nl.knaw.dans.common.lang.repo.collections.AbstractDmoCollectionMember" project="dans-lang" 
+    file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/collections/AbstractDmoCollectionMember.java" 
+    binary="false">    
+    <position x="841" y="243" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.common.lang.repo.AbstractDataModelObject" 
+    project="dans-lang" file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/AbstractDataModelObject.java" 
+    binary="false">    
+    <position x="841" y="171" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.common.lang.repo.AbstractStorableObject" 
+    project="dans-lang" file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/AbstractStorableObject.java" 
+    binary="false">    
+    <position x="841" y="105" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="nl.knaw.dans.common.lang.repo.AbstractTimestampedObject" 
+    project="dans-lang" file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/AbstractTimestampedObject.java" 
+    binary="false">    
+    <position x="841" y="36" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" 
+    name="nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineCollectionImpl" project="easy-business" 
+    file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/disciplinecollection/DisciplineCollectionImpl.java" 
+    binary="false">    
+    <position x="490" y="602" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <generalization>    
+    <source project="dans-lang" name="nl.knaw.dans.common.lang.repo.DataModelObject" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/DataModelObject.java" binary="false"/>    
+    <target project="dans-lang" name="nl.knaw.dans.common.lang.repo.StorableObject" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/StorableObject.java" binary="false"/>  
+  </generalization>  
+  <generalization>    
+    <source project="dans-lang" name="nl.knaw.dans.common.lang.repo.AbstractStorableObject" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/AbstractStorableObject.java" binary="false"/>    
+    <target project="dans-lang" name="nl.knaw.dans.common.lang.repo.AbstractTimestampedObject" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/AbstractTimestampedObject.java" binary="false"/>  
+  </generalization>  
+  <realization>    
+    <source project="dans-lang" name="nl.knaw.dans.common.lang.repo.AbstractTimestampedObject" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/AbstractTimestampedObject.java" binary="false"/>    
+    <target project="dans-lang" name="nl.knaw.dans.common.lang.TimestampedObject" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/TimestampedObject.java" binary="false"/>  
+  </realization>  
+  <realization>    
+    <source project="dans-lang" name="nl.knaw.dans.common.lang.repo.collections.AbstractDmoContainerItem" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/collections/AbstractDmoContainerItem.java" 
+      binary="false"/>    
+    <target project="dans-lang" name="nl.knaw.dans.common.lang.repo.collections.DmoContainerItem" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/collections/DmoContainerItem.java" binary="false"/>  
+  </realization>  
+  <generalization>    
+    <source project="dans-lang" name="nl.knaw.dans.common.lang.repo.collections.DmoRecursiveItem" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/collections/DmoRecursiveItem.java" binary="false"/>    
+    <target project="dans-lang" name="nl.knaw.dans.common.lang.repo.collections.DmoContainer" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/collections/DmoContainer.java" binary="false"/>  
+  </generalization>  
+  <realization>    
+    <source project="dans-lang" name="nl.knaw.dans.common.lang.repo.AbstractStorableObject" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/AbstractStorableObject.java" binary="false"/>    
+    <target project="dans-lang" name="nl.knaw.dans.common.lang.repo.StorableObject" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/StorableObject.java" binary="false"/>  
+  </realization>  
+  <generalization>    
+    <source project="dans-lang" name="nl.knaw.dans.common.lang.repo.collections.AbstractDmoContainerItem" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/collections/AbstractDmoContainerItem.java" 
+      binary="false"/>    
+    <target project="dans-lang" name="nl.knaw.dans.common.lang.repo.collections.AbstractDmoCollectionMember" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/collections/AbstractDmoCollectionMember.java" 
+      binary="false"/>  
+  </generalization>  
+  <generalization>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/disciplinecollection/DisciplineContainer.java" 
+      binary="false"/>    
+    <target project="dans-lang" name="nl.knaw.dans.common.lang.repo.collections.DmoRecursiveItem" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/collections/DmoRecursiveItem.java" binary="false"/>  
+  </generalization>  
+  <generalization>    
+    <source project="dans-lang" name="nl.knaw.dans.common.lang.repo.collections.DmoContainerItem" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/collections/DmoContainerItem.java" binary="false"/>    
+    <target project="dans-lang" name="nl.knaw.dans.common.lang.repo.collections.DmoCollectionMember" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/collections/DmoCollectionMember.java" binary="false"/>  
+  </generalization>  
+  <generalization>    
+    <source project="dans-lang" name="nl.knaw.dans.common.lang.repo.AbstractDataModelObject" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/AbstractDataModelObject.java" binary="false"/>    
+    <target project="dans-lang" name="nl.knaw.dans.common.lang.repo.AbstractStorableObject" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/AbstractStorableObject.java" binary="false"/>  
+  </generalization>  
+  <association>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineCollectionImpl" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/disciplinecollection/DisciplineCollectionImpl.java" 
+      binary="false" navigable="false">      
+      <attribute name="INSTANCE"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </source>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineCollectionImpl" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/disciplinecollection/DisciplineCollectionImpl.java" 
+      binary="false" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization>    
+    <source project="dans-lang" name="nl.knaw.dans.common.lang.repo.collections.DmoCollectionMember" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/collections/DmoCollectionMember.java" binary="false"/>    
+    <target project="dans-lang" name="nl.knaw.dans.common.lang.repo.DataModelObject" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/DataModelObject.java" binary="false"/>  
+  </generalization>  
+  <realization>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainerImpl" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/disciplinecollection/DisciplineContainerImpl.java" 
+      binary="false"/>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/disciplinecollection/DisciplineContainer.java" 
+      binary="false"/>  
+  </realization>  
+  <association>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainerImpl" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/disciplinecollection/DisciplineContainerImpl.java" 
+      binary="false" navigable="false">      
+      <attribute name="childDisciplinesCache"/>      
+      <multiplicity minimum="0" maximum="2147483647"/>    
+    </source>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/disciplinecollection/DisciplineContainer.java" 
+      binary="false" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineCollectionImpl" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/disciplinecollection/DisciplineCollectionImpl.java" 
+      binary="false" navigable="false">      
+      <attribute name="rootDiscipline"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </source>    
+    <target project="easy-business" name="nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/disciplinecollection/DisciplineContainer.java" 
+      binary="false" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization>    
+    <source project="dans-lang" name="nl.knaw.dans.common.lang.repo.collections.AbstractDmoRecursiveItem" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/collections/AbstractDmoRecursiveItem.java" 
+      binary="false"/>    
+    <target project="dans-lang" name="nl.knaw.dans.common.lang.repo.collections.AbstractDmoContainerItem" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/collections/AbstractDmoContainerItem.java" 
+      binary="false"/>  
+  </generalization>  
+  <generalization>    
+    <source project="dans-lang" name="nl.knaw.dans.common.lang.repo.collections.DmoRecursiveItem" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/collections/DmoRecursiveItem.java" binary="false"/>    
+    <target project="dans-lang" name="nl.knaw.dans.common.lang.repo.collections.DmoContainerItem" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/collections/DmoContainerItem.java" binary="false"/>  
+  </generalization>  
+  <generalization>    
+    <source project="dans-lang" name="nl.knaw.dans.common.lang.repo.StorableObject" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/StorableObject.java" binary="false"/>    
+    <target project="dans-lang" name="nl.knaw.dans.common.lang.TimestampedObject" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/TimestampedObject.java" binary="false"/>  
+  </generalization>  
+  <generalization>    
+    <source project="dans-lang" name="nl.knaw.dans.common.lang.repo.collections.DmoContainer" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/collections/DmoContainer.java" binary="false"/>    
+    <target project="dans-lang" name="nl.knaw.dans.common.lang.repo.collections.DmoCollectionMember" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/collections/DmoCollectionMember.java" binary="false"/>  
+  </generalization>  
+  <realization>    
+    <source project="dans-lang" name="nl.knaw.dans.common.lang.repo.AbstractDataModelObject" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/AbstractDataModelObject.java" binary="false"/>    
+    <target project="dans-lang" name="nl.knaw.dans.common.lang.repo.DataModelObject" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/DataModelObject.java" binary="false"/>  
+  </realization>  
+  <realization>    
+    <source project="dans-lang" name="nl.knaw.dans.common.lang.repo.collections.AbstractDmoRecursiveItem" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/collections/AbstractDmoRecursiveItem.java" 
+      binary="false"/>    
+    <target project="dans-lang" name="nl.knaw.dans.common.lang.repo.collections.DmoRecursiveItem" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/collections/DmoRecursiveItem.java" binary="false"/>  
+  </realization>  
+  <realization>    
+    <source project="dans-lang" name="nl.knaw.dans.common.lang.repo.collections.AbstractDmoCollectionMember" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/collections/AbstractDmoCollectionMember.java" 
+      binary="false"/>    
+    <target project="dans-lang" name="nl.knaw.dans.common.lang.repo.collections.DmoCollectionMember" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/collections/DmoCollectionMember.java" binary="false"/>  
+  </realization>  
+  <generalization>    
+    <source project="easy-business" name="nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainerImpl" 
+      file="/easy-business/src/main/java/nl/knaw/dans/easy/domain/model/disciplinecollection/DisciplineContainerImpl.java" 
+      binary="false"/>    
+    <target project="dans-lang" name="nl.knaw.dans.common.lang.repo.collections.AbstractDmoRecursiveItem" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/collections/AbstractDmoRecursiveItem.java" 
+      binary="false"/>  
+  </generalization>  
+  <association>    
+    <source project="dans-lang" name="nl.knaw.dans.common.lang.repo.collections.AbstractDmoContainerItem" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/collections/AbstractDmoContainerItem.java" 
+      binary="false" navigable="false">      
+      <attribute name="addedParents"/>      
+      <multiplicity minimum="0" maximum="2147483647"/>    
+    </source>    
+    <target project="dans-lang" name="nl.knaw.dans.common.lang.repo.collections.DmoContainer" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/collections/DmoContainer.java" binary="false" 
+      navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization>    
+    <source project="dans-lang" name="nl.knaw.dans.common.lang.repo.collections.AbstractDmoCollectionMember" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/collections/AbstractDmoCollectionMember.java" 
+      binary="false"/>    
+    <target project="dans-lang" name="nl.knaw.dans.common.lang.repo.AbstractDataModelObject" 
+      file="/dans-lang/src/main/java/nl/knaw/dans/common/lang/repo/AbstractDataModelObject.java" binary="false"/>  
+  </generalization>  
+  <classifier-display autosize="true" package="true" initial-value="false" signature="true" visibility="true">    
+    <attributes public="false" package="false" protected="false" private="false"/>    
+    <operations public="false" package="false" protected="false" private="false"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

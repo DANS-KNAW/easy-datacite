@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<content>
+	<bar ho="stop">bla bla</bar>
+	<foo>
+		<complex>
+			<veryComplex>indeed</veryComplex>
+		</complex>
+	</foo>
+</content>

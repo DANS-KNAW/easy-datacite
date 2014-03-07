@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<format type="org.joda.time.DateTime" serializer="nl.knaw.dans.common.jibx.util.Converter.serializeDateTime"
+        deserializer="nl.knaw.dans.common.jibx.util.Converter.deSerializeDateTime" />
+        
+    <format type="java.net.URI" serializer="nl.knaw.dans.common.jibx.util.Converter.serializeURI"
+        deserializer="nl.knaw.dans.common.jibx.util.Converter.deSerializeURI" />
+	
+	<!-- administrative-md, root element -->
+	<mapping ns="http://easy.dans.knaw.nl/easy/dataset-administrative-metadata/" name="administrative-md" 
+		class="nl.knaw.dans.easy.domain.dataset.AdministrativeMetadataImpl">
+		
+		<namespace uri="http://easy.dans.knaw.nl/easy/dataset-administrative-metadata/" prefix="damd"/>
+		
+		<value style="attribute" name="version" get-method="getVersion" field="version"/>
+		<value name="datasetState" field="administrativeState" usage="optional"/>	
+		
+		<!--  TODO: remove these two, as they are also present in the stateChangeDates list -->
+		<value name="previousState" field="previousState" usage="optional"/>
+		<value name="lastStateChange" field="lastStateChange" usage="optional"/>
+		
+		<value name="depositorId" field="depositorId" usage="optional"/>
+		
+		<structure name="stateChangeDates" usage="optional">
+			<collection field="stateChangeDates" type="java.util.ArrayList" set-method="setStateChangeDates">
+				<structure type="nl.knaw.dans.easy.domain.model.StateChangeDate"/>
+			</collection>
+		</structure>
+		
+		<structure name="groupIds" usage="optional">
+            <collection field="groupIds" type="java.util.HashSet" item-type="java.lang.String">
+                <value name="groupId" usage="optional"/> 
+            </collection>
+        </structure>
+		
+		<structure field="workflowData"/> 
+		
+	</mapping>
+	
+	<mapping ns="http://easy.dans.knaw.nl/easy/dataset-administrative-metadata/"
+		name="stateChangeDate" class="nl.knaw.dans.easy.domain.model.StateChangeDate">
+		
+		<namespace uri="http://easy.dans.knaw.nl/easy/dataset-administrative-metadata/" prefix="damd"/>
+		
+		<value name="fromState" field="fromState" usage="optional"/>
+		<value name="toState" field="toState" usage="optional"/>
+		<value name="changeDate" field="changeDate" usage="optional"/>
+	</mapping>
+
+	<!-- workflowData -->
+	<mapping ns="http://easy.dans.knaw.nl/easy/dataset-administrative-metadata/"
+		name="workflowData" class="nl.knaw.dans.easy.domain.dataset.WorkflowDataImpl">
+		
+		<namespace uri="http://easy.dans.knaw.nl/easy/dataset-administrative-metadata/" prefix="damd"/>
+	
+		<value style="attribute" name="version" get-method="getVersion" field="version"/>
+		<value name="assigneeId" field="assigneeId" usage="optional"/>
+		
+		<structure set-method="setWorkflowElement" get-method="getWorkflowElement" type="org.dom4j.Element" 
+				marshaller="org.jibx.extras.patch116a.Dom4JElementMapper"
+				unmarshaller="org.jibx.extras.patch116a.Dom4JElementMapper" usage="optional"/>
+		
+	</mapping>
+
+
+</binding>

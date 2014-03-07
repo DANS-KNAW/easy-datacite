@@ -1,0 +1,99 @@
+<?xml version="1.0" standalone="yes"?>
+<emd:easymetadata xmlns:emd="http://easy.dans.knaw.nl/easy/easymetadata/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/" emd:version="0.1">
+    <emd:title>
+        <dc:title>archeologie set met coordinaten</dc:title>
+        <dcterms:alternative>safa</dcterms:alternative>
+    </emd:title>
+    <emd:creator>
+        <dc:creator>sfs</dc:creator>
+    </emd:creator>
+    <emd:subject>
+        <dc:subject eas:scheme="ABR" eas:schemeId="archaeology.dc.subject">EX</dc:subject>
+        <dc:subject>sfdsdf</dc:subject>
+    </emd:subject>
+    <emd:description>
+        <dc:description>szdf sadf</dc:description>
+    </emd:description>
+    <emd:publisher>
+        <dc:publisher>sfds</dc:publisher>
+    </emd:publisher>
+    <emd:contributor>
+        <dc:contributor>ed</dc:contributor>
+    </emd:contributor>
+    <emd:date>
+        <dcterms:issued>10-12-2010</dcterms:issued>
+        <dcterms:dateCopyrighted>10-12-2010</dcterms:dateCopyrighted>
+        <eas:created eas:scheme="W3CDTF" eas:format="DAY">2009-09-30T00:00:00.000+02:00</eas:created>
+        <eas:available eas:scheme="W3CDTF" eas:format="DAY">2010-04-05T00:00:00.000+02:00</eas:available>
+        <eas:issued eas:scheme="W3CDTF" eas:format="DAY">2010-04-11T00:00:00.000+02:00</eas:issued>
+        <eas:dateSubmitted eas:scheme="W3CDTF" eas:format="DAY">2010-04-15T10:07:07.860+02:00</eas:dateSubmitted>
+    </emd:date>
+    <emd:type>
+        <dc:type eas:scheme="DCMI" eas:schemeId="common.dc.type">Dataset</dc:type>
+        <dc:type>treert</dc:type>
+    </emd:type>
+    <emd:format>
+        <dc:format eas:scheme="IMT" eas:schemeId="common.dc.format">application/pdf</dc:format>
+        <dc:format>ertete</dc:format>
+    </emd:format>
+    <emd:identifier>
+        <dc:identifier eas:scheme="ISSN">serre</dc:identifier>
+        <dc:identifier eas:scheme="ISBN">235324</dc:identifier>
+        <dc:identifier eas:scheme="PID" eas:identification-system="http://www.persistent-identifier.nl">urn:nbn:nl:ui:13-gkv-6my</dc:identifier>
+    </emd:identifier>
+    <emd:source>
+        <dc:source>stb esatrbb ertesrt etr</dc:source>
+    </emd:source>
+    <emd:language>
+        <dc:language eas:scheme="ISO 639" eas:schemeId="common.dc.language">dut/nld</dc:language>
+        <dc:language>erts</dc:language>
+    </emd:language>
+    <emd:relation>
+        <eas:requires>
+            <eas:subject-title>drt</eas:subject-title>
+            <eas:subject-link>ert</eas:subject-link>
+        </eas:requires>
+    </emd:relation>
+    <emd:coverage>
+        <dcterms:spatial>sfsf</dcterms:spatial>
+        <dcterms:spatial>serer</dcterms:spatial>
+        <dcterms:temporal eas:scheme="ABR" eas:schemeId="archaeology.dcterms.temporal">NEOLA</dcterms:temporal>
+        <dcterms:temporal>sgfg</dcterms:temporal>
+        <eas:spatial>
+            <eas:point eas:scheme="locale">
+                <eas:x>345.0</eas:x>
+                <eas:y>564.0</eas:y>
+            </eas:point>
+        </eas:spatial>
+        <eas:spatial>
+            <eas:box eas:scheme="RD">
+                <eas:north>14.0</eas:north>
+                <eas:east>345.0</eas:east>
+                <eas:south>345.0</eas:south>
+                <eas:west>345.0</eas:west>
+            </eas:box>
+        </eas:spatial>
+        <eas:spatial>
+            <eas:box eas:scheme="locale">
+                <eas:north>345.0</eas:north>
+                <eas:east>468.0</eas:east>
+                <eas:south>578.0</eas:south>
+                <eas:west>786.0</eas:west>
+            </eas:box>
+        </eas:spatial>
+    </emd:coverage>
+    <emd:rights>
+        <dcterms:accessRights eas:schemeId="archaeology.dcterms.accessrights">OPEN_ACCESS</dcterms:accessRights>
+        <dcterms:license>accept</dcterms:license>
+    </emd:rights>
+    <emd:audience>
+        <dcterms:audience eas:schemeId="custom.disciplines">easy-discipline:2</dcterms:audience>
+    </emd:audience>
+    <emd:other>
+        <eas:remark>sdgsa ggfdsg d tr</eas:remark>
+        <eas:application-specific>
+            <eas:metadataformat>ARCHAEOLOGY</eas:metadataformat>
+        </eas:application-specific>
+        <eas:etc/>
+    </emd:other>
+</emd:easymetadata>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+    <format type="int[]" serializer="nl.knaw.dans.common.jibx.util.Converter.serializeIntArray"
+        deserializer="nl.knaw.dans.common.jibx.util.Converter.deSerializeIntArray" />
+
+    <include path="ItemMetadata-binding.xml" />
+
+    <mapping class="nl.knaw.dans.easy.domain.dataset.ItemContainerMetadataImpl" name="item-container-md"
+        ns="http://easy.dans.knaw.nl/easy/item-container-md/">
+        
+        <namespace uri="http://easy.dans.knaw.nl/easy/item-container-md/" prefix="icmd"/>
+        
+        <structure type="nl.knaw.dans.easy.domain.dataset.AbstractItemMetadataImpl"/>
+        
+        <value name="totalFileCount" field="totalFileCount"/>
+        <value name="childFileCount" field="childFileCount"/>
+        
+        <value name="totalFolderCount" field="totalFolderCount"/>
+        <value name="childFolderCount" field="childFolderCount"/>
+        
+        <value name="creatorRoleArray" field="creatorRoleArray"/>
+        <value name="visibleToArray" field="visibleToArray"/>
+        <value name="accessibleToArray" field="accessibleToArray"/>
+        
+        <structure name="creatorRoles" usage="optional">
+            <collection get-method="getCreatorRoles" set-method="setNop" type="java.util.ArrayList">
+                <value name="creatorRole" type="nl.knaw.dans.easy.domain.model.user.CreatorRole" usage="optional"/>
+            </collection> 
+        </structure>
+        
+        <structure name="visibleToList" usage="optional">
+            <collection get-method="getVisibleToList" set-method="setNop" type="java.util.ArrayList">
+                <value name="visibleTo" type="nl.knaw.dans.easy.domain.model.VisibleTo" usage="optional"/>
+            </collection>
+        </structure>
+        
+        <structure name="accessibleToList" usage="optional">
+            <collection get-method="getAccessibleToList" set-method="setNop" type="java.util.ArrayList">
+                <value name="accessibleTo" type="nl.knaw.dans.easy.domain.model.AccessibleTo" usage="optional"/>
+            </collection>
+        </structure>
+        
+        <value style="attribute" name="version" get-method="getVersion" field="version"/>
+    </mapping>
+
+</binding>

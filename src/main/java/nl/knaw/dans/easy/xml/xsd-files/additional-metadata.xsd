@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://easy.dans.knaw.nl/easy/additional-metadata/"
+    xmlns:addmd="http://easy.dans.knaw.nl/easy/additional-metadata/"
+    elementFormDefault="unqualified">
+    
+    <xs:element name="additional-metadata">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="properties" type="addmd:properties" minOccurs="0" />
+                <xs:element ref="addmd:additional" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+        <xs:unique name="unique">
+            <xs:selector xpath="." />
+            <xs:field xpath="additional/@id"/>
+        </xs:unique>
+    </xs:element>
+    
+    <xs:complexType name="properties">        
+        <xs:sequence>
+            <xs:element name="comment" type="xs:string" minOccurs="0"/>
+            <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:simpleContent>
+                        <xs:extension base="xs:string">
+                            <xs:attribute name="key" type="xs:string" />
+                        </xs:extension>
+                    </xs:simpleContent>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:element name="additional">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="content" minOccurs="0" maxOccurs="1" />
+            </xs:sequence>
+            <xs:attribute name="id" use="required" type="xs:string" />
+            <xs:attribute name="label" type="xs:string" />
+        </xs:complexType>
+    </xs:element>
+    
+</xs:schema>

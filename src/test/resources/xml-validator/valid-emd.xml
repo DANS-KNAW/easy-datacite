@@ -1,0 +1,333 @@
+<?xml version="1.0" standalone="yes"?>
+<emd:easymetadata xmlns:emd="http://easy.dans.knaw.nl/easy/easymetadata/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/" emd:version="0.1">
+    <emd:title>
+        <dc:title xml:lang="nld-NLD" eas:scheme="BSS0">title 0</dc:title>
+        <dc:title xml:lang="nld-NLD" eas:scheme="BSS1">title 1</dc:title>
+        <dcterms:alternative xml:lang="nld-NLD" eas:scheme="BSS0">alternative 0</dcterms:alternative>
+        <dcterms:alternative xml:lang="nld-NLD" eas:scheme="BSS1">alternative 1</dcterms:alternative>
+    </emd:title>
+    <emd:creator>
+        <dc:creator xml:lang="nld-NLD" eas:scheme="BSS0">creator 0</dc:creator>
+        <dc:creator xml:lang="nld-NLD" eas:scheme="BSS1">creator 1</dc:creator>
+        <eas:creator>
+            <eas:title>Dr.</eas:title>
+            <eas:initials>ABC</eas:initials>
+            <eas:prefix>van</eas:prefix>
+            <eas:surname>creator 0</eas:surname>
+            <eas:entityId eas:identification-system="http://author.org/sys0" eas:scheme="DAI">1230</eas:entityId>
+        </eas:creator>
+        <eas:creator>
+            <eas:title>Dr.</eas:title>
+            <eas:initials>ABC</eas:initials>
+            <eas:prefix>van</eas:prefix>
+            <eas:surname>creator 1</eas:surname>
+            <eas:entityId eas:identification-system="http://author.org/sys1" eas:scheme="DAI">1231</eas:entityId>
+        </eas:creator>
+    </emd:creator>
+    <emd:subject>
+        <dc:subject xml:lang="nld-NLD" eas:scheme="BSS0">subject 0</dc:subject>
+        <dc:subject xml:lang="nld-NLD" eas:scheme="BSS1">subject 1</dc:subject>
+    </emd:subject>
+    <emd:description>
+        <dc:description xml:lang="nld-NLD" eas:scheme="BSS0">description 0</dc:description>
+        <dc:description xml:lang="nld-NLD" eas:scheme="BSS1">description 1</dc:description>
+        <dcterms:tableOfContents xml:lang="nld-NLD" eas:scheme="BSS0">tableOfContents 0</dcterms:tableOfContents>
+        <dcterms:tableOfContents xml:lang="nld-NLD" eas:scheme="BSS1">tableOfContents 1</dcterms:tableOfContents>
+        <dcterms:abstract xml:lang="nld-NLD" eas:scheme="BSS0">abstract 0</dcterms:abstract>
+        <dcterms:abstract xml:lang="nld-NLD" eas:scheme="BSS1">abstract 1</dcterms:abstract>
+    </emd:description>
+    <emd:publisher>
+        <dc:publisher xml:lang="nld-NLD" eas:scheme="BSS0">publisher 0</dc:publisher>
+        <dc:publisher xml:lang="nld-NLD" eas:scheme="BSS1">publisher 1</dc:publisher>
+    </emd:publisher>
+    <emd:contributor>
+        <dc:contributor xml:lang="nld-NLD" eas:scheme="BSS0">contributor 0</dc:contributor>
+        <dc:contributor xml:lang="nld-NLD" eas:scheme="BSS1">contributor 1</dc:contributor>
+        <eas:contributor>
+            <eas:title>Dr.</eas:title>
+            <eas:initials>ABC</eas:initials>
+            <eas:prefix>van</eas:prefix>
+            <eas:surname>contributor 0</eas:surname>
+            <eas:entityId eas:identification-system="http://author.org/sys0" eas:scheme="DAI">1230</eas:entityId>
+        </eas:contributor>
+        <eas:contributor>
+            <eas:title>Dr.</eas:title>
+            <eas:initials>ABC</eas:initials>
+            <eas:prefix>van</eas:prefix>
+            <eas:surname>contributor 1</eas:surname>
+            <eas:entityId eas:identification-system="http://author.org/sys1" eas:scheme="DAI">1231</eas:entityId>
+        </eas:contributor>
+    </emd:contributor>
+    <emd:date>
+        <dc:date xml:lang="eng-USA">maart '98</dc:date>
+        <dc:date xml:lang="eng-USA">maart '98</dc:date>
+        <dcterms:created xml:lang="eng-USA">maart '98</dcterms:created>
+        <dcterms:created xml:lang="eng-USA">maart '98</dcterms:created>
+        <dcterms:valid xml:lang="eng-USA">maart '98</dcterms:valid>
+        <dcterms:valid xml:lang="eng-USA">maart '98</dcterms:valid>
+        <dcterms:available xml:lang="eng-USA">maart '98</dcterms:available>
+        <dcterms:available xml:lang="eng-USA">maart '98</dcterms:available>
+        <dcterms:issued xml:lang="eng-USA">maart '98</dcterms:issued>
+        <dcterms:issued xml:lang="eng-USA">maart '98</dcterms:issued>
+        <dcterms:modified xml:lang="eng-USA">maart '98</dcterms:modified>
+        <dcterms:modified xml:lang="eng-USA">maart '98</dcterms:modified>
+        <dcterms:dateAccepted xml:lang="eng-USA">maart '98</dcterms:dateAccepted>
+        <dcterms:dateAccepted xml:lang="eng-USA">maart '98</dcterms:dateAccepted>
+        <dcterms:dateCopyrighted xml:lang="eng-USA">maart '98</dcterms:dateCopyrighted>
+        <dcterms:dateCopyrighted xml:lang="eng-USA">maart '98</dcterms:dateCopyrighted>
+        <dcterms:dateSubmitted xml:lang="eng-USA">maart '98</dcterms:dateSubmitted>
+        <dcterms:dateSubmitted xml:lang="eng-USA">maart '98</dcterms:dateSubmitted>
+        <eas:date eas:scheme="W3CDTF" eas:format="DAY">2008-08-26T19:17:08.806+02:00</eas:date>
+        <eas:date eas:scheme="W3CDTF" eas:format="DAY">2008-08-26T19:17:08.806+02:00</eas:date>
+        <eas:created eas:scheme="W3CDTF" eas:format="DAY">2008-08-26T19:17:08.806+02:00</eas:created>
+        <eas:created eas:scheme="W3CDTF" eas:format="DAY">2008-08-26T19:17:08.806+02:00</eas:created>
+        <eas:valid eas:scheme="W3CDTF" eas:format="DAY">2008-08-26T19:17:08.806+02:00</eas:valid>
+        <eas:valid eas:scheme="W3CDTF" eas:format="DAY">2008-08-26T19:17:08.806+02:00</eas:valid>
+        <eas:available eas:scheme="W3CDTF" eas:format="DAY">2008-08-26T19:17:08.806+02:00</eas:available>
+        <eas:available eas:scheme="W3CDTF" eas:format="DAY">2008-08-26T19:17:08.806+02:00</eas:available>
+        <eas:issued eas:scheme="W3CDTF" eas:format="DAY">2008-08-26T19:17:08.806+02:00</eas:issued>
+        <eas:issued eas:scheme="W3CDTF" eas:format="DAY">2008-08-26T19:17:08.806+02:00</eas:issued>
+        <eas:modified eas:scheme="W3CDTF" eas:format="DAY">2008-08-26T19:17:08.806+02:00</eas:modified>
+        <eas:modified eas:scheme="W3CDTF" eas:format="DAY">2008-08-26T19:17:08.806+02:00</eas:modified>
+        <eas:dateAccepted eas:scheme="W3CDTF" eas:format="DAY">2008-08-26T19:17:08.807+02:00</eas:dateAccepted>
+        <eas:dateAccepted eas:scheme="W3CDTF" eas:format="DAY">2008-08-26T19:17:08.807+02:00</eas:dateAccepted>
+        <eas:dateCopyrighted eas:scheme="W3CDTF" eas:format="DAY">2008-08-26T19:17:08.807+02:00</eas:dateCopyrighted>
+        <eas:dateCopyrighted eas:scheme="W3CDTF" eas:format="DAY">2008-08-26T19:17:08.807+02:00</eas:dateCopyrighted>
+        <eas:dateSubmitted eas:scheme="W3CDTF" eas:format="DAY">2008-08-26T19:17:08.807+02:00</eas:dateSubmitted>
+        <eas:dateSubmitted eas:scheme="W3CDTF" eas:format="DAY">2008-08-26T19:17:08.807+02:00</eas:dateSubmitted>
+    </emd:date>
+    <emd:type>
+        <dc:type xml:lang="nld-NLD" eas:scheme="BSS0">type 0</dc:type>
+        <dc:type xml:lang="nld-NLD" eas:scheme="BSS1">type 1</dc:type>
+    </emd:type>
+    <emd:format>
+        <dc:format xml:lang="nld-NLD" eas:scheme="BSS0">format 0</dc:format>
+        <dc:format xml:lang="nld-NLD" eas:scheme="BSS1">format 1</dc:format>
+        <dcterms:extent xml:lang="nld-NLD" eas:scheme="BSS0">extent 0</dcterms:extent>
+        <dcterms:extent xml:lang="nld-NLD" eas:scheme="BSS1">extent 1</dcterms:extent>
+        <dcterms:medium xml:lang="nld-NLD" eas:scheme="BSS0">medium 0</dcterms:medium>
+        <dcterms:medium xml:lang="nld-NLD" eas:scheme="BSS1">medium 1</dcterms:medium>
+    </emd:format>
+    <emd:identifier>
+        <dc:identifier xml:lang="deu-DEU" eas:scheme="BID0" eas:identification-system="http://pid.org/sys0">ABC0</dc:identifier>
+        <dc:identifier xml:lang="deu-DEU" eas:scheme="BID1" eas:identification-system="http://pid.org/sys1">ABC1</dc:identifier>
+    </emd:identifier>
+    <emd:source>
+        <dc:source xml:lang="deu-DEU" eas:scheme="BID0" eas:identification-system="http://pid.org/sys0">ABC0</dc:source>
+        <dc:source xml:lang="deu-DEU" eas:scheme="BID1" eas:identification-system="http://pid.org/sys1">ABC1</dc:source>
+    </emd:source>
+    <emd:language>
+        <dc:language xml:lang="nld-NLD" eas:scheme="BSS0">language 0</dc:language>
+        <dc:language xml:lang="nld-NLD" eas:scheme="BSS1">language 1</dc:language>
+    </emd:language>
+    <emd:relation>
+        <dc:relation xml:lang="deu-DEU" eas:scheme="BID0" eas:identification-system="http://pid.org/sys0">ABC0</dc:relation>
+        <dc:relation xml:lang="deu-DEU" eas:scheme="BID1" eas:identification-system="http://pid.org/sys1">ABC1</dc:relation>
+        <dcterms:conformsTo xml:lang="deu-DEU" eas:scheme="BID0" eas:identification-system="http://pid.org/sys0">ABC0</dcterms:conformsTo>
+        <dcterms:conformsTo xml:lang="deu-DEU" eas:scheme="BID1" eas:identification-system="http://pid.org/sys1">ABC1</dcterms:conformsTo>
+        <dcterms:isVersionOf xml:lang="deu-DEU" eas:scheme="BID0" eas:identification-system="http://pid.org/sys0">ABC0</dcterms:isVersionOf>
+        <dcterms:isVersionOf xml:lang="deu-DEU" eas:scheme="BID1" eas:identification-system="http://pid.org/sys1">ABC1</dcterms:isVersionOf>
+        <dcterms:hasVersion xml:lang="deu-DEU" eas:scheme="BID0" eas:identification-system="http://pid.org/sys0">ABC0</dcterms:hasVersion>
+        <dcterms:hasVersion xml:lang="deu-DEU" eas:scheme="BID1" eas:identification-system="http://pid.org/sys1">ABC1</dcterms:hasVersion>
+        <dcterms:isReplacedBy xml:lang="deu-DEU" eas:scheme="BID0" eas:identification-system="http://pid.org/sys0">ABC0</dcterms:isReplacedBy>
+        <dcterms:isReplacedBy xml:lang="deu-DEU" eas:scheme="BID1" eas:identification-system="http://pid.org/sys1">ABC1</dcterms:isReplacedBy>
+        <dcterms:replaces xml:lang="deu-DEU" eas:scheme="BID0" eas:identification-system="http://pid.org/sys0">ABC0</dcterms:replaces>
+        <dcterms:replaces xml:lang="deu-DEU" eas:scheme="BID1" eas:identification-system="http://pid.org/sys1">ABC1</dcterms:replaces>
+        <dcterms:isRequiredBy xml:lang="deu-DEU" eas:scheme="BID0" eas:identification-system="http://pid.org/sys0">ABC0</dcterms:isRequiredBy>
+        <dcterms:isRequiredBy xml:lang="deu-DEU" eas:scheme="BID1" eas:identification-system="http://pid.org/sys1">ABC1</dcterms:isRequiredBy>
+        <dcterms:requires xml:lang="deu-DEU" eas:scheme="BID0" eas:identification-system="http://pid.org/sys0">ABC0</dcterms:requires>
+        <dcterms:requires xml:lang="deu-DEU" eas:scheme="BID1" eas:identification-system="http://pid.org/sys1">ABC1</dcterms:requires>
+        <dcterms:isPartOf xml:lang="deu-DEU" eas:scheme="BID0" eas:identification-system="http://pid.org/sys0">ABC0</dcterms:isPartOf>
+        <dcterms:isPartOf xml:lang="deu-DEU" eas:scheme="BID1" eas:identification-system="http://pid.org/sys1">ABC1</dcterms:isPartOf>
+        <dcterms:hasPart xml:lang="deu-DEU" eas:scheme="BID0" eas:identification-system="http://pid.org/sys0">ABC0</dcterms:hasPart>
+        <dcterms:hasPart xml:lang="deu-DEU" eas:scheme="BID1" eas:identification-system="http://pid.org/sys1">ABC1</dcterms:hasPart>
+        <dcterms:isReferencedBy xml:lang="deu-DEU" eas:scheme="BID0" eas:identification-system="http://pid.org/sys0">ABC0</dcterms:isReferencedBy>
+        <dcterms:isReferencedBy xml:lang="deu-DEU" eas:scheme="BID1" eas:identification-system="http://pid.org/sys1">ABC1</dcterms:isReferencedBy>
+        <dcterms:references xml:lang="deu-DEU" eas:scheme="BID0" eas:identification-system="http://pid.org/sys0">ABC0</dcterms:references>
+        <dcterms:references xml:lang="deu-DEU" eas:scheme="BID1" eas:identification-system="http://pid.org/sys1">ABC1</dcterms:references>
+        <dcterms:isFormatOf xml:lang="deu-DEU" eas:scheme="BID0" eas:identification-system="http://pid.org/sys0">ABC0</dcterms:isFormatOf>
+        <dcterms:isFormatOf xml:lang="deu-DEU" eas:scheme="BID1" eas:identification-system="http://pid.org/sys1">ABC1</dcterms:isFormatOf>
+        <dcterms:hasFormat xml:lang="deu-DEU" eas:scheme="BID0" eas:identification-system="http://pid.org/sys0">ABC0</dcterms:hasFormat>
+        <dcterms:hasFormat xml:lang="deu-DEU" eas:scheme="BID1" eas:identification-system="http://pid.org/sys1">ABC1</dcterms:hasFormat>
+        <eas:relation eas:emphasis="true">
+            <eas:subject-title xml:lang="nld-NLD" eas:scheme="BSS0">relation 0</eas:subject-title>
+            <eas:subject-identifier xml:lang="deu-DEU" eas:scheme="BID0" eas:identification-system="http://pid.org/sys0">ABC0</eas:subject-identifier>
+            <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+        </eas:relation>
+        <eas:relation>
+            <eas:subject-title xml:lang="nld-NLD" eas:scheme="BSS1">relation 1</eas:subject-title>
+            <eas:subject-identifier xml:lang="deu-DEU" eas:scheme="BID1" eas:identification-system="http://pid.org/sys1">ABC1</eas:subject-identifier>
+            <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+        </eas:relation>
+        <eas:conformsTo eas:emphasis="true">
+            <eas:subject-title xml:lang="nld-NLD" eas:scheme="BSS0">conformsTo 0</eas:subject-title>
+            <eas:subject-identifier xml:lang="deu-DEU" eas:scheme="BID0" eas:identification-system="http://pid.org/sys0">ABC0</eas:subject-identifier>
+            <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+        </eas:conformsTo>
+        <eas:conformsTo>
+            <eas:subject-title xml:lang="nld-NLD" eas:scheme="BSS1">conformsTo 1</eas:subject-title>
+            <eas:subject-identifier xml:lang="deu-DEU" eas:scheme="BID1" eas:identification-system="http://pid.org/sys1">ABC1</eas:subject-identifier>
+            <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+        </eas:conformsTo>
+        <eas:isVersionOf eas:emphasis="true">
+            <eas:subject-title xml:lang="nld-NLD" eas:scheme="BSS0">isVersionOf 0</eas:subject-title>
+            <eas:subject-identifier xml:lang="deu-DEU" eas:scheme="BID0" eas:identification-system="http://pid.org/sys0">ABC0</eas:subject-identifier>
+            <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+        </eas:isVersionOf>
+        <eas:isVersionOf>
+            <eas:subject-title xml:lang="nld-NLD" eas:scheme="BSS1">isVersionOf 1</eas:subject-title>
+            <eas:subject-identifier xml:lang="deu-DEU" eas:scheme="BID1" eas:identification-system="http://pid.org/sys1">ABC1</eas:subject-identifier>
+            <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+        </eas:isVersionOf>
+        <eas:hasVersion eas:emphasis="true">
+            <eas:subject-title xml:lang="nld-NLD" eas:scheme="BSS0">hasVersion 0</eas:subject-title>
+            <eas:subject-identifier xml:lang="deu-DEU" eas:scheme="BID0" eas:identification-system="http://pid.org/sys0">ABC0</eas:subject-identifier>
+            <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+        </eas:hasVersion>
+        <eas:hasVersion>
+            <eas:subject-title xml:lang="nld-NLD" eas:scheme="BSS1">hasVersion 1</eas:subject-title>
+            <eas:subject-identifier xml:lang="deu-DEU" eas:scheme="BID1" eas:identification-system="http://pid.org/sys1">ABC1</eas:subject-identifier>
+            <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+        </eas:hasVersion>
+        <eas:isReplacedBy eas:emphasis="true">
+            <eas:subject-title xml:lang="nld-NLD" eas:scheme="BSS0">isReplacedBy 0</eas:subject-title>
+            <eas:subject-identifier xml:lang="deu-DEU" eas:scheme="BID0" eas:identification-system="http://pid.org/sys0">ABC0</eas:subject-identifier>
+            <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+        </eas:isReplacedBy>
+        <eas:isReplacedBy>
+            <eas:subject-title xml:lang="nld-NLD" eas:scheme="BSS1">isReplacedBy 1</eas:subject-title>
+            <eas:subject-identifier xml:lang="deu-DEU" eas:scheme="BID1" eas:identification-system="http://pid.org/sys1">ABC1</eas:subject-identifier>
+            <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+        </eas:isReplacedBy>
+        <eas:replaces eas:emphasis="true">
+            <eas:subject-title xml:lang="nld-NLD" eas:scheme="BSS0">replaces 0</eas:subject-title>
+            <eas:subject-identifier xml:lang="deu-DEU" eas:scheme="BID0" eas:identification-system="http://pid.org/sys0">ABC0</eas:subject-identifier>
+            <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+        </eas:replaces>
+        <eas:replaces>
+            <eas:subject-title xml:lang="nld-NLD" eas:scheme="BSS1">replaces 1</eas:subject-title>
+            <eas:subject-identifier xml:lang="deu-DEU" eas:scheme="BID1" eas:identification-system="http://pid.org/sys1">ABC1</eas:subject-identifier>
+            <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+        </eas:replaces>
+        <eas:isRequiredBy eas:emphasis="true">
+            <eas:subject-title xml:lang="nld-NLD" eas:scheme="BSS0">isRequiredBy 0</eas:subject-title>
+            <eas:subject-identifier xml:lang="deu-DEU" eas:scheme="BID0" eas:identification-system="http://pid.org/sys0">ABC0</eas:subject-identifier>
+            <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+        </eas:isRequiredBy>
+        <eas:isRequiredBy>
+            <eas:subject-title xml:lang="nld-NLD" eas:scheme="BSS1">isRequiredBy 1</eas:subject-title>
+            <eas:subject-identifier xml:lang="deu-DEU" eas:scheme="BID1" eas:identification-system="http://pid.org/sys1">ABC1</eas:subject-identifier>
+            <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+        </eas:isRequiredBy>
+        <eas:requires eas:emphasis="true">
+            <eas:subject-title xml:lang="nld-NLD" eas:scheme="BSS0">requires 0</eas:subject-title>
+            <eas:subject-identifier xml:lang="deu-DEU" eas:scheme="BID0" eas:identification-system="http://pid.org/sys0">ABC0</eas:subject-identifier>
+            <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+        </eas:requires>
+        <eas:requires>
+            <eas:subject-title xml:lang="nld-NLD" eas:scheme="BSS1">requires 1</eas:subject-title>
+            <eas:subject-identifier xml:lang="deu-DEU" eas:scheme="BID1" eas:identification-system="http://pid.org/sys1">ABC1</eas:subject-identifier>
+            <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+        </eas:requires>
+        <eas:isPartOf eas:emphasis="true">
+            <eas:subject-title xml:lang="nld-NLD" eas:scheme="BSS0">isPartOf 0</eas:subject-title>
+            <eas:subject-identifier xml:lang="deu-DEU" eas:scheme="BID0" eas:identification-system="http://pid.org/sys0">ABC0</eas:subject-identifier>
+            <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+        </eas:isPartOf>
+        <eas:isPartOf>
+            <eas:subject-title xml:lang="nld-NLD" eas:scheme="BSS1">isPartOf 1</eas:subject-title>
+            <eas:subject-identifier xml:lang="deu-DEU" eas:scheme="BID1" eas:identification-system="http://pid.org/sys1">ABC1</eas:subject-identifier>
+            <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+        </eas:isPartOf>
+        <eas:hasPart eas:emphasis="true">
+            <eas:subject-title xml:lang="nld-NLD" eas:scheme="BSS0">hasPart 0</eas:subject-title>
+            <eas:subject-identifier xml:lang="deu-DEU" eas:scheme="BID0" eas:identification-system="http://pid.org/sys0">ABC0</eas:subject-identifier>
+            <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+        </eas:hasPart>
+        <eas:hasPart>
+            <eas:subject-title xml:lang="nld-NLD" eas:scheme="BSS1">hasPart 1</eas:subject-title>
+            <eas:subject-identifier xml:lang="deu-DEU" eas:scheme="BID1" eas:identification-system="http://pid.org/sys1">ABC1</eas:subject-identifier>
+            <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+        </eas:hasPart>
+        <eas:isReferencedBy eas:emphasis="true">
+            <eas:subject-title xml:lang="nld-NLD" eas:scheme="BSS0">isReferencedBy 0</eas:subject-title>
+            <eas:subject-identifier xml:lang="deu-DEU" eas:scheme="BID0" eas:identification-system="http://pid.org/sys0">ABC0</eas:subject-identifier>
+            <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+        </eas:isReferencedBy>
+        <eas:isReferencedBy>
+            <eas:subject-title xml:lang="nld-NLD" eas:scheme="BSS1">isReferencedBy 1</eas:subject-title>
+            <eas:subject-identifier xml:lang="deu-DEU" eas:scheme="BID1" eas:identification-system="http://pid.org/sys1">ABC1</eas:subject-identifier>
+            <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+        </eas:isReferencedBy>
+        <eas:references eas:emphasis="true">
+            <eas:subject-title xml:lang="nld-NLD" eas:scheme="BSS0">references 0</eas:subject-title>
+            <eas:subject-identifier xml:lang="deu-DEU" eas:scheme="BID0" eas:identification-system="http://pid.org/sys0">ABC0</eas:subject-identifier>
+            <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+        </eas:references>
+        <eas:references>
+            <eas:subject-title xml:lang="nld-NLD" eas:scheme="BSS1">references 1</eas:subject-title>
+            <eas:subject-identifier xml:lang="deu-DEU" eas:scheme="BID1" eas:identification-system="http://pid.org/sys1">ABC1</eas:subject-identifier>
+            <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+        </eas:references>
+        <eas:isFormatOf eas:emphasis="true">
+            <eas:subject-title xml:lang="nld-NLD" eas:scheme="BSS0">isFormatOf 0</eas:subject-title>
+            <eas:subject-identifier xml:lang="deu-DEU" eas:scheme="BID0" eas:identification-system="http://pid.org/sys0">ABC0</eas:subject-identifier>
+            <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+        </eas:isFormatOf>
+        <eas:isFormatOf>
+            <eas:subject-title xml:lang="nld-NLD" eas:scheme="BSS1">isFormatOf 1</eas:subject-title>
+            <eas:subject-identifier xml:lang="deu-DEU" eas:scheme="BID1" eas:identification-system="http://pid.org/sys1">ABC1</eas:subject-identifier>
+            <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+        </eas:isFormatOf>
+        <eas:hasFormat eas:emphasis="true">
+            <eas:subject-title xml:lang="nld-NLD" eas:scheme="BSS0">hasFormat 0</eas:subject-title>
+            <eas:subject-identifier xml:lang="deu-DEU" eas:scheme="BID0" eas:identification-system="http://pid.org/sys0">ABC0</eas:subject-identifier>
+            <eas:subject-link>http://relation.com/sys0</eas:subject-link>
+        </eas:hasFormat>
+        <eas:hasFormat>
+            <eas:subject-title xml:lang="nld-NLD" eas:scheme="BSS1">hasFormat 1</eas:subject-title>
+            <eas:subject-identifier xml:lang="deu-DEU" eas:scheme="BID1" eas:identification-system="http://pid.org/sys1">ABC1</eas:subject-identifier>
+            <eas:subject-link>http://relation.com/sys1</eas:subject-link>
+        </eas:hasFormat>
+    </emd:relation>
+    <emd:coverage>
+        <dc:coverage xml:lang="nld-NLD" eas:scheme="BSS0">coverage 0</dc:coverage>
+        <dc:coverage xml:lang="nld-NLD" eas:scheme="BSS1">coverage 1</dc:coverage>
+        <dcterms:spatial xml:lang="nld-NLD" eas:scheme="BSS0">spatial 0</dcterms:spatial>
+        <dcterms:spatial xml:lang="nld-NLD" eas:scheme="BSS1">spatial 1</dcterms:spatial>
+        <dcterms:temporal xml:lang="nld-NLD" eas:scheme="BSS0">temporal 0</dcterms:temporal>
+        <dcterms:temporal xml:lang="nld-NLD" eas:scheme="BSS1">temporal 1</dcterms:temporal>
+        <eas:spatial>
+            <eas:place xml:lang="nld-NLD" eas:scheme="BSS0">spatial 0</eas:place>
+            <eas:point eas:scheme="POI0">
+                <eas:x>123.45</eas:x>
+                <eas:y>456.78</eas:y>
+            </eas:point>
+        </eas:spatial>
+        <eas:spatial>
+            <eas:place xml:lang="nld-NLD" eas:scheme="BSS1">spatial 1</eas:place>
+            <eas:box eas:scheme="BOX1">
+                <eas:north>12.3</eas:north>
+                <eas:east>23.4</eas:east>
+                <eas:south>34.5</eas:south>
+                <eas:west>45.6</eas:west>
+            </eas:box>
+        </eas:spatial>
+    </emd:coverage>
+    <emd:rights>
+        <dc:rights xml:lang="nld-NLD" eas:scheme="BSS0">rights 0</dc:rights>
+        <dc:rights xml:lang="nld-NLD" eas:scheme="BSS1">rights 1</dc:rights>
+        <dcterms:accessRights xml:lang="nld-NLD" eas:scheme="BSS0">accessRights 0</dcterms:accessRights>
+        <dcterms:accessRights xml:lang="nld-NLD" eas:scheme="BSS1">accessRights 1</dcterms:accessRights>
+        <dcterms:license xml:lang="nld-NLD" eas:scheme="BSS0">license 0</dcterms:license>
+        <dcterms:license xml:lang="nld-NLD" eas:scheme="BSS1">license 1</dcterms:license>
+    </emd:rights>
+    <emd:audience>
+        <dcterms:audience xml:lang="nld-NLD" eas:scheme="BSS0">audience 0</dcterms:audience>
+        <dcterms:audience xml:lang="nld-NLD" eas:scheme="BSS1">audience 1</dcterms:audience>
+    </emd:audience>
+    <emd:other>
+        <eas:remark xml:lang="nl-NL" eas:scheme="REM0" eas:author="Author von Bar">remarks 0</eas:remark>
+        <eas:remark xml:lang="nl-NL" eas:scheme="REM1" eas:author="Author von Bar">remarks 1</eas:remark>
+    </emd:other>
+</emd:easymetadata>
