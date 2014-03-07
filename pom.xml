@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>nl.knaw.dans.easy</groupId>
+	<artifactId>easy-build</artifactId>
+	<version>2.9-SNAPSHOT</version>
+	<name>EASY Master Build</name>
+	<packaging>pom</packaging>
+	<modules>
+		<!-- Front-end Modules -->
+		<module>front-end/easy-webui</module>
+		<module>front-end/easy-sword</module>
+		<module>front-end/easy-rest</module>
+		<module>front-end/easy-proai</module>
+
+		<!-- Libraries -->
+		<module>lib/dans-pid</module>
+		<module>lib/dans-solr</module>
+		<module>lib/dans-wicket</module>
+		<module>lib/easy-business</module>
+		<module>lib/easy-business-mocking</module>
+		<module>lib/easy-fedora</module>
+		<module>lib/easy-ldap</module>
+		<module>lib/easy-prototype</module>
+
+		<!-- Deprecated -->
+ 		<module>lib-deprecated/dans-ldap</module>	
+		<module>lib-deprecated/dans-jibx</module>
+		<module>lib-deprecated/dans-lang</module>
+		<module>lib-deprecated/dans-fedora</module>
+		<module>lib-component/idmo-collections</module>
+		<module>lib-component/isecurity</module>
+		<module>lib-component/istore</module>
+		<module>lib-component/dmo-collections</module>
+		<module>lib-component/store</module>
+	</modules>
+</project>
