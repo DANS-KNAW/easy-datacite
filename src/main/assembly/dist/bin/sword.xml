@@ -1,0 +1,8 @@
+<Context docBase="/opt/easy-sword/bin/easy-sword.war" debug="0"
+	crossContext="true">
+	<Parameter name="upload-temp-directory" value="" override="false" />
+	<Parameter name="deposit-url" value="" override="false" />
+	<Parameter name="proxy-port" value="" override="false" />
+	<Parameter name="proxy-host" value="" override="false" />
+	<Parameter name="client-urls" value="" override="false" />
+</Context>

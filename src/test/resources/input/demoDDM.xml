@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ddm:DDM
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:dcmitype="http://purl.org/dc/dcmitype/"
+	xmlns:narcis="http://easy.dans.knaw.nl/schemas/vocab/narcis-type/"
+	xmlns:dcx="http://easy.dans.knaw.nl/schemas/dcx/"
+	xmlns:dcx-dai="http://easy.dans.knaw.nl/schemas/dcx/dai/"
+	xmlns:ddm="http://easy.dans.knaw.nl/schemas/md/ddm/"
+	xmlns:dcterms="http://purl.org/dc/terms/"
+	xmlns:dcx-gml="http://easy.dans.knaw.nl/schemas/dcx/gml/"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:abr="http://www.den.nl/standaard/166/Archeologisch-Basisregister/"
+	xsi:schemaLocation="
+		http://www.den.nl/standaard/166/Archeologisch-Basisregister/ http://easy.dans.knaw.nl/schemas/vocab/2012/10/abr-type.xsd
+		http://easy.dans.knaw.nl/schemas/md/ddm/ http://easy.dans.knaw.nl/schemas/md/2012/11/ddm.xsd
+		http://easy.dans.knaw.nl/schemas/dcx/gml/ http://eof12.dans.knaw.nl/schemas/dcx/2012/10/dcx-gml.xsd
+">
+	<!-- If you view this example in a browser, click 'page source' to see the namespace declarations.  -->
+	<!-- 
+		This example shows all the fields that will show up as meta data:
+		a) in a license document of the ingest confirmation message
+		b) on the description tab of the dataset in the web-ui -->
+	<!-- 
+		Some fields may have a type. If a field is not shown with some type, that type will not show up
+	-->
+	<!-- 
+		Some additional fields contain comment why they do not show up.
+	-->
+	<ddm:profile>
+		<dc:title>mandatory title</dc:title>
+		<dcterms:description>mandatory description</dcterms:description>
+		<dc:creator>mandatory simple creator</dc:creator>
+		<ddm:created>2013</ddm:created>
+		<ddm:audience>D41500</ddm:audience>
+		<ddm:accessRights>OPEN_ACCESS</ddm:accessRights>
+	</ddm:profile>
+	<ddm:dcmiMetadata>
+		<dcterms:audience xsi:type='narcis:DisciplineType'>D34500</dcterms:audience>
+		<dcterms:audience>vrije tekst</dcterms:audience>
+		<dcterms:educationLevel>meer vrije tekst</dcterms:educationLevel>
+		<dcterms:audience><!-- empty: does not show up --></dcterms:audience>
+		<!-- =============================================================== relations -->
+		<dc:relation>relatie nummer 01</dc:relation>
+		<dcterms:relation>relatie nummer 02</dcterms:relation>
+		<dcterms:conformsTo>relatie nummer 03</dcterms:conformsTo>
+		<dcterms:isVersionOf>relatie nummer 04</dcterms:isVersionOf>
+		<dcterms:hasVersion>relatie nummer 05</dcterms:hasVersion>
+		<dcterms:isReplacedBy>relatie nummer 06</dcterms:isReplacedBy>
+		<dcterms:replaces>relatie nummer 07</dcterms:replaces>
+		<dcterms:isRequiredBy>relatie nummer 08</dcterms:isRequiredBy>
+		<dcterms:requires>relatie nummer 09</dcterms:requires>
+		<dcterms:isPartOf>relatie nummer 10</dcterms:isPartOf>
+		<dcterms:hasPart>relatie nummer 11</dcterms:hasPart>
+		<dcterms:isReferencedBy>relatie nummer 12</dcterms:isReferencedBy>
+		<dcterms:references>relatie nummer 13</dcterms:references>
+		<dcterms:isFormatOf>relatie nummer 14</dcterms:isFormatOf>
+		<dcterms:hasFormat>relatie nummer 15</dcterms:hasFormat>
+		<!-- ================================================================ dates -->
+		<ddm:available>1900</ddm:available>
+		<dcterms:created xsi:type='dcterms:W3CDTF'>1900-04</dcterms:created>
+		<dcterms:created>03-2013</dcterms:created>
+		<dcterms:available xsi:type='dcterms:W3CDTF'>1900-04</dcterms:available>
+		<dcterms:available>03-2013</dcterms:available>
+		<dcterms:dateAccepted xsi:type='dcterms:W3CDTF'>1900-04</dcterms:dateAccepted>
+		<dcterms:dateAccepted>03-2013</dcterms:dateAccepted>
+		<dcterms:valid xsi:type='dcterms:W3CDTF'>1900-04</dcterms:valid>
+		<dcterms:valid>03-2013</dcterms:valid>
+		<dcterms:issued xsi:type='dcterms:W3CDTF'>1900-04</dcterms:issued>
+		<dcterms:issued>03-2013</dcterms:issued>
+		<dcterms:modified xsi:type='dcterms:W3CDTF'>1900-04</dcterms:modified>
+		<dcterms:modified>03-2013</dcterms:modified>
+		<dcterms:dateCopyrighted xsi:type='dcterms:W3CDTF'>1900-04</dcterms:dateCopyrighted>
+		<dcterms:dateCopyrighted>03-2013</dcterms:dateCopyrighted>
+		<dcterms:dateSubmitted xsi:type='dcterms:W3CDTF'>1900-04</dcterms:dateSubmitted>
+		<dcterms:dateSubmitted>03-2013</dcterms:dateSubmitted>
+		<dcterms:date xsi:type='dcterms:W3CDTF'>1900-04</dcterms:date>
+		<dcterms:date>03-2013</dcterms:date>
+		<dc:date xsi:type='dcterms:W3CDTF'>1900-04</dc:date>
+		<dc:date>03-2013</dc:date>
+		<!-- ================================================================ authors -->
+		<dcx-dai:creator DAI='info:eu-repo/dai/nl/1234567897'>maker met dai</dcx-dai:creator>
+		<dcx-dai:contributor DAI='1234567897'>bijdrager met DAI</dcx-dai:contributor>
+		<dcx-dai:creator DAI='info:eu-repo/dai/nl/9876543216'><!-- empty: does not show up --></dcx-dai:creator>
+		<dc:creator>maker</dc:creator>
+		<dc:contributor>bijdrager</dc:contributor>
+		<dcterms:creator>maker term</dcterms:creator>
+		<dcterms:contributor>bijdrager term</dcterms:contributor>
+		<dcx-dai:creatorDetails>
+			<dcx-dai:author>
+				<dcx-dai:titles xml:lang="en-IE">dr.</dcx-dai:titles>
+				<dcx-dai:initials>P</dcx-dai:initials>
+				<dcx-dai:insertions>v.d.</dcx-dai:insertions>
+				<dcx-dai:surname>P</dcx-dai:surname>
+				<dcx-dai:DAI>93313935x</dcx-dai:DAI>
+				<dcx-dai:organization>
+					<dcx-dai:name xml:lang="zh-CN">DC.LPEeo</dcx-dai:name>
+				</dcx-dai:organization>
+			</dcx-dai:author>
+		</dcx-dai:creatorDetails>
+		<dcx-dai:contributorDetails>
+			<dcx-dai:author>
+				<dcx-dai:titles xml:lang="en-IE">sr.</dcx-dai:titles>
+				<dcx-dai:initials>J.</dcx-dai:initials>
+				<dcx-dai:insertions>van</dcx-dai:insertions>
+				<dcx-dai:surname>Putten</dcx-dai:surname>
+				<dcx-dai:DAI>13313935x</dcx-dai:DAI>
+			</dcx-dai:author>
+		</dcx-dai:contributorDetails>
+		<!-- =================================================== not supported -->
+		<dcterms:instructionalMethod>not supported 01</dcterms:instructionalMethod>
+		<dcterms:accrualMethod>not supported 02</dcterms:accrualMethod>
+		<dcterms:accrualPolicy>not supported 03</dcterms:accrualPolicy>
+		<dcterms:accrualPeriodicity>not supported 04</dcterms:accrualPeriodicity>
+		<dcterms:mediator>not supported 05</dcterms:mediator>
+		<dcterms:provenance>not supported 06</dcterms:provenance>
+		<dcterms:bibliographicCitation>not supported 07</dcterms:bibliographicCitation>
+		<dcterms:medium>not supported 08</dcterms:medium>
+		<dcterms:license>not supported 09</dcterms:license>
+		<dcterms:extent>not supported 10</dcterms:extent>
+		<!-- =================================================== not yet implemented -->
+		<dcterms:accessRights>not implemented 1</dcterms:accessRights>
+		<dc:rights>not implemented 2</dc:rights>
+		<dcterms:rights>not implemented 3</dcterms:rights>
+		<dcterms:rightsHolder>not implemented 4</dcterms:rightsHolder>
+		<dcterms:abstract>not implemented 5</dcterms:abstract>
+		<dcterms:tableOfContents>not implemented 6</dcterms:tableOfContents>
+		<!-- =================================================== language -->
+		<dcterms:language>Nederlands</dcterms:language>
+		<dc:language>Engels</dc:language>
+		<dc:language xsi:type='dcterms:ISO639-3'>Ned</dc:language>
+		<dc:language xsi:type='dcterms:ISO639-2'>en</dc:language>
+		<dcterms:language xsi:type='dcterms:ISO639-3'>Dui</dcterms:language>
+		<dcterms:language xsi:type='dcterms:ISO639-2'>fr</dcterms:language>
+		<!-- =================================================== misceleneous -->
+		<dcterms:identifier>IDA</dcterms:identifier>
+		<dc:identifier>IDB</dc:identifier>
+		<dcterms:description>beschrijving</dcterms:description>
+		<dcterms:format>formaat</dcterms:format>
+		<dcterms:alternative>alternatief</dcterms:alternative>
+		<dcterms:title>titel</dcterms:title>
+		<dcterms:publisher>uitgever</dcterms:publisher>
+		<dcterms:type>tiepe</dcterms:type>
+		<dcterms:source>bron</dcterms:source>
+		<dc:description>Beschrijving</dc:description>
+		<dc:format>Formaat</dc:format>
+		<dc:title>Titel</dc:title>
+		<dc:publisher>Uitgever</dc:publisher>
+		<dc:type>Tiepe</dc:type>
+		<dc:source>nog een bron</dc:source>
+		<dcterms:subject>onderwerp</dcterms:subject>
+		<dc:subject xsi:type="abr:ABRcomplex">EGVW</dc:subject>
+		<dcterms:subject xsi:type="abr:ABRcomplex">ELA</dcterms:subject>
+		<!-- ====================================================== coverage -->
+		<dc:coverage>Dekking</dc:coverage>
+		<dcterms:coverage>meer dekking</dcterms:coverage>
+		<dcterms:temporal>bronzen tijdperk</dcterms:temporal>
+		<dcterms:temporal xsi:type="abr:ABRperiode">PALEOLB</dcterms:temporal>
+		<dcterms:spatial>Ruimte</dcterms:spatial>
+		<dcterms:spatial xsi:type="dcx-gml:SimpleGMLType">
+			<Point xmlns="http://www.opengis.net/gml">
+				<pos>1.0 2.0</pos>
+			</Point>
+		</dcterms:spatial>
+		<dcx-gml:spatial>
+			<Point xmlns="http://www.opengis.net/gml">
+				<pos>
+					52.08113 4.34510
+				</pos>
+			</Point>
+		</dcx-gml:spatial>
+		<dcx-gml:spatial>
+			<Point xmlns="http://www.opengis.net/gml">
+				<description>Entrance of DANS Building</description>
+				<name>Data Archiving and Networked Services (DANS)</name>
+				<pos>52.08110 4.34521 1.12</pos>
+			</Point>
+		</dcx-gml:spatial>
+		<dcx-gml:spatial srsName="http://www.opengis.net/def/crs/EPSG/0/28992">
+			<!-- fields with an explicit srsName will not show up -->
+			<Point xmlns="http://www.opengis.net/gml">
+				<!-- Same point in Dutch National Grid (urn:ogc:def:crs:EPSG::28992).
+					The list in element pos is in the order x y [altitude]. All units in m. -->
+				<description>Entrance of DANS Building</description>
+				<name>Data Archiving and Networked Services (DANS)</name>
+				<pos>83575.4 455271.2 1.12</pos>
+			</Point>
+		</dcx-gml:spatial>
+	</ddm:dcmiMetadata>
+</ddm:DDM>
+

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+	 version="2.4">
+
+	<display-name>Easy SWORD Demo Server</display-name>
+	
+	<listener>
+		<listener-class>nl.knaw.dans.easy.sword.ExternalConfigLoaderContextListener</listener-class>
+	</listener>
+
+	<listener>
+	    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+	<context-param>
+	    <param-name>contextConfigLocation</param-name>
+	    <param-value>classpath:applicationContext.xml</param-value>
+	</context-param>
+
+	<!-- SWORD Configuration -->
+	<context-param>
+		<description>The SWORDServer class name</description>
+		<param-name>sword-server-class</param-name>
+		<param-value>nl.knaw.dans.easy.sword.EasySwordServer</param-value>
+	</context-param>
+
+	<context-param>
+		<description>The type of authentication used : [Basic|None]</description>
+		<param-name>authentication-method</param-name>
+		<param-value>Basic</param-value>
+	</context-param>
+
+	<context-param>
+		<description>
+			The maximum upload size in kB.
+			Setting this value to -1
+			will allow any size upload
+			(subject to the limits placed by your
+			servlet container). 
+		</description>
+		<param-name>maxUploadSize</param-name>
+		<param-value>-1</param-value>
+	</context-param>
+
+	<context-param>
+		<description>URLs for the client to connect to</description>
+		<param-name>client-urls</param-name>
+		<param-value>http://localhost:8083/sword/servicedocument</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>proxy-host</param-name>
+		<param-value></param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>proxy-port</param-name>
+		<param-value></param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>deposit-url</param-name>
+		<param-value>http://localhost:8083/sword/</param-value>
+	</context-param>
+
+	<context-param> 
+		<param-name>upload-temp-directory</param-name> 
+		<param-value>target/tmp/</param-value> 
+	</context-param>
+	
+	
+
+	<!-- Servlets -->
+
+	<servlet>
+		<servlet-name>servicedocument</servlet-name>
+		<servlet-class>org.purl.sword.server.ServiceDocumentServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>deposit</servlet-name>
+		<servlet-class>org.purl.sword.server.DepositServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>sword</servlet-name>
+		<servlet-class>org.purl.sword.client.ServletClient</servlet-class>
+	</servlet>
+
+
+	<!-- Servlet Mappings -->
+
+	<servlet-mapping>
+		<servlet-name>servicedocument</servlet-name>
+		<url-pattern>/servicedocument</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>deposit</servlet-name>
+		<url-pattern>/deposit/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.css</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>sword</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+</web-app>

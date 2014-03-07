@@ -1,0 +1,45 @@
+Vergelijking met specs 1.1
+
+- het sword:acceptPackaging element is optioneel een ZOU MOETEN
+  bevatten een URI uit een lijst van SWORD-TYPES.  Dit lijstje is
+  nergens te vinden en lijkt in v2 te zijn losgelaten.  Het hoeft daar
+  ook geen URI (IRI) meer te zijn.  Bij ons verwijst het nu naar de
+  index-pagina van onze schemas.  Het lijkt me dat het zou moeten
+  verwijzen naar ons SIP-formaat als geheel (dus niet alleen de
+  schema's voor de metadata)
+
+
+
+Vergelijking met specs 9.2 (AtomPub en SWORD 1.3)
+
+- Status code is 202 Accepted i.p.v. 201 Created.  Dit kan ik niet
+  terugvinden als mogelijkheid in de specs.
+
+- Location is de Web-UI url van de dataset die aangemaakt is.  Dit is
+  fout.  De URL van een member-entry moet worden teruggegeven, in het
+  bijzonder de media link entry (zie 9.6).  De "edit" en
+  "edit-media"-links moeten wel aanwezig zijn (11), maar hoeven geen
+  mogelijkheid te geven tot het daadwerkelijk editen van de media link
+  entry of de media resource.
+
+- Content-MD5 netjes geïmplementeerd!
+
+- User-Agent: wordt overgenomen in resultaat Atom
+
+- 
+
+
+
+
+
+
+
+
+
+
+
+Overwegingen
+
+- In AtomPub en SWORD lijken twee niveau's van groepering van
+  resources te zijn: workspace en collection.  We zouden elke
+  depositor zijn eigen wordspace kunnen geven.

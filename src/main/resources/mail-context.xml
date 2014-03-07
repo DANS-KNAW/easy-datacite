@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+	<bean name="mailOffice" class="nl.knaw.dans.easy.mail.EasyMailerImpl">
+		<property name="smtpHost" value="${mail.smtp.host}" />
+		<property name="from" value="${mail.fromAddress}" />
+		<property name="bccs" value="${mail.bccs}" />
+	</bean>
+
+	<bean name="adminMailer" class="nl.knaw.dans.common.lang.mail.AdminMailer">
+		<constructor-arg>
+			<bean class="nl.knaw.dans.easy.mail.MailerAdapterForAdminMailer">
+				<constructor-arg>
+					<!-- Almost identical to mailOffice, but it does not BCC to anyone -->
+					<bean class="nl.knaw.dans.easy.mail.EasyMailerImpl">
+						<property name="smtpHost" value="${mail.smtp.host}" />
+						<property name="from" value="${mail.fromAddress}" />
+					</bean>
+				</constructor-arg>
+			</bean>
+		</constructor-arg>
+		<constructor-arg value="EASY SWORD Service" />
+		<property name="sendOnStarting" value="${admin.mailer.sendOnStarting}" />
+		<property name="sendOnClosing" value="${admin.mailer.sendOnClosing}" />
+		<property name="exeptionMailInterval" value="15" />
+		<property name="adminMailAddressesCS" value="${admin.mailer.addresses}" />
+	</bean>
+</beans>

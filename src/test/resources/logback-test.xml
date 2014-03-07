@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<!-- 
+	   Configuration used during unit-tests AND during the initialization 
+	   phase of starting the Jetty server (i.e. before our web app reconfigures 
+	   logging according to the configuration in $EASY_SWORD_HOME/cfg/logback.xml) -->
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<Pattern>%-5level %r [%thread]: %msg [%C] %n</Pattern>
+		</encoder>
+	</appender>
+
+	<root level="warn">
+		<appender-ref ref="CONSOLE" />
+	</root>
+	<logger name="nl.knaw.dans" level="info">
+	</logger>
+	<logger name="nl.knaw.dans.easy.sword" level="debug">
+	</logger>
+
+</configuration>

@@ -1,0 +1,43 @@
+<emd:easymetadata 
+	xmlns:dc="http://purl.org/dc/elements/1.1/" 
+	xmlns:dcterms="http://purl.org/dc/terms/" 
+	xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/" 
+	xmlns:emd="http://easy.dans.knaw.nl/easy/easymetadata/" 
+	emd:version="0.1">
+  <emd:title>
+    <dc:title>Sword deposit test</dc:title>
+  </emd:title>
+  <emd:creator>
+    <dc:creator>joke</dc:creator>
+  </emd:creator>
+  <emd:subject></emd:subject>
+  <emd:description>
+    <dc:description>maar een paar bestandjes</dc:description>
+  </emd:description>
+  <emd:publisher></emd:publisher>
+  <emd:contributor></emd:contributor>
+  <emd:date>
+    <eas:created eas:format="YEAR" eas:scheme="W3CDTF">2010-01-01T00:00:00.000+01:00</eas:created>
+  </emd:date>
+  <emd:type>
+    <dc:type eas:scheme="DCMI" eas:schemeId="common.dc.type">Dataset</dc:type>
+  </emd:type>
+  <emd:format></emd:format>
+  <emd:source></emd:source>
+  <emd:language></emd:language>
+  <emd:relation></emd:relation>
+  <emd:coverage></emd:coverage>
+  <emd:rights>
+    <dcterms:accessRights eas:schemeId="common.dcterms.accessrights">OPEN_ACCESS</dcterms:accessRights>
+    <dcterms:license>accept</dcterms:license>
+  </emd:rights>
+  <emd:audience>
+    <dcterms:audience eas:schemeId="custom.disciplines">easy-discipline:2</dcterms:audience>
+  </emd:audience>
+  <emd:other>
+    <eas:application-specific>
+      <eas:metadataformat>SOCIOLOGY</eas:metadataformat>
+    </eas:application-specific>
+    <eas:etc></eas:etc>
+  </emd:other>
+</emd:easymetadata>

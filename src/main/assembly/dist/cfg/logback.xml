@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="3 minutes">
+	<property name="LOGDIR" value="/var/log/easy-sword" />
+
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<Pattern>%-5level [%thread]: %msg %n</Pattern>
+		</encoder>
+	</appender>
+
+	<!-- For ANSI Eclipse console see http://www.mihai-nita.net/eclipse/ -->
+	<appender name="COLOR_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<Pattern>%highlight(%-5level [%thread]: %msg) %n</Pattern>
+		</encoder>
+	</appender>
+
+	<appender name="EASY_SWORD_LOG"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOGDIR}/easy-sword.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<fileNamePattern>${LOGDIR}/easy-sword.%d{yyyy-MM-dd}.log
+			</fileNamePattern>
+
+			<!-- keep 30 days' worth of history -->
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%p %d [%t] - %m%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="EASY_SWORD_ERROR_LOG"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>ERROR</level>
+		</filter>
+		<file>${LOGDIR}/easy-sword-error.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<fileNamePattern>${LOGDIR}/easy-sword-error.%d{yyyy-MM-dd}.log</fileNamePattern>
+
+			<!-- keep 30 days' worth of history -->
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%p %d [%t] - %m%n</pattern>
+		</encoder>
+	</appender>
+
+	<root level="warn">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="EASY_SWORD_LOG" />
+	</root>
+
+	<logger name="nl.knaw.dans" level="info">
+	</logger>
+</configuration>
