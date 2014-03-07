@@ -1,0 +1,6 @@
+/* css trick for displaying multi-column ul/ol lists */
+ul.fvCol2 li  { width:50%; float:left; }
+ul.fvCol3 li  { width:33%; float:left; }
+ul.fvCol4 li  { width:25%; float:left; }
+ul.fvCol5 li  { width:20%; float:left; }
+ul.fvCol6 li  { width:16%; float:left; }

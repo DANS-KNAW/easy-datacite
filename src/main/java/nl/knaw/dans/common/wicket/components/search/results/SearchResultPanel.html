@@ -1,0 +1,50 @@
+<html xmlns:wicket>
+<wicket:panel>
+<div class="searchCriteria" wicket:id="searchCriteria">[searchCriteria]</div>
+
+<div class="moveDownDatasetSortBar">
+	<span wicket:id="resultMessage" class="resultMessage">[resultMessage]</span> <span wicket:id="sortPanel" class="sortPanel">[sortPanel]</span>
+</div>
+
+<wicket:enclosure child="searchHits">
+<table width="100%" class="searchHits">
+<tr>
+	<td width="70%" style="vertical-align:top">
+		<div id="searchHits">
+			<wicket:container wicket:id="searchHits">
+			<div wicket:id="searchHit" class="searchHit2">[hit]</div>
+			</wicket:container>
+		</div>			
+	</td>
+	<td style="vertical-align:top">
+		<wicket:enclosure child="refineSearchPanel">
+		<div id="refineSearchPanel2" class="panel">
+			<h1><wicket:message key="searchresultpanel.refine.label">Refine</wicket:message></h1><span wicket:id="refineHelpPopup"></span>
+			<p>
+				<div class="refineSearchPanel panel">
+					<div wicket:id="refineSearchPanel">[search within results panel]</div>
+					<a wicket:id="advancedSearch">
+						<wicket:message key="searchresultpanel.advancedsearch.label">advanced search</wicket:message>
+					</a>
+				</div>
+			</p>
+			<p wicket:id="refineFacetsEnclosure">
+				<div class="refineFacetsPanel panel">
+					<div wicket:id="refineFacets" class="refineFacet">
+						<div wicket:id="facet"></div>
+					</div>
+					<br>
+					<a wicket:id="browseMore"><wicket:message key="searchresultpanel.browsemore.label">Browse more...</wicket:message></a>
+				</div>
+			</p>
+		</div>
+		</wicket:enclosure>
+	</td>
+</tr>
+</table>
+</wicket:enclosure>
+
+<div wicket:id="pageBrowsePanel" class="pageBrowsePanel">[pageBrowsePanel]</div>
+<wicket:child />
+</wicket:panel>
+</html>

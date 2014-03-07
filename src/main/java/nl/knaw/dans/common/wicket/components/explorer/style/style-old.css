@@ -1,0 +1,66 @@
+.tree p {
+  	margin: 0px;
+}
+ul.tree {
+	width: 480px;
+	height: 240px;
+	overflow: auto;
+	border: 1px solid #DDDDDD;
+}
+
+table.dataview {
+	margin-bottom: 0px;
+	border-bottom: 0px solid #0079d6;
+	font-size: 1em;
+	font-family: arial;
+	}
+	
+table.dataview caption { text-align: left; }
+table.dataview tr { padding-top: 2px; padding-bottom: 2px; }
+table.dataview tr.even { background-color: #ffebcd; }
+table.dataview tr.odd { background-color: #fff; }
+table.dataview tr td { padding-left: 4px; padding-right: 8px; white-space:nowrap;}
+table.dataview tr th { 
+	color: black;
+	padding-top: 3px; 
+	padding-bottom: 3px;
+	padding-left: 4px; 
+	padding-right: 8px; 
+	background-color: #c1e4ff; 
+	border: 1px solid #DDDDDD;
+	text-align: left; 
+	white-space: nowrap; 
+	vertical-align: middle;
+	}
+
+table.dataview tr th { background-position: right; background-repeat:no-repeat; }
+table.dataview tr th.wicket_orderDown {
+	background-color: #87cbff; background-image: url(arrow_down.png); }
+table.dataview tr th.wicket_orderUp {
+	background-color: #87cbff; background-image: url(arrow_up.png); }
+table.dataview tr th.wicket_orderNone {
+	background-image: url(arrow_off.png);
+}
+table.dataview tr th a { font-weight: normal; }
+table.dataview #message { padding-left: 3px; }
+table.dataview caption { padding-bottom: 2px; }
+
+table.FEtable {
+	border: 0px solid #DDDDDD;
+}
+table.FEtable td {
+	vertical-align: top;
+	border: 1px solid #DDDDDD;
+}
+
+.FEdiv {
+	margin-top: 5px;	
+}
+
+.breadcrumb {
+	overflow: hidden;
+	margin: 2px;
+	padding-left: 1px;
+	padding-right: 1px;
+	border: 1px solid #DDDDDD;
+}

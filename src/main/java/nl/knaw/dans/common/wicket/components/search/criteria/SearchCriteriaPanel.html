@@ -1,0 +1,14 @@
+<html xmlns:wicket>
+<wicket:panel>
+	<wicket:message key="searchcriteriapanel.criteria.label">Criteria:</wicket:message>
+	<wicket:container wicket:id="criteriumLinks">
+		<!-- <a wicket:id="criteriumLink" class="criterium"><span wicket:id="criteriumText">[CRITERIA]</span></a>  -->
+		<!-- Note: clicking the link removed all other criteria, but it was decided not to have it -->
+		<span wicket:id="criteriumText">[CRITERIA]</span>
+		
+		<a wicket:id="removeLink"><img wicket:id="closeImage" style="position:relative; top: 4px;" wicket:message="alt:searchcriteriapanel.close.alt"/></a>
+		<span wicket:id="criteriumSeparator" class="criteriumSeparator">&nbsp;|&nbsp;</span>
+	</wicket:container>
+</wicket:panel>
+</html>
+		

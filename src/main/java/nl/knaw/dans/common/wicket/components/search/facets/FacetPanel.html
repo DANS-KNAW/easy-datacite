@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    
+<html 
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:wicket="http://wicket.sourceforge.net/" 
+	xml:lang="en" 
+	lang="en">
+	
+<head>
+	<wicket:head>
+	</wicket:head>
+</head>
+<body>
+<wicket:panel>
+	<div wicket:id="facetName" class="facet_name">[FACET NAME]</div>
+	<div wicket:id="facetParentValue" class="facet_parent_value">[FACET PARENT VALUE]</div>
+	<ul wicket:id="facetValuesUL" class="facet_values">
+		<li wicket:id="facetValuesLI">
+			<a wicket:id="facetValueLink">
+				<span wicket:id="facetValue" class="facet_value">[FACET VALUE]</span> 
+				(<span wicket:id="facetCount" class="facet_count">[FACET COUNT]</span>)
+			</a>
+		</li>
+	</ul>
+	<div style="clear:both;">&nbsp;</div>
+</wicket:panel>
+</body>
+</html>
+		

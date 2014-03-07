@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.3-strict.dtd" >
+    <head>  
+    </head>
+    <body>
+    	<wicket:panel>
+    		<div class="offsetExplorer">
+				<div class="breatheExplorerButtons">
+					<span>
+						<a wicket:id="collapseAll" title="Collapse all" class="collapseall"></a>  
+						<a wicket:id="expandAll" title="Expand all" class="expandall"></a> 
+						<a wicket:id="up" title="Up" class="up"></a>
+						<span>Folders</span>
+					</span>
+					<span class="breatheTableButtons">
+						<a wicket:id="selectAll" title="Select all" class="selectall"></a>
+						<a wicket:id="selectNone" title="Select none" class="selectnone"></a>	
+						<span wicket:id="breadcrumbPanel"></span>		
+					</span>
+				</div>
+				<div>
+					<table class="FEtable breatheExplorer">
+						<tr>
+							<td class="breatheTree"><span wicket:id="tree"></span></td>
+			    			<td><table class="dataview" wicket:id="datatable"></table></td>
+			    		</tr>
+		    		</table>
+	    		</div>
+    		</div>   		
+    	</wicket:panel>
+    </body>
+</html>

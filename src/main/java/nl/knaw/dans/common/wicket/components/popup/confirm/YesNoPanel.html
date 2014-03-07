@@ -1,0 +1,23 @@
+<html xmlns:wicket>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<title></title>
+	</head>
+	<body>
+		<wicket:panel>
+			<form wicket:id="yesNoForm" action="">
+				<span wicket:id="confirmMessage" style="text-align: center">Are you sure?</span>
+				<table border="0" width="100%">
+					<tr>
+						<td style="text-align: center">
+							<input type="submit" class="button" wicket:id="yesButton" value="Yes" />
+						</td>
+						<td style="text-align: center">
+							<input type="submit" class="button" wicket:id="noButton" value="No" />
+						</td>
+					</tr>
+				</table>
+			</form>
+		</wicket:panel>
+	</body>
+</html>

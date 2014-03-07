@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    
+<html 
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:wicket="http://wicket.sourceforge.net/" 
+	xml:lang="en" 
+	lang="en">
+	
+<head>
+	<wicket:head>
+		<link rel="stylesheet" type="text/css" href="css/jumpoff.css" />
+	</wicket:head>
+</head>
+
+<body>
+<wicket:panel>
+<form wicket:id="editForm">
+<textarea wicket:id="editor" rows="30" cols="109">rich text input</textarea>
+<p/>
+<a wicket:id="validate" class="button"><wicket:message key="jumpoffPanel.validateButton.label">
+		Validate</wicket:message></a>
+<a wicket:id="submit" class="button"><wicket:message key="jumpoffPanel.submitButton.label">
+		Submit</wicket:message></a>
+<a wicket:id="view" class="button"><wicket:message key="jumpoffPanel.viewButton.label">
+		Submit and switch to view</wicket:message></a>
+<a wicket:id="cancel" class="button"><wicket:message key="jumpoffPanel.cancelButton.label">
+		Cancel edit</wicket:message></a>
+</form>
+<p/>
+	<div wicket:id="upload"></div>
+
+</wicket:panel>
+</body>
+</html>

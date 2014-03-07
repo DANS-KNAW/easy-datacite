@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    
+<html 
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:wicket="http://wicket.sourceforge.net/" 
+	xml:lang="en" 
+	lang="en">
+	
+<head>
+	<wicket:head>
+	</wicket:head>
+</head>
+<body>
+<wicket:panel>
+<p>
+	<div class="browseCriteria" wicket:id="browseCriteria"></div>
+	<div class="browseResults">
+		<span class="resultCount" wicket:id="resultCount">34</span> <wicket:message key="browsepanel.results">results</wicket:message>
+		<a wicket:id="showButton" wicket:message="value:browsepanel.showbutton.label" class="button">Show</a>
+	</div>
+</p>
+
+<p>
+	<div wicket:id="browseFacets" class="browseFacetsPanel">
+		<div wicket:id="browseFacet" class="browseFacet panel">
+		</div>
+	</div>
+</p>
+<wicket:child />
+</wicket:panel>
+</body>
+</html>

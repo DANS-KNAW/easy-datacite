@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:wicket="http://wicket.sourceforge.net/" xml:lang="en" lang="en">
+
+<head>
+<wicket:head>
+	<link rel="stylesheet" type="text/css" href="css/reset.css" />
+	<link rel="stylesheet" type="text/css" href="css/rest.css" />
+</wicket:head>
+</head>
+
+<body>
+
+<table>
+	<tr>
+		<td class="logoCell"><a href="/"><img src="images/easy_logo.png" alt="logo"
+			class="icon" /></a>
+		</td>
+		<td>
+			<div class="navigationBar">
+				<div wicket:id="navigation" class="navigation"><a href="#"
+					wicket:id="fragment">[fragmentLabel]</a></div>
+				<div wicket:id="currentStep" class="currentStep" />
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td class="formCell">
+		
+			<wicket:child />
+			
+		</td>
+	</tr>
+</table>
+
+</body>
+</html>
