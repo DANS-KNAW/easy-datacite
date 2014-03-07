@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>easy-prototype</artifactId>
+		<groupId>nl.knaw.dans.easy</groupId>
+		<version>2.8</version>
+		<relativePath>../easy-prototype</relativePath>
+	</parent>
+	<artifactId>easy-business-mocking</artifactId>
+	<packaging>jar</packaging>
+	<name>EASY Business Mocking Test Library</name>
+	<description>Mocking facilities for the Easy Business library.  For use in unit tests.</description>
+	<dependencies>
+		<dependency>
+			<groupId>nl.knaw.dans.easy</groupId>
+			<artifactId>easy-business</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-easymock</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-module-junit4</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+</project>
