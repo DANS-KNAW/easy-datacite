@@ -38,61 +38,17 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
 </foxml:datastreamVersion>
 </foxml:datastream>
 <foxml:datastream ID="METHODMAP" STATE="A" CONTROL_GROUP="X" VERSIONABLE="true">
-<foxml:datastreamVersion ID="METHODMAP1.0" LABEL="Deployment Method Map" CREATED="2008-07-21T11:49:35.703Z" MIMETYPE="text/xml" FORMAT_URI="info:fedora/fedora-system:FedoraSDepMethodMap-1.1" SIZE="1629">
-<foxml:xmlContent>
-<fmm:MethodMap xmlns:fmm="http://fedora.comm.nsdlib.org/service/methodmap" name="MethodMap">
-					<fmm:Method operationLabel="Get metadata formatted as OAI_DC" operationName="getOAI_DC" wsdlMsgName="getOAI_DCRequest" wsdlMsgOutput="dissemResponse">
-						<fmm:DatastreamInputParm parmName="DC" passBy="URL_REF" required="true"></fmm:DatastreamInputParm>
-						<fmm:DatastreamInputParm parmName="DC_OAI_DC.xsl" passBy="URL_REF" required="true"></fmm:DatastreamInputParm>
-						<fmm:MethodReturnType wsdlMsgName="dissemResponse" wsdlMsgTOMIME="text/xml"></fmm:MethodReturnType>
-					</fmm:Method>
-					<fmm:Method operationLabel="Get metadata formatted as didl" operationName="getDidl" wsdlMsgName="getDidlRequest" wsdlMsgOutput="dissemResponse">
-						<fmm:DatastreamInputParm parmName="EMD" passBy="URL_REF" required="true"></fmm:DatastreamInputParm>
-						<fmm:DatastreamInputParm parmName="EMD_didl.xsl" passBy="URL_REF" required="true"></fmm:DatastreamInputParm>
-						<fmm:MethodReturnType wsdlMsgName="dissemResponse" wsdlMsgTOMIME="text/xml"></fmm:MethodReturnType>
-					</fmm:Method>
-					
-					<fmm:Method operationLabel="Get metadata formatted as Carare" operationName="getCarare" wsdlMsgName="getCarareRequest" wsdlMsgOutput="dissemResponse">
-						<fmm:DatastreamInputParm parmName="EMD" passBy="URL_REF" required="true"></fmm:DatastreamInputParm>
-						<fmm:DatastreamInputParm parmName="EMD_carare.xsl" passBy="URL_REF" required="true"></fmm:DatastreamInputParm>
-						<fmm:MethodReturnType wsdlMsgName="dissemResponse" wsdlMsgTOMIME="text/xml"></fmm:MethodReturnType>
-					</fmm:Method>
-					
-				</fmm:MethodMap>
-</foxml:xmlContent>
-</foxml:datastreamVersion>
-<foxml:datastreamVersion ID="METHODMAP.1" LABEL="Deployment Method Map" CREATED="2012-12-18T12:22:37.403Z" MIMETYPE="text/xml" FORMAT_URI="info:fedora/fedora-system:FedoraSDepMethodMap-1.1" SIZE="2073">
-<foxml:xmlContent>
-<fmm:MethodMap xmlns:fmm="http://fedora.comm.nsdlib.org/service/methodmap" name="MethodMap">
-  <fmm:Method operationLabel="Get metadata formatted as OAI_DC" operationName="getOAI_DC" wsdlMsgName="getOAI_DCRequest" wsdlMsgOutput="dissemResponse">
-    <fmm:DatastreamInputParm parmName="DC" passBy="URL_REF" required="true"></fmm:DatastreamInputParm>
-    <fmm:DatastreamInputParm parmName="DC_OAI_DC.xsl" passBy="URL_REF" required="true"></fmm:DatastreamInputParm>
-    <fmm:MethodReturnType wsdlMsgName="dissemResponse" wsdlMsgTOMIME="text/xml"></fmm:MethodReturnType>
-  </fmm:Method>
-  <fmm:Method operationLabel="Get metadata formatted as didl" operationName="getDidl" wsdlMsgName="getDidlRequest" wsdlMsgOutput="dissemResponse">
-    <fmm:DatastreamInputParm parmName="EMD" passBy="URL_REF" required="true"></fmm:DatastreamInputParm>
-    <fmm:DatastreamInputParm parmName="EMD_didl.xsl" passBy="URL_REF" required="true"></fmm:DatastreamInputParm>
-    <fmm:MethodReturnType wsdlMsgName="dissemResponse" wsdlMsgTOMIME="text/xml"></fmm:MethodReturnType>
-  </fmm:Method>
-  <fmm:Method operationLabel="Get metadata formatted as nl_didl" operationName="getNl_didl" wsdlMsgName="getNl_didlRequest" wsdlMsgOutput="dissemResponse">
-    <fmm:DatastreamInputParm parmName="EMD" passBy="URL_REF" required="true"></fmm:DatastreamInputParm>
-    <fmm:DatastreamInputParm parmName="EMD_nl_didl.xsl" passBy="URL_REF" required="true"></fmm:DatastreamInputParm>
-    <fmm:MethodReturnType wsdlMsgName="dissemResponse" wsdlMsgTOMIME="text/xml"></fmm:MethodReturnType>
-  </fmm:Method>
-  <fmm:Method operationLabel="Get metadata formatted as Carare" operationName="getCarare" wsdlMsgName="getCarareRequest" wsdlMsgOutput="dissemResponse">
-    <fmm:DatastreamInputParm parmName="EMD" passBy="URL_REF" required="true"></fmm:DatastreamInputParm>
-    <fmm:DatastreamInputParm parmName="EMD_carare.xsl" passBy="URL_REF" required="true"></fmm:DatastreamInputParm>
-    <fmm:MethodReturnType wsdlMsgName="dissemResponse" wsdlMsgTOMIME="text/xml"></fmm:MethodReturnType>
-  </fmm:Method>
-</fmm:MethodMap>
-</foxml:xmlContent>
-</foxml:datastreamVersion>
 <foxml:datastreamVersion ID="METHODMAP.2" LABEL="Deployment Method Map" CREATED="2013-01-06T16:35:31.463Z" MIMETYPE="text/xml" FORMAT_URI="info:fedora/fedora-system:FedoraSDepMethodMap-1.1" SIZE="1591">
 <foxml:xmlContent>
 <fmm:MethodMap xmlns:fmm="http://fedora.comm.nsdlib.org/service/methodmap" name="MethodMap">
   <fmm:Method operationLabel="Get metadata formatted as OAI_DC" operationName="getOAI_DC" wsdlMsgName="getOAI_DCRequest" wsdlMsgOutput="dissemResponse">
     <fmm:DatastreamInputParm parmName="EMD" passBy="URL_REF" required="true"></fmm:DatastreamInputParm>
     <fmm:DatastreamInputParm parmName="EMD_oai_dc.xsl" passBy="URL_REF" required="true"></fmm:DatastreamInputParm>
+    <fmm:MethodReturnType wsdlMsgName="dissemResponse" wsdlMsgTOMIME="text/xml"></fmm:MethodReturnType>
+  </fmm:Method>
+  <fmm:Method operationLabel="Get metadata formatted as OAI_datacite" operationName="getOAI_datacite" wsdlMsgName="getOAI_dataciteRequest" wsdlMsgOutput="dissemResponse">
+    <fmm:DatastreamInputParm parmName="EMD" passBy="URL_REF" required="true"></fmm:DatastreamInputParm>
+    <fmm:DatastreamInputParm parmName="EMD_oai_datacite.xsl" passBy="URL_REF" required="true"></fmm:DatastreamInputParm>
     <fmm:MethodReturnType wsdlMsgName="dissemResponse" wsdlMsgTOMIME="text/xml"></fmm:MethodReturnType>
   </fmm:Method>
   <fmm:Method operationLabel="Get metadata formatted as nl_didl" operationName="getNl_didl" wsdlMsgName="getNl_didlRequest" wsdlMsgOutput="dissemResponse">
@@ -110,111 +66,6 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
 </foxml:datastreamVersion>
 </foxml:datastream>
 <foxml:datastream ID="DSINPUTSPEC" STATE="A" CONTROL_GROUP="X" VERSIONABLE="true">
-<foxml:datastreamVersion ID="DSINPUTSPEC1.0" LABEL="Datastream Input Specification" CREATED="2008-07-21T11:49:35.703Z" MIMETYPE="text/xml" FORMAT_URI="info:fedora/fedora-system:FedoraDSInputSpec-1.1" SIZE="1531">
-<foxml:xmlContent>
-<fbs:DSInputSpec xmlns:fbs="http://fedora.comm.nsdlib.org/service/bindspec" label="Datastream Input Specification">
-					<fbs:DSInput DSMax="1" DSMin="1" DSOrdinality="false" wsdlMsgPartName="DC">
-						<fbs:DSInputLabel>Source XML</fbs:DSInputLabel>
-						<fbs:DSMIME>text/xml</fbs:DSMIME>
-						<fbs:DSInputInstruction></fbs:DSInputInstruction>
-					</fbs:DSInput>
-					<fbs:DSInput DSMax="1" DSMin="1" DSOrdinality="false" wsdlMsgPartName="DC_OAI_DC.xsl" pid="easy-sdep:oai-item1">
-						<fbs:DSInputLabel>XSL Stylesheet</fbs:DSInputLabel>
-						<fbs:DSMIME>text/xml</fbs:DSMIME>
-						<fbs:DSInputInstruction></fbs:DSInputInstruction>
-					</fbs:DSInput>
-					<fbs:DSInput DSMax="1" DSMin="1" DSOrdinality="false" wsdlMsgPartName="EMD">
-						<fbs:DSInputLabel>Source XML</fbs:DSInputLabel>
-						<fbs:DSMIME>text/xml</fbs:DSMIME>
-						<fbs:DSInputInstruction></fbs:DSInputInstruction>
-					</fbs:DSInput>
-					<fbs:DSInput DSMax="1" DSMin="1" DSOrdinality="false" wsdlMsgPartName="EMD_didl.xsl" pid="easy-sdep:oai-item1">
-						<fbs:DSInputLabel>XSL Stylesheet</fbs:DSInputLabel>
-						<fbs:DSMIME>text/xml</fbs:DSMIME>
-						<fbs:DSInputInstruction></fbs:DSInputInstruction>
-					</fbs:DSInput>
-					
-					<fbs:DSInput DSMax="1" DSMin="1" DSOrdinality="false" wsdlMsgPartName="EMD_carare.xsl" pid="easy-sdep:oai-item1">
-						<fbs:DSInputLabel>XSL Stylesheet</fbs:DSInputLabel>
-						<fbs:DSMIME>text/xml</fbs:DSMIME>
-						<fbs:DSInputInstruction></fbs:DSInputInstruction>
-					</fbs:DSInput>
-					
-				</fbs:DSInputSpec>
-</foxml:xmlContent>
-</foxml:datastreamVersion>
-<foxml:datastreamVersion ID="DSINPUTSPEC.1" LABEL="Datastream Input Specification" CREATED="2012-12-18T12:25:01.710Z" MIMETYPE="text/xml" FORMAT_URI="info:fedora/fedora-system:FedoraDSInputSpec-1.1" SIZE="1737">
-<foxml:xmlContent>
-<fbs:DSInputSpec xmlns:fbs="http://fedora.comm.nsdlib.org/service/bindspec" label="Datastream Input Specification">
-  <fbs:DSInput DSMax="1" DSMin="1" DSOrdinality="false" wsdlMsgPartName="DC">
-    <fbs:DSInputLabel>Source XML</fbs:DSInputLabel>
-    <fbs:DSMIME>text/xml</fbs:DSMIME>
-    <fbs:DSInputInstruction></fbs:DSInputInstruction>
-  </fbs:DSInput>
-  <fbs:DSInput DSMax="1" DSMin="1" DSOrdinality="false" pid="easy-sdep:oai-item1" wsdlMsgPartName="DC_OAI_DC.xsl">
-    <fbs:DSInputLabel>XSL Stylesheet</fbs:DSInputLabel>
-    <fbs:DSMIME>text/xml</fbs:DSMIME>
-    <fbs:DSInputInstruction></fbs:DSInputInstruction>
-  </fbs:DSInput>
-  <fbs:DSInput DSMax="1" DSMin="1" DSOrdinality="false" wsdlMsgPartName="EMD">
-    <fbs:DSInputLabel>Source XML</fbs:DSInputLabel>
-    <fbs:DSMIME>text/xml</fbs:DSMIME>
-    <fbs:DSInputInstruction></fbs:DSInputInstruction>
-  </fbs:DSInput>
-  <fbs:DSInput DSMax="1" DSMin="1" DSOrdinality="false" pid="easy-sdep:oai-item1" wsdlMsgPartName="EMD_didl.xsl">
-    <fbs:DSInputLabel>XSL Stylesheet</fbs:DSInputLabel>
-    <fbs:DSMIME>text/xml</fbs:DSMIME>
-    <fbs:DSInputInstruction></fbs:DSInputInstruction>
-  </fbs:DSInput>
-  <fbs:DSInput DSMax="1" DSMin="1" DSOrdinality="false" pid="easy-sdep:oai-item1" wsdlMsgPartName="EMD_nl_didl.xsl">
-    <fbs:DSInputLabel>XSL Stylesheet</fbs:DSInputLabel>
-    <fbs:DSMIME>text/xml</fbs:DSMIME>
-    <fbs:DSInputInstruction></fbs:DSInputInstruction>
-  </fbs:DSInput>
-  <fbs:DSInput DSMax="1" DSMin="1" DSOrdinality="false" pid="easy-sdep:oai-item1" wsdlMsgPartName="EMD_carare.xsl">
-    <fbs:DSInputLabel>XSL Stylesheet</fbs:DSInputLabel>
-    <fbs:DSMIME>text/xml</fbs:DSMIME>
-    <fbs:DSInputInstruction></fbs:DSInputInstruction>
-  </fbs:DSInput>
-</fbs:DSInputSpec>
-</foxml:xmlContent>
-</foxml:datastreamVersion>
-<foxml:datastreamVersion ID="DSINPUTSPEC.2" LABEL="Datastream Input Specification" CREATED="2012-12-18T12:32:15.441Z" MIMETYPE="text/xml" FORMAT_URI="info:fedora/fedora-system:FedoraDSInputSpec-1.1" SIZE="1737">
-<foxml:xmlContent>
-<fbs:DSInputSpec xmlns:fbs="http://fedora.comm.nsdlib.org/service/bindspec" label="Datastream Input Specification">
-  <fbs:DSInput DSMax="1" DSMin="1" DSOrdinality="false" wsdlMsgPartName="DC">
-    <fbs:DSInputLabel>Source XML</fbs:DSInputLabel>
-    <fbs:DSMIME>text/xml</fbs:DSMIME>
-    <fbs:DSInputInstruction></fbs:DSInputInstruction>
-  </fbs:DSInput>
-  <fbs:DSInput DSMax="1" DSMin="1" DSOrdinality="false" pid="easy-sdep:oai-item1" wsdlMsgPartName="DC_OAI_DC.xsl">
-    <fbs:DSInputLabel>XSL Stylesheet</fbs:DSInputLabel>
-    <fbs:DSMIME>text/xml</fbs:DSMIME>
-    <fbs:DSInputInstruction></fbs:DSInputInstruction>
-  </fbs:DSInput>
-  <fbs:DSInput DSMax="1" DSMin="1" DSOrdinality="false" wsdlMsgPartName="EMD">
-    <fbs:DSInputLabel>Source XML</fbs:DSInputLabel>
-    <fbs:DSMIME>text/xml</fbs:DSMIME>
-    <fbs:DSInputInstruction></fbs:DSInputInstruction>
-  </fbs:DSInput>
-  <fbs:DSInput DSMax="1" DSMin="1" DSOrdinality="false" pid="easy-sdep:oai-item1" wsdlMsgPartName="EMD_didl.xsl">
-    <fbs:DSInputLabel>XSL Stylesheet</fbs:DSInputLabel>
-    <fbs:DSMIME>text/xml</fbs:DSMIME>
-    <fbs:DSInputInstruction></fbs:DSInputInstruction>
-  </fbs:DSInput>
-  <fbs:DSInput DSMax="1" DSMin="1" DSOrdinality="false" pid="easy-sdep:oai-item1" wsdlMsgPartName="EMD_nl_didl.xsl">
-    <fbs:DSInputLabel>XSL Stylesheet</fbs:DSInputLabel>
-    <fbs:DSMIME>text/xml</fbs:DSMIME>
-    <fbs:DSInputInstruction></fbs:DSInputInstruction>
-  </fbs:DSInput>
-  <fbs:DSInput DSMax="1" DSMin="1" DSOrdinality="false" pid="easy-sdep:oai-item1" wsdlMsgPartName="EMD_carare.xsl">
-    <fbs:DSInputLabel>XSL Stylesheet</fbs:DSInputLabel>
-    <fbs:DSMIME>text/xml</fbs:DSMIME>
-    <fbs:DSInputInstruction></fbs:DSInputInstruction>
-  </fbs:DSInput>
-</fbs:DSInputSpec>
-</foxml:xmlContent>
-</foxml:datastreamVersion>
 <foxml:datastreamVersion ID="DSINPUTSPEC.3" LABEL="Datastream Input Specification" CREATED="2013-01-06T16:36:11.913Z" MIMETYPE="text/xml" FORMAT_URI="info:fedora/fedora-system:FedoraDSInputSpec-1.1" SIZE="1220">
 <foxml:xmlContent>
 <fbs:DSInputSpec xmlns:fbs="http://fedora.comm.nsdlib.org/service/bindspec" label="Datastream Input Specification">
@@ -224,6 +75,11 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
     <fbs:DSInputInstruction></fbs:DSInputInstruction>
   </fbs:DSInput>
   <fbs:DSInput DSMax="1" DSMin="1" DSOrdinality="false" pid="easy-sdep:oai-item1" wsdlMsgPartName="EMD_oai_dc.xsl">
+    <fbs:DSInputLabel>XSL Stylesheet</fbs:DSInputLabel>
+    <fbs:DSMIME>text/xml</fbs:DSMIME>
+    <fbs:DSInputInstruction></fbs:DSInputInstruction>
+  </fbs:DSInput>
+  <fbs:DSInput DSMax="1" DSMin="1" DSOrdinality="false" pid="easy-sdep:oai-item1" wsdlMsgPartName="EMD_oai_datacite.xsl">
     <fbs:DSInputLabel>XSL Stylesheet</fbs:DSInputLabel>
     <fbs:DSMIME>text/xml</fbs:DSMIME>
     <fbs:DSInputInstruction></fbs:DSInputInstruction>
@@ -243,196 +99,6 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
 </foxml:datastreamVersion>
 </foxml:datastream>
 <foxml:datastream ID="WSDL" STATE="A" CONTROL_GROUP="X" VERSIONABLE="true">
-<foxml:datastreamVersion ID="WSDL1.0" LABEL="WSDL Bindings" CREATED="2012-04-19T14:20:17.145Z" MIMETYPE="text/xml" FORMAT_URI="http://schemas.xmlsoap.org/wsdl/" SIZE="3860">
-<foxml:xmlContent>
-<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap" xmlns:soapenc="http://schemas.xmlsoap.org/wsdl/soap/encoding" xmlns:this="urn:thisNamespace" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Operations on NSDL metadata objects" targetNamespace="urn:thisNamespace">
-					<wsdl:types>
-						<xsd:schema targetNamespace="urn:thisNamespace">
-							<xsd:simpleType name="inputType">
-								<xsd:restriction base="xsd:string">
-								</xsd:restriction>
-							</xsd:simpleType>
-							<xsd:simpleType name="sourceType">
-								<xsd:restriction base="xsd:string"></xsd:restriction>
-							</xsd:simpleType>
-							<xsd:simpleType name="styleType">
-								<xsd:restriction base="xsd:string"></xsd:restriction>
-							</xsd:simpleType>
-						</xsd:schema>
-					</wsdl:types>
-					<wsdl:message name="getOAI_DCRequest">
-						<wsdl:part name="DC" type="this:inputType"></wsdl:part>
-						<wsdl:part name="DC_OAI_DC.xsl" type="this:inputType"></wsdl:part>
-					</wsdl:message>
-					<wsdl:message name="getDidlRequest">
-						<wsdl:part name="EMD" type="this:inputType"></wsdl:part>
-						<wsdl:part name="EMD_didl.xsl" type="this:inputType"></wsdl:part>
-					</wsdl:message>
-					
-					<wsdl:message name="getCarareRequest">
-						<wsdl:part name="EMD" type="this:inputType"></wsdl:part>
-						<wsdl:part name="EMD_carare.xsl" type="this:inputType"></wsdl:part>
-					</wsdl:message>
-					
-					<wsdl:message name="response">
-						<wsdl:part name="response" type="xsd:base64Binary"></wsdl:part>
-					</wsdl:message>
-					<wsdl:portType name="portType">
-						<wsdl:operation name="getOAI_DC">
-							<wsdl:input message="this:getOAI_DCRequest"></wsdl:input>
-							<wsdl:output message="this:response"></wsdl:output>
-						</wsdl:operation>
-						<wsdl:operation name="getDidl">
-							<wsdl:input message="this:getDidlRequest"></wsdl:input>
-							<wsdl:output message="this:response"></wsdl:output>
-						</wsdl:operation>
-						
-						<wsdl:operation name="getCarare">
-							<wsdl:input message="this:getCarareRequest"></wsdl:input>
-							<wsdl:output message="this:response"></wsdl:output>
-						</wsdl:operation>
-						
-					</wsdl:portType>
-					<wsdl:service name="N/A">
-						<wsdl:port binding="this:binding" name="port">
-							<http:address location="http://local.fedora.server/"></http:address>
-						</wsdl:port>
-					</wsdl:service>
-					<wsdl:binding name="binding" type="this:portType">
-						<http:binding verb="GET"></http:binding>
-						<wsdl:operation name="getOAI_DC">
-							<http:operation location="saxon/SaxonServlet?source=(DC)&amp;style=(DC_OAI_DC.xsl)&amp;clear-stylesheet-cache=true"></http:operation>
-							<wsdl:input>
-								<http:urlReplacement></http:urlReplacement>
-							</wsdl:input>
-							<wsdl:output>
-								<mime:content type="text/xml"></mime:content>
-							</wsdl:output>
-						</wsdl:operation>
-						<wsdl:operation name="getDidl">
-							<http:operation location="saxon/SaxonServlet?source=(EMD)&amp;style=(EMD_didl.xsl)&amp;clear-stylesheet-cache=true"></http:operation>
-							<wsdl:input>
-								<http:urlReplacement></http:urlReplacement>
-							</wsdl:input>
-							<wsdl:output>
-								<mime:content type="text/xml"></mime:content>
-							</wsdl:output>
-						</wsdl:operation>
-						
-						<wsdl:operation name="getCarare">
-							<http:operation location="saxon/SaxonServlet?source=(EMD)&amp;style=(EMD_carare.xsl)&amp;clear-stylesheet-cache=true"></http:operation>
-							<wsdl:input>
-								<http:urlReplacement></http:urlReplacement>
-							</wsdl:input>
-							<wsdl:output>
-								<mime:content type="text/xml"></mime:content>
-							</wsdl:output>
-						</wsdl:operation>
-						
-					</wsdl:binding>
-				</wsdl:definitions>
-</foxml:xmlContent>
-</foxml:datastreamVersion>
-<foxml:datastreamVersion ID="WSDL.1" LABEL="WSDL Bindings" CREATED="2012-12-18T12:29:29.122Z" MIMETYPE="text/xml" FORMAT_URI="http://schemas.xmlsoap.org/wsdl/" SIZE="4455">
-<foxml:xmlContent>
-<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap" xmlns:soapenc="http://schemas.xmlsoap.org/wsdl/soap/encoding" xmlns:this="urn:thisNamespace" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Operations on NSDL metadata objects" targetNamespace="urn:thisNamespace">
-  <wsdl:types>
-    <xsd:schema targetNamespace="urn:thisNamespace">
-      <xsd:simpleType name="inputType">
-        <xsd:restriction base="xsd:string"></xsd:restriction>
-      </xsd:simpleType>
-      <xsd:simpleType name="sourceType">
-        <xsd:restriction base="xsd:string"></xsd:restriction>
-      </xsd:simpleType>
-      <xsd:simpleType name="styleType">
-        <xsd:restriction base="xsd:string"></xsd:restriction>
-      </xsd:simpleType>
-    </xsd:schema>
-  </wsdl:types>
-  <wsdl:message name="getOAI_DCRequest">
-    <wsdl:part name="DC" type="this:inputType"></wsdl:part>
-    <wsdl:part name="DC_OAI_DC.xsl" type="this:inputType"></wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getDidlRequest">
-    <wsdl:part name="EMD" type="this:inputType"></wsdl:part>
-    <wsdl:part name="EMD_didl.xsl" type="this:inputType"></wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getNl_didlRequest">
-    <wsdl:part name="EMD" type="this:inputType"></wsdl:part>
-    <wsdl:part name="EMD_nl_didl.xsl" type="this:inputType"></wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getCarareRequest">
-    <wsdl:part name="EMD" type="this:inputType"></wsdl:part>
-    <wsdl:part name="EMD_carare.xsl" type="this:inputType"></wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="response">
-    <wsdl:part name="response" type="xsd:base64Binary"></wsdl:part>
-  </wsdl:message>
-  <wsdl:portType name="portType">
-    <wsdl:operation name="getOAI_DC">
-      <wsdl:input message="this:getOAI_DCRequest"></wsdl:input>
-      <wsdl:output message="this:response"></wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="getDidl">
-      <wsdl:input message="this:getDidlRequest"></wsdl:input>
-      <wsdl:output message="this:response"></wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="getNl_didl">
-      <wsdl:input message="this:getNl_didlRequest"></wsdl:input>
-      <wsdl:output message="this:response"></wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="getCarare">
-      <wsdl:input message="this:getCarareRequest"></wsdl:input>
-      <wsdl:output message="this:response"></wsdl:output>
-    </wsdl:operation>
-  </wsdl:portType>
-  <wsdl:service name="N/A">
-    <wsdl:port binding="this:binding" name="port">
-      <http:address location="http://local.fedora.server/"></http:address>
-    </wsdl:port>
-  </wsdl:service>
-  <wsdl:binding name="binding" type="this:portType">
-    <http:binding verb="GET"></http:binding>
-    <wsdl:operation name="getOAI_DC">
-      <http:operation location="saxon/SaxonServlet?source=(DC)&amp;style=(DC_OAI_DC.xsl)&amp;clear-stylesheet-cache=false"></http:operation>
-      <wsdl:input>
-        <http:urlReplacement></http:urlReplacement>
-      </wsdl:input>
-      <wsdl:output>
-        <mime:content type="text/xml"></mime:content>
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="getDidl">
-      <http:operation location="saxon/SaxonServlet?source=(EMD)&amp;style=(EMD_didl.xsl)&amp;clear-stylesheet-cache=false"></http:operation>
-      <wsdl:input>
-        <http:urlReplacement></http:urlReplacement>
-      </wsdl:input>
-      <wsdl:output>
-        <mime:content type="text/xml"></mime:content>
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="getNl_didl">
-      <http:operation location="saxon/SaxonServlet?source=(EMD)&amp;style=(EMD_nl_didl.xsl)&amp;clear-stylesheet-cache=false"></http:operation>
-      <wsdl:input>
-        <http:urlReplacement></http:urlReplacement>
-      </wsdl:input>
-      <wsdl:output>
-        <mime:content type="text/xml"></mime:content>
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="getCarare">
-      <http:operation location="saxon/SaxonServlet?source=(EMD)&amp;style=(EMD_carare.xsl)&amp;clear-stylesheet-cache=false"></http:operation>
-      <wsdl:input>
-        <http:urlReplacement></http:urlReplacement>
-      </wsdl:input>
-      <wsdl:output>
-        <mime:content type="text/xml"></mime:content>
-      </wsdl:output>
-    </wsdl:operation>
-  </wsdl:binding>
-</wsdl:definitions>
-</foxml:xmlContent>
-</foxml:datastreamVersion>
 <foxml:datastreamVersion ID="WSDL.2" LABEL="WSDL Bindings" CREATED="2013-01-06T16:37:25.868Z" MIMETYPE="text/xml" FORMAT_URI="http://schemas.xmlsoap.org/wsdl/" SIZE="3708">
 <foxml:xmlContent>
 <wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap" xmlns:soapenc="http://schemas.xmlsoap.org/wsdl/soap/encoding" xmlns:this="urn:thisNamespace" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Operations on NSDL metadata objects" targetNamespace="urn:thisNamespace">
@@ -453,6 +119,10 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
     <wsdl:part name="EMD" type="this:inputType"></wsdl:part>
     <wsdl:part name="EMD_oai_dc.xsl" type="this:inputType"></wsdl:part>
   </wsdl:message>
+  <wsdl:message name="getOAI_dataciteRequest">
+    <wsdl:part name="EMD" type="this:inputType"></wsdl:part>
+    <wsdl:part name="EMD_oai_datacite.xsl" type="this:inputType"></wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getNl_didlRequest">
     <wsdl:part name="EMD" type="this:inputType"></wsdl:part>
     <wsdl:part name="EMD_nl_didl.xsl" type="this:inputType"></wsdl:part>
@@ -467,6 +137,10 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
   <wsdl:portType name="portType">
     <wsdl:operation name="getOAI_DC">
       <wsdl:input message="this:getOAI_DCRequest"></wsdl:input>
+      <wsdl:output message="this:response"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getOAI_datacite">
+      <wsdl:input message="this:getOAI_dataciteRequest"></wsdl:input>
       <wsdl:output message="this:response"></wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="getNl_didl">
@@ -487,6 +161,15 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
     <http:binding verb="GET"></http:binding>
     <wsdl:operation name="getOAI_DC">
       <http:operation location="saxon/SaxonServlet?source=(EMD)&amp;style=(EMD_oai_dc.xsl)&amp;clear-stylesheet-cache=false"></http:operation>
+      <wsdl:input>
+        <http:urlReplacement></http:urlReplacement>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content type="text/xml"></mime:content>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getOAI_datacite">
+      <http:operation location="saxon/SaxonServlet?source=(EMD)&amp;style=(EMD_oai_datacite.xsl)&amp;clear-stylesheet-cache=false"></http:operation>
       <wsdl:input>
         <http:urlReplacement></http:urlReplacement>
       </wsdl:input>

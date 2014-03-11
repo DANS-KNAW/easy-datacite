@@ -38,6 +38,14 @@ fedora-ingest.sh f \
   8080
 
 ./add-datastream.sh easy-sdep:oai-item1 \
+  EMD_oai_datacite.xsl \
+  "Stylesheet+to+convert+from+EMD+to+OAI+DATACITE"\
+  fedoraAdmin \
+  $1 \
+  localhost \
+  8080
+
+./add-datastream.sh easy-sdep:oai-item1 \
   EMD_nl_didl.xsl \
   "Stylesheet+to+convert+from+EMD+to+NL+DIDL"\
   fedoraAdmin \

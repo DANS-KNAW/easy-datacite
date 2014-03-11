@@ -35,34 +35,11 @@ xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/
 </foxml:datastreamVersion>
 </foxml:datastream>
 <foxml:datastream ID="METHODMAP" STATE="A" CONTROL_GROUP="X" VERSIONABLE="true">
-<foxml:datastreamVersion ID="METHODMAP1.0" LABEL="Abstract Method Map" CREATED="2012-04-19T14:20:17.492Z" MIMETYPE="text/xml" FORMAT_URI="info:fedora/fedora-system:FedoraSDefMethodMap-1.0" SIZE="579">
-<foxml:xmlContent>
-<fmm:MethodMap xmlns:fmm="http://fedora.comm.nsdlib.org/service/methodmap" name="MethodMap - Operations on objects">
-                    <fmm:Method label="Get the dc as oai_dc" operationName="getOAI_DC">
-                    </fmm:Method>
-                    <fmm:Method label="Get metadata formatted as didl" operationName="getDidl">
-                    </fmm:Method>
-                    
-                    <fmm:Method label="Get metadata formatted as Carare" operationName="getCarare">
-                    </fmm:Method>
-                    
-                </fmm:MethodMap>
-</foxml:xmlContent>
-</foxml:datastreamVersion>
-<foxml:datastreamVersion ID="METHODMAP.1" LABEL="Abstract Method Map" CREATED="2012-12-18T12:34:50.529Z" MIMETYPE="text/xml" FORMAT_URI="info:fedora/fedora-system:FedoraSDefMethodMap-1.0" SIZE="501">
-<foxml:xmlContent>
-<fmm:MethodMap xmlns:fmm="http://fedora.comm.nsdlib.org/service/methodmap" name="MethodMap - Operations on objects">
-  <fmm:Method label="Get the dc as oai_dc" operationName="getOAI_DC"></fmm:Method>
-  <fmm:Method label="Get metadata formatted as didl" operationName="getDidl"></fmm:Method>
-  <fmm:Method label="Get metadata formatted as Carare" operationName="getCarare"></fmm:Method>
-  <fmm:Method label="Get metadata formatted as nl_didl" operationName="getNl_didl"></fmm:Method>
-</fmm:MethodMap>
-</foxml:xmlContent>
-</foxml:datastreamVersion>
 <foxml:datastreamVersion ID="METHODMAP.2" LABEL="Abstract Method Map" CREATED="2013-01-06T16:34:46.853Z" MIMETYPE="text/xml" FORMAT_URI="info:fedora/fedora-system:FedoraSDefMethodMap-1.0" SIZE="422">
 <foxml:xmlContent>
 <fmm:MethodMap xmlns:fmm="http://fedora.comm.nsdlib.org/service/methodmap" name="MethodMap - Operations on objects">
   <fmm:Method label="Get metadata formatted as oai_dc" operationName="getOAI_DC"></fmm:Method>
+  <fmm:Method label="Get metadata formatted as oai_datacite" operationName="getOAI_datacite"></fmm:Method>
   <fmm:Method label="Get metadata formatted as Carare" operationName="getCarare"></fmm:Method>
   <fmm:Method label="Get metadata formatted as nl_didl" operationName="getNl_didl"></fmm:Method>
 </fmm:MethodMap>
