@@ -406,9 +406,9 @@
 
 	</bean>
 
-	<bean id="depositInstructionsBaseUrl" class="java.lang.String">
+	<bean id="staticContentBaseUrl" class="java.lang.String">
 		<constructor-arg type="java.lang.String"
-			value="${easy.depositinstructions.baseUrl}" />
+			value="${easy.staticcontent.baseUrl}" />
 	</bean>
 
 	<bean id="pakbonValidatorCredentials"
