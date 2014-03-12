@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<include path="BasicString-binding.xml" />
+
+	<mapping name="type" class="nl.knaw.dans.pf.language.emd.EmdType"
+		ns="http://easy.dans.knaw.nl/easy/easymetadata/">
+
+		<namespace uri="http://easy.dans.knaw.nl/easy/easymetadata/" prefix="emd" />
+		<namespace uri="http://purl.org/dc/elements/1.1/" prefix="dc" />
+
+		<collection field="dcType" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicStringList">
+			<structure ns="http://purl.org/dc/elements/1.1/" name="type"
+				type="nl.knaw.dans.pf.language.emd.types.BasicString" usage="optional"/>
+		</collection>
+
+	</mapping>
+
+</binding>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<include path="BasicDate-binding.xml" />
+	<include path="IsoDate-binding.xml" />
+
+	<mapping name="date" class="nl.knaw.dans.pf.language.emd.EmdDate"
+		ns="http://easy.dans.knaw.nl/easy/easymetadata/">
+
+		<namespace uri="http://easy.dans.knaw.nl/easy/easymetadata/" prefix="emd" />
+		<namespace uri="http://purl.org/dc/elements/1.1/" prefix="dc" />
+		<namespace uri="http://purl.org/dc/terms/" prefix="dct" />
+		<namespace uri="http://easy.dans.knaw.nl/easy/easymetadata/eas/" prefix="eas" />
+
+		<collection field="dcDate" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicDateList" usage="optional">
+			<structure ns="http://purl.org/dc/elements/1.1/" name="date"
+				type="nl.knaw.dans.pf.language.emd.types.BasicDate" usage="optional"/>
+		</collection>
+
+		<collection field="termsCreated" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicDateList" usage="optional">
+			<structure ns="http://purl.org/dc/terms/" name="created"
+				type="nl.knaw.dans.pf.language.emd.types.BasicDate" usage="optional"/>
+		</collection>
+
+		<collection field="termsValid" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicDateList" usage="optional">
+			<structure ns="http://purl.org/dc/terms/" name="valid"
+				type="nl.knaw.dans.pf.language.emd.types.BasicDate" usage="optional"/>
+		</collection>
+
+		<collection field="termsAvailable" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicDateList" usage="optional">
+			<structure ns="http://purl.org/dc/terms/" name="available"
+				type="nl.knaw.dans.pf.language.emd.types.BasicDate" usage="optional"/>
+		</collection>
+
+		<collection field="termsIssued" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicDateList" usage="optional">
+			<structure ns="http://purl.org/dc/terms/" name="issued"
+				type="nl.knaw.dans.pf.language.emd.types.BasicDate" usage="optional"/>
+		</collection>
+
+		<collection field="termsModified" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicDateList" usage="optional">
+			<structure ns="http://purl.org/dc/terms/" name="modified"
+				type="nl.knaw.dans.pf.language.emd.types.BasicDate" usage="optional"/>
+		</collection>
+
+		<collection field="termsDateAccepted" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicDateList" usage="optional">
+			<structure ns="http://purl.org/dc/terms/" name="dateAccepted"
+				type="nl.knaw.dans.pf.language.emd.types.BasicDate" usage="optional"/>
+		</collection>
+
+		<collection field="termsDateCopyrighted" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicDateList" usage="optional">
+			<structure ns="http://purl.org/dc/terms/" name="dateCopyrighted"
+				type="nl.knaw.dans.pf.language.emd.types.BasicDate" usage="optional"/>
+		</collection>
+
+		<collection field="termsDateSubmitted" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicDateList" usage="optional">
+			<structure ns="http://purl.org/dc/terms/" name="dateSubmitted"
+				type="nl.knaw.dans.pf.language.emd.types.BasicDate" usage="optional"/>
+		</collection>
+
+<!-- the easDate collections take an IsoDate -->
+
+		<collection field="easDate" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.isoDateList" usage="optional">
+			<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="date"
+				type="nl.knaw.dans.pf.language.emd.types.IsoDate" usage="optional"/>
+		</collection>
+
+		<collection field="easCreated" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.isoDateList" usage="optional">
+			<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="created"
+				type="nl.knaw.dans.pf.language.emd.types.IsoDate" usage="optional"/>
+		</collection>
+
+		<collection field="easValid" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.isoDateList" usage="optional">
+			<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="valid"
+				type="nl.knaw.dans.pf.language.emd.types.IsoDate" usage="optional"/>
+		</collection>
+
+		<collection field="easAvailable" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.isoDateList" usage="optional">
+			<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="available"
+				type="nl.knaw.dans.pf.language.emd.types.IsoDate" usage="optional"/>
+		</collection>
+
+		<collection field="easIssued" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.isoDateList" usage="optional">
+			<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="issued"
+				type="nl.knaw.dans.pf.language.emd.types.IsoDate" usage="optional"/>
+		</collection>
+
+		<collection field="easModified" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.isoDateList" usage="optional">
+			<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="modified"
+				type="nl.knaw.dans.pf.language.emd.types.IsoDate" usage="optional"/>
+		</collection>
+
+		<collection field="easDateAccepted" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.isoDateList" usage="optional">
+			<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="dateAccepted"
+				type="nl.knaw.dans.pf.language.emd.types.IsoDate" usage="optional"/>
+		</collection>
+
+		<collection field="easDateCopyrighted" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.isoDateList" usage="optional">
+			<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="dateCopyrighted"
+				type="nl.knaw.dans.pf.language.emd.types.IsoDate" usage="optional"/>
+		</collection>
+
+		<collection field="easDateSubmitted" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.isoDateList" usage="optional">
+			<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="dateSubmitted"
+				type="nl.knaw.dans.pf.language.emd.types.IsoDate" usage="optional"/>
+		</collection>
+
+	</mapping>
+
+</binding>

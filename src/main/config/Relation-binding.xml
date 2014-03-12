@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<include path="BasicString-binding.xml" />
+	<include path="BasicIdentifier-binding.xml" />
+
+	<mapping class="nl.knaw.dans.pf.language.emd.types.Relation" ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/"
+		abstract="true">
+
+		<namespace uri="http://www.w3.org/XML/1998/namespace" prefix="xml" />
+		<namespace uri="http://easy.dans.knaw.nl/easy/easymetadata/eas/" prefix="eas" />
+
+		<value style="attribute" ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="emphasis" field="emphasis"
+			usage="optional" />
+		<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="subject-title" field="subjectTitle"
+			usage="optional" />
+		<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="subject-identifier" field="subjectIdentifier"
+			usage="optional" />
+		<value style="element" ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="subject-link" field="subjectLink"
+			usage="optional" />
+
+	</mapping>
+
+</binding>

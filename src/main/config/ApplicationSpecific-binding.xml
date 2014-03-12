@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<mapping class="nl.knaw.dans.pf.language.emd.types.ApplicationSpecific" ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/"
+		abstract="true">
+
+		<namespace uri="http://www.w3.org/XML/1998/namespace" prefix="xml" />
+		<namespace uri="http://easy.dans.knaw.nl/easy/easymetadata/eas/" prefix="eas" />
+
+		<value ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="metadataformat" field="metadataFormat" usage="optional" />
+		<value ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="pakbon-status" field="pakbonStatus" usage="optional" />
+		
+
+	</mapping>
+
+</binding>

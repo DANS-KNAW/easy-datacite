@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+    
+    <mapping ordered="true" class="nl.knaw.dans.pf.language.emd.PropertyList" abstract="true">
+    
+        <value name="comment" field="comment" usage="optional"/>
+         
+        <collection ordered="true" field="properties" type="java.util.ArrayList">  
+            <structure name="entry" type="nl.knaw.dans.pf.language.emd.PropertyList$Property">
+                <value style="attribute" name="key" field="key"/>
+                <value style="text" field="value"/>
+            </structure>
+        </collection>
+                        
+    </mapping>
+
+</binding>
