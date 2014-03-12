@@ -9,7 +9,6 @@
 		<relativePath>../easy-prototype</relativePath>
 	</parent>
 	<artifactId>easy-business-mocking</artifactId>
-	<packaging>jar</packaging>
 	<name>EASY Business Mocking Test Library</name>
 	<description>Mocking facilities for the Easy Business library.  For use in unit tests.</description>
 	<dependencies>

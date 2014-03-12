@@ -9,8 +9,9 @@ import nl.knaw.dans.pf.language.emd.types.EmdConstants;
 
 /**
  * Container for resource properties of category audience.
- *
- * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-audience">dcmi-terms/#terms-audience</a>
+ * 
+ * @see <a
+ *      href="http://dublincore.org/documents/dcmi-terms/#terms-audience">dcmi-terms/#terms-audience</a>
  * @author ecco
  */
 public class EmdAudience extends AbstractEmdContainer
@@ -36,9 +37,11 @@ public class EmdAudience extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'audience' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-audience">dcmi-terms/#terms-audience</a>
+     * Get a list of resource properties known as 'audience' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-audience">dcmi-terms/#terms-audience</a>
      * @return a list of resource properties
      */
     public List<BasicString> getTermsAudience()
@@ -47,9 +50,11 @@ public class EmdAudience extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'audience' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-audience">dcmi-terms/#terms-audience</a>
+     * Set a list of resource properties known as 'audience' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-audience">dcmi-terms/#terms-audience</a>
      * @param termsAudience
      *        a list of resource properties
      */

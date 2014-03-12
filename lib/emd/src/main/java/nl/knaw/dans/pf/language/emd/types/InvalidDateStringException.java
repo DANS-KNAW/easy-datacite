@@ -2,7 +2,7 @@ package nl.knaw.dans.pf.language.emd.types;
 
 /**
  * Signifies an attempt to modify a date with an invalid string.
- *
+ * 
  * @author ecco
  */
 public class InvalidDateStringException extends EasyMetadataException

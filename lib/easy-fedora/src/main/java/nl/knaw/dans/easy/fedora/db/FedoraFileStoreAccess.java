@@ -382,21 +382,7 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
         try
         {
             Session session = sessionFactory.openSession();
-
             Criteria select = createGetCriteria(session, FileItemVO.class, parentSid.getStoreId(), limit, offset, order, filters);
-            if (order != null)
-            {
-                if (!order.getField().equals(ItemOrderField.NAME))
-                {
-                    String orderField = order.getField().toString();
-                    select.addOrder(order.isAscending() ? Order.asc(orderField) : Order.desc(orderField));
-                }
-                else
-                {
-                    // do something special for name ordering
-                }
-            }
-
             List<FileItemVO> files = select.list();
             LOGGER.debug("Returned " + files.size() + " files.");
             return files;

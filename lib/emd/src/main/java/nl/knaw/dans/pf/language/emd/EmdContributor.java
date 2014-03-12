@@ -9,8 +9,9 @@ import nl.knaw.dans.pf.language.emd.types.BasicString;
 
 /**
  * Container for resource properties of category contributor.
- *
- * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-contributor">dcmi-terms/#terms-contributor</a>
+ * 
+ * @see <a
+ *      href="http://dublincore.org/documents/dcmi-terms/#terms-contributor">dcmi-terms/#terms-contributor</a>
  * @author ecco
  */
 public class EmdContributor extends AbstractEmdContainer
@@ -39,9 +40,11 @@ public class EmdContributor extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'contributor' in the "http://purl.org/dc/elements/1.1/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-contributor">dcmi-terms/#terms-contributor</a>
+     * Get a list of resource properties known as 'contributor' in the "http://purl.org/dc/elements/1.1/"
+     * name space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-contributor">dcmi-terms/#terms-contributor</a>
      * @return a list of resource properties
      */
     public List<BasicString> getDcContributor()
@@ -50,9 +53,11 @@ public class EmdContributor extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'contributor' in the "http://purl.org/dc/elements/1.1/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-contributor">dcmi-terms/#terms-contributor</a>
+     * Set a list of resource properties known as 'contributor' in the "http://purl.org/dc/elements/1.1/"
+     * name space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-contributor">dcmi-terms/#terms-contributor</a>
      * @param dcContributor
      *        a list of resource properties
      */
@@ -62,9 +67,11 @@ public class EmdContributor extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'contributor' in the "http://purl.org/dc/elements/1.1/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-contributor">dcmi-terms/#terms-contributor</a>
+     * Get a list of resource properties known as 'contributor' in the "http://purl.org/dc/elements/1.1/"
+     * name space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-contributor">dcmi-terms/#terms-contributor</a>
      * @return a list of resource properties
      */
     public List<Author> getEasContributor()
@@ -73,9 +80,11 @@ public class EmdContributor extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'contributor' in the "http://purl.org/dc/elements/1.1/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-contributor">dcmi-terms/#terms-contributor</a>
+     * Set a list of resource properties known as 'contributor' in the "http://purl.org/dc/elements/1.1/"
+     * name space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-contributor">dcmi-terms/#terms-contributor</a>
      * @param easContributor
      *        a list of resource properties
      */

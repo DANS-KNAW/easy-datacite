@@ -2,7 +2,7 @@ package nl.knaw.dans.pf.language.emd.types;
 
 /**
  * Signifies an attempt to modify a language token with an invalid argument.
- *
+ * 
  * @author ecco
  */
 public class InvalidLanguageTokenException extends EasyMetadataException

@@ -13,14 +13,14 @@ import org.xml.sax.SAXException;
 
 /**
  * Utility class for validating easymetadata.
- *
+ * 
  * @author ecco
  */
 public final class EMDValidator extends AbstractValidator
 {
 
     /**
-     * The version token for version {@value}.
+     * The version token for version {@value} .
      */
     public static final String VERSION_0_1 = "0.1";
 
@@ -72,7 +72,7 @@ public final class EMDValidator extends AbstractValidator
     {
         this.schemaLocation = schemaLocation;
     }
-    
+
     public XMLErrorHandler validate(EasyMetadata emd) throws XMLException, SAXException
     {
         return validate(new EmdMarshaller(emd).getXmlString(), null);

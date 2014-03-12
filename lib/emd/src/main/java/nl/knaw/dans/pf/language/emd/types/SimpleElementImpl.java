@@ -2,9 +2,10 @@ package nl.knaw.dans.pf.language.emd.types;
 
 /**
  * Basic implementation of the {@link SimpleElement}.
+ * 
  * @author ecco
- *
- * @param <T> the wrapped type
+ * @param <T>
+ *        the wrapped type
  */
 public abstract class SimpleElementImpl<T> implements SimpleElement<T>, MetadataItem
 {
@@ -52,7 +53,8 @@ public abstract class SimpleElementImpl<T> implements SimpleElement<T>, Metadata
     }
 
     /**
-     * @param schemeId the schemeId to set
+     * @param schemeId
+     *        the schemeId to set
      */
     public void setSchemeId(String schemeId)
     {
@@ -61,7 +63,7 @@ public abstract class SimpleElementImpl<T> implements SimpleElement<T>, Metadata
 
     /**
      * Returns a string-representation of the value of this SimpleElement.
-     *
+     * 
      * @return string-representation of the value
      */
     @Override

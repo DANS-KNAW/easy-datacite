@@ -10,10 +10,6 @@
 	</parent>
 	<artifactId>easy-fedora</artifactId>
 	<name>EASY Fedora Library</name>
-	<description>
-		Fedora implementation of the Easy Data layer
-	</description>
-	<packaging>jar</packaging>
 	<properties>
 		<hibernate.version>3.2.6.ga</hibernate.version>
 		<postgresql.version>8.4-701.jdbc3</postgresql.version>
@@ -28,10 +24,9 @@
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>dans-fedora</artifactId>
-			<version>${easy.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>nl.knaw.dans.common</groupId>
+			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>dans-solr</artifactId>
 		</dependency>
 		<dependency>

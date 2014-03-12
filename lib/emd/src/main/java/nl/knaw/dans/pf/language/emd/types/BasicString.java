@@ -6,9 +6,10 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
- * A string can be an expression in a certain language or an encoding in compliance with a certain scheme (among other
- * things). {@link BasicString} is a {@link LanguageTokenizedString} with a scheme attribute.
- *
+ * A string can be an expression in a certain language or an encoding in compliance with a certain scheme
+ * (among other things). {@link BasicString} is a {@link LanguageTokenizedString} with a scheme
+ * attribute.
+ * 
  * @author ecco
  */
 public class BasicString extends LanguageTokenizedString
@@ -37,7 +38,7 @@ public class BasicString extends LanguageTokenizedString
 
     /**
      * Constructs a BasicString.
-     *
+     * 
      * @param value
      *        the value of this BasicString
      */
@@ -48,7 +49,7 @@ public class BasicString extends LanguageTokenizedString
 
     /**
      * Constructs a BasicString.
-     *
+     * 
      * @param value
      *        the value of this BasicString
      * @param language
@@ -63,7 +64,7 @@ public class BasicString extends LanguageTokenizedString
 
     /**
      * Save constructor of a BasicString.
-     *
+     * 
      * @param value
      *        the value of this BasicString
      * @param locale
@@ -79,7 +80,7 @@ public class BasicString extends LanguageTokenizedString
 
     /**
      * Constructs a BasicString.
-     *
+     * 
      * @param value
      *        the value of this BasicString
      * @param language
@@ -97,7 +98,7 @@ public class BasicString extends LanguageTokenizedString
 
     /**
      * Save constructor of a BasicString.
-     *
+     * 
      * @param value
      *        the value of this BasicString
      * @param locale
@@ -116,7 +117,7 @@ public class BasicString extends LanguageTokenizedString
 
     /**
      * Get the scheme of this BasicString.
-     *
+     * 
      * @return any string that codes for a scheme, or <code>null</code>
      */
     public String getScheme()
@@ -126,7 +127,7 @@ public class BasicString extends LanguageTokenizedString
 
     /**
      * Set the scheme of this BasicString.
-     *
+     * 
      * @param scheme
      *        any string that codes for a scheme, or <code>null</code>
      */

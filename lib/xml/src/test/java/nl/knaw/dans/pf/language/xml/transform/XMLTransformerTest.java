@@ -31,14 +31,14 @@ public class XMLTransformerTest
     private static final String SAXON_TOOT_XSL = "src/test/resources/test-files/transform/saxon-toot.xsl";
 
     /**
-     * Test involves xalan-style java call. With Saxon the namesapce declaration in the stylesheet
-     * is different. Stylesheet contains
+     * Test involves xalan-style java call. With Saxon the namesapce declaration in the stylesheet is
+     * different. Stylesheet contains
+     * 
      * <pre>
      *  xmlns:test="xalan://nl.knaw.dans.l.xml.transform.XMLTransformerTest"
      * </pre>
      * 
      * @see http://support.sms-fed.com/support/docs/DOC-1260
-     * 
      * @throws Exception
      */
     @Test
@@ -51,8 +51,9 @@ public class XMLTransformerTest
 
     /**
      * Test involves saxon-style java call. Stylesheet contains
+     * 
      * <pre>
-     *  xmlns:test="java:nl.knaw.dans.l.xml.transform.XMLTransformerTest" 
+     *  xmlns:test="java:nl.knaw.dans.l.xml.transform.XMLTransformerTest"
      * </pre>
      * 
      * @throws Exception

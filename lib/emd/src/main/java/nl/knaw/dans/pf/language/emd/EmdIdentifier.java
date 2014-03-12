@@ -9,8 +9,9 @@ import nl.knaw.dans.pf.language.emd.types.EmdConstants;
 
 /**
  * Container for resource properties of category identifier.
- *
- * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-identifier">dcmi-terms/#terms-identifier</a>
+ * 
+ * @see <a
+ *      href="http://dublincore.org/documents/dcmi-terms/#terms-identifier">dcmi-terms/#terms-identifier</a>
  * @author ecco
  */
 public class EmdIdentifier extends AbstractEmdContainer
@@ -37,9 +38,11 @@ public class EmdIdentifier extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'identifier' in the "http://purl.org/dc/elements/1.1/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-identifier">dcmi-terms/#terms-identifier</a>
+     * Get a list of resource properties known as 'identifier' in the "http://purl.org/dc/elements/1.1/"
+     * name space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-identifier">dcmi-terms/#terms-identifier</a>
      * @return a list of resource properties
      */
     public List<BasicIdentifier> getDcIdentifier()
@@ -48,9 +51,11 @@ public class EmdIdentifier extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'identifier' in the "http://purl.org/dc/elements/1.1/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-identifier">dcmi-terms/#terms-identifier</a>
+     * Set a list of resource properties known as 'identifier' in the "http://purl.org/dc/elements/1.1/"
+     * name space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-identifier">dcmi-terms/#terms-identifier</a>
      * @param dcIdentifier
      *        a list of resource properties
      */
@@ -117,10 +122,10 @@ public class EmdIdentifier extends AbstractEmdContainer
         bi.setScheme(EmdConstants.SCHEME_DMO_ID);
         dcIdentifier.add(bi);
 
-        //        removeIdentifier(EmdConstants.SCHEME_OAI_ITEM_ID);
-        //        BasicIdentifier bioai = new BasicIdentifier(Constants.OAI_IDENTIFIER_PREFIX + datasetId);
-        //        bioai.setScheme(EmdConstants.SCHEME_OAI_ITEM_ID);
-        //        dcIdentifier.add(bioai);
+        // removeIdentifier(EmdConstants.SCHEME_OAI_ITEM_ID);
+        // BasicIdentifier bioai = new BasicIdentifier(Constants.OAI_IDENTIFIER_PREFIX + datasetId);
+        // bioai.setScheme(EmdConstants.SCHEME_OAI_ITEM_ID);
+        // dcIdentifier.add(bioai);
     }
 
     public String getDatasetId()

@@ -10,8 +10,9 @@ import nl.knaw.dans.pf.language.emd.types.Spatial;
 
 /**
  * Container for resource properties of category coverage.
- *
- * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-coverage">dcmi-terms/#terms-coverage</a>
+ * 
+ * @see <a
+ *      href="http://dublincore.org/documents/dcmi-terms/#terms-coverage">dcmi-terms/#terms-coverage</a>
  * @author ecco
  */
 public class EmdCoverage extends AbstractEmdContainer
@@ -46,9 +47,11 @@ public class EmdCoverage extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'coverage' in the "http://purl.org/dc/elements/1.1/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-coverage">dcmi-terms/#terms-coverage</a>
+     * Get a list of resource properties known as 'coverage' in the "http://purl.org/dc/elements/1.1/"
+     * name space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-coverage">dcmi-terms/#terms-coverage</a>
      * @return a list of resource properties
      */
     public List<BasicString> getDcCoverage()
@@ -57,9 +60,11 @@ public class EmdCoverage extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'coverage' in the "http://purl.org/dc/elements/1.1/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-coverage">dcmi-terms/#terms-coverage</a>
+     * Set a list of resource properties known as 'coverage' in the "http://purl.org/dc/elements/1.1/"
+     * name space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-coverage">dcmi-terms/#terms-coverage</a>
      * @param dcCoverage
      *        a list of resource properties
      */
@@ -69,9 +74,11 @@ public class EmdCoverage extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'spatial' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-spatial">dcmi-terms/#terms-spatial</a>
+     * Get a list of resource properties known as 'spatial' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-spatial">dcmi-terms/#terms-spatial</a>
      * @return a list of resource properties
      */
     public List<BasicString> getTermsSpatial()
@@ -80,9 +87,11 @@ public class EmdCoverage extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'spatial' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-spatial">dcmi-terms/#terms-spatial</a>
+     * Set a list of resource properties known as 'spatial' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-spatial">dcmi-terms/#terms-spatial</a>
      * @param termsSpatial
      *        a list of resource properties
      */
@@ -92,9 +101,11 @@ public class EmdCoverage extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'temporal' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-temporal">dcmi-terms/#terms-temporal</a>
+     * Get a list of resource properties known as 'temporal' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-temporal">dcmi-terms/#terms-temporal</a>
      * @return a list of resource properties
      */
     public List<BasicString> getTermsTemporal()
@@ -103,9 +114,11 @@ public class EmdCoverage extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'temporal' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-temporal">dcmi-terms/#terms-temporal</a>
+     * Set a list of resource properties known as 'temporal' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-temporal">dcmi-terms/#terms-temporal</a>
      * @param termsTemporal
      *        a list of resource properties
      */
@@ -133,9 +146,11 @@ public class EmdCoverage extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'spatial' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-spatial">dcmi-terms/#terms-spatial</a>
+     * Get a list of resource properties known as 'spatial' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-spatial">dcmi-terms/#terms-spatial</a>
      * @return a list of resource properties
      */
     public List<Spatial> getEasSpatial()
@@ -144,9 +159,11 @@ public class EmdCoverage extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'spatial' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-spatial">dcmi-terms/#terms-spatial</a>
+     * Set a list of resource properties known as 'spatial' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-spatial">dcmi-terms/#terms-spatial</a>
      * @param easSpatial
      *        a list of resource properties
      */

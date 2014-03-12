@@ -33,10 +33,10 @@ public class EmdHelper
         for (MDContainer mdContainer : MDContainer.values())
         {
             EmdContainer emdContainer = emd.getContainer(mdContainer, false);
-            
+
             populate(repeatFill, emdContainer);
         }
-        
+
     }
 
     public static void populate(int repeatFill, EmdContainer emdContainer) throws URISyntaxException
@@ -49,7 +49,7 @@ public class EmdHelper
         if (emdContainer instanceof EmdOther)
         {
             EmdOther emdOther = (EmdOther) emdContainer;
-            
+
             for (int i = 0; i < repeatFill; i++)
             {
                 PropertyList propertyList = new PropertyList();
@@ -58,12 +58,12 @@ public class EmdHelper
                 propertyList.addProperty("key 2", "value 2");
                 emdOther.add(propertyList);
             }
-            
+
             emdOther.getEasApplicationSpecific().setPakbonStatus(IMPORTED);
         }
     }
 
-    @SuppressWarnings( {"rawtypes", "unchecked"})
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public static void fill(List list, Term term, int times) throws URISyntaxException
     {
         if (term.getType() == null)
@@ -71,7 +71,7 @@ public class EmdHelper
             LOGGER.warn("No type set for " + term.toString());
             return;
         }
-        
+
         if (term.getType().equals(BasicString.class))
         {
             for (int i = 0; i < times; i++)
@@ -154,14 +154,14 @@ public class EmdHelper
                 spat.setPlace(getBasicString(term, i));
                 if (i % 2 == 0)
                 {
-                    //Spatial.Point point = new Spatial.Point("POI" + i, 123.45, 456.78);
+                    // Spatial.Point point = new Spatial.Point("POI" + i, 123.45, 456.78);
                     Spatial.Point point = new Spatial.Point("POI" + i, "123.45", "456.78");
                     point.setSchemeId("point.bla" + i);
                     spat.setPoint(point);
                 }
                 else
                 {
-                    //Spatial.Box box = new Spatial.Box("BOX" + i, 12.3, 23.4, 34.5, 45.6);
+                    // Spatial.Box box = new Spatial.Box("BOX" + i, 12.3, 23.4, 34.5, 45.6);
                     Spatial.Box box = new Spatial.Box("BOX" + i, "12.3", "23.4", "34.5", "45.6");
                     box.setSchemeId("bax.bla" + i);
                     spat.setBox(box);

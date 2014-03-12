@@ -3,7 +3,6 @@ package nl.knaw.dans.pf.language.ddm.api;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertThat;
-import static org.junit.internal.matchers.StringContains.containsString;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -18,6 +17,7 @@ import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.xml.binding.Encoding;
 import nl.knaw.dans.pf.language.xml.crosswalk.CrosswalkException;
 
+import org.hamcrest.core.StringContains;
 import org.joda.time.DateTime;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -377,11 +377,11 @@ public class CrosswalkInlineTest
         catch (final CrosswalkException e)
         {
             logger.info(methodName + " " + e.getMessage());
-            assertThat(e.getMessage(), containsString(messageContents[0]));
+            assertThat(e.getMessage(), StringContains.containsString(messageContents[0]));
         }
         logger.debug(crosswalk.getXmlErrorHandler().getMessages());
         for (final String m : messageContents)
-            assertThat(crosswalk.getXmlErrorHandler().getMessages(), containsString(m));
+            assertThat(crosswalk.getXmlErrorHandler().getMessages(), StringContains.containsString(m));
         assertThat(crosswalk.getXmlErrorHandler().getNotificationCount(), is(i));
         return emd;
     }

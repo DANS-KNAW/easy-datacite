@@ -8,9 +8,10 @@ import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific;
 import nl.knaw.dans.pf.language.emd.types.BasicRemark;
 
 /**
- * Container for anything that can't be expressed in the Dublin Core Metadata Element Set, nor in the additional
- * elements from the DCMI Metadata Terms. This container is also suitable for global information about a resource.
- *
+ * Container for anything that can't be expressed in the Dublin Core Metadata Element Set, nor in the
+ * additional elements from the DCMI Metadata Terms. This container is also suitable for global
+ * information about a resource.
+ * 
  * @author ecco
  */
 public class EmdOther extends AbstractEmdContainer
@@ -19,8 +20,8 @@ public class EmdOther extends AbstractEmdContainer
     /**
      * Terms contained.
      */
-    static final Term[] TERMS = {new Term(Term.Name.REMARKS, Term.Namespace.EAS, BasicRemark.class)//,
-    //new Term(Term.Name.APPLICATION_SPECIFIC, Term.Namespace.EAS, ApplicationSpecific.class)
+    static final Term[] TERMS = {new Term(Term.Name.REMARKS, Term.Namespace.EAS, BasicRemark.class)// ,
+    // new Term(Term.Name.APPLICATION_SPECIFIC, Term.Namespace.EAS, ApplicationSpecific.class)
     };
 
     /**
@@ -44,7 +45,7 @@ public class EmdOther extends AbstractEmdContainer
 
     /**
      * Get a list of remarks.
-     *
+     * 
      * @return a list of remarks
      */
     public List<BasicRemark> getEasRemarks()
@@ -54,7 +55,7 @@ public class EmdOther extends AbstractEmdContainer
 
     /**
      * Set a list of remarks.
-     *
+     * 
      * @param remarks
      *        a list of remarks
      */
@@ -86,7 +87,7 @@ public class EmdOther extends AbstractEmdContainer
     {
         this.propertyListCollection = propertyListCollection;
     }
-    
+
     public void add(PropertyList propertyList)
     {
         getPropertyListCollection().add(propertyList);

@@ -5,10 +5,10 @@ import java.util.Locale;
 import org.joda.time.DateTime;
 
 /**
- * A date holder that is essentially a string. So the date can be anything from "march 28" to "foo to bar". However, if
- * the scheme of this BasicDate is said to be {@link EmdConstants.DateScheme#W3CDTF}, the validity of the value in respect
- * to the scheme is checked.
- *
+ * A date holder that is essentially a string. So the date can be anything from "march 28" to
+ * "foo to bar". However, if the scheme of this BasicDate is said to be
+ * {@link EmdConstants.DateScheme#W3CDTF}, the validity of the value in respect to the scheme is checked.
+ * 
  * @see IsoDate
  * @author ecco
  */
@@ -40,7 +40,7 @@ public final class BasicDate extends LanguageTokenizedString
 
     /**
      * Constructs a BasicDate.
-     *
+     * 
      * @param value
      *        the value of this BasicDate
      * @see #setValue(String)
@@ -52,7 +52,7 @@ public final class BasicDate extends LanguageTokenizedString
 
     /**
      * Constructs a BasicDate.
-     *
+     * 
      * @param value
      *        the value of this BasicDate
      * @param language
@@ -69,7 +69,7 @@ public final class BasicDate extends LanguageTokenizedString
 
     /**
      * Save constructor of a BasicDate.
-     *
+     * 
      * @param value
      *        the value of this BasicDate
      * @param locale
@@ -86,7 +86,7 @@ public final class BasicDate extends LanguageTokenizedString
 
     /**
      * Constructs a BasicDate.
-     *
+     * 
      * @param value
      *        the value of this BasicDate
      * @param language
@@ -96,8 +96,8 @@ public final class BasicDate extends LanguageTokenizedString
      * @throws InvalidLanguageTokenException
      *         if the language does not conform to the regular expression in {@link #LANGUAGE_TOKEN}
      * @throws IllegalStateException
-     *         if the scheme is {@link EmdConstants.DateScheme#W3CDTF} and the value of this BasicDate is not in compliance
-     *         with ISO8601
+     *         if the scheme is {@link EmdConstants.DateScheme#W3CDTF} and the value of this BasicDate is
+     *         not in compliance with ISO8601
      * @see #setValue(String)
      * @see #setLanguage(String)
      */
@@ -110,7 +110,7 @@ public final class BasicDate extends LanguageTokenizedString
 
     /**
      * Save constructor of a BasicDate.
-     *
+     * 
      * @param value
      *        the value of this BasicDate
      * @param locale
@@ -120,8 +120,8 @@ public final class BasicDate extends LanguageTokenizedString
      * @throws InvalidLanguageTokenException
      *         if a language token could not be parsed from the given locale
      * @throws IllegalStateException
-     *         if the scheme is {@link EmdConstants.DateScheme#W3CDTF} and the value of this BasicDate is not in compliance
-     *         with ISO8601
+     *         if the scheme is {@link EmdConstants.DateScheme#W3CDTF} and the value of this BasicDate is
+     *         not in compliance with ISO8601
      * @see #setValue(String)
      * @see #setLanguage(Locale)
      */
@@ -132,10 +132,11 @@ public final class BasicDate extends LanguageTokenizedString
     }
 
     /**
-     * Sets the inner value of this BasicDate to the given value. If the value is in compliance with ISO8601, the inner
-     * date field will be set. If the value is in compliance with ISO8601 and the scheme of this BasicDate is
-     * <code>null</code>, the scheme will be set to {@link EmdConstants.DateScheme#W3CDTF}.
-     *
+     * Sets the inner value of this BasicDate to the given value. If the value is in compliance with
+     * ISO8601, the inner date field will be set. If the value is in compliance with ISO8601 and the
+     * scheme of this BasicDate is <code>null</code>, the scheme will be set to
+     * {@link EmdConstants.DateScheme#W3CDTF}.
+     * 
      * @param value
      *        the new value for this BasicDate
      */
@@ -172,9 +173,9 @@ public final class BasicDate extends LanguageTokenizedString
     }
 
     /**
-     * Get the value of this BasicDate as a DateTime, or <code>null</code> if the value of this BasicDate is not in
-     * compliance with ISO8601.
-     *
+     * Get the value of this BasicDate as a DateTime, or <code>null</code> if the value of this BasicDate
+     * is not in compliance with ISO8601.
+     * 
      * @return the DateTime or <code>null</code>
      */
     public DateTime getDateTime()
@@ -184,7 +185,7 @@ public final class BasicDate extends LanguageTokenizedString
 
     /**
      * Get the scheme this {@link BasicDate} is said to be in compliance with.
-     *
+     * 
      * @return the scheme
      */
     public EmdConstants.DateScheme getScheme()
@@ -194,12 +195,12 @@ public final class BasicDate extends LanguageTokenizedString
 
     /**
      * Set the scheme on this {@link BasicDate}.
-     *
+     * 
      * @param scheme
      *        the scheme for this BasicDate
      * @throws IllegalStateException
-     *         if the scheme is {@link EmdConstants.DateScheme#W3CDTF} and the value of this BasicDate is not in compliance
-     *         with ISO8601
+     *         if the scheme is {@link EmdConstants.DateScheme#W3CDTF} and the value of this BasicDate is
+     *         not in compliance with ISO8601
      */
     public void setScheme(final EmdConstants.DateScheme scheme) throws IllegalStateException
     {
@@ -215,7 +216,7 @@ public final class BasicDate extends LanguageTokenizedString
 
     /**
      * Test the validity of a scheme with respect to the given value.
-     *
+     * 
      * @param schemeToTest
      *        the scheme to test
      * @param withValue
@@ -234,7 +235,7 @@ public final class BasicDate extends LanguageTokenizedString
 
     /**
      * Test if the given string is a valid ISO8601 date string.
-     *
+     * 
      * @param toTest
      *        the string to test
      * @return <code>true</code> if valid, <code>false </code> otherwise

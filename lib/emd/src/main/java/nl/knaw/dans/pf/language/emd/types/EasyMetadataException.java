@@ -2,7 +2,7 @@ package nl.knaw.dans.pf.language.emd.types;
 
 /**
  * Signifies an attempt to modify easymetadata with an illegal argument.
- *
+ * 
  * @author ecco
  */
 public class EasyMetadataException extends IllegalArgumentException

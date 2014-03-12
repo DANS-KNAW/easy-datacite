@@ -9,13 +9,7 @@
 		<relativePath>../../lib/easy-prototype</relativePath>
 	</parent>
 	<artifactId>dans-fedora</artifactId>
-	<packaging>jar</packaging>
-	<organization>
-		<name>DANS</name>
-		<url>http://www.dans.knaw.nl</url>
-	</organization>
 	<name>DEPPRECATED DANS Fedora Utilities</name>
-	<description>Fedora access and management library</description>
 	<dependencies>
 		<dependency>
 			<groupId>fedora</groupId>
@@ -32,7 +26,6 @@
 			<artifactId>jrdf</artifactId>
 			<version>0.5.5.4</version>
 		</dependency>
-		<!-- common jibx client library -->
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>dans-jibx</artifactId>
@@ -89,7 +82,6 @@
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>dans-lang</artifactId>
-			<version>${easy.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>trove</groupId>

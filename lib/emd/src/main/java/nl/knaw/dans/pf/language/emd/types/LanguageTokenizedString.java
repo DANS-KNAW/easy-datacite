@@ -5,9 +5,9 @@ import java.util.MissingResourceException;
 import java.util.regex.Pattern;
 
 /**
- * Represents a string that can be localized with a language token. Methods in this class intermediate between the java
- * representation of a locale and the xml lang attribute.
- *
+ * Represents a string that can be localized with a language token. Methods in this class intermediate
+ * between the java representation of a locale and the xml lang attribute.
+ * 
  * @author ecco
  */
 public abstract class LanguageTokenizedString extends SimpleElementImpl<String>
@@ -32,24 +32,25 @@ public abstract class LanguageTokenizedString extends SimpleElementImpl<String>
     // ecco: CHECKSTYLE: ON
 
     /**
-     * Test if the given string is a valid language token. Does not say the given string belongs to any standard. See
-     * RFC 3066 at http://www.ietf.org/rfc/rfc3066.txt and the IANA registry at
+     * Test if the given string is a valid language token. Does not say the given string belongs to any
+     * standard. See RFC 3066 at http://www.ietf.org/rfc/rfc3066.txt and the IANA registry at
      * http://www.iana.org/assignments/lang-tag-apps.htm for further information, as well as
      * http://www.ietf.org/rfc/rfc4646.txt
      * <p>
      * Examples of valid language tokens as conceived by this method are:
-     *
+     * 
      * <pre>
      *     nl
      *     en-US
      *     nld
      *     nld-NLD
      * </pre>
-     *
+     * 
      * </p>
-     *
+     * 
      * @param token
-     *        two or three letter language code, optionally followed by a hyphen and a two or three letter country code
+     *        two or three letter language code, optionally followed by a hyphen and a two or three
+     *        letter country code
      * @return <code>true</code> if valid, <code>false</code> otherwise
      */
     public static synchronized boolean isValidLanguageToken(final String token)
@@ -58,10 +59,14 @@ public abstract class LanguageTokenizedString extends SimpleElementImpl<String>
     }
 
     /**
-     * Collects the 3-letter language code and, if appropriate, the 3-letter country code from the given locale.
-     * @param locale a locale constructed with 2-letter codes
+     * Collects the 3-letter language code and, if appropriate, the 3-letter country code from the given
+     * locale.
+     * 
+     * @param locale
+     *        a locale constructed with 2-letter codes
      * @return 3-letter [+ 3-letter] language token
-     * @throws InvalidLanguageTokenException if the 3-letter language token could not be collected
+     * @throws InvalidLanguageTokenException
+     *         if the 3-letter language token could not be collected
      */
     public static synchronized String getLanguageToken(final Locale locale) throws InvalidLanguageTokenException
     {
@@ -112,7 +117,7 @@ public abstract class LanguageTokenizedString extends SimpleElementImpl<String>
 
     /**
      * Constructs a {@link LanguageTokenizedString} with the given value and no language token.
-     *
+     * 
      * @param value
      *        the value of the string
      */
@@ -123,7 +128,7 @@ public abstract class LanguageTokenizedString extends SimpleElementImpl<String>
 
     /**
      * Constructs a {@link LanguageTokenizedString} with the given value and language token.
-     *
+     * 
      * @param value
      *        the value of the string
      * @param language
@@ -139,9 +144,9 @@ public abstract class LanguageTokenizedString extends SimpleElementImpl<String>
     }
 
     /**
-     * Constructs a {@link LanguageTokenizedString} with the given value; constructs a language token from the given
-     * locale.
-     *
+     * Constructs a {@link LanguageTokenizedString} with the given value; constructs a language token
+     * from the given locale.
+     * 
      * @param value
      *        the value of the string
      * @param locale
@@ -158,7 +163,7 @@ public abstract class LanguageTokenizedString extends SimpleElementImpl<String>
 
     /**
      * Get the language token.
-     *
+     * 
      * @return the language token, or <code>null</code>
      */
     public String getLanguage()
@@ -167,9 +172,9 @@ public abstract class LanguageTokenizedString extends SimpleElementImpl<String>
     }
 
     /**
-     * Set the language token. Acceptable values are <code>null</code>, the empty string and a string conforming to
-     * the regular expression of {@link #LANGUAGE_TOKEN}.
-     *
+     * Set the language token. Acceptable values are <code>null</code>, the empty string and a string
+     * conforming to the regular expression of {@link #LANGUAGE_TOKEN}.
+     * 
      * @param language
      *        the language token
      * @throws InvalidLanguageTokenException
@@ -190,17 +195,18 @@ public abstract class LanguageTokenizedString extends SimpleElementImpl<String>
     /**
      * Save method to set the language token; it looks up 3-letter language and country codes.
      * <p>
-     * The Locale argument should be constructed according to the Locale API. Quoted from {@link Locale}: <blockquote>
+     * The Locale argument should be constructed according to the Locale API. Quoted from {@link Locale}:
+     * <blockquote>
      * <p>
-     * The language argument is a valid ISO Language Code. These codes are the lower-case, two-letter codes as defined
-     * by ISO-639.
+     * The language argument is a valid ISO Language Code. These codes are the lower-case, two-letter
+     * codes as defined by ISO-639.
      * </p>
      * <p>
-     * The country argument is a valid ISO Country Code. These codes are the upper-case, two-letter codes as defined by
-     * ISO-3166.
+     * The country argument is a valid ISO Country Code. These codes are the upper-case, two-letter codes
+     * as defined by ISO-3166.
      * </p>
      * </blockquote>
-     *
+     * 
      * @param locale
      *        the java representation of a language token
      * @throws InvalidLanguageTokenException
@@ -213,7 +219,7 @@ public abstract class LanguageTokenizedString extends SimpleElementImpl<String>
 
     /**
      * Get the value.
-     *
+     * 
      * @return the value, or <code>null</code>
      */
     @Override
@@ -225,7 +231,7 @@ public abstract class LanguageTokenizedString extends SimpleElementImpl<String>
 
     /**
      * Set the value.
-     *
+     * 
      * @param value
      *        the value, or <code>null</code>
      */

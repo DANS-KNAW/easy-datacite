@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * Factory for lists of emd types.
- *
+ * 
  * @author ecco
  */
 public final class ListFactory

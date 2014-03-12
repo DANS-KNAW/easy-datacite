@@ -25,12 +25,11 @@ import org.xml.sax.SAXException;
 
 /**
  * Convenience class for creating validators. Due to the fact that
- * com.sun.org.apache.xerces.internal.jaxp.validation.ValidatorImpl is not loading schemas
- * that have a schema location declared in the xml instance to be validated, this validator
- * cannot handle validation under these circumstances. Alternatively use {@link AbstractValidator2}.
+ * com.sun.org.apache.xerces.internal.jaxp.validation.ValidatorImpl is not loading schemas that have a
+ * schema location declared in the xml instance to be validated, this validator cannot handle validation
+ * under these circumstances. Alternatively use {@link AbstractValidator2}.
  * 
  * @see AbstractValidator2
- * 
  * @author ecco
  */
 public abstract class AbstractValidator

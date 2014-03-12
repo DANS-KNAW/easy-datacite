@@ -2,8 +2,8 @@ package nl.knaw.dans.pf.language.xml.binding;
 
 /**
  * A brief selection of encoding strings.
+ * 
  * @author ecco
- *
  */
 public interface Encoding
 {

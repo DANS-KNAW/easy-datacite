@@ -9,7 +9,7 @@ import nl.knaw.dans.pf.language.emd.types.BasicString;
 
 /**
  * Container for resource properties of category creator.
- *
+ * 
  * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-creator">dcmi-terms/#terms-creator</a>
  * @author ecco
  */
@@ -39,9 +39,11 @@ public class EmdCreator extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'creator' in the "http://purl.org/dc/elements/1.1/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-creator">dcmi-terms/#terms-creator</a>
+     * Get a list of resource properties known as 'creator' in the "http://purl.org/dc/elements/1.1/"
+     * name space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-creator">dcmi-terms/#terms-creator</a>
      * @return a list of resource properties
      */
     public List<BasicString> getDcCreator()
@@ -50,9 +52,11 @@ public class EmdCreator extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'creator' in the "http://purl.org/dc/elements/1.1/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-creator">dcmi-terms/#terms-creator</a>
+     * Set a list of resource properties known as 'creator' in the "http://purl.org/dc/elements/1.1/"
+     * name space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-creator">dcmi-terms/#terms-creator</a>
      * @param dcCreator
      *        a list of resource properties
      */
@@ -62,9 +66,11 @@ public class EmdCreator extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'creator' in the "http://purl.org/dc/elements/1.1/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-creator">dcmi-terms/#terms-creator</a>
+     * Get a list of resource properties known as 'creator' in the "http://purl.org/dc/elements/1.1/"
+     * name space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-creator">dcmi-terms/#terms-creator</a>
      * @return a list of resource properties
      */
     public List<Author> getEasCreator()
@@ -73,9 +79,11 @@ public class EmdCreator extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'creator' in the "http://purl.org/dc/elements/1.1/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-creator">dcmi-terms/#terms-creator</a>
+     * Set a list of resource properties known as 'creator' in the "http://purl.org/dc/elements/1.1/"
+     * name space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-creator">dcmi-terms/#terms-creator</a>
      * @param easCreator
      *        a list of resource properties
      */

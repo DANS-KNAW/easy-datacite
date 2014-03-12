@@ -10,17 +10,13 @@
 	</parent>
 	<artifactId>easy-ldap</artifactId>
 	<name>EASY LDAP Library</name>
-	<description>
-		Implementation of Data Access Point(s) in Easy business, using the Lightweight Directory Access Protocol
-	</description>
-	<packaging>jar</packaging>
 	<dependencies>
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>easy-business</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>nl.knaw.dans.common</groupId>
+			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>dans-ldap</artifactId>
 		</dependency>
 	</dependencies>

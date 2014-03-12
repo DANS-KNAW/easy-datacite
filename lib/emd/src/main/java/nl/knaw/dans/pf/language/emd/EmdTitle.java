@@ -8,7 +8,7 @@ import nl.knaw.dans.pf.language.emd.types.BasicString;
 
 /**
  * Container for resource properties of category title.
- *
+ * 
  * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-title">dcmi-terms/#terms-title</a>
  * @author ecco
  */
@@ -40,8 +40,9 @@ public class EmdTitle extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'title' in the "http://purl.org/dc/elements/1.1/" name space.
-     *
+     * Get a list of resource properties known as 'title' in the "http://purl.org/dc/elements/1.1/" name
+     * space.
+     * 
      * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-title">dcmi-terms/#terms-title</a>
      * @return a list of resource properties
      */
@@ -51,8 +52,9 @@ public class EmdTitle extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'title' in the "http://purl.org/dc/elements/1.1/" name space.
-     *
+     * Set a list of resource properties known as 'title' in the "http://purl.org/dc/elements/1.1/" name
+     * space.
+     * 
      * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-title">dcmi-terms/#terms-title</a>
      * @param dcTitle
      *        a list of resource properties
@@ -63,9 +65,11 @@ public class EmdTitle extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'alternative' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-alternative">dcmi-terms/#terms-alternative</a>
+     * Get a list of resource properties known as 'alternative' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-alternative">dcmi-terms/#terms-alternative</a>
      * @return a list of resource properties
      */
     public List<BasicString> getTermsAlternative()
@@ -74,9 +78,11 @@ public class EmdTitle extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'alternative' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-alternative">dcmi-terms/#terms-alternative</a>
+     * Set a list of resource properties known as 'alternative' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-alternative">dcmi-terms/#terms-alternative</a>
      * @param termsAlternative
      *        a list of resource properties
      */
@@ -86,9 +92,9 @@ public class EmdTitle extends AbstractEmdContainer
     }
 
     /**
-     * Will return the first dcTitle or, if that is not available, the first termsAlternative or, if that is not
-     * available, the empty string.
-     *
+     * Will return the first dcTitle or, if that is not available, the first termsAlternative or, if that
+     * is not available, the empty string.
+     * 
      * @return see above
      */
     public String getPreferredTitle()

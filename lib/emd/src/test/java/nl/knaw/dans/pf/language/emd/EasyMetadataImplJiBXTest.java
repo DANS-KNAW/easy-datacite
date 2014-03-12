@@ -53,10 +53,10 @@ public class EasyMetadataImplJiBXTest
         propList.addProperty("aipId", "abcde12345");
 
         String xmlString = new EmdMarshaller(emd).getXmlString();
-        
+
         if (verbose)
             logger.debug("\n" + xmlString);
-        
+
         XMLErrorHandler handler = EMDValidator.instance().validate(xmlString, null);
         assertTrue(handler.passed());
     }
@@ -73,7 +73,7 @@ public class EasyMetadataImplJiBXTest
         byte[] bytes = new EmdMarshaller(emd).getXmlByteArray();
 
         EasyMetadata emd2 = new EmdUnmarshaller<EasyMetadata>(EasyMetadataImpl.class).unmarshal(bytes);
-        //System.out.println(emd2.asXMLString(4));
+        // System.out.println(emd2.asXMLString(4));
         BasicIdentifier bi2 = emd2.getEmdIdentifier().getIdentifier(EmdConstants.SCHEME_ARCHIS_ONDERZOEK_M_NR);
         assertEquals("123", bi2.getValue());
         assertEquals(URI.create("http://foo.com"), bi2.getIdentificationSystem());

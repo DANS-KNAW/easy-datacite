@@ -9,7 +9,7 @@ import nl.knaw.dans.pf.language.emd.types.BasicString;
 
 /**
  * Container for resource properties of category type.
- *
+ * 
  * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-type">dcmi-terms/#terms-type</a>
  * @author ecco
  */
@@ -33,8 +33,9 @@ public class EmdType extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'type' in the "http://purl.org/dc/elements/1.1/" name space.
-     *
+     * Get a list of resource properties known as 'type' in the "http://purl.org/dc/elements/1.1/" name
+     * space.
+     * 
      * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-type">dcmi-terms/#terms-type</a>
      * @return a list of resource properties
      */
@@ -44,8 +45,9 @@ public class EmdType extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'type' in the "http://purl.org/dc/elements/1.1/" name space.
-     *
+     * Set a list of resource properties known as 'type' in the "http://purl.org/dc/elements/1.1/" name
+     * space.
+     * 
      * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-type">dcmi-terms/#terms-type</a>
      * @param dcType
      *        a list of resource properties

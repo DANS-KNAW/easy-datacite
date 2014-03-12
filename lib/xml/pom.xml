@@ -1,27 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
 	<parent>
-		<groupId>nl.knaw.dans.platform</groupId>
-		<artifactId>dans-prototype</artifactId>
-		<version>1.1</version>
+		<groupId>nl.knaw.dans.easy</groupId>
+		<artifactId>easy-prototype</artifactId>
+		<version>2.9-SNAPSHOT</version>
+		<relativePath>../easy-prototype</relativePath>		
 	</parent>
-
-	<groupId>nl.knaw.dans.platform.language</groupId>
 	<artifactId>xml</artifactId>
-	<version>1.2-SNAPSHOT</version>
-	<packaging>jar</packaging>
-
-	<name>xml</name>
-	<description>Utility classes for handling xml.</description>
-	
-	<properties>
-		<jibx.version>1.2.4.5</jibx.version>
-	</properties>
-
+	<name>XML Utilities Library</name>
 	<dependencies>
-		<!-- testing dependencies -->
 		<dependency>
 			<groupId>org.easymock</groupId>
 			<artifactId>easymock</artifactId>
@@ -39,24 +28,18 @@
 			<artifactId>hamcrest-all</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- end testing dependencies -->
-		<!-- Logging dependencies -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- end Logging dependencies -->
 		<dependency>
 			<groupId>org.jibx</groupId>
 			<artifactId>jibx-run</artifactId>
-			<version>${jibx.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.jibx</groupId>
 			<artifactId>jibx-extras</artifactId>
-			<version>${jibx.version}</version>
 		</dependency>
 
 		<!-- For saxon-style transformation -->
@@ -72,38 +55,16 @@
 			<artifactId>saxon-dom</artifactId>
 			<version>9.0</version>
 		</dependency>
-
 		<dependency>
 			<groupId>commons-collections</groupId>
 			<artifactId>commons-collections</artifactId>
-			<version>3.2.1</version>
 		</dependency>
-
 		<dependency>
-			<groupId>org.apache.commons</groupId>
+			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>1.3.2</version>
 		</dependency>
-
-
-		<!-- dependency on slf4j-api
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.6.6</version>
-		</dependency> -->
-
-		<!-- org.apache.commons-lang 
-		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-			<version>2.4</version>
-		</dependency>-->
-
 	</dependencies>
-
 	<build>
-
 		<resources>
 			<resource>
 				<filtering>false</filtering>
@@ -137,53 +98,5 @@
 				</includes>
 			</testResource>
 		</testResources>
-
-		<plugins>
-			<!-- plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.5.1</version>
-				<configuration>
-					<encoding>UTF-8</encoding>
-					<source>${source-code-version}</source>
-					<target>${byte-code-version}</target>
-					<debug>true</debug>
-					<excludes>
-						<exclude>**/package.html</exclude>
-						<exclude>**/overview.html</exclude>
-					</excludes>
-				</configuration>
-			</plugin-->
-
-			<!-- plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<version>2.1.2</version>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>jar-no-fork</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<includePom>true</includePom>
-				</configuration>
-			</plugin-->
-
-			<!-- javadoc plug-in in profiles -->
-		</plugins>
-
-
 	</build>
-
-	<repositories>
-		<repository>
-			<id>DANS Artifactory</id>
-			<url>http://artifactory.dans.knaw.nl/repo</url>
-		</repository>
-	</repositories>
-
 </project>

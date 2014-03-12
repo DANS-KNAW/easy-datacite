@@ -24,9 +24,8 @@ import org.xml.sax.SAXException;
 
 public class EasyMetadataImplTest
 {
-    
 
-    //@Test // used in javadoc package description
+    // @Test // used in javadoc package description
     public void printContainersAndTerms()
     {
         EasyMetadata emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
@@ -42,7 +41,7 @@ public class EasyMetadataImplTest
         }
     }
 
-    //@Test // used for development
+    // @Test // used for development
     public void printTerms()
     {
         EasyMetadata emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
@@ -58,7 +57,7 @@ public class EasyMetadataImplTest
         EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
         EmdHelper.populate(3, emd);
         String toString = emd.toString(";");
-        //System.out.println(toString);
+        // System.out.println(toString);
         Assert.assertTrue(toString.startsWith("title;http://purl.org/dc/elements/1.1/;title 0;title 1;title 2"));
         Assert.assertTrue(toString.endsWith("remarks;http://easy.dans.knaw.nl/easy/easymetadata/eas/;remarks 0;remarks 1;remarks 2"));
     }
@@ -115,10 +114,10 @@ public class EasyMetadataImplTest
     {
         EasyMetadataImpl emd = new EasyMetadataImpl(MetadataFormat.UNSPECIFIED);
         Map<Term, MDContainer> map = emd.getTermsMap();
-        //        for (Term term : map.keySet())
-        //        {
-        //            System.out.println(term.getName() + " " + map.get(term));
-        //        }
+        // for (Term term : map.keySet())
+        // {
+        // System.out.println(term.getName() + " " + map.get(term));
+        // }
         Assert.assertEquals(74, map.size());
 
         Term term = new Term(Term.Name.TITLE, Term.Namespace.DC);
@@ -146,13 +145,14 @@ public class EasyMetadataImplTest
         Assert.assertSame(titles, emd.getEmdTitle().getDcTitle());
     }
 
-    //    @Test(expected = SchemaCreationException.class)
-    //    public void testVersion() throws IOException, JiBXException, SAXException, XMLException, SchemaCreationException
-    //    {
-    //        EasyMetadata emd = unmarshal(VERSION_TEST_FILE);
-    //        Assert.assertEquals("version read from file", emd.getVersion());
-    //        EasyMetadataValidator.instance().validate(emd);
-    //    }
+    // @Test(expected = SchemaCreationException.class)
+    // public void testVersion() throws IOException, JiBXException, SAXException, XMLException,
+    // SchemaCreationException
+    // {
+    // EasyMetadata emd = unmarshal(VERSION_TEST_FILE);
+    // Assert.assertEquals("version read from file", emd.getVersion());
+    // EasyMetadataValidator.instance().validate(emd);
+    // }
 
     @Test
     public void testDublinCoreMetadata() throws Exception
@@ -171,11 +171,11 @@ public class EasyMetadataImplTest
         {
             List<String> values = dc.get(name);
             Assert.assertFalse(values.isEmpty());
-            //System.out.println(mdContainer.toString());
-            //                for (String value : values)
-            //                {                   
-            //                    System.out.println("\t" + value);
-            //                }
+            // System.out.println(mdContainer.toString());
+            // for (String value : values)
+            // {
+            // System.out.println("\t" + value);
+            // }
         }
 
     }
@@ -207,7 +207,7 @@ public class EasyMetadataImplTest
 
             public Object container(EmdContainer container)
             {
-                //System.out.println(container.getClass());
+                // System.out.println(container.getClass());
                 return count++;
             }
 
@@ -226,10 +226,10 @@ public class EasyMetadataImplTest
         emd.getEmdDate().getTermsCreated().add(bd);
 
         // gives
-        //         <dcterms:created>bla bla</dcterms:created>
-        //         <dcterms:created eas:scheme="W3CDTF">2011-07-14</dcterms:created>
+        // <dcterms:created>bla bla</dcterms:created>
+        // <dcterms:created eas:scheme="W3CDTF">2011-07-14</dcterms:created>
 
-        //System.out.println(emd.asXMLString(4));
+        // System.out.println(emd.asXMLString(4));
     }
 
 }

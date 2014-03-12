@@ -2,7 +2,7 @@ package nl.knaw.dans.pf.language.emd.types;
 
 /**
  * Constants used in easymetadata types.
- *
+ * 
  * @author ecco
  */
 public final class EmdConstants
@@ -16,7 +16,7 @@ public final class EmdConstants
 
     /**
      * Value of the scheme attribute of elements representing dates, times or periods.
-     *
+     * 
      * @author ecco
      */
     public enum DateScheme
@@ -27,7 +27,7 @@ public final class EmdConstants
         Period,
         /**
          * Indicates the date value is in compliance with ISO8601.
-         *
+         * 
          * @see <a href="http://www.w3.org/TR/NOTE-datetime">NOTE-datetime</a>
          */
         W3CDTF
@@ -43,9 +43,11 @@ public final class EmdConstants
     public static final String SCHEME_URI = "URI";
 
     /**
-     * Value of the scheme attribute of elements representing a file format or medium. IMT, the Internet media type of a resource.
-     *
-     * @see <a href="http://www.iana.org/assignments/media-types/">http://www.iana.org/assignments/media-types/</a>
+     * Value of the scheme attribute of elements representing a file format or medium. IMT, the Internet
+     * media type of a resource.
+     * 
+     * @see <a
+     *      href="http://www.iana.org/assignments/media-types/">http://www.iana.org/assignments/media-types/</a>
      */
     public static final String SCHEME_IMT = "IMT";
 
@@ -55,15 +57,15 @@ public final class EmdConstants
     public static final String SCHEME_ISBN = "ISBN";
 
     /**
-     * Value of the scheme attribute of elements representing a persistent identifier that can be resolved by
-     * http://persistent-identifier.nl/.
+     * Value of the scheme attribute of elements representing a persistent identifier that can be
+     * resolved by http://persistent-identifier.nl/.
      */
     public static final String SCHEME_PID = "PID";
     public static final String BRI_RESOLVER = "http://www.persistent-identifier.nl";
 
     /**
-     * value of the scheme attribute of elements representing an author that can be identified through the 'Digital
-     * Author Identification' (DAI).
+     * value of the scheme attribute of elements representing an author that can be identified through
+     * the 'Digital Author Identification' (DAI).
      */
     public static final String SCHEME_DAI = "DAI";
 

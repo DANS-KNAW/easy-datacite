@@ -9,7 +9,7 @@ import nl.knaw.dans.pf.language.emd.types.EmdScheme;
 
 /**
  * Container for resource properties of category subject.
- *
+ * 
  * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-subject">dcmi-terms/#terms-subject</a>
  * @author ecco
  */
@@ -36,9 +36,11 @@ public class EmdSubject extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'subject' in the "http://purl.org/dc/elements/1.1/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-subject">dcmi-terms/#terms-subject</a>
+     * Get a list of resource properties known as 'subject' in the "http://purl.org/dc/elements/1.1/"
+     * name space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-subject">dcmi-terms/#terms-subject</a>
      * @return a list of resource properties
      */
     public List<BasicString> getDcSubject()
@@ -47,9 +49,11 @@ public class EmdSubject extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'subject' in the "http://purl.org/dc/elements/1.1/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-subject">dcmi-terms/#terms-subject</a>
+     * Set a list of resource properties known as 'subject' in the "http://purl.org/dc/elements/1.1/"
+     * name space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-subject">dcmi-terms/#terms-subject</a>
      * @param dcSubject
      *        a list of resource properties
      */

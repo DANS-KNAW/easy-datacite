@@ -28,8 +28,8 @@ public class EasyMetadataImpl extends AbstractTimestampedObject implements EasyM
 {
 
     /**
-     * The version - when newly instantiated. The actual version of an instance as read from an xml-stream might be
-     * obtained by {@link #getVersion()}.
+     * The version - when newly instantiated. The actual version of an instance as read from an
+     * xml-stream might be obtained by {@link #getVersion()}.
      */
     public static final String EMD_VERSION = "0.1";
 
@@ -75,7 +75,8 @@ public class EasyMetadataImpl extends AbstractTimestampedObject implements EasyM
 
     /**
      * Constructor.
-     * @throws DomainException 
+     * 
+     * @throws DomainException
      */
     public EasyMetadataImpl(MetadataFormat metadataFormat)
     {
@@ -401,7 +402,8 @@ public class EasyMetadataImpl extends AbstractTimestampedObject implements EasyM
     // Get container containing given term.
     private EmdContainer getContainerByMethod(final Term term) throws NoSuchTermException
     {
-        MDContainer mdContainer = getTermMDContainerMap().get(term); // first look for term.name/term.namesoace
+        MDContainer mdContainer = getTermMDContainerMap().get(term); // first look for
+                                                                     // term.name/term.namesoace
         if (mdContainer == null)
         {
             mdContainer = getTermNameMDContainerMap().get(term); // then look for term.name

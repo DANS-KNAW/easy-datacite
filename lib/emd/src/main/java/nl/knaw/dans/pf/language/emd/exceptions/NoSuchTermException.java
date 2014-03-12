@@ -2,7 +2,7 @@ package nl.knaw.dans.pf.language.emd.exceptions;
 
 /**
  * Indicates that a Term does not exist.
- *
+ * 
  * @author ecco
  */
 public class NoSuchTermException extends RuntimeException

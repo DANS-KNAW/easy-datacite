@@ -38,14 +38,13 @@ public class EmdDateTest
         emdDate.getEasDate().add(idate);
         Assert.assertEquals("bar;2008-08-19;2008-08-20", emdDate.toString());
         Assert.assertEquals("bar, 2008-08-19, 2008-08-20", emdDate.toString(", "));
-        Assert
-                .assertEquals(
-                        "\ndate, http://purl.org/dc/elements/1.1/, bar\ncreated, http://purl.org/dc/terms/, 2008-08-19\ndate, http://easy.dans.knaw.nl/easy/easymetadata/eas/, 2008-08-20",
-                        emdDate.toString(", ", true));
+        Assert.assertEquals(
+                "\ndate, http://purl.org/dc/elements/1.1/, bar\ncreated, http://purl.org/dc/terms/, 2008-08-19\ndate, http://easy.dans.knaw.nl/easy/easymetadata/eas/, 2008-08-20",
+                emdDate.toString(", ", true));
         Assert.assertEquals("bar, 2008-08-19, 2008-08-20", emdDate.toString(", ", false));
 
-        //        emdDate.getEasDate().add(new IsoDate());
-        //        System.out.println(emdDate.toString(", ", true));
+        // emdDate.getEasDate().add(new IsoDate());
+        // System.out.println(emdDate.toString(", ", true));
     }
 
     @Test

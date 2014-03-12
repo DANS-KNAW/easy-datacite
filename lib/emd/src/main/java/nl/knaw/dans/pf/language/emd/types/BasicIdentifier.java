@@ -4,9 +4,9 @@ import java.net.URI;
 import java.util.Locale;
 
 /**
- * A {@link BasicString} who's value is most likely an encoding in compliance with a certain scheme that has a formal
- * identification system expressed as a URI.
- *
+ * A {@link BasicString} who's value is most likely an encoding in compliance with a certain scheme that
+ * has a formal identification system expressed as a URI.
+ * 
  * @author ecco
  */
 public class BasicIdentifier extends BasicString
@@ -26,7 +26,7 @@ public class BasicIdentifier extends BasicString
 
     /**
      * Save constructor of a BasicIdentifier.
-     *
+     * 
      * @param value
      *        the value of this BasicString
      * @param locale
@@ -44,7 +44,7 @@ public class BasicIdentifier extends BasicString
 
     /**
      * Save constructor of a BasicIdentifier.
-     *
+     * 
      * @param value
      *        the value of this BasicIdentifier
      * @param locale
@@ -60,7 +60,7 @@ public class BasicIdentifier extends BasicString
 
     /**
      * Constructs a BasicIdentifier.
-     *
+     * 
      * @param value
      *        the value of this BasicIdentifier
      * @param language
@@ -77,7 +77,7 @@ public class BasicIdentifier extends BasicString
 
     /**
      * Constructs a BasicIdentifier.
-     *
+     * 
      * @param value
      *        the value of this BasicIdentifier
      * @param language
@@ -92,7 +92,7 @@ public class BasicIdentifier extends BasicString
 
     /**
      * Constructs a BasicIdentifier.
-     *
+     * 
      * @param value
      *        the value of this BasicIdentifier
      */
@@ -103,7 +103,7 @@ public class BasicIdentifier extends BasicString
 
     /**
      * Get the formal identification system.
-     *
+     * 
      * @return the formal identification system
      */
     public URI getIdentificationSystem()
@@ -113,7 +113,7 @@ public class BasicIdentifier extends BasicString
 
     /**
      * Set the formal identification system.
-     *
+     * 
      * @param identificationSystem
      *        the formal identification system
      */

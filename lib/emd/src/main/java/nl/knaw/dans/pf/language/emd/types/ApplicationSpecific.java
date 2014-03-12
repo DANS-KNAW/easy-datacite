@@ -9,8 +9,9 @@ public class ApplicationSpecific implements Serializable
     {
         UNSPECIFIED, SOCIOLOGY, HISTORY, ARCHAEOLOGY, LIFESCIENCE, LANGUAGE_LITERATURE
     }
-    
-    public enum PakbonStatus {
+
+    public enum PakbonStatus
+    {
         NOT_IMPORTED, IMPORTED;
     }
 
@@ -31,7 +32,8 @@ public class ApplicationSpecific implements Serializable
 
     public void setPakbonStatus(PakbonStatus status)
     {
-        if(metadataFormat.equals(MetadataFormat.ARCHAEOLOGY)) {
+        if (metadataFormat.equals(MetadataFormat.ARCHAEOLOGY))
+        {
             pakbonStatus = status;
         }
     }

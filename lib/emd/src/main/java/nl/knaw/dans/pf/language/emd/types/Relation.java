@@ -3,10 +3,10 @@ package nl.knaw.dans.pf.language.emd.types;
 import java.net.URI;
 
 /**
- * Relation to a resource. The Dublin Core relation qualifiers are a half-hearted attempt to bring triples to a
- * two-dimensional universe of key-value pairs. This leads to a proliferation of properties expressed as elements that
- * in essence are predicates.
- *
+ * Relation to a resource. The Dublin Core relation qualifiers are a half-hearted attempt to bring
+ * triples to a two-dimensional universe of key-value pairs. This leads to a proliferation of properties
+ * expressed as elements that in essence are predicates.
+ * 
  * @author ecco
  */
 public class Relation implements MetadataItem
@@ -32,7 +32,7 @@ public class Relation implements MetadataItem
 
     /**
      * Expresses relation to another resource with the given title.
-     *
+     * 
      * @param subjectTitle
      *        title of the resource that is the subject of this relation
      */
@@ -43,7 +43,7 @@ public class Relation implements MetadataItem
 
     /**
      * Expresses relation to another resource with the given title.
-     *
+     * 
      * @param title
      *        title of the resource that is the subject of this relation
      */
@@ -54,7 +54,7 @@ public class Relation implements MetadataItem
 
     /**
      * Expresses relation to another resource with the given title and link.
-     *
+     * 
      * @param title
      *        title of the resource that is the subject of this relation
      * @param subjectLink
@@ -68,7 +68,7 @@ public class Relation implements MetadataItem
 
     /**
      * Should this relation receive emphasis amongst other relations?
-     *
+     * 
      * @return <code>true</code> if it has emphasis, <code>false</code> otherwise
      */
     public boolean hasEmphasis()
@@ -78,7 +78,7 @@ public class Relation implements MetadataItem
 
     /**
      * This relation should receive emphasis amongst other relations.
-     *
+     * 
      * @param emphasis
      *        <code>true</code> if it should receive emphasis, <code>false</code> otherwise
      */
@@ -89,7 +89,7 @@ public class Relation implements MetadataItem
 
     /**
      * Get the title of the resource that is the subject of this relation.
-     *
+     * 
      * @return the title of the resource that is the subject of this relation
      */
     public BasicString getSubjectTitle()
@@ -99,7 +99,7 @@ public class Relation implements MetadataItem
 
     /**
      * Set the title of the resource that is the subject of this relation.
-     *
+     * 
      * @param subjectTitle
      *        the title of the resource
      */
@@ -110,7 +110,7 @@ public class Relation implements MetadataItem
 
     /**
      * Get the title of the resource that is the subject of this relation.
-     *
+     * 
      * @param title
      *        the title of the resource that is the subject of this relation
      */
@@ -120,9 +120,9 @@ public class Relation implements MetadataItem
     }
 
     /**
-     * Get information about the formal identification system that can identify the resource that is the subject of this
-     * relation.
-     *
+     * Get information about the formal identification system that can identify the resource that is the
+     * subject of this relation.
+     * 
      * @return a BasicIdentifier
      */
     public BasicIdentifier getSubjectIdentifier()
@@ -131,9 +131,9 @@ public class Relation implements MetadataItem
     }
 
     /**
-     * Set information about the formal identification system that can identify the resource that is the subject of this
-     * relation.
-     *
+     * Set information about the formal identification system that can identify the resource that is the
+     * subject of this relation.
+     * 
      * @param subjectIdentifier
      *        a BasicIdentifier
      */
@@ -144,7 +144,7 @@ public class Relation implements MetadataItem
 
     /**
      * Get the URI of the resource that is the subject of this relation.
-     *
+     * 
      * @return the URI of the resource that is the subject of this relation
      */
     public URI getSubjectLink()
@@ -154,7 +154,7 @@ public class Relation implements MetadataItem
 
     /**
      * Set the URI of the resource that is the subject of this relation.
-     *
+     * 
      * @param subjectLink
      *        the URI of the resource that is the subject of this relation
      */
@@ -165,7 +165,7 @@ public class Relation implements MetadataItem
 
     /**
      * Get a string-representation of this Relation.
-     *
+     * 
      * @return string-representation
      */
     @Override

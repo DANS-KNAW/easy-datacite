@@ -225,8 +225,7 @@ public class Author implements MetadataItem
     }
 
     /**
-     * Set the entity id of this author. If the scheme was not yet set, it is set to
-     * "DAI".
+     * Set the entity id of this author. If the scheme was not yet set, it is set to "DAI".
      * 
      * @param entityId
      *        the entity id of this author

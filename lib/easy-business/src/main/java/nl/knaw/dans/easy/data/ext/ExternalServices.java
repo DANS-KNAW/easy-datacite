@@ -1,7 +1,6 @@
 package nl.knaw.dans.easy.data.ext;
 
 import nl.knaw.dans.common.lang.mail.AdminMailer;
-import nl.knaw.dans.common.lang.mail.Mailer;
 import nl.knaw.dans.commons.pid.PidGenerator;
 import nl.knaw.dans.easy.mail.EasyMailer;
 

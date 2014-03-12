@@ -12,8 +12,9 @@ import nl.knaw.dans.pf.language.emd.types.Relation;
 
 /**
  * Container for resource properties of category relation.
- *
- * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-relation">dcmi-terms/#terms-relation</a>
+ * 
+ * @see <a
+ *      href="http://dublincore.org/documents/dcmi-terms/#terms-relation">dcmi-terms/#terms-relation</a>
  * @author ecco
  */
 public class EmdRelation extends AbstractEmdContainer
@@ -173,9 +174,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'relation' in the "http://purl.org/dc/elements/1.1/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-relation">dcmi-terms/#terms-relation</a>
+     * Get a list of resource properties known as 'relation' in the "http://purl.org/dc/elements/1.1/"
+     * name space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-relation">dcmi-terms/#terms-relation</a>
      * @return a list of resource properties
      */
     public List<BasicIdentifier> getDcRelation()
@@ -188,9 +191,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'relation' in the "http://purl.org/dc/elements/1.1/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-relation">dcmi-terms/#terms-relation</a>
+     * Set a list of resource properties known as 'relation' in the "http://purl.org/dc/elements/1.1/"
+     * name space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-relation">dcmi-terms/#terms-relation</a>
      * @param list
      *        a list of resource properties
      */
@@ -200,9 +205,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'conformsTo' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-conformsTo">dcmi-terms/#terms-conformsTo</a>
+     * Get a list of resource properties known as 'conformsTo' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-conformsTo">dcmi-terms/#terms-conformsTo</a>
      * @return a list of resource properties
      */
     public List<BasicIdentifier> getTermsConformsTo()
@@ -215,9 +222,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'conformsTo' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-conformsTo">dcmi-terms/#terms-conformsTo</a>
+     * Set a list of resource properties known as 'conformsTo' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-conformsTo">dcmi-terms/#terms-conformsTo</a>
      * @param list
      *        a list of resource properties
      */
@@ -227,9 +236,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'isVersionOf' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isVersionOf">dcmi-terms/#terms-isVersionOf</a>
+     * Get a list of resource properties known as 'isVersionOf' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isVersionOf">dcmi-terms/#terms-isVersionOf</a>
      * @return a list of resource properties
      */
     public List<BasicIdentifier> getTermsIsVersionOf()
@@ -242,9 +253,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'isVersionOf' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isVersionOf">dcmi-terms/#terms-isVersionOf</a>
+     * Set a list of resource properties known as 'isVersionOf' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isVersionOf">dcmi-terms/#terms-isVersionOf</a>
      * @param list
      *        a list of resource properties
      */
@@ -254,9 +267,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'hasVersion' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-hasVersion">dcmi-terms/#terms-hasVersion</a>
+     * Get a list of resource properties known as 'hasVersion' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-hasVersion">dcmi-terms/#terms-hasVersion</a>
      * @return a list of resource properties
      */
     public List<BasicIdentifier> getTermsHasVersion()
@@ -269,9 +284,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'hasVersion' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-hasVersion">dcmi-terms/#terms-hasVersion</a>
+     * Set a list of resource properties known as 'hasVersion' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-hasVersion">dcmi-terms/#terms-hasVersion</a>
      * @param list
      *        a list of resource properties
      */
@@ -281,9 +298,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'isReplacedBy' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isReplacedBy">dcmi-terms/#terms-isReplacedBy</a>
+     * Get a list of resource properties known as 'isReplacedBy' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isReplacedBy">dcmi-terms/#terms-isReplacedBy</a>
      * @return a list of resource properties
      */
     public List<BasicIdentifier> getTermsIsReplacedBy()
@@ -296,9 +315,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'isReplacedBy' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isReplacedBy">dcmi-terms/#terms-isReplacedBy</a>
+     * Set a list of resource properties known as 'isReplacedBy' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isReplacedBy">dcmi-terms/#terms-isReplacedBy</a>
      * @param list
      *        a list of resource properties
      */
@@ -308,9 +329,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'replaces' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-replaces">dcmi-terms/#terms-replaces</a>
+     * Get a list of resource properties known as 'replaces' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-replaces">dcmi-terms/#terms-replaces</a>
      * @return a list of resource properties
      */
     public List<BasicIdentifier> getTermsReplaces()
@@ -323,9 +346,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'replaces' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-replaces">dcmi-terms/#terms-replaces</a>
+     * Set a list of resource properties known as 'replaces' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-replaces">dcmi-terms/#terms-replaces</a>
      * @param list
      *        a list of resource properties
      */
@@ -335,9 +360,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'isRequiredBy' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isRequiredBy">dcmi-terms/#terms-isRequiredBy</a>
+     * Get a list of resource properties known as 'isRequiredBy' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isRequiredBy">dcmi-terms/#terms-isRequiredBy</a>
      * @return a list of resource properties
      */
     public List<BasicIdentifier> getTermsIsRequiredBy()
@@ -350,9 +377,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'isRequiredBy' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isRequiredBy">dcmi-terms/#terms-isRequiredBy</a>
+     * Set a list of resource properties known as 'isRequiredBy' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isRequiredBy">dcmi-terms/#terms-isRequiredBy</a>
      * @param list
      *        a list of resource properties
      */
@@ -362,9 +391,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'requires' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-requires">dcmi-terms/#terms-requires</a>
+     * Get a list of resource properties known as 'requires' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-requires">dcmi-terms/#terms-requires</a>
      * @return a list of resource properties
      */
     public List<BasicIdentifier> getTermsRequires()
@@ -377,9 +408,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'requires' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-requires">dcmi-terms/#terms-requires</a>
+     * Set a list of resource properties known as 'requires' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-requires">dcmi-terms/#terms-requires</a>
      * @param list
      *        a list of resource properties
      */
@@ -389,9 +422,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'isPartOf' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isPartOf">dcmi-terms/#terms-isPartOf</a>
+     * Get a list of resource properties known as 'isPartOf' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isPartOf">dcmi-terms/#terms-isPartOf</a>
      * @return a list of resource properties
      */
     public List<BasicIdentifier> getTermsIsPartOf()
@@ -404,9 +439,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'isPartOf' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isPartOf">dcmi-terms/#terms-isPartOf</a>
+     * Set a list of resource properties known as 'isPartOf' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isPartOf">dcmi-terms/#terms-isPartOf</a>
      * @param list
      *        a list of resource properties
      */
@@ -416,9 +453,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'hasPart' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-hasPart">dcmi-terms/#terms-hasPart</a>
+     * Get a list of resource properties known as 'hasPart' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-hasPart">dcmi-terms/#terms-hasPart</a>
      * @return a list of resource properties
      */
     public List<BasicIdentifier> getTermsHasPart()
@@ -431,9 +470,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'hasPart' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-hasPart">dcmi-terms/#terms-hasPart</a>
+     * Set a list of resource properties known as 'hasPart' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-hasPart">dcmi-terms/#terms-hasPart</a>
      * @param list
      *        a list of resource properties
      */
@@ -443,9 +484,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'isReferencedBy' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isReferencedBy">dcmi-terms/#terms-isReferencedBy</a>
+     * Get a list of resource properties known as 'isReferencedBy' in the "http://purl.org/dc/terms/"
+     * name space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isReferencedBy">dcmi-terms/#terms-isReferencedBy</a>
      * @return a list of resource properties
      */
     public List<BasicIdentifier> getTermsIsReferencedBy()
@@ -458,9 +501,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'isReferencedBy' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isReferencedBy">dcmi-terms/#terms-isReferencedBy</a>
+     * Set a list of resource properties known as 'isReferencedBy' in the "http://purl.org/dc/terms/"
+     * name space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isReferencedBy">dcmi-terms/#terms-isReferencedBy</a>
      * @param list
      *        a list of resource properties
      */
@@ -470,9 +515,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'references' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-references">dcmi-terms/#terms-references</a>
+     * Get a list of resource properties known as 'references' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-references">dcmi-terms/#terms-references</a>
      * @return a list of resource properties
      */
     public List<BasicIdentifier> getTermsReferences()
@@ -485,9 +532,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'references' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-references">dcmi-terms/#terms-references</a>
+     * Set a list of resource properties known as 'references' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-references">dcmi-terms/#terms-references</a>
      * @param list
      *        a list of resource properties
      */
@@ -497,9 +546,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'isFormatOf' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isFormatOf">dcmi-terms/#terms-isFormatOf</a>
+     * Get a list of resource properties known as 'isFormatOf' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isFormatOf">dcmi-terms/#terms-isFormatOf</a>
      * @return a list of resource properties
      */
     public List<BasicIdentifier> getTermsIsFormatOf()
@@ -512,9 +563,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'isFormatOf' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isFormatOf">dcmi-terms/#terms-isFormatOf</a>
+     * Set a list of resource properties known as 'isFormatOf' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isFormatOf">dcmi-terms/#terms-isFormatOf</a>
      * @param list
      *        a list of resource properties
      */
@@ -524,9 +577,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'hasFormat' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-hasFormat">dcmi-terms/#terms-hasFormat</a>
+     * Get a list of resource properties known as 'hasFormat' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-hasFormat">dcmi-terms/#terms-hasFormat</a>
      * @return a list of resource properties
      */
     public List<BasicIdentifier> getTermsHasFormat()
@@ -539,9 +594,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'hasFormat' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-hasFormat">dcmi-terms/#terms-hasFormat</a>
+     * Set a list of resource properties known as 'hasFormat' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-hasFormat">dcmi-terms/#terms-hasFormat</a>
      * @param list
      *        a list of resource properties
      */
@@ -553,9 +610,11 @@ public class EmdRelation extends AbstractEmdContainer
     // ////////////////
 
     /**
-     * Get a list of resource properties known as 'relation' in the "http://purl.org/dc/elements/1.1/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-relation">dcmi-terms/#terms-relation</a>
+     * Get a list of resource properties known as 'relation' in the "http://purl.org/dc/elements/1.1/"
+     * name space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-relation">dcmi-terms/#terms-relation</a>
      * @return a list of resource properties
      */
     public List<Relation> getEasRelation()
@@ -568,9 +627,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'relation' in the "http://purl.org/dc/elements/1.1/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-relation">dcmi-terms/#terms-relation</a>
+     * Set a list of resource properties known as 'relation' in the "http://purl.org/dc/elements/1.1/"
+     * name space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-relation">dcmi-terms/#terms-relation</a>
      * @param list
      *        a list of resource properties
      */
@@ -580,9 +641,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'conformsTo' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-conformsTo">dcmi-terms/#terms-conformsTo</a>
+     * Get a list of resource properties known as 'conformsTo' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-conformsTo">dcmi-terms/#terms-conformsTo</a>
      * @return a list of resource properties
      */
     public List<Relation> getEasConformsTo()
@@ -595,9 +658,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'conformsTo' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-conformsTo">dcmi-terms/#terms-conformsTo</a>
+     * Set a list of resource properties known as 'conformsTo' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-conformsTo">dcmi-terms/#terms-conformsTo</a>
      * @param list
      *        a list of resource properties
      */
@@ -607,9 +672,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'isVersionOf' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isVersionOf">dcmi-terms/#terms-isVersionOf</a>
+     * Get a list of resource properties known as 'isVersionOf' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isVersionOf">dcmi-terms/#terms-isVersionOf</a>
      * @return a list of resource properties
      */
     public List<Relation> getEasIsVersionOf()
@@ -622,9 +689,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'isVersionOf' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isVersionOf">dcmi-terms/#terms-isVersionOf</a>
+     * Set a list of resource properties known as 'isVersionOf' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isVersionOf">dcmi-terms/#terms-isVersionOf</a>
      * @param list
      *        a list of resource properties
      */
@@ -634,9 +703,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'hasVersion' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-hasVersion">dcmi-terms/#terms-hasVersion</a>
+     * Get a list of resource properties known as 'hasVersion' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-hasVersion">dcmi-terms/#terms-hasVersion</a>
      * @return a list of resource properties
      */
     public List<Relation> getEasHasVersion()
@@ -649,9 +720,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'hasVersion' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-hasVersion">dcmi-terms/#terms-hasVersion</a>
+     * Set a list of resource properties known as 'hasVersion' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-hasVersion">dcmi-terms/#terms-hasVersion</a>
      * @param list
      *        a list of resource properties
      */
@@ -661,9 +734,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'isReplacedBy' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isReplacedBy">dcmi-terms/#terms-isReplacedBy</a>
+     * Get a list of resource properties known as 'isReplacedBy' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isReplacedBy">dcmi-terms/#terms-isReplacedBy</a>
      * @return a list of resource properties
      */
     public List<Relation> getEasIsReplacedBy()
@@ -676,9 +751,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'isReplacedBy' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isReplacedBy">dcmi-terms/#terms-isReplacedBy</a>
+     * Set a list of resource properties known as 'isReplacedBy' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isReplacedBy">dcmi-terms/#terms-isReplacedBy</a>
      * @param list
      *        a list of resource properties
      */
@@ -688,9 +765,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'replaces' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-replaces">dcmi-terms/#terms-replaces</a>
+     * Get a list of resource properties known as 'replaces' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-replaces">dcmi-terms/#terms-replaces</a>
      * @return a list of resource properties
      */
     public List<Relation> getEasReplaces()
@@ -703,9 +782,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'replaces' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-replaces">dcmi-terms/#terms-replaces</a>
+     * Set a list of resource properties known as 'replaces' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-replaces">dcmi-terms/#terms-replaces</a>
      * @param list
      *        a list of resource properties
      */
@@ -715,9 +796,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'isRequiredBy' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isRequiredBy">dcmi-terms/#terms-isRequiredBy</a>
+     * Get a list of resource properties known as 'isRequiredBy' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isRequiredBy">dcmi-terms/#terms-isRequiredBy</a>
      * @return a list of resource properties
      */
     public List<Relation> getEasIsRequiredBy()
@@ -730,9 +813,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'isRequiredBy' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isRequiredBy">dcmi-terms/#terms-isRequiredBy</a>
+     * Set a list of resource properties known as 'isRequiredBy' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isRequiredBy">dcmi-terms/#terms-isRequiredBy</a>
      * @param list
      *        a list of resource properties
      */
@@ -742,9 +827,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'requires' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-requires">dcmi-terms/#terms-requires</a>
+     * Get a list of resource properties known as 'requires' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-requires">dcmi-terms/#terms-requires</a>
      * @return a list of resource properties
      */
     public List<Relation> getEasRequires()
@@ -757,9 +844,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'requires' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-requires">dcmi-terms/#terms-requires</a>
+     * Set a list of resource properties known as 'requires' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-requires">dcmi-terms/#terms-requires</a>
      * @param list
      *        a list of resource properties
      */
@@ -769,9 +858,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'isPartOf' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isPartOf">dcmi-terms/#terms-isPartOf</a>
+     * Get a list of resource properties known as 'isPartOf' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isPartOf">dcmi-terms/#terms-isPartOf</a>
      * @return a list of resource properties
      */
     public List<Relation> getEasIsPartOf()
@@ -784,9 +875,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'isPartOf' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isPartOf">dcmi-terms/#terms-isPartOf</a>
+     * Set a list of resource properties known as 'isPartOf' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isPartOf">dcmi-terms/#terms-isPartOf</a>
      * @param list
      *        a list of resource properties
      */
@@ -796,9 +889,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'hasPart' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-hasPart">dcmi-terms/#terms-hasPart</a>
+     * Get a list of resource properties known as 'hasPart' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-hasPart">dcmi-terms/#terms-hasPart</a>
      * @return a list of resource properties
      */
     public List<Relation> getEasHasPart()
@@ -811,9 +906,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'hasPart' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-hasPart">dcmi-terms/#terms-hasPart</a>
+     * Set a list of resource properties known as 'hasPart' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-hasPart">dcmi-terms/#terms-hasPart</a>
      * @param list
      *        a list of resource properties
      */
@@ -823,9 +920,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'isReferencedBy' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isReferencedBy">dcmi-terms/#terms-isReferencedBy</a>
+     * Get a list of resource properties known as 'isReferencedBy' in the "http://purl.org/dc/terms/"
+     * name space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isReferencedBy">dcmi-terms/#terms-isReferencedBy</a>
      * @return a list of resource properties
      */
     public List<Relation> getEasIsReferencedBy()
@@ -838,9 +937,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'isReferencedBy' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isReferencedBy">dcmi-terms/#terms-isReferencedBy</a>
+     * Set a list of resource properties known as 'isReferencedBy' in the "http://purl.org/dc/terms/"
+     * name space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isReferencedBy">dcmi-terms/#terms-isReferencedBy</a>
      * @param list
      *        a list of resource properties
      */
@@ -850,9 +951,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'references' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-references">dcmi-terms/#terms-references</a>
+     * Get a list of resource properties known as 'references' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-references">dcmi-terms/#terms-references</a>
      * @return a list of resource properties
      */
     public List<Relation> getEasReferences()
@@ -865,9 +968,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'references' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-references">dcmi-terms/#terms-references</a>
+     * Set a list of resource properties known as 'references' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-references">dcmi-terms/#terms-references</a>
      * @param list
      *        a list of resource properties
      */
@@ -877,9 +982,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'isFormatOf' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isFormatOf">dcmi-terms/#terms-isFormatOf</a>
+     * Get a list of resource properties known as 'isFormatOf' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isFormatOf">dcmi-terms/#terms-isFormatOf</a>
      * @return a list of resource properties
      */
     public List<Relation> getEasIsFormatOf()
@@ -892,9 +999,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'isFormatOf' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-isFormatOf">dcmi-terms/#terms-isFormatOf</a>
+     * Set a list of resource properties known as 'isFormatOf' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-isFormatOf">dcmi-terms/#terms-isFormatOf</a>
      * @param list
      *        a list of resource properties
      */
@@ -904,9 +1013,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'hasFormat' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-hasFormat">dcmi-terms/#terms-hasFormat</a>
+     * Get a list of resource properties known as 'hasFormat' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-hasFormat">dcmi-terms/#terms-hasFormat</a>
      * @return a list of resource properties
      */
     public List<Relation> getEasHasFormat()
@@ -919,9 +1030,11 @@ public class EmdRelation extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'hasFormat' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-hasFormat">dcmi-terms/#terms-hasFormat</a>
+     * Set a list of resource properties known as 'hasFormat' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-hasFormat">dcmi-terms/#terms-hasFormat</a>
      * @param list
      *        a list of resource properties
      */

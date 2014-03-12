@@ -8,7 +8,7 @@ import nl.knaw.dans.pf.language.emd.types.BasicString;
 
 /**
  * Container for resource properties of category format.
- *
+ * 
  * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-format">dcmi-terms/#terms-format</a>
  * @author ecco
  */
@@ -41,9 +41,11 @@ public class EmdFormat extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'format' in the "http://purl.org/dc/elements/1.1/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-format">dcmi-terms/#terms-format</a>
+     * Get a list of resource properties known as 'format' in the "http://purl.org/dc/elements/1.1/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-format">dcmi-terms/#terms-format</a>
      * @return a list of resource properties
      */
     public List<BasicString> getDcFormat()
@@ -52,9 +54,11 @@ public class EmdFormat extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'format' in the "http://purl.org/dc/elements/1.1/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-format">dcmi-terms/#terms-format</a>
+     * Set a list of resource properties known as 'format' in the "http://purl.org/dc/elements/1.1/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-format">dcmi-terms/#terms-format</a>
      * @param dcFormat
      *        a list of resource properties
      */
@@ -65,8 +69,9 @@ public class EmdFormat extends AbstractEmdContainer
 
     /**
      * Get a list of resource properties known as 'extent' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-extent">dcmi-terms/#terms-extent</a>
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-extent">dcmi-terms/#terms-extent</a>
      * @return a list of resource properties
      */
     public List<BasicString> getTermsExtent()
@@ -76,8 +81,9 @@ public class EmdFormat extends AbstractEmdContainer
 
     /**
      * Set a list of resource properties known as 'extent' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-extent">dcmi-terms/#terms-extent</a>
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-extent">dcmi-terms/#terms-extent</a>
      * @param termsExtent
      *        a list of resource properties
      */
@@ -88,8 +94,9 @@ public class EmdFormat extends AbstractEmdContainer
 
     /**
      * Get a list of resource properties known as 'medium' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-medium">dcmi-terms/#terms-medium</a>
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-medium">dcmi-terms/#terms-medium</a>
      * @return a list of resource properties
      */
     public List<BasicString> getTermsMedium()
@@ -99,8 +106,9 @@ public class EmdFormat extends AbstractEmdContainer
 
     /**
      * Set a list of resource properties known as 'medium' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-medium">dcmi-terms/#terms-medium</a>
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-medium">dcmi-terms/#terms-medium</a>
      * @param termsMedium
      *        a list of resource properties
      */

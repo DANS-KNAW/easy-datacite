@@ -12,10 +12,10 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 
 /**
- * Utility class to validate xml against a schema. Validating will stop after a fatal parse error has been detected and
- * all validating methods will throw a {@link SAXException} on such occasions, though this behavior may depend on the
- * implementation of the javax.xml classes used by this implementation.
- *
+ * Utility class to validate xml against a schema. Validating will stop after a fatal parse error has
+ * been detected and all validating methods will throw a {@link SAXException} on such occasions, though
+ * this behavior may depend on the implementation of the javax.xml classes used by this implementation.
+ * 
  * @author ecco
  */
 public final class XMLValidator
@@ -27,7 +27,7 @@ public final class XMLValidator
 
     /**
      * Validate xml against a schema.
-     *
+     * 
      * @param xmlSource
      *        the xml to validate
      * @param schemaSources
@@ -48,7 +48,7 @@ public final class XMLValidator
 
     /**
      * Validate xml against a schema and report to a log-facility.
-     *
+     * 
      * @param xmlSource
      *        the xml to validate
      * @param schemaGrammar
@@ -69,7 +69,7 @@ public final class XMLValidator
 
     /**
      * Validate xml against a schema and report to the given {@link ErrorHandler}.
-     *
+     * 
      * @param handler
      *        receives notification of errors and warnings
      * @param xmlSource
@@ -90,7 +90,7 @@ public final class XMLValidator
 
     /**
      * Validate xml against a schema and report to the given {@link ErrorHandler}.
-     *
+     * 
      * @param handler
      *        receives notification of errors and warnings
      * @param xmlSource

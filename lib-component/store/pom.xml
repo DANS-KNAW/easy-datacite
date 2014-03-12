@@ -1,32 +1,23 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-
-  <parent>
-    <groupId>nl.knaw.dans.easy</groupId>
-    <artifactId>easy-prototype</artifactId>
-    <version>2.9-SNAPSHOT</version>
-    <relativePath>../../lib/easy-prototype</relativePath>
-  </parent>
-
-  <artifactId>store</artifactId>
-  <packaging>jar</packaging>
-
-  <name>DEPPRECATED Store</name>
-
-  <dependencies> 
-  	
-  	<dependency>
-  		<groupId>nl.knaw.dans.easy</groupId>
-  		<artifactId>dans-lang</artifactId>
-  		<version>${easy.version}</version>
-  	</dependency>
-  	
-  	<dependency>
-  		<groupId>nl.knaw.dans.easy</groupId>
-  		<artifactId>istore</artifactId>
-  		<version>${easy.version}</version>
-  	</dependency>
-  </dependencies>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>nl.knaw.dans.easy</groupId>
+		<artifactId>easy-prototype</artifactId>
+		<version>2.9-SNAPSHOT</version>
+		<relativePath>../../lib/easy-prototype</relativePath>		
+	</parent>
+	<artifactId>store</artifactId>
+	<name>DEPPRECATED Store</name>
+	<dependencies>
+		<dependency>
+			<groupId>nl.knaw.dans.easy</groupId>
+			<artifactId>dans-lang</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>nl.knaw.dans.easy</groupId>
+			<artifactId>istore</artifactId>
+		</dependency>
+	</dependencies>
 </project>

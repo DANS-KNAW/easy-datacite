@@ -14,7 +14,7 @@ import org.joda.time.DateTime;
 
 /**
  * Container for resource properties of category date.
- *
+ * 
  * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-date">dcmi-terms/#terms-date</a>
  * @author ecco
  */
@@ -153,8 +153,9 @@ public class EmdDate extends AbstractEmdContainer
         return map;
     }
 
-    //    public static final String[] LIST_KEYS = {DATE, CREATED, VALID, AVAILABLE, ISSUED, MODIFIED, DATE_ACCEPTED
-    //		, DATE_COPYRIGHTED, DATE_SUBMITTED };
+    // public static final String[] LIST_KEYS = {DATE, CREATED, VALID, AVAILABLE, ISSUED, MODIFIED,
+    // DATE_ACCEPTED
+    // , DATE_COPYRIGHTED, DATE_SUBMITTED };
 
     /**
      * {@inheritDoc}
@@ -205,8 +206,9 @@ public class EmdDate extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'date' in the "http://purl.org/dc/elements/1.1/" name space.
-     *
+     * Get a list of resource properties known as 'date' in the "http://purl.org/dc/elements/1.1/" name
+     * space.
+     * 
      * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-date">dcmi-terms/#terms-date</a>
      * @return a list of resource properties
      */
@@ -220,8 +222,9 @@ public class EmdDate extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'date' in the "http://purl.org/dc/elements/1.1/" name space.
-     *
+     * Set a list of resource properties known as 'date' in the "http://purl.org/dc/elements/1.1/" name
+     * space.
+     * 
      * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-date">dcmi-terms/#terms-date</a>
      * @param dcDate
      *        a list of resource properties
@@ -232,9 +235,11 @@ public class EmdDate extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'created' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-created">dcmi-terms/#terms-created</a>
+     * Get a list of resource properties known as 'created' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-created">dcmi-terms/#terms-created</a>
      * @return a list of resource properties
      */
     public List<BasicDate> getTermsCreated()
@@ -247,9 +252,11 @@ public class EmdDate extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'created' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-created">dcmi-terms/#terms-created</a>
+     * Set a list of resource properties known as 'created' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-created">dcmi-terms/#terms-created</a>
      * @param termsCreated
      *        a list of resource properties
      */
@@ -260,7 +267,7 @@ public class EmdDate extends AbstractEmdContainer
 
     /**
      * Get a list of resource properties known as 'valid' in the "http://purl.org/dc/terms/" name space.
-     *
+     * 
      * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-valid">dcmi-terms/#terms-valid</a>
      * @return a list of resource properties
      */
@@ -275,7 +282,7 @@ public class EmdDate extends AbstractEmdContainer
 
     /**
      * Set a list of resource properties known as 'valid' in the "http://purl.org/dc/terms/" name space.
-     *
+     * 
      * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-valid">dcmi-terms/#terms-valid</a>
      * @param termsValid
      *        a list of resource properties
@@ -286,9 +293,11 @@ public class EmdDate extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'available' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-available">dcmi-terms/#terms-available</a>
+     * Get a list of resource properties known as 'available' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-available">dcmi-terms/#terms-available</a>
      * @return a list of resource properties
      */
     public List<BasicDate> getTermsAvailable()
@@ -301,9 +310,11 @@ public class EmdDate extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'available' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-available">dcmi-terms/#terms-available</a>
+     * Set a list of resource properties known as 'available' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-available">dcmi-terms/#terms-available</a>
      * @param termsAvailable
      *        a list of resource properties
      */
@@ -314,8 +325,9 @@ public class EmdDate extends AbstractEmdContainer
 
     /**
      * Get a list of resource properties known as 'issued' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-issued">dcmi-terms/#terms-issued</a>
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-issued">dcmi-terms/#terms-issued</a>
      * @return a list of resource properties
      */
     public List<BasicDate> getTermsIssued()
@@ -329,8 +341,9 @@ public class EmdDate extends AbstractEmdContainer
 
     /**
      * Set a list of resource properties known as 'issued' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-issued">dcmi-terms/#terms-issued</a>
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-issued">dcmi-terms/#terms-issued</a>
      * @param termsIssued
      *        a list of resource properties
      */
@@ -340,9 +353,11 @@ public class EmdDate extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'modified' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-modified">dcmi-terms/#terms-modified</a>
+     * Get a list of resource properties known as 'modified' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-modified">dcmi-terms/#terms-modified</a>
      * @return a list of resource properties
      */
     public List<BasicDate> getTermsModified()
@@ -355,9 +370,11 @@ public class EmdDate extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'modified' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-modified">dcmi-terms/#terms-modified</a>
+     * Set a list of resource properties known as 'modified' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-modified">dcmi-terms/#terms-modified</a>
      * @param termsModified
      *        a list of resource properties
      */
@@ -367,9 +384,11 @@ public class EmdDate extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'dateAccepted' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-dateAccepted">dcmi-terms/#terms-dateAccepted</a>
+     * Get a list of resource properties known as 'dateAccepted' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-dateAccepted">dcmi-terms/#terms-dateAccepted</a>
      * @return a list of resource properties
      */
     public List<BasicDate> getTermsDateAccepted()
@@ -382,9 +401,11 @@ public class EmdDate extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'dateAccepted' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-dateAccepted">dcmi-terms/#terms-dateAccepted</a>
+     * Set a list of resource properties known as 'dateAccepted' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-dateAccepted">dcmi-terms/#terms-dateAccepted</a>
      * @param termsDateAccepted
      *        a list of resource properties
      */
@@ -394,8 +415,9 @@ public class EmdDate extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'dateCopyrighted' in the "http://purl.org/dc/terms/" name space.
-     *
+     * Get a list of resource properties known as 'dateCopyrighted' in the "http://purl.org/dc/terms/"
+     * name space.
+     * 
      * @see <a
      *      href="http://dublincore.org/documents/dcmi-terms/#terms-dateCopyrighted">dcmi-terms/#terms-dateCopyrighted</a>
      * @return a list of resource properties
@@ -410,8 +432,9 @@ public class EmdDate extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'dateCopyrighted' in the "http://purl.org/dc/terms/" name space.
-     *
+     * Set a list of resource properties known as 'dateCopyrighted' in the "http://purl.org/dc/terms/"
+     * name space.
+     * 
      * @see <a
      *      href="http://dublincore.org/documents/dcmi-terms/#terms-dateCopyrighted">dcmi-terms/#terms-dateCopyrighted</a>
      * @param termsDateCopyrighted
@@ -423,9 +446,11 @@ public class EmdDate extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'dateSubmitted' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-dateSubmitted">dcmi-terms/#terms-dateSubmitted</a>
+     * Get a list of resource properties known as 'dateSubmitted' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-dateSubmitted">dcmi-terms/#terms-dateSubmitted</a>
      * @return a list of resource properties
      */
     public List<BasicDate> getTermsDateSubmitted()
@@ -438,9 +463,11 @@ public class EmdDate extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'dateSubmitted' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-dateSubmitted">dcmi-terms/#terms-dateSubmitted</a>
+     * Set a list of resource properties known as 'dateSubmitted' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-dateSubmitted">dcmi-terms/#terms-dateSubmitted</a>
      * @param termsDateSubmitted
      *        a list of resource properties
      */
@@ -450,8 +477,9 @@ public class EmdDate extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'date' in the "http://purl.org/dc/elements/1.1/" name space.
-     *
+     * Get a list of resource properties known as 'date' in the "http://purl.org/dc/elements/1.1/" name
+     * space.
+     * 
      * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-date">dcmi-terms/#terms-date</a>
      * @return a list of resource properties
      */
@@ -465,8 +493,9 @@ public class EmdDate extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'date' in the "http://purl.org/dc/elements/1.1/" name space.
-     *
+     * Set a list of resource properties known as 'date' in the "http://purl.org/dc/elements/1.1/" name
+     * space.
+     * 
      * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-date">dcmi-terms/#terms-date</a>
      * @param easDate
      *        a list of resource properties
@@ -477,9 +506,11 @@ public class EmdDate extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'created' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-created">dcmi-terms/#terms-created</a>
+     * Get a list of resource properties known as 'created' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-created">dcmi-terms/#terms-created</a>
      * @return a list of resource properties
      */
     public List<IsoDate> getEasCreated()
@@ -492,9 +523,11 @@ public class EmdDate extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'created' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-created">dcmi-terms/#terms-created</a>
+     * Set a list of resource properties known as 'created' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-created">dcmi-terms/#terms-created</a>
      * @param easCreated
      *        a list of resource properties
      */
@@ -505,7 +538,7 @@ public class EmdDate extends AbstractEmdContainer
 
     /**
      * Get a list of resource properties known as 'valid' in the "http://purl.org/dc/terms/" name space.
-     *
+     * 
      * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-valid">dcmi-terms/#terms-valid</a>
      * @return a list of resource properties
      */
@@ -520,7 +553,7 @@ public class EmdDate extends AbstractEmdContainer
 
     /**
      * Set a list of resource properties known as 'valid' in the "http://purl.org/dc/terms/" name space.
-     *
+     * 
      * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-valid">dcmi-terms/#terms-valid</a>
      * @param easValid
      *        a list of resource properties
@@ -531,9 +564,11 @@ public class EmdDate extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'available' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-available">dcmi-terms/#terms-available</a>
+     * Get a list of resource properties known as 'available' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-available">dcmi-terms/#terms-available</a>
      * @return a list of resource properties
      */
     public List<IsoDate> getEasAvailable()
@@ -546,9 +581,11 @@ public class EmdDate extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'available' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-available">dcmi-terms/#terms-available</a>
+     * Set a list of resource properties known as 'available' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-available">dcmi-terms/#terms-available</a>
      * @param easAvailable
      *        a list of resource properties
      */
@@ -559,8 +596,9 @@ public class EmdDate extends AbstractEmdContainer
 
     /**
      * Get a list of resource properties known as 'issued' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-issued">dcmi-terms/#terms-issued</a>
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-issued">dcmi-terms/#terms-issued</a>
      * @return a list of resource properties
      */
     public List<IsoDate> getEasIssued()
@@ -574,8 +612,9 @@ public class EmdDate extends AbstractEmdContainer
 
     /**
      * Set a list of resource properties known as 'issued' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-issued">dcmi-terms/#terms-issued</a>
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-issued">dcmi-terms/#terms-issued</a>
      * @param easIssued
      *        a list of resource properties
      */
@@ -585,9 +624,11 @@ public class EmdDate extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'modified' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-modified">dcmi-terms/#terms-modified</a>
+     * Get a list of resource properties known as 'modified' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-modified">dcmi-terms/#terms-modified</a>
      * @return a list of resource properties
      */
     public List<IsoDate> getEasModified()
@@ -600,9 +641,11 @@ public class EmdDate extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'modified' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-modified">dcmi-terms/#terms-modified</a>
+     * Set a list of resource properties known as 'modified' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-modified">dcmi-terms/#terms-modified</a>
      * @param easModified
      *        a list of resource properties
      */
@@ -612,9 +655,11 @@ public class EmdDate extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'dateAccepted' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-dateAccepted">dcmi-terms/#terms-dateAccepted</a>
+     * Get a list of resource properties known as 'dateAccepted' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-dateAccepted">dcmi-terms/#terms-dateAccepted</a>
      * @return a list of resource properties
      */
     public List<IsoDate> getEasDateAccepted()
@@ -627,9 +672,11 @@ public class EmdDate extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'dateAccepted' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-dateAccepted">dcmi-terms/#terms-dateAccepted</a>
+     * Set a list of resource properties known as 'dateAccepted' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-dateAccepted">dcmi-terms/#terms-dateAccepted</a>
      * @param easDateAccepted
      *        a list of resource properties
      */
@@ -639,8 +686,9 @@ public class EmdDate extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'dateCopyrighted' in the "http://purl.org/dc/terms/" name space.
-     *
+     * Get a list of resource properties known as 'dateCopyrighted' in the "http://purl.org/dc/terms/"
+     * name space.
+     * 
      * @see <a
      *      href="http://dublincore.org/documents/dcmi-terms/#terms-dateCopyrighted">dcmi-terms/#terms-dateCopyrighted</a>
      * @return a list of resource properties
@@ -655,8 +703,9 @@ public class EmdDate extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'dateCopyrighted' in the "http://purl.org/dc/terms/" name space.
-     *
+     * Set a list of resource properties known as 'dateCopyrighted' in the "http://purl.org/dc/terms/"
+     * name space.
+     * 
      * @see <a
      *      href="http://dublincore.org/documents/dcmi-terms/#terms-dateCopyrighted">dcmi-terms/#terms-dateCopyrighted</a>
      * @param easDateCopyrighted
@@ -668,9 +717,11 @@ public class EmdDate extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'dateSubmitted' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-dateSubmitted">dcmi-terms/#terms-dateSubmitted</a>
+     * Get a list of resource properties known as 'dateSubmitted' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-dateSubmitted">dcmi-terms/#terms-dateSubmitted</a>
      * @return a list of resource properties
      */
     public List<IsoDate> getEasDateSubmitted()
@@ -683,9 +734,11 @@ public class EmdDate extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'dateSubmitted' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-dateSubmitted">dcmi-terms/#terms-dateSubmitted</a>
+     * Set a list of resource properties known as 'dateSubmitted' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-dateSubmitted">dcmi-terms/#terms-dateSubmitted</a>
      * @param easDateSubmitted
      *        a list of resource properties
      */

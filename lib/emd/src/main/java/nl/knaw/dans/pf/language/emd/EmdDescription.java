@@ -8,8 +8,9 @@ import nl.knaw.dans.pf.language.emd.types.BasicString;
 
 /**
  * Container for resource properties of category description.
- *
- * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-description">dcmi-terms/#terms-description</a>
+ * 
+ * @see <a
+ *      href="http://dublincore.org/documents/dcmi-terms/#terms-description">dcmi-terms/#terms-description</a>
  * @author ecco
  */
 public class EmdDescription extends AbstractEmdContainer
@@ -42,9 +43,11 @@ public class EmdDescription extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'description' in the "http://purl.org/dc/elements/1.1/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-description">dcmi-terms/#terms-description</a>
+     * Get a list of resource properties known as 'description' in the "http://purl.org/dc/elements/1.1/"
+     * name space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-description">dcmi-terms/#terms-description</a>
      * @return a list of resource properties
      */
     public List<BasicString> getDcDescription()
@@ -53,9 +56,11 @@ public class EmdDescription extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'description' in the "http://purl.org/dc/elements/1.1/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-description">dcmi-terms/#terms-description</a>
+     * Set a list of resource properties known as 'description' in the "http://purl.org/dc/elements/1.1/"
+     * name space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-description">dcmi-terms/#terms-description</a>
      * @param dcDescription
      *        a list of resource properties
      */
@@ -65,8 +70,9 @@ public class EmdDescription extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'tableOfContents' in the "http://purl.org/dc/terms/" name space.
-     *
+     * Get a list of resource properties known as 'tableOfContents' in the "http://purl.org/dc/terms/"
+     * name space.
+     * 
      * @see <a
      *      href="http://dublincore.org/documents/dcmi-terms/#terms-tableOfContents">dcmi-terms/#terms-tableOfContents</a>
      * @return a list of resource properties
@@ -77,8 +83,9 @@ public class EmdDescription extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'tableOfContents' in the "http://purl.org/dc/terms/" name space.
-     *
+     * Set a list of resource properties known as 'tableOfContents' in the "http://purl.org/dc/terms/"
+     * name space.
+     * 
      * @see <a
      *      href="http://dublincore.org/documents/dcmi-terms/#terms-tableOfContents">dcmi-terms/#terms-tableOfContents</a>
      * @param termsTableOfContents
@@ -90,9 +97,11 @@ public class EmdDescription extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'abstract' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-abstract">dcmi-terms/#terms-abstract</a>
+     * Get a list of resource properties known as 'abstract' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-abstract">dcmi-terms/#terms-abstract</a>
      * @return a list of resource properties
      */
     public List<BasicString> getTermsAbstract()
@@ -101,9 +110,11 @@ public class EmdDescription extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'abstract' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-abstract">dcmi-terms/#terms-abstract</a>
+     * Set a list of resource properties known as 'abstract' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-abstract">dcmi-terms/#terms-abstract</a>
      * @param termsAbstract
      *        a list of resource properties
      */

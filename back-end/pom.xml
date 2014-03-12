@@ -6,7 +6,7 @@
 		<groupId>nl.knaw.dans.easy</groupId>
 		<artifactId>easy-prototype</artifactId>
 		<version>2.9-SNAPSHOT</version>
-		<relativePath>../../lib/easy-prototype</relativePath>
+		<relativePath>../lib/easy-prototype</relativePath>
 	</parent>
 	<artifactId>easy-backend</artifactId>
 	<name>EASY Back-end Set-up Files</name>

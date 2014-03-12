@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * Expresses a spatial coverage.
- *
+ * 
  * @author ecco
  */
 public class Spatial implements MetadataItem
@@ -31,7 +31,7 @@ public class Spatial implements MetadataItem
 
     /**
      * Constructor with a spatial point.
-     *
+     * 
      * @param place
      *        name of a place
      * @param point
@@ -46,7 +46,7 @@ public class Spatial implements MetadataItem
 
     /**
      * Constructor with a spatial box.
-     *
+     * 
      * @param place
      *        name of a place
      * @param box
@@ -61,7 +61,7 @@ public class Spatial implements MetadataItem
 
     /**
      * Get the geographical name.
-     *
+     * 
      * @return the geographical name
      */
     public BasicString getPlace()
@@ -71,7 +71,7 @@ public class Spatial implements MetadataItem
 
     /**
      * Set the geographical name.
-     *
+     * 
      * @param place
      *        the geographical name
      */
@@ -82,7 +82,7 @@ public class Spatial implements MetadataItem
 
     /**
      * Get the geographical coordinates, if set.
-     *
+     * 
      * @return geographical coordinates
      */
     public Point getPoint()
@@ -92,7 +92,7 @@ public class Spatial implements MetadataItem
 
     /**
      * Set the spatial point. A spatial expresses either a point or a box.
-     *
+     * 
      * @param point
      *        the spatial point
      * @throws IllegalStateException
@@ -112,7 +112,7 @@ public class Spatial implements MetadataItem
 
     /**
      * Get the spatial box, if set.
-     *
+     * 
      * @return the spatial box
      */
     public Box getBox()
@@ -122,7 +122,7 @@ public class Spatial implements MetadataItem
 
     /**
      * Set the spatial box. A spatial expresses either a point or a box.
-     *
+     * 
      * @param box
      *        the spatial box
      * @throws IllegalStateException
@@ -160,7 +160,7 @@ public class Spatial implements MetadataItem
 
     /**
      * Get a string-representation of this Spatial.
-     *
+     * 
      * @return a string-representation
      */
     @Override
@@ -198,7 +198,7 @@ public class Spatial implements MetadataItem
 
     /**
      * Super class for Box and Point, both having a scheme attribute.
-     *
+     * 
      * @author ecco
      */
     public static class Locator implements Serializable
@@ -223,7 +223,7 @@ public class Spatial implements MetadataItem
 
         /**
          * Constructor.
-         *
+         * 
          * @param scheme
          *        scheme for coordinates
          */
@@ -235,7 +235,7 @@ public class Spatial implements MetadataItem
 
         /**
          * Get the scheme.
-         *
+         * 
          * @return scheme for coordinates
          */
         public String getScheme()
@@ -245,7 +245,7 @@ public class Spatial implements MetadataItem
 
         /**
          * Set the scheme.
-         *
+         * 
          * @param scheme
          *        scheme for coordinates
          */
@@ -266,7 +266,7 @@ public class Spatial implements MetadataItem
 
         /**
          * Get a string-representation.
-         *
+         * 
          * @return a string-representation
          */
         public String toString()
@@ -278,7 +278,7 @@ public class Spatial implements MetadataItem
 
     /**
      * A geographical point described in coordinates of a certain scheme.
-     *
+     * 
      * @author ecco
      */
     public static class Point extends Locator
@@ -300,7 +300,7 @@ public class Spatial implements MetadataItem
 
         /**
          * Constructor.
-         *
+         * 
          * @param scheme
          *        scheme for coordinates
          * @param x
@@ -317,7 +317,7 @@ public class Spatial implements MetadataItem
 
         /**
          * Get x coordinate.
-         *
+         * 
          * @return x coordinate
          */
         public String getX()
@@ -327,7 +327,7 @@ public class Spatial implements MetadataItem
 
         /**
          * Set x coordinate.
-         *
+         * 
          * @param x
          *        x coordinate
          */
@@ -338,7 +338,7 @@ public class Spatial implements MetadataItem
 
         /**
          * Get y coordinate.
-         *
+         * 
          * @return y coordinate
          */
         public String getY()
@@ -348,7 +348,7 @@ public class Spatial implements MetadataItem
 
         /**
          * Set y coordinate.
-         *
+         * 
          * @param y
          *        y coordinate
          */
@@ -359,7 +359,7 @@ public class Spatial implements MetadataItem
 
         /**
          * Get a string-representation.
-         *
+         * 
          * @return a string-representation
          */
         public String toString()
@@ -376,7 +376,7 @@ public class Spatial implements MetadataItem
 
     /**
      * A geographical space described with north, east, south and west limits of a certain scheme.
-     *
+     * 
      * @author ecco
      */
     public static class Box extends Locator
@@ -402,7 +402,7 @@ public class Spatial implements MetadataItem
 
         /**
          * Constructor.
-         *
+         * 
          * @param scheme
          *        scheme for limits.
          * @param north
@@ -425,7 +425,7 @@ public class Spatial implements MetadataItem
 
         /**
          * Get north limit.
-         *
+         * 
          * @return north limit
          */
         public String getNorth()
@@ -435,7 +435,7 @@ public class Spatial implements MetadataItem
 
         /**
          * Set north limit.
-         *
+         * 
          * @param north
          *        north limit
          */
@@ -446,7 +446,7 @@ public class Spatial implements MetadataItem
 
         /**
          * Get east limit.
-         *
+         * 
          * @return east limit
          */
         public String getEast()
@@ -456,7 +456,7 @@ public class Spatial implements MetadataItem
 
         /**
          * Set east limit.
-         *
+         * 
          * @param east
          *        east limit
          */
@@ -467,7 +467,7 @@ public class Spatial implements MetadataItem
 
         /**
          * Get south limit.
-         *
+         * 
          * @return south limit
          */
         public String getSouth()
@@ -477,7 +477,7 @@ public class Spatial implements MetadataItem
 
         /**
          * Set south limit.
-         *
+         * 
          * @param south
          *        south limit
          */
@@ -488,7 +488,7 @@ public class Spatial implements MetadataItem
 
         /**
          * Get west limit.
-         *
+         * 
          * @return west limit
          */
         public String getWest()
@@ -498,7 +498,7 @@ public class Spatial implements MetadataItem
 
         /**
          * Set west limit.
-         *
+         * 
          * @param west
          *        west limit
          */
@@ -509,7 +509,7 @@ public class Spatial implements MetadataItem
 
         /**
          * Get a string-representation.
-         *
+         * 
          * @return a string-representation
          */
         public String toString()

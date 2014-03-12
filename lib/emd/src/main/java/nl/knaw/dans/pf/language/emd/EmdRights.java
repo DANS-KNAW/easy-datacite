@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Container for resource properties of category rights.
- *
+ * 
  * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-rights">dcmi-terms/#terms-rights</a>
  * @author ecco
  */
@@ -38,8 +38,8 @@ public class EmdRights extends AbstractEmdContainer
     // used for migration corrections
     public static final String SCHEME_LICENSE_ACCEPT_E1V1 = "Easy version 1";
 
-    //TODO: JUnit Test, if this key exist in accessrights.xml
-    //public static final String OTHER_ACCESS_KEY = "ar_noAccess";
+    // TODO: JUnit Test, if this key exist in accessrights.xml
+    // public static final String OTHER_ACCESS_KEY = "ar_noAccess";
 
     /**
      *
@@ -74,9 +74,11 @@ public class EmdRights extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'rights' in the "http://purl.org/dc/elements/1.1/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-rights">dcmi-terms/#terms-rights</a>
+     * Get a list of resource properties known as 'rights' in the "http://purl.org/dc/elements/1.1/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-rights">dcmi-terms/#terms-rights</a>
      * @return a list of resource properties
      */
     public List<BasicString> getDcRights()
@@ -85,9 +87,11 @@ public class EmdRights extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'rights' in the "http://purl.org/dc/elements/1.1/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-rights">dcmi-terms/#terms-rights</a>
+     * Set a list of resource properties known as 'rights' in the "http://purl.org/dc/elements/1.1/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-rights">dcmi-terms/#terms-rights</a>
      * @param dcRights
      *        a list of resource properties
      */
@@ -97,9 +101,11 @@ public class EmdRights extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'accessRights' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-accessRights">dcmi-terms/#terms-accessRights</a>
+     * Get a list of resource properties known as 'accessRights' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-accessRights">dcmi-terms/#terms-accessRights</a>
      * @return a list of resource properties
      */
     public List<BasicString> getTermsAccessRights()
@@ -108,9 +114,11 @@ public class EmdRights extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'accessRights' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-accessRights">dcmi-terms/#terms-accessRights</a>
+     * Set a list of resource properties known as 'accessRights' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-accessRights">dcmi-terms/#terms-accessRights</a>
      * @param termsAccessRights
      *        a list of resource properties
      */
@@ -120,9 +128,11 @@ public class EmdRights extends AbstractEmdContainer
     }
 
     /**
-     * Get a list of resource properties known as 'license' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-license">dcmi-terms/#terms-license</a>
+     * Get a list of resource properties known as 'license' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-license">dcmi-terms/#terms-license</a>
      * @return a list of resource properties
      */
     public List<BasicString> getTermsLicense()
@@ -135,9 +145,11 @@ public class EmdRights extends AbstractEmdContainer
     }
 
     /**
-     * Set a list of resource properties known as 'license' in the "http://purl.org/dc/terms/" name space.
-     *
-     * @see <a href="http://dublincore.org/documents/dcmi-terms/#terms-license">dcmi-terms/#terms-license</a>
+     * Set a list of resource properties known as 'license' in the "http://purl.org/dc/terms/" name
+     * space.
+     * 
+     * @see <a
+     *      href="http://dublincore.org/documents/dcmi-terms/#terms-license">dcmi-terms/#terms-license</a>
      * @param termsLicense
      *        a list of resource properties
      */
@@ -146,7 +158,7 @@ public class EmdRights extends AbstractEmdContainer
         this.termsLicense = termsLicense;
     }
 
-    // not very strong. 
+    // not very strong.
     // migrated datasets have the form
     // <dcterms:license eas:scheme="EASY version 1">accept</dcterms:license>
     // newly created ones have the form

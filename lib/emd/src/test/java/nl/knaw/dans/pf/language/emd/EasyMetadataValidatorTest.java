@@ -16,6 +16,7 @@ import nl.knaw.dans.pf.language.xml.validation.XMLErrorHandler;
 import org.junit.Assert;
 import org.junit.Test;
 import org.xml.sax.SAXException;
+
 // ecco: CHECKSTYLE: OFF
 
 public class EasyMetadataValidatorTest
@@ -87,8 +88,8 @@ public class EasyMetadataValidatorTest
         String xmlString = "<emd:easymetadata xmlns:emd=\"http://easy.dans.knaw.nl/easy/easymetadata/\"/>";
         XMLErrorHandler result = EMDValidator.instance().validate(xmlString, EMDValidator.VERSION_0_1);
         Assert.assertFalse(result.passed());
-        //        Assert.assertEquals("cvc-complex-type.4: Attribute 'version' must appear on element 'emd:easymetadata'.",
-        //                result.getErrors().get(0).getMessage());
+        // Assert.assertEquals("cvc-complex-type.4: Attribute 'version' must appear on element 'emd:easymetadata'.",
+        // result.getErrors().get(0).getMessage());
 
         xmlString = "<emd:easymetadata xmlns:emd=\"http://easy.dans.knaw.nl/easy/easymetadata/\" emd:version=\"0.1\"/>";
         result = EMDValidator.instance().validate(xmlString, EMDValidator.VERSION_0_1);

@@ -7,7 +7,7 @@ import org.joda.time.format.DateTimeFormat;
 
 /**
  * Wrapper for a {@link DateTime}.
- *
+ * 
  * @author ecco
  */
 public class IsoDate extends SimpleElementImpl<DateTime>
@@ -15,7 +15,7 @@ public class IsoDate extends SimpleElementImpl<DateTime>
 
     /**
      * The format to represent the wrapped DateTime as a string.
-     *
+     * 
      * @author ecco
      */
     public enum Format
@@ -59,7 +59,7 @@ public class IsoDate extends SimpleElementImpl<DateTime>
 
         /**
          * Constructor.
-         *
+         * 
          * @param pattern
          *        the pattern of this format
          */
@@ -85,12 +85,13 @@ public class IsoDate extends SimpleElementImpl<DateTime>
 
     /**
      * Creates a {@link DateTime} from a string.
-     *
+     * 
      * @param iso8601String
      *        string to create a date from
      * @return a new DateTime instance
      * @throws InvalidDateStringException
-     *         if the given string, stripped of leading and trailing whitespace, was not in compliance with ISO8601
+     *         if the given string, stripped of leading and trailing whitespace, was not in compliance
+     *         with ISO8601
      */
     public static synchronized DateTime convert(final String iso8601String) throws InvalidDateStringException
     {
@@ -111,11 +112,11 @@ public class IsoDate extends SimpleElementImpl<DateTime>
 
     /**
      * Poor man's implementation to get the format of a given date string in ISO8601 notation.
-     *
+     * 
      * @param dateString
      *        the string to determine the format of.
-     * @return YEAR, MONTH, or DAY format for strings with lengths corresponding to said format's patterns, MILLISECCOND
-     *         format for all other strings
+     * @return YEAR, MONTH, or DAY format for strings with lengths corresponding to said format's
+     *         patterns, MILLISECCOND format for all other strings
      */
     private static synchronized Format forString(final String dateString)
     {
@@ -147,7 +148,8 @@ public class IsoDate extends SimpleElementImpl<DateTime>
     }
 
     /**
-     * Constructs a new ISODate with it's inner field <code>value</code> set to the current date and time.
+     * Constructs a new ISODate with it's inner field <code>value</code> set to the current date and
+     * time.
      */
     public IsoDate()
     {
@@ -157,7 +159,7 @@ public class IsoDate extends SimpleElementImpl<DateTime>
 
     /**
      * Constructs a new ISODate with it's inner field <code>value</code> set to the given object.
-     *
+     * 
      * @param dateTime
      *        a DateTime
      */
@@ -167,13 +169,14 @@ public class IsoDate extends SimpleElementImpl<DateTime>
     }
 
     /**
-     * Constructs a new ISODate with it's inner field <code>value</code> set to an instance of DateTime constructed
-     * with the given string.
-     *
+     * Constructs a new ISODate with it's inner field <code>value</code> set to an instance of DateTime
+     * constructed with the given string.
+     * 
      * @param iso8601String
      *        string to create the date from
      * @throws InvalidDateStringException
-     *         if the given string, stripped of leading and trailing whitespace, was not in compliance with ISO8601
+     *         if the given string, stripped of leading and trailing whitespace, was not in compliance
+     *         with ISO8601
      */
     public IsoDate(final String iso8601String) throws InvalidDateStringException
     {
@@ -182,12 +185,14 @@ public class IsoDate extends SimpleElementImpl<DateTime>
     }
 
     /**
-     * Set inner field <code>value</code> set to an instance of DateTime constructed with the given string.
-     *
+     * Set inner field <code>value</code> set to an instance of DateTime constructed with the given
+     * string.
+     * 
      * @param iso8601String
      *        string to create the date from
      * @throws InvalidDateStringException
-     *         if the given string, stripped of leading and trailing whitespace, was not in compliance with ISO8601
+     *         if the given string, stripped of leading and trailing whitespace, was not in compliance
+     *         with ISO8601
      */
     public void setValueAsString(final String iso8601String) throws InvalidDateStringException
     {
@@ -197,7 +202,7 @@ public class IsoDate extends SimpleElementImpl<DateTime>
 
     /**
      * Returns a string representation of the inner field <code>value</code> in this ISODate's format.
-     *
+     * 
      * @return a string representation of the inner field <code>value</code> in this ISODate's format
      */
     public String toString()
@@ -208,14 +213,16 @@ public class IsoDate extends SimpleElementImpl<DateTime>
         }
         else
         {
-            return value.toString(DateTimeFormat.forPattern(format.pattern));//.withZone(Converter.EASY_TIME_ZONE));
+            return value.toString(DateTimeFormat.forPattern(format.pattern));// .withZone(Converter.EASY_TIME_ZONE));
         }
     }
 
     /**
-     * Returns a string representation of the inner field <code>value</code> in {@link Format#MILLISECOND}.
-     *
-     * @return a string representation of the inner field <code>value</code> in {@link Format#MILLISECOND}
+     * Returns a string representation of the inner field <code>value</code> in
+     * {@link Format#MILLISECOND}.
+     * 
+     * @return a string representation of the inner field <code>value</code> in
+     *         {@link Format#MILLISECOND}
      */
     public String getValueAsString()
     {
@@ -231,7 +238,7 @@ public class IsoDate extends SimpleElementImpl<DateTime>
 
     /**
      * Get the pattern of this ISODate's format.
-     *
+     * 
      * @return the pattern of the format
      */
     public String getPattern()
@@ -241,7 +248,7 @@ public class IsoDate extends SimpleElementImpl<DateTime>
 
     /**
      * Get the format of this ISODate.
-     *
+     * 
      * @return the format of this ISODate
      */
     public Format getFormat()
@@ -251,7 +258,7 @@ public class IsoDate extends SimpleElementImpl<DateTime>
 
     /**
      * Set the format of this ISODate.
-     *
+     * 
      * @param format
      *        the format for this ISODate
      */
@@ -282,7 +289,7 @@ public class IsoDate extends SimpleElementImpl<DateTime>
 
     /**
      * Always returns {@link EmdConstants.DateScheme#W3CDTF}.
-     *
+     * 
      * @return {@link EmdConstants.DateScheme#W3CDTF}
      */
     public EmdConstants.DateScheme getScheme()

@@ -3,9 +3,9 @@ package nl.knaw.dans.pf.language.emd.types;
 import java.util.Locale;
 
 /**
- * A {@link BasicString} who's value is most likely an expression in a certain language from a person that is the author
- * of the remark.
- *
+ * A {@link BasicString} who's value is most likely an expression in a certain language from a person
+ * that is the author of the remark.
+ * 
  * @author ecco
  */
 public class BasicRemark extends BasicString
@@ -28,7 +28,7 @@ public class BasicRemark extends BasicString
 
     /**
      * Constructs a BasicRemark.
-     *
+     * 
      * @param value
      *        the value of this BasicRemark
      */
@@ -39,7 +39,7 @@ public class BasicRemark extends BasicString
 
     /**
      * Constructor.
-     *
+     * 
      * @param value
      *        the value of this BasicRemark
      * @param language
@@ -54,7 +54,7 @@ public class BasicRemark extends BasicString
 
     /**
      * Save constructor.
-     *
+     * 
      * @param value
      *        the value of this BasicRemark
      * @param locale
@@ -70,7 +70,7 @@ public class BasicRemark extends BasicString
 
     /**
      * Constructor.
-     *
+     * 
      * @param value
      *        the value of this BasicRemark
      * @param language
@@ -88,7 +88,7 @@ public class BasicRemark extends BasicString
 
     /**
      * Save constructor.
-     *
+     * 
      * @param value
      *        the value of this BasicString
      * @param locale
@@ -107,7 +107,7 @@ public class BasicRemark extends BasicString
 
     /**
      * Get the author.
-     *
+     * 
      * @return the author
      */
     public String getAuthor()
@@ -117,7 +117,7 @@ public class BasicRemark extends BasicString
 
     /**
      * Set the author.
-     *
+     * 
      * @param author
      *        the author
      */

@@ -15,7 +15,6 @@ import nl.knaw.dans.pf.language.emd.types.MetadataItem;
  * Meta data on collections in the Easy repository.
  * 
  * @author ecco
- *
  */
 public interface EasyMetadata extends TimestampedObject, EmdBean, Serializable
 {
@@ -47,23 +46,24 @@ public interface EasyMetadata extends TimestampedObject, EmdBean, Serializable
 
     /**
      * Gets a (unmodifiable) map that contains a list of {@link Term}s in EasyMetadata mapped to their
-     * {@link MDContainer}. The contents of the map may vary with the version of the underlying implementation.
+     * {@link MDContainer}. The contents of the map may vary with the version of the underlying
+     * implementation.
      * 
      * @return a mapping of terms to containers
      */
     Map<Term, MDContainer> getTermsMap();
 
     /**
-     * Get the (unmodifiable) set of {@link Term}s in EasyMetadata. The set of terms may vary with the version of the
-     * underlying implementation. Same as {@link #getTermsMap()}.keySet().
+     * Get the (unmodifiable) set of {@link Term}s in EasyMetadata. The set of terms may vary with the
+     * version of the underlying implementation. Same as {@link #getTermsMap()}.keySet().
      * 
      * @return the set of terms in use
      */
     Set<Term> getTerms();
 
     /**
-     * Is this EasyMetadata empty. This method complies to the general contract of {@link List#isEmpty()}, meaning that
-     * if there are any null-items contained in this EasyMetadata it is not empty.
+     * Is this EasyMetadata empty. This method complies to the general contract of {@link List#isEmpty()}
+     * , meaning that if there are any null-items contained in this EasyMetadata it is not empty.
      * 
      * @return <code>true</code> if it contains term-values, <code>false</code> otherwise
      */
@@ -81,9 +81,10 @@ public interface EasyMetadata extends TimestampedObject, EmdBean, Serializable
     Object visitChildren(boolean includeEmpty, EmdVisitor visitor);
 
     /**
-     * Get a string-representation of this EasyMetadata. Terms are separated with a {@link #DEFAULT_LINE_SEPERATOR}.
-     * Term-items are separated with the given <code>separator</code>. Each term is preceded by it's name and name
-     * space, also separated with the given <code>separator</code>.
+     * Get a string-representation of this EasyMetadata. Terms are separated with a
+     * {@link #DEFAULT_LINE_SEPERATOR}. Term-items are separated with the given <code>separator</code>.
+     * Each term is preceded by it's name and name space, also separated with the given
+     * <code>separator</code>.
      * <p/>
      * Example (the separator was ';'):
      * 
@@ -146,15 +147,15 @@ public interface EasyMetadata extends TimestampedObject, EmdBean, Serializable
      * @param mdContainer
      *        the MDContainer wanted
      * @param returnNull
-     *        should we return null if the container wasn't instantiated (<code>true</code>), or never return null (
-     *        <code>false</code>)
+     *        should we return null if the container wasn't instantiated (<code>true</code>), or never
+     *        return null ( <code>false</code>)
      * @return EmdContainer corresponding to the given mdField, or <code>null</code>
      */
     EmdContainer getContainer(MDContainer mdContainer, boolean returnNull);
 
     /**
-     * Get the list of items for the given term. This method will create the container for the term -if it didn't exist-
-     * and return the list of items for the given term.
+     * Get the list of items for the given term. This method will create the container for the term -if
+     * it didn't exist- and return the list of items for the given term.
      * 
      * @param term
      *        the term wanted
