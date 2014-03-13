@@ -16,7 +16,10 @@ public class EasSpatialHandler extends CrosswalkHandler<EasyMetadata>
     private String description = null;
     private Point lower, upper, pos;
 
-    /** Proper processing requires pushing/popping and inheriting the attribute, so we skip for the current implementation */
+    /**
+     * Proper processing requires pushing/popping and inheriting the attribute, so we skip for the
+     * current implementation
+     */
     private boolean foundSRS = false;
 
     @Override

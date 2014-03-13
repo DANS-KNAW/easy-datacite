@@ -90,8 +90,8 @@ public class Crosswalker<T>
 
     /**
      * The handler of notifications. Initially the log level is off. The level can be changed with
-     * <code>setReporter(Reporter)</code>. The handler collects notifications of subsequent
-     * calls to the walk methods unless reset is called in between.
+     * <code>setReporter(Reporter)</code>. The handler collects notifications of subsequent calls to the
+     * walk methods unless reset is called in between.
      * 
      * @return The handler of notifications.
      */

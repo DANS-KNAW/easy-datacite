@@ -128,9 +128,8 @@
 			<artifactId>jetty-plus</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>nl.knaw.dans.platform.language</groupId>
+			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>pakbon</artifactId>
-			<version>1.0-beta-6</version>
 		</dependency>
 	</dependencies>
 	<build>

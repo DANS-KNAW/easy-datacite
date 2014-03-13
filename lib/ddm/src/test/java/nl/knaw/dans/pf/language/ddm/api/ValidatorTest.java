@@ -17,9 +17,9 @@ public class ValidatorTest
     @Test
     public void testValidation() throws Exception
     {
-        //        XMLErrorHandler handler = DDMValidator.instance().validate(
-        //                new File("src/test/resources/input/spatial.xml"), "bla");
-        //        System.err.println(handler.getMessages());
+        // XMLErrorHandler handler = DDMValidator.instance().validate(
+        // new File("src/test/resources/input/spatial.xml"), "bla");
+        // System.err.println(handler.getMessages());
         // Stupid Xerces is not loading all the schemas. Not same but related to
         // https://issues.apache.org/jira/browse/XERCESJ-1130
 
