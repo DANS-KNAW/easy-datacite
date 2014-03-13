@@ -53,7 +53,10 @@ public class ActivityLogFixture
         datasetService = PowerMock.createMock(DatasetService.class);
         userService = PowerMock.createMock(UserService.class);
 
-        applicationContext = new EasyApplicationContextMock(false);
+        applicationContext = new EasyApplicationContextMock();
+        applicationContext.expectStandardSecurity(false);
+        applicationContext.expectDefaultResources();
+
         applicationContext.putBean("datasetService", datasetService);
         applicationContext.putBean("userService", userService);
     }

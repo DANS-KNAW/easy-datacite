@@ -17,21 +17,32 @@ import org.apache.wicket.protocol.http.HttpSessionStore;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.session.ISessionStore;
 import org.apache.wicket.util.tester.WicketTester;
+import org.apache.wicket.util.tester.ITestPageSource;
 
 /**
- * A helper class to ease unit testing of the easy webui application. The tests in the packages
- * nl.dans.easy.web.authn.* may serve as the initial working examples. A common pattern (see also
- * {@link WicketTester}):
+ * One of the two helper classes to ease unit testing of the easy webui application, see also
+ * {@link EasyApplicationContextMock}.<br>
+ * <br>
+ * Pages may call setResponsePage or throw a {@link AbstractRestartResponseException}. The expected
+ * rendered page would be another than the started page. In those cases you can't assert the rendered
+ * page when the page was started with {@link #startPage(ITestPageSource)}. Consider to create a subclass
+ * of the page under test to invoke the desired constructor.<br>
+ * <br>
+ * Below a common pattern, the tests in the packages nl.dans.easy.web.authn.* may serve as the first
+ * working examples. The method tester.debugComponentTrees() shows the paths and contents of the fields
+ * on the rendered page, a very handy resource to set up your expectations.
  * 
  * <pre>
  * // preparation
  * EasyUser user = new EasyUserImpl(&quot;sessionUserId&quot;);
- * EasyApplicationContextMock contectMock = new EasyApplicationContextMock(false);
- * contectMock.expectNoDepositsBy(user);
- * contectMock.expectAuthenticatedAs(user);
+ * EasyApplicationContextMock contextMock = new EasyApplicationContextMock();
+ * contextMock.expectStandardSecurity(false);
+ * contextMock.expectDefaultResources();
+ * contextMock.expectNoDepositsBy(user);
+ * contextMock.expectAuthenticatedAs(user);
  * 
  * // execution
- * tester = EasyWicketTester.create(contectMock);
+ * tester = EasyWicketTester.create(contextMock);
  * Powermock.replayAll();
  * tester.startPage(RegistrationPage.class);
  * 
@@ -40,32 +51,12 @@ import org.apache.wicket.util.tester.WicketTester;
  * tester.assertRenderedPage(RegistrationPage.class);
  * tester.assertLabel(&quot;registrationForm:editablePanel:form:content:text&quot;, &quot;In order to be registered, ...&quot;);
  * 
- * // further execution (af course to be followed by further verifications)
+ * // further execution (of course to be followed by further verifications)
  * tester.clickLink(&quot;registrationForm:editablePanel:form:cancelLink&quot;);
  * 
  * // cleanup
  * PowerMock.resetAll();
  * </pre>
- * 
- * The method tester.debugComponentTrees() shows the paths and contents of the fields on the page, a very
- * handy resource to set up your expectations. <br>
- * <br>
- * The expectXxx methods and the non-default constructors of {@link EasyApplicationContextMock} add
- * mocked beans that are commonly required for most pages, think of the tool bars. You can extend the
- * expectations for these beans or put alternative and/or additional mocked beans. The provided mocking
- * assumes the use of annotated SpringBean injection. You may have to replace the deprecated use of
- * Services.getXyZ() in the page under test and its components by:
- * 
- * <pre>
- * &#064;SpringBean(name = &quot;xyZ&quot;)
- * private XyZ xyZ;
- * </pre>
- * 
- * Pages may call setResponsePage or throw a {@link AbstractRestartResponseException}. The expected
- * rendered page would be another than the started page. In those cases you can't assert the rendered
- * page when the page was started with
- * {@link EasyWicketTester#startPage(org.apache.wicket.util.tester.ITestPageSource)}. Consider to create
- * a subclass of the page under test to invoke the desired constructor.
  */
 public class EasyWicketTester extends WicketTester
 {
@@ -78,7 +69,7 @@ public class EasyWicketTester extends WicketTester
      * Creates a WicketTester that does not flood target/work with files, collects rendered pages at
      * target/pageDumps and gives a few clearer messages in case of failed assertions. A user provided to
      * {@link EasyApplicationContextMock#expectAuthenticatedAs} is forwarded to
-     * {@link EasySession#setLoggedIn}.
+     * {@link EasySession#setLoggedIn}. A usage scenario is given at class level.
      * 
      * @param applicationContextMock
      *        mock for the file applicationContext.xml

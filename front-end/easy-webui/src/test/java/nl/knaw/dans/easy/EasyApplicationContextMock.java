@@ -6,6 +6,7 @@ import java.io.File;
 
 import nl.knaw.dans.common.lang.FileSystemHomeDirectory;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
+import nl.knaw.dans.easy.business.services.EasySearchService;
 import nl.knaw.dans.easy.domain.authn.Authentication;
 import nl.knaw.dans.easy.domain.authn.UsernamePasswordAuthentication;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
@@ -22,60 +23,66 @@ import org.powermock.api.easymock.PowerMock;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 /**
- * Mock of the file applicationContext.xml<br>
- * Convenience methods and constructors provide frequently required mocked or default beans.
+ * Mock of the file applicationContext.xml, one of the two helper classes that eases unit testing of the
+ * easy webui application. A sample calling sequence is shown by {@link EasyWicketTester}. <br>
+ * <br>
+ * The expectXxx methods add beans that are required for subclasses of {@link AbsractEasyNavPage}, think
+ * of the tool bars. The JavaDoc of each expect method tells which beans are set and which beans are
+ * mocked ones. You can extend the expectations for the mocked beans and/or provide alternative beans
+ * with the get/put-BeanName methods. Vice versa an expectXxx method extends the expectations of existing
+ * mocked beans.<br>
+ * <br>
+ * The provided beans assume the use of annotated SpringBean injection. In the page under test and its
+ * components you may have to replace the deprecated use of Services.getXyZ() by:
+ * 
+ * <pre>
+ * &#064;SpringBean(name = &quot;xyZ&quot;)
+ * private XyZ xyZ;
+ * </pre>
  */
 public class EasyApplicationContextMock extends ApplicationContextMock
 {
     private static final long serialVersionUID = 1L;
     private UsernamePasswordAuthentication authentication;
 
-    /** Creates an instance without any beans. */
-    public EasyApplicationContextMock()
-    {
-        super();
-    }
-
     /**
-     * Convenience constructor that provides default beans for authz, security and editableContentHome
-     * and a mocked bean for systemReadOnlyStatus. Whenever a test changes files in the
-     * {@link FileSystemHomeDirectory}, use {@link #EasyApplicationContextMock(boolean, String)}.
+     * Assigns default beans for authz, security and a mocked bean for systemReadOnlyStatus.
      * 
-     * @param ReadOnly
+     * @param readOnly
      *        true means the system is preparing for a controlled shutdown, repository updates are not
      *        allowed in this state.
+     * @throws IllegalStateException
+     *         if a real {@link SystemReadOnlyStatus} instance was assigned as bean
      */
-    public EasyApplicationContextMock(final boolean ReadOnly)
+    public void expectStandardSecurity(final boolean readOnly)
     {
-        super();
-        init(new File("src/main/assembly/dist/res/example/editable/"));
+        setAuthz(new CodedAuthz());
+        setSecurity(new Security(getAuthz()));
+        setMockedsetSystemReadOnlyStatus();
+        EasyMock.expect(getSystemReadOnlyStatus().getReadOnly()).andStubReturn(readOnly);
+        getAuthz().setSystemReadOnlyStatus(getSystemReadOnlyStatus());
     }
 
     /**
-     * Convenience constructor that provides default beans for authz, security and editableContentHome
-     * and a mocked bean for systemReadOnlyStatus.
+     * Provides default beans for editableContentHome and StaticContentBaseUrl. Whenever a test changes
+     * files in the {@link FileSystemHomeDirectory}, use {@link #expectDefaultResources(File)}.
+     */
+    public void expectDefaultResources()
+    {
+        setEditableContentHome(new FileSystemHomeDirectory(new File("src/main/assembly/dist/res/example/editable/")));
+        setStaticContentBaseUrl("http://mocked/base/url");
+    }
+
+    /**
+     * Provides default beans for editableContentHome and StaticContentBaseUrl.
      * 
-     * @param ReadOnly
-     *        true means the system is preparing for a controlled shutdown, repository updates are not
-     *        allowed in this state.
      * @param editableFiles
      *        typically a temporary partial copy of src/main/assembly/dist/res/example/editable/
      */
-    public EasyApplicationContextMock(final boolean ReadOnly, final File editableFiles)
+    public void expectDefaultResources(final File editableFiles)
     {
-        super();
-        init(editableFiles);
-    }
-
-    private void init(final File editableFiles)
-    {
-        setCodedAuthz(new CodedAuthz());
-        setSecurity(new Security(getCodedAuthz()));
         setEditableContentHome(new FileSystemHomeDirectory(editableFiles));
-        setSystemReadOnlyStatus(PowerMock.createMock(SystemReadOnlyStatus.class));
-        setStaticContentBaseUrl("http://example/base/url");
-        EasyMock.expect(getSystemReadOnlyStatus().getReadOnly()).andStubReturn(false);
-        getCodedAuthz().setSystemReadOnlyStatus(getSystemReadOnlyStatus());
+        setStaticContentBaseUrl("http://mocked/base/url");
     }
 
     /**
@@ -193,14 +200,26 @@ public class EasyApplicationContextMock extends ApplicationContextMock
         putBean("searchService", searchService);
     }
 
-    public CodedAuthz getCodedAuthz()
+    public CodedAuthz getAuthz()
     {
         return (CodedAuthz) getBean("authz");
     }
 
-    public void setCodedAuthz(final CodedAuthz codedAuthz)
+    public void setAuthz(final CodedAuthz codedAuthz)
     {
         putBean("authz", codedAuthz);
+    }
+
+    private void setMockedsetSystemReadOnlyStatus()
+    {
+        try
+        {
+            isMock(getSystemReadOnlyStatus());
+        }
+        catch (final NoSuchBeanDefinitionException e)
+        {
+            setSystemReadOnlyStatus(PowerMock.createMock(SystemReadOnlyStatus.class));
+        }
     }
 
     public SystemReadOnlyStatus getSystemReadOnlyStatus()

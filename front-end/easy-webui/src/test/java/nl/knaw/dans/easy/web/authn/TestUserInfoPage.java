@@ -57,7 +57,9 @@ public class TestUserInfoPage
         expect(userService.isUserWithStoredPassword(EasyMock.eq(shownUser))).andReturn(true).anyTimes();
         expect(userService.getUserById(EasyMock.isA(EasyUser.class), EasyMock.isA(String.class))).andReturn(shownUser).anyTimes();
 
-        applicationContext = new EasyApplicationContextMock(false);
+        applicationContext = new EasyApplicationContextMock();
+        applicationContext.expectStandardSecurity(false);
+        applicationContext.expectDefaultResources();
         applicationContext.putBean("depositService", mockDespositChoices());
         applicationContext.putBean("userService", userService);
     }

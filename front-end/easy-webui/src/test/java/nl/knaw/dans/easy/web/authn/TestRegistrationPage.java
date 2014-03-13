@@ -41,7 +41,10 @@ public class TestRegistrationPage
     {
 
         mockDepositService();
-        EasyApplicationContextMock ctx = new EasyApplicationContextMock(false);
+        EasyApplicationContextMock ctx = new EasyApplicationContextMock();
+        ctx.expectDefaultResources();
+        ctx.expectStandardSecurity(false);
+
         tester = EasyWicketTester.create(ctx);
     }
 
@@ -86,8 +89,10 @@ public class TestRegistrationPage
 
     private void assertDisciplineDropdownsFilledInCorrectly()
     {
+        @SuppressWarnings("unchecked")
         DropDownChoice<KeyValuePair> choice = (DropDownChoice<KeyValuePair>) tester.getComponentFromLastRenderedPage("registrationForm:discipline1");
         assertEquals(4, choice.getChoices().size());
+        @SuppressWarnings("unchecked")
         List<KeyValuePair> choices = (List<KeyValuePair>) choice.getChoices();
         assertEquals("easy-disciplines:1", choices.get(0).getKey());
         assertEquals("easy-disciplines:2", choices.get(1).getKey());

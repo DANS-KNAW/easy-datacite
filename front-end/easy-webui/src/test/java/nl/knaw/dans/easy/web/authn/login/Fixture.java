@@ -32,7 +32,9 @@ public class Fixture
         authentication = new UsernamePasswordAuthentication();
         EasyMock.expect(userService.newUsernamePasswordAuthentication()).andStubReturn(authentication);
 
-        applicationContext = new EasyApplicationContextMock(false);
+        applicationContext = new EasyApplicationContextMock();
+        applicationContext.expectStandardSecurity(false);
+        applicationContext.expectDefaultResources();
         applicationContext.putBean("userService", userService);
         applicationContext.putBean("federationLoginDebugEnabled", false);
         applicationContext.putBean("federationLoginDebugUserFile", "");
