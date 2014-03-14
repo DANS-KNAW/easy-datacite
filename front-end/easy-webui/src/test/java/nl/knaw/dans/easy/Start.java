@@ -21,7 +21,8 @@ import ch.qos.logback.core.util.StatusPrinter;
  * 
  * Examples of the logback.xml are available in src/main/resources/ as wel as src/main/assembly/dist/cfg/
  * The folder easy-webui-home should contain a copy of the folders under src/main/assembly/dist please
- * adjust cfg/application.properties
+ * adjust cfg/application.properties, the user guide of the EVM (Easy Virtual Machine) explains the
+ * required passwords.
  */
 public final class Start // NOPMD
 {
