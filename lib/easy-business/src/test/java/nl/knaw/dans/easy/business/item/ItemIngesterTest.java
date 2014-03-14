@@ -31,8 +31,11 @@ import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 
+import org.apache.commons.io.FileUtils;
 import org.easymock.EasyMock;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,6 +47,12 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @PrepareForTest({ItemIngester.class, Data.class})
 public class ItemIngesterTest
 {
+    private static final String ACCENT_XML = // [m, e, t, -, a, c, c, é, n, t, ., x, m, l]
+    new String(new byte[] {109, 101, 116, 45, 97, 99, 99, -61, -87, 110, 116, 46, 120, 109, 108});
+    private static final String DIACRITIC_ACCENT_XML = // [m, e, t, -, a, c, c, e, ́, n, t, ., x, m, l]
+    new String(new byte[] {109, 101, 116, 45, 97, 99, 99, 101, -52, -127, 110, 116, 46, 120, 109, 108});
+    private static final String GREEK_FOLDER_NAME = "target/greekMixed";
+    private static final File GREEK_FOLDER = new File(GREEK_FOLDER_NAME);
     private Dataset datasetMock;
     private EasyUser userMock;
     private File rootFileMock;
@@ -52,6 +61,25 @@ public class ItemIngesterTest
     private FileStoreAccess fileStoreAccessMock;
     private File fileMock;
     private FileItem fileItemMock;
+
+    @BeforeClass
+    public static void createFolder() throws Exception
+    {
+        GREEK_FOLDER.mkdirs();
+        boolean append = true;
+        FileUtils.write(new File(GREEK_FOLDER_NAME + "/" + ACCENT_XML), "some random content", append);
+        FileUtils.write(new File(GREEK_FOLDER_NAME + "/" + DIACRITIC_ACCENT_XML), "some random content", append);
+        FileUtils.write(new File(GREEK_FOLDER_NAME + "/πῶϋ.xml"), "some random content", append);
+        // NB: only two files are created: both normalizations are mapped to the same file
+        // different JVM or whatever environmental issues may vary the choice
+    }
+
+    @AfterClass
+    public static void destroyFolder() throws Exception
+    {
+        if (GREEK_FOLDER.exists())
+            FileUtils.deleteDirectory(GREEK_FOLDER);
+    }
 
     @Before
     public void setUp() throws Exception
@@ -127,6 +155,73 @@ public class ItemIngesterTest
     private void expectCreatorRole(CreatorRole role)
     {
         expect(userMock.getCreatorRole()).andReturn(role).anyTimes();
+    }
+
+    @Test
+    public void issue700a() throws Exception
+    {
+        normalUserLoggedIn();
+        creatorRoleIsDepositor();
+        datasetHasStoreId("easy-dataset:1");
+        datasetHasAccessCategory(AccessCategory.OPEN_ACCESS);
+        parentContainerHasStoreId();
+        uowMethodsCalled();
+        noFilesAndFoldersUnderParentContainer();
+        fileItemMock.setFile(EasyMock.isA(File.class));
+        EasyMock.expectLastCall().times(1, 2);
+        fileItemMock.setCreatorRole(CreatorRole.DEPOSITOR);
+        EasyMock.expectLastCall().times(1, 2);
+        fileItemMock.setDatasetId(new DmoStoreId("easy-dataset:1"));
+        EasyMock.expectLastCall().times(1, 2);
+        fileItemMock.setOwnerId("normal");
+        EasyMock.expectLastCall().times(1, 2);
+        fileItemMock.setParent(parentContainerMock);
+        EasyMock.expectLastCall().times(1, 2);
+        fileItemMock.setVisibleTo(VisibleTo.ANONYMOUS);
+        EasyMock.expectLastCall().times(1, 2);
+        fileItemMock.setAccessibleTo(AccessibleTo.KNOWN);
+        EasyMock.expectLastCall().times(1, 2);
+        EasyMock.expect(unitOfWorkMock.saveAndDetach(fileItemMock)).andReturn(fileItemMock);
+        EasyMock.expectLastCall().times(1, 2);
+
+        replayAll();
+
+        ItemIngester ii = new ItemIngester(datasetMock, userMock, null);
+        ii.workAddDirectoryContents(parentContainerMock, GREEK_FOLDER, createFilter(ACCENT_XML));
+
+        PowerMock.verifyAll();
+    }
+
+    @Ignore("Fails on the command line, succeeds in eclipse. Keep method for documentational reasons")
+    @Test
+    public void issue700b()
+    {
+        File[] files1 = GREEK_FOLDER.listFiles(createFilter(ACCENT_XML));
+        File[] files2 = GREEK_FOLDER.listFiles(createFilter(DIACRITIC_ACCENT_XML));
+        assertThat(files1.length, not(equalTo(files2.length)));
+    }
+
+    @Test
+    public void issue700c()
+    {
+        File[] files = GREEK_FOLDER.listFiles(createFilter(DIACRITIC_ACCENT_XML));
+        assertThat(files.length, not(equalTo(2)));
+    }
+
+    @Ignore("Fails on the command line, succeeds in eclipse. Keep method for documentational reasons")
+    @Test
+    public void issue700d()
+    {
+        File[] files = GREEK_FOLDER.listFiles(createFilter(ACCENT_XML));
+        assertThat(files.length, equalTo(2));
+    }
+
+    private ListFilter createFilter(String fileNameWithAccent)
+    {
+        List<File> fileList = new ArrayList<File>();
+        fileList.add(new File(GREEK_FOLDER_NAME + "/" + fileNameWithAccent));
+        fileList.add(new File(GREEK_FOLDER_NAME + "/πῶϋ.xml"));
+        return new ItemIngester.ListFilter(fileList);
     }
 
     @Test
