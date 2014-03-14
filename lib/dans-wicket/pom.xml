@@ -6,15 +6,12 @@
 		<groupId>nl.knaw.dans.easy</groupId>
 		<artifactId>easy-prototype</artifactId>
 		<version>2.9-SNAPSHOT</version>
-		<relativePath>../easy-prototype</relativePath>		
+		<relativePath>../easy-prototype</relativePath>
 	</parent>
-	<groupId>nl.knaw.dans.common</groupId>
 	<artifactId>dans-wicket</artifactId>
-	<packaging>jar</packaging>
 	<name>DANS Wicket Library</name>
-	<description>Shared Wicket components within DANS</description>
 	<properties>
-		<wicket.version>1.4.22</wicket.version>
+		<wicket.version>1.4.23</wicket.version>
 		<wicketstuff.version>1.4.21</wicketstuff.version>
 		<wickettree-mod.version>0.5-SNAPSHOT</wickettree-mod.version>
 	</properties>
@@ -58,13 +55,6 @@
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>dans-lang</artifactId>
-			<version>${easy.version}</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>spring</artifactId>
-					<groupId>org.springframework</groupId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>wicket-tree</groupId>

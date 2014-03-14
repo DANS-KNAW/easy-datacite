@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<include path="BasicString-binding.xml" />
+
+	<mapping name="description" class="nl.knaw.dans.pf.language.emd.EmdDescription"
+		ns="http://easy.dans.knaw.nl/easy/easymetadata/">
+
+		<namespace uri="http://easy.dans.knaw.nl/easy/easymetadata/" prefix="emd" />
+		<namespace uri="http://purl.org/dc/elements/1.1/" prefix="dc" />
+		<namespace uri="http://purl.org/dc/terms/" prefix="dct" />
+
+		<collection field="dcDescription" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicStringList">
+			<structure ns="http://purl.org/dc/elements/1.1/" name="description"
+				type="nl.knaw.dans.pf.language.emd.types.BasicString" usage="optional"/>
+		</collection>
+
+		<collection field="termsTableOfContents" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicStringList">
+			<structure ns="http://purl.org/dc/terms/" name="tableOfContents"
+				type="nl.knaw.dans.pf.language.emd.types.BasicString" usage="optional"/>
+		</collection>
+
+		<collection field="termsAbstract" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicStringList">
+			<structure ns="http://purl.org/dc/terms/" name="abstract"
+				type="nl.knaw.dans.pf.language.emd.types.BasicString" usage="optional"/>
+		</collection>
+
+	</mapping>
+
+</binding>

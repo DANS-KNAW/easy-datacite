@@ -2,7 +2,6 @@ package nl.knaw.dans.c.dmo.collections.aspects;
 
 import nl.knaw.dans.c.dmo.collections.CollectionManagerImpl;
 import nl.knaw.dans.c.dmo.collections.core.Settings;
-import nl.knaw.dans.i.dmo.collections.CollectionManager;
 import nl.knaw.dans.i.dmo.collections.exceptions.SecurityViolationException;
 import nl.knaw.dans.i.security.SecurityAgent;
 import nl.knaw.dans.i.security.annotations.SecuredOperation;

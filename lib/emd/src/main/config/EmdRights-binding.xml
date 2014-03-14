@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<include path="BasicString-binding.xml" />
+
+	<mapping name="rights" class="nl.knaw.dans.pf.language.emd.EmdRights"
+		ns="http://easy.dans.knaw.nl/easy/easymetadata/">
+
+		<namespace uri="http://easy.dans.knaw.nl/easy/easymetadata/" prefix="emd" />
+		<namespace uri="http://purl.org/dc/elements/1.1/" prefix="dc" />
+		<namespace uri="http://purl.org/dc/terms/" prefix="dct" />
+
+		<collection field="dcRights" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicStringList">
+			<structure ns="http://purl.org/dc/elements/1.1/" name="rights"
+				type="nl.knaw.dans.pf.language.emd.types.BasicString" usage="optional"/>
+		</collection>
+
+		<collection field="termsAccessRights" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicStringList">
+			<structure ns="http://purl.org/dc/terms/" name="accessRights"
+				type="nl.knaw.dans.pf.language.emd.types.BasicString" usage="optional"/>
+		</collection>
+
+		<collection field="termsLicense" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicStringList">
+			<structure ns="http://purl.org/dc/terms/" name="license"
+				type="nl.knaw.dans.pf.language.emd.types.BasicString" usage="optional"/>
+		</collection>
+
+		<collection field="termsRightsHolder" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicStringList">
+			<structure ns="http://purl.org/dc/terms/" name="rightsHolder"
+				type="nl.knaw.dans.pf.language.emd.types.BasicString" usage="optional"/>
+		</collection>
+
+	</mapping>
+
+</binding>

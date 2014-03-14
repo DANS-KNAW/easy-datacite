@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="foo">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="boolean-element" maxOccurs="unbounded">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:boolean">
+                            
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="date-element" maxOccurs="unbounded">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:date">
+                            
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

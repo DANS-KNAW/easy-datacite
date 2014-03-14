@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<include path="BasicIdentifier-binding.xml" />
+	<include path="Relation-binding.xml" />
+
+	<mapping name="relation" class="nl.knaw.dans.pf.language.emd.EmdRelation"
+		ns="http://easy.dans.knaw.nl/easy/easymetadata/">
+
+		<namespace uri="http://easy.dans.knaw.nl/easy/easymetadata/" prefix="emd" />
+		<namespace uri="http://purl.org/dc/elements/1.1/" prefix="dc" />
+		<namespace uri="http://purl.org/dc/terms/" prefix="dct" />
+		<namespace uri="http://easy.dans.knaw.nl/easy/easymetadata/eas/" prefix="eas" />
+
+		<collection field="dcRelation" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicIdentifierList" usage="optional">
+			<structure ns="http://purl.org/dc/elements/1.1/" name="relation"
+				type="nl.knaw.dans.pf.language.emd.types.BasicIdentifier" usage="optional"/>
+		</collection>
+
+		<collection field="termsConformsTo" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicIdentifierList" usage="optional">
+			<structure ns="http://purl.org/dc/terms/" name="conformsTo"
+				type="nl.knaw.dans.pf.language.emd.types.BasicIdentifier" usage="optional"/>
+		</collection>
+
+		<collection field="termsIsVersionOf" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicIdentifierList" usage="optional">
+			<structure ns="http://purl.org/dc/terms/" name="isVersionOf"
+				type="nl.knaw.dans.pf.language.emd.types.BasicIdentifier" usage="optional"/>
+		</collection>
+
+		<collection field="termsHasVersion" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicIdentifierList" usage="optional">
+			<structure ns="http://purl.org/dc/terms/" name="hasVersion"
+				type="nl.knaw.dans.pf.language.emd.types.BasicIdentifier" usage="optional"/>
+		</collection>
+
+		<collection field="termsIsReplacedBy" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicIdentifierList" usage="optional">
+			<structure ns="http://purl.org/dc/terms/" name="isReplacedBy"
+				type="nl.knaw.dans.pf.language.emd.types.BasicIdentifier" usage="optional"/>
+		</collection>
+
+		<collection field="termsReplaces" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicIdentifierList" usage="optional">
+			<structure ns="http://purl.org/dc/terms/" name="replaces"
+				type="nl.knaw.dans.pf.language.emd.types.BasicIdentifier" usage="optional"/>
+		</collection>
+
+		<collection field="termsIsRequiredBy" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicIdentifierList" usage="optional">
+			<structure ns="http://purl.org/dc/terms/" name="isRequiredBy"
+				type="nl.knaw.dans.pf.language.emd.types.BasicIdentifier" usage="optional"/>
+		</collection>
+
+		<collection field="termsRequires" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicIdentifierList" usage="optional">
+			<structure ns="http://purl.org/dc/terms/" name="requires"
+				type="nl.knaw.dans.pf.language.emd.types.BasicIdentifier" usage="optional"/>
+		</collection>
+
+		<collection field="termsIsPartOf" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicIdentifierList" usage="optional">
+			<structure ns="http://purl.org/dc/terms/" name="isPartOf"
+				type="nl.knaw.dans.pf.language.emd.types.BasicIdentifier" usage="optional"/>
+		</collection>
+
+		<collection field="termsHasPart" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicIdentifierList" usage="optional">
+			<structure ns="http://purl.org/dc/terms/" name="hasPart"
+				type="nl.knaw.dans.pf.language.emd.types.BasicIdentifier" usage="optional"/>
+		</collection>
+
+		<collection field="termsIsReferencedBy" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicIdentifierList" usage="optional">
+			<structure ns="http://purl.org/dc/terms/" name="isReferencedBy"
+				type="nl.knaw.dans.pf.language.emd.types.BasicIdentifier" usage="optional"/>
+		</collection>
+
+		<collection field="termsReferences" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicIdentifierList" usage="optional">
+			<structure ns="http://purl.org/dc/terms/" name="references"
+				type="nl.knaw.dans.pf.language.emd.types.BasicIdentifier" usage="optional"/>
+		</collection>
+
+		<collection field="termsIsFormatOf" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicIdentifierList" usage="optional">
+			<structure ns="http://purl.org/dc/terms/" name="isFormatOf"
+				type="nl.knaw.dans.pf.language.emd.types.BasicIdentifier" usage="optional"/>
+		</collection>
+
+		<collection field="termsHasFormat" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicIdentifierList" usage="optional">
+			<structure ns="http://purl.org/dc/terms/" name="hasFormat"
+				type="nl.knaw.dans.pf.language.emd.types.BasicIdentifier" usage="optional"/>
+		</collection>
+
+		<collection field="easRelation" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.relationList" usage="optional">
+			<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="relation"
+				type="nl.knaw.dans.pf.language.emd.types.Relation" usage="optional"/>
+		</collection>
+
+<!--  -->
+
+		<collection field="easConformsTo" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.relationList" usage="optional">
+			<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="conformsTo"
+				type="nl.knaw.dans.pf.language.emd.types.Relation" usage="optional"/>
+		</collection>
+
+		<collection field="easIsVersionOf" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.relationList" usage="optional">
+			<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="isVersionOf"
+				type="nl.knaw.dans.pf.language.emd.types.Relation" usage="optional"/>
+		</collection>
+
+		<collection field="easHasVersion" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.relationList" usage="optional">
+			<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="hasVersion"
+				type="nl.knaw.dans.pf.language.emd.types.Relation" usage="optional"/>
+		</collection>
+
+		<collection field="easIsReplacedBy" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.relationList" usage="optional">
+			<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="isReplacedBy"
+				type="nl.knaw.dans.pf.language.emd.types.Relation" usage="optional"/>
+		</collection>
+
+		<collection field="easReplaces" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.relationList" usage="optional">
+			<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="replaces"
+				type="nl.knaw.dans.pf.language.emd.types.Relation" usage="optional"/>
+		</collection>
+
+		<collection field="easIsRequiredBy" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.relationList" usage="optional">
+			<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="isRequiredBy"
+				type="nl.knaw.dans.pf.language.emd.types.Relation" usage="optional"/>
+		</collection>
+
+		<collection field="easRequires" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.relationList" usage="optional">
+			<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="requires"
+				type="nl.knaw.dans.pf.language.emd.types.Relation" usage="optional"/>
+		</collection>
+
+		<collection field="easIsPartOf" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.relationList" usage="optional">
+			<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="isPartOf"
+				type="nl.knaw.dans.pf.language.emd.types.Relation" usage="optional"/>
+		</collection>
+
+		<collection field="easHasPart" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.relationList" usage="optional">
+			<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="hasPart"
+				type="nl.knaw.dans.pf.language.emd.types.Relation" usage="optional"/>
+		</collection>
+
+		<collection field="easIsReferencedBy" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.relationList" usage="optional">
+			<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="isReferencedBy"
+				type="nl.knaw.dans.pf.language.emd.types.Relation" usage="optional"/>
+		</collection>
+
+		<collection field="easReferences" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.relationList" usage="optional">
+			<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="references"
+				type="nl.knaw.dans.pf.language.emd.types.Relation" usage="optional"/>
+		</collection>
+
+		<collection field="easIsFormatOf" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.relationList" usage="optional">
+			<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="isFormatOf"
+				type="nl.knaw.dans.pf.language.emd.types.Relation" usage="optional"/>
+		</collection>
+
+		<collection field="easHasFormat" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.relationList" usage="optional">
+			<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="hasFormat"
+				type="nl.knaw.dans.pf.language.emd.types.Relation" usage="optional"/>
+		</collection>
+
+	</mapping>
+
+</binding>

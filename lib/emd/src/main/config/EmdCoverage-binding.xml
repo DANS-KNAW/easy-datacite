@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<include path="BasicString-binding.xml" />
+	<include path="Spatial-binding.xml" />
+
+	<mapping name="coverage" class="nl.knaw.dans.pf.language.emd.EmdCoverage"
+		ns="http://easy.dans.knaw.nl/easy/easymetadata/">
+
+		<namespace uri="http://easy.dans.knaw.nl/easy/easymetadata/" prefix="emd" />
+		<namespace uri="http://purl.org/dc/elements/1.1/" prefix="dc" />
+		<namespace uri="http://purl.org/dc/terms/" prefix="dct" />
+		<namespace uri="http://easy.dans.knaw.nl/easy/easymetadata/eas/" prefix="eas" />
+
+		<collection field="dcCoverage" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicStringList">
+			<structure ns="http://purl.org/dc/elements/1.1/" name="coverage"
+				type="nl.knaw.dans.pf.language.emd.types.BasicString" usage="optional"/>
+		</collection>
+
+		<collection field="termsSpatial" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicStringList">
+			<structure ns="http://purl.org/dc/terms/" name="spatial"
+				type="nl.knaw.dans.pf.language.emd.types.BasicString" usage="optional"/>
+		</collection>
+
+		<collection field="termsTemporal" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicStringList">
+			<structure ns="http://purl.org/dc/terms/" name="temporal"
+				type="nl.knaw.dans.pf.language.emd.types.BasicString" usage="optional"/>
+		</collection>
+
+		<collection field="easSpatial" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.spatialList">
+			<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="spatial"
+				type="nl.knaw.dans.pf.language.emd.types.Spatial" usage="optional"/>
+		</collection>
+
+	</mapping>
+
+</binding>

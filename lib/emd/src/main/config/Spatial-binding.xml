@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<include path="BasicString-binding.xml" />
+
+	<mapping class="nl.knaw.dans.pf.language.emd.types.Spatial" ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/"
+		abstract="true">
+
+		<namespace uri="http://easy.dans.knaw.nl/easy/easymetadata/eas/" prefix="eas" />
+
+		<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="place" field="place"
+			usage="optional" />
+		<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="point" field="point" usage="optional">
+			<value style="attribute" ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="scheme" field="scheme" usage="optional"/>
+			<value style="attribute" ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="schemeId" field="schemeId" usage="optional" />
+			<value style="element" ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="x" field="x" usage="optional"/>
+			<value style="element" ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="y" field="y" usage="optional"/>
+		</structure>
+		<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="box" field="box" usage="optional">
+			<value style="attribute" ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="scheme" field="scheme" usage="optional"/>
+			<value style="attribute" ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="schemeId" field="schemeId" usage="optional" />
+			<value style="element" ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="north" field="north" usage="optional"/>
+			<value style="element" ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="east" field="east" usage="optional"/>
+			<value style="element" ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="south" field="south" usage="optional"/>
+			<value style="element" ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="west" field="west" usage="optional"/>
+		</structure>
+
+	</mapping>
+
+</binding>

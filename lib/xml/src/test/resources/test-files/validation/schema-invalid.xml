@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<foo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <boolean-element>false</boolean-element>
+    <bar>this element should not be here</bar>
+    <boolean-element>false</boolean-element>
+    <boolean-element>invalid content for boolean type</boolean-element>
+    <date-element>2006-05-04</date-element>
+    <date-element>invalid content for date type</date-element>
+    <barac:obama>unknown namespace causes SAXExeption and end of validation process</barac:obama>
+    <date-element>2006-05-04</date-element>
+    <nix>So this want even be noticed</nix>
+</foo>

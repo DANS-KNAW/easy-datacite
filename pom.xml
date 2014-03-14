@@ -21,11 +21,15 @@
 		<module>lib/dans-pid</module>
 		<module>lib/dans-solr</module>
 		<module>lib/dans-wicket</module>
+		<module>lib/ddm</module>
 		<module>lib/easy-business</module>
 		<module>lib/easy-business-mocking</module>
 		<module>lib/easy-fedora</module>
 		<module>lib/easy-ldap</module>
 		<module>lib/easy-prototype</module>
+		<module>lib/emd</module>
+		<module>lib/pakbon</module>
+		<module>lib/xml</module>
 
 		<!-- Deprecated -->
  		<module>lib-deprecated/dans-ldap</module>	

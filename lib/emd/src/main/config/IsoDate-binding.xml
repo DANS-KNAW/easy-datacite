@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<format type="org.joda.time.DateTime" serializer="nl.knaw.dans.pf.language.emd.util.Converter.serializeDateTime"
+		deserializer="nl.knaw.dans.pf.language.emd.util.Converter.deSerializeDateTime" />
+
+	<mapping class="nl.knaw.dans.pf.language.emd.types.IsoDate" ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/"
+		abstract="true">
+
+		<namespace uri="http://easy.dans.knaw.nl/easy/easymetadata/eas/" prefix="eas" />
+
+		<value style="attribute" ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="scheme" field="scheme" usage="optional"/>
+		<value style="attribute" ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="schemeId" field="schemeId" usage="optional" />
+		<value style="attribute" ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="format" field="format" usage="optional"/>
+		<value style="text" ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" set-method="setValue" get-method="getValue" />
+
+	</mapping>
+
+</binding>

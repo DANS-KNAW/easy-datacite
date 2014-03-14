@@ -9,43 +9,27 @@
 		<relativePath>../../lib/easy-prototype</relativePath>
 	</parent>
 	<artifactId>dans-lang</artifactId>
-	<packaging>jar</packaging>
-	<organization>
-		<name>DANS</name>
-		<url>http://www.dans.knaw.nl</url>
-	</organization>
 	<name>DEPPRECATED DANS Lang</name>
-	<description>Common base classes and interfaces</description>
 	<dependencies>
-		<!-- spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring</artifactId>
-			<version>2.5</version>
+			<artifactId>spring-context</artifactId>
 		</dependency>
-
-		<!-- Jodatime dependencies -->
 		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
 			<version>2.1</version>
 		</dependency>
-
-		<!-- dom xml -->
 		<dependency>
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>
 			<version>1.6.1</version>
 		</dependency>
-
-		<!-- streaming xml -->
 		<dependency>
 			<groupId>stax</groupId>
 			<artifactId>stax-api</artifactId>
 			<version>1.0.1</version>
 		</dependency>
-
-		<!-- mimetype -->
 		<dependency>
 			<groupId>aperture</groupId>
 			<artifactId>aperture</artifactId>
@@ -63,47 +47,35 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
-		<!-- utils -->
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
-			<version>2.4</version>
 		</dependency>
-
-		<!-- mail -->
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
 			<version>1.4</version>
 		</dependency>
-
-		<!-- RDF relations -->
 		<dependency>
 			<groupId>duraspace</groupId>
 			<artifactId>trippi-1.4.1-core</artifactId>
 			<version>1.0</version>
 		</dependency>
-
 		<dependency>
 			<groupId>jrdf</groupId>
 			<artifactId>jrdf</artifactId>
 			<version>0.5.5.4</version>
 		</dependency>
-
 		<dependency>
-			<!-- creates pdf/rtf/html documents -->
 			<groupId>com.lowagie</groupId>
 			<artifactId>itext</artifactId>
 			<version>2.0.7</version>
 		</dependency>
-
 		<dependency>
 			<groupId>net.sf.jopt-simple</groupId>
 			<artifactId>jopt-simple</artifactId>
 			<version>3.2</version>
 		</dependency>
-
 		<dependency>
 			<groupId>net.sf.jtidy</groupId>
 			<artifactId>jtidy</artifactId>
@@ -112,7 +84,6 @@
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			<version>1.0.9</version>
 			<!-- Scope compile here, because this library exports test util classes -->
 		</dependency>
 	</dependencies>
@@ -190,29 +161,4 @@
 			</testResource>
 		</testResources>
 	</build>
-
-	<!-- When your project needs specific repositories, add them here -->
-	<repositories>
-		<repository>
-			<id>central</id>
-			<url>http://artifactory.dans.knaw.nl/repo</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>snapshots</id>
-			<url>http://artifactory.dans.knaw.nl/repo</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</repository>
-		<repository>
-			<id>maven orig</id>
-			<url>http://repo1.maven.org/maven2</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
 </project>

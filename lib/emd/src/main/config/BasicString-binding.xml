@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<include path="LanguageTokenizedString-binding.xml" />
+
+	<mapping class="nl.knaw.dans.pf.language.emd.types.BasicString" ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/"
+		abstract="true">
+
+		<namespace uri="http://www.w3.org/XML/1998/namespace" prefix="xml" />
+		<namespace uri="http://easy.dans.knaw.nl/easy/easymetadata/eas/" prefix="eas" />
+
+		<structure type="nl.knaw.dans.pf.language.emd.types.LanguageTokenizedString"  />
+		<value style="attribute" ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="scheme" field="scheme" usage="optional" />
+		<value style="attribute" ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="schemeId" field="schemeId" usage="optional" />
+
+	</mapping>
+
+</binding>

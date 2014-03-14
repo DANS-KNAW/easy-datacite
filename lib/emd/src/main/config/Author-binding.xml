@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<mapping class="nl.knaw.dans.pf.language.emd.types.Author" ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/"
+		abstract="true">
+
+		<namespace uri="http://www.w3.org/XML/1998/namespace" prefix="xml" />
+		<namespace uri="http://easy.dans.knaw.nl/easy/easymetadata/eas/" prefix="eas" />
+
+		<value ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="title" field="title" usage="optional" />
+		<value ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="initials" field="initials"
+			usage="optional" />
+		<value ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="prefix" field="prefix" usage="optional" />
+		<value ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="surname" field="surname" usage="optional" />
+		<value ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="organization" field="organization" usage="optional" />
+
+		<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="entityId" usage="optional">
+			<value style="attribute" ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="identification-system"
+				field="identificationSystem" usage="optional" />
+			<value style="attribute" ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="scheme"
+				field="scheme" usage="optional" />
+			<value style="text" ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" field="entityId" usage="optional" />
+		</structure>
+
+	</mapping>
+
+</binding>

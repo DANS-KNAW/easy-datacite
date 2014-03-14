@@ -18,7 +18,7 @@
 			<artifactId>easy-business</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>nl.knaw.dans.common</groupId>
+			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>dans-wicket</artifactId>
 			<exclusions>
 				<!-- Slf4j 1.5.0 is a dependency of wicket 1.4.12, but we need Slf4j 
@@ -68,7 +68,7 @@
 			<artifactId>easy-fedora</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>nl.knaw.dans.common</groupId>
+			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>dans-solr</artifactId>
 		</dependency>
 		<dependency>
@@ -128,9 +128,8 @@
 			<artifactId>jetty-plus</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>nl.knaw.dans.platform.language</groupId>
+			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>pakbon</artifactId>
-			<version>1.0-beta-6</version>
 		</dependency>
 	</dependencies>
 	<build>

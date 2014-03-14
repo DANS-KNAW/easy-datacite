@@ -1,0 +1,9 @@
+
+https://tools.sikb.nl/sikb0102service/
+https://tools.sikb.nl/sikb0102service/Sikb0102Service.svc?wsdl
+
+code generated in Eclipse.
+
+- in BasicHttpBinding_ISikb0102ServiceStub.validate
+  // toegevoegde regel, nodig om --Did not understand "MustUnderstand" header(s):-- te voorkomen:
+        _call.setProperty(org.apache.axis.client.Call.CHECK_MUST_UNDERSTAND, new Boolean(false));

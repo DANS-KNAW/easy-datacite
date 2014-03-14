@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding>
+
+	<include path="BasicRemark-binding.xml" />
+	<include path="ApplicationSpecific-binding.xml" />
+	<include path="propertyList-binding.xml" />
+
+	<mapping name="other" class="nl.knaw.dans.pf.language.emd.EmdOther"
+		ns="http://easy.dans.knaw.nl/easy/easymetadata/">
+
+		<namespace uri="http://easy.dans.knaw.nl/easy/easymetadata/" prefix="emd" />
+		<namespace uri="http://easy.dans.knaw.nl/easy/easymetadata/eas/" prefix="eas" />
+
+		<collection field="easRemarks" factory="nl.knaw.dans.pf.language.emd.types.ListFactory.basicRemarkList">
+			<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="remark"
+				type="nl.knaw.dans.pf.language.emd.types.BasicRemark" usage="optional"/>
+		</collection>
+		
+		<structure ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/" name="application-specific" field="easApplicationSpecific" usage="optional"/>
+        
+        <structure name="etc" ns="http://easy.dans.knaw.nl/easy/easymetadata/eas/">
+        <collection field="propertyListCollection" type="java.util.ArrayList" usage="optional">
+            <structure type="nl.knaw.dans.pf.language.emd.PropertyList" name="property-list"/>
+        </collection>
+        </structure>
+        
+	</mapping>
+
+</binding>
