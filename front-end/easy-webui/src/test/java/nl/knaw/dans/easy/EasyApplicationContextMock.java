@@ -129,19 +129,21 @@ public class EasyApplicationContextMock extends ApplicationContextMock
      * previous expectations remain effective.
      * 
      * @param sessionUser
-     *        an instance used to mock {@link Authentication#getUser()} and
+     *        a real instance used to mock {@link Authentication#getUser()} and
      *        {@link Authentication#getUserId()}
+     * @param userId
+     *        the id of the sessionUser (having it as a separate argument allows a mocked sessionUser)
      * @throws ServiceException
      *         declaration required to mock {@link UserService#newUsernamePasswordAuthentication()}
      * @throws IllegalStateException
      *         if a real {@link UserService} instance was assigned as bean
      */
-    public void expectAuthenticatedAs(final EasyUser sessionUser) throws ServiceException
+    public void expectAuthenticatedAs(final EasyUser sessionUser, final String userId) throws ServiceException
     {
         authentication = new UsernamePasswordAuthentication();
         authentication.setUser(sessionUser);
-        if (!sessionUser.isAnonymous())
-            authentication.setUserId(sessionUser.getId());
+        if (sessionUser != null)
+            authentication.setUserId(userId);
         setMockedUserService();
         EasyMock.expect(getUserService().newUsernamePasswordAuthentication()).andStubReturn(getAuthentication());
     }

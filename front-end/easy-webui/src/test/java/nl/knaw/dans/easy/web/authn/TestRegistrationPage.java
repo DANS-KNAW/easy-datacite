@@ -7,45 +7,63 @@ import static org.junit.Assert.assertEquals;
 import static org.powermock.api.easymock.PowerMock.replayAll;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyWicketTester;
-import nl.knaw.dans.easy.domain.authn.Registration;
 import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceList;
 import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
+import nl.knaw.dans.easy.domain.model.user.EasyUser;
+import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
+import nl.knaw.dans.easy.domain.model.user.Group;
 import nl.knaw.dans.easy.servicelayer.services.DepositService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
-import nl.knaw.dans.easy.web.InfoPage;
+import nl.knaw.dans.easy.web.HomePage;
 
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.util.tester.FormTester;
-import org.apache.wicket.util.tester.WicketTester;
-import org.easymock.Capture;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
 public class TestRegistrationPage
 {
-    private WicketTester tester;
-    private Capture<Registration> capturedRegistration;
+    private EasyWicketTester tester;
 
     @Before
     public void setUp() throws Exception
     {
 
-        mockDepositService();
+        final String sessionUserId = "jan01";
+        final EasyUser sessionUser = mockRegisteredUser(sessionUserId);
+
         EasyApplicationContextMock ctx = new EasyApplicationContextMock();
         ctx.expectDefaultResources();
         ctx.expectStandardSecurity(false);
-
+        ctx.expectAuthenticatedAs(sessionUser, sessionUserId);
+        ctx.expectNoDepositsBy(sessionUser);
+        ctx.putBean("depositService", mockDepositService());
         tester = EasyWicketTester.create(ctx);
+    }
+
+    private EasyUser mockRegisteredUser(final String sessionUserId)
+    {
+        final Set<Role> roles = new HashSet<EasyUser.Role>();
+        roles.add(Role.USER);
+        final EasyUser sessionUser = PowerMock.createMock(EasyUser.class);
+        expect(sessionUser.isAnonymous()).andReturn(true).atLeastOnce();
+        expect(sessionUser.hasRole(Role.ARCHIVIST, Role.ADMIN)).andReturn(false).atLeastOnce();
+        expect(sessionUser.hasRole(Role.ADMIN, Role.ARCHIVIST)).andReturn(false).atLeastOnce();
+        expect(sessionUser.getId()).andReturn(sessionUserId).atLeastOnce();
+        expect(sessionUser.getRoles()).andReturn(roles).atLeastOnce();
+        expect(sessionUser.getGroups()).andReturn(new HashSet<Group>()).atLeastOnce();
+        return sessionUser;
     }
 
     @After
@@ -54,7 +72,7 @@ public class TestRegistrationPage
         PowerMock.resetAll();
     }
 
-    private void mockDepositService() throws ServiceException
+    private DepositService mockDepositService() throws ServiceException
     {
         List<KeyValuePair> choices = new ArrayList<KeyValuePair>();
         choices.add(new KeyValuePair("easy-disciplines:1", "DISCIPLINE 1 DISPLAY VALUE"));
@@ -67,22 +85,24 @@ public class TestRegistrationPage
 
         // can't use SpringBean injection in the static DisciplineUtils
         new Services().setDepositService(depositServiceMock);
+        return depositServiceMock;
     }
 
     @Test
     public void pageRenderedCorrectly()
     {
         replayAll();
-        renderRegistrationPage();
-    }
-
-    private void renderRegistrationPage()
-    {
         tester.startPage(RegistrationPage.class);
         tester.assertRenderedPage(RegistrationPage.class);
         tester.assertComponent("registrationForm", Form.class);
+        tester.dumpPage();
+        tester.debugComponentTrees();
 
-        // TODO: Andere components asserten!!
+        tester.assertModelValue("registrationForm:optsForNewsletter", true);
+        tester.assertModelValue("registrationForm:logMyActions", true);
+        tester.assertModelValue("registrationForm:acceptConditions", false);
+        tester.assertDisabled("registrationForm:register");
+        tester.assertEnabled("registrationForm:cancelLink");
 
         assertDisciplineDropdownsFilledInCorrectly();
     }
@@ -101,12 +121,10 @@ public class TestRegistrationPage
     }
 
     @Test
-    @Ignore
     public void validationTestAllFieldsFilledCorrectly()
     {
         replayAll();
         tester.startPage(RegistrationPage.class);
-        tester.assertRenderedPage(RegistrationPage.class);
         FormTester formTester = tester.newFormTester("registrationForm");
         fillAllFieldsWithCorrectData(formTester);
         formTester.setValue("acceptConditions", true);
@@ -121,8 +139,11 @@ public class TestRegistrationPage
         tester.getComponentFromLastRenderedPage("registrationForm:register").setEnabled(true);
 
         formTester.submit("register");
-        tester.assertRenderedPage(InfoPage.class);
-        assertEquals("jan01", capturedRegistration.getValue().getUser().getId());
+        tester.assertRenderedPage(HomePage.class);
+        tester.debugComponentTrees();
+
+        // verify the atLeastOnce expectations actually occurred
+        PowerMock.verifyAll();
     }
 
     private void fillAllFieldsWithCorrectData(FormTester formTester)
@@ -136,7 +157,7 @@ public class TestRegistrationPage
         formTester.setValue("surname", "Jansen");
         formTester.setValue("function", "Onderzoeker");
         formTester.setValue("telephone", "0123456789");
-        formTester.setValue("discipline", "Humanities");
+        formTester.setValue("discipline1", "Humanities");
         formTester.setValue("dai", "1234567890");
         formTester.setValue("organization", "University");
         formTester.setValue("department", "Department");

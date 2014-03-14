@@ -150,7 +150,7 @@ public class TestUserInfoPage
         user.setInitials("s.");
         user.setSurname("Ession");
         applicationContext.expectNoDepositsBy(user);
-        applicationContext.expectAuthenticatedAs(user);
+        applicationContext.expectAuthenticatedAs(user, user.getId());
         return user;
     }
 
