@@ -16,6 +16,7 @@ import nl.knaw.dans.easy.web.common.UserProperties;
 import nl.knaw.dans.easy.web.template.AbstractEasyStatelessPanel;
 import nl.knaw.dans.easy.web.wicket.SwitchPanel;
 
+import org.apache.wicket.Component;
 import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
@@ -49,10 +50,12 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
         super(SwitchPanel.SWITCH_PANEL_WI);
         this.parent = parent;
         this.enableModeSwitch = enableModeSwitch;
-        init(userId);
+        EasyUser user = fetchUser(userId);
+        checkHasPassword(user);
+        constructPanel(user);
     }
 
-    private void init(final String userId)
+    private EasyUser fetchUser(final String userId)
     {
         EasyUser user = null;
         try
@@ -70,8 +73,12 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
         {
             throw new RestartResponseException(new ErrorPage());
         }
+        return user;
+    }
 
-        // check if user has a password, federative users might not have it.
+    private void checkHasPassword(final EasyUser user)
+    {
+        // federation users might not have it.
         try
         {
             hasPassword = userService.isUserWithStoredPassword(user);
@@ -82,8 +89,6 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
             logger.error(message, e);
             throw new InternalWebError();
         }
-
-        constructPanel(user);
     }
 
     private void constructPanel(EasyUser user)
@@ -92,8 +97,7 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
 
         addCommonFeedbackPanel();
 
-        Label userIdLabel = new Label(UserProperties.USER_ID);
-        add(userIdLabel);
+        add(new Label(UserProperties.USER_ID).setVisible(hasPassword));
         add(new Label(UserProperties.DISPLAYNAME));
         add(new Label(UserProperties.TITLE));
         add(new Label(UserProperties.INITIALS));
@@ -102,9 +106,9 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
         add(new Label(UserProperties.ORGANIZATION));
         add(new Label(UserProperties.DEPARTMENT));
         add(new Label(UserProperties.FUNCTION));
-        add(new Label(UserProperties.DISCIPLINE1, getDisciplineString(user.getDiscipline1())));
-        add(new Label(UserProperties.DISCIPLINE2, getDisciplineString(user.getDiscipline2())));
-        add(new Label(UserProperties.DISCIPLINE3, getDisciplineString(user.getDiscipline3())));
+        add(new Label(UserProperties.DISCIPLINE1, fetchDisciplineString(user.getDiscipline1())));
+        add(new Label(UserProperties.DISCIPLINE2, fetchDisciplineString(user.getDiscipline2())));
+        add(new Label(UserProperties.DISCIPLINE3, fetchDisciplineString(user.getDiscipline3())));
         add(new Label(UserProperties.ADDRESS));
         add(new Label(UserProperties.POSTALCODE));
         add(new Label(UserProperties.CITY));
@@ -112,13 +116,46 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
         add(new Label(UserProperties.EMAIL));
         add(new Label(UserProperties.TELEPHONE));
         add(new Label(UserProperties.DAI));
-        add(new Label("institutionAccounts",MessageFormat.format(getString("user.institution.accounts.format"),getNrOfAccounts(user))));
+        add(new Label("institutionAccounts",cerateInstituetionAccountsMessage(user)));
 
         // Have different message depending on boolean; yes or no!
-        add(new Label(UserProperties.OPTS_FOR_NEWSLETTER, new StringResourceModel("userinfo.optsForNewsletter.${optsForNewsletter}", this, new Model(user))));
-        add(new Label(UserProperties.LOG_MY_ACTIONS, new StringResourceModel("userinfo.logMyActions.${logMyActions}", this, new Model(user))));
+        add(createRadio(user, UserProperties.OPTS_FOR_NEWSLETTER, "userinfo.optsForNewsletter.${optsForNewsletter}"));
+        add(createRadio(user, UserProperties.LOG_MY_ACTIONS, "userinfo.logMyActions.${logMyActions}"));
 
-        Link modeSwitch = new Link(EDIT_LINK)
+        add(createEditLink().setVisible(enableModeSwitch));
+        add(createPasswordLink().setVisible(hasPassword));
+    }
+
+    private String cerateInstituetionAccountsMessage(EasyUser user)
+    {
+        String format = getString("user.institution.accounts.format");
+        int count = getNrOfAccounts(user);
+        return MessageFormat.format(format,count);
+    }
+
+    private Label createRadio(EasyUser user, String wicketId, String resourceKey)
+    {
+        return new Label(wicketId, new StringResourceModel(resourceKey, this, new Model<EasyUser>(user)));
+    }
+
+    private Component createPasswordLink()
+    {
+        return new Link<String>(WR_CHANGE_PASSWORD_LINK)
+        {
+
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void onClick()
+            {
+                setResponsePage(ChangePasswordPage.class);
+            }
+        };
+    }
+
+    private Component createEditLink()
+    {
+        return new Link<String>(EDIT_LINK)
         {
 
             private static final long serialVersionUID = -804946462543838511L;
@@ -130,28 +167,6 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
             }
 
         };
-        modeSwitch.setVisible(enableModeSwitch);
-        add(modeSwitch);
-
-        Link changePasswordLink = new Link(WR_CHANGE_PASSWORD_LINK)
-        {
-
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void onClick()
-            {
-                setResponsePage(ChangePasswordPage.class);
-            }
-        };
-        add(changePasswordLink);
-
-        // hide information from user without a password (federative only user)
-        if (!hasPassword)
-        {
-            changePasswordLink.setVisible(false);
-            userIdLabel.setVisible(false);
-        }
     }
 
     private int getNrOfAccounts(EasyUser user)
@@ -167,7 +182,7 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
         }
     }
 
-    private String getDisciplineString(String id)
+    private String fetchDisciplineString(String id)
     {
         KeyValuePair result = DisciplineUtils.getDisciplineItemById(id);
 
