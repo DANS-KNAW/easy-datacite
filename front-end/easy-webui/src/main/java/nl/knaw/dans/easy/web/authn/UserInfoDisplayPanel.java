@@ -1,7 +1,11 @@
 package nl.knaw.dans.easy.web.authn;
 
+import java.text.MessageFormat;
+    
+import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
+import nl.knaw.dans.easy.data.federation.FederativeUserRepo;
 import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.services.UserService;
@@ -36,6 +40,9 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
 
     @SpringBean(name = "userService")
     private UserService userService;
+
+    @SpringBean(name = "federativeUserRepo")
+    private FederativeUserRepo federativeUserRepo;
 
     public UserInfoDisplayPanel(final SwitchPanel parent, final String userId, final boolean enableModeSwitch)
     {
@@ -81,7 +88,7 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
 
     private void constructPanel(EasyUser user)
     {
-        super.setDefaultModel(new CompoundPropertyModel(user));
+        super.setDefaultModel(new CompoundPropertyModel<UserProperties>(user));
 
         addCommonFeedbackPanel();
 
@@ -105,6 +112,7 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
         add(new Label(UserProperties.EMAIL));
         add(new Label(UserProperties.TELEPHONE));
         add(new Label(UserProperties.DAI));
+        add(new Label("institutionAccounts",MessageFormat.format(getString("user.institution.accounts.format"),getNrOfAccounts(user))));
 
         // Have different message depending on boolean; yes or no!
         add(new Label(UserProperties.OPTS_FOR_NEWSLETTER, new StringResourceModel("userinfo.optsForNewsletter.${optsForNewsletter}", this, new Model(user))));
@@ -143,6 +151,19 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
         {
             changePasswordLink.setVisible(false);
             userIdLabel.setVisible(false);
+        }
+    }
+
+    private int getNrOfAccounts(EasyUser user)
+    {
+        try
+        {
+            return federativeUserRepo.findByDansUserId(user.getId().toString()).size();
+        }
+        catch (RepositoryException e)
+        {
+            logger.error(errorMessage(EasyResources.INTERNAL_ERROR), e);
+            throw new InternalWebError();
         }
     }
 

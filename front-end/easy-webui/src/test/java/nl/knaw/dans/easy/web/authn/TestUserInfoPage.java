@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyWicketTester;
@@ -33,6 +34,8 @@ public class TestUserInfoPage
 {
     protected EasyApplicationContextMock applicationContext;
     private EasyUserImpl shownUser;
+    private List<FederativeUserIdMap> federationUsers;
+    private FederativeUserRepo mockdFederativeUserRepo;
 
     static public class UserInfoPageWrapper extends UserInfoPage
     {
@@ -49,7 +52,8 @@ public class TestUserInfoPage
     @Before
     public void mockApplicationContext() throws Exception
     {
-        shownUser = new EasyUserImpl("shownUserId");
+        String shownUserId = "shownUserId";
+        shownUser = new EasyUserImpl(shownUserId);
         shownUser.setInitials("s.");
         shownUser.setSurname("Hown");
 
@@ -57,11 +61,16 @@ public class TestUserInfoPage
         expect(userService.isUserWithStoredPassword(EasyMock.eq(shownUser))).andReturn(true).anyTimes();
         expect(userService.getUserById(EasyMock.isA(EasyUser.class), EasyMock.isA(String.class))).andReturn(shownUser).anyTimes();
 
+        federationUsers = new ArrayList<FederativeUserIdMap>();
+        mockdFederativeUserRepo = PowerMock.createMock(FederativeUserRepo.class);
+        EasyMock.expect(mockdFederativeUserRepo.findByDansUserId(shownUserId)).andStubReturn(federationUsers);
+
         applicationContext = new EasyApplicationContextMock();
         applicationContext.expectStandardSecurity(false);
         applicationContext.expectDefaultResources();
         applicationContext.putBean("depositService", mockDespositChoices());
         applicationContext.putBean("userService", userService);
+        applicationContext.putBean("federativeUserRepo", mockdFederativeUserRepo);
     }
 
     /** Mock drop-down list for a discipline. */
@@ -123,25 +132,41 @@ public class TestUserInfoPage
     @Test
     public void hasFederationUsers() throws Exception
     {
-        final FederativeUserRepo federativeUserRepoMock = PowerMock.createMock(FederativeUserRepo.class);
-        final FederativeUserService federativeUserServiceMock = PowerMock.createMock(FederativeUserService.class);
-        applicationContext.putBean("federativeUserRepo", federativeUserRepoMock);
-        applicationContext.putBean("federativeUserServiceMock", federativeUserServiceMock);
-
-        final EasyUser sessionUser = createSessionUser();
-        final List<FederativeUserIdMap> list = new ArrayList<FederativeUserIdMap>();
-        list.add(new FederativeUserIdMap(UserInfoPageWrapper.userId, "mockeFedUserId1"));
-        list.add(new FederativeUserIdMap(UserInfoPageWrapper.userId, "mockeFedUserId2"));
-        EasyMock.expect(federativeUserServiceMock.getUserById(shownUser, null)).andStubReturn(sessionUser);
-        // TODO
-        // EasyMock.expect(federativeUserRepoMock.findByDansUserId(UserInfoPageWrapper.userId)).andStubReturn(list);
-
         UserInfoPageWrapper.enableModeSwith = true;
         UserInfoPageWrapper.inEditMode = false;
-        UserInfoPageWrapper.userId = sessionUser.getId();
+        UserInfoPageWrapper.userId = mockUserWithFederationLinks().getId();
         final EasyWicketTester tester = init();
         tester.assertRenderedPage(UserInfoPageWrapper.class);
         tester.dumpPage();
+    }
+
+    @Test
+    public void clickEditWithFederationUsers() throws Exception
+    {
+        UserInfoPageWrapper.enableModeSwith = true;
+        UserInfoPageWrapper.inEditMode = false;
+        UserInfoPageWrapper.userId = mockUserWithFederationLinks().getId();
+
+        mockdFederativeUserRepo.delete(EasyMock.isA(FederativeUserIdMap.class));
+        EasyMock.expectLastCall().times(2);
+
+        final EasyWicketTester tester = init();
+        tester.clickLink("userInfoPanel:switchPanel:editLink");
+        tester.clickLink("userInfoPanel:switchPanel:userInfoForm:unlinkInstitutionAccountsLink");
+        tester.debugComponentTrees();
+        tester.dumpPage();
+    }
+
+    private EasyUser mockUserWithFederationLinks() throws ServiceException, ObjectNotAvailableException
+    {
+        final FederativeUserService federativeUserServiceMock = PowerMock.createMock(FederativeUserService.class);
+        applicationContext.putBean("federativeUserServiceMock", federativeUserServiceMock);
+
+        final EasyUser sessionUser = createSessionUser();
+        federationUsers.add(new FederativeUserIdMap(UserInfoPageWrapper.userId, "mockeFedUserId1"));
+        federationUsers.add(new FederativeUserIdMap(UserInfoPageWrapper.userId, "mockeFedUserId2"));
+        EasyMock.expect(federativeUserServiceMock.getUserById(shownUser, null)).andStubReturn(sessionUser);
+        return sessionUser;
     }
 
     private EasyUser createSessionUser() throws ServiceException
