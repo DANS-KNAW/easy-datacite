@@ -141,7 +141,7 @@ public class TestUserInfoPage
     }
 
     @Test
-    public void clickEditWithFederationUsers() throws Exception
+    public void deleteFederationUsers() throws Exception
     {
         UserInfoPageWrapper.enableModeSwith = true;
         UserInfoPageWrapper.inEditMode = false;
@@ -150,10 +150,15 @@ public class TestUserInfoPage
         mockdFederativeUserRepo.delete(EasyMock.isA(FederativeUserIdMap.class));
         EasyMock.expectLastCall().times(2);
 
+        String editPath = "userInfoPanel:switchPanel:editLink";
+        String unlinkPath = "userInfoPanel:switchPanel:userInfoForm:unlinkInstitutionAccountsLink";
+        String labelPath = unlinkPath+":unlinkInstitutionAccountsLinkLabel";
         final EasyWicketTester tester = init();
-        tester.clickLink("userInfoPanel:switchPanel:editLink");
-        tester.clickLink("userInfoPanel:switchPanel:userInfoForm:unlinkInstitutionAccountsLink");
-        tester.debugComponentTrees();
+        tester.clickLink(editPath);
+        tester.assertVisible(unlinkPath);
+        tester.assertLabel(labelPath, "Remove the 2 links between institution account(s) and this EASY account");
+        tester.clickLink(unlinkPath);
+        tester.assertInvisible(unlinkPath);
         tester.dumpPage();
     }
 

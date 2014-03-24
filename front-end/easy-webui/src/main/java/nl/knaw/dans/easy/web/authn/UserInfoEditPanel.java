@@ -201,7 +201,7 @@ public class UserInfoEditPanel extends AbstractEasyStatelessPanel implements Eas
 
         private Component createUnlinkInstitutionAccountsButton(final List<FederativeUserIdMap> list)
         {
-            String labelValue = MessageFormat.format(getString("user.unlink.institution.accounts.format"), list);
+            String labelValue = MessageFormat.format(getString("user.unlink.institution.accounts.format"), list.size());
             return new Link<String>("unlinkInstitutionAccountsLink")
             {
                 private static final long serialVersionUID = -1205869652104297953L;
@@ -210,6 +210,7 @@ public class UserInfoEditPanel extends AbstractEasyStatelessPanel implements Eas
                 public void onClick()
                 {
                     handleDeleteInstitutionAccountButtonClicked(list);
+                    setVisible(false);
                 }
 
             }.add(new Label("unlinkInstitutionAccountsLinkLabel", labelValue)).setVisible(list.size() > 0);
