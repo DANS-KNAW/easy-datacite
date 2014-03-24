@@ -130,17 +130,6 @@ public class TestUserInfoPage
     }
 
     @Test
-    public void hasFederationUsers() throws Exception
-    {
-        UserInfoPageWrapper.enableModeSwith = true;
-        UserInfoPageWrapper.inEditMode = false;
-        UserInfoPageWrapper.userId = mockUserWithFederationLinks().getId();
-        final EasyWicketTester tester = init();
-        tester.assertRenderedPage(UserInfoPageWrapper.class);
-        tester.dumpPage();
-    }
-
-    @Test
     public void deleteFederationUsers() throws Exception
     {
         UserInfoPageWrapper.enableModeSwith = true;
@@ -150,14 +139,21 @@ public class TestUserInfoPage
         mockdFederativeUserRepo.delete(EasyMock.isA(FederativeUserIdMap.class));
         EasyMock.expectLastCall().times(2);
 
-        String editPath = "userInfoPanel:switchPanel:editLink";
-        String unlinkPath = "userInfoPanel:switchPanel:userInfoForm:unlinkInstitutionAccountsLink";
+        String switchPanelPath = "userInfoPanel:switchPanel";
+        String editPath = switchPanelPath + ":editLink";
+        String unlinkPath = switchPanelPath + ":userInfoForm:unlinkInstitutionAccountsLink";
+        String yesPath = switchPanelPath + ":userInfoForm:popup:content:yes";
+        String txtPath = switchPanelPath + ":userInfoForm:popup:content:text";
         String labelPath = unlinkPath+":unlinkInstitutionAccountsLinkLabel";
+        
         final EasyWicketTester tester = init();
         tester.clickLink(editPath);
         tester.assertVisible(unlinkPath);
-        tester.assertLabel(labelPath, "Remove the 2 links between institution account(s) and this EASY account");
+        tester.assertLabel(labelPath, "Remove the 2 link(s) between institution account(s) and this EASY account");
         tester.clickLink(unlinkPath);
+        tester.assertLabel(txtPath, "Are you sure you want to remove the link(s) with 2 institution accounts?");
+        tester.clickLink(yesPath);
+        tester.debugComponentTrees();
         tester.assertInvisible(unlinkPath);
         tester.dumpPage();
     }

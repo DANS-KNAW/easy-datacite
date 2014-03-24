@@ -19,6 +19,7 @@ import nl.knaw.dans.easy.web.HomePage;
 import nl.knaw.dans.easy.web.common.ApplicationUser;
 import nl.knaw.dans.easy.web.common.DisciplineUtils;
 import nl.knaw.dans.easy.web.common.UserProperties;
+import nl.knaw.dans.easy.web.fileexplorer.FileExplorer;
 import nl.knaw.dans.easy.web.template.AbstractEasyStatelessForm;
 import nl.knaw.dans.easy.web.template.AbstractEasyStatelessPanel;
 import nl.knaw.dans.easy.web.wicket.KvpChoiceRenderer;
@@ -27,6 +28,10 @@ import nl.knaw.dans.easy.web.wicketutil.DAIValidator;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.RestartResponseException;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
+import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.AbstractSingleSelectChoice;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -202,17 +207,26 @@ public class UserInfoEditPanel extends AbstractEasyStatelessPanel implements Eas
         private Component createUnlinkInstitutionAccountsButton(final List<FederativeUserIdMap> list)
         {
             String labelValue = MessageFormat.format(getString("user.unlink.institution.accounts.format"), list.size());
-            return new Link<String>("unlinkInstitutionAccountsLink")
+            final ModalWindow popup = new ModalWindow("popup");
+            popup.setUseInitialHeight(false);
+            popup.setInitialWidth(450);
+            popup.add(CSSPackageResource.getHeaderContribution(FileExplorer.class, "style/modal.css"));
+            add(popup);
+
+            return new AjaxLink<Void>("unlinkInstitutionAccountsLink")
             {
-                private static final long serialVersionUID = -1205869652104297953L;
+                private static final long serialVersionUID = 3429899621436517328L;
 
                 @Override
-                public void onClick()
+                public void onClick(AjaxRequestTarget target)
                 {
-                    handleDeleteInstitutionAccountButtonClicked(list);
-                    setVisible(false);
+                    target.prependJavascript("Wicket.Window.unloadConfirmation = false;");
+                    logger.debug("Unlink institution account clicked.");
+                    popup.setTitle("Unlink institution accounts");
+                    popup.setContent(new UnlinkAccountsPanel(popup, list,this));
+                    popup.show(target);
+                    logger.debug("hallo");
                 }
-
             }.add(new Label("unlinkInstitutionAccountsLinkLabel", labelValue)).setVisible(list.size() > 0);
         }
 
