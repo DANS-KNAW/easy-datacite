@@ -45,16 +45,14 @@ public class RiConnector
         this.queryLanguage = queryLanguage;
     }
 
-    public TupleIterator getTuples(String query, boolean log) throws RepositoryException
+    public TupleIterator getTuples(String query) throws RepositoryException
     {
-        if (log)
-            logger.debug("getTuples() called with query :\n" + query + "\n");
-
         TupleIterator tupleIterator = null;
         Map<String, String> parameters = new HashMap<String, String>();
         parameters.put("lang", getQueryLanguage());
         parameters.put("query", query);
         parameters.put("stream", "true"); // stream immediately from server
+        logger.debug("Start performing query ...");
         long start = System.currentTimeMillis();
         try
         {
@@ -65,8 +63,7 @@ public class RiConnector
             throw new RepositoryException("Error getting tuples from Fedora: " + e.getMessage(), e);
         }
         long end = System.currentTimeMillis();
-        if (log)
-            logger.info("Query took " + (end - start) + " msec.");
+        logger.debug("Query took " + (end - start) + " msec.");
         return tupleIterator;
     }
 
@@ -95,7 +92,8 @@ public class RiConnector
 
         try
         {
-            TupleIterator tuples = getTuples(query, true);
+            logger.debug("Calling RiConnector.getTuples() with query:\n" + query);
+            TupleIterator tuples = getTuples(query);
             logger.debug("Saving query results to disk...");
             tuples.toStream(out, RDFFormat.CSV);
         }
