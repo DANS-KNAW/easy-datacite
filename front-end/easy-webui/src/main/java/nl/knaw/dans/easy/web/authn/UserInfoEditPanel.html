@@ -8,7 +8,6 @@
 		<tr>
 			<td><h2>Account</h2></td>
 		</tr>
-		<div wicket:id="popup">[popup]</div>
 		
 		<wicket:enclosure>
 		<tr>
@@ -33,15 +32,6 @@
 			<td><label for="email"><wicket:message key="user.email">email</wicket:message></label><span class="requiredMarkColor">*</span></td>
 			<td><input id="email" type="text" wicket:id="email" /></td>
 			<td class="explanation"><wicket:message key="email.explanation"/></td>
-		</tr>
-
-		<tr wicket:enclosure="unlinkInstitutionAccountsLink">
-			<td><label for="unlinkInstitutionAccountsLink"><wicket:message key="user.institution.accounts">institution accounts</wicket:message></label></td>
-			<td>
-				<a wicket:id="unlinkInstitutionAccountsLink" class="button">
-					<label id="unlinkInstitutionAccountsLinkLabel" wicket:id="unlinkInstitutionAccountsLinkLabel" >unlink institution accounts</label>
-				</a>
-			</td>
 		</tr>
 
 		<tr>

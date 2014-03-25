@@ -139,23 +139,21 @@ public class TestUserInfoPage
         mockdFederativeUserRepo.delete(EasyMock.isA(FederativeUserIdMap.class));
         EasyMock.expectLastCall().times(2);
 
-        String switchPanelPath = "userInfoPanel:switchPanel";
-        String editPath = switchPanelPath + ":editLink";
-        String unlinkPath = switchPanelPath + ":userInfoForm:unlinkInstitutionAccountsLink";
-        String yesPath = switchPanelPath + ":userInfoForm:popup:content:yes";
-        String txtPath = switchPanelPath + ":userInfoForm:popup:content:text";
-        String labelPath = unlinkPath+":unlinkInstitutionAccountsLinkLabel";
-        
+        String switchPath = "userInfoPanel:switchPanel:";
+        String unlinkPath = switchPath + "unlinkInstitutionAccountsLink";
+        String labelPath = switchPath + "institutionAccounts";
+        String areYouSurePath = switchPath + "popup:content:confirm";
+        String yesPath = switchPath + "popup:content:yes";
+
         final EasyWicketTester tester = init();
-        tester.clickLink(editPath);
         tester.assertVisible(unlinkPath);
-        tester.assertLabel(labelPath, "Remove the 2 link(s) between institution account(s) and this EASY account");
-        tester.clickLink(unlinkPath);
-        tester.assertLabel(txtPath, "Are you sure you want to remove the link(s) with 2 institution accounts?");
-        tester.clickLink(yesPath);
-        tester.debugComponentTrees();
-        tester.assertInvisible(unlinkPath);
+        tester.assertLabel(labelPath, "This EASY account is linked with 2 institution account(s)");
         tester.dumpPage();
+        tester.clickLink(unlinkPath);
+        tester.debugComponentTrees();
+        tester.assertLabel(areYouSurePath, "Are you sure you want to remove the link(s) with 2 institution account(s)?");
+        tester.clickLink(yesPath);
+        tester.assertInvisible(unlinkPath);
     }
 
     private EasyUser mockUserWithFederationLinks() throws ServiceException, ObjectNotAvailableException

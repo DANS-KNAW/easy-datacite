@@ -1,23 +1,30 @@
 package nl.knaw.dans.easy.web.authn;
 
 import java.text.MessageFormat;
-    
+import java.util.List;
+
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.data.federation.FederativeUserRepo;
 import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
+import nl.knaw.dans.easy.domain.federation.FederativeUserIdMap;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.services.UserService;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.ErrorPage;
 import nl.knaw.dans.easy.web.common.DisciplineUtils;
 import nl.knaw.dans.easy.web.common.UserProperties;
+import nl.knaw.dans.easy.web.fileexplorer.FileExplorer;
 import nl.knaw.dans.easy.web.template.AbstractEasyStatelessPanel;
 import nl.knaw.dans.easy.web.wicket.SwitchPanel;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.RestartResponseException;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
+import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.CompoundPropertyModel;
@@ -116,7 +123,12 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
         add(new Label(UserProperties.EMAIL));
         add(new Label(UserProperties.TELEPHONE));
         add(new Label(UserProperties.DAI));
-        add(new Label("institutionAccounts",cerateInstituetionAccountsMessage(user)));
+
+        final ModalWindow popup = createPopup();
+        List<FederativeUserIdMap> linkedAccountsList = getLinkedAccounts(user);
+        add(createLinkedAccountsLabel(linkedAccountsList.size()));
+        add(createUnlinkInstitutionAccountsButton(linkedAccountsList, popup));
+        add(popup);
 
         // Have different message depending on boolean; yes or no!
         add(createRadio(user, UserProperties.OPTS_FOR_NEWSLETTER, "userinfo.optsForNewsletter.${optsForNewsletter}"));
@@ -126,11 +138,39 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
         add(createPasswordLink().setVisible(hasPassword));
     }
 
-    private String cerateInstituetionAccountsMessage(EasyUser user)
+    private Component createLinkedAccountsLabel(int count)
     {
         String format = getString("user.institution.accounts.format");
-        int count = getNrOfAccounts(user);
-        return MessageFormat.format(format,count);
+        String createInstituetionAccountsMessage = MessageFormat.format(format, count);
+        return new Label("institutionAccounts", createInstituetionAccountsMessage).setVisible(count > 0);
+    }
+
+    private Component createUnlinkInstitutionAccountsButton(final List<FederativeUserIdMap> linkedAccountsList, final ModalWindow popup)
+    {
+        return new AjaxLink<Void>("unlinkInstitutionAccountsLink")
+        {
+            private static final long serialVersionUID = 3429899621436517328L;
+
+            @Override
+            public void onClick(AjaxRequestTarget target)
+            {
+                target.prependJavascript("Wicket.Window.unloadConfirmation = false;");
+                logger.debug("Unlink institution account clicked.");
+                popup.setTitle("Unlink institution accounts");
+                popup.setContent(new UnlinkAccountsPanel(popup, linkedAccountsList, this));
+                popup.show(target);
+                logger.debug("Unlink institution account Popup shown");
+            }
+        }.setVisible(linkedAccountsList.size() > 0);
+    }
+
+    private ModalWindow createPopup()
+    {
+        final ModalWindow popup = new ModalWindow("popup");
+        popup.setUseInitialHeight(false);
+        popup.setInitialWidth(450);
+        popup.add(CSSPackageResource.getHeaderContribution(FileExplorer.class, "style/modal.css"));
+        return popup;
     }
 
     private Label createRadio(EasyUser user, String wicketId, String resourceKey)
@@ -169,11 +209,11 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
         };
     }
 
-    private int getNrOfAccounts(EasyUser user)
+    private List<FederativeUserIdMap> getLinkedAccounts(EasyUser user)
     {
         try
         {
-            return federativeUserRepo.findByDansUserId(user.getId().toString()).size();
+            return federativeUserRepo.findByDansUserId(user.getId().toString());
         }
         catch (RepositoryException e)
         {

@@ -5,11 +5,11 @@ import org.apache.wicket.extensions.ajax.markup.html.IndicatingAjaxLink;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.markup.html.panel.Panel;
 
-public abstract class AreYouSurePanel extends Panel
+public abstract class ModalYesNoPanel extends Panel
 {
     private static final long serialVersionUID = 1L;
 
-    public AreYouSurePanel(final ModalWindow window)
+    public ModalYesNoPanel(final ModalWindow window)
     {
         super(window.getContentId());
 

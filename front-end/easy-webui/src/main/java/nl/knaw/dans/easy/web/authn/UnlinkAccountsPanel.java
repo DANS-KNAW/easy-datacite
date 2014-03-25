@@ -9,9 +9,11 @@ import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.data.federation.FederativeUserRepo;
 import nl.knaw.dans.easy.domain.federation.FederativeUserIdMap;
 import nl.knaw.dans.easy.web.EasyResources;
-import nl.knaw.dans.easy.web.common.AreYouSurePanel;
+import nl.knaw.dans.easy.web.common.ModalYesNoPanel;
+import nl.knaw.dans.easy.web.template.AbstractEasyPage;
 
 import org.apache.wicket.Component;
+import org.apache.wicket.Page;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.feedback.FeedbackMessage;
 import org.apache.wicket.markup.html.basic.Label;
@@ -19,7 +21,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class UnlinkAccountsPanel extends AreYouSurePanel
+public class UnlinkAccountsPanel extends ModalYesNoPanel
 {
     private static final long serialVersionUID = 1L;
 
@@ -37,8 +39,9 @@ public class UnlinkAccountsPanel extends AreYouSurePanel
         super(window);
         this.list = list;
         this.caller = caller;
-        String format = getString("user.unlink.institution.accounts.confirmation");
-        add(new Label("text", MessageFormat.format(format, list.size())));
+        String format = getString("user.unlink.institution.accounts.confirm");
+        add(new Label("confirm", MessageFormat.format(format, list.size())));
+        add(new Label("relink", getString("user.unlink.institution.accounts.relink")));
     }
 
     @Override
@@ -56,6 +59,16 @@ public class UnlinkAccountsPanel extends AreYouSurePanel
             String message = WicketUtil.commonMessage(this, EasyResources.INTERNAL_ERROR, FeedbackMessage.ERROR, new String[] {});
             logger.error(message, e);
             throw new InternalWebError();
+        }
+        // refresh the page for real life
+        Page page = getPage();
+        if (page != null && page instanceof AbstractEasyPage)
+        {
+            ((AbstractEasyPage) page).refresh();
+        }
+        if (page != null)
+        {
+            setResponsePage(page);
         }
     }
 }
