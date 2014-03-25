@@ -23,6 +23,7 @@ import org.apache.wicket.Component;
 import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.html.basic.Label;
@@ -30,6 +31,7 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.resource.ContextRelativeResource;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -169,7 +171,8 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
         final ModalWindow popup = new ModalWindow("popup");
         popup.setUseInitialHeight(false);
         popup.setInitialWidth(450);
-        popup.add(CSSPackageResource.getHeaderContribution(FileExplorer.class, "style/modal.css"));
+        HeaderContributor headerContribution = CSSPackageResource.getHeaderContribution("css/modal.css");
+        popup.add(headerContribution);
         return popup;
     }
 

@@ -127,7 +127,7 @@ public class StatusPanel extends AbstractEasyPanel
         final ModalWindow popup = new ModalWindow("popup");
         popup.setUseInitialHeight(false);
         popup.setInitialWidth(450);
-        popup.add(CSSPackageResource.getHeaderContribution(FileExplorer.class, "style/modal.css"));
+        popup.add(CSSPackageResource.getHeaderContribution("css/modal.css"));
         add(popup);
 
         AjaxLink<Void> deleteDataset = new AjaxLink<Void>("deleteDataset")

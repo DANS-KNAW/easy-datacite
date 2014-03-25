@@ -70,7 +70,7 @@ public class DepositUploadPanel extends AbstractDatasetModelPanel
         popup.setInitialWidth(width);
         // popup.setInitialHeight(height);
         popup.setTitle("Files");
-        popup.add(CSSPackageResource.getHeaderContribution(FileExplorer.class, "style/modal.css"));
+        popup.add(CSSPackageResource.getHeaderContribution("css/modal.css"));
         uploadPanelHolder.add(popup);
 
         AjaxLink<Void> showFilesLink = new AjaxLink<Void>("popupLink")

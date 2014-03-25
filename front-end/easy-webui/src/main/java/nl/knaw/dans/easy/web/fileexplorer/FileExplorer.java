@@ -745,7 +745,7 @@ public class FileExplorer extends AbstractDatasetModelPanel
         modal.setUseInitialHeight(false);
         modal.setInitialWidth(initialWidth);
         modal.setTitle(title);
-        modal.add(CSSPackageResource.getHeaderContribution(FileExplorer.class, "style/modal.css"));
+        modal.add(CSSPackageResource.getHeaderContribution("css/modal.css"));
         modal.setCloseButtonCallback(createCloseButtonCallback());
         return modal;
     }
