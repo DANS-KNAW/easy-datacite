@@ -9,19 +9,17 @@ import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.data.federation.FederativeUserRepo;
 import nl.knaw.dans.easy.domain.federation.FederativeUserIdMap;
 import nl.knaw.dans.easy.web.EasyResources;
+import nl.knaw.dans.easy.web.common.AreYouSurePanel;
 
 import org.apache.wicket.Component;
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.extensions.ajax.markup.html.IndicatingAjaxLink;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.feedback.FeedbackMessage;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class UnlinkAccountsPanel extends Panel
+public class UnlinkAccountsPanel extends AreYouSurePanel
 {
     private static final long serialVersionUID = 1L;
 
@@ -30,52 +28,34 @@ public class UnlinkAccountsPanel extends Panel
     @SpringBean(name = "federativeUserRepo")
     private FederativeUserRepo federativeUserRepo;
 
+    private List<FederativeUserIdMap> list;
+
+    private Component caller;
+
     public UnlinkAccountsPanel(final ModalWindow window, final List<FederativeUserIdMap> list, final Component caller)
     {
-        super(window.getContentId());
-        add(new Label("text", MessageFormat.format(getString("text"), list.size())));
-
-        add(new IndicatingAjaxLink<Void>("yes")
-        {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void onClick(AjaxRequestTarget target)
-            {
-                handleUnlinkAccounts(list);
-                caller.setVisible(false);
-                window.close(target);
-            }
-        });
-
-        add(new IndicatingAjaxLink<Void>("no")
-        {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void onClick(AjaxRequestTarget target)
-            {
-                window.close(target);
-            }
-        });
+        super(window);
+        this.list = list;
+        this.caller = caller;
+        String format = getString("user.unlink.institution.accounts.confirmation");
+        add(new Label("text", MessageFormat.format(format, list.size())));
     }
 
-    private void handleUnlinkAccounts(final List<FederativeUserIdMap> list)
+    @Override
+    protected void handleYesClicked()
     {
         try
         {
             for (FederativeUserIdMap idMap : list)
                 federativeUserRepo.delete(idMap);
+            // works in the unit test but field is not updated in real life
+            caller.setVisible(false);
         }
         catch (RepositoryException e)
         {
-            logger.error(errorMessage(EasyResources.INTERNAL_ERROR), e);
+            String message = WicketUtil.commonMessage(this, EasyResources.INTERNAL_ERROR, FeedbackMessage.ERROR, new String[] {});
+            logger.error(message, e);
             throw new InternalWebError();
         }
-    }
-
-    private String errorMessage(final String messageKey, final String... param)
-    {
-        return WicketUtil.commonMessage(this, messageKey, FeedbackMessage.ERROR, param);
     }
 }
