@@ -11,6 +11,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.jrdf.graph.Literal;
+import org.jrdf.graph.Node;
 import org.trippi.TrippiException;
 import org.trippi.TupleIterator;
 
@@ -190,7 +192,8 @@ public class ListRecordIterator implements RemoteIterator<FedoraRecord>
     {
         Set<String> setSpecSet = new HashSet<String>();
         String query = composer.getSetSpecQuery(objectId);
-        TupleIterator tupleIter = riConnector.getTuples(query, false);
+        logger.debug("Calling RiConnector.getTuples() with query:\n" + query);
+        TupleIterator tupleIter = riConnector.getTuples(query);
         try
         {
             while (tupleIter.hasNext())
@@ -198,7 +201,17 @@ public class ListRecordIterator implements RemoteIterator<FedoraRecord>
                 Map map = tupleIter.next();
                 for (Object o : map.keySet())
                 {
-                    setSpecSet.add(map.get(o).toString());
+                    Node node = (Node) map.get(o);
+                    if (node.isLiteral())
+                    {
+                        String lexicalForm = ((Literal) node).getLexicalForm();
+                        logger.debug("Adding setSpect for " + objectId + ": " + lexicalForm);
+                        setSpecSet.add(lexicalForm);
+                    }
+                    else
+                    {
+                        logger.error("Expected an RDF literal as setSpec, but got " + node.getClass());
+                    }
                 }
             }
         }
