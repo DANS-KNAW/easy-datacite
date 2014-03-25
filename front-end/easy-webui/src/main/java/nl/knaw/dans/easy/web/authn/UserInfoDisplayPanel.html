@@ -3,6 +3,12 @@
 	<div id="commonFeedbackPanel" wicket:id="commonFeedbackPanel"
 		class="feedback">Messages</div>
 
+	<div wicket:id="popup">[popup]</div>
+	<p wicket:enclosure="unlinkInstitutionAccountsLink">
+		<label id="institutionAccounts" wicket:id="institutionAccounts" />
+		<a wicket:id="unlinkInstitutionAccountsLink" class="button">Remove link(s)</a>
+	</p>
+	<p>&nbsp;</p>
 	<table class="panel">
 		<tr>
 			<td><h2>Account</h2></td>
@@ -25,6 +31,7 @@
 			<td><label for="email"><wicket:message key="user.email">User email</wicket:message></label></td>
 			<td><label id="email" wicket:id="email" /></td>
 		</tr>
+
 
 		<tr>
 			<td><h2>Person</h2></td>

@@ -42,7 +42,7 @@ public class Util
         modal.setUseInitialHeight(false);
         modal.setInitialWidth(initialWidth);
         modal.setTitle(title);
-        modal.add(CSSPackageResource.getHeaderContribution(FileExplorer.class, "style/modal.css"));
+        modal.add(CSSPackageResource.getHeaderContribution("css/modal.css"));
         return modal;
     }
 }

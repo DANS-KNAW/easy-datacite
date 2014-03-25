@@ -54,7 +54,7 @@ public abstract class EasySearchResultPanel extends SearchResultPanel
             // TODO get title from properties file
             popup.setTitle("Help");
             // TODO use a global or help css and not from FileExplorer
-            popup.add(CSSPackageResource.getHeaderContribution(FileExplorer.class, "style/modal.css"));
+            popup.add(CSSPackageResource.getHeaderContribution("css/modal.css"));
             searchTips.add(popup);
             AjaxLink<Void> showHelpLink = new AjaxLink<Void>("popupLink")
             {
