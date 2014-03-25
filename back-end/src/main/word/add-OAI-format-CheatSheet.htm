@@ -340,14 +340,15 @@
 					<b>&lt;password&gt;</b> http <br />fedora-ingest.sh file "easy-sde<b>f</b>:oai-item1.xml"
 					"info:fedora/fedora-system:FOXML-1.1" "localhost:8080" fedoraAdmin
 					<b>&lt;password&gt;</b> http
-				</code>
+				</code><br/>
+				Wachtwoorden tussen enkele quotes, $ en eventuele andere speciale tekens ook nog eens escapen met een \.
 			</li>
 			<li>De xsl files als datastreams aan de vernieuwde objecten
 				toevoegen: <br /> <code>
 					cd /opt/easy-backend-<b>2.9</b>/easy-fedora-commons-repository/oai-pmh/<br />
 					sudo ./add-oai-pmh-support.sh &lt;password:fedoraAdmin&gt;
-				</code>
-
+				</code><br/>
+				Wachtwoorden nu zonder quotes quotes, $ wel escapen.
 			</li>
 			<li>Tomcat herstarten:<br> <code>sudo service
 					tomcat6 force-reload; tail -f -n200 /var/log/tomcat6/catalina.out</code></li>
@@ -370,7 +371,7 @@ sudo service tomcat6 force-reload; tail -f -n200 /var/log/tomcat6/catalina.out
 </pre>
 			</li>
 			<li>Na opnieuw deployen moet eventueel de cache leeggemaakt
-				worden. Verwijder of rename de folder <code>/data/proai/cach</code>
+				worden. Verwijder of rename de folder <code>/data/proai/cache</code>
 				en zet de <code>lastpolldate</code> in de tabel <code>rcformat</code>
 				voor het betreffende format op 0. Bijvoorbeeld met <pre>
 $ sudo -u postgres psql -U postgres
