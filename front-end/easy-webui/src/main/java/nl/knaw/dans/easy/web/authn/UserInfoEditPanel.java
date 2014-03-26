@@ -1,10 +1,14 @@
 package nl.knaw.dans.easy.web.authn;
 
+import java.util.List;
+
+import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.common.wicket.util.TelephoneNumberValidator;
-import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceList;
+import nl.knaw.dans.easy.data.federation.FederativeUserRepo;
 import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
+import nl.knaw.dans.easy.domain.federation.FederativeUserIdMap;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.servicelayer.services.UserService;
@@ -20,8 +24,10 @@ import nl.knaw.dans.easy.web.wicket.KvpChoiceRenderer;
 import nl.knaw.dans.easy.web.wicket.SwitchPanel;
 import nl.knaw.dans.easy.web.wicketutil.DAIValidator;
 
+import org.apache.wicket.Component;
 import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.AbstractSingleSelectChoice;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.form.Radio;
@@ -54,6 +60,9 @@ public class UserInfoEditPanel extends AbstractEasyStatelessPanel implements Eas
 
     @SpringBean(name = "userService")
     private UserService userService;
+
+    @SpringBean(name = "federativeUserRepo")
+    private FederativeUserRepo federativeUserRepo;
 
     public UserInfoEditPanel(final SwitchPanel parent, final String userId, final boolean enableModeSwitch)
     {
@@ -107,7 +116,7 @@ public class UserInfoEditPanel extends AbstractEasyStatelessPanel implements Eas
     {
         private static final long serialVersionUID = 6429049682947798419L;
 
-        @SuppressWarnings({"unchecked", "serial", "rawtypes"})
+        @SuppressWarnings({"unchecked", "rawtypes"})
         public UserInfoForm(final String wicketId, final EasyUser user)
         {
             super(wicketId, new CompoundPropertyModel(user));
@@ -117,69 +126,94 @@ public class UserInfoEditPanel extends AbstractEasyStatelessPanel implements Eas
             add(new Label(UserProperties.USER_ID).setVisible(hasPassword));
 
             addWithComponentFeedback(new TextField(UserProperties.TITLE), new ResourceModel("user.title"));
-
             addWithComponentFeedback(new RequiredTextField(UserProperties.INITIALS), new ResourceModel("user.initials"));
-
             addWithComponentFeedback(new TextField(UserProperties.PREFIXES), new ResourceModel("user.prefixes"));
-
             addWithComponentFeedback(new RequiredTextField(UserProperties.SURNAME), new ResourceModel("user.surname"));
 
             add(new Label(UserProperties.DISPLAYNAME));
 
             addWithComponentFeedback(new TextField(UserProperties.ORGANIZATION), new ResourceModel("user.organization"));
-
             addWithComponentFeedback(new TextField(UserProperties.DEPARTMENT), new ResourceModel("user.department"));
-
             addWithComponentFeedback(new TextField(UserProperties.FUNCTION), new ResourceModel("user.function"));
 
             ApplicationUser proxy = new ApplicationUser(user);
-            add(new DropDownChoice<KeyValuePair>(UserProperties.DISCIPLINE1, new PropertyModel<KeyValuePair>(proxy, UserProperties.DISCIPLINE1),
-                    DisciplineUtils.getDisciplinesChoiceList().getChoices(), new KvpChoiceRenderer()).setNullValid(true));
-            add(new DropDownChoice<KeyValuePair>(UserProperties.DISCIPLINE2, new PropertyModel<KeyValuePair>(proxy, UserProperties.DISCIPLINE2),
-                    DisciplineUtils.getDisciplinesChoiceList().getChoices(), new KvpChoiceRenderer()).setNullValid(true));
-            add(new DropDownChoice<KeyValuePair>(UserProperties.DISCIPLINE3, new PropertyModel<KeyValuePair>(proxy, UserProperties.DISCIPLINE3),
-                    DisciplineUtils.getDisciplinesChoiceList().getChoices(), new KvpChoiceRenderer()).setNullValid(true));
+            add(createDisiplineDropDown(proxy, UserProperties.DISCIPLINE1));
+            add(createDisiplineDropDown(proxy, UserProperties.DISCIPLINE2));
+            add(createDisiplineDropDown(proxy, UserProperties.DISCIPLINE3));
 
             addWithComponentFeedback(new RequiredTextField(UserProperties.ADDRESS), new ResourceModel("user.address"));
-
             addWithComponentFeedback(new RequiredTextField(UserProperties.POSTALCODE), new ResourceModel("user.postalCode"));
-
             addWithComponentFeedback(new RequiredTextField(UserProperties.CITY), new ResourceModel("user.city"));
-
             addWithComponentFeedback(new TextField(UserProperties.COUNTRY), new ResourceModel("user.country"));
 
-            FormComponent email = new RequiredTextField(UserProperties.EMAIL);
-            addWithComponentFeedback(email.add(EmailAddressValidator.getInstance()), new ResourceModel("user.email"));
-
-            FormComponent telephone = new TextField(UserProperties.TELEPHONE);
-            telephone.add(TelephoneNumberValidator.instance());
-            addWithComponentFeedback(telephone, new ResourceModel("user.telephone"));
-
-            addWithComponentFeedback(new TextField<String>(ApplicationUser.DAI)
-            {
-                protected boolean shouldTrimInput()
-                {
-                    return true;
-                };
-            }.add(DAIValidator.instance()), new ResourceModel(RegistrationPage.USER_DAI));
+            addWithComponentFeedback(createEmailField(), new ResourceModel("user.email"));
+            addWithComponentFeedback(createTelephoneField(), new ResourceModel("user.telephone"));
+            addWithComponentFeedback(createDaiField(), new ResourceModel(RegistrationPage.USER_DAI));
 
             // inform by email newsletter selection (Yes/No radio buttons)
-            RadioGroup informByEmailSelection = new RadioGroup(UserProperties.OPTS_FOR_NEWSLETTER);
+            String optsForNewsletter = UserProperties.OPTS_FOR_NEWSLETTER;
+            RadioGroup informByEmailSelection = new RadioGroup(optsForNewsletter);
             informByEmailSelection.add(new Radio("news-yes", new Model(true)));
             informByEmailSelection.add(new Radio("news-no", new Model(false)));
             add(informByEmailSelection);
 
-            RadioGroup logMyActionsSelection = new RadioGroup(ApplicationUser.LOG_MY_ACTIONS);
+            String logMyActions = ApplicationUser.LOG_MY_ACTIONS;
+            RadioGroup logMyActionsSelection = new RadioGroup(logMyActions);
             logMyActionsSelection.add(new Radio<Boolean>("log-yes", new Model<Boolean>(true)));
             logMyActionsSelection.add(new Radio<Boolean>("log-no", new Model<Boolean>(false)));
             add(logMyActionsSelection);
 
-            SubmitLink updateButton = new SubmitLink(UPDATE_BUTTON);
-            add(updateButton);
+            add(new SubmitLink(UPDATE_BUTTON));
+            add(createCancelButton());
+        }
 
-            Link cancelButton = new Link(CANCEL_BUTTON)
+        private FormComponent createEmailField()
+        {
+            return new RequiredTextField(UserProperties.EMAIL).add(EmailAddressValidator.getInstance());
+        }
+
+        private FormComponent createTelephoneField()
+        {
+            return new TextField(UserProperties.TELEPHONE).add(TelephoneNumberValidator.instance());
+        }
+
+        private FormComponent<String> createDaiField()
+        {
+            return new TextField<String>(ApplicationUser.DAI)
             {
+                private static final long serialVersionUID = 1L;
 
+                protected boolean shouldTrimInput()
+                {
+                    return true;
+                };
+            }.add(DAIValidator.instance());
+        }
+
+        private AbstractSingleSelectChoice<KeyValuePair> createDisiplineDropDown(ApplicationUser proxy, String discipline)
+        {
+            PropertyModel<KeyValuePair> propertyModel = new PropertyModel<KeyValuePair>(proxy, discipline);
+            List<KeyValuePair> choices = DisciplineUtils.getDisciplinesChoiceList().getChoices();
+            return new DropDownChoice<KeyValuePair>(discipline, propertyModel, choices, new KvpChoiceRenderer()).setNullValid(true);
+        }
+
+        private List<FederativeUserIdMap> getLinkedFederationAccounts(EasyUser user)
+        {
+            try
+            {
+                return federativeUserRepo.findByDansUserId(user.getId().toString());
+            }
+            catch (RepositoryException e)
+            {
+                logger.error(errorMessage(EasyResources.INTERNAL_ERROR), e);
+                throw new InternalWebError();
+            }
+        }
+
+        private Component createCancelButton()
+        {
+            return new Link<String>(CANCEL_BUTTON)
+            {
                 private static final long serialVersionUID = -1205869652104297953L;
 
                 @Override
@@ -188,27 +222,26 @@ public class UserInfoEditPanel extends AbstractEasyStatelessPanel implements Eas
                     handleCancelButtonClicked();
                 }
             };
-            add(cancelButton);
-        }
-
-        private ChoiceList getDisciplinesChoiceList()
-        {
-            try
-            {
-                return Services.getDepositService().getChoices("custom.disciplines", null);
-            }
-            catch (ServiceException e)
-            {
-                final String message = errorMessage(EasyResources.INTERNAL_ERROR);
-                logger.error(message, e);
-                throw new InternalWebError();
-            }
         }
 
         @Override
         protected void onSubmit()
         {
             handleUpdateButtonClicked();
+        }
+
+        private void handleDeleteInstitutionAccountButtonClicked(final List<FederativeUserIdMap> list)
+        {
+            try
+            {
+                for (FederativeUserIdMap idMap : list)
+                    federativeUserRepo.delete(idMap);
+            }
+            catch (RepositoryException e)
+            {
+                logger.error(errorMessage(EasyResources.INTERNAL_ERROR), e);
+                throw new InternalWebError();
+            }
         }
 
         private void handleUpdateButtonClicked()

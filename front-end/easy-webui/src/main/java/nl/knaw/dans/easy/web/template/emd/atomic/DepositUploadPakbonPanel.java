@@ -58,7 +58,7 @@ public class DepositUploadPakbonPanel extends AbstractDatasetModelPanel
         popup.setUseInitialHeight(false);
         popup.setInitialWidth(width);
         popup.setTitle("Files");
-        popup.add(CSSPackageResource.getHeaderContribution(FileExplorer.class, "style/modal.css"));
+        popup.add(CSSPackageResource.getHeaderContribution("css/modal.css"));
         uploadPanelHolder.add(popup);
         this.add(uploadPanelHolder);
     }
