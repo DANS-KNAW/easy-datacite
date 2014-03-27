@@ -49,11 +49,11 @@ public interface DatasetItemContainer extends DataModelObject
      */
     void onDescendantStateChange(CreatorRole oldCreatorRole, CreatorRole newCreatorRole);
 
-    // / COMMENTED OUT FOR RELEASE 2.8
     /**
      * NOT PART OF THE PUBLIC API. CALLED INTERNALLY.
      */
-    // void onDescendantStateChange(String oldStreamingUrl, String newStreamingUrl);
+    void onDescendantStateChange(String oldStreamingUrl, String newStreamingUrl);
+
     /**
      * NOT PART OF THE PUBLIC API. CALLED INTERNALLY.
      */

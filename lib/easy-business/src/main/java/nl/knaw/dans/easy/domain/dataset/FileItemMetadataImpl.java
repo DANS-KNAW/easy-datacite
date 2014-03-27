@@ -25,8 +25,7 @@ public class FileItemMetadataImpl extends AbstractItemMetadataImpl<FileItemMetad
     private CreatorRole creatorRole;
     private VisibleTo visibleTo;
     private AccessibleTo accessibleTo;
-    // COMMENTED OUT FOR RELEASE 2.8
-    // private String streamingUrl;
+    private String streamingUrl;
     private String mimeType = MIMETYPE_UNDEFINED;
     private long size;
 
@@ -63,11 +62,17 @@ public class FileItemMetadataImpl extends AbstractItemMetadataImpl<FileItemMetad
         return dirty;
     }
 
-    /*
-     * COMMENTED OUT FOR RELEASE 2.8 public String getStreamingUrl() { return streamingUrl; } public
-     * boolean setStreamingUrl(String streamingUrl) { boolean dirty = evaluateDirty(streamingUrl,
-     * this.streamingUrl); this.streamingUrl = streamingUrl; return dirty; }
-     */
+    public String getStreamingUrl()
+    {
+        return streamingUrl;
+    }
+
+    public boolean setStreamingUrl(String streamingUrl)
+    {
+        boolean dirty = evaluateDirty(streamingUrl, this.streamingUrl);
+        this.streamingUrl = streamingUrl;
+        return dirty;
+    }
 
     public VisibleTo getVisibleTo()
     {
