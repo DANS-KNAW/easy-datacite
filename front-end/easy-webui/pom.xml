@@ -9,6 +9,7 @@
 		<relativePath>../../lib/easy-prototype</relativePath>
 	</parent>
 	<artifactId>easy-webui</artifactId>
+	<version>2.9-beta-3</version>
 	<name>EASY Web-UI Application</name>
 	<packaging>war</packaging>
 	<description>Easy Web user interface application</description>
@@ -184,5 +185,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	<version>2.9-beta-1</version>
 </project>

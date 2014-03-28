@@ -29,7 +29,6 @@
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>dans-jibx</artifactId>
-			<version>${easy.version}</version>
 			<exclusions>
 				<!-- The version of xpp3 included by Jibx gives build problems -->
 				<exclusion>

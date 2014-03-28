@@ -83,7 +83,9 @@ public class SparqlQueryFactory implements QueryFactory
         if (composer.isQueryingForSetInfo())
         {
             logger.info("Starting setInfoQuery. <=== ");
-            TupleIterator tuples = getRiConnector().getTuples(getComposer().getListSetInfoQuery(), true);
+            String listSetInfoQuery = getComposer().getListSetInfoQuery();
+            logger.debug("Calling RiConnector.getTuples() with query:\n" + listSetInfoQuery + "\n");
+            TupleIterator tuples = getRiConnector().getTuples(listSetInfoQuery);
             setInfoIterator = new FedoraSetInfoIterator(m_fedora, tuples);
         }
         else
