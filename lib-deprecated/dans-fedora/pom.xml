@@ -164,20 +164,6 @@
 	</build>
 	<repositories>
 		<repository>
-			<id>central</id>
-			<url>http://artifactory.dans.knaw.nl/repo</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>snapshots</id>
-			<url>http://artifactory.dans.knaw.nl/repo</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</repository>
-		<repository>
 			<id>maven orig</id>
 			<url>http://repo1.maven.org/maven2</url>
 			<snapshots>

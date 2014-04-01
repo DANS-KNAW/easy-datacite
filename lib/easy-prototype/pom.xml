@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>nl.knaw.dans.shared</groupId>
 		<artifactId>dans-prototype</artifactId>
-		<version>1.8</version>
+		<version>1.9</version>
 	</parent>
 	<groupId>nl.knaw.dans.easy</groupId>
 	<artifactId>easy-prototype</artifactId>
@@ -274,8 +274,8 @@
 	</build>
 	<repositories>
 		<repository>
-			<id>DANS artifactory</id>
-			<url>http://artifactory.dans.knaw.nl/repo</url>
+			<id>DANS Maven Repository</id>
+			<url>http://maven-repo.dans.knaw.nl/repo</url>
 		</repository>
 		<repository>
 			<id>springsource-repo</id>
