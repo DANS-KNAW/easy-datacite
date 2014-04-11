@@ -50,9 +50,13 @@ public class LoginPage extends AbstractAuthenticationPage
             logger.error(message, e);
             throw new InternalWebError();
         }
-        add(new LoginPanelFederation(LOGIN_PANEL_FEDERATION).setVisible(federativeUserService.isFederationLoginEnabled()));
-        add(new LoginPanelRegular(LOGIN_PANEL_REGULAR, new LoginForm("loginForm", authentication)));
-        addRegisterLink();
+        if (!isAuthenticated())
+        {
+            add(new LoginPanelFederation(LOGIN_PANEL_FEDERATION).setVisible(federativeUserService.isFederationLoginEnabled()));
+            add(new LoginPanelRegular(LOGIN_PANEL_REGULAR, new LoginForm("loginForm", authentication)));
+        }
+        // visibility is used in the closure, so we need this one
+        add(createRegisterLink().setVisible(!isAuthenticated()));
     }
 
     public LoginPage()
@@ -66,9 +70,9 @@ public class LoginPage extends AbstractAuthenticationPage
         init();
     }
 
-    private void addRegisterLink()
+    private Link<Void> createRegisterLink()
     {
-        add(new Link<Void>(REGISTRATION)
+        return new Link<Void>(REGISTRATION)
         {
             private static final long serialVersionUID = 1L;
 
@@ -79,16 +83,10 @@ public class LoginPage extends AbstractAuthenticationPage
             }
 
             @Override
-            public boolean isVisible()
-            {
-                return !isAuthenticated();
-            }
-
-            @Override
             public boolean getStatelessHint()
             {
                 return true;
             }
-        });
+        };
     }
 }

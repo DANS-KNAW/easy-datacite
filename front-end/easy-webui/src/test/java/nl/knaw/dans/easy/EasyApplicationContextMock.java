@@ -3,6 +3,8 @@ package nl.knaw.dans.easy;
 import static org.easymock.EasyMock.eq;
 
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 
 import nl.knaw.dans.common.lang.FileSystemHomeDirectory;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
@@ -10,6 +12,8 @@ import nl.knaw.dans.easy.business.services.EasySearchService;
 import nl.knaw.dans.easy.domain.authn.Authentication;
 import nl.knaw.dans.easy.domain.authn.UsernamePasswordAuthentication;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
+import nl.knaw.dans.easy.domain.model.user.Group;
+import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.security.CodedAuthz;
 import nl.knaw.dans.easy.security.Security;
 import nl.knaw.dans.easy.servicelayer.SystemReadOnlyStatus;
@@ -71,6 +75,38 @@ public class EasyApplicationContextMock extends ApplicationContextMock
     {
         setEditableContentHome(new FileSystemHomeDirectory(new File("src/main/assembly/dist/res/example/editable/")));
         setStaticContentBaseUrl("http://mocked/base/url");
+    }
+
+    /**
+     * Convenience method for {@link #expectAuthenticatedAs(EasyUser, String)},
+     * {@link #expectNoDepositsBy(EasyUser)}, {@link #expectNoDepositsFor(EasyUser)}. User has no groups.
+     * If no searchService/uesrServeice bean is set, a mocked one is created with PowerMock. Otherwise
+     * eventual previous expectations remain effective.
+     * 
+     * @throws ServiceException
+     */
+    public void ExpectLoggedInVisitor() throws ServiceException
+    {
+        final EasyUser sessionUser = new EasyUserImpl("mocked-user:somebody")
+        {
+            private static final long serialVersionUID = 1L;
+
+            public Set<Group> getGroups()
+            {
+                return new HashSet<Group>();
+            }
+
+            public Set<String> getGroupIds()
+            {
+                return new HashSet<String>();
+            }
+        };
+        sessionUser.setInitials("S.U.R.");
+        sessionUser.setSurname("Name");
+
+        expectAuthenticatedAs(sessionUser, sessionUser.getId());
+        expectNoDepositsBy(sessionUser);
+        expectNoDepositsFor(sessionUser);
     }
 
     /**
