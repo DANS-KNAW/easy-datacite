@@ -16,7 +16,6 @@ import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceList;
 import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
 import nl.knaw.dans.easy.domain.federation.FederativeUserIdMap;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
-import nl.knaw.dans.easy.domain.user.EasyUserAnonymous;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.servicelayer.services.DepositService;
 import nl.knaw.dans.easy.servicelayer.services.FederativeUserService;
@@ -90,16 +89,15 @@ public class TestUserInfoPage
     @Test
     public void viewSmokeTest() throws Exception
     {
-        createSessionUser();
         UserInfoPageWrapper.enableModeSwith = true;
         UserInfoPageWrapper.inEditMode = false;
-        UserInfoPageWrapper.userId = shownUser.getId();
+        UserInfoPageWrapper.userId = applicationContext.expectAuthenticatedAsVisitor().getId();
         final EasyWicketTester tester = init();
         tester.dumpPage();
         tester.debugComponentTrees();
         tester.assertRenderedPage(UserInfoPageWrapper.class);
 
-        final String sessionUserDisplayName = "s. Ession";
+        final String sessionUserDisplayName = "S.U.R. Name";
         tester.assertLabel("displayName", sessionUserDisplayName);
         tester.assertLabel("userInfoPanel:switchPanel:displayName", "s. Hown");
 
@@ -112,7 +110,7 @@ public class TestUserInfoPage
     {
         UserInfoPageWrapper.enableModeSwith = true;
         UserInfoPageWrapper.inEditMode = false;
-        UserInfoPageWrapper.userId = createSessionUser().getId();
+        UserInfoPageWrapper.userId = applicationContext.expectAuthenticatedAsVisitor().getId();
         final EasyWicketTester tester = init();
         tester.clickLink("userInfoPanel:switchPanel:editLink");
         tester.dumpPage();
@@ -121,7 +119,6 @@ public class TestUserInfoPage
     @Test
     public void notLoggedIn() throws Exception
     {
-        applicationContext.expectNoDepositsBy(EasyUserAnonymous.getInstance());
         UserInfoPageWrapper.enableModeSwith = true;
         UserInfoPageWrapper.inEditMode = false;
         UserInfoPageWrapper.userId = shownUser.getId();
@@ -156,26 +153,31 @@ public class TestUserInfoPage
         tester.assertInvisible(unlinkPath);
     }
 
+    @Test
+    public void popupStyle() throws Exception
+    {
+        UserInfoPageWrapper.enableModeSwith = true;
+        UserInfoPageWrapper.inEditMode = false;
+        UserInfoPageWrapper.userId = mockUserWithFederationLinks().getId();
+
+        String switchPath = "userInfoPanel:switchPanel:";
+        String unlinkPath = switchPath + "unlinkInstitutionAccountsLink";
+
+        final EasyWicketTester tester = init();
+        tester.clickLink(unlinkPath);
+        tester.dumpPage();
+    }
+
     private EasyUser mockUserWithFederationLinks() throws ServiceException, ObjectNotAvailableException
     {
         final FederativeUserService federativeUserServiceMock = PowerMock.createMock(FederativeUserService.class);
         applicationContext.putBean("federativeUserServiceMock", federativeUserServiceMock);
 
-        final EasyUser sessionUser = createSessionUser();
+        final EasyUser sessionUser = applicationContext.expectAuthenticatedAsVisitor();
         federationUsers.add(new FederativeUserIdMap(UserInfoPageWrapper.userId, "mockeFedUserId1"));
         federationUsers.add(new FederativeUserIdMap(UserInfoPageWrapper.userId, "mockeFedUserId2"));
         EasyMock.expect(federativeUserServiceMock.getUserById(shownUser, null)).andStubReturn(sessionUser);
         return sessionUser;
-    }
-
-    private EasyUser createSessionUser() throws ServiceException
-    {
-        final EasyUser user = new EasyUserImpl("sessionUserId");
-        user.setInitials("s.");
-        user.setSurname("Ession");
-        applicationContext.expectNoDepositsBy(user);
-        applicationContext.expectAuthenticatedAs(user, user.getId());
-        return user;
     }
 
     @After

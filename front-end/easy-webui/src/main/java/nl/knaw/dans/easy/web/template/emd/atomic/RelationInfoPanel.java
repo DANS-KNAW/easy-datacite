@@ -8,7 +8,7 @@ import java.util.Map;
 
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceList;
-import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.easy.servicelayer.services.DepositService;
 import nl.knaw.dans.pf.language.emd.EmdRelation;
 import nl.knaw.dans.pf.language.emd.types.EmdScheme;
 import nl.knaw.dans.pf.language.emd.types.Relation;
@@ -19,6 +19,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.RepeatingView;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,6 +31,9 @@ public class RelationInfoPanel extends Panel
     private static final long serialVersionUID = -5703756567092947861L;
     private static final Logger logger = LoggerFactory.getLogger(RelationInfoPanel.class);
     private ChoiceList qualifierLabels;
+
+    @SpringBean(name = "depositService")
+    private DepositService depositService;
 
     /**
      * @param id
@@ -99,7 +103,7 @@ public class RelationInfoPanel extends Panel
     {
         try
         {
-            return Services.getDepositService().getChoices(list.getId(), getLocale());
+            return depositService.getChoices(list.getId(), getLocale());
         }
         catch (ServiceException e)
         {

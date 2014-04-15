@@ -3,6 +3,7 @@ package nl.knaw.dans.easy.web.authn.login;
 import java.net.URL;
 
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
+import nl.knaw.dans.common.lang.user.User;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyWicketTester;
 import nl.knaw.dans.easy.domain.authn.Authentication;
@@ -71,7 +72,7 @@ public class TestLoginPage extends Fixture
     @Test
     public void loginWhenLoggedIn() throws Exception
     {
-        applicationContext.ExpectLoggedInVisitor();
+        applicationContext.expectAuthenticatedAsVisitor();
         final EasyWicketTester tester = init();
 
         tester.dumpPage();
@@ -84,7 +85,8 @@ public class TestLoginPage extends Fixture
         final EasyApplicationContextMock applicationContext = new EasyApplicationContextMock();
         applicationContext.expectStandardSecurity(false);
         applicationContext.expectDefaultResources();
-        applicationContext.ExpectLoggedInVisitor();
+        // an active state requires more to mock
+        applicationContext.expectAuthenticatedAsVisitor().setState(User.State.REGISTERED);
 
         PowerMock.replayAll();
         final EasyWicketTester tester = EasyWicketTester.create(applicationContext);

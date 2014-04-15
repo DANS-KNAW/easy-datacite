@@ -11,6 +11,7 @@ import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.components.jumpoff.JumpoffPanel;
 import nl.knaw.dans.common.wicket.components.jumpoff.ResourceRef;
 import nl.knaw.dans.easy.domain.model.Dataset;
+import nl.knaw.dans.easy.servicelayer.services.JumpoffService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.EasyWicketApplication;
@@ -19,6 +20,7 @@ import nl.knaw.dans.easy.web.template.AbstractEasyPanel;
 import nl.knaw.dans.easy.web.template.emd.atomic.RelationInfoPanel;
 
 import org.apache.wicket.RestartResponseException;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,6 +34,9 @@ public class OverviewPanel extends AbstractEasyPanel
     private static final Logger logger = LoggerFactory.getLogger(OverviewPanel.class);
 
     private final Dataset dataset;
+
+    @SpringBean(name = "jumpoffService")
+    private JumpoffService jumpoffService;
 
     public OverviewPanel(String wicketId, Dataset dataset)
     {
@@ -85,7 +90,7 @@ public class OverviewPanel extends AbstractEasyPanel
             {
                 try
                 {
-                    return Services.getJumpoffService().getJumpoffDmoFor(getSessionUser(), targetDmo.getDmoStoreId());
+                    return jumpoffService.getJumpoffDmoFor(getSessionUser(), targetDmo.getDmoStoreId());
                 }
                 catch (ServiceException e)
                 {

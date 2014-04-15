@@ -23,6 +23,8 @@ import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.service.exceptions.TooManyFilesException;
 import nl.knaw.dans.common.lang.service.exceptions.ZipFileLengthException;
 import nl.knaw.dans.common.lang.user.User.State;
+import nl.knaw.dans.easy.EasyApplicationContextMock;
+import nl.knaw.dans.easy.EasyWicketTester;
 import nl.knaw.dans.easy.domain.dataset.PermissionSequenceListImpl;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.ItemOrder;
@@ -52,7 +54,6 @@ import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.servicelayer.services.SearchService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasySession;
-import nl.knaw.dans.easy.web.EasyWicketApplication;
 import nl.knaw.dans.easy.web.statistics.StatisticsLogger;
 import nl.knaw.dans.easy.web.view.dataset.DatasetViewPage;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
@@ -60,7 +61,6 @@ import nl.knaw.dans.pf.language.emd.EmdFormat;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.spring.test.ApplicationContextMock;
 import org.apache.wicket.util.tester.WicketTester;
 import org.joda.time.DateTime;
 import org.junit.After;
@@ -87,7 +87,7 @@ public class FileExplorerTest
      * For now, support Services and Data "God-classes" along the preferred injected beans way of
      * accessing services.
      */
-    private ApplicationContextMock ctx;
+    private EasyApplicationContextMock ctx;
 
     private String datasetSid = "test-dataset:1";
     private DmoStoreId datasetDmoStoreId = new DmoStoreId(datasetSid);
@@ -95,16 +95,14 @@ public class FileExplorerTest
     @Before
     public void setUp() throws Exception
     {
-        ctx = new ApplicationContextMock();
+        ctx = new EasyApplicationContextMock();
         ctx.putBean("editableContentHome", new FileSystemHomeDirectory(new File("src/main/assembly/dist/res/example/editable")));
         ctx.putBean("staticContentBaseUrl", "http://develop01.dans.knaw.nl/statics");
         setUpAuthz();
         setUpUsers();
         setUpEasySessionMock();
         setUpServices();
-        EasyWicketApplication app = new EasyWicketApplication();
-        app.setApplicationContext(ctx);
-        tester = new WicketTester(app);
+        tester = EasyWicketTester.create(ctx);
     }
 
     private void setUpAuthz()
@@ -306,6 +304,7 @@ public class FileExplorerTest
         renderPage();
         ((EasyUserTestImpl) normalUser).setHasAcceptedGeneralConditions(true);
 
+        tester.dumpPage();
         tester.clickLink("tabs:panel:fe:downloadLink", true);
         tester.assertContains("Downloading is limited");
     }
