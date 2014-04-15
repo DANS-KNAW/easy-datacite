@@ -1,23 +1,32 @@
 package nl.knaw.dans.easy;
 
-import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.*;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import nl.knaw.dans.common.lang.FileSystemHomeDirectory;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.business.services.EasySearchService;
 import nl.knaw.dans.easy.domain.authn.Authentication;
 import nl.knaw.dans.easy.domain.authn.UsernamePasswordAuthentication;
+import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceList;
+import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.Group;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.security.CodedAuthz;
 import nl.knaw.dans.easy.security.Security;
 import nl.knaw.dans.easy.servicelayer.SystemReadOnlyStatus;
+import nl.knaw.dans.easy.servicelayer.services.DepositService;
+import nl.knaw.dans.easy.servicelayer.services.JumpoffService;
 import nl.knaw.dans.easy.servicelayer.services.SearchService;
+import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.servicelayer.services.UserService;
 import nl.knaw.dans.easy.web.EasySession;
 
@@ -82,12 +91,13 @@ public class EasyApplicationContextMock extends ApplicationContextMock
      * {@link #expectNoDepositsBy(EasyUser)}, {@link #expectNoDepositsFor(EasyUser)}. User has no groups.
      * If no searchService/uesrServeice bean is set, a mocked one is created with PowerMock. Otherwise
      * eventual previous expectations remain effective.
+     * @return 
      * 
      * @throws ServiceException
      */
-    public void ExpectLoggedInVisitor() throws ServiceException
+    public EasyUserImpl ExpectLoggedInVisitor() throws ServiceException
     {
-        final EasyUser sessionUser = new EasyUserImpl("mocked-user:somebody")
+        final EasyUserImpl sessionUser = new EasyUserImpl("mocked-user:somebody")
         {
             private static final long serialVersionUID = 1L;
 
@@ -107,6 +117,7 @@ public class EasyApplicationContextMock extends ApplicationContextMock
         expectAuthenticatedAs(sessionUser, sessionUser.getId());
         expectNoDepositsBy(sessionUser);
         expectNoDepositsFor(sessionUser);
+        return sessionUser;
     }
 
     /**
@@ -159,6 +170,59 @@ public class EasyApplicationContextMock extends ApplicationContextMock
     }
 
     /**
+     * Mocks a choice list for disciplines. If no {@link DepositService} bean is set, a
+     * mocked one is created with PowerMock. Otherwise eventual previous expectations remain effective.
+     * 
+     * @param user
+     * @throws ServiceException
+     *         declaration required to mock depositService.getChoices
+     * @throws IllegalStateException
+     *         if a real {@link DepositService} instance was assigned as bean
+     */
+    public void expectDisciplines(final KeyValuePair... keyValuePairs) throws ServiceException
+    {
+        final List<KeyValuePair> choices = new ArrayList<KeyValuePair>();
+        for (final KeyValuePair kvp:keyValuePairs)
+            choices.add(kvp);
+        final ChoiceList choiceList = new ChoiceList(choices);
+
+        setMockedDepositService();
+        expect(getDepositService().getChoices(isA(String.class), isNull(Locale.class))).andReturn(choiceList).anyTimes();
+        expect(getDepositService().getChoices(isA(String.class), isA(Locale.class))).andReturn(choiceList).anyTimes();
+
+        // can't use SpringBean injection in the static DisciplineUtils
+        new Services().setDepositService(getDepositService());
+    }
+    /**
+     * Mocks a {@Link JumpoffDmo}. If no {@link JumpoffService} bean is set, a
+     * mocked one is created with PowerMock. Otherwise eventual previous expectations remain effective.
+     * 
+     * @param user
+     * @throws ServiceException
+     *         declaration required to mock JumpoffService.getJumpoffDmoFor
+     * @throws IllegalStateException
+     *         if a real {@link JumpoffService} instance was assigned as bean
+     */
+    public void expectNoJumpoff() throws ServiceException
+    {
+        setMockedJumpoffService();
+        EasyMock.expect(getJumpoffService().getJumpoffDmoFor(EasyMock.isA(EasyUser.class), EasyMock.isA(DmoStoreId.class))).andStubReturn(null);
+        EasyMock.expect(getJumpoffService().getJumpoffDmoFor(EasyMock.isA(EasyUserImpl.class), EasyMock.isA(DmoStoreId.class))).andStubReturn(null);
+    }
+    
+    private void setMockedJumpoffService()
+    {
+        try
+        {
+            isMock(getJumpoffService());
+        }
+        catch (final NoSuchBeanDefinitionException e)
+        {
+            setJumpoffService(PowerMock.createMock(JumpoffService.class));
+        }
+    }
+
+    /**
      * Creates an authentication passed on by {@link EasyWicketTester} to
      * {@link EasySession#setLoggedIn(nl.knaw.dans.easy.domain.authn.Authentication)}. If no
      * {@link UserService} bean is set, a mocked one is created with PowerMock. Otherwise eventual
@@ -182,6 +246,38 @@ public class EasyApplicationContextMock extends ApplicationContextMock
             authentication.setUserId(userId);
         setMockedUserService();
         EasyMock.expect(getUserService().newUsernamePasswordAuthentication()).andStubReturn(getAuthentication());
+    }
+
+    public JumpoffService getJumpoffService()
+    {
+        return (JumpoffService) getBean("jumpoffService");
+    }
+
+    public void setJumpoffService(final JumpoffService jumpoffService)
+    {
+        putBean("jumpoffService", jumpoffService);
+    }
+    
+    private void setMockedDepositService()
+    {
+        try
+        {
+            isMock(getDepositService());
+        }
+        catch (final NoSuchBeanDefinitionException e)
+        {
+            setDepositService(PowerMock.createMock(DepositService.class));
+        }
+    }
+
+    public DepositService getDepositService()
+    {
+        return (DepositService) getBean("depositService");
+    }
+
+    public void setDepositService(final DepositService depositService)
+    {
+        putBean("depositService", depositService);
     }
 
     private void setMockedUserService()
@@ -270,7 +366,7 @@ public class EasyApplicationContextMock extends ApplicationContextMock
         putBean("systemReadOnlyStatus", systemReadOnlyStatus);
     }
 
-    public void setStaticContentBaseUrl(String url)
+    public void setStaticContentBaseUrl(final String url)
     {
         putBean("staticContentBaseUrl", url);
     }
@@ -295,7 +391,7 @@ public class EasyApplicationContextMock extends ApplicationContextMock
         return authentication;
     }
 
-    private void isMock(Object userService)
+    private void isMock(final Object userService)
     {
         if (!userService.toString().toLowerCase().contains("mock for"))
             throw new IllegalStateException("can't add mocked expectations to a real instance");
