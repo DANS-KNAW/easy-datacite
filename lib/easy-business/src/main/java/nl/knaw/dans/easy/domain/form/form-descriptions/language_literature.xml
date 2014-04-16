@@ -692,6 +692,7 @@
                         <ref-panelId>dcterms.audience</ref-panelId>
                         <ref-panelId>cmdiChoice</ref-panelId>
                         <ref-panelId>dc.contributor</ref-panelId>
+                        <ref-panelId>eas.contributor</ref-panelId>
                         <ref-panelId>dc.subject</ref-panelId>
                         <ref-panelId>dcterms.spatial</ref-panelId>
                         <ref-panelId>dcterms.temporal</ref-panelId>

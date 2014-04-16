@@ -37,6 +37,10 @@
 		</dependency>
 		<dependency>
 			<groupId>nl.knaw.dans.easy</groupId>
+			<artifactId>dans-solr</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>nl.knaw.dans.easy</groupId>
 			<artifactId>easy-ldap</artifactId>
 		</dependency>
 		<dependency>
