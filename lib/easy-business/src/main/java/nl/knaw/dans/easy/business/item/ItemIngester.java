@@ -216,10 +216,11 @@ public class ItemIngester extends AbstractWorker
             kidFile.setCreatorRole(creatorRole);
 
             // CHANGE THIS!!!
-            /*
-             * COMMENTED OUT FOR RELEASE 2.8 if (file.getName().endsWith(VIDEO_EXTENSION)) {
-             * kidFile.setStreamingUrl("http://www.koe.com/video/" + file.getName()); }
-             */
+            if (file.getName().endsWith(VIDEO_EXTENSION))
+            {
+                kidFile.setStreamingUrl("http://www.koe.com/video/" + file.getName());
+            }
+
             kidFile.setDatasetId(dataset.getDmoStoreId());
             kidFile.setOwnerId(sessionUser.getId());
             // order of next statements is of importance for migration

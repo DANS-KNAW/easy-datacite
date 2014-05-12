@@ -224,14 +224,24 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem
         }
     }
 
-    /*
-     * COMMENTED OUT FOR RELEASE 2.8 public String getStreamingUrl() { return
-     * getFileItemMetadata().getStreamingUrl(); } public void setStreamingUrl(String streamingUrl) {
-     * String previous = getFileItemMetadata().getStreamingUrl(); boolean changed =
-     * getFileItemMetadata().setStreamingUrl(streamingUrl); if (changed) { DatasetItemContainer parent =
-     * (DatasetItemContainer) getParent(); if (parent != null) { parent.onDescendantStateChange(previous,
-     * streamingUrl); } } }
-     */
+    public String getStreamingUrl()
+    {
+        return getFileItemMetadata().getStreamingUrl();
+    }
+
+    public void setStreamingUrl(String streamingUrl)
+    {
+        String previous = getFileItemMetadata().getStreamingUrl();
+        boolean changed = getFileItemMetadata().setStreamingUrl(streamingUrl);
+        if (changed)
+        {
+            DatasetItemContainer parent = (DatasetItemContainer) getParent();
+            if (parent != null)
+            {
+                parent.onDescendantStateChange(previous, streamingUrl);
+            }
+        }
+    }
 
     public boolean isCreatedByArchivist()
     {

@@ -358,8 +358,7 @@ public class DatasetViewPage extends AbstractEasyNavPage
         tabs.add(getPermissionsTab());
         tabs.add(getActivityLogTab());
         // tabs.add(getRelationsTab());
-        // COMMENTED OUT FOR RELEASE 2.8
-        // tabs.add(getVideoTab());
+        tabs.add(getVideoTab());
 
         TabbedPanel tabbedPanel = new TabbedPanel(WI_VIEW_TABS, tabs)
         {
