@@ -19,11 +19,7 @@
         <value name="visibleTo" field="visibleTo" usage="optional"/>
         <value name="accessibleTo" field="accessibleTo" usage="optional"/>
         
-        
-        <!-- 
-        COMMENTED OUT FOR RELEASE 2.8
-        <value name="streamingUrl" field="streamingUrl" usage="optional"/>
-         -->
+        <value name="streamingPath" field="streamingPath" usage="optional"/>
          
         <structure name="additional-metadata" ns="http://easy.dans.knaw.nl/easy/additional-metadata/"
 			type="nl.knaw.dans.easy.xml.AdditionalMetadata" field="additionalMetadata" 

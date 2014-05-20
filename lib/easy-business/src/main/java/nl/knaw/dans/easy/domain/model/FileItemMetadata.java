@@ -30,9 +30,9 @@ public interface FileItemMetadata extends DatasetItemMetadata
 
     boolean setVisibleTo(VisibleTo visibleTo);
 
-    String getStreamingUrl();
+    String getStreamingPath();
 
-    boolean setStreamingUrl(String streamingUrl);
+    boolean setStreamingPath(String streamingPath);
 
     String getMimeType();
 

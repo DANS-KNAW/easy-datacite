@@ -8,6 +8,7 @@ import nl.knaw.dans.common.lang.xml.XMLSerializationException;
 import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
 import nl.knaw.dans.easy.domain.model.DescriptiveMetadata;
 import nl.knaw.dans.easy.domain.model.FileItemMetadata;
+import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.xml.AdditionalContent;
 import nl.knaw.dans.easy.xml.AdditionalMetadata;
 
@@ -61,150 +62,90 @@ public class FileItemDescription implements Serializable
         return getMetadataForArchDepo();
     }
 
-    @SuppressWarnings("unchecked")
     public List<KeyValuePair> getMetadataForAnonKnown()
     {
         List<KeyValuePair> props = new ArrayList<KeyValuePair>();
 
         ArrayList<Element> metadata = getFileItemMetadataAsList();
 
-        Element path = getElement(metadata, "path");
-        if (path != null)
-        {
-            path.setName("Path");
-            props.add(new KeyValuePair(path.getName(), path.getText()));
-        }
-        Element size = getElement(metadata, "size");
-        if (size != null)
-        {
-            size.setName("Size");
-            props.add(new KeyValuePair(size.getName(), size.getText()));
-        }
-        Element creator = getElement(metadata, "creatorRole");
-        if (creator != null)
-        {
-            creator.setName("Creator");
-            props.add(new KeyValuePair(creator.getName(), creator.getText()));
-        }
-        Element streamingUrl = getElement(metadata, "streamingUrl");
-        if (streamingUrl != null)
-        {
-            streamingUrl.setName("StreamingUrl");
-            props.add(new KeyValuePair(streamingUrl.getName(), streamingUrl.getText()));
-        }
-        BaseElement accessible = new BaseElement("Accessible");
-        if (accessible != null)
-        {
-            accessible.setName("Accessible");
-            props.add(new KeyValuePair(accessible.getName(), accessible.getText()));
-        }
-
-        // now add additional metadata
-        AdditionalMetadata addMetadata = fileItemMetadata.getAdditionalMetadata();
-        List<AdditionalContent> addContents = addMetadata.getAdditionalContentlist();
-        for (AdditionalContent addContent : addContents)
-        {
-            Element content = addContent.getContent();
-            // iterate through the list
-            List<Element> elements = content.elements();
-            for (Element e : elements)
-            {
-                props.add(new KeyValuePair(e.getName(), e.getText()));
-            }
-        }
-
-        // now we add the descriptive metadata
+        addElement(props, metadata, "path", "Path");
+        addElement(props, metadata, "size", "Size");
+        addElement(props, metadata, "creatorRole", "Creator");
+        addBaseElement(props, "Accessible", "Accessible");
+        addStreamingURL(props, metadata);
+        addAdditionalMetadata(props);
         props.addAll(descriptiveMetadata.getProperties());
 
         return props;
     }
 
-    @SuppressWarnings("unchecked")
     public List<KeyValuePair> getMetadataForArchDepo()
     {
         List<KeyValuePair> props = new ArrayList<KeyValuePair>();
 
         ArrayList<Element> metadata = getFileItemMetadataAsList();
 
-        Element path = getElement(metadata, "path");
-        if (path != null)
-        {
-            path.setName("Path");
-            props.add(new KeyValuePair(path.getName(), path.getText()));
-        }
-        Element mimeType = getElement(metadata, "mimeType");
-        if (mimeType != null)
-        {
-            mimeType.setName("Mime type");
-            props.add(new KeyValuePair(mimeType.getName(), mimeType.getText()));
-        }
-        Element size = getElement(metadata, "size");
-        if (size != null)
-        {
-            size.setName("Size");
-            props.add(new KeyValuePair(size.getName(), size.getText()));
-        }
-        Element creator = getElement(metadata, "creatorRole");
-        if (creator != null)
-        {
-            creator.setName("Creator");
-            props.add(new KeyValuePair(creator.getName(), creator.getText()));
-        }
-        Element streamingUrl = getElement(metadata, "streamingUrl");
-        if (streamingUrl != null)
-        {
-            streamingUrl.setName("Streaming url");
-            props.add(new KeyValuePair(streamingUrl.getName(), streamingUrl.getText()));
-        }
-        Element visibleTo = getElement(metadata, "visibleTo");
-        if (visibleTo != null)
-        {
-            visibleTo.setName("Visible to");
-            props.add(new KeyValuePair(visibleTo.getName(), visibleTo.getText()));
-        }
-        Element accessibleTo = getElement(metadata, "accessibleTo");
-        if (accessibleTo != null)
-        {
-            accessibleTo.setName("Accessible to");
-            props.add(new KeyValuePair(accessibleTo.getName(), accessibleTo.getText()));
-        }
-        Element sid = getElement(metadata, "sid");
-        if (sid != null)
-        {
-            sid.setName("Sid");
-            props.add(new KeyValuePair(sid.getName(), sid.getText()));
-        }
-        Element parentSid = getElement(metadata, "parentSid");
-        if (parentSid != null)
-        {
-            parentSid.setName("Parent sid");
-            props.add(new KeyValuePair(parentSid.getName(), parentSid.getText()));
-        }
-        Element datasetSid = getElement(metadata, "datasetSid");
-        if (datasetSid != null)
-        {
-            datasetSid.setName("Dataset sid");
-            props.add(new KeyValuePair(datasetSid.getName(), datasetSid.getText()));
-        }
+        addElement(props, metadata, "path", "Path");
+        addElement(props, metadata, "mimeType", "Mime type");
+        addElement(props, metadata, "size", "Size");
+        addElement(props, metadata, "creatorRole", "Creator");
+        addElement(props, metadata, "visibleTo", "Visible to");
+        addElement(props, metadata, "accessibleTo", "Accessible to");
+        addElement(props, metadata, "sid", "Sid");
+        addElement(props, metadata, "parentSid", "Parent sid");
+        addElement(props, metadata, "datasetSid", "Dataset sid");
+        addStreamingURL(props, metadata);
+        addAdditionalMetadata(props);
+        props.addAll(descriptiveMetadata.getProperties());
 
-        // now add additional metadata
+        return props;
+    }
+
+    private void addAdditionalMetadata(List<KeyValuePair> props)
+    {
         AdditionalMetadata addMetadata = fileItemMetadata.getAdditionalMetadata();
         List<AdditionalContent> addContents = addMetadata.getAdditionalContentlist();
         for (AdditionalContent addContent : addContents)
         {
             Element content = addContent.getContent();
             // iterate through the list
+            @SuppressWarnings("unchecked")
             List<Element> elements = content.elements();
             for (Element e : elements)
             {
                 props.add(new KeyValuePair(e.getName(), e.getText()));
             }
         }
+    }
 
-        // now we add the descriptive metadata
-        props.addAll(descriptiveMetadata.getProperties());
+    private void addStreamingURL(List<KeyValuePair> props, ArrayList<Element> metadata)
+    {
+        Element streamingPath = getElement(metadata, "streamingPath");
+        if (streamingPath != null)
+        {
+            streamingPath.setName("Streaming url");
+            props.add(new KeyValuePair(streamingPath.getName(), Services.getItemService().getStreamingHost() + "/" + streamingPath.getText()));
+        }
+    }
 
-        return props;
+    private void addBaseElement(List<KeyValuePair> props, String key, String name)
+    {
+        BaseElement accessible = new BaseElement(key);
+        if (accessible != null)
+        {
+            accessible.setName(name);
+            props.add(new KeyValuePair(accessible.getName(), accessible.getText()));
+        }
+    }
+
+    private void addElement(List<KeyValuePair> props, ArrayList<Element> metadata, String key, String name)
+    {
+        Element path = getElement(metadata, key);
+        if (path != null && path.getText().trim().length() != 0)
+        {
+            path.setName(name);
+            props.add(new KeyValuePair(path.getName(), path.getText()));
+        }
     }
 
     @SuppressWarnings("unchecked")

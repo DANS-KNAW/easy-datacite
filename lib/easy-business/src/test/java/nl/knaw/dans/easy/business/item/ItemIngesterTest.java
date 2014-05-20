@@ -19,6 +19,7 @@ import nl.knaw.dans.common.lang.repo.DataModelObject;
 import nl.knaw.dans.common.lang.repo.DmoNamespace;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.business.item.ItemIngester.ListFilter;
+import nl.knaw.dans.easy.business.services.EasyItemService;
 import nl.knaw.dans.easy.data.Data;
 import nl.knaw.dans.easy.data.store.EasyUnitOfWork;
 import nl.knaw.dans.easy.data.store.FileStoreAccess;
@@ -30,6 +31,7 @@ import nl.knaw.dans.easy.domain.model.FileItem;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
+import nl.knaw.dans.easy.servicelayer.services.Services;
 
 import org.apache.commons.io.FileUtils;
 import org.easymock.EasyMock;
@@ -96,6 +98,10 @@ public class ItemIngesterTest
         expect(Data.getFileStoreAccess()).andReturn(fileStoreAccessMock).anyTimes();
         fileMock = PowerMock.createMock(File.class);
         fileItemMock = PowerMock.createMock(FileItem.class);
+
+        EasyItemService itemService = new EasyItemService();
+        itemService.setMustProcessAudioVideoInstructions(false);
+        new Services().setItemService(itemService);
 
         AbstractDmoFactory.register(FileItem.NAMESPACE, new AbstractDmoFactory<FileItem>()
         {

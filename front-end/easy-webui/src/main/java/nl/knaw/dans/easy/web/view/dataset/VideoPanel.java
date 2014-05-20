@@ -67,12 +67,11 @@ public class VideoPanel extends AbstractDatasetModelPanel implements IHeaderCont
             List<KeyValuePair> metadata = description.getMetadataForAnonKnown();
             for (KeyValuePair kvp : metadata)
             {
-                if (kvp.getKey().toLowerCase().equals("streamingurl"))
+                if (kvp.getKey().toLowerCase().equals("streaming url"))
                 {
                     ticketValue = UUID.randomUUID().toString();
                     streamingUrl = kvp.getValue();
                     securedStreamingService.addSecurityTicketToResource(ticketValue, streamingUrl);
-
                 }
             }
         }

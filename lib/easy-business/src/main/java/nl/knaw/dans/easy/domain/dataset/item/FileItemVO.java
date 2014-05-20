@@ -13,7 +13,7 @@ public class FileItemVO extends AbstractItemVO implements java.io.Serializable, 
     private int size;
     private String mimetype;
     private CreatorRole creatorRole;
-    private String streamingUrl;
+    private String streamingPath;
     private VisibleTo visibleTo;
     private AccessibleTo accessibleTo;
 
@@ -28,21 +28,21 @@ public class FileItemVO extends AbstractItemVO implements java.io.Serializable, 
         size = (int) fileItem.getSize();
         mimetype = fileItem.getFileItemMetadata().getMimeType();
         creatorRole = fileItem.getCreatorRole();
-        streamingUrl = fileItem.getStreamingUrl();
+        streamingPath = fileItem.getStreamingPath();
 
         visibleTo = fileItem.getVisibleTo();
         accessibleTo = fileItem.getAccessibleTo();
         setPath(fileItem.getPath());
     }
 
-    public FileItemVO(String sid, String parentSid, String datasetSid, String name, int size, String mimetype, CreatorRole creatorRole, String streamingUrl,
+    public FileItemVO(String sid, String parentSid, String datasetSid, String name, int size, String mimetype, CreatorRole creatorRole, String streamingPath,
             VisibleTo visibleTo, AccessibleTo accessibleTo)
     {
         super(sid, parentSid, datasetSid, name);
         this.size = size;
         this.mimetype = mimetype;
         this.creatorRole = creatorRole;
-        this.streamingUrl = streamingUrl;
+        this.streamingPath = streamingPath;
         this.visibleTo = visibleTo;
         this.setAccessibleTo(accessibleTo);
     }
@@ -77,14 +77,14 @@ public class FileItemVO extends AbstractItemVO implements java.io.Serializable, 
         this.creatorRole = creatorRole;
     }
 
-    public String getStreamingUrl()
+    public String getStreamingPath()
     {
-        return this.streamingUrl;
+        return this.streamingPath;
     }
 
-    public void setStreamingUrl(String streamingUrl)
+    public void setStreamingPath(String streamingPath)
     {
-        this.streamingUrl = streamingUrl;
+        this.streamingPath = streamingPath;
     }
 
     public VisibleTo getVisibleTo()

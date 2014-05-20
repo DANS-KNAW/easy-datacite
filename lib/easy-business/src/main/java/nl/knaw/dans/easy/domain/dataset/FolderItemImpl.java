@@ -160,13 +160,13 @@ public class FolderItemImpl extends AbstractDatasetItemImpl implements FolderIte
         }
     }
 
-    public void onDescendantStateChange(String oldStreamingUrl, String newStreamingUrl)
+    public void onDescendantStateChange(String oldStreamingPath, String newStreamingPath)
     {
-        getDatasetItemContainerMetadata().onChildStateChange(oldStreamingUrl, newStreamingUrl);
+        getDatasetItemContainerMetadata().onChildStateChange(oldStreamingPath, newStreamingPath);
         DatasetItemContainer parent = (DatasetItemContainer) getParent();
         if (parent != null)
         {
-            parent.onDescendantStateChange(oldStreamingUrl, newStreamingUrl);
+            parent.onDescendantStateChange(oldStreamingPath, newStreamingPath);
         }
     }
 

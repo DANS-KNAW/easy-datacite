@@ -2,7 +2,9 @@ package nl.knaw.dans.easy.business.services;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -53,6 +55,7 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.worker.WorkListener;
 import nl.knaw.dans.easy.security.authz.AuthzStrategyProvider;
 import nl.knaw.dans.easy.servicelayer.services.ItemService;
+import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.xml.ResourceMetadataList;
 import nl.knaw.dans.easy.xml.ResourceMetadataListValidator;
 
@@ -68,6 +71,10 @@ public class EasyItemService extends AbstractEasyService implements ItemService
 
     private ItemWorkDispatcher itemWorDispatcher;
     private DownloadWorkDispatcher downloadWorkDispatcher;
+
+    private URL streamingHost;
+
+    private boolean processAudioVideoInstructions;
 
     @Override
     public FileItem getFileItem(EasyUser sessionUser, Dataset dataset, DmoStoreId fileItemId) throws ObjectNotAvailableException, CommonSecurityException,
@@ -494,18 +501,44 @@ public class EasyItemService extends AbstractEasyService implements ItemService
     @Override
     public List<FileItemVO> getAccessibleAudioVideoFiles(EasyUser sessionUser, Dataset dataset) throws ServiceException
     {
-        Collection<ItemVO> files = getFilesAndFolders(sessionUser, dataset, dataset.getDmoStoreId(), -1, -1, null, null);
         List<FileItemVO> result = new LinkedList<FileItemVO>();
-        for (ItemVO f : files)
+        Collection<FileItemVO> fileItems = getFileItemsRecursively(sessionUser, dataset, new ArrayList<FileItemVO>(), null, dataset.getDmoStoreId());
+
+        for (FileItemVO fileItem : fileItems)
         {
-            // TODO: Gebruik een ander attribuut dan de extensie
-            if (f.getSid().startsWith(FileItem.NAMESPACE.getValue()) && f.getName().endsWith(".mpeg") && f.getAuthzStrategy().canUnitBeRead(EasyFile.UNIT_ID))
+            if (fileItem.getAuthzStrategy().canUnitBeRead(EasyFile.UNIT_ID))
             {
-                result.add((FileItemVO) f);
+                DmoStoreId fileItemId = new DmoStoreId(fileItem.getSid());
+                // TODO fix hack: FileItemVO does not get a streamingPath from FileItemMetadataImpl Issue
+                // 746
+                FileItemDescription description = Services.getItemService().getFileItemDescription(sessionUser, dataset, fileItemId);
+                if (null != description.getFileItemMetadata().getStreamingPath())
+                    result.add((FileItemVO) fileItem);
             }
         }
         return result;
-
     }
 
+    @Override
+    public URL getStreamingHost()
+    {
+        return streamingHost;
+    }
+
+    public void setStreamingHost(String streamingHost) throws MalformedURLException
+    {
+        this.streamingHost = new URL(streamingHost);
+    }
+
+    @Override
+    public void setMustProcessAudioVideoInstructions(boolean value)
+    {
+        processAudioVideoInstructions = value;
+    }
+
+    @Override
+    public boolean mustProcessAudioVideoInstructions()
+    {
+        return processAudioVideoInstructions;
+    }
 }

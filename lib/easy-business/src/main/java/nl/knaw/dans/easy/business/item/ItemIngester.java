@@ -28,6 +28,7 @@ import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.worker.AbstractWorker;
+import nl.knaw.dans.easy.servicelayer.services.Services;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +41,6 @@ import org.slf4j.LoggerFactory;
  */
 public class ItemIngester extends AbstractWorker
 {
-
     private static final Logger logger = LoggerFactory.getLogger(ItemIngester.class);
 
     public static final String[] SKIPPED_FILENAMES = {"Thumbs.db", "__MACOSX", ".DS_Store"};
@@ -48,9 +48,6 @@ public class ItemIngester extends AbstractWorker
     public static final List<String> SKIPPED_FILENAMES_LIST = Arrays.asList(SKIPPED_FILENAMES);
 
     public static final String DEPOSITOR_FOLDER_NAME = "original";
-
-    // CHANGE THIS!!!
-    public static final String VIDEO_EXTENSION = ".mpeg";
 
     private final ItemIngesterDelegator delegator;
 
@@ -215,12 +212,12 @@ public class ItemIngester extends AbstractWorker
             kidFile.setFile(file);
             kidFile.setCreatorRole(creatorRole);
 
-            // CHANGE THIS!!!
-            if (file.getName().endsWith(VIDEO_EXTENSION))
+            if (Services.getItemService().mustProcessAudioVideoInstructions())
             {
-                kidFile.setStreamingUrl("http://www.koe.com/video/" + file.getName());
+                AudioVideoProperties avProperties = new AudioVideoProperties(file);
+                if (avProperties.available())
+                    kidFile.setStreamingPath(avProperties.getStreamingPath());
             }
-
             kidFile.setDatasetId(dataset.getDmoStoreId());
             kidFile.setOwnerId(sessionUser.getId());
             // order of next statements is of importance for migration

@@ -43,7 +43,6 @@ import org.dom4j.Element;
  */
 public interface ItemService extends EasyService
 {
-
     FileItem getFileItem(EasyUser sessionUser, Dataset dataset, DmoStoreId dmoStoreId) throws ObjectNotAvailableException, CommonSecurityException,
             ServiceException;
 
@@ -296,4 +295,10 @@ public interface ItemService extends EasyService
      * @throws ServiceException
      */
     List<FileItemVO> getAccessibleAudioVideoFiles(EasyUser sessionUser, Dataset dataset) throws ServiceException;
+
+    URL getStreamingHost();
+
+    void setMustProcessAudioVideoInstructions(boolean value);
+
+    boolean mustProcessAudioVideoInstructions();
 }

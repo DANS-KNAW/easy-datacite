@@ -52,7 +52,7 @@ public interface DatasetItemContainer extends DataModelObject
     /**
      * NOT PART OF THE PUBLIC API. CALLED INTERNALLY.
      */
-    void onDescendantStateChange(String oldStreamingUrl, String newStreamingUrl);
+    void onDescendantStateChange(String oldStreamingPath, String newStreamingPath);
 
     /**
      * NOT PART OF THE PUBLIC API. CALLED INTERNALLY.

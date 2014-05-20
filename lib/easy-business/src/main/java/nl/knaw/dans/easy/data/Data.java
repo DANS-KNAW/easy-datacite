@@ -159,10 +159,10 @@ public class Data
         return downloadLimit;
     }
 
-    // Somehow the spring framework can get confused and wants a String parameter
-    // when easy is deployed on the server
     public void setDownloadLimit(String downloadLimit)
     {
+        // Somehow the spring framework can get confused and wants a String parameter
+        // when easy is deployed on the server
         try
         {
             Data.downloadLimit = Integer.parseInt(downloadLimit);

@@ -224,21 +224,21 @@ public class FileItemImpl extends AbstractDatasetItemImpl implements FileItem
         }
     }
 
-    public String getStreamingUrl()
+    public String getStreamingPath()
     {
-        return getFileItemMetadata().getStreamingUrl();
+        return getFileItemMetadata().getStreamingPath();
     }
 
-    public void setStreamingUrl(String streamingUrl)
+    public void setStreamingPath(String streamingPath)
     {
-        String previous = getFileItemMetadata().getStreamingUrl();
-        boolean changed = getFileItemMetadata().setStreamingUrl(streamingUrl);
+        String previous = getFileItemMetadata().getStreamingPath();
+        boolean changed = getFileItemMetadata().setStreamingPath(streamingPath);
         if (changed)
         {
             DatasetItemContainer parent = (DatasetItemContainer) getParent();
             if (parent != null)
             {
-                parent.onDescendantStateChange(previous, streamingUrl);
+                parent.onDescendantStateChange(previous, streamingPath);
             }
         }
     }
