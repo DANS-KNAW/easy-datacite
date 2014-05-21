@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-	xmlns:emd="http://easy.dans.knaw.nl/easy/easymetadata/" 
-	xmlns:dc="http://purl.org/dc/elements/1.1/"
-  	xmlns:dcterms="http://purl.org/dc/terms/" 
-  	xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/" 
-  	xmlns:gml="http://www.opengis.net/gml/3.2"
-  	xmlns:sikb="http://www.sikb.nl/sikb0102/2.1.0" 
-  	xmlns:p2e="java:nl.knaw.dans.platform.language.pakbon.Pakbon2EmdFunctions"
-  	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-  	exclude-result-prefixes="sikb gml p2e">
+ xmlns:emd="http://easy.dans.knaw.nl/easy/easymetadata/" 
+ xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:dcterms="http://purl.org/dc/terms/" 
+   xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/" 
+   xmlns:gml="http://www.opengis.net/gml/3.2"
+   xmlns:sikb="http://www.sikb.nl/sikb0102/2.1.0" 
+   xmlns:p2e="java:nl.knaw.dans.platform.language.pakbon.Pakbon2EmdFunctions"
+   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+   exclude-result-prefixes="sikb gml p2e">
   
 
   <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes"/>
   
   <xsl:variable name="enum-doc" select="document('enumeraties.xsd')"/>
-
+  
+  <xsl:key name="documents-by-bestandId" match="sikb:document" use="sikb:bestandId" />
+   
   <xsl:template match="sikb:sikb0102">
 
     <emd:easymetadata xmlns:emd="http://easy.dans.knaw.nl/easy/easymetadata/" xmlns:eas="http://easy.dans.knaw.nl/easy/easymetadata/eas/"
@@ -22,16 +24,23 @@
       xsi:schemaLocation="http://easy.dans.knaw.nl/easy/easymetadata/ http://easy.dans.knaw.nl/schemas/md/emd/2012/11/emd.xsd" emd:version="0.1">
       <!-- emd:title -->
       <emd:title>
+        <!-- Note that there is always one project and it must have a projectNaam -->
         <xsl:for-each select="sikb:project/sikb:projectnaam">
           <dc:title>
             <xsl:value-of select="."/>
           </dc:title>
         </xsl:for-each>
+        <!-- 
         <xsl:for-each select="sikb:document/sikb:documenttype[text()='EINDRAP']/../sikb:titel">
+         -->
+        <!-- unique titles, ISSUE-704 -->
+        <xsl:for-each select="sikb:document/sikb:titel[../sikb:documenttype='EINDRAP' and not(.=/sikb:sikb0102/sikb:project/sikb:projectnaam) and not(.=preceding::sikb:titel)]/ .">
           <dcterms:alternative>
             <xsl:value-of select="."/>
           </dcterms:alternative>
         </xsl:for-each>
+        
+        <!-- ISSUE-705, @bronId and sikb:serie is not considered as alternative title
         <xsl:for-each select="sikb:document/sikb:documenttype[text()='EINDRAP']/../@bronId">
           <dcterms:alternative>
             <xsl:value-of select="."/>
@@ -42,10 +51,22 @@
             <xsl:value-of select="."/>
           </dcterms:alternative>
         </xsl:for-each>
+        -->
       </emd:title>
 
       <!-- emd:creator  -->
       <emd:creator>
+        <!-- get the unique auteur names of EINDRAP document -->
+        <!-- Using depricated dc:creator, because sikb:auteur cannot be mapped to eas:creator without 'intelligent' string splitting -->
+        <!--
+        <xsl:for-each select="sikb:document/sikb:documenttype[text()='EINDRAP']/../sikb:auteur">
+        -->
+        <xsl:for-each
+          select="sikb:document/sikb:auteur[../sikb:documenttype='EINDRAP' and not(.=preceding::sikb:auteur)]/ .">
+          <dc:creator>
+        <xsl:value-of select="." />
+       </dc:creator>
+      </xsl:for-each>
 
         <xsl:for-each select="sikb:project/sikb:uitvoerder">
           <xsl:variable name="organisatieId" select="sikb:organisatieId"/>
@@ -90,9 +111,8 @@
               </eas:organization>
             </xsl:if>
           </eas:creator>
-
         </xsl:for-each>
-
+        
       </emd:creator>
 
       <!-- emd:subject -->
@@ -147,15 +167,6 @@
         </xsl:for-each>
       </emd:publisher>
 
-      <!-- emd: contributor -->
-      <emd:contributor>
-        <xsl:for-each select="sikb:document/sikb:documenttype[text()='EINDRAP']/../sikb:auteur">
-          <dc:contributor>
-            <xsl:value-of select="."/>
-          </dc:contributor>
-        </xsl:for-each>
-      </emd:contributor>
-
       <!-- emd:date  -->
       <emd:date>
 
@@ -183,19 +194,22 @@
               <xsl:when test="string-length(.)=4">
                 <eas:created eas:scheme="W3CDTF" eas:format="YEAR">
                   <xsl:value-of select="."/>
-                  <xsl:text>-01-01T00:00:00+01:00</xsl:text>
+                  <!-- <xsl:text>-01-01T00:00:00+01:00</xsl:text> -->
+                  <xsl:text>-01-01T00:00:00.000Z</xsl:text>
                 </eas:created>
               </xsl:when>
               <xsl:when test="string-length(.)=7">
                 <eas:created eas:scheme="W3CDTF" eas:format="MONTH">
                   <xsl:value-of select="."/>
-                  <xsl:text>-01T00:00:00+01:00</xsl:text>
+                  <!-- <xsl:text>-01T00:00:00+01:00</xsl:text> -->
+                  <xsl:text>-01T00:00:00.000Z</xsl:text>
                 </eas:created>
               </xsl:when>
               <xsl:when test="string-length(.)=10">
                 <eas:created eas:scheme="W3CDTF" eas:format="DAY">
                   <xsl:value-of select="."/>
-                  <xsl:text>T00:00:00+01:00</xsl:text>
+                  <!-- <xsl:text>T00:00:00+01:00</xsl:text> -->
+                  <xsl:text>T00:00:00.000Z</xsl:text>
                 </eas:created>
               </xsl:when>
             </xsl:choose>
@@ -205,32 +219,13 @@
         <!--<eas:dateSubmitted eas:scheme="W3CDTF" eas:format="DAY"><xsl:value-of select="p2e:currentDateTime()"/></eas:dateSubmitted>-->
 
         <!-- date_available is standaard datum, te veranderen op moment van conversie-->
-        <eas:available eas:scheme="W3CDTF" eas:format="DAY"><xsl:value-of select="p2e:currentDateTime()"/></eas:available>
+        <eas:available eas:scheme="W3CDTF" eas:format="DAY">
+          <xsl:value-of select="p2e:currentDateTime()"/> 
+        </eas:available>
 
         <!-- dcterms:issued voor het publicatie jaar van de rapport(en) -->
-        <xsl:for-each select="sikb:document/sikb:documenttype[text()='EINDRAP']/../sikb:jaar">
-          <xsl:choose>
-            <xsl:when test="string-length(.)=4">
-              <eas:issued eas:scheme="W3CDTF" eas:format="YEAR">
-                <xsl:value-of select="."/>
-                <xsl:text>-01-01T00:00:00+01:00</xsl:text>
-              </eas:issued>
-            </xsl:when>
-            <xsl:when test="string-length(.)=7">
-              <eas:issued eas:scheme="W3CDTF" eas:format="MONTH">
-                <xsl:value-of select="."/>
-                <xsl:text>-01T00:00:00+01:00</xsl:text>
-              </eas:issued>
-            </xsl:when>
-            <xsl:when test="string-length(.)=10">
-              <eas:issued eas:scheme="W3CDTF" eas:format="DAY">
-                <xsl:value-of select="."/>
-                <xsl:text>T00:00:00+01:00</xsl:text>
-              </eas:issued>
-            </xsl:when>
-          </xsl:choose>
-        </xsl:for-each>
-
+        <!-- NOT added, see issue EASY-711 -->
+ 
       </emd:date>
 
       <!-- emd:type -->
@@ -239,6 +234,7 @@
         <xsl:variable name="documenten" select="sikb:document/sikb:bestandId"/>
         <xsl:variable name="fotos" select="sikb:foto/sikb:bestandId"/>
         <xsl:variable name="tekeningen" select="sikb:tekening/sikb:bestandId"/>
+        <!-- ISSUE-708 previous approach was: Just tick the box when a type is there
         <xsl:if test="$bestanden">
           <dc:type eas:scheme="DCMI" eas:schemeId="common.dc.type">
             <xsl:text>Dataset</xsl:text>
@@ -254,7 +250,22 @@
             <xsl:text>Image</xsl:text>
           </dc:type>
         </xsl:if>
-
+       -->
+        <!-- get the list of bestanden that don't have a document refering to them -->
+        <xsl:variable name="nonDocBestanden" select="sikb:bestand[not(key('documents-by-bestandId', @sikb:id))]" />
+        <!-- only Text when the list of nonDocBestanden is empty -->
+        <xsl:choose>
+          <xsl:when test="$documenten and not($nonDocBestanden)">
+            <dc:type eas:scheme="DCMI" eas:schemeId="common.dc.type">
+              <xsl:text>Text</xsl:text>
+            </dc:type>
+          </xsl:when>
+          <xsl:otherwise>
+            <dc:type eas:scheme="DCMI" eas:schemeId="common.dc.type">
+              <xsl:text>Dataset</xsl:text>
+            </dc:type>
+          </xsl:otherwise>
+        </xsl:choose>        
       </emd:type>
 
       <!--  emd:format -->
@@ -391,11 +402,11 @@
 
         <!-- temporal -->
         <!-- unieke waarden van beginperiode en/of eindperiode -->
-        <xsl:for-each select="sikb:vindplaats">
+         <xsl:for-each select="sikb:vindplaats">
           <xsl:variable name="van" select="sikb:beginperiode"/>
           <xsl:if test="$van">
             <xsl:for-each
-              select="sikb:beginperiode[(not(text()=../preceding-sibling::sikb:vindplaats/sikb:beginperiode) or (text()=../preceding-sibling::sikb:vindplaats/sikb:eindperiode))]">
+              select="sikb:beginperiode[(not((text()=../preceding-sibling::sikb:vindplaats/sikb:beginperiode) or (text()=../preceding-sibling::sikb:vindplaats/sikb:eindperiode)))]">
               <xsl:call-template name="dateringen">
                 <xsl:with-param name="code" select="$van"/>
               </xsl:call-template>
@@ -404,14 +415,14 @@
           <xsl:variable name="tot" select="sikb:eindperiode"/>
           <xsl:if test="($tot) and ($van != $tot)">
             <xsl:for-each
-              select="sikb:eindperiode[(not(text()=../preceding-sibling::sikb:vindplaats/sikb:beginperiode) or (text()=../preceding-sibling::sikb:vindplaats/sikb:eindperiode))]">
+              select="sikb:eindperiode[(not((text()=../preceding-sibling::sikb:vindplaats/sikb:beginperiode) or (text()=../preceding-sibling::sikb:vindplaats/sikb:eindperiode)))]">
               <xsl:call-template name="dateringen">
                 <xsl:with-param name="code" select="$tot"/>
               </xsl:call-template>
             </xsl:for-each>
           </xsl:if>
         </xsl:for-each>
-
+  
         <!-- spatial_point -->
         <!-- project locatie -->
         <xsl:for-each select="sikb:project/sikb:projectlocatieId">
@@ -471,7 +482,9 @@
         <eas:etc>
           <property-list>
             <comment>Metadata conversion from archaeological exchange format (pakbon).</comment>
-            <entry key="conversion.date"><xsl:value-of select="p2e:currentDateTime()"/></entry>
+            <entry key="conversion.date">
+              <xsl:value-of select="p2e:currentDateTime()"/>
+            </entry>
           </property-list>
         </eas:etc>
       </emd:other>
@@ -485,6 +498,7 @@
     <xsl:param name="code"/>
     
     <xsl:variable name="waarde" select="$enum-doc/xsd:schema/xsd:simpleType[@name='PeriodeValueType']/xsd:restriction/xsd:enumeration[@value=$code]/@value"></xsl:variable>
+    <xsl:variable name="documentation" select="$enum-doc/xsd:schema/xsd:simpleType[@name='PeriodeValueType']/xsd:restriction/xsd:enumeration[@value=$code]/xsd:annotation/xsd:documentation/text()"></xsl:variable>
     <xsl:choose>
       <xsl:when test="$waarde='PALEOLB'">
         <!-- foutieve codering in Easy nog steeds niet gecorrigeerd. -->
@@ -492,6 +506,94 @@
           <xsl:value-of select="'PALEOB'"/>
         </dcterms:temporal>
       </xsl:when>
+      
+      <!-- Map middeleeuwen -->
+      <xsl:when test="$waarde='ME'">
+        <dcterms:temporal eas:scheme="ABR" eas:schemeId="archaeology.dcterms.temporal">
+          <xsl:value-of select="'XME'"/>
+        </dcterms:temporal>
+      </xsl:when>
+      <xsl:when test="$waarde='MEV'">
+        <dcterms:temporal eas:scheme="ABR" eas:schemeId="archaeology.dcterms.temporal">
+          <xsl:value-of select="'VME'"/>
+        </dcterms:temporal>
+      </xsl:when>
+      <xsl:when test="$waarde='MEVA'">
+        <dcterms:temporal eas:scheme="ABR" eas:schemeId="archaeology.dcterms.temporal">
+          <xsl:value-of select="'VMEA'"/>
+        </dcterms:temporal>
+      </xsl:when>
+      <xsl:when test="$waarde='MEVB'">
+        <dcterms:temporal eas:scheme="ABR" eas:schemeId="archaeology.dcterms.temporal">
+          <xsl:value-of select="'VMEB'"/>
+        </dcterms:temporal>
+      </xsl:when>
+      <xsl:when test="$waarde='MEVC'">
+        <dcterms:temporal eas:scheme="ABR" eas:schemeId="archaeology.dcterms.temporal">
+          <xsl:value-of select="'VMEC'"/>
+        </dcterms:temporal>
+      </xsl:when>
+      <xsl:when test="$waarde='MEVD'">
+        <dcterms:temporal eas:scheme="ABR" eas:schemeId="archaeology.dcterms.temporal">
+          <xsl:value-of select="'VMED'"/>
+        </dcterms:temporal>
+      </xsl:when>
+      <xsl:when test="$waarde='MEL'">
+        <dcterms:temporal eas:scheme="ABR" eas:schemeId="archaeology.dcterms.temporal">
+          <xsl:value-of select="'LME'"/>
+        </dcterms:temporal>
+      </xsl:when>
+      <xsl:when test="$waarde='MELA'">
+        <dcterms:temporal eas:scheme="ABR" eas:schemeId="archaeology.dcterms.temporal">
+          <xsl:value-of select="'LMEA'"/>
+        </dcterms:temporal>
+      </xsl:when>
+      <xsl:when test="$waarde='MELB'">
+        <dcterms:temporal eas:scheme="ABR" eas:schemeId="archaeology.dcterms.temporal">
+          <xsl:value-of select="'LMEB'"/>
+        </dcterms:temporal>
+      </xsl:when>
+      
+      <!-- Map nieuwe tijd, Vroeg, Midden, Laat -->
+      <xsl:when test="$waarde='NTV'">
+        <dcterms:temporal eas:scheme="ABR" eas:schemeId="archaeology.dcterms.temporal">
+          <xsl:value-of select="'NTA'"/>
+        </dcterms:temporal>
+      </xsl:when>
+      <xsl:when test="$waarde='NTM'">
+        <dcterms:temporal eas:scheme="ABR" eas:schemeId="archaeology.dcterms.temporal">
+          <xsl:value-of select="'NTB'"/>
+        </dcterms:temporal>
+      </xsl:when>
+      <xsl:when test="$waarde='NTL'">
+        <dcterms:temporal eas:scheme="ABR" eas:schemeId="archaeology.dcterms.temporal">
+          <xsl:value-of select="'NTC'"/>
+        </dcterms:temporal>
+      </xsl:when>
+      
+      <!-- we cannot simply map the ABR+, so we put it in free text -->
+      <xsl:when test="$waarde='HIST'">
+        <dcterms:temporal>
+          <xsl:text>Historie 450 - heden (Pakbon_Periode: HIST)</xsl:text>
+        </dcterms:temporal>
+      </xsl:when>
+      <xsl:when test="$waarde='PROTO'">
+        <dcterms:temporal>
+          <xsl:text>Protohistorie: 12vC - 449 nC (Pakbon_Periode: PROTO)</xsl:text>
+        </dcterms:temporal>
+      </xsl:when>
+      <xsl:when test="$waarde='STEEN'">
+        <dcterms:temporal>
+          <xsl:text>Steentijd: 1.000.000 - 2001 vC (Pakbon_Periode: STEEN)</xsl:text>
+        </dcterms:temporal>
+      </xsl:when>
+      <xsl:when test="$waarde='PREH'">
+        <dcterms:temporal>
+          <xsl:text>Prehistorie: 1.000.000 - 13 vC (Pakbon_Periode: PREH)</xsl:text>
+        </dcterms:temporal>
+      </xsl:when>
+      
+      <!--  -->
       <xsl:when test="$waarde!=''">
         <dcterms:temporal eas:scheme="ABR" eas:schemeId="archaeology.dcterms.temporal">
           <xsl:value-of select="$code"/>
