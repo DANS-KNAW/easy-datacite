@@ -6,19 +6,18 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
+import nl.knaw.dans.easy.EasyApplicationContextMock;
+import nl.knaw.dans.easy.EasyWicketTester;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.domain.user.EasyUserAnonymous;
 import nl.knaw.dans.easy.security.CodedAuthz;
 import nl.knaw.dans.easy.security.Security;
 import nl.knaw.dans.easy.servicelayer.SystemReadOnlyStatus;
-import nl.knaw.dans.easy.web.EasyWicketApplication;
 import nl.knaw.dans.easy.web.template.AbstractEasyPage;
 
 import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.spring.test.ApplicationContextMock;
-import org.apache.wicket.util.tester.WicketTester;
 import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.BeforeClass;
@@ -28,7 +27,7 @@ import org.powermock.reflect.Whitebox;
 
 public class SystemReadOnlyLinkTest
 {
-    private static ApplicationContextMock applicationContext;
+    private static EasyApplicationContextMock applicationContext;
     private static Object initialAnonymousUser;
 
     public static class TestPanel extends Panel
@@ -77,7 +76,7 @@ public class SystemReadOnlyLinkTest
     @Test
     public void linkInvisibleForAnonymous()
     {
-        WicketTester tester = createTester();
+        EasyWicketTester tester = createTester();
         tester.startPage(TestPage.class);
         tester.assertInvisible(WICKET_ID_LINK);
     }
@@ -85,7 +84,7 @@ public class SystemReadOnlyLinkTest
     @Test
     public void linkInvisibleWithoutAdminRole()
     {
-        WicketTester tester = createTester();
+        EasyWicketTester tester = createTester();
         Whitebox.setInternalState(tester.getWicketSession(), EasyUser.class, mockAnonymousAsActiveUser(false));
         PowerMock.replayAll();
 
@@ -96,7 +95,7 @@ public class SystemReadOnlyLinkTest
     @Test
     public void adminClicksLink()
     {
-        WicketTester tester = createTester();
+        EasyWicketTester tester = createTester();
         Whitebox.setInternalState(tester.getWicketSession(), EasyUser.class, mockAnonymousAsActiveUser(true));
         PowerMock.replayAll();
 
@@ -115,11 +114,9 @@ public class SystemReadOnlyLinkTest
         tester.assertLabel(labelPath, "system allows read and write");
     }
 
-    private WicketTester createTester()
+    private EasyWicketTester createTester()
     {
-        EasyWicketApplication application = new EasyWicketApplication();
-        application.setApplicationContext(applicationContext);
-        WicketTester tester = new WicketTester(application);
+        EasyWicketTester tester = EasyWicketTester.create(applicationContext);
 
         // tell resource locator were to find test HTML
         tester.getApplication().getResourceSettings().addResourceFolder("src/test/java/");
@@ -135,7 +132,7 @@ public class SystemReadOnlyLinkTest
         CodedAuthz codedAuthz = new CodedAuthz();
         codedAuthz.setSystemReadOnlyStatus(systemReadOnlyStatus);
 
-        applicationContext = new ApplicationContextMock();
+        applicationContext = new EasyApplicationContextMock();
         applicationContext.putBean("systemReadOnlyStatus", systemReadOnlyStatus);
         applicationContext.putBean("authz", codedAuthz);
         applicationContext.putBean("security", new Security(codedAuthz));

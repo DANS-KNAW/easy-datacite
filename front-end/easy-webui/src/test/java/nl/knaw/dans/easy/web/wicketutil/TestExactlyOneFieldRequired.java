@@ -13,8 +13,9 @@ import org.powermock.api.easymock.PowerMock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+// only required to mock final and static methods
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({RequireExactlyOneValidator.class, Form.class, FormComponent.class})
+@PrepareForTest({FormComponent.class})
 public class TestExactlyOneFieldRequired
 {
     private boolean errorCalled = false;

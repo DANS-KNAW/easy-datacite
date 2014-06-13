@@ -20,6 +20,7 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasySession;
 import nl.knaw.dans.easy.web.common.DatasetModel;
+import nl.knaw.dans.easy.web.common.StyledModalWindow;
 import nl.knaw.dans.easy.web.statistics.DatasetStatistics;
 import nl.knaw.dans.easy.web.statistics.DisciplineStatistics;
 import nl.knaw.dans.easy.web.statistics.DownloadStatistics;
@@ -59,7 +60,7 @@ public class NamePanel extends Panel
     {
         super(name, model);
 
-        final ModalWindow popup = Util.createModalWindow("popup", 450, "Maximum download size exceeded");
+        final ModalWindow popup = new StyledModalWindow("popup", "Maximum download size exceeded", 450);
         add(popup);
 
         AbstractLink link = null;

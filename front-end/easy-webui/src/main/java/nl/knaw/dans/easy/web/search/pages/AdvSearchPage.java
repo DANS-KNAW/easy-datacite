@@ -28,6 +28,7 @@ import nl.knaw.dans.easy.web.statistics.AdvancedSearchStatistics;
 import nl.knaw.dans.easy.web.statistics.StatisticsEvent;
 import nl.knaw.dans.easy.web.statistics.StatisticsLogger;
 import nl.knaw.dans.easy.web.template.AbstractEasyForm;
+import nl.knaw.dans.easy.web.template.Style;
 import nl.knaw.dans.easy.web.wicket.AssignToDropChoiceList;
 import nl.knaw.dans.easy.web.wicket.UserSelector;
 
@@ -90,6 +91,9 @@ public class AdvSearchPage extends AbstractSearchPage
 
     private void init()
     {
+        add(Style.SEARCH_HEADER_CONTRIBUTION);
+        add(Style.ADVANCED_SEARCH_HEADER_CONTRIBUTION);
+        add(Style.USER_SELECTOR_HEADER_CONTRIBUTION);
         addCommonFeedbackPanel();
 
         add(new SearchCriteriaPanel("searchCriteria", getSearchModel()));

@@ -27,6 +27,7 @@ import nl.knaw.dans.easy.web.search.pages.MyRequestsSearchResultPage;
 import nl.knaw.dans.easy.web.search.pages.PublicSearchResultPage;
 import nl.knaw.dans.easy.web.search.pages.SearchAllSearchResultPage;
 import nl.knaw.dans.easy.web.template.AbstractEasyPage;
+import nl.knaw.dans.easy.web.template.Style;
 import nl.knaw.dans.easy.web.template.VersionPanel;
 import nl.knaw.dans.easy.web.wicket.SecureEasyPageLink;
 
@@ -171,6 +172,8 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage
     {
         // logo
         add(new BookmarkablePageLink<HomePage>(EASY_LOGO_LINK, HomePage.class));
+
+        add(Style.EASY_HEADER_CONTRIBUTION);
 
         // search bar
         add(new SearchBar(SEARCH_PANEL, isArchivistOrAdmin() ? SearchAllSearchResultPage.class : PublicSearchResultPage.class));

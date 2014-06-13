@@ -4,16 +4,15 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
 import static org.easymock.EasyMock.isNull;
 import static org.easymock.EasyMock.or;
-import static org.powermock.api.easymock.PowerMock.mockStatic;
 import static org.powermock.api.easymock.PowerMock.replayAll;
 import static org.powermock.api.easymock.PowerMock.resetAll;
 
-import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
-import nl.knaw.dans.common.lang.FileSystemHomeDirectory;
 import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
@@ -22,7 +21,7 @@ import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.service.exceptions.TooManyFilesException;
 import nl.knaw.dans.common.lang.service.exceptions.ZipFileLengthException;
-import nl.knaw.dans.common.lang.user.User.State;
+import nl.knaw.dans.easy.AuthzStrategyTestImpl;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyWicketTester;
 import nl.knaw.dans.easy.domain.dataset.PermissionSequenceListImpl;
@@ -40,54 +39,35 @@ import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
-import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.domain.model.user.Group;
-import nl.knaw.dans.easy.domain.model.user.RepoAccess;
-import nl.knaw.dans.easy.domain.model.user.RepoAccessDelegator;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
-import nl.knaw.dans.easy.security.CodedAuthz;
-import nl.knaw.dans.easy.security.ContextParameters;
-import nl.knaw.dans.easy.security.Security;
-import nl.knaw.dans.easy.servicelayer.SystemReadOnlyStatus;
 import nl.knaw.dans.easy.servicelayer.services.DatasetService;
 import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.servicelayer.services.SearchService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
-import nl.knaw.dans.easy.web.EasySession;
-import nl.knaw.dans.easy.web.statistics.StatisticsLogger;
 import nl.knaw.dans.easy.web.view.dataset.DatasetViewPage;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.EmdFormat;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.util.tester.WicketTester;
 import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({Services.class, Security.class, StatisticsLogger.class, EasySession.class, RepoAccess.class})
 public class FileExplorerTest
 {
-    private WicketTester tester;
-    private EasyUser normalUser;
-    private EasySession easySessionMock;
+    private static final String MESSAGE = "tabs:panel:fe:modalDownload:content:message";
+    private static final String MESSAGE2 = "tabs:panel:fe:modalMessage:content:message";
+    private static final String DOWNLOAD_LINK = "tabs:panel:fe:downloadLink";
+    private EasyWicketTester tester;
+    private EasyUserTestImpl sessionUser;
     private Dataset datasetMock;
     private DatasetService datasetServiceMock;
     private SearchService searchServiceMock;
     private ItemService itemServiceMock;
-
-    /*
-     * For now, support Services and Data "God-classes" along the preferred injected beans way of
-     * accessing services.
-     */
-    private EasyApplicationContextMock ctx;
 
     private String datasetSid = "test-dataset:1";
     private DmoStoreId datasetDmoStoreId = new DmoStoreId(datasetSid);
@@ -95,62 +75,20 @@ public class FileExplorerTest
     @Before
     public void setUp() throws Exception
     {
-        ctx = new EasyApplicationContextMock();
-        ctx.putBean("editableContentHome", new FileSystemHomeDirectory(new File("src/main/assembly/dist/res/example/editable")));
-        ctx.putBean("staticContentBaseUrl", "http://develop01.dans.knaw.nl/statics");
-        setUpAuthz();
-        setUpUsers();
-        setUpEasySessionMock();
-        setUpServices();
-        tester = EasyWicketTester.create(ctx);
-    }
-
-    private void setUpAuthz()
-    {
-        mockStatic(Security.class);
-        expect(Security.getAuthz()).andReturn(createCodedAuthz()).anyTimes();
-    }
-
-    private CodedAuthz createCodedAuthz()
-    {
-        CodedAuthz codedAuthz = new CodedAuthz();
-        SystemReadOnlyStatus systemReadOnlyStatus = new SystemReadOnlyStatus(new File("target/SystemReadOnlyStatus.properties"));
-        codedAuthz.setSystemReadOnlyStatus(systemReadOnlyStatus);
-        return codedAuthz;
-    }
-
-    private void setUpEasySessionMock()
-    {
-        mockStatic(EasySession.class);
-        easySessionMock = PowerMock.createMock(EasySession.class);
-        expect(EasySession.get()).andReturn(easySessionMock).anyTimes();
-        expect(easySessionMock.hasRedirectPage(isA(Class.class))).andReturn(false).anyTimes();
-    }
-
-    private void expectUser(EasyUser user)
-    {
-        expect(easySessionMock.getUser()).andReturn(user).anyTimes();
-        expect(EasySession.getSessionUser()).andReturn(user).anyTimes();
-        expect(easySessionMock.getContextParameters()).andReturn(new ContextParameters(user)).anyTimes();
-    }
-
-    private void normalUserIsLoggedIn()
-    {
-        expectUser(normalUser);
-    }
-
-    private void setUpServices() throws ObjectNotAvailableException, CommonSecurityException, ServiceException, RepositoryException, ObjectNotFoundException,
-            DomainException
-    {
-        mockStatic(Services.class);
+        sessionUser = new EasyUserTestImpl("normal", true);
         setUpDatasetServiceMock();
         setUpItemServiceMock();
         setUpSearchServiceMock();
-        expect(Services.getDatasetService()).andReturn(datasetServiceMock).anyTimes();
-        expect(Services.getItemService()).andReturn(itemServiceMock).anyTimes();
+        new Services().setDatasetService(datasetServiceMock);
+        new Services().setItemService(itemServiceMock);
+
+        EasyApplicationContextMock ctx = new EasyApplicationContextMock();
         ctx.putBean("itemService", itemServiceMock);
-        expect(Services.getSearchService()).andReturn(searchServiceMock).anyTimes();
         ctx.putBean("searchService", searchServiceMock);
+        ctx.expectStandardSecurity(false);
+        ctx.expectDefaultResources();
+        ctx.expectAuthenticatedAs(sessionUser);
+        tester = EasyWicketTester.create(ctx);
     }
 
     private void setUpSearchServiceMock() throws ServiceException
@@ -164,7 +102,6 @@ public class FileExplorerTest
         expect(searchServiceMock.getNumberOfItemsInAllWork(isA(EasyUser.class))).andReturn(1).anyTimes();
         expect(searchServiceMock.getNumberOfItemsInOurWork(isA(EasyUser.class))).andReturn(1).anyTimes();
         expect(searchServiceMock.getNumberOfItemsInMyWork(isA(EasyUser.class))).andReturn(1).anyTimes();
-        expect(itemServiceMock.getAccessibleAudioVideoFiles(isA(EasyUser.class), isA(Dataset.class))).andReturn(new LinkedList<FileItemVO>()).anyTimes();
     }
 
     private void setUpItemServiceMock() throws ServiceException
@@ -177,6 +114,7 @@ public class FileExplorerTest
                         or(isNull(ItemOrder.class), isA(ItemOrder.class)), or(isNull(ItemFilters.class), isA(ItemFilters.class)))).andReturn(filesAndFolders)
                 .anyTimes();
         expect(itemServiceMock.hasChildItems(isA(DmoStoreId.class))).andReturn(false).anyTimes();
+        expect(itemServiceMock.getAccessibleAudioVideoFiles(isA(EasyUser.class), isA(Dataset.class))).andReturn(new LinkedList<FileItemVO>()).anyTimes();
     }
 
     private FileItemVO mockFile()
@@ -211,19 +149,20 @@ public class FileExplorerTest
         expect(datasetMock.getDmoStoreId()).andReturn(datasetDmoStoreId).anyTimes();
         expect(datasetMock.getMetadataFormat()).andReturn(MetadataFormat.ARCHAEOLOGY).anyTimes();
         expect(datasetMock.getAuthzStrategy()).andReturn(new AuthzStrategyTestImpl()).anyTimes();
-        expect(datasetMock.getDepositor()).andReturn(normalUser).anyTimes();
+        expect(datasetMock.getDepositor()).andReturn(sessionUser).anyTimes();
         expect(datasetMock.hasDepositor(isA(EasyUser.class))).andReturn(true).anyTimes();
         expect(datasetMock.isInvalidated()).andReturn(false).anyTimes();
         expect(datasetMock.getPreferredTitle()).andReturn("Test Title").anyTimes();
         expect(datasetMock.hasVisibleItems(isA(EasyUser.class))).andReturn(true).anyTimes();
         expect(datasetMock.getPermissionSequenceList()).andReturn(new PermissionSequenceListImpl()).anyTimes();
         expect(datasetMock.getAdministrativeState()).andReturn(DatasetState.PUBLISHED).anyTimes();
+        expect(datasetMock.getState()).andReturn(DatasetState.PUBLISHED.toString()).anyTimes();
         expect(datasetMock.getParentDisciplines()).andReturn(new ArrayList<DisciplineContainer>()).anyTimes();
         expect(datasetMock.hasPermissionRestrictedItems()).andReturn(false).anyTimes();
 
         AdministrativeMetadata amd = PowerMock.createMock(AdministrativeMetadata.class);
         expect(amd.getStateChangeDates()).andReturn(new ArrayList<StateChangeDate>()).anyTimes();
-        expect(amd.getDepositor()).andReturn(normalUser).anyTimes();
+        expect(amd.getDepositor()).andReturn(sessionUser).anyTimes();
 
         expect(datasetMock.getAdministrativeMetadata()).andReturn(amd).anyTimes();
         expect(datasetMock.getLastModified()).andReturn(new DateTime()).anyTimes();
@@ -237,6 +176,8 @@ public class FileExplorerTest
          */
         EmdFormat emdFormat = new EmdFormat()
         {
+            private static final long serialVersionUID = 1L;
+
             @Override
             public String toString()
             {
@@ -248,20 +189,6 @@ public class FileExplorerTest
 
     }
 
-    private void setUpUsers()
-    {
-        mockStatic(RepoAccess.class);
-        RepoAccessDelegator delegatorMock = PowerMock.createMock(RepoAccessDelegator.class);
-        expect(RepoAccess.getDelegator()).andReturn(delegatorMock).anyTimes();
-        expect(delegatorMock.getGroups(isA(EasyUser.class))).andReturn(new LinkedList<Group>());
-
-        normalUser = new EasyUserTestImpl("normal", true);
-        normalUser.setFirstname("Norman");
-        normalUser.setSurname("Normal");
-        normalUser.addRole(Role.USER);
-        normalUser.setState(State.ACTIVE);
-    }
-
     private static class EasyUserTestImpl extends EasyUserImpl
     {
         private static final long serialVersionUID = 1L;
@@ -271,11 +198,20 @@ public class FileExplorerTest
         {
             super(userId);
             this.hasAcceptedGeneralConditions = hasAcceptedGeneralConditions;
+            setFirstname("Norman");
+            setSurname("Normal");
+            addRole(Role.USER);
+            setState(State.ACTIVE);
         }
 
         public void setHasAcceptedGeneralConditions(boolean hasAcceptedGeneralConditions)
         {
             this.hasAcceptedGeneralConditions = hasAcceptedGeneralConditions;
+        }
+
+        public Set<Group> getGroups()
+        {
+            return new HashSet<Group>();
         }
 
         @Override
@@ -287,68 +223,78 @@ public class FileExplorerTest
 
     private void renderPage()
     {
+        replayAll();
         PageParameters parameters = new PageParameters();
         parameters.add("id", datasetSid);
         parameters.add("tab", "2");
         tester.startPage(new DatasetViewPage(parameters));
         tester.assertRenderedPage(DatasetViewPage.class);
+        tester.dumpPage();
     }
 
     @Test
     public void testDownloadSizeTooLargeHasAcceptedConditions() throws ServiceException
     {
-        expect(itemServiceMock.getZippedContent(isA(EasyUser.class), isA(Dataset.class), isA(List.class))).andThrow(new ZipFileLengthException(datasetSid))
-                .once();
-        normalUserIsLoggedIn();
-        replayAll();
+        expectFileLengthException();
+        sessionUser.setHasAcceptedGeneralConditions(true);
         renderPage();
-        ((EasyUserTestImpl) normalUser).setHasAcceptedGeneralConditions(true);
 
+        tester.clickLink(DOWNLOAD_LINK, true);
+        tester.assertLabelContains(MESSAGE2, "Downloading is limited");
+        tester.assertLabelContains(MESSAGE2, "MB per download");
         tester.dumpPage();
-        tester.clickLink("tabs:panel:fe:downloadLink", true);
-        tester.assertContains("Downloading is limited");
     }
 
     @Test
     public void testDownloadSizeTooLargeHasntAcceptedGeneralConditions() throws ServiceException
     {
-        expect(itemServiceMock.getZippedContent(isA(EasyUser.class), isA(Dataset.class), isA(List.class))).andThrow(new ZipFileLengthException(datasetSid))
-                .once();
-        normalUserIsLoggedIn();
-        replayAll();
+        expectFileLengthException();
+        sessionUser.setHasAcceptedGeneralConditions(false);
         renderPage();
-        ((EasyUserTestImpl) normalUser).setHasAcceptedGeneralConditions(false);
 
-        tester.clickLink("tabs:panel:fe:downloadLink", true);
-        tester.assertContains("Downloading is limited");
+        tester.clickLink(DOWNLOAD_LINK, true);
+        tester.assertLabelContains(MESSAGE, "Downloading is limited");
+        tester.assertLabelContains(MESSAGE, "MB per download");
+        tester.dumpPage();
     }
 
     @Test
     public void testDownloadTooManyFilesHasAcceptedGeneralConditions() throws ServiceException
     {
-        expect(itemServiceMock.getZippedContent(isA(EasyUser.class), isA(Dataset.class), isA(List.class))).andThrow(new TooManyFilesException(datasetSid))
-                .once();
-        normalUserIsLoggedIn();
-        replayAll();
+        expectTooManyFilesException();
+        sessionUser.setHasAcceptedGeneralConditions(true);
         renderPage();
-        ((EasyUserTestImpl) normalUser).setHasAcceptedGeneralConditions(true);
 
-        tester.clickLink("tabs:panel:fe:downloadLink", true);
-        tester.assertContains("Downloading is limited");
+        tester.clickLink(DOWNLOAD_LINK, true);
+        tester.debugComponentTrees();
+        tester.assertLabelContains(MESSAGE2, "Downloading is limited");
+        tester.assertLabelContains(MESSAGE2, "files per download");
+        tester.dumpPage();
     }
 
     @Test
     public void testDownloadTooManyFilesHasntAcceptedGeneralConditions() throws ServiceException
     {
-        expect(itemServiceMock.getZippedContent(isA(EasyUser.class), isA(Dataset.class), isA(List.class))).andThrow(new TooManyFilesException(datasetSid))
-                .once();
-        normalUserIsLoggedIn();
-        replayAll();
+        expectTooManyFilesException();
+        sessionUser.setHasAcceptedGeneralConditions(false);
         renderPage();
-        ((EasyUserTestImpl) normalUser).setHasAcceptedGeneralConditions(false);
 
-        tester.clickLink("tabs:panel:fe:downloadLink", true);
-        tester.assertContains("Downloading is limited");
+        tester.clickLink(DOWNLOAD_LINK, true);
+        tester.assertLabelContains(MESSAGE, "Downloading is limited");
+        tester.assertLabelContains(MESSAGE, "files per download");
+        tester.dumpPage();
+    }
+
+    private void expectFileLengthException() throws ServiceException
+    {
+        expect(itemServiceMock.getZippedContent(isA(EasyUser.class), isA(Dataset.class), isA(List.class)))//
+                .andThrow(new ZipFileLengthException(datasetSid)).once();
+    }
+
+    private void expectTooManyFilesException() throws ServiceException
+    {
+        expect(itemServiceMock.getZippedContent(isA(EasyUser.class), isA(Dataset.class), isA(List.class)))//
+                .andThrow(new TooManyFilesException(datasetSid)).once();
     }
 
     @After
@@ -356,5 +302,4 @@ public class FileExplorerTest
     {
         resetAll();
     }
-
 }

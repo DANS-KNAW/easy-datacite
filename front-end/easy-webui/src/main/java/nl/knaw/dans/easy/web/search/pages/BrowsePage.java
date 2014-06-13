@@ -21,6 +21,7 @@ import nl.knaw.dans.easy.web.search.AbstractSearchPage;
 import nl.knaw.dans.easy.web.search.AbstractSearchResultPage;
 import nl.knaw.dans.easy.web.search.DisciplineFacetValueCollapser;
 import nl.knaw.dans.easy.web.search.DisciplineTranslator;
+import nl.knaw.dans.easy.web.template.Style;
 
 import org.apache.wicket.model.ResourceModel;
 import org.slf4j.Logger;
@@ -56,6 +57,7 @@ public class BrowsePage extends AbstractSearchPage
 
     private void init()
     {
+        add(Style.SEARCH_HEADER_CONTRIBUTION);
         addCommonFeedbackPanel();
 
         add(new BrowsePanel("browsePanel", getSearchModel(), getBrowseConfig())

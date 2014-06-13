@@ -10,6 +10,7 @@ import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.main.AbstractEasyNavPage;
 import nl.knaw.dans.easy.web.template.AbstractEasyPage;
+import nl.knaw.dans.easy.web.template.Style;
 import nl.knaw.dans.easy.web.view.dataset.DatasetViewPage;
 
 import org.apache.wicket.Page;
@@ -40,6 +41,7 @@ public class ViewCommonDatasetPage extends AbstractEasyNavPage
             throw new InternalWebError();
         }
 
+        add(Style.VIEW_DATASET_HEADER_CONTRIBUTION);
         add(new Label("title", new Model<String>(formatStrList(dataset.getDublinCoreMetadata().getTitle()))));
         add(new Label("dcTitle", new Model<String>(formatStrList(dataset.getDublinCoreMetadata().getTitle()))));
         add(new Label("dcSubject", new Model<String>(formatStrList(dataset.getDublinCoreMetadata().getSubject()))));

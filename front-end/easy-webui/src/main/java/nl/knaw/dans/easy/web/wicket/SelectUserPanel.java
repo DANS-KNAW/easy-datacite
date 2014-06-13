@@ -7,6 +7,7 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.template.AbstractEasyPanel;
+import nl.knaw.dans.easy.web.template.Style;
 import nl.knaw.dans.easy.web.view.dataset.AdministrationPanel;
 
 import org.apache.wicket.feedback.FeedbackMessage;
@@ -93,6 +94,7 @@ public class SelectUserPanel extends AbstractEasyPanel
 
     private void init()
     {
+        add(Style.USER_SELECTOR_HEADER_CONTRIBUTION);
         add(new FeedbackPanel("supFeedback", new IFeedbackMessageFilter()
         {
             private static final long serialVersionUID = 3253987728694803331L;

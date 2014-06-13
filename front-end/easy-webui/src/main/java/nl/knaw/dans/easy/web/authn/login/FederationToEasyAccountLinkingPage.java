@@ -1,13 +1,13 @@
 package nl.knaw.dans.easy.web.authn.login;
 
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
-import nl.knaw.dans.common.wicket.behavior.IncludeJsOrCssBehavior;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.domain.authn.UsernamePasswordAuthentication;
 import nl.knaw.dans.easy.servicelayer.services.UserService;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.authn.AbstractAuthenticationPage;
 import nl.knaw.dans.easy.web.authn.RegistrationPage;
+import nl.knaw.dans.easy.web.template.Style;
 
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -26,7 +26,7 @@ public class FederationToEasyAccountLinkingPage extends AbstractAuthenticationPa
 
     public FederationToEasyAccountLinkingPage(final FederationUser user)
     {
-        add(new IncludeJsOrCssBehavior(LoginPage.class, "styles.css"));
+        add(Style.LOGIN_HEADER_CONTRIBUTION);
         add(new FederationUserInfoPanel("federationUserInfoPanel", user));
         final UsernamePasswordAuthentication authentication = createUsernamePasswordAuthentication();
         add(new LoginPanelRegular("loginPanelRegular", new LoginAndLinkForm("loginForm", authentication, user.getUserId(), user.getHomeOrg())));

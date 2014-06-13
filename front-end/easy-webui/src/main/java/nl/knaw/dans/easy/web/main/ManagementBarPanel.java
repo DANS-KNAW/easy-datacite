@@ -2,7 +2,7 @@ package nl.knaw.dans.easy.web.main;
 
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
-import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.easy.servicelayer.services.SearchService;
 import nl.knaw.dans.easy.web.admin.EditableContentPage;
 import nl.knaw.dans.easy.web.admin.UsersOverviewPage;
 import nl.knaw.dans.easy.web.search.pages.AllWorkSearchResultPage;
@@ -14,6 +14,7 @@ import nl.knaw.dans.easy.web.wicket.SecureEasyPageLink;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +34,9 @@ public class ManagementBarPanel extends AbstractEasyStatelessPanel
     public static final String TRASH_CAN = "trashCan";
     public static final String USER_INFO = "userInfo";
     public static final String EDITABLE_CONTENT = "editableContent";
+
+    @SpringBean(name = "searchService")
+    private SearchService searchService;
 
     public ManagementBarPanel(final String wicketId)
     {
@@ -68,7 +72,7 @@ public class ManagementBarPanel extends AbstractEasyStatelessPanel
             {
                 try
                 {
-                    int numberOfItems = Services.getSearchService().getNumberOfItemsInAllWork(getSessionUser());
+                    int numberOfItems = searchService.getNumberOfItemsInAllWork(getSessionUser());
                     logger.debug("The number of items in 'all work': " + numberOfItems);
                     return numberOfItems;
                 }
@@ -92,7 +96,7 @@ public class ManagementBarPanel extends AbstractEasyStatelessPanel
             {
                 try
                 {
-                    int numberOfItems = Services.getSearchService().getNumberOfItemsInOurWork(getSessionUser());
+                    int numberOfItems = searchService.getNumberOfItemsInOurWork(getSessionUser());
                     logger.debug("The number of items in 'our work': " + numberOfItems);
 
                     return numberOfItems;
@@ -117,7 +121,7 @@ public class ManagementBarPanel extends AbstractEasyStatelessPanel
             {
                 try
                 {
-                    int numberOfItems = Services.getSearchService().getNumberOfItemsInMyWork(getSessionUser());
+                    int numberOfItems = searchService.getNumberOfItemsInMyWork(getSessionUser());
                     logger.debug("The number of items in 'my work': " + numberOfItems);
 
                     return numberOfItems;
@@ -142,7 +146,7 @@ public class ManagementBarPanel extends AbstractEasyStatelessPanel
             {
                 try
                 {
-                    int numberOfItems = Services.getSearchService().getNumberOfItemsInTrashcan(getSessionUser());
+                    int numberOfItems = searchService.getNumberOfItemsInTrashcan(getSessionUser());
                     logger.debug("The number of items in 'trashcan': " + numberOfItems);
 
                     return numberOfItems;

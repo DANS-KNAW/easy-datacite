@@ -14,6 +14,7 @@ import nl.knaw.dans.easy.servicelayer.services.UserService;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.ErrorPage;
 import nl.knaw.dans.easy.web.common.DisciplineUtils;
+import nl.knaw.dans.easy.web.common.StyledModalWindow;
 import nl.knaw.dans.easy.web.common.UserProperties;
 import nl.knaw.dans.easy.web.template.AbstractEasyStatelessPanel;
 import nl.knaw.dans.easy.web.wicket.SwitchPanel;
@@ -22,9 +23,7 @@ import org.apache.wicket.Component;
 import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
-import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
-import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.CompoundPropertyModel;
@@ -124,7 +123,7 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
         add(new Label(UserProperties.TELEPHONE));
         add(new Label(UserProperties.DAI));
 
-        final ModalWindow popup = createPopup();
+        final ModalWindow popup = new StyledModalWindow("popup", 450);
         List<FederativeUserIdMap> linkedAccountsList = getLinkedAccounts(user);
         add(createLinkedAccountsLabel(linkedAccountsList.size()));
         add(createUnlinkInstitutionAccountsButton(linkedAccountsList, popup));
@@ -162,16 +161,6 @@ public class UserInfoDisplayPanel extends AbstractEasyStatelessPanel implements 
                 logger.debug("Unlink institution account Popup shown");
             }
         }.setVisible(linkedAccountsList.size() > 0);
-    }
-
-    private ModalWindow createPopup()
-    {
-        final ModalWindow popup = new ModalWindow("popup");
-        popup.setUseInitialHeight(false);
-        popup.setInitialWidth(450);
-        HeaderContributor headerContribution = CSSPackageResource.getHeaderContribution("css/modal.css");
-        popup.add(headerContribution);
-        return popup;
     }
 
     private Label createRadio(EasyUser user, String wicketId, String resourceKey)

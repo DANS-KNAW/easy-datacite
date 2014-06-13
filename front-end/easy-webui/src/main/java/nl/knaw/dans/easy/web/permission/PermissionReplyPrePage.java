@@ -33,7 +33,6 @@ import org.slf4j.LoggerFactory;
  */
 public class PermissionReplyPrePage extends AbstractEasyNavPage
 {
-
     private static final Logger LOGGER = LoggerFactory.getLogger(PermissionReplyPrePage.class);
 
     private final EasyUser sessionUser;

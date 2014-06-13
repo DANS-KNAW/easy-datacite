@@ -137,6 +137,7 @@ public abstract class AbstractEasyPage extends CommonPage implements EasyResourc
     {
         logger.info("Init. page=" + this.getClass().getName() + " user=" + getSessionUser());
         add(new Label(PAGE_TITLE, getPageTitleModel()));
+        add(Style.RESET_HEADER_CONTRIBUTION);
 
         // logging for statistics (only log if there is an external referer-url)
         HttpServletRequest hsr = ((WebRequest) getRequest()).getHttpServletRequest();

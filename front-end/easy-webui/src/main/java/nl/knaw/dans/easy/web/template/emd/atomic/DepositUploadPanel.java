@@ -4,12 +4,11 @@ import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.components.upload.EasyUpload;
 import nl.knaw.dans.common.wicket.components.upload.EasyUploadConfig;
-import nl.knaw.dans.common.wicket.components.upload.postprocess.IUploadPostProcess;
 import nl.knaw.dans.common.wicket.components.upload.postprocess.unzip.UnzipPostProcess;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.common.DatasetModel;
-import nl.knaw.dans.easy.web.fileexplorer.FileExplorer;
+import nl.knaw.dans.easy.web.common.StyledModalWindow;
 import nl.knaw.dans.easy.web.template.AbstractDatasetModelPanel;
 import nl.knaw.dans.easy.web.template.upload.postprocess.ingest.IngestPostProcess;
 
@@ -18,7 +17,6 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.behavior.SimpleAttributeModifier;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
-import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.model.StringResourceModel;
 import org.slf4j.Logger;
@@ -65,12 +63,7 @@ public class DepositUploadPanel extends AbstractDatasetModelPanel
         {
         }
 
-        final ModalWindow popup = new ModalWindow("popup");
-        popup.setUseInitialHeight(false);
-        popup.setInitialWidth(width);
-        // popup.setInitialHeight(height);
-        popup.setTitle("Files");
-        popup.add(CSSPackageResource.getHeaderContribution("css/modal.css"));
+        final ModalWindow popup = new StyledModalWindow("popup", "Files", width);
         uploadPanelHolder.add(popup);
 
         AjaxLink<Void> showFilesLink = new AjaxLink<Void>("popupLink")

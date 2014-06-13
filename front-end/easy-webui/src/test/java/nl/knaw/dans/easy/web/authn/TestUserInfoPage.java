@@ -108,9 +108,10 @@ public class TestUserInfoPage
     @Test
     public void clickEdit() throws Exception
     {
+        applicationContext.expectAuthenticatedAsVisitor();
         UserInfoPageWrapper.enableModeSwith = true;
         UserInfoPageWrapper.inEditMode = false;
-        UserInfoPageWrapper.userId = applicationContext.expectAuthenticatedAsVisitor().getId();
+        UserInfoPageWrapper.userId = shownUser.getId();
         final EasyWicketTester tester = init();
         tester.clickLink("userInfoPanel:switchPanel:editLink");
         tester.dumpPage();

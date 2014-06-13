@@ -23,6 +23,7 @@ import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.template.AbstractDatasetModelPanel;
+import nl.knaw.dans.easy.web.template.Style;
 import nl.knaw.dans.easy.web.wicket.WorkflowStepPanel;
 
 import org.apache.wicket.WicketRuntimeException;
@@ -53,6 +54,7 @@ public class AdministrationPanel extends AbstractDatasetModelPanel
     public AdministrationPanel(final String wicketId, final DatasetModel datasetModel)
     {
         super(wicketId, new DatasetModel(datasetModel));
+        add(Style.ADMIN_PANEL_CONTRIBUTION);
         addLicensesHistoryPanels();
         addLicenseUploadPanel();
         getDisplayProps();

@@ -6,15 +6,14 @@ import java.util.List;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.components.DateTimeLabel;
 import nl.knaw.dans.easy.domain.deposit.discipline.DepositDiscipline;
-import nl.knaw.dans.easy.domain.exceptions.DataIntegrityException;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.StateChangeDate;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.ErrorPage;
 import nl.knaw.dans.easy.web.common.DatasetModel;
+import nl.knaw.dans.easy.web.common.StyledModalWindow;
 import nl.knaw.dans.easy.web.deposit.DepositPage;
-import nl.knaw.dans.easy.web.fileexplorer.FileExplorer;
 import nl.knaw.dans.easy.web.statistics.DatasetStatistics;
 import nl.knaw.dans.easy.web.statistics.DisciplineStatistics;
 import nl.knaw.dans.easy.web.statistics.StatisticsEvent;
@@ -26,9 +25,7 @@ import org.apache.wicket.Component;
 import org.apache.wicket.Page;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
-import org.apache.wicket.behavior.SimpleAttributeModifier;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
-import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.Model;
@@ -124,10 +121,7 @@ public class StatusPanel extends AbstractEasyPanel
         };
         add(continueDeposit);
 
-        final ModalWindow popup = new ModalWindow("popup");
-        popup.setUseInitialHeight(false);
-        popup.setInitialWidth(450);
-        popup.add(CSSPackageResource.getHeaderContribution("css/modal.css"));
+        final ModalWindow popup = new StyledModalWindow("popup", 450);
         add(popup);
 
         AjaxLink<Void> deleteDataset = new AjaxLink<Void>("deleteDataset")

@@ -1,7 +1,6 @@
 package nl.knaw.dans.easy.web.authn.login;
 
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
-import nl.knaw.dans.common.wicket.behavior.IncludeJsOrCssBehavior;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.domain.authn.UsernamePasswordAuthentication;
 import nl.knaw.dans.easy.servicelayer.services.FederativeUserService;
@@ -9,6 +8,7 @@ import nl.knaw.dans.easy.servicelayer.services.UserService;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.authn.AbstractAuthenticationPage;
 import nl.knaw.dans.easy.web.authn.RegistrationPage;
+import nl.knaw.dans.easy.web.template.Style;
 
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.link.Link;
@@ -37,7 +37,7 @@ public class LoginPage extends AbstractAuthenticationPage
 
     private void init()
     {
-        add(new IncludeJsOrCssBehavior(LoginPage.class, "styles.css"));
+        add(Style.LOGIN_HEADER_CONTRIBUTION);
         setStatelessHint(true);
         UsernamePasswordAuthentication authentication;
         try

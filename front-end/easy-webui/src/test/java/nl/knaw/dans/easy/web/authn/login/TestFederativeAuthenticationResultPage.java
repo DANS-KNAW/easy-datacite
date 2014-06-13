@@ -66,6 +66,10 @@ public class TestFederativeAuthenticationResultPage extends Fixture
         final SearchService searchService = PowerMock.createMock(SearchService.class);
         EasyMock.expect(searchService.getNumberOfDatasets(isA(EasyUser.class))).andStubReturn(0);
         EasyMock.expect(searchService.getNumberOfRequests(isA(EasyUser.class))).andStubReturn(0);
+        EasyMock.expect(searchService.getNumberOfItemsInAllWork(isA(EasyUser.class))).andStubReturn(0);
+        EasyMock.expect(searchService.getNumberOfItemsInMyWork(isA(EasyUser.class))).andStubReturn(0);
+        EasyMock.expect(searchService.getNumberOfItemsInOurWork(isA(EasyUser.class))).andStubReturn(0);
+        EasyMock.expect(searchService.getNumberOfItemsInTrashcan(isA(EasyUser.class))).andStubReturn(0);
         applicationContext.putBean("searchService", searchService);
     }
 

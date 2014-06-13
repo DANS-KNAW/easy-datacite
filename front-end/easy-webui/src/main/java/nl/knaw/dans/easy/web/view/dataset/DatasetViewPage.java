@@ -30,6 +30,7 @@ import nl.knaw.dans.easy.web.statistics.DisciplineStatistics;
 import nl.knaw.dans.easy.web.statistics.StatisticsEvent;
 import nl.knaw.dans.easy.web.statistics.StatisticsLogger;
 import nl.knaw.dans.easy.web.template.AbstractEasyPage;
+import nl.knaw.dans.easy.web.template.Style;
 import nl.knaw.dans.easy.web.view.dataset.relations.RelationsPanel;
 import nl.knaw.dans.pf.language.emd.EmdFormat;
 import nl.knaw.dans.pf.language.emd.types.BasicString;
@@ -299,6 +300,7 @@ public class DatasetViewPage extends AbstractEasyNavPage
 
     public void init()
     {
+        add(Style.VIEW_DATASET_HEADER_CONTRIBUTION);
         addCommonFeedbackPanel();
 
         add(new Label("title", getDataset().getPreferredTitle()));

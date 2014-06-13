@@ -5,13 +5,12 @@ import nl.knaw.dans.common.wicket.components.search.results.SearchResultConfig;
 import nl.knaw.dans.common.wicket.components.search.results.SearchResultPanel;
 import nl.knaw.dans.easy.web.common.HelpFileReader;
 import nl.knaw.dans.easy.web.common.ModalHelpPanel;
-import nl.knaw.dans.easy.web.fileexplorer.FileExplorer;
+import nl.knaw.dans.easy.web.common.StyledModalWindow;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
-import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 
 public abstract class EasySearchResultPanel extends SearchResultPanel
@@ -50,11 +49,7 @@ public abstract class EasySearchResultPanel extends SearchResultPanel
             };
 
             // Search Help popup
-            final ModalWindow popup = new ModalWindow("searchTipsHelpPopup");
-            // TODO get title from properties file
-            popup.setTitle("Help");
-            // TODO use a global or help css and not from FileExplorer
-            popup.add(CSSPackageResource.getHeaderContribution("css/modal.css"));
+            final ModalWindow popup = new StyledModalWindow("searchTipsHelpPopup", "Help");
             searchTips.add(popup);
             AjaxLink<Void> showHelpLink = new AjaxLink<Void>("popupLink")
             {

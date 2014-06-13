@@ -7,14 +7,13 @@ import nl.knaw.dans.common.wicket.components.upload.EasyUploadConfig;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.common.DatasetModel;
+import nl.knaw.dans.easy.web.common.StyledModalWindow;
 import nl.knaw.dans.easy.web.deposit.TransformPakbonPostProcess;
-import nl.knaw.dans.easy.web.fileexplorer.FileExplorer;
 import nl.knaw.dans.easy.web.template.AbstractDatasetModelPanel;
 
 import org.apache.wicket.MarkupContainer;
 import org.apache.wicket.behavior.SimpleAttributeModifier;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
-import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.model.StringResourceModel;
 import org.slf4j.Logger;
@@ -54,11 +53,7 @@ public class DepositUploadPakbonPanel extends AbstractDatasetModelPanel
         {
         }
 
-        final ModalWindow popup = new ModalWindow("popup");
-        popup.setUseInitialHeight(false);
-        popup.setInitialWidth(width);
-        popup.setTitle("Files");
-        popup.add(CSSPackageResource.getHeaderContribution("css/modal.css"));
+        final ModalWindow popup = new StyledModalWindow("popup", "Files", width);
         uploadPanelHolder.add(popup);
         this.add(uploadPanelHolder);
     }

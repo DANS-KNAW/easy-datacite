@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.knaw.dans.common.wicket.components.DateTimeLabel;
-import nl.knaw.dans.common.wicket.components.explorer.style.ExplorerTheme;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.PermissionSequence;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
@@ -14,13 +13,13 @@ import nl.knaw.dans.easy.web.EasySession;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.template.AbstractDatasetModelPanel;
 import nl.knaw.dans.easy.web.template.AbstractEasyPage;
+import nl.knaw.dans.easy.web.template.Style;
 
 import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulator;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.DefaultDataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.ISortableDataProvider;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
-import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
@@ -51,9 +50,6 @@ public class DatasetPermissionsTab extends AbstractDatasetModelPanel
     public DatasetPermissionsTab(final String panelId, final DatasetModel datasetModel, final EasyUser user, final AbstractEasyPage currentPage)
     {
         super(panelId, datasetModel);
-
-        add(CSSPackageResource.getHeaderContribution(ExplorerTheme.class, "style.css"));
-
         final List<PermissionSequence> requests = datasetModel.getObject().getPermissionSequenceList().getPermissionSequences();
 
         // Use DataTable instead of ListView to support sorting and paging

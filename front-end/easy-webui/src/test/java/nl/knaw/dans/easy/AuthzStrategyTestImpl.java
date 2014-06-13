@@ -1,4 +1,4 @@
-package nl.knaw.dans.easy.web.fileexplorer;
+package nl.knaw.dans.easy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,10 +9,8 @@ import nl.knaw.dans.common.lang.user.User;
 
 public class AuthzStrategyTestImpl implements AuthzStrategy
 {
-    /**
-     * 
-     */
     private static final long serialVersionUID = 1L;
+    private ArrayList<AuthzMessage> authzMessages = new ArrayList<AuthzMessage>();
 
     @Override
     public boolean canBeDiscovered()
@@ -59,7 +57,7 @@ public class AuthzStrategyTestImpl implements AuthzStrategy
     @Override
     public List<AuthzMessage> getReadMessages()
     {
-        return new ArrayList<AuthzMessage>();
+        return authzMessages;
     }
 
     @Override

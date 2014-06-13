@@ -31,12 +31,14 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasySession;
 import nl.knaw.dans.easy.web.common.DatasetModel;
+import nl.knaw.dans.easy.web.common.StyledModalWindow;
 import nl.knaw.dans.easy.web.statistics.DatasetStatistics;
 import nl.knaw.dans.easy.web.statistics.DisciplineStatistics;
 import nl.knaw.dans.easy.web.statistics.DownloadStatistics;
 import nl.knaw.dans.easy.web.statistics.StatisticsEvent;
 import nl.knaw.dans.easy.web.statistics.StatisticsLogger;
 import nl.knaw.dans.easy.web.template.AbstractDatasetModelPanel;
+import nl.knaw.dans.easy.web.template.Style;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormSubmitBehavior;
@@ -48,7 +50,6 @@ import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow.CloseButt
 import org.apache.wicket.extensions.markup.html.repeater.data.table.AbstractColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
-import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -58,8 +59,6 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.model.StringResourceModel;
-import org.apache.wicket.util.resource.FileResourceStream;
-import org.apache.wicket.util.resource.IResourceStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -87,7 +86,7 @@ public class FileExplorer extends AbstractDatasetModelPanel
     {
         super(id, datasetModel);
 
-        add(CSSPackageResource.getHeaderContribution(FileExplorer.class, "style/file-explorer.css"));
+        add(Style.FILE_EXPLORER_HEADER_CONTRIBUTION);
 
         // check if archivist or depsitor view should be enabled
         if (EasySession.getSessionUser().hasRole(Role.ARCHIVIST))
@@ -102,27 +101,28 @@ public class FileExplorer extends AbstractDatasetModelPanel
         published = datasetModel.getObject().getAdministrativeState().equals(DatasetState.PUBLISHED);
 
         // initialize a ModalWindow for file details
-        final ModalWindow modalFileDetailsWindow = Util.createModalWindow("modalFileDetails", 400, "File details");
+        final ModalWindow modalFileDetailsWindow = new StyledModalWindow("modalFileDetails", "File details", 400);
         add(modalFileDetailsWindow);
 
         // initialize a ModalWindow for downloads
-        final ModalWindow modalDownloadWindow = Util.createModalWindow("modalDownload", 400, "Notice: Download");
+        final ModalWindow modalDownloadWindow = new StyledModalWindow("modalDownload", "Notice: Download", 400);
         add(modalDownloadWindow);
 
         // initialize a ModalWindow for delete files
-        final ModalWindow modalDeleteWindow = Util.createModalWindow("modalDelete", 450, "Delete file(s)/folder(s)");
+        final ModalWindow modalDeleteWindow = new StyledModalWindow("modalDelete", "Delete file(s)/folder(s)", 450);
         add(modalDeleteWindow);
 
         // initialize a ModalWindow for importing file metadata
-        final ModalWindow modalImportWindow = Util.createModalWindow("modalImport", 450, "Import file metadata");
+        final ModalWindow modalImportWindow = new StyledModalWindow("modalImport", "Import file metadata", 450);
         add(modalImportWindow);
 
         // initialize a ModalWindow for uploads
-        final ModalWindow modalUploadWindow = createModalUploadWindow("modalUpload", 450, "Upload files");
+        final ModalWindow modalUploadWindow = new StyledModalWindow("modalUpload", "Upload files", 450);
+        modalUploadWindow.setCloseButtonCallback(createCloseButtonCallback());
         add(modalUploadWindow);
 
         // initialize a ModalWindow for messages
-        final ModalWindow modalMessageWindow = Util.createModalWindow("modalMessage", 450, "Message");
+        final ModalWindow modalMessageWindow = new StyledModalWindow("modalMessage", "Message", 450);
         add(modalMessageWindow);
 
         Form<Void> filterForm = new Form<Void>("filterForm");
@@ -737,17 +737,6 @@ public class FileExplorer extends AbstractDatasetModelPanel
         }
 
         return result;
-    }
-
-    private ModalWindow createModalUploadWindow(String id, int initialWidth, String title)
-    {
-        ModalWindow modal = new ModalWindow(id);
-        modal.setUseInitialHeight(false);
-        modal.setInitialWidth(initialWidth);
-        modal.setTitle(title);
-        modal.add(CSSPackageResource.getHeaderContribution("css/modal.css"));
-        modal.setCloseButtonCallback(createCloseButtonCallback());
-        return modal;
     }
 
     private CloseButtonCallback createCloseButtonCallback()

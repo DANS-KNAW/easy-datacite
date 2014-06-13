@@ -1,43 +1,40 @@
 package nl.knaw.dans.easy.web.permission;
 
-import static nl.knaw.dans.easy.security.authz.AbstractDatasetAutzStrategy.*;
+import static nl.knaw.dans.easy.security.authz.AbstractDatasetAutzStrategy.MSG_NO_FILES;
+import static nl.knaw.dans.easy.security.authz.AbstractDatasetAutzStrategy.MSG_PERMISSION;
+import static nl.knaw.dans.easy.security.authz.AbstractDatasetAutzStrategy.MSG_PERMISSION_BUTTON;
+import static nl.knaw.dans.easy.security.authz.AbstractDatasetAutzStrategy.MSG_PERMISSION_DENIED;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.isA;
+import static org.easymock.EasyMock.isNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.knaw.dans.common.lang.dataset.DatasetState;
+import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.security.authz.AuthzMessage;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
+import nl.knaw.dans.easy.AuthzStrategyTestImpl;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyWicketTester;
+import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
 import nl.knaw.dans.easy.domain.dataset.item.ItemOrder;
 import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.filter.ItemFilters;
-import nl.knaw.dans.easy.domain.model.AdministrativeMetadata;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.PermissionReplyModel;
 import nl.knaw.dans.easy.domain.model.PermissionRequestModel;
 import nl.knaw.dans.easy.domain.model.PermissionSequence;
 import nl.knaw.dans.easy.domain.model.PermissionSequence.State;
 import nl.knaw.dans.easy.domain.model.PermissionSequenceList;
-import nl.knaw.dans.easy.domain.model.StateChangeDate;
-import nl.knaw.dans.easy.domain.model.VisibleTo;
-import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.servicelayer.services.DatasetService;
 import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
-import nl.knaw.dans.easy.web.fileexplorer.AuthzStrategyTestImpl;
 import nl.knaw.dans.easy.web.view.dataset.DatasetViewPage;
-import nl.knaw.dans.pf.language.emd.EasyMetadata;
-import nl.knaw.dans.pf.language.emd.EmdDescription;
-import nl.knaw.dans.pf.language.emd.EmdIdentifier;
-import nl.knaw.dans.pf.language.emd.EmdRelation;
-import nl.knaw.dans.pf.language.emd.Term;
 
-import org.easymock.EasyMock;
 import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
@@ -49,12 +46,11 @@ import org.powermock.api.easymock.PowerMock;
 public class DatasetPermissionTest
 {
     private EasyApplicationContextMock applicationContext;
-    private static Dataset dataset;
-    private ArrayList<AuthzMessage> authzMessageList;
+    private static DatasetImpl dataset;
+    private boolean isDepositor;
     private PermissionSequence permissionSequence;
     private PermissionSequenceList permissionSequenceList;
     private PermissionRequestModel permissionRequestModel;
-    private List<StateChangeDate> stateChangeDates;
 
     static public class PageWrapper extends DatasetViewPage
     {
@@ -67,66 +63,46 @@ public class DatasetPermissionTest
     @Before
     public void mockDataset() throws Exception
     {
-        stateChangeDates = new ArrayList<StateChangeDate>();
-        // listPermissionSequenses = new ArrayList<PermissionSequence>();
         permissionRequestModel = new PermissionRequestModel();
         permissionSequence = PowerMock.createMock(PermissionSequence.class);
         permissionSequenceList = PowerMock.createMock(PermissionSequenceList.class);
-        EasyMock.expect(permissionSequenceList.getSequenceFor(EasyMock.isA(EasyUser.class))).andStubReturn(permissionSequence);
-        EasyMock.expect(permissionSequenceList.getPermissionRequest(EasyMock.isA(EasyUser.class))).andStubReturn(permissionRequestModel);
+        expect(permissionSequenceList.getSequenceFor(isA(EasyUser.class))).andStubReturn(permissionSequence);
+        expect(permissionSequenceList.getPermissionRequest(isA(EasyUser.class))).andStubReturn(permissionRequestModel);
+        expect(permissionSequenceList.isGrantedTo(isA(EasyUser.class))).andStubReturn(true);
 
-        final EasyMetadata emd = PowerMock.createMock(EasyMetadata.class);
-        EasyMock.expect(emd.toString(EasyMock.isA(String.class), EasyMock.isA(Term.Name.class))).andStubReturn("mocked easy metadata");
-        EasyMock.expect(emd.getEmdIdentifier()).andStubReturn(new EmdIdentifier());
-        EasyMock.expect(emd.getEmdDescription()).andStubReturn(new EmdDescription());
-        EasyMock.expect(emd.getEmdRelation()).andStubReturn(new EmdRelation());
-
-        final AdministrativeMetadata amd = PowerMock.createMock(AdministrativeMetadata.class);
-        EasyMock.expect(amd.getDepositor()).andStubReturn(new EasyUserImpl("mocke-user:depositor"));
-        EasyMock.expect(amd.getStateChangeDates()).andStubReturn(stateChangeDates);
-
-        final DmoStoreId datasetStoreId = new DmoStoreId("mocked-dataset:1");
-        dataset = PowerMock.createMock(Dataset.class);
-        EasyMock.expect(dataset.getStoreId()).andStubReturn(datasetStoreId.getStoreId());
-        EasyMock.expect(dataset.getDmoStoreId()).andStubReturn(datasetStoreId);
-        EasyMock.expect(dataset.isInvalidated()).andStubReturn(false);
-        EasyMock.expect(dataset.getPreferredTitle()).andStubReturn("mocked title");
-        EasyMock.expect(dataset.getEasyMetadata()).andStubReturn(emd);
-        EasyMock.expect(dataset.getAdministrativeMetadata()).andStubReturn(amd);
-        EasyMock.expect(dataset.getAdministrativeState()).andStubReturn(DatasetState.PUBLISHED);
-        EasyMock.expect(dataset.getParentDisciplines()).andStubReturn(new ArrayList<DisciplineContainer>());
-        EasyMock.expect(dataset.getPermissionSequenceList()).andStubReturn(permissionSequenceList);
-        EasyMock.expect(dataset.getLastModified()).andStubReturn(new DateTime());
-        EasyMock.expect(dataset.getTotalFileCount()).andStubReturn(1);
-
-        // we are not interested in files but in permission request messages
-        EasyMock.expect(dataset.getVisibleToFileCount(EasyMock.isA(VisibleTo.class))).andStubReturn(0);
-        EasyMock.expect(dataset.hasVisibleItems(EasyMock.isA(EasyUser.class))).andStubReturn(false);
-        EasyMock.expect(dataset.hasGroupRestrictedItems()).andStubReturn(false);
-        EasyMock.expect(dataset.hasPermissionRestrictedItems()).andStubReturn(true);
-        EasyMock.expect(dataset.isPermissionGrantedTo(EasyMock.isA(EasyUser.class))).andStubReturn(false);
-
-        // annotated SpringBean injection does not work for constructor of DatasetModel
-        final DatasetService datasetService = PowerMock.createMock(DatasetService.class);
-        EasyMock.expect(datasetService.getDataset(EasyMock.isA(EasyUser.class), EasyMock.isA(DmoStoreId.class))).andStubReturn(dataset);
-        EasyMock.expect(datasetService.getAdditionalLicense(dataset)).andStubReturn(null);
-        new Services().setDatasetService(datasetService);
-    }
-
-    @Before
-    public void mockAuthzMessages()
-    {
-        authzMessageList = new ArrayList<AuthzMessage>();
-        EasyMock.expect(dataset.getAuthzStrategy()).andStubReturn(new AuthzStrategyTestImpl()
+        dataset = new DatasetImpl("mocked-dataset:1")
         {
             private static final long serialVersionUID = 1L;
 
-            @Override
-            public List<AuthzMessage> getReadMessages()
+            public boolean hasDepositor(final EasyUser user)
             {
-                return authzMessageList;
+                return isDepositor;
             }
-        });
+
+            public boolean hasDepositor(final String userId)
+            {
+                return isDepositor;
+            }
+
+            public boolean hasPermissionRestrictedItems()
+            {
+                return true;
+            }
+
+            public AccessCategory getAccessCategory()
+            {
+                return AccessCategory.REQUEST_PERMISSION;
+            }
+        };
+        dataset.setPermissionSequenceList(permissionSequenceList);
+        dataset.setState(State.Submitted.toString());
+        dataset.setAuthzStrategy(new AuthzStrategyTestImpl());
+
+        // annotated SpringBean injection does not work for constructor of DatasetModel
+        final DatasetService datasetService = PowerMock.createMock(DatasetService.class);
+        expect(datasetService.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).andStubReturn(dataset);
+        expect(datasetService.getAdditionalLicense(dataset)).andStubReturn(null);
+        new Services().setDatasetService(datasetService);
     }
 
     @Before
@@ -144,11 +120,9 @@ public class DatasetPermissionTest
     private ItemService mockNoItems() throws ServiceException
     {
         final ItemService itemService = PowerMock.createMock(ItemService.class);
-        EasyMock.expect(itemService.hasChildItems(EasyMock.isA(DmoStoreId.class))).andStubReturn(false);
-        EasyMock.expect(itemService.getFilesAndFolders(EasyMock.isA(EasyUser.class), //
-                EasyMock.isA(Dataset.class), EasyMock.isA(DmoStoreId.class), //
-                EasyMock.isA(Integer.class), EasyMock.isA(Integer.class), //
-                EasyMock.isNull(ItemOrder.class), EasyMock.isNull(ItemFilters.class)))//
+        expect(itemService.hasChildItems(isA(DmoStoreId.class))).andStubReturn(false);
+        expect(itemService.getFilesAndFolders(isA(EasyUser.class), isA(Dataset.class), isA(DmoStoreId.class), //
+                isA(Integer.class), isA(Integer.class), isNull(ItemOrder.class), isNull(ItemFilters.class)))//
                 .andStubReturn(new ArrayList<ItemVO>());
         new Services().setItemService(itemService);
         return itemService;
@@ -163,7 +137,7 @@ public class DatasetPermissionTest
     @Test
     public void hasNoSequence()
     {
-        isDepositor(false);
+        isDepositor = false;
         expectAuthzMessages(MSG_NO_FILES, MSG_PERMISSION, MSG_PERMISSION_BUTTON);
         expectHasSequence(false);
         expectNoPermissionSequenceList();
@@ -174,7 +148,7 @@ public class DatasetPermissionTest
     @Test
     public void issuefirstRequest()
     {
-        isDepositor(false);
+        isDepositor = false;
         expectAuthzMessages(MSG_NO_FILES, MSG_PERMISSION, MSG_PERMISSION_BUTTON);
         expectHasSequence(false);
         expectNoPermissionSequenceList();
@@ -189,7 +163,7 @@ public class DatasetPermissionTest
     public void permissionsTabVisible()
     {
         mockPermissionSequenceList();
-        isDepositor(true);
+        isDepositor = true;
 
         final EasyWicketTester tester = EasyWicketTester.create(applicationContext);
         PowerMock.replayAll();
@@ -204,7 +178,7 @@ public class DatasetPermissionTest
     public void permissionsTab()
     {
         preparePermissionTab();
-        EasyWicketTester tester = showTab(4, "Permissions (1 new / 1)");
+        final EasyWicketTester tester = showTab(4, "Permissions (1 new / 1)");
         tester.dumpPage();
         tester.debugComponentTrees();
     }
@@ -213,8 +187,8 @@ public class DatasetPermissionTest
     public void replyPermission()
     {
         preparePermissionTab();
-        EasyMock.expect(permissionSequenceList.getPermissionReply(EasyMock.isA(String.class))).andStubReturn(new PermissionReplyModel("id"));
-        EasyWicketTester tester = showTab(4, "Permissions (1 new / 1)");
+        expect(permissionSequenceList.getPermissionReply(isA(String.class))).andStubReturn(new PermissionReplyModel("id"));
+        final EasyWicketTester tester = showTab(4, "Permissions (1 new / 1)");
         tester.clickLink("tabs:panel:requestTable:body:rows:1:cells:1:cell:link");
         tester.dumpPage();
         tester.assertRenderedPage(PermissionReplyPage.class);
@@ -223,7 +197,7 @@ public class DatasetPermissionTest
     @Test
     public void isDenied()
     {
-        isDepositor(false);
+        isDepositor = false;
         expectAuthzMessages(MSG_NO_FILES, MSG_PERMISSION, MSG_PERMISSION_DENIED);
         expectLastStateChange("2014-04-14");
         expectNoPermissionSequenceList();
@@ -234,13 +208,13 @@ public class DatasetPermissionTest
     @Test
     public void viewDenied()
     {
-        isDepositor(false);
+        isDepositor = false;
         expectAuthzMessages(MSG_NO_FILES, MSG_PERMISSION, MSG_PERMISSION_DENIED);
         expectLastStateChange("2014-04-14");
         permissionRequestModel.setRequestTitle("some title");
         permissionRequestModel.setRequestTheme("some theme");
-        EasyMock.expect(permissionSequence.getState()).andStubReturn(State.Denied);
-        EasyMock.expect(permissionSequence.getReplyText()).andStubReturn("simply denied");
+        expect(permissionSequence.getState()).andStubReturn(State.Denied);
+        expect(permissionSequence.getReplyText()).andStubReturn("simply denied");
         expectNoPermissionSequenceList();
 
         final EasyWicketTester tester = showTab(2, "Data files (0)");
@@ -252,33 +226,32 @@ public class DatasetPermissionTest
     private void preparePermissionTab()
     {
         final String date = "2014-04-14";
-        State state = State.Submitted;
+        final State state = State.Submitted;
         final EasyUserImpl requestor = createRequestor("R.E.", "Questor", "orga", "depa");
         mockPermissionSequenceList().add(mockPermissionSequence(date, state, "title", "theme", requestor));
         expectHasSequence(true);
         expectLastStateChange(date);
-        EasyMock.expect(dataset.getState()).andStubReturn(state.toString());
-        isDepositor(true);
+        isDepositor = true;
     }
 
     private List<PermissionSequence> mockPermissionSequenceList()
     {
         final List<PermissionSequence> list = new ArrayList<PermissionSequence>();
-        EasyMock.expect(permissionSequenceList.getPermissionSequences(EasyMock.isA(State.class))).andStubReturn(list);
-        EasyMock.expect(permissionSequenceList.getPermissionSequences()).andStubReturn(list);
+        expect(permissionSequenceList.getPermissionSequences(isA(State.class))).andStubReturn(list);
+        expect(permissionSequenceList.getPermissionSequences()).andStubReturn(list);
         return list;
     }
 
-    private PermissionSequence mockPermissionSequence(final String dateTime, final State state, String title, String theme, final EasyUser requestor)
+    private PermissionSequence mockPermissionSequence(final String dateTime, final State state, final String title, final String theme, final EasyUser requestor)
     {
         final PermissionSequence ps = PowerMock.createMock(PermissionSequence.class);
-        EasyMock.expect(ps.getRequester()).andStubReturn(requestor);
-        EasyMock.expect(ps.getLastStateChange()).andStubReturn(new DateTime(dateTime));
-        EasyMock.expect(ps.getLastRequestDate()).andStubReturn(new DateTime(dateTime));
-        EasyMock.expect(ps.getState()).andStubReturn(state);
-        EasyMock.expect(ps.getRequesterId()).andStubReturn(requestor.getId());
-        EasyMock.expect(ps.getRequestTitle()).andStubReturn(title);
-        EasyMock.expect(ps.getRequestTheme()).andStubReturn(theme);
+        expect(ps.getRequester()).andStubReturn(requestor);
+        expect(ps.getLastStateChange()).andStubReturn(new DateTime(dateTime));
+        expect(ps.getLastRequestDate()).andStubReturn(new DateTime(dateTime));
+        expect(ps.getState()).andStubReturn(state);
+        expect(ps.getRequesterId()).andStubReturn(requestor.getId());
+        expect(ps.getRequestTitle()).andStubReturn(title);
+        expect(ps.getRequestTheme()).andStubReturn(theme);
         return ps;
     }
 
@@ -292,31 +265,26 @@ public class DatasetPermissionTest
         return user;
     }
 
-    private void isDepositor(final Boolean value)
-    {
-        EasyMock.expect(dataset.hasDepositor(EasyMock.isA(EasyUser.class))).andStubReturn(value);
-    }
-
     private void expectNoPermissionSequenceList()
     {
-        EasyMock.expect(permissionSequenceList.getPermissionSequences(EasyMock.isA(State.class))).andStubReturn(null);
+        expect(permissionSequenceList.getPermissionSequences(isA(State.class))).andStubReturn(null);
     }
 
     private void expectLastStateChange(final String string)
     {
         expectHasSequence(true);
-        EasyMock.expect(permissionSequence.getLastStateChange()).andStubReturn(new DateTime(string));
+        expect(permissionSequence.getLastStateChange()).andStubReturn(new DateTime(string));
     }
 
     private void expectHasSequence(final boolean stubReturnValue)
     {
-        EasyMock.expect(permissionSequenceList.hasSequenceFor(EasyMock.isA(EasyUser.class))).andStubReturn(stubReturnValue);
+        expect(permissionSequenceList.hasSequenceFor(isA(EasyUser.class))).andStubReturn(stubReturnValue);
     }
 
     private void expectAuthzMessages(final String... authzMessages)
     {
         for (final String authzMessage : authzMessages)
-            authzMessageList.add(new AuthzMessage(authzMessage));
+            dataset.getAuthzStrategy().getReadMessages().add(new AuthzMessage(authzMessage));
     }
 
     private EasyWicketTester showTab(final int number, final String title)

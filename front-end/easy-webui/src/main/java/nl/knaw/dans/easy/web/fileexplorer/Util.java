@@ -8,8 +8,6 @@ import nl.knaw.dans.easy.web.view.dataset.AdditionalLicenseResource;
 import nl.knaw.dans.easy.web.view.dataset.UnitMetaDataResource;
 
 import org.apache.wicket.WicketRuntimeException;
-import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
-import org.apache.wicket.markup.html.CSSPackageResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,15 +32,5 @@ public class Util
             logger.error(message, e);
             throw new WicketRuntimeException(message, e);
         }
-    }
-
-    public static ModalWindow createModalWindow(String id, int initialWidth, String title)
-    {
-        ModalWindow modal = new ModalWindow(id);
-        modal.setUseInitialHeight(false);
-        modal.setInitialWidth(initialWidth);
-        modal.setTitle(title);
-        modal.add(CSSPackageResource.getHeaderContribution("css/modal.css"));
-        return modal;
     }
 }

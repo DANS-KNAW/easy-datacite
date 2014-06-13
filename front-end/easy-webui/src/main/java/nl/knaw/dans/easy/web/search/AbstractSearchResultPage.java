@@ -34,6 +34,7 @@ import nl.knaw.dans.easy.web.search.custom.RecursiveListTranslator;
 import nl.knaw.dans.easy.web.search.custom.RecursiveListValueCollapser;
 import nl.knaw.dans.easy.web.search.pages.AdvSearchPage;
 import nl.knaw.dans.easy.web.search.pages.BrowsePage;
+import nl.knaw.dans.easy.web.template.Style;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.PageParameters;
@@ -111,6 +112,7 @@ public abstract class AbstractSearchResultPage extends AbstractSearchPage
 
     protected void init(final String searchText)
     {
+        add(Style.SEARCH_HEADER_CONTRIBUTION);
         add(new Label("headerLabel", getInitialCriteriumText()));
 
         if (getSearchModel() == null)

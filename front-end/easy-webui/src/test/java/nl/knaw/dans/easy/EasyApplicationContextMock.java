@@ -1,13 +1,14 @@
 package nl.knaw.dans.easy;
 
-import static org.easymock.EasyMock.*;
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.isA;
+import static org.easymock.EasyMock.isNull;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 import nl.knaw.dans.common.lang.FileSystemHomeDirectory;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
@@ -18,7 +19,6 @@ import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceList;
 import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
-import nl.knaw.dans.easy.domain.model.user.Group;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.security.CodedAuthz;
 import nl.knaw.dans.easy.security.Security;
@@ -86,38 +86,26 @@ public class EasyApplicationContextMock extends ApplicationContextMock
     }
 
     /**
-     * Sets the authentication with a new session user. If no searchService/uesrServeice bean is set, a
+     * Sets the authentication with a new session user. If no searchService/uesrService bean is set, a
      * mocked one is created with PowerMock. Otherwise eventual previous expectations remain effective.
      * {@Link EasyWicketTester#create(EasyApplicationContextMock)} fetches
      * {@link #getAuthentication()} to create a proper session.
      * 
-     * @return an active user with role user and without groups the tool bars will show no unpublished
-     *         deposits and an empty trashcan
+     * @return an active user with role user and without groups the tool bars will show no datasets
      * @throws ServiceException
+     *         required by the syntax
+     * @throws IllegalStateException
+     *         if a real {@link UserService} or{@link SearchService} instance was assigned as bean
      */
     public EasyUserImpl expectAuthenticatedAsVisitor() throws ServiceException
     {
-        final EasyUserImpl sessionUser = new EasyUserImpl("mocked-user:somebody")
-        {
-            private static final long serialVersionUID = 1L;
-
-            public Set<Group> getGroups()
-            {
-                return new HashSet<Group>();
-            }
-        };
+        final EasyUserImpl sessionUser = new EasyUserTestImpl("mocked-user:somebody");
         sessionUser.setInitials("S.U.R.");
         sessionUser.setSurname("Name");
         sessionUser.addRole(Role.USER);
         sessionUser.setState(User.State.ACTIVE);
 
-        authentication = new UsernamePasswordAuthentication();
-        authentication.setUser(sessionUser);
-        if (sessionUser != null)
-            authentication.setUserId(sessionUser.getId());
-
-        setMockedUserService();
-        EasyMock.expect(getUserService().newUsernamePasswordAuthentication()).andStubReturn(getAuthentication());
+        expectAuthenticatedAs(sessionUser);
 
         setMockedSearchService();
         EasyMock.expect(getSearchService().getNumberOfDatasets(eq(sessionUser))).andStubReturn(0);
@@ -127,6 +115,48 @@ public class EasyApplicationContextMock extends ApplicationContextMock
         EasyMock.expect(getSearchService().getNumberOfItemsInOurWork(eq(sessionUser))).andStubReturn(0);
         EasyMock.expect(getSearchService().getNumberOfItemsInTrashcan(eq(sessionUser))).andStubReturn(0);
         return sessionUser;
+    }
+
+    /**
+     * Supplies zeros for tool bar elements that show numbers of datasets, regardless of any
+     * authenticated user. If no searchService bean is set, a mocked one is created with PowerMock.
+     * Otherwise eventual previous expectations remain effective.
+     * 
+     * @throws ServiceException
+     *         required by the syntax
+     * @throws IllegalStateException
+     *         if a real {@link SearchService} instance was assigned as bean
+     */
+    public void expectNoDatasets() throws ServiceException
+    {
+        setMockedSearchService();
+        EasyMock.expect(getSearchService().getNumberOfDatasets(isA(EasyUser.class))).andStubReturn(0);
+        EasyMock.expect(getSearchService().getNumberOfRequests(isA(EasyUser.class))).andStubReturn(0);
+        EasyMock.expect(getSearchService().getNumberOfItemsInAllWork(isA(EasyUser.class))).andStubReturn(0);
+        EasyMock.expect(getSearchService().getNumberOfItemsInMyWork(isA(EasyUser.class))).andStubReturn(0);
+        EasyMock.expect(getSearchService().getNumberOfItemsInOurWork(isA(EasyUser.class))).andStubReturn(0);
+        EasyMock.expect(getSearchService().getNumberOfItemsInTrashcan(isA(EasyUser.class))).andStubReturn(0);
+    }
+
+    /**
+     * Sets the authentication with a new session user. If no uesrService bean is set, a mocked one is
+     * created with PowerMock. Otherwise eventual previous expectations remain effective. {@Link
+     * EasyWicketTester#create(EasyApplicationContextMock)} fetches {@link #getAuthentication()} to
+     * create a proper session.
+     * 
+     * @return an active user with role user and without groups the tool bars will show no unpublished
+     *         deposits and an empty trashcan
+     * @throws ServiceException
+     */
+    public void expectAuthenticatedAs(final EasyUser sessionUser) throws ServiceException
+    {
+        authentication = new UsernamePasswordAuthentication();
+        authentication.setUser(sessionUser);
+        if (sessionUser != null)
+            authentication.setUserId(sessionUser.getId());
+
+        setMockedUserService();
+        EasyMock.expect(getUserService().newUsernamePasswordAuthentication()).andStubReturn(getAuthentication());
     }
 
     /**

@@ -10,6 +10,7 @@ import nl.knaw.dans.easy.servicelayer.services.DepositService;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.editabletexts.EasyEditablePanel;
 import nl.knaw.dans.easy.web.main.AbstractEasyNavPage;
+import nl.knaw.dans.easy.web.template.Style;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.ExternalLink;
@@ -46,6 +47,7 @@ public class DepositIntroPage extends AbstractEasyNavPage
 
     private void init()
     {
+        add(Style.DEPOSIT_HEADER_CONTRIBUTION);
         ListView<DepositDiscipline> listView = new ListView<DepositDiscipline>("disciplines", getDisciplines())
         {
 
