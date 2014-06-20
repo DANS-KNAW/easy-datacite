@@ -509,8 +509,6 @@ public class EasyItemService extends AbstractEasyService implements ItemService
             if (fileItem.getAuthzStrategy().canUnitBeRead(EasyFile.UNIT_ID))
             {
                 DmoStoreId fileItemId = new DmoStoreId(fileItem.getSid());
-                // TODO fix hack: FileItemVO does not get a streamingPath from FileItemMetadataImpl Issue
-                // 746
                 FileItemDescription description = Services.getItemService().getFileItemDescription(sessionUser, dataset, fileItemId);
                 if (null != description.getFileItemMetadata().getStreamingPath())
                     result.add((FileItemVO) fileItem);
