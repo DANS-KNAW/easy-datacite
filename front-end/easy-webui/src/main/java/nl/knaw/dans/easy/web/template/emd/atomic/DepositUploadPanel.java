@@ -95,21 +95,16 @@ public class DepositUploadPanel extends AbstractDatasetModelPanel
         uploadPanelHolder.add(deleteFilesLink);
 
         this.add(uploadPanelHolder);
-    }
-
-    @Override
-    protected void onBeforeRender()
-    {
-        super.onBeforeRender();
 
         if (hasDirectoriesOrFiles())
-        {
-            uploadPanelHolder.add(new SimpleAttributeModifier("style", "display: block"));
-        }
+            addUploadPanel("display: block");
         else
-        {
-            uploadPanelHolder.add(new SimpleAttributeModifier("style", "display: none"));
-        }
+            addUploadPanel("display: none");
+    }
+
+    private void addUploadPanel(String value)
+    {
+        uploadPanelHolder.add(new SimpleAttributeModifier("style", value));
     }
 
     private boolean hasDirectoriesOrFiles()

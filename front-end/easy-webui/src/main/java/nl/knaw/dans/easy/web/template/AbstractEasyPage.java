@@ -150,12 +150,6 @@ public abstract class AbstractEasyPage extends CommonPage implements EasyResourc
 
     }
 
-    @Override
-    protected void onBeforeRender()
-    {
-        super.onBeforeRender();
-    }
-
     public boolean isAuthenticated()
     {
         return !getSessionUser().isAnonymous();

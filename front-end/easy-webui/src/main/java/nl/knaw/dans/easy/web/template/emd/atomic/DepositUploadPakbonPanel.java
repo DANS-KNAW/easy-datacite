@@ -56,21 +56,15 @@ public class DepositUploadPakbonPanel extends AbstractDatasetModelPanel
         final ModalWindow popup = new StyledModalWindow("popup", "Files", width);
         uploadPanelHolder.add(popup);
         this.add(uploadPanelHolder);
+        if (hasDirectoriesOrFiles())
+            addUploadPanel("display: block");
+        else
+            addUploadPanel("display: none");
     }
 
-    @Override
-    protected void onBeforeRender()
+    private void addUploadPanel(String value)
     {
-        super.onBeforeRender();
-
-        if (hasDirectoriesOrFiles())
-        {
-            uploadPanelHolder.add(new SimpleAttributeModifier("style", "display: block"));
-        }
-        else
-        {
-            uploadPanelHolder.add(new SimpleAttributeModifier("style", "display: none"));
-        }
+        uploadPanelHolder.add(new SimpleAttributeModifier("style", value));
     }
 
     private boolean hasDirectoriesOrFiles()

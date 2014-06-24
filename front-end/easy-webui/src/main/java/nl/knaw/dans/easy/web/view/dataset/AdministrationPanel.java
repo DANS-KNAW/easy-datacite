@@ -2,16 +2,13 @@ package nl.knaw.dans.easy.web.view.dataset;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 import java.util.Properties;
 
 import nl.knaw.dans.common.lang.ResourceLocator;
 import nl.knaw.dans.common.lang.ResourceNotFoundException;
-import nl.knaw.dans.common.lang.repo.UnitMetadata;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.components.upload.EasyUpload;
 import nl.knaw.dans.common.wicket.components.upload.EasyUploadConfig;
-import nl.knaw.dans.common.wicket.components.upload.postprocess.IUploadPostProcess;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.domain.dataset.AdditionalLicenseUnit;
 import nl.knaw.dans.easy.domain.dataset.LicenseUnit;
@@ -49,8 +46,6 @@ public class AdministrationPanel extends AbstractDatasetModelPanel
     private static final String DEPOSITOR_LICENSE = "depositorLicense";
     private static final String ADDITIONAL_LICENSE = "additionalLicense";
 
-    private boolean initiated;
-
     public AdministrationPanel(final String wicketId, final DatasetModel datasetModel)
     {
         super(wicketId, new DatasetModel(datasetModel));
@@ -62,6 +57,7 @@ public class AdministrationPanel extends AbstractDatasetModelPanel
         // Disable dynamic reload. We don't want the dataset reloading automatically
         // just before saving. We want to save it in exactly the way it was presented.
         getDatasetModel().setDynamicReload(false);
+        init();
     }
 
     private void addLicenseUploadPanel()
@@ -84,21 +80,6 @@ public class AdministrationPanel extends AbstractDatasetModelPanel
     {
         add(createUnitMetaDataPanel(DEPOSITOR_LICENSE, getDatasetModel(), LicenseUnit.UNIT_ID, false));
         add(createUnitMetaDataPanel(ADDITIONAL_LICENSE, getDatasetModel(), AdditionalLicenseUnit.UNIT_ID, true));
-    }
-
-    @Override
-    protected void onBeforeRender()
-    {
-        if (!initiated)
-        {
-            init();
-            initiated = true;
-        }
-        else
-        {
-            addOrReplace(createUnitMetaDataPanel(ADDITIONAL_LICENSE, getDatasetModel(), AdditionalLicenseUnit.UNIT_ID, true));
-        }
-        super.onBeforeRender();
     }
 
     private UnitMetaDataPanel createUnitMetaDataPanel(String licenseType, DatasetModel datasetModel, String licenseUnitId, boolean showDeleteButton)

@@ -6,7 +6,7 @@ import nl.knaw.dans.easy.domain.deposit.discipline.DepositDiscipline;
 import nl.knaw.dans.easy.domain.form.FormDefinition;
 import nl.knaw.dans.easy.domain.form.FormDescriptor;
 import nl.knaw.dans.easy.domain.form.FormPage;
-import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.easy.servicelayer.services.DepositService;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.common.PropertiesMessage;
@@ -15,6 +15,7 @@ import nl.knaw.dans.easy.web.template.AbstractDatasetModelPanel;
 import nl.knaw.dans.easy.web.wicket.RecursivePanel;
 import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,30 +34,16 @@ public class EasyMetadataViewPanel extends AbstractDatasetModelPanel
 
     private EmdPanelFactory panelFactory;
 
-    private boolean initiated;
+    @SpringBean(name ="depositService")
+    private DepositService depositService;
 
     public EasyMetadataViewPanel(String wicketId, DatasetModel datasetModel)
     {
         super(wicketId, datasetModel);
-    }
-
-    @Override
-    protected void onBeforeRender()
-    {
-        if (!initiated)
-        {
-            init();
-            initiated = true;
-        }
-        super.onBeforeRender();
-    }
-
-    private void init()
-    {
         MetadataFormat emdFormat = getDataset().getEasyMetadata().getEmdOther().getEasApplicationSpecific().getMetadataFormat();
         try
         {
-            DepositDiscipline depoDiscipline = Services.getDepositService().getDiscipline(emdFormat);
+            DepositDiscipline depoDiscipline = depositService.getDiscipline(emdFormat);
             FormDescriptor formDescriptor = depoDiscipline.getEmdFormDescriptor();
 
             FormDefinition formDefinition = formDescriptor.getFormDefinition(DepositDiscipline.EMD_VIEW_DEFINITION);

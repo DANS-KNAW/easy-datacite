@@ -22,31 +22,9 @@ public class DescriptionPanel extends AbstractDatasetModelPanel
 
     private static final Logger logger = LoggerFactory.getLogger(DescriptionPanel.class);
 
-    private boolean initiated;
-
     public DescriptionPanel(String id, DatasetModel model)
     {
         super(id, model);
-    }
-
-    public boolean isInitiated()
-    {
-        return initiated;
-    }
-
-    @Override
-    protected void onBeforeRender()
-    {
-        if (!initiated)
-        {
-            init();
-            initiated = true;
-        }
-        super.onBeforeRender();
-    }
-
-    private void init()
-    {
         final EasyMetadata emd = getDataset().getEasyMetadata();
 
         add(new EasyMetadataViewPanel("easyMetadataPanel", getDatasetModel()));

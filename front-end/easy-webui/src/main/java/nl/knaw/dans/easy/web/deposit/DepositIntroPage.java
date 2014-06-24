@@ -26,26 +26,14 @@ public class DepositIntroPage extends AbstractEasyNavPage
 {
     private static final Logger logger = LoggerFactory.getLogger(DepositIntroPage.class);
     public static final String EDITABLE_DEPOSIT_INTRO_TEMPLATE = "/pages/DepositIntro.template";
-    private boolean initiated;
-
-    @SpringBean(name = "depositService")
-    private DepositService depositService;
 
     @SpringBean(name = "staticContentBaseUrl")
     private String staticContentBaseUrl;
 
-    @Override
-    protected void onBeforeRender()
-    {
-        if (!initiated)
-        {
-            init();
-            initiated = true;
-        }
-        super.onBeforeRender();
-    }
+    @SpringBean(name = "depositService")
+    private DepositService depositService;
 
-    private void init()
+    public DepositIntroPage()
     {
         add(Style.DEPOSIT_HEADER_CONTRIBUTION);
         ListView<DepositDiscipline> listView = new ListView<DepositDiscipline>("disciplines", getDisciplines())
