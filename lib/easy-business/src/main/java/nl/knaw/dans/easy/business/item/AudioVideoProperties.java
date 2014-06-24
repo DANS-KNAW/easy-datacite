@@ -25,9 +25,10 @@ public class AudioVideoProperties
      * @param file
      *        a properties file with instructions for audio/video streaming
      * @throws IOException
+     * @throws IngestFormatException
      * @throws URISyntaxException
      */
-    public AudioVideoProperties(final File file) throws IOException
+    public AudioVideoProperties(final File file) throws IOException, IngestFormatException
     {
         this.file = file;
         if (isPropertiesFile())
@@ -38,13 +39,12 @@ public class AudioVideoProperties
         }
     }
 
-    private String getPath(final Properties properties) throws IOException
+    private String getPath(final Properties properties) throws IOException, IngestFormatException
     {
         final String pathProperty = properties.getProperty(AUDIO_VIDEO_SPRINGFIELD_PATH);
         if (pathProperty.toString().trim().length() != 0)
             return pathProperty.trim();
-        // TODO abused IOExecption to abort ingest, but it is an input error
-        throw new IOException("property '" + AUDIO_VIDEO_SPRINGFIELD_PATH + "' is missing in" + file);
+        throw new IngestFormatException(String.format("property '%s' is missing in %s", AUDIO_VIDEO_SPRINGFIELD_PATH, file));
     }
 
     private Properties readProperties(final File file) throws IOException

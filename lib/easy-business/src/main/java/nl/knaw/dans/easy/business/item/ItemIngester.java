@@ -170,7 +170,7 @@ public class ItemIngester extends AbstractWorker
 
     // Base entrance for the process. Decides whether to ingest or update an item.
     private void addFile(DatasetItemContainer parentContainer, File file, Map<String, String> members) throws RepositoryException, IOException,
-            UnitOfWorkInterruptException, DomainException
+            UnitOfWorkInterruptException, DomainException, ServiceException
     {
         String storeId = members.get(file.getName());
         if (storeId == null)
@@ -185,7 +185,7 @@ public class ItemIngester extends AbstractWorker
 
     // ingest FileItems and FolderITems
     private void ingestFile(DatasetItemContainer parentContainer, File file) throws RepositoryException, IOException, UnitOfWorkInterruptException,
-            DomainException
+            DomainException, ServiceException
     {
         if (file.isDirectory())
         {
@@ -246,7 +246,8 @@ public class ItemIngester extends AbstractWorker
     }
 
     // update FileItems and FolderItems
-    private void updateFile(DmoStoreId storeId, File file) throws RepositoryException, IOException, UnitOfWorkInterruptException, DomainException
+    private void updateFile(DmoStoreId storeId, File file) throws RepositoryException, IOException, UnitOfWorkInterruptException, DomainException,
+            ServiceException
     {
         if (file.isDirectory())
         {
