@@ -79,12 +79,11 @@ public class FileExplorerTest
         setUpDatasetServiceMock();
         setUpItemServiceMock();
         setUpSearchServiceMock();
-        new Services().setDatasetService(datasetServiceMock);
-        new Services().setItemService(itemServiceMock);
 
         EasyApplicationContextMock ctx = new EasyApplicationContextMock();
-        ctx.putBean("itemService", itemServiceMock);
-        ctx.putBean("searchService", searchServiceMock);
+        ctx.setItemService(itemServiceMock);
+        ctx.setSearchService(searchServiceMock);
+        ctx.setDatasetService(datasetServiceMock);
         ctx.expectStandardSecurity(false);
         ctx.expectDefaultResources();
         ctx.expectAuthenticatedAs(sessionUser);

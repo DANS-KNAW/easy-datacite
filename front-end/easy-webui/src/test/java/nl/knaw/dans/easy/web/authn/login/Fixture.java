@@ -35,7 +35,7 @@ public class Fixture
         applicationContext = new EasyApplicationContextMock();
         applicationContext.expectStandardSecurity(false);
         applicationContext.expectDefaultResources();
-        applicationContext.putBean("userService", userService);
+        applicationContext.setUserService(userService);
         applicationContext.putBean("federationLoginDebugEnabled", false);
         applicationContext.putBean("federationLoginDebugUserFile", "");
     }

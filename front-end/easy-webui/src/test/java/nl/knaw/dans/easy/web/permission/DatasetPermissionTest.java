@@ -6,7 +6,6 @@ import static nl.knaw.dans.easy.security.authz.AbstractDatasetAutzStrategy.MSG_P
 import static nl.knaw.dans.easy.security.authz.AbstractDatasetAutzStrategy.MSG_PERMISSION_DENIED;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
-import static org.easymock.EasyMock.isNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,15 +13,10 @@ import java.util.List;
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.security.authz.AuthzMessage;
-import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.AuthzStrategyTestImpl;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyWicketTester;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
-import nl.knaw.dans.easy.domain.dataset.item.ItemOrder;
-import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
-import nl.knaw.dans.easy.domain.dataset.item.filter.ItemFilters;
-import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.PermissionReplyModel;
 import nl.knaw.dans.easy.domain.model.PermissionRequestModel;
 import nl.knaw.dans.easy.domain.model.PermissionSequence;
@@ -31,18 +25,14 @@ import nl.knaw.dans.easy.domain.model.PermissionSequenceList;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.servicelayer.services.DatasetService;
-import nl.knaw.dans.easy.servicelayer.services.ItemService;
-import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.view.dataset.DatasetViewPage;
 
 import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
-@Ignore
 public class DatasetPermissionTest
 {
     private EasyApplicationContextMock applicationContext;
@@ -98,11 +88,10 @@ public class DatasetPermissionTest
         dataset.setState(State.Submitted.toString());
         dataset.setAuthzStrategy(new AuthzStrategyTestImpl());
 
-        // annotated SpringBean injection does not work for constructor of DatasetModel
         final DatasetService datasetService = PowerMock.createMock(DatasetService.class);
         expect(datasetService.getDataset(isA(EasyUser.class), isA(DmoStoreId.class))).andStubReturn(dataset);
         expect(datasetService.getAdditionalLicense(dataset)).andStubReturn(null);
-        new Services().setDatasetService(datasetService);
+        applicationContext.setDatasetService(datasetService);
     }
 
     @Before
@@ -113,19 +102,8 @@ public class DatasetPermissionTest
         applicationContext.expectDefaultResources();
         applicationContext.expectDisciplines();
         applicationContext.expectNoJumpoff();
-        applicationContext.putBean("itemService", mockNoItems());
+        applicationContext.expectNoItems();
         applicationContext.expectAuthenticatedAsVisitor();
-    }
-
-    private ItemService mockNoItems() throws ServiceException
-    {
-        final ItemService itemService = PowerMock.createMock(ItemService.class);
-        expect(itemService.hasChildItems(isA(DmoStoreId.class))).andStubReturn(false);
-        expect(itemService.getFilesAndFolders(isA(EasyUser.class), isA(Dataset.class), isA(DmoStoreId.class), //
-                isA(Integer.class), isA(Integer.class), isNull(ItemOrder.class), isNull(ItemFilters.class)))//
-                .andStubReturn(new ArrayList<ItemVO>());
-        new Services().setItemService(itemService);
-        return itemService;
     }
 
     @After

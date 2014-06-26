@@ -19,7 +19,6 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.servicelayer.services.DepositService;
 import nl.knaw.dans.easy.servicelayer.services.FederativeUserService;
-import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.servicelayer.services.UserService;
 import nl.knaw.dans.easy.web.HomePage;
 
@@ -67,8 +66,8 @@ public class TestUserInfoPage
         applicationContext = new EasyApplicationContextMock();
         applicationContext.expectStandardSecurity(false);
         applicationContext.expectDefaultResources();
-        applicationContext.putBean("depositService", mockDespositChoices());
-        applicationContext.putBean("userService", userService);
+        applicationContext.setDepositService(mockDespositChoices());
+        applicationContext.setUserService(userService);
         applicationContext.putBean("federativeUserRepo", mockdFederativeUserRepo);
     }
 
@@ -80,9 +79,6 @@ public class TestUserInfoPage
 
         final DepositService depositService = PowerMock.createMock(DepositService.class);
         EasyMock.expect(depositService.getChoices(EasyMock.isA(String.class), (Locale) EasyMock.isNull())).andStubReturn(new ChoiceList(choices));
-
-        // can't use SpringBean in the static DisciplineUtils
-        new Services().setDepositService(depositService);
         return depositService;
     }
 

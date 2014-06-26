@@ -18,7 +18,6 @@ import nl.knaw.dans.easy.domain.model.user.Group;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.servicelayer.services.FederativeUserService;
 import nl.knaw.dans.easy.servicelayer.services.SearchService;
-import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.HomePage;
 import nl.knaw.dans.easy.web.InfoPage;
 
@@ -43,7 +42,6 @@ public class TestFederativeAuthenticationResultPage extends Fixture
         easyUser = createUser();
 
         federativeUserService = PowerMock.createMock(FederativeUserService.class);
-        new Services().setFederativeUserService(federativeUserService);
         EasyMock.expect(federativeUserService.getPropertyNameShibSessionId()).andStubReturn("shibSessionId");
         EasyMock.expect(federativeUserService.getPropertyNameEmail()).andStubReturn("email");
         EasyMock.expect(federativeUserService.getPropertyNameFirstName()).andStubReturn("firstName");
@@ -70,7 +68,7 @@ public class TestFederativeAuthenticationResultPage extends Fixture
         EasyMock.expect(searchService.getNumberOfItemsInMyWork(isA(EasyUser.class))).andStubReturn(0);
         EasyMock.expect(searchService.getNumberOfItemsInOurWork(isA(EasyUser.class))).andStubReturn(0);
         EasyMock.expect(searchService.getNumberOfItemsInTrashcan(isA(EasyUser.class))).andStubReturn(0);
-        applicationContext.putBean("searchService", searchService);
+        applicationContext.setSearchService(searchService);
     }
 
     @Test

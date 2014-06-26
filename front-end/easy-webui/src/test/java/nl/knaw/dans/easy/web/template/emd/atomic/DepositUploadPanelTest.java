@@ -3,16 +3,13 @@ package nl.knaw.dans.easy.web.template.emd.atomic;
 import java.io.File;
 
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
+import nl.knaw.dans.easy.EasyApplicationContextMock;
+import nl.knaw.dans.easy.EasyWicketTester;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.servicelayer.services.ItemService;
-import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.common.DatasetModel;
-import nl.knaw.dans.easy.web.template.emd.atomic.DepositUploadPanel;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.wicket.Component;
-import org.apache.wicket.Page;
-import org.apache.wicket.markup.html.link.InlineFrame;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.util.tester.ITestPanelSource;
 import org.apache.wicket.util.tester.WicketTester;
@@ -38,12 +35,14 @@ public class DepositUploadPanelTest
         EasyMock.expect(dataset.isInvalidated()).andStubReturn(false);
 
         final ItemService itemService = PowerMock.createMock(ItemService.class);
-        new Services().setItemService(itemService);
         EasyMock.expect(itemService.hasChildItems(EasyMock.isA(DmoStoreId.class))).andStubReturn(false);
+
+        EasyApplicationContextMock applicationContextMock = new EasyApplicationContextMock();
+        applicationContextMock.setItemService(itemService);
 
         PowerMock.replayAll();
 
-        final WicketTester tester = new WicketTester();
+        final WicketTester tester = EasyWicketTester.create(applicationContextMock);
         tester.getApplication().getResourceSettings().addResourceFolder("src/main/java/");
         tester.startPanel(new ITestPanelSource()
         {
@@ -58,8 +57,6 @@ public class DepositUploadPanelTest
         tester.debugComponentTrees();
         tester.assertVisible("panel:uploadPanel:uploadIframe");
         tester.assertVisible("panel:uploadPanel:uploadProgress");
-        InlineFrame iFrame = (InlineFrame) tester.getComponentFromLastRenderedPage("panel:uploadPanel:uploadIframe");
-        Component component = iFrame.get("uploadForm:file");
         FileUtils.write(new File("target/DepositUploadPanel-smokeTest.html"), tester.getServletResponse().getDocument());
 
         // How to get into the IFrameto hit the submit button?

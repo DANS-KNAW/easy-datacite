@@ -7,6 +7,7 @@ import nl.knaw.dans.common.wicket.util.RequireExactlyOneValidator;
 
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.FormComponent;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
@@ -51,5 +52,11 @@ public class TestExactlyOneFieldRequired
         };
         requireExactlyOneValidator.validate(form);
         assertTrue("Validator did not detect that too many fields were filled in", errorCalled);
+    }
+
+    @After
+    public void reset()
+    {
+        PowerMock.resetAll();
     }
 }

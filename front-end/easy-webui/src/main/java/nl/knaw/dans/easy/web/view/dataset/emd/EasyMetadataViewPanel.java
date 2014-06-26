@@ -34,7 +34,7 @@ public class EasyMetadataViewPanel extends AbstractDatasetModelPanel
 
     private EmdPanelFactory panelFactory;
 
-    @SpringBean(name ="depositService")
+    @SpringBean(name = "depositService")
     private DepositService depositService;
 
     public EasyMetadataViewPanel(String wicketId, DatasetModel datasetModel)

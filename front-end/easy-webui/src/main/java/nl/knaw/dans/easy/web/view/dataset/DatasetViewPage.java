@@ -16,7 +16,7 @@ import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.security.ContextParameters;
-import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.EasySession;
 import nl.knaw.dans.easy.web.EasyWicketApplication;
@@ -31,7 +31,6 @@ import nl.knaw.dans.easy.web.statistics.StatisticsEvent;
 import nl.knaw.dans.easy.web.statistics.StatisticsLogger;
 import nl.knaw.dans.easy.web.template.AbstractEasyPage;
 import nl.knaw.dans.easy.web.template.Style;
-import nl.knaw.dans.easy.web.view.dataset.relations.RelationsPanel;
 import nl.knaw.dans.pf.language.emd.EmdFormat;
 import nl.knaw.dans.pf.language.emd.types.BasicString;
 
@@ -52,6 +51,7 @@ import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.protocol.http.RequestUtils;
 import org.apache.wicket.protocol.https.RequireHttps;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -121,8 +121,9 @@ public class DatasetViewPage extends AbstractEasyNavPage
     public static final String PM_REDIRECT_TO_LOGIN = "rd";
 
     private static final Logger logger = LoggerFactory.getLogger(DatasetViewPage.class);
-    // CHANGE THIS!!!
-    private static final String VIDEO_EXTENSION = ".mpeg";
+
+    @SpringBean(name = "itemService")
+    private ItemService itemService;
 
     private final Mode mode;
 
@@ -511,28 +512,6 @@ public class DatasetViewPage extends AbstractEasyNavPage
         };
     }
 
-    private SimpleTab getRelationsTab()
-    {
-        return new SimpleTab(new ResourceModel(RI_TAB_RELATIONS))
-        {
-
-            private static final long serialVersionUID = 991745080592548879L;
-
-            @Override
-            public Panel getPanel(String panelId)
-            {
-                return new RelationsPanel(panelId, datasetModel);
-            }
-
-            @Override
-            public boolean isVisible()
-            {
-                return true;
-            }
-
-        };
-    }
-
     @SuppressWarnings("serial")
     private SimpleTab getPermissionsTab()
     {
@@ -582,7 +561,7 @@ public class DatasetViewPage extends AbstractEasyNavPage
             {
                 try
                 {
-                    videoFiles = Services.getItemService().getAccessibleAudioVideoFiles(getSessionUser(), getDataset());
+                    videoFiles = itemService.getAccessibleAudioVideoFiles(getSessionUser(), getDataset());
                 }
                 catch (ServiceException e)
                 {

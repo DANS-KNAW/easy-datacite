@@ -57,8 +57,8 @@ public class ActivityLogFixture
         applicationContext.expectStandardSecurity(false);
         applicationContext.expectDefaultResources();
 
-        applicationContext.putBean("datasetService", datasetService);
-        applicationContext.putBean("userService", userService);
+        applicationContext.setUserService(userService);
+        applicationContext.setDatasetService(datasetService);
     }
 
     @BeforeClass

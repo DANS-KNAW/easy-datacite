@@ -12,9 +12,8 @@ import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.components.search.criteria.CriteriumLabel;
 import nl.knaw.dans.common.wicket.components.search.facets.FacetConfig;
 import nl.knaw.dans.common.wicket.components.search.model.SearchModel;
-import nl.knaw.dans.common.wicket.components.search.model.SearchRequestBuilder;
 import nl.knaw.dans.easy.data.search.EasyDatasetSB;
-import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.easy.servicelayer.services.SearchService;
 import nl.knaw.dans.easy.web.search.AbstractSearchResultPage;
 import nl.knaw.dans.easy.web.statistics.SearchStatistics;
 import nl.knaw.dans.easy.web.statistics.StatisticsEvent;
@@ -24,9 +23,13 @@ import org.apache.wicket.PageParameters;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.ResourceModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 
 public class PublicSearchResultPage extends AbstractSearchResultPage
 {
+    @SpringBean(name = "searchService")
+    private SearchService searchService;
+
     public PublicSearchResultPage()
     {
         super(false);
@@ -56,7 +59,7 @@ public class PublicSearchResultPage extends AbstractSearchResultPage
         {
             StatisticsLogger.getInstance().logEvent(StatisticsEvent.SEARCH_TERM, new SearchStatistics(request));
         }
-        return Services.getSearchService().searchPublished(request, getSessionUser());
+        return searchService.searchPublished(request, getSessionUser());
     }
 
     @Override

@@ -15,15 +15,22 @@ import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.user.User;
 import nl.knaw.dans.easy.domain.authn.UsernamePasswordAuthentication;
+import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
+import nl.knaw.dans.easy.domain.dataset.item.ItemOrder;
+import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
+import nl.knaw.dans.easy.domain.dataset.item.filter.ItemFilters;
 import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceList;
 import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
+import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.security.CodedAuthz;
 import nl.knaw.dans.easy.security.Security;
 import nl.knaw.dans.easy.servicelayer.SystemReadOnlyStatus;
+import nl.knaw.dans.easy.servicelayer.services.DatasetService;
 import nl.knaw.dans.easy.servicelayer.services.DepositService;
+import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.servicelayer.services.JumpoffService;
 import nl.knaw.dans.easy.servicelayer.services.SearchService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
@@ -139,6 +146,26 @@ public class EasyApplicationContextMock extends ApplicationContextMock
     }
 
     /**
+     * Supplies expectations for datasets without any files. If no itemService bean is set, a mocked one
+     * is created with PowerMock. If specific datasets should have FileItems while the remaining datasets
+     * should not have FileItems, call {@link #setItemService(ItemService)} and set its expectations,
+     * before calling this method.
+     * 
+     * @throws ServiceException
+     *         required by the syntax
+     * @throws IllegalStateException
+     *         if a real {@link ItemService} instance was assigned as bean
+     */
+    public void expectNoItems() throws ServiceException
+    {
+        setMockedItemService();
+        expect(getItemService().hasChildItems(isA(DmoStoreId.class))).andStubReturn(false);
+        expect(getItemService().getAccessibleAudioVideoFiles(isA(EasyUser.class), isA(Dataset.class))).andStubReturn(new ArrayList<FileItemVO>());
+        expect(getItemService().getFilesAndFolders(isA(EasyUser.class), isA(Dataset.class), isA(DmoStoreId.class), //
+                isA(Integer.class), isA(Integer.class), isNull(ItemOrder.class), isNull(ItemFilters.class))).andStubReturn(new ArrayList<ItemVO>());
+    }
+
+    /**
      * Sets the authentication with a new session user. If no uesrService bean is set, a mocked one is
      * created with PowerMock. Otherwise eventual previous expectations remain effective. {@Link
      * EasyWicketTester#create(EasyApplicationContextMock)} fetches {@link #getAuthentication()} to
@@ -191,9 +218,6 @@ public class EasyApplicationContextMock extends ApplicationContextMock
         setMockedDepositService();
         expect(getDepositService().getChoices(isA(String.class), isNull(Locale.class))).andReturn(choiceList).anyTimes();
         expect(getDepositService().getChoices(isA(String.class), isA(Locale.class))).andReturn(choiceList).anyTimes();
-
-        // can't use SpringBean injection in the static DisciplineUtils
-        new Services().setDepositService(getDepositService());
     }
 
     /**
@@ -247,6 +271,19 @@ public class EasyApplicationContextMock extends ApplicationContextMock
         }
     }
 
+    public DatasetService getDatasetService()
+    {
+        return (DatasetService) getBean("datasetService");
+    }
+
+    public void setDatasetService(final DatasetService datasetService)
+    {
+        putBean("datasetService", datasetService);
+
+        // TODO SpringBean injection for constructor of DatasetModel
+        new Services().setDatasetService(datasetService);
+    }
+
     public DepositService getDepositService()
     {
         return (DepositService) getBean("depositService");
@@ -255,6 +292,9 @@ public class EasyApplicationContextMock extends ApplicationContextMock
     public void setDepositService(final DepositService depositService)
     {
         putBean("depositService", depositService);
+
+        // TODO SpringBean injection in the static DisciplineUtils and constructor of DatasetModel
+        new Services().setDepositService(depositService);
     }
 
     private void setMockedUserService()
@@ -287,6 +327,31 @@ public class EasyApplicationContextMock extends ApplicationContextMock
     public void setEditableContentHome(final FileSystemHomeDirectory fileSystemHomeDirectory)
     {
         putBean("editableContentHome", fileSystemHomeDirectory);
+    }
+
+    private void setMockedItemService()
+    {
+        try
+        {
+            isMock(getItemService());
+        }
+        catch (final NoSuchBeanDefinitionException e)
+        {
+            setItemService(PowerMock.createMock(ItemService.class));
+        }
+    }
+
+    public void setItemService(final ItemService itemService)
+    {
+        putBean("itemService", itemService);
+
+        // TODO SpringBean injection for TreeItemProvider.reload()
+        new Services().setItemService(getItemService());
+    }
+
+    public ItemService getItemService()
+    {
+        return (ItemService) getBean("itemService");
     }
 
     private void setMockedSearchService()

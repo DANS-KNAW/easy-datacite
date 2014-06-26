@@ -50,7 +50,7 @@ public class TestHomePage
         EasyApplicationContextMock ctx = new EasyApplicationContextMock();
         ctx.expectStandardSecurity(false);
         ctx.expectDefaultResources();
-        ctx.putBean("searchService", searchServiceMock);
+        ctx.setSearchService(searchServiceMock);
         return ctx;
     }
 
@@ -198,8 +198,6 @@ public class TestHomePage
         expect(searchServiceMock.getNumberOfItemsInAllWork(isA(EasyUser.class))).andReturn(1).anyTimes();
         expect(searchServiceMock.getNumberOfItemsInOurWork(isA(EasyUser.class))).andReturn(1).anyTimes();
         expect(searchServiceMock.getNumberOfItemsInMyWork(isA(EasyUser.class))).andReturn(1).anyTimes();
-
-        new Services().setSearchService(searchServiceMock);
     }
 
     @After

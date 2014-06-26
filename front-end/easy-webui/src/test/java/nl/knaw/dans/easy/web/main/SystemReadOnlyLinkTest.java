@@ -127,15 +127,15 @@ public class SystemReadOnlyLinkTest
     @BeforeClass
     public static void mockApplicationContext() throws Exception
     {
-        SystemReadOnlyStatus systemReadOnlyStatus = new SystemReadOnlyStatus(new File("target/systemReadonlyStatus.propeties"));
+        SystemReadOnlyStatus systemReadOnlyStatus = new SystemReadOnlyStatus(new File("target/systemReadonlyStatus.properties"));
 
         CodedAuthz codedAuthz = new CodedAuthz();
         codedAuthz.setSystemReadOnlyStatus(systemReadOnlyStatus);
 
         applicationContext = new EasyApplicationContextMock();
-        applicationContext.putBean("systemReadOnlyStatus", systemReadOnlyStatus);
-        applicationContext.putBean("authz", codedAuthz);
-        applicationContext.putBean("security", new Security(codedAuthz));
+        applicationContext.setSystemReadOnlyStatus(systemReadOnlyStatus);
+        applicationContext.setAuthz(codedAuthz);
+        applicationContext.setSecurity(new Security(codedAuthz));
 
         initialAnonymousUser = EasyUserAnonymous.getInstance();
     }
