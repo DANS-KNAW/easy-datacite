@@ -5,7 +5,7 @@ import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
-import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.easy.servicelayer.services.UserService;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.common.DisciplineUtils;
 import nl.knaw.dans.easy.web.common.UserProperties;
@@ -18,6 +18,7 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +31,9 @@ public class UserDetailsDisplayPanel extends AbstractEasyPanel implements EasyRe
 
     private final SwitchPanel parent;
     private final boolean enableModeSwitch;
+
+    @SpringBean(name = "userService")
+    private UserService userService;
 
     public UserDetailsDisplayPanel(final SwitchPanel parent, final IModel model, final boolean enableModeSwitch)
     {
@@ -75,7 +79,7 @@ public class UserDetailsDisplayPanel extends AbstractEasyPanel implements EasyRe
         OperationalAttributes opa;
         try
         {
-            opa = Services.getUserService().getOperationalAttributes(user);
+            opa = userService.getOperationalAttributes(user);
         }
         catch (ServiceException e)
         {

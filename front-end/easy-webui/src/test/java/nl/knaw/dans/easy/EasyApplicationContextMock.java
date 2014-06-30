@@ -33,8 +33,9 @@ import nl.knaw.dans.easy.servicelayer.services.DepositService;
 import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.servicelayer.services.JumpoffService;
 import nl.knaw.dans.easy.servicelayer.services.SearchService;
-import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.servicelayer.services.UserService;
+import nl.knaw.dans.easy.web.common.DisciplineUtils;
+import nl.knaw.dans.easy.web.fileexplorer.Util;
 
 import org.apache.wicket.spring.test.ApplicationContextMock;
 import org.easymock.EasyMock;
@@ -63,6 +64,14 @@ public class EasyApplicationContextMock extends ApplicationContextMock
 {
     private static final long serialVersionUID = 1L;
     private UsernamePasswordAuthentication authentication;
+
+    public EasyApplicationContextMock()
+    {
+        super();
+        // clean up statics of eventual previous tests
+        new Util().setDatasetService(null);
+        new DisciplineUtils().setDepositService(null);
+    }
 
     /**
      * Assigns default beans for authz, security and a mocked bean for systemReadOnlyStatus.
@@ -279,9 +288,6 @@ public class EasyApplicationContextMock extends ApplicationContextMock
     public void setDatasetService(final DatasetService datasetService)
     {
         putBean("datasetService", datasetService);
-
-        // TODO SpringBean injection for constructor of DatasetModel
-        new Services().setDatasetService(datasetService);
     }
 
     public DepositService getDepositService()
@@ -292,9 +298,6 @@ public class EasyApplicationContextMock extends ApplicationContextMock
     public void setDepositService(final DepositService depositService)
     {
         putBean("depositService", depositService);
-
-        // TODO SpringBean injection in the static DisciplineUtils and constructor of DatasetModel
-        new Services().setDepositService(depositService);
     }
 
     private void setMockedUserService()
@@ -344,9 +347,6 @@ public class EasyApplicationContextMock extends ApplicationContextMock
     public void setItemService(final ItemService itemService)
     {
         putBean("itemService", itemService);
-
-        // TODO SpringBean injection for TreeItemProvider.reload()
-        new Services().setItemService(getItemService());
     }
 
     public ItemService getItemService()

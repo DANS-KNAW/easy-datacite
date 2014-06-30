@@ -30,7 +30,7 @@ div.tabpanel div.tab-row li {
 .tab-row ul li.tab4,
 .tab-row ul li.tab5,
 .tab-row ul li.tab6{
-	background:url(../images/tab_bg.png) repeat-x;
+	background:url(tab_bg.png) repeat-x;
 	color: #333;
 	padding:2px 25px!important;
 	padding-bottom: 0px!important;
@@ -69,7 +69,7 @@ div.tab-panel p{
 
 /* MB 05-07-2011: verwijdert door Sven maar ik ben er nog niet zeker van 
 div.tab-panel p a.button{
-	background:#41a0cb url('../images/mail-front.gif') no-repeat scroll 5px 4px;
+	background:#41a0cb url('mail-front.gif') no-repeat scroll 5px 4px;
 	color:#fff;
 	padding:2px 20px;
 	-moz-border-radius: .5em !important;

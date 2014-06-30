@@ -20,7 +20,8 @@ import nl.knaw.dans.easy.domain.download.FileContentWrapper;
 import nl.knaw.dans.easy.domain.download.ZipFileContentWrapper;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
-import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.easy.servicelayer.services.ItemService;
+import nl.knaw.dans.easy.servicelayer.services.UserService;
 import nl.knaw.dans.easy.web.EasySession;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.editabletexts.EasyEditablePanel;
@@ -47,6 +48,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,6 +72,12 @@ public class ModalDownload extends Panel
     private static final String MSG_ZIP_SIZE_TOLARGE = "download.zipSizeToLarge";
     private static final String MSG_FILE_SIZE_TOLARGE = "download.fileSizeToLarge";
     private static final String MSG_TOO_MANY_FILES = "download.tooManyFiles";
+
+    @SpringBean(name = "itemService")
+    private ItemService itemService;
+
+    @SpringBean(name = "userService")
+    private UserService userService;
 
     public ModalDownload(final ModalWindow window, ITreeItem item, DatasetModel datasetModel)
     {
@@ -154,8 +162,8 @@ public class ModalDownload extends Panel
                     // SINGLE FILE DOWNLOAD
                     try
                     {
-                        final FileContentWrapper fcw = Services.getItemService().getContent(EasySession.getSessionUser(), dataset,
-                                new DmoStoreId(requestedItems.get(0).getStoreId()));
+                        final FileContentWrapper fcw = itemService.getContent(EasySession.getSessionUser(), dataset, new DmoStoreId(requestedItems.get(0)
+                                .getStoreId()));
 
                         link = createSingleDownloadLink(window, dataset, fcw);
                     }
@@ -172,7 +180,7 @@ public class ModalDownload extends Panel
                     // ZIP FILE DOWNLOAD
                     try
                     {
-                        final ZipFileContentWrapper zfcw = Services.getItemService().getZippedContent(EasySession.getSessionUser(), dataset, requestedItems);
+                        final ZipFileContentWrapper zfcw = itemService.getZippedContent(EasySession.getSessionUser(), dataset, requestedItems);
                         link = createZipDownloadLink(window, dataset, zfcw);
                     }
                     catch (TooManyFilesException e)
@@ -288,7 +296,7 @@ public class ModalDownload extends Panel
                     user.setAcceptedGeneralConditions(this.getModelObject() && conditionsAccepted.getObject());
                     try
                     {
-                        Services.getUserService().update(user, EasySession.getSessionUser());
+                        userService.update(user, EasySession.getSessionUser());
                     }
                     catch (ServiceException e)
                     {
@@ -312,7 +320,7 @@ public class ModalDownload extends Panel
                 user.setAcceptedGeneralConditions(this.getModelObject() && conditionsAccepted.getObject());
                 try
                 {
-                    Services.getUserService().update(user, EasySession.getSessionUser());
+                    userService.update(user, EasySession.getSessionUser());
                 }
                 catch (ServiceException e)
                 {
@@ -350,7 +358,7 @@ public class ModalDownload extends Panel
                 window.getParent().add(download);
                 download.initiate(target);
                 // register this download action
-                Services.getItemService().registerDownload(EasySession.getSessionUser(), dataset, zfcw.getDownloadedItemVOs());
+                itemService.registerDownload(EasySession.getSessionUser(), dataset, zfcw.getDownloadedItemVOs());
                 // close download popup
                 window.close(target);
                 StatisticsLogger.getInstance().logEvent(StatisticsEvent.DOWNLOAD_DATASET_REQUEST, new DatasetStatistics(dataset), new DownloadStatistics(zfcw),
@@ -374,7 +382,7 @@ public class ModalDownload extends Panel
                 // register this download action
                 List<ItemVO> downloadList = new ArrayList<ItemVO>();
                 downloadList.add(fcw.getFileItemVO());
-                Services.getItemService().registerDownload(EasySession.getSessionUser(), dataset, downloadList);
+                itemService.registerDownload(EasySession.getSessionUser(), dataset, downloadList);
                 // close download popup
                 window.close(target);
                 StatisticsLogger.getInstance().logEvent(StatisticsEvent.DOWNLOAD_FILE_REQUEST, new DatasetStatistics(dataset), new DownloadStatistics(fcw),

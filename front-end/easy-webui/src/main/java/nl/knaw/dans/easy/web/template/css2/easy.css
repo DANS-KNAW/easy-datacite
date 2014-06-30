@@ -70,7 +70,7 @@ a:hover {
 }
 
 h1 {
-  background: #00a7d4 url('../images/title-shade.png?1380184178') repeat-x;
+  background: #00a7d4 url('title-shade.png?1380184178') repeat-x;
   color: white;
   font-size: 1.52em;
   font-weight: bold;

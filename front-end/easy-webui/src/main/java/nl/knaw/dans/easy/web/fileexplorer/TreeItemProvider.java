@@ -21,13 +21,16 @@ import nl.knaw.dans.easy.domain.dataset.item.FolderItemVisibleTo;
 import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
-import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.easy.servicelayer.services.DatasetService;
+import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.web.EasySession;
 
+import org.apache.wicket.injection.web.InjectorHolder;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,14 +51,21 @@ public class TreeItemProvider implements ITreeProvider<ITreeItem>
 
     private boolean intermediate;
 
+    @SpringBean(name = "datasetService")
+    private DatasetService datasetService;
+
+    @SpringBean(name = "itemService")
+    private ItemService itemService;
+
     public TreeItemProvider(DmoStoreId datasetSid, HashMap<Enum<?>, CheckBox> filters)
     {
+        InjectorHolder.getInjector().inject(this);
         // this(false);
         this.filters = filters;
         sessionUser = EasySession.getSessionUser();
         try
         {
-            dataset = Services.getDatasetService().getDataset(sessionUser, datasetSid);
+            dataset = datasetService.getDataset(sessionUser, datasetSid);
         }
         catch (ServiceException e)
         {
@@ -67,7 +77,6 @@ public class TreeItemProvider implements ITreeProvider<ITreeItem>
         reload();
     }
 
-    @SuppressWarnings("unchecked")
     public void reload()
     {
         try
@@ -78,7 +87,7 @@ public class TreeItemProvider implements ITreeProvider<ITreeItem>
             rootFolder.setSid(dataset.getStoreId());
             ITreeItem root = new TreeItem(rootFolder, null);
 
-            List<ItemVO> items = Services.getItemService().getFilesAndFolders(sessionUser, dataset, dataset.getDmoStoreId(), -1, -1, null, null);
+            List<ItemVO> items = itemService.getFilesAndFolders(sessionUser, dataset, dataset.getDmoStoreId(), -1, -1, null, null);
             for (ItemVO item : items)
             {
                 AuthzStrategy strategy = item.getAuthzStrategy();
@@ -148,6 +157,7 @@ public class TreeItemProvider implements ITreeProvider<ITreeItem>
 
     public TreeItemProvider(boolean intermediate)
     {
+        InjectorHolder.getInjector().inject(this);
         this.intermediate = intermediate;
         sessionUser = EasySession.getSessionUser();
         dataset = null;
@@ -173,7 +183,7 @@ public class TreeItemProvider implements ITreeProvider<ITreeItem>
         boolean result = false;
         try
         {
-            result = item.getParent() == null || !item.getChildren().isEmpty() || Services.getItemService().hasChildItems(new DmoStoreId(item.getId()));
+            result = item.getParent() == null || !item.getChildren().isEmpty() || itemService.hasChildItems(new DmoStoreId(item.getId()));
         }
         catch (ServiceException e)
         {
@@ -182,15 +192,14 @@ public class TreeItemProvider implements ITreeProvider<ITreeItem>
         return result;
     }
 
-    @SuppressWarnings("unchecked")
     public Iterator<ITreeItem> getChildren(final ITreeItem item)
     {
         DmoStoreId itemId = new DmoStoreId(item.getId());
         try
         {
-            if (Services.getItemService().hasChildItems(itemId) && item.getChildrenWithFiles().isEmpty())
+            if (itemService.hasChildItems(itemId) && item.getChildrenWithFiles().isEmpty())
             {
-                List<ItemVO> items = Services.getItemService().getFilesAndFolders(sessionUser, dataset, itemId, -1, -1, null, null);
+                List<ItemVO> items = itemService.getFilesAndFolders(sessionUser, dataset, itemId, -1, -1, null, null);
                 for (ItemVO child : items)
                 {
                     AuthzStrategy strategy = child.getAuthzStrategy();

@@ -16,7 +16,6 @@ import nl.knaw.dans.easy.domain.exceptions.DataIntegrityException;
 import nl.knaw.dans.easy.domain.workflow.Remark;
 import nl.knaw.dans.easy.domain.workflow.WorkflowStep;
 import nl.knaw.dans.easy.servicelayer.services.DatasetService;
-import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.template.AbstractDatasetModelPanel;
@@ -31,6 +30,7 @@ import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.panel.ComponentFeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,6 +45,9 @@ public class AdministrationPanel extends AbstractDatasetModelPanel
     private static Properties DISPLAY_PROPS;
     private static final String DEPOSITOR_LICENSE = "depositorLicense";
     private static final String ADDITIONAL_LICENSE = "additionalLicense";
+
+    @SpringBean(name = "datasetService")
+    private DatasetService datasetService;
 
     public AdministrationPanel(final String wicketId, final DatasetModel datasetModel)
     {
@@ -84,7 +87,6 @@ public class AdministrationPanel extends AbstractDatasetModelPanel
 
     private UnitMetaDataPanel createUnitMetaDataPanel(String licenseType, DatasetModel datasetModel, String licenseUnitId, boolean showDeleteButton)
     {
-        final DatasetService datasetService = Services.getDatasetService();
         try
         {
             if (licenseType == ADDITIONAL_LICENSE)
@@ -118,7 +120,7 @@ public class AdministrationPanel extends AbstractDatasetModelPanel
 
                 try
                 {
-                    Services.getDatasetService().saveAdministrativeMetadata(getSessionUser(), getDataset());
+                    datasetService.saveAdministrativeMetadata(getSessionUser(), getDataset());
                     final String message = infoMessage(EasyResources.SUCCESFUL_UPDATE);
                     logger.info(message);
                 }

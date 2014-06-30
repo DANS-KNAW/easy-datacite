@@ -35,7 +35,7 @@ h1 {
 	font-weight: bold;
 	color: #FFF;
 	background-color: #0090B3;
-	background-image: url('../images/title-shade.png');
+	background-image: url('title-shade.png');
 	background-position: center top;
 	background-repeat: repeat-x;
 	margin-left: -15px;
@@ -815,7 +815,7 @@ pbutton_disabled:visited, span.pbutton, span.pbutton:hover {
 }
 
 .button_blue, .button_blue:visited {
-	background-image: url(../images/button_shine_blue.jpg);
+	background-image: url(button_shine_blue.jpg);
 	border: 1px solid #003663;
 	color: #FFFFFF;
 	font-weight: bold;
@@ -884,7 +884,7 @@ pbutton_disabled:visited, span.pbutton, span.pbutton:hover {
 /* *********************************** 	*/
 
 .sprite {
-	background:url(../images/easy-sprite.png) no-repeat;
+	background:url(easy-sprite.png) no-repeat;
 }
 
 .dutch {
@@ -902,7 +902,7 @@ pbutton_disabled:visited, span.pbutton, span.pbutton:hover {
 	
 a.settings {
 	padding-right: 22px!important;
-	background: url(../images/easy-sprite.png) -16px 0 no-repeat;
+	background: url(easy-sprite.png) -16px 0 no-repeat;
 	width: 22px!important;
 	height: 24px!important;
 	padding-bottom: 9px;
@@ -917,7 +917,7 @@ a.settings:hover {
 	
 a.logoff {
 	padding-right: 24px!important;
-	background: url(../images/easy-sprite.png) -16px -24px no-repeat;
+	background: url(easy-sprite.png) -16px -24px no-repeat;
 	width: 22px!important;
 	height: 24px!important;
 	padding-bottom: 10px;
@@ -952,7 +952,7 @@ strong {
 }
 
 a.external {	/* rg: toevoeging van een external link icoontje */
-	background: url("../images/li_external.gif") center right no-repeat;
+	background: url("li_external.gif") center right no-repeat;
 	padding-right: 13px;
 }
 
@@ -985,7 +985,7 @@ p#vtip #vtipArrow {
 a.pdf,
 a[href $='.pdf'] { 	
    padding-left: 18px;
-   background: transparent url(../images/pdf-icon.gif) no-repeat center left;
+   background: transparent url(pdf-icon.gif) no-repeat center left;
 }
 */
 

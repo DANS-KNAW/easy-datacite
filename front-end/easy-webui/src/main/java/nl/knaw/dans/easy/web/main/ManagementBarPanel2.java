@@ -5,11 +5,13 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
+import nl.knaw.dans.easy.servicelayer.services.SearchService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.admin.EditableContentPage;
 import nl.knaw.dans.easy.web.admin.UsersOverviewPage;
@@ -29,6 +31,9 @@ public class ManagementBarPanel2 extends AbstractEasyStatelessPanel
 {
     private static final long serialVersionUID = -4344141494726647837L;
     private static final Logger logger = LoggerFactory.getLogger(ManagementBarPanel2.class);
+
+    @SpringBean(name = "searchService")
+    private SearchService searchService;
 
     public ManagementBarPanel2(final String wicketId)
     {
@@ -88,7 +93,7 @@ public class ManagementBarPanel2 extends AbstractEasyStatelessPanel
     {
         try
         {
-            int numberOfItems = Services.getSearchService().getNumberOfItemsInAllWork(getSessionUser());
+            int numberOfItems = searchService.getNumberOfItemsInAllWork(getSessionUser());
             logger.debug("The number of items in 'all work': " + numberOfItems);
 
             return numberOfItems;
@@ -104,7 +109,7 @@ public class ManagementBarPanel2 extends AbstractEasyStatelessPanel
     {
         try
         {
-            int numberOfItems = Services.getSearchService().getNumberOfItemsInOurWork(getSessionUser());
+            int numberOfItems = searchService.getNumberOfItemsInOurWork(getSessionUser());
             logger.debug("The number of items in 'our work': " + numberOfItems);
 
             return numberOfItems;
@@ -120,7 +125,7 @@ public class ManagementBarPanel2 extends AbstractEasyStatelessPanel
     {
         try
         {
-            int numberOfItems = Services.getSearchService().getNumberOfItemsInMyWork(getSessionUser());
+            int numberOfItems = searchService.getNumberOfItemsInMyWork(getSessionUser());
             logger.debug("The number of items in 'my work': " + numberOfItems);
 
             return numberOfItems;
@@ -136,7 +141,7 @@ public class ManagementBarPanel2 extends AbstractEasyStatelessPanel
     {
         try
         {
-            int numberOfItems = Services.getSearchService().getNumberOfItemsInTrashcan(getSessionUser());
+            int numberOfItems = searchService.getNumberOfItemsInTrashcan(getSessionUser());
             logger.debug("The number of items in 'trashcan': " + numberOfItems);
 
             return numberOfItems;

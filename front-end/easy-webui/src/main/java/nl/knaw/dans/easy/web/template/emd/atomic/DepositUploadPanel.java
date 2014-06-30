@@ -6,7 +6,7 @@ import nl.knaw.dans.common.wicket.components.upload.EasyUpload;
 import nl.knaw.dans.common.wicket.components.upload.EasyUploadConfig;
 import nl.knaw.dans.common.wicket.components.upload.postprocess.unzip.UnzipPostProcess;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
-import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.common.StyledModalWindow;
 import nl.knaw.dans.easy.web.template.AbstractDatasetModelPanel;
@@ -19,6 +19,7 @@ import org.apache.wicket.behavior.SimpleAttributeModifier;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,6 +30,9 @@ public class DepositUploadPanel extends AbstractDatasetModelPanel
     private static final Logger logger = LoggerFactory.getLogger(DepositUploadPanel.class);
 
     private MarkupContainer uploadPanelHolder;
+
+    @SpringBean(name = "itemService")
+    private ItemService itemService;
 
     /**
      * Constructor.
@@ -112,7 +116,7 @@ public class DepositUploadPanel extends AbstractDatasetModelPanel
         DmoStoreId datasetId = getDataset().getDmoStoreId();
         try
         {
-            return Services.getItemService().hasChildItems(datasetId);
+            return itemService.hasChildItems(datasetId);
         }
         catch (ServiceException e)
         {

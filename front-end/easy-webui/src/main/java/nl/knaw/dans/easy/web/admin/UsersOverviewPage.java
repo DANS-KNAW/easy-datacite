@@ -5,7 +5,7 @@ import java.util.List;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
-import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.easy.servicelayer.services.UserService;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.main.AbstractEasyNavPage2;
 
@@ -14,6 +14,7 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.protocol.https.RequireHttps;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,6 +24,9 @@ public class UsersOverviewPage extends AbstractEasyNavPage2 implements EasyResou
     private static final String WI_USER_OVERVIEW_PANEL = "userOverviewPanel";
 
     private static final Logger logger = LoggerFactory.getLogger(UsersOverviewPage.class);
+
+    @SpringBean(name = "userService")
+    private UserService userService;
 
     public UsersOverviewPage()
     {
@@ -38,7 +42,7 @@ public class UsersOverviewPage extends AbstractEasyNavPage2 implements EasyResou
                 List<EasyUser> users = null;
                 try
                 {
-                    users = Services.getUserService().getAllUsers();
+                    users = userService.getAllUsers();
                 }
                 catch (ServiceException e)
                 {

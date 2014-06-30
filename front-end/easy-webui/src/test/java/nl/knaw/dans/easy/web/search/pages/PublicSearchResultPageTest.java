@@ -28,7 +28,6 @@ import nl.knaw.dans.easy.domain.exceptions.ObjectNotFoundException;
 import nl.knaw.dans.easy.domain.model.disciplinecollection.DisciplineContainer;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.services.DisciplineCollectionService;
-import nl.knaw.dans.easy.servicelayer.services.Services;
 
 import org.apache.wicket.PageParameters;
 import org.easymock.EasyMock;
@@ -126,9 +125,7 @@ public class PublicSearchResultPageTest
     {
         final DisciplineCollectionService disciplineCollectionService = PowerMock.createMock(DisciplineCollectionService.class);
         EasyMock.expect(disciplineCollectionService.getDisciplineName(isA(DmoStoreId.class))).andStubReturn("mocked Discipline");
-
-        // TODO spring bean injection for Discipline model (like DatasetModel)
-        new Services().setDisciplineService(disciplineCollectionService);
+        applicationContext.putBean("disciplineService", disciplineCollectionService);
     }
 
     private EasyDatasetSB mockDatasetSB(final String string)

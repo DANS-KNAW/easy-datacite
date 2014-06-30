@@ -10,7 +10,7 @@ import nl.knaw.dans.common.wicket.components.search.SearchBar2;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
-import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.easy.servicelayer.services.SearchService;
 import nl.knaw.dans.easy.web.EasySession;
 import nl.knaw.dans.easy.web.HomePage;
 import nl.knaw.dans.easy.web.authn.LogoffLink;
@@ -84,6 +84,9 @@ public abstract class AbstractEasyNavPage2 extends AbstractEasyPage
 
     @SpringBean(name = "staticContentBaseUrl")
     private String staticContentBaseUrl;
+
+    @SpringBean(name = "searchService")
+    private SearchService searchService;
 
     /**
      * Default constructor.
@@ -329,7 +332,7 @@ public abstract class AbstractEasyNavPage2 extends AbstractEasyPage
             // retrieve value
             try
             {
-                numRequests = Services.getSearchService().getNumberOfRequests(getSessionUser());
+                numRequests = searchService.getNumberOfRequests(getSessionUser());
                 if (numRequests == 0)
                     result = false;
 
@@ -370,7 +373,7 @@ public abstract class AbstractEasyNavPage2 extends AbstractEasyPage
 
             try
             {
-                numDatasets = Services.getSearchService().getNumberOfDatasets(getSessionUser());
+                numDatasets = searchService.getNumberOfDatasets(getSessionUser());
                 if (numDatasets == 0)
                     result = false;
 

@@ -1,15 +1,12 @@
 package nl.knaw.dans.easy.web.admin;
 
-import javax.servlet.http.HttpServletResponse;
-
 import nl.knaw.dans.common.lang.service.exceptions.CommonSecurityException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
-import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.security.ContextParameters;
-import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.easy.servicelayer.services.UserService;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.main.AbstractEasyNavPage2;
 import nl.knaw.dans.easy.web.wicket.FormListener;
@@ -21,8 +18,8 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.protocol.http.servlet.AbortWithWebErrorCodeException;
 import org.apache.wicket.protocol.https.RequireHttps;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,6 +36,9 @@ public class UserDetailsPage extends AbstractEasyNavPage2 implements FormListene
     private EasyUser displayedUser;
 
     private ContextParameters contextParameters;
+
+    @SpringBean(name = "userService")
+    private UserService userService;
 
     public UserDetailsPage(PageParameters parameters)
     {
@@ -122,7 +122,7 @@ public class UserDetailsPage extends AbstractEasyNavPage2 implements FormListene
         EasyUser user;
         try
         {
-            user = Services.getUserService().getUserById(getSessionUser(), userId);
+            user = userService.getUserById(getSessionUser(), userId);
         }
         catch (CommonSecurityException e)
         {

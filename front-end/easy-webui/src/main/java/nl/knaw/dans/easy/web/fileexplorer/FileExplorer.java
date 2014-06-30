@@ -28,7 +28,7 @@ import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
-import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.web.EasySession;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.common.StyledModalWindow;
@@ -59,6 +59,7 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -81,6 +82,9 @@ public class FileExplorer extends AbstractDatasetModelPanel
     private boolean depositorView = false;
     private boolean showTools = false;
     private boolean published = false;
+
+    @SpringBean(name = "itemService")
+    private ItemService itemService;
 
     public FileExplorer(String id, final DatasetModel datasetModel)
     {
@@ -432,8 +436,8 @@ public class FileExplorer extends AbstractDatasetModelPanel
                 {
                     VisibleTo newVisibleTo = viewRights.getModelObject();
                     AccessibleTo newAccessibleTo = accessRights.getModelObject();
-                    Services.getItemService().updateObjects(EasySession.getSessionUser(), datasetModel.getObject(), sidList,
-                            new UpdateInfo(newVisibleTo, newAccessibleTo, null, false), null);
+                    itemService.updateObjects(EasySession.getSessionUser(), datasetModel.getObject(), sidList, new UpdateInfo(newVisibleTo, newAccessibleTo,
+                            null, false), null);
                 }
                 catch (ServiceRuntimeException e)
                 {
@@ -653,12 +657,12 @@ public class FileExplorer extends AbstractDatasetModelPanel
     {
         try
         {
-            final ZipFileContentWrapper zfcw = Services.getItemService().getZippedContent(sessionUser, dataset, requestedItems);
+            final ZipFileContentWrapper zfcw = itemService.getZippedContent(sessionUser, dataset, requestedItems);
             final AJAXDownload download = AJAXDownload.create(zfcw);
             add(download);
             download.initiate(target);
             // register this download action
-            Services.getItemService().registerDownload(getSessionUser(), dataset, zfcw.getDownloadedItemVOs());
+            itemService.registerDownload(getSessionUser(), dataset, zfcw.getDownloadedItemVOs());
             StatisticsLogger.getInstance().logEvent(StatisticsEvent.DOWNLOAD_DATASET_REQUEST, new DatasetStatistics(dataset), new DownloadStatistics(zfcw),
                     new DisciplineStatistics(dataset));
         }

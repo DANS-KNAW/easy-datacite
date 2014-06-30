@@ -44,7 +44,6 @@ import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.servicelayer.services.DatasetService;
 import nl.knaw.dans.easy.servicelayer.services.ItemService;
 import nl.knaw.dans.easy.servicelayer.services.SearchService;
-import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.view.dataset.DatasetViewPage;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.EmdFormat;
@@ -262,6 +261,7 @@ public class FileExplorerTest
     {
         expectTooManyFilesException();
         sessionUser.setHasAcceptedGeneralConditions(true);
+        expect(datasetServiceMock.getAdditionalLicense(isA(Dataset.class))).andStubReturn(null);
         renderPage();
 
         tester.clickLink(DOWNLOAD_LINK, true);
