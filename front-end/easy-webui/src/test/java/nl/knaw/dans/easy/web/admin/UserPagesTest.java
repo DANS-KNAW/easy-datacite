@@ -31,6 +31,7 @@ import org.powermock.api.easymock.PowerMock;
 
 public class UserPagesTest
 {
+    private static final PageParameters PAGE_PARAMETERS = new PageParameters(UserDetailsPage.PM_USER_ID + "=depositor1");
     private static final String SHOW_USER_PATH = "userOverviewPanel:users:1:user:showUser";
     private static final String FORM_PATH = "userDetailsPanel:switchPanel:userInfoForm";
     private static final String EDIT_LINK_PATH = "userDetailsPanel:switchPanel:editLink";
@@ -62,7 +63,10 @@ public class UserPagesTest
     @Test
     public void smokeTestNoUsers() throws Exception
     {
-        renderUserOverviewPage(new ArrayList<EasyUser>()).dumpPage();
+        prepareOveriew(new ArrayList<EasyUser>());
+        EasyWicketTester tester = EasyWicketTester.startPage(applicationContext, UsersOverviewPage.class);
+        tester.assertRenderedPage(UsersOverviewPage.class);
+        tester.dumpPage();
     }
 
     @Test
@@ -76,17 +80,18 @@ public class UserPagesTest
 
         final ArrayList<EasyUser> users = new ArrayList<EasyUser>();
         users.add(user);
-
-        renderUserOverviewPage(users).dumpPage();
+        prepareOveriew(users);
+        EasyWicketTester tester = EasyWicketTester.startPage(applicationContext, UsersOverviewPage.class);
+        tester.assertRenderedPage(UsersOverviewPage.class);
+        tester.dumpPage();
     }
 
     @Test
     public void smokeTestMultipleUsers() throws Exception
     {
-        final ArrayList<EasyUser> users = prepareDetails();
-
-        final EasyWicketTester tester = renderUserOverviewPage(users);
-        tester.dumpPage("overview");
+        prepareOveriew(prepareDetails());
+        final EasyWicketTester tester = EasyWicketTester.startPage(applicationContext, UsersOverviewPage.class);
+        tester.dumpPage();
         tester.assertRenderedPage(UsersOverviewPage.class);
         tester.assertInvisible("addLink");// is it ever made visible?
         tester.clickLink(SHOW_USER_PATH);
@@ -97,18 +102,24 @@ public class UserPagesTest
     }
 
     @Test
-    public void editUserDetails() throws Exception
+    public void detailsPageWithoutParameters() throws Exception
     {
         prepareDetails();
 
         final EasyWicketTester tester = EasyWicketTester.startPage(applicationContext, UserDetailsPage.class);
         tester.assertRenderedPage(ErrorPage.class);
-        tester.dumpPage("errorPage");
+        tester.dumpPage();
+    }
 
-        tester.startPage(UserDetailsPage.class, new PageParameters(UserDetailsPage.PM_USER_ID + "=depositor1"));
+    @Test
+    public void editUserDetails() throws Exception
+    {
+        prepareDetails();
+
+        final EasyWicketTester tester = EasyWicketTester.startPage(applicationContext, UserDetailsPage.class, PAGE_PARAMETERS);
         tester.assertRenderedPage(UserDetailsPage.class);
         tester.clickLink(EDIT_LINK_PATH);
-        tester.dumpPage("editMode");
+        tester.dumpPage();
         tester.debugComponentTrees();
         final FormTester formTester = tester.newFormTester(FORM_PATH);
         formTester.select("optsForNewsletter", 1);
@@ -124,6 +135,22 @@ public class UserPagesTest
         tester.clickLink("userDetailsPanel:switchPanel:doneLink");
         tester.dumpPage("done");
         tester.assertRenderedPage(UsersOverviewPage.class);
+    }
+
+    @Test
+    public void cancelEditUserDetails() throws Exception
+    {
+        prepareDetails();
+
+        final EasyWicketTester tester = EasyWicketTester.startPage(applicationContext, UserDetailsPage.class, PAGE_PARAMETERS);
+        tester.assertRenderedPage(UserDetailsPage.class);
+        tester.clickLink(EDIT_LINK_PATH);
+        tester.debugComponentTrees();
+        final FormTester formTester = tester.newFormTester(FORM_PATH);
+        tester.debugComponentTrees();
+        formTester.submitLink("cancel", false);
+        tester.assertVisible(EDIT_LINK_PATH);
+        tester.assertRenderedPage(UserDetailsPage.class);
     }
 
     private ArrayList<EasyUser> prepareDetails() throws ServiceException, ObjectNotAvailableException
@@ -158,9 +185,8 @@ public class UserPagesTest
         return users;
     }
 
-    private EasyWicketTester renderUserOverviewPage(final ArrayList<EasyUser> users) throws ServiceException
+    private void prepareOveriew(final ArrayList<EasyUser> users) throws ServiceException
     {
         EasyMock.expect(applicationContext.getUserService().getAllUsers()).andStubReturn(users);
-        return EasyWicketTester.startPage(applicationContext, UsersOverviewPage.class);
     }
 }
