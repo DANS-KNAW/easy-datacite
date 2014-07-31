@@ -77,7 +77,7 @@ public abstract class AbstractEasyNavPage extends AbstractEasyPage
     private static final int MAX_NAME_LENGTH = 30;
 
     @SpringBean(name = "searchService")
-    private SearchService searchService;
+    protected SearchService searchService;
 
     // keep results, otherwise we have a search request for every isVisible call
     private int numDatasets = 0;

@@ -154,8 +154,9 @@ public class EasyWicketTester extends WicketTester
 
     /**
      * Dumps the source of the last rendered <code>Page</code> in
-     * target/pageDumps/[package]/[test-class]/[calling-method].html
+     * target/pageDumps/[package]/[test-class]/[calling-method][-suffix].html
      * 
+     * @param suffix the last portion of the created file name
      * @throws Exception
      */
     public void dumpPage(final String suffix) throws Exception

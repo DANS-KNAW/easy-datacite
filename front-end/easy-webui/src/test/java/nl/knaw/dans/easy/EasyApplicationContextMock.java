@@ -268,7 +268,7 @@ public class EasyApplicationContextMock extends ApplicationContextMock
         putBean("jumpoffService", jumpoffService);
     }
 
-    private void setMockedDepositService()
+    public void setMockedDepositService()
     {
         try
         {

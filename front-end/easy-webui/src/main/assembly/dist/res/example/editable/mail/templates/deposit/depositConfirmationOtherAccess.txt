@@ -13,7 +13,7 @@ Should you wish to implement any changes to the metadata or to upload complement
 
 PERMANENT DISCOVERABILITY
 You can include the following link in your paper or electronic publication to refer to your dataset:
-     http://persistent-identifier.nl/?identifier=~Dataset.getPersistentIdentifier~
+     http://persistent-identifier.nl/?identifier=~DatasetSubmission.getPersistentIdentifier~
 We also ask those who refer to your dataset in their publications to include this link. It contains a 'Persistent Identifier', which is coupled to your dataset and ensures that it will also remain discoverable via the Internet in the long term.
 
 Note: This link will not yet work until the day after your dataset becomes available to the public.

@@ -1,5 +1,4 @@
-<ul wicket:id="feedbackul" class="feedbackPanel">
-    <li wicket:id="messages" class="feedbackPanelINFO">
-      <span wicket:id="message" class="feedbackPanelINFO">Thank you for providing your dataset. A confirmation has been sent to your e-mail address (~EasyUser.getEmail~). It contains important details.</span>
-    </li>
+<ul class="feedbackPanel">
 </ul>
+<p><span class="feedbackPanelINFO">Thank you for depositing your dataset. A confirmation has been sent to your e-mail address (~EasyUser.getEmail~). It contains important details.</span></p>
+<p>Please note that ingesting a large dataset may take some minutes.  During that time  the dataset will still show up as a DRAFT in "My Datasets".</p>

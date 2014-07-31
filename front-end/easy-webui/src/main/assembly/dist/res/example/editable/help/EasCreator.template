@@ -1,6 +1,5 @@
 <h2><strong>Creator</strong></h2>
-<p>The person or organization responsible for the dataset.</p>
-<p><strong>Definition</strong>
-(copied from <a href="http://dublincore.org/documents/dcmi-terms/#terms-creator" target="_blank">Dublin Core</a>):
-An entity primarily responsible for making the resource.</p>
+<p>The person (s) and/or organization (s) responsible for the creation of the dataset. The Principal investigator (person and/or the organization) must be mentioned first.</p>
+<p><strong>Definition</strong> (copied from <a href="http://dublincore.org/documents/dcmi-terms/#terms-creator" target="_blank">Dublin Core</a>): An entity primarily responsible for making the resource.</p>
+<p>If you are employed at a Dutch university or research institute please mention your <strong>Digital Author ID (DAI)</strong>. You can find your DAI in <a href="http://www.narcis.nl/">NARCIS</a> by selecting the entry PERSONEN and typing your surname in the SEARCHfield. For additional information see also: <a href="http://www.surffoundation.nl/dai">www.surffoundation.nl/dai</a></p>
 <hr />

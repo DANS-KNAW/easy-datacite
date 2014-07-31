@@ -14,7 +14,6 @@ import nl.knaw.dans.common.wicket.components.search.criteria.CriteriumLabel;
 import nl.knaw.dans.common.wicket.components.search.model.SearchModel;
 import nl.knaw.dans.common.wicket.components.search.results.SearchResultConfig;
 import nl.knaw.dans.easy.data.search.EasyDatasetSB;
-import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.editabletexts.EasyEditablePanel;
 import nl.knaw.dans.easy.web.search.AbstractSearchResultPage;
 
@@ -47,7 +46,7 @@ public class MyDatasetsSearchResultPage extends AbstractSearchResultPage
     @Override
     protected SearchResult<? extends DatasetSB> doSearch(SearchRequest request) throws ServiceException
     {
-        return Services.getSearchService().searchMyDataset(request, getSessionUser());
+        return searchService.searchMyDataset(request, getSessionUser());
     }
 
     @Override

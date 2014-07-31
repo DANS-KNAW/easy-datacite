@@ -1,5 +1,5 @@
 <h2>Spatial coverage (Spatial point, Spatial box, or free text field)</h2>
 Geographical location of the research area or site.<br /><br />Describe the geographical area to which the publication and/or dataset applies. This may be a geographical location, such as a municipality-place name-toponym or the name of a country/region.<br /><br />You can also add the geographical coordinates of the area, both as a central point (Point: 2 coordinates) and as a rectangular box covering the entire research area (Box: 4 coordinates).<br /><br />Click the [+] button behind a field to add an additional field.<br /><br />
 <h2>Examples</h2>
-Roerstreek (ten zuiden van Roermond, Limburg)<br />Venray - Merselo - Haag (Limburg)<br />105350 / 460350 (Nederlandse RD-stelsel, in meters)<br />
+Roerstreek (ten zuiden van Roermond, Limburg)<br />Venray - Merselo - Haag (Limburg)<br /><br />(Nederlandse RD-stelsel, in meters)<br />105350&#160;&#160;&#160;&#160;&#160;&#160;&#160; &#160; 460350<br /><br />(Nederlandse RD-stelsel, in meters)<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 461355<br />105350&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &#160;106555&#160;<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;460150<br />
 <hr />

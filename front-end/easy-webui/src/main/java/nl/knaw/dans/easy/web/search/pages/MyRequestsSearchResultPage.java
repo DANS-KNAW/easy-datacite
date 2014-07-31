@@ -6,7 +6,6 @@ import nl.knaw.dans.common.lang.search.SearchResult;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.components.search.criteria.CriteriumLabel;
 import nl.knaw.dans.common.wicket.components.search.model.SearchModel;
-import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.easy.web.editabletexts.EasyEditablePanel;
 import nl.knaw.dans.easy.web.search.AbstractSearchResultPage;
 
@@ -39,7 +38,7 @@ public class MyRequestsSearchResultPage extends AbstractSearchResultPage
     @Override
     protected SearchResult<? extends DatasetSB> doSearch(SearchRequest request) throws ServiceException
     {
-        return Services.getSearchService().searchMyRequests(request, getSessionUser());
+        return searchService.searchMyRequests(request, getSessionUser());
     }
 
     @Override

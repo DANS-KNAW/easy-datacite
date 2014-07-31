@@ -55,7 +55,7 @@ import org.slf4j.LoggerFactory;
 public class DepositPanel extends AbstractDatasetModelPanel
 {
     private static final String DEPOSIT_FORM = "depositForm";
-    private static final String INFO_PAGE = "deposit.completed.header";
+    public static final String INFO_PAGE = "deposit.completed.header";
     private static final String CONFIRM_BUTTON_NAME = "button.confirm";
     private static final String CONFIRM_TITLE = "submit.warning.title";
     private static final String CONFIRM_MESSAGE = "submit.warning.message";
