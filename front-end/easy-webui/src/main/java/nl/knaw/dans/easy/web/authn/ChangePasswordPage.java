@@ -5,7 +5,7 @@ import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.easy.domain.authn.ChangePasswordMessenger;
 import nl.knaw.dans.easy.domain.authn.ForgottenPasswordMailAuthentication;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
-import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.easy.servicelayer.services.UserService;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.EasySession;
 import nl.knaw.dans.easy.web.HomePage;
@@ -14,6 +14,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.protocol.https.RequireHttps;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +26,9 @@ public class ChangePasswordPage extends AbstractAuthenticationPage
     public static final String PM_USER_ID = "userId";
     private static final String WI_CHANGE_PASSWORD_PANEL = "changePasswordPanel";
     private static Logger logger = LoggerFactory.getLogger(ChangePasswordPage.class);
+
+    @SpringBean(name = "userService")
+    private UserService userService;
 
     /**
      * No-argument constructor for displaying the change password page for the current user.
@@ -71,7 +75,7 @@ public class ChangePasswordPage extends AbstractAuthenticationPage
         ForgottenPasswordMailAuthentication authentication;
         try
         {
-            authentication = Services.getUserService().newForgottenPasswordMailAuthentication(userId, requestTime, requestToken);
+            authentication = userService.newForgottenPasswordMailAuthentication(userId, requestTime, requestToken);
         }
         catch (ServiceException e)
         {

@@ -9,6 +9,7 @@ import nl.knaw.dans.common.wicket.util.RequireExactlyOneValidator;
 import nl.knaw.dans.easy.domain.authn.ForgottenPasswordMessenger;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.easy.servicelayer.services.UserService;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.HomePage;
 import nl.knaw.dans.easy.web.InfoPage;
@@ -23,6 +24,7 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.validation.validator.EmailAddressValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +41,9 @@ public class ForgottenPasswordPanel extends AbstractEasyStatelessPanel implement
     private static final String EMAIL = "email";
 
     private static final String INFO_PAGE = "forgottenPassword.infoPage";
+
+    @SpringBean(name = "userService")
+    private UserService userService;
 
     /**
      * 
@@ -132,7 +137,7 @@ public class ForgottenPasswordPanel extends AbstractEasyStatelessPanel implement
 
             try
             {
-                Services.getUserService().handleForgottenPasswordRequest(messenger);
+                userService.handleForgottenPasswordRequest(messenger);
             }
             catch (ServiceException e)
             {

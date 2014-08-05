@@ -5,7 +5,7 @@ import nl.knaw.dans.common.wicket.ExcludeMessageFilter;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
 import nl.knaw.dans.common.wicket.util.UnEqualInputValidator;
 import nl.knaw.dans.easy.domain.authn.ChangePasswordMessenger;
-import nl.knaw.dans.easy.servicelayer.services.Services;
+import nl.knaw.dans.easy.servicelayer.services.UserService;
 import nl.knaw.dans.easy.util.SecurityUtil;
 import nl.knaw.dans.easy.web.EasyResources;
 import nl.knaw.dans.easy.web.InfoPage;
@@ -24,6 +24,7 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,6 +44,9 @@ public class ChangePasswordPanel extends AbstractEasyStatelessPanel implements E
     private static final long serialVersionUID = 6320109414610346669L;
 
     private ChangePasswordForm changePasswordForm;
+
+    @SpringBean(name = "userService")
+    private UserService userService;
 
     public ChangePasswordPanel(String wicketId, ChangePasswordMessenger messenger)
     {
@@ -141,7 +145,7 @@ public class ChangePasswordPanel extends AbstractEasyStatelessPanel implements E
 
             try
             {
-                Services.getUserService().changePassword(messenger);
+                userService.changePassword(messenger);
             }
             catch (ServiceException e)
             {
