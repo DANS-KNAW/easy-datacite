@@ -43,7 +43,6 @@ public class VideoPanel extends AbstractDatasetModelPanel implements IHeaderCont
     public VideoPanel(String id, DatasetModel model, final List<FileItemVO> videoFiles, PageParameters pageParameters)
     {
         super(id, model);
-        add(new Label("fileName", ""));
         for (FileItemVO videoFile : videoFiles)
         {
             addVideoFile(videoFile);
