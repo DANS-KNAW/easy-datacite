@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.Map;
 
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
+import nl.knaw.dans.easy.domain.dataset.item.AbstractItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.ItemOrder;
 import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.filter.ItemFilters;
+import nl.knaw.dans.easy.domain.model.FileItemVOAttribute;
 
 public interface FileStoreAccess
 {
@@ -136,4 +138,51 @@ public interface FileStoreAccess
      *         wrapper for exceptions
      */
     String getDatasetId(DmoStoreId storeId) throws StoreException;
+
+    /**
+     * Get the total number of files or folders in a dataset or folder.
+     * 
+     * @param storeId
+     *        id of a container (dataset or folder)
+     * @param memberClass
+     *        type of members (files or folders) to count recursively
+     * @param fieldValue
+     *        if present only files are counted with the specified value.
+     * @return
+     * @throws StoreAccessException
+     */
+    public int getTotalMemberCount(final DmoStoreId storeId, Class<? extends AbstractItemVO> memberClass, FileItemVOAttribute... attribute)
+            throws StoreAccessException;
+
+    /** @return false if {@link #getTotalMemberCount} would return zero. */
+    boolean hasMember(DmoStoreId storeId, Class<? extends AbstractItemVO> memberClass, FileItemVOAttribute... fieldValue) throws StoreAccessException;
+
+    /**
+     * Get the number of files or folders in the top level of a dataset or folder.
+     * 
+     * @param storeId
+     *        id of a container (dataset or folder)
+     * @param memberClass
+     *        type of members (files or folders) to count
+     * @param fieldValue
+     *        if present only files are counted with the specified value.
+     * @return
+     * @throws StoreAccessException
+     */
+    int getDirectMemberCount(DmoStoreId storeId, Class<? extends AbstractItemVO> memberClass, FileItemVOAttribute... fieldValue) throws StoreAccessException;
+
+    /** @return false if {@link #getDirectMemberCount} would return zero. */
+    boolean hasDirectMember(DmoStoreId storeId, Class<? extends AbstractItemVO> memberClass, FileItemVOAttribute... fieldValue) throws StoreAccessException;
+
+    /**
+     * check if any files of a data set are visible to a user with specified permissions.
+     * 
+     * @param storeId
+     * @param userIsKnown
+     * @param userHasGroupAccess
+     * @param userHasPermissionAccess
+     * @return true if the dataset has any file visible for the specified permissions.
+     * @throws StoreAccessException
+     */
+    boolean hasVisibleFiles(DmoStoreId storeId, boolean userIsKnown, boolean userHasGroupAccess, boolean userHasPermissionAccess) throws StoreAccessException;
 }

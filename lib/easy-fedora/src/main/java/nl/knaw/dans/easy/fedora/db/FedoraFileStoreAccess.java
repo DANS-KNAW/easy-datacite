@@ -1,5 +1,7 @@
 package nl.knaw.dans.easy.fedora.db;
 
+import java.beans.Introspector;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -10,14 +12,15 @@ import java.util.Set;
 
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.util.FileUtil;
+import nl.knaw.dans.easy.data.store.FileStoreAccess;
 import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.data.store.StoreException;
 import nl.knaw.dans.easy.db.DbUtil;
 import nl.knaw.dans.easy.db.ThreadLocalSessionFactory;
+import nl.knaw.dans.easy.domain.dataset.item.AbstractItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.ItemOrder;
-import nl.knaw.dans.easy.domain.dataset.item.ItemOrderField;
 import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.filter.AccessibleToFieldFilter;
 import nl.knaw.dans.easy.domain.dataset.item.filter.CreatorRoleFieldFilter;
@@ -29,30 +32,33 @@ import nl.knaw.dans.easy.domain.exceptions.NoFilterValuesSelectedException;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.FileItem;
 import nl.knaw.dans.easy.domain.model.FolderItem;
+import nl.knaw.dans.easy.domain.model.FileItemVOAttribute;
+import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.fedora.db.exceptions.UnknownItemFilterException;
 
+import org.apache.commons.lang.ClassUtils;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Transaction;
 import org.hibernate.classic.Session;
 import org.hibernate.criterion.Disjunction;
-import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// import nl.knaw.dans.easy.db.DbUtil;
-
-/**
- * @author lobo
- */
-public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileStoreAccess
+public class FedoraFileStoreAccess implements FileStoreAccess
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(FedoraFileStoreAccess.class);
 
     private ThreadLocalSessionFactory sessionFactory = ThreadLocalSessionFactory.instance();
+
+    /** query parameter name representing the value of a dataset or folder */
+    private static final String CONTAINER_ID = "containerId";
+
+    /** query parameter name representing the value of filtered field */
+    private static final String FILTER = "filter";
 
     private static final String FILENAME_QUERY = "SELECT name FROM " + FileItemVO.class.getName() + " WHERE parentSid=:parentSid";
 
@@ -87,9 +93,6 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
 
     private static final String DATASET_ID_OF_FILE_QUERY = "SELECT datasetSid AS datasetId FROM " + FileItemVO.class.getName() //
             + " WHERE pid=:itemId";
-
-    private static final String NAME_FILE_ITEM = FileItemVO.class.getName();
-    private static final String NAME_FOLDER_ITEM = FolderItemVO.class.getName();
 
     @SuppressWarnings("rawtypes")
     static private Class[] implementedFilters = {CreatorRoleFieldFilter.class, VisibleToFieldFilter.class, AccessibleToFieldFilter.class};
@@ -135,7 +138,7 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
         try
         {
 
-            List<FileItemVO> items = session.createQuery("select fivo from " + NAME_FILE_ITEM + " as fivo where fivo.sid = :sid")
+            List<FileItemVO> items = session.createQuery("select fivo from " + FileItemVO.class.getName() + " as fivo where fivo.sid = :sid")
                     .setParameter("sid", dmoStoreId.getStoreId()).setFetchSize(1).list();
             if (items.size() > 0)
             {
@@ -242,7 +245,7 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
         try
         {
 
-            List<FolderItemVO> items = session.createQuery("select fovo from " + NAME_FOLDER_ITEM + " as fovo where fovo.sid = :sid")
+            List<FolderItemVO> items = session.createQuery("select fovo from " + FolderItemVO.class.getName() + " as fovo where fovo.sid = :sid")
                     .setParameter("sid", dmoStoreId.getStoreId()).setFetchSize(1).list();
             if (items.size() > 0)
             {
@@ -748,4 +751,148 @@ public class FedoraFileStoreAccess implements nl.knaw.dans.easy.data.store.FileS
         return result;
     }
 
+    @Override
+    public int getTotalMemberCount(DmoStoreId storeId, Class<? extends AbstractItemVO> memberClass, FileItemVOAttribute... fieldValue)
+            throws StoreAccessException
+    {
+        return fetchCount(countMembers(false, storeId, memberClass, fieldValue));
+    }
+
+    @Override
+    public int getDirectMemberCount(DmoStoreId storeId, Class<? extends AbstractItemVO> memberClass, FileItemVOAttribute... fieldValue)
+            throws StoreAccessException
+    {
+        return fetchCount(countMembers(true, storeId, memberClass, fieldValue));
+    }
+
+    @Override
+    public boolean hasMember(DmoStoreId storeId, Class<? extends AbstractItemVO> memberClass, FileItemVOAttribute... fieldValue) throws StoreAccessException
+    {
+        // performance hint (also for hasDirectMember):
+        // perhaps avoid count(*), you only want to know if any exists, for example consider
+        // "SELECT DISTINCT m.datasetSid" or drop distinct and check of the list size is non-zero
+        return !countedZero(countMembers(false, storeId, memberClass, fieldValue));
+    }
+
+    @Override
+    public boolean hasDirectMember(DmoStoreId storeId, Class<? extends AbstractItemVO> memberClass, FileItemVOAttribute... fieldValue)
+            throws StoreAccessException
+    {
+        return !countedZero(countMembers(true, storeId, memberClass, fieldValue));
+    }
+
+    @Override
+    public boolean hasVisibleFiles(DmoStoreId storeId, boolean userIsKnown, boolean userHasGroupAccess, boolean userHasPermission) throws StoreAccessException
+    {
+        if (!Dataset.NAMESPACE.equals(storeId.getNamespace()))
+            throw new IllegalArgumentException("storeId should be a dataset");
+
+        // performance hint: implement "m.fileName in (...)" for the optional condition
+        Class<FileItemVO> memberClass = FileItemVO.class;
+
+        if (!countedZero(countMembers(false, storeId, memberClass, VisibleTo.ANONYMOUS)))
+            return true;
+
+        if (userIsKnown && !countedZero(countMembers(false, storeId, memberClass, VisibleTo.KNOWN)))
+            return true;
+
+        if (userHasGroupAccess && !countedZero(countMembers(false, storeId, memberClass, VisibleTo.RESTRICTED_GROUP)))
+            return true;
+
+        if (userHasPermission && !countedZero(countMembers(false, storeId, memberClass, VisibleTo.RESTRICTED_REQUEST)))
+            return true;
+
+        return false;
+    }
+
+    private int fetchCount(List<? extends Object> query)
+    {
+        return new BigDecimal((Long) query.get(0)).intValue();
+    }
+
+    private boolean countedZero(List<? extends Object> query)
+    {
+        return ((Long) query.get(0)) == 0;
+    }
+
+    private List<? extends Object> countMembers(boolean direct, DmoStoreId storeId, Class<? extends AbstractItemVO> memberClass,
+            FileItemVOAttribute... attribute) throws StoreAccessException
+    {
+        checkCountArguments(storeId, memberClass, attribute);
+        String optionalCondition = "";
+        String fieldName = "";
+        FileItemVOAttribute fieldValue = null;
+        if (attribute != null && attribute.length == 1)
+        {
+            fieldValue = attribute[0];
+            fieldName = Introspector.decapitalize(ClassUtils.getShortCanonicalName(fieldValue.getClass()));
+            optionalCondition = " AND m." + fieldName + "=:" + FILTER;
+        }
+        String queryString = createCountMemberQueryString(direct, storeId, memberClass, optionalCondition);
+
+        if (LOGGER.isDebugEnabled())
+        {
+            StackTraceElement callerOfPublicMethod = new Exception().getStackTrace()[2];
+            LOGGER.debug("Getting number of {}'s for '{}' filtered by: {} {}", ClassUtils.getShortCanonicalName(memberClass), storeId, fieldName, fieldValue);
+            LOGGER.debug("{}:{} {}", callerOfPublicMethod.getMethodName(), callerOfPublicMethod.getLineNumber(), queryString);
+        }
+        return createCountMemberQuery(queryString, storeId, fieldValue);
+    }
+
+    private void checkCountArguments(DmoStoreId storeId, Class<? extends AbstractItemVO> memberClass, FileItemVOAttribute... attribute)
+    {
+        if (!FolderItem.NAMESPACE.equals(storeId.getNamespace()) && !Dataset.NAMESPACE.equals(storeId.getNamespace()))
+            throw new IllegalArgumentException("storeId should be a dataset or folder");
+        if (attribute != null && attribute.length > 1)
+            throw new UnsupportedOperationException("so far at most one attribute value implemented");
+        if (attribute != null && attribute.length == 1 && memberClass.equals(FolderItemVO.class))
+            throw new UnsupportedOperationException("so far no attributes implemented when counting folders");
+    }
+
+    private String createCountMemberQueryString(boolean direct, DmoStoreId storeId, Class<? extends AbstractItemVO> memberClass, String optionalCondition)
+    {
+        String fromClause;
+        String whereClause;
+        if (direct)
+        {
+            fromClause = String.format("FROM %s m ", memberClass.getName());
+            whereClause = String.format("WHERE m.parentSid=:%s", CONTAINER_ID.toString());
+        }
+        else if (Dataset.NAMESPACE.equals(storeId.getNamespace()))
+        {
+            fromClause = String.format("FROM %s m ", memberClass.getName());
+            whereClause = String.format("WHERE m.datasetSid=:%s", CONTAINER_ID.toString());
+        }
+        else
+        // because of checkCountArguments we now have a Folder name space
+        {
+            fromClause = String.format("FROM %s m, %s c ", memberClass.getName(), FolderItemVO.class.getName());
+            whereClause = "WHERE c.sid=:" + CONTAINER_ID + " AND m.datasetSid=c.datasetSid AND m.path LIKE c.path || '_%'";
+        }
+        return "SELECT count(*) " + fromClause + whereClause + optionalCondition;
+    }
+
+    private List<? extends Object> createCountMemberQuery(String queryString, DmoStoreId storeId, FileItemVOAttribute fieldValue) throws StoreAccessException
+    {
+        Session session = sessionFactory.openSession();
+        try
+        {
+            Query query = session.createQuery(queryString);
+            query.setParameter(CONTAINER_ID, storeId.getStoreId());
+            if (fieldValue != null)
+                query.setParameter(FILTER, fieldValue);
+
+            @SuppressWarnings("unchecked")
+            List<? extends Object> result = query.list();
+            return result;
+        }
+        catch (HibernateException e)
+        {
+            throw new StoreAccessException(e);
+        }
+        finally
+        {
+            sessionFactory.closeSession();
+        }
+    }
 }

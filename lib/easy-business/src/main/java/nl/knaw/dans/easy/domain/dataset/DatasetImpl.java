@@ -50,6 +50,7 @@ import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.Group;
 import nl.knaw.dans.easy.domain.model.user.RepoAccess;
+import nl.knaw.dans.easy.domain.user.EasyUserAnonymous;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.EasyMetadataImpl;
 import nl.knaw.dans.pf.language.emd.EmdTitle;
@@ -290,17 +291,14 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
 
     public boolean isPermissionGrantedTo(EasyUser user)
     {
-        return getPermissionSequenceList().isGrantedTo(user);
+        boolean anonymous = user == null || user.isAnonymous();
+        return !anonymous && getPermissionSequenceList().isGrantedTo(user);
     }
 
     public boolean isGroupAccessGrantedTo(EasyUser user)
     {
-        boolean groupAccess = false;
-        if (user != null)
-        {
-            groupAccess = user.isMemberOfGroup(getAdministrativeMetadata().getGroupIds());
-        }
-        return groupAccess;
+        boolean anonymous = user == null || user.isAnonymous();
+        return !anonymous && user.isMemberOfGroup(getAdministrativeMetadata().getGroupIds());
     }
 
     public EasyMetadata getEasyMetadata()
@@ -393,12 +391,8 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
 
     public boolean hasDepositor(EasyUser user)
     {
-        boolean userIsDepositor = false;
-        if (user != null && !user.isAnonymous())
-        {
-            userIsDepositor = hasDepositor(user.getId());
-        }
-        return userIsDepositor;
+        boolean anonymous = user == null || user.isAnonymous();
+        return !anonymous && hasDepositor(user.getId());
     }
 
     public boolean hasDepositor(String userId)

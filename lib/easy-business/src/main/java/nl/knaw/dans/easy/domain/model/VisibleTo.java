@@ -8,7 +8,7 @@ import nl.knaw.dans.common.lang.dataset.AccessCategory;
  * @author akmi
  */
 // TODO unify this enum to key-abstraction AccessCategory
-public enum VisibleTo
+public enum VisibleTo implements FileItemVOAttribute
 {
 
     ANONYMOUS,

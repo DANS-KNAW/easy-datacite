@@ -9,6 +9,7 @@ import nl.knaw.dans.common.lang.RepositoryException;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.db.DbUtil;
+import nl.knaw.dans.easy.db.testutil.FedoraDbTestSchema;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemAccessibleTo;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemCreatorRole;
@@ -25,7 +26,6 @@ import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.fedora.db.FedoraFileStoreAccess;
 
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.junit.AfterClass;
@@ -181,30 +181,6 @@ public class FedoraFileStoreAccessTest
                 session.flush();
                 session.close();
             }
-        }
-    }
-
-    private void deleteItems(List<? extends ItemVO> items)
-    {
-        // delete files in database
-        Session session = null;
-        try
-        {
-            session = DbUtil.getSessionFactory().openSession();
-            Transaction tx = session.beginTransaction();
-            tx.begin();
-            for (ItemVO item : items)
-            {
-                Query query = session.createQuery("DELETE FROM " + item.getClass().getName() + " WHERE pid=:sid");
-                query.setString("sid", item.getSid());
-                query.executeUpdate();
-            }
-            tx.commit();
-        }
-        finally
-        {
-            session.flush();
-            session.close();
         }
     }
 

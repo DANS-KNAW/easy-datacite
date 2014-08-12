@@ -14,6 +14,7 @@ import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 import nl.knaw.dans.easy.util.TestHelper;
 
 import org.easymock.EasyMock;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -24,6 +25,13 @@ public class ForgottenPasswordSpecificationTest extends TestHelper
     public static void before()
     {
         before(ForgottenPasswordSpecificationTest.class);
+    }
+
+    @AfterClass
+    public static void afterClass()
+    {
+        // the next test class should not inherit from this one
+        new Data().setUserRepo(null);
     }
 
     @Test

@@ -6,6 +6,7 @@ import static nl.knaw.dans.easy.security.authz.AbstractDatasetAutzStrategy.MSG_P
 import static nl.knaw.dans.easy.security.authz.AbstractDatasetAutzStrategy.MSG_PERMISSION_DENIED;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,14 +17,22 @@ import nl.knaw.dans.common.lang.security.authz.AuthzMessage;
 import nl.knaw.dans.easy.AuthzStrategyTestImpl;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyWicketTester;
+import nl.knaw.dans.easy.data.Data;
+import nl.knaw.dans.easy.db.testutil.InMemoryDatabase;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
+import nl.knaw.dans.easy.domain.model.AccessibleTo;
+import nl.knaw.dans.easy.domain.model.Dataset;
+import nl.knaw.dans.easy.domain.model.FolderItem;
 import nl.knaw.dans.easy.domain.model.PermissionReplyModel;
 import nl.knaw.dans.easy.domain.model.PermissionRequestModel;
 import nl.knaw.dans.easy.domain.model.PermissionSequence;
 import nl.knaw.dans.easy.domain.model.PermissionSequence.State;
 import nl.knaw.dans.easy.domain.model.PermissionSequenceList;
+import nl.knaw.dans.easy.domain.model.VisibleTo;
+import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
+import nl.knaw.dans.easy.fedora.db.FedoraFileStoreAccess;
 import nl.knaw.dans.easy.servicelayer.services.DatasetService;
 import nl.knaw.dans.easy.web.view.dataset.DatasetViewPage;
 
@@ -41,6 +50,7 @@ public class DatasetPermissionTest
     private PermissionSequence permissionSequence;
     private PermissionSequenceList permissionSequenceList;
     private PermissionRequestModel permissionRequestModel;
+    private InMemoryDatabase inMemoryDB;
 
     static public class PageWrapper extends DatasetViewPage
     {
@@ -50,7 +60,6 @@ public class DatasetPermissionTest
         }
     }
 
-    @Before
     public void mockDataset() throws Exception
     {
         permissionRequestModel = new PermissionRequestModel();
@@ -60,25 +69,30 @@ public class DatasetPermissionTest
         expect(permissionSequenceList.getPermissionRequest(isA(EasyUser.class))).andStubReturn(permissionRequestModel);
         expect(permissionSequenceList.isGrantedTo(isA(EasyUser.class))).andStubReturn(true);
 
-        dataset = new DatasetImpl("mocked-dataset:1")
+        dataset = new DatasetImpl(new DmoStoreId(Dataset.NAMESPACE, "1").getStoreId())
         {
             private static final long serialVersionUID = 1L;
 
+            @Override
             public boolean hasDepositor(final EasyUser user)
             {
                 return isDepositor;
             }
 
+            @Override
             public boolean hasDepositor(final String userId)
             {
                 return isDepositor;
             }
 
+            @Override
             public boolean hasPermissionRestrictedItems()
             {
+                fail("replaced by a FileStoreAccessMethod");
                 return true;
             }
 
+            @Override
             public AccessCategory getAccessCategory()
             {
                 return AccessCategory.REQUEST_PERMISSION;
@@ -94,6 +108,18 @@ public class DatasetPermissionTest
         applicationContext.setDatasetService(datasetService);
     }
 
+    private void mockFileStoreAccess() throws Exception
+    {
+        inMemoryDB = new InMemoryDatabase();
+        final FolderItem folder = inMemoryDB.insertFolder(1, dataset, "a");
+        inMemoryDB.insertFile(1, folder, "a/x.y", CreatorRole.DEPOSITOR, VisibleTo.RESTRICTED_REQUEST, AccessibleTo.RESTRICTED_REQUEST);
+        inMemoryDB.flush();
+        FedoraFileStoreAccess fileStoreAccess = new FedoraFileStoreAccess();
+        applicationContext.putBean("fileStoreAccess", fileStoreAccess);
+        new Data().setFileStoreAccess(fileStoreAccess);
+        ;
+    }
+
     @Before
     public void mockApplicationContext() throws Exception
     {
@@ -102,43 +128,46 @@ public class DatasetPermissionTest
         applicationContext.expectDefaultResources();
         applicationContext.expectDisciplines();
         applicationContext.expectNoJumpoff();
-        applicationContext.expectNoItems();
+        applicationContext.expectNoAudioVideoFiles();
         applicationContext.expectAuthenticatedAsVisitor();
+        mockDataset();
+        mockFileStoreAccess();
     }
 
     @After
     public void reset()
     {
         PowerMock.resetAll();
+        inMemoryDB.close();
     }
 
     @Test
-    public void hasNoSequence()
+    public void hasNoSequence() throws Exception
     {
         isDepositor = false;
         expectAuthzMessages(MSG_NO_FILES, MSG_PERMISSION, MSG_PERMISSION_BUTTON);
         expectHasSequence(false);
         expectNoPermissionSequenceList();
 
-        showTab(2, "Data files (0)");
+        showTab(2, "Data files (1)");
     }
 
     @Test
-    public void issuefirstRequest()
+    public void issuefirstRequest() throws Exception
     {
         isDepositor = false;
         expectAuthzMessages(MSG_NO_FILES, MSG_PERMISSION, MSG_PERMISSION_BUTTON);
         expectHasSequence(false);
         expectNoPermissionSequenceList();
 
-        final EasyWicketTester tester = showTab(2, "Data files (0)");
+        final EasyWicketTester tester = showTab(2, "Data files (1)");
         tester.clickLink("tabs:panel:explorer.message.permission.button");
         tester.dumpPage();
         tester.assertRenderedPage(PermissionRequestPage.class);
     }
 
     @Test
-    public void permissionsTabVisible()
+    public void permissionsTabVisible() throws Exception
     {
         mockPermissionSequenceList();
         isDepositor = true;
@@ -153,16 +182,26 @@ public class DatasetPermissionTest
     }
 
     @Test
-    public void permissionsTab()
+    public void permissionsTab() throws Exception
     {
         preparePermissionTab();
         final EasyWicketTester tester = showTab(4, "Permissions (1 new / 1)");
         tester.dumpPage();
         tester.debugComponentTrees();
+
+        inMemoryDB.close();
     }
 
     @Test
-    public void replyPermission()
+    public void fileExplorerTab() throws Exception
+    {
+        preparePermissionTab();
+        final EasyWicketTester tester = showTab(2, "Data files (1)");
+        tester.dumpPage();
+    }
+
+    @Test
+    public void replyPermission() throws Exception
     {
         preparePermissionTab();
         expect(permissionSequenceList.getPermissionReply(isA(String.class))).andStubReturn(new PermissionReplyModel("id"));
@@ -173,18 +212,18 @@ public class DatasetPermissionTest
     }
 
     @Test
-    public void isDenied()
+    public void isDenied() throws Exception
     {
         isDepositor = false;
         expectAuthzMessages(MSG_NO_FILES, MSG_PERMISSION, MSG_PERMISSION_DENIED);
         expectLastStateChange("2014-04-14");
         expectNoPermissionSequenceList();
 
-        showTab(2, "Data files (0)");
+        showTab(2, "Data files (1)");
     }
 
     @Test
-    public void viewDenied()
+    public void viewDenied() throws Exception
     {
         isDepositor = false;
         expectAuthzMessages(MSG_NO_FILES, MSG_PERMISSION, MSG_PERMISSION_DENIED);
@@ -195,7 +234,7 @@ public class DatasetPermissionTest
         expect(permissionSequence.getReplyText()).andStubReturn("simply denied");
         expectNoPermissionSequenceList();
 
-        final EasyWicketTester tester = showTab(2, "Data files (0)");
+        final EasyWicketTester tester = showTab(2, "Data files (1)");
         tester.clickLink("tabs:panel:explorer.message.permission.denied.button");
         tester.dumpPage();
         tester.assertRenderedPage(PermissionRequestPage.class);

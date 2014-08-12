@@ -35,6 +35,7 @@ import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.pf.language.emd.types.BasicString;
 
 import org.easymock.EasyMock;
+import org.junit.AfterClass;
 import org.junit.Test;
 
 public class DatasetImplTest
@@ -167,6 +168,14 @@ public class DatasetImplTest
         assertEquals(2, relations.size());
 
         EasyMock.verify(dmoCollectionAccess);
+    }
+
+    @AfterClass
+    public static void afterClass()
+    {
+        // the next test class should not inherit from this one
+        Data data = new Data();
+        data.setCollectionAccess(null);
     }
 
     private void printRelations(Relations relations)

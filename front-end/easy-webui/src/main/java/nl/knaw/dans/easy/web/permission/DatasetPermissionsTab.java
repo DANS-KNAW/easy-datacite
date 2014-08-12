@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.knaw.dans.common.wicket.components.DateTimeLabel;
+import nl.knaw.dans.easy.data.Data;
+import nl.knaw.dans.easy.data.store.StoreAccessException;
+import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
+import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.PermissionSequence;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
@@ -13,7 +17,6 @@ import nl.knaw.dans.easy.web.EasySession;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.template.AbstractDatasetModelPanel;
 import nl.knaw.dans.easy.web.template.AbstractEasyPage;
-import nl.knaw.dans.easy.web.template.Style;
 
 import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulator;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.DefaultDataTable;
@@ -39,13 +42,6 @@ public class DatasetPermissionsTab extends AbstractDatasetModelPanel
     // workaround
     // PBoon: use 50 for now
     public static int MAX_REQUESTS_IN_LIST = 50;
-
-    public static boolean required(final EasyUser user, final Dataset dataset)
-    {
-        if (dataset == null || user == null || !user.isActive() || user.isAnonymous())
-            return false;
-        return (dataset.hasDepositor(user) || user.hasRole(Role.ARCHIVIST)) && dataset.hasPermissionRestrictedItems();
-    }
 
     public DatasetPermissionsTab(final String panelId, final DatasetModel datasetModel, final EasyUser user, final AbstractEasyPage currentPage)
     {

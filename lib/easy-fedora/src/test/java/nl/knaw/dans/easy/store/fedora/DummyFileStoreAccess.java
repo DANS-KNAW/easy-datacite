@@ -16,6 +16,7 @@ import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.data.store.FileStoreAccess;
 import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.data.store.StoreException;
+import nl.knaw.dans.easy.domain.dataset.item.AbstractItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemAccessibleTo;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemCreatorRole;
@@ -28,6 +29,7 @@ import nl.knaw.dans.easy.domain.exceptions.DomainException;
 import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.FileItem;
+import nl.knaw.dans.easy.domain.model.FileItemVOAttribute;
 import nl.knaw.dans.easy.domain.model.FolderItem;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.user.CreatorRole;
@@ -209,7 +211,9 @@ public class DummyFileStoreAccess implements FileStoreAccess
         {
             try
             {
-                result = (List<ItemVO>) filters.apply(result);
+                @SuppressWarnings("unchecked")
+                List<ItemVO> list = (List<ItemVO>) filters.apply(result);
+                result = list;
             }
             catch (final DomainException e)
             {
@@ -349,4 +353,37 @@ public class DummyFileStoreAccess implements FileStoreAccess
         throw new UnsupportedOperationException("This is a dummy, dummy.");
     }
 
+    @Override
+    public int getTotalMemberCount(DmoStoreId storeId, Class<? extends AbstractItemVO> memberClass, FileItemVOAttribute... paramValue)
+            throws StoreAccessException
+    {
+        throw new UnsupportedOperationException("This is a dummy, dummy.");
+    }
+
+    @Override
+    public boolean hasMember(DmoStoreId storeId, Class<? extends AbstractItemVO> memberClass, FileItemVOAttribute... fieldValue) throws StoreAccessException
+    {
+        throw new UnsupportedOperationException("This is a dummy, dummy.");
+    }
+
+    @Override
+    public int getDirectMemberCount(DmoStoreId storeId, Class<? extends AbstractItemVO> memberClass, FileItemVOAttribute... fieldValue)
+            throws StoreAccessException
+    {
+        throw new UnsupportedOperationException("This is a dummy, dummy.");
+    }
+
+    @Override
+    public boolean hasDirectMember(DmoStoreId storeId, Class<? extends AbstractItemVO> memberClass, FileItemVOAttribute... fieldValue)
+            throws StoreAccessException
+    {
+        throw new UnsupportedOperationException("This is a dummy, dummy.");
+    }
+
+    @Override
+    public boolean hasVisibleFiles(DmoStoreId storeId, boolean userIsKnown, boolean userHasGroupAccess, boolean userHasPermissionAccess)
+            throws StoreAccessException
+    {
+        throw new UnsupportedOperationException("This is a dummy, dummy.");
+    }
 }

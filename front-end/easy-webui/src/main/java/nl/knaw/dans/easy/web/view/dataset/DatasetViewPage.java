@@ -9,8 +9,12 @@ import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.service.exceptions.TemporaryUnAvailableException;
 import nl.knaw.dans.common.wicket.components.SimpleTab;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
+import nl.knaw.dans.easy.data.store.FileStoreAccess;
+import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
+import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
+import nl.knaw.dans.easy.domain.model.FileItemVOAttribute;
 import nl.knaw.dans.easy.domain.model.PermissionSequence.State;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
@@ -124,6 +128,9 @@ public class DatasetViewPage extends AbstractEasyNavPage
 
     @SpringBean(name = "itemService")
     private ItemService itemService;
+
+    @SpringBean(name = "fileStoreAccess")
+    private FileStoreAccess fileStoreAccess;
 
     private final Mode mode;
 
@@ -313,7 +320,7 @@ public class DatasetViewPage extends AbstractEasyNavPage
             @Override
             public void onClick()
             {
-                Page page = DatasetViewPage.this.getEasySession().getRedirectPage(DatasetViewPage.class);
+                Page page = DatasetViewPage.getEasySession().getRedirectPage(DatasetViewPage.class);
                 if (page != null && page instanceof AbstractEasyPage)
                 {
                     ((AbstractEasyPage) page).refresh();
@@ -327,7 +334,7 @@ public class DatasetViewPage extends AbstractEasyNavPage
             @Override
             public boolean isVisible()
             {
-                return DatasetViewPage.this.getEasySession().hasRedirectPage(DatasetViewPage.class);
+                return DatasetViewPage.getEasySession().hasRedirectPage(DatasetViewPage.class);
             }
         };
         add(backToListLink);
@@ -432,7 +439,32 @@ public class DatasetViewPage extends AbstractEasyNavPage
 
     private SimpleTab getDataFilesTab()
     {
-        StringResourceModel titleModel = new StringResourceModel(RI_TAB_FILEEXPLORER, null, new Object[] {new Model<String>()
+        return new SimpleTab(createTitleModel())
+        {
+            private static final long serialVersionUID = -1312420240988923158L;
+
+            @Override
+            public Panel getPanel(final String panelId)
+            {
+                try
+                {
+                    return new DataFilesPanel(panelId, datasetModel);
+                }
+                catch (StoreAccessException e)
+                {
+                    warningMessage(EasyResources.INTERNAL_ERROR);
+                    InfoPage infoPage = new InfoPage(EasyWicketApplication.getProperty(EasyResources.INTERNAL_ERROR));
+                    infoPage.setCallingClass(DatasetViewPage.class);
+                    throw new RestartResponseException(infoPage);
+                }
+            }
+
+        };
+    }
+
+    private StringResourceModel createTitleModel()
+    {
+        return new StringResourceModel(RI_TAB_FILEEXPLORER, null, new Object[] {new Model<String>()
         {
             private static final long serialVersionUID = -7961575318107788527L;
 
@@ -446,38 +478,40 @@ public class DatasetViewPage extends AbstractEasyNavPage
                 // i.e. add a method getVisibleFileCount(EasyUser user)
                 EasyUser user = EasySession.getSessionUser();
                 int count = 0;
-                if (user.isAnonymous())
+                try
                 {
-                    count = getDataset().getVisibleToFileCount(VisibleTo.ANONYMOUS);
-                }
-                else if (user.hasRole(Role.ARCHIVIST) || getDataset().hasDepositor(user))
-                {
-                    count = getDataset().getTotalFileCount();
-                }
-                else
-                {
-                    count = getDataset().getVisibleToFileCount(VisibleTo.ANONYMOUS) + getDataset().getVisibleToFileCount(VisibleTo.KNOWN);
+                    if (user.isAnonymous())
+                    {
+                        count = getFileCount(VisibleTo.ANONYMOUS);
+                    }
+                    else if (user.hasRole(Role.ARCHIVIST) || getDataset().hasDepositor(user))
+                    {
+                        count = getFileCount();
+                    }
+                    else
+                    {
+                        count = getFileCount(VisibleTo.ANONYMOUS) + getFileCount(VisibleTo.KNOWN);
 
-                    if (getDataset().hasPermissionRestrictedItems() && getDataset().isPermissionGrantedTo(user))
-                        count += getDataset().getVisibleToFileCount(VisibleTo.RESTRICTED_REQUEST);
+                        if (getDataset().isPermissionGrantedTo(user))
+                            count += getFileCount(VisibleTo.RESTRICTED_REQUEST);
 
-                    if (getDataset().hasGroupRestrictedItems() && getDataset().isGroupAccessGrantedTo(user))
-                        count += getDataset().getVisibleToFileCount(VisibleTo.RESTRICTED_GROUP);
+                        if (getDataset().isGroupAccessGrantedTo(user))
+                            count += getFileCount(VisibleTo.RESTRICTED_GROUP);
+                    }
+                }
+                catch (StoreAccessException e)
+                {
+                    logger.error("unable to count visible files", e);
+                    return "?";
                 }
                 return "" + count;
             }
         }});
-        return new SimpleTab(titleModel)
-        {
-            private static final long serialVersionUID = -1312420240988923158L;
+    }
 
-            @Override
-            public Panel getPanel(final String panelId)
-            {
-                return new DataFilesPanel(panelId, datasetModel);
-            }
-
-        };
+    private int getFileCount(FileItemVOAttribute... restriction) throws StoreAccessException
+    {
+        return fileStoreAccess.getTotalMemberCount(getDataset().getDmoStoreId(), FileItemVO.class, restriction);
     }
 
     private SimpleTab getDescriptionTab()
@@ -545,7 +579,20 @@ public class DatasetViewPage extends AbstractEasyNavPage
             @Override
             public boolean isVisible()
             {
-                return DatasetPermissionsTab.required(getSessionUser(), getDataset());
+                try
+                {
+                    if (getDataset() == null || getSessionUser() == null)
+                        return false;
+                    boolean powerUser = getDataset().hasDepositor(getSessionUser()) || getSessionUser().hasRole(Role.ARCHIVIST);
+                    return powerUser && fileStoreAccess.hasMember(getDataset().getDmoStoreId(), FileItemVO.class, AccessibleTo.RESTRICTED_REQUEST);
+                }
+                catch (StoreAccessException e)
+                {
+                    warningMessage(EasyResources.INTERNAL_ERROR);
+                    InfoPage infoPage = new InfoPage(EasyWicketApplication.getProperty(EasyResources.INTERNAL_ERROR));
+                    infoPage.setCallingClass(DatasetViewPage.class);
+                    throw new RestartResponseException(infoPage);
+                }
             }
 
         };

@@ -21,6 +21,7 @@ import nl.knaw.dans.easy.xml.ResourceMetadataList;
 import org.dom4j.Element;
 import org.dom4j.tree.DefaultElement;
 import org.easymock.EasyMock;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -41,6 +42,13 @@ public class FileItemMetadataUpdateWorkerTest
         MOCK_FSACCES = EasyMock.createMock(FileStoreAccess.class);
         MOCK_FILE_ITEM = EasyMock.createMock(FileItem.class);
         new Data().setFileStoreAccess(MOCK_FSACCES);
+    }
+
+    @AfterClass
+    public static void afterClass()
+    {
+        // the next test class should not inherit from this one
+        new Data().setFileStoreAccess(null);
     }
 
     @Test

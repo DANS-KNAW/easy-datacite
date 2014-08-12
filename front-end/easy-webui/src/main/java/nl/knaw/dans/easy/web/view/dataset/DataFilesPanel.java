@@ -5,11 +5,15 @@ import java.util.List;
 
 import nl.knaw.dans.common.lang.dataset.DatasetState;
 import nl.knaw.dans.common.lang.security.authz.AuthzMessage;
+import nl.knaw.dans.easy.data.Data;
+import nl.knaw.dans.easy.data.store.FileStoreAccess;
+import nl.knaw.dans.easy.data.store.StoreAccessException;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.PermissionSequence;
 import nl.knaw.dans.easy.domain.model.PermissionSequenceList;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
+import nl.knaw.dans.easy.domain.user.EasyUserAnonymous;
 import nl.knaw.dans.easy.security.authz.AbstractDatasetAutzStrategy;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 import nl.knaw.dans.easy.web.fileexplorer.FileExplorer;
@@ -25,6 +29,7 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.joda.time.DateTime;
 
 public class DataFilesPanel extends AbstractDatasetModelPanel
@@ -45,7 +50,10 @@ public class DataFilesPanel extends AbstractDatasetModelPanel
         }
     }
 
-    public DataFilesPanel(final String id, final DatasetModel datasetModel)
+    @SpringBean(name = "fileStoreAccess")
+    private FileStoreAccess fileStoreAccess;
+
+    public DataFilesPanel(final String id, final DatasetModel datasetModel) throws StoreAccessException
     {
         /* sits on a tab created in on onBeforeRenderer, so no onBeforeRenderer needed here */
         super(id, datasetModel);
@@ -54,7 +62,11 @@ public class DataFilesPanel extends AbstractDatasetModelPanel
         final Dataset dataset = getDataset();
         final boolean seesAll = seesAll(dataset, user);
 
-        final boolean showFileExplorer = seesAll || dataset.hasVisibleItems(user);
+        boolean userIsKnown = user != null && !user.equals(EasyUserAnonymous.getInstance());
+        boolean userHasGroupAccess = userIsKnown && dataset.isGroupAccessGrantedTo(user);
+        boolean userHasPermissionAccess = userIsKnown && dataset.isPermissionGrantedTo(user);
+        final boolean showFileExplorer = seesAll
+                || fileStoreAccess.hasVisibleFiles(dataset.getDmoStoreId(), userIsKnown, userHasGroupAccess, userHasPermissionAccess);
 
         final Model<? extends Object> statusDateModel = getPermissionStateDateModel(dataset, user);
 

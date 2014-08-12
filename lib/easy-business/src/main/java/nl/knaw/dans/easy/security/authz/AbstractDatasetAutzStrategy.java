@@ -3,17 +3,27 @@ package nl.knaw.dans.easy.security.authz;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nl.knaw.dans.common.lang.dataset.AccessCategory;
 import nl.knaw.dans.common.lang.dataset.DatasetState;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.security.authz.AuthzMessage;
 import nl.knaw.dans.common.lang.security.authz.AuthzStrategy;
 import nl.knaw.dans.common.lang.user.User;
+import nl.knaw.dans.easy.data.Data;
+import nl.knaw.dans.easy.data.store.FileStoreAccess;
+import nl.knaw.dans.easy.data.store.StoreAccessException;
+import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.exceptions.AnonymousUserException;
+import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.PermissionSequence.State;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.domain.model.user.Group;
+import nl.knaw.dans.easy.domain.user.EasyUserAnonymous;
 import nl.knaw.dans.easy.domain.user.GroupImpl;
 import nl.knaw.dans.easy.security.And;
 import nl.knaw.dans.easy.security.ContextParameters;
@@ -27,6 +37,7 @@ import nl.knaw.dans.easy.security.SecurityOfficer;
 public abstract class AbstractDatasetAutzStrategy implements AuthzStrategy
 {
     private static final long serialVersionUID = -2767729708349822038L;
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractDatasetAutzStrategy.class);
 
     public static final String SM_YES = "dataset.authzstrategy.sm.yes";
     public static final String SM_LOGIN = "dataset.authzstrategy.sm.login";
@@ -309,7 +320,28 @@ public abstract class AbstractDatasetAutzStrategy implements AuthzStrategy
             return messages;
         }
 
-        if (!dataset.hasVisibleItems(easyUser))
+        boolean datasetHasVisibleItems = false;
+        boolean datasetHasPermissionRestrictedItems = false;
+        boolean datasetHasGroupRestrictedItems = false;
+        try
+        {
+            FileStoreAccess fileStoreAccess = Data.getFileStoreAccess();
+            DmoStoreId datasetStoreId = dataset.getDmoStoreId();
+            boolean userHasPermission = dataset.isPermissionGrantedTo(easyUser);
+            boolean userHasGroupAccess = dataset.isGroupAccessGrantedTo(easyUser);
+
+            datasetHasVisibleItems = fileStoreAccess.hasVisibleFiles(datasetStoreId, !easyUser.isAnonymous(), userHasGroupAccess, userHasPermission);
+            // what is the use of examining the following when the previous is false?
+            // the rest of the method used not bother about that, but now it are expensive queries
+            datasetHasPermissionRestrictedItems = fileStoreAccess.hasMember(datasetStoreId, FileItemVO.class, AccessibleTo.RESTRICTED_REQUEST);
+            datasetHasGroupRestrictedItems = fileStoreAccess.hasMember(datasetStoreId, FileItemVO.class, AccessibleTo.RESTRICTED_GROUP);
+        }
+        catch (StoreAccessException e1)
+        {
+            LOGGER.error("can't establish file permissions", e1);
+        }
+
+        if (!datasetHasVisibleItems)
         {
             // No visible files.
             messages.add(new AuthzMessage(MSG_NO_FILES));
@@ -327,7 +359,7 @@ public abstract class AbstractDatasetAutzStrategy implements AuthzStrategy
             messages.add(new AuthzMessage(MSG_EMBARGO));
         }
 
-        if (dataset.hasPermissionRestrictedItems())
+        if (datasetHasPermissionRestrictedItems)
         {
             // You need to have special permission to be able to access (some of) the files.
             messages.add(new AuthzMessage(MSG_PERMISSION));
@@ -385,7 +417,7 @@ public abstract class AbstractDatasetAutzStrategy implements AuthzStrategy
 
         }
 
-        if (dataset.hasGroupRestrictedItems() && !easyUser.isMemberOf(new GroupImpl(Group.ID_ARCHEOLOGY)))
+        if (datasetHasGroupRestrictedItems && !easyUser.isMemberOf(new GroupImpl(Group.ID_ARCHEOLOGY)))
         {
             // You need to be a '<group>' group member to be able to access (some of) the files.
             // Please contact <group e-mail address>.
