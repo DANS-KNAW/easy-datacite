@@ -9,6 +9,7 @@
 		<relativePath>../../lib/easy-prototype</relativePath>
 	</parent>
 	<artifactId>dans-jibx</artifactId>
+    <version>${easy.version}</version>
 	<name>DEPPRECATED DANS JiBX Utilities</name>
 	<description>JiBX utility library</description>
 	<dependencies>

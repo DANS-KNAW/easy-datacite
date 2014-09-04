@@ -9,6 +9,7 @@
 		<relativePath>../easy-prototype</relativePath>
 	</parent>
 	<artifactId>easy-fedora</artifactId>
+    <version>${easy.version}</version>
 	<name>EASY Fedora Library</name>
 	<properties>
 		<hibernate.version>3.2.6.ga</hibernate.version>

@@ -9,6 +9,7 @@
 		<relativePath>../../lib/easy-prototype</relativePath>		
 	</parent>
 	<artifactId>store</artifactId>
+    <version>${easy.version}</version>
 	<name>DEPPRECATED Store</name>
 	<dependencies>
 		<dependency>

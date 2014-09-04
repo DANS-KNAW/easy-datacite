@@ -9,7 +9,7 @@
 		<relativePath>../easy-prototype</relativePath>
 	</parent>	
 	<artifactId>emd</artifactId>
-	<packaging>jar</packaging>
+    <version>${easy.version}</version>
 	<name>EASY Metadata Library (EMD)</name>
 	<dependencies>
 		<dependency>

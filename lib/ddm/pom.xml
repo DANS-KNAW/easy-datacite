@@ -9,6 +9,7 @@
 		<relativePath>../easy-prototype</relativePath>
 	</parent>
 	<artifactId>ddm</artifactId>
+    <version>${easy.version}</version>
 	<name>Dans Dataset Metadata Library</name>
 	<dependencies>
 		<dependency>

@@ -9,7 +9,7 @@
 		<relativePath>../../lib/easy-prototype</relativePath>
 	</parent>
 	<artifactId>easy-proai</artifactId>
-	<version>1.2</version>
+	<version>${easy.version}</version>
 	<packaging>war</packaging>
 	<name>EASY Customized PrOAI Service</name>
 	<description>Customized version of PrOAI 1.2.2.c for EASY</description>

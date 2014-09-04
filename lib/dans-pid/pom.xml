@@ -9,6 +9,7 @@
 		<relativePath>../easy-prototype</relativePath>
 	</parent>
 	<artifactId>dans-pid</artifactId>
+    <version>${easy.version}</version>
 	<name>DANS PID Library</name>
 	<dependencies>
 		<dependency>

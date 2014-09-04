@@ -9,6 +9,7 @@
 		<relativePath>../../lib/easy-prototype</relativePath>		
 	</parent>
 	<artifactId>idmo-collections</artifactId>
+    <version>${easy.version}</version>
 	<name>DEPPRECATED DMO Collections Interfaces</name>
 	<dependencies>
 		<dependency>

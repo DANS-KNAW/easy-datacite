@@ -10,7 +10,7 @@
 	</parent>
 	<artifactId>easy-sword</artifactId>
 	<name>EASY SWORD Service</name>
-	<version>2.9-beta-1</version>
+	<version>${easy.version}</version>
 	<packaging>war</packaging>
 	<properties>
 		<sword-common.version>1.1</sword-common.version>

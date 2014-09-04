@@ -9,6 +9,7 @@
 		<relativePath>../easy-prototype</relativePath>
 	</parent>
 	<artifactId>dans-wicket</artifactId>
+    <version>${easy.version}</version>
 	<name>DANS Wicket Library</name>
 	<properties>
 		<wicket.version>1.4.23</wicket.version>

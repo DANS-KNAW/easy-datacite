@@ -9,6 +9,7 @@
 		<relativePath>../easy-prototype</relativePath>		
 	</parent>
 	<artifactId>xml</artifactId>
+    <version>${easy.version}</version>
 	<name>XML Utilities Library</name>
 	<dependencies>
 		<dependency>
