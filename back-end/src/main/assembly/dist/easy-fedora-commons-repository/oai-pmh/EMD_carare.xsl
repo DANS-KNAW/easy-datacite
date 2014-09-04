@@ -186,8 +186,7 @@
               </car:subject>
             </xsl:if>
           </xsl:for-each>
-          
-          
+                    
           <xsl:variable name="ind" select="emd:subject/dc:subject[@eas:scheme=&apos;ABR&apos; and (substring(.,1,2)=&apos;EI&apos; or substring(.,1,2)=&apos;EG&apos;)]"></xsl:variable>
           <xsl:if test="$ind">
             <car:subject>INDUSTRIAL</car:subject>
@@ -313,7 +312,7 @@
               </car:publisher>
             </xsl:for-each>
             <xsl:if test="not (emd:publisher/dc:publisher)">
-              <xsl:for-each select="emd:rights/dc:rights">
+              <xsl:for-each select="emd:rights/dcterms:rightsHolder">
                 <car:publisher>
                   <xsl:value-of select="."></xsl:value-of>
                 </car:publisher>
@@ -411,12 +410,12 @@
           </xsl:for-each>
           <car:rights>
             <car:copyright>
-              <xsl:for-each select="emd:rights/dc:rights">
+              <xsl:for-each select="emd:rights/dcterms:rightsHolder">
                 <car:rightsHolder>
                   <xsl:value-of select="."></xsl:value-of>
                 </car:rightsHolder>
               </xsl:for-each>
-              <xsl:if test="not (emd:rights/dc:rights)">
+              <xsl:if test="not (emd:rights/dcterms:rightsHolder)">
                 <xsl:for-each select="emd:publisher/dc:publisher">
                   <car:rightsHolder>
                     <xsl:value-of select="."></xsl:value-of>
