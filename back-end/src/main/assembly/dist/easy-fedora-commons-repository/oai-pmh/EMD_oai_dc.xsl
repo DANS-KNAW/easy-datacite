@@ -453,6 +453,9 @@
             <xsl:when test="@eas:scheme = 'eDNA-project'">
                 <xsl:value-of select="concat('eDNA-project=', .)"/>
             </xsl:when>
+            <xsl:when test="@eas:scheme = 'DMO_ID'">
+                <xsl:value-of select="concat('https://easy.dans.knaw.nl/ui/datasets/id/', .)"/>
+            </xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="."/>
             </xsl:otherwise>
