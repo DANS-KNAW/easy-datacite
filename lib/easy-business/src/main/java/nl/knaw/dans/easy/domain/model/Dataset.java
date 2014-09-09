@@ -20,7 +20,7 @@ import org.joda.time.DateTime;
 
 public interface Dataset extends DatasetItemContainer
 {
-    AccessCategory DEFAULT_ACCESS_CATEGORY = AccessCategory.OPEN_ACCESS;
+    AccessCategory DEFAULT_ACCESS_CATEGORY = AccessCategory.OPEN_ACCESS_FOR_REGISTERED_USERS;
 
     String NAME_SPACE_VALUE = "easy-dataset";
 

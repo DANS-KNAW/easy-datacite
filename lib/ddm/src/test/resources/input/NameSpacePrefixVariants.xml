@@ -4,13 +4,13 @@
 	xmlns:xdcx='http://easy.dans.knaw.nl/schemas/dcx/' xmlns:xdcx-dai='http://easy.dans.knaw.nl/schemas/dcx/dai/'
 	xmlns:xddm='http://easy.dans.knaw.nl/schemas/md/ddm/' xmlns:xdcterms='http://purl.org/dc/terms/'
 	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-	xsi:schemaLocation='http://easy.dans.knaw.nl/schemas/md/ddm/ http://easy.dans.knaw.nl/schemas/md/2012/11/ddm.xsd'>
+	xsi:schemaLocation='http://easy.dans.knaw.nl/schemas/md/ddm/ http://easy.dans.knaw.nl/schemas/md/2014/09/ddm.xsd'>
 	<xddm:profile>
 		<xdc:title>fabeltjeskrant</xdc:title>
 		<xdcterms:description>tv serie</xdcterms:description>
 		<xdc:creator>meneer de uil</xdc:creator>
 		<xddm:created>2013</xddm:created>
 		<xddm:audience>D41500</xddm:audience>
-		<xddm:accessRights>OPEN_ACCESS</xddm:accessRights>
+		<xddm:accessRights>OPEN_ACCESS_FOR_REGISTERED_USERS</xddm:accessRights>
 	</xddm:profile>
 </xddm:DDM>

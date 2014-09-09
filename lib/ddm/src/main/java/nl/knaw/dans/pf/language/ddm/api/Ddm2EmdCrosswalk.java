@@ -9,6 +9,7 @@ import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.pf.language.xml.crosswalk.CrosswalkException;
 import nl.knaw.dans.pf.language.xml.crosswalk.Crosswalker;
 import nl.knaw.dans.pf.language.xml.exc.XMLSerializationException;
+import nl.knaw.dans.pf.language.xml.validation.AbstractValidator2;
 import nl.knaw.dans.pf.language.xml.validation.XMLErrorHandler;
 
 import org.slf4j.Logger;
@@ -20,10 +21,25 @@ public class Ddm2EmdCrosswalk extends Crosswalker<EasyMetadata>
 {
     private static final Logger logger = LoggerFactory.getLogger(Ddm2EmdCrosswalk.class);
 
+    private AbstractValidator2 ddmValidator;
+
     /** Creates an instance. */
     public Ddm2EmdCrosswalk()
     {
         super(Ddm2EmdHandlerMap.getInstance());
+        this.ddmValidator = new DDMValidator();
+    }
+
+    /**
+     * Creates an instance with a non-default validator.
+     * 
+     * @param ddmValidator
+     *        The validator to use
+     */
+    public Ddm2EmdCrosswalk(AbstractValidator2 ddmValidator)
+    {
+        super(Ddm2EmdHandlerMap.getInstance());
+        this.ddmValidator = ddmValidator;
     }
 
     /**
@@ -36,7 +52,7 @@ public class Ddm2EmdCrosswalk extends Crosswalker<EasyMetadata>
      */
     public EasyMetadata createFrom(final File file) throws CrosswalkException
     {
-        return validateEMD(walk(DDMValidator.instance(), file, newTarget()));
+        return validateEMD(walk(ddmValidator, file, newTarget()));
     }
 
     /**
@@ -62,7 +78,7 @@ public class Ddm2EmdCrosswalk extends Crosswalker<EasyMetadata>
      */
     public EasyMetadata createFrom(final String xml) throws CrosswalkException
     {
-        return validateEMD(walk(DDMValidator.instance(), xml, newTarget()));
+        return validateEMD(walk(ddmValidator, xml, newTarget()));
     }
 
     /**

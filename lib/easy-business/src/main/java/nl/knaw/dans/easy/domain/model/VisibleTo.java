@@ -28,7 +28,7 @@ public enum VisibleTo
         {
             vt = ANONYMOUS;
         }
-        else if (AccessCategory.OPEN_ACCESS.equals(accessCategory))
+        else if (AccessCategory.OPEN_ACCESS_FOR_REGISTERED_USERS.equals(accessCategory))
         {
             vt = KNOWN;
         }
@@ -56,7 +56,7 @@ public enum VisibleTo
         }
         else if (KNOWN.equals(visibleTo))
         {
-            ac = AccessCategory.OPEN_ACCESS;
+            ac = AccessCategory.OPEN_ACCESS_FOR_REGISTERED_USERS;
         }
         else if (RESTRICTED_GROUP.equals(visibleTo))
         {

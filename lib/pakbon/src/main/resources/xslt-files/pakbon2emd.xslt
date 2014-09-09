@@ -134,17 +134,20 @@
         <!-- ABR - complextype -->
         <xsl:for-each select="sikb:vindplaats/sikb:vindplaatstype">
           <xsl:variable name="code" select="."/>
-          <xsl:variable name="waarde" select="$enum-doc/xsd:schema/xsd:simpleType[@name='ComplextypeValueType']/xsd:restriction/xsd:enumeration[@value=$code]/xsd:annotation/xsd:documentation"></xsl:variable>
-          <xsl:choose>
-            <xsl:when test="$waarde!=''">
-              <dc:subject eas:scheme="ABR" eas:schemeId="archaeology.dc.subject">
-                <xsl:value-of select="$code"/>
-              </dc:subject>
-            </xsl:when>
-            <xsl:otherwise>
-              <xsl:element name="dc:subject"><xsl:value-of select="$code"/></xsl:element>
-            </xsl:otherwise>
-          </xsl:choose>
+          <!-- issue EASY-747, don't map 'unknown' with code XXX --> 
+          <xsl:if test="not($code='XXX')">
+            <xsl:variable name="waarde" select="$enum-doc/xsd:schema/xsd:simpleType[@name='ComplextypeValueType']/xsd:restriction/xsd:enumeration[@value=$code]/xsd:annotation/xsd:documentation"></xsl:variable>
+            <xsl:choose>
+              <xsl:when test="$waarde!=''">
+                <dc:subject eas:scheme="ABR" eas:schemeId="archaeology.dc.subject">
+                  <xsl:value-of select="$code"/>
+                </dc:subject>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:element name="dc:subject"><xsl:value-of select="$code"/></xsl:element>
+              </xsl:otherwise>
+            </xsl:choose>
+          </xsl:if>
         </xsl:for-each>
         
       </emd:subject>

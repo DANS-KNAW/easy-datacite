@@ -53,7 +53,7 @@
             <xs:enumeration value="ANONYMOUS_ACCESS"/>
 
             <!-- A known user is enabled, must agree with license when downloading. -->
-            <xs:enumeration value="OPEN_ACCESS"/>
+            <xs:enumeration value="OPEN_ACCESS_FOR_REGISTERED_USERS"/>
 
             <!-- Members of a (specific) group are enabled, must agree with license when downloading. -->
             <xs:enumeration value="GROUP_ACCESS"/>

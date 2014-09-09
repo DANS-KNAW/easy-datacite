@@ -63,7 +63,7 @@ public class EasyItemContainerAuthzStrategyTest
 
         List<AccessCategory> accessCategories = new ArrayList<AccessCategory>();
         accessCategories.add(AccessCategory.ANONYMOUS_ACCESS);
-        accessCategories.add(AccessCategory.OPEN_ACCESS);
+        accessCategories.add(AccessCategory.OPEN_ACCESS_FOR_REGISTERED_USERS);
 
         // constructor
         EasyMock.expect(dataset.getDmoStoreId()).andReturn(new DmoStoreId("dataset:1"));

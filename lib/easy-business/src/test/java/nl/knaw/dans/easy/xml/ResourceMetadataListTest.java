@@ -49,7 +49,7 @@ public class ResourceMetadataListTest
         ResourceMetadataList rml = new ResourceMetadataList();
 
         ResourceMetadata rm = new ResourceMetadata("foo/bar/test.txt");
-        rm.setCategoryDiscover(AccessCategory.OPEN_ACCESS);
+        rm.setCategoryDiscover(AccessCategory.OPEN_ACCESS_FOR_REGISTERED_USERS);
         rm.setCategoryRead(AccessCategory.ANONYMOUS_ACCESS);
 
         AdditionalMetadata addmd = rm.getAdditionalMetadata();

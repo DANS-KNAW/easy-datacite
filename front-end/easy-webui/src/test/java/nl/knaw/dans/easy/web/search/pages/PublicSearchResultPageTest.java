@@ -134,7 +134,7 @@ public class PublicSearchResultPageTest
         datasetSB.setState(DatasetState.PUBLISHED);
         datasetSB.setDcTitle(createList(string));
         datasetSB.setDcCreator(createList("mocked creator"));
-        datasetSB.setAccessCategory(AccessCategory.OPEN_ACCESS);
+        datasetSB.setAccessCategory(AccessCategory.OPEN_ACCESS_FOR_REGISTERED_USERS);
         datasetSB.setAudience(createList(DisciplineContainer.NAMESPACE + ":1"));
         datasetSB.setDateSubmitted(new DateTime("2014-05-01"));
         return datasetSB;
@@ -175,7 +175,7 @@ public class PublicSearchResultPageTest
         final ArrayList<FacetValue<?>> audienceFacets = new ArrayList<FacetValue<?>>();
         final CollapsedFacetValue<AccessCategory> facetValue = new CollapsedFacetValue<AccessCategory>();
         facetValue.setCount(count);
-        facetValue.setValue(AccessCategory.OPEN_ACCESS);
+        facetValue.setValue(AccessCategory.OPEN_ACCESS_FOR_REGISTERED_USERS);
         audienceFacets.add(facetValue);
         return audienceFacets;
     }
@@ -191,7 +191,7 @@ public class PublicSearchResultPageTest
         tester.assertRenderedPage(PublicSearchResultPage.class);
         tester.assertLabelContains("searchResultPanel:resultMessage", "<b>2</b>");
         final String hitsPath = "searchResultPanel:searchHits:";
-        tester.assertLabel(FACET_VALUE_LINK + ":facetValue", "Open");
+        tester.assertLabel(FACET_VALUE_LINK + ":facetValue", "Open for registered users");
         tester.assertLabel(FACET_VALUE_LINK + ":facetCount", "2");
         tester.assertLabel(hitsPath + "0:searchHit:showDataset:disciplines:0:disciplineName", "mocked Discipline");
         tester.assertLabel(hitsPath + "0:searchHit:showDataset:title", "mocked title 1");

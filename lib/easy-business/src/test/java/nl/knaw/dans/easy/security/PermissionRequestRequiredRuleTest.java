@@ -69,7 +69,7 @@ public class PermissionRequestRequiredRuleTest
     private Dataset datasetWithOpenAccess()
     {
         final DatasetImpl dataset = new DatasetImpl(Dataset.NAMESPACE + "-dummy:1");
-        assertThat(dataset.getAccessCategory(), is(AccessCategory.OPEN_ACCESS));
+        assertThat(dataset.getAccessCategory(), is(AccessCategory.OPEN_ACCESS_FOR_REGISTERED_USERS));
         return dataset;
     }
 

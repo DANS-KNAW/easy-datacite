@@ -1,7 +1,6 @@
 package nl.knaw.dans.pf.language.ddm.api;
 
 import java.io.File;
-import java.net.URL;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
@@ -24,9 +23,11 @@ public class ValidatorTest
         // https://issues.apache.org/jira/browse/XERCESJ-1130
 
         // Explicitly loading both schemas is working...
+
         Source xmlSource = new StreamSource(new File("src/test/resources/input/spatial.xml"));
-        Source s1 = new StreamSource(new URL("http://easy.dans.knaw.nl/schemas/md/2012/11/ddm.xsd").openStream());
-        Source s2 = new StreamSource(new URL("http://easy.dans.knaw.nl/schemas/dcx/2012/10/dcx-gml.xsd").openStream());
+        // Note that online schemas are under http://easy.dans.knaw.nl/schemas
+        Source s1 = new StreamSource(new File(OfflineDDMValidator.LOCAL_SCHEMA_DIR + OfflineDDMValidator.DDM_xsd));
+        Source s2 = new StreamSource(new File(OfflineDDMValidator.LOCAL_SCHEMA_DIR + OfflineDDMValidator.DCX_GML_xsd));
 
         XMLErrorHandler handler = XMLValidator.validate(xmlSource, s1, s2);
         System.err.println(handler.getMessages());
