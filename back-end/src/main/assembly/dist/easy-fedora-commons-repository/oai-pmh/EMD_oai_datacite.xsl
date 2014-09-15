@@ -58,7 +58,7 @@
         <xsl:apply-templates select="emd:title"/>
         
         <!--  4. publisher -->
-        <xsl:apply-templates select="emd:publisher"/>
+        <xsl:call-template name="publisher"/>
         
         <!--  5. publicationYear -->
         <xsl:call-template name="publication-year"/>
@@ -288,11 +288,11 @@
     <!-- ==================================================== -->
     <!-- dc:publisher to publisher -->
     <!-- ==================================================== -->
-    <xsl:template match="emd:publisher">
+    <xsl:template name="publisher">
         <xsl:element name="publisher">
             <xsl:choose>
-                <xsl:when test="dc:publisher">
-                    <xsl:value-of select="dc:publisher"/>
+                <xsl:when test="emd:publisher/dc:publisher">
+                    <xsl:value-of select="emd:publisher/dc:publisher"/>
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:value-of select="'Data Archiving and Networked Services (DANS)'" />
@@ -305,27 +305,22 @@
     <!-- Publication year -->
     <!-- ==================================================== -->
     <xsl:template name="publication-year">
-        <xsl:variable name="pubYear">
+        <xsl:element name="publicationYear">
             <xsl:choose>
+                <!-- we assume there is only one date available... -->
                 <xsl:when test="emd:date/eas:available != ''">
                     <xsl:variable name="avdate">
                         <xsl:apply-templates select="emd:date/eas:available"/>
                     </xsl:variable>
                     <xsl:value-of select="substring($avdate, 1, 4)"/>
                 </xsl:when>
+                <!-- ... or no date available -->
                 <xsl:otherwise>
                     <!-- pick the date farthest into the future, but not a date modified -->
-                    <xsl:variable name="dates">
-                        <xsl:for-each select="emd:date/eas:*[not(contains(name(),'modified'))]">
-                            <xsl:value-of select="substring(., 1, 4)"/>
-                        </xsl:for-each>
-                    </xsl:variable>
-                    <xsl:value-of select="max($dates)"/>
+                    <xsl:variable name="dates" as="xs:string+" select="emd:date/eas:*[not(contains(name(),'modified'))]"/>
+                    <xsl:value-of select="year-from-dateTime(xs:dateTime(max($dates)))"/>
                 </xsl:otherwise>
             </xsl:choose>
-        </xsl:variable>
-        <xsl:element name="publicationYear">
-            <xsl:value-of select="$pubYear"/>
         </xsl:element>
     </xsl:template>
     
@@ -366,7 +361,7 @@
             </xsl:for-each>
             <xsl:for-each select="eas:modified">
                 <xsl:element name="date">
-                    <xsl:attribute name="dateType" select="'Modified'"/>
+                    <xsl:attribute name="dateType" select="'Updated'"/>
                     <xsl:call-template name="w3cdtfEncoding"/>
                 </xsl:element>
             </xsl:for-each>
