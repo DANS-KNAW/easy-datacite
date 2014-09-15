@@ -24,6 +24,7 @@ import nl.knaw.dans.easy.servicelayer.services.DisciplineCollectionService;
 import nl.knaw.dans.easy.servicelayer.services.Services;
 import nl.knaw.dans.pf.language.ddm.api.Ddm2EmdCrosswalk;
 import nl.knaw.dans.pf.language.ddm.api.Ddm2EmdHandlerMap;
+import nl.knaw.dans.pf.language.ddm.api.OfflineDDMValidator;
 import nl.knaw.dans.pf.language.ddm.handlermaps.NameSpace;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.binding.EmdMarshaller;
@@ -46,7 +47,7 @@ public class DdmEmdDocumentation
 
     private static final String OUTPUT = "target/doc/emd-from-" + INPUT.getName();
 
-    private static final Ddm2EmdCrosswalk crosswalker = new Ddm2EmdCrosswalk();
+    private static final Ddm2EmdCrosswalk crosswalker = new Ddm2EmdCrosswalk(new OfflineDDMValidator());
     private static final EasyUser MOCKED_DEPOSITOR = EasyMock.createMock(EasyUser.class);
     private static final Logger logger = LoggerFactory.getLogger(DdmEmdDocumentation.class);
 

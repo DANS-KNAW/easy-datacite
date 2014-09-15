@@ -596,7 +596,7 @@
         -->
         <xsl:element name="rights">
             <xsl:choose>
-                <xsl:when test=". = 'OPEN_ACCESS'">
+                <xsl:when test=". = 'OPEN_ACCESS_FOR_REGISTERED_USERS'">
                     <xsl:value-of select="'info:eu-repo/semantics/openAccess'"/>
                 </xsl:when>
                 <xsl:when test=". = 'GROUP_ACCESS'">

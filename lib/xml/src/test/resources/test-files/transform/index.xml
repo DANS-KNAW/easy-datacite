@@ -5,7 +5,7 @@
     <type label="main schemas">
         <schemas>
             <schema>
-                <schemaLocation>schemas/md/2012/11/ddm.xsd</schemaLocation>
+                <schemaLocation>schemas/md/2014/09/ddm.xsd</schemaLocation>
                 <prefix>ddm</prefix>
                 <documentation label="generated">docs/ddm/ddm.html</documentation>
 		<documentation label="examples (pdf)">docs/ddm/DDM_description_by_example.pdf</documentation>

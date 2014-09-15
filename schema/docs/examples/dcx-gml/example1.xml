@@ -5,7 +5,7 @@
     xmlns:dct="http://purl.org/dc/terms/"
     xmlns:dcx-gml="http://easy.dans.knaw.nl/schemas/dcx/gml/"
     xsi:schemaLocation=
-    "http://easy.dans.knaw.nl/schemas/md/ddm/ http://easy.dans.knaw.nl/schemas/md/2012/11/ddm.xsd
+    "http://easy.dans.knaw.nl/schemas/md/ddm/ http://easy.dans.knaw.nl/schemas/md/2014/09/ddm.xsd
     http://easy.dans.knaw.nl/schemas/dcx/gml/ http://easy.dans.knaw.nl/schemas/dcx/2012/10/dcx-gml.xsd">
     
     <!-- If you view this example in a browser, click 'page source' to see the namespace declarations. -->
@@ -57,7 +57,7 @@
         <dc:creator></dc:creator>
         <ddm:created>2012</ddm:created>
         <ddm:audience>D24000</ddm:audience>
-        <ddm:accessRights>OPEN_ACCESS</ddm:accessRights>
+        <ddm:accessRights>OPEN_ACCESS_FOR_REGISTERED_USERS</ddm:accessRights>
     </ddm:profile>
 
 </ddm:DDM>

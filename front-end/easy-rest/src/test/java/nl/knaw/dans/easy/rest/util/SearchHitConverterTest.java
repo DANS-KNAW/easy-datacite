@@ -55,7 +55,7 @@ public class SearchHitConverterTest
         ArrayList<String> coverage = new ArrayList<String>();
         coverage.add("coverage");
         when(hit.getDcCoverage()).thenReturn(coverage);
-        when(hit.getAccessCategory()).thenReturn(AccessCategory.OPEN_ACCESS);
+        when(hit.getAccessCategory()).thenReturn(AccessCategory.OPEN_ACCESS_FOR_REGISTERED_USERS);
         return hit;
     }
 
@@ -69,7 +69,7 @@ public class SearchHitConverterTest
         when(hit.getDcDescription()).thenReturn(null);
         when(hit.getDcIdentifier()).thenReturn(null);
         when(hit.getDcCoverage()).thenReturn(null);
-        when(hit.getAccessCategory()).thenReturn(AccessCategory.OPEN_ACCESS);
+        when(hit.getAccessCategory()).thenReturn(AccessCategory.OPEN_ACCESS_FOR_REGISTERED_USERS);
         return hit;
     }
 
@@ -93,9 +93,9 @@ public class SearchHitConverterTest
         String xml = SearchHitConverter.convert(hits);
         String normalHit = "<hit>" + "<title>title</title>" + "<storeId>easy-dataset:1</storeId>" + "<creator>creator</creator>"
                 + "<dateCreated>13-13-13</dateCreated>" + "<description>description</description>" + "<identifier>identifier</identifier>"
-                + "<coverage>coverage</coverage>" + "<accessCategory>OPEN_ACCESS</accessCategory>" + "</hit>";
+                + "<coverage>coverage</coverage>" + "<accessCategory>OPEN_ACCESS_FOR_REGISTERED_USERS</accessCategory>" + "</hit>";
         String nullHit = "<hit>" + "<title>title</title>" + "<storeId>easy-dataset:1</storeId>" + "<creator>creator</creator>"
-                + "<dateCreated>13-13-13</dateCreated>" + "<accessCategory>OPEN_ACCESS</accessCategory>" + "</hit>";
+                + "<dateCreated>13-13-13</dateCreated>" + "<accessCategory>OPEN_ACCESS_FOR_REGISTERED_USERS</accessCategory>" + "</hit>";
         String expectedXml = "<hits>" + normalHit + normalHit + nullHit + "</hits>";
         assertEquals(expectedXml, xml);
     }

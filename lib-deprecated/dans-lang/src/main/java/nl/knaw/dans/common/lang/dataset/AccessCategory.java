@@ -11,7 +11,7 @@ public enum AccessCategory
     /**
      * A known user is enabled, must agree with license.
      */
-    OPEN_ACCESS,
+    OPEN_ACCESS_FOR_REGISTERED_USERS,
     /**
      * Members of a (specific) group are enabled, must agree with license.
      */
@@ -31,7 +31,11 @@ public enum AccessCategory
     /**
      * Everyone is enabled, no need to agree with license.
      */
-    FREELY_AVAILABLE;
+    FREELY_AVAILABLE,
+    /**
+     * Open access (no need to be registered).
+     */
+    OPEN_ACCESS; // added at the end of this enum in order to keep (old) bitmasks
 
     public static final StateUtil<AccessCategory> UTIL = new StateUtil<AccessCategory>(values());
 
@@ -46,19 +50,20 @@ public enum AccessCategory
     public static final int MASK_ANONYMOUS = UTIL.getBitMask(ANONYMOUS_ACCESS, FREELY_AVAILABLE);
 
     /**
-     * Bit mask for ANONYMOUS_ACCESS, OPEN_ACCESS, FREELY_AVAILABLE.
+     * Bit mask for ANONYMOUS_ACCESS, OPEN_ACCESS_FOR_REGISTERED_USERS, FREELY_AVAILABLE.
      */
-    public static final int MASK_KNOWN = UTIL.getBitMask(ANONYMOUS_ACCESS, OPEN_ACCESS, FREELY_AVAILABLE);
+    public static final int MASK_KNOWN = UTIL.getBitMask(ANONYMOUS_ACCESS, OPEN_ACCESS_FOR_REGISTERED_USERS, FREELY_AVAILABLE);
 
     /**
      * Bit mask for all categories.
      */
-    public static final int MASK_ALL = UTIL.getBitMask(ANONYMOUS_ACCESS, OPEN_ACCESS, GROUP_ACCESS, REQUEST_PERMISSION, NO_ACCESS, FREELY_AVAILABLE);
+    public static final int MASK_ALL = UTIL.getBitMask(ANONYMOUS_ACCESS, OPEN_ACCESS_FOR_REGISTERED_USERS, GROUP_ACCESS, REQUEST_PERMISSION, NO_ACCESS,
+            FREELY_AVAILABLE);
 
     /**
-     * Bit mask for OPEN_ACCESS.
+     * Bit mask for OPEN_ACCESS_FOR_REGISTERED_USERS.
      */
-    public static final int SINGLE_OPEN_ACCESS = UTIL.getBitMask(OPEN_ACCESS);
+    public static final int SINGLE_OPEN_ACCESS_FOR_REGISTERED_USERS = UTIL.getBitMask(OPEN_ACCESS_FOR_REGISTERED_USERS);
 
     /**
      * Bit mask for GROUP_ACCESS.
@@ -77,16 +82,16 @@ public enum AccessCategory
     }
 
     /**
-     * Open access specified as Open Access, Freely available resources. In fact:
+     * Open access specified as Open Access for registered users, Freely available resources. In fact:
      * 
      * <pre>
-     * ANONYMOUS_ACCESS || OPEN_ACCESS
+     * ANONYMOUS_ACCESS || OPEN_ACCESS_FOR_REGISTERED_USERS || FREELY_AVAILABLE
      * </pre>
      * 
      * @param category
      *        AccessCategory to test
-     * @return <code>true</code> if <code>category</code> is ANONYMOUS_ACCESS or OPEN_ACCESS,
-     *         <code>false</code> otherwise
+     * @return <code>true</code> if <code>category</code> is ANONYMOUS_ACCESS or
+     *         OPEN_ACCESS_FOR_REGISTERED_USERS or FREELY_AVAILABLE, <code>false</code> otherwise
      */
     public static boolean isOpenAccess(AccessCategory category)
     {

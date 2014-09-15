@@ -28,7 +28,7 @@
   <emd:relation></emd:relation>
   <emd:coverage></emd:coverage>
   <emd:rights>
-    <dcterms:accessRights eas:schemeId="common.dcterms.accessrights">OPEN_ACCESS</dcterms:accessRights>
+    <dcterms:accessRights eas:schemeId="common.dcterms.accessrights">OPEN_ACCESS_FOR_REGISTERED_USERS</dcterms:accessRights>
     <dcterms:license>accept</dcterms:license>
   </emd:rights>
   <emd:audience>

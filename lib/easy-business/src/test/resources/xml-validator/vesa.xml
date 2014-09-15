@@ -119,7 +119,7 @@
 	</emd:coverage>
 	<emd:rights>
 		<dcterms:accessRights eas:schemeId="common.dcterms.accessrights">
-			OPEN_ACCESS
+			OPEN_ACCESS_FOR_REGISTERED_USERS
 		</dcterms:accessRights>
 		<dcterms:license>
 			accept

@@ -2,7 +2,7 @@ package nl.knaw.dans.easy.domain.dataset;
 
 import static nl.knaw.dans.common.lang.dataset.AccessCategory.ANONYMOUS_ACCESS;
 import static nl.knaw.dans.common.lang.dataset.AccessCategory.GROUP_ACCESS;
-import static nl.knaw.dans.common.lang.dataset.AccessCategory.OPEN_ACCESS;
+import static nl.knaw.dans.common.lang.dataset.AccessCategory.OPEN_ACCESS_FOR_REGISTERED_USERS;
 import static nl.knaw.dans.common.lang.dataset.AccessCategory.REQUEST_PERMISSION;
 
 import java.io.File;
@@ -268,7 +268,7 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
             categories.add(AccessCategory.ANONYMOUS_ACCESS); // 1 published dataset
             if (user != null && user.isActive() && !user.isAnonymous())
             {
-                categories.add(AccessCategory.OPEN_ACCESS); // 2 known users
+                categories.add(AccessCategory.OPEN_ACCESS_FOR_REGISTERED_USERS); // 2 known users
                 if (user.isMemberOfGroup(getGroupIds()))
                 {
                     categories.add(AccessCategory.GROUP_ACCESS); // 4 member of group
@@ -733,7 +733,7 @@ public class DatasetImpl extends AbstractDmoRecursiveItem implements Dataset, Ha
         List<AccessCategory> childVisibility = getChildVisibility();
         if (user == null || user.isAnonymous())
             return childVisibility.contains(ANONYMOUS_ACCESS);
-        if (childVisibility.contains(ANONYMOUS_ACCESS) || childVisibility.contains(OPEN_ACCESS))
+        if (childVisibility.contains(ANONYMOUS_ACCESS) || childVisibility.contains(OPEN_ACCESS_FOR_REGISTERED_USERS))
             return true;
         if (childVisibility.contains(GROUP_ACCESS) && isGroupAccessGrantedTo(user))
             return true;

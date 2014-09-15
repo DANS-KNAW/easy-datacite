@@ -131,7 +131,7 @@ public class ItemIngesterTest
         normalUserLoggedIn();
         creatorRoleIsDepositor();
         datasetHasStoreId("easy-dataset:1");
-        datasetHasAccessCategory(AccessCategory.OPEN_ACCESS);
+        datasetHasAccessCategory(AccessCategory.OPEN_ACCESS_FOR_REGISTERED_USERS);
         replayAll();
         new ItemIngester(datasetMock, userMock, null);
     }
@@ -169,7 +169,7 @@ public class ItemIngesterTest
         normalUserLoggedIn();
         creatorRoleIsDepositor();
         datasetHasStoreId("easy-dataset:1");
-        datasetHasAccessCategory(AccessCategory.OPEN_ACCESS);
+        datasetHasAccessCategory(AccessCategory.OPEN_ACCESS_FOR_REGISTERED_USERS);
         parentContainerHasStoreId();
         uowMethodsCalled();
         noFilesAndFoldersUnderParentContainer();
@@ -237,7 +237,7 @@ public class ItemIngesterTest
         normalUserLoggedIn();
         creatorRoleIsDepositor();
         datasetHasStoreId("easy-dataset:1");
-        datasetHasAccessCategory(AccessCategory.OPEN_ACCESS);
+        datasetHasAccessCategory(AccessCategory.OPEN_ACCESS_FOR_REGISTERED_USERS);
         parentContainerHasStoreId();
         uowMethodsCalled();
         rootFileIsCalled("myRootFile");
@@ -299,7 +299,7 @@ public class ItemIngesterTest
         normalUserLoggedIn();
         creatorRoleIsDepositor();
         datasetHasStoreId("easy-dataset:1");
-        datasetHasAccessCategory(AccessCategory.OPEN_ACCESS);
+        datasetHasAccessCategory(AccessCategory.OPEN_ACCESS_FOR_REGISTERED_USERS);
         parentContainerHasStoreId();
         uowMethodsCalled();
         rootFileIsCalled("myRootFile");

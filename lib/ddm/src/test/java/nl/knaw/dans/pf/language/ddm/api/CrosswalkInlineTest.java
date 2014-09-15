@@ -5,8 +5,6 @@ import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertThat;
 
 import java.io.FileInputStream;
-import java.io.IOException;
-import java.net.URL;
 import java.util.Arrays;
 
 import nl.knaw.dans.common.lang.id.DAI;
@@ -19,7 +17,6 @@ import nl.knaw.dans.pf.language.xml.crosswalk.CrosswalkException;
 
 import org.hamcrest.core.StringContains;
 import org.joda.time.DateTime;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,20 +32,9 @@ public class CrosswalkInlineTest
     private static final String MINI_DISCIPLINE = "easy-discipline:34";
 
     private static final Logger logger = LoggerFactory.getLogger(CrosswalkInlineTest.class);
-    private static final Ddm2EmdCrosswalk crosswalk = new Ddm2EmdCrosswalk();
 
-    @BeforeClass
-    public static void checkWebAccess() throws Exception
-    {
-        try
-        {
-            new URL(NameSpace.DDM.xsd).openStream();
-        }
-        catch (final IOException e)
-        {
-            throw new Exception("static mock for DDMValidator would allow offline tests");
-        }
-    }
+    // for some tests we need the offline validator
+    private static Ddm2EmdCrosswalk crosswalk = new Ddm2EmdCrosswalk(new OfflineDDMValidator());
 
     @Test
     public void dais()
@@ -319,7 +305,7 @@ public class CrosswalkInlineTest
                 + newEl("dc:creator", "", "meneer de uil") //
                 + newEl("ddm:created", "", "2013") //
                 + newEl("ddm:audience", "", MINI_AUDIENCE) //
-                + newEl("ddm:accessRights", "", "OPEN_ACCESS");
+                + newEl("ddm:accessRights", "", "OPEN_ACCESS_FOR_REGISTERED_USERS");
 
         return newEl("ddm:profile", "", defaultContent + additionalContent);
     }
@@ -361,7 +347,7 @@ public class CrosswalkInlineTest
         assertThat(emd.getEmdDescription().getDcDescription().get(0).getValue(), is("tv serie"));
         assertThat(emd.getEmdCreator().getDcCreator().get(0).getValue(), is("meneer de uil"));
         assertThat(emd.getEmdDate().getEasCreated().get(0).getValue(), is(new DateTime("2013")));
-        assertThat(emd.getEmdRights().getTermsAccessRights().get(0).getValue(), is("OPEN_ACCESS"));
+        assertThat(emd.getEmdRights().getTermsAccessRights().get(0).getValue(), is("OPEN_ACCESS_FOR_REGISTERED_USERS"));
     }
 
     private static EasyMetadata runTest(final Exception dummyException, final String xml, final int i, final String... messageContents)
@@ -383,6 +369,7 @@ public class CrosswalkInlineTest
         for (final String m : messageContents)
             assertThat(crosswalk.getXmlErrorHandler().getMessages(), StringContains.containsString(m));
         assertThat(crosswalk.getXmlErrorHandler().getNotificationCount(), is(i));
+
         return emd;
     }
 }

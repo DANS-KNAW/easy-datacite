@@ -435,7 +435,7 @@ public abstract class AbstractDatasetAutzStrategy implements AuthzStrategy
 
     private boolean hasOpenAccess()
     {
-        return (AccessCategory.SINGLE_OPEN_ACCESS & getResourceReadProfile()) > 0;
+        return (AccessCategory.SINGLE_OPEN_ACCESS_FOR_REGISTERED_USERS & getResourceReadProfile()) > 0;
     }
 
     private boolean hasGroupAccess()
