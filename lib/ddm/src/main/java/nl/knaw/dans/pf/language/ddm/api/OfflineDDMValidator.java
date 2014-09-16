@@ -13,6 +13,9 @@ import nl.knaw.dans.pf.language.xml.validation.AbstractValidator2;
  * testing we want to use the schema files locally at "../../schema/" For the files note that schema is
  * without an s!
  * 
+ * Note that the schema files are in this easy-app module and therefore 
+ * the OfflineDDMValidator does not work from outside this module. 
+ * 
  * @author paulboon
  */
 public class OfflineDDMValidator extends AbstractValidator2

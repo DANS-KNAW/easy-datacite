@@ -8,7 +8,7 @@ import nl.knaw.dans.pf.language.xml.validation.AbstractValidator2;
  */
 public class DDMValidator extends AbstractValidator2
 {
-    DDMValidator()
+    public DDMValidator()
     {
         // default schemas for DDM (online)
         super(DDM.xsd, DCX_GML.xsd, NARCIS_TYPE.xsd, ABR.xsd);
