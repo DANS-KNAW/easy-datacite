@@ -15,7 +15,8 @@
 		<module>front-end/easy-proai</module>
 		
 		<!-- Back-end setup and config files -->
-		<module>back-end</module>
+		<module>back-end/easy-backend-setup</module>
+        <module>back-end/easy-sos</module>
 
 		<!-- Libraries -->
 		<module>lib/dans-pid</module>

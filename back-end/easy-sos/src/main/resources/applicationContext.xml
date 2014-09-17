@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+    <bean class="nl.knaw.dans.common.lang.spring.HomeDirectoryBasedPropertyPlaceholderConfigurer">
+        <constructor-arg ref="homeDir" />
+    </bean>
+
+    <bean name="homeDir" class="nl.knaw.dans.common.lang.EnvironmentVariableBasedHomeDirectory">
+        <property name="environmentVariableName" value="EASY_SOS_HOME" />
+    </bean>
+
+    <bean id="rootDirectory" class="java.io.File">
+        <constructor-arg index="0" type="java.lang.String" value="${easy-sos.objects-rootdirectory}" />
+    </bean>
+
+    <bean id="objectsBaseUrl" class="java.net.URL">
+        <constructor-arg index="0" type="java.lang.String" value="${easy-sos.objects-baseurl}" />
+    </bean>
+    
+    <bean id="user" class="java.lang.String">
+        <constructor-arg type="java.lang.String" value="${easy-sos.user}" />
+    </bean>
+
+    <bean id="password" class="java.lang.String">
+        <constructor-arg type="java.lang.String" value="${easy-sos.password}" />
+    </bean>
+    
+</beans>

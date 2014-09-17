@@ -1,0 +1,28 @@
+To prove/implement
+==================
+
+In SOS
+V Calculate MD5 while saving the file data
+V Save MD5 along-side file
+- Check calculated MD5 with one in header
+V Distribute files over directory tree
+V Implement HEAD so it doesn't actually need to read the file
+V Make the baseURL to use in the 201 response configurable 
+- Authentication
+- Unit tests!
+V Content-Type en Disposition komen nog mee in object-file:
+
+>>>>
+Content-Disposition: form-data; name="Filedata"; filename="GV_NMKV_Sachsenhausen_07.mov"
+Content-Type: application/octet-stream
+
+DATA...
+<<<
+
+- Verplaats naar back-end
+
+In EASY
+V Make EBIU write a Redirect datastream -> av-properties always results in R datastream
+
+In Prepare For Ingest
+- Post files to SOS - is this automatically chunked?
