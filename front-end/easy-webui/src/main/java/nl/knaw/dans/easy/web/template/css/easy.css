@@ -10,9 +10,15 @@
 
 */
 
+* {
+	/* TEMPORARILY UNDO BOOTSTRAP MADNESS */
+	box-sizing: inherit;
+}
+
 html {
 	height: 100%; /* this is an IE 6 bugfix */
 	width: 100%;  /* this is an IE 6 bugfix */
+	font-size: 16px; /* TEMPORARILY UNDO BOOTSTRAP MADNESS */
 }
 
 body,
