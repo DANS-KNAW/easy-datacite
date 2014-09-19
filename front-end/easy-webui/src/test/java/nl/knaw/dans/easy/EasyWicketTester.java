@@ -1,14 +1,11 @@
 package nl.knaw.dans.easy;
 
-import static org.powermock.api.easymock.PowerMock.replayAll;
-
 import java.io.File;
 import java.io.IOException;
 
 import nl.knaw.dans.easy.domain.authn.UsernamePasswordAuthentication;
 import nl.knaw.dans.easy.web.EasySession;
 import nl.knaw.dans.easy.web.EasyWicketApplication;
-import nl.knaw.dans.easy.web.main.AbstractEasyNavPage;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.wicket.AbstractRestartResponseException;

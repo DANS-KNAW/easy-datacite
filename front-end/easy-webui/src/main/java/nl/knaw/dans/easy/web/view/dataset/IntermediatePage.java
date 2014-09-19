@@ -1,7 +1,11 @@
 package nl.knaw.dans.easy.web.view.dataset;
 
 import nl.knaw.dans.common.lang.dataset.DatasetState;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
+import nl.knaw.dans.easy.data.store.FileStoreAccess;
+import nl.knaw.dans.easy.data.store.StoreAccessException;
+import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.exceptions.DataIntegrityException;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.VisibleTo;
@@ -23,6 +27,7 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.ResourceModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,6 +46,9 @@ public abstract class IntermediatePage extends AbstractEasyNavPage
     private static final String ID_CANCEL = "cancel";
 
     private final DatasetModel datasetModel;
+
+    @SpringBean(name = "fileStoreAccess")
+    FileStoreAccess fileStoreAccess;
 
     public enum Mode
     {
@@ -105,16 +113,32 @@ public abstract class IntermediatePage extends AbstractEasyNavPage
 
     private void generatePrePublishWarnings()
     {
-        if (getDataset().getVisibleToFileCount(VisibleTo.ANONYMOUS) <= 0 && getDataset().getVisibleToFileCount(VisibleTo.KNOWN) <= 0)
+        try
         {
-            final String message = warningMessage(EasyResources.NO_PUBLISHED_DATAFILES);
-            logger.warn(message);
+            if (!hasVisibleToAnonymousOrKnown())
+            {
+                final String message = warningMessage(EasyResources.NO_PUBLISHED_DATAFILES);
+                logger.warn(message);
+            }
+        }
+        catch (StoreAccessException e)
+        {
+            final String message = warningMessage(EasyResources.INTERNAL_ERROR);
+            logger.error(message, e);
         }
         if (!getDataset().getAdministrativeMetadata().getWorkflowData().getWorkflow().areRequiredStepsCompleted())
         {
             final String message = warningMessage(EasyResources.WORKFLOW_NOT_COMPLETED);
             logger.warn(message);
         }
+    }
+
+    private boolean hasVisibleToAnonymousOrKnown() throws StoreAccessException
+    {
+        // TODO implement multiple VisibleTo arguments? What about group or permission restricted items?
+        DmoStoreId datasetStoreId = getDataset().getDmoStoreId();
+        return fileStoreAccess.hasMember(datasetStoreId, FileItemVO.class, VisibleTo.ANONYMOUS)
+                || fileStoreAccess.hasMember(datasetStoreId, FileItemVO.class, VisibleTo.KNOWN);
     }
 
     // UnsubmitPanel

@@ -1,5 +1,6 @@
 package nl.knaw.dans.easy;
 
+import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
@@ -7,6 +8,7 @@ import static org.easymock.EasyMock.isNull;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
@@ -14,10 +16,11 @@ import nl.knaw.dans.common.lang.FileSystemHomeDirectory;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.lang.user.User;
+import nl.knaw.dans.easy.data.store.FileStoreAccess;
+import nl.knaw.dans.easy.db.testutil.InMemoryDatabase;
 import nl.knaw.dans.easy.domain.authn.UsernamePasswordAuthentication;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.ItemOrder;
-import nl.knaw.dans.easy.domain.dataset.item.ItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.filter.ItemFilters;
 import nl.knaw.dans.easy.domain.deposit.discipline.ChoiceList;
 import nl.knaw.dans.easy.domain.deposit.discipline.KeyValuePair;
@@ -64,6 +67,7 @@ public class EasyApplicationContextMock extends ApplicationContextMock
 {
     private static final long serialVersionUID = 1L;
     private UsernamePasswordAuthentication authentication;
+    private ItemService itemServiceDelegate = new ItemServiceDelegate();
 
     public EasyApplicationContextMock()
     {
@@ -155,23 +159,21 @@ public class EasyApplicationContextMock extends ApplicationContextMock
     }
 
     /**
-     * Supplies expectations for datasets without any files. If no itemService bean is set, a mocked one
-     * is created with PowerMock. If specific datasets should have FileItems while the remaining datasets
-     * should not have FileItems, call {@link #setItemService(ItemService)} and set its expectations,
-     * before calling this method.
+     * Supplies expectations for datasets without accessible audio/video files. If no itemService bean is
+     * set, a mocked one is created with PowerMock. Calls to
+     * {@link ItemService#getAccessibleAudioVideoFiles(EasyUser, Dataset)} are mocked and methods calling
+     * {@link FileStoreAccess} are delegated. If required, you can mock the delegated methods via
+     * {@link InMemoryDatabase}.
      * 
      * @throws ServiceException
      *         required by the syntax
      * @throws IllegalStateException
      *         if a real {@link ItemService} instance was assigned as bean
      */
-    public void expectNoItems() throws ServiceException
+    public void expectNoAudioVideoFiles() throws ServiceException
     {
         setMockedItemService();
-        expect(getItemService().hasChildItems(isA(DmoStoreId.class))).andStubReturn(false);
         expect(getItemService().getAccessibleAudioVideoFiles(isA(EasyUser.class), isA(Dataset.class))).andStubReturn(new ArrayList<FileItemVO>());
-        expect(getItemService().getFilesAndFolders(isA(EasyUser.class), isA(Dataset.class), isA(DmoStoreId.class), //
-                isA(Integer.class), isA(Integer.class), isNull(ItemOrder.class), isNull(ItemFilters.class))).andStubReturn(new ArrayList<ItemVO>());
     }
 
     /**
@@ -332,7 +334,8 @@ public class EasyApplicationContextMock extends ApplicationContextMock
         putBean("editableContentHome", fileSystemHomeDirectory);
     }
 
-    private void setMockedItemService()
+    @SuppressWarnings("unchecked")
+    private void setMockedItemService() throws ServiceException
     {
         try
         {
@@ -340,7 +343,24 @@ public class EasyApplicationContextMock extends ApplicationContextMock
         }
         catch (final NoSuchBeanDefinitionException e)
         {
-            setItemService(PowerMock.createMock(ItemService.class));
+            ItemService mock = PowerMock.createMock(ItemService.class);
+            expect(mock.hasChildItems(anyObject(DmoStoreId.class))).andStubDelegateTo(itemServiceDelegate);
+            expect(mock.getFilenames(anyObject(DmoStoreId.class), EasyMock.anyBoolean())).andStubDelegateTo(itemServiceDelegate);
+            expect(
+                    mock.getFileItemsRecursively(anyObject(EasyUser.class), anyObject(Dataset.class), (Collection<FileItemVO>) anyObject(ItemFilters.class),
+                            anyObject(ItemFilters.class), anyObject(DmoStoreId.class))).andStubDelegateTo(itemServiceDelegate);
+            expect(mock.getFilesAndFolders(anyObject(EasyUser.class), anyObject(Dataset.class), (Collection<DmoStoreId>) anyObject())).andStubDelegateTo(
+                    itemServiceDelegate);
+            expect(
+                    mock.getFilesAndFolders(anyObject(EasyUser.class), anyObject(Dataset.class), anyObject(DmoStoreId.class), isA(Integer.class),
+                            isA(Integer.class), anyObject(ItemOrder.class), anyObject(ItemFilters.class))).andStubDelegateTo(itemServiceDelegate);
+            expect(
+                    mock.getFolders(anyObject(EasyUser.class), anyObject(Dataset.class), anyObject(DmoStoreId.class), isA(Integer.class), isA(Integer.class),
+                            anyObject(ItemOrder.class), anyObject(ItemFilters.class))).andStubDelegateTo(itemServiceDelegate);
+            expect(
+                    mock.getFiles(anyObject(EasyUser.class), anyObject(Dataset.class), anyObject(DmoStoreId.class), isA(Integer.class), isA(Integer.class),
+                            anyObject(ItemOrder.class), anyObject(ItemFilters.class))).andStubDelegateTo(itemServiceDelegate);
+            setItemService(mock);
         }
     }
 

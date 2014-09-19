@@ -28,6 +28,7 @@ import nl.knaw.dans.i.dmo.collections.DmoCollection;
 import nl.knaw.dans.i.security.annotations.SecuredOperationUtil;
 
 import org.easymock.EasyMock;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -51,6 +52,13 @@ public class EasyCollectionServiceTest
 
         service = new EasyCollectionService();
 
+    }
+
+    @AfterClass
+    public static void afterClass()
+    {
+        // the next test class should not inherit from this one
+        new Data().setCollectionAccess(null);
     }
 
     @Before

@@ -3,6 +3,7 @@ package nl.knaw.dans.easy.business.services;
 import static org.junit.Assert.assertEquals;
 
 import org.easymock.EasyMock;
+import org.junit.AfterClass;
 import org.junit.Test;
 
 import nl.knaw.dans.common.lang.RepositoryException;
@@ -26,6 +27,15 @@ public class EasyFederativeUserServiceTest extends TestHelper
 
     final String FAKE_FEDID = "some.fake.federatedUserId";
     final String FAKE_EASYID = "some.fake.easyUserId";
+
+    @AfterClass
+    public static void afterClass()
+    {
+        // the next test class should not inherit from this one
+        Data data = new Data();
+        data.setFederativeUserRepo(null);
+        data.setUserRepo(null);
+    }
 
     @Test
     public void findFederativeUser() throws RepositoryException, ServiceException

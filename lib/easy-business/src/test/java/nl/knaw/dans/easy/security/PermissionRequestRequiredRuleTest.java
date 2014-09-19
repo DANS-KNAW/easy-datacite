@@ -1,84 +1,91 @@
 package nl.knaw.dans.easy.security;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
-import nl.knaw.dans.common.lang.dataset.AccessCategory;
-import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
+import static org.easymock.EasyMock.eq;
+import nl.knaw.dans.common.lang.repo.DmoStoreId;
+import nl.knaw.dans.common.lang.user.User.State;
+import nl.knaw.dans.easy.data.Data;
+import nl.knaw.dans.easy.data.store.FileStoreAccess;
+import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
+import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
+import nl.knaw.dans.easy.domain.user.EasyUserAnonymous;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 
 import org.easymock.EasyMock;
-import org.junit.Ignore;
+import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class PermissionRequestRequiredRuleTest
 {
-    @Test
-    public void noPermissionRequired()
+    @AfterClass
+    public static void afterClass()
     {
-        check(datasetWithOpenAccess(), mockUser(), false);
+        // the next test class should not inherit from this one
+        new Data().setFileStoreAccess(null);
     }
 
     @Test
-    public void noPermissionRequired2()
+    public void noPermissionRequired() throws Exception
     {
-        check(datasetWithOpenAccess(), mockArchivist(), false);
+        check(mockUser(), false, false);
     }
 
     @Test
-    public void noPermissionRequired3()
+    public void noPermissionRequired2() throws Exception
     {
-        check(datasetWithOpenAccess(), mockAdmin(), false);
+        check(mockArchivist(), false, false);
     }
 
     @Test
-    public void user()
+    public void noPermissionRequired3() throws Exception
     {
-        Dataset dataset = datasetThatRequiresPermission();
-        check(dataset, mockUser(), true);
-        EasyMock.verify(dataset);
+        check(mockAdmin(), false, false);
     }
 
-    @Ignore
     @Test
-    public void archivist()
+    public void user() throws Exception
     {
-        Dataset dataset = datasetThatRequiresPermission();
-        check(dataset, mockArchivist(), false);
-        EasyMock.verify(dataset);
+        check(mockUser(), true, true);
     }
 
-    @Ignore
     @Test
-    public void admin()
+    public void archivist() throws Exception
     {
-        Dataset dataset = datasetThatRequiresPermission();
-        check(dataset, mockAdmin(), false);
-        EasyMock.verify(dataset);
+        check(mockArchivist(), true, false);
     }
 
-    private void check(final Dataset dataset, final EasyUser user, final boolean permissionRequired)
+    @Test
+    public void admin() throws Exception
     {
+        check(mockAdmin(), true, false);
+    }
+
+    private void check(final EasyUser user, boolean datasetHasRestrictedFiles, final boolean warnThatPermissionIsRequired) throws Exception
+    {
+        if (user != EasyUserAnonymous.getInstance())
+            user.setState(State.ACTIVE);
+
+        DmoStoreId dmoStoreId = new DmoStoreId(Dataset.NAMESPACE, "1");
+        Dataset dataset = EasyMock.createMock(Dataset.class);
+        EasyMock.expect(dataset.getDmoStoreId()).andStubReturn(dmoStoreId);
+        EasyMock.expect(dataset.getStoreId()).andStubReturn(dmoStoreId.getStoreId());
+        EasyMock.expect(dataset.getOwnerId()).andStubReturn("easy-user:owner");
+        EasyMock.expect(dataset.hasDepositor(user)).andStubReturn(false);
+
+        FileStoreAccess fileStoreAccess = EasyMock.createMock(FileStoreAccess.class);
+        EasyMock.expect(fileStoreAccess.hasMember(eq(dmoStoreId), eq(FileItemVO.class), eq(AccessibleTo.RESTRICTED_REQUEST))).andStubReturn(
+                datasetHasRestrictedFiles);
+        new Data().setFileStoreAccess(fileStoreAccess);
         final SecurityOfficer rule = new CodedAuthz().getPermissionRequestRequiredRule();
         final ContextParameters parameters = new ContextParameters(user, dataset);
-        final boolean result = rule.isComponentVisible(parameters);
-        assertThat(result, is(permissionRequired));
-    }
 
-    private Dataset datasetWithOpenAccess()
-    {
-        final DatasetImpl dataset = new DatasetImpl(Dataset.NAMESPACE + "-dummy:1");
-        assertThat(dataset.getAccessCategory(), is(AccessCategory.OPEN_ACCESS_FOR_REGISTERED_USERS));
-        return dataset;
-    }
+        EasyMock.replay(dataset, fileStoreAccess);
 
-    private Dataset datasetThatRequiresPermission()
-    {
-        Dataset dataset = EasyMock.createMock(Dataset.class);
-        EasyMock.expect(dataset.hasPermissionRestrictedItems()).andReturn(true);
-        EasyMock.replay(dataset);
-        return dataset;
+        Assert.assertTrue(rule.explainComponentVisible(parameters), rule.isComponentVisible(parameters) == warnThatPermissionIsRequired);
+
+        EasyMock.verify(dataset, Data.getFileStoreAccess());
     }
 
     private EasyUser mockArchivist()
@@ -100,5 +107,17 @@ public class PermissionRequestRequiredRuleTest
         final EasyUser requester = new EasyUserImpl("user");
         requester.addRole(EasyUser.Role.USER);
         return requester;
+    }
+
+    @Test
+    public void noPermissionRequired4() throws Exception
+    {
+        check(EasyUserAnonymous.getInstance(), false, false);
+    }
+
+    @Test
+    public void anonymous() throws Exception
+    {
+        check(EasyUserAnonymous.getInstance(), true, true);
     }
 }

@@ -42,6 +42,7 @@ import nl.knaw.dans.easy.util.TestHelper;
 
 import org.easymock.EasyMock;
 import org.joda.time.DateTime;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -73,6 +74,15 @@ public class EasyItemServiceTest extends TestHelper
         data.setFileStoreAccess(fileStoreAccess);
 
         service = new EasyItemService();
+    }
+
+    @AfterClass
+    public static void afterClass()
+    {
+        // the next test class should not inherit from this one
+        Data data = new Data();
+        data.setEasyStore(null);
+        data.setFileStoreAccess(null);
     }
 
     @Test

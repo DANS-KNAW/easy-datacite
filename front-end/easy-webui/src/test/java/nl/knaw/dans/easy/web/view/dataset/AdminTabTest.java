@@ -7,11 +7,19 @@ import nl.knaw.dans.easy.AuthzStrategyTestImpl;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyUserTestImpl;
 import nl.knaw.dans.easy.EasyWicketTester;
+import nl.knaw.dans.easy.data.Data;
+import nl.knaw.dans.easy.data.store.StoreAccessException;
+import nl.knaw.dans.easy.db.testutil.InMemoryDatabase;
 import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
+import nl.knaw.dans.easy.domain.model.AccessibleTo;
+import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.PermissionSequence.State;
+import nl.knaw.dans.easy.domain.model.VisibleTo;
+import nl.knaw.dans.easy.domain.model.user.CreatorRole;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
+import nl.knaw.dans.easy.fedora.db.FedoraFileStoreAccess;
 import nl.knaw.dans.easy.servicelayer.services.DatasetService;
 
 import org.junit.After;
@@ -24,6 +32,7 @@ public class AdminTabTest
     private static final String TAB_PATH = "tabs:tabs-container:tabs:3:link";
     private EasyApplicationContextMock applicationContext;
     private static DatasetImpl dataset;
+    private InMemoryDatabase inMemoryDatabase;
 
     static public class PageWrapper extends DatasetViewPage
     {
@@ -33,12 +42,13 @@ public class AdminTabTest
         }
     }
 
-    public DatasetService mockDataset() throws Exception
+    private DatasetService mockDataset() throws Exception
     {
         final EasyUserImpl depositor = new EasyUserTestImpl("x:y");
         depositor.setInitials("D.E.");
         depositor.setSurname("Positor");
-        dataset = new DatasetImpl("mocked-dataset:1");
+        DmoStoreId datasetStoreId = new DmoStoreId(Dataset.NAMESPACE, "1");
+        dataset = new DatasetImpl(datasetStoreId.toString());
         dataset.setState(State.Submitted.toString());
         dataset.setAuthzStrategy(new AuthzStrategyTestImpl());
 
@@ -52,7 +62,19 @@ public class AdminTabTest
         expect(datasetService.getAdditionalLicense(dataset)).andStubReturn(null);
         expect(datasetService.getLicenseVersions(dataset)).andStubReturn(null);
         expect(datasetService.getAdditionalLicenseVersions(dataset)).andStubReturn(null);
+
         return datasetService;
+    }
+
+    private void initInMemoryDatabase() throws StoreAccessException
+    {
+        inMemoryDatabase = new InMemoryDatabase();
+        inMemoryDatabase.insertFile(1, dataset, "tmp.txt", CreatorRole.DEPOSITOR, VisibleTo.ANONYMOUS, AccessibleTo.ANONYMOUS);
+        inMemoryDatabase.flush();
+        FedoraFileStoreAccess fileStoreAccess = new FedoraFileStoreAccess();
+        applicationContext.putBean("fileStoreAccess", fileStoreAccess);
+        new Data().setFileStoreAccess(fileStoreAccess);
+        ;
     }
 
     @Before
@@ -64,13 +86,15 @@ public class AdminTabTest
         applicationContext.expectDisciplines();
         applicationContext.setDatasetService(mockDataset());
         applicationContext.expectNoJumpoff();
-        applicationContext.expectNoItems();
+        applicationContext.expectNoAudioVideoFiles();
+        initInMemoryDatabase();
     }
 
     @After
     public void reset()
     {
         PowerMock.resetAll();
+        inMemoryDatabase.close();
     }
 
     @Test

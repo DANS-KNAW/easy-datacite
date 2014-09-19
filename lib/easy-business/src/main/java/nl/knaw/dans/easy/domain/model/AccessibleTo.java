@@ -8,7 +8,7 @@ import nl.knaw.dans.common.lang.dataset.AccessCategory;
  * @Eko Indarto
  */
 // TODO unify this enum to key abstraction AccessCategory
-public enum AccessibleTo
+public enum AccessibleTo implements FileItemVOAttribute
 {
 
     ANONYMOUS,

@@ -29,6 +29,7 @@ import nl.knaw.dans.easy.security.Security;
 import nl.knaw.dans.easy.util.TestHelper;
 
 import org.easymock.EasyMock;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -59,6 +60,14 @@ public class EasySearchServiceTest extends TestHelper
         arch.add(Role.USER);
         arch.add(Role.ARCHIVIST);
         superUser.setRoles(arch);
+    }
+
+    @AfterClass
+    public static void afterClass()
+    {
+        // the next test class should not inherit from this one
+        Data data = new Data();
+        data.setDatasetSearch(null);
     }
 
     @Test

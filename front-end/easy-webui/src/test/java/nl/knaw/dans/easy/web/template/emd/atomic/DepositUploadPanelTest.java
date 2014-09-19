@@ -5,40 +5,41 @@ import java.io.File;
 import nl.knaw.dans.common.lang.repo.DmoStoreId;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyWicketTester;
+import nl.knaw.dans.easy.data.Data;
+import nl.knaw.dans.easy.db.testutil.InMemoryDatabase;
+import nl.knaw.dans.easy.domain.dataset.DatasetImpl;
+import nl.knaw.dans.easy.domain.exceptions.DomainException;
+import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
-import nl.knaw.dans.easy.servicelayer.services.ItemService;
+import nl.knaw.dans.easy.domain.model.FolderItem;
+import nl.knaw.dans.easy.domain.model.VisibleTo;
+import nl.knaw.dans.easy.domain.model.user.CreatorRole;
+import nl.knaw.dans.easy.fedora.db.FedoraFileStoreAccess;
 import nl.knaw.dans.easy.web.common.DatasetModel;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.util.tester.ITestPanelSource;
 import org.apache.wicket.util.tester.WicketTester;
-import org.easymock.EasyMock;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
 public class DepositUploadPanelTest
 {
-    private static final String ACCENT_XML = // [m, e, t, -, a, c, c, é, n, t, ., x, m, l]
-    new String(new byte[] {109, 101, 116, 45, 97, 99, 99, -61, -87, 110, 116, 46, 120, 109, 108});
-    private static final String DIACRITIC_ACCENT_XML = // [m, e, t, -, a, c, c, e, ́, n, t, ., x, m, l]
-    new String(new byte[] {109, 101, 116, 45, 97, 99, 99, 101, -52, -127, 110, 116, 46, 120, 109, 108});
-
     @Test
     public void smokeTest() throws Exception
     {
-        final String storeId = Dataset.NAME_SPACE_VALUE + ":mocked";
-        final DmoStoreId dmoStoreId = new DmoStoreId(storeId);
-        final Dataset dataset = PowerMock.createMock(Dataset.class);
-        EasyMock.expect(dataset.getDmoStoreId()).andStubReturn(dmoStoreId);
-        EasyMock.expect(dataset.getStoreId()).andStubReturn(storeId);
-        EasyMock.expect(dataset.isInvalidated()).andStubReturn(false);
+        String datasetId = new DmoStoreId(Dataset.NAMESPACE, "1").getStoreId();
+        final Dataset dataset = new DatasetImpl(datasetId);
 
-        final ItemService itemService = PowerMock.createMock(ItemService.class);
-        EasyMock.expect(itemService.hasChildItems(EasyMock.isA(DmoStoreId.class))).andStubReturn(false);
+        final InMemoryDatabase inMemoryDB = initInMemoryDB(dataset);
+        final FedoraFileStoreAccess fileStoreAccess = new FedoraFileStoreAccess();
+        new Data().setFileStoreAccess(fileStoreAccess);
 
-        EasyApplicationContextMock applicationContextMock = new EasyApplicationContextMock();
-        applicationContextMock.setItemService(itemService);
+        final EasyApplicationContextMock applicationContextMock = new EasyApplicationContextMock();
+        applicationContextMock.expectStandardSecurity(false);
+        applicationContextMock.expectNoAudioVideoFiles();
+        applicationContextMock.putBean("fileStoreAccess", fileStoreAccess);
 
         PowerMock.replayAll();
 
@@ -58,8 +59,8 @@ public class DepositUploadPanelTest
         tester.assertVisible("panel:uploadPanel:uploadIframe");
         tester.assertVisible("panel:uploadPanel:uploadProgress");
         FileUtils.write(new File("target/DepositUploadPanel-smokeTest.html"), tester.getServletResponse().getDocument());
-
-        // How to get into the IFrameto hit the submit button?
+        inMemoryDB.close();
+        // How to get into the IFrame to hit the submit button?
 
         // rendered as test:
         // src="?wicket:interface=:1:panel:uploadPanel:uploadIframe::ILinkListener::"
@@ -70,5 +71,14 @@ public class DepositUploadPanelTest
         // formTester.setValue("file", ACCENT_XML);
         // formTester.setValue("uploadId", "123");
         // formTester.submit();
+    }
+
+    private InMemoryDatabase initInMemoryDB(final Dataset dataset) throws DomainException
+    {
+        final InMemoryDatabase inMemoryDB = new InMemoryDatabase();
+        final FolderItem folder = inMemoryDB.insertFolder(1, dataset, "a");
+        inMemoryDB.insertFile(1, folder, "a/x.y", CreatorRole.DEPOSITOR, VisibleTo.RESTRICTED_REQUEST, AccessibleTo.RESTRICTED_REQUEST);
+        inMemoryDB.flush();
+        return inMemoryDB;
     }
 }

@@ -10,9 +10,13 @@ import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.common.wicket.components.DateTimeLabel;
 import nl.knaw.dans.common.wicket.exceptions.InternalWebError;
+import nl.knaw.dans.easy.data.Data;
+import nl.knaw.dans.easy.data.store.StoreAccessException;
+import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.download.DownloadHistory;
 import nl.knaw.dans.easy.domain.download.DownloadList;
 import nl.knaw.dans.easy.domain.download.DownloadRecord;
+import nl.knaw.dans.easy.domain.model.AccessibleTo;
 import nl.knaw.dans.easy.domain.model.Dataset;
 import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.model.user.EasyUser.Role;
@@ -164,7 +168,7 @@ public class ActivityLogPanel extends AbstractEasyPanel
                         {
                             detailsAvailable = records.get(0).getFileItemId() != null;
                             final EasyUser downloader = getDownloader(records.get(0).getDownloaderId());
-                            if (!downloader.isAnonymous() && hasPerrmissionToViewDownloader(downloader))
+                            if (!downloader.isAnonymous() && hasPermissionToViewDownloader(downloader))
                             {
                                 displayName = downloader.getDisplayName();
                                 organization = downloader.getOrganization();
@@ -184,6 +188,10 @@ public class ActivityLogPanel extends AbstractEasyPanel
                 catch (final ServiceException e)
                 {
                     LOGGER.error("error getting downloader for activity.", e);
+                }
+                catch (StoreAccessException e)
+                {
+                    LOGGER.error("error getting permission to view download count.", e);
                 }
 
                 item.add(new Label("displayName", displayName));
@@ -274,7 +282,7 @@ public class ActivityLogPanel extends AbstractEasyPanel
         return detailsLink;
     }
 
-    private boolean hasPerrmissionToViewDownloader(final EasyUser downloader)
+    private boolean hasPermissionToViewDownloader(final EasyUser downloader) throws StoreAccessException
     {
         return isSessionUserArchivist() || isLogMyActionsOnFor(downloader) || isDepositorViewingGrantedRestrictedDownloadBy(downloader);
     }
@@ -294,9 +302,10 @@ public class ActivityLogPanel extends AbstractEasyPanel
         return getSessionUser().hasRole(Role.ARCHIVIST) || getSessionUser().hasRole(Role.ADMIN) || dataset.hasDepositor(getSessionUser());
     }
 
-    private boolean isDepositorViewingGrantedRestrictedDownloadBy(final EasyUser downloader)
+    private boolean isDepositorViewingGrantedRestrictedDownloadBy(final EasyUser downloader) throws StoreAccessException
     {
-        return dataset.hasDepositor(getSessionUser()) && dataset.hasPermissionRestrictedItems() && dataset.isPermissionGrantedTo(downloader);
+        boolean userCanView = dataset.isPermissionGrantedTo(downloader) && dataset.hasDepositor(getSessionUser());
+        return userCanView && Data.getFileStoreAccess().hasMember(dataset.getDmoStoreId(), FileItemVO.class, AccessibleTo.RESTRICTED_REQUEST);
     }
 
     private class DetailsViewPanel extends Panel

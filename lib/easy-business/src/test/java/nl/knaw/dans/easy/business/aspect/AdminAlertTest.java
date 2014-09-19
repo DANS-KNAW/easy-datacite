@@ -21,6 +21,7 @@ import nl.knaw.dans.easy.security.Security;
 import nl.knaw.dans.easy.servicelayer.services.DatasetService;
 
 import org.easymock.EasyMock;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -46,6 +47,15 @@ public class AdminAlertTest
         extServices.setAdminMailer(mailer);
 
         new Security(new CodedAuthz());
+    }
+
+    @AfterClass
+    public static void afterClass()
+    {
+        // the next test class should not inherit from this one
+        Data data = new Data();
+        data.setEasyStore(null);
+        data.setUserRepo(null);
     }
 
     @Test

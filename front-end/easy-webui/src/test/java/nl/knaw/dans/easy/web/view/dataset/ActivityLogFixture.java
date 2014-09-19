@@ -1,5 +1,6 @@
 package nl.knaw.dans.easy.web.view.dataset;
 
+import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.isA;
 import static org.junit.Assert.assertTrue;
 
@@ -10,6 +11,8 @@ import nl.knaw.dans.common.lang.service.exceptions.ObjectNotAvailableException;
 import nl.knaw.dans.common.lang.service.exceptions.ServiceException;
 import nl.knaw.dans.easy.EasyApplicationContextMock;
 import nl.knaw.dans.easy.EasyWicketTester;
+import nl.knaw.dans.easy.data.Data;
+import nl.knaw.dans.easy.data.store.FileStoreAccess;
 import nl.knaw.dans.easy.domain.dataset.item.FileItemVO;
 import nl.knaw.dans.easy.domain.dataset.item.FolderItemVO;
 import nl.knaw.dans.easy.domain.download.DownloadHistory;
@@ -121,7 +124,7 @@ public class ActivityLogFixture
     }
 
     protected Dataset mockDataset(final DownloadList downloadList, final EasyUser user, final boolean isDepositor, final boolean hasPermissionRestrictedItems,
-            boolean isPermissionGranted) throws ServiceException
+            final boolean isPermissionGranted) throws Exception
     {
         EasyMock.expect(datasetService.getDownloadHistoryFor(isA(EasyUser.class), isA(Dataset.class), isA(DateTime.class)))//
                 .andStubReturn(mockDownloadHistory(downloadList));
@@ -129,8 +132,15 @@ public class ActivityLogFixture
         final Dataset dataset = PowerMock.createMock(Dataset.class);
         EasyMock.expect(dataset.getDmoStoreId()).andStubReturn(new DmoStoreId("dataset:sid"));
         EasyMock.expect(dataset.hasDepositor(user)).andStubReturn(isDepositor);
-        EasyMock.expect(dataset.hasPermissionRestrictedItems()).andStubReturn(hasPermissionRestrictedItems);
         EasyMock.expect(dataset.isPermissionGrantedTo(isA(EasyUser.class))).andStubReturn(isPermissionGranted);
+
+        final FileStoreAccess fileStoreAccess = PowerMock.createMock(FileStoreAccess.class);
+        Class<DmoStoreId> idCl = DmoStoreId.class;
+        Class<FileItemVO> fiCl = FileItemVO.class;
+        EasyMock.expect(fileStoreAccess.hasMember(isA(idCl), eq(fiCl), eq(AccessibleTo.RESTRICTED_REQUEST))).andStubReturn(hasPermissionRestrictedItems);
+        EasyMock.expect(fileStoreAccess.hasMember(isA(idCl), eq(fiCl), eq(VisibleTo.RESTRICTED_REQUEST))).andStubReturn(hasPermissionRestrictedItems);
+        new Data().setFileStoreAccess(fileStoreAccess);
+
         return dataset;
     }
 

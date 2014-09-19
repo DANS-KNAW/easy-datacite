@@ -11,6 +11,7 @@ import nl.knaw.dans.easy.domain.model.user.EasyUser;
 import nl.knaw.dans.easy.domain.user.EasyUserImpl;
 
 import org.easymock.EasyMock;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -24,6 +25,13 @@ public class WorkflowDataImplTest
     {
         userRepo = EasyMock.createMock(EasyUserRepo.class);
         new Data().setUserRepo(userRepo);
+    }
+
+    @AfterClass
+    public static void afterClass()
+    {
+        // the next test class should not inherit from this one
+        new Data().setUserRepo(null);
     }
 
     @Test

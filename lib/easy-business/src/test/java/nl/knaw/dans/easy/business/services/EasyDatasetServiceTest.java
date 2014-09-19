@@ -42,6 +42,7 @@ import nl.knaw.dans.pf.language.emd.types.ApplicationSpecific.MetadataFormat;
 import nl.knaw.dans.pf.language.emd.types.BasicString;
 
 import org.easymock.EasyMock;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -75,6 +76,15 @@ public class EasyDatasetServiceTest extends TestHelper
         disciplineCollection = EasyMock.createMock(DisciplineCollection.class);
 
         service = new EasyDatasetService(disciplineCollection);
+    }
+
+    @AfterClass
+    public static void afterClass()
+    {
+        // the next test class should not inherit from this one
+        Data data = new Data();
+        data.setEasyStore(null);
+        data.setUserRepo(null);
     }
 
     @Test
